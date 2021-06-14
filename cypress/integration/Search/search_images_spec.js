@@ -18,8 +18,9 @@ describe('Search images', () => {
       '/image-api/v2/images/?page=1&page-size=10&sort=-relevance',
       'searchImages',
     );
+    cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.visit('/search/image?page=1&page-size=10&sort=-relevance');
-    cy.apiwait(['@licenses', '@searchImages', '@allSubjects']);
+    cy.apiwait(['@licenses', '@searchImages', '@allSubjects', '@zendeskToken']);
   });
 
   it('Can use text input', () => {
@@ -34,6 +35,7 @@ describe('Search images', () => {
     cy.apiwait('@searchImagesQuery');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('input[name="query"]').clear();
+    cy.apiwait('@searchImages');
   });
 
   it('Can use language dropdown', () => {
@@ -48,5 +50,6 @@ describe('Search images', () => {
     cy.apiwait('@searchImagesLang');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="language"]').select('Velg språk');
+    cy.apiwait('@searchImages');
   });
 });

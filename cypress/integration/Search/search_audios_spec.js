@@ -18,8 +18,9 @@ describe('Search audios', () => {
       '/audio-api/v1/audio/?page=1&page-size=10&sort=-relevance',
       'searchAudios',
     );
+    cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.visit('/search/audio?page=1&page-size=10&sort=-relevance');
-    cy.apiwait(['@licenses', '@searchAudios', '@allSubjects']);
+    cy.apiwait(['@licenses', '@searchAudios', '@allSubjects', '@zendeskToken']);
   });
 
   it('Can use text input', () => {
@@ -34,6 +35,7 @@ describe('Search audios', () => {
     cy.apiwait('@searchAudioQuery');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('input[name="query"]').clear();
+    cy.apiwait('@searchAudios');
   });
 
   it('Can use audiotype dropdown', () => {
@@ -48,6 +50,7 @@ describe('Search audios', () => {
     cy.apiwait('@searchAudioType');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="audio-type"]').select('Velg lydfiltype');
+    cy.apiwait('@searchAudios');
   });
 
   it('Can use language dropdown', () => {
@@ -62,5 +65,6 @@ describe('Search audios', () => {
     cy.apiwait('@searchAudioLang');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="language"]').select('Velg språk');
+    cy.apiwait('@searchAudios');
   });
 });

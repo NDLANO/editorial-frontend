@@ -16,7 +16,7 @@ describe('Search content', () => {
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?fallback=true&language=nb&page=1&page-size=10&sort=-relevance',
+      '/search-api/v1/search/editorial/*',
       'search',
     );
     cy.apiroute(
@@ -33,8 +33,9 @@ describe('Search content', () => {
           "ndla_id": "PrcePFwCDOsb2_g0Kcb-maN0",
         }
       }]);
+    cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.visit('/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance');
-    cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@licenses']);
+    cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@licenses', '@zendeskToken']);
   });
 
   it('Can use text input', () => {
@@ -49,6 +50,7 @@ describe('Search content', () => {
     cy.apiwait('@searchQuery');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('input[name="query"]').clear();
+    cy.apiwait('@search');
   });
 
   it('Can use status dropdown', () => {
@@ -63,6 +65,7 @@ describe('Search content', () => {
     cy.apiwait('@searchStatus');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="status"]').select('Velg status');
+    cy.apiwait('@search');
   });
 
   it('Status dropdown with HAS_PUBLISHED results in PUBLISHED with include-other-statuses', () => {
@@ -77,6 +80,7 @@ describe('Search content', () => {
     cy.apiwait('@searchOther');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="status"]').select('Velg status');
+    cy.apiwait('@search');
   });
 
   it('Can use resource type dropdown', () => {
@@ -91,6 +95,7 @@ describe('Search content', () => {
     cy.apiwait('@searchType');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="resourceTypes"]').select('Velg innholdstype');
+    cy.apiwait('@search');
   });
 
   it('Can use subject dropdown', () => {
@@ -105,6 +110,7 @@ describe('Search content', () => {
     cy.apiwait('@searchSubject');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="subjects"]').select('Velg fag');
+    cy.apiwait('@search');
   });
 
   it('Can use user dropdown', () => {
@@ -118,5 +124,7 @@ describe('Search content', () => {
       .blur();
     cy.apiwait('@searchUser');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
+    cy.get('select[name="users"]').select('Velg bruker');
+    cy.apiwait('@search');
   });
 });

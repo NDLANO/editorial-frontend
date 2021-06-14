@@ -5,7 +5,6 @@ import EditCodeBlockModal from './EditCodeBlockModal';
 import { CodeBlockType } from '../../../../interfaces';
 
 interface Props {
-  blur: () => Editor;
   closeDialog: () => void;
   editor: Editor;
   handleSave: (code: CodeBlockType) => void;

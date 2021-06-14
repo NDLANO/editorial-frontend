@@ -84,11 +84,11 @@ const actions: Action[] = [
   //   icon: <RelatedArticle />,
   //   helpIcon: renderArticleInModal('RelatedArticle'),
   // },
-  // {
-  //   data: { type: 'code-block', object: 'code' },
-  //   icon: <Code />,
-  //   helpIcon: renderArticleInModal('CodeBlock'),
-  // },
+  {
+    data: { type: 'code-block', object: 'code' },
+    icon: <Code />,
+    helpIcon: renderArticleInModal('CodeBlock'),
+  },
 ];
 
 export default actions;

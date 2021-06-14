@@ -7,20 +7,14 @@
  */
 
 import React from 'react';
-import { Block, Descendant, Document, Editor, Element, Inline } from 'slate';
+import { Dictionary } from 'lodash';
+import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
+import { jsx } from 'slate-hyperscript';
 import CodeBlock from './CodeBlock';
 import { SlateSerializer } from '../../interfaces';
 import { defaultTextBlockNormalizer } from '../../utils/normalizationHelpers';
-import { Dictionary } from 'lodash';
-import {
-  createDataProps,
-  createEmbedTag,
-  reduceElementDataAttributes,
-} from '../../../../util/embedTagHelpers';
-import { jsx } from 'slate-hyperscript';
-
-// type ParentNode = Document | Block | Inline;
+import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 
 export const TYPE_CODEBLOCK = 'code-block';
 

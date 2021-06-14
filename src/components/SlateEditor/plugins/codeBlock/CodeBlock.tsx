@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Block, Document, Element, Inline, Node } from 'slate';
+import { Node, Editor, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import he from 'he';
 
 import Button from '@ndla/button';
@@ -8,19 +9,16 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { injectT } from '@ndla/i18n';
 import { Codeblock } from '@ndla/code';
 
-import { getSchemaEmbed } from '../../editorSchema';
 import { CodeBlockType } from '../../../../interfaces';
 import EditCodeBlock from './EditCodeBlock';
-import { RenderElementProps } from 'slate-react';
 import { CodeblockElement } from '.';
-
-type ParentNode = Document | Block | Inline;
 
 const CodeDiv = styled.div`
   cursor: pointer;
 `;
 
-interface Props {
+interface Props extends RenderElementProps {
+  element: CodeblockElement;
   editor: Editor;
 }
 
@@ -54,8 +52,8 @@ const getInfoFromNode = (element: CodeblockElement) => {
   };
 };
 
-const CodeBlock = ({ attributes, editor, element }: Props & RenderElementProps) => {
-  const { isFirstEdit, model } = getInfoFromNode(element as CodeblockElement);
+const CodeBlock = ({ attributes, editor, element, children }: Props) => {
+  const { isFirstEdit, model } = getInfoFromNode(element);
   const [editMode, setEditMode] = useState<boolean>(!model.code);
   const [firstEdit, setFirstEdit] = useState<boolean>(isFirstEdit);
 
@@ -67,24 +65,25 @@ const CodeBlock = ({ attributes, editor, element }: Props & RenderElementProps) 
     const { code } = codeBlock;
     const properties = {
       data: {
-        ...getSchemaEmbed(element),
+        ...element.data,
         title: codeBlock.title,
         'code-block': { ...codeBlock, code: he.encode(code) },
       },
     };
+
     setEditMode(false);
     setFirstEdit(false);
-    editor.setNodeByKey(node.key, properties);
+    Transforms.setNodes(editor, properties, { at: ReactEditor.findPath(editor, element) });
   };
 
   const handleRemove = () => {
-    editor.removeNodeByKey(node.key);
-    editor.focus();
+    Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+    ReactEditor.focus(editor);
   };
 
   const handleUndo = () => {
-    editor.unwrapBlockByKey(node.key, 'code-block');
-    editor.focus();
+    Transforms.unwrapNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
+    ReactEditor.focus(editor);
   };
 
   const onExit = () => {
@@ -97,6 +96,7 @@ const CodeBlock = ({ attributes, editor, element }: Props & RenderElementProps) 
   return (
     <CodeDiv
       className="c-figure"
+      contentEditable={false}
       draggable={!editMode}
       onClick={toggleEditMode}
       role="button"
@@ -109,7 +109,6 @@ const CodeBlock = ({ attributes, editor, element }: Props & RenderElementProps) 
       />
       {editMode && (
         <EditCodeBlock
-          blur={editor.blur}
           editor={editor}
           onChange={editor.onChange}
           closeDialog={toggleEditMode}
@@ -118,6 +117,7 @@ const CodeBlock = ({ attributes, editor, element }: Props & RenderElementProps) 
           onExit={onExit}
         />
       )}
+      {children}
     </CodeDiv>
   );
 };

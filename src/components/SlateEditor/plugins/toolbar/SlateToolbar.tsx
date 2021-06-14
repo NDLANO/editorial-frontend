@@ -91,14 +91,12 @@ const SlateToolbar = (props: Props) => {
       menu.removeAttribute('style');
       return;
     }
-    const [summaryEntry] = Editor.nodes(editor, {
-      match: node => Element.isElement(node) && node.type === TYPE_SUMMARY,
-    });
 
-    if (summaryEntry && Element.isElement(summaryEntry[0])) {
+    if (!editor.shouldShowToolbar()) {
       menu.removeAttribute('style');
       return;
     }
+
     menu.style.display = 'block';
     const native = window.getSelection();
     if (!native) {

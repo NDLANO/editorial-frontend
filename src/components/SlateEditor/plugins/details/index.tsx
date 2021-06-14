@@ -114,6 +114,7 @@ export const detailsPlugin = (editor: Editor) => {
     renderElement: nextRenderElement,
     normalizeNode: nextNormalizeNode,
     onKeyDown: nextOnKeyDown,
+    shouldShowToolbar: nextShouldShowToolbar,
   } = editor;
 
   editor.onKeyDown = event => {
@@ -124,6 +125,20 @@ export const detailsPlugin = (editor: Editor) => {
     } else if (nextOnKeyDown) {
       nextOnKeyDown(event);
     }
+  };
+
+  editor.shouldShowToolbar = () => {
+    const [summaryEntry] = Editor.nodes(editor, {
+      match: node => Element.isElement(node) && node.type === TYPE_SUMMARY,
+    });
+
+    if (summaryEntry && Element.isElement(summaryEntry[0])) {
+      return false;
+    }
+    if (nextShouldShowToolbar) {
+      return nextShouldShowToolbar();
+    }
+    return true;
   };
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {

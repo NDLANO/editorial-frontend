@@ -68,6 +68,11 @@ const toolbarPlugin = (editor: Editor) => {
       mark = 'sup';
     }
 
+    if ((mark || block || inline) && !editor.shouldShowToolbar()) {
+      e.preventDefault();
+      return;
+    }
+
     if (mark) {
       toggleMark(e, editor, mark);
     } else if (block) {

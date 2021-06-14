@@ -12,7 +12,7 @@ import { Editor } from 'slate';
 
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
-import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
+import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 import { MetaImageSearch } from '../../FormikForm';
 
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
   onBlur: (event: Event, editor: Editor, next: () => void) => void;
 }
 
-const plugins = [textTransformPlugin()];
+const plugins = [textTransformPlugin];
 
 const PodcastMetaData = ({ handleSubmit, onBlur, t }: Props & tType) => {
   return (

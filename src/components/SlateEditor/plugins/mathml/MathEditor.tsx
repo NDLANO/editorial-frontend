@@ -153,19 +153,21 @@ const MathEditor = (props: Props & RenderElementProps) => {
     });
   };
 
-  const { element, children } = props;
+  const { element, children, attributes } = props;
   const { model } = getInfoFromNode(element);
   const { top, left } = getMenuPosition();
 
   return (
     <Fragment>
       <span
-        ref={mathMLRef}
+        contentEditable={false}
         role="button"
         tabIndex={0}
         onKeyPress={toggleMenu}
         onClick={toggleMenu}
-        style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}>
+        style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
+        {...attributes}
+        ref={mathMLRef}>
         <MathML node={element} model={model} {...props} />
         <Portal isOpened={showMenu}>
           <BlockMenu

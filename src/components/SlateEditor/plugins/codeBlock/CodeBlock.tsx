@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Node, Editor, Transforms } from 'slate';
+import { Node, Editor, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import he from 'he';
 
@@ -54,7 +54,7 @@ const getInfoFromNode = (element: CodeblockElement) => {
 
 const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   const { isFirstEdit, model } = getInfoFromNode(element);
-  const [editMode, setEditMode] = useState<boolean>(!model.code);
+  const [editMode, setEditMode] = useState<boolean>(!model.code && !model.title);
   const [firstEdit, setFirstEdit] = useState<boolean>(isFirstEdit);
 
   const toggleEditMode = () => {
@@ -78,12 +78,10 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
 
   const handleRemove = () => {
     Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
-    ReactEditor.focus(editor);
   };
 
   const handleUndo = () => {
     Transforms.unwrapNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
-    ReactEditor.focus(editor);
   };
 
   const onExit = () => {

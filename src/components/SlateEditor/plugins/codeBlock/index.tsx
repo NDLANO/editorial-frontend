@@ -15,7 +15,7 @@ import CodeBlock from './CodeBlock';
 import { SlateSerializer } from '../../interfaces';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 export const TYPE_CODEBLOCK = 'code-block';
 

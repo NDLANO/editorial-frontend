@@ -48,8 +48,12 @@ const PodcastSeriesMetadata = ({ t }: Props & tType) => {
             placeholder={t('podcastSeriesForm.description')}
             handleSubmit={() => {}}
             {...field}
-            onBlur={(event: Event, editor: unknown, next: () => void) => {
-              next();
+            onBlur={(event, editor) => {
+              // Forcing slate field to be deselected before selecting new field.
+              // Fixes a problem where slate field is not properly focused on click.
+              ReactEditor.deselect(editor);
+
+              // TODO: Can possibly be removed
               // this is a hack since formik onBlur-handler interferes with slates
               // related to: https://github.com/ianstormtaylor/slate/issues/2434
               // formik handleBlur needs to be called for validation to work (and touched to be set)

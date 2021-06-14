@@ -8,6 +8,7 @@
 
 import { Copyright } from '../../interfaces';
 import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
+import { Descendant } from 'slate';
 
 type AudioType = 'standard' | 'podcast';
 
@@ -84,7 +85,7 @@ export interface PodcastFormValues extends Omit<AudioFormikType, 'language'> {
   language?: string;
   filepath: '';
   audioType?: 'podcast';
-  introduction?: string;
+  introduction: Descendant[];
   coverPhotoId?: string;
   metaImageAlt?: string;
   metaImageUrl?: string;

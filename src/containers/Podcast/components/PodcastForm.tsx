@@ -6,6 +6,7 @@
  */
 
 import React, { useState, ReactNode } from 'react';
+import { ReactEditor } from 'slate-react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
@@ -84,8 +85,8 @@ export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => (
   revision: audio.revision,
   language: audio.language,
   supportedLanguages: audio.supportedLanguages || [],
-  title: plainTextToEditorValue(audio.title || '', true),
-  manuscript: plainTextToEditorValue(audio.manuscript || '', true),
+  title: plainTextToEditorValue(audio.title || ''),
+  manuscript: plainTextToEditorValue(audio.manuscript || ''),
   audioFile: { storedFile: audio.audioFile },
   filepath: '',
   tags: audio.tags || [],
@@ -95,7 +96,7 @@ export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => (
   rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
   license: audio?.copyright?.license?.license || DEFAULT_LICENSE.license,
   audioType: 'podcast',
-  introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),
+  introduction: plainTextToEditorValue(audio.podcastMeta?.introduction || ''),
   coverPhotoId: audio.podcastMeta?.coverPhoto.id,
   metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
 });
@@ -165,8 +166,8 @@ const PodcastForm = ({
     const podcastMetaData = {
       id: values.id,
       revision: values.revision,
-      title: editorValueToPlainText(values.title),
-      manuscript: editorValueToPlainText(values.manuscript),
+      title: values.title ? editorValueToPlainText(values.title) : '',
+      manuscript: values.manuscript ? editorValueToPlainText(values.manuscript) : '',
       tags: values.tags,
       audioType: 'podcast',
       language: values.language,
@@ -178,7 +179,7 @@ const PodcastForm = ({
         rightsholders: values.rightsholders,
       },
       podcastMeta: {
-        introduction: editorValueToPlainText(values.introduction),
+        introduction: values.introduction ? editorValueToPlainText(values.introduction) : '',
         coverPhotoId: values.coverPhotoId,
         coverPhotoAltText: values.metaImageAlt,
       },
@@ -246,8 +247,12 @@ const PodcastForm = ({
                   )}>
                   <PodcastMetaData
                     handleSubmit={submitForm}
-                    onBlur={(event, editor, next) => {
-                      next();
+                    onBlur={(event, editor) => {
+                      // Forcing slate field to be deselected before selecting new field.
+                      // Fixes a problem where slate field is not properly focused on click.
+                      ReactEditor.deselect(editor);
+
+                      // TODO: Can possibly be removed
                       // this is a hack since formik onBlur-handler interferes with slates
                       // related to: https://github.com/ianstormtaylor/slate/issues/2434
                       // formik handleBlur needs to be called for validation to work (and touched to be set)

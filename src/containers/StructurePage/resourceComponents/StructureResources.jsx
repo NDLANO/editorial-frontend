@@ -205,6 +205,7 @@ export class StructureResources extends React.PureComponent {
       currentTopic,
       resourceRef,
       currentSubject,
+      structure,
       saveSubjectTopicItems,
     } = this.props;
     const { topicDescription, resourceTypes, topicResources, topicStatus, loading } = this.state;
@@ -244,8 +245,6 @@ export class StructureResources extends React.PureComponent {
             params={this.props.params}
             topicResources={topicResources}
             refreshResources={this.getTopicResources}
-            availableFilters={availableFilters}
-            activeFilter={activeFilters.length === 1 ? activeFilters[0] : ''}
             locale={locale}
             currentTopic={currentTopic}
             currentSubject={currentSubject}

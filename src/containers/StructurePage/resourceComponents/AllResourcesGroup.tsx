@@ -56,8 +56,6 @@ const AllResourcesGroup = ({
   topicResources,
   params,
   refreshResources,
-  availableFilters,
-  activeFilter,
   locale,
   currentTopic,
   currentSubject,
@@ -97,8 +95,6 @@ const AllResourcesGroup = ({
         <ResourceItems
           resources={topicResources}
           refreshResources={refreshResources}
-          availableFilters={availableFilters}
-          activeFilter={activeFilter}
           locale={locale}
           currentTopic={currentTopic}
           currentSubject={currentSubject}
@@ -107,7 +103,6 @@ const AllResourcesGroup = ({
       </Accordion>
       {showAddModal && (
         <AddResourceModal
-          topicFilters={currentTopic.filters}
           resourceTypes={newResourceTypeOptions}
           topicId={topicId}
           refreshResources={refreshResources}

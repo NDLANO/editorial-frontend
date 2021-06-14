@@ -64,14 +64,6 @@ const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
   return editor;
 };
 
-const withCustomEditor = (editor: Editor) => {
-  editor.shouldShowToolbar = () => {
-    return true;
-  };
-
-  return editor;
-};
-
 const RichTextEditor = ({
   children,
   className,
@@ -90,7 +82,7 @@ const RichTextEditor = ({
   ...rest
 }: Props) => {
   const editor = useMemo(
-    () => withHistory(withReact(withPlugins(withCustomEditor(createEditor()), plugins))),
+    () => withHistory(withReact(withPlugins(createEditor(), plugins))),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );

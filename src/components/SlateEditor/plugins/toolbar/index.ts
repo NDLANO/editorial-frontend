@@ -30,7 +30,15 @@ const isSubHotKey = isCodeHotkey('mod+alt+s');
 const isSupHotKey = isCodeHotkey('mod+alt+h');
 
 const toolbarPlugin = (editor: Editor) => {
-  const { onKeyDown: nextOnKeyDown } = editor;
+  const { onKeyDown: nextOnKeyDown, shouldShowToolbar } = editor;
+
+  editor.shouldShowToolbar = () => {
+    if (shouldShowToolbar) {
+      return shouldShowToolbar();
+    } else {
+      return true;
+    }
+  };
 
   editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     let inline;

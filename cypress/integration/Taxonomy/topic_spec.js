@@ -30,6 +30,7 @@ describe('Topic editing', () => {
     cy.intercept('POST', `${taxonomyApi}/topics`, []);
     cy.apiroute('GET', `${taxonomyApi}/topics/${selectTopic}/connections`, 'topicConnections');
     cy.intercept('GET', `${taxonomyApi}/topics/${selectTopic}/resources/?language=nb`, []);
+    cy.intercept('GET', '/draft-api/v1/user-data', {"userId":"user_id","latestEditedArticles":["400","800"]});
 
     cy.visit(`/structure/${selectSubject}/${selectTopic}`);
   });

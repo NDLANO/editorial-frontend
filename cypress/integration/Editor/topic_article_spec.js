@@ -17,7 +17,7 @@ describe('Language handling', () => {
     editorRoutes();
     cy.apiroute(
       'GET',
-      `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`,
+      `/draft-api/v1/drafts/${ARTICLE_ID}*`,
       `draft-${ARTICLE_ID}`,
     );
 

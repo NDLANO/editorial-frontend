@@ -64,7 +64,7 @@ const toolbarIcon = t => ({
 
 const toolbarButtonStyle = isActive => css`
   display: inline-block;
-  background: ${isActive ? colors.background.dark : colors.white};
+  background: ${isActive ? colors.brand.lightest : colors.white};
   cursor: pointer;
   padding: 8px 0.5rem 8px 0.5rem;
   border-width: 0px;
@@ -72,7 +72,7 @@ const toolbarButtonStyle = isActive => css`
   border-bottom-width: 1px;
   border-left-width: 1px;
   border-style: solid;
-  border-color: ${isActive ? colors.background.darker : colors.background.dark};
+  border-color: ${isActive ? colors.brand.tertiary : colors.brand.greyLighter};
 
   .c-toolbar__button--active + & {
     border-left-width: 0px;
@@ -96,7 +96,7 @@ const toolbarButtonStyle = isActive => css`
   }
 
   :hover {
-    background: ${colors.background.dark};
+    background: ${colors.brand.lightest};
   }
 `;
 

@@ -18,7 +18,7 @@ export const TYPE_BODYBOX = 'bodybox';
 
 export interface BodyboxElement {
   type: 'bodybox';
-  children: Descendant;
+  children: Descendant[];
 }
 
 export const bodyboxSerializer: SlateSerializer = {

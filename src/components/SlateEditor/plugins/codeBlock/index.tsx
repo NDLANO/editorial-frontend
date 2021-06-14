@@ -8,13 +8,14 @@
 
 import React from 'react';
 import { Dictionary } from 'lodash';
-import { Descendant, Editor, Element } from 'slate';
+import { Descendant, Editor, Element, Path, Transforms, Node } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import CodeBlock from './CodeBlock';
 import { SlateSerializer } from '../../interfaces';
-import { defaultTextBlockNormalizer } from '../../utils/normalizationHelpers';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
+import { TYPE_PARAGRAPH } from '../paragraph';
 
 export const TYPE_CODEBLOCK = 'code-block';
 
@@ -68,13 +69,68 @@ export const codeblockPlugin = (editor: Editor) => {
   };
 
   editor.normalizeNode = entry => {
-    const [node] = entry;
+    const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_CODEBLOCK) {
-      nextNormalizeNode(entry);
-    } else {
-      nextNormalizeNode(entry);
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (!Path.hasPrevious(childPath)) {
+          // Unwrap element if it exists
+          if (Element.isElement(child)) {
+            Transforms.unwrapNodes(editor, { at: childPath });
+            return;
+          }
+        }
+      }
+
+      const nextPath = Path.next(path);
+
+      // Insert empty paragraph after codeblock if header or paragraph does not already exist
+      if (Editor.hasPath(editor, nextPath)) {
+        const [nextNode] = Editor.node(editor, nextPath);
+        if (
+          !Element.isElement(nextNode) ||
+          !afterOrBeforeTextBlockElement.includes(nextNode.type)
+        ) {
+          Transforms.insertNodes(
+            editor,
+            jsx('element', {
+              type: TYPE_PARAGRAPH,
+            }),
+            {
+              at: nextPath,
+            },
+          );
+
+          return;
+        }
+      }
+
+      // Insert empty paragraph before codeblock if header or paragraph does not already exist
+      if (Path.hasPrevious(path)) {
+        const previousPath = Path.previous(path);
+
+        if (Editor.hasPath(editor, previousPath)) {
+          const [previousNode] = Editor.node(editor, previousPath);
+          if (
+            !Element.isElement(previousNode) ||
+            !afterOrBeforeTextBlockElement.includes(previousNode.type)
+          ) {
+            Transforms.insertNodes(
+              editor,
+              jsx('element', {
+                type: TYPE_PARAGRAPH,
+              }),
+              {
+                at: path,
+              },
+            );
+
+            return;
+          }
+        }
+      }
     }
+    nextNormalizeNode(entry);
   };
 
   editor.isVoid = element => {

@@ -203,8 +203,10 @@ export const detailsPlugin = (editor: Editor) => {
             }
           }
         }
+
         const nextPath = Path.next(path);
 
+        // Insert empty paragraph after codeblock if header or paragraph does not already exist
         if (Editor.hasPath(editor, nextPath)) {
           const [nextNode] = Editor.node(editor, nextPath);
           if (
@@ -219,6 +221,7 @@ export const detailsPlugin = (editor: Editor) => {
           }
         }
 
+        // Insert empty paragraph before codeblock if header or paragraph does not already exist
         if (Path.hasPrevious(path)) {
           const previousPath = Path.previous(path);
 
@@ -237,6 +240,7 @@ export const detailsPlugin = (editor: Editor) => {
           }
         }
       }
+
       if (node.type === TYPE_SUMMARY) {
         const [parent] = Editor.node(editor, Path.parent(path));
         // Change summary node to paragraph if not a child of details element

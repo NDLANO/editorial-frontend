@@ -60,11 +60,6 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
     return searchConcepts({
       query: inp,
       language: locale,
-      idList: [],
-      subjects: [],
-      tags: [],
-      status: [],
-      users: [],
     });
   };
 

@@ -19,14 +19,16 @@ const appearances = {
     max-width: 870px;
   `,
   fullscreen: css`
-    max-width: 95%;
-    height: 90vh;
+    align-self: center;
+    margin: auto;
+    min-width: 95vw;
+    height: 95vh;
   `,
   modal: css`
     border-radius: 0;
     min-height: 210px;
     max-width: 620px;
-    padding-bottom: ${spacing.noraml};
+    padding-bottom: ${spacing.normal};
   `,
 };
 
@@ -58,6 +60,11 @@ const StyledLightbox = styled('div')`
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 1000;
   overflow-x: auto;
+  ${p =>
+    p.appearance === 'fullscreen' &&
+    css`
+      display: flex;
+    `};
 
   @media (max-width: ${breakpoints.tabletWide}) {
     top: 64px;
@@ -100,7 +107,6 @@ export const StyledCross = styled(Cross)`
 
 const ChildWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   height: 100%;
 `;
 
@@ -124,26 +130,35 @@ class Lightbox extends React.PureComponent {
   }
 
   render() {
-    const { children, closeButton, width, appearance, severity, contentCss } = this.props;
+    const {
+      children,
+      closeButton,
+      width,
+      appearance,
+      severity,
+      contentCss,
+      hideCloseButton,
+    } = this.props;
 
     return this.state.display ? (
-      <StyledLightbox>
+      <StyledLightbox appearance={appearance}>
         <StyledLightboxContent
           maxWidth={width}
           appearance={appearance}
           severity={severity}
           css={contentCss}>
-          {closeButton ? (
-            closeButton
-          ) : (
-            <Button
-              css={closeLightboxButtonStyle}
-              stripped
-              data-testid="closeAlert"
-              onClick={this.onCloseButtonClick}>
-              <StyledCross severity={severity} />
-            </Button>
-          )}
+          {!hideCloseButton &&
+            (closeButton ? (
+              closeButton
+            ) : (
+              <Button
+                css={closeLightboxButtonStyle}
+                stripped
+                data-testid="closeAlert"
+                onClick={this.onCloseButtonClick}>
+                <StyledCross severity={severity} />
+              </Button>
+            ))}
           <ChildWrapper>{children}</ChildWrapper>
         </StyledLightboxContent>
       </StyledLightbox>
@@ -159,6 +174,7 @@ Lightbox.propTypes = {
   appearance: PropTypes.oneOf(['modal', 'big', 'fullscreen']),
   severity: PropTypes.oneOf(['danger', 'info', 'success', 'warning']),
   contentCss: PropTypes.string,
+  hideCloseButton: PropTypes.bool,
 };
 
 export default Lightbox;

@@ -17,7 +17,6 @@ import { fetchExternalOembed } from '../../util/apiHelpers';
 import { EditorShape } from '../../shapes';
 import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
-import DeleteButton from '../DeleteButton';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import config from '../../config';
 import { getH5pLocale } from '../H5PElement/h5pApi';
@@ -122,19 +121,17 @@ export class DisplayExternal extends Component {
     const { isEditMode, title, src, height, error, type, provider, domain } = this.state;
 
     const errorHolder = () => (
-      <>
-        <DeleteButton stripped onClick={onRemoveClick} />
-        <EditorErrorMessage
-          msg={
-            error
-              ? t('displayOembed.errorMessage')
-              : t('displayOembed.notSupported', {
-                  type,
-                  provider,
-                })
-          }
-        />
-      </>
+      <EditorErrorMessage
+        onRemoveClick={onRemoveClick}
+        msg={
+          error
+            ? t('displayOembed.errorMessage')
+            : t('displayOembed.notSupported', {
+                type,
+                provider,
+              })
+        }
+      />
     );
 
     if (error) {
@@ -152,6 +149,10 @@ export class DisplayExternal extends Component {
 
     if (!allowedProvider) {
       return errorHolder();
+    }
+
+    if (!src || !type) {
+      return <div />;
     }
     return (
       <div className="c-figure">

@@ -20,7 +20,7 @@
     "noEmit": false,
     "sourceMap": true,
     "skipLibCheck": true,
-    "lib": ["es2018", "esnext.asynciterable", "dom"],
+    "lib": ["es2019", "esnext.asynciterable", "dom"],
     "types": ["@emotion/core", "@emotion/styled", "jest", "node", "webpack-env"],
     "paths": {
       "*": ["node_modules/*", "src/types/*"]

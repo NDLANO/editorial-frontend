@@ -36,7 +36,7 @@ const retriveBreadCrumbs = ({ topicPath, structure, allTopics, title }: Input): 
         returnPaths.push({
           name: title,
           id: pathId,
-          metadata: { visible: true, grepCodes: [] },
+          metadata: { visible: true, grepCodes: [], customFields: {} },
         });
       }
     });

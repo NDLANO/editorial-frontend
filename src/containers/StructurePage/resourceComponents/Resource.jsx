@@ -11,8 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { Filter } from '@ndla/icons/editor';
-import { RemoveCircle } from '@ndla/icons/action';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
@@ -20,17 +18,12 @@ import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
 import { classes } from './ResourceGroup';
-import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
-import FilterConnections from '../../../components/Taxonomy/filter/FilterConnections';
 import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import { StructureShape, AvailableFiltersShape, TopicShape, MetadataShape } from '../../../shapes';
-
-const filterButtonStyle = css`
-  padding: 0 10px;
-  margin: 0 20px;
-`;
+import { MetadataShape } from '../../../shapes';
+import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
+import RemoveButton from '../../../components/RemoveButton';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -45,22 +38,17 @@ const statusButtonStyle = css`
 const Resource = ({
   contentType,
   name,
-  showFilterPicker,
-  toggleFilterPicker,
-  onFilterChange,
-  availableFilters,
-  activeFilters,
-  breadCrumbs,
-  structure,
-  onFilterSubmit,
   onDelete,
-  id,
   connectionId,
   dragHandleProps,
   contentUri,
   status,
   metadata,
   locale,
+  relevanceId,
+  updateRelevanceId,
+  primary,
+  rank,
   t,
 }) => {
   const [showVersionHistory, setShowVersionHistory] = useState(false);
@@ -95,37 +83,17 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
-      {contentType !== 'topic-article' && (
-        <Button
-          stripped
-          onClick={() => toggleFilterPicker(id)}
-          data-testid={`openFilterPicker-${id}`}
-          css={filterButtonStyle}>
-          <Filter {...classes('filterIcon')} />
-        </Button>
-      )}
-      {showFilterPicker && (
-        <TaxonomyLightbox
-          display
-          big
-          title={t('taxonomy.resource.chooseFilter')}
-          onClose={() => toggleFilterPicker(id)}>
-          <FilterConnections
-            breadCrumbs={breadCrumbs}
-            activeFilters={activeFilters}
-            resourceId={id}
-            structure={structure}
-            availableFilters={availableFilters}
-            updateFilter={onFilterChange}
-          />
-          <Button onClick={() => onFilterSubmit(id)}>{t('form.save')}</Button>
-        </TaxonomyLightbox>
-      )}
-      {onDelete && (
-        <Button onClick={() => onDelete(connectionId, id)} stripped>
-          <RemoveCircle {...classes('deleteIcon')} />
-        </Button>
-      )}
+      <RelevanceOption
+        relevanceId={relevanceId}
+        onChange={relevanceIdUpdate =>
+          updateRelevanceId(connectionId, {
+            relevanceId: relevanceIdUpdate,
+            primary,
+            rank,
+          })
+        }
+      />
+      {onDelete && <RemoveButton onClick={() => onDelete(connectionId)} />}
       {showVersionHistory && (
         <VersionHistoryLightbox
           onClose={() => setShowVersionHistory(false)}
@@ -141,7 +109,6 @@ const Resource = ({
 };
 
 Resource.defaultProps = {
-  activeFilters: [],
   dragHandleProps: {},
 };
 
@@ -149,21 +116,10 @@ Resource.propTypes = {
   contentType: PropTypes.string.isRequired,
   name: PropTypes.string,
   onDelete: PropTypes.func,
-  showFilterPicker: PropTypes.bool,
-  toggleFilterPicker: PropTypes.func,
-  onFilterChange: PropTypes.func,
-  availableFilters: AvailableFiltersShape,
-  activeFilters: PropTypes.arrayOf(PropTypes.object),
-  currentTopic: PropTypes.shape({
-    filters: PropTypes.array,
-  }),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   }),
-  structure: PropTypes.arrayOf(StructureShape),
-  onFilterSubmit: PropTypes.func,
-  id: PropTypes.string,
   connectionId: PropTypes.string,
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,
@@ -174,7 +130,15 @@ Resource.propTypes = {
   }),
   metadata: MetadataShape,
   locale: PropTypes.string.isRequired,
-  breadCrumbs: PropTypes.arrayOf(PropTypes.arrayOf(TopicShape)),
+  relevanceId: PropTypes.oneOf([
+    'urn:relevance:core',
+    'urn:relevance:supplementary',
+    null,
+    undefined,
+  ]),
+  updateRelevanceId: PropTypes.func,
+  primary: PropTypes.bool,
+  rank: PropTypes.number,
 };
 
 export default injectT(Resource);

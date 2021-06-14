@@ -14,7 +14,6 @@ import { css } from '@emotion/core';
 import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
-import FilterView from '../../../StructurePage/folderComponents/FilterView';
 
 const buttonAdditionStyle = css`
   opacity: 0;
@@ -61,18 +60,7 @@ const StyledButtonWrapper = styled.div`
   }
 `;
 
-const StructureFunctionButtons = ({
-  isSubject,
-  subjectId,
-  isOpen,
-  id,
-  activeTopics,
-  availableFilters,
-  activeFilters,
-  toggleFilter,
-  addTopic,
-  t,
-}) => {
+const StructureFunctionButtons = ({ isSubject, isOpen, id, activeTopics, addTopic, t }) => {
   if (isSubject) {
     if (!isOpen) {
       return null;
@@ -82,11 +70,6 @@ const StructureFunctionButtons = ({
         <Button outline css={buttonAdditionStyle} type="button" onClick={addTopic}>
           {t('taxonomy.topics.addNewTopic')}
         </Button>
-        <FilterView
-          subjectFilters={availableFilters[subjectId]}
-          activeFilters={activeFilters}
-          toggleFilter={toggleFilter}
-        />
       </StyledButtonWrapper>
     );
   }
@@ -110,13 +93,9 @@ const StructureFunctionButtons = ({
 
 StructureFunctionButtons.propTypes = {
   isSubject: PropTypes.bool,
-  subjectId: PropTypes.string,
   isOpen: PropTypes.bool,
   id: PropTypes.string,
   activeTopics: PropTypes.array.isRequired,
-  availableFilters: PropTypes.object.isRequired,
-  activeFilters: PropTypes.array.isRequired,
-  toggleFilter: PropTypes.func.isRequired,
   addTopic: PropTypes.func.isRequired,
 };
 

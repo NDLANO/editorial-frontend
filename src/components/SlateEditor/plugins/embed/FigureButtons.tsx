@@ -91,6 +91,10 @@ const FigureButtons = ({
       path: '/media/audio-upload',
       editTitle: t('form.editAudio'),
     },
+    podcast: {
+      path: '/media/podcast-upload',
+      editTitle: t('form.editPodcast'),
+    },
     image: {
       path: '/media/image-upload',
       editTitle: t('form.editOriginalImage'),
@@ -109,7 +113,7 @@ const FigureButtons = ({
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      {(figureType === 'image' || figureType === 'audio') && (
+      {(figureType === 'image' || figureType === 'audio' || figureType === 'podcast') && (
         <Tooltip tooltip={url[figureType].editTitle} align="right">
           <IconButton
             as={Link}

@@ -13,15 +13,21 @@ import { injectT } from '@ndla/i18n';
 import TopicArticleForm from './components/TopicArticleForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
-import { useTranslateForm } from '../../FormikForm/translateFormHooks';
+import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 
 const EditTopicArticle = ({ articleId, selectedLanguage, t, isNewlyCreated, ...rest }) => {
-  const { loading, article, setArticle, ...articleHooks } = useFetchArticleData(
+  const { loading, article, setArticle, articleChanged, ...articleHooks } = useFetchArticleData(
     articleId,
     selectedLanguage,
   );
-  const { translating, translateArticle } = useTranslateForm(article, setArticle);
+  const { translating, translateToNN } = useTranslateApi(article, setArticle, [
+    'id',
+    'title',
+    'metaDescription',
+    'introduction',
+    'content',
+  ]);
 
   if (loading || !article || !article.id) {
     return <Spinner withWrapper />;
@@ -35,8 +41,9 @@ const EditTopicArticle = ({ articleId, selectedLanguage, t, isNewlyCreated, ...r
       <HelmetWithTracker title={`${article.title} ${t('htmlTitles.titleTemplate')}`} />
       <TopicArticleForm
         articleStatus={article.status}
+        articleChanged={articleChanged}
         article={article}
-        translateArticle={translateArticle}
+        translateToNN={translateToNN}
         translating={translating}
         isNewlyCreated={isNewlyCreated}
         {...rest}

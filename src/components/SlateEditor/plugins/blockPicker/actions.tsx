@@ -34,6 +34,11 @@ const actions: Action[] = [
     icon: <FactBoxMaterial />,
     helpIcon: renderArticleInModal('FactASide'),
   },
+  {
+    data: { type: 'details', object: 'details' },
+    icon: <ArrowExpand />,
+    helpIcon: renderArticleInModal('Details'),
+  },
   // {
   //   data: { type: 'table', object: 'table' },
   //   icon: <TableMaterial />,
@@ -43,11 +48,6 @@ const actions: Action[] = [
   //   data: { type: 'bodybox', object: 'bodybox' },
   //   icon: <Framed />,
   //   helpIcon: renderArticleInModal('BodyBox'),
-  // },
-  // {
-  //   data: { type: 'details', object: 'details' },
-  //   icon: <ArrowExpand />,
-  //   helpIcon: renderArticleInModal('Details'),
   // },
   // {
   //   data: { type: 'embed', object: 'image' },

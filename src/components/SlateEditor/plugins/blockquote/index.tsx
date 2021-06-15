@@ -12,7 +12,7 @@ import { jsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms } from 'slate';
 import { SlateSerializer } from '../../interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { TYPE_PARAGRAPH } from '../paragraph';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 const KEY_ENTER = 'Enter';
 export const TYPE_QUOTE = 'quote';

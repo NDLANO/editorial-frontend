@@ -18,6 +18,7 @@ import { defaultBlocks } from '../../utils';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions, { ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
+import { defaultDetailsBlock } from '../details/utils';
 
 const { defaultRelatedBlock, defaultCodeBlock } = defaultBlocks;
 
@@ -66,8 +67,9 @@ const SlateBlockPicker = (props: Props & tType) => {
 
   const onInsertBlock = (block: Element) => {
     const { editor } = props;
-    Editor.insertNode(editor, block);
+    setIsOpen(false);
     ReactEditor.focus(editor);
+    Editor.insertNode(editor, block);
   };
 
   const onElementAdd = (data: ActionData) => {
@@ -76,10 +78,10 @@ const SlateBlockPicker = (props: Props & tType) => {
       //   this.onInsertBlock(defaultBodyBoxBlock());
       //   break;
       // }
-      // case 'details': {
-      //   this.onInsertBlock(defaultDetailsBlock());
-      //   break;
-      // }
+      case 'details': {
+        onInsertBlock(defaultDetailsBlock());
+        break;
+      }
       // case 'table': {
       //   editor.insertTable(2, 2);
       //   break;
@@ -107,9 +109,9 @@ const SlateBlockPicker = (props: Props & tType) => {
       //   break;
       // }
       default:
+        setIsOpen(false);
         break;
     }
-    setIsOpen(false);
   };
 
   const toggleIsOpen = (open: boolean) => {

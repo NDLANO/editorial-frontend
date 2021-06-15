@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { LOCALE_VALUES } from './constants';
 
 export const ResourceShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
@@ -35,6 +36,25 @@ export const AudioResultShape = PropTypes.shape({
   title: PropTypes.shape({
     title: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
+  }).isRequired,
+});
+
+export const SeriesResultShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
+  }).isRequired,
+  description: PropTypes.shape({
+    description: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
+  }).isRequired,
+  supportedLanguages: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  episodes: PropTypes.array.isRequired,
+  coverPhoto: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    altText: PropTypes.string.isRequired,
   }).isRequired,
 });
 
@@ -114,6 +134,8 @@ export const ArticleShape = PropTypes.shape({
   title: PropTypes.string,
   notes: PropTypes.arrayOf(NoteShape),
   language: PropTypes.string,
+  grepCodes: PropTypes.arrayOf(PropTypes.string),
+  revision: PropTypes.number,
 });
 
 export const NewArticleShape = PropTypes.shape({
@@ -171,7 +193,7 @@ export const FootnoteShape = PropTypes.shape({
 export const LinkShape = PropTypes.shape({
   text: PropTypes.string.isRequired,
   href: PropTypes.string.isRequired,
-  checkbox: PropTypes.bool.isRequired,
+  checkbox: PropTypes.bool,
 });
 
 export const PluginShape = PropTypes.shape({
@@ -254,6 +276,12 @@ export const HistoryShape = PropTypes.shape({
   goBack: PropTypes.func.isRequired,
   block: PropTypes.func.isRequired,
   replace: PropTypes.func.isRequired,
+  length: PropTypes.number.isRequired,
+  location: LocationShape,
+  go: PropTypes.func.isRequired,
+  goForward: PropTypes.func.isRequired,
+  listen: PropTypes.func.isRequired,
+  createHref: PropTypes.func.isRequired,
 });
 
 export const MetadataShape = PropTypes.shape({
@@ -277,14 +305,6 @@ export const TopicShape = PropTypes.shape({
   path: PropTypes.string,
   primary: PropTypes.bool,
   topicConnections: PropTypes.arrayOf(TopicConnectionShape),
-});
-
-export const FilterShape = PropTypes.shape({
-  connectionId: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  relevanceId: PropTypes.string,
-  metadata: MetadataShape,
 });
 
 export const AvailableFiltersShape = PropTypes.objectOf(
@@ -315,6 +335,7 @@ export const FormikShape = PropTypes.shape({
   handleBlur: PropTypes.func,
   errors: PropTypes.shape({}),
   touched: PropTypes.shape({}),
+  setFieldValue: PropTypes.func,
 });
 
 export const RoutePropTypes = {
@@ -328,11 +349,14 @@ export const RoutePropTypes = {
   history: HistoryShape.isRequired,
 };
 
+export const LocaleShape = PropTypes.oneOf(LOCALE_VALUES);
+
 export const SearchParamsShape = PropTypes.shape({
   query: PropTypes.string,
   subjects: PropTypes.string,
   'resource-types': PropTypes.string,
   'draft-status': PropTypes.string,
+  'audio-type': PropTypes.string,
   status: PropTypes.string,
   users: PropTypes.string,
   language: PropTypes.string,

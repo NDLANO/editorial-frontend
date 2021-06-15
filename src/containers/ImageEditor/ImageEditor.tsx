@@ -21,6 +21,7 @@ import ImageEditorButton from './ImageEditorButton';
 import { Embed } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
 import { ImageApiType } from '../../modules/image/imageApiInterfaces';
+import ShowBylineButton from './ShowBylineButton';
 
 export const classes = new BEMHelper({
   name: 'image-editor',
@@ -44,6 +45,8 @@ const StyledImageEditorEditMode = styled('div')`
 const alignments = ['left', 'center', 'right'];
 
 const sizes = ['xsmall', 'small', 'medium'];
+
+const bylineOptions = ['hide', 'show'];
 
 const defaultData = {
   focalPoint: {
@@ -175,6 +178,20 @@ const ImageEditor = ({ t, embed, onUpdatedImageSettings, imageUpdates }: Props &
                   size={size}
                   onFieldChange={onFieldChange}
                   currentSize={imageUpdates?.size}
+                />
+              ))}
+            </StyledImageEditorMenu>
+          ) : (
+            ''
+          )}
+          {imageUpdates?.size.startsWith('fullbredde') ||
+          imageUpdates?.size.startsWith('medium') ? (
+            <StyledImageEditorMenu>
+              {bylineOptions.map(option => (
+                <ShowBylineButton
+                  show={option === 'show'}
+                  currentSize={imageUpdates?.size}
+                  onFieldChange={onFieldChange}
                 />
               ))}
             </StyledImageEditorMenu>

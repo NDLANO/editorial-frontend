@@ -14,6 +14,7 @@ import { queryResources, queryTopics } from '../../modules/taxonomy/resources';
 
 export function useFetchArticleData(articleId, locale) {
   const [article, setArticle] = useState(undefined);
+  const [articleChanged, setArticleChanged] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export function useFetchArticleData(articleId, locale) {
             convertedRelatedContent,
           ),
         );
+        setArticleChanged(false);
         setLoading(false);
       }
     };
@@ -67,8 +69,8 @@ export function useFetchArticleData(articleId, locale) {
   };
 
   const updateArticle = async updatedArticle => {
-    const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
-    const relatedContent = updatedArticle.relatedContent.map(rc => (rc.id ? rc.id : rc));
+    const conceptIds = updatedArticle.conceptIds?.map(concept => concept.id);
+    const relatedContent = updatedArticle.relatedContent?.map(rc => (rc.id ? rc.id : rc));
     const savedArticle = await draftApi.updateDraft({
       ...updatedArticle,
       conceptIds,
@@ -83,6 +85,7 @@ export function useFetchArticleData(articleId, locale) {
     );
     updateUserData(articleId);
     setArticle(updated);
+    setArticleChanged(false);
     return updated;
   };
 
@@ -121,6 +124,7 @@ export function useFetchArticleData(articleId, locale) {
       revision: statusChangedDraft.revision,
     };
     setArticle(updated);
+    setArticleChanged(false);
     return updated;
   };
 
@@ -131,6 +135,7 @@ export function useFetchArticleData(articleId, locale) {
       conceptIds,
     });
     setArticle(transformArticleFromApiVersion(savedArticle, locale, createdArticle.conceptIds));
+    setArticleChanged(false);
     updateUserData(savedArticle.id);
     return savedArticle;
   };
@@ -161,7 +166,11 @@ export function useFetchArticleData(articleId, locale) {
 
   return {
     article,
-    setArticle,
+    setArticle: article => {
+      setArticle(article);
+      setArticleChanged(true);
+    },
+    articleChanged,
     updateArticle,
     createArticle,
     updateArticleAndStatus,

@@ -15,7 +15,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, StaticContext } from 'react-router';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { Row, HelpMessage, PreviewDraftLightbox } from '../../components';
@@ -125,7 +125,11 @@ interface MatchParams {
   language: string;
 }
 
-interface Props extends tType, RouteComponentProps<MatchParams> {}
+interface MarkupLocationState {
+  backUrl?: string;
+}
+
+interface Props extends RouteComponentProps<MatchParams, StaticContext, MarkupLocationState> {}
 
 type Status =
   | 'initial'
@@ -141,8 +145,8 @@ interface State {
   draft: DraftApiType | undefined;
 }
 
-class EditMarkupPage extends Component<Props, State> {
-  constructor(props: Props) {
+class EditMarkupPage extends Component<Props & tType, State> {
+  constructor(props: Props & tType) {
     super(props);
     this.state = {
       status: 'initial',
@@ -155,7 +159,7 @@ class EditMarkupPage extends Component<Props, State> {
   async componentDidMount() {
     const session = getSessionStateFromLocalStorage();
 
-    if (!session.user.scope.includes(DRAFT_HTML_SCOPE)) {
+    if (!session.user?.scope?.includes(DRAFT_HTML_SCOPE)) {
       this.setState({ status: 'access-error' });
       return;
     }
@@ -174,7 +178,7 @@ class EditMarkupPage extends Component<Props, State> {
     if (prevProps.match.params.language !== this.props.match.params.language) {
       const session = getSessionStateFromLocalStorage();
 
-      if (!session.user.scope.includes(DRAFT_HTML_SCOPE)) {
+      if (!session.user?.scope?.includes(DRAFT_HTML_SCOPE)) {
         this.setState({ status: 'access-error' });
         return;
       }

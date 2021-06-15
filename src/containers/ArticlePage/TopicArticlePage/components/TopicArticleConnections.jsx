@@ -29,11 +29,9 @@ class TopicArticleConnections extends Component {
     super(props);
     this.state = {
       openedPaths: [],
-      activeFilters: [],
     };
     this.handleOpenToggle = this.handleOpenToggle.bind(this);
     this.addTopic = this.addTopic.bind(this);
-    this.toggleFilter = this.toggleFilter.bind(this);
   }
 
   handleOpenToggle({ path, isSubject, id }) {
@@ -65,17 +63,8 @@ class TopicArticleConnections extends Component {
     closeModal();
   }
 
-  toggleFilter(filterId) {
-    this.setState(({ activeFilters }) => ({
-      activeFilters: activeFilters.includes(filterId)
-        ? activeFilters.filter(activeFilter => activeFilter !== filterId)
-        : [...activeFilters, filterId],
-    }));
-  }
-
   render() {
-    const { t, structure, availableFilters, activeTopics, ...rest } = this.props;
-    const { activeFilters, openedPaths } = this.state;
+    const { t, structure, activeTopics, ...rest } = this.props;
 
     return (
       <Fragment>
@@ -104,21 +93,16 @@ class TopicArticleConnections extends Component {
                 <StyledTitleModal>{t('taxonomy.topics.filestructureHeading')}:</StyledTitleModal>
                 <hr />
                 <Structure
-                  openedPaths={openedPaths}
+                  openedPaths={this.state.openedPaths}
                   structure={structure}
                   toggleOpen={this.handleOpenToggle}
                   renderListItems={props => (
                     <StructureFunctionButtons
                       {...props}
                       activeTopics={activeTopics}
-                      availableFilters={availableFilters}
-                      activeFilters={activeFilters}
-                      toggleFilter={this.toggleFilter}
                       addTopic={() => this.addTopic(props.path, closeModal)}
                     />
                   )}
-                  activeFilters={activeFilters}
-                  filters={availableFilters}
                 />
               </ModalBody>
             </Fragment>
@@ -142,13 +126,6 @@ TopicArticleConnections.propTypes = {
     }),
   ),
   setPrimaryConnection: PropTypes.func,
-  availableFilters: PropTypes.objectOf(
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-      }),
-    ),
-  ),
   allowMultipleSubjectsOpen: PropTypes.bool,
   stageTaxonomyChanges: PropTypes.func,
   getSubjectTopics: PropTypes.func,

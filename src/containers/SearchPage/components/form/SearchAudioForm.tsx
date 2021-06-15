@@ -11,16 +11,16 @@ import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
+import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { searchFormClasses, SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../interfaces';
 
-interface Props {
+interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
   subjects: SubjectType[];
-  location: Location;
   searchObject: SearchParams;
   locale: string;
 }
@@ -28,6 +28,7 @@ interface Props {
 export interface SearchState {
   query: string;
   language: string;
+  'audio-type': string;
 }
 
 interface State {
@@ -48,6 +49,7 @@ class SearchAudioForm extends Component<Props & tType, State> {
       search: {
         query: searchObject.query || '',
         language: searchObject.language || '',
+        'audio-type': searchObject['audio-type'] || '',
       },
     };
   }
@@ -59,6 +61,7 @@ class SearchAudioForm extends Component<Props & tType, State> {
         search: {
           query: searchObject.query || '',
           language: searchObject.language || '',
+          'audio-type': searchObject['audio-type'] || '',
         },
       });
     }
@@ -77,25 +80,44 @@ class SearchAudioForm extends Component<Props & tType, State> {
       evt.preventDefault();
     }
     const { search } = this.props;
-    search({ ...this.state.search, page: '1' });
+    search({ ...this.state.search, page: 1 });
   }
 
   emptySearch(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.persist();
-    this.setState({ search: { query: '', language: '' } }, () => this.handleSearch(evt));
+    this.setState({ search: { query: '', language: '', 'audio-type': '' } }, () =>
+      this.handleSearch(evt),
+    );
   }
 
   render() {
     const { t } = this.props;
 
+    const getAudioTypes = () => [
+      { id: 'standard', name: t('searchForm.audioType.standard') },
+      { id: 'podcast', name: t('searchForm.audioType.podcast') },
+    ];
+
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
-        <div {...searchFormClasses('field', '50-width')}>
+        <div {...searchFormClasses('field', '25-width')}>
           <input
             name="query"
             placeholder={t('searchForm.types.audioQuery')}
             value={this.state.search.query}
             onChange={this.onFieldChange}
+          />
+        </div>
+        <div {...searchFormClasses('field', '25-width')}>
+          <ObjectSelector
+            name="audio-type"
+            value={this.state.search['audio-type']}
+            options={getAudioTypes()}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={this.onFieldChange}
+            placeholder={t('searchForm.types.audio')}
           />
         </div>
         <div {...searchFormClasses('field', '25-width')}>
@@ -132,10 +154,11 @@ class SearchAudioForm extends Component<Props & tType, State> {
     );
   }
 
-  defaultProps = {
+  static defaultProps = {
     searchObject: {
       query: '',
       language: '',
+      'audio-type': '',
     },
   };
 

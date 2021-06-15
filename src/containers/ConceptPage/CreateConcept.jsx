@@ -71,7 +71,6 @@ CreateConcept.propTypes = {
   initialConcept: PropTypes.shape({
     title: PropTypes.string,
   }),
-  createMessage: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   licenses: LicensesArrayOf,
   inModal: PropTypes.bool,

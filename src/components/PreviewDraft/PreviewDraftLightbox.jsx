@@ -196,7 +196,12 @@ class PreviewDraftLightbox extends React.Component {
               onChangePreviewLanguage={this.onChangePreviewLanguage}
               previewLanguage={previewLanguage}
               getEntityPreview={(article, label, contentType) => (
-                <PreviewDraft article={article} label={label} contentType={contentType} />
+                <PreviewDraft
+                  article={article}
+                  label={label}
+                  contentType={contentType}
+                  language={previewLanguage}
+                />
               )}
             />
           </Lightbox>

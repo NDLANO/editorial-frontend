@@ -27,10 +27,11 @@ const CreateTopicArticle = ({ history, t, ...rest }) => {
     <Fragment>
       <HelmetWithTracker title={t('htmlTitles.createTopicArticlePage')} />
       <TopicArticleForm
-        article={{ language: locale }}
+        article={{ language: locale, grepCodes: [] }}
         staticArticle={{ notes: [] }}
         locale={locale}
         updateArticle={createArticleAndPushRoute}
+        history={history}
         {...rest}
       />
     </Fragment>

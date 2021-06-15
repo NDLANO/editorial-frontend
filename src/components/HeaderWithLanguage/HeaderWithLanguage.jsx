@@ -16,7 +16,7 @@ import HeaderActions from './HeaderActions';
 
 export const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
-  margin: 0 0 ${spacing.normal};
+  margin: 0;
   display: flex;
   align-items: center;
 `;
@@ -35,7 +35,7 @@ const HeaderWithLanguage = ({
   noStatus,
   setTranslateOnContinue,
   t,
-  translateArticle,
+  translateToNN,
   type,
   values,
   ...rest
@@ -72,7 +72,7 @@ const HeaderWithLanguage = ({
           type={multiType}
           title={title}
           isSubmitting={isSubmitting}
-          translateArticle={translateArticle}
+          translateToNN={translateToNN}
           setTranslateOnContinue={setTranslateOnContinue}
           {...rest}
         />
@@ -98,8 +98,17 @@ HeaderWithLanguage.propTypes = {
   isSubmitting: PropTypes.bool,
   noStatus: PropTypes.bool,
   setTranslateOnContinue: PropTypes.func,
-  type: PropTypes.oneOf(['image', 'audio', 'iframe', 'topic-article', 'standard', 'concept']),
-  translateArticle: PropTypes.func,
+  type: PropTypes.oneOf([
+    'image',
+    'audio',
+    'iframe',
+    'topic-article',
+    'standard',
+    'concept',
+    'podcast',
+    'podcast-series',
+  ]),
+  translateToNN: PropTypes.func,
   values: PropTypes.shape({
     articleType: PropTypes.string,
     supportedLanguages: PropTypes.arrayOf(PropTypes.string),

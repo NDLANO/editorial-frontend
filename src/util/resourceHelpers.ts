@@ -8,7 +8,7 @@
 
 import { constants } from '@ndla/ui';
 import { tType } from '@ndla/i18n';
-import { toEditArticle, toEditConcept, toLearningpathFull } from './routeHelpers';
+import { toEditArticle, toEditAudio, toEditConcept, toLearningpathFull } from './routeHelpers';
 
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -70,6 +70,7 @@ const isLearningPathResourceType = (contentType?: string) =>
   contentType === contentTypes.LEARNING_PATH;
 
 const isConceptType = (contentType?: string) => contentType === 'concept';
+const isAudioType = (contentType?: string) => contentType === 'audio';
 
 export const resourceToLinkProps = (
   content: {
@@ -87,19 +88,26 @@ export const resourceToLinkProps = (
       rel: 'noopener noreferrer',
     };
   }
+
+  const foundSupportedLanguage = content.supportedLanguages?.find(l => l === locale);
+  const languageOrDefault = foundSupportedLanguage ?? content.supportedLanguages?.[0] ?? 'nb';
+
   if (isConceptType(contentType)) {
     return {
-      to: toEditConcept(
-        content.id,
-        content?.supportedLanguages?.includes(locale) ? locale : content?.supportedLanguages?.[0],
-      ),
+      to: toEditConcept(content.id, languageOrDefault),
     };
   }
+  if (isAudioType(contentType)) {
+    return {
+      to: toEditAudio(content.id, languageOrDefault),
+    };
+  }
+
   return {
     to: toEditArticle(
       content.id,
       content?.contexts?.[0]?.learningResourceType || 'standard',
-      content?.supportedLanguages?.includes(locale) ? locale : content?.supportedLanguages?.[0],
+      languageOrDefault,
     ),
   };
 };

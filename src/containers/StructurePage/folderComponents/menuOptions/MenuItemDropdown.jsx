@@ -20,7 +20,7 @@ import { DropdownMenu, Input } from '@ndla/forms';
 import handleError from '../../../../util/handleError';
 import { itemToString } from '../../../../util/downShiftHelpers';
 import RoundIcon from '../../../../components/RoundIcon';
-import { StyledErrorMessage } from './MenuItemEditField';
+import { StyledErrorMessage } from '../styles';
 
 const menuItemStyle = css`
   display: flex;

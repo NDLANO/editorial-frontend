@@ -158,7 +158,7 @@ export class RelatedArticleBox extends React.Component {
   }
 
   render() {
-    const { attributes, onRemoveClick, locale, t } = this.props;
+    const { attributes, onRemoveClick, locale, t, children } = this.props;
     const { editMode, articles } = this.state;
 
     if (editMode) {
@@ -204,6 +204,7 @@ export class RelatedArticleBox extends React.Component {
             ),
           )}
         </RelatedArticleList>
+        {children}
       </div>
     );
   }

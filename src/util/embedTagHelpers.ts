@@ -35,16 +35,17 @@ export const reduceElementDataAttributes = (
   return obj;
 };
 
-export const reduceChildElements = (el, type) => {
-  const childs = [];
+export const reduceChildElements = (el: HTMLElement, type: string) => {
+  const childs: object[] = [];
   el.childNodes.forEach(node => {
+    const childElement = node as HTMLElement;
     if (type === 'file') {
       childs.push({
-        ...node.dataset,
+        ...childElement.dataset,
       });
     } else if (type === 'related-content') {
-      const convertedDataset = Object.keys(node.dataset).reduce((acc, curr) => {
-        const currValue = node.dataset[curr];
+      const convertedDataset = Object.keys(childElement.dataset).reduce((acc, curr) => {
+        const currValue = childElement.dataset[curr];
         if (curr === 'articleId')
           return {
             ...acc,
@@ -57,7 +58,7 @@ export const reduceChildElements = (el, type) => {
       }, {});
       childs.push(convertedDataset);
     } else {
-      childs.push(node.dataset);
+      childs.push(childElement.dataset);
     }
   });
 

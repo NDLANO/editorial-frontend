@@ -14,6 +14,7 @@ import { MathmlElement } from './plugins/mathml';
 import { ConceptElement } from './plugins/concept';
 import { AsideElement } from './plugins/aside';
 import { DetailsElement, SummaryElement } from './plugins/details';
+import { RelatedElement } from './plugins/related';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -46,7 +47,8 @@ declare module 'slate' {
       | ConceptElement
       | AsideElement
       | DetailsElement
-      | SummaryElement;
+      | SummaryElement
+      | RelatedElement;
     Text: CustomTextWithMarks;
   }
 }

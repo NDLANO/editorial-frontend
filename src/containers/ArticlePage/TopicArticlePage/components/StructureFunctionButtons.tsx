@@ -9,11 +9,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
+import { Topic } from '../../../../interfaces';
 
 const buttonAdditionStyle = css`
   opacity: 0;
@@ -60,7 +61,14 @@ const StyledButtonWrapper = styled.div`
   }
 `;
 
-const StructureFunctionButtons = ({ isSubject, isOpen, id, activeTopics, addTopic, t }) => {
+const StructureFunctionButtons = ({
+  isSubject,
+  isOpen,
+  id,
+  activeTopics,
+  addTopic,
+  t,
+}: Props & tType) => {
   if (isSubject) {
     if (!isOpen) {
       return null;
@@ -90,6 +98,14 @@ const StructureFunctionButtons = ({ isSubject, isOpen, id, activeTopics, addTopi
     </StyledButtonWrapper>
   );
 };
+
+interface Props {
+  isSubject?: boolean;
+  isOpen?: boolean;
+  id?: string;
+  activeTopics: Topic[];
+  addTopic: () => void;
+}
 
 StructureFunctionButtons.propTypes = {
   isSubject: PropTypes.bool,

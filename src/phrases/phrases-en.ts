@@ -6,6 +6,8 @@
  *
  */
 
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
+
 const titleTemplate = '- Production system - NDLA';
 
 const phrases = {
@@ -15,10 +17,6 @@ const phrases = {
     createTopicArticlePage: `Topic ${titleTemplate}`,
     createSubjectpage: `Subjectpage ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
-    searchContentPage: `Search content ${titleTemplate}`,
-    searchAudioPage: `Search audio files ${titleTemplate}`,
-    searchImagePage: `Search images ${titleTemplate}`,
-    searchConceptPage: `Search concepts ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
     audioUploaderPage: `Audio ${titleTemplate}`,
@@ -26,6 +24,16 @@ const phrases = {
     loginPage: `Login ${titleTemplate}`,
     logoutPage: `Logout ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
+    podcastUploaderPage: `Podcast episode ${titleTemplate}`,
+    podcastSeriesPage: `Podcast series ${titleTemplate}`,
+    h5pPage: `H5P ${titleTemplate}`,
+    search: {
+      'podcast-series': `Search podcast series ${titleTemplate}`,
+      audio: `Search audio files ${titleTemplate}`,
+      concept: `Search concepts ${titleTemplate}`,
+      content: `Search content ${titleTemplate}`,
+      image: `Search images ${titleTemplate}`,
+    },
   },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
@@ -85,31 +93,6 @@ const phrases = {
     embedCopied: 'Copied embed code!',
     hasCopiedTitle: 'Copied!',
     download: 'Download',
-    creditType: {
-      originator: 'Originator',
-      authorDesc: 'This article is made by several originators',
-      photographer: 'Photographer',
-      artist: 'Artist',
-      editorial: 'Editorial',
-      writer: 'Writer',
-      scriptwriter: 'Scriptwriter',
-      reader: 'Reader',
-      translator: 'Translator',
-      director: 'Director',
-      illustrator: 'Illustrator',
-      cowriter: 'Cowriter',
-      composer: 'Composer',
-      processor: 'Processor',
-      facilitator: 'facilitator',
-      linguistic: 'Linguistic',
-      idea: 'Idea',
-      compiler: 'Compiler',
-      correction: 'Correction',
-      rightsholder: 'Rightsholder',
-      publisher: 'Publisher',
-      distributor: 'Distributor',
-      supplier: 'Supplier',
-    },
   },
   language: {
     en: 'English',
@@ -140,12 +123,14 @@ const phrases = {
       audio: 'Search for audio files',
       image: 'Search for images',
       concept: 'Search for concepts',
+      'podcast-series': 'Search for podcast series',
     },
     searchButton: 'Search',
     emptyButton: 'Empty',
     title: 'Title',
     language: 'Language',
     contentNoHits: 'Your search - {query} - did not match any content.',
+    'podcast-seriesNoHits': 'Your search - {query} - did not match any content.',
     conceptNoHits: 'Your search - {query} - did not match any concept.',
     audioNoHits: 'Your search - {query} - did not match any audio files.',
     imageNoHits: 'Your search - {query} - did not match any images.',
@@ -173,10 +158,13 @@ const phrases = {
     learningResource: 'Learning resource',
     image: 'New image',
     audio: 'New Audiofile',
+    podcast: 'New Podcast episode',
+    podcastSeries: 'New Podcast series',
     agreement: 'New Agreement',
     structure: 'Structure',
     searchContent: 'Search content',
     searchAudio: 'Search audio',
+    searchPodcastSeries: 'Search series',
     searchImage: 'Search image',
     searchConcepts: 'Search concepts',
     film: 'Edit NDLA film',
@@ -214,12 +202,14 @@ const phrases = {
       conceptQuery: 'Search for concept',
       contentQuery: 'Search for content',
       audioQuery: 'Search for audio files',
+      podcastSeriesQuery: 'Search for podcast series',
       imageQuery: 'Search for images',
       language: 'Select language',
       users: 'Select editor',
       subjects: 'Select subject',
       resourceTypes: 'Select resource type',
       status: 'Select status',
+      audio: 'Select audio file type',
     },
     tagType: {
       query: 'Query',
@@ -238,6 +228,10 @@ const phrases = {
       topicArticle: 'Topic description',
       image: 'Image',
       audio: 'Audio',
+    },
+    audioType: {
+      standard: 'Audio',
+      podcast: 'Podcast',
     },
     order: 'Rekkefølge',
     asc: 'Ascending',
@@ -390,6 +384,25 @@ const phrases = {
   audioForm: {
     title: 'audio file',
   },
+  podcastSeriesForm: {
+    title: 'Podcast series',
+    alreadyPartOfSeries: 'Part of another series',
+    description: 'Description',
+  },
+  podcastForm: {
+    title: 'Podcast episode',
+    fields: {
+      header: 'Header',
+      introduction: 'Introduction',
+      coverPhoto: 'Image',
+      coverPhotoAltText: 'Alt-text',
+      manuscript: 'Text version',
+      series: 'Series',
+    },
+    information: {
+      partOfSeries: 'This podcast is a part of the series',
+    },
+  },
   imageEditor: {
     remove: {
       crop: 'Remove crop',
@@ -459,6 +472,7 @@ const phrases = {
       related: 'Related content',
       file: 'File',
       code: 'Codeblock',
+      podcast: 'Podcast episode',
     },
   },
   form: {
@@ -468,6 +482,10 @@ const phrases = {
     taxonomySection: 'Taxonomy',
     copyrightSection: 'License and authors',
     articleSection: 'Articles',
+    podcastSection: 'Podcast information',
+    podcastSeriesSection: 'Podcast series',
+    podcastEpisodesSection: 'Episodes',
+    podcastEpisodesTypeName: 'Podcasts',
     inlineEdit: 'Inline editor',
     save: 'Save',
     saveAsNewVersion: 'Save as new version',
@@ -477,6 +495,7 @@ const phrases = {
     saving: 'Saving...',
     choose: 'Choose',
     saved: 'Saved ',
+    feil: 'There are still errors.',
     copy: 'copy',
     saveAsCopySuccess: 'New article saved',
     preview: {
@@ -515,6 +534,9 @@ const phrases = {
       concepts: 'Concepts',
       relatedContent: 'Related content',
       subjects: 'Subject',
+      header: 'Header',
+      manuscript: 'Text version',
+      coverPhotoId: 'Meta image',
     },
     previewProductionArticle: {
       button: 'Compare draft and article',
@@ -572,6 +594,7 @@ const phrases = {
     editImage: 'Edit image',
     editOriginalImage: 'Edit orginal image',
     editAudio: 'Edit audio',
+    editPodcast: 'Edit podcast',
     resetToProd: {
       button: 'Reset to prod',
       modal: 'Do you want to reset the draft as it is on the ndla frontpage?',
@@ -627,6 +650,7 @@ const phrases = {
       addConcept: 'Add existing concept',
       removeConcept: 'Remove concept',
       source: 'Source',
+      subjects: `Ony subjects with metadata field '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' will be displayed in the list.`,
     },
     workflow: {
       title: 'Status',
@@ -660,6 +684,7 @@ const phrases = {
       queued_for_publishing_delayed: 'Queue for publishing-delayed',
       published: 'Published',
       has_published: 'Has published version',
+      unlisted: 'Link shared',
       unpublished: 'Unpublished',
       awaiting_unpublishing: 'Awaiting unpublishing',
       awaiting_archiving: 'Delayed archivation',
@@ -790,19 +815,13 @@ const phrases = {
       searchPlaceholder: 'Search for subjects',
       placeholder: 'Add subjects',
     },
-    filter: {
-      label: 'Filter',
-      placeholder: 'Add filter',
-      core: 'Core',
-      supplementary: 'Supplementary',
-      setRelevance: 'Set relevance',
-    },
     topics: {
       label: 'Topics',
       placeholder: 'Add topic',
       primaryTopic: 'Primary topic',
       sharedTopic: 'Shared topic',
       setPrimaryTopic: 'Set as primary topic',
+      RGTooltip: 'Choose between Core(K) or Supplementary(T)',
     },
     metaDescription: {
       label: 'Meta description',
@@ -877,6 +896,10 @@ const phrases = {
         sub: 'or click to upload image',
         ariaLabel: 'Drag and drop or click to upload image',
       },
+      byline: {
+        show: 'Show byline',
+        hide: 'Hide byline',
+      },
     },
     video: {
       caption: {
@@ -898,6 +921,7 @@ const phrases = {
         label: 'Audio title',
         placeholder: 'Audio title',
       },
+      manuscript: 'Text version',
       caption: {
         label: 'Audio caption',
         placeholder: 'Audio caption',
@@ -905,6 +929,14 @@ const phrases = {
       remove: 'Remove audio',
       sound: 'Audio',
       speech: 'Speech',
+      dragdrop: {
+        main: 'Drag and drop',
+        sub: 'or click to upload image',
+        ariaLabel: 'Drag and drop or click to upload image',
+      },
+    },
+    podcast: {
+      remove: 'Remove podcast',
     },
     external: {
       title: 'external',
@@ -950,6 +982,22 @@ const phrases = {
     learningpathConnections: {
       sectionTitle: 'Uses of the article in learningpaths',
       title: 'Learningpaths containing this article',
+    },
+    embedConnections: {
+      type: {
+        image: 'image',
+        audio: 'audio file',
+      },
+      sectionTitleArticle: 'Articles containing the {resource}',
+      sectionTitleConcept: 'Concepts containing the {resource}',
+      title: 'Uses of the {resource}',
+      info: {
+        image: 'Uses of the image in articles and/or concepts',
+        audio: 'Uses of the audio file in articles',
+      },
+      notInUse: 'No uses of the {resource} in articles and/or concepts were found',
+      articles: '{articles, plural, one{1 article} other{# articles}}',
+      concepts: '{concepts, plural, one{1 concept} other{# concepts}}',
     },
     relatedConcepts: {
       placeholder: 'Search for title',
@@ -999,6 +1047,8 @@ const phrases = {
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
+    unsavedTaxonomy:
+      'You have unsaved changes. Press cancel again if you are sure you want to continue.',
     auth0:
       'Authentication error. Press cancel to take care of any changes you have made before logging in again. The following error message came from auth0: {message}',
     statusCode: {
@@ -1029,10 +1079,6 @@ const phrases = {
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',
-    editFilter: 'Edit filter',
-    editFilterName: 'Edit filter name',
-    deleteFilter: 'Delete filter',
-    emptyFilter: 'No hits',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     changeName: 'Change name',
@@ -1040,10 +1086,8 @@ const phrases = {
     subjectSettings: 'Subject settings',
     linkSettings: 'Link',
     setPrimary: 'Set as primary link',
-    addFilter: 'Add filter',
-    connectFilters: 'Connect filters',
-    confirmDelete: 'Are you sure you want to delete the filter?',
     addResource: 'Add resource',
+    removeResource: 'Remove resource from topic',
     searchResource: 'Search for resource',
     searchArticle: 'Search for topic article',
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',
@@ -1071,7 +1115,6 @@ const phrases = {
     resource: {
       confirmDelete:
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
-      chooseFilter: 'Connect to filters',
       copyError:
         'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
     },
@@ -1091,14 +1134,7 @@ const phrases = {
       addNewTopic: 'Add new topic',
       addNewSubTopic: 'Add new sub topic',
       addedTopic: 'Added to taxonomy',
-      filterTopic: 'Filter topics',
       disconnectedTaxonomyWarning: 'Invalid topic connection',
-    },
-    filters: {
-      title: 'Filters',
-      subTitle: 'Which filters should be applied?',
-      additional: 'Additional resource',
-      core: 'Core resource',
     },
     grepCodes: {
       edit: 'Edit grep codes',
@@ -1106,6 +1142,15 @@ const phrases = {
       addNew: 'Add new grep code',
     },
     missingResourceType: 'Missing resource type',
+    metadata: {
+      customFields: {
+        alterFields: 'Add/change metadata',
+        addField: 'New metadata field',
+        languagePlaceholder: 'Ndla.no interface language',
+        resourceGroupPlaceholder: 'Grouped resources',
+        RGTooltip: 'Show resources Grouped or Ungrouped',
+      },
+    },
   },
   notions: {
     edit: 'Edit notions',

@@ -60,7 +60,7 @@ const FormikField = ({
   obligatory,
   showError,
   t,
-  formik: { values, handleBlur, errors, touched },
+  formik: { values, handleBlur, errors },
   ...rest
 }: Props & tType & { formik: FormikContextType<FormikValues> }) => {
   const isSlateValue = Node.isNodeList(values[name]);

@@ -67,6 +67,7 @@ class VisualElementSearch extends Component {
       selectedResource,
       selectedResourceUrl,
       selectedResourceType,
+      setH5pFetchFail,
       handleVisualElementChange,
       closeModal,
       articleLanguage,
@@ -149,31 +150,32 @@ class VisualElementSearch extends Component {
       case 'H5P':
       case 'h5p': {
         return (
-          <Fragment>
-            <h2>{titles(t, selectedResource)[selectedResource]}</h2>
-            <H5PElement
-              canReturnResources={true}
-              h5pUrl={selectedResourceUrl}
-              onSelect={h5p =>
-                handleVisualElementChange({
-                  resource: 'h5p',
-                  path: h5p.path,
-                  title: h5p.title,
-                  metaData: {},
-                })
-              }
-              onClose={closeModal}
-              locale={locale}
-            />
-          </Fragment>
+          <H5PElement
+            canReturnResources={true}
+            h5pUrl={selectedResourceUrl}
+            onSelect={h5p =>
+              handleVisualElementChange({
+                resource: 'h5p',
+                path: h5p.path,
+                title: h5p.title,
+                metaData: {},
+              })
+            }
+            onClose={closeModal}
+            locale={locale}
+            setH5pFetchFail={setH5pFetchFail}
+          />
         );
       }
-      case 'audio': {
+      case 'audio':
+      case 'podcast': {
+        const audioType = selectedResource === 'audio' ? 'standard' : 'podcast';
         const defaultQueryObject = {
           query: '',
           page: 1,
           pageSize: 16,
           locale,
+          audioType,
         };
         const fetchAudio = id => visualElementApi.fetchAudio(id, articleLanguage);
 
@@ -193,9 +195,9 @@ class VisualElementSearch extends Component {
             onAudioSelect={audio =>
               handleVisualElementChange({
                 caption: '', // Caption not supported by audio-api
-                resource: selectedResource,
+                resource: 'audio',
                 resource_id: audio.id.toString(),
-                type: 'standard',
+                type: audioType,
                 url: audio.url,
                 metaData: audio,
               })
@@ -245,6 +247,7 @@ VisualElementSearch.propTypes = {
   selectedResource: PropTypes.string.isRequired,
   selectedResourceUrl: PropTypes.string,
   selectedResourceType: PropTypes.string,
+  setH5pFetchFail: PropTypes.func,
   handleVisualElementChange: PropTypes.func.isRequired,
   articleLanguage: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,

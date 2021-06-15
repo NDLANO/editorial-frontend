@@ -25,16 +25,16 @@ interface Props {
   };
 }
 
-const getSubjectOrFilter = (elementId: string) => {
+const getSubject = (elementId: string) => {
   if (elementId.includes('subject')) {
-    return [elementId, undefined];
+    return elementId;
   }
-  return [undefined, elementId];
+  return undefined;
 };
 
 const SubjectpageArticles = ({ t, editorsChoices, elementId, field, form }: Props & tType) => {
   const [articles, setArticles] = useState<ArticleType[]>(editorsChoices);
-  const [subjectId, filterId] = getSubjectOrFilter(elementId);
+  const subjectId = getSubject(elementId);
 
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
@@ -92,7 +92,6 @@ const SubjectpageArticles = ({ t, editorsChoices, elementId, field, form }: Prop
         onChange={(article: ContentResultType) => onAddArticleToList(article)}
         placeholder={t('subjectpageForm.addArticle')}
         subjectId={subjectId}
-        filterId={filterId}
         clearInputField
       />
     </>

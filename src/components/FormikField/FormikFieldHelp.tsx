@@ -17,7 +17,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const StyledHelpMessage = styled.span`
+export const StyledHelpMessage = styled.span`
   display: block;
   font-size: ${fonts.sizes(14, 1.2)};
   color: ${(p: Props) => (p.error ? colors.support.red : 'black')};

@@ -90,7 +90,7 @@ const ContentView = ({
           <Crumb />
         )}
         <HeaderStatusInformation
-          statusText={t(`form.status.${concept.status.current.toLowerCase()}`)}
+          statusText={t(`form.status.${concept.status?.current.toLowerCase()}`)}
           published={
             concept.status?.current === 'PUBLISHED' || concept.status?.other.includes('PUBLISHED')
           }

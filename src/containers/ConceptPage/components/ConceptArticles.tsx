@@ -24,7 +24,7 @@ const ConceptArticles = ({ t }: tType) => {
   } = useFormikContext<ConceptFormValues>();
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
-      let newArticle = await fetchDraft(article.id);
+      const newArticle = await fetchDraft(article.id);
       const temp = [...articles, newArticle];
       if (newArticle !== undefined) {
         setFieldValue('articles', temp);

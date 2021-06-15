@@ -20,7 +20,6 @@ import {
 } from '../../../../modules/taxonomy';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
-import { FilterShape } from '../../../../shapes';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 
 class AddExistingToSubjectTopic extends React.PureComponent {
@@ -34,15 +33,12 @@ class AddExistingToSubjectTopic extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const { locale, subjectId } = this.props;
-    // Should rather be fetching subjectTopics, but that endpoint does not return paths.
+    const { locale } = this.props;
     const topics = await fetchTopics(locale || 'nb');
 
     this.setState({
       topics: topics
-        .filter(topic =>
-          topic.paths.find(path => path.split('/')[1] === subjectId.replace('urn:', '')),
-        )
+        .filter(topic => topic?.path)
         .map(topic => ({
           ...topic,
           description: this.getTopicBreadcrumb(topic, topics),
@@ -119,10 +115,8 @@ AddExistingToSubjectTopic.propTypes = {
   editMode: PropTypes.string,
   toggleEditMode: PropTypes.func,
   locale: PropTypes.string,
-  subjectFilters: PropTypes.arrayOf(FilterShape),
   id: PropTypes.string.isRequired,
   refreshTopics: PropTypes.func.isRequired,
-  subjectId: PropTypes.string,
   structure: PropTypes.arrayOf(PropTypes.object),
 };
 

@@ -13,12 +13,10 @@ import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { compose } from 'redux';
-import { connect as reduxConnect } from 'react-redux';
 import { connect as formikConnect } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
-import { getLocale } from '../../../../modules/locale/locale';
 import FormikField, { classes as formikFieldClasses } from '../../../../components/FormikField';
 import RichBlockTextEditor from '../../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
@@ -94,11 +92,8 @@ const LearningResourceContent = ({
   article: { language: articleLanguage },
   t,
   userAccess,
-  formik: {
-    setFieldValue,
-    handleBlur,
-    values: { id, language, creators, published },
-  },
+  values: { id, language, creators, published },
+  handleBlur,
   handleSubmit,
 }) => {
   const handleSubmitRef = React.useRef(handleSubmit);
@@ -223,7 +218,7 @@ const LearningResourceContent = ({
         label={t('form.content.label')}
         noBorder
         className={formikFieldClasses('', 'position-static').className}>
-        {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
+        {({ field: { value, name, onChange }, form: { isSubmitting, setFieldValue } }) => (
           <Fragment>
             <FieldHeader title={t('form.content.label')}>
               {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
@@ -261,36 +256,15 @@ const LearningResourceContent = ({
 LearningResourceContent.propTypes = {
   locale: PropTypes.string.isRequired,
   userAccess: PropTypes.string,
-  formik: PropTypes.shape({
-    validateField: PropTypes.func.isRequired,
-    handleBlur: PropTypes.func.isRequired,
-    values: PropTypes.shape({
-      id: PropTypes.number,
-      published: PropTypes.string,
-      title: PropTypes.string,
-      updatePublished: PropTypes.bool,
-      content: PropTypes.array,
-      language: PropTypes.string,
-      creators: PropTypes.array,
-    }),
-    initialValues: PropTypes.shape({
-      id: PropTypes.number,
-      published: PropTypes.string,
-      title: PropTypes.string,
-      updatePublished: PropTypes.bool,
-    }),
-    setFieldValue: PropTypes.func.isRequired,
+  handleBlur: PropTypes.func,
+  values: PropTypes.shape({
+    id: PropTypes.number,
+    language: PropTypes.string,
+    creators: PropTypes.array,
+    published: PropTypes.string,
   }),
   article: ArticleShape,
   handleSubmit: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default compose(
-  injectT,
-  reduxConnect(mapStateToProps),
-  formikConnect,
-)(LearningResourceContent);
+export default compose(injectT, formikConnect)(LearningResourceContent);

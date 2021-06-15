@@ -1,0 +1,100 @@
+{
+  "id": 14989,
+  "oldNdlaUrl": "//red.ndla.no/node/74558",
+  "revision": 16,
+  "status": {
+    "current": "PROPOSAL",
+    "other": [
+      "IMPORTED",
+      "PUBLISHED"
+    ]
+  },
+  "title": {
+    "title": "Skal alle delta på juleverkstedet?",
+    "language": "nb"
+  },
+  "content": {
+    "content": "<section><p>Test</p></section>",
+    "language": "nb"
+  },
+  "copyright": {
+    "license": {
+      "license": "CC-BY-SA-4.0",
+      "description": "Creative Commons Attribution-ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "origin": "",
+    "creators": [
+      {
+        "type": "Writer",
+        "name": "Wenche Bankhaug Michelsen"
+      },
+      {
+        "type": "Writer",
+        "name": "Guri Bente Hårberg"
+      }
+    ],
+    "processors": [
+      {
+        "type": "Editorial",
+        "name": "Gro Nedberg Grønlid"
+      }
+    ],
+    "rightsholders": []
+  },
+  "tags": {
+    "tags": [
+      "jul",
+      "juleverksted",
+      "konflikt",
+      "kulturforskjeller"
+    ],
+    "language": "nb"
+  },
+  "requiredLibraries": [],
+  "introduction": {
+    "introduction": "Test",
+    "language": "nb"
+  },
+  "metaDescription": {
+    "metaDescription": "Test",
+    "language": "nb"
+  },
+  "metaImage": {
+    "url": "https://api.test.ndla.no/image-api/raw/id/44067",
+    "alt": "Juleverksted",
+    "language": "nb"
+  },
+  "created": "2011-03-23T07:56:55Z",
+  "updated": "2021-03-17T10:57:23Z",
+  "updatedBy": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
+  "published": "2021-03-01T11:00:00Z",
+  "articleType": "standard",
+  "supportedLanguages": [
+    "nb",
+    "nn"
+  ],
+  "notes": [
+    {
+      "note": "Status endret",
+      "user": "XVtdp6Ik4kdLDjMTQE2CIxnGB6Gvhr2n",
+      "status": {
+        "current": "PROPOSAL",
+        "other": [
+          "IMPORTED",
+          "PUBLISHED"
+        ]
+      },
+      "timestamp": "2021-03-17T10:52:28Z"
+    }
+  ],
+  "editorLabels": [],
+  "grepCodes": [
+    "KM234",
+    "KE222",
+    "KM1184"
+  ],
+  "conceptIds": [],
+  "availability": "everyone",
+  "relatedContent": []
+}

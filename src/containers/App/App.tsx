@@ -6,18 +6,17 @@
  *
  */
 
-// import before all other imports component to make sure it is loaded befor any emotion stuff.
+// import before all other imports component to make sure it is loaded before any emotion stuff.
 import '../../style/index.css';
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import Helmet from 'react-helmet';
 // @ts-ignore
 import { Content, PageContainer } from '@ndla/ui';
 import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';
-import { Dispatch } from 'redux';
 import Navigation from '../Masthead/components/Navigation';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
@@ -41,26 +40,32 @@ import ConceptPage from '../ConceptPage/ConceptPage';
 import H5PPage from '../H5PPage/H5PPage';
 import Subjectpage from '../EditSubjectFrontpage/Subjectpage';
 import Zendesk from './Zendesk';
-import { MessageI } from '../../interfaces';
+import { LocaleType, ReduxState } from '../../interfaces';
+import { LOCALE_VALUES } from '../../constants';
 
 export const FirstLoadContext = React.createContext(true);
-export const LocaleContext = React.createContext('');
+export const LocaleContext = React.createContext<LocaleType>('nb');
 export const UserAccessContext = React.createContext<string | undefined>(undefined);
+export const AuthenticatedContext = React.createContext<boolean>(false);
 
 interface InternalState {
   firstLoad: boolean;
 }
 
-interface Props {
-  messages: MessageI[];
-  locale: string;
-  dispatch: Dispatch;
-  authenticated: boolean;
-  userName?: string;
-  userAccess?: string;
-}
+interface Props {}
 
-type ActualProps = Props & RouteComponentProps<any> & tType;
+const mapStateToProps = (state: ReduxState) => ({
+  locale: getLocale(state),
+  messages: getMessages(state),
+  authenticated: state.session.authenticated,
+  userName: state.session.user.name,
+  userAccess: state.session.user.scope,
+});
+
+const reduxConnector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
+
+type ActualProps = Props & RouteComponentProps & PropsFromRedux & tType;
 
 class App extends React.Component<ActualProps, InternalState> {
   constructor(props: ActualProps) {
@@ -93,58 +98,52 @@ class App extends React.Component<ActualProps, InternalState> {
     return (
       <ErrorBoundary>
         <UserAccessContext.Provider value={userAccess}>
-          <LocaleContext.Provider value={locale}>
-            <FirstLoadContext.Provider value={this.state.firstLoad}>
-              <PageContainer background>
-                <Zendesk authenticated={authenticated} />
-                <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
-                <Content>
-                  <Navigation authenticated={authenticated} userName={userName} />
-                  <Switch>
-                    <Route path="/" exact component={WelcomePage} />
-                    <Route path="/login" component={Login} />
-                    <Route path="/logout" component={Logout} />
-                    <PrivateRoute path="/subjectpage" component={Subjectpage} />
-                    <PrivateRoute path="/search" component={SearchPage} />
-                    <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
-                    <PrivateRoute
-                      path="/edit-markup/:draftId/:language"
-                      component={EditMarkupPage}
-                    />
-                    <PrivateRoute path="/concept" component={ConceptPage} />
-                    <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
-                    <PrivateRoute path="/media" component={MediaPage} />
-                    <PrivateRoute path="/agreement" component={AgreementPage} />
-                    <PrivateRoute path="/film" component={NdlaFilm} />
-                    <PrivateRoute path="/h5p" component={H5PPage} />
-                    <PrivateRoute
-                      path="/structure/:subject?/:topic?/:subtopics(.*)?"
-                      component={StructurePage}
-                    />
-                    <Route path="/forbidden" component={ForbiddenPage} />
-                    <Route component={NotFoundPage} />
-                  </Switch>
-                </Content>
-                <Messages dispatch={dispatch} messages={messages} />
-              </PageContainer>
-            </FirstLoadContext.Provider>
-          </LocaleContext.Provider>
+          <AuthenticatedContext.Provider value={authenticated}>
+            <LocaleContext.Provider value={locale}>
+              <FirstLoadContext.Provider value={this.state.firstLoad}>
+                <PageContainer background>
+                  <Zendesk authenticated={authenticated} />
+                  <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
+                  <Content>
+                    <Navigation authenticated={authenticated} userName={userName} />
+                    <Switch>
+                      <Route path="/" exact component={WelcomePage} />
+                      <Route path="/login" component={Login} />
+                      <Route path="/logout" component={Logout} />
+                      <PrivateRoute path="/subjectpage" component={Subjectpage} />
+                      <PrivateRoute path="/search" component={SearchPage} />
+                      <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
+                      <PrivateRoute
+                        path="/edit-markup/:draftId/:language"
+                        component={EditMarkupPage}
+                      />
+                      <PrivateRoute path="/concept" component={ConceptPage} />
+                      <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
+                      <PrivateRoute path="/media" component={MediaPage} />
+                      <PrivateRoute path="/agreement" component={AgreementPage} />
+                      <PrivateRoute path="/film" component={NdlaFilm} />
+                      <PrivateRoute path="/h5p" component={H5PPage} />
+                      <PrivateRoute
+                        path="/structure/:subject?/:topic?/:subtopics(.*)?"
+                        component={StructurePage}
+                      />
+                      <Route path="/forbidden" component={ForbiddenPage} />
+                      <Route component={NotFoundPage} />
+                    </Switch>
+                  </Content>
+                  <Messages dispatch={dispatch} messages={messages} />
+                </PageContainer>
+              </FirstLoadContext.Provider>
+            </LocaleContext.Provider>
+          </AuthenticatedContext.Provider>
         </UserAccessContext.Provider>
       </ErrorBoundary>
     );
   }
 
   static childContextTypes = {
-    locale: PropTypes.string,
+    locale: PropTypes.oneOf(LOCALE_VALUES),
   };
 }
 
-const mapStateToProps = (state: Props & { session: any }) => ({
-  locale: getLocale(state),
-  messages: getMessages(state),
-  authenticated: state.session.authenticated,
-  userName: state.session.user.name,
-  userAccess: state.session.user.scope,
-});
-
-export default withRouter(connect(mapStateToProps)(injectT(App)));
+export default reduxConnector(withRouter(injectT(App)));

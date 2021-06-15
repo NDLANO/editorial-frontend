@@ -98,7 +98,7 @@ const ConceptForm = ({
             id="title"
             name="title"
             type="text"
-            aria-label="Tittel"
+            aria-label={t('form.name.title')}
             value={values.title}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -110,12 +110,12 @@ const ConceptForm = ({
           ) : null}
         </InputField>
         <InputField>
-          <label htmlFor="author">{t('license.creditType.writer')}</label>
+          <label htmlFor="author">{t('writer')}</label>
           <input
             id="author"
             name="author"
             type="text"
-            aria-label="Forfatter"
+            aria-label={t('writer')}
             value={values.author}
             onChange={handleChange}
           />

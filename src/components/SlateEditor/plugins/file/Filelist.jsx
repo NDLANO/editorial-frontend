@@ -7,6 +7,8 @@
  */
 
 import React, { Fragment } from 'react';
+import { Transforms, Element } from 'slate';
+import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import styled from '@emotion/styled';
@@ -18,11 +20,11 @@ import { uuid } from '@ndla/util';
 import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
 import { EditorShape } from '../../../../shapes';
-import { getSchemaEmbed } from '../../editorSchema';
 import AddFileToList from './AddFileToList';
 import config from '../../../../config';
 import { arrMove } from '../../../../util/arrayHelpers';
 import { headFileAtRemote } from '../../../../modules/draft/draftApi';
+import { TYPE_FILE } from '.';
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
@@ -39,12 +41,6 @@ const formatFile = ({ title, type, url, ...rest }, id, t) => ({
   ...rest,
   formats: [{ url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` }],
 });
-
-function getFilesFromProps(props) {
-  const { node, t } = props;
-  const { nodes } = getSchemaEmbed(node);
-  return nodes.map((file, id) => formatFile(file, id, t));
-}
 
 function compareArray(arr1, arr2) {
   if (arr1.length !== arr2.length) {
@@ -72,7 +68,7 @@ class Filelist extends React.Component {
   constructor(props) {
     super(props);
     this.checkForRemoteFiles.bind(this);
-    const files = this.getFilesFromSlate();
+    const files = this.props.element.data.map((file, id) => formatFile(file, id, this.props.t));
     this.state = { showFileUploader: false, files, currentDebounce: false };
     this.checkForRemoteFiles(files);
   }
@@ -88,14 +84,15 @@ class Filelist extends React.Component {
   };
 
   static getDerivedStateFromProps(props, state) {
+    const files = props.element.data;
     if (
       props &&
       state.files &&
-      !compareArray(getFilesFromProps(props), state.files) &&
+      !compareArray(files, state.files) &&
       okToRevert
     ) {
       okToRevert = false;
-      return { files: getFilesFromProps(props) };
+      return { files };
     }
     okToRevert = false;
     return null;
@@ -118,25 +115,33 @@ class Filelist extends React.Component {
   };
 
   updateFilesToEditor() {
-    const { node, editor } = this.props;
-    editor.setNodeByKey(node.key, {
-      data: {
-        nodes: this.state.files,
-      },
+    const { editor, element } = this.props;
+    Transforms.setNodes(
+      editor,
+      { data: this.state.files },
+      { at: ReactEditor.findPath(editor, element)}
+    )
+  }
+
+  removeFileList = () => {
+    const { editor, element } = this.props;
+    const path = ReactEditor.findPath(editor, element);
+    ReactEditor.focus(editor);
+    Transforms.removeNodes(editor, {
+      at: path,
+      match: node => Element.isElement(node) && node.type === TYPE_FILE,
     });
   }
 
   onRemoveFileList = evt => {
     evt.stopPropagation();
-    const { node, editor } = this.props;
-    editor.removeNodeByKey(node.key);
+    this.removeFileList();
   };
 
   onDeleteFile = indexToDelete => {
-    const { node, editor } = this.props;
     const files = this.state.files;
     if (files.length === 1) {
-      editor.removeNodeByKey(node.key);
+      this.removeFileList();
       this.setState({ files: [] }, this.updateFilesToEditor);
     } else {
       this.setState(prevState => {
@@ -202,12 +207,6 @@ class Filelist extends React.Component {
     this.setState({ showFileUploader: false });
   };
 
-  getFilesFromSlate = () => {
-    const { node, t } = this.props;
-    const { nodes } = getSchemaEmbed(node);
-    return nodes.map((file, id) => formatFile(file, id, t));
-  };
-
   render() {
     const { t } = this.props;
     const { showFileUploader, files } = this.state;
@@ -263,6 +262,7 @@ class Filelist extends React.Component {
 Filelist.propTypes = {
   editor: EditorShape,
   node: PropTypes.any,
+  element: PropTypes.any,
   locale: PropTypes.string,
 };
 

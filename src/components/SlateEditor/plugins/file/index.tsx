@@ -7,9 +7,10 @@
  */
 
 import React from 'react';
-import { Descendant, Editor } from 'slate';
+import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import Filelist from './Filelist';
+import { defaultTextBlockNormalizer } from '../../utils/normalizationHelpers';
 
 export const TYPE_FILE = 'file';
 
@@ -22,15 +23,24 @@ export interface FileElement {
 }
 
 export const filePlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement } = editor;
-
+  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
+    console.log(editor.children)
     if (element.type === TYPE_FILE) {
       return <Filelist editor={editor} element={element} attributes={attributes} />;
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });
     }
     return undefined;
+  };
+
+  editor.normalizeNode = entry => {
+    const [node] = entry;
+    if (Element.isElement(node) && node.type === TYPE_FILE) {
+      defaultTextBlockNormalizer(editor, entry, nextNormalizeNode);
+    } else {
+      nextNormalizeNode(entry);
+    }
   };
 
   return editor;

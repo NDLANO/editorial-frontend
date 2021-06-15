@@ -29,13 +29,9 @@ import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
-import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 
-import { TAXONOMY_ADMIN_SCOPE, RESOURCE_TYPE_LEARNING_PATH } from '../../../../constants';
 import { ArticleShape } from '../../../../shapes';
 import { FormikFieldHelp } from '../../../../components/FormikField';
-
-const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
 class TopicArticleTaxonomy extends Component {
   constructor() {
@@ -230,9 +226,8 @@ class TopicArticleTaxonomy extends Component {
 
   render() {
     const {
-      taxonomyChoices: { availableResourceTypes, allTopics },
+      taxonomyChoices: { allTopics },
       stagedTopicChanges,
-      stagedResourceTypeChanges,
       structure,
       status,
       isDirty,
@@ -240,17 +235,9 @@ class TopicArticleTaxonomy extends Component {
     } = this.state;
     const {
       t,
-      userAccess,
       article: { title },
       locale,
     } = this.props;
-    const showResourceType = userAccess && userAccess.includes(TAXONOMY_ADMIN_SCOPE);
-    const filteredResourceTypes = availableResourceTypes
-      .filter(rt => !blacklistedResourceTypes.includes(rt.id))
-      .map(rt => ({
-        ...rt,
-        subtype: rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
-      }));
 
     if (status === 'loading') {
       return <Spinner />;
@@ -283,13 +270,6 @@ class TopicArticleTaxonomy extends Component {
 
     return (
       <Fragment>
-        {showResourceType && (
-          <ResourceTypeSelect
-            availableResourceTypes={filteredResourceTypes}
-            resourceTypes={stagedResourceTypeChanges}
-            onChangeSelectedResource={this.onChangeSelectedResource}
-          />
-        )}
         <TopicArticleConnections
           structure={structure}
           taxonomyTopics={allTopics}

@@ -7,6 +7,8 @@
  */
 
 import React from 'react';
+import { Transforms } from 'slate';
+import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { uuid } from '@ndla/util';
 import { injectT } from '@ndla/i18n';
@@ -41,15 +43,15 @@ export class RelatedArticleBox extends React.Component {
     this.insertExternal = this.insertExternal.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.openEditMode = this.openEditMode.bind(this);
-    this.setNodeKey = this.setNodeKey.bind(this);
+    this.setNodeData = this.setNodeData.bind(this);
   }
 
   componentDidMount() {
     const {
-      node: { data },
+      element: { data },
     } = this.props;
-    if (data && data.get('nodes')) {
-      const articleNodes = data.get('nodes');
+    if (data && data.nodes) {
+      const articleNodes = data.nodes;
       this.fetchArticles(articleNodes).then(articles =>
         this.setState({ articles: articles.filter(a => !!a) }),
       );
@@ -73,30 +75,34 @@ export class RelatedArticleBox extends React.Component {
           this.setState(oldState => ({
             articles: [...oldState.articles, article],
           }));
-          this.setNodeKey();
+          this.setNodeData();
         }
       });
     }
   }
 
-  setNodeKey() {
-    const { editor, node } = this.props;
+  setNodeData() {
+    const { editor, element } = this.props;
     const { articles } = this.state;
-
-    editor.setNodeByKey(node.key, {
-      data: {
-        nodes: articles.map(
-          article =>
-            article.id === ARTICLE_EXTERNAL
-              ? {
-                  resource: 'related-content',
-                  url: article.url,
-                  title: article.title,
-                }
-              : { resource: 'related-content', ['article-id']: article.id }, // eslint-disable-line
-        ),
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.setNodes(
+      editor,
+      {
+        data: {
+          nodes: articles.map(
+            article =>
+              article.id === ARTICLE_EXTERNAL
+                ? {
+                    resource: 'related-content',
+                    url: article.url,
+                    title: article.title,
+                  }
+                : { resource: 'related-content', ['article-id']: article.id }, // eslint-disable-line
+          ),
+        },
       },
-    });
+      { at: path, voids: true },
+    );
   }
 
   structureExternal(url, title) {
@@ -144,12 +150,12 @@ export class RelatedArticleBox extends React.Component {
         articles: [...prevState.articles, this.structureExternal(url, title)],
         editMode: false,
       }),
-      this.setNodeKey,
+      this.setNodeData,
     );
   }
 
   updateArticles(newArticles) {
-    this.setState({ articles: newArticles.filter(a => !!a) }, this.setNodeKey);
+    this.setState({ articles: newArticles.filter(a => !!a) }, this.setNodeData);
   }
 
   openEditMode(e) {
@@ -180,6 +186,7 @@ export class RelatedArticleBox extends React.Component {
       <div
         role="button"
         draggable
+        contentEditable={false}
         tabIndex={0}
         data-testid="relatedWrapper"
         onClick={this.openEditMode}
@@ -215,7 +222,7 @@ RelatedArticleBox.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   editor: EditorShape.isRequired,
-  node: PropTypes.any,
+  element: PropTypes.any,
   locale: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,
   embed: PropTypes.shape({

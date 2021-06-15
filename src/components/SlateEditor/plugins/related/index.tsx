@@ -7,13 +7,14 @@
  */
 
 import React from 'react';
-import { Descendant, Editor, Element } from 'slate';
-import RelatedArticleBox from './RelatedArticleBox';
-import defaultBlocks from '../../utils/defaultBlocks';
-import { SlateSerializer } from '../../interfaces';
-import { jsx } from 'slate-hyperscript';
-import { createEmbedTag, reduceChildElements } from '../../../../util/embedTagHelpers';
+import { Descendant, Editor, Element, Path, Transforms } from 'slate';
 import { RenderElementProps } from 'slate-react';
+import { jsx } from 'slate-hyperscript';
+import RelatedArticleBox from './RelatedArticleBox';
+import { SlateSerializer } from '../../interfaces';
+import { createEmbedTag, reduceChildElements } from '../../../../util/embedTagHelpers';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const TYPE_RELATED = 'related';
 
@@ -29,13 +30,13 @@ export const relatedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     if (el.tagName.toLowerCase() !== 'div') return;
     const { type } = el.dataset;
-    if (type !== 'related') return;
+    if (type !== 'related-content') return;
 
     return jsx(
       'element',
       {
         type: TYPE_RELATED,
-        data: reduceChildElements(el, TYPE_RELATED),
+        data: reduceChildElements(el, type),
       },
       { text: '' },
     );
@@ -44,19 +45,21 @@ export const relatedSerializer: SlateSerializer = {
     if (!Element.isElement(node) || node.type !== TYPE_RELATED) return;
 
     return `<div data-type="related-content">${node.data.nodes &&
-      node.data.nodes.map(child => {
-        return createEmbedTag(child);
-      })}</div>`;
+      node.data.nodes
+        .map(child => {
+          return createEmbedTag(child);
+        })
+        .join('')}</div>`;
   },
 };
 
 export const relatedPlugin = (editor: Editor) => {
-  const { renderElement, isVoid } = editor;
+  const { renderElement, isVoid, normalizeNode } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === 'related') {
       return (
-        <RelatedArticleBox attributes={attributes} element={element}>
+        <RelatedArticleBox attributes={attributes} element={element} editor={editor}>
           {children}
         </RelatedArticleBox>
       );
@@ -71,7 +74,48 @@ export const relatedPlugin = (editor: Editor) => {
     return isVoid(element);
   };
 
-  return Editor;
+  editor.normalizeNode = entry => {
+    const [node, path] = entry;
+
+    if (Element.isElement(node) && node.type === TYPE_RELATED) {
+      const nextPath = Path.next(path);
+
+      if (Editor.hasPath(editor, nextPath)) {
+        const [nextNode] = Editor.node(editor, nextPath);
+        if (
+          !Element.isElement(nextNode) ||
+          !afterOrBeforeTextBlockElement.includes(nextNode.type)
+        ) {
+          Transforms.insertNodes(editor, defaultParagraphBlock(), {
+            at: nextPath,
+          });
+
+          return;
+        }
+      }
+
+      if (Path.hasPrevious(path)) {
+        const previousPath = Path.previous(path);
+
+        if (Editor.hasPath(editor, previousPath)) {
+          const [previousNode] = Editor.node(editor, previousPath);
+          if (
+            !Element.isElement(previousNode) ||
+            !afterOrBeforeTextBlockElement.includes(previousNode.type)
+          ) {
+            Transforms.insertNodes(editor, defaultParagraphBlock(), {
+              at: path,
+            });
+
+            return;
+          }
+        }
+      }
+    }
+    normalizeNode(entry);
+  };
+
+  return editor;
 };
 
 // export default function relatedPlugin() {

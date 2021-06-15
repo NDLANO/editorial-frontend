@@ -91,7 +91,7 @@ const onBackspace = (
 };
 
 export const detailsSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() === 'summary') {
       return jsx('element', { type: TYPE_SUMMARY }, children);
     } else if (el.tagName.toLowerCase() === 'details') {

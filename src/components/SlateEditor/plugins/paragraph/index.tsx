@@ -70,7 +70,7 @@ const onEnter = (
 };
 
 export const paragraphSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== 'p') return;
 
     return jsx(

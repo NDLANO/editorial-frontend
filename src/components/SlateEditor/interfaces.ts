@@ -14,12 +14,13 @@ import { MathmlElement } from './plugins/mathml';
 import { ConceptElement } from './plugins/concept';
 import { AsideElement } from './plugins/aside';
 import { DetailsElement, SummaryElement } from './plugins/details';
+import { TableCellElement, TableElement, TableRowElement } from './plugins/table';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
 export interface SlateSerializer {
+  deserialize: (el: HTMLElement, children: Descendant[]) => Descendant | Descendant[] | undefined;
   serialize: (node: Descendant, children: string) => string | undefined | null;
-  deserialize: (el: HTMLElement, children: (Descendant | null)[]) => Descendant | undefined;
 }
 
 export type CustomEditor = {
@@ -46,7 +47,10 @@ declare module 'slate' {
       | ConceptElement
       | AsideElement
       | DetailsElement
-      | SummaryElement;
+      | SummaryElement
+      | TableElement
+      | TableRowElement
+      | TableCellElement;
     Text: CustomTextWithMarks;
   }
 }

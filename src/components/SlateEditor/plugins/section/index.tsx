@@ -21,7 +21,7 @@ export interface SectionElement {
 }
 
 export const sectionSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === TYPE_SECTION) {
       // Wrap single text node in section in a paragraph

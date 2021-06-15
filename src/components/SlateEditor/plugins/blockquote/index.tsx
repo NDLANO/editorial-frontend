@@ -23,7 +23,7 @@ export interface BlockQuoteElement {
 }
 
 export const blockQuoteSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'blockquote') {
       return jsx('element', { type: TYPE_QUOTE }, children);

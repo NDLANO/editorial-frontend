@@ -8,12 +8,12 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import PropTypes from 'prop-types';
+import { Editor, Element, Range } from 'slate';
+import { ReactEditor } from 'slate-react';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
-import { EditorShape } from '../../../../shapes';
+import { injectT, tType } from '@ndla/i18n';
 
 const tableActionButtonStyle = css`
   margin-right: 1rem;
@@ -25,7 +25,7 @@ const tableActionButtonStyle = css`
 `;
 
 const StyledTableActions = styled('div')`
-  display: ${p => (p.show ? 'block;' : 'none')};
+  display: ${(p: { show: boolean }) => (p.show ? 'block;' : 'none')};
   position: absolute;
 `;
 
@@ -37,8 +37,13 @@ const supportedTableOperations = [
   'table-remove',
 ];
 
-const TableActions = ({ value, editor, t }) => {
-  const handleOnClick = (e, operation) => {
+interface Props {
+  editor: Editor;
+  element: Element;
+}
+
+const TableActions = ({ editor, t, element }: Props & tType) => {
+  const handleOnClick = (e: Event, operation: string) => {
     e.preventDefault();
     const position = editor.getTablePosition();
     switch (operation) {
@@ -67,7 +72,11 @@ const TableActions = ({ value, editor, t }) => {
     }
   };
 
-  const show = editor.isSelectionInTable() && value.selection.isFocused;
+  const show =
+    (editor.selection &&
+      Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&
+      ReactEditor.isFocused(editor)) ||
+    false;
   return (
     <StyledTableActions show={show}>
       {supportedTableOperations.map(operation => (
@@ -75,18 +84,13 @@ const TableActions = ({ value, editor, t }) => {
           key={operation}
           data-cy={operation}
           stripped
-          onMouseDown={e => handleOnClick(e, operation)}
+          onMouseDown={(e: Event) => handleOnClick(e, operation)}
           css={tableActionButtonStyle}>
           <span>{t(`form.content.table.${operation}`)}</span>
         </Button>
       ))}
     </StyledTableActions>
   );
-};
-
-TableActions.propTypes = {
-  value: PropTypes.any,
-  editor: EditorShape.isRequired,
 };
 
 export default injectT(TableActions);

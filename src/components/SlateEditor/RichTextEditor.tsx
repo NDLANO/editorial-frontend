@@ -127,6 +127,8 @@ const RichTextEditor = ({
     return <span {...attributes}>{children}</span>;
   };
 
+  console.log(JSON.stringify(editor.children));
+
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>

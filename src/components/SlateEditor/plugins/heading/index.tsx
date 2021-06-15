@@ -25,7 +25,7 @@ export interface HeadingElement {
 }
 
 export const headingSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'h1') {
       return jsx('element', { type: TYPE_HEADING, level: 1 }, children);

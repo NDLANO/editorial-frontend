@@ -23,6 +23,7 @@ import { mathmlSerializer } from '../components/SlateEditor/plugins/mathml';
 import { conceptSerializer } from '../components/SlateEditor/plugins/concept';
 import { asideSerializer } from '../components/SlateEditor/plugins/aside';
 import { detailsSerializer } from '../components/SlateEditor/plugins/details';
+import { tableSerializer } from '../components/SlateEditor/plugins/table';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -69,15 +70,16 @@ export const learningResourceContentToEditorValue = (html: string) => {
     conceptSerializer,
     asideSerializer,
     detailsSerializer,
+    tableSerializer,
   ];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {
       return { text: el.textContent || '' };
     } else if (el.nodeType !== 1) {
-      return null;
+      return { text: '' };
     }
 
-    let children = Array.from(el.childNodes).map(deserialize);
+    let children = Array.from(el.childNodes).flatMap(deserialize);
     if (children.length === 0) {
       children = [{ text: '' }];
     }
@@ -107,6 +109,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
   return sections.map(section => {
     const document = new DOMParser().parseFromString(section, 'text/html');
     const nodes = deserialize(document.body.children[0]);
+    console.log(JSON.stringify(nodes));
     const normalizedNodes = convertFromHTML(nodes);
 
     return [normalizedNodes];
@@ -127,6 +130,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
     conceptSerializer,
     asideSerializer,
     detailsSerializer,
+    tableSerializer,
   ];
 
   const serialize = (node: Descendant): string | null => {

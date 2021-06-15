@@ -26,7 +26,7 @@ export interface AsideElement {
 }
 
 export const asideSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== 'aside') return;
     return jsx('element', { type: TYPE_ASIDE, data: getAsideType(el) }, children);
   },

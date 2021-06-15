@@ -11,15 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { ResourceShape } from '../../../shapes';
 import Resource from './Resource';
-import {
-  deleteTopicResource,
-  fetchResourceFilter,
-  createResourceFilter,
-  updateResourceFilter,
-  deleteResourceFilter,
-  updateTopicResource,
-} from '../../../modules/taxonomy';
-import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
+import { deleteTopicResource, updateTopicResource } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
@@ -32,7 +24,6 @@ class ResourceItems extends React.PureComponent {
     super();
     this.state = {};
     this.onDelete = this.onDelete.bind(this);
-    this.onFilterSubmit = this.onFilterSubmit.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
   }
@@ -75,32 +66,6 @@ class ResourceItems extends React.PureComponent {
     }
   }
 
-  async onFilterSubmit(resourceId, activeFilters) {
-    try {
-      const { locale, refreshResources } = this.props;
-      this.setState({ error: '' });
-      const resourceFilters = await fetchResourceFilter(resourceId, locale);
-      const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
-        changedItems: activeFilters,
-        originalItems: resourceFilters,
-        updateProperty: 'relevanceId',
-      });
-      await Promise.all([
-        ...createItems.map(({ id: filterId, ...filter }) =>
-          createResourceFilter({ filterId, resourceId, ...filter }),
-        ),
-        ...updateItems.map(filter => updateResourceFilter(filter.connectionId, filter)),
-        ...deleteItems.map(filter => deleteResourceFilter(filter.connectionId)),
-      ]);
-      refreshResources();
-    } catch (e) {
-      this.setState({
-        error: `${this.props.t('taxonomy.errorMessage')}: ${e.message}`,
-      });
-      handleError(e);
-    }
-  }
-
   toggleDelete(deleteId) {
     this.setState({ deleteId });
   }
@@ -131,7 +96,6 @@ class ResourceItems extends React.PureComponent {
               id={resource.id}
               currentSubject={currentSubject}
               structure={structure}
-              onFilterSubmit={this.onFilterSubmit}
               onDelete={this.toggleDelete}
               currentTopic={currentTopic}
               availableFilters={availableFilters}

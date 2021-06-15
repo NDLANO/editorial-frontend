@@ -23,7 +23,7 @@ import RemoveButton from '../../../components/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import { StructureShape, AvailableFiltersShape, ResourceShape } from '../../../shapes';
+import { StructureShape, ResourceShape } from '../../../shapes';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -38,7 +38,6 @@ const statusButtonStyle = css`
 const Resource = ({
   resource,
   structure,
-  onFilterSubmit,
   onDelete,
   connectionId,
   dragHandleProps,
@@ -111,16 +110,12 @@ Resource.propTypes = {
   resource: ResourceShape.isRequired,
   contentType: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
-  availableFilters: AvailableFiltersShape,
-  currentTopic: PropTypes.shape({
-    filters: PropTypes.array,
-  }),
+  currentTopic: PropTypes.shape({}),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   }),
   structure: PropTypes.arrayOf(StructureShape),
-  onFilterSubmit: PropTypes.func,
   connectionId: PropTypes.string,
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,

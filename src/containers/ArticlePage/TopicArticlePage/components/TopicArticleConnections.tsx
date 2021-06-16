@@ -18,10 +18,10 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
 import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { HowToHelper } from '../../../../components/HowTo';
-// import { StructureShape, TopicShape } from '../../../../shapes';
 import StructureFunctionButtons from './StructureFunctionButtons';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
 import { Topic, SubjectType } from '../../../../interfaces';
+import { PathArray, Input } from '../../../../util/retriveBreadCrumbs';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -33,10 +33,7 @@ const TopicArticleConnections = (props: Props & tType) => {
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
 
   useEffect(() => {
-    const f = async () => {
-      await fetchFavoriteSubjects();
-    };
-    f();
+    fetchFavoriteSubjects();
   }, []);
 
   const fetchFavoriteSubjects = async () => {
@@ -115,7 +112,6 @@ const TopicArticleConnections = (props: Props & tType) => {
                 checked={showFavorites}
                 label={t('taxonomy.favorites')}
                 id={'favorites'}
-                // style={{ color: colors.white, width: '15.2em' }}
               />
               <hr />
               <Structure
@@ -157,24 +153,26 @@ interface Props {
   allowMultipleSubjectsOpen?: boolean;
   stageTaxonomyChanges: (path: string) => void;
   getSubjectTopics: (subjectId: string, locale: string) => Promise<void>;
-  setPrimaryConnection?: Function;
+  setPrimaryConnection?: Function; // Unsure if used.
+  retriveBreadcrumbs: (input: Input) => PathArray;
   locale: string;
 }
 
 TopicArticleConnections.propTypes = {
   isOpened: PropTypes.bool,
-  // TypeScript error, Validator does not play nicely with array shapes. TODO: Fix.
+  /// TypeScript and PropTypes interop error. [TopicShape] or [Topic] must be changed so that a property is either non-null or nullable in both.
+  /// Applicable to [StructureShape] and [TopicShape].
   // structure: PropTypes.arrayOf(StructureShape).isRequired,
   // activeTopics: PropTypes.arrayOf(TopicShape).isRequired,
-  // taxonomyTopics: PropTypes.arrayOf(
-  //   PropTypes.shape({
-  //     contentUri: PropTypes.string,
-  //     id: PropTypes.string.isRequired,
-  //     name: PropTypes.string,
-  //     path: PropTypes.string,
-  //   }),
-  // ).isRequired,
-  retriveBreadcrumbs: PropTypes.func,
+  taxonomyTopics: PropTypes.arrayOf(
+    PropTypes.shape({
+      contentUri: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  retriveBreadcrumbs: PropTypes.func.isRequired,
   setPrimaryConnection: PropTypes.func,
   allowMultipleSubjectsOpen: PropTypes.bool,
   stageTaxonomyChanges: PropTypes.func.isRequired,

@@ -467,6 +467,14 @@ export interface Embed {
   'lower-right-y': string;
 }
 
+export interface File {
+  path: string;
+  resource: string;
+  title: string;
+  type: string;
+  url: string;
+}
+
 export interface Audio {
   audioFile: {
     filesize: number;

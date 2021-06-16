@@ -10,37 +10,43 @@ import React from 'react';
 import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import Filelist from './Filelist';
-import { defaultTextBlockNormalizer } from '../../utils/normalizationHelpers';
+import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
+import { SlateSerializer } from '../../interfaces';
+import { File } from '../../../../interfaces';
+import { getFileBlock } from './utils';
 
 export const TYPE_FILE = 'file';
 
 export interface FileElement {
   type: 'file';
-  data: {
-    type: string;
-  };
+  data: File[];
   children: Descendant[];
 }
 
+export const fileSerializer: SlateSerializer = {
+  deserialize(el: HTMLElement) {
+    if (el.tagName.toLowerCase() !== 'div') return;
+    if (el.dataset.type !== TYPE_FILE) return;
+    return getFileBlock(el.innerHTML.split(',').map(embed => parseEmbedTag(embed)));
+  },
+  serialize(node: Descendant) {
+    if (!Element.isElement(node)) return;
+    if (node.type !== TYPE_FILE) return;
+    return `<div data-type="file">${
+      node.data.map(file => createEmbedTag(file))
+    }</div>`;
+  },
+} 
+
 export const filePlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement, normalizeNode: nextNormalizeNode } = editor;
+  const { renderElement: nextRenderElement } = editor;
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    console.log(editor.children)
     if (element.type === TYPE_FILE) {
       return <Filelist editor={editor} element={element} attributes={attributes} />;
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });
     }
     return undefined;
-  };
-
-  editor.normalizeNode = entry => {
-    const [node] = entry;
-    if (Element.isElement(node) && node.type === TYPE_FILE) {
-      defaultTextBlockNormalizer(editor, entry, nextNormalizeNode);
-    } else {
-      nextNormalizeNode(entry);
-    }
   };
 
   return editor;

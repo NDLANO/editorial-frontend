@@ -11,7 +11,12 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { ResourceShape } from '../../../shapes';
 import Resource from './Resource';
-import { deleteTopicResource, updateTopicResource } from '../../../modules/taxonomy';
+import {
+  deleteTopicResource,
+  updateTopicResource,
+  updateTopicSubtopic,
+  updateSubjectTopic,
+} from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
@@ -68,6 +73,23 @@ class ResourceItems extends React.PureComponent {
 
   toggleDelete(deleteId) {
     this.setState({ deleteId });
+  }
+
+  updateRelevanceId(connectionId, body) {
+    const [, connectionType] = connectionId.split(':');
+    switch (connectionType) {
+      case 'topic-resource':
+        updateTopicResource(connectionId, body);
+        break;
+      case 'topic-subtopic':
+        updateTopicSubtopic(connectionId, body);
+        break;
+      case 'subject-topic':
+        updateSubjectTopic(connectionId, body);
+        break;
+      default:
+        return;
+    }
   }
 
   render() {

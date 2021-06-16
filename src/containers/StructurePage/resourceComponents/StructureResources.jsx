@@ -20,6 +20,10 @@ import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
+import {
+  TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
+  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
+} from '../../../constants';
 import { StructureShape } from '../../../shapes';
 import GroupTopicResources from '../folderComponents/GroupTopicResources';
 

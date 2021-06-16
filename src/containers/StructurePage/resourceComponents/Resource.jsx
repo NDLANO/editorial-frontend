@@ -21,8 +21,10 @@ import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import RemoveButton from '../../../components/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';
+import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
+
 import { StructureShape, ResourceShape } from '../../../shapes';
 
 const StyledCheckIcon = styled(Check)`
@@ -86,6 +88,16 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
+      <RelevanceOption
+        relevanceId={relevanceId}
+        onChange={relevanceIdUpdate =>
+          updateRelevanceId(connectionId, {
+            relevanceId: relevanceIdUpdate,
+            primary,
+            rank,
+          })
+        }
+      />
 
       {onDelete && <RemoveButton onClick={() => onDelete(connectionId)} />}
       {showVersionHistory && (

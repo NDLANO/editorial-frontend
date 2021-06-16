@@ -27,6 +27,12 @@ const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
 `;
 
+const ModalTitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const TopicArticleConnections = (props: Props & tType) => {
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
@@ -106,13 +112,15 @@ const TopicArticleConnections = (props: Props & tType) => {
               />
             </ModalHeader>
             <ModalBody>
-              <StyledTitleModal>{t('taxonomy.topics.filestructureHeading')}:</StyledTitleModal>
-              <Switch
-                onChange={toggleShowFavorites}
-                checked={showFavorites}
-                label={t('taxonomy.favorites')}
-                id={'favorites'}
-              />
+              <ModalTitleRow>
+                <StyledTitleModal>{t('taxonomy.topics.filestructureHeading')}:</StyledTitleModal>
+                <Switch
+                  onChange={toggleShowFavorites}
+                  checked={showFavorites}
+                  label={t('taxonomy.favorites')}
+                  id={'favorites'}
+                />
+              </ModalTitleRow>
               <hr />
               <Structure
                 openedPaths={openedPaths}
@@ -154,7 +162,7 @@ interface Props {
   stageTaxonomyChanges: (path: string) => void;
   getSubjectTopics: (subjectId: string, locale: string) => Promise<void>;
   setPrimaryConnection?: Function; // Unsure if used.
-  retriveBreadcrumbs: (input: Input) => PathArray;
+  retriveBreadcrumbs?: (input: Input) => PathArray;
   locale: string;
 }
 
@@ -164,15 +172,15 @@ TopicArticleConnections.propTypes = {
   /// Applicable to [StructureShape] and [TopicShape].
   // structure: PropTypes.arrayOf(StructureShape).isRequired,
   // activeTopics: PropTypes.arrayOf(TopicShape).isRequired,
-  taxonomyTopics: PropTypes.arrayOf(
-    PropTypes.shape({
-      contentUri: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
-  retriveBreadcrumbs: PropTypes.func.isRequired,
+  // taxonomyTopics: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     contentUri: PropTypes.string,
+  //     id: PropTypes.string,
+  //     name: PropTypes.string,
+  //     path: PropTypes.string,
+  //   }).isRequired,
+  // ).isRequired,
+  retriveBreadcrumbs: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
   allowMultipleSubjectsOpen: PropTypes.bool,
   stageTaxonomyChanges: PropTypes.func.isRequired,

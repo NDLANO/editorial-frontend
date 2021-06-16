@@ -243,7 +243,7 @@ class Filelist extends React.Component {
               changeOrder: t('form.file.changeOrder'),
               removeFile: t('form.file.removeFile'),
               missingFileTooltip: t('form.file.missingFileTooltip'),
-              missingTitle: t('form.file.missingFilename'),
+              missingTitle: t('form.file.missingTitle'),
               checkboxLabel: t('form.file.showPdf'),
               checkboxTooltip: t('form.file.showPdfTooltip'),
             }}

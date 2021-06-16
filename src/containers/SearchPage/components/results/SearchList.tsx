@@ -8,13 +8,37 @@
 
 import React, { useState, useEffect } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import SearchResult from './SearchResult';
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import Spinner from '../../../../components/Spinner';
-import { SearchResultShape } from '../../../../shapes';
-import { searchClasses } from '../../SearchContainer';
+import { ResultType, searchClasses } from '../../SearchContainer';
+import { SearchParams } from '../form/SearchForm';
+import { License, LocaleType, SearchType, SubjectType } from '../../../../interfaces';
+import { ImageSearchSummaryApiType } from '../../../../modules/image/imageApiInterfaces';
+import { SearchConceptType } from '../../../../modules/concept/conceptApiInterfaces';
+import {
+  AudioSearchResultType,
+  SeriesSearchSummary,
+} from '../../../../modules/audio/audioApiInterfaces';
+import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
+
+type ResultSummaryType =
+  | ImageSearchSummaryApiType
+  | SearchConceptType
+  | SeriesSearchSummary
+  | AudioSearchResultType
+  | MultiSearchSummary;
+
+interface Props {
+  results: ResultType['results'];
+  searching: boolean;
+  searchObject: SearchParams;
+  type: SearchType;
+  locale: LocaleType;
+  subjects: SubjectType[];
+  userAccess?: string;
+}
 
 const SearchList = ({
   results,
@@ -25,11 +49,11 @@ const SearchList = ({
   locale,
   subjects,
   userAccess,
-}) => {
+}: Props & tType) => {
   const editingState = useState(false);
   const setEditing = editingState[1];
 
-  const [licenses, setLicenses] = useState();
+  const [licenses, setLicenses] = useState<License[]>();
   useEffect(() => {
     fetchLicenses().then(licenses => setLicenses(licenses));
   }, []);
@@ -39,11 +63,11 @@ const SearchList = ({
 
   if (searching) return <Spinner />;
   if (results.length === 0)
-    return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query })}</p>;
+    return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? '' })}</p>;
   return (
     <div {...searchClasses('results')}>
       <TransitionGroup>
-        {results.map(result => (
+        {results.map((result: ResultSummaryType) => (
           <CSSTransition
             key={`transition-${result.id}`}
             classNames={searchClasses('transition').className}
@@ -63,19 +87,6 @@ const SearchList = ({
       </TransitionGroup>
     </div>
   );
-};
-
-SearchList.propTypes = {
-  results: PropTypes.arrayOf(SearchResultShape).isRequired,
-  searchObject: PropTypes.shape({
-    query: PropTypes.string,
-    language: PropTypes.string,
-  }),
-  type: PropTypes.string,
-  searching: PropTypes.bool,
-  locale: PropTypes.string,
-  subjects: PropTypes.array,
-  userAccess: PropTypes.string,
 };
 
 SearchList.defaultProps = {

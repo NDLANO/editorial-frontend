@@ -51,7 +51,7 @@ function sortIntoCreateDeleteUpdate({
   originalItems,
   changedId = 'id',
   originalId = 'id',
-  updateProperty,
+  updateProperties = [],
 }) {
   const updateItems = [];
   const createItems = [];
@@ -64,12 +64,14 @@ function sortIntoCreateDeleteUpdate({
   changedItems.forEach(changedItem => {
     const foundItem = originalItems.find(item => item[originalId] === changedItem[changedId]);
     if (foundItem) {
-      if (updateProperty && foundItem[updateProperty] !== changedItem[updateProperty]) {
-        updateItems.push({
-          ...foundItem,
-          [updateProperty]: changedItem[updateProperty],
-        });
-      }
+      updateProperties.forEach(updateProperty => {
+        if (foundItem[updateProperty] !== changedItem[updateProperty]) {
+          updateItems.push({
+            ...foundItem,
+            [updateProperty]: changedItem[updateProperty],
+          });
+        }
+      });
     } else {
       createItems.push(changedItem);
     }

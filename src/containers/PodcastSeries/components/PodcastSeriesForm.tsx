@@ -49,6 +49,7 @@ export interface PodcastSeriesFormikType {
   id?: number;
   revision?: number;
   title: Value;
+  description: Value;
   language: string;
   coverPhotoId?: string;
   metaImageAlt?: string;
@@ -58,11 +59,13 @@ export interface PodcastSeriesFormikType {
 
 const getInitialValues = (podcastSeries: PodcastSeriesPropType): PodcastSeriesFormikType => {
   const title: Value = plainTextToEditorValue(podcastSeries.title || '', true);
+  const description: Value = plainTextToEditorValue(podcastSeries.description || '', true);
   return {
     id: podcastSeries.id,
     revision: podcastSeries.revision,
     language: podcastSeries.language,
     title,
+    description,
     coverPhotoId: podcastSeries.coverPhoto?.id,
     metaImageAlt: podcastSeries.coverPhoto?.altText,
     episodes: podcastSeries.episodes ?? [],
@@ -112,10 +115,12 @@ const PodcastSeriesForm = ({
 
     actions.setSubmitting(true);
     const title: string = editorValueToPlainText(values.title);
+    const description: string = editorValueToPlainText(values.description);
     const newPodcastSeries: NewPodcastSeries = {
       id: values.id,
       revision: values.revision,
       title,
+      description,
       coverPhotoId: values.coverPhotoId,
       coverPhotoAltText: values.metaImageAlt,
       language: values.language,

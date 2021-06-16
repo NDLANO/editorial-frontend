@@ -129,9 +129,7 @@ interface MarkupLocationState {
   backUrl?: string;
 }
 
-interface Props
-  extends tType,
-    RouteComponentProps<MatchParams, StaticContext, MarkupLocationState> {}
+interface Props extends RouteComponentProps<MatchParams, StaticContext, MarkupLocationState> {}
 
 type Status =
   | 'initial'
@@ -147,8 +145,8 @@ interface State {
   draft: DraftApiType | undefined;
 }
 
-class EditMarkupPage extends Component<Props, State> {
-  constructor(props: Props) {
+class EditMarkupPage extends Component<Props & tType, State> {
+  constructor(props: Props & tType) {
     super(props);
     this.state = {
       status: 'initial',
@@ -161,7 +159,7 @@ class EditMarkupPage extends Component<Props, State> {
   async componentDidMount() {
     const session = getSessionStateFromLocalStorage();
 
-    if (!session.user.scope.includes(DRAFT_HTML_SCOPE)) {
+    if (!session.user?.scope?.includes(DRAFT_HTML_SCOPE)) {
       this.setState({ status: 'access-error' });
       return;
     }
@@ -180,7 +178,7 @@ class EditMarkupPage extends Component<Props, State> {
     if (prevProps.match.params.language !== this.props.match.params.language) {
       const session = getSessionStateFromLocalStorage();
 
-      if (!session.user.scope.includes(DRAFT_HTML_SCOPE)) {
+      if (!session.user?.scope?.includes(DRAFT_HTML_SCOPE)) {
         this.setState({ status: 'access-error' });
         return;
       }

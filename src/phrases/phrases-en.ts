@@ -17,10 +17,6 @@ const phrases = {
     createTopicArticlePage: `Topic ${titleTemplate}`,
     createSubjectpage: `Subjectpage ${titleTemplate}`,
     agreementPage: `Agreement ${titleTemplate}`,
-    searchContentPage: `Search content ${titleTemplate}`,
-    searchAudioPage: `Search audio files ${titleTemplate}`,
-    searchImagePage: `Search images ${titleTemplate}`,
-    searchConceptPage: `Search concepts ${titleTemplate}`,
     welcomePage: `Frontpage ${titleTemplate}`,
     structurePage: `Structure ${titleTemplate}`,
     audioUploaderPage: `Audio ${titleTemplate}`,
@@ -28,9 +24,16 @@ const phrases = {
     loginPage: `Login ${titleTemplate}`,
     logoutPage: `Logout ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
-    podcastUploaderPage: `Podcast ${titleTemplate}`,
+    podcastUploaderPage: `Podcast episode ${titleTemplate}`,
     podcastSeriesPage: `Podcast series ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    search: {
+      'podcast-series': `Search podcast series ${titleTemplate}`,
+      audio: `Search audio files ${titleTemplate}`,
+      concept: `Search concepts ${titleTemplate}`,
+      content: `Search content ${titleTemplate}`,
+      image: `Search images ${titleTemplate}`,
+    },
   },
   meta: {
     description: 'Norwegian Digital Learning Arena, Open Educational Resources',
@@ -155,7 +158,7 @@ const phrases = {
     learningResource: 'Learning resource',
     image: 'New image',
     audio: 'New Audiofile',
-    podcast: 'New Podcast',
+    podcast: 'New Podcast episode',
     podcastSeries: 'New Podcast series',
     agreement: 'New Agreement',
     structure: 'Structure',
@@ -384,9 +387,10 @@ const phrases = {
   podcastSeriesForm: {
     title: 'Podcast series',
     alreadyPartOfSeries: 'Part of another series',
+    description: 'Description',
   },
   podcastForm: {
-    title: 'Podcast file',
+    title: 'Podcast episode',
     fields: {
       header: 'Header',
       introduction: 'Introduction',
@@ -468,7 +472,7 @@ const phrases = {
       related: 'Related content',
       file: 'File',
       code: 'Codeblock',
-      podcast: 'Podcast',
+      podcast: 'Podcast episode',
     },
   },
   form: {

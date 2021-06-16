@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { RemoveCircle } from '@ndla/icons/action';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
@@ -24,7 +23,7 @@ import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import { MetadataShape } from '../../../shapes';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
-import { StructureContext } from '../StructureContainer';
+import RemoveButton from '../../../components/RemoveButton';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -34,11 +33,6 @@ const StyledCheckIcon = styled(Check)`
 
 const statusButtonStyle = css`
   margin-right: ${spacing.xsmall};
-`;
-
-const deleteButtonStyle = css`
-  line-height: 1;
-  margin-left: ${spacing.small};
 `;
 
 const Resource = ({
@@ -52,8 +46,8 @@ const Resource = ({
   metadata,
   locale,
   relevanceId,
+  updateRelevanceId,
   primary,
-  refreshResources,
   rank,
   t,
 }) => {
@@ -89,25 +83,17 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
-      <StructureContext.Consumer>
-        {updateRelevanceId => (
-          <RelevanceOption
-            relevanceId={relevanceId}
-            isPrimary={primary}
-            connectionId={connectionId}
-            onChange={updateRelevanceId}
-            refreshResources={refreshResources}
-            rank={rank}
-          />
-        )}
-      </StructureContext.Consumer>
-      {onDelete && (
-        <Tooltip tooltip={t('taxonomy.removeResource')}>
-          <Button css={deleteButtonStyle} onClick={() => onDelete(connectionId)} stripped>
-            <RemoveCircle {...classes('deleteIcon')} />
-          </Button>
-        </Tooltip>
-      )}
+      <RelevanceOption
+        relevanceId={relevanceId}
+        onChange={relevanceIdUpdate =>
+          updateRelevanceId(connectionId, {
+            relevanceId: relevanceIdUpdate,
+            primary,
+            rank,
+          })
+        }
+      />
+      {onDelete && <RemoveButton onClick={() => onDelete(connectionId)} />}
       {showVersionHistory && (
         <VersionHistoryLightbox
           onClose={() => setShowVersionHistory(false)}
@@ -150,9 +136,9 @@ Resource.propTypes = {
     null,
     undefined,
   ]),
+  updateRelevanceId: PropTypes.func,
   primary: PropTypes.bool,
   rank: PropTypes.number,
-  refreshResources: PropTypes.func,
 };
 
 export default injectT(Resource);

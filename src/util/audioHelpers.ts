@@ -43,9 +43,16 @@ export const transformSeries = (
 ): FlattenedPodcastSeries => {
   const seriesLanguage = series.supportedLanguages.includes(language) ? language : undefined;
   const title = convertFieldWithFallback<'title'>(series, 'title', '', seriesLanguage);
+  const description = convertFieldWithFallback<'description'>(
+    series,
+    'description',
+    '',
+    seriesLanguage,
+  );
 
   return {
     ...series,
     title,
+    description,
   };
 };

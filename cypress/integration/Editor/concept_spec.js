@@ -15,8 +15,10 @@ describe('Language handling', () => {
   before(() => {
     setToken();
     editorRoutes()
+    cy.apiroute('GET', `/taxonomy/v1/subjects?language=nb`, 'allSubjects');
     cy.apiroute('GET', `**/concept-api/v1/drafts/${CONCEPT_ID}?*`, `concept-${CONCEPT_ID}`);
     cy.visit(`/concept/${CONCEPT_ID}/edit/nb`);
+    cy.apiwait(['@allSubjects', `@concept-${CONCEPT_ID}`])
   });
 
   it('Can change language and fetch the new concept', () => {

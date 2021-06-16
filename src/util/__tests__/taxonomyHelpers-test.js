@@ -90,7 +90,7 @@ test('taxonomy/sortIntoCreateDeleteUpdate different item changes', () => {
     sortIntoCreateDeleteUpdate({
       changedItems: [...updatedItem],
       originalItems: [...filtersMock],
-      updateProperty: 'relevanceId',
+      updateProperties: ['relevanceId'],
     }),
   ).toEqual([
     [],

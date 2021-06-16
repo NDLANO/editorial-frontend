@@ -202,7 +202,7 @@ export class MastheadSearchForm extends Component {
   }
 
   render() {
-    const { searching, t } = this.props;
+    const { t } = this.props;
 
     return (
       <form onSubmit={this.handleSubmit} css={formCSS}>
@@ -212,7 +212,7 @@ export class MastheadSearchForm extends Component {
           value={this.state.query}
           placeholder={t('searchForm.placeholder')}
         />
-        <Button submit stripped loading={searching}>
+        <Button submit stripped>
           <Search className="c-icon--medium" />
         </Button>
       </form>
@@ -223,7 +223,6 @@ export class MastheadSearchForm extends Component {
 MastheadSearchForm.propTypes = {
   locale: PropTypes.string.isRequired,
   query: PropTypes.string,
-  searching: PropTypes.bool.isRequired,
   onSearchQuerySubmit: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

@@ -36,7 +36,7 @@ const mapStateToProps = (state: ReduxState) => ({
 const reduxConnector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-interface Props extends tType, RouteComponentProps<MatchParams>, PropsFromRedux {}
+type Props = tType & RouteComponentProps<MatchParams> & PropsFromRedux;
 
 const ImageUploaderPage = ({ match, t, location, ...rest }: Props) => {
   const prevLoc = usePreviousLocation();
@@ -68,4 +68,4 @@ ImageUploaderPage.propTypes = {
   imageLanguage: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(injectT(ImageUploaderPage));
+export default reduxConnector(injectT(ImageUploaderPage));

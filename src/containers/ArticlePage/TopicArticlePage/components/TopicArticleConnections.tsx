@@ -129,9 +129,10 @@ const TopicArticleConnections = (props: Props & tType) => {
                 }
                 toggleOpen={handleOpenToggle}
                 renderListItems={(item: any) => {
+                  // item should possibly be typed in [Structure].
                   return (
                     <StructureFunctionButtons
-                      {...props}
+                      {...item}
                       activeTopics={activeTopics}
                       addTopic={() => addTopic(item.path, closeModal)}
                     />

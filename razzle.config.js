@@ -1,4 +1,5 @@
 const { modifyRule } = require('razzle-config-utils');
+const LoadablePlugin = require('@loadable/webpack-plugin');
 
 module.exports = {
   modifyWebpackConfig({ env: { target, dev }, webpackConfig: appConfig }) {
@@ -31,6 +32,11 @@ module.exports = {
     });
 
     if (target === 'web') {
+      appConfig.plugins = [
+        ...appConfig.plugins,
+        new LoadablePlugin({ filename: 'loadable-stats.json', writeToDisk: true }),
+      ];
+
       appConfig.output.filename = dev ? 'static/js/[name].js' : 'static/js/[name].[hash:8].js';
 
       appConfig.output.globalObject = 'this'; // use this as global object to prevent webworker window error

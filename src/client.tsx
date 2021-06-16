@@ -14,6 +14,7 @@ import IntlProvider from '@ndla/i18n';
 import ErrorReporter from '@ndla/error-reporter';
 import { configureTracker } from '@ndla/tracker';
 import { createBrowserHistory } from 'history';
+import { loadableReady } from '@loadable/component';
 import config, { ConfigType } from './config';
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
@@ -59,18 +60,20 @@ configureTracker({
   googleTagManagerId: config.googleTagManagerId,
 });
 
-const renderApp = () =>
-  render(
-    <Provider store={store}>
-      <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-        <Router history={browserHistory}>
-          <App />
-        </Router>
-      </IntlProvider>
-    </Provider>,
-    document.getElementById('root'),
-  );
-
+const renderApp = () => {
+  loadableReady(() => {
+    render(
+      <Provider store={store}>
+        <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
+          <Router history={browserHistory}>
+            <App />
+          </Router>
+        </IntlProvider>
+      </Provider>,
+      document.getElementById('root'),
+    );
+  });
+};
 renderApp();
 
 if (module.hot) {

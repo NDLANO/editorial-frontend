@@ -4,6 +4,7 @@
   "description": "System for producing content for NDLA",
   "scripts": {
     "build": "cross-env NODE_OPTIONS='--max-old-space-size=2048' tsc -b && razzle build --noninteractive",
+    "build-win": "set NODE_OPTIONS='--max-old-space-size=2048' tsc -b && razzle build --noninteractive",
     "postbuild": "cp build/assets.json build/public/assets.json",
     "clean": "rimraf ./build",
     "check-all": "yarn lint && yarn test-ci",

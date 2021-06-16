@@ -18,6 +18,8 @@ import parseHTML from 'prettier/parser-html';
 import proxy from 'express-http-proxy';
 import jwt from 'express-jwt';
 import jwksRsa from 'jwks-rsa';
+import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
+import path from 'path';
 import getConditionalClassnames from './getConditionalClassnames';
 import { getLocaleObject } from '../i18n';
 import Html from './Html';
@@ -35,6 +37,10 @@ type NdlaUser = (Express.User | undefined) & {
 
 const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
+
+// Used for loadable components
+const statsFile = path.resolve('./build/public/loadable-stats.json');
+const extractor = new ChunkExtractor({ statsFile });
 
 // Temporal hack to send users to prod
 app.get('*', (req, res, next) => {
@@ -82,7 +88,9 @@ app.use(
 
 const renderHtmlString = (locale: string, userAgentString?: string, state?: { locale: string }) =>
   renderToString(
-    <Html lang={locale} state={state} className={getConditionalClassnames(userAgentString)} />,
+    <ChunkExtractorManager extractor={extractor}>
+      <Html lang={locale} state={state} className={getConditionalClassnames(userAgentString)} />
+    </ChunkExtractorManager>,
   );
 
 app.get('/robots.txt', (req, res) => {

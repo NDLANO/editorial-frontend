@@ -85,12 +85,7 @@ class Filelist extends React.Component {
 
   static getDerivedStateFromProps(props, state) {
     const files = props.element.data;
-    if (
-      props &&
-      state.files &&
-      !compareArray(files, state.files) &&
-      okToRevert
-    ) {
+    if (props && state.files && !compareArray(files, state.files) && okToRevert) {
       okToRevert = false;
       return { files };
     }
@@ -119,8 +114,8 @@ class Filelist extends React.Component {
     Transforms.setNodes(
       editor,
       { data: this.state.files },
-      { at: ReactEditor.findPath(editor, element)}
-    )
+      { at: ReactEditor.findPath(editor, element) },
+    );
   }
 
   removeFileList = () => {
@@ -131,7 +126,7 @@ class Filelist extends React.Component {
       at: path,
       match: node => Element.isElement(node) && node.type === TYPE_FILE,
     });
-  }
+  };
 
   onRemoveFileList = evt => {
     evt.stopPropagation();

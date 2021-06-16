@@ -11,7 +11,7 @@ import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import Filelist from './Filelist';
 import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
+import { SlateSerializer } from '../../interfaces';
 import { File } from '../../../../interfaces';
 import { getFileBlock } from './utils';
 
@@ -32,11 +32,9 @@ export const fileSerializer: SlateSerializer = {
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_FILE) return;
-    return `<div data-type="file">${
-      node.data.map(file => createEmbedTag(file))
-    }</div>`;
+    return `<div data-type="file">${node.data.map(file => createEmbedTag(file))}</div>`;
   },
-} 
+};
 
 export const filePlugin = (editor: Editor) => {
   const { renderElement: nextRenderElement } = editor;

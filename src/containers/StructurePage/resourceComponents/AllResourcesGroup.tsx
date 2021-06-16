@@ -62,7 +62,7 @@ const AllResourcesGroup = ({
   structure,
   t,
 }: Props & tType) => {
-  const [displayResource, setDisplayResource] = useState<boolean>(false);
+  const [displayResource, setDisplayResource] = useState<boolean>(true);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
 
   const toggleDisplayResource = () => {

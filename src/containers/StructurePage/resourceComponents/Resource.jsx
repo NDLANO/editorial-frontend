@@ -120,7 +120,6 @@ Resource.defaultProps = {
 
 Resource.propTypes = {
   resource: ResourceShape.isRequired,
-  contentType: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
   currentTopic: PropTypes.shape({}),
   currentSubject: PropTypes.shape({

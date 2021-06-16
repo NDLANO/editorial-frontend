@@ -148,24 +148,27 @@ export class StructureContainer extends React.PureComponent {
     }));
   }
 
-  saveSubjectTopicItems(subjectid, topicId, saveItems) {
-    this.setState(prevState => ({
-      subjects: prevState.subjects.map(subject => {
-        if (subject.id === subjectid)
+  saveSubjectTopicItems(subjectId, topicId, saveItems) {
+    this.setState(prevState => {
+      const newSubjects = prevState.subjects.map(subject => {
+        if (subject.id === subjectId) {
           return {
             ...subject,
             topics: subject.topics.map(topic => {
-              if (topic.id === topicId)
+              if (topic.id === topicId) {
                 return {
                   ...topic,
                   ...saveItems,
                 };
+              }
               return topic;
             }),
           };
+        }
         return subject;
-      }),
-    }));
+      });
+      return { subjects: newSubjects };
+    });
   }
 
   async setPrimary(subjectId) {
@@ -359,6 +362,7 @@ export class StructureContainer extends React.PureComponent {
       params,
       subject: currentSubject,
     });
+    const grouped = currentTopic.metadata?.customFields['topic-resources'];
     const linkViewOpen = jsPlumbConnections.length > 0;
 
     return (
@@ -440,6 +444,7 @@ export class StructureContainer extends React.PureComponent {
               saveSubjectTopicItems={this.saveSubjectTopicItems}
               resourcesUpdated={this.state.resourcesUpdated}
               setResourcesUpdated={this.setResourcesUpdated}
+              grouped={grouped}
             />
           )}
         </OneColumn>

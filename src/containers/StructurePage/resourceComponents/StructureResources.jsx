@@ -20,10 +20,7 @@ import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import {
-  TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
-  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
-} from '../../../constants';
+
 import { StructureShape } from '../../../shapes';
 import GroupTopicResources from '../folderComponents/GroupTopicResources';
 
@@ -211,6 +208,7 @@ export class StructureResources extends React.PureComponent {
       currentSubject,
       structure,
       saveSubjectTopicItems,
+      grouped,
     } = this.props;
     const { topicDescription, resourceTypes, topicResources, topicStatus, loading } = this.state;
     if (loading) {
@@ -243,7 +241,7 @@ export class StructureResources extends React.PureComponent {
           currentTopic={currentTopic}
           status={topicStatus}
         />
-        {topicResources.length > 0 && (
+        {topicResources.length > 0 && grouped === 'grouped' && (
           <AllResourcesGroup
             key="ungrouped"
             params={this.props.params}
@@ -256,22 +254,23 @@ export class StructureResources extends React.PureComponent {
             resourceTypes={resourceTypes}
           />
         )}
-        {resourceTypes.map(resourceType => {
-          const topicResource =
-            groupedTopicResources.find(resource => resource.id === resourceType.id) || {};
-          return (
-            <ResourceGroup
-              key={resourceType.id}
-              resourceType={resourceType}
-              topicResource={topicResource}
-              params={this.props.params}
-              refreshResources={this.getTopicResources}
-              locale={locale}
-              currentSubject={currentSubject}
-              disable={resourceType.disabled}
-            />
-          );
-        })}
+        {grouped === 'ungrouped' &&
+          resourceTypes.map(resourceType => {
+            const topicResource =
+              groupedTopicResources.find(resource => resource.id === resourceType.id) || {};
+            return (
+              <ResourceGroup
+                key={resourceType.id}
+                resourceType={resourceType}
+                topicResource={topicResource}
+                params={this.props.params}
+                refreshResources={this.getTopicResources}
+                locale={locale}
+                currentSubject={currentSubject}
+                disable={resourceType.disabled}
+              />
+            );
+          })}
       </Fragment>
     );
   }
@@ -299,6 +298,7 @@ StructureResources.propTypes = {
   resourcesUpdated: PropTypes.bool,
   setResourcesUpdated: PropTypes.func,
   saveSubjectTopicItems: PropTypes.func,
+  grouped: PropTypes.string,
 };
 
 export default injectT(StructureResources);

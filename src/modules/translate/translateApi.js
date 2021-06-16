@@ -21,6 +21,7 @@ export const fetchNnTranslation = ({ id, ...content }) =>
       token: config.npkToken,
       guid: config.ndlaEnvironment + '_' + id,
       prefs: {
+        pronoun: 'vi',
         vi: 'vi',
         infinitive: 'e',
         gg: false,

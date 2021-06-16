@@ -26,7 +26,7 @@ const ChangeSubjectName = ({
   refreshTopics,
   t,
 }: Props & tType) => {
-  const onChangeSubjectName = async (name: String) => {
+  const onChangeSubjectName = async (name: string) => {
     if (name && name.trim() !== '') {
       const ok = await updateSubject(id, name, contentUri);
       getAllSubjects();

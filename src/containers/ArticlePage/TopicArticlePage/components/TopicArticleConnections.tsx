@@ -79,7 +79,7 @@ const TopicArticleConnections = (props: Props & tType) => {
   };
 
   const addTopic = async (path: string, closeModal: () => void) => {
-    props.stageTaxonomyChanges(path);
+    props.stageTaxonomyChanges({ path });
     closeModal();
   };
 
@@ -128,13 +128,13 @@ const TopicArticleConnections = (props: Props & tType) => {
                   showFavorites ? getFavoriteSubjects(structure, favoriteSubjectIds) : structure
                 }
                 toggleOpen={handleOpenToggle}
-                renderListItems={(item: any) => {
+                renderListItems={(props: any) => {
                   // item should possibly be typed in [Structure].
                   return (
                     <StructureFunctionButtons
-                      {...item}
+                      {...props}
                       activeTopics={activeTopics}
-                      addTopic={() => addTopic(item.path, closeModal)}
+                      addTopic={() => addTopic(props.path, closeModal)}
                     />
                   );
                 }}
@@ -160,7 +160,7 @@ interface Props {
   activeTopics: Topic[];
   taxonomyTopics: TaxonomyTopic[];
   allowMultipleSubjectsOpen?: boolean;
-  stageTaxonomyChanges: (path: string) => void;
+  stageTaxonomyChanges: ({ path }: { path: string }) => void;
   getSubjectTopics: (subjectId: string, locale: string) => Promise<void>;
   setPrimaryConnection?: Function; // Unsure if used.
   retriveBreadcrumbs?: (input: Input) => PathArray;

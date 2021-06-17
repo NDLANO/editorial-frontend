@@ -362,7 +362,7 @@ export class StructureContainer extends React.PureComponent {
       params,
       subject: currentSubject,
     });
-    const grouped = currentTopic.metadata?.customFields['topic-resources'];
+    const grouped = currentTopic.metadata?.customFields['topic-resources'] || 'grouped';
     const linkViewOpen = jsPlumbConnections.length > 0;
 
     return (

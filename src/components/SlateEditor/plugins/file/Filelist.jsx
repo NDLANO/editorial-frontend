@@ -203,14 +203,14 @@ class Filelist extends React.Component {
   };
 
   render() {
-    const { t } = this.props;
+    const { t, attributes, children } = this.props;
     const { showFileUploader, files } = this.state;
     if (files.length === 0) {
       return null;
     }
     return (
       <Fragment>
-        <StyledSection>
+        <StyledSection {...attributes}>
           <FieldHeader title={t('form.file.label')}>
             <Tooltip tooltip={t('form.file.addFile')}>
               <button tabIndex={-1} type="button" onClick={this.onOpenFileUploader}>
@@ -248,6 +248,7 @@ class Filelist extends React.Component {
             onClose={this.onCloseFileUploader}
             showFileUploader={showFileUploader}
           />
+          {children}
         </StyledSection>
       </Fragment>
     );
@@ -255,6 +256,9 @@ class Filelist extends React.Component {
 }
 
 Filelist.propTypes = {
+  attributes: PropTypes.shape({
+    'data-key': PropTypes.string.isRequired,
+  }),
   editor: EditorShape,
   node: PropTypes.any,
   element: PropTypes.any,

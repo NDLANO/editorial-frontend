@@ -37,14 +37,22 @@ export const fileSerializer: SlateSerializer = {
 };
 
 export const filePlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement } = editor;
+  const { renderElement: nextRenderElement, isVoid: nextIsVoid } = editor;
+
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_FILE) {
-      return <Filelist editor={editor} element={element} attributes={attributes} />;
+      return <Filelist editor={editor} element={element} attributes={attributes}>{children}</Filelist>;
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });
     }
     return undefined;
+  };
+
+  editor.isVoid = (element: Element) => {
+    if (element.type === TYPE_FILE) {
+      return true;
+    }
+    return nextIsVoid(element);
   };
 
   return editor;

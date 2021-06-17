@@ -39,8 +39,10 @@ const app = express();
 const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 
 // Used for loadable components
-const statsFile = path.resolve('./build/public/loadable-stats.json');
-const extractor = new ChunkExtractor({ statsFile });
+const extractor = new ChunkExtractor({
+  statsFile: path.resolve('./build/public/loadable-stats.json'),
+  entrypoints: ['client'],
+});
 
 // Temporal hack to send users to prod
 app.get('*', (req, res, next) => {

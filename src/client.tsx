@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { render } from 'react-dom';
+import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
@@ -60,9 +60,9 @@ configureTracker({
   googleTagManagerId: config.googleTagManagerId,
 });
 
-const renderApp = () => {
+const hydrateApp = () => {
   loadableReady(() => {
-    render(
+    hydrate(
       <Provider store={store}>
         <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
           <Router history={browserHistory}>
@@ -74,10 +74,10 @@ const renderApp = () => {
     );
   });
 };
-renderApp();
+hydrateApp();
 
 if (module.hot) {
   module.hot.accept('./containers/App/App', () => {
-    renderApp();
+    hydrateApp();
   });
 }

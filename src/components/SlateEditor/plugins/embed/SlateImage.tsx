@@ -11,6 +11,8 @@ import { css, jsx } from '@emotion/core';
 import React, { useState } from 'react';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
+import { Remarkable } from 'remarkable';
+import parse from 'html-react-parser';
 import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
@@ -60,6 +62,21 @@ const SlateImage = ({
     return `c-figure ${!isFullWidth ? `u-float${size}${align}` : ''}`;
   };
 
+  const markdown = new Remarkable({ breaks: true });
+  markdown.inline.ruler.enable(['sub', 'sup']);
+  const renderMarkdown = (text: string) => {
+    const markdown = new Remarkable({ breaks: true, html: true });
+    markdown.inline.ruler.enable(['sub', 'sup']);
+    const caption = text || '';
+    /**
+     * Whitespace must be escaped in order for ^superscript^ and ~subscript~
+     * to render properly. Superfluous whitespace must be escaped in order for
+     * text within *italics* and *bold* to render properly.
+     */
+    const escapedMarkdown: string = markdown.render(caption.split(' ').join('\\ '));
+    return parse(escapedMarkdown.split('\\').join(''));
+  };
+
   const transformData = () => {
     return {
       'focal-x': embed['focal-x'],
@@ -105,7 +122,7 @@ const SlateImage = ({
               }
             />
             <figcaption className="c-figure__caption">
-              <div className="c-figure__info">{embed.caption}</div>
+              <div className="c-figure__info">{renderMarkdown(embed.caption)}</div>
             </figcaption>
           </figure>
         </Button>

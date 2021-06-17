@@ -241,7 +241,7 @@ export class StructureResources extends React.PureComponent {
           currentTopic={currentTopic}
           status={topicStatus}
         />
-        {topicResources.length > 0 && grouped === 'grouped' && (
+        {topicResources.length > 0 && grouped === 'ungrouped' && (
           <AllResourcesGroup
             key="ungrouped"
             params={this.props.params}
@@ -254,7 +254,7 @@ export class StructureResources extends React.PureComponent {
             resourceTypes={resourceTypes}
           />
         )}
-        {grouped === 'ungrouped' &&
+        {grouped === 'grouped' &&
           resourceTypes.map(resourceType => {
             const topicResource =
               groupedTopicResources.find(resource => resource.id === resourceType.id) || {};

@@ -7,10 +7,12 @@
  */
 
 import { setToken } from '../../support';
+import editorRoutes from './editorRoutes';
 
 describe('Selecting text and using the toolbar', () => {
   before(() => {
     setToken();
+    editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
   });
 

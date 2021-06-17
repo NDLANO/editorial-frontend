@@ -22,6 +22,8 @@ describe('Subject editing', () => {
       `${taxonomyApi}/subjects/${selectSubject}/topics?recursive=true&language=nb`,
       'allSubjectTopics',
     );
+    cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
+    cy.intercept('GET', '/draft-api/v1/user-data', {"userId":"user_id","latestEditedArticles":["400","800"]});
 
     cy.visit(`/structure/${selectSubject}`);
     cy.apiwait(['@allSubjects', '@allSubjectTopics']);

@@ -193,7 +193,7 @@ export const FootnoteShape = PropTypes.shape({
 export const LinkShape = PropTypes.shape({
   text: PropTypes.string.isRequired,
   href: PropTypes.string.isRequired,
-  checkbox: PropTypes.bool.isRequired,
+  checkbox: PropTypes.bool,
 });
 
 export const PluginShape = PropTypes.shape({

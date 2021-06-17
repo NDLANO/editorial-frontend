@@ -24,7 +24,7 @@ const phrases = {
     loginPage: `Login ${titleTemplate}`,
     logoutPage: `Logout ${titleTemplate}`,
     ndlaFilmPage: `NDLA Film ${titleTemplate}`,
-    podcastUploaderPage: `Podcast ${titleTemplate}`,
+    podcastUploaderPage: `Podcast episode ${titleTemplate}`,
     podcastSeriesPage: `Podcast series ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
     search: {
@@ -158,7 +158,7 @@ const phrases = {
     learningResource: 'Learning resource',
     image: 'New image',
     audio: 'New Audiofile',
-    podcast: 'New Podcast',
+    podcast: 'New Podcast episode',
     podcastSeries: 'New Podcast series',
     agreement: 'New Agreement',
     structure: 'Structure',
@@ -390,7 +390,7 @@ const phrases = {
     description: 'Description',
   },
   podcastForm: {
-    title: 'Podcast file',
+    title: 'Podcast episode',
     fields: {
       header: 'Header',
       introduction: 'Introduction',
@@ -472,7 +472,7 @@ const phrases = {
       related: 'Related content',
       file: 'File',
       code: 'Codeblock',
-      podcast: 'Podcast',
+      podcast: 'Podcast episode',
     },
   },
   form: {

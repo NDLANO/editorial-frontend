@@ -10,7 +10,8 @@ import React, { Component } from 'react';
 import { Remarkable } from 'remarkable';
 
 //@ts-ignore
-import { Article, ContentTypeBadge } from '@ndla/ui';
+import { ContentTypeBadge } from '@ndla/ui';
+import { Article } from '@ndla/ui';
 import { ArticleType, LocaleType } from '../../interfaces';
 //@ts-ignore
 import { transformArticle } from '../../util/articleUtil';
@@ -50,9 +51,9 @@ class PreviewDraft extends Component<Props, {}> {
     return (
       <Article
         article={formatted}
-        //@ts-ignore Must update wrong proptype in Article
+        children={undefined}
         icon={icon}
-        contentType={contentType}
+        id={formatted.id}
         locale={language}
         messages={{
           label,

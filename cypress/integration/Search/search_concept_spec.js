@@ -15,8 +15,13 @@
      cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
      cy.apiroute(
        'GET',
-       '/concept-api/v1/drafts/?page=1&page-size=10&sort=-lastUpdated',
+       '/concept-api/v1/drafts/*',
        'searchConcepts',
+     );
+     cy.apiroute(
+       'GET',
+       '/draft-api/v1/drafts/licenses/',
+       'licenses',
      );
      cy.intercept(
        'GET', 
@@ -27,8 +32,9 @@
            "ndla_id": "PrcePFwCDOsb2_g0Kcb-maN0",
          }
        }]);
+    cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
      cy.visit('/search/concept?page=1&page-size=10&sort=-lastUpdated');
-     cy.apiwait(['@searchConcepts', '@allSubjects']);
+     cy.apiwait(['@searchConcepts', '@licenses', '@allSubjects', '@zendeskToken']);
    });
  
    it('Can use text input', () => {
@@ -57,6 +63,7 @@
      cy.apiwait('@searchConceptStatus');
      cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
      cy.get('select[name="status"]').select('Velg status');
+     cy.apiwait('@searchConcepts');
    });
  
    it('Can use language type dropdown', () => {
@@ -71,6 +78,7 @@
      cy.apiwait('@searchConceptLang');
      cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
      cy.get('select[name="language"]').select('Velg språk');
+     cy.apiwait('@searchConcepts');
    });
  
    it('Can use subject dropdown', () => {
@@ -85,6 +93,7 @@
      cy.apiwait('@searchConceptSubject');
      cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
      cy.get('select[name="subjects"]').select('Velg fag');
+     cy.apiwait('@searchConcepts');
    });
  
    it('Can use user dropdown', () => {
@@ -99,6 +108,7 @@
      cy.apiwait('@searchConceptUser');
      cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
      cy.get('select[name="users"]').select('Velg bruker');
+     cy.apiwait('@searchConcepts');
    });
  });
  

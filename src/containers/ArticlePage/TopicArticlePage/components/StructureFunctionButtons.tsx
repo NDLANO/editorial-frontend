@@ -94,11 +94,7 @@ const StructureFunctionButtons = ({
 
   return (
     <StyledButtonWrapper>
-      <Button
-        outline
-        css={buttonAdditionStyle}
-        type="button"
-        onClick={async () => await addTopic()}>
+      <Button outline css={buttonAdditionStyle} type="button" onClick={addTopic}>
         {t('taxonomy.topics.addNewSubTopic')}
       </Button>
       {currentIndex !== -1 && (

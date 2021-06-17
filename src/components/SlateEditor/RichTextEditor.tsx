@@ -108,8 +108,10 @@ const RichTextEditor = ({
     if (!submitted && prevSubmitted.current) {
       Editor.normalize(editor, { force: true });
     }
+    else if (submitted && !prevSubmitted.current) {
+      ReactEditor.deselect(editor);
+    }
     prevSubmitted.current = submitted;
-    ReactEditor.deselect(editor);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted]);
 

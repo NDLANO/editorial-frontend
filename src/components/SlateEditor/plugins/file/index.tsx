@@ -41,7 +41,11 @@ export const filePlugin = (editor: Editor) => {
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_FILE) {
-      return <Filelist editor={editor} element={element} attributes={attributes}>{children}</Filelist>;
+      return (
+        <Filelist editor={editor} element={element} attributes={attributes}>
+          {children}
+        </Filelist>
+      );
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });
     }

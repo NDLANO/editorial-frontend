@@ -10,7 +10,14 @@
 
 import React, { useEffect, useMemo, useRef } from 'react';
 import { createEditor, Descendant, Editor } from 'slate';
-import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps, ReactEditor } from 'slate-react';
+import {
+  Slate,
+  Editable,
+  withReact,
+  RenderElementProps,
+  RenderLeafProps,
+  ReactEditor,
+} from 'slate-react';
 import { withHistory } from 'slate-history';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';

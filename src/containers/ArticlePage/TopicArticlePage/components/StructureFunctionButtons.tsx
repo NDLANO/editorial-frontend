@@ -16,6 +16,14 @@ import { colors, spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { Topic } from '../../../../interfaces';
 
+interface Props {
+  isSubject?: boolean;
+  isOpen?: boolean;
+  id?: string;
+  activeTopics: Topic[];
+  addTopic: () => Promise<void>;
+}
+
 const buttonAdditionStyle = css`
   opacity: 0;
   height: auto;
@@ -102,14 +110,6 @@ const StructureFunctionButtons = ({
     </StyledButtonWrapper>
   );
 };
-
-interface Props {
-  isSubject?: boolean;
-  isOpen?: boolean;
-  id?: string;
-  activeTopics: Topic[];
-  addTopic: () => Promise<void>;
-}
 
 StructureFunctionButtons.propTypes = {
   isSubject: PropTypes.bool,

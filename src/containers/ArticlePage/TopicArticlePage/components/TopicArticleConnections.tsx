@@ -24,16 +24,6 @@ import { Topic, SubjectType } from '../../../../interfaces';
 import { PathArray, Input } from '../../../../util/retriveBreadCrumbs';
 import { TopicShape, StructureShape } from '../../../../shapes';
 
-const StyledTitleModal = styled('h1')`
-  color: ${colors.text.primary};
-`;
-
-const ModalTitleRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 interface Props {
   structure: SubjectType[];
   activeTopics: Topic[];
@@ -43,6 +33,16 @@ interface Props {
   retriveBreadCrumbs?: (input: Input) => PathArray;
   locale: string;
 }
+
+const StyledTitleModal = styled('h1')`
+  color: ${colors.text.primary};
+`;
+
+const ModalTitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 const TopicArticleConnections = ({
   structure,

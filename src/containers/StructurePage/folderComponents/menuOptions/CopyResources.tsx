@@ -16,8 +16,6 @@ import {
   fetchSubjectTopics,
   fetchTopicResources,
   createTopicResource,
-  fetchTopicFilters,
-  addFilterToResource,
   fetchResource,
   createResource,
   createResourceResourceType,
@@ -27,7 +25,6 @@ import {
 import { cloneDraft } from '../../../../modules/draft/draftApi';
 import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
 import {
-  Filter,
   Resource,
   ResourceTranslation,
   ResourceType,
@@ -110,19 +107,6 @@ const CopyResources = ({
       });
     }
     setResourcesUpdated(true);
-  };
-
-  const addTopicFiltersToResources = async (resources: Resource[], filters: Filter[]) => {
-    // This is made so the code runs sequentially and not cause server overflow
-    // on topics with plenty of resources. The for-loop can be replaced with reduce().
-    for (let i = 0; i < resources.length; i++) {
-      for (let j = 0; j < filters.length; j++) {
-        await addFilterToResource({
-          filterId: filters[j].id,
-          resourceId: resources[i].id,
-        });
-      }
-    }
   };
 
   const cloneResourceResourceTypes = async (resourceTypes: ResourceType[], resourceId: String) => {
@@ -210,8 +194,6 @@ const CopyResources = ({
     try {
       const resources: Resource[] = await fetchTopicResources(topic.id);
       await addResourcesToTopic(resources);
-      const filters: Filter[] = await fetchTopicFilters(id);
-      await addTopicFiltersToResources(resources, filters);
     } catch (e) {
       setShowAlertModal(true);
       handleError(e);
@@ -223,8 +205,6 @@ const CopyResources = ({
       const resources: Resource[] = await fetchTopicResources(topic.id);
       const clonedResources = await cloneResources(resources);
       await addResourcesToTopic(clonedResources);
-      const filters: Filter[] = await fetchTopicFilters(id);
-      await addTopicFiltersToResources(clonedResources, filters);
     } catch (e) {
       setShowAlertModal(true);
       handleError(e);

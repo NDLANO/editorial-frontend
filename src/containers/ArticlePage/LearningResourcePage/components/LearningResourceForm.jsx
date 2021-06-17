@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
-
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -52,7 +51,7 @@ export const getInitialValues = (article = {}) => {
     metaImageAlt: article.metaImage?.alt || '',
     metaImageId,
     notes: [],
-    origin: article.copyright?.origin || '',
+    origin: article.copyright?.origin,
     processors: parseCopyrightContributors(article, 'processors'),
     published: article.published,
     revision: article.revision,
@@ -130,20 +129,23 @@ const LearningResourceForm = props => {
     savedToServer,
     formikRef,
     initialValues,
+    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
+  const { articleChanged, userAccess, createMessage, history } = props;
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
   const FormikChild = formik => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const { values, dirty, isSubmitting, setValues, errors, touched, ...formikProps } = formik;
+    const { values, dirty, isSubmitting } = formik;
     const formIsDirty = isFormikFormDirty({
       values,
       initialValues,
       dirty,
+      changed: articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = preview => getArticleFromSlate({ values, initialValues, licenses, preview });
@@ -156,41 +158,39 @@ const LearningResourceForm = props => {
           getEntity={getArticle}
           formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
-          translateArticle={translateArticle}
+          translateToNN={translateToNN}
           setTranslateOnContinue={setTranslateOnContinue}
           type="standard"
+          history={history}
           {...rest}
         />
         {translating ? (
           <Spinner withWrapper />
         ) : (
           <LearningResourcePanels
-            values={values}
-            errors={errors}
             article={article}
-            touched={touched}
             updateNotes={updateArticle}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            setValues={setValues}
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            {...formikProps}
-            {...rest}
+            userAccess={userAccess}
+            createMessage={createMessage}
+            history={history}
             handleSubmit={() => {
-              handleSubmit(formik, isNewlyCreated);
+              handleSubmit(values, formik);
             }}
           />
         )}
-
         <EditorFooter
           showSimpleFooter={!article.id}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={saveAsNewVersion => {
-            handleSubmit(formik, saveAsNewVersion);
+            setSaveAsNewVersion(saveAsNewVersion);
+            handleSubmit(values, formik);
           }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}
@@ -202,7 +202,7 @@ const LearningResourceForm = props => {
         <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
-          onContinue={translateOnContinue ? translateArticle : () => {}}
+          onContinue={translateOnContinue ? translateToNN : () => {}}
           severity="danger"
           text={t('alertModal.notSaved')}
         />
@@ -215,7 +215,7 @@ const LearningResourceForm = props => {
     article,
     updateArticle,
     translating,
-    translateArticle,
+    translateToNN,
     licenses,
     isNewlyCreated,
     ...rest
@@ -227,7 +227,7 @@ const LearningResourceForm = props => {
       innerRef={formikRef}
       validateOnBlur={false}
       validateOnMount
-      onSubmit={() => ({})}
+      onSubmit={handleSubmit}
       validate={values => validateFormik(values, learningResourceRules, t)}>
       {FormikChild}
     </Formik>
@@ -243,6 +243,7 @@ LearningResourceForm.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
+  articleChanged: PropTypes.bool,
   updateArticleAndStatus: PropTypes.func,
   taxonomy: PropTypes.shape({
     resourceTypes: PropTypes.array,
@@ -254,8 +255,11 @@ LearningResourceForm.propTypes = {
   article: ArticleShape,
   applicationError: PropTypes.func.isRequired,
   translating: PropTypes.bool,
-  translateArticle: PropTypes.func,
+  translateToNN: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default injectT(LearningResourceForm);

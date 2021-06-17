@@ -41,9 +41,9 @@ const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
   return false;
 };
 
-export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
+export const isFormikFormDirty = ({ values, initialValues, dirty = false, changed = false }) => {
   if (!dirty) {
-    return false;
+    return changed;
   }
   // Checking specific slate object fields if they really have changed
   const slateFields = [
@@ -53,6 +53,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
     'metaDescription',
     'content',
     'conceptContent',
+    'manuscript',
   ];
   // and skipping fields that only changes on the server
   const skipFields = ['revision', 'updated', 'updatePublished', 'id', 'status'];
@@ -82,7 +83,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false }) => {
         dirtyFields.push(value);
       }
     });
-  return dirtyFields.length > 0;
+  return dirtyFields.length > 0 || changed;
 };
 
 const formikCommonArticleRules = {

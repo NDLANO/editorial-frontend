@@ -12,7 +12,7 @@ import {
   RelatedArticle,
   TableMaterial,
 } from '@ndla/icons/editor';
-import { Download, VolumeUp } from '@ndla/icons/common';
+import { Download, Podcast, VolumeUp } from '@ndla/icons/common';
 import HowToHelper from '../../../HowTo/HowToHelper';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
@@ -63,6 +63,11 @@ const actions: Action[] = [
   //   data: { type: 'embed', object: 'audio' },
   //   icon: <VolumeUp />,
   //   helpIcon: renderArticleInModal('Audios'),
+  // },
+  // {
+  //   data: { type: 'embed', object: 'podcast' },
+  //   icon: <Podcast />,
+  //   helpIcon: renderArticleInModal('Podcasts'),
   // },
   // {
   //   data: { type: 'embed', object: 'h5p' },

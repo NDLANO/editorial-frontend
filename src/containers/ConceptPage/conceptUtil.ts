@@ -11,7 +11,7 @@ import isEmpty from 'lodash/fp/isEmpty';
 import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
 import { createEmbedTag } from '../../util/embedTagHelpers';
 import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
-import { SubjectType, License, ConceptType, CreateMessageType } from '../../interfaces';
+import { SubjectType, License, ConceptType } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
 
 export const transformApiConceptToFormValues = (
@@ -158,18 +158,12 @@ export const conceptFormRules = {
 
 export function submitFormWithMessage<T>(
   formikContext: FormikContextType<T>,
-  createMessage: (o: CreateMessageType) => void,
+  showMessage: () => void,
 ) {
-  const { submitForm, isValid, errors } = formikContext;
+  const { submitForm, isValid } = formikContext;
   if (isValid) {
     submitForm();
   } else {
-    // @ts-ignore
-    const e = Object.keys(errors).map(key => `${key}: ${errors[key]}`);
-    createMessage({
-      message: e.join(' '),
-      severity: 'danger',
-      timeToLive: 0,
-    });
+    showMessage();
   }
 }

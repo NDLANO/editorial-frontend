@@ -126,19 +126,18 @@ class VisualElementUrlPreview extends Component {
 
   async handleSaveUrl(url, preview = false) {
     const { onUrlSave } = this.props;
+    const whiteListedUrl = filterWhiteListedURL(url);
+    if (whiteListedUrl) {
+      try {
+        const data = await fetchExternalOembed(url);
+        const src = getIframeSrcFromHtmlString(data.html);
 
-    try {
-      const data = await fetchExternalOembed(url);
-      const src = getIframeSrcFromHtmlString(data.html);
-
-      if (preview) {
-        this.setState({ embedUrl: src, showPreview: true });
-      } else {
-        onUrlSave({ resource: 'external', url: src });
-      }
-    } catch (err) {
-      const whiteListedUrl = filterWhiteListedURL(url);
-      if (whiteListedUrl) {
+        if (preview) {
+          this.setState({ embedUrl: src, showPreview: true });
+        } else {
+          onUrlSave({ resource: 'external', url: src });
+        }
+      } catch (err) {
         if (preview) {
           this.setState({ embedUrl: url, showPreview: true });
         } else {
@@ -149,9 +148,9 @@ class VisualElementUrlPreview extends Component {
             height: whiteListedUrl.height || '486px',
           });
         }
-      } else {
-        this.setState({ isNotSupportedUrl: true });
       }
+    } else {
+      this.setState({ isNotSupportedUrl: true });
     }
   }
 

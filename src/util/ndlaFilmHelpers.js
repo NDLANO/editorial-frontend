@@ -7,6 +7,7 @@
  */
 
 import { editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
+import { LOCALE_VALUES } from '../constants';
 
 export const getInitialValues = (filmFrontpage, slideshowMovies, themes, language) => {
   const supportedLanguages = filmFrontpage.about.map(about => about.language);
@@ -109,7 +110,7 @@ export const getNdlaFilmFromSlate = (oldFilmFrontpage, newFilmFrontpage, selecte
 };
 
 export const getIdFromUrn = urnId => {
-  return urnId.replace('urn:article:', '');
+  return parseInt(urnId.replace('urn:article:', ''));
 };
 
 export const getUrnFromId = id => {
@@ -136,7 +137,7 @@ export const findName = (themeNames, language) => {
 };
 
 export const convertThemeNames = names => {
-  return ['nb', 'nn', 'en'].map(lang => ({
+  return LOCALE_VALUES.map(lang => ({
     language: lang,
     name: names.name[lang],
   }));

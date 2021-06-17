@@ -7,18 +7,12 @@
  */
 
 import React, { Fragment } from 'react';
-import { FormikHelpers, FieldProps, FormikValues } from 'formik';
 import FormikField from '../../../components/FormikField';
-import { ArticleType, ConceptType, ConvertedRelatedContent } from '../../../interfaces';
+import { ConceptType, ConvertedRelatedContent } from '../../../interfaces';
 import ConceptsField from './ConceptsField';
 import ContentField from './ContentField';
 
 interface Props {
-  article: ArticleType;
-  field: FieldProps<string[]>['field'];
-  form: {
-    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  };
   values: {
     conceptIds: ConceptType[];
     relatedContent: ConvertedRelatedContent[];

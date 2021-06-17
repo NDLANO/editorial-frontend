@@ -136,6 +136,7 @@ const TopicArticleForm = props => {
     formikRef,
     initialValues,
     setResetModal,
+    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
@@ -147,21 +148,26 @@ const TopicArticleForm = props => {
     t,
     article,
     updateArticle,
+    articleChanged,
     translating,
-    translateArticle,
+    translateToNN,
     licenses,
     isNewlyCreated,
+    createMessage,
+    history,
+    userAccess,
     ...rest
   } = props;
 
   const FormikChild = formik => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const { values, dirty, isSubmitting, setValues, errors, touched, ...formikProps } = formik;
+    const { values, dirty, isSubmitting, setValues } = formik;
 
     const formIsDirty = isFormikFormDirty({
       values,
       initialValues,
       dirty,
+      changed: articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = () => getArticleFromSlate({ values, initialValues, licenses });
@@ -176,29 +182,29 @@ const TopicArticleForm = props => {
           getInitialValues={getInitialValues}
           setValues={setValues}
           isSubmitting={isSubmitting}
-          translateArticle={translateArticle}
+          translateToNN={translateToNN}
           setTranslateOnContinue={setTranslateOnContinue}
           type="topic-article"
+          history={history}
           {...rest}
         />
         {translating ? (
           <Spinner withWrapper />
         ) : (
           <TopicArticleAccordionPanels
-            values={values}
-            errors={errors}
             updateNotes={updateArticle}
             article={article}
-            touched={touched}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            setValues={setValues}
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            {...formikProps}
-            {...rest}
-            handleSubmit={() => handleSubmit(formik)}
+            handleSubmit={() => {
+              handleSubmit(values, formik);
+            }}
+            history={history}
+            userAccess={userAccess}
+            createMessage={createMessage}
           />
         )}
         <EditorFooter
@@ -207,18 +213,22 @@ const TopicArticleForm = props => {
           savedToServer={savedToServer}
           getEntity={getArticle}
           showReset={() => setResetModal(true)}
-          onSaveClick={saveAsNewVersion => handleSubmit(formik, saveAsNewVersion)}
+          onSaveClick={saveAsNewVersion => {
+            setSaveAsNewVersion(saveAsNewVersion);
+            handleSubmit(values, formik);
+          }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
+          createMessage={createMessage}
           {...rest}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}
           formIsDirty={formIsDirty}
-          onContinue={translateOnContinue ? translateArticle : () => {}}
+          onContinue={translateOnContinue ? translateToNN : () => {}}
           severity="danger"
           text={t('alertModal.notSaved')}
         />
@@ -233,7 +243,7 @@ const TopicArticleForm = props => {
       initialValues={initialValues}
       validateOnChange={false}
       innerRef={formikRef}
-      onSubmit={() => ({})}
+      onSubmit={handleSubmit}
       validate={values => validateFormik(values, topicArticleRules, t)}>
       {FormikChild}
     </Formik>
@@ -249,12 +259,17 @@ TopicArticleForm.propTypes = {
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),
   }),
+  articleChanged: PropTypes.bool,
   updateArticleAndStatus: PropTypes.func,
+  userAccess: PropTypes.string,
   licenses: LicensesArrayOf,
   article: ArticleShape,
   translating: PropTypes.bool,
-  translateArticle: PropTypes.func,
+  translateToNN: PropTypes.func,
   isNewlyCreated: PropTypes.bool,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
 };
 
 export default injectT(TopicArticleForm);

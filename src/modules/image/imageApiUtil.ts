@@ -13,10 +13,10 @@ import { ImageType } from '../../interfaces';
 export const transformApiToCLeanImage = (image: ImageApiType, language: string): ImageType => {
   return {
     ...image,
-    title: convertFieldWithFallback(image, 'title', '', language),
-    tags: convertFieldWithFallback(image, 'tags', [], language),
-    alttext: convertFieldWithFallback(image, 'alttext', '', language),
-    caption: convertFieldWithFallback(image, 'caption', '', language),
+    title: convertFieldWithFallback<'title'>(image, 'title', '', language),
+    tags: convertFieldWithFallback<'tags', string[]>(image, 'tags', [], language),
+    alttext: convertFieldWithFallback<'alttext'>(image, 'alttext', '', language),
+    caption: convertFieldWithFallback<'caption'>(image, 'caption', '', language),
     language,
   };
 };

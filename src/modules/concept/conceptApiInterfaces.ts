@@ -50,14 +50,16 @@ export interface ConceptQuery {
   language?: string;
   page?: number;
   pageSize?: number;
-  idList: number[];
+  ids?: string;
   sort?: string;
   fallback?: boolean;
   scrollId?: string;
-  subjects: string[];
-  tags: string[];
-  status: string[];
-  users: string[];
+  subjects?: string;
+  tags?: string;
+  status?: string;
+  users?: string;
+  'embed-id'?: number;
+  'embed-resource'?: string;
 }
 
 interface UpdateConceptType {
@@ -76,6 +78,7 @@ interface UpdateConceptType {
 export interface PatchConceptType extends UpdateConceptType {
   id: number;
 }
+
 export interface NewConceptType extends UpdateConceptType {
   title: string;
 }
@@ -93,6 +96,7 @@ export interface CoreApiConceptType {
   tags?: LanguageFieldType<{ tags: string[] }>;
   subjectIds?: string[];
 }
+
 export interface SearchConceptType extends CoreApiConceptType {
   lastUpdated: string;
   updatedBy: string[];

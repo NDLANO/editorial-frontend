@@ -10,11 +10,11 @@ import React, { useState, useEffect } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { AccordionWrapper } from '@ndla/accordion';
+import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import { toEditConcept } from '../../../util/routeHelpers.js';
+import { toEditConcept } from '../../../util/routeHelpers';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -29,22 +29,15 @@ import {
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
 import FormWrapper from './FormWrapper';
-import AccordionSection from './AccordionSection';
 import FormFooter from './FormFooter';
 import { NewConceptType, PatchConceptType } from '../../../modules/concept/conceptApiInterfaces';
-import {
-  License,
-  SubjectType,
-  SearchResult,
-  ConceptStatusType,
-  CreateMessageType,
-} from '../../../interfaces';
+import { License, SubjectType, SearchResult, ConceptStatusType } from '../../../interfaces';
 import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
 
 interface Props {
   applicationError: (err: string) => void;
   concept: ConceptFormType;
-  createMessage: (o: CreateMessageType) => void;
+  conceptChanged: boolean;
   fetchConceptTags: (input: string, language: string) => Promise<SearchResult>;
   inModal: boolean;
   isNewlyCreated: boolean;
@@ -52,7 +45,7 @@ interface Props {
   onClose: () => void;
   onUpdate: (updateConcept: NewConceptType | PatchConceptType, revision?: string) => void;
   subjects: SubjectType[];
-  translateConcept: () => void;
+  translateToNN: () => void;
   updateConceptAndStatus: (
     updatedConcept: PatchConceptType,
     newStatus: ConceptStatusType,
@@ -62,14 +55,14 @@ interface Props {
 
 const ConceptForm = ({
   concept,
-  createMessage,
+  conceptChanged,
   fetchConceptTags,
   inModal,
   isNewlyCreated,
   licenses,
   onClose,
   subjects,
-  translateConcept,
+  translateToNN,
   updateConceptAndStatus,
   onUpdate,
   applicationError,
@@ -132,19 +125,19 @@ const ConceptForm = ({
               content={concept}
               editUrl={(lang: string) => toEditConcept(values.id, lang)}
               getEntity={() => getConcept(values, licenses, concept.updatedBy)}
-              translateArticle={translateConcept}
+              translateToNN={translateToNN}
               type="concept"
               setTranslateOnContinue={setTranslateOnContinue}
               values={values}
             />
-            <AccordionWrapper>
+            <Accordions>
               <AccordionSection
                 id="concept-content"
                 title={t('form.contentSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={!!(errors.slatetitle || errors.conceptContent)}
                 startOpen>
-                <ConceptContent createMessage={createMessage} />
+                <ConceptContent />
               </AccordionSection>
               <AccordionSection
                 id="concept-copyright"
@@ -175,16 +168,16 @@ const ConceptForm = ({
                 hasError={!!errors.articles}>
                 <ConceptArticles />
               </AccordionSection>
-            </AccordionWrapper>
+            </Accordions>
             <FormFooter
               entityStatus={concept.status}
+              conceptChanged={conceptChanged}
               inModal={inModal}
               savedToServer={savedToServer}
               isNewlyCreated={isNewlyCreated}
               showSimpleFooter={!concept.id}
               onClose={onClose}
-              onContinue={translateOnContinue ? translateConcept : () => {}}
-              createMessage={createMessage}
+              onContinue={translateOnContinue ? translateToNN : () => {}}
               getApiConcept={() => getConcept(values, licenses, concept.updatedBy)}
             />
           </FormWrapper>

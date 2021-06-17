@@ -8,8 +8,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Lightbox from '../../components/Lightbox';
 import VisualElementSearch from './VisualElementSearch';
+import VisualElementModalWrapper from './VisualElementModalWrapper';
 
 class VisualElementSelectField extends Component {
   constructor(props) {
@@ -39,18 +39,21 @@ class VisualElementSelectField extends Component {
       return null;
     }
     return (
-      <Lightbox
-        display
-        appearance={selectedResource === 'h5p' ? 'fullscreen' : 'big'}
+      <VisualElementModalWrapper
+        resource={selectedResource}
+        isOpen
         onClose={this.onImageLightboxClose}>
-        <VisualElementSearch
-          selectedResource={selectedResource}
-          handleVisualElementChange={this.handleVisualElementChange}
-          closeModal={this.onImageLightboxClose}
-          videoTypes={videoTypes}
-          articleLanguage={articleLanguage}
-        />
-      </Lightbox>
+        {setH5pFetchFail => (
+          <VisualElementSearch
+            selectedResource={selectedResource}
+            handleVisualElementChange={this.handleVisualElementChange}
+            closeModal={this.onImageLightboxClose}
+            videoTypes={videoTypes}
+            articleLanguage={articleLanguage}
+            setH5pFetchFail={setH5pFetchFail}
+          />
+        )}
+      </VisualElementModalWrapper>
     );
   }
 }

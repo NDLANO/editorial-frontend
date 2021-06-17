@@ -23,20 +23,6 @@ const sortByName = (a, b) => {
   return 0;
 };
 
-const filterToSubjects = allFilters => {
-  const filterObjects = {};
-  allFilters.forEach(filter => {
-    if (!filterObjects[filter.subjectId]) {
-      filterObjects[filter.subjectId] = [];
-    }
-    filterObjects[filter.subjectId].push(filter);
-  });
-  Object.keys(filterObjects).forEach(subjectId => {
-    filterObjects[subjectId] = filterObjects[subjectId].sort(sortByName);
-  });
-  return filterObjects;
-};
-
 function flattenResourceTypesAndAddContextTypes(data = [], t) {
   const resourceTypes = [];
   data.forEach(type => {
@@ -65,7 +51,7 @@ function sortIntoCreateDeleteUpdate({
   originalItems,
   changedId = 'id',
   originalId = 'id',
-  updateProperty,
+  updateProperties = [],
 }) {
   const updateItems = [];
   const createItems = [];
@@ -78,12 +64,14 @@ function sortIntoCreateDeleteUpdate({
   changedItems.forEach(changedItem => {
     const foundItem = originalItems.find(item => item[originalId] === changedItem[changedId]);
     if (foundItem) {
-      if (updateProperty && foundItem[updateProperty] !== changedItem[updateProperty]) {
-        updateItems.push({
-          ...foundItem,
-          [updateProperty]: changedItem[updateProperty],
-        });
-      }
+      updateProperties.forEach(updateProperty => {
+        if (foundItem[updateProperty] !== changedItem[updateProperty]) {
+          updateItems.push({
+            ...foundItem,
+            [updateProperty]: changedItem[updateProperty],
+          });
+        }
+      });
     } else {
       createItems.push(changedItem);
     }
@@ -201,7 +189,6 @@ export {
   groupSortResourceTypesFromTopicResources,
   groupTopics,
   getCurrentTopic,
-  filterToSubjects,
   sortByName,
   selectedResourceTypeValue,
   pathToUrnArray,

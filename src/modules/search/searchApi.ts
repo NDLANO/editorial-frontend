@@ -13,19 +13,19 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import { transformQuery } from '../../util/searchHelpers';
-import { GroupSearchResult, MultiSearchApiQuery } from './searchApiInterfaces';
+import { MultiSearchResult, GroupSearchResult, MultiSearchApiQuery } from './searchApiInterfaces';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
 
-export const search = async (query: MultiSearchApiQuery) => {
+export const search = async (query: MultiSearchApiQuery): Promise<MultiSearchResult> => {
   const response = await fetchAuthorized(
     `${baseUrl}/editorial/?${queryString.stringify(transformQuery(query))}`,
   );
   return resolveJsonOrRejectWithError(response);
 };
 
-export const searchResources = async (query: MultiSearchApiQuery) => {
+export const searchResources = async (query: MultiSearchApiQuery): Promise<MultiSearchResult> => {
   const response = await fetchAuthorized(
     `${baseUrl}/?${queryString.stringify(transformQuery(query))}`,
   );

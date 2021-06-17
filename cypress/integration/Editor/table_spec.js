@@ -6,13 +6,15 @@
  *
  */
 
-import { visitOptions, setToken } from '../../support';
+import { setToken } from '../../support';
+import editorRoutes from './editorRoutes';
 import t from '../../../src/phrases/phrases-nb';
 
 describe('Table plugin', () => {
   beforeEach(() => {
     setToken();
-    cy.visit('/subject-matter/learning-resource/new', visitOptions);
+    editorRoutes();
+    cy.visit('/subject-matter/learning-resource/new');
   });
 
   it('all table functions work', () => {

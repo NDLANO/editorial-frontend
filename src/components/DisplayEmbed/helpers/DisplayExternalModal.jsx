@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { css } from '@emotion/react';
 import { injectT } from '@ndla/i18n';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
+import VisualElementModalWrapper from '../../../containers/VisualElement/VisualElementModalWrapper';
 
 const DisplayExternalModal = ({
   isEditMode,
@@ -18,37 +17,21 @@ const DisplayExternalModal = ({
     return null;
   }
   return (
-    <Modal
-      css={css`
-        overflow: hidden;
-        .modal-body {
-          height: 90%;
-          overflow: hidden;
-        }
-      `}
-      controllable
+    <VisualElementModalWrapper
+      resource={allowedProvider.name.toLowerCase()}
       isOpen={isEditMode}
-      size={allowedProvider.name.toLowerCase() === 'h5p' ? 'fullscreen' : 'large'}
-      backgroundColor="white"
-      onClose={onClose}
-      minHeight="85vh">
-      {onCloseModal => (
-        <Fragment>
-          <ModalHeader>
-            <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
-          </ModalHeader>
-          <ModalBody>
-            <VisualElementSearch
-              selectedResource={allowedProvider.name}
-              selectedResourceUrl={src}
-              selectedResourceType={type}
-              handleVisualElementChange={onEditEmbed}
-              closeModal={onClose}
-            />
-          </ModalBody>
-        </Fragment>
+      onClose={onClose}>
+      {setH5pFetchFail => (
+        <VisualElementSearch
+          selectedResource={allowedProvider.name}
+          selectedResourceUrl={src}
+          selectedResourceType={type}
+          handleVisualElementChange={onEditEmbed}
+          closeModal={onClose}
+          setH5pFetchFail={setH5pFetchFail}
+        />
       )}
-    </Modal>
+    </VisualElementModalWrapper>
   );
 };
 

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
@@ -21,18 +21,7 @@ import CreateImage from './CreateImage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { RoutePropTypes } from '../../shapes';
 import { ReduxState } from '../../interfaces';
-
-const usePreviousLocation = (value: any) => {
-  const ref = useRef();
-  const actualRef = useRef();
-  useEffect(() => {
-    if (ref.current !== actualRef.current) {
-      actualRef.current = ref.current;
-    }
-    ref.current = value;
-  }, [value]);
-  return actualRef.current;
-};
+import { usePreviousLocation } from '../../util/routeHelpers';
 
 interface MatchParams {
   imageId?: string;
@@ -47,10 +36,10 @@ const mapStateToProps = (state: ReduxState) => ({
 const reduxConnector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-interface Props extends tType, RouteComponentProps<MatchParams>, PropsFromRedux {}
+type Props = tType & RouteComponentProps<MatchParams> & PropsFromRedux;
 
 const ImageUploaderPage = ({ match, t, location, ...rest }: Props) => {
-  const prevLoc = usePreviousLocation(location.pathname);
+  const prevLoc = usePreviousLocation();
   return (
     <OneColumn>
       <HelmetWithTracker title={t('htmlTitles.imageUploaderPage')} />
@@ -79,4 +68,4 @@ ImageUploaderPage.propTypes = {
   imageLanguage: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(injectT(ImageUploaderPage));
+export default reduxConnector(injectT(ImageUploaderPage));

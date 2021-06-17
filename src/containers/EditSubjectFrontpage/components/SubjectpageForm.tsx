@@ -153,7 +153,7 @@ const SubjectpageForm = ({
           <Form {...formClasses()}>
             <SimpleLanguageHeader
               articleType={values.articleType!}
-              editUrl={(lang: string) => toEditSubjectpage(values.elementId, lang, values.id)}
+              editUrl={(lang: string) => toEditSubjectpage(values.elementId!, lang, values.id)}
               id={parseInt(values.id!)}
               isSubmitting={isSubmitting}
               language={values.language}

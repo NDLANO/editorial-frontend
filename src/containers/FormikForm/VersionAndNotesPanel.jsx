@@ -185,10 +185,6 @@ const VersionAndNotesPanel = ({
 };
 
 VersionAndNotesPanel.propTypes = {
-  values: PropTypes.shape({
-    id: PropTypes.number,
-    revision: PropTypes.number,
-  }),
   articleStatus: PropTypes.shape({
     current: PropTypes.string,
     other: PropTypes.arrayOf(PropTypes.string),

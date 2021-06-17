@@ -81,8 +81,11 @@ const RichTextEditor = ({
   removeSection,
   ...rest
 }: Props) => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
+  const editor = useMemo(
+    () => withHistory(withReact(withPlugins(createEditor(), plugins))),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
   editor.removeSection = () => {
     removeSection(index);
   };

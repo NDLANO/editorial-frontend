@@ -14,6 +14,7 @@ import { MathmlElement } from './plugins/mathml';
 import { ConceptElement } from './plugins/concept';
 import { AsideElement } from './plugins/aside';
 import { FileElement } from './plugins/file';
+import { DetailsElement, SummaryElement } from './plugins/details';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -27,6 +28,7 @@ export type CustomEditor = {
   renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
   renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
   removeSection?: () => void;
+  shouldShowToolbar: () => boolean;
 };
 
 declare module 'slate' {
@@ -44,7 +46,9 @@ declare module 'slate' {
       | MathmlElement
       | ConceptElement
       | AsideElement
-      | FileElement;
+      | FileElement
+      | DetailsElement
+      | SummaryElement;
     Text: CustomTextWithMarks;
   }
 }

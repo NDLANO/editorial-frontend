@@ -1,6 +1,6 @@
 import { Editor, Element, NodeEntry, Node, Transforms, Text, Path } from 'slate';
 import { jsx } from 'slate-hyperscript';
-import { TYPE_PARAGRAPH } from '../plugins/paragraph';
+import { TYPE_PARAGRAPH } from '../plugins/paragraph/utils';
 
 export const firstTextBlockElement: Element['type'][] = ['paragraph', 'heading'];
 
@@ -84,19 +84,20 @@ export const defaultTextBlockNormalizer = (
     }
   }
 
-  const previousPath = Path.previous(path);
+  if (Path.hasPrevious(path)) {
+    const previousPath = Path.previous(path);
 
-  if (Editor.hasPath(editor, previousPath)) {
-    const [previousNode] = Editor.node(editor, previousPath);
-    if (
-      !Element.isElement(previousNode) ||
-      !afterOrBeforeTextBlockElement.includes(previousNode.type)
-    ) {
-      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
-        at: path,
-      });
-
-      return;
+    if (Editor.hasPath(editor, previousPath)) {
+      const [previousNode] = Editor.node(editor, previousPath);
+      if (
+        !Element.isElement(previousNode) ||
+        !afterOrBeforeTextBlockElement.includes(previousNode.type)
+      ) {
+        Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+          at: path,
+        });
+        return;
+      }
     }
   }
   nextNormalizeNode(entry);

@@ -90,6 +90,12 @@ const SlateToolbar = (props: Props) => {
       menu.removeAttribute('style');
       return;
     }
+
+    if (!editor.shouldShowToolbar()) {
+      menu.removeAttribute('style');
+      return;
+    }
+
     menu.style.display = 'block';
     const native = window.getSelection();
     if (!native) {

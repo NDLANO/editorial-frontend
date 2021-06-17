@@ -13,11 +13,10 @@ import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_BREAK } from '../break';
-import { getCurrentParagraph } from './utils';
+import { getCurrentParagraph, TYPE_PARAGRAPH } from './utils';
 import containsVoid from '../../utils/containsVoid';
 
 const KEY_ENTER = 'Enter';
-export const TYPE_PARAGRAPH = 'paragraph';
 
 export interface ParagraphElement {
   type: 'paragraph';

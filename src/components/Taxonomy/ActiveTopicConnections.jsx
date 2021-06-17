@@ -25,6 +25,7 @@ ActiveTopicConnections.propTypes = {
   removeConnection: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
   activeTopics: PropTypes.arrayOf(TopicShape),
+  type: PropTypes.string,
 };
 
 export default ActiveTopicConnections;

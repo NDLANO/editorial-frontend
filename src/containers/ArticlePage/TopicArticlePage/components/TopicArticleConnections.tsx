@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Structure } from '@ndla/editor';
@@ -22,6 +22,7 @@ import StructureFunctionButtons from './StructureFunctionButtons';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
 import { Topic, SubjectType } from '../../../../interfaces';
 import { PathArray, Input } from '../../../../util/retriveBreadCrumbs';
+import { TopicShape, StructureShape } from '../../../../shapes';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -33,11 +34,29 @@ const ModalTitleRow = styled.div`
   justify-content: space-between;
 `;
 
-const TopicArticleConnections = (props: Props & tType) => {
+interface Props {
+  structure: SubjectType[];
+  activeTopics: Topic[];
+  allowMultipleSubjectsOpen?: boolean;
+  stageTaxonomyChanges: ({ path }: { path: string }) => void;
+  getSubjectTopics: (subjectId: string, locale: string) => Promise<void>;
+  retriveBreadCrumbs?: (input: Input) => PathArray;
+  locale: string;
+}
+
+const TopicArticleConnections = ({
+  structure,
+  activeTopics,
+  allowMultipleSubjectsOpen,
+  stageTaxonomyChanges,
+  getSubjectTopics,
+  retriveBreadCrumbs,
+  locale,
+  t,
+}: Props & tType) => {
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
-
   useEffect(() => {
     fetchFavoriteSubjects();
   }, []);
@@ -61,12 +80,11 @@ const TopicArticleConnections = (props: Props & tType) => {
     isSubject: boolean;
     id: string;
   }) => {
-    const { allowMultipleSubjectsOpen, getSubjectTopics } = props;
     let paths = [...openedPaths];
     const index = paths.indexOf(path);
     if (index === -1) {
       if (isSubject) {
-        getSubjectTopics(id, props.locale);
+        getSubjectTopics(id, locale);
         if (!allowMultipleSubjectsOpen) {
           paths = [];
         }
@@ -79,23 +97,25 @@ const TopicArticleConnections = (props: Props & tType) => {
   };
 
   const addTopic = async (path: string, closeModal: () => void) => {
-    props.stageTaxonomyChanges({ path });
+    stageTaxonomyChanges({ path });
     closeModal();
   };
 
   const toggleShowFavorites = () => {
     setShowFavorites(!showFavorites);
   };
-  const { t, structure, activeTopics, ...rest } = props;
-
   return (
-    <Fragment>
+    <>
       <FieldHeader
         title={t('taxonomy.topics.topicPlacement')}
         subTitle={t('taxonomy.topics.subTitleTopic')}>
         <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t('taxonomy.topics.helpLabel')} />
       </FieldHeader>
-      <ActiveTopicConnections activeTopics={activeTopics} type="topic-article" {...rest} />
+      <ActiveTopicConnections
+        activeTopics={activeTopics}
+        type="topic-article"
+        retriveBreadCrumbs={retriveBreadCrumbs}
+      />
       <Modal
         backgroundColor="white"
         animation="subtle"
@@ -104,7 +124,7 @@ const TopicArticleConnections = (props: Props & tType) => {
         minHeight="85vh"
         activateButton={<Button>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</Button>}>
         {(closeModal: () => void) => (
-          <Fragment>
+          <>
             <ModalHeader>
               <ModalCloseButton
                 title={t('taxonomy.topics.filestructureClose')}
@@ -128,59 +148,40 @@ const TopicArticleConnections = (props: Props & tType) => {
                   showFavorites ? getFavoriteSubjects(structure, favoriteSubjectIds) : structure
                 }
                 toggleOpen={handleOpenToggle}
-                renderListItems={(props: any) => {
-                  // item should possibly be typed in [Structure].
+                renderListItems={({
+                  path,
+                  isSubject,
+                  isOpen,
+                  id,
+                }: {
+                  path: string;
+                  isSubject: boolean;
+                  isOpen: boolean;
+                  id: string;
+                }) => {
                   return (
                     <StructureFunctionButtons
-                      {...props}
+                      isOpen={isOpen}
+                      id={id}
+                      isSubject={isSubject}
                       activeTopics={activeTopics}
-                      addTopic={() => addTopic(props.path, closeModal)}
+                      addTopic={() => addTopic(path, closeModal)}
                     />
                   );
                 }}
               />
             </ModalBody>
-          </Fragment>
+          </>
         )}
       </Modal>
-    </Fragment>
+    </>
   );
 };
 
-interface TaxonomyTopic {
-  contentUri?: string;
-  id: string;
-  name?: string;
-  path: string;
-}
-
-interface Props {
-  isOpened?: boolean;
-  structure: SubjectType[];
-  activeTopics: Topic[];
-  taxonomyTopics: TaxonomyTopic[];
-  allowMultipleSubjectsOpen?: boolean;
-  stageTaxonomyChanges: ({ path }: { path: string }) => void;
-  getSubjectTopics: (subjectId: string, locale: string) => Promise<void>;
-  setPrimaryConnection?: Function; // Unsure if used.
-  retriveBreadcrumbs?: (input: Input) => PathArray;
-  locale: string;
-}
-
 TopicArticleConnections.propTypes = {
   isOpened: PropTypes.bool,
-  /// TypeScript and PropTypes interop error. [TopicShape] or [Topic] must be changed so that a property is either non-null or nullable in both.
-  /// Applicable to [StructureShape] and [TopicShape].
-  // structure: PropTypes.arrayOf(StructureShape).isRequired,
-  // activeTopics: PropTypes.arrayOf(TopicShape).isRequired,
-  // taxonomyTopics: PropTypes.arrayOf(
-  //   PropTypes.shape({
-  //     contentUri: PropTypes.string,
-  //     id: PropTypes.string,
-  //     name: PropTypes.string,
-  //     path: PropTypes.string,
-  //   }).isRequired,
-  // ).isRequired,
+  structure: PropTypes.arrayOf<SubjectType>(StructureShape).isRequired,
+  activeTopics: PropTypes.arrayOf<Topic>(TopicShape).isRequired,
   retriveBreadcrumbs: PropTypes.func,
   setPrimaryConnection: PropTypes.func,
   allowMultipleSubjectsOpen: PropTypes.bool,

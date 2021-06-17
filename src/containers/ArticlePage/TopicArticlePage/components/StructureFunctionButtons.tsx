@@ -86,7 +86,11 @@ const StructureFunctionButtons = ({
 
   return (
     <StyledButtonWrapper>
-      <Button outline css={buttonAdditionStyle} type="button" onClick={addTopic}>
+      <Button
+        outline
+        css={buttonAdditionStyle}
+        type="button"
+        onClick={async () => await addTopic()}>
         {t('taxonomy.topics.addNewSubTopic')}
       </Button>
       {currentIndex !== -1 && (
@@ -104,7 +108,7 @@ interface Props {
   isOpen?: boolean;
   id?: string;
   activeTopics: Topic[];
-  addTopic: () => void;
+  addTopic: () => Promise<void>;
 }
 
 StructureFunctionButtons.propTypes = {

@@ -42,6 +42,7 @@ const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 const extractor = new ChunkExtractor({
   statsFile: path.resolve('./build/public/loadable-stats.json'),
   entrypoints: ['client'],
+  outputPath: path.resolve('./build/public/loadable-stats.json'),
 });
 
 // Temporal hack to send users to prod

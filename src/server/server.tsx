@@ -40,9 +40,8 @@ const allowedBodyContentTypes = ['application/csp-report', 'application/json'];
 
 // Used for loadable components
 const extractor = new ChunkExtractor({
-  statsFile: path.resolve('./build/public/loadable-stats.json'),
+  statsFile: path.resolve(__dirname, 'build/public/loadable-stats.json'),
   entrypoints: ['client'],
-  outputPath: path.resolve('./build/public/loadable-stats.json'),
 });
 
 // Temporal hack to send users to prod

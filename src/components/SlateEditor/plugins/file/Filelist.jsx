@@ -209,7 +209,7 @@ class Filelist extends React.Component {
     }
     return (
       <Fragment>
-        <StyledSection {...attributes}>
+        <StyledSection {...attributes} contentEditable={false}>
           <FieldHeader title={t('form.file.label')}>
             <Tooltip tooltip={t('form.file.addFile')}>
               <button tabIndex={-1} type="button" onClick={this.onOpenFileUploader}>

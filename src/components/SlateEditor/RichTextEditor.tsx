@@ -107,8 +107,7 @@ const RichTextEditor = ({
   useEffect(() => {
     if (!submitted && prevSubmitted.current) {
       Editor.normalize(editor, { force: true });
-    }
-    else if (submitted && !prevSubmitted.current) {
+    } else if (submitted && !prevSubmitted.current) {
       ReactEditor.deselect(editor);
     }
     prevSubmitted.current = submitted;

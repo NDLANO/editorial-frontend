@@ -27,7 +27,9 @@ export const fileSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== 'div') return;
     if (el.dataset.type !== TYPE_FILE) return;
-    return getFileBlock(el.innerHTML.split(',').map(embed => parseEmbedTag(embed)));
+    return getFileBlock(
+      el.innerHTML.split(',').map(embed => (parseEmbedTag(embed) as unknown) as File),
+    );
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;

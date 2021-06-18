@@ -8,7 +8,8 @@
 
 import { jsx } from 'slate-hyperscript';
 import { TYPE_FILE } from '.';
+import { File } from '../../../../interfaces';
 
-export const getFileBlock = (data: any) => {
+export const getFileBlock = (data: File[]) => {
   return jsx('element', { type: TYPE_FILE, data }, [{ text: '' }]);
 };

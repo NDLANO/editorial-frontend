@@ -15,9 +15,9 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import loadable from '@loadable/component';
 import LoginProviders from './LoginProviders';
 import { LocationShape, HistoryShape } from '../../shapes';
+import Footer from '../App/components/Footer';
 const LoginFailure = loadable(() => import('./LoginFailure'));
 const LoginSuccess = loadable(() => import('./LoginSuccess'));
-const Footer = loadable(() => import('../App/components/Footer'));
 
 export const Login = ({ t, match, authenticated, location, history }) => {
   if (authenticated && location.hash === '' && match.url === '/login') {

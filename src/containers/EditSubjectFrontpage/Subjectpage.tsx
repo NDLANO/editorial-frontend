@@ -12,10 +12,10 @@ import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
 
 import { usePreviousLocation } from '../../util/routeHelpers';
+import Footer from '../App/components/Footer';
 const EditSubjectpage = loadable(() => import('./EditSubjectpage'));
 const CreateSubjectpage = loadable(() => import('./CreateSubjectpage'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
-const Footer = loadable(() => import('../App/components/Footer'));
 
 interface Props extends RouteComponentProps {}
 

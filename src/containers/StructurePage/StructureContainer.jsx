@@ -15,7 +15,6 @@ import { Taxonomy, Star } from '@ndla/icons/editor';
 import { Structure } from '@ndla/editor';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
-import loadable from '@loadable/component';
 import { connectLinkItems } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import StructureResources from './resourceComponents/StructureResources';
@@ -39,7 +38,7 @@ import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import RoundIcon from '../../components/RoundIcon';
 import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { LocationShape, HistoryShape } from '../../shapes';
-const Footer = loadable(() => import('../App/components/Footer'));
+import Footer from '../App/components/Footer';
 
 export class StructureContainer extends React.PureComponent {
   constructor(props) {

@@ -12,12 +12,12 @@ import { RouteComponentProps } from 'react-router';
 import loadable from '@loadable/component';
 import { LocationShape, HistoryShape } from '../../shapes';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import Footer from './components/Footer';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 const TopicArticlePage = loadable(() => import('../ArticlePage/TopicArticlePage/TopicArticlePage'));
 const LearningResourcePage = loadable(() =>
   import('../ArticlePage/LearningResourcePage/LearningResourcePage'),
 );
-const Footer = loadable(() => import('./components/Footer'));
 
 const SubjectMatterPage = ({ match }: RouteComponentProps) => (
   <Fragment>

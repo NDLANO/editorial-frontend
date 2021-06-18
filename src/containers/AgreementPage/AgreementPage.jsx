@@ -18,8 +18,7 @@ import * as api from '../../modules/draft/draftApi';
 import * as messageActions from '../Messages/messagesActions';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { toEditAgreement } from '../../util/routeHelpers';
-const Footer = loadable(() => import('../App/components/Footer'));
-
+import Footer from '../App/components/Footer';
 const EditAgreement = loadable(() => import('../../modules/locale/locale'));
 const CreateAgreement = loadable(() => import('./CreateAgreement'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));

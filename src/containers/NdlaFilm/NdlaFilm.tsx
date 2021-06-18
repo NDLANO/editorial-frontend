@@ -9,9 +9,8 @@ import React from 'react';
 import { match, Route, Switch } from 'react-router';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
-import loadable from '@loadable/component';
 import NdlaFilmEditor from './NdlaFilmEditor';
-const Footer = loadable(() => import('../App/components/Footer'));
+import Footer from '../App/components/Footer';
 
 interface Props {
   match: match;

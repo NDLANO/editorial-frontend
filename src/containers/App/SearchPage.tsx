@@ -27,9 +27,8 @@ import { searchAudio } from '../../modules/audio/audioApi';
 import { searchConcepts } from '../../modules/concept/conceptApi';
 import { SearchType } from '../../interfaces';
 import { SearchParams } from '../SearchPage/components/form/SearchForm';
-
+import Footer from './components/Footer';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
-const Footer = loadable(() => import('./components/Footer'));
 
 interface Props extends RouteComponentProps, tType {}
 

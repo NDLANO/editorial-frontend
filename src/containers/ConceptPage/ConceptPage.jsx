@@ -17,7 +17,7 @@ import { actions as licenseActions, getAllLicenses } from '../../modules/license
 import * as messageActions from '../Messages/messagesActions';
 import { getLocale } from '../../modules/locale/locale';
 import { LicensesArrayOf, LocationShape } from '../../shapes';
-import Footer from '../App/components/Footer';
+const Footer = loadable(() => import('../App/components/Footer'));
 const CreateConcept = loadable(() => import('./CreateConcept'));
 const EditConcept = loadable(() => import('./EditConcept'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));

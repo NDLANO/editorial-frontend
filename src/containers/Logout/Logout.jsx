@@ -11,10 +11,11 @@ import { Switch, Route } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
-import LogoutFederated from './LogoutFederated';
-import LogoutSession from './LogoutSession';
+import loadable from '@loadable/component';
 import LogoutProviders from './LogoutProviders';
-import Footer from '../App/components/Footer';
+const LogoutFederated = loadable(() => import('./LogoutFederated'));
+const LogoutSession = loadable(() => import('./LogoutSession'));
+const Footer = loadable(() => import('../App/components/Footer'));
 
 const Logout = ({ t, match }) => (
   <Fragment>

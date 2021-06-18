@@ -8,13 +8,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter, RouteComponentProps } from 'react-router-dom';
+import loadable from '@loadable/component';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
 import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
 import PodcastUploaderPage from '../Podcast/PodcastUploaderPage';
 import PodcastSeriesPage from '../PodcastSeries/PodcastSeriesPage';
-import Footer from './components/Footer';
+const Footer = loadable(() => import('./components/Footer'));
 
 const MediaPage = ({ match }: RouteComponentProps) => (
   <Fragment>

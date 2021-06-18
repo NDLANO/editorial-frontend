@@ -12,15 +12,17 @@ import { connect } from 'react-redux';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT } from '@ndla/i18n';
 import { OneColumn } from '@ndla/ui';
+import loadable from '@loadable/component';
 import { getLocale } from '../../modules/locale/locale';
-import EditAgreement from './EditAgreement';
-import CreateAgreement from './CreateAgreement';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import * as api from '../../modules/draft/draftApi';
 import * as messageActions from '../Messages/messagesActions';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { toEditAgreement } from '../../util/routeHelpers';
-import Footer from '../App/components/Footer';
+const Footer = loadable(() => import('../App/components/Footer'));
+
+const EditAgreement = loadable(() => import('../../modules/locale/locale'));
+const CreateAgreement = loadable(() => import('./CreateAgreement'));
+const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 class AgreementPage extends React.Component {
   constructor() {

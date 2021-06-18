@@ -12,11 +12,12 @@ import { connect } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import { injectT } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
-import LoginFailure from './LoginFailure';
-import LoginSuccess from './LoginSuccess';
+import loadable from '@loadable/component';
 import LoginProviders from './LoginProviders';
-import Footer from '../App/components/Footer';
 import { LocationShape, HistoryShape } from '../../shapes';
+const LoginFailure = loadable(() => import('./LoginFailure'));
+const LoginSuccess = loadable(() => import('./LoginSuccess'));
+const Footer = loadable(() => import('../App/components/Footer'));
 
 export const Login = ({ t, match, authenticated, location, history }) => {
   if (authenticated && location.hash === '' && match.url === '/login') {

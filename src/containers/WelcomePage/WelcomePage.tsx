@@ -14,7 +14,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder, LastUsed } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
-import Footer from '../App/components/Footer';
+import loadable from '@loadable/component';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
@@ -24,6 +24,7 @@ import { LocaleContext, UserAccessContext } from '../App/App';
 import LastUsedContent from './components/LastUsedContent';
 import SaveSearchUrl from './components/SaveSearchUrl';
 import { LocaleType } from '../../interfaces';
+const Footer = loadable(() => import('../App/components/Footer'));
 
 const ContentWrapper = styled.div`
   display: flex;

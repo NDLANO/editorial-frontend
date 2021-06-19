@@ -9,7 +9,7 @@
 import React from 'react';
 import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import Filelist from './Filelist';
+import FileList from './FileList';
 import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { File } from '../../../../interfaces';
@@ -44,9 +44,9 @@ export const filePlugin = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_FILE) {
       return (
-        <Filelist editor={editor} element={element} attributes={attributes}>
+        <FileList editor={editor} element={element} attributes={attributes}>
           {children}
-        </Filelist>
+        </FileList>
       );
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });

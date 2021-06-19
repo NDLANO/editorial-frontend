@@ -13,7 +13,7 @@ import FileList from './FileList';
 import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { File } from '../../../../interfaces';
-import { getFileBlock } from './utils';
+import { defaultFileBlock } from './utils';
 
 export const TYPE_FILE = 'file';
 
@@ -27,7 +27,7 @@ export const fileSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== 'div') return;
     if (el.dataset.type !== TYPE_FILE) return;
-    return getFileBlock(
+    return defaultFileBlock(
       el.innerHTML.split(',').map(embed => (parseEmbedTag(embed) as unknown) as File),
     );
   },

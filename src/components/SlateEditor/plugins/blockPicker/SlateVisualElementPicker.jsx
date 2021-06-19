@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultBlocks } from '../../utils';
-import { getFileBlock } from '../file/utils';
+import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
 
 const SlateVisualElementPicker = ({
@@ -18,7 +18,7 @@ const SlateVisualElementPicker = ({
       const blockToInsert = defaultBlocks.defaultEmbedBlock(visualElement);
       onInsertBlock(blockToInsert);
     } else if (type === 'file') {
-      const blockToInsert = getFileBlock(visualElement);
+      const blockToInsert = defaultFileBlock(visualElement);
       onInsertBlock(blockToInsert);
     }
     onVisualElementClose();

@@ -1,15 +1,20 @@
-import { Editor, Transforms } from "new-slate"
+import { Editor, Transforms, Range, Element } from "new-slate"
 import getCurrentItem from "./getCurrentItem"
 
 
 
-const unwrapList = (editor: Editor) => {
+export const unwrapList = (editor: Editor) => {
     const currentItem = getCurrentItem(editor);
     if (!currentItem) return;
     if (Editor.isEmpty(editor, currentItem)) return;
+    if (!Range.isRange(editor.selection)) return;
 
     Editor.withoutNormalizing(editor, () => {
-        
+        if (!Range.isRange(editor.selection)) return;
+        Transforms.unwrapNodes(editor, {
+            match: node => Element.isElement(node) && node.type === 'list_item',
+            at: Editor.unhangRange(editor, editor.selection)
+        });
     })
 }
 

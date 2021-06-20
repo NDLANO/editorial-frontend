@@ -62,6 +62,7 @@ import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHot
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
+import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 
 const byLineStyle = css`
   display: flex;
@@ -143,6 +144,7 @@ const LearningResourceContent = ({
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current()),
     markPlugin,
+    listPlugin,
   ];
 
   React.useEffect(() => {

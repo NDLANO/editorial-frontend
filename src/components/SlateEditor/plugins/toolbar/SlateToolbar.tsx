@@ -16,7 +16,7 @@ import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock } from './handleMenuClicks';
 import { hasNodeWithProps } from '../../utils';
 import { isMarkActive } from '../mark';
-// import { listTypes } from '../externalPlugins';
+import { LIST_TYPES as listTypes } from '../list';
 
 const topicArticleElements: { [key: string]: string[] } = {
   // mark: ['bold', 'italic', 'code', 'sub', 'sup'],
@@ -26,7 +26,7 @@ const topicArticleElements: { [key: string]: string[] } = {
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3' /*, ...listTypes*/],
+  block: ['quote', 'heading-2', 'heading-3', ...listTypes],
   inline: ['link' /* , 'footnote', 'mathml', 'concept'*/],
 };
 

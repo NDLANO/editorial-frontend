@@ -9,7 +9,7 @@ import { ContentLinkElement, LinkElement } from './plugins/link';
 import { CustomTextWithMarks } from './plugins/mark';
 import { ParagraphElement } from './plugins/paragraph';
 import { SectionElement } from './plugins/section';
-import { ListElement } from './plugins/list';
+import { ListElement, ListText } from './plugins/list';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -36,7 +36,8 @@ declare module 'new-slate' {
       | ContentLinkElement
       | BlockQuoteElement
       | HeadingElement
-      | ListElement;
+      | ListElement
+      | ListText;
     Text: CustomTextWithMarks;
   }
 }

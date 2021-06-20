@@ -11,6 +11,8 @@ import { KeyboardEvent } from 'react';
 import { insertLink } from '../link/utils';
 import { toggleBlock } from '../../utils';
 import { toggleHeading } from '../heading/utils';
+import { LIST_TYPES } from '../list';
+import { toggleList } from '../list/utils/toggleList';
 
 // TODO: Rewrite functions to Slate 0.62 or remove when
 // new functions are written.
@@ -27,6 +29,8 @@ export function handleClickBlock(
     toggleHeading(editor, 2);
   } else if (type === 'heading-3') {
     toggleHeading(editor, 3);
+  } else if (LIST_TYPES.includes(type)) {
+    toggleList(editor, type);
   }
   // TODO: Upgrade. Old code for handling lists
   //   // Current list type is active

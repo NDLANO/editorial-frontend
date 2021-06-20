@@ -1,10 +1,11 @@
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { Editor, Node, Element, Descendant, Range } from 'new-slate';
+import { Editor, Node, Element, Descendant, Range, Transforms } from 'new-slate';
 import { RenderElementProps } from 'new-slate-react';
 import { jsx } from 'new-slate-hyperscript';
 import { CustomText, SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes, createDataProps } from '../../../../util/embedTagHelpers';
 import getCurrentItem from '../utils/getCurrentItem';
+import { unwrapList } from '../utils/unwrapList';
 
 
 const onEnter = (event: KeyboardEvent<HTMLDivElement>, 
@@ -34,16 +35,16 @@ next?: KeyboardEventHandler<HTMLDivElement>) => {
         Editor.deleteForward(editor);
     }
 
-    if (!Editor.isVoid(editor, editor.selection) && currentItem?.text === '') {
+    if (!Editor.isVoid(editor, editor.selection) && !currentItem?.children) {
         // Block is empty, we exit the list
-        if (editor.getItemDepth() > 1) {
-            return editor.decreaseItemDepth();
-        }
+        // if (editor.getItemDepth() > 1) {
+        //     return editor.decreaseItemDepth();
+        // }
         // Exit list
-        return editor.unwrapList();
+        return unwrapList(editor);
     }
     // Split list item
-    return editor.splitListItem();
+    return Transforms.splitNodes(editor);
 }
 
 export default onEnter;

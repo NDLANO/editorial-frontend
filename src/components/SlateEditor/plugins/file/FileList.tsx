@@ -9,6 +9,8 @@
 import React, { ReactNode } from 'react';
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import debounce from 'lodash/debounce';
+import { DebouncedFunc } from 'lodash';
 import styled from '@emotion/styled';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
@@ -71,15 +73,16 @@ interface State {
   files: File[];
   missingFilePaths: string[];
   showFileUploader: boolean;
-  currentDebounce: boolean;
+  currentDebounce?: DebouncedFunc<() => void>;
 }
 
 class FileList extends React.Component<Props & tType, State> {
   constructor(props: Props & tType) {
     super(props);
     this.checkForRemoteFiles.bind(this);
-    const files = this.props.element.data.map((file, id) => formatFile(file, `${id}`, this.props.t));
-    this.state = { files, missingFilePaths: [], showFileUploader: false, currentDebounce: false };
+    const { element, t } = this.props;
+    const files = element.data.map((file, id) => formatFile(file, `${id}`, t));
+    this.state = { files, missingFilePaths: [], showFileUploader: false };
     this.checkForRemoteFiles(files);
   }
 
@@ -104,7 +107,7 @@ class FileList extends React.Component<Props & tType, State> {
   }
 
   onUpdateFileName = (index: number, value: string) => {
-    /*const { node } = this.props;
+    const { element } = this.props;
 
     const { currentDebounce } = this.state;
     if (currentDebounce) {
@@ -113,10 +116,8 @@ class FileList extends React.Component<Props & tType, State> {
     // delay the save to editor until user have finished typing
     const debounced = debounce(() => this.updateFilesToEditor(), 500);
     debounced();
-    const newNodes = node.data
-      .get('nodes')
-      .map((file, i) => (i === index ? { ...file, title: value } : file));
-    this.setState({ currentDebounce: debounced, files: newNodes });*/
+    const newNodes = element.data.map((file, i) => (i === index ? { ...file, title: value } : file));
+    this.setState({ currentDebounce: debounced, files: newNodes });
   };
 
   updateFilesToEditor() {

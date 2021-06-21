@@ -9,8 +9,9 @@
 
 import React from 'react';
 import { Dictionary } from 'lodash';
-import { Descendant, Editor, Element } from 'slate';
-import { RenderElementProps } from 'slate-react';
+import { Descendant, Editor, Element, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
+import { HistoryEditor } from 'slate-history';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import {
@@ -18,10 +19,13 @@ import {
   removeEmptyElementDataAttributes,
 } from '../../../../util/embedTagHelpers';
 import SlateTable from './SlateTable';
-
-export const TYPE_TABLE = 'table';
-export const TYPE_TABLE_ROW = 'table-row';
-export const TYPE_TABLE_CELL = 'table-cell';
+import {
+  countCells,
+  defaultTableCellBlock,
+  TYPE_TABLE,
+  TYPE_TABLE_CELL,
+  TYPE_TABLE_ROW,
+} from './utils';
 
 export interface TableElement {
   type: 'table';
@@ -37,11 +41,7 @@ export interface TableRowElement {
 
 export interface TableCellElement {
   type: 'table-cell';
-  data: {
-    isHeader: boolean;
-    rowspan: number;
-    colspan: number;
-  } & Dictionary<string>;
+  data: Dictionary<string>;
   children: Descendant[];
 }
 
@@ -114,7 +114,7 @@ export const tableSerializer: SlateSerializer = {
 };
 
 export const tablePlugin = (editor: Editor) => {
-  const { renderElement } = editor;
+  const { renderElement, normalizeNode } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     switch (element.type) {
@@ -130,8 +130,8 @@ export const tablePlugin = (editor: Editor) => {
         return (
           <td
             className={element.data.isHeader ? 'c-table__header' : ''}
-            rowSpan={element.data.rowspan}
-            colSpan={element.data.colspan}
+            rowSpan={element.data.rowspan ? parseInt(element.data.rowspawn) : 1}
+            colSpan={element.data.colspan ? parseInt(element.data.colspan) : 1}
             {...attributes}>
             {children}
           </td>
@@ -139,6 +139,66 @@ export const tablePlugin = (editor: Editor) => {
       default:
         return renderElement && renderElement({ attributes, children, element });
     }
+  };
+  editor.normalizeNode = entry => {
+    const [node] = entry;
+    if (Element.isElement(node)) {
+      if (node.type === TYPE_TABLE) {
+        const childNodes = node.children;
+
+        // Go to next normalizer if first child is invalid.
+        const firstRow = childNodes[0];
+        if (!Element.isElement(firstRow) || firstRow.type !== TYPE_TABLE_ROW) {
+          return normalizeNode(entry);
+        }
+
+        // Make sure all cells in first row are flagged as headers
+        firstRow.children.forEach(child => {
+          if (
+            Element.isElement(child) &&
+            child.type === TYPE_TABLE_CELL &&
+            child.data.isHeader !== 'true'
+          ) {
+            return HistoryEditor.withoutSaving(editor, () => {
+              Transforms.setNodes(
+                editor,
+                {
+                  data: {
+                    isHeader: 'true',
+                    rowspan: child.data.rowspan,
+                    colspan: child.data.colspan,
+                  },
+                },
+                { at: ReactEditor.findPath(editor, child) },
+              );
+            });
+          }
+        });
+
+        const rows = childNodes.filter(
+          node => Element.isElement(node) && node.type === TYPE_TABLE_ROW,
+        ) as TableRowElement[];
+
+        const maxCols = Math.max(...rows.map(countCells));
+
+        // Insert cells if row is missing some
+        rows.forEach(row => {
+          const colCount = countCells(row);
+          if (colCount < maxCols) {
+            return HistoryEditor.withoutSaving(editor, () => {
+              Transforms.insertNodes(
+                editor,
+                Array(maxCols - colCount).map(value => {
+                  return defaultTableCellBlock();
+                }),
+                { at: [...ReactEditor.findPath(editor, row), row.children.length] },
+              );
+            });
+          }
+        });
+      }
+    }
+    normalizeNode(entry);
   };
 
   return editor;

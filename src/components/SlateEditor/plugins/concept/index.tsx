@@ -45,7 +45,7 @@ export const conceptSerializer: SlateSerializer = {
       ],
     );
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_CONCEPT) return;
 

@@ -6,7 +6,9 @@
  *
  */
 import escapeHtml from 'escape-html';
+import React from 'react';
 import { Descendant, Text } from 'slate';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { Plain } from './slatePlainSerializer';
 import { topicArticeRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
@@ -109,7 +111,6 @@ export const learningResourceContentToEditorValue = (html: string) => {
   return sections.map(section => {
     const document = new DOMParser().parseFromString(section, 'text/html');
     const nodes = deserialize(document.body.children[0]);
-    console.log(JSON.stringify(nodes));
     const normalizedNodes = convertFromHTML(nodes);
 
     return [normalizedNodes];
@@ -133,12 +134,12 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
     tableSerializer,
   ];
 
-  const serialize = (node: Descendant): string | null => {
-    let children;
+  const serialize = (node: Descendant): JSX.Element | null => {
+    let children: (JSX.Element | null)[];
     if (Text.isText(node)) {
-      children = escapeHtml(node.text);
+      children = [escapeHtml(node.text)];
     } else {
-      children = node.children.map((n: Descendant) => serialize(n)).join('');
+      children = node.children.map((n: Descendant) => serialize(n));
     }
 
     for (const rule of rules) {
@@ -155,12 +156,17 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
         return ret;
       }
     }
-    return children;
+    return <>{children}</>;
   };
 
   const elements = contentValues
     .map((descendants: Descendant[]) =>
-      descendants.map((descendant: Descendant) => serialize(descendant)).join(''),
+      descendants
+        .map((descendant: Descendant) => {
+          const html = serialize(descendant);
+          return html ? renderToStaticMarkup(html) : '';
+        })
+        .join(''),
     )
     .join('');
 

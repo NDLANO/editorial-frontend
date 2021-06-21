@@ -52,7 +52,7 @@ export const footnoteSerializer: SlateSerializer = {
       [{ text: '[#]' }],
     );
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_FOOTNOTE) return;
     const data = {

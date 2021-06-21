@@ -32,10 +32,10 @@ export const sectionSerializer: SlateSerializer = {
     }
     return;
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_SECTION) {
-      return `<section>${children}</section>`;
+      return <section>{children}</section>;
     }
   },
 };

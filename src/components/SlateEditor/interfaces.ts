@@ -20,7 +20,7 @@ export type SlatePlugin = (editor: Editor) => Editor;
 
 export interface SlateSerializer {
   deserialize: (el: HTMLElement, children: Descendant[]) => Descendant | Descendant[] | undefined;
-  serialize: (node: Descendant, children: string) => string | undefined | null;
+  serialize: (node: Descendant, children: (JSX.Element | null)[]) => JSX.Element | undefined;
 }
 
 export type CustomEditor = {

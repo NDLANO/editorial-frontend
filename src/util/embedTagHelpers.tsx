@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import React from 'react';
 import { Dictionary } from 'lodash';
 import isObject from 'lodash/fp/isObject';
 import { isEmpty } from '../components/validators';
@@ -93,13 +94,15 @@ export const parseEmbedTag = embedTag => {
 
 export const createEmbedTag = (data: { [key: string]: any }) => {
   if (Object.keys(data).length === 0) {
-    return '';
+    return undefined;
   }
   const embed = document.createElement('embed');
+  const props: Dictionary<string> = {};
   Object.keys(data)
     .filter(key => data[key] !== undefined && !isObject(data[key]))
-    .forEach(key => embed.setAttribute(`data-${key}`, data[key]));
-  return embed.outerHTML;
+    .forEach(key => (props[`data-${key}`] = data[key]));
+
+  return <embed {...props}></embed>;
 };
 
 export const isUserProvidedEmbedDataValid = embed => {

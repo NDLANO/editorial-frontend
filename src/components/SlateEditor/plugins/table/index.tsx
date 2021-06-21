@@ -8,11 +8,15 @@
  */
 
 import React from 'react';
-import { Descendant, Editor } from 'slate';
+import { Dictionary } from 'lodash';
+import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
-import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
+import {
+  reduceElementDataAttributes,
+  removeEmptyElementDataAttributes,
+} from '../../../../util/embedTagHelpers';
 import SlateTable from './SlateTable';
 
 export const TYPE_TABLE = 'table';
@@ -21,11 +25,13 @@ export const TYPE_TABLE_CELL = 'table-cell';
 
 export interface TableElement {
   type: 'table';
+  data: Dictionary<string>;
   children: Descendant[];
 }
 
 export interface TableRowElement {
   type: 'table-row';
+  data: Dictionary<string>;
   children: Descendant[];
 }
 
@@ -35,7 +41,7 @@ export interface TableCellElement {
     isHeader: boolean;
     rowspan: number;
     colspan: number;
-  };
+  } & Dictionary<string>;
   children: Descendant[];
 }
 
@@ -77,7 +83,34 @@ export const tableSerializer: SlateSerializer = {
     }
     return jsx('element', { type: tableTag, data }, children);
   },
-  serialize(node: Descendant, children: string) {},
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
+    if (!Element.isElement(node)) return;
+    if (node.type !== TYPE_TABLE && node.type !== TYPE_TABLE_ROW && node.type !== TYPE_TABLE_CELL)
+      return;
+
+    const data = node.data;
+    const props = removeEmptyElementDataAttributes({ ...data });
+    delete props.isHeader;
+
+    if (node.type === TYPE_TABLE) {
+      const ret = (
+        <table {...props}>
+          <thead>{children.slice(0, 1)}</thead>
+          <tbody>{children.slice(1)}</tbody>
+        </table>
+      );
+      return ret;
+    }
+    if (node.type === TYPE_TABLE_ROW) {
+      return <tr {...props}>{children}</tr>;
+    }
+    if (node.type === TYPE_TABLE_CELL) {
+      if (node.data.isHeader) {
+        return <th {...props}>{children}</th>;
+      }
+      return <td {...props}>{children}</td>;
+    }
+  },
 };
 
 export const tablePlugin = (editor: Editor) => {

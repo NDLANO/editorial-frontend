@@ -99,12 +99,12 @@ export const detailsSerializer: SlateSerializer = {
     }
     return;
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_SUMMARY) {
-      return `<summary>${children}</summary>`;
+      return <summary>{children}</summary>;
     } else if (node.type === TYPE_DETAILS) {
-      return `<details>${children}</details>`;
+      return <details>{children}</details>;
     }
   },
 };

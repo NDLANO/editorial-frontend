@@ -32,18 +32,20 @@ export const mathmlSerializer: SlateSerializer = {
       [{ text: el.textContent }],
     );
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== 'mathml') return;
     const { innerHTML, ...mathAttributes } = node.data;
 
-    const math = document.createElement('math');
-    Object.keys(mathAttributes)
-      .filter(key => mathAttributes[key] !== undefined && !isObject(mathAttributes[key]))
-      .forEach(key => math.setAttribute(`data-${key}`, mathAttributes[key]));
-
-    math.innerHTML = innerHTML;
-    return math.outerHTML;
+    return (
+      // @ts-ignore math does not exist in JSX, but this hack works by setting innerHTML manually.
+      <math
+        {...mathAttributes}
+        dangerouslySetInnerHTML={{
+          __html: innerHTML,
+        }}
+      />
+    );
   },
 };
 

@@ -7,20 +7,35 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
+import { injectT, tType } from '@ndla/i18n';
 import { classes } from './ResourceGroup';
 import { toEditArticle, toLearningpathFull } from '../../../util/routeHelpers';
 
-const StyledH1 = styled.h1`
+const StyledH1 = styled.h1<{ isVisible: boolean }>`
   font-style: ${props => !props.isVisible && 'italic'};
   color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
 `;
 
-const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = true }) => {
-  const linkTo = contentUri && contentUri.split(':').pop();
+interface Props {
+  contentType: string;
+  contentUri?: string;
+  locale: string;
+  name: string;
+  isVisible: boolean;
+}
+
+const ResourceItemLink = ({
+  contentType,
+  contentUri,
+  locale,
+  name,
+  isVisible = true,
+  t,
+}: Props & tType) => {
+  const linkTo = contentUri ? parseInt(contentUri.split(':').pop()!!) : undefined;
 
   if (linkTo) {
     if (contentType === 'learning-path') {
@@ -50,12 +65,4 @@ const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = t
   );
 };
 
-ResourceItemLink.propTypes = {
-  contentType: PropTypes.string.isRequired,
-  contentUri: PropTypes.string,
-  locale: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  isVisible: PropTypes.bool,
-};
-
-export default ResourceItemLink;
+export default injectT(ResourceItemLink);

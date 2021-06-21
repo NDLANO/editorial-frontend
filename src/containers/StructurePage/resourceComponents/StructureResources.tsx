@@ -6,21 +6,25 @@
  *
  */
 
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import React, { Fragment, RefObject } from 'react';
+import { injectT, tType } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import ResourceGroup from './ResourceGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
-import { fetchAllResourceTypes, fetchTopicResources, fetchTopic } from '../../../modules/taxonomy';
+import { fetchAllResourceTypes, fetchTopicResources } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import { StructureShape } from '../../../shapes';
 import GroupTopicResources from '../folderComponents/GroupTopicResources';
+import {
+  ConceptStatusType,
+  ResourceWithTopicConnection,
+  Status,
+  SubjectType,
+} from '../../../interfaces';
 
 const StyledDiv = styled('div')`
   width: calc(${spacing.large} * 4.5);
@@ -28,12 +32,39 @@ const StyledDiv = styled('div')`
   margin-right: calc(${spacing.nsmall});
 `;
 
-export class StructureResources extends React.PureComponent {
-  constructor(props) {
+interface BaseProps {
+  locale: string;
+  params: {
+    topic1: string;
+    topic2: string;
+  };
+  currentTopic: ResourceWithTopicConnection;
+  refreshTopics: () => Promise<void>;
+  resourceRef: RefObject<any>;
+  currentSubject: SubjectType;
+  structure: SubjectType[];
+  resourcesUpdated: boolean;
+  setResourcesUpdated: Function;
+  saveSubjectTopicItems: (a: string, b: string, c: string) => void;
+}
+
+type Props = BaseProps & tType;
+
+interface State {
+  resourceTypes: any[];
+  topicResources: any[];
+  loading: boolean;
+  topicDescription?: string;
+  topicStatus?: Status;
+}
+
+export class StructureResources extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       resourceTypes: [],
       topicResources: [],
+      loading: false,
     };
     this.getAllResourceTypes = this.getAllResourceTypes.bind(this);
     this.getTopicResources = this.getTopicResources.bind(this);
@@ -56,7 +87,7 @@ export class StructureResources extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     const {
       currentTopic: { id, contentUri },
       resourcesUpdated,
@@ -74,7 +105,7 @@ export class StructureResources extends React.PureComponent {
     }
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     if (!nextProps.currentTopic.contentUri && prevState.topicDescription) {
       return {
         topicDescription: undefined,
@@ -83,9 +114,9 @@ export class StructureResources extends React.PureComponent {
     return null;
   }
 
-  async getArticle(contentUri, locale) {
+  async getArticle(contentUri: string, locale?: string) {
     try {
-      const article = await fetchDraft(contentUri.replace('urn:article:', ''), locale);
+      const article = await fetchDraft(parseInt(contentUri.replace('urn:article:', '')), locale);
       this.setState({ topicDescription: article.title && article.title.title });
     } catch (error) {
       handleError(error);
@@ -117,30 +148,25 @@ export class StructureResources extends React.PureComponent {
     if (topicId) {
       try {
         this.setState({ loading: true });
-        const initialTopicResources = await fetchTopicResources(topicId, locale, undefined);
-        const allTopicResources = await Promise.all(
-          initialTopicResources.map(async r => {
-            const breadCrumbs = await this.getCrumbsFromPath(r);
-            if (r.resourceTypes.length > 0) {
-              return { ...r, breadCrumbs };
-            } else {
-              return { ...r, resourceTypes: [{ id: 'missing' }], breadCrumbs };
-            }
-          }),
+        const initialTopicResources: ResourceWithTopicConnection[] = await fetchTopicResources(
+          topicId,
+          locale,
+          undefined,
         );
 
         if (currentTopic.contentUri) {
-          fetchDraft(currentTopic.contentUri.replace('urn:article:', ''), locale).then(article =>
-            this.setState({
-              topicStatus: article.status,
-            }),
+          fetchDraft(parseInt(currentTopic.contentUri.replace('urn:article:', '')), locale).then(
+            article =>
+              this.setState({
+                topicStatus: article.status,
+              }),
           );
         }
-        await this.getResourceStatuses(allTopicResources);
+        await this.getResourceStatuses(initialTopicResources);
 
         const topicResources = groupSortResourceTypesFromTopicResources(
           resourceTypes,
-          allTopicResources,
+          initialTopicResources,
         );
         this.setState({ topicResources, loading: false });
       } catch (error) {
@@ -152,54 +178,22 @@ export class StructureResources extends React.PureComponent {
     }
   }
 
-  async getResourceStatuses(allTopicResources) {
+  async getResourceStatuses(allTopicResources: ResourceWithTopicConnection[]) {
     const resourcePromises = allTopicResources.map(async resource => {
       if (resource.contentUri) {
         const [, resourceType, id] = resource.contentUri.split(':');
         if (resourceType === 'article') {
-          const article = await fetchDraft(id, this.props.locale);
+          const article = await fetchDraft(parseInt(id), this.props.locale);
           resource.status = article.status;
           return article;
         } else if (resourceType === 'learningpath') {
-          const learningpath = await fetchLearningpath(id, this.props.locale, true);
-          resource.status = { current: learningpath.status };
+          const learningpath = await fetchLearningpath(parseInt(id), this.props.locale, true);
+          resource.status = { current: learningpath.status as ConceptStatusType, other: [] };
           return learningpath;
         }
       }
     });
     await Promise.all(resourcePromises);
-  }
-
-  async getCrumbsFromPath(resource) {
-    const breadCrumbs = [];
-    if (resource.paths) {
-      resource.paths.forEach(async path => {
-        breadCrumbs.push([
-          this.props.structure.find(
-            structureItem => structureItem.id === `urn:${path.split('/')[1]}`,
-          ),
-          ...(await Promise.all(
-            path
-              .split('/')
-              .slice(2, -1)
-              .map(topicId => fetchTopic(`urn:${topicId}`)),
-          )),
-        ]);
-      });
-    } else {
-      breadCrumbs.push([
-        this.props.structure.find(
-          structureItem => structureItem.id === `urn:${resource.path.split('/')[1]}`,
-        ),
-        ...(await Promise.all(
-          resource.path
-            .split('/')
-            .slice(2, -1)
-            .map(topicId => fetchTopic(`urn:${topicId}`)),
-        )),
-      ]);
-    }
-    return breadCrumbs;
   }
 
   render() {
@@ -248,7 +242,6 @@ export class StructureResources extends React.PureComponent {
               refreshResources={this.getTopicResources}
               locale={locale}
               currentSubject={currentSubject}
-              disable={resourceType.disabled}
             />
           );
         })}
@@ -256,29 +249,5 @@ export class StructureResources extends React.PureComponent {
     );
   }
 }
-
-StructureResources.propTypes = {
-  locale: PropTypes.string.isRequired,
-  params: PropTypes.shape({
-    topic1: PropTypes.string,
-    topic2: PropTypes.string,
-  }).isRequired,
-  currentTopic: PropTypes.shape({
-    id: PropTypes.string,
-    contentUri: PropTypes.string,
-    metadata: PropTypes.object,
-    path: PropTypes.string,
-  }).isRequired,
-  refreshTopics: PropTypes.func,
-  resourceRef: PropTypes.object,
-  currentSubject: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  }),
-  structure: PropTypes.arrayOf(StructureShape),
-  resourcesUpdated: PropTypes.bool,
-  setResourcesUpdated: PropTypes.func,
-  saveSubjectTopicItems: PropTypes.func,
-};
 
 export default injectT(StructureResources);

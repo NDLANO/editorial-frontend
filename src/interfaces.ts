@@ -225,6 +225,12 @@ export interface Resource extends TaxonomyElement {
   topicId: string;
 }
 
+export interface ResourceWithTopicConnection extends Resource {
+  primary: boolean;
+  relevanceId: string;
+  status?: Status;
+}
+
 export interface Learningpath {
   copyright: {
     license: License;
@@ -295,6 +301,12 @@ export interface SubjectType {
   name: string;
   path: string;
   metadata: TaxonomyMetadata;
+}
+
+export interface SubjectTopic extends SubjectType {
+  isPrimary: boolean;
+  primary: boolean;
+  relevanceId: string;
 }
 
 export interface SubjectpageType {

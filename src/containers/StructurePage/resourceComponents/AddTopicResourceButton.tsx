@@ -28,7 +28,14 @@ const addButtonStyle = css`
   }
 `;
 
-const AddTopicResourceButton = ({ children, ...rest }) => (
+interface Props {
+  children: React.ReactChild[];
+  onClick: () => void;
+  stripped: boolean;
+  disabled: boolean;
+}
+
+const AddTopicResourceButton = ({ children, ...rest }: Props) => (
   <Button type="button" css={addButtonStyle} {...rest}>
     {children}
   </Button>

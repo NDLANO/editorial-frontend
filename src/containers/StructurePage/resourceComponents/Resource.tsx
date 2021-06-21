@@ -7,10 +7,10 @@
  */
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+// @ts-ignore
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
@@ -21,9 +21,9 @@ import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import ResourceItemLink from './ResourceItemLink';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import { MetadataShape } from '../../../shapes';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
 import RemoveButton from '../../../components/RemoveButton';
+import { Status, TaxonomyMetadata } from '../../../interfaces';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -40,7 +40,7 @@ const Resource = ({
   name,
   onDelete,
   connectionId,
-  dragHandleProps,
+  dragHandleProps = {},
   contentUri,
   status,
   metadata,
@@ -50,7 +50,7 @@ const Resource = ({
   primary,
   rank,
   t,
-}) => {
+}: Props & tType) => {
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
   return (
@@ -83,16 +83,18 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
-      <RelevanceOption
-        relevanceId={relevanceId}
-        onChange={relevanceIdUpdate =>
-          updateRelevanceId(connectionId, {
-            relevanceId: relevanceIdUpdate,
-            primary,
-            rank,
-          })
-        }
-      />
+      {updateRelevanceId && (
+        <RelevanceOption
+          relevanceId={relevanceId}
+          onChange={relevanceIdUpdate =>
+            updateRelevanceId(connectionId, {
+              relevanceId: relevanceIdUpdate,
+              primary,
+              rank,
+            })
+          }
+        />
+      )}
       {onDelete && <RemoveButton onClick={() => onDelete(connectionId)} />}
       {showVersionHistory && (
         <VersionHistoryLightbox
@@ -108,37 +110,21 @@ const Resource = ({
   );
 };
 
-Resource.defaultProps = {
-  dragHandleProps: {},
-};
-
-Resource.propTypes = {
-  contentType: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  onDelete: PropTypes.func,
-  currentSubject: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  }),
-  connectionId: PropTypes.string,
-  resourceId: PropTypes.string,
-  dragHandleProps: PropTypes.object,
-  contentUri: PropTypes.string,
-  status: PropTypes.shape({
-    current: PropTypes.string,
-    other: PropTypes.arrayOf(PropTypes.string),
-  }),
-  metadata: MetadataShape,
-  locale: PropTypes.string.isRequired,
-  relevanceId: PropTypes.oneOf([
-    'urn:relevance:core',
-    'urn:relevance:supplementary',
-    null,
-    undefined,
-  ]),
-  updateRelevanceId: PropTypes.func,
-  primary: PropTypes.bool,
-  rank: PropTypes.number,
-};
+interface Props {
+  contentType: string;
+  name: string;
+  onDelete?: (id: string) => void;
+  refreshResources: Function;
+  connectionId: string;
+  dragHandleProps?: object;
+  contentUri?: string;
+  status?: Status;
+  metadata: TaxonomyMetadata;
+  locale: string;
+  relevanceId: string;
+  updateRelevanceId?: (connectionId: string, body: any) => void;
+  primary: boolean;
+  rank: number;
+}
 
 export default injectT(Resource);

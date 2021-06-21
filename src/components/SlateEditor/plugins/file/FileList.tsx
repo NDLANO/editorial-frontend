@@ -8,7 +8,7 @@
 
 import React, { ReactNode } from 'react';
 import { Editor, Element, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import debounce from 'lodash/debounce';
 import { DebouncedFunc } from 'lodash';
 import styled from '@emotion/styled';
@@ -24,7 +24,7 @@ import { File } from '../../../../interfaces';
 import { headFileAtRemote } from '../../../../modules/draft/draftApi';
 import { arrMove } from '../../../../util/arrayHelpers';
 import AddFileToList from './AddFileToList';
-import { FileElement, TYPE_FILE } from '.'
+import { FileElement, TYPE_FILE } from '.';
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
@@ -36,7 +36,9 @@ const StyledSection = styled.section`
 const formatFile = (file: File, id: string, t: tType['t']) => ({
   id,
   ...file,
-  formats: [{ url: file.url, fileType: file.type, tooltip: `${t(`form.file.download`)} ${file.title}` }],
+  formats: [
+    { url: file.url, fileType: file.type, tooltip: `${t(`form.file.download`)} ${file.title}` },
+  ],
 });
 
 const compareArray = (arr1: File[], arr2: File[]) => {
@@ -54,7 +56,7 @@ const compareArray = (arr1: File[], arr2: File[]) => {
       return item.title === a2Item.title && item.path === a2Item.path;
     }).length === a1.length
   );
-}
+};
 
 let okToRevert = false;
 document.addEventListener('keydown', event => {
@@ -116,7 +118,9 @@ class FileList extends React.Component<Props & tType, State> {
     // delay the save to editor until user have finished typing
     const debounced = debounce(() => this.updateFilesToEditor(), 500);
     debounced();
-    const newNodes = element.data.map((file, i) => (i === index ? { ...file, title: value } : file));
+    const newNodes = element.data.map((file, i) =>
+      i === index ? { ...file, title: value } : file,
+    );
     this.setState({ currentDebounce: debounced, files: newNodes });
   };
 

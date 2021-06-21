@@ -71,6 +71,16 @@ export const insertRow = (editor: Editor, path: Path) => {
   });
   const rowPath = rowEntry && rowEntry[1];
   Transforms.insertNodes(editor, defaultTableRowBlock(), { at: Path.next(rowPath) });
+
+  const [columnEntry] = Editor.nodes(editor, {
+    at: path,
+    match: node => Element.isElement(node) && node.type === TYPE_TABLE_CELL,
+  });
+  const columnPath = columnEntry && columnEntry[1];
+  Transforms.select(editor, {
+    anchor: { offset: 0, path: [...Path.next(rowPath), columnPath[columnPath.length - 1], 0, 0] },
+    focus: { offset: 0, path: [...Path.next(rowPath), columnPath[columnPath.length - 1], 0, 0] },
+  });
 };
 
 export const insertColumn = (editor: Editor, tableElement: TableElement, path: Path) => {

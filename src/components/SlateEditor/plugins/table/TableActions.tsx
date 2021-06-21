@@ -8,12 +8,14 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import { Editor, Element, Range } from 'slate';
+import { Editor, Path, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
+import { insertRow, removeRow, insertColumn, removeColumn, removeTable } from './utils';
+import { TableElement } from '.';
 
 const tableActionButtonStyle = css`
   margin-right: 1rem;
@@ -39,36 +41,37 @@ const supportedTableOperations = [
 
 interface Props {
   editor: Editor;
-  element: Element;
+  element: TableElement;
 }
 
 const TableActions = ({ editor, t, element }: Props & tType) => {
   const handleOnClick = (e: Event, operation: string) => {
     e.preventDefault();
-    const position = editor.getTablePosition();
-    switch (operation) {
-      case 'row-remove': {
-        if (position.getHeight() > 2) {
-          editor.removeRow();
+    const selectedPath = editor.selection?.anchor.path;
+    const tablePath = ReactEditor.findPath(editor, element);
+    if (selectedPath && Path.isDescendant(selectedPath, tablePath)) {
+      switch (operation) {
+        case 'row-remove': {
+          if (element.children.length > 2) {
+            removeRow(editor, selectedPath);
+          }
+          break;
         }
-        break;
-      }
-      case 'row-add':
-        editor.insertRow();
-        break;
-      case 'column-remove': {
-        if (position.getWidth() > 1) {
-          editor.removeColumn();
+        case 'row-add':
+          insertRow(editor, selectedPath);
+          break;
+        case 'column-remove': {
+          removeColumn(editor, element, selectedPath);
+          break;
         }
-        break;
+        case 'column-add':
+          insertColumn(editor, element, selectedPath);
+          break;
+        case 'table-remove':
+          removeTable(editor, tablePath);
+          break;
+        default:
       }
-      case 'column-add':
-        editor.insertColumn();
-        break;
-      case 'table-remove':
-        editor.removeTable();
-        break;
-      default:
     }
   };
 

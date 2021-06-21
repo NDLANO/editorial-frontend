@@ -54,7 +54,7 @@ interface Props {
   type: string;
   allowPaste: boolean;
   topicId: string;
-  refreshResources: () => void;
+  refreshResources: () => Promise<void>;
 }
 
 interface ContentType {
@@ -220,10 +220,7 @@ const AddResourceModal = ({
           resourceId,
           topicid: topicId,
         });
-        refreshResources();
-        setLoading(false);
-
-        onClose();
+        await refreshResources();
       } catch (e) {
         handleError(e);
         setLoading(false);

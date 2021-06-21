@@ -78,7 +78,7 @@ const TableActions = ({ editor, t, element }: Props & tType) => {
       ReactEditor.isFocused(editor)) ||
     false;
   return (
-    <StyledTableActions show={show}>
+    <StyledTableActions show={show} contentEditable={false}>
       {supportedTableOperations.map(operation => (
         <Button
           key={operation}

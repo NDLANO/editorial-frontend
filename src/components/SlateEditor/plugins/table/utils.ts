@@ -1,6 +1,6 @@
-import { Element } from 'slate';
+import { Editor, Element } from 'slate';
 import { jsx } from 'slate-hyperscript';
-import { TableRowElement } from '.';
+import { TableElement, TableRowElement } from '.';
 import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const TYPE_TABLE = 'table';
@@ -28,3 +28,23 @@ export const defaultTableCellBlock = () => {
     defaultParagraphBlock(),
   );
 };
+
+export const defaultTableRowBlock = () => {
+  return jsx('element', {
+    type: TYPE_TABLE_ROW,
+  });
+};
+
+export const getTableWidth = (element: TableElement) => {
+  const firstRow = element.children[0];
+  if (Element.isElement(firstRow) && firstRow.type === TYPE_TABLE_ROW) {
+    return firstRow.children.length;
+  }
+  return null;
+};
+
+export const getTableHeight = (element: TableElement) => {
+  return element.children.length;
+};
+
+export const removeRow = (editor: Editor) => {};

@@ -22,6 +22,7 @@ import SlateTable from './SlateTable';
 import {
   countCells,
   defaultTableCellBlock,
+  defaultTableRowBlock,
   TYPE_TABLE,
   TYPE_TABLE_CELL,
   TYPE_TABLE_ROW,
@@ -62,7 +63,7 @@ export const tableSerializer: SlateSerializer = {
     const tableTag = TABLE_TAGS[tagName];
     if (!tableTag) return;
     let data = {
-      isHeader: tagName === 'th',
+      isHeader: tagName === 'th' ? 'true' : 'false',
     };
     if (tagName === 'th' || tagName === 'td') {
       const filter = [
@@ -77,7 +78,7 @@ export const tableSerializer: SlateSerializer = {
       ];
       const attrs = reduceElementDataAttributes(el, filter);
       data = {
-        isHeader: tagName === 'th',
+        isHeader: tagName === 'th' ? 'true' : 'false',
         ...attrs,
       };
     }
@@ -129,7 +130,7 @@ export const tablePlugin = (editor: Editor) => {
       case TYPE_TABLE_CELL:
         return (
           <td
-            className={element.data.isHeader ? 'c-table__header' : ''}
+            className={element.data.isHeader === 'true' ? 'c-table__header' : ''}
             rowSpan={element.data.rowspan ? parseInt(element.data.rowspawn) : 1}
             colSpan={element.data.colspan ? parseInt(element.data.colspan) : 1}
             {...attributes}>
@@ -141,19 +142,19 @@ export const tablePlugin = (editor: Editor) => {
     }
   };
   editor.normalizeNode = entry => {
-    const [node] = entry;
+    const [node, path] = entry;
     if (Element.isElement(node)) {
       if (node.type === TYPE_TABLE) {
-        const childNodes = node.children;
+        const tableNodes = node.children;
 
         // Go to next normalizer if first child is invalid.
-        const firstRow = childNodes[0];
+        const firstRow = tableNodes[0];
         if (!Element.isElement(firstRow) || firstRow.type !== TYPE_TABLE_ROW) {
           return normalizeNode(entry);
         }
 
         // Make sure all cells in first row are flagged as headers
-        firstRow.children.forEach(child => {
+        firstRow.children.forEach((child, index) => {
           if (
             Element.isElement(child) &&
             child.type === TYPE_TABLE_CELL &&
@@ -169,31 +170,36 @@ export const tablePlugin = (editor: Editor) => {
                     colspan: child.data.colspan,
                   },
                 },
-                { at: ReactEditor.findPath(editor, child) },
+                { at: [...path, 0, index] },
               );
             });
           }
         });
 
-        const rows = childNodes.filter(
-          node => Element.isElement(node) && node.type === TYPE_TABLE_ROW,
-        ) as TableRowElement[];
+        // If table contains non-row element, wrap it with row element
+        tableNodes.forEach((row, index) => {
+          if (!Element.isElement(row)) {
+            return Transforms.wrapNodes(editor, defaultTableRowBlock(), {
+              at: ReactEditor.findPath(editor, row),
+            });
+          }
+        });
+
+        const rows = tableNodes as TableRowElement[];
 
         const maxCols = Math.max(...rows.map(countCells));
 
         // Insert cells if row is missing some
-        rows.forEach(row => {
+        rows.forEach((row, index) => {
           const colCount = countCells(row);
           if (colCount < maxCols) {
-            return HistoryEditor.withoutSaving(editor, () => {
-              Transforms.insertNodes(
-                editor,
-                Array(maxCols - colCount).map(value => {
-                  return defaultTableCellBlock();
-                }),
-                { at: [...ReactEditor.findPath(editor, row), row.children.length] },
-              );
-            });
+            return Transforms.insertNodes(
+              editor,
+              [...Array(maxCols - colCount)].map(() => {
+                return defaultTableCellBlock();
+              }),
+              { at: [...path, index, row.children.length] },
+            );
           }
         });
       }

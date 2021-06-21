@@ -14,6 +14,7 @@ import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers'
 import { SlateSerializer } from '../../interfaces';
 import { File } from '../../../../interfaces';
 import { defaultFileBlock } from './utils';
+import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 
 export const TYPE_FILE = 'file';
 
@@ -39,7 +40,11 @@ export const fileSerializer: SlateSerializer = {
 };
 
 export const filePlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement, isVoid: nextIsVoid } = editor;
+  const {
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+    isVoid: nextIsVoid,
+  } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_FILE) {
@@ -59,6 +64,16 @@ export const filePlugin = (editor: Editor) => {
       return true;
     }
     return nextIsVoid(element);
+  };
+
+  editor.normalizeNode = entry => {
+    const [node, path] = entry;
+
+    if (Element.isElement(node) && node.type === TYPE_FILE) {
+      addSurroundingParagraphs(editor, path);
+    } else {
+      nextNormalizeNode(entry);
+    }
   };
 
   return editor;

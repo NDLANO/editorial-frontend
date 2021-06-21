@@ -7,7 +7,7 @@
  */
 import escapeHtml from 'escape-html';
 import React from 'react';
-import { Descendant, Text } from 'slate';
+import { Descendant, Element, Node, Text } from 'slate';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Plain } from './slatePlainSerializer';
 import { topicArticeRules } from './slateHelpers';
@@ -111,7 +111,10 @@ export const learningResourceContentToEditorValue = (html: string) => {
   return sections.map(section => {
     const document = new DOMParser().parseFromString(section, 'text/html');
     const nodes = deserialize(document.body.children[0]);
-    const normalizedNodes = convertFromHTML(nodes);
+
+    // Deserialize function sometimes return a list of descendants, but that should never occur at root level.
+    // Expect nodes to always be returned.
+    const normalizedNodes = convertFromHTML(Node.isNodeList(nodes) ? nodes[0] : nodes);
 
     return [normalizedNodes];
   });

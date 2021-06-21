@@ -19,7 +19,7 @@ import { TableCellElement, TableElement, TableRowElement } from './plugins/table
 export type SlatePlugin = (editor: Editor) => Editor;
 
 export interface SlateSerializer {
-  deserialize: (el: HTMLElement, children: Descendant[]) => Descendant | undefined;
+  deserialize: (el: HTMLElement, children: Descendant[]) => Descendant | Descendant[] | undefined;
   serialize: (node: Descendant, children: (JSX.Element | null)[]) => JSX.Element | null | undefined;
 }
 

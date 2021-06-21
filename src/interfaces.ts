@@ -27,6 +27,11 @@ export type ConceptStatusType =
   | 'TRANSLATED'
   | 'UNPUBLISHED';
 
+export enum TaxonomyContentType {
+  Article = 'article',
+  LearningPath = 'learningpath',
+}
+
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
 export interface TranslateType {

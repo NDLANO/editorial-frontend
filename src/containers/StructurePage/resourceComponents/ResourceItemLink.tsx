@@ -13,6 +13,7 @@ import { colors } from '@ndla/core';
 import { injectT, tType } from '@ndla/i18n';
 import { classes } from './ResourceGroup';
 import { toEditArticle, toLearningpathFull } from '../../../util/routeHelpers';
+import { TaxonomyContentType } from '../../../interfaces';
 
 const StyledH1 = styled.h1<{ isVisible: boolean }>`
   font-style: ${props => !props.isVisible && 'italic'};
@@ -24,7 +25,7 @@ interface Props {
   contentUri?: string;
   locale: string;
   name: string;
-  isVisible: boolean;
+  isVisible?: boolean;
 }
 
 const ResourceItemLink = ({
@@ -38,7 +39,7 @@ const ResourceItemLink = ({
   const linkTo = contentUri ? parseInt(contentUri.split(':').pop()!!) : undefined;
 
   if (linkTo) {
-    if (contentType === 'learning-path') {
+    if (contentType === TaxonomyContentType.LearningPath) {
       const linkProps = {
         href: toLearningpathFull(linkTo, locale),
         target: '_blank',

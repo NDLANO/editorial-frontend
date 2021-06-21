@@ -30,6 +30,7 @@ import {
   ResourceType,
   TaxonomyElement,
   Topic,
+  TaxonomyContentType,
 } from '../../../../interfaces';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
@@ -149,14 +150,14 @@ const CopyResources = ({
     const resourceType = resource.contentUri?.split(':')[1];
     const resourceId = getIdFromUrn(resource.contentUri);
 
-    if (resourceType === 'article') {
+    if (resourceType === TaxonomyContentType.Article) {
       const clonedArticle = await cloneDraft(resourceId, undefined, false);
       const newResourceBody = {
         contentUri: `urn:article:${clonedArticle.id}`,
         name: resource.name,
       };
       return await clonedResource(newResourceBody, resource);
-    } else if (resourceType === 'learningpath') {
+    } else if (resourceType === TaxonomyContentType.LearningPath) {
       const newLearningpathBody = {
         title: resource.name,
         language: locale,

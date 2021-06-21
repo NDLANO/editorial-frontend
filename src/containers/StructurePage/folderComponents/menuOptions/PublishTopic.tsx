@@ -27,6 +27,7 @@ import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 import { Resource, ArticleType, Learningpath } from '../../../../interfaces';
 import handleError from '../../../../util/handleError';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
+import { TaxonomyContentType } from '../../../../interfaces';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -92,7 +93,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
     if (resource.contentUri) {
       const [, resourceType, id] = resource.contentUri.split(':');
       const idNum = Number(id);
-      if (resourceType === 'article') {
+      if (resourceType === TaxonomyContentType.Article) {
         return (
           fetchDraft(idNum)
             // @ts-ignore TODO Mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
@@ -105,7 +106,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
             .then(() => setPublishedCount(prevState => prevState + 1))
             .catch((e: Error) => handlePublishError(e, resource))
         );
-      } else if (resourceType === 'learningpath') {
+      } else if (resourceType === TaxonomyContentType.LearningPath) {
         return fetchLearningpath(idNum)
           .then((learningpath: Learningpath) => {
             if (learningpath.status !== PUBLISHED) {
@@ -151,7 +152,9 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
           <LinkWrapper>
             <ResourceItemLink
               contentType={
-                resource.contentUri?.split(':')[1] === 'article' ? 'article' : 'learning-path'
+                resource.contentUri?.split(':')[1] === TaxonomyContentType.Article
+                  ? TaxonomyContentType.Article
+                  : TaxonomyContentType.LearningPath
               }
               contentUri={resource.contentUri}
               name={resource.name}

@@ -24,6 +24,7 @@ import {
   ResourceWithTopicConnection,
   Status,
   SubjectType,
+  TaxonomyContentType,
 } from '../../../interfaces';
 
 const StyledDiv = styled('div')`
@@ -182,11 +183,11 @@ export class StructureResources extends React.PureComponent<Props, State> {
     const resourcePromises = allTopicResources.map(async resource => {
       if (resource.contentUri) {
         const [, resourceType, id] = resource.contentUri.split(':');
-        if (resourceType === 'article') {
+        if (resourceType === TaxonomyContentType.Article) {
           const article = await fetchDraft(parseInt(id), this.props.locale);
           resource.status = article.status;
           return article;
-        } else if (resourceType === 'learningpath') {
+        } else if (resourceType === TaxonomyContentType.LearningPath) {
           const learningpath = await fetchLearningpath(parseInt(id), this.props.locale, true);
           resource.status = { current: learningpath.status as ConceptStatusType, other: [] };
           return learningpath;

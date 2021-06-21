@@ -66,7 +66,7 @@ const Resource = ({
           contentUri={contentUri}
           locale={locale}
           name={name}
-          isVisible={metadata?.visible}
+          isVisible={metadata.visible}
         />
       </div>
       {status?.current && (
@@ -102,7 +102,7 @@ const Resource = ({
           contentUri={contentUri}
           contentType={contentType}
           name={name}
-          isVisible={metadata?.visible}
+          isVisible={metadata.visible}
           locale={locale}
         />
       )}

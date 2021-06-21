@@ -50,8 +50,8 @@ interface User {
 interface Props {
   onClose: () => void;
   contentUri?: string;
-  contentType?: string;
-  name?: string;
+  contentType: string;
+  name: string;
   isVisible?: boolean;
   locale: string;
 }

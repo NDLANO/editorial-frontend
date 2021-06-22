@@ -7,6 +7,8 @@
  */
 
 import React, { useState } from 'react';
+import { Editor } from 'slate';
+import { RenderElementProps } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
 import { injectT, tType } from '@ndla/i18n';
 import SlateImage from './SlateImage';
@@ -16,14 +18,17 @@ import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import { getSchemaEmbed } from '../../editorSchema';
-import { FormikInputEvent, LocaleType, SlateFigureProps } from '../../../../interfaces';
+import { FormikInputEvent, LocaleType } from '../../../../interfaces';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
 
-interface Props extends SlateFigureProps {
+interface Props {
+  attributes: RenderElementProps['attributes'];
+  editor: Editor;
+  language: string;
   locale?: LocaleType;
 }
 
@@ -37,10 +42,8 @@ const SlateFigure = ({
   t,
   attributes,
   editor,
-  isSelected,
   language,
   locale = 'nb',
-  node,
 }: Props & tType) => {
   const embed = getSchemaEmbed(node);
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });

@@ -7,12 +7,39 @@
  */
 
 import React, { ReactElement } from 'react';
-import { Block, Document, Editor, Inline, SlateError } from 'slate';
+import { Editor, Descendant } from 'slate';
+import { RenderElementProps } from 'slate-react';
 import SlateFigure from './SlateFigure';
-import defaultBlocks from '../../utils/defaultBlocks';
 import { LocaleType, SlateFigureProps } from '../../../../interfaces';
 
-type ParentNode = Document | Block | Inline;
+const TYPE_EMBED = 'embed';
+
+export interface EmbedElement {
+  type: 'embed';
+  data: any;
+  children: Descendant[];
+}
+
+export const embedPlugin = (language: string, locale: LocaleType) => (editor: Editor) => {
+  const {
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+    isVoid: nextIsVoid,
+  } = editor;
+
+  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
+    console.log(element)
+    if (element.type === TYPE_EMBED) {
+      return (
+        <></>
+      );
+    } else if (nextRenderElement) {
+      return nextRenderElement({ attributes, children, element });
+    }
+    return undefined;
+  };
+  return editor;
+}
 
 export const createEmbedPlugin = (language: string, locale: LocaleType) => {
   const schema = {

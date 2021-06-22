@@ -39,11 +39,11 @@ const actions: Action[] = [
     icon: <ArrowExpand />,
     helpIcon: renderArticleInModal('Details'),
   },
-  // {
-  //   data: { type: 'table', object: 'table' },
-  //   icon: <TableMaterial />,
-  //   helpIcon: renderArticleInModal('Table'),
-  // },
+  {
+    data: { type: 'table', object: 'table' },
+    icon: <TableMaterial />,
+    helpIcon: renderArticleInModal('Table'),
+  },
   // {
   //   data: { type: 'bodybox', object: 'bodybox' },
   //   icon: <Framed />,

@@ -19,6 +19,7 @@ import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions, { ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
 import { defaultDetailsBlock } from '../details/utils';
+import { defaultTableBlock } from '../table/utils';
 
 const { defaultRelatedBlock, defaultCodeBlock } = defaultBlocks;
 
@@ -82,10 +83,10 @@ const SlateBlockPicker = (props: Props & tType) => {
         onInsertBlock(defaultDetailsBlock());
         break;
       }
-      // case 'table': {
-      //   editor.insertTable(2, 2);
-      //   break;
-      // }
+      case 'table': {
+        onInsertBlock(defaultTableBlock(2, 2));
+        break;
+      }
       case 'aside': {
         onInsertBlock(defaultAsideBlock(data.object));
         break;

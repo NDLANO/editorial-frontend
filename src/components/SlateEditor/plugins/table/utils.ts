@@ -28,6 +28,14 @@ export const countCells = (row: TableRowElement, stop?: number) => {
     .reduce((a, b) => a + b);
 };
 
+export const defaultTableBlock = (height: number, width: number) => {
+  return jsx(
+    'element',
+    { type: TYPE_TABLE },
+    [...Array(height)].map(() => defaultTableRowBlock(width)),
+  );
+};
+
 export const defaultTableCellBlock = () => {
   return jsx(
     'element',
@@ -39,13 +47,13 @@ export const defaultTableCellBlock = () => {
   );
 };
 
-export const defaultTableRowBlock = () => {
+export const defaultTableRowBlock = (width: number) => {
   return jsx(
     'element',
     {
       type: TYPE_TABLE_ROW,
     },
-    defaultTableCellBlock(),
+    [...Array(width)].map(() => defaultTableCellBlock()),
   );
 };
 
@@ -79,7 +87,7 @@ export const insertRow = (editor: Editor, path: Path) => {
     match: node => Element.isElement(node) && node.type === TYPE_TABLE_ROW,
   });
   const rowPath = rowEntry && rowEntry[1];
-  Transforms.insertNodes(editor, defaultTableRowBlock(), { at: Path.next(rowPath) });
+  Transforms.insertNodes(editor, defaultTableRowBlock(1), { at: Path.next(rowPath) });
 
   const [columnEntry] = Editor.nodes(editor, {
     at: path,
@@ -232,7 +240,7 @@ const moveLeft = (
   }
   if (Path.equals([...tablePath, 0, 0], cellPath)) {
     const targetPath = [...tablePath, 0];
-    Transforms.insertNodes(editor, defaultTableRowBlock(), { at: targetPath });
+    Transforms.insertNodes(editor, defaultTableRowBlock(1), { at: targetPath });
     Transforms.select(editor, {
       anchor: Editor.point(editor, targetPath, { edge: 'start' }),
       focus: Editor.point(editor, targetPath, { edge: 'start' }),
@@ -265,7 +273,7 @@ const moveRight = (
   const TableEndPoint = Editor.point(editor, tablePath, { edge: 'end' });
   if (Path.isDescendant(TableEndPoint.path, cellPath)) {
     const targetPath = [...tablePath, row.children.length];
-    Transforms.insertNodes(editor, defaultTableRowBlock(), { at: targetPath });
+    Transforms.insertNodes(editor, defaultTableRowBlock(1), { at: targetPath });
     Transforms.select(editor, {
       anchor: Editor.point(editor, tablePath, { edge: 'end' }),
       focus: Editor.point(editor, tablePath, { edge: 'end' }),

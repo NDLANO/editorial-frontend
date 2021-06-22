@@ -189,7 +189,7 @@ export const tablePlugin = (editor: Editor) => {
         // If table contains non-row element, wrap it with row element
         tableNodes.forEach((row, index) => {
           if (!Element.isElement(row)) {
-            return Transforms.wrapNodes(editor, defaultTableRowBlock(), {
+            return Transforms.wrapNodes(editor, defaultTableRowBlock(0), {
               at: ReactEditor.findPath(editor, row),
             });
           }

@@ -77,7 +77,6 @@ const SlateVideo = ({
   const toggleEditModus = () => {
     setEditMode(!editMode);
   };
-  console.log(src, tEmbed);
 
   return (
     <div className="c-figure" draggable="true" {...attributes}>

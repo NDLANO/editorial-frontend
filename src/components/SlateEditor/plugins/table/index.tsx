@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { Dictionary } from 'lodash';
-import { Descendant, Editor, Element, Transforms } from 'slate';
+import { Descendant, Editor, Element, NodeEntry, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 import { jsx } from 'slate-hyperscript';
@@ -23,10 +23,18 @@ import {
   countCells,
   defaultTableCellBlock,
   defaultTableRowBlock,
+  handleTableKeydown,
   TYPE_TABLE,
   TYPE_TABLE_CELL,
   TYPE_TABLE_ROW,
 } from './utils';
+import getCurrentBlock from '../../utils/getCurrentBlock';
+
+export const KEY_ARROW_UP = 'ArrowUp';
+export const KEY_ARROW_DOWN = 'ArrowDown';
+export const KEY_TAB = 'Tab';
+
+const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB];
 
 export interface TableElement {
   type: 'table';
@@ -47,7 +55,6 @@ export interface TableCellElement {
 }
 
 export const TABLE_TAGS: { [key: string]: string } = {
-  table: 'table',
   th: 'table-cell',
   tr: 'table-row',
   td: 'table-cell',
@@ -58,6 +65,9 @@ export const tableSerializer: SlateSerializer = {
     const tagName = el.tagName.toLowerCase();
     if (tagName === 'thead' || tagName === 'tbody') {
       return children;
+    }
+    if (tagName === 'table') {
+      return jsx('element', { type: TYPE_TABLE, lastCellPosition: 0 }, children);
     }
 
     const tableTag = TABLE_TAGS[tagName];
@@ -106,7 +116,7 @@ export const tableSerializer: SlateSerializer = {
       return <tr {...props}>{children}</tr>;
     }
     if (node.type === TYPE_TABLE_CELL) {
-      if (node.data.isHeader) {
+      if (node.data.isHeader === 'true') {
         return <th {...props}>{children}</th>;
       }
       return <td {...props}>{children}</td>;
@@ -115,7 +125,7 @@ export const tableSerializer: SlateSerializer = {
 };
 
 export const tablePlugin = (editor: Editor) => {
-  const { renderElement, normalizeNode } = editor;
+  const { renderElement, normalizeNode, onKeyDown } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     switch (element.type) {
@@ -187,7 +197,7 @@ export const tablePlugin = (editor: Editor) => {
 
         const rows = tableNodes as TableRowElement[];
 
-        const maxCols = Math.max(...rows.map(countCells));
+        const maxCols = Math.max(...rows.map(e => countCells(e)));
 
         // Insert cells if row is missing some
         rows.forEach((row, index) => {
@@ -207,15 +217,21 @@ export const tablePlugin = (editor: Editor) => {
     normalizeNode(entry);
   };
 
+  editor.onKeyDown = event => {
+    if (validKeys.includes(event.key)) {
+      const currentTable = getCurrentBlock(editor, TYPE_TABLE);
+      if (
+        currentTable &&
+        editor.selection &&
+        Path.isDescendant(editor.selection.anchor.path, currentTable[1])
+      ) {
+        if (currentTable) {
+          return handleTableKeydown(event, editor, currentTable as NodeEntry<TableElement>);
+        }
+      }
+    }
+    onKeyDown && onKeyDown(event);
+  };
+
   return editor;
 };
-
-// import { schema, renderBlock, normalizeNode } from './schema';
-
-// export default function createTablePlugin() {
-//   return {
-//     schema,
-//     renderBlock,
-//     normalizeNode,
-//   };
-// }

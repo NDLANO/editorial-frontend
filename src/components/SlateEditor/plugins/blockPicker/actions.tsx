@@ -49,11 +49,11 @@ const actions: Action[] = [
   //   icon: <Framed />,
   //   helpIcon: renderArticleInModal('BodyBox'),
   // },
-  // {
-  //   data: { type: 'embed', object: 'image' },
-  //   icon: <Camera />,
-  //   helpIcon: renderArticleInModal('Images'),
-  // },
+  {
+    data: { type: 'embed', object: 'image' },
+    icon: <Camera />,
+    helpIcon: renderArticleInModal('Images'),
+  },
   // {
   //   data: { type: 'embed', object: 'video' },
   //   icon: <PlayBoxOutline />,

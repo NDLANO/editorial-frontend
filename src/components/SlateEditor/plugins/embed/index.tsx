@@ -12,7 +12,7 @@ import { RenderElementProps } from 'slate-react';
 import SlateFigure from './SlateFigure';
 import { LocaleType, SlateFigureProps } from '../../../../interfaces';
 
-const TYPE_EMBED = 'embed';
+export const TYPE_EMBED = 'embed';
 
 export interface EmbedElement {
   type: 'embed';

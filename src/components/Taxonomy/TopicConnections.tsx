@@ -15,7 +15,7 @@ import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { fetchUserData } from 'modules/draft/draftApi';
+import { fetchUserData } from '../../modules/draft/draftApi';
 import { fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';

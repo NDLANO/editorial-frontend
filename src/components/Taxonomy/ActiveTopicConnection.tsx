@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Cross } from '@ndla/icons/action';
 import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
@@ -18,12 +17,20 @@ import {
   StyledPrimaryConnectionButton,
 } from '../../style/LearningResourceTaxonomyStyles';
 import SharedTopicConnections from './SharedTopicConnections';
-import { TopicShape } from '../../shapes';
 import Breadcrumb from './Breadcrumb';
 import RelevanceOption from '../../containers/StructurePage/folderComponents/menuOptions/RelevanceOption';
 import RemoveButton from '../RemoveButton';
 import { ResourceWithTopicConnection } from '../../interfaces';
 import { PathArray } from '../../util/retriveBreadCrumbs';
+
+interface Props {
+  retriveBreadCrumbs: (path: string) => PathArray;
+  removeConnection?: (id: string) => void;
+  setPrimaryConnection?: (id: string) => void;
+  topic: ResourceWithTopicConnection;
+  type: string;
+  setRelevance?: (topicId: string, relevanceId: string) => void;
+}
 
 const StyledFlexWrapper = styled.div`
   display: flex;
@@ -87,24 +94,6 @@ const ActiveTopicConnection = ({
       <SharedTopicConnections topic={topic} retriveBreadCrumbs={retriveBreadCrumbs} />
     </>
   );
-};
-
-interface Props {
-  retriveBreadCrumbs: (path: string) => PathArray;
-  removeConnection?: (id: string) => void;
-  setPrimaryConnection?: (id: string) => void;
-  topic: ResourceWithTopicConnection;
-  type: string;
-  setRelevance?: (topicId: string, relevanceId: string) => void;
-}
-
-ActiveTopicConnection.propTypes = {
-  retriveBreadCrumbs: PropTypes.func.isRequired,
-  removeConnection: PropTypes.func.isRequired,
-  setPrimaryConnection: PropTypes.func.isRequired,
-  topic: TopicShape.isRequired,
-  type: PropTypes.string.isRequired,
-  setRelevance: PropTypes.func.isRequired,
 };
 
 export default injectT(ActiveTopicConnection);

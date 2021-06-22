@@ -7,16 +7,20 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import {
   StyledConnections,
   StyledDuplicateConnectionLabel,
 } from '../../style/LearningResourceTaxonomyStyles';
-import { TopicShape } from '../../shapes';
 import Breadcrumb from './Breadcrumb';
 import { ResourceWithTopicConnection } from '../../interfaces';
 import { PathArray } from '../../util/retriveBreadCrumbs';
+
+interface Props {
+  topic: ResourceWithTopicConnection;
+  type?: string;
+  retriveBreadCrumbs: (path: string) => PathArray;
+}
 
 export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, type, t }: Props & tType) => {
   if (!topic.paths || topic.paths.length === 0) {
@@ -40,17 +44,5 @@ export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, type, t }: P
     </>
   );
 };
-
-SharedTopicConnections.propTypes = {
-  topic: TopicShape,
-  type: PropTypes.string,
-  retriveBreadCrumbs: PropTypes.func.isRequired,
-};
-
-interface Props {
-  topic: ResourceWithTopicConnection;
-  type?: string;
-  retriveBreadCrumbs: (path: string) => PathArray;
-}
 
 export default injectT(SharedTopicConnections);

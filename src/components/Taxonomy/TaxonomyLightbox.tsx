@@ -8,7 +8,6 @@
 
 import React from 'react';
 import Button from '@ndla/button';
-import PropTypes from 'prop-types';
 import { Cross } from '@ndla/icons/action';
 import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
@@ -114,12 +113,5 @@ const StyledContent = styled.div`
   justify-content: space-between;
   align-items: flex-end;
 `;
-
-TaxonomyLightbox.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
-  onSelect: PropTypes.func.isRequired,
-};
 
 export default injectT(TaxonomyLightbox);

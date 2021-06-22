@@ -7,20 +7,10 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnection from './ActiveTopicConnection';
-import { TopicShape } from '../../shapes';
 import { ResourceWithTopicConnection } from '../../interfaces';
 import { PathArray } from '../../util/retriveBreadCrumbs';
-
-const ActiveTopicConnections = ({ activeTopics, ...rest }: Props) => (
-  <StyledConnectionsWrapper>
-    {activeTopics.map(topic => (
-      <ActiveTopicConnection key={topic.id} topic={topic} {...rest} />
-    ))}
-  </StyledConnectionsWrapper>
-);
 
 interface Props {
   retriveBreadCrumbs: (path: string) => PathArray;
@@ -31,12 +21,12 @@ interface Props {
   setRelevance?: (topicId: string, relevanceId: string) => void;
 }
 
-ActiveTopicConnections.propTypes = {
-  retriveBreadCrumbs: PropTypes.func.isRequired,
-  removeConnection: PropTypes.func,
-  setPrimaryConnection: PropTypes.func.isRequired,
-  activeTopics: PropTypes.arrayOf(TopicShape).isRequired,
-  type: PropTypes.string.isRequired,
-};
+const ActiveTopicConnections = ({ activeTopics, ...rest }: Props) => (
+  <StyledConnectionsWrapper>
+    {activeTopics.map(topic => (
+      <ActiveTopicConnection key={topic.id} topic={topic} {...rest} />
+    ))}
+  </StyledConnectionsWrapper>
+);
 
 export default ActiveTopicConnections;

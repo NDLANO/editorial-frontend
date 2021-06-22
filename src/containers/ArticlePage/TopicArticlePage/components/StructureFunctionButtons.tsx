@@ -14,13 +14,13 @@ import { css } from '@emotion/core';
 import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
-import { Topic } from '../../../../interfaces';
+import { ResourceWithTopicConnection } from '../../../../interfaces';
 
 interface Props {
   isSubject?: boolean;
   isOpen?: boolean;
   id?: string;
-  activeTopics: Topic[];
+  activeTopics: ResourceWithTopicConnection[];
   addTopic: () => Promise<void>;
 }
 

@@ -11,8 +11,10 @@ import PropTypes from 'prop-types';
 import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnection from './ActiveTopicConnection';
 import { TopicShape } from '../../shapes';
+import { ResourceWithTopicConnection } from '../../interfaces';
+import { PathArray } from '../../util/retriveBreadCrumbs';
 
-const ActiveTopicConnections = ({ activeTopics, ...rest }) => (
+const ActiveTopicConnections = ({ activeTopics, ...rest }: Props) => (
   <StyledConnectionsWrapper>
     {activeTopics.map(topic => (
       <ActiveTopicConnection key={topic.id} topic={topic} {...rest} />
@@ -20,12 +22,21 @@ const ActiveTopicConnections = ({ activeTopics, ...rest }) => (
   </StyledConnectionsWrapper>
 );
 
+interface Props {
+  retriveBreadCrumbs: (path: string) => PathArray;
+  removeConnection?: (id: string) => void;
+  setPrimaryConnection?: (id: string) => void;
+  activeTopics: ResourceWithTopicConnection[];
+  type: string;
+  setRelevance?: (topicId: string, relevanceId: string) => void;
+}
+
 ActiveTopicConnections.propTypes = {
-  retriveBreadCrumbs: PropTypes.func,
+  retriveBreadCrumbs: PropTypes.func.isRequired,
   removeConnection: PropTypes.func,
-  setPrimaryConnection: PropTypes.func,
-  activeTopics: PropTypes.arrayOf(TopicShape),
-  type: PropTypes.string,
+  setPrimaryConnection: PropTypes.func.isRequired,
+  activeTopics: PropTypes.arrayOf(TopicShape).isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default ActiveTopicConnections;

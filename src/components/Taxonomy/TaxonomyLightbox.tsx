@@ -10,14 +10,22 @@ import React from 'react';
 import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import { Cross } from '@ndla/icons/action';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
 import Overlay from '../Overlay';
 import Spinner from '../Spinner';
 
-const TaxonomyLightbox = ({ children, title, onSelect, t, loading, onClose }) => (
+interface Props {
+  children: JSX.Element;
+  onClose: () => void;
+  loading: boolean;
+  title: string;
+  onSelect: () => void;
+}
+
+const TaxonomyLightbox = ({ children, title, onSelect, t, loading, onClose }: Props & tType) => (
   <StyledLightboxWrapper>
     <Overlay onExit={onClose} />
     <StyledContentWrapper>
@@ -109,9 +117,9 @@ const StyledContent = styled.div`
 
 TaxonomyLightbox.propTypes = {
   onClose: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
-  title: PropTypes.string,
-  onSelect: PropTypes.func,
+  loading: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  onSelect: PropTypes.func.isRequired,
 };
 
 export default injectT(TaxonomyLightbox);

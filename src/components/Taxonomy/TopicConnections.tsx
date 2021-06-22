@@ -7,32 +7,21 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
+import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { Switch } from '@ndla/switch';
-import { fetchUserData } from '../../../../modules/draft/draftApi';
-import { HowToHelper } from '../../../../components/HowTo';
-import StructureFunctionButtons from './StructureFunctionButtons';
-import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
-import { SubjectType, ResourceWithTopicConnection } from '../../../../interfaces';
-import { PathArray } from '../../../../util/retriveBreadCrumbs';
-import { TopicShape, StructureShape } from '../../../../shapes';
-
-interface Props {
-  structure: SubjectType[];
-  activeTopics: ResourceWithTopicConnection[];
-  allowMultipleSubjectsOpen?: boolean;
-  stageTaxonomyChanges: ({ path }: { path: string }) => void;
-  getSubjectTopics: (subjectId: string, locale: string) => Promise<void>;
-  retriveBreadCrumbs: (path: string) => PathArray;
-  locale: string;
-}
+import { fetchUserData } from 'modules/draft/draftApi';
+import { fetchTopicConnections } from '../../modules/taxonomy';
+import ActiveTopicConnections from './ActiveTopicConnections';
+import HowToHelper from '../HowTo/HowToHelper';
+import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
+import { ResourceWithTopicConnection, SubjectType } from '../../interfaces';
+import { PathArray } from '../../util/retriveBreadCrumbs';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -44,19 +33,45 @@ const ModalTitleRow = styled.div`
   justify-content: space-between;
 `;
 
-const TopicArticleConnections = ({
+interface Props {
+  structure: SubjectType[];
+  activeTopics: ResourceWithTopicConnection[];
+  allTopics: {
+    contentUri: string;
+    id: string;
+    name: string;
+    path: string;
+  }[];
+  onChangeShowFavorites: () => void;
+  // showFavorites: boolean;
+  removeConnection: (id: string) => void;
+  setPrimaryConnection: (id: string) => void;
+  allowMultipleSubjectsOpen: boolean;
+  stageTaxonomyChanges: (properties: any) => void;
+  getSubjectTopics: (subjectId: string) => Promise<void>;
+  setRelevance: (topicId: string, relevanceId: string) => void;
+  retriveBreadCrumbs: (topicPath: string) => PathArray;
+}
+
+const TopicConnections = ({
   structure,
   activeTopics,
+  allTopics,
+  onChangeShowFavorites,
+  // showFavorites,
+  removeConnection,
+  setPrimaryConnection,
   allowMultipleSubjectsOpen,
   stageTaxonomyChanges,
   getSubjectTopics,
+  setRelevance,
   retriveBreadCrumbs,
-  locale,
   t,
 }: Props & tType) => {
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
+
   useEffect(() => {
     fetchFavoriteSubjects();
   }, []);
@@ -67,24 +82,24 @@ const TopicArticleConnections = ({
     setFavoriteSubjectIds(favoriteSubjects);
   };
 
-  const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) => {
-    return subjects.filter(e => favoriteSubjectIds.includes(e.id));
-  };
+  const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) =>
+    subjects.filter(e => favoriteSubjectIds.includes(e.id));
 
-  const handleOpenToggle = async ({
+  const handleOpenToggle = ({
     path,
     isSubject,
     id,
   }: {
     path: string;
-    isSubject: boolean;
+    isSubject: Boolean;
     id: string;
   }) => {
     let paths = [...openedPaths];
     const index = paths.indexOf(path);
     if (index === -1) {
+      // Has other subjects open and !allowMultipleSubjectsOpen?
       if (isSubject) {
-        getSubjectTopics(id, locale);
+        getSubjectTopics(id);
         if (!allowMultipleSubjectsOpen) {
           paths = [];
         }
@@ -96,25 +111,36 @@ const TopicArticleConnections = ({
     setOpenedPaths(paths);
   };
 
-  const addTopic = async (path: string, closeModal: () => void) => {
-    stageTaxonomyChanges({ path });
+  const addTopic = async (id: string, closeModal: () => void) => {
+    const topicToAdd = allTopics.find(taxonomyTopic => taxonomyTopic.id === id);
+
+    const topicConnections = await fetchTopicConnections(topicToAdd!.id);
+
+    stageTaxonomyChanges({
+      topics: [
+        ...activeTopics,
+        {
+          ...topicToAdd,
+          topicConnections,
+          primary: activeTopics.length === 0,
+        },
+      ],
+    });
     closeModal();
   };
 
-  const toggleShowFavorites = () => {
-    setShowFavorites(!showFavorites);
-  };
   return (
     <>
-      <FieldHeader
-        title={t('taxonomy.topics.topicPlacement')}
-        subTitle={t('taxonomy.topics.subTitleTopic')}>
-        <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t('taxonomy.topics.helpLabel')} />
+      <FieldHeader title={t('taxonomy.topics.title')} subTitle={t('taxonomy.topics.subTitle')}>
+        <HowToHelper pageId="TaxonomySubjectConnections" tooltip={t('taxonomy.topics.helpLabel')} />
       </FieldHeader>
       <ActiveTopicConnections
         activeTopics={activeTopics}
-        type="topic-article"
+        setRelevance={setRelevance}
+        removeConnection={removeConnection}
+        setPrimaryConnection={setPrimaryConnection}
         retriveBreadCrumbs={retriveBreadCrumbs}
+        type="topicarticle"
       />
       <Modal
         backgroundColor="white"
@@ -122,7 +148,7 @@ const TopicArticleConnections = ({
         size="large"
         narrow
         minHeight="85vh"
-        activateButton={<Button>{t(`taxonomy.topics.${'chooseTaxonomyPlacement'}`)}</Button>}>
+        activateButton={<Button>{t('taxonomy.topics.filestructureButton')}</Button>}>
         {(closeModal: () => void) => (
           <>
             <ModalHeader>
@@ -135,7 +161,7 @@ const TopicArticleConnections = ({
               <ModalTitleRow>
                 <StyledTitleModal>{t('taxonomy.topics.filestructureHeading')}:</StyledTitleModal>
                 <Switch
-                  onChange={toggleShowFavorites}
+                  onChange={() => setShowFavorites(!showFavorites)}
                   checked={showFavorites}
                   label={t('taxonomy.favorites')}
                   id={'favorites'}
@@ -149,26 +175,23 @@ const TopicArticleConnections = ({
                 }
                 toggleOpen={handleOpenToggle}
                 renderListItems={({
-                  path,
                   isSubject,
                   isOpen,
                   id,
                 }: {
-                  path: string;
                   isSubject: boolean;
                   isOpen: boolean;
                   id: string;
-                }) => {
-                  return (
-                    <StructureFunctionButtons
-                      isOpen={isOpen}
-                      id={id}
-                      isSubject={isSubject}
-                      activeTopics={activeTopics}
-                      addTopic={() => addTopic(path, closeModal)}
-                    />
-                  );
-                }}
+                }) => (
+                  <StructureButtons
+                    isOpen={isOpen}
+                    id={id}
+                    isSubject={isSubject}
+                    closeModal={closeModal}
+                    activeTopics={activeTopics}
+                    addTopic={addTopic}
+                  />
+                )}
               />
             </ModalBody>
           </>
@@ -178,16 +201,4 @@ const TopicArticleConnections = ({
   );
 };
 
-TopicArticleConnections.propTypes = {
-  isOpened: PropTypes.bool,
-  structure: PropTypes.arrayOf<SubjectType>(StructureShape).isRequired,
-  activeTopics: PropTypes.arrayOf<ResourceWithTopicConnection>(TopicShape).isRequired,
-  retriveBreadcrumbs: PropTypes.func,
-  setPrimaryConnection: PropTypes.func,
-  allowMultipleSubjectsOpen: PropTypes.bool,
-  stageTaxonomyChanges: PropTypes.func.isRequired,
-  getSubjectTopics: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
-};
-
-export default injectT(TopicArticleConnections);
+export default injectT(TopicConnections);

@@ -29,6 +29,8 @@ import {
   TYPE_TABLE_ROW,
 } from './utils';
 import getCurrentBlock from '../../utils/getCurrentBlock';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -212,8 +214,42 @@ export const tablePlugin = (editor: Editor) => {
             );
           }
         });
+        const nextPath = Path.next(path);
+
+        if (Editor.hasPath(editor, nextPath)) {
+          const [nextNode] = Editor.node(editor, nextPath);
+          if (
+            !Element.isElement(nextNode) ||
+            !afterOrBeforeTextBlockElement.includes(nextNode.type)
+          ) {
+            Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+              at: nextPath,
+            });
+
+            return;
+          }
+        }
+
+        if (Path.hasPrevious(path)) {
+          const previousPath = Path.previous(path);
+
+          if (Editor.hasPath(editor, previousPath)) {
+            const [previousNode] = Editor.node(editor, previousPath);
+            if (
+              !Element.isElement(previousNode) ||
+              !afterOrBeforeTextBlockElement.includes(previousNode.type)
+            ) {
+              Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+                at: path,
+              });
+
+              return;
+            }
+          }
+        }
       }
     }
+
     normalizeNode(entry);
   };
 

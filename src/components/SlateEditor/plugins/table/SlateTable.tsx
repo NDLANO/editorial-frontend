@@ -7,25 +7,28 @@
  */
 
 import React, { ReactNode } from 'react';
-import { Editor, Element } from 'slate';
+import { Editor } from 'slate';
 import { RenderElementProps } from 'slate-react';
+import { TableElement } from '.';
 import TableActions from './TableActions';
 
 interface Props {
   editor: Editor;
   attributes: RenderElementProps['attributes'];
-  element: Element;
+  element: TableElement;
   children: ReactNode;
 }
 
 const SlateTable = (props: Props) => {
   const { editor, attributes, element, children } = props;
   return (
-    <div {...attributes}>
-      <TableActions editor={editor} element={element} />
-      <table>
-        <tbody>{children}</tbody>
-      </table>
+    <div className="c-table__wrapper c-table__content">
+      <div {...attributes}>
+        <TableActions editor={editor} element={element} />
+        <table>
+          <tbody>{children}</tbody>
+        </table>
+      </div>
     </div>
   );
 };

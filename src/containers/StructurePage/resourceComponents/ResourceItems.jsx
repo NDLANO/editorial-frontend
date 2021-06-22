@@ -112,6 +112,7 @@ class ResourceItems extends React.PureComponent {
               structure={structure}
               onDelete={this.toggleDelete}
               locale={locale}
+              updateRelevanceId={this.updateRelevanceId}
             />
           ))}
         </MakeDndList>

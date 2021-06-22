@@ -59,6 +59,7 @@ class TopicDescription extends Component {
               metadata={currentTopic.metadata}
               connectionId={currentTopic.connectionId}
               relevanceId={currentTopic.relevanceId}
+              updateRelevanceId={() => {}}
               refreshResources={refreshTopics}
               primary={currentTopic.isPrimary}
               rank={currentTopic.rank}

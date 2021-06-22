@@ -2,7 +2,14 @@ import React from 'react';
 import { Editor, Element, NodeEntry, Path, Transforms } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
-import { TableCellElement, TableElement, TableRowElement, KEY_ARROW_DOWN, KEY_ARROW_UP } from '.';
+import {
+  TableCellElement,
+  TableElement,
+  TableRowElement,
+  KEY_ARROW_DOWN,
+  KEY_ARROW_UP,
+  KEY_TAB,
+} from '.';
 import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const TYPE_TABLE = 'table';
@@ -80,8 +87,8 @@ export const insertRow = (editor: Editor, path: Path) => {
   });
   const columnPath = columnEntry && columnEntry[1];
   Transforms.select(editor, {
-    anchor: { offset: 0, path: [...Path.next(rowPath), columnPath[columnPath.length - 1], 0, 0] },
-    focus: { offset: 0, path: [...Path.next(rowPath), columnPath[columnPath.length - 1], 0, 0] },
+    anchor: Editor.point(editor, columnPath, { edge: 'start' }),
+    focus: Editor.point(editor, columnPath, { edge: 'start' }),
   });
 };
 
@@ -100,8 +107,8 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
       });
     });
     Transforms.select(editor, {
-      anchor: { offset: 0, path: [...Path.next(columnPath), 0, 0] },
-      focus: { offset: 0, path: [...Path.next(columnPath), 0, 0] },
+      anchor: Editor.point(editor, columnPath, { edge: 'start' }),
+      focus: Editor.point(editor, columnPath, { edge: 'start' }),
     });
   });
 };
@@ -177,9 +184,92 @@ export const handleTableKeydown = (
           rowEntry as NodeEntry<TableRowElement>,
           cellEntry as NodeEntry<TableCellElement>,
         );
+      case KEY_TAB:
+        if (event.shiftKey) {
+          return moveLeft(
+            editor,
+            tableEntry,
+            rowEntry as NodeEntry<TableRowElement>,
+            cellEntry as NodeEntry<TableCellElement>,
+          );
+        }
+        return moveRight(
+          editor,
+          tableEntry,
+          rowEntry as NodeEntry<TableRowElement>,
+          cellEntry as NodeEntry<TableCellElement>,
+        );
       default:
         return;
     }
+  }
+};
+
+const moveLeft = (
+  editor: Editor,
+  tableEntry: NodeEntry<TableElement>,
+  rowEntry: NodeEntry<TableRowElement>,
+  cellEntry: NodeEntry<TableCellElement>,
+) => {
+  const tablePath = tableEntry[1];
+  const [row, rowPath] = rowEntry;
+  const cellPath = cellEntry[1];
+  if (Path.hasPrevious(cellPath)) {
+    const previousPath = Path.previous(cellPath);
+
+    if (Editor.hasPath(editor, previousPath)) {
+      return Transforms.select(editor, previousPath);
+    }
+  }
+  if (Path.hasPrevious(rowPath)) {
+    const previousPath = Path.previous(rowPath);
+    if (Editor.hasPath(editor, previousPath)) {
+      const targetCellPath = [...previousPath, row.children.length - 1];
+      if (Editor.hasPath(editor, targetCellPath)) {
+        return Transforms.select(editor, targetCellPath);
+      }
+    }
+  }
+  if (Path.equals([...tablePath, 0, 0], cellPath)) {
+    const targetPath = [...tablePath, 0];
+    Transforms.insertNodes(editor, defaultTableRowBlock(), { at: targetPath });
+    Transforms.select(editor, {
+      anchor: Editor.point(editor, targetPath, { edge: 'start' }),
+      focus: Editor.point(editor, targetPath, { edge: 'start' }),
+    });
+  }
+};
+
+const moveRight = (
+  editor: Editor,
+  tableEntry: NodeEntry<TableElement>,
+  rowEntry: NodeEntry<TableRowElement>,
+  cellEntry: NodeEntry<TableCellElement>,
+) => {
+  const tablePath = tableEntry[1];
+  const [row, rowPath] = rowEntry;
+  const cellPath = cellEntry[1];
+  const nextPath = Path.next(cellPath);
+
+  if (Editor.hasPath(editor, nextPath)) {
+    return Transforms.select(editor, nextPath);
+  }
+
+  const nextRowPath = Path.next(rowPath);
+  if (Editor.hasPath(editor, nextRowPath)) {
+    const targetCellPath = [...nextRowPath, 0];
+    if (Editor.hasPath(editor, targetCellPath)) {
+      return Transforms.select(editor, targetCellPath);
+    }
+  }
+  const TableEndPoint = Editor.point(editor, tablePath, { edge: 'end' });
+  if (Path.isDescendant(TableEndPoint.path, cellPath)) {
+    const targetPath = [...tablePath, row.children.length];
+    Transforms.insertNodes(editor, defaultTableRowBlock(), { at: targetPath });
+    Transforms.select(editor, {
+      anchor: Editor.point(editor, tablePath, { edge: 'end' }),
+      focus: Editor.point(editor, tablePath, { edge: 'end' }),
+    });
   }
 };
 
@@ -189,30 +279,28 @@ const moveDown = (
   rowEntry: NodeEntry<TableRowElement>,
   cellEntry: NodeEntry<TableCellElement>,
 ) => {
-  if (editor.selection) {
-    const tablePath = tableEntry[1];
+  const tablePath = tableEntry[1];
 
-    const rowPath = rowEntry[1];
+  const rowPath = rowEntry[1];
 
-    const cellPath = cellEntry[1];
-    const columnIndex = cellPath[cellPath.length - 1];
+  const cellPath = cellEntry[1];
+  const columnIndex = cellPath[cellPath.length - 1];
 
-    const nextPath = [...Path.next(rowPath), columnIndex];
+  const nextPath = [...Path.next(rowPath), columnIndex];
 
-    if (Editor.hasPath(editor, nextPath)) {
-      Transforms.select(editor, {
-        anchor: Editor.point(editor, nextPath, { edge: 'start' }),
-        focus: Editor.point(editor, nextPath, { edge: 'start' }),
-      });
-    } else if (
-      Editor.hasPath(editor, Path.next(tablePath)) &&
-      !Editor.hasPath(editor, Path.next(rowPath))
-    ) {
-      Transforms.select(editor, {
-        anchor: Editor.point(editor, Path.next(tablePath), { edge: 'start' }),
-        focus: Editor.point(editor, Path.next(tablePath), { edge: 'start' }),
-      });
-    }
+  if (Editor.hasPath(editor, nextPath)) {
+    Transforms.select(editor, {
+      anchor: Editor.point(editor, nextPath, { edge: 'start' }),
+      focus: Editor.point(editor, nextPath, { edge: 'start' }),
+    });
+  } else if (
+    Editor.hasPath(editor, Path.next(tablePath)) &&
+    !Editor.hasPath(editor, Path.next(rowPath))
+  ) {
+    Transforms.select(editor, {
+      anchor: Editor.point(editor, Path.next(tablePath), { edge: 'start' }),
+      focus: Editor.point(editor, Path.next(tablePath), { edge: 'start' }),
+    });
   }
 };
 
@@ -222,30 +310,28 @@ const moveUp = (
   rowEntry: NodeEntry<TableRowElement>,
   cellEntry: NodeEntry<TableCellElement>,
 ) => {
-  if (editor.selection) {
-    const tablePath = tableEntry[1];
+  const tablePath = tableEntry[1];
 
-    const rowPath = rowEntry[1];
+  const rowPath = rowEntry[1];
 
-    const cellPath = cellEntry[1];
-    const columnIndex = cellPath[cellPath.length - 1];
+  const cellPath = cellEntry[1];
+  const columnIndex = cellPath[cellPath.length - 1];
 
-    if (Path.hasPrevious(rowPath)) {
-      const previousPath = [...Path.previous(rowPath), columnIndex];
-      if (Editor.hasPath(editor, previousPath)) {
-        Transforms.select(editor, {
-          anchor: Editor.point(editor, previousPath, { edge: 'start' }),
-          focus: Editor.point(editor, previousPath, { edge: 'start' }),
-        });
-      }
-    } else if (Path.hasPrevious(tablePath)) {
-      const previousPath = Path.previous(tablePath);
-      if (Editor.hasPath(editor, previousPath)) {
-        Transforms.select(editor, {
-          anchor: Editor.point(editor, previousPath, { edge: 'start' }),
-          focus: Editor.point(editor, previousPath, { edge: 'start' }),
-        });
-      }
+  if (Path.hasPrevious(rowPath)) {
+    const previousPath = [...Path.previous(rowPath), columnIndex];
+    if (Editor.hasPath(editor, previousPath)) {
+      Transforms.select(editor, {
+        anchor: Editor.point(editor, previousPath, { edge: 'start' }),
+        focus: Editor.point(editor, previousPath, { edge: 'start' }),
+      });
+    }
+  } else if (Path.hasPrevious(tablePath)) {
+    const previousPath = Path.previous(tablePath);
+    if (Editor.hasPath(editor, previousPath)) {
+      Transforms.select(editor, {
+        anchor: Editor.point(editor, previousPath, { edge: 'start' }),
+        focus: Editor.point(editor, previousPath, { edge: 'start' }),
+      });
     }
   }
 };

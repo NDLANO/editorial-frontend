@@ -148,7 +148,7 @@ const SlateFigure = ({
         <DisplayExternal
           onRemoveClick={onRemoveClick}
           editor={editor}
-          node={node}
+          element={element}
           embed={embed}
           language={language}
         />

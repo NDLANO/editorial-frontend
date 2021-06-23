@@ -8,6 +8,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Transforms } from 'slate';
+import { ReactEditor } from 'slate-react'
 import { injectT } from '@ndla/i18n';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
@@ -46,14 +48,14 @@ export class DisplayExternal extends Component {
   }
 
   onEditEmbed(properties) {
-    const { editor, node, embed } = this.props;
+    const { editor, element, embed } = this.props;
 
     if (properties.url !== embed.url || properties.path !== embed.path) {
-      editor.setNodeByKey(node.key, {
-        data: {
-          ...properties,
-        },
-      });
+      Transforms.setNodes(
+        editor,
+        { data: this.state.files },
+        { at: ReactEditor.findPath(editor, element) },
+      );
       this.closeEditEmbed();
     }
   }
@@ -199,7 +201,7 @@ DisplayExternal.propTypes = {
   onRemoveClick: PropTypes.func,
   changeVisualElement: PropTypes.func,
   editor: EditorShape,
-  node: PropTypes.any,
+  element: PropTypes.any,
   isIframe: PropTypes.bool,
   embed: PropTypes.shape({
     width: PropTypes.string,

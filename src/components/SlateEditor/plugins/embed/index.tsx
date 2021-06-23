@@ -71,6 +71,13 @@ export const embedPlugin = (language: string, locale: LocaleType) => (editor: Ed
     }
   };
 
+  editor.isVoid = (element: Element) => {
+    if (element.type === TYPE_EMBED) {
+      return true;
+    }
+    return nextIsVoid(element);
+  };
+
   return editor;
 };
 

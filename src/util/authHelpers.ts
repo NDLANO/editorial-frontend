@@ -190,8 +190,9 @@ const scheduleRenewal = async () => {
 scheduleRenewal();
 
 export function loginPersonalAccessToken(type: string) {
+  const connection = config.usernamePasswordEnabled ? undefined : type;
   auth.authorize({
-    connection: type,
+    connection,
     state: localStorage.getItem('lastPath') ?? undefined,
     prompt: 'login', // Tells auth0 to always show account selection screen on authorize.
   });

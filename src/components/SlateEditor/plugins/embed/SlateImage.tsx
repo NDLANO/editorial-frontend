@@ -9,6 +9,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import React, { useState } from 'react';
+import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
 import config from '../../../../config';
@@ -24,10 +25,7 @@ const buttonStyle = css`
 
 interface Props {
   active?: boolean;
-  attributes?: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
+  attributes: RenderElementProps['attributes'];
   embed: Embed;
   figureClass?: { className: string };
   isSelectedForCopy?: boolean;

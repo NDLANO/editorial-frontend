@@ -7,10 +7,13 @@
  */
 
 import React, { ReactElement } from 'react';
-import { Editor, Descendant } from 'slate';
-import { RenderElementProps } from 'slate-react';
+import { Editor, Descendant, Element } from 'slate';
+import { RenderElementProps } from 'slate-react';
 import SlateFigure from './SlateFigure';
-import { LocaleType, SlateFigureProps } from '../../../../interfaces';
+import { SlateSerializer } from '../../interfaces';
+import { LocaleType, SlateFigureProps, Embed } from '../../../../interfaces';
+import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
+import { defaultEmbedBlock } from './utils';
 
 export const TYPE_EMBED = 'embed';
 
@@ -20,6 +23,18 @@ export interface EmbedElement {
   children: Descendant[];
 }
 
+export const embedSerializer: SlateSerializer = {
+  deserialize(el: HTMLElement) {
+    if (el.tagName.toLowerCase() !== TYPE_EMBED) return;
+    return defaultEmbedBlock((parseEmbedTag(el.outerHTML) as unknown) as Embed);
+  },
+  serialize(node: Descendant) {
+    if (!Element.isElement(node)) return;
+    if (node.type !== TYPE_EMBED) return;
+    return createEmbedTag(node.data);
+  },
+};
+
 export const embedPlugin = (language: string, locale: LocaleType) => (editor: Editor) => {
   const {
     renderElement: nextRenderElement,
@@ -28,10 +43,16 @@ export const embedPlugin = (language: string, locale: LocaleType) => (editor: Ed
   } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
-    console.log(element)
     if (element.type === TYPE_EMBED) {
       return (
-        <></>
+        <SlateFigure
+          attributes={attributes}
+          editor={editor}
+          element={element}
+          language={language}
+          locale={locale}>
+          {children}
+        </SlateFigure>
       );
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });
@@ -39,7 +60,7 @@ export const embedPlugin = (language: string, locale: LocaleType) => (editor: Ed
     return undefined;
   };
   return editor;
-}
+};
 
 export const createEmbedPlugin = (language: string, locale: LocaleType) => {
   const schema = {

@@ -95,7 +95,7 @@ const LearningResourceContent = ({
   values: { id, language, creators, published },
   handleBlur,
   handleSubmit,
-  locale
+  locale,
 }) => {
   const handleSubmitRef = React.useRef(handleSubmit);
 

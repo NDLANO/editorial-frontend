@@ -13,4 +13,3 @@ import { Embed } from '../../../../interfaces';
 export const defaultEmbedBlock = (data: Embed) => {
   return jsx('element', { type: TYPE_EMBED, data }, [{ text: '' }]);
 };
-

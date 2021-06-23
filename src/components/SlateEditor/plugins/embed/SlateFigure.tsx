@@ -7,8 +7,8 @@
  */
 
 import React, { useState } from 'react';
-import { Editor } from 'slate';
-import { RenderElementProps } from 'slate-react';
+import { Editor, Transforms, Element } from 'slate';
+import { RenderElementProps, ReactEditor } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
 import { injectT, tType } from '@ndla/i18n';
 import SlateImage from './SlateImage';
@@ -17,8 +17,8 @@ import SlateAudio from './SlateAudio';
 import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
-import { getSchemaEmbed } from '../../editorSchema';
 import { FormikInputEvent, LocaleType } from '../../../../interfaces';
+import { EmbedElement, TYPE_EMBED } from '.';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',
@@ -28,6 +28,7 @@ export const editorClasses = new BEMHelper({
 interface Props {
   attributes: RenderElementProps['attributes'];
   editor: Editor;
+  element: EmbedElement;
   language: string;
   locale?: LocaleType;
 }
@@ -42,10 +43,11 @@ const SlateFigure = ({
   t,
   attributes,
   editor,
+  element,
   language,
   locale = 'nb',
 }: Props & tType) => {
-  const embed = getSchemaEmbed(node);
+  const embed = element.data;
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
 
   const onFigureInputChange = (event: FormikInputEvent) => {
@@ -58,24 +60,25 @@ const SlateFigure = ({
   };
 
   const saveEmbedUpdates = (updates: ChangesProp) => {
-    const properties = {
-      data: { ...getSchemaEmbed(node), ...updates },
-    };
-    editor.setNodeByKey(node.key, properties);
+    Transforms.setNodes(
+      editor,
+      { data: { ...embed, ...updates } },
+      { at: ReactEditor.findPath(editor, element) },
+    );
   };
 
   const isActive = () => {
-    return editor.value.selection.anchor.isInNode(node);
+    return false;
   };
 
   const onRemoveClick = (e: any) => {
     e.stopPropagation();
-    editor
-      .moveToRangeOfNode(node)
-      .moveToEnd()
-      .focus()
-      .moveForward(1);
-    editor.removeNodeByKey(node.key);
+    const path = ReactEditor.findPath(editor, element);
+    ReactEditor.focus(editor);
+    Transforms.removeNodes(editor, {
+      at: path,
+      match: node => Element.isElement(node) && node.type === TYPE_EMBED,
+    });
   };
 
   switch (embed.resource) {
@@ -86,7 +89,6 @@ const SlateFigure = ({
           attributes={attributes}
           embed={embed}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
-          isSelectedForCopy={isSelected}
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}

@@ -9,6 +9,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import React, { Fragment, useEffect, useState } from 'react';
+import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
@@ -29,10 +30,7 @@ const videoStyle = css`
 `;
 
 interface Props {
-  attributes?: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
+  attributes: RenderElementProps['attributes'];
   embed: Embed;
   figureClass: any;
   language: string;
@@ -78,7 +76,7 @@ const SlateVideo = ({
   };
 
   return (
-    <div className="c-figure" draggable="true" {...attributes}>
+    <div className="c-figure" draggable="true" contentEditable={false} {...attributes}>
       <FigureButtons
         tooltip={t('form.video.remove')}
         onRemoveClick={onRemoveClick}

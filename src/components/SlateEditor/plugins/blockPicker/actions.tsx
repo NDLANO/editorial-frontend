@@ -54,31 +54,31 @@ const actions: Action[] = [
     icon: <Camera />,
     helpIcon: renderArticleInModal('Images'),
   },
-  // {
-  //   data: { type: 'embed', object: 'video' },
-  //   icon: <PlayBoxOutline />,
-  //   helpIcon: renderArticleInModal('Videos'),
-  // },
-  // {
-  //   data: { type: 'embed', object: 'audio' },
-  //   icon: <VolumeUp />,
-  //   helpIcon: renderArticleInModal('Audios'),
-  // },
-  // {
-  //   data: { type: 'embed', object: 'podcast' },
-  //   icon: <Podcast />,
-  //   helpIcon: renderArticleInModal('Podcasts'),
-  // },
-  // {
-  //   data: { type: 'embed', object: 'h5p' },
-  //   icon: <PresentationPlay />,
-  //   helpIcon: renderArticleInModal('H5P'),
-  // },
-  // {
-  //   data: { type: 'embed', object: 'url' },
-  //   icon: <LinkIcon />,
-  //   helpIcon: renderArticleInModal('ResourceFromLink'),
-  // },
+  {
+    data: { type: 'embed', object: 'video' },
+    icon: <PlayBoxOutline />,
+    helpIcon: renderArticleInModal('Videos'),
+  },
+  {
+    data: { type: 'embed', object: 'audio' },
+    icon: <VolumeUp />,
+    helpIcon: renderArticleInModal('Audios'),
+  },
+  {
+    data: { type: 'embed', object: 'podcast' },
+    icon: <Podcast />,
+    helpIcon: renderArticleInModal('Podcasts'),
+  },
+  {
+    data: { type: 'embed', object: 'h5p' },
+    icon: <PresentationPlay />,
+    helpIcon: renderArticleInModal('H5P'),
+  },
+  {
+    data: { type: 'embed', object: 'url' },
+    icon: <LinkIcon />,
+    helpIcon: renderArticleInModal('ResourceFromLink'),
+  },
   {
     data: { type: 'file', object: 'file' },
     icon: <Download />,

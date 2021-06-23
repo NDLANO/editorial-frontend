@@ -7,6 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
@@ -19,10 +20,7 @@ import FigureButtons from './FigureButtons';
 import { SlateAudio as Audio, Embed, FormikInputEvent, LocaleType } from '../../../../interfaces';
 
 interface Props {
-  attributes?: {
-    'data-key': String;
-    'data-slate-object': String;
-  };
+  attributes: RenderElementProps['attributes'];
   changes: { [x: string]: string };
   embed: Embed;
   language: string;
@@ -77,7 +75,7 @@ const SlateAudio = ({
   };
 
   return (
-    <div draggable {...attributes}>
+    <div draggable contentEditable={false} {...attributes}>
       <Figure id={`${audio.id}`}>
         {editMode ? (
           <EditAudio

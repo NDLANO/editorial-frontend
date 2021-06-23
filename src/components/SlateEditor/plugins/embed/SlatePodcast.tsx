@@ -7,6 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
@@ -18,10 +19,7 @@ import FigureButtons from './FigureButtons';
 import { SlateAudio as Audio, Embed, LocaleType } from '../../../../interfaces';
 
 interface BaseProps {
-  attributes?: {
-    'data-key': String;
-    'data-slate-object': String;
-  };
+  attributes: RenderElementProps['attributes'];
   embed: Embed;
   language: string;
   locale: LocaleType;
@@ -51,7 +49,7 @@ const SlatePodcast = ({ t, attributes, embed, language, locale, onRemoveClick }:
   }, [embed, language]);
 
   return (
-    <div draggable {...attributes}>
+    <div draggable contentEditable={false} {...attributes}>
       <Figure id={`${audio.id}`}>
         <FigureButtons
           figureType="podcast"

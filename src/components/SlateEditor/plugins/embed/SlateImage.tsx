@@ -72,6 +72,7 @@ const SlateImage = ({
   return (
     <div
       {...attributes}
+      contentEditable={false}
       draggable={!visualElement && !editMode}
       className={constructFigureClassName()}
       css={!embed.alt && { border: '2px solid rgba(209,55,46,0.3);' }}>

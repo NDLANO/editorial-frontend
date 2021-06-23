@@ -148,18 +148,17 @@ const groupTopics = allTopics =>
     );
   }, allTopics);
 
-const getCurrentTopic = ({ params, subject = {} }) => {
+const getCurrentTopic = ({ params, allTopics = [] }) => {
   const { topic, subtopics } = params;
-  let current = {};
-  if (topic) {
-    current = subject?.topics?.find(t => t.id === topic);
-    const topics = subtopics?.split('/');
-    while (topics?.length > 0) {
-      const t = topics.shift();
-      current = current?.subtopics?.find(top => top.id === t);
-    }
+  const topics = subtopics?.split('/');
+  if (topics?.length > 0) {
+    const lastTopic = topics.slice(-1)[0];
+    return allTopics.find(t => t.id === lastTopic) || {};
   }
-  return current || {};
+  if (topic) {
+    return allTopics.find(t => t.id === topic) || {};
+  }
+  return {};
 };
 
 const selectedResourceTypeValue = resourceTypes => {

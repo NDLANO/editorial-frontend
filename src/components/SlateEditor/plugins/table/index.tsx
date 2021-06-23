@@ -30,7 +30,7 @@ import {
 } from './utils';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
+import { defaultParagraphBlock, TYPE_PARAGRAPH } from '../paragraph/utils';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -245,6 +245,19 @@ export const tablePlugin = (editor: Editor) => {
 
               return;
             }
+          }
+        }
+      } else if (node.type === TYPE_TABLE_CELL) {
+        if (!Element.isElementList(node.children)) {
+          return Transforms.wrapNodes(editor, defaultParagraphBlock(), {
+            at: path,
+            match: node => !Element.isElement(node),  
+          });
+        }
+      } else if (node.type === TYPE_TABLE_ROW) {
+        for (const [index, child] of node.children.entries()) {
+          if (!Element.isElement(child) || child.type !== TYPE_TABLE_CELL) {
+            return Transforms.removeNodes(editor, { at: [...path, index] });
           }
         }
       }

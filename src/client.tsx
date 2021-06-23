@@ -7,14 +7,13 @@
  */
 
 import React from 'react';
-import { hydrate } from 'react-dom';
+import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import IntlProvider from '@ndla/i18n';
 import ErrorReporter from '@ndla/error-reporter';
 import { configureTracker } from '@ndla/tracker';
 import { createBrowserHistory } from 'history';
-import { loadableReady } from '@loadable/component';
 import config, { ConfigType } from './config';
 import { getLocaleObject, isValidLocale } from './i18n';
 import configureStore from './configureStore';
@@ -60,24 +59,22 @@ configureTracker({
   googleTagManagerId: config.googleTagManagerId,
 });
 
-const hydrateApp = () => {
-  loadableReady(() => {
-    hydrate(
-      <Provider store={store}>
-        <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
-          <Router history={browserHistory}>
-            <App />
-          </Router>
-        </IntlProvider>
-      </Provider>,
-      document.getElementById('root'),
-    );
-  });
+const renderApp = () => {
+  render(
+    <Provider store={store}>
+      <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
+        <Router history={browserHistory}>
+          <App />
+        </Router>
+      </IntlProvider>
+    </Provider>,
+    document.getElementById('root'),
+  );
 };
-hydrateApp();
+renderApp();
 
 if (module.hot) {
   module.hot.accept('./containers/App/App', () => {
-    hydrateApp();
+    renderApp();
   });
 }

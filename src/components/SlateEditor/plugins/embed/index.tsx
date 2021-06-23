@@ -14,6 +14,7 @@ import { SlateSerializer } from '../../interfaces';
 import { LocaleType, SlateFigureProps, Embed } from '../../../../interfaces';
 import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { defaultEmbedBlock } from './utils';
+import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 
 export const TYPE_EMBED = 'embed';
 
@@ -59,6 +60,17 @@ export const embedPlugin = (language: string, locale: LocaleType) => (editor: Ed
     }
     return undefined;
   };
+
+  editor.normalizeNode = entry => {
+    const [node, path] = entry;
+
+    if (Element.isElement(node) && node.type === TYPE_EMBED) {
+      addSurroundingParagraphs(editor, path);
+    } else {
+      nextNormalizeNode(entry);
+    }
+  };
+
   return editor;
 };
 

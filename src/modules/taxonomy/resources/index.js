@@ -12,7 +12,6 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
-import { fetchTopic } from '../topics';
 import { taxonomyApi } from '../../../config';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
@@ -75,29 +74,6 @@ export async function getResourceId({ id, language }) {
     resourceId = resource[0].id;
   }
   return resourceId;
-}
-
-export async function getFullResource(resourceId, language) {
-  const { resourceTypes, parentTopics, metadata } = await fetchFullResource(resourceId, language);
-
-  const topics = await Promise.all(
-    // Need to fetch each topic seperate because path is not returned in parentTopics
-    parentTopics
-      .filter(pt => pt.path)
-      .map(async item => {
-        const topicArticle = await fetchTopic(item.id, language);
-        return {
-          ...topicArticle,
-          primary: item.isPrimary,
-          connectionId: item.connectionId,
-        };
-      }),
-  );
-  return {
-    resourceTypes,
-    metadata,
-    topics,
-  };
 }
 
 export function queryResources(contentId, language, contentType = 'article') {

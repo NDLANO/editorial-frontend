@@ -20,7 +20,7 @@ import {
   fetchTopicConnections,
   fetchTopicResources,
   updateTaxonomy,
-  getFullResource,
+  fetchFullResource,
   createResource,
   getResourceId,
 } from '../../../../modules/taxonomy';
@@ -246,7 +246,7 @@ class LearningResourceTaxonomy extends Component {
           status: 'success',
           isDirty: false,
         });
-        this.silentlyRefetchResourceTaxonomy();
+        //this.silentlyRefetchResourceTaxonomy();
       }
     } catch (err) {
       handleError(err);
@@ -268,13 +268,16 @@ class LearningResourceTaxonomy extends Component {
   };
 
   fetchFullResource = async (resourceId, language) => {
-    const { resourceTypes, metadata, topics } = await getFullResource(resourceId, language);
+    const { resourceTypes, metadata, parentTopics } = await fetchFullResource(resourceId, language);
+    const sortedParents = parentTopics.sort((a, b) => (a.id < b.id ? -1 : 1));
 
     const topicConnections = await Promise.all(
-      topics.map(topic => fetchTopicConnections(topic.id)),
+      sortedParents.map(topic => fetchTopicConnections(topic.id)),
     );
-    const topicResources = await Promise.all(topics.map(topic => fetchTopicResources(topic.id)));
-    const topicsWithConnectionsAndRelevanceId = topics.map((topic, index) => ({
+    const topicResources = await Promise.all(
+      sortedParents.map(topic => fetchTopicResources(topic.id)),
+    );
+    const topicsWithConnectionsAndRelevanceId = sortedParents.map((topic, index) => ({
       topicConnections: topicConnections[index],
       relevanceId:
         topicResources[index].find(resource => resource.id === resourceId).relevanceId ??

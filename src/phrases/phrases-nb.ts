@@ -923,6 +923,8 @@ const phrases = {
         hms: 'h:m:s',
       },
       brightcove: 'Åpne i Brightcove',
+      toLinkedVideo: 'Bytt til synstolket versjon',
+      fromLinkedVideo: 'Bytt tilbake til original versjon',
     },
     audio: {
       file: 'Lydfil',

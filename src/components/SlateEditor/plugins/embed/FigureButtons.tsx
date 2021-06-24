@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
@@ -64,7 +64,7 @@ interface Props {
   providerName?: string;
   tooltip: string;
   withMargin?: boolean;
-  setSrc?: (src: Embed) => void;
+  children?: ReactNode;
 }
 
 interface embedProps {
@@ -86,7 +86,7 @@ const FigureButtons = ({
   providerName,
   tooltip,
   withMargin,
-  setSrc,
+  children,
 }: Props & tType) => {
   const url: urlProps = {
     audio: {
@@ -150,20 +150,7 @@ const FigureButtons = ({
               <LinkIcon />
             </IconButton>
           </Tooltip>
-          {setSrc && (
-            <Tooltip tooltip="Bytt til synstolket versjon" align="right">
-              <IconButton
-                as={SafeLink}
-                onClick={() => {
-                  setSrc({
-                    ...embed,
-                    videoid: '6226280526001',
-                  });
-                }}>
-                ST
-              </IconButton>
-            </Tooltip>
-          )}
+          {children}
         </>
       )}
     </StyledFigureButtons>

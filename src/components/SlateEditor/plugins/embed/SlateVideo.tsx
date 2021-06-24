@@ -13,8 +13,12 @@ import Button from '@ndla/button';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
+import Tooltip from '@ndla/tooltip';
+import SafeLink from '@ndla/safelink';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
+import IconButton from '../../../IconButton';
+import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import { getYoutubeEmbedUrl, getStartTime, getStopTime } from '../../../../util/videoUtil';
 import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
 import { Embed } from '../../../../interfaces';
@@ -51,10 +55,18 @@ const SlateVideo = ({
 }: Props & tType) => {
   const [editMode, setEditMode] = useState(false);
   const [tEmbed, setEmbed] = useState(embed);
+  const isOriginalEmbed = tEmbed.videoid === embed.videoid;
   const [src, setSrc] = useState('');
   const [startTime, setStartTime] = useState('');
   const [stopTime, setStopTime] = useState('');
   const [caption, setCaption] = useState(tEmbed.caption);
+
+  const [linkedVideoId, setLinkedVideoId] = useState<string | undefined>();
+  useEffect(() => {
+    visualElementApi.fetchBrightcoveVideo(embed.videoid).then((v: { link?: { text: string } }) => {
+      setLinkedVideoId(v.link?.text);
+    });
+  }, [embed.videoid]);
 
   useEffect(() => {
     const { resource, account, videoid, url, player = 'default' } = tEmbed;
@@ -78,6 +90,11 @@ const SlateVideo = ({
     setEditMode(!editMode);
   };
 
+  const switchEmbedSource = () => {
+    const newEmbed = isOriginalEmbed && linkedVideoId ? linkedVideoId : embed.videoid;
+    setEmbed(embed => ({ ...embed, videoid: newEmbed }));
+  };
+
   return (
     <div className="c-figure" draggable="true" {...attributes}>
       <FigureButtons
@@ -85,9 +102,17 @@ const SlateVideo = ({
         onRemoveClick={onRemoveClick}
         embed={tEmbed}
         figureType="video"
-        language={language}
-        setSrc={setEmbed}
-      />
+        language={language}>
+        <Tooltip
+          tooltip={
+            isOriginalEmbed ? t('form.video.toLinkedVideo') : t('form.video.fromLinkedVideo')
+          }
+          align="right">
+          <IconButton as={SafeLink} onClick={switchEmbedSource}>
+            ST
+          </IconButton>
+        </Tooltip>
+      </FigureButtons>
       {editMode ? (
         <EditVideo
           embed={tEmbed}

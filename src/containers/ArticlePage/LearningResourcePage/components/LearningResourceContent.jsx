@@ -27,7 +27,7 @@ import { findNodesByType } from '../../../../util/slateHelpers';
 import codeBlockPlugin from '../../../../components/SlateEditor/plugins/codeBlock';
 import { footnotePlugin, TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote';
 import createEmbedPlugin from '../../../../components/SlateEditor/plugins/embed';
-import createBodyBoxPlugin from '../../../../components/SlateEditor/plugins/bodybox';
+import { bodyboxPlugin } from '../../../../components/SlateEditor/plugins/bodybox';
 import { asidePlugin } from '../../../../components/SlateEditor/plugins/aside';
 import { detailsPlugin } from '../../../../components/SlateEditor/plugins/details';
 import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
@@ -106,7 +106,7 @@ const LearningResourceContent = ({
     paragraphPlugin,
     footnotePlugin,
     // createEmbedPlugin(articleLanguage, props.locale),
-    // createBodyBoxPlugin(),
+    bodyboxPlugin,
     asidePlugin,
     detailsPlugin,
     blockQuotePlugin,

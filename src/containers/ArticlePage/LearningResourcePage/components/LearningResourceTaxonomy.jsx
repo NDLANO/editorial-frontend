@@ -246,7 +246,7 @@ class LearningResourceTaxonomy extends Component {
           status: 'success',
           isDirty: false,
         });
-        //this.silentlyRefetchResourceTaxonomy();
+        this.silentlyRefetchResourceTaxonomy();
       }
     } catch (err) {
       handleError(err);

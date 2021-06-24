@@ -63,29 +63,3 @@ export const bodyboxPlugin = (editor: Editor) => {
   return editor;
 };
 
-// export default function createBodyBox() {
-//   const schema = {
-//     blocks: {
-//       bodybox: {
-//         isVoid: false,
-//         ...textBlockValidationRules,
-//       },
-//     },
-//   };
-
-//   /* eslint-disable react/prop-types */
-//   const renderBlock = (props, editor, next) => {
-//     const { node } = props;
-//     switch (node.type) {
-//       case 'bodybox':
-//         return <SlateBodyBox {...props} />;
-//       default:
-//         return next();
-//     }
-//   };
-
-//   return {
-//     schema,
-//     renderBlock,
-//   };
-// }

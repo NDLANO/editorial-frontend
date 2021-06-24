@@ -30,7 +30,7 @@ export const bodyboxSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: string) {
     if (!Element.isElement(node) || node.type !== TYPE_BODYBOX) return;
-    return `<div className="c-bodybox">${children}</div>`;
+    return `<div class="c-bodybox">${children}</div>`;
   },
 };
 

@@ -13,8 +13,9 @@ import {
 } from '../../../util/apiHelpers';
 import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 import { fetchTopic } from '../topics';
+import { taxonomyApi } from '../../../config';
 
-const baseUrl = apiResourceUrl('/taxonomy/v1');
+const baseUrl = apiResourceUrl(taxonomyApi);
 
 export function fetchResource(id, language) {
   const lang = language ? `?language=${language}` : '';
@@ -45,33 +46,8 @@ export function fetchResourceResourceType(id, language) {
   );
 }
 
-export function fetchResourceFilter(id, language) {
-  const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}/filters${lang}`).then(
-    resolveJsonOrRejectWithError,
-  );
-}
-
 export function fetchResourceMetadata(id) {
   return fetchAuthorized(`${baseUrl}/resources/${id}/metadata`).then(resolveJsonOrRejectWithError);
-}
-
-export function addFilterToResource({ filterId, relevanceId = 'urn:relevance:core', resourceId }) {
-  return fetchAuthorized(`${baseUrl}/resource-filters`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify({ filterId, relevanceId, resourceId }),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
-}
-
-export function updateResourceRelevance(resourceFilterId, relevance) {
-  return fetchAuthorized(`${baseUrl}/resource-filters/${resourceFilterId}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'PUT',
-    body: JSON.stringify({ relevanceId: relevance }),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
 }
 
 export function updateResourceMetadata(resourceId, body) {
@@ -102,25 +78,23 @@ export async function getResourceId({ id, language }) {
 }
 
 export async function getFullResource(resourceId, language) {
-  const { resourceTypes, filters, parentTopics, metadata } = await fetchFullResource(
-    resourceId,
-    language,
-  );
+  const { resourceTypes, parentTopics, metadata } = await fetchFullResource(resourceId, language);
 
   const topics = await Promise.all(
     // Need to fetch each topic seperate because path is not returned in parentTopics
-    parentTopics.map(async item => {
-      const topicArticle = await fetchTopic(item.id, language);
-      return {
-        ...topicArticle,
-        primary: item.isPrimary,
-        connectionId: item.connectionId,
-      };
-    }),
+    parentTopics
+      .filter(pt => pt.path)
+      .map(async item => {
+        const topicArticle = await fetchTopic(item.id, language);
+        return {
+          ...topicArticle,
+          primary: item.isPrimary,
+          connectionId: item.connectionId,
+        };
+      }),
   );
   return {
     resourceTypes,
-    filters,
     metadata,
     topics,
   };

@@ -6,47 +6,32 @@
  *
  */
 
-import { setToken, visitOptions } from '../../support';
+import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 describe('Edit article with everything', () => {
-  const ARTICLE_ID = 14989;
-  before(() => {
-    setToken();
-    cy.server({
-      force404: true,
-      whitelist: xhr => {
-        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
-        //return the default cypress whitelist filer
-        return xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url);
-      },
-    });
-
-    editorRoutes();
-    cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}?language=nb&fallback=true`, 'draftFull');
-
-    cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`, visitOptions);
-    cy.apiwait(['@licenses', '@draftFull']);
-  });
-
+  const ARTICLE_ID = 532;
   beforeEach(() => {
     setToken();
-    cy.server({ force404: true });
+    editorRoutes(ARTICLE_ID);
+
+    cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
+    cy.apiwait([`@draft-${ARTICLE_ID}`, '@statusMachine', '@licenses']);
   });
 
   it('Can change language and fetch the new article', () => {
     cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}?language=nn&fallback=true`, 'draftNN');
     cy.get('header button')
       .contains('Legg til språk')
-      .click({ force: true });
+      .click({ force: true })
+      .wait(200);
     cy.get('header a')
       .contains('Nynorsk')
       .click({ force: true });
-    cy.apiwait('@draftNN');
+    cy.apiwait(['@draftNN', '@statusMachine']);
   });
 
   it('Can edit the published date', () => {
-    cy.apiroute('PATCH', `/draft-api/v1/drafts/${ARTICLE_ID}`, 'saveLearningResource');
     // check that article is not dirty
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
@@ -55,11 +40,10 @@ describe('Edit article with everything', () => {
     cy.get('.flatpickr-day ')
       .first()
       .click();
-
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait('@saveLearningResource');
+    cy.apiwait(['@getUserData', '@patchUserData']);
   });
 
   it('Has access to the html-editor', () => {

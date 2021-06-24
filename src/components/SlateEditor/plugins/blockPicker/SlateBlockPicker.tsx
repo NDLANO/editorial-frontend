@@ -75,7 +75,7 @@ const SlateBlockPicker = (props: Props & tType) => {
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
       case 'bodybox': {
-        onInsertBlock(defaultBodyboxBlock);
+        onInsertBlock(defaultBodyboxBlock());
         break;
       }
       case 'details': {

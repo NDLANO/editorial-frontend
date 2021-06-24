@@ -15,7 +15,6 @@ import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { groupSearch } from '../../../modules/search/searchApi';
 import {
-  createResourceFilter,
   createTopicResource,
   fetchResource,
   fetchResourceResourceType,
@@ -29,7 +28,6 @@ import {
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
-import { Filter } from '../../../interfaces';
 import { LearningPathSearchSummary } from '../../../modules/learningpath/learningpathApiInterfaces';
 import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
@@ -56,7 +54,6 @@ interface Props {
   type: string;
   allowPaste: boolean;
   topicId: string;
-  topicFilters: Filter[];
   refreshResources: () => void;
 }
 
@@ -84,7 +81,6 @@ const AddResourceModal = ({
   type,
   allowPaste,
   topicId,
-  topicFilters,
   refreshResources,
   t,
 }: Props & tType) => {
@@ -224,13 +220,6 @@ const AddResourceModal = ({
           resourceId,
           topicid: topicId,
         });
-        if (topicFilters.length > 0) {
-          await createResourceFilter({
-            filterId: topicFilters[0].id,
-            relevanceId: topicFilters[0].relevanceId,
-            resourceId,
-          });
-        }
         refreshResources();
         setLoading(false);
 

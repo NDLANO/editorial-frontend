@@ -48,10 +48,10 @@ const AsyncSearchTags = ({
     return tagsWithoutTitle.map(tag => ({ title: tag }));
   };
 
-  const [tags, setTags] = useState(initialTags || []);
+  const [tags, setTags] = useState<string[]>(initialTags);
 
   useEffect(() => {
-    setTags(initialTags || []);
+    setTags(initialTags);
   }, [initialTags]);
 
   const searchForTags = async (inp: string) => {

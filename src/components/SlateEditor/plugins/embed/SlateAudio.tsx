@@ -16,7 +16,7 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import { Audio, Embed, FormikInputEvent, LocaleType } from '../../../../interfaces';
+import { SlateAudio as Audio, Embed, FormikInputEvent, LocaleType } from '../../../../interfaces';
 
 interface Props {
   attributes?: {

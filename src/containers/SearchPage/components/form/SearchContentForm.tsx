@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
+import { RouteComponentProps } from 'react-router-dom';
 import { fetchResourceTypes } from '../../../../modules/taxonomy';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
@@ -28,22 +29,23 @@ const emptySearchState: SearchState = {
   subjects: '',
   resourceTypes: '',
   status: '',
+  includeOtherStatuses: false,
   users: '',
   lang: '',
 };
 
-interface Props {
+interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
   subjects: SubjectType[];
-  location: Location;
   searchObject: SearchParams;
   locale: string;
 }
 
-export interface SearchState extends Record<string, string | undefined> {
+export interface SearchState extends Record<string, string | boolean | undefined> {
   subjects: string;
   resourceTypes?: string;
   status: string;
+  includeOtherStatuses: boolean;
   query: string;
   users: string;
   // This field is called `lang` instead of `language` to NOT match with tag in `SearchTagGroup.tsx`
@@ -83,6 +85,7 @@ class SearchContentForm extends Component<Props & tType, State> {
         subjects: searchObject.subjects || '',
         resourceTypes: searchObject['resource-types'] || '',
         status: searchObject['draft-status'] || '',
+        includeOtherStatuses: searchObject['include-other-statuses'] || false,
         query: searchObject.query || '',
         users: searchObject.users || '',
         lang: searchObject.language || locale,
@@ -100,31 +103,22 @@ class SearchContentForm extends Component<Props & tType, State> {
     this.getExternalData();
   }
 
-  componentDidUpdate(prevProps: Props) {
-    const { searchObject, locale } = this.props;
-    if (prevProps.searchObject?.query !== searchObject?.query) {
-      this.setState({
-        search: {
-          subjects: searchObject.subjects || '',
-          resourceTypes: searchObject['resource-types'] || '',
-          status: searchObject['draft-status'] || '',
-          query: searchObject.query || '',
-          users: searchObject.users || '',
-          lang: searchObject.language || locale,
-        },
-      });
-    }
-  }
-
   onFieldChange(evt: FormEvent<HTMLInputElement>) {
     const { name, value } = evt.currentTarget;
-    this.setState(
-      prevState => ({ search: { ...prevState.search, [name]: value } }),
-      this.handleSearch,
-    );
+    this.setState(prevState => {
+      const includeOtherStatuses =
+        name === 'status' ? value === 'HAS_PUBLISHED' : prevState.search.includeOtherStatuses;
+      return {
+        search: {
+          ...prevState.search,
+          includeOtherStatuses,
+          [name]: value,
+        },
+      };
+    }, this.handleSearch);
   }
 
-  async getExternalData() {
+  async getExternalData(): Promise<void> {
     const { locale } = this.props;
     const { t } = this.props;
     const [resourceTypes, users] = await Promise.all([fetchResourceTypes(locale), this.getUsers()]);
@@ -139,24 +133,23 @@ class SearchContentForm extends Component<Props & tType, State> {
 
   handleSearch() {
     const {
-      search: { resourceTypes, status, subjects, query, users, lang },
+      search: { resourceTypes, status, includeOtherStatuses, subjects, query, users, lang },
     } = this.state;
     const { search } = this.props;
 
     // HAS_PUBLISHED isn't a status in the backend.
     const newStatus = status === 'HAS_PUBLISHED' ? 'PUBLISHED' : status;
-    const shouldFilterOthers = status === 'HAS_PUBLISHED';
 
     search({
       'resource-types': resourceTypes,
       'draft-status': newStatus,
-      'include-other-statuses': shouldFilterOthers.toString(),
+      'include-other-statuses': includeOtherStatuses,
       subjects,
       query,
       users,
       language: lang,
       fallback: true,
-      page: '1',
+      page: 1,
     });
   }
 

@@ -14,6 +14,7 @@ import SearchContent from './SearchContent';
 import SearchConcept from './SearchConcept';
 import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
+import SearchPodcastSeries from './SearchPodcastSeries';
 
 const SearchResult = ({
   result,
@@ -39,9 +40,11 @@ const SearchResult = ({
         />
       );
     case 'image':
-      return <SearchImage image={result} locale={locale} />;
+      return <SearchImage image={result} locale={locale} licenses={licenses} />;
     case 'audio':
-      return <SearchAudio audio={result} locale={locale} />;
+      return <SearchAudio audio={result} locale={locale} licenses={licenses} />;
+    case 'podcast-series':
+      return <SearchPodcastSeries series={result} locale={locale} licenses={licenses} />;
     default:
       return <p>{t('searchForm.resultError', { type })}</p>;
   }

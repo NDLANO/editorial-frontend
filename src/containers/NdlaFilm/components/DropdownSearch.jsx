@@ -16,7 +16,6 @@ const DropdownSearch = ({
   placeholder,
   onChange,
   subjectId,
-  filterId,
   contextTypes,
   clearInputField,
   onClick,
@@ -25,7 +24,6 @@ const DropdownSearch = ({
     const query = {
       page: 1,
       subjects: subjectId,
-      levels: filterId,
       sort: '-relevance',
       'page-size': 10,
       query: input,
@@ -64,7 +62,6 @@ DropdownSearch.propTypes = {
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
   subjectId: PropTypes.string,
-  filterId: PropTypes.string,
   contextTypes: PropTypes.string,
   clearInputField: PropTypes.bool,
   onClick: PropTypes.func,

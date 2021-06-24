@@ -12,20 +12,22 @@ import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 // @ts-ignore
 import { FigureCaption, FigureLicenseDialog } from '@ndla/ui';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { Audio, LocaleType } from '../../../../interfaces';
+import { SlateAudio, LocaleType } from '../../../../interfaces';
 
 interface Props {
-  audio: Audio;
+  audio: SlateAudio;
   locale: LocaleType;
   speech: boolean;
 }
 
 const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
+  const { copyright, podcastMeta } = audio;
+
   useEffect(() => {
     initAudioPlayers(locale);
   }, [locale]);
 
-  const license = getLicenseByAbbreviation(audio.copyright.license?.license || '', locale);
+  const license = getLicenseByAbbreviation(copyright.license?.license || '', locale);
   const figureLicenseDialogId = `edit-audio-${audio.id}`;
 
   const messages = {
@@ -36,9 +38,21 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
     source: t('dialog.source'),
   };
 
+  const podcastImg = podcastMeta?.coverPhoto && {
+    url: `${podcastMeta.coverPhoto.url}?width=200&height=200`,
+    alt: podcastMeta.coverPhoto.altText,
+  };
+
   return (
     <div>
-      <AudioPlayer src={audio.audioFile.url} title={audio.title} speech={speech} />
+      <AudioPlayer
+        src={audio.audioFile.url}
+        title={audio.title}
+        speech={speech}
+        img={podcastImg}
+        description={podcastMeta?.introduction}
+        textVersion={audio?.manuscript}
+      />
       {!speech && (
         <>
           <FigureCaption
@@ -47,7 +61,7 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
             caption={audio.caption}
             reuseLabel=""
             licenseRights={license.rights}
-            authors={audio.copyright.creators}
+            authors={copyright.creators}
           />
           <FigureLicenseDialog
             id={figureLicenseDialogId}

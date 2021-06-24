@@ -86,6 +86,6 @@ export const addBrightCovetimeStampSrc = (src: string, start: string) => {
 };
 
 export const getBrightCoveStartTime = (videoid: string) => {
-  const time = videoid.split('&t=').pop() || '0';
+  const time = videoid.split('&t=')[1] || '';
   return toHMS(parseInt(time));
 };

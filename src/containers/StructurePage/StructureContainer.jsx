@@ -37,8 +37,8 @@ import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import RoundIcon from '../../components/RoundIcon';
 import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
-import Footer from '../App/components/Footer';
 import { LocationShape, HistoryShape } from '../../shapes';
+import Footer from '../App/components/Footer';
 
 export class StructureContainer extends React.PureComponent {
   constructor(props) {

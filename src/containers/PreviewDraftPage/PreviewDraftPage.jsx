@@ -67,7 +67,12 @@ const PreviewDraftPage = ({
         </Hero>
         <HelmetWithTracker title={`${draft.title} ${t('htmlTitles.titleTemplate')}`} />
         <OneColumn>
-          <PreviewDraft article={draft} resource={resource} contentType={contentType} />
+          <PreviewDraft
+            article={draft}
+            resource={resource}
+            contentType={contentType}
+            language={language}
+          />
         </OneColumn>
       </div>
     </Fragment>

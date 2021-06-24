@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
-import { RenderElementProps } from 'new-slate-react';
-import { jsx } from 'new-slate-hyperscript';
-import { Descendant, Editor, Element, Text, Node, Transforms } from 'new-slate';
+import { RenderElementProps } from 'slate-react';
+import { jsx } from 'slate-hyperscript';
+import { Descendant, Editor, Element, Text, Node, Transforms } from 'slate';
 import { SlateSerializer } from '../../interfaces';
 import Link from './Link';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
@@ -26,6 +26,7 @@ export interface LinkElement {
   children: Text[];
 }
 
+// TODO: change to data: {content-type, content-id, open-in}
 export interface ContentLinkElement {
   type: 'content-link';
   'content-type': string;

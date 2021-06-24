@@ -11,7 +11,7 @@ import isEmpty from 'lodash/fp/isEmpty';
 import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
 import { createEmbedTag } from '../../util/embedTagHelpers';
 import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
-import { SubjectType, License, ConceptType, CreateMessageType } from '../../interfaces';
+import { SubjectType, License, ConceptType } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
 
 export const transformApiConceptToFormValues = (
@@ -20,7 +20,7 @@ export const transformApiConceptToFormValues = (
 ): ConceptFormValues => {
   return {
     id: concept.id,
-    slatetitle: plainTextToEditorValue(concept.title || '', true),
+    slatetitle: plainTextToEditorValue(concept.title || ''),
     language: concept.language,
     updated: concept.updated,
     updateCreated: false,
@@ -28,7 +28,7 @@ export const transformApiConceptToFormValues = (
       ? subjects.filter(subject => concept.subjectIds.find(id => id === subject.id))
       : [],
     created: concept.created,
-    conceptContent: plainTextToEditorValue(concept.content || '', true),
+    conceptContent: plainTextToEditorValue(concept.content || ''),
     supportedLanguages: concept.supportedLanguages || [],
     creators: concept.copyright?.creators || [],
     rightsholders: concept.copyright?.rightsholders || [],
@@ -158,18 +158,12 @@ export const conceptFormRules = {
 
 export function submitFormWithMessage<T>(
   formikContext: FormikContextType<T>,
-  createMessage: (o: CreateMessageType) => void,
+  showMessage: () => void,
 ) {
-  const { submitForm, isValid, errors } = formikContext;
+  const { submitForm, isValid } = formikContext;
   if (isValid) {
     submitForm();
   } else {
-    // @ts-ignore
-    const e = Object.keys(errors).map(key => `${key}: ${errors[key]}`);
-    createMessage({
-      message: e.join(' '),
-      severity: 'danger',
-      timeToLive: 0,
-    });
+    showMessage();
   }
 }

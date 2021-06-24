@@ -7,14 +7,14 @@
  */
 
 import React, { KeyboardEvent, useEffect } from 'react';
-import { Editor, Element } from 'new-slate';
-import { ReactEditor } from 'new-slate-react';
+import { Editor, Element } from 'slate';
+import { ReactEditor } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock } from './handleMenuClicks';
-import { hasNodeWithProps } from '../../utils';
+import hasNodeWithProps from '../../utils/hasNodeWithProps';
 import { isMarkActive } from '../mark';
 import { LIST_TYPES as listTypes } from '../list';
 
@@ -27,7 +27,7 @@ const topicArticleElements: { [key: string]: string[] } = {
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   block: ['quote', 'heading-2', 'heading-3', ...listTypes],
-  inline: ['link' /* , 'footnote', 'mathml', 'concept'*/],
+  inline: ['link', 'footnote', 'mathml', 'concept'],
 };
 
 const specialRules: { [key: string]: Partial<Element> } = {
@@ -90,6 +90,12 @@ const SlateToolbar = (props: Props) => {
       menu.removeAttribute('style');
       return;
     }
+
+    if (!editor.shouldShowToolbar()) {
+      menu.removeAttribute('style');
+      return;
+    }
+
     menu.style.display = 'block';
     const native = window.getSelection();
     if (!native) {

@@ -6,16 +6,16 @@
  *
  */
 
-import { Editor } from 'new-slate';
+import { Editor } from 'slate';
 import { KeyboardEvent } from 'react';
 import { insertLink } from '../link/utils';
-import { toggleBlock } from '../../utils';
+import toggleBlock from '../../utils/toggleBlock';
 import { toggleHeading } from '../heading/utils';
 import { LIST_TYPES } from '../list';
 import { toggleList } from '../list/utils/toggleList';
-
-// TODO: Rewrite functions to Slate 0.62 or remove when
-// new functions are written.
+import { insertFootnote } from '../footnote/utils';
+import { insertMathml } from '../mathml/utils';
+import { insertConcept } from '../concept/utils';
 
 export function handleClickBlock(
   event: KeyboardEvent<HTMLDivElement>,
@@ -52,25 +52,19 @@ export function handleClickInline(
   editor: Editor,
   type: string,
 ) {
-  event.preventDefault();
   if (editor.selection) {
+    event.preventDefault();
     if (type === 'link') {
       insertLink(editor);
     }
+    if (type === 'footnote') {
+      insertFootnote(editor);
+    }
+    if (type === 'mathml') {
+      insertMathml(editor);
+    }
+    if (type === 'concept') {
+      insertConcept(editor);
+    }
   }
-
-  // if (type === 'footnote') {
-  //   addTextAndWrapIntype(editor, '#', type);
-  // } else if (type === 'mathml') {
-  //   const { value } = editor;
-  //   if (value.selection.start.offset !== value.selection.end.offset) {
-  //     editor.wrapInline(type);
-  //   } else {
-  //     addTextAndWrapIntype(editor, ' ', type);
-  //   }
-  // } else {
-  //   editor.withoutNormalizing(() => {
-  //     editor.wrapInline(type);
-  //   });
-  // }
 }

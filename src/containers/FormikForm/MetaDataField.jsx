@@ -7,7 +7,7 @@
  */
 
 import React, { Fragment, useContext } from 'react';
-import { ReactEditor } from 'new-slate-react';
+import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
@@ -19,6 +19,7 @@ import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearch
 import AvailabilityField from './components/AvailabilityField';
 import { UserAccessContext } from '../App/App';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
+import { ArticleShape } from '../../shapes';
 
 const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }) => {
   const userAccess = useContext(UserAccessContext);
@@ -33,7 +34,7 @@ const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }
         description={t('form.tags.description')}>
         {({ field, form }) => (
           <AsyncSearchTags
-            initialTags={article.tags}
+            initialTags={field.value}
             language={article.language}
             field={field}
             form={form}
@@ -88,11 +89,7 @@ const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }
 };
 
 MetaDataField.propTypes = {
-  article: PropTypes.shape({
-    availability: PropTypes.string,
-    tags: PropTypes.arrayOf(PropTypes.string),
-    language: PropTypes.string,
-  }).isRequired,
+  article: ArticleShape.isRequired,
   fetchSearchTags: PropTypes.func,
   handleSubmit: PropTypes.func,
   handleBlur: PropTypes.func,

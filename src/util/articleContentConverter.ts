@@ -6,7 +6,7 @@
  *
  */
 import escapeHtml from 'escape-html';
-import { Descendant, Text } from 'new-slate';
+import { Descendant, Text } from 'slate';
 import { Plain } from './slatePlainSerializer';
 import { topicArticeRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
@@ -19,6 +19,12 @@ import { linkSerializer } from '../components/SlateEditor/plugins/link';
 import { blockQuoteSerializer } from '../components/SlateEditor/plugins/blockquote';
 import { headingSerializer } from '../components/SlateEditor/plugins/heading';
 import { listSerializer } from '../components/SlateEditor/plugins/list';
+import { footnoteSerializer } from '../components/SlateEditor/plugins/footnote';
+import { mathmlSerializer } from '../components/SlateEditor/plugins/mathml';
+import { conceptSerializer } from '../components/SlateEditor/plugins/concept';
+import { asideSerializer } from '../components/SlateEditor/plugins/aside';
+import { detailsSerializer } from '../components/SlateEditor/plugins/details';
+import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -61,6 +67,12 @@ export const learningResourceContentToEditorValue = (html: string) => {
     blockQuoteSerializer,
     headingSerializer,
     listSerializer,
+    footnoteSerializer,
+    mathmlSerializer,
+    conceptSerializer,
+    asideSerializer,
+    detailsSerializer,
+    bodyboxSerializer,
   ];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {
@@ -115,6 +127,12 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
     blockQuoteSerializer,
     headingSerializer,
     listSerializer,
+    footnoteSerializer,
+    mathmlSerializer,
+    conceptSerializer,
+    asideSerializer,
+    detailsSerializer,
+    bodyboxSerializer,
   ];
 
   const serialize = (node: Descendant): string | null => {

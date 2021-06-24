@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Types from 'slate-prop-types';
 
 class MathML extends Component {
   constructor(props) {
@@ -37,7 +36,7 @@ class MathML extends Component {
     const { node, model, attributes } = this.props;
     return (
       <span data-cy="math" contentEditable={false} {...attributes}>
-        {node.nodes.map(text => (
+        {node.children.map(text => (
           <span key={text.key} data-key={text.key}>
             <math
               xlmns={model.xlmns}
@@ -57,7 +56,7 @@ MathML.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   innerHTML: PropTypes.string,
-  node: Types.node.isRequired,
+  node: PropTypes.any,
   model: PropTypes.shape({
     xlmns: PropTypes.string.isRequired,
     innerHTML: PropTypes.string,

@@ -13,9 +13,11 @@
 
 /* eslint-disable no-continue, no-param-reassign, no-restricted-syntax  */
 
-import { Descendant, Element, Text, Node } from 'new-slate';
-import { jsx } from 'new-slate-hyperscript';
+import { Descendant, Element, Text, Node } from 'slate';
+import { jsx } from 'slate-hyperscript';
 import { ParagraphElement } from '../components/SlateEditor/plugins/paragraph';
+
+const inlines: Element['type'][] = ['link', 'content-link', 'footnote', 'mathml'];
 
 export function convertFromHTML(root: Descendant | null) {
   const wrapMixedChildren = (node: Descendant): Descendant => {
@@ -23,7 +25,7 @@ export function convertFromHTML(root: Descendant | null) {
       const children = node.children;
 
       const blockChildren = children.filter(
-        child => Element.isElement(child) && child.type !== 'link' && child.type !== 'content-link',
+        child => Element.isElement(child) && !inlines.includes(child.type),
       );
       const mixed = blockChildren.length > 0 && blockChildren.length !== children.length;
       if (!mixed) {
@@ -33,10 +35,7 @@ export function convertFromHTML(root: Descendant | null) {
       const cleanNodes = [];
       let openWrapperBlock;
       for (const child of children) {
-        if (
-          Text.isText(child) ||
-          (Element.isElement(child) && (child.type === 'link' || child.type === 'content-link'))
-        ) {
+        if (Text.isText(child) || (Element.isElement(child) && inlines.includes(child.type))) {
           if (Node.string(child) === '') {
             continue;
           }

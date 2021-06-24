@@ -6,7 +6,7 @@
  *
  */
 
-import { Descendant } from 'new-slate';
+import { Descendant } from 'slate';
 import {
   SubjectType,
   VisualElement,

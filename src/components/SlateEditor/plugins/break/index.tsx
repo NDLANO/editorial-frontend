@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
-import { Editor, Element, Descendant } from 'new-slate';
-import { jsx } from 'new-slate-hyperscript';
-import { RenderElementProps } from 'new-slate-react';
+import { Editor, Element, Descendant } from 'slate';
+import { jsx } from 'slate-hyperscript';
+import { RenderElementProps } from 'slate-react';
 import { SlateSerializer } from '../../interfaces';
 export const TYPE_BREAK = 'br';
 
@@ -37,7 +37,7 @@ export const breakPlugin = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_BREAK) {
       // Children of br tag is not rendered.
-      return <br {...attributes} />;
+      return <br {...attributes} contentEditable={false} />;
     } else if (nextRenderELement) {
       return nextRenderELement({ attributes, children, element });
     }

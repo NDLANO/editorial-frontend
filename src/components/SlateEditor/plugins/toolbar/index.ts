@@ -8,7 +8,7 @@
 
 import { KeyboardEvent } from 'react';
 import { isKeyHotkey, isCodeHotkey } from 'is-hotkey';
-import { Editor } from 'new-slate';
+import { Editor } from 'slate';
 import SlateToolbar from './SlateToolbar';
 import { toggleMark } from '../mark/utils';
 import { handleClickBlock, handleClickInline } from './handleMenuClicks';
@@ -30,7 +30,15 @@ const isSubHotKey = isCodeHotkey('mod+alt+s');
 const isSupHotKey = isCodeHotkey('mod+alt+h');
 
 const toolbarPlugin = (editor: Editor) => {
-  const { onKeyDown: nextOnKeyDown } = editor;
+  const { onKeyDown: nextOnKeyDown, shouldShowToolbar } = editor;
+
+  editor.shouldShowToolbar = () => {
+    if (shouldShowToolbar) {
+      return shouldShowToolbar();
+    } else {
+      return true;
+    }
+  };
 
   editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     let inline;
@@ -40,10 +48,10 @@ const toolbarPlugin = (editor: Editor) => {
       mark = 'bold';
     } else if (isCodeHotKey(e)) {
       mark = 'code';
-      // } else if (isConceptBlockHotKey(e)) {
-      //   inline = 'concept';
-      // } else if (isFootnoteHotKey(e)) {
-      //   inline = 'footnote';
+    } else if (isConceptBlockHotKey(e)) {
+      inline = 'concept';
+    } else if (isFootnoteHotKey(e)) {
+      inline = 'footnote';
     } else if (isH2HotKey(e)) {
       block = 'heading-2';
     } else if (isH3HotKey(e)) {
@@ -56,8 +64,8 @@ const toolbarPlugin = (editor: Editor) => {
       inline = 'link';
       // } else if (isListHotKey(e)) {
       //   block = 'bulleted-list';
-      // } else if (isMathHotKey(e)) {
-      //   inline = 'mathml';
+    } else if (isMathHotKey(e)) {
+      inline = 'mathml';
       // } else if (isNumberedListHotKey(e)) {
       //   block = 'numbered-list';
     } else if (isQuoteHotKey(e)) {
@@ -66,6 +74,11 @@ const toolbarPlugin = (editor: Editor) => {
       mark = 'sub';
     } else if (isSupHotKey(e)) {
       mark = 'sup';
+    }
+
+    if ((mark || block || inline) && !editor.shouldShowToolbar()) {
+      e.preventDefault();
+      return;
     }
 
     if (mark) {

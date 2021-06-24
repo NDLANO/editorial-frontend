@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import Types from 'slate-prop-types';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
@@ -85,7 +85,7 @@ const TableActions = ({ value, editor, t }) => {
 };
 
 TableActions.propTypes = {
-  value: Types.value.isRequired,
+  value: PropTypes.any,
   editor: EditorShape.isRequired,
 };
 

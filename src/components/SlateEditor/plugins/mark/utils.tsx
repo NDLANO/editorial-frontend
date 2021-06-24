@@ -7,7 +7,7 @@
  */
 
 import { KeyboardEvent } from 'react';
-import { Editor } from 'new-slate';
+import { Editor } from 'slate';
 import { isMarkActive } from './index';
 
 export const toggleMark = (

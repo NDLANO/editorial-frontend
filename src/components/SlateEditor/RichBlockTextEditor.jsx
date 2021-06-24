@@ -59,6 +59,8 @@ class RichBlockTextEditor extends PureComponent {
       submitted,
       onBlur,
       handleSubmit,
+      language,
+      actionsToShowInAreas,
     } = this.props;
     return (
       <article>
@@ -83,7 +85,9 @@ class RichBlockTextEditor extends PureComponent {
               plugins={plugins}
               submitted={submitted}
               onChange={this.onChange}
+              language={language}
               value={blockValue}
+              actionsToShowInAreas={actionsToShowInAreas}
               removeSection={this.removeSection}
               handleSubmit={handleSubmit}
             />
@@ -98,6 +102,8 @@ class RichBlockTextEditor extends PureComponent {
 RichBlockTextEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
+  actionsToShowInAreas: PropTypes.arrayOf(PropTypes.string).isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,

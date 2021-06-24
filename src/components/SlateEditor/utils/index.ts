@@ -11,9 +11,3 @@ export { default as listNodesOfType } from './listNodesOfType';
 export { default as checkSelectionForType } from './checkSelectionForType';
 export { textBlockValidationRules } from './schemaHelpers';
 export { default as defaultBlocks } from './defaultBlocks';
-
-// Slate 0.62 helpers
-export { default as hasNodeWithProps } from './hasNodeWithProps';
-export { default as hasNodeOfType } from './hasNodeOfType';
-export { default as getCurrentBlock } from './getCurrentBlock';
-export { default as toggleBlock } from './toggleBlock';

@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import Types from 'slate-prop-types';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import { getSchemaEmbed } from '../../editorSchema';
 
@@ -25,7 +24,7 @@ NoEmbedMessage.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   text: PropTypes.string,
-  node: Types.node.isRequired,
+  node: PropTypes.any,
 };
 
 export default injectT(NoEmbedMessage);

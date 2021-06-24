@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
-import { Descendant, Editor, Text, Transforms } from 'new-slate';
-import { jsx } from 'new-slate-hyperscript';
-import { RenderLeafProps } from 'new-slate-react';
+import { Descendant, Editor, Text, Transforms } from 'slate';
+import { jsx } from 'slate-hyperscript';
+import { RenderLeafProps } from 'slate-react';
 import { SlateSerializer } from '../../interfaces';
 
 export const isMarkActive = (editor: Editor, format: string) => {

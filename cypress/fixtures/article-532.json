@@ -1,0 +1,46 @@
+{
+  "id": 532,
+  "oldNdlaUrl": "//red.ndla.no/node/153040",
+  "revision": 9,
+  "title": { "title": "Vanninjeksjon i reservoarformasjonen", "language": "nb" },
+  "content": {
+    "content": "<section><p>Artikkel tilbakestillt fra historikk</p></section>",
+    "language": "nb"
+  },
+  "copyright": {
+    "license": {
+      "license": "CC-BY-SA-4.0",
+      "description": "Creative Commons Attribution-ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "origin": "",
+    "creators": [{ "type": "Writer", "name": "Anna Aabø" }],
+    "processors": [],
+    "rightsholders": []
+  },
+  "tags": { "tags": ["drivmekanisme", "formasjonstrykk", "vanninjeksjon"], "language": "nb" },
+  "requiredLibraries": [],
+  "metaImage": {
+    "url": "https://api.test.ndla.no/image-api/raw/id/4379",
+    "alt": "Vanninjeksjon i reservoar. Illustrasjon.",
+    "language": "nb"
+  },
+  "introduction": {
+    "introduction": "Artikkel tilbakestillt fra historikk.",
+    "language": "nb"
+  },
+  "metaDescription": {
+    "metaDescription": "Artikkel tilbakestillt fra historikk.",
+    "language": "nb"
+  },
+  "created": "2015-11-24T16:04:42Z",
+  "updated": "2021-04-12T09:00:36Z",
+  "updatedBy": "pHEuiJpTMIZ8y9rUehK7bXe2",
+  "published": "2018-06-29T08:11:39Z",
+  "articleType": "standard",
+  "supportedLanguages": ["nb"],
+  "grepCodes": [],
+  "conceptIds": [],
+  "availability": "everyone",
+  "relatedContent": []
+}

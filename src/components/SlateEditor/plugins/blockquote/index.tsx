@@ -7,12 +7,12 @@
  */
 
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { RenderElementProps } from 'new-slate-react';
-import { jsx } from 'new-slate-hyperscript';
-import { Descendant, Editor, Element, Transforms } from 'new-slate';
+import { RenderElementProps } from 'slate-react';
+import { jsx } from 'slate-hyperscript';
+import { Descendant, Editor, Element, Transforms } from 'slate';
 import { SlateSerializer } from '../../interfaces';
-import { getCurrentBlock } from '../../utils';
-import { TYPE_PARAGRAPH } from '../paragraph';
+import getCurrentBlock from '../../utils/getCurrentBlock';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 const KEY_ENTER = 'Enter';
 export const TYPE_QUOTE = 'quote';
@@ -69,10 +69,7 @@ const onEnter = (
 };
 
 export const blockQuotePlugin = (editor: Editor) => {
-  const {
-    renderElement: nextRenderElement,
-    onKeyDown: nextOnKeyDown,
-  } = editor;
+  const { renderElement: nextRenderElement, onKeyDown: nextOnKeyDown } = editor;
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;

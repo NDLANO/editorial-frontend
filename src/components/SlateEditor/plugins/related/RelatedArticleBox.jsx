@@ -12,7 +12,6 @@ import { uuid } from '@ndla/util';
 import { injectT } from '@ndla/i18n';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Types from 'slate-prop-types';
 import { css } from '@emotion/core';
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
@@ -215,7 +214,7 @@ RelatedArticleBox.propTypes = {
     'data-key': PropTypes.string.isRequired,
   }),
   editor: EditorShape.isRequired,
-  node: PropTypes.oneOfType([Types.node, PropTypes.shape({})]).isRequired,
+  node: PropTypes.any,
   locale: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,
   embed: PropTypes.shape({

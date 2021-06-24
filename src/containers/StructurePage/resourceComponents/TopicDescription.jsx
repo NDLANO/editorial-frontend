@@ -57,6 +57,11 @@ class TopicDescription extends Component {
               contentUri={currentTopic.contentUri}
               status={status}
               metadata={currentTopic.metadata}
+              connectionId={currentTopic.connectionId}
+              relevanceId={currentTopic.relevanceId}
+              refreshResources={refreshTopics}
+              primary={currentTopic.isPrimary}
+              rank={currentTopic.rank}
             />
           )}
         </Accordion>
@@ -81,6 +86,15 @@ TopicDescription.propTypes = {
     id: PropTypes.string,
     contentUri: PropTypes.string,
     metadata: MetadataShape,
+    connectionId: PropTypes.string,
+    relevanceId: PropTypes.oneOf([
+      'urn:relevance:core',
+      'urn:relevance:supplementary',
+      null,
+      undefined,
+    ]),
+    isPrimary: PropTypes.bool,
+    rank: PropTypes.number,
   }).isRequired,
   status: PropTypes.shape({
     current: PropTypes.string,

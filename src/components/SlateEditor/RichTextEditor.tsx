@@ -9,14 +9,17 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { useEffect, useMemo, useRef } from 'react';
-import { createEditor, Descendant, Editor } from 'new-slate';
-import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps } from 'new-slate-react';
-import { withHistory } from 'new-slate-history';
+import { createEditor, Descendant, Editor } from 'slate';
+import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps } from 'slate-react';
+import { withHistory } from 'slate-history';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { SlatePlugin } from './interfaces';
 import { SlateProvider } from './SlateContext';
 import { SlateToolbar } from './plugins/toolbar';
+import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
+import options from './plugins/blockPicker/options';
+import { onDragOver, onDragStart, onDrop } from './plugins/DND';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -39,6 +42,8 @@ interface SlateEditorProps {
   readOnly?: boolean;
   role?: string;
   spellCheck?: boolean;
+  language: string;
+  actionsToShowInAreas: { [key: string]: string[] };
   taxIndex?: number;
   value: Descendant[];
   submitted: boolean;
@@ -70,12 +75,17 @@ const RichTextEditor = ({
   onChange,
   handleSubmit,
   submitted,
+  language,
+  actionsToShowInAreas,
   index,
   removeSection,
   ...rest
 }: Props) => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
+  const editor = useMemo(
+    () => withHistory(withReact(withPlugins(createEditor(), plugins))),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
   editor.removeSection = () => {
     removeSection(index);
   };
@@ -128,6 +138,14 @@ const RichTextEditor = ({
               onChange(val, index);
             }}>
             <SlateToolbar editor={editor} />
+            <SlateBlockPicker
+              editor={editor}
+              onChange={editor.onChange}
+              {...options({
+                articleLanguage: language,
+                actionsToShowInAreas,
+              })}
+            />
             <Editable
               onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
               onKeyDown={editor.onKeyDown}
@@ -135,6 +153,10 @@ const RichTextEditor = ({
               renderElement={renderElement}
               renderLeaf={renderLeaf}
               readOnly={submitted}
+              onDragStart={onDragStart(editor)}
+              onDragOver={onDragOver(editor)}
+              onDrop={onDrop(editor)}
+              {...classes('content', undefined, className)}
             />
           </Slate>
           {children}

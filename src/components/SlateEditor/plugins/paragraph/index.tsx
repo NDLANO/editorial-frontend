@@ -7,25 +7,23 @@
  */
 
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { Editor, Node, Element, Descendant, Text } from 'new-slate';
-import { RenderElementProps } from 'new-slate-react';
-import { jsx } from 'new-slate-hyperscript';
+import { Editor, Node, Element, Descendant, Text } from 'slate';
+import { RenderElementProps } from 'slate-react';
+import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
-import { reduceElementDataAttributes, createDataProps } from '../../../../util/embedTagHelpers';
-import { ContentLinkElement, LinkElement } from '../link';
+import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_BREAK } from '../break';
-import { getCurrentParagraph } from './utils';
+import { getCurrentParagraph, TYPE_PARAGRAPH } from './utils';
+import containsVoid from '../../utils/containsVoid';
 
 const KEY_ENTER = 'Enter';
-export const TYPE_PARAGRAPH = 'paragraph';
 
 export interface ParagraphElement {
   type: 'paragraph';
   data?: {
-    'data-align'?: string;
     align?: string;
   };
-  children: (Text | LinkElement | ContentLinkElement)[];
+  children: Descendant[];
 }
 
 const onEnter = (
@@ -48,7 +46,7 @@ const onEnter = (
    throughout the document to enable positioning the cursor between element with no
    spacing (i.e two images).
    */
-  if (Node.string(currentParagraph) === '') {
+  if (Node.string(currentParagraph) === '' && !containsVoid(editor, currentParagraph)) {
     editor.insertNode({
       type: TYPE_BREAK,
       children: [{ text: '' }],
@@ -90,12 +88,12 @@ export const paragraphSerializer: SlateSerializer = {
       between element with no spacing (i.e two images). We need to remove these element
       on seriaization.
      */
-    if (Node.string(node) === '') return null;
 
-    const dataProps = node.data ? createDataProps(node.data) : {};
-    return `<p${Object.entries(dataProps).map((key, val) => {
-      return ` "${key}"="${val}"`;
-    })}>${children}</p>`;
+    if (Node.string(node) === '' && node.children.length === 1 && Text.isText(node.children[0]))
+      return null;
+
+    const attributes = node.data?.align ? ` data-align="${node.data.align}"` : '';
+    return `<p${attributes}>${children}</p>`;
   },
 };
 

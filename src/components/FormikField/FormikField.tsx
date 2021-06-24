@@ -17,7 +17,7 @@ import {
   FormikValues,
   FieldProps,
 } from 'formik';
-import { Node } from 'new-slate';
+import { Node } from 'slate';
 import styled from '@emotion/styled';
 import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
@@ -60,7 +60,7 @@ const FormikField = ({
   obligatory,
   showError,
   t,
-  formik: { values, handleBlur, errors, touched },
+  formik: { values, handleBlur, errors },
   ...rest
 }: Props & tType & { formik: FormikContextType<FormikValues> }) => {
   const isSlateValue = Node.isNodeList(values[name]);

@@ -8,7 +8,6 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Types from 'slate-prop-types';
 import debounce from 'lodash/debounce';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -263,7 +262,7 @@ class Filelist extends React.Component {
 
 Filelist.propTypes = {
   editor: EditorShape,
-  node: Types.node.isRequired,
+  node: PropTypes.any,
   locale: PropTypes.string,
 };
 

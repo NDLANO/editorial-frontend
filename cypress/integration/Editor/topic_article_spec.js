@@ -6,31 +6,22 @@
  *
  */
 
-import { setToken, visitOptions } from '../../support';
+import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
-const ARTICLE_ID = 12173;
+const ARTICLE_ID = 800;
 
 describe('Language handling', () => {
   beforeEach(() => {
     setToken();
-    cy.server({
-      force404: true,
-      whitelist: xhr => {
-        if (xhr.url.indexOf('sockjs-node/') > -1) return true;
-        //return the default cypress whitelist filer
-        return (
-          xhr.method === 'GET' && /\.(jsx?|html|css)(\?.*)?$/.test(xhr.url)
-        );
-      },
-    });
-
-    editorRoutes(ARTICLE_ID);
-
-    cy.visit(
-      `/subject-matter/topic-article/${ARTICLE_ID}/edit/nb`,
-      visitOptions,
+    editorRoutes();
+    cy.apiroute(
+      'GET',
+      `/draft-api/v1/drafts/${ARTICLE_ID}*`,
+      `draft-${ARTICLE_ID}`,
     );
+
+    cy.visit(`/subject-matter/topic-article/${ARTICLE_ID}/edit/nb`);
     cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
   });
 

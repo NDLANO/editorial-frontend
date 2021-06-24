@@ -7,7 +7,7 @@
  */
 
 import { KeyboardEvent } from 'react';
-import { Editor, Transforms, Range } from 'new-slate';
+import { Editor, Transforms, Range } from 'slate';
 
 const KEY_ENTER = 'Enter';
 

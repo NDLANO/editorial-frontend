@@ -1,15 +1,21 @@
-import { Editor, Descendant, BaseEditor } from 'new-slate';
-import { HistoryEditor } from 'new-slate-history';
-import { ReactEditor, RenderElementProps, RenderLeafProps } from 'new-slate-react';
+import { Editor, Descendant, BaseEditor } from 'slate';
+import { HistoryEditor } from 'slate-history';
+import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import React from 'react';
 import { BlockQuoteElement } from './plugins/blockquote';
 import { BreakElement } from './plugins/break';
+import { FootnoteElement } from './plugins/footnote';
 import { HeadingElement } from './plugins/heading';
 import { ContentLinkElement, LinkElement } from './plugins/link';
 import { CustomTextWithMarks } from './plugins/mark';
 import { ParagraphElement } from './plugins/paragraph';
 import { SectionElement } from './plugins/section';
 import { ListElement, ListText } from './plugins/list';
+import { MathmlElement } from './plugins/mathml';
+import { ConceptElement } from './plugins/concept';
+import { AsideElement } from './plugins/aside';
+import { DetailsElement, SummaryElement } from './plugins/details';
+import { BodyboxElement } from './plugins/bodybox';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -23,9 +29,10 @@ export type CustomEditor = {
   renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
   renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
   removeSection?: () => void;
+  shouldShowToolbar: () => boolean;
 };
 
-declare module 'new-slate' {
+declare module 'slate' {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor & HistoryEditor & CustomEditor;
     Element:
@@ -37,7 +44,14 @@ declare module 'new-slate' {
       | BlockQuoteElement
       | HeadingElement
       | ListElement
-      | ListText;
+      | ListText
+      | FootnoteElement
+      | MathmlElement
+      | ConceptElement
+      | AsideElement
+      | DetailsElement
+      | SummaryElement
+      | BodyboxElement;
     Text: CustomTextWithMarks;
   }
 }

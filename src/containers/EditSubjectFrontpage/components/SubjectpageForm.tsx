@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { Descendant } from 'new-slate';
+import { Descendant } from 'slate';
 import { injectT, tType } from '@ndla/i18n';
 import { Formik, Form, FormikProps } from 'formik';
 import {
@@ -153,7 +153,7 @@ const SubjectpageForm = ({
           <Form {...formClasses()}>
             <SimpleLanguageHeader
               articleType={values.articleType!}
-              editUrl={(lang: string) => toEditSubjectpage(values.elementId, lang, values.id)}
+              editUrl={(lang: string) => toEditSubjectpage(values.elementId!, lang, values.id)}
               id={parseInt(values.id!)}
               isSubmitting={isSubmitting}
               language={values.language}

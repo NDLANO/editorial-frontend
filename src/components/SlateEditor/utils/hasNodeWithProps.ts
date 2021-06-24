@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor, Element, Range } from 'new-slate';
+import { Editor, Element, Range } from 'slate';
 
 const hasNodeWithProps = (editor: Editor, props: Partial<Element>) => {
   if (!Range.isRange(editor.selection)) {

@@ -15,10 +15,14 @@ import { Figure } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
-import { getYoutubeEmbedUrl, getStartTime, getStopTime, getBrightCoveStartTime } from '../../../../util/videoUtil';
+import {
+  getYoutubeEmbedUrl,
+  getStartTime,
+  getStopTime,
+  getBrightCoveStartTime,
+} from '../../../../util/videoUtil';
 import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
 import { Embed } from '../../../../interfaces';
-import { string } from 'prop-types';
 
 const videoStyle = css`
   width: 100%;
@@ -66,7 +70,7 @@ const SlateVideo = ({
           `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
         );
         setStartTime(getBrightCoveStartTime(videoid));
-      } 
+      }
     } else {
       const tempUrl = url.includes('embed') ? url : getYoutubeEmbedUrl(url);
       setSrc(tempUrl);
@@ -75,7 +79,6 @@ const SlateVideo = ({
     }
   }, [embed]);
 
-  
   const toggleEditModus = () => {
     setEditMode(!editMode);
   };

@@ -15,7 +15,7 @@ export const toHMS = (seconds: number) => {
   const hours = hour > 0 ? hour + ':' : '';
   const minutes = minute > 0 ? minute + ':' : '';
   const secondos = second < 10 && second > 0 ? '0' + second : second;
-  
+
   const hms = `${hours}${minutes}${secondos}`;
   return hms === 'NaN' ? '' : hms;
 };
@@ -26,20 +26,17 @@ export const calcSecondsFromHMS = (hms: string) => {
     .reverse()
     .filter(Number)
     .map(numberString => parseInt(numberString, 10))
-    .reduce((accumulator, number, index) => accumulator + number * Math.pow(60, index),0);
+    .reduce((accumulator, number, index) => accumulator + number * Math.pow(60, index), 0);
 };
 
-export const getYoutubeEmbedUrl = (url: string, start?: string, stop?:string ) => {
-  
-  const youtubeEmbedUrl = `https://www.youtube.com/embed/${(url
-  .split('/')
-  .pop() || '')
-  .split('v=')
-  .pop()}?`;
+export const getYoutubeEmbedUrl = (url: string, start?: string, stop?: string) => {
+  const youtubeEmbedUrl = `https://www.youtube.com/embed/${(url.split('/').pop() || '')
+    .split('v=')
+    .pop()}?`;
   return addYoutubeTimeStamps(youtubeEmbedUrl, start, stop);
 };
 
-export const addYoutubeTimeStamps = (url: string, start?: string, stop?:string ) => {
+export const addYoutubeTimeStamps = (url: string, start?: string, stop?: string) => {
   const [baseUrl, query] = url.split('?');
   const params = queryString.parse(query);
 
@@ -54,30 +51,28 @@ export const addYoutubeTimeStamps = (url: string, start?: string, stop?:string )
   return `${baseUrl}?${updatedQuery}`;
 };
 
-export const getStartTime = (url:string) => {
+export const getStartTime = (url: string) => {
   const params = queryString.parse(url.split('?')[1]);
   return toHMS(params.start);
 };
 
-export const getStopTime = (url:string) => {
+export const getStopTime = (url: string) => {
   const params = queryString.parse(url.split('?')[1]);
   return toHMS(params.end);
 };
 
-export const removeParams = (url:string) => {
+export const removeParams = (url: string) => {
   return url.split('?')[0];
 };
 
-
-
-export const addBrightCoveTimeStampVideoid = (videoid: string, start: string ) => {
-  const [baseVideoid, seconds] = videoid.split("&");
+export const addBrightCoveTimeStampVideoid = (videoid: string, start: string) => {
+  const [baseVideoid, seconds] = videoid.split('&');
   const startSeconds = start ? `&t=${calcSecondsFromHMS(start)}s` : `&t=${seconds}s`;
 
-  return `${baseVideoid}${startSeconds}`
+  return `${baseVideoid}${startSeconds}`;
 };
 
-export const addBrightCovetimeStampSrc = (src:string, start: string) => {
+export const addBrightCovetimeStampSrc = (src: string, start: string) => {
   const [baseUrl, query] = src.split('?');
   const params = queryString.parse(query);
 
@@ -88,9 +83,9 @@ export const addBrightCovetimeStampSrc = (src:string, start: string) => {
   });
 
   return `${baseUrl}?${updatedQuery}`;
-}
+};
 
 export const getBrightCoveStartTime = (videoid: string) => {
-  const time = videoid.split('&t=').pop() || "0";
+  const time = videoid.split('&t=').pop() || '0';
   return toHMS(parseInt(time));
-}
+};

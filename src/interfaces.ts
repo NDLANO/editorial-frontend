@@ -225,6 +225,12 @@ export interface Resource extends TaxonomyElement {
   topicId: string;
 }
 
+export interface ResourceWithTopicConnection extends Resource {
+  primary: boolean;
+  relevanceId: string;
+  status?: Status;
+}
+
 export interface Learningpath {
   copyright: {
     license: License;

@@ -26,10 +26,10 @@ const hmsCSS = css`
 
 interface Props {
   name: string;
-  startTime: string;
-  stopTime: string;
-  setStartTime: (startTime: string) => void;
-  setStopTime: (stopTime: string) => void;
+  startTime?: string;
+  stopTime?: string;
+  setStartTime?: (startTime: string) => void;
+  setStopTime?: (stopTime: string) => void;
 }
 
 interface Event {
@@ -41,12 +41,12 @@ interface Event {
 }
 
 const EditVideoTime = (props: Props & tType) => {
-  const { name, t, startTime, stopTime, setStartTime, setStopTime } = props;
-
+  const { name, t, startTime , stopTime , setStartTime , setStopTime } = props;
   return (
     <StyledInputTimeWrapper>
       <div>
-        <Input
+        {setStartTime &&
+          <Input
           name={name}
           label={t(`form.video.time.start`)}
           value={startTime}
@@ -57,10 +57,11 @@ const EditVideoTime = (props: Props & tType) => {
           placeholder={t(`form.video.time.hms`)}
           white
           customCSS={hmsCSS}
-        />
+        />}
       </div>
       <div>
-        <Input
+        {setStopTime &&
+          <Input
           name={name}
           label={t(`form.video.time.stop`)}
           value={stopTime}
@@ -72,6 +73,7 @@ const EditVideoTime = (props: Props & tType) => {
           white
           customCSS={hmsCSS}
         />
+        }
       </div>
     </StyledInputTimeWrapper>
   );

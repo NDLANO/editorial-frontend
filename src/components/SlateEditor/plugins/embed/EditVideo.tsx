@@ -17,7 +17,7 @@ import Overlay from '../../../Overlay';
 import { StyledInputWrapper } from './FigureInput';
 import EditVideoTime from './EditVideoTime';
 import { Embed, FormikInputEvent } from '../../../../interfaces';
-import { addYoutubeTimeStamps } from '../../../../util/videoUtil';
+import { addYoutubeTimeStamps, addBrightCoveTimeStampVideoid, addBrightCovetimeStampSrc } from '../../../../util/videoUtil';
 
 const videoStyle = css`
   width: 100%;
@@ -59,6 +59,7 @@ const EditVideo = ({
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
 
+
   useEffect(() => {
     const bodyRect = document.body.getBoundingClientRect();
     const placeholderRect = placeholderElement.getBoundingClientRect();
@@ -81,7 +82,8 @@ const EditVideo = ({
   const onSave = () => {
     saveEmbedUpdates({
       caption,
-      url: embed.resource === 'brightcove' ? src : addYoutubeTimeStamps(src, startTime, stopTime),
+      url: embed.resource === 'brightcove' ? addBrightCovetimeStampSrc(src,startTime) : addYoutubeTimeStamps(src, startTime, stopTime),
+      videoid: embed.resource === 'brightcove' ? addBrightCoveTimeStampVideoid(embed.videoid, startTime) : embed.videoid
     });
     toggleEditModus();
   };
@@ -126,17 +128,24 @@ const EditVideo = ({
                   setStopTime={setStopTime}
                 />
               ) : (
-                <Input
-                  name="caption"
-                  label={t('form.video.caption.label')}
-                  value={caption}
-                  onChange={onCaptionChange}
-                  container="div"
-                  type="text"
-                  autoExpand
-                  placeholder={t('form.video.caption.placeholder')}
-                  white
-                />
+                <Fragment>
+                  <Input
+                    name="caption"
+                    label={t('form.video.caption.label')}
+                    value={caption}
+                    onChange={onCaptionChange}
+                    container="div"
+                    type="text"
+                    autoExpand
+                    placeholder={t('form.video.caption.placeholder')}
+                    white
+                  />
+                  <EditVideoTime
+                    name="url"
+                    startTime={startTime}
+                    setStartTime={setStartTime}
+                  />
+                </Fragment>
               )}
               <StyledButtonWrapper paddingLeft>
                 <Button onClick={toggleEditModus} outline>

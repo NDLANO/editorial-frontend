@@ -13,13 +13,12 @@ import { injectT, tType } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
 import { defaultBlocks } from '../../utils';
-// import { defaultBodyBoxBlock } from '../bodybox';
-// import { defaultDetailsBlock } from '../details';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions, { ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
 import { defaultDetailsBlock } from '../details/utils';
 import { defaultTableBlock } from '../table/utils';
+import { defaultBodyboxBlock } from '../bodybox/utils';
 
 const { defaultRelatedBlock, defaultCodeBlock } = defaultBlocks;
 
@@ -75,10 +74,10 @@ const SlateBlockPicker = (props: Props & tType) => {
 
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
-      // case 'bodybox': {
-      //   this.onInsertBlock(defaultBodyBoxBlock());
-      //   break;
-      // }
+      case 'bodybox': {
+        onInsertBlock(defaultBodyboxBlock());
+        break;
+      }
       case 'details': {
         onInsertBlock(defaultDetailsBlock());
         break;

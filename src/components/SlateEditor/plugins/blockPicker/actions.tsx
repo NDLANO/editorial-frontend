@@ -44,11 +44,11 @@ const actions: Action[] = [
     icon: <TableMaterial />,
     helpIcon: renderArticleInModal('Table'),
   },
-  // {
-  //   data: { type: 'bodybox', object: 'bodybox' },
-  //   icon: <Framed />,
-  //   helpIcon: renderArticleInModal('BodyBox'),
-  // },
+  {
+    data: { type: 'bodybox', object: 'bodybox' },
+    icon: <Framed />,
+    helpIcon: renderArticleInModal('BodyBox'),
+  },
   // {
   //   data: { type: 'embed', object: 'image' },
   //   icon: <Camera />,

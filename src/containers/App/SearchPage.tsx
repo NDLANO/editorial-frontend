@@ -11,11 +11,11 @@ import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/ed
 import { List } from '@ndla/icons/action';
 import { injectT, tType } from '@ndla/i18n';
 import { RouteComponentProps } from 'react-router';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import loadable from '@loadable/component';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import SubNavigation from '../Masthead/components/SubNavigation';
 import { toSearch } from '../../util/routeHelpers';
-import Footer from './components/Footer';
+
 import { RoutePropTypes } from '../../shapes';
 import { LocaleContext } from './App';
 import SearchContainer, { ResultType } from '../SearchPage/SearchContainer';
@@ -27,6 +27,8 @@ import { searchAudio } from '../../modules/audio/audioApi';
 import { searchConcepts } from '../../modules/concept/conceptApi';
 import { SearchType } from '../../interfaces';
 import { SearchParams } from '../SearchPage/components/form/SearchForm';
+import Footer from './components/Footer';
+const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 interface Props extends RouteComponentProps, tType {}
 

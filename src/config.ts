@@ -103,6 +103,17 @@ export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
 };
 
+const usernamePasswordEnabled = () => {
+  switch (ndlaEnvironment) {
+    case 'test':
+    case 'local':
+    case 'dev':
+      return true;
+    default:
+      return false;
+  }
+};
+
 export type ConfigType = {
   brightCoveAccountId: string | undefined;
   checkArticleScript: boolean;
@@ -133,6 +144,7 @@ export type ConfigType = {
   zendeskWidgetKey: string | undefined;
   brightcovePlayerId: string | undefined;
   disableCSP: string | undefined;
+  usernamePasswordEnabled: boolean;
 };
 
 const config: ConfigType = {
@@ -165,6 +177,7 @@ const config: ConfigType = {
   npkToken: getEnvironmentVariabel('NPK_TOKEN'),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
   disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
+  usernamePasswordEnabled: usernamePasswordEnabled(),
 };
 
 export function getUniversalConfig(): ConfigType {

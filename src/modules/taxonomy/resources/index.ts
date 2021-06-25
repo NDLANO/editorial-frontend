@@ -14,7 +14,6 @@ import {
 import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 import { taxonomyApi } from '../../../config';
 import {
-  ParentTopic,
   Resource,
   ResourceResourceType,
   ResourceTranslation,
@@ -106,25 +105,6 @@ export async function getResourceId({
     resourceId = resource[0].id;
   }
   return resourceId;
-}
-
-export async function getFullResource(
-  resourceId: string,
-  language?: string,
-): Promise<{
-  resourceTypes: ResourceResourceType[];
-  metadata: TaxonomyMetadata;
-  topics: ParentTopic[];
-}> {
-  const { resourceTypes, parentTopics: topics, metadata } = await fetchFullResource(
-    resourceId,
-    language,
-  );
-  return {
-    resourceTypes,
-    metadata,
-    topics,
-  };
 }
 
 export const queryResources = async (

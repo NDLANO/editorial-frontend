@@ -17,7 +17,8 @@ export const toHMS = (seconds: number) => {
   const secondos = second < 10 && second > 0 ? '0' + second : second;
 
   const hms = `${hours}${minutes}${secondos}`;
-  return hms === 'NaN' ? '' : hms;
+
+  return hms === 'NaN' || hms === '0' ? '' : hms;
 };
 
 export const calcSecondsFromHMS = (hms: string) => {
@@ -47,7 +48,6 @@ export const addYoutubeTimeStamps = (url: string, start?: string, stop?: string)
     ...(startSeconds && { start: startSeconds }),
     ...(stopSeconds && { end: stopSeconds }),
   });
-
   return `${baseUrl}?${updatedQuery}`;
 };
 
@@ -66,10 +66,10 @@ export const removeParams = (url: string) => {
 };
 
 export const addBrightCoveTimeStampVideoid = (videoid: string, start: string) => {
-  const [baseVideoid, seconds] = videoid.split('&');
-  const startSeconds = start ? `&t=${calcSecondsFromHMS(start)}s` : `&t=${seconds}s`;
+  const [baseVideoid, seconds] = videoid.split('&t=');
+  const startSeconds = start ? `${calcSecondsFromHMS(start)}s` : `${seconds}`;
 
-  return `${baseVideoid}${startSeconds}`;
+  return `${baseVideoid}&t=${startSeconds}`;
 };
 
 export const addBrightCovetimeStampSrc = (src: string, start: string) => {

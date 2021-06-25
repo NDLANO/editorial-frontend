@@ -1,95 +1,164 @@
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { Editor, Node, Element, Descendant } from 'new-slate';
-import { RenderElementProps } from 'new-slate-react';
-import { jsx } from 'new-slate-hyperscript';
+import { Editor, Node, Element, Descendant, Transforms, Text } from 'slate';
+import { RenderElementProps } from 'slate-react';
+import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes, createDataProps } from '../../../../util/embedTagHelpers';
 import onEnter from './handlers/onEnter';
-import { ParagraphElement } from '../paragraph';
+import { Dictionary } from 'lodash';
+import { firstTextBlockElement } from '../../utils/normalizationHelpers';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 export const LIST_TYPES = ['numbered-list', 'bulleted-list', 'letter-list'];
-export const LIST_TYPE = 'list_item';
-const TYPE_DEFAULT = 'list_text';
+export const TYPE_LIST = 'list';
+export const TYPE_LIST_ITEM = 'list-item';
 
 export interface ListElement {
-    type: 'list_item';
-    listType?: string;
-    children: Descendant | null;
+  type: 'list';
+  listType?: string;
+  data: Dictionary<string>;
+  children: Descendant[];
 }
 
-export interface ListText extends Omit<ParagraphElement, 'type'> {
-    type: 'list_text';
+export interface ListItemElement {
+  type: 'list-item';
+  children: Descendant[];
 }
 
 export const listSerializer: SlateSerializer = {
-    deserialize(el: HTMLElement, children: (Descendant | null)[]) {
-        const tag = el.tagName.toLowerCase();
-        if (tag === 'ul') {
-            return jsx('element', { type: LIST_TYPE, listType: 'bulleted-list', className: 'o-list--bullets'}, children)
-        }
-        if (tag === 'ol') {
-            if (el.getAttribute('data-type') === 'letters') {
-                return jsx('element', { type: LIST_TYPE, listType: 'lettered-list', className: 'ol-list--roman'}, children)
-            }
-            if (el.getAttribute('type') === '1') {
-                return jsx('element', { type: LIST_TYPE, listType: 'numbered-list'}, children)
-            }
-            // Default to numbered list if no type is set.
-            else return jsx('element', { type: LIST_TYPE, listType: 'numbered-list'}, children)
-        }
-        if (tag === 'li') {
-            return jsx('element', { type: LIST_TYPE, listType: TYPE_DEFAULT, class: 'c-block__list-item'}, children);
-        }
-    },
-    serialize(node: Descendant, children: string) {
-    if (!Element.isElement(node)) return;
-    if (node.type === LIST_TYPE) {
-        if (node.listType === 'bulleted-list') {
-            return `<ul>${children}</ul>`
-        }
-        if (node.listType === 'numbered-list') {
-            return `<ol type='1'>${children}</ol>`
-        }
-        if (node.listType === 'lettered-list') {
-            return `<ol data-type='letters'>${children}</ol>`
-        }
-        if (node.listType === TYPE_DEFAULT) {
-            return `<li>${children}</li>`;
-        }
+  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+    const tag = el.tagName.toLowerCase();
+    if (tag === 'ul') {
+      return jsx('element', { type: TYPE_LIST, listType: 'bulleted-list', data: {} }, children);
+    }
+    if (tag === 'ol') {
+      if (el.getAttribute('data-type') === 'letters') {
+        return jsx('element', { type: TYPE_LIST, listType: 'lettered-list', data: {} }, children);
+      }
+      // Default to numbered list if no type is set.
+      else {
+        const start = el.getAttribute('start');
+        return jsx(
+          'element',
+          { type: TYPE_LIST, listType: 'numbered-list', data: { start } },
+          children,
+        );
+      }
+    }
+    if (tag === 'li') {
+      return jsx('element', { type: TYPE_LIST_ITEM }, children);
     }
   },
-}
+  serialize(node: Descendant, children: string) {
+    if (!Element.isElement(node)) return;
+    if (node.type === TYPE_LIST) {
+      if (node.listType === 'bulleted-list') {
+        return `<ul>${children}</ul>`;
+      }
+      if (node.listType === 'numbered-list') {
+        const { start } = node.data;
+
+        return `<ol${start ? ` start="${start}"` : ''}>${children}</ol>`;
+      }
+      if (node.listType === 'lettered-list') {
+        return `<ol data-type='letters'>${children}</ol>`;
+      }
+      if (node.listType === TYPE_LIST_ITEM) {
+        return `<li>${children}</li>`;
+      }
+    }
+  },
+};
 
 export const listPlugin = (editor: Editor) => {
-    const { onKeyDown: nextOnKeyDown, renderElement: nextRenderElement } = editor;
-    editor.renderElement = ({ attributes, children, element}: RenderElementProps) => {
-        if (element.type === LIST_TYPE ) {
-            if (element.listType === 'bulleted-list') {
-                return  <ul {...attributes}>{children}</ul>
-            }
-            else if (element.listType === 'numbered-list') {
-                return <ol {...attributes}>{children}</ol>
-            }
-            else if (element.listType === 'lettered-list') {
-                return <ol data-type="letters" className="ol-list--roman" {...attributes}>{children}</ol>
-            }
-            else if (element.listType === TYPE_DEFAULT) {
-                return <li {...attributes}>{children}</li>
-            }
-        } else if (nextRenderElement) {
-            return nextRenderElement({ attributes, children, element });
-        }
-        return undefined;
+  const { onKeyDown, renderElement, normalizeNode } = editor;
+  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
+    if (element.type === TYPE_LIST) {
+      if (element.listType === 'bulleted-list') {
+        return <ul {...attributes}>{children}</ul>;
+      } else if (element.listType === 'numbered-list') {
+        return <ol {...attributes}>{children}</ol>;
+      } else if (element.listType === 'lettered-list') {
+        return (
+          <ol data-type="letters" className="ol-list--roman" {...attributes}>
+            {children}
+          </ol>
+        );
+      }
+    } else if (element.type === TYPE_LIST_ITEM) {
+      return <li {...attributes}>{children}</li>;
+    } else if (renderElement) {
+      return renderElement({ attributes, children, element });
     }
+    return undefined;
+  };
 
-    editor.onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-        switch(event.key) {
-            case 'Enter':
-                return onEnter(event, editor, nextOnKeyDown);
-            default:
-                if (nextOnKeyDown) return nextOnKeyDown(event);
-                else return undefined;
+  editor.normalizeNode = entry => {
+    editor.normalizeNode = entry => {
+      const [node, path] = entry;
+
+      if (Element.isElement(node) && node.type === TYPE_LIST_ITEM) {
+        // If listItem contains text, wrap it in paragraph.
+        for (const [child, childPath] of Node.children(editor, path)) {
+          if (Text.isText(child)) {
+            Transforms.wrapNodes(
+              editor,
+              {
+                type: TYPE_PARAGRAPH,
+                children: [],
+              },
+              { at: childPath },
+            );
+            return;
+          }
         }
+
+        // If first child is not a paragraph or heading, insert an empty paragraph
+        const firstChild = node.children[0];
+        if (Element.isElement(firstChild)) {
+          if (!firstTextBlockElement.includes(firstChild.type)) {
+            Transforms.insertNodes(
+              editor,
+              {
+                type: TYPE_PARAGRAPH,
+                children: [{ text: '' }],
+              },
+              { at: [...path, 0] },
+            );
+            return;
+          }
+        }
+
+        // If last child is not a paragraph, insert an empty paragraph
+        const lastChild = node.children[node.children.length - 1];
+        if (Element.isElement(lastChild)) {
+          if (lastChild.type !== TYPE_PARAGRAPH && lastChild.type !== TYPE_LIST) {
+            Transforms.insertNodes(
+              editor,
+              {
+                type: TYPE_PARAGRAPH,
+                children: [{ text: '' }],
+              },
+              {
+                at: [...path, node.children.length],
+              },
+            );
+            return;
+          }
+        }
+      }
+      normalizeNode(entry);
+    };
+  };
+
+  editor.onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    switch (event.key) {
+      case 'Enter':
+        return onEnter(event, editor, onKeyDown);
+      default:
+        if (onKeyDown) return onKeyDown(event);
+        else return undefined;
     }
-    return editor;
-}
+  };
+  return editor;
+};

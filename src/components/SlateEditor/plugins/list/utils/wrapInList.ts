@@ -1,18 +1,14 @@
-import { Editor, Element, Range, Transforms } from "new-slate"
-import { ListElement, LIST_TYPES } from ".."
+import { Editor, Range, Transforms } from 'slate';
+import { LIST_TYPES } from '../';
+import { defaultListBlock } from './defaultBlocks';
 
 export const wrapInList = (editor: Editor, type: string) => {
-
-    const listType = type ? type : LIST_TYPES[0];
-    const listElement: ListElement = {
-        type: 'list_item',
-        listType: listType,
-        children: null,
+  const listType = type ? type : LIST_TYPES[0];
+  const listElement = defaultListBlock(listType);
+  Editor.withoutNormalizing(editor, () => {
+    if (!Range.isRange(editor.selection)) {
+      return;
     }
-    Editor.withoutNormalizing(editor, () => {
-        if (!Range.isRange(editor.selection)) {
-            return;
-        }
-        Transforms.wrapNodes(editor, listElement)
-    })
-}
+    Transforms.wrapNodes(editor, listElement);
+  });
+};

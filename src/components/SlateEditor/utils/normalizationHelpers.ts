@@ -7,9 +7,7 @@ export const firstTextBlockElement: Element['type'][] = ['paragraph', 'heading']
 export const textBlockElements: Element['type'][] = [
   'paragraph',
   'heading',
-  //'bulleted-list',
-  //'letter-list',
-  //'numbered-list',
+  'list',
   'quote',
   //'table',
   //'embed',

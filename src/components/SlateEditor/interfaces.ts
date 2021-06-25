@@ -10,7 +10,7 @@ import { ContentLinkElement, LinkElement } from './plugins/link';
 import { CustomTextWithMarks } from './plugins/mark';
 import { ParagraphElement } from './plugins/paragraph';
 import { SectionElement } from './plugins/section';
-import { ListElement, ListText } from './plugins/list';
+import { ListElement, ListItemElement } from './plugins/list';
 import { MathmlElement } from './plugins/mathml';
 import { ConceptElement } from './plugins/concept';
 import { AsideElement } from './plugins/aside';
@@ -44,7 +44,7 @@ declare module 'slate' {
       | BlockQuoteElement
       | HeadingElement
       | ListElement
-      | ListText
+      | ListItemElement
       | FootnoteElement
       | MathmlElement
       | ConceptElement

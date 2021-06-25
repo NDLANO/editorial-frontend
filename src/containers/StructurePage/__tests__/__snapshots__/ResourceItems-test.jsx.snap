@@ -195,7 +195,7 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-topic-article"
+        data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
@@ -205,7 +205,7 @@ exports[`matches snapshot 1`] = `
           tabindex="0"
         >
           <div
-            class="c-content-type-badge c-content-type-badge--topic c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+            class="c-content-type-badge c-content-type-badge--learning-path c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
           >
             <svg
               class="c-icon"
@@ -219,27 +219,16 @@ exports[`matches snapshot 1`] = `
               width="1em"
             >
               <title>
-                Subject
+                LearningPath
               </title>
               <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
+                <path
+                  d="M4 19h6v-2H4v2zM20 5H4v2h16V5zm-3 6H4v2h13.25c1.1 0 2 .9 2 2s-.9 2-2 2H15v-2l-3 3 3 3v-2h2c2.21 0 4-1.79 4-4s-1.79-4-4-4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
                   fill="none"
-                  fill-rule="evenodd"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                    />
-                  </g>
-                </g>
+                />
               </g>
             </svg>
           </div>
@@ -344,7 +333,7 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-topic-article"
+        data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
@@ -354,7 +343,7 @@ exports[`matches snapshot 1`] = `
           tabindex="0"
         >
           <div
-            class="c-content-type-badge c-content-type-badge--topic c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+            class="c-content-type-badge c-content-type-badge--learning-path c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
           >
             <svg
               class="c-icon"
@@ -368,27 +357,16 @@ exports[`matches snapshot 1`] = `
               width="1em"
             >
               <title>
-                Subject
+                LearningPath
               </title>
               <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
+                <path
+                  d="M4 19h6v-2H4v2zM20 5H4v2h16V5zm-3 6H4v2h13.25c1.1 0 2 .9 2 2s-.9 2-2 2H15v-2l-3 3 3 3v-2h2c2.21 0 4-1.79 4-4s-1.79-4-4-4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
                   fill="none"
-                  fill-rule="evenodd"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                    />
-                  </g>
-                </g>
+                />
               </g>
             </svg>
           </div>
@@ -396,17 +374,17 @@ exports[`matches snapshot 1`] = `
         <div
           class="c-topic-resource__body o-flag__body"
         >
-          <a
-            href="/subject-matter/topic-article/89/edit"
-            rel="noopener noreferrer"
-            target="_blank"
+          <h1
+            class="c-topic-resource__title emotion-0 emotion-1"
           >
-            <h1
-              class="c-topic-resource__title emotion-0 emotion-1"
+            <a
+              href="https://stier.test.ndla.no/nb/learningpaths/89/first-step"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Hvorfor bruker vi mediene?
-            </h1>
-          </a>
+            </a>
+          </h1>
         </div>
         <div
           class=" emotion-10 emotion-11"
@@ -499,7 +477,7 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-topic-article"
+        data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
@@ -509,7 +487,7 @@ exports[`matches snapshot 1`] = `
           tabindex="0"
         >
           <div
-            class="c-content-type-badge c-content-type-badge--topic c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+            class="c-content-type-badge c-content-type-badge--learning-path c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
           >
             <svg
               class="c-icon"
@@ -523,27 +501,16 @@ exports[`matches snapshot 1`] = `
               width="1em"
             >
               <title>
-                Subject
+                LearningPath
               </title>
               <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
+                <path
+                  d="M4 19h6v-2H4v2zM20 5H4v2h16V5zm-3 6H4v2h13.25c1.1 0 2 .9 2 2s-.9 2-2 2H15v-2l-3 3 3 3v-2h2c2.21 0 4-1.79 4-4s-1.79-4-4-4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
                   fill="none"
-                  fill-rule="evenodd"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                    />
-                  </g>
-                </g>
+                />
               </g>
             </svg>
           </div>
@@ -551,17 +518,17 @@ exports[`matches snapshot 1`] = `
         <div
           class="c-topic-resource__body o-flag__body"
         >
-          <a
-            href="/subject-matter/topic-article/78/edit"
-            rel="noopener noreferrer"
-            target="_blank"
+          <h1
+            class="c-topic-resource__title emotion-0 emotion-1"
           >
-            <h1
-              class="c-topic-resource__title emotion-0 emotion-1"
+            <a
+              href="https://stier.test.ndla.no/nb/learningpaths/78/first-step"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Medieundersøkelser og mediebruk
-            </h1>
-          </a>
+            </a>
+          </h1>
         </div>
         <div
           class=" emotion-10 emotion-11"
@@ -654,7 +621,7 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-topic-article"
+        data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
@@ -664,7 +631,7 @@ exports[`matches snapshot 1`] = `
           tabindex="0"
         >
           <div
-            class="c-content-type-badge c-content-type-badge--topic c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+            class="c-content-type-badge c-content-type-badge--learning-path c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
           >
             <svg
               class="c-icon"
@@ -678,27 +645,16 @@ exports[`matches snapshot 1`] = `
               width="1em"
             >
               <title>
-                Subject
+                LearningPath
               </title>
               <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
+                <path
+                  d="M4 19h6v-2H4v2zM20 5H4v2h16V5zm-3 6H4v2h13.25c1.1 0 2 .9 2 2s-.9 2-2 2H15v-2l-3 3 3 3v-2h2c2.21 0 4-1.79 4-4s-1.79-4-4-4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
                   fill="none"
-                  fill-rule="evenodd"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                    />
-                  </g>
-                </g>
+                />
               </g>
             </svg>
           </div>
@@ -706,17 +662,17 @@ exports[`matches snapshot 1`] = `
         <div
           class="c-topic-resource__body o-flag__body"
         >
-          <a
-            href="/subject-matter/topic-article/813/edit"
-            rel="noopener noreferrer"
-            target="_blank"
+          <h1
+            class="c-topic-resource__title emotion-0 emotion-1"
           >
-            <h1
-              class="c-topic-resource__title emotion-0 emotion-1"
+            <a
+              href="https://stier.test.ndla.no/nb/learningpaths/813/first-step"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Mediebruk og statistikk
-            </h1>
-          </a>
+            </a>
+          </h1>
         </div>
         <div
           class=" emotion-10 emotion-11"
@@ -809,7 +765,7 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-topic-article"
+        data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
@@ -819,7 +775,7 @@ exports[`matches snapshot 1`] = `
           tabindex="0"
         >
           <div
-            class="c-content-type-badge c-content-type-badge--topic c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+            class="c-content-type-badge c-content-type-badge--learning-path c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
           >
             <svg
               class="c-icon"
@@ -833,27 +789,16 @@ exports[`matches snapshot 1`] = `
               width="1em"
             >
               <title>
-                Subject
+                LearningPath
               </title>
               <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
+                <path
+                  d="M4 19h6v-2H4v2zM20 5H4v2h16V5zm-3 6H4v2h13.25c1.1 0 2 .9 2 2s-.9 2-2 2H15v-2l-3 3 3 3v-2h2c2.21 0 4-1.79 4-4s-1.79-4-4-4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
                   fill="none"
-                  fill-rule="evenodd"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                    />
-                  </g>
-                </g>
+                />
               </g>
             </svg>
           </div>
@@ -861,17 +806,17 @@ exports[`matches snapshot 1`] = `
         <div
           class="c-topic-resource__body o-flag__body"
         >
-          <a
-            href="/subject-matter/topic-article/508/edit"
-            rel="noopener noreferrer"
-            target="_blank"
+          <h1
+            class="c-topic-resource__title emotion-0 emotion-1"
           >
-            <h1
-              class="c-topic-resource__title emotion-0 emotion-1"
+            <a
+              href="https://stier.test.ndla.no/nb/learningpaths/508/first-step"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Identitet og mediebruk
-            </h1>
-          </a>
+            </a>
+          </h1>
         </div>
         <div
           class=" emotion-10 emotion-11"
@@ -964,7 +909,7 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="c-topic-resource__text o-flag o-flag--top"
-        data-testid="resource-type-topic-article"
+        data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
@@ -974,7 +919,7 @@ exports[`matches snapshot 1`] = `
           tabindex="0"
         >
           <div
-            class="c-content-type-badge c-content-type-badge--topic c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+            class="c-content-type-badge c-content-type-badge--learning-path c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
           >
             <svg
               class="c-icon"
@@ -988,27 +933,16 @@ exports[`matches snapshot 1`] = `
               width="1em"
             >
               <title>
-                Subject
+                LearningPath
               </title>
               <g>
-                <title>
-                  Emne
-                </title>
-                <defs />
-                <g
+                <path
+                  d="M4 19h6v-2H4v2zM20 5H4v2h16V5zm-3 6H4v2h13.25c1.1 0 2 .9 2 2s-.9 2-2 2H15v-2l-3 3 3 3v-2h2c2.21 0 4-1.79 4-4s-1.79-4-4-4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
                   fill="none"
-                  fill-rule="evenodd"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M18.3433438,19.3913043 L18.3433438,3.73913043 C9.97639325,3.73913043 5.79291797,3.73913043 5.79291797,3.73913043 C5.79291797,3.73913043 5.79291797,8.95652174 5.79291797,19.3913043 L11.9992148,16.6881419 L18.3433438,19.3913043 Z M17.7457045,2 C18.3688462,2 18.9003414,2.22222 19.3402062,2.66666667 C19.7800709,3.11111333 20,3.63555253 20,4.24 L20,22 L12,18.6666667 L4,22 L4,4.24 C4,3.63555253 4.21992907,3.11111333 4.65979381,2.66666667 C5.09965856,2.22222 5.63115381,2 6.25429553,2 L17.7457045,2 Z"
-                    />
-                  </g>
-                </g>
+                />
               </g>
             </svg>
           </div>
@@ -1016,17 +950,17 @@ exports[`matches snapshot 1`] = `
         <div
           class="c-topic-resource__body o-flag__body"
         >
-          <a
-            href="/subject-matter/topic-article/401/edit"
-            rel="noopener noreferrer"
-            target="_blank"
+          <h1
+            class="c-topic-resource__title emotion-0 emotion-1"
           >
-            <h1
-              class="c-topic-resource__title emotion-0 emotion-1"
+            <a
+              href="https://stier.test.ndla.no/nb/learningpaths/401/first-step"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               Mediepåvirkning
-            </h1>
-          </a>
+            </a>
+          </h1>
         </div>
         <div
           class=" emotion-10 emotion-11"

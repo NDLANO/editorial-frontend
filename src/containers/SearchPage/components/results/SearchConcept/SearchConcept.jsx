@@ -46,7 +46,18 @@ const SearchConcept = ({ concept, locale, subjects, t, editingState, licenses })
           }}
           subjects={subjects}
           updateLocalConcept={newConcept => {
-            setLocalConcept({ ...newConcept, lastUpdated: newConcept.updated });
+            setLocalConcept({
+              ...newConcept,
+              lastUpdated: newConcept.updated,
+              title: {
+                title: newConcept.title,
+                language: newConcept.language,
+              },
+              content: {
+                content: newConcept.content,
+                language: newConcept.language,
+              },
+            });
           }}
           licenses={licenses}
           t={t}

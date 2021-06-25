@@ -1098,6 +1098,7 @@ const phrases = {
     newSubject: 'Nytt fag',
     existingTopic: 'Eksisterende emne',
     newTopic: 'Nytt emne',
+    resources: 'Ressurser',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     changeName: 'Endre navn',

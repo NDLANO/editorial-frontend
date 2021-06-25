@@ -1096,6 +1096,7 @@ const phrases = {
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterande emne hit',
     newSubject: 'Nytt fag',
+    resources: 'Ressurser',
     existingTopic: 'Eksisterande emne',
     newTopic: 'Nytt emne',
     subjectSettings: 'Faginnstillinger',

@@ -15,7 +15,6 @@ export {
   fetchResourceResourceType,
   fetchResourceMetadata,
   fetchFullResource,
-  getFullResource,
   getResourceId, // fetchTopicResource,
   queryLearningPathResource,
   fetchResourceTranslations,

@@ -12,14 +12,15 @@ import { injectT } from '@ndla/i18n';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
+import loadable from '@loadable/component';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import * as messageActions from '../Messages/messagesActions';
-import CreateConcept from './CreateConcept';
-import EditConcept from './EditConcept';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { getLocale } from '../../modules/locale/locale';
 import { LicensesArrayOf, LocationShape } from '../../shapes';
 import Footer from '../App/components/Footer';
+const CreateConcept = loadable(() => import('./CreateConcept'));
+const EditConcept = loadable(() => import('./EditConcept'));
+const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 class ConceptPage extends PureComponent {
   state = {

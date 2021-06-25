@@ -1081,6 +1081,7 @@ const phrases = {
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',
+    resources: 'Resources',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     changeName: 'Change name',

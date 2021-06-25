@@ -94,61 +94,59 @@ export const listPlugin = (editor: Editor) => {
   };
 
   editor.normalizeNode = entry => {
-    editor.normalizeNode = entry => {
-      const [node, path] = entry;
+    const [node, path] = entry;
 
-      if (Element.isElement(node) && node.type === TYPE_LIST_ITEM) {
-        // If listItem contains text, wrap it in paragraph.
-        for (const [child, childPath] of Node.children(editor, path)) {
-          if (Text.isText(child)) {
-            Transforms.wrapNodes(
-              editor,
-              {
-                type: TYPE_PARAGRAPH,
-                children: [],
-              },
-              { at: childPath },
-            );
-            return;
-          }
-        }
-
-        // If first child is not a paragraph or heading, insert an empty paragraph
-        const firstChild = node.children[0];
-        if (Element.isElement(firstChild)) {
-          if (!firstTextBlockElement.includes(firstChild.type)) {
-            Transforms.insertNodes(
-              editor,
-              {
-                type: TYPE_PARAGRAPH,
-                children: [{ text: '' }],
-              },
-              { at: [...path, 0] },
-            );
-            return;
-          }
-        }
-
-        // If last child is not a paragraph, insert an empty paragraph
-        const lastChild = node.children[node.children.length - 1];
-        if (Element.isElement(lastChild)) {
-          if (lastChild.type !== TYPE_PARAGRAPH && lastChild.type !== TYPE_LIST) {
-            Transforms.insertNodes(
-              editor,
-              {
-                type: TYPE_PARAGRAPH,
-                children: [{ text: '' }],
-              },
-              {
-                at: [...path, node.children.length],
-              },
-            );
-            return;
-          }
+    if (Element.isElement(node) && node.type === TYPE_LIST_ITEM) {
+      // If listItem contains text, wrap it in paragraph.
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (Text.isText(child)) {
+          Transforms.wrapNodes(
+            editor,
+            {
+              type: TYPE_PARAGRAPH,
+              children: [],
+            },
+            { at: childPath },
+          );
+          return;
         }
       }
-      normalizeNode(entry);
-    };
+
+      // If first child is not a paragraph or heading, insert an empty paragraph
+      const firstChild = node.children[0];
+      if (Element.isElement(firstChild)) {
+        if (!firstTextBlockElement.includes(firstChild.type)) {
+          Transforms.insertNodes(
+            editor,
+            {
+              type: TYPE_PARAGRAPH,
+              children: [{ text: '' }],
+            },
+            { at: [...path, 0] },
+          );
+          return;
+        }
+      }
+
+      // If last child is not a paragraph, insert an empty paragraph
+      const lastChild = node.children[node.children.length - 1];
+      if (Element.isElement(lastChild)) {
+        if (lastChild.type !== TYPE_PARAGRAPH && lastChild.type !== TYPE_LIST) {
+          Transforms.insertNodes(
+            editor,
+            {
+              type: TYPE_PARAGRAPH,
+              children: [{ text: '' }],
+            },
+            {
+              at: [...path, node.children.length],
+            },
+          );
+          return;
+        }
+      }
+    }
+    normalizeNode(entry);
   };
 
   editor.onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {

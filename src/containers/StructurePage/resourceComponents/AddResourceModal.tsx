@@ -125,7 +125,9 @@ const AddResourceModal = ({
           fetchResource(resourceId),
           fetchResourceResourceType(resourceId),
         ]);
-        articleToState(resource.contentUri.split(':').pop());
+        if (resource.contentUri) {
+          articleToState(parseInt(resource.contentUri!.split(':').pop()!));
+        }
 
         const pastedType = resourceType.length > 0 && resourceType[0].id;
         const error = pastedType === type ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
@@ -215,6 +217,10 @@ const AddResourceModal = ({
           type === RESOURCE_TYPE_LEARNING_PATH
             ? await findResourceIdLearningPath(Number(selected.id))
             : getResourceIdFromPath(selected?.paths?.[0]);
+
+        if (!resourceId) {
+          return;
+        }
 
         await createTopicResource({
           resourceId,

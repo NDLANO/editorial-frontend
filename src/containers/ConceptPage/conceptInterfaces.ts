@@ -7,8 +7,8 @@
  */
 
 import { Value } from 'slate';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import {
-  SubjectType,
   VisualElement,
   Author,
   StrippedConceptType,

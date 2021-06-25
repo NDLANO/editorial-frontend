@@ -18,8 +18,9 @@ import {
 import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
-import { SubjectType, License, ConceptType } from '../../../../../interfaces';
+import { License, ConceptType } from '../../../../../interfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
+import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   concept: SearchConceptType;

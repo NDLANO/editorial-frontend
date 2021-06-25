@@ -12,51 +12,76 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
-import { fetchTopic } from '../topics';
 import { taxonomyApi } from '../../../config';
+import {
+  ParentTopic,
+  Resource,
+  ResourceResourceType,
+  ResourceTranslation,
+  ResourceWithParentTopics,
+  TaxonomyMetadata,
+  Topic,
+} from '../taxonomyApiInterfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
-export function fetchResource(id, language) {
+export const fetchResource = async (id: string, language?: string): Promise<Resource> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}${lang}`).then(resolveJsonOrRejectWithError);
-}
-
-export function fetchFullResource(id, language) {
-  const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}/full${lang}`).then(
+  return await fetchAuthorized(`${baseUrl}/resources/${id}${lang}`).then(
     resolveJsonOrRejectWithError,
   );
-}
+};
 
-export function createResource(resource) {
-  return fetchAuthorized(`${baseUrl}/resources`, {
+export const fetchFullResource = async (
+  id: string,
+  language?: string,
+): Promise<ResourceWithParentTopics> => {
+  const lang = language ? `?language=${language}` : '';
+  return await fetchAuthorized(`${baseUrl}/resources/${id}/full${lang}`).then(
+    resolveJsonOrRejectWithError,
+  );
+};
+
+export const createResource = async (resource: {
+  id?: string;
+  contentUri?: string;
+  name: string;
+}): Promise<string> => {
+  return await fetchAuthorized(`${baseUrl}/resources`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'POST',
     body: JSON.stringify(resource),
   }).then(resolveTaxonomyJsonOrRejectWithError);
-}
+};
 
-export function fetchResourceResourceType(id, language) {
+export const fetchResourceResourceType = async (
+  id: string,
+  language?: string,
+): Promise<ResourceResourceType[]> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}/resource-types/${lang}`).then(
+  return await fetchAuthorized(`${baseUrl}/resources/${id}/resource-types/${lang}`).then(
     resolveJsonOrRejectWithError,
   );
-}
+};
 
-export function fetchResourceMetadata(id) {
-  return fetchAuthorized(`${baseUrl}/resources/${id}/metadata`).then(resolveJsonOrRejectWithError);
-}
+export const fetchResourceMetadata = async (id: string): Promise<TaxonomyMetadata> => {
+  return await fetchAuthorized(`${baseUrl}/resources/${id}/metadata`).then(
+    resolveJsonOrRejectWithError,
+  );
+};
 
-export function updateResourceMetadata(resourceId, body) {
-  return fetchAuthorized(`${baseUrl}/resources/${resourceId}/metadata`, {
+export const updateResourceMetadata = async (
+  resourceId: string,
+  body: Partial<TaxonomyMetadata>,
+): Promise<TaxonomyMetadata> => {
+  return await fetchAuthorized(`${baseUrl}/resources/${resourceId}/metadata`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
   }).then(resolveJsonOrRejectWithError);
-}
+};
 
 // TODO: Rewrite once adjusted/updated taxonomy-API is available
 /* function fetchTopicResource(id, locale) {
@@ -66,7 +91,13 @@ export function updateResourceMetadata(resourceId, body) {
 }
  */
 
-export async function getResourceId({ id, language }) {
+export async function getResourceId({
+  id,
+  language,
+}: {
+  id: string;
+  language: string;
+}): Promise<string> {
   let resourceId = '';
   const resource = await queryResources(id, language);
   if (resource.length > 0) {
@@ -77,21 +108,17 @@ export async function getResourceId({ id, language }) {
   return resourceId;
 }
 
-export async function getFullResource(resourceId, language) {
-  const { resourceTypes, parentTopics, metadata } = await fetchFullResource(resourceId, language);
-
-  const topics = await Promise.all(
-    // Need to fetch each topic seperate because path is not returned in parentTopics
-    parentTopics
-      .filter(pt => pt.path)
-      .map(async item => {
-        const topicArticle = await fetchTopic(item.id, language);
-        return {
-          ...topicArticle,
-          primary: item.isPrimary,
-          connectionId: item.connectionId,
-        };
-      }),
+export async function getFullResource(
+  resourceId: string,
+  language?: string,
+): Promise<{
+  resourceTypes: ResourceResourceType[];
+  metadata: TaxonomyMetadata;
+  topics: ParentTopic[];
+}> {
+  const { resourceTypes, parentTopics: topics, metadata } = await fetchFullResource(
+    resourceId,
+    language,
   );
   return {
     resourceTypes,
@@ -100,29 +127,37 @@ export async function getFullResource(resourceId, language) {
   };
 }
 
-export function queryResources(contentId, language, contentType = 'article') {
-  return fetchAuthorized(
+export const queryResources = async (
+  contentId: string,
+  language: string,
+  contentType = 'article',
+): Promise<Resource[]> => {
+  return await fetchAuthorized(
     `${baseUrl}/resources/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
     )}&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
-}
+};
 
-export function queryTopics(contentId, language, contentType = 'article') {
-  return fetchAuthorized(
+export const queryTopics = async (
+  contentId: string,
+  language: string,
+  contentType = 'article',
+): Promise<Topic[]> => {
+  return await fetchAuthorized(
     `${baseUrl}/topics/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
     )}&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
-}
+};
 
-export function queryLearningPathResource(learningpathId) {
-  return fetchAuthorized(
+export const queryLearningPathResource = async (learningpathId: number): Promise<Resource[]> => {
+  return await fetchAuthorized(
     `${baseUrl}/resources/?contentURI=${encodeURIComponent(`urn:learningpath:${learningpathId}`)}`,
   ).then(resolveJsonOrRejectWithError);
-}
+};
 
-export async function queryContent(id, language, contentType) {
+export async function queryContent(id: string, language: string, contentType?: string) {
   const resources = await queryResources(id, language, contentType);
 
   if (resources[0]) {
@@ -138,15 +173,21 @@ export async function queryContent(id, language, contentType) {
   return undefined;
 }
 
-export const fetchResourceTranslations = id => {
-  return fetchAuthorized(`${baseUrl}/resources/${id}/translations`).then(
+export const fetchResourceTranslations = async (id: string): Promise<ResourceTranslation[]> => {
+  return await fetchAuthorized(`${baseUrl}/resources/${id}/translations`).then(
     resolveTaxonomyJsonOrRejectWithError,
   );
 };
 
-export const setResourceTranslation = (id, language, body) => {
+export const setResourceTranslation = async (
+  id: string,
+  language: string,
+  body: {
+    name: string;
+  },
+): Promise<boolean> => {
   const url = `${baseUrl}/resources/${id}/translations/${language}`;
-  return fetchAuthorized(url, {
+  return await fetchAuthorized(url, {
     headers: {
       'Content-Type': 'application/json',
     },

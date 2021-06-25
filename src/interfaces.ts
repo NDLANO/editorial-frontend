@@ -15,6 +15,7 @@ import { SearchTypeValues, LOCALE_VALUES } from './constants';
 import { ReduxSessionState } from './modules/session/session';
 import { ReduxMessageState } from './containers/Messages/messagesSelectors';
 import { ReduxLocaleState } from './modules/locale/locale';
+import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
@@ -72,17 +73,6 @@ export interface CodeBlockType {
   format: string;
 }
 
-export interface ResourceType {
-  id: string;
-  name: string;
-  resources?: Resource[];
-}
-
-export interface ResourceTranslation {
-  name: string;
-  language: string;
-}
-
 export interface ImageType {
   id: string;
   metaUrl: string;
@@ -109,7 +99,7 @@ export interface ContentResultType {
   contexts: [
     {
       learningResourceType: string;
-      resourceTypes: ResourceType[];
+      resourceTypes: { id: string; name: string; resources?: Resource[] }[];
     },
   ];
   id: number;
@@ -191,46 +181,6 @@ export type RelatedContent = RelatedContentLink | number;
 
 export type ConvertedRelatedContent = RelatedContentLink | ArticleType;
 
-export interface TaxonomyMetadata {
-  grepCodes: string[];
-  visible: boolean;
-  customFields: Record<string, string>;
-}
-
-export interface TaxonomyElement {
-  id: string;
-  name: string;
-  metadata: TaxonomyMetadata;
-}
-
-export interface Topic extends TaxonomyElement {
-  contentUri: string;
-  path: string;
-  paths: string[];
-}
-
-export interface Resource extends TaxonomyElement {
-  connectionId: string;
-  contentUri?: string;
-  isPrimary: boolean;
-  path: string;
-  paths: string[];
-  rank: number;
-  resourceTypes: [
-    {
-      id: string;
-      name: string;
-    },
-  ];
-  topicId: string;
-}
-
-export interface ResourceWithTopicConnection extends Resource {
-  primary: boolean;
-  relevanceId: string;
-  status?: Status;
-}
-
 export interface Learningpath {
   copyright: {
     license: License;
@@ -293,14 +243,6 @@ export interface SearchResult {
   pageSize: number;
   language: string;
   results: string[];
-}
-
-export interface SubjectType {
-  id: string;
-  contentUri: string;
-  name: string;
-  path: string;
-  metadata: TaxonomyMetadata;
 }
 
 export interface SubjectpageType {

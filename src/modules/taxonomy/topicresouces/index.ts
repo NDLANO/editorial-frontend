@@ -14,51 +14,75 @@ import {
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 import { taxonomyApi } from '../../../config';
+import { ParentTopicWithRelevanceAndConnections, TopicSubtopic } from '../taxonomyApiInterfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
-function fetchAllTopicResource(language) {
-  return fetchAuthorized(`${baseUrl}/topic-resources/?language=${language}`).then(
+const fetchAllTopicResource = async (language: string): Promise<TopicSubtopic[]> => {
+  return await fetchAuthorized(`${baseUrl}/topic-resources/?language=${language}`).then(
     resolveJsonOrRejectWithError,
   );
-}
+};
 
-function fetchSingleTopicResource(id) {
-  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`).then(resolveJsonOrRejectWithError);
-}
+const fetchSingleTopicResource = async (id: string): Promise<TopicSubtopic> => {
+  return await fetchAuthorized(`${baseUrl}/topic-resources/${id}`).then(
+    resolveJsonOrRejectWithError,
+  );
+};
 
-function createTopicResource(topicResource) {
-  return fetchAuthorized(`${baseUrl}/topic-resources`, {
+const createTopicResource = async (topicResource: {
+  resourceId: string;
+  topicid: string;
+  primary?: boolean;
+  rank?: number;
+  relevanceId?: string;
+}): Promise<string> => {
+  return await fetchAuthorized(`${baseUrl}/topic-resources`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'POST',
     body: JSON.stringify(topicResource),
   }).then(resolveTaxonomyJsonOrRejectWithError);
-}
+};
 
-function updateTopicResource(id, topicResource) {
-  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
+const updateTopicResource = async (
+  id: string,
+  topicResource: {
+    primary?: boolean;
+    rank?: number;
+    relevanceId?: string;
+  },
+): Promise<void> => {
+  return await fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'PUT',
     body: JSON.stringify(topicResource),
   }).then(resolveJsonOrRejectWithError);
-}
+};
 
-function deleteTopicResource(id) {
-  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
+const deleteTopicResource = async (id: string): Promise<void> => {
+  return await fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'DELETE',
   }).then(resolveJsonOrRejectWithError);
-}
+};
 
-async function createDeleteUpdateTopicResources(resourceId, topics, originalTopics) {
+async function createDeleteUpdateTopicResources(
+  resourceId: string,
+  topics: ParentTopicWithRelevanceAndConnections[],
+  originalTopics: ParentTopicWithRelevanceAndConnections[],
+): Promise<void> {
   try {
-    const [createItems, deleteItems, updateItems] = sortIntoCreateDeleteUpdate({
+    const [
+      createItems,
+      deleteItems,
+      updateItems,
+    ]: ParentTopicWithRelevanceAndConnections[][] = sortIntoCreateDeleteUpdate({
       changedItems: topics,
       originalItems: originalTopics,
       updateProperties: ['primary', 'relevanceId'],
@@ -78,9 +102,11 @@ async function createDeleteUpdateTopicResources(resourceId, topics, originalTopi
       // only update if changed to primary, previous primary is automatically unset
       const update = {
         ...(item.primary && { primary: item.primary }),
-        ...(originalTopics.find(topic => topic.id === item.id).relevanceId !== item.relevanceId && {
+        ...((originalTopics.find(topic => topic.id === item.id)?.relevanceId !==
+          item.relevanceId && {
           relevanceId: item.relevanceId,
-        }),
+        }) ??
+          []),
       };
       if (Object.keys(update).length) updateTopicResource(item.connectionId, update);
     });

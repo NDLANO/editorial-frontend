@@ -31,8 +31,9 @@ import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } fr
 import FormWrapper from './FormWrapper';
 import FormFooter from './FormFooter';
 import { NewConceptType, PatchConceptType } from '../../../modules/concept/conceptApiInterfaces';
-import { License, SubjectType, SearchResult, ConceptStatusType } from '../../../interfaces';
+import { License, SearchResult, ConceptStatusType } from '../../../interfaces';
 import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
+import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   applicationError: (err: string) => void;

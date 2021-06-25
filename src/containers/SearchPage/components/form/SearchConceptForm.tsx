@@ -19,7 +19,7 @@ import { searchFormClasses, SearchParams } from './SearchForm';
 import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
 import { fetchAuth0Editors } from '../../../../modules/auth0/auth0Api';
 import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
-import { SubjectType } from '../../../../interfaces';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { User } from './SearchContentForm';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { MinimalTagType } from './SearchTag';

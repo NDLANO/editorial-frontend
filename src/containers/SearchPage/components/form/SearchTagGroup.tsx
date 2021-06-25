@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import SearchTag, { MinimalTagType } from './SearchTag';
 import { ResourceType, User } from './SearchContentForm';
-import { SubjectType } from '../../../../interfaces';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface NameAndId {
   id: string;

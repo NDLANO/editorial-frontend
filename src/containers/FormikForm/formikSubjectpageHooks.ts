@@ -35,7 +35,7 @@ export function useFetchSubjectpageData(
   const [error, setError] = useState(undefined);
 
   const fetchElementList = async (taxonomyUrns: string[]) => {
-    const taxonomyElements = await Promise.all(
+    const taxonomyElements = await Promise.all<{ id: string; contentUri?: string }>(
       taxonomyUrns.map(urn => {
         if (urn.split(':')[1] === 'topic') {
           return fetchTopic(urn);
@@ -43,11 +43,13 @@ export function useFetchSubjectpageData(
         return fetchResource(urn);
       }),
     );
-    const elementIds = taxonomyElements.map(element => element.contentUri.split(':'));
+    const elementIds = taxonomyElements
+      .filter(el => el.contentUri)
+      .map(element => element.contentUri!.split(':'));
     return Promise.all(
       elementIds.map(async elementId => {
         if (elementId[1] === 'learningpath') {
-          const learningpath = await fetchLearningpath(elementId.pop());
+          const learningpath = await fetchLearningpath(parseInt(elementId.pop()!));
           return {
             ...learningpath,
             metaImage: {
@@ -55,13 +57,13 @@ export function useFetchSubjectpageData(
             },
           };
         }
-        return fetchDraft(elementId.pop());
+        return fetchDraft(parseInt(elementId.pop()!));
       }),
     );
   };
 
   const fetchTaxonomyUrns = async (elementList: any[], language: string): Promise<string[]> => {
-    const fetched = await Promise.all(
+    const fetched = await Promise.all<{ id: string }[]>(
       elementList.map(element => {
         if (element.articleType === 'topic-article') {
           return queryTopics(element.id, language);

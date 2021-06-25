@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-export { fetchResourceTypes, fetchRelevances, updateTaxonomy } from './taxonomyApi';
+export { fetchResourceTypes, updateTaxonomy } from './taxonomyApi';
 
 export {
   fetchResource,
@@ -16,7 +16,7 @@ export {
   fetchResourceMetadata,
   fetchFullResource,
   getFullResource,
-  getResourceId, // fetchTopicResource,
+  getResourceId,
   queryLearningPathResource,
   fetchResourceTranslations,
   setResourceTranslation,
@@ -25,7 +25,6 @@ export {
   fetchAllResourceTypes,
   fetchResourceType,
   createResourceResourceType,
-  deleteResourceResourceType,
   createDeleteResourceTypes,
 } from './resourcetypes';
 export {
@@ -47,7 +46,6 @@ export {
   addSubjectTopic,
   updateSubjectTopic,
   updateSubjectMetadata,
-  updateSubjectMetadataRecursive,
 } from './subjects';
 
 export {
@@ -63,5 +61,4 @@ export {
   updateTopicSubtopic,
   deleteTopic,
   updateTopicMetadata,
-  updateTopicMetadataRecursive,
 } from './topics';

@@ -24,9 +24,10 @@ import {
 } from '../../../../modules/learningpath/learningpathApi';
 import { fetchTopic, fetchTopicResources } from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
-import { Resource, ArticleType, Learningpath } from '../../../../interfaces';
 import handleError from '../../../../util/handleError';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
+import { Resource } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { Learningpath } from '../../../../interfaces';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -55,12 +56,17 @@ interface Props {
   setResourcesUpdated: Function;
 }
 
+interface LocalResource {
+  contentUri?: string;
+  name: string;
+}
+
 const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => {
   const [showDisplay, setShowDisplay] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [publishedCount, setPublishedCount] = useState(0);
   const [articleCount, setArticleCount] = useState(1);
-  const [failedResources, setFailedResources] = useState<Resource[]>([]);
+  const [failedResources, setFailedResources] = useState<LocalResource[]>([]);
 
   useEffect(() => {
     setShowAlert(
@@ -73,7 +79,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
   const publishTopic = () => {
     if (!done) {
       fetchTopic(id, locale)
-        .then((resource: Resource) => publishResource(resource))
+        .then(resource => publishResource({ ...resource }))
         .catch((e: Error) => handleError(e));
 
       fetchTopicResources(id)
@@ -88,9 +94,9 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
     }
   };
 
-  const publishResource = async (resource: Resource): Promise<void> => {
+  const publishResource = async (resource: LocalResource): Promise<void> => {
     if (resource.contentUri) {
-      const [, resourceType, id] = resource.contentUri.split(':');
+      const [, resourceType, id] = resource.contentUri!.split(':');
       const idNum = Number(id);
       if (resourceType === 'article') {
         return (
@@ -125,7 +131,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
     }
   };
 
-  const handlePublishError = (error: Error, resource: Resource) => {
+  const handlePublishError = (error: Error, resource: LocalResource) => {
     setFailedResources(failedResources => [...failedResources, resource]);
     handleError(error);
   };

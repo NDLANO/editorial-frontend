@@ -15,12 +15,13 @@ import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { ArticleType, ConceptStatusType } from '../../interfaces';
 import { ConceptFormType } from '../ConceptPage/conceptInterfaces';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 export function useFetchConceptData(conceptId: number, locale: string) {
   const [concept, setConcept] = useState<ConceptFormType>();
   const [conceptChanged, setConceptChanged] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [subjects, setSubjects] = useState([]);
+  const [subjects, setSubjects] = useState<SubjectType[]>([]);
 
   useEffect(() => {
     const fetchConcept = async (): Promise<void> => {

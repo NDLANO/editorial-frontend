@@ -11,8 +11,9 @@ import isEmpty from 'lodash/fp/isEmpty';
 import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
 import { createEmbedTag } from '../../util/embedTagHelpers';
 import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
-import { SubjectType, License, ConceptType } from '../../interfaces';
+import { License, ConceptType } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 export const transformApiConceptToFormValues = (
   concept: ConceptFormType,

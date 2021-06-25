@@ -26,11 +26,12 @@ import { cloneDraft } from '../../../../modules/draft/draftApi';
 import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
 import {
   Resource,
+  ResourceResourceType,
   ResourceTranslation,
-  ResourceType,
+  SubjectTopic,
   TaxonomyElement,
   Topic,
-} from '../../../../interfaces';
+} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
@@ -71,7 +72,7 @@ const CopyResources = ({
 
   useEffect(() => {
     Promise.all([fetchTopics(locale || 'nb'), fetchSubjectTopics(subjectId, locale)])
-      .then(([topics, subjectTopics]: Array<Topic[]>) => {
+      .then(([topics, subjectTopics]: [Topic[], SubjectTopic[]]) => {
         setTopics(
           topics
             .filter(topic => !subjectTopics.some(t => t.id === topic.id))
@@ -109,7 +110,10 @@ const CopyResources = ({
     setResourcesUpdated(true);
   };
 
-  const cloneResourceResourceTypes = async (resourceTypes: ResourceType[], resourceId: String) => {
+  const cloneResourceResourceTypes = async (
+    resourceTypes: ResourceResourceType[],
+    resourceId: String,
+  ) => {
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
     for (let i = 0; i < resourceTypes.length; i++) {
@@ -122,7 +126,7 @@ const CopyResources = ({
 
   const cloneResourceTranslations = async (
     resourceTranslations: ResourceTranslation[],
-    resourceId: String,
+    resourceId: string,
   ) => {
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
@@ -134,11 +138,11 @@ const CopyResources = ({
   };
 
   const clonedResource = async (
-    newResourceBody: { contentUri?: String; name: String },
+    newResourceBody: { contentUri?: string; name: string },
     oldResource: Resource,
   ) => {
     const newResourcePath = await createResource(newResourceBody);
-    const newResourceUrn = newResourcePath.split('/').pop();
+    const newResourceUrn = newResourcePath.split('/').pop()!;
     cloneResourceResourceTypes(oldResource.resourceTypes, newResourceUrn);
     const resourceTranslations = await fetchResourceTranslations(oldResource.id);
     await cloneResourceTranslations(resourceTranslations, newResourceUrn);

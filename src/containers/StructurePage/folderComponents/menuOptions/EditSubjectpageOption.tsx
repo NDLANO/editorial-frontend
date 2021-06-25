@@ -13,10 +13,11 @@ import { Link } from 'react-router-dom';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
 import { toEditSubjectpage, toCreateSubjectpage } from '../../../../util/routeHelpers';
-import { SubjectType, TranslateType } from '../../../../interfaces';
+import { TranslateType } from '../../../../interfaces';
 import * as taxonomyApi from '../../../../modules/taxonomy/taxonomyApi';
 import { getIdFromUrn } from '../../../../util/subjectHelpers';
 import '../../../../style/link.css';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   t: TranslateType;

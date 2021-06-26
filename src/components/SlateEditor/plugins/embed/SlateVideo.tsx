@@ -19,7 +19,12 @@ import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
 import IconButton from '../../../IconButton';
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
-import { getYoutubeEmbedUrl, getStartTime, getStopTime } from '../../../../util/videoUtil';
+import {
+  getYoutubeEmbedUrl,
+  getStartTime,
+  getStopTime,
+  getBrightCoveStartTime,
+} from '../../../../util/videoUtil';
 import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
 import { Embed } from '../../../../interfaces';
 
@@ -77,6 +82,7 @@ const SlateVideo = ({
         setSrc(
           `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
         );
+        setStartTime(getBrightCoveStartTime(videoid));
       }
     } else {
       const tempUrl = url.includes('embed') ? url : getYoutubeEmbedUrl(url);

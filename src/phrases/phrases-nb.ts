@@ -1172,7 +1172,7 @@ const phrases = {
         alterFields: 'Legg til/endre metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
-        resourceGroupPlaceholder: 'Grupperte ressurser',
+        resourceGroupPlaceholder: 'Gruppering av ressurser',
         RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
       },
     },

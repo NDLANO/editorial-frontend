@@ -70,7 +70,9 @@ export const filePlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_FILE) {
-      addSurroundingParagraphs(editor, path);
+      if (addSurroundingParagraphs(editor, path)) {
+        return;
+      }
     } else {
       nextNormalizeNode(entry);
     }

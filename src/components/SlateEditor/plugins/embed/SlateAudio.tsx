@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { RenderElementProps } from 'slate-react';
+import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';

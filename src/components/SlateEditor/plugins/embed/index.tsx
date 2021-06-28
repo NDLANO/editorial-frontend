@@ -6,12 +6,12 @@
  *
  */
 
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { Editor, Descendant, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import SlateFigure from './SlateFigure';
 import { SlateSerializer } from '../../interfaces';
-import { LocaleType, SlateFigureProps, Embed } from '../../../../interfaces';
+import { LocaleType, Embed } from '../../../../interfaces';
 import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { defaultEmbedBlock } from './utils';
 import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
@@ -20,7 +20,7 @@ export const TYPE_EMBED = 'embed';
 
 export interface EmbedElement {
   type: 'embed';
-  data: any;
+  data: Embed;
   children: Descendant[];
 }
 
@@ -80,63 +80,3 @@ export const embedPlugin = (language: string, locale: LocaleType) => (editor: Ed
 
   return editor;
 };
-
-export const createEmbedPlugin = (language: string, locale: LocaleType) => {
-  const schema = {
-    blocks: {
-      embed: {
-        isVoid: true,
-        data: {},
-        next: [
-          {
-            type: 'paragraph',
-          },
-          { type: 'heading-two' },
-          { type: 'heading-three' },
-        ],
-        normalize: (editor: Editor, error: SlateError) => {
-          switch (error.code) {
-            case 'next_sibling_type_invalid': {
-              editor.withoutSaving(() => {
-                editor.moveToEndOfNode(error.child).insertBlock(defaultBlocks.defaultBlock);
-              });
-              break;
-            }
-            default:
-              break;
-          }
-        },
-      },
-    },
-  };
-
-  const renderBlock = (
-    props: SlateFigureProps,
-    editor: Editor,
-    next: () => void,
-  ): ReactElement | void => {
-    const { attributes, isSelected, node } = props;
-    switch ((node as ParentNode)?.type) {
-      case 'embed':
-        return (
-          <SlateFigure
-            attributes={attributes}
-            editor={props.editor}
-            isSelected={isSelected}
-            language={language}
-            node={node}
-            locale={locale}
-          />
-        );
-      default:
-        return next();
-    }
-  };
-
-  return {
-    schema,
-    renderBlock,
-  };
-};
-
-export default createEmbedPlugin;

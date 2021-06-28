@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Transforms } from 'slate';
-import { ReactEditor } from 'slate-react'
+import { ReactEditor } from 'slate-react';
 import { injectT } from '@ndla/i18n';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';

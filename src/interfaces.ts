@@ -460,6 +460,7 @@ export interface Embed {
   type: string;
   url: string;
   videoid: string;
+  message?: string;
 
   'focal-x': string;
   'focal-y': string;

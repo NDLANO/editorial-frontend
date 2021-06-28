@@ -1,5 +1,5 @@
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { Editor, Node, Element, Descendant, Transforms, Text } from 'slate';
+import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
@@ -15,7 +15,7 @@ export const TYPE_LIST_ITEM = 'list-item';
 
 export interface ListElement {
   type: 'list';
-  listType?: string;
+  listType: string;
   data: Dictionary<string>;
   children: Descendant[];
 }
@@ -33,7 +33,7 @@ export const listSerializer: SlateSerializer = {
     }
     if (tag === 'ol') {
       if (el.getAttribute('data-type') === 'letters') {
-        return jsx('element', { type: TYPE_LIST, listType: 'lettered-list', data: {} }, children);
+        return jsx('element', { type: TYPE_LIST, listType: 'letter-list', data: {} }, children);
       }
       // Default to numbered list if no type is set.
       else {
@@ -60,12 +60,12 @@ export const listSerializer: SlateSerializer = {
 
         return `<ol${start ? ` start="${start}"` : ''}>${children}</ol>`;
       }
-      if (node.listType === 'lettered-list') {
+      if (node.listType === 'letter-list') {
         return `<ol data-type='letters'>${children}</ol>`;
       }
-      if (node.listType === TYPE_LIST_ITEM) {
-        return `<li>${children}</li>`;
-      }
+    }
+    if (node.type === TYPE_LIST_ITEM) {
+      return `<li>${children}</li>`;
     }
   },
 };
@@ -78,7 +78,7 @@ export const listPlugin = (editor: Editor) => {
         return <ul {...attributes}>{children}</ul>;
       } else if (element.listType === 'numbered-list') {
         return <ol {...attributes}>{children}</ol>;
-      } else if (element.listType === 'lettered-list') {
+      } else if (element.listType === 'letter-list') {
         return (
           <ol data-type="letters" className="ol-list--roman" {...attributes}>
             {children}
@@ -97,6 +97,12 @@ export const listPlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_LIST_ITEM) {
+      // If listItem is not placed insine list, unwrap it.
+      const [parentNode, parentPath] = Editor.node(editor, Path.parent(path));
+      if (Element.isElement(parentNode) && parentNode.type !== TYPE_LIST) {
+        return Transforms.unwrapNodes(editor, { at: path });
+      }
+
       // If listItem contains text, wrap it in paragraph.
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Text.isText(child)) {
@@ -146,6 +152,28 @@ export const listPlugin = (editor: Editor) => {
         }
       }
     }
+    if (Element.isElement(node) && node.type === TYPE_LIST) {
+      if (node.children.length === 0) {
+        return Transforms.removeNodes(editor, { at: path });
+      }
+
+      const nextPath = Path.next(path);
+      if (Editor.hasPath(editor, nextPath)) {
+        const [nextNode] = Editor.node(editor, nextPath);
+
+        if (Element.isElement(nextNode) && nextNode.type === TYPE_LIST) {
+          if (node.listType === nextNode.listType) {
+            return Transforms.moveNodes(editor, {
+              at: nextPath,
+              to: [...path, nextNode.children.length],
+              match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
+              mode: 'highest',
+            });
+          }
+        }
+      }
+    }
+
     normalizeNode(entry);
   };
 

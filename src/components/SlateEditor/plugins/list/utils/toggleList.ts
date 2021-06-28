@@ -1,52 +1,51 @@
-import { Editor, Transforms, Element, Range } from 'slate';
+import { Editor, Transforms, Element, Range, Path } from 'slate';
 import { jsx } from 'slate-hyperscript';
-import { ListElement, ListTextElement } from '..';
+import { ReactEditor } from 'slate-react';
+import { ListElement, ListItemElement, LIST_TYPES, TYPE_LIST, TYPE_LIST_ITEM } from '..';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import hasNodeWithProps from '../../../utils/hasNodeWithProps';
+import { TYPE_PARAGRAPH } from '../../paragraph/utils';
+import { defaultListBlock, defaultListItemBlock } from './defaultBlocks';
+import { isListItemSelected, isSelectionOnlyOfType } from './isSelectionOnlyOfType';
 
 export const toggleList = (editor: Editor, type: string) => {
   const listType = type ? type : 'numbered-list';
-  const newListProps: Partial<ListElement> = { type: 'list_item', listType };
-  const newListItemProps: Partial<ListTextElement> = { type: 'list_text' };
+  const newListProps: Partial<ListElement> = { type: TYPE_LIST, listType };
+  const newListItemProps: Partial<ListItemElement> = { type: TYPE_LIST_ITEM };
 
-  const isIdentical = hasNodeWithProps(editor, newListProps);
-  const isList = hasNodeOfType(editor, 'list_item');
+  const isIdentical = isSelectionOnlyOfType(editor, listType);
+
+  const isList = hasNodeOfType(editor, TYPE_LIST);
   if (!Range.isRange(editor.selection)) {
     return;
   }
 
   if (isIdentical) {
-    console.log(1);
-    Editor.withoutNormalizing(editor, () => {
-      if (!Range.isRange(editor.selection)) {
-        return;
-      }
-      Transforms.unsetNodes(editor, ['level'], {
-        match: node => Element.isElement(node) && node.type === 'list_item',
-        at: Editor.unhangRange(editor, editor.selection),
-      });
-      Transforms.setNodes(
-        editor,
-        { type: 'paragraph' },
-        {
-          match: node => Element.isElement(node) && node.type === 'list_item',
-          at: Editor.unhangRange(editor, editor.selection),
-        },
-      );
+    if (!Range.isRange(editor.selection)) {
+      return;
+    }
+
+    Transforms.liftNodes(editor, {
+      match: node =>
+        Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
+      mode: 'all',
     });
   } else if (isList) {
-    console.log(2);
-    Transforms.setNodes(editor, newListProps, {
-      match: node => Element.isElement(node) && node.type === 'list_item',
-      hanging: false,
-    });
+    Transforms.setNodes(
+      editor,
+      { listType: type },
+      {
+        match: node => Element.isElement(node) && node.type === TYPE_LIST,
+        mode: 'lowest',
+        hanging: false,
+      },
+    );
   } else {
-    console.log(3);
-    Transforms.setNodes(editor, jsx('element', newListItemProps, []), {
-      match: node => Element.isElement(node) && node.type === 'paragraph',
+    Transforms.wrapNodes(editor, defaultListItemBlock(), {
+      match: node => Element.isElement(node) && node.type === TYPE_PARAGRAPH,
     });
-    Transforms.wrapNodes(editor, jsx('element', newListProps, []), {
-      match: node => Element.isElement(node) && node.type === 'paragraph',
+    Transforms.wrapNodes(editor, defaultListBlock(type), {
+      match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
     });
   }
 };

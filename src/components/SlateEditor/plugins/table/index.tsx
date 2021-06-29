@@ -100,13 +100,9 @@ export const tableSerializer: SlateSerializer = {
     if (node.type !== TYPE_TABLE && node.type !== TYPE_TABLE_ROW && node.type !== TYPE_TABLE_CELL)
       return;
 
-    const data = node.data;
-    const props = removeEmptyElementDataAttributes({ ...data });
-    delete props.isHeader;
-
     if (node.type === TYPE_TABLE) {
       const ret = (
-        <table {...props}>
+        <table>
           <thead>{children.slice(0, 1)}</thead>
           <tbody>{children.slice(1)}</tbody>
         </table>
@@ -114,9 +110,12 @@ export const tableSerializer: SlateSerializer = {
       return ret;
     }
     if (node.type === TYPE_TABLE_ROW) {
-      return <tr {...props}>{children}</tr>;
+      return <tr>{children}</tr>;
     }
     if (node.type === TYPE_TABLE_CELL) {
+      const data = node.data;
+      const props = removeEmptyElementDataAttributes({ ...data });
+      delete props.isHeader;
       if (node.data.isHeader) {
         return <th {...props}>{children}</th>;
       }

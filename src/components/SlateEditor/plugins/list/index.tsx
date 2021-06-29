@@ -34,12 +34,16 @@ export const listSerializer: SlateSerializer = {
       return jsx('element', { type: TYPE_LIST, listType: 'bulleted-list', data: {} }, children);
     }
     if (tag === 'ol') {
+      const start = el.getAttribute('start');
       if (el.getAttribute('data-type') === 'letters') {
-        return jsx('element', { type: TYPE_LIST, listType: 'letter-list', data: {} }, children);
+        return jsx(
+          'element',
+          { type: TYPE_LIST, listType: 'letter-list', data: { start } },
+          children,
+        );
       }
       // Default to numbered list if no type is set.
       else {
-        const start = el.getAttribute('start');
         return jsx(
           'element',
           { type: TYPE_LIST, listType: 'numbered-list', data: { start } },
@@ -63,7 +67,8 @@ export const listSerializer: SlateSerializer = {
         return `<ol${start ? ` start="${start}"` : ''}>${children}</ol>`;
       }
       if (node.listType === 'letter-list') {
-        return `<ol data-type='letters'>${children}</ol>`;
+        const { start } = node.data;
+        return `<ol data-type='letters'${start ? ` start="${start}"` : ''}>${children}</ol>`;
       }
     }
     if (node.type === TYPE_LIST_ITEM) {
@@ -79,10 +84,20 @@ export const listPlugin = (editor: Editor) => {
       if (element.listType === 'bulleted-list') {
         return <ul {...attributes}>{children}</ul>;
       } else if (element.listType === 'numbered-list') {
-        return <ol {...attributes}>{children}</ol>;
-      } else if (element.listType === 'letter-list') {
+        const { start } = element.data;
+
         return (
-          <ol data-type="letters" className="ol-list--roman" {...attributes}>
+          <ol {...attributes} className={start ? `ol-reset-${start}` : ''}>
+            {children}
+          </ol>
+        );
+      } else if (element.listType === 'letter-list') {
+        const { start } = element.data;
+        return (
+          <ol
+            data-type="letters"
+            className={`ol-list--roman ${start ? `ol-reset-${start}` : ''}`}
+            {...attributes}>
             {children}
           </ol>
         );
@@ -160,7 +175,6 @@ export const listPlugin = (editor: Editor) => {
           Transforms.unsetNodes(editor, ['changeTo'], { at: path });
           Transforms.wrapNodes(editor, defaultListBlock(changeTo), { at: path });
           Transforms.liftNodes(editor, { at: path });
-          console.log(JSON.parse(JSON.stringify(editor.children)));
         });
         return;
       }

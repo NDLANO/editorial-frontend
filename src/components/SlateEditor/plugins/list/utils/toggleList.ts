@@ -32,12 +32,6 @@ export const toggleList = (editor: Editor, type: string) => {
     });
     // List normalizer removes empty list blocks afterwards.
   } else if (isList) {
-    // for (const [node, path] of Editor.nodes(editor, {
-    //   match: node =>
-    //     Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
-    //   reverse: true,
-    // })) {
-    // }
     Transforms.setNodes(
       editor,
       { changeTo: listType },
@@ -62,17 +56,7 @@ export const toggleList = (editor: Editor, type: string) => {
         mode: 'all',
       },
     );
-    // List normalizer
-
-    // Transforms.setNodes(
-    //   editor,
-    //   { listType: type },
-    //   {
-    //     match: node => Element.isElement(node) && node.type === TYPE_LIST,
-    //     mode: 'lowest',
-    //     hanging: false,
-    //   },
-    // );
+    // List normalizer splits and merges list items that are changed to new list type.
   } else {
     Transforms.wrapNodes(editor, defaultListItemBlock(), {
       match: node => Element.isElement(node) && node.type === TYPE_PARAGRAPH,

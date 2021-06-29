@@ -89,15 +89,14 @@ export class RelatedArticleBox extends React.Component {
       editor,
       {
         data: {
-          nodes: articles.map(
-            article =>
-              article.id === ARTICLE_EXTERNAL
-                ? {
-                    resource: 'related-content',
-                    url: article.url,
-                    title: article.title,
-                  }
-                : { resource: 'related-content', ['article-id']: article.id }, // eslint-disable-line
+          nodes: articles.map(article =>
+            article.id === ARTICLE_EXTERNAL
+              ? {
+                  resource: 'related-content',
+                  url: article.url,
+                  title: article.title,
+                }
+              : { resource: 'related-content', 'article-id': article.id },
           ),
         },
       },
@@ -225,11 +224,6 @@ RelatedArticleBox.propTypes = {
   element: PropTypes.any,
   locale: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,
-  embed: PropTypes.shape({
-    resource: PropTypes.string,
-    'article-ids': PropTypes.string,
-    relatedArticle: PropTypes.string,
-  }),
 };
 
 const mapStateToProps = state => ({

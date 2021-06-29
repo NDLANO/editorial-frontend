@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Descendant, Editor, Element, Path, Transforms } from 'slate';
-import { RenderElementProps } from 'slate-react';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import RelatedArticleBox from './RelatedArticleBox';
 import { SlateSerializer } from '../../interfaces';
@@ -25,7 +25,7 @@ export const defaultRelatedBlock = () => {
 export interface RelatedElement {
   type: 'related';
   data: {
-    nodes?: object[];
+    nodes: object[];
   };
   children: Descendant[];
 }
@@ -48,12 +48,15 @@ export const relatedSerializer: SlateSerializer = {
   serialize(node: Descendant, children: string) {
     if (!Element.isElement(node) || node.type !== TYPE_RELATED) return;
 
-    return `<div data-type="related-content">${node.data.nodes &&
+    return `<div data-type="related-content">${
       node.data.nodes
-        .map(child => {
-          return createEmbedTag(child);
-        })
-        .join('')}</div>`;
+        ? node.data.nodes
+            .map(child => {
+              return createEmbedTag(child);
+            })
+            .join('')
+        : ''
+    }</div>`;
   },
 };
 
@@ -63,7 +66,18 @@ export const relatedPlugin = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === 'related') {
       return (
-        <RelatedArticleBox attributes={attributes} element={element} editor={editor}>
+        <RelatedArticleBox
+          attributes={attributes}
+          element={element}
+          editor={editor}
+          onRemoveClick={(e: Event) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const path = ReactEditor.findPath(editor, element);
+            ReactEditor.focus(editor);
+            Transforms.select(editor, path);
+            Transforms.removeNodes(editor, { at: path });
+          }}>
           {children}
         </RelatedArticleBox>
       );

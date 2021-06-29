@@ -44,19 +44,21 @@ export const reduceChildElements = (el: HTMLElement, type: string) => {
         ...childElement.dataset,
       });
     } else if (type === 'related-content') {
-      const convertedDataset = Object.keys(childElement.dataset).reduce((acc, curr) => {
-        const currValue = childElement.dataset[curr];
-        if (curr === 'articleId')
+      if (childElement.dataset) {
+        const convertedDataset = Object.keys(childElement.dataset).reduce((acc, curr) => {
+          const currValue = childElement.dataset[curr];
+          if (curr === 'articleId')
+            return {
+              ...acc,
+              'article-id': currValue,
+            };
           return {
             ...acc,
-            'article-id': currValue,
+            [curr]: currValue,
           };
-        return {
-          ...acc,
-          [curr]: currValue,
-        };
-      }, {});
-      childs.push(convertedDataset);
+        }, {});
+        childs.push(convertedDataset);
+      }
     } else {
       childs.push(childElement.dataset);
     }

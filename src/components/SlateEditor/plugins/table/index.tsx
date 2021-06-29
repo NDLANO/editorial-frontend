@@ -40,13 +40,11 @@ const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB];
 
 export interface TableElement {
   type: 'table';
-  data: Dictionary<string>;
   children: Descendant[];
 }
 
 export interface TableRowElement {
   type: 'table-row';
-  data: Dictionary<string>;
   children: Descendant[];
 }
 
@@ -76,7 +74,10 @@ export const tableSerializer: SlateSerializer = {
       return children;
     }
     if (tagName === 'table') {
-      return jsx('element', { type: TYPE_TABLE, lastCellPosition: 0 }, children);
+      return jsx('element', { type: TYPE_TABLE }, children);
+    }
+    if (tagName === 'tr') {
+      return jsx('element', { type: TYPE_TABLE_ROW }, children);
     }
 
     const tableTag = TABLE_TAGS[tagName];

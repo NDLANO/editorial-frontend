@@ -239,7 +239,7 @@ const SlateBlockPicker = (props: Props & tType) => {
           onInsertBlock={onInsertBlock}
         />
       </Portal>
-      <Portal isOpened>
+      <Portal isOpened={!visualElementSelect.isOpen}>
         <div data-cy="slate-block-picker-button" ref={slateBlockRef}>
           <SlateBlockMenu
             ref={slateBlockButtonRef}

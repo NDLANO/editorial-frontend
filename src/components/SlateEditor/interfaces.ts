@@ -13,6 +13,7 @@ import { SectionElement } from './plugins/section';
 import { MathmlElement } from './plugins/mathml';
 import { ConceptElement } from './plugins/concept';
 import { AsideElement } from './plugins/aside';
+import { FileElement } from './plugins/file';
 import { DetailsElement, SummaryElement } from './plugins/details';
 import { RelatedElement } from './plugins/related';
 import { BodyboxElement } from './plugins/bodybox';
@@ -47,6 +48,7 @@ declare module 'slate' {
       | MathmlElement
       | ConceptElement
       | AsideElement
+      | FileElement
       | DetailsElement
       | SummaryElement
       | RelatedElement

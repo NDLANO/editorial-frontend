@@ -79,11 +79,11 @@ const actions: Action[] = [
   //   icon: <LinkIcon />,
   //   helpIcon: renderArticleInModal('ResourceFromLink'),
   // },
-  // {
-  //   data: { type: 'file', object: 'file' },
-  //   icon: <Download />,
-  //   helpIcon: renderArticleInModal('File'),
-  // },
+  {
+    data: { type: 'file', object: 'file' },
+    icon: <Download />,
+    helpIcon: renderArticleInModal('File'),
+  },
   {
     data: { type: 'related', object: 'related' },
     icon: <RelatedArticle />,

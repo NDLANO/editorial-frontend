@@ -35,7 +35,7 @@ import listTextPlugin from '../../../../components/SlateEditor/plugins/listText'
 import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../../components/SlateEditor/plugins/blockPicker';
 import { relatedPlugin } from '../../../../components/SlateEditor/plugins/related';
-import filePlugin from '../../../../components/SlateEditor/plugins/file';
+import { filePlugin } from '../../../../components/SlateEditor/plugins/file';
 import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concept';
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
@@ -121,7 +121,7 @@ const LearningResourceContent = ({
     // createTablePlugin(),
     // editTablePlugin,
     relatedPlugin,
-    // filePlugin(),
+    filePlugin,
     mathmlPlugin,
     // codeBlockPlugin(),
     // blockPickerPlugin({

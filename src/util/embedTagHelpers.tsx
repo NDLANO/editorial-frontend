@@ -10,7 +10,7 @@ import { Dictionary } from 'lodash';
 import isObject from 'lodash/fp/isObject';
 import { isEmpty } from '../components/validators';
 
-export const removeEmptyElementDataAttributes = (obj: Dictionary<string>) => {
+export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   const newObject: Dictionary<string> = {};
   Object.keys(obj).forEach((key: string) => {
     if (obj[key] !== null && obj[key] !== undefined) {

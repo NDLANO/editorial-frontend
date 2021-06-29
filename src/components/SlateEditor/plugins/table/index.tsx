@@ -52,7 +52,17 @@ export interface TableRowElement {
 
 export interface TableCellElement {
   type: 'table-cell';
-  data: Dictionary<string>;
+  data: {
+    rowspan?: string;
+    colspan?: string;
+    align?: string;
+    'data-align'?: string;
+    valign?: string;
+    'data-valign'?: string;
+    class?: string;
+    'data-class'?: string;
+    isHeader: boolean;
+  };
   children: Descendant[];
 }
 
@@ -75,7 +85,7 @@ export const tableSerializer: SlateSerializer = {
     const tableTag = TABLE_TAGS[tagName];
     if (!tableTag) return;
     let data = {
-      isHeader: tagName === 'th' ? 'true' : 'false',
+      isHeader: tagName === 'th',
     };
     if (tagName === 'th' || tagName === 'td') {
       const filter = [
@@ -90,7 +100,7 @@ export const tableSerializer: SlateSerializer = {
       ];
       const attrs = reduceElementDataAttributes(el, filter);
       data = {
-        isHeader: tagName === 'th' ? 'true' : 'false',
+        isHeader: tagName === 'th',
         ...attrs,
       };
     }
@@ -118,7 +128,7 @@ export const tableSerializer: SlateSerializer = {
       return <tr {...props}>{children}</tr>;
     }
     if (node.type === TYPE_TABLE_CELL) {
-      if (node.data.isHeader === 'true') {
+      if (node.data.isHeader) {
         return <th {...props}>{children}</th>;
       }
       return <td {...props}>{children}</td>;
@@ -142,8 +152,8 @@ export const tablePlugin = (editor: Editor) => {
       case TYPE_TABLE_CELL:
         return (
           <td
-            className={element.data.isHeader === 'true' ? 'c-table__header' : ''}
-            rowSpan={element.data.rowspan ? parseInt(element.data.rowspawn) : 1}
+            className={element.data.isHeader ? 'c-table__header' : ''}
+            rowSpan={element.data.rowspan ? parseInt(element.data.rowspan) : 1}
             colSpan={element.data.colspan ? parseInt(element.data.colspan) : 1}
             {...attributes}>
             {children}
@@ -167,17 +177,13 @@ export const tablePlugin = (editor: Editor) => {
 
         // Make sure all cells in first row are flagged as headers
         firstRow.children.forEach((child, index) => {
-          if (
-            Element.isElement(child) &&
-            child.type === TYPE_TABLE_CELL &&
-            child.data.isHeader !== 'true'
-          ) {
+          if (Element.isElement(child) && child.type === TYPE_TABLE_CELL && !child.data.isHeader) {
             return HistoryEditor.withoutSaving(editor, () => {
               Transforms.setNodes(
                 editor,
                 {
                   data: {
-                    isHeader: 'true',
+                    isHeader: true,
                     rowspan: child.data.rowspan,
                     colspan: child.data.colspan,
                   },
@@ -251,7 +257,7 @@ export const tablePlugin = (editor: Editor) => {
         if (!Element.isElementList(node.children)) {
           return Transforms.wrapNodes(editor, defaultParagraphBlock(), {
             at: path,
-            match: node => !Element.isElement(node),  
+            match: node => !Element.isElement(node),
           });
         }
       } else if (node.type === TYPE_TABLE_ROW) {

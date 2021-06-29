@@ -13,7 +13,10 @@ import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import CodeBlock from './CodeBlock';
 import { SlateSerializer } from '../../interfaces';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import {
+  addSurroundingParagraphs,
+  afterOrBeforeTextBlockElement,
+} from '../../utils/normalizationHelpers';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
@@ -91,52 +94,8 @@ export const codeblockPlugin = (editor: Editor) => {
         }
       }
 
-      const nextPath = Path.next(path);
-
-      // Insert empty paragraph after codeblock if header or paragraph does not already exist
-      if (Editor.hasPath(editor, nextPath)) {
-        const [nextNode] = Editor.node(editor, nextPath);
-        if (
-          !Element.isElement(nextNode) ||
-          !afterOrBeforeTextBlockElement.includes(nextNode.type)
-        ) {
-          Transforms.insertNodes(
-            editor,
-            jsx('element', {
-              type: TYPE_PARAGRAPH,
-            }),
-            {
-              at: nextPath,
-            },
-          );
-
-          return;
-        }
-      }
-
-      // Insert empty paragraph before codeblock if header or paragraph does not already exist
-      if (Path.hasPrevious(path)) {
-        const previousPath = Path.previous(path);
-
-        if (Editor.hasPath(editor, previousPath)) {
-          const [previousNode] = Editor.node(editor, previousPath);
-          if (
-            !Element.isElement(previousNode) ||
-            !afterOrBeforeTextBlockElement.includes(previousNode.type)
-          ) {
-            Transforms.insertNodes(
-              editor,
-              jsx('element', {
-                type: TYPE_PARAGRAPH,
-              }),
-              {
-                at: path,
-              },
-            );
-
-            return;
-          }
-        }
+      if (addSurroundingParagraphs(editor, path)) {
+        return;
       }
     }
     nextNormalizeNode(entry);

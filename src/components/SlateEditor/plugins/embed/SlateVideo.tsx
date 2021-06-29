@@ -30,14 +30,14 @@ const videoStyle = css`
 `;
 
 interface Props {
-  active: boolean;
-  isSelectedForCopy: boolean;
   attributes: RenderElementProps['attributes'];
   embed: Embed;
   figureClass: any;
   language: string;
   onRemoveClick: Function;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
+  active: boolean;
+  isSelectedForCopy: boolean;
   children: ReactNode;
 }
 

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
@@ -27,6 +27,9 @@ interface Props {
   locale: LocaleType;
   onRemoveClick: Function;
   onFigureInputChange: Function;
+  active: boolean;
+  isSelectedForCopy: boolean;
+  children: ReactNode;
 }
 
 const SlateAudio = ({
@@ -38,10 +41,14 @@ const SlateAudio = ({
   locale,
   onRemoveClick,
   onFigureInputChange,
+  active,
+  isSelectedForCopy,
+  children,
 }: Props & tType) => {
   const speech = embed.type === 'minimal';
   const [editMode, setEditMode] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);
+  const showCopyOutline = isSelectedForCopy && (!editMode || !active);
 
   useEffect(() => {
     const getAudio = async () => {
@@ -75,7 +82,7 @@ const SlateAudio = ({
   };
 
   return (
-    <div draggable contentEditable={false} {...attributes}>
+    <div draggable {...attributes}>
       <Figure id={`${audio.id}`}>
         {editMode ? (
           <EditAudio
@@ -103,6 +110,12 @@ const SlateAudio = ({
               />
             )}
             <div
+              css={
+                showCopyOutline && {
+                  boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+                }
+              }
+              contentEditable={false}
               role="button"
               draggable
               className="c-placeholder-editmode"
@@ -114,6 +127,7 @@ const SlateAudio = ({
           </>
         )}
       </Figure>
+      {children}
     </div>
   );
 };

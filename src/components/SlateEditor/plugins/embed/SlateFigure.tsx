@@ -90,29 +90,29 @@ const SlateFigure = ({
     case 'image':
       return (
         <SlateImage
-          active={isActive()}
           attributes={attributes}
           embed={embed}
-          isSelectedForCopy={isSelected}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
-          visualElement={false}>
+          visualElement={false}
+          active={isActive()}
+          isSelectedForCopy={isSelected}>
           {children}
         </SlateImage>
       );
     case 'brightcove':
       return (
         <SlateVideo
-          active={isActive()}
-          isSelectedForCopy={isSelected}
           attributes={attributes}
           embed={embed}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           language={language}
           onRemoveClick={onRemoveClick}
-          saveEmbedUpdates={saveEmbedUpdates}>
+          saveEmbedUpdates={saveEmbedUpdates}
+          active={isActive()}
+          isSelectedForCopy={isSelected}>
           {children}
         </SlateVideo>
       );
@@ -124,7 +124,9 @@ const SlateFigure = ({
             embed={embed}
             language={language}
             locale={locale}
-            onRemoveClick={onRemoveClick}>
+            onRemoveClick={onRemoveClick}
+            active={isActive()}
+            isSelectedForCopy={isSelected}>
             {children}
           </SlatePodcast>
         );
@@ -137,7 +139,9 @@ const SlateFigure = ({
           language={language}
           locale={locale}
           onRemoveClick={onRemoveClick}
-          onFigureInputChange={onFigureInputChange}>
+          onFigureInputChange={onFigureInputChange}
+          active={isActive()}
+          isSelectedForCopy={isSelected}>
           {children}
         </SlateAudio>
       );
@@ -147,14 +151,14 @@ const SlateFigure = ({
       if (embed.url?.includes('youtu')) {
         return (
           <SlateVideo
-            active={isActive()}
-            isSelectedForCopy={isSelected}
             attributes={attributes}
             embed={embed}
             figureClass={editorClasses('figure', isActive() ? 'active' : '')}
             language={language}
             onRemoveClick={onRemoveClick}
-            saveEmbedUpdates={saveEmbedUpdates}>
+            saveEmbedUpdates={saveEmbedUpdates}
+            active={isActive()}
+            isSelectedForCopy={isSelected}>
             {children}
           </SlateVideo>
         );

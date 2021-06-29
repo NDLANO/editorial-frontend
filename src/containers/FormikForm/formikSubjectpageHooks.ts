@@ -11,7 +11,7 @@ import {
   transformSubjectpageToApiVersion,
   getUrnFromId,
 } from '../../util/subjectHelpers';
-import { SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
+import { Learningpath, SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import {
   fetchResource,
@@ -24,6 +24,7 @@ import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
 import * as visualElementApi from '../VisualElement/visualElementApi';
 import { imageToVisualElement } from '../../util/visualElementHelper';
+import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 export function useFetchSubjectpageData(
   elementId: string,
@@ -35,7 +36,7 @@ export function useFetchSubjectpageData(
   const [error, setError] = useState(undefined);
 
   const fetchElementList = async (taxonomyUrns: string[]) => {
-    const taxonomyElements = await Promise.all<{ id: string; contentUri?: string }>(
+    const taxonomyElements = await Promise.all<Topic | Resource>(
       taxonomyUrns.map(urn => {
         if (urn.split(':')[1] === 'topic') {
           return fetchTopic(urn);
@@ -62,19 +63,22 @@ export function useFetchSubjectpageData(
     );
   };
 
-  const fetchTaxonomyUrns = async (elementList: any[], language: string): Promise<string[]> => {
-    const fetched = await Promise.all<{ id: string }[]>(
+  const fetchTaxonomyUrns = async (
+    elementList: { articleType?: string; id: string | number; learningsteps?: any }[],
+    language: string,
+  ): Promise<string[]> => {
+    const fetched = await Promise.all<Topic[] | Learningpath[] | Resource[]>(
       elementList.map(element => {
         if (element.articleType === 'topic-article') {
-          return queryTopics(element.id, language);
+          return queryTopics(element.id.toString(), language);
         } else if (element.learningsteps) {
-          return queryLearningPathResource(element.id);
+          return queryLearningPathResource(element.id as number);
         }
-        return queryResources(element.id, language);
+        return queryResources(element.id.toString(), language);
       }),
     );
 
-    return fetched.map(resource => resource?.[0]?.id).filter(e => e !== undefined);
+    return fetched.map(resource => resource?.[0]?.id?.toString()).filter(e => e !== undefined);
   };
 
   const updateSubjectpage = async (updatedSubjectpage: SubjectpageEditType) => {

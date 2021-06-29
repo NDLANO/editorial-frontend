@@ -15,7 +15,6 @@ import { FileCompare } from '@ndla/icons/action';
 import config from '../../config';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
-import { ConceptPreviewType } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
@@ -23,6 +22,7 @@ import StyledFilledButton from '../StyledFilledButton';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
+import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   getConcept: Function;

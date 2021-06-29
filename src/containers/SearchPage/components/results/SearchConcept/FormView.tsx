@@ -15,10 +15,13 @@ import {
   updateConcept,
   updateConceptStatus,
 } from '../../../../../modules/concept/conceptApi';
-import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
+import {
+  ConceptType,
+  SearchConceptType,
+} from '../../../../../modules/concept/conceptApiInterfaces';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
-import { License, ConceptType } from '../../../../../interfaces';
+import { License } from '../../../../../interfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 

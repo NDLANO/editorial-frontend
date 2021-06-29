@@ -18,26 +18,24 @@ import { ParentTopicWithRelevanceAndConnections, TopicSubtopic } from '../taxono
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
-const fetchAllTopicResource = async (language: string): Promise<TopicSubtopic[]> => {
-  return await fetchAuthorized(`${baseUrl}/topic-resources/?language=${language}`).then(
+const fetchAllTopicResource = (language: string): Promise<TopicSubtopic[]> => {
+  return fetchAuthorized(`${baseUrl}/topic-resources/?language=${language}`).then(
     resolveJsonOrRejectWithError,
   );
 };
 
-const fetchSingleTopicResource = async (id: string): Promise<TopicSubtopic> => {
-  return await fetchAuthorized(`${baseUrl}/topic-resources/${id}`).then(
-    resolveJsonOrRejectWithError,
-  );
+const fetchSingleTopicResource = (id: string): Promise<TopicSubtopic> => {
+  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`).then(resolveJsonOrRejectWithError);
 };
 
-const createTopicResource = async (topicResource: {
+const createTopicResource = (topicResource: {
   resourceId: string;
   topicid: string;
   primary?: boolean;
   rank?: number;
   relevanceId?: string;
 }): Promise<string> => {
-  return await fetchAuthorized(`${baseUrl}/topic-resources`, {
+  return fetchAuthorized(`${baseUrl}/topic-resources`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -46,7 +44,7 @@ const createTopicResource = async (topicResource: {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const updateTopicResource = async (
+const updateTopicResource = (
   id: string,
   topicResource: {
     primary?: boolean;
@@ -54,7 +52,7 @@ const updateTopicResource = async (
     relevanceId?: string;
   },
 ): Promise<void> => {
-  return await fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
+  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -63,8 +61,8 @@ const updateTopicResource = async (
   }).then(resolveJsonOrRejectWithError);
 };
 
-const deleteTopicResource = async (id: string): Promise<void> => {
-  return await fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
+const deleteTopicResource = (id: string): Promise<void> => {
+  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
     headers: {
       'Content-Type': 'application/json',
     },

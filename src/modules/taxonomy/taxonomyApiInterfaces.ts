@@ -1,5 +1,3 @@
-import { Status } from '../../interfaces';
-
 export interface TaxonomyElement {
   id: string;
   name: string;
@@ -109,7 +107,6 @@ export interface ResourceType {
 export interface ResourceWithTopicConnection extends Resource {
   primary: boolean;
   relevanceId: string;
-  status?: Status;
 }
 
 export interface TopicSubtopic {

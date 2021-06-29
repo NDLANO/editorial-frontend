@@ -20,8 +20,8 @@ import ResourceItemLink from '../containers/StructurePage/resourceComponents/Res
 import { fetchDraftHistory } from '../modules/draft/draftApi';
 import { fetchAuth0Users } from '../modules/auth0/auth0Api';
 import formatDate from '../util/formatDate';
-import { Note } from '../interfaces';
 import { getIdFromUrn } from '../util/taxonomyHelpers';
+import { Note } from '../interfaces';
 
 const StyledResourceLinkContainer = styled.div`
   display: flex;

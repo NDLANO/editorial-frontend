@@ -7,13 +7,17 @@
  */
 
 import { useState, useEffect } from 'react';
-import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
+import {
+  ConceptStatusType,
+  NewConceptType,
+  PatchConceptType,
+} from '../../modules/concept/conceptApiInterfaces';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags, fetchStatusStateMachine } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import { ArticleType, ConceptStatusType } from '../../interfaces';
+import { ArticleType } from '../../interfaces';
 import { ConceptFormType } from '../ConceptPage/conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 

@@ -19,15 +19,6 @@ import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
-export type ConceptStatusType =
-  | 'DRAFT'
-  | 'QUALITY_ASSURED'
-  | 'PUBLISHED'
-  | 'QUEUED_FOR_LANGUAGE'
-  | 'ARCHIVED'
-  | 'TRANSLATED'
-  | 'UNPUBLISHED';
-
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
 export interface TranslateType {
@@ -44,15 +35,13 @@ export interface Author {
   type: string;
 }
 
-export interface Status {
-  current: ConceptStatusType;
-  other: ConceptStatusType[];
-}
-
 export interface Note {
   note: string;
   user: string;
-  status: Status;
+  status: {
+    current: string;
+    other: string[];
+  };
   timestamp: string;
 }
 
@@ -165,7 +154,10 @@ export interface ArticleType {
       },
     ];
   };
-  status: Status;
+  status: {
+    current: string;
+    other: string[];
+  };
   content: string;
   grepCodes: string[];
   conceptIds: number[];
@@ -451,56 +443,6 @@ export interface License {
   license: string;
   description: string;
   url?: string;
-}
-
-export type FormValues = {
-  id: number;
-  language: string;
-  revision?: number;
-  status: Status;
-};
-
-export interface StrippedConceptType {
-  id: number;
-  title?: string;
-  content?: string;
-  visualElement?: string;
-  language: string;
-  copyright?: Copyright;
-  source?: string;
-  metaImage?: {
-    id?: string;
-    url?: string;
-    alt: string;
-    language?: string;
-  };
-  tags: string[];
-  subjectIds?: string[];
-  articleIds?: number[];
-}
-
-export interface ConceptType extends StrippedConceptType {
-  title: string;
-  content: string;
-  visualElement: string;
-  subjectIds: string[];
-  articleIds: number[];
-  lastUpdated?: string;
-  updatedBy: string[];
-  supportedLanguages: string[];
-  status: Status;
-  created?: string;
-  updated: string;
-  metaImageId: string;
-  parsedVisualElement: VisualElement;
-}
-
-export interface ConceptPreviewType extends ConceptType {
-  visualElementResources: VisualElement;
-}
-
-export interface ConceptFormType extends ConceptType {
-  articles: ArticleType[];
 }
 
 export interface ReduxState {

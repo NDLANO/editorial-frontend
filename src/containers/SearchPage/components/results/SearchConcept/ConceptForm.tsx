@@ -18,9 +18,10 @@ import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
-import { License, ConceptStatusType } from '../../../../../interfaces';
+import { License } from '../../../../../interfaces';
 import { InputField, InputPair } from './SearchStyles';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { ConceptStatusType } from '../../../../../modules/concept/conceptApiInterfaces';
 
 export interface InlineFormConcept {
   title: string;

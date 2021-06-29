@@ -126,7 +126,7 @@ const AddResourceModal = ({
           fetchResourceResourceType(resourceId),
         ]);
         if (resource.contentUri) {
-          articleToState(parseInt(resource.contentUri!.split(':').pop()!));
+          articleToState(parseInt(resource.contentUri.split(':').pop()!));
         }
 
         const pastedType = resourceType.length > 0 && resourceType[0].id;

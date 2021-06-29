@@ -26,7 +26,7 @@ import { fetchTopic, fetchTopicResources } from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 import handleError from '../../../../util/handleError';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
-import { Resource } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { Resource, Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { Learningpath } from '../../../../interfaces';
 
 const StyledDiv = styled.div`
@@ -56,10 +56,8 @@ interface Props {
   setResourcesUpdated: Function;
 }
 
-interface LocalResource {
-  contentUri?: string;
-  name: string;
-}
+type LocalResource = Pick<Resource, 'contentUri' | 'name'>;
+type LocalTopic = Pick<Topic, 'contentUri' | 'name'>;
 
 const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => {
   const [showDisplay, setShowDisplay] = useState(false);
@@ -79,14 +77,14 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
   const publishTopic = () => {
     if (!done) {
       fetchTopic(id, locale)
-        .then(resource => publishResource({ ...resource }))
+        .then((topic: Topic) => publishResource({ ...topic }))
         .catch((e: Error) => handleError(e));
 
       fetchTopicResources(id)
         .then((resources: Resource[]) => {
           setArticleCount(resources.length + 1);
           setShowDisplay(true);
-          return resources.map(resource => publishResource(resource));
+          return resources.map((resource: Resource) => publishResource(resource));
         })
         .then((publishPromises: Promise<void>[]) => Promise.all(publishPromises))
         .then(() => setResourcesUpdated(true))
@@ -94,9 +92,9 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
     }
   };
 
-  const publishResource = async (resource: LocalResource): Promise<void> => {
+  const publishResource = async (resource: LocalResource | LocalTopic): Promise<void> => {
     if (resource.contentUri) {
-      const [, resourceType, id] = resource.contentUri!.split(':');
+      const [, resourceType, id] = resource.contentUri.split(':');
       const idNum = Number(id);
       if (resourceType === 'article') {
         return (

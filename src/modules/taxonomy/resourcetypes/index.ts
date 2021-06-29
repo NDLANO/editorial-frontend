@@ -18,23 +18,23 @@ import { ResourceResourceType, ResourceType } from '../taxonomyApiInterfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
-const fetchAllResourceTypes = async (language: string): Promise<ResourceType[]> => {
-  return await fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(
+const fetchAllResourceTypes = (language: string): Promise<ResourceType[]> => {
+  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(
     resolveJsonOrRejectWithError,
   );
 };
 
-const fetchResourceType = async (id: string, locale: string): Promise<ResourceType> => {
-  return await fetchAuthorized(`${baseUrl}/resource-types/${id}?language=${locale}`).then(
+const fetchResourceType = (id: string, locale: string): Promise<ResourceType> => {
+  return fetchAuthorized(`${baseUrl}/resource-types/${id}?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
 };
 
-const createResourceResourceType = async (resourceType: {
+const createResourceResourceType = (resourceType: {
   resourceId: string;
   resourceTypeId: string;
 }): Promise<string> => {
-  return await fetchAuthorized(`${baseUrl}/resource-resourcetypes`, {
+  return fetchAuthorized(`${baseUrl}/resource-resourcetypes`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -43,8 +43,8 @@ const createResourceResourceType = async (resourceType: {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const deleteResourceResourceType = async (id: string): Promise<void> => {
-  return await fetchAuthorized(`${baseUrl}/resource-resourcetypes/${id}`, {
+const deleteResourceResourceType = (id: string): Promise<void> => {
+  return fetchAuthorized(`${baseUrl}/resource-resourcetypes/${id}`, {
     headers: {
       'Content-Type': 'application/json',
     },

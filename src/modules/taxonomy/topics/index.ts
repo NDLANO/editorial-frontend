@@ -23,42 +23,38 @@ import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
-const fetchTopics = async (language?: string): Promise<Topic[]> => {
+const fetchTopics = (language?: string): Promise<Topic[]> => {
   const lang = language ? `?language=${language}` : '';
-  return await fetchAuthorized(`${baseUrl}/topics${lang}`).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/topics${lang}`).then(resolveJsonOrRejectWithError);
 };
 
-const fetchTopic = async (id: string, language?: string): Promise<Topic> => {
+const fetchTopic = (urn: string, language?: string): Promise<Topic> => {
   const lang = language ? `?language=${language}` : '';
-  return await fetchAuthorized(`${baseUrl}/topics/${id}${lang}`).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/topics/${urn}${lang}`).then(resolveJsonOrRejectWithError);
 };
 
-const fetchTopicResourceTypes = async (language?: string): Promise<TopicResourceType[]> => {
+const fetchTopicResourceTypes = (language?: string): Promise<TopicResourceType[]> => {
   const lang = language ? `?language=${language}` : '';
-  return await fetchAuthorized(`${baseUrl}/topic-resourcetypes/${lang}`).then(
+  return fetchAuthorized(`${baseUrl}/topic-resourcetypes/${lang}`).then(
     resolveJsonOrRejectWithError,
   );
 };
 
-const fetchTopicResources = async (
-  topicId: string,
+const fetchTopicResources = (
+  topicUrn: string,
   language?: string,
   relevance?: string,
 ): Promise<ResourceWithTopicConnection[]> => {
   const query = [];
   if (language) query.push(`language=${language}`);
   if (relevance) query.push(`relevance=${relevance}`);
-  return await fetchAuthorized(
-    `${baseUrl}/topics/${topicId}/resources/${query.length ? `?${query.join('&')}` : ''}`,
+  return fetchAuthorized(
+    `${baseUrl}/topics/${topicUrn}/resources/${query.length ? `?${query.join('&')}` : ''}`,
   ).then(resolveJsonOrRejectWithError);
 };
 
-const addTopic = async (body: {
-  contentUri?: string;
-  id?: string;
-  name: string;
-}): Promise<string> => {
-  return await fetchAuthorized(`${baseUrl}/topics`, {
+const addTopic = (body: { contentUri?: string; id?: string; name: string }): Promise<string> => {
+  return fetchAuthorized(`${baseUrl}/topics`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
@@ -67,7 +63,7 @@ const addTopic = async (body: {
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const updateTopic = async ({
+const updateTopic = ({
   id,
   ...params
 }: {
@@ -75,35 +71,35 @@ const updateTopic = async ({
   name?: string;
   contentUri?: string;
 }): Promise<boolean> => {
-  return await fetchAuthorized(`${baseUrl}/topics/${id}`, {
+  return fetchAuthorized(`${baseUrl}/topics/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ ...params }),
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const deleteTopic = async (id: string): Promise<boolean> => {
-  return await fetchAuthorized(`${baseUrl}/topics/${id}`, {
+const deleteTopic = (id: string): Promise<boolean> => {
+  return fetchAuthorized(`${baseUrl}/topics/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const addTopicToTopic = async (body: {
+const addTopicToTopic = (body: {
   subtopicid: string;
   topicid: string;
   relevanceId?: string;
   primary?: boolean;
   rank?: number;
 }): Promise<string> => {
-  return await fetchAuthorized(`${baseUrl}/topic-subtopics`, {
+  return fetchAuthorized(`${baseUrl}/topic-subtopics`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const updateTopicSubtopic = async (
+const updateTopicSubtopic = (
   connectionId: string,
   body: {
     primary?: boolean;
@@ -111,36 +107,34 @@ const updateTopicSubtopic = async (
     relevanceId?: string;
   },
 ): Promise<boolean> => {
-  return await fetchAuthorized(`${baseUrl}/topic-subtopics/${connectionId}`, {
+  return fetchAuthorized(`${baseUrl}/topic-subtopics/${connectionId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const deleteTopicConnection = async (id: string): Promise<boolean> => {
-  return await fetchAuthorized(`${baseUrl}/subject-topics/${id}`, {
+const deleteTopicConnection = (id: string): Promise<boolean> => {
+  return fetchAuthorized(`${baseUrl}/subject-topics/${id}`, {
     method: 'DELETE',
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const deleteSubTopicConnection = async (id: string): Promise<boolean> => {
-  return await fetchAuthorized(`${baseUrl}/topic-subtopics/${id}`, {
+const deleteSubTopicConnection = (id: string): Promise<boolean> => {
+  return fetchAuthorized(`${baseUrl}/topic-subtopics/${id}`, {
     method: 'DELETE',
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const fetchTopicConnections = async (id: string): Promise<TopicConnections[]> => {
-  return await fetchAuthorized(`${baseUrl}/topics/${id}/connections`).then(
-    resolveJsonOrRejectWithError,
-  );
+const fetchTopicConnections = (id: string): Promise<TopicConnections[]> => {
+  return fetchAuthorized(`${baseUrl}/topics/${id}/connections`).then(resolveJsonOrRejectWithError);
 };
 
-const updateTopicMetadata = async (
+const updateTopicMetadata = (
   subjectId: string,
   body: Partial<TaxonomyMetadata>,
 ): Promise<TaxonomyMetadata> => {
-  return await fetchAuthorized(`${baseUrl}/topics/${subjectId}/metadata`, {
+  return fetchAuthorized(`${baseUrl}/topics/${subjectId}/metadata`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),

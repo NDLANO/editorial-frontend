@@ -20,29 +20,20 @@ import {
   ResolvedUrl,
   ResourceResourceType,
   ResourceType,
-  SubjectType,
   TaxonomyMetadata,
 } from './taxonomyApiInterfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
 /* Option items */
-const fetchResourceTypes = async (language: string): Promise<ResourceType[]> => {
-  return await fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(
+const fetchResourceTypes = (language: string): Promise<ResourceType[]> => {
+  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(
     resolveJsonOrRejectWithError,
   );
 };
 
-const fetchSubject = async (subjectUrn: string): Promise<SubjectType> => {
-  return await fetchAuthorized(`${baseUrl}/subjects/${subjectUrn}`).then(
-    resolveJsonOrRejectWithError,
-  );
-};
-
-const resolveUrls = async (path: string): Promise<ResolvedUrl> => {
-  return await fetchAuthorized(`${baseUrl}/url/resolve?path=${path}`).then(
-    resolveJsonOrRejectWithError,
-  );
+const resolveUrls = (path: string): Promise<ResolvedUrl> => {
+  return fetchAuthorized(`${baseUrl}/url/resolve?path=${path}`).then(resolveJsonOrRejectWithError);
 };
 
 /* Queries */
@@ -78,4 +69,4 @@ async function updateTaxonomy(
   }
 }
 
-export { fetchResourceTypes, fetchSubject, updateTaxonomy, resolveUrls };
+export { fetchResourceTypes, updateTaxonomy, resolveUrls };

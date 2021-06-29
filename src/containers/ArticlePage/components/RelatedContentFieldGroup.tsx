@@ -7,8 +7,9 @@
  */
 
 import React, { Fragment } from 'react';
+import { ConceptType } from '../../../modules/concept/conceptApiInterfaces';
 import FormikField from '../../../components/FormikField';
-import { ConceptType, ConvertedRelatedContent } from '../../../interfaces';
+import { ConvertedRelatedContent } from '../../../interfaces';
 import ConceptsField from './ConceptsField';
 import ContentField from './ContentField';
 

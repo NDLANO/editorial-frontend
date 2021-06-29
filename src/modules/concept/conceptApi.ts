@@ -19,8 +19,9 @@ import {
   NewConceptType,
   PatchConceptType,
   ApiConceptType,
+  ConceptStatusType,
+  ConceptType,
 } from './conceptApiInterfaces';
-import { ConceptType, ConceptStatusType } from '../../interfaces';
 
 import { transformApiToCleanConcept } from './conceptApiUtil';
 

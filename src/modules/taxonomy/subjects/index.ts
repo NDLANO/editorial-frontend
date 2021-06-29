@@ -17,59 +17,54 @@ import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
-const fetchSubjects = async (locale: string): Promise<SubjectType[]> => {
-  return await fetchAuthorized(`${baseUrl}/subjects?language=${locale}`).then(
+const fetchSubjects = (locale: string): Promise<SubjectType[]> => {
+  return fetchAuthorized(`${baseUrl}/subjects?language=${locale}`).then(
     resolveJsonOrRejectWithError,
   );
 };
 
-const fetchSubject = async (id: string, language: string): Promise<SubjectType> => {
-  return await fetchAuthorized(`${baseUrl}/subjects/${id}?language=${language}`).then(
-    resolveJsonOrRejectWithError,
-  );
+const fetchSubject = (id: string, language?: string): Promise<SubjectType> => {
+  const lng = language ? `?language=${language}` : '';
+  return fetchAuthorized(`${baseUrl}/subjects/${id}${lng}`).then(resolveJsonOrRejectWithError);
 };
 
-const fetchSubjectTopics = async (subject: string, language: string): Promise<SubjectTopic[]> => {
-  return await fetchAuthorized(
+const fetchSubjectTopics = (subject: string, language: string): Promise<SubjectTopic[]> => {
+  return fetchAuthorized(
     `${baseUrl}/subjects/${subject}/topics?recursive=true&language=${language}`,
   ).then(resolveJsonOrRejectWithError);
 };
 
-const addSubject = async (body: {
-  contentUri: string;
-  id?: string;
-  name: string;
-}): Promise<string> => {
-  return await fetchAuthorized(`${baseUrl}/subjects`, {
+const addSubject = (body: { contentUri: string; id?: string; name: string }): Promise<string> => {
+  return fetchAuthorized(`${baseUrl}/subjects`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const addSubjectTopic = async (body: {
+const addSubjectTopic = (body: {
   primary?: boolean;
   rank?: number;
   relevanceId?: string;
   subjectid: string;
   topicid: string;
 }): Promise<string> => {
-  return await fetchAuthorized(`${baseUrl}/subject-topics`, {
+  return fetchAuthorized(`${baseUrl}/subject-topics`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const updateSubjectName = async (id: string, name: string): Promise<boolean> => {
-  return await fetchAuthorized(`${baseUrl}/subjects/${id}`, {
+const updateSubjectName = (id: string, name: string): Promise<boolean> => {
+  return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ name }),
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const updateSubjectTopic = async (
+const updateSubjectTopic = (
   connectionId: string,
   body: {
     rank: number;
@@ -77,22 +72,22 @@ const updateSubjectTopic = async (
     relevanceId?: string;
   },
 ): Promise<boolean> => {
-  return await fetchAuthorized(`${baseUrl}/subject-topics/${connectionId}`, {
+  return fetchAuthorized(`${baseUrl}/subject-topics/${connectionId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const updateSubject = async (id: string, name?: string, contentUri?: string): Promise<boolean> => {
-  return await fetchAuthorized(`${baseUrl}/subjects/${id}`, {
+const updateSubject = (id: string, name?: string, contentUri?: string): Promise<boolean> => {
+  return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ name, contentUri }),
   }).then(resolveTaxonomyJsonOrRejectWithError);
 };
 
-const updateSubjectMetadata = async (
+const updateSubjectMetadata = (
   subjectId: string,
   body: {
     grepCodes?: string[];
@@ -100,7 +95,7 @@ const updateSubjectMetadata = async (
     customFields?: Record<string, string>;
   },
 ): Promise<TaxonomyMetadata> => {
-  return await fetchAuthorized(`${baseUrl}/subjects/${subjectId}/metadata`, {
+  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/metadata`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),

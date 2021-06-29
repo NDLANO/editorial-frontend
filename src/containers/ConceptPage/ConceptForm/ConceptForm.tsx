@@ -30,8 +30,12 @@ import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } fr
 
 import FormWrapper from './FormWrapper';
 import FormFooter from './FormFooter';
-import { NewConceptType, PatchConceptType } from '../../../modules/concept/conceptApiInterfaces';
-import { License, SearchResult, ConceptStatusType } from '../../../interfaces';
+import {
+  ConceptStatusType,
+  NewConceptType,
+  PatchConceptType,
+} from '../../../modules/concept/conceptApiInterfaces';
+import { License, SearchResult } from '../../../interfaces';
 import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 

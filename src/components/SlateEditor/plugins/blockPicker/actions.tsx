@@ -84,11 +84,11 @@ const actions: Action[] = [
   //   icon: <Download />,
   //   helpIcon: renderArticleInModal('File'),
   // },
-  // {
-  //   data: { type: 'related', object: 'related' },
-  //   icon: <RelatedArticle />,
-  //   helpIcon: renderArticleInModal('RelatedArticle'),
-  // },
+  {
+    data: { type: 'related', object: 'related' },
+    icon: <RelatedArticle />,
+    helpIcon: renderArticleInModal('RelatedArticle'),
+  },
   // {
   //   data: { type: 'code-block', object: 'code' },
   //   icon: <Code />,

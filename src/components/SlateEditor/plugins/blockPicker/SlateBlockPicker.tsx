@@ -12,14 +12,12 @@ import { ReactEditor } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
-import { defaultBlocks } from '../../utils';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions, { ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
 import { defaultDetailsBlock } from '../details/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
-
-const { defaultRelatedBlock, defaultCodeBlock } = defaultBlocks;
+import { defaultRelatedBlock } from '../related';
 
 interface Props {
   editor: Editor;
@@ -99,10 +97,10 @@ const SlateBlockPicker = (props: Props & tType) => {
       //   });
       //   break;
       // }
-      // case 'related': {
-      //   this.onInsertBlock(defaultRelatedBlock());
-      //   break;
-      // }
+      case 'related': {
+        onInsertBlock(defaultRelatedBlock());
+        break;
+      }
       // case 'code-block': {
       //   this.onInsertBlock(defaultCodeBlock());
       //   break;

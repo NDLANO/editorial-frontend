@@ -18,10 +18,14 @@ import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const TYPE_RELATED = 'related';
 
+export const defaultRelatedBlock = () => {
+  return jsx('element', { type: TYPE_RELATED, data: {} }, { text: '' });
+};
+
 export interface RelatedElement {
   type: 'related';
   data: {
-    nodes: object[];
+    nodes?: object[];
   };
   children: Descendant[];
 }

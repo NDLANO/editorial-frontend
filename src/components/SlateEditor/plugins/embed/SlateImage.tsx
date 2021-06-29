@@ -8,7 +8,7 @@
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
@@ -33,6 +33,7 @@ interface Props {
   onRemoveClick: Function;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   visualElement: boolean;
+  children: ReactNode;
 }
 
 const SlateImage = ({
@@ -46,6 +47,7 @@ const SlateImage = ({
   onRemoveClick,
   saveEmbedUpdates,
   visualElement,
+  children,
 }: Props & tType) => {
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
@@ -72,7 +74,6 @@ const SlateImage = ({
   return (
     <div
       {...attributes}
-      contentEditable={false}
       draggable={!visualElement && !editMode}
       className={constructFigureClassName()}
       css={!embed.alt && { border: '2px solid rgba(209,55,46,0.3);' }}>
@@ -88,6 +89,7 @@ const SlateImage = ({
       )}
       {!(visualElement && editMode) && (
         <Button
+          contentEditable={false}
           css={buttonStyle}
           stripped
           data-label={t('imageEditor.editImage')}
@@ -103,12 +105,13 @@ const SlateImage = ({
                 }
               }
             />
-            <figcaption className="c-figure__caption">
+            <figcaption className="c-figure__caption" contentEditable={false}>
               <div className="c-figure__info">{embed.caption}</div>
             </figcaption>
           </figure>
         </Button>
       )}
+      {children}
     </div>
   );
 };

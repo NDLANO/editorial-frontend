@@ -6,9 +6,9 @@
  *
  */
 
-import React, { useState } from 'react';
-import { Editor, Transforms, Element } from 'slate';
-import { RenderElementProps, ReactEditor } from 'slate-react';
+import React, { ReactNode, useState } from 'react';
+import { Editor, Transforms, Element, Path } from 'slate';
+import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
 import { injectT, tType } from '@ndla/i18n';
 import SlateImage from './SlateImage';
@@ -31,6 +31,7 @@ interface Props {
   element: EmbedElement;
   language: string;
   locale?: LocaleType;
+  children: ReactNode;
 }
 
 interface ChangesProp {
@@ -46,6 +47,7 @@ const SlateFigure = ({
   element,
   language,
   locale = 'nb',
+  children,
 }: Props & tType) => {
   const embed = element.data;
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
@@ -68,8 +70,11 @@ const SlateFigure = ({
   };
 
   const isActive = () => {
-    return false;
+    if (!editor.selection) return false;
+    return Path.isDescendant(editor.selection.anchor.path, ReactEditor.findPath(editor, element));
   };
+
+  const isSelected = useSelected();
 
   const onRemoveClick = (e: any) => {
     e.stopPropagation();
@@ -88,23 +93,28 @@ const SlateFigure = ({
           active={isActive()}
           attributes={attributes}
           embed={embed}
+          isSelectedForCopy={isSelected}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
-          visualElement={false}
-        />
+          visualElement={false}>
+          {children}
+        </SlateImage>
       );
     case 'brightcove':
       return (
         <SlateVideo
+          active={isActive()}
+          isSelectedForCopy={isSelected}
           attributes={attributes}
           embed={embed}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           language={language}
           onRemoveClick={onRemoveClick}
-          saveEmbedUpdates={saveEmbedUpdates}
-        />
+          saveEmbedUpdates={saveEmbedUpdates}>
+          {children}
+        </SlateVideo>
       );
     case 'audio':
       if (embed.type === 'podcast') {
@@ -114,8 +124,9 @@ const SlateFigure = ({
             embed={embed}
             language={language}
             locale={locale}
-            onRemoveClick={onRemoveClick}
-          />
+            onRemoveClick={onRemoveClick}>
+            {children}
+          </SlatePodcast>
         );
       }
       return (
@@ -126,8 +137,9 @@ const SlateFigure = ({
           language={language}
           locale={locale}
           onRemoveClick={onRemoveClick}
-          onFigureInputChange={onFigureInputChange}
-        />
+          onFigureInputChange={onFigureInputChange}>
+          {children}
+        </SlateAudio>
       );
     case 'external':
     case 'iframe':
@@ -135,13 +147,16 @@ const SlateFigure = ({
       if (embed.url?.includes('youtu')) {
         return (
           <SlateVideo
+            active={isActive()}
+            isSelectedForCopy={isSelected}
             attributes={attributes}
             embed={embed}
             figureClass={editorClasses('figure', isActive() ? 'active' : '')}
             language={language}
             onRemoveClick={onRemoveClick}
-            saveEmbedUpdates={saveEmbedUpdates}
-          />
+            saveEmbedUpdates={saveEmbedUpdates}>
+            {children}
+          </SlateVideo>
         );
       }
       return (
@@ -150,16 +165,18 @@ const SlateFigure = ({
           editor={editor}
           element={element}
           embed={embed}
-          language={language}
-        />
+          language={language}>
+          {children}
+        </DisplayExternal>
       );
     case 'error':
       return (
         <EditorErrorMessage
           onRemoveClick={onRemoveClick}
           attributes={attributes}
-          msg={embed.message}
-        />
+          msg={embed.message}>
+          {children}
+        </EditorErrorMessage>
       );
     default:
       return (
@@ -167,8 +184,9 @@ const SlateFigure = ({
           attributes={attributes}
           msg={t('form.content.figure.notSupported', {
             mediaType: embed.resource,
-          })}
-        />
+          })}>
+          {children}
+        </EditorErrorMessage>
       );
   }
 };

@@ -241,7 +241,7 @@ export class StructureResources extends React.PureComponent {
           currentTopic={currentTopic}
           status={topicStatus}
         />
-        {topicResources.length > 0 && grouped === 'ungrouped' && (
+        {grouped === 'ungrouped' && (
           <AllResourcesGroup
             key="ungrouped"
             params={this.props.params}

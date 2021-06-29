@@ -21,7 +21,16 @@ export const TYPE_CODEBLOCK = 'code-block';
 
 export interface CodeblockElement {
   type: 'code-block';
-  data: Dictionary<any>;
+  data: {
+    'code-block': {
+      code?: string;
+      format?: string;
+      title?: string;
+    };
+    'code-format': string;
+    'code-content': string;
+    title: string;
+  };
   children: Descendant[];
 }
 
@@ -41,7 +50,7 @@ export const codeblockSerializer: SlateSerializer = {
       resource: 'code-block',
       'code-content': data['code-block']?.code || data['code-content'],
       'code-format': data['code-block']?.format || data['code-format'],
-      title: data['title']?.title || data['title'],
+      title: data['code-block']?.title || data.title,
     };
 
     return createEmbedTag(props);

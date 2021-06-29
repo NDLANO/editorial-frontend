@@ -66,7 +66,6 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
     const properties = {
       data: {
         ...element.data,
-        title: codeBlock.title,
         'code-block': { ...codeBlock, code: he.encode(code) },
       },
     };

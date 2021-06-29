@@ -56,11 +56,8 @@ export interface TableCellElement {
     rowspan?: string;
     colspan?: string;
     align?: string;
-    'data-align'?: string;
     valign?: string;
-    'data-valign'?: string;
     class?: string;
-    'data-class'?: string;
     isHeader: boolean;
   };
   children: Descendant[];
@@ -88,16 +85,7 @@ export const tableSerializer: SlateSerializer = {
       isHeader: tagName === 'th',
     };
     if (tagName === 'th' || tagName === 'td') {
-      const filter = [
-        'rowspan',
-        'colspan',
-        'align',
-        'data-align',
-        'valign',
-        'data-valign',
-        'class',
-        'data-class',
-      ];
+      const filter = ['rowspan', 'colspan', 'align', 'valign', 'class'];
       const attrs = reduceElementDataAttributes(el, filter);
       data = {
         isHeader: tagName === 'th',

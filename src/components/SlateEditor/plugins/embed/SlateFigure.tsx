@@ -169,7 +169,9 @@ const SlateFigure = ({
           editor={editor}
           element={element}
           embed={embed}
-          language={language}>
+          language={language}
+          active={isActive()}
+          isSelectedForCopy={isSelected}>
           {children}
         </DisplayExternal>
       );

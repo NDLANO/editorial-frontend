@@ -119,8 +119,9 @@ export class DisplayExternal extends Component {
   }
 
   render() {
-    const { onRemoveClick, embed, t, language } = this.props;
+    const { onRemoveClick, embed, t, language, children, isSelectedForCopy, active } = this.props;
     const { isEditMode, title, src, height, error, type, provider, domain } = this.state;
+    const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
 
     const errorHolder = () => (
       <EditorErrorMessage
@@ -157,7 +158,13 @@ export class DisplayExternal extends Component {
       return <div />;
     }
     return (
-      <div className="c-figure">
+      <div
+        className="c-figure"
+        css={
+          showCopyOutline && {
+            boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+          }
+        }>
         <FigureButtons
           language={language}
           tooltip={t('form.external.remove', {
@@ -174,6 +181,7 @@ export class DisplayExternal extends Component {
           }
         />
         <iframe
+          contentEditable={false}
           ref={iframe => {
             this.iframe = iframe;
           }}
@@ -192,6 +200,7 @@ export class DisplayExternal extends Component {
           onClose={this.closeEditEmbed}
           allowedProvider={allowedProvider}
         />
+        {children}
       </div>
     );
   }
@@ -211,6 +220,9 @@ DisplayExternal.propTypes = {
     resource: PropTypes.string,
   }),
   language: PropTypes.string,
+  children: PropTypes.any,
+  isSelectedForCopy: PropTypes.bool.isRequired,
+  active: PropTypes.bool.isRequired,
 };
 
 export default injectT(DisplayExternal);

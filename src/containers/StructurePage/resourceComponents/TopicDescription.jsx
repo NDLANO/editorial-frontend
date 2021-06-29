@@ -51,14 +51,15 @@ class TopicDescription extends Component {
           handleToggle={this.toggleDisplayTopicDescription}>
           {topicDescription && (
             <Resource
+              resource={{ ...currentTopic, name: topicDescription, status }}
               contentType="topic-article"
-              name={topicDescription}
               locale={locale}
               contentUri={currentTopic.contentUri}
               status={status}
               metadata={currentTopic.metadata}
               connectionId={currentTopic.connectionId}
               relevanceId={currentTopic.relevanceId}
+              updateRelevanceId={() => {}}
               refreshResources={refreshTopics}
               primary={currentTopic.isPrimary}
               rank={currentTopic.rank}

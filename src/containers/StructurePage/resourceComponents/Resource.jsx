@@ -19,11 +19,13 @@ import Tooltip from '@ndla/tooltip';
 
 import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
-import ResourceItemLink from './ResourceItemLink';
-import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import { MetadataShape } from '../../../shapes';
-import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
 import RemoveButton from '../../../components/RemoveButton';
+import ResourceItemLink from './ResourceItemLink';
+import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
+import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
+import { PUBLISHED } from '../../../util/constants/ArticleStatus';
+
+import { StructureShape, ResourceShape } from '../../../shapes';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -36,14 +38,11 @@ const statusButtonStyle = css`
 `;
 
 const Resource = ({
-  contentType,
-  name,
+  resource,
+  structure,
   onDelete,
   connectionId,
   dragHandleProps,
-  contentUri,
-  status,
-  metadata,
   locale,
   relevanceId,
   updateRelevanceId,
@@ -52,7 +51,13 @@ const Resource = ({
   t,
 }) => {
   const [showVersionHistory, setShowVersionHistory] = useState(false);
+
+  const contentType = resource.resourceTypes
+    ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
+    : 'topic-article';
+
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
+
   return (
     <div data-testid={`resource-type-${contentType}`} {...classes('text o-flag o-flag--top')}>
       {contentType && (
@@ -63,22 +68,22 @@ const Resource = ({
       <div key="body" {...classes('body o-flag__body')}>
         <ResourceItemLink
           contentType={contentType}
-          contentUri={contentUri}
+          contentUri={resource.contentUri}
           locale={locale}
-          name={name}
-          isVisible={metadata?.visible}
+          name={resource.name}
+          isVisible={resource.metadata?.visible}
         />
       </div>
-      {status?.current && (
+      {resource.status?.current && (
         <Button
           lighter
           css={statusButtonStyle}
           onClick={() => setShowVersionHistory(true)}
           disabled={contentType === 'learning-path'}>
-          {t(`form.status.${status.current.toLowerCase()}`)}
+          {t(`form.status.${resource.status.current.toLowerCase()}`)}
         </Button>
       )}
-      {(status?.current === PUBLISHED || status?.other?.includes(PUBLISHED)) && (
+      {(resource.status?.current === PUBLISHED || resource.status?.other?.includes(PUBLISHED)) && (
         <Tooltip tooltip={t('form.workflow.published')}>
           <StyledCheckIcon />
         </Tooltip>
@@ -93,14 +98,15 @@ const Resource = ({
           })
         }
       />
+
       {onDelete && <RemoveButton onClick={() => onDelete(connectionId)} />}
       {showVersionHistory && (
         <VersionHistoryLightbox
           onClose={() => setShowVersionHistory(false)}
-          contentUri={contentUri}
+          contentUri={resource.contentUri}
           contentType={contentType}
-          name={name}
-          isVisible={metadata?.visible}
+          name={resource.name}
+          isVisible={resource.metadata?.visible}
           locale={locale}
         />
       )}
@@ -113,22 +119,17 @@ Resource.defaultProps = {
 };
 
 Resource.propTypes = {
-  contentType: PropTypes.string.isRequired,
-  name: PropTypes.string,
+  resource: ResourceShape.isRequired,
   onDelete: PropTypes.func,
+  currentTopic: PropTypes.shape({}),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  structure: PropTypes.arrayOf(StructureShape),
   connectionId: PropTypes.string,
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,
-  contentUri: PropTypes.string,
-  status: PropTypes.shape({
-    current: PropTypes.string,
-    other: PropTypes.arrayOf(PropTypes.string),
-  }),
-  metadata: MetadataShape,
   locale: PropTypes.string.isRequired,
   relevanceId: PropTypes.oneOf([
     'urn:relevance:core',

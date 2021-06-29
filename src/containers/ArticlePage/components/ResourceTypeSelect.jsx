@@ -10,9 +10,6 @@ import { FieldHeader, Select } from '@ndla/forms';
 import { injectT } from '@ndla/i18n';
 import { selectedResourceTypeValue } from '../../../util/taxonomyHelpers';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
-import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
-
-const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
 const ResourceTypeSelect = ({
   t,
@@ -28,23 +25,19 @@ const ResourceTypeSelect = ({
     </FieldHeader>
     <Select value={selectedResourceTypeValue(resourceTypes)} onChange={onChangeSelectedResource}>
       <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
-      {availableResourceTypes
-        .filter(resourceType => !blacklistedResourceTypes.includes(resourceType.id))
-        .map(resourceType =>
-          resourceType.subtypes ? (
-            resourceType.subtypes
-              .filter(resourceType => !blacklistedResourceTypes.includes(resourceType.id))
-              .map(subtype => (
-                <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
-                  {resourceType.name} - {subtype.name}
-                </option>
-              ))
-          ) : (
-            <option key={resourceType.id} value={resourceType.id}>
-              {resourceType.name}
+      {availableResourceTypes.map(resourceType =>
+        resourceType.subtypes ? (
+          resourceType.subtypes.map(subtype => (
+            <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
+              {resourceType.name} - {subtype.name}
             </option>
-          ),
-        )}
+          ))
+        ) : (
+          <option key={resourceType.id} value={resourceType.id}>
+            {resourceType.name}
+          </option>
+        ),
+      )}
     </Select>
   </Fragment>
 );

@@ -8,6 +8,7 @@ import onEnter from './handlers/onEnter';
 import { Dictionary } from 'lodash';
 import { firstTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
+import { defaultListBlock } from './utils/defaultBlocks';
 
 export const LIST_TYPES = ['numbered-list', 'bulleted-list', 'letter-list'];
 export const TYPE_LIST = 'list';
@@ -23,6 +24,7 @@ export interface ListElement {
 export interface ListItemElement {
   type: 'list-item';
   children: Descendant[];
+  changeTo?: string;
 }
 
 export const listSerializer: SlateSerializer = {
@@ -151,10 +153,37 @@ export const listPlugin = (editor: Editor) => {
           return;
         }
       }
+
+      if (node.changeTo) {
+        const changeTo = node.changeTo;
+        Editor.withoutNormalizing(editor, () => {
+          Transforms.unsetNodes(editor, ['changeTo'], { at: path });
+          Transforms.wrapNodes(editor, defaultListBlock(changeTo), { at: path });
+          Transforms.liftNodes(editor, { at: path });
+          console.log(JSON.parse(JSON.stringify(editor.children)));
+        });
+        return;
+      }
     }
     if (Element.isElement(node) && node.type === TYPE_LIST) {
+      // If list is empty, remove it
       if (node.children.length === 0) {
         return Transforms.removeNodes(editor, { at: path });
+      }
+
+      if (Path.hasPrevious(path)) {
+        const prevPath = Path.previous(path);
+        if (Editor.hasPath(editor, prevPath)) {
+          const [prevNode] = Editor.node(editor, prevPath);
+
+          if (Element.isElement(prevNode) && prevNode.type === TYPE_LIST) {
+            if (node.listType === prevNode.listType) {
+              return Transforms.mergeNodes(editor, {
+                at: path,
+              });
+            }
+          }
+        }
       }
 
       const nextPath = Path.next(path);
@@ -162,12 +191,9 @@ export const listPlugin = (editor: Editor) => {
         const [nextNode] = Editor.node(editor, nextPath);
 
         if (Element.isElement(nextNode) && nextNode.type === TYPE_LIST) {
-          if (node.listType === nextNode.listType) {
-            return Transforms.moveNodes(editor, {
+          if (node.listType === nextNode.listType && nextNode.children.length > 0) {
+            return Transforms.mergeNodes(editor, {
               at: nextPath,
-              to: [...path, nextNode.children.length],
-              match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
-              mode: 'highest',
             });
           }
         }

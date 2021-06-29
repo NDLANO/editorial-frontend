@@ -1,4 +1,4 @@
-import { Editor, Transforms, Element, Range, Path } from 'slate';
+import { Editor, Transforms, Element, Range, Path, Node } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
 import { ListElement, ListItemElement, LIST_TYPES, TYPE_LIST, TYPE_LIST_ITEM } from '..';
@@ -25,21 +25,54 @@ export const toggleList = (editor: Editor, type: string) => {
       return;
     }
 
-    Transforms.liftNodes(editor, {
+    return Transforms.liftNodes(editor, {
       match: node =>
         Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
       mode: 'all',
     });
+    // List normalizer removes empty list blocks afterwards.
   } else if (isList) {
+    // for (const [node, path] of Editor.nodes(editor, {
+    //   match: node =>
+    //     Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
+    //   reverse: true,
+    // })) {
+    // }
     Transforms.setNodes(
       editor,
-      { listType: type },
+      { changeTo: listType },
       {
-        match: node => Element.isElement(node) && node.type === TYPE_LIST,
-        mode: 'lowest',
-        hanging: false,
+        match: node => {
+          if (
+            !Element.isElement(node) ||
+            node.type !== TYPE_LIST_ITEM ||
+            !isListItemSelected(editor, node)
+          ) {
+            return false;
+          }
+          const [parentNode] = Editor.node(editor, Path.parent(ReactEditor.findPath(editor, node)));
+
+          const shouldChange =
+            Element.isElement(parentNode) &&
+            parentNode.type === TYPE_LIST &&
+            parentNode.listType !== listType;
+
+          return shouldChange;
+        },
+        mode: 'all',
       },
     );
+    // List normalizer
+
+    // Transforms.setNodes(
+    //   editor,
+    //   { listType: type },
+    //   {
+    //     match: node => Element.isElement(node) && node.type === TYPE_LIST,
+    //     mode: 'lowest',
+    //     hanging: false,
+    //   },
+    // );
   } else {
     Transforms.wrapNodes(editor, defaultListItemBlock(), {
       match: node => Element.isElement(node) && node.type === TYPE_PARAGRAPH,

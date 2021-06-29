@@ -8,7 +8,6 @@ export const isListItemSelected = (editor: Editor, node: ListItemElement) => {
   if (Range.includes(editor.selection, [...ReactEditor.findPath(editor, node), 0, 0])) {
     return true;
   }
-
   return false;
 };
 

@@ -8,7 +8,7 @@
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import React, { Fragment, ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 // @ts-ignore

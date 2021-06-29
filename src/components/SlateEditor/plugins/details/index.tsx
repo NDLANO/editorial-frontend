@@ -203,7 +203,9 @@ export const detailsPlugin = (editor: Editor) => {
             }
           }
         }
-        addSurroundingParagraphs(editor, path);
+        if (addSurroundingParagraphs(editor, path)) {
+          return;
+        }
       }
       if (node.type === TYPE_SUMMARY) {
         const [parent] = Editor.node(editor, Path.parent(path));

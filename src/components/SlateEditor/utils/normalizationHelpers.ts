@@ -113,7 +113,7 @@ export const addSurroundingParagraphs = (editor: Editor, path: Path) => {
         at: nextPath,
       });
 
-      return;
+      return true;
     }
   }
 
@@ -130,7 +130,7 @@ export const addSurroundingParagraphs = (editor: Editor, path: Path) => {
           at: path,
         });
 
-        return;
+        return true;
       }
     }
   }

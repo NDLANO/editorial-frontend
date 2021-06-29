@@ -6,23 +6,25 @@
  *
  */
 
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { ReactNode } from 'react';
+import { Editor, Element, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import debounce from 'lodash/debounce';
+import { DebouncedFunc } from 'lodash';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import Tooltip from '@ndla/tooltip';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
-import { uuid } from '@ndla/util';
 import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
-import { EditorShape } from '../../../../shapes';
-import { getSchemaEmbed } from '../../editorSchema';
-import AddFileToList from './AddFileToList';
+import Tooltip from '@ndla/tooltip';
+import { uuid } from '@ndla/util';
+import { spacing } from '@ndla/core';
 import config from '../../../../config';
-import { arrMove } from '../../../../util/arrayHelpers';
+import { File } from '../../../../interfaces';
 import { headFileAtRemote } from '../../../../modules/draft/draftApi';
+import { arrMove } from '../../../../util/arrayHelpers';
+import AddFileToList from './AddFileToList';
+import { FileElement, TYPE_FILE } from '.';
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};
@@ -31,22 +33,15 @@ const StyledSection = styled.section`
   }
 `;
 
-const formatFile = ({ title, type, url, ...rest }, id, t) => ({
+const formatFile = (file: File, id: string, t: tType['t']) => ({
   id,
-  title,
-  type,
-  url,
-  ...rest,
-  formats: [{ url, fileType: type, tooltip: `${t(`form.file.download`)} ${title}` }],
+  ...file,
+  formats: [
+    { url: file.url, fileType: file.type, tooltip: `${t(`form.file.download`)} ${file.title}` },
+  ],
 });
 
-function getFilesFromProps(props) {
-  const { node, t } = props;
-  const { nodes } = getSchemaEmbed(node);
-  return nodes.map((file, id) => formatFile(file, id, t));
-}
-
-function compareArray(arr1, arr2) {
+const compareArray = (arr1: File[], arr2: File[]) => {
   if (arr1.length !== arr2.length) {
     return false;
   }
@@ -61,23 +56,39 @@ function compareArray(arr1, arr2) {
       return item.title === a2Item.title && item.path === a2Item.path;
     }).length === a1.length
   );
-}
+};
 
 let okToRevert = false;
 document.addEventListener('keydown', event => {
   okToRevert = (event.ctrlKey || event.metaKey) && event.key === 'z';
 });
 
-class Filelist extends React.Component {
-  constructor(props) {
+interface Props {
+  attributes: RenderElementProps['attributes'];
+  editor: Editor;
+  element: FileElement;
+  locale?: string;
+  children: ReactNode;
+}
+
+interface State {
+  files: File[];
+  missingFilePaths: string[];
+  showFileUploader: boolean;
+  currentDebounce?: DebouncedFunc<() => void>;
+}
+
+class FileList extends React.Component<Props & tType, State> {
+  constructor(props: Props & tType) {
     super(props);
     this.checkForRemoteFiles.bind(this);
-    const files = this.getFilesFromSlate();
-    this.state = { showFileUploader: false, files, currentDebounce: false };
+    const { element, t } = this.props;
+    const files = element.data.map((file, id) => formatFile(file, `${id}`, t));
+    this.state = { files, missingFilePaths: [], showFileUploader: false };
     this.checkForRemoteFiles(files);
   }
 
-  checkForRemoteFiles = async files => {
+  checkForRemoteFiles = async (files: File[]) => {
     const missingFiles = files.map(async file => {
       const exists = await headFileAtRemote(file.url);
       return { ...file, exists: !!exists };
@@ -87,22 +98,18 @@ class Filelist extends React.Component {
     this.setState({ missingFilePaths });
   };
 
-  static getDerivedStateFromProps(props, state) {
-    if (
-      props &&
-      state.files &&
-      !compareArray(getFilesFromProps(props), state.files) &&
-      okToRevert
-    ) {
+  static getDerivedStateFromProps(props: Props, state: State) {
+    const files = props.element.data;
+    if (props && state.files && !compareArray(files, state.files) && okToRevert) {
       okToRevert = false;
-      return { files: getFilesFromProps(props) };
+      return { files };
     }
     okToRevert = false;
     return null;
   }
 
-  onUpdateFileName = (index, value) => {
-    const { node } = this.props;
+  onUpdateFileName = (index: number, value: string) => {
+    const { element } = this.props;
 
     const { currentDebounce } = this.state;
     if (currentDebounce) {
@@ -111,33 +118,35 @@ class Filelist extends React.Component {
     // delay the save to editor until user have finished typing
     const debounced = debounce(() => this.updateFilesToEditor(), 500);
     debounced();
-    const newNodes = node.data
-      .get('nodes')
-      .map((file, i) => (i === index ? { ...file, title: value } : file));
+    const newNodes = element.data.map((file, i) =>
+      i === index ? { ...file, title: value } : file,
+    );
     this.setState({ currentDebounce: debounced, files: newNodes });
   };
 
   updateFilesToEditor() {
-    const { node, editor } = this.props;
-    editor.setNodeByKey(node.key, {
-      data: {
-        nodes: this.state.files,
-      },
-    });
+    const { editor, element } = this.props;
+    Transforms.setNodes(
+      editor,
+      { data: this.state.files },
+      { at: ReactEditor.findPath(editor, element) },
+    );
   }
 
-  onRemoveFileList = evt => {
-    evt.stopPropagation();
-    const { node, editor } = this.props;
-    editor.removeNodeByKey(node.key);
+  removeFileList = () => {
+    const { editor, element } = this.props;
+    const path = ReactEditor.findPath(editor, element);
+    ReactEditor.focus(editor);
+    Transforms.removeNodes(editor, {
+      at: path,
+      match: node => Element.isElement(node) && node.type === TYPE_FILE,
+    });
   };
 
-  onDeleteFile = indexToDelete => {
-    const { node, editor } = this.props;
+  onDeleteFile = (indexToDelete: number) => {
     const files = this.state.files;
     if (files.length === 1) {
-      editor.removeNodeByKey(node.key);
-      this.setState({ files: [] }, this.updateFilesToEditor);
+      this.removeFileList();
     } else {
       this.setState(prevState => {
         const newNodes = prevState.files.filter((_, i) => i !== indexToDelete);
@@ -146,13 +155,13 @@ class Filelist extends React.Component {
     }
   };
 
-  onAddFileToList = files => {
+  onAddFileToList = (files: File[]) => {
     const { t } = this.props;
     this.setState({
       showFileUploader: false,
     });
     const newFiles = files.map(file => {
-      if (file.format) {
+      if (file.formats) {
         return file;
       }
       return formatFile(
@@ -163,27 +172,20 @@ class Filelist extends React.Component {
     });
     this.setState(
       prevState => ({
-        files: prevState.files.concat(
-          newFiles.map(file => ({
-            path: file.path,
-            type: file.type,
-            title: file.title,
-            resource: file.resource,
-          })),
-        ),
+        files: prevState.files.concat(newFiles),
       }),
       this.updateFilesToEditor,
     );
   };
 
-  onMovedFile = (fromIndex, toIndex) => {
+  onMovedFile = (fromIndex: number, toIndex: number) => {
     this.setState(
       prevState => ({ files: arrMove(prevState.files, fromIndex, toIndex) }),
       this.updateFilesToEditor,
     );
   };
 
-  onToggleRenderInline = index => {
+  onToggleRenderInline = (index: number) => {
     this.setState(
       prevState => ({
         files: prevState.files.map((file, i) =>
@@ -202,21 +204,15 @@ class Filelist extends React.Component {
     this.setState({ showFileUploader: false });
   };
 
-  getFilesFromSlate = () => {
-    const { node, t } = this.props;
-    const { nodes } = getSchemaEmbed(node);
-    return nodes.map((file, id) => formatFile(file, id, t));
-  };
-
   render() {
-    const { t } = this.props;
+    const { t, attributes, children } = this.props;
     const { showFileUploader, files } = this.state;
     if (files.length === 0) {
       return null;
     }
     return (
-      <Fragment>
-        <StyledSection>
+      <>
+        <StyledSection {...attributes} contentEditable={false}>
           <FieldHeader title={t('form.file.label')}>
             <Tooltip tooltip={t('form.file.addFile')}>
               <button tabIndex={-1} type="button" onClick={this.onOpenFileUploader}>
@@ -224,7 +220,7 @@ class Filelist extends React.Component {
               </button>
             </Tooltip>
             <Tooltip tooltip={t('form.file.removeList')}>
-              <button tabIndex={-1} type="button" onClick={this.onRemoveFileList}>
+              <button tabIndex={-1} type="button" onClick={this.removeFileList}>
                 <Cross css={FieldHeaderIconStyle} />
               </button>
             </Tooltip>
@@ -244,7 +240,7 @@ class Filelist extends React.Component {
               changeOrder: t('form.file.changeOrder'),
               removeFile: t('form.file.removeFile'),
               missingFileTooltip: t('form.file.missingFileTooltip'),
-              missingTitle: t('form.file.missingFilename'),
+              missingTitle: t('form.file.missingTitle'),
               checkboxLabel: t('form.file.showPdf'),
               checkboxTooltip: t('form.file.showPdfTooltip'),
             }}
@@ -254,16 +250,11 @@ class Filelist extends React.Component {
             onClose={this.onCloseFileUploader}
             showFileUploader={showFileUploader}
           />
+          {children}
         </StyledSection>
-      </Fragment>
+      </>
     );
   }
 }
 
-Filelist.propTypes = {
-  editor: EditorShape,
-  node: PropTypes.any,
-  locale: PropTypes.string,
-};
-
-export default injectT(Filelist);
+export default injectT(FileList);

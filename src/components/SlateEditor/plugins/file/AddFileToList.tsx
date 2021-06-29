@@ -1,11 +1,25 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React from 'react';
+import { injectT, tType } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Portal } from '../../../Portal';
 import FileUploader from '../../../FileUploader';
+import { File } from '../../../../interfaces';
 
-const AddFileToList = ({ showFileUploader, onClose, onFileSave, addedFiles, t }) =>
+interface Props {
+  showFileUploader: boolean;
+  onClose: () => void;
+  onFileSave: (files: File[]) => void;
+}
+
+const AddFileToList = ({ showFileUploader, onClose, onFileSave, t }: Props & tType) =>
   showFileUploader ? (
     <Portal isOpened>
       <Modal
@@ -14,25 +28,18 @@ const AddFileToList = ({ showFileUploader, onClose, onFileSave, addedFiles, t })
         size="medium"
         onClose={onClose}
         backgroundColor="white">
-        {onCloseModal => (
-          <Fragment>
+        {(onCloseModal: () => void) => (
+          <>
             <ModalHeader>
               <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
             </ModalHeader>
             <ModalBody>
               <FileUploader onClose={onClose} onFileSave={onFileSave} />
             </ModalBody>
-          </Fragment>
+          </>
         )}
       </Modal>
     </Portal>
   ) : null;
-
-AddFileToList.propTypes = {
-  onFileSave: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  showFileUploader: PropTypes.bool.isRequired,
-  addedFiles: PropTypes.arrayOf(PropTypes.shape),
-};
 
 export default injectT(AddFileToList);

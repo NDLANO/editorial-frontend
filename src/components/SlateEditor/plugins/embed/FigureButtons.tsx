@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
@@ -64,6 +64,7 @@ interface Props {
   providerName?: string;
   tooltip: string;
   withMargin?: boolean;
+  children?: ReactNode;
 }
 
 interface embedProps {
@@ -85,6 +86,7 @@ const FigureButtons = ({
   providerName,
   tooltip,
   withMargin,
+  children,
 }: Props & tType) => {
   const url: urlProps = {
     audio: {
@@ -137,16 +139,19 @@ const FigureButtons = ({
         </Tooltip>
       )}
       {figureType === 'video' && embed.resource === 'brightcove' && (
-        <Tooltip tooltip={t('form.video.brightcove')} align="right">
-          <IconButton
-            as={SafeLink}
-            to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid}`}
-            target="_blank"
-            title={t('form.video.brightcove')}
-            tabIndex={-1}>
-            <LinkIcon />
-          </IconButton>
-        </Tooltip>
+        <>
+          <Tooltip tooltip={t('form.video.brightcove')} align="right">
+            <IconButton
+              as={SafeLink}
+              to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid}`}
+              target="_blank"
+              title={t('form.video.brightcove')}
+              tabIndex={-1}>
+              <LinkIcon />
+            </IconButton>
+          </Tooltip>
+          {children}
+        </>
       )}
     </StyledFigureButtons>
   );

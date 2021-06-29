@@ -914,6 +914,8 @@ const phrases = {
         hms: 'h:m:s',
       },
       brightcove: 'Open in Brightcove',
+      toLinkedVideo: 'Switch to interpreted video',
+      fromLinkedVideo: 'Switch back to original video',
     },
     audio: {
       file: 'Audio file',

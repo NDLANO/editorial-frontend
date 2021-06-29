@@ -13,8 +13,7 @@ import { jsx } from 'slate-hyperscript';
 import RelatedArticleBox from './RelatedArticleBox';
 import { SlateSerializer } from '../../interfaces';
 import { createEmbedTag, reduceChildElements } from '../../../../util/embedTagHelpers';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { defaultParagraphBlock } from '../paragraph/utils';
+import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 
 export const TYPE_RELATED = 'related';
 
@@ -96,38 +95,8 @@ export const relatedPlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_RELATED) {
-      const nextPath = Path.next(path);
-
-      if (Editor.hasPath(editor, nextPath)) {
-        const [nextNode] = Editor.node(editor, nextPath);
-        if (
-          !Element.isElement(nextNode) ||
-          !afterOrBeforeTextBlockElement.includes(nextNode.type)
-        ) {
-          Transforms.insertNodes(editor, defaultParagraphBlock(), {
-            at: nextPath,
-          });
-
-          return;
-        }
-      }
-
-      if (Path.hasPrevious(path)) {
-        const previousPath = Path.previous(path);
-
-        if (Editor.hasPath(editor, previousPath)) {
-          const [previousNode] = Editor.node(editor, previousPath);
-          if (
-            !Element.isElement(previousNode) ||
-            !afterOrBeforeTextBlockElement.includes(previousNode.type)
-          ) {
-            Transforms.insertNodes(editor, defaultParagraphBlock(), {
-              at: path,
-            });
-
-            return;
-          }
-        }
+      if (addSurroundingParagraphs(editor, path)) {
+        return;
       }
     }
     normalizeNode(entry);
@@ -135,57 +104,3 @@ export const relatedPlugin = (editor: Editor) => {
 
   return editor;
 };
-
-// export default function relatedPlugin() {
-//   const schema = {
-//     document: {},
-//     blocks: {
-//       related: {
-//         isVoid: true,
-//         data: {},
-//         next: [
-//           {
-//             type: 'paragraph',
-//           },
-//           { type: 'heading-two' },
-//           { type: 'heading-three' },
-//         ],
-//         normalize: (editor, error) => {
-//           switch (error.code) {
-//             case 'next_sibling_type_invalid': {
-//               editor.withoutSaving(() => {
-//                 editor.moveToEndOfNode(error.child).insertBlock(defaultBlocks.defaultBlock);
-//               });
-//               break;
-//             }
-//             default:
-//               break;
-//           }
-//         },
-//       },
-//     },
-//   };
-
-//   /* eslint-disable react/prop-types */
-//   const renderBlock = (props, editor, next) => {
-//     const { node } = props;
-
-//     const onRemoveClick = e => {
-//       e.stopPropagation();
-//       editor.removeNodeByKey(node.key);
-//       editor.focus();
-//     };
-
-//     switch (node.type) {
-//       case 'related':
-//         return <RelatedArticleBox onRemoveClick={onRemoveClick} {...props} />;
-//       default:
-//         return next();
-//     }
-//   };
-
-//   return {
-//     schema,
-//     renderBlock,
-//   };
-// }

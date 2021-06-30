@@ -76,7 +76,6 @@ const SlateImage = ({
       {...attributes}
       draggable={!visualElement && !editMode}
       className={constructFigureClassName()}
-      contentEditable={true}
       css={!embed.alt && { border: '2px solid rgba(209,55,46,0.3);' }}>
       <FigureButtons
         tooltip={t('form.image.removeImage')}

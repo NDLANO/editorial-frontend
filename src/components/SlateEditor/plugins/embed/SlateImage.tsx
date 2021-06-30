@@ -74,9 +74,6 @@ const SlateImage = ({
     };
   };
 
-  const selected = useSelected();
-  const editor = useSlateStatic();
-
   return (
     <div
       {...attributes}

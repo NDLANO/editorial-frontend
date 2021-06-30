@@ -9,7 +9,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode, useState } from 'react';
-import { RenderElementProps } from 'slate-react';
+import { RenderElementProps, useSelected, useSlateStatic } from 'slate-react';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
 import config from '../../../../config';
@@ -21,6 +21,9 @@ import { Embed } from '../../../../interfaces';
 const buttonStyle = css`
   min-width: -webkit-fill-available;
   min-width: -moz-available;
+  &:focus img {
+    box-shadow: rgb(32, 88, 143) 0 0 0 2px;
+  }
 `;
 
 interface Props {
@@ -71,6 +74,9 @@ const SlateImage = ({
     };
   };
 
+  const selected = useSelected();
+  const editor = useSlateStatic();
+
   return (
     <div
       {...attributes}
@@ -99,11 +105,9 @@ const SlateImage = ({
               src={`${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`}
               alt={embed.alt}
               srcSet={getSrcSets(embed.resource_id, transformData())}
-              css={
-                showCopyOutline && {
-                  boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
-                }
-              }
+              css={css`
+                box-shadow: ${showCopyOutline ? 'rgb(32, 88, 143) 0 0 0 2px' : 'none'};
+              `}
             />
             <figcaption className="c-figure__caption" contentEditable={false}>
               <div className="c-figure__info">{embed.caption}</div>

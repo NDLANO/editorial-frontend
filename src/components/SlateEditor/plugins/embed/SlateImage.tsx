@@ -9,7 +9,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode, useState } from 'react';
-import { RenderElementProps, useSelected, useSlateStatic } from 'slate-react';
+import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
 import config from '../../../../config';

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Descendant, Editor, Element, Path, Transforms } from 'slate';
+import { Descendant, Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import RelatedArticleBox from './RelatedArticleBox';
@@ -21,10 +21,21 @@ export const defaultRelatedBlock = () => {
   return jsx('element', { type: TYPE_RELATED, data: {} }, { text: '' });
 };
 
+interface RelatedInternalArticle {
+  resource: string;
+  'article-id': string;
+}
+
+interface RelatedExternalArticle {
+  resource: string;
+  url: string;
+  title: string;
+}
+
 export interface RelatedElement {
   type: 'related';
   data: {
-    nodes: object[];
+    nodes: (RelatedInternalArticle | RelatedExternalArticle)[];
   };
   children: Descendant[];
 }

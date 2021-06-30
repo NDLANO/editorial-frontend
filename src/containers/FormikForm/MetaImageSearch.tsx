@@ -6,9 +6,8 @@
  *
  */
 
-import React, { useContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import React, { useContext, useState, useEffect, SyntheticEvent } from 'react';
+import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
@@ -26,17 +25,42 @@ import HowToHelper from '../../components/HowTo/HowToHelper';
 import ImageSearchAndUploader from '../../components/ControlledImageSearchAndUploader';
 
 import MetaImageField from './components/MetaImageField';
+import { ImageType } from '../../interfaces';
+import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 
-const MetaImageSearch = ({ name, metaImageId, showRemoveButton, setFieldTouched, onChange, t }) => {
+interface Props {
+  metaImageId: string;
+  onChange: (event: {
+    target: {
+      value: string | null;
+      name: string;
+    };
+  }) => void;
+  name: string;
+  isSavingImage: boolean;
+  setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void;
+  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+  showRemoveButton: boolean;
+}
+
+const MetaImageSearch = ({
+  name,
+  metaImageId,
+  showRemoveButton,
+  setFieldTouched,
+  onChange,
+  onImageLoad,
+  t,
+}: Props & tType) => {
   const [showImageSelect, setShowImageSelect] = useState(false);
-  const [image, setImage] = useState(undefined);
+  const [image, setImage] = useState<ImageType | undefined>(undefined);
   const locale = useContext(LocaleContext);
 
-  const fetchImageWithLocale = id => fetchImage(id, locale);
+  const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
 
   useEffect(() => {
     if (metaImageId) {
-      fetchImageWithLocale(metaImageId).then(image =>
+      fetchImageWithLocale(parseInt(metaImageId)).then(image =>
         setImage(transformApiToCLeanImage(image, locale)),
       );
     } else {
@@ -44,11 +68,11 @@ const MetaImageSearch = ({ name, metaImageId, showRemoveButton, setFieldTouched,
     }
   }, [metaImageId, locale]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onChangeFormik = value => {
+  const onChangeFormik = (id: string | null) => {
     onChange({
       target: {
         name,
-        value: value,
+        value: id,
       },
     });
   };
@@ -57,7 +81,7 @@ const MetaImageSearch = ({ name, metaImageId, showRemoveButton, setFieldTouched,
     setShowImageSelect(false);
   };
 
-  const onImageSet = image => {
+  const onImageSet = (image: ImageType) => {
     onImageSelectClose();
     setImage(image);
     onChangeFormik(image.id);
@@ -73,14 +97,14 @@ const MetaImageSearch = ({ name, metaImageId, showRemoveButton, setFieldTouched,
     setShowImageSelect(true);
   };
 
-  const onImageUpdate = async (image, file) => {
+  const onImageUpdate = async (image: UpdatedImageMetadata, file: string | Blob | undefined) => {
     if (image.id) {
       const updatedImage = await updateImage(image);
-      onImageSet(updatedImage);
+      onImageSet(transformApiToCLeanImage(updatedImage, locale));
     } else {
       const formData = await createFormData(file, image);
       const createdImage = await postImage(formData);
-      onImageSet({ ...createdImage, language: locale });
+      onImageSet({ ...transformApiToCLeanImage(createdImage, locale) });
     }
   };
 
@@ -110,7 +134,7 @@ const MetaImageSearch = ({ name, metaImageId, showRemoveButton, setFieldTouched,
                 searchImages={searchImages}
                 onError={onError}
                 updateImage={onImageUpdate}
-                image={image}
+                image={image!}
               />
             </ModalBody>
           </>
@@ -123,21 +147,13 @@ const MetaImageSearch = ({ name, metaImageId, showRemoveButton, setFieldTouched,
           onImageSelectOpen={onImageSelectOpen}
           onImageRemove={onImageRemove}
           showRemoveButton={showRemoveButton}
+          onImageLoad={onImageLoad}
         />
       ) : (
         <Button onClick={onImageSelectOpen}>{t('form.metaImage.add')}</Button>
       )}
     </div>
   );
-};
-
-MetaImageSearch.propTypes = {
-  metaImageId: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  isSavingImage: PropTypes.bool,
-  setFieldTouched: PropTypes.func.isRequired,
-  showRemoveButton: PropTypes.bool,
 };
 
 export default injectT(MetaImageSearch);

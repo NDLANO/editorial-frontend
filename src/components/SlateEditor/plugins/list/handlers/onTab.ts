@@ -132,6 +132,39 @@ const onTab = (
             if (currentListNode.children.length === 1 || !Path.hasPrevious(currentItemPath)) {
               Transforms.removeNodes(editor, { at: currentListPath });
             }
+            return;
+          }
+        }
+        // Move list item down
+      } else {
+        // Only if it is not the first sibling.
+        if (Path.hasPrevious(currentItemPath)) {
+          const previousPath = Path.previous(currentItemPath);
+          const [previousNode] = Editor.node(editor, previousPath);
+
+          if (Element.isElement(previousNode) && previousNode.type === TYPE_LIST_ITEM) {
+            const [lastNode, lastNodePath] = Editor.node(editor, [
+              ...previousPath,
+              previousNode.children.length - 1,
+            ]);
+            // If previous list item has a sublist, move current item inside it.
+            if (Element.isElement(lastNode) && lastNode.type === TYPE_LIST) {
+              return Transforms.moveNodes(editor, {
+                at: currentItemPath,
+                to: [...lastNodePath, lastNode.children.length],
+              });
+              // Wrap current item inside a new list and move the new list to the previous list item.
+            } else {
+              return Editor.withoutNormalizing(editor, () => {
+                Transforms.wrapNodes(editor, defaultListBlock(currentListNode.listType), {
+                  at: currentItemPath,
+                });
+                Transforms.moveNodes(editor, {
+                  at: currentItemPath,
+                  to: [...previousPath, previousNode.children.length],
+                });
+              });
+            }
           }
         }
       }

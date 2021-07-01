@@ -121,8 +121,8 @@ const onTab = (
                 }
               }
             }
+            // If current list is followed by more blocks, move them to selected item
             if (Editor.hasPath(editor, Path.next(currentListPath))) {
-              console.log('WORKS');
               Transforms.moveNodes(editor, {
                 match: node => Element.isElement(node) && node.type === TYPE_LIST,
                 at: {

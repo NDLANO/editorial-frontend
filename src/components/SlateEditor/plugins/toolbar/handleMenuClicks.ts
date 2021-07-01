@@ -32,19 +32,6 @@ export function handleClickBlock(
   } else if (LIST_TYPES.includes(type)) {
     toggleList(editor, type);
   }
-  // TODO: Upgrade. Old code for handling lists
-  //   // Current list type is active
-  //   if (isListTypeActive) {
-  //     editor.unwrapList();
-  //     // Current selection is list, but not the same type
-  //   } else if (editor.isSelectionInList()) {
-  //     editor.unwrapList();
-  //     editor.wrapInList(type);
-  //     // No list found, wrap in list type
-  //   } else {
-  //     editor.wrapInList(type);
-  //   }
-  // }
 }
 
 export function handleClickInline(

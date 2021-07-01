@@ -17,6 +17,7 @@ import { handleClickInline, handleClickBlock } from './handleMenuClicks';
 import hasNodeWithProps from '../../utils/hasNodeWithProps';
 import { isMarkActive } from '../mark';
 import { LIST_TYPES as listTypes } from '../list';
+import hasListItemOfType from '../list/utils/hasListItemOfType';
 
 const topicArticleElements: { [key: string]: string[] } = {
   // mark: ['bold', 'italic', 'code', 'sub', 'sup'],
@@ -133,7 +134,11 @@ const SlateToolbar = (props: Props) => {
       key={type}
       type={type}
       kind={'block'}
-      isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
+      isActive={
+        type.includes('list')
+          ? hasListItemOfType(editor, type)
+          : hasNodeWithProps(editor, specialRules[type] ?? { type })
+      }
       handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
         onButtonClick(event, editor, kind, type);
       }}

@@ -192,7 +192,7 @@ export function topicArticleContentToEditorValue(html: string) {
   const document = new DOMParser().parseFromString(html, 'text/html');
   const nodes = deserialize(document.body.children[0]);
   const normalizedNodes = convertFromHTML(nodes);
-  return normalizedNodes;
+  return [normalizedNodes];
 }
 
 export function topicArticleContentToHTML(value: Descendant[]) {

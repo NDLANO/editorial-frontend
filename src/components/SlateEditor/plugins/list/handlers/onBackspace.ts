@@ -58,7 +58,7 @@ const onBackspace = (
           }
         }
         // Remove first block since it is empty and lift entire item.
-        // List Normalizer will remove empty list
+        // List Normalizer will remove empty list caused by lifting list items out
         return Editor.withoutNormalizing(editor, () => {
           Transforms.removeNodes(editor, { at: firstItemNodePath });
           Transforms.liftNodes(editor, { at: currentItemPath });

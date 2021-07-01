@@ -131,7 +131,7 @@
     "@ndla/pager": "^0.4.48",
     "@ndla/tabs": "^0.11.50",
     "@ndla/tracker": "^0.4.4",
-    "@ndla/ui": "^0.35.4",
+    "@ndla/ui": "^0.35.9",
     "@ndla/util": "^0.4.7",
     "@ndla/video-search": "^0.8.75",
     "auth0-js": "^9.13.2",

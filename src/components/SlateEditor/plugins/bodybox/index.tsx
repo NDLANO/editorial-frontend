@@ -62,4 +62,3 @@ export const bodyboxPlugin = (editor: Editor) => {
 
   return editor;
 };
-

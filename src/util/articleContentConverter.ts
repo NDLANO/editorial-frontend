@@ -53,27 +53,28 @@ export const createEmptyValue = () => [
   },
 ];
 
+const rules: SlateSerializer[] = [
+  paragraphSerializer,
+  sectionSerializer,
+  breakSerializer,
+  markSerializer,
+  linkSerializer,
+  blockQuoteSerializer,
+  headingSerializer,
+  footnoteSerializer,
+  mathmlSerializer,
+  conceptSerializer,
+  asideSerializer,
+  fileSerializer,
+  detailsSerializer,
+  bodyboxSerializer,
+];
+
 export const learningResourceContentToEditorValue = (html: string) => {
   if (!html) {
     return [createEmptyValue()];
   }
 
-  const rules: SlateSerializer[] = [
-    paragraphSerializer,
-    sectionSerializer,
-    breakSerializer,
-    markSerializer,
-    linkSerializer,
-    blockQuoteSerializer,
-    headingSerializer,
-    footnoteSerializer,
-    mathmlSerializer,
-    conceptSerializer,
-    asideSerializer,
-    fileSerializer,
-    detailsSerializer,
-    bodyboxSerializer,
-  ];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {
       return { text: el.textContent || '' };
@@ -118,23 +119,6 @@ export const learningResourceContentToEditorValue = (html: string) => {
 };
 
 export function learningResourceContentToHTML(contentValues: Descendant[][]) {
-  const rules: SlateSerializer[] = [
-    paragraphSerializer,
-    sectionSerializer,
-    breakSerializer,
-    markSerializer,
-    linkSerializer,
-    blockQuoteSerializer,
-    headingSerializer,
-    footnoteSerializer,
-    mathmlSerializer,
-    conceptSerializer,
-    asideSerializer,
-    fileSerializer,
-    detailsSerializer,
-    bodyboxSerializer,
-  ];
-
   const serialize = (node: Descendant): string | null => {
     let children;
     if (Text.isText(node)) {
@@ -169,26 +153,76 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
   return elements.replace(/<deleteme><\/deleteme>/g, '');
 }
 
-// TODO: Rewrite
-export function topicArticleContentToEditorValue(html, fragment = undefined) {
+export function topicArticleContentToEditorValue(html: string) {
   if (!html) {
-    return [createEmptyValue()];
+    return createEmptyValue();
   }
-  const serializer = new Html({ rules: topicArticeRules, parseHtml: fragment });
+  const deserialize = (el: HTMLElement | ChildNode) => {
+    if (el.nodeType === 3) {
+      return { text: el.textContent || '' };
+    } else if (el.nodeType !== 1) {
+      return null;
+    }
 
-  /*   Slate's default sanitization just obliterates block nodes that contain both
-  inline+text children and block children.
-  see more here: https://github.com/ianstormtaylor/slate/issues/1497 */
-  const json = serializer.deserialize(html, { toJSON: true });
-  const value = convertFromHTML(json);
-  return value;
+    let children = Array.from(el.childNodes).map(deserialize);
+    if (children.length === 0) {
+      children = [{ text: '' }];
+    }
+
+    for (const rule of rules) {
+      if (!rule.deserialize) {
+        continue;
+      }
+
+      // Already checked that nodeType === 1 -> el must be of type Element.
+      // HTMLElement is a subset of Element.
+      // https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
+      const ret = rule.deserialize(el as HTMLElement, children);
+
+      if (ret === undefined) {
+        continue;
+      } else {
+        return ret;
+      }
+    }
+
+    return { text: el.textContent || '' };
+  };
+
+  const document = new DOMParser().parseFromString(html, 'text/html');
+  const nodes = deserialize(document.body.children[0]);
+  const normalizedNodes = convertFromHTML(nodes);
+  return normalizedNodes;
 }
 
-// TODO: Rewrite
-export function topicArticleContentToHTML(value) {
-  const serializer = new Html({ rules: topicArticeRules });
+export function topicArticleContentToHTML(value: Descendant[]) {
+  const serialize = (node: Descendant): string | null => {
+    let children;
+    if (Text.isText(node)) {
+      children = escapeHtml(node.text);
+    } else {
+      children = node.children.map((n: Descendant) => serialize(n)).join('');
+    }
 
-  return serializer.serialize(value).replace(/<deleteme><\/deleteme>/g, '');
+    for (const rule of rules) {
+      if (!rule.serialize) {
+        continue;
+      }
+      const ret = rule.serialize(node, children);
+
+      if (ret === undefined) {
+        continue;
+      } else if (ret === null) {
+        return null;
+      } else {
+        return ret;
+      }
+    }
+    return children;
+  };
+
+  const elements = value.map((descendant: Descendant) => serialize(descendant)).join('');
+  return elements.replace(/<deleteme><\/deleteme>/g, '');
 }
 
 export function plainTextToEditorValue(text: string): Descendant[] {

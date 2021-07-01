@@ -55,6 +55,14 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
+const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
+const actionsToShowInAreas = {
+  details: actions,
+  aside: actions,
+  bodybox: actions,
+  summary: actions,
+};
+
 const createPlugins = language => {
   return [
     // createNoEmbedsPlugin(),
@@ -67,10 +75,10 @@ const createPlugins = language => {
     // editListPlugin,
     // listTextPlugin(),
     // conceptPlugin(language),
-    // paragraphPlugin(),
+    paragraphPlugin,
     // // mathmlPlugin(),
     // // \\\toolbarPlugin(),
-    // textTransformPlugin(),
+    textTransformPlugin,
   ];
 };
 
@@ -146,13 +154,10 @@ const TopicArticleContent = props => {
               name={name}
               value={value}
               submitted={isSubmitting}
-              renderBlock={renderBlock}
-              renderInline={renderInline}
-              renderMark={renderMark}
               plugins={plugins}
-              schema={schema}
               handleSubmit={handleSubmit}
               onChange={onChange}
+              actionsToShowInAreas={actionsToShowInAreas}
               onBlur={(event, editor, next) => {
                 next();
                 // this is a hack since formik onBlur-handler interferes with slates

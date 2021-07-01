@@ -63,43 +63,24 @@ const onTab = (
         const targetPath = Path.parent(Path.parent(currentItemPath));
         if (Editor.hasPath(editor, targetPath)) {
           const [targetItemNode] = Editor.node(editor, targetPath);
-
-          if (Editor.hasPath(editor, Path.next(currentItemPath))) {
-            const anchor = Editor.start(editor, Path.next(currentItemPath));
-            const focus = Editor.end(editor, [
-              ...currentListPath,
-              currentListNode.children.length - 1,
-            ]);
-            if (anchor && focus) {
-              const childList = currentItemNode.children[currentItemNode.children.length - 1];
-              if (Element.isElement(childList) && childList.type === TYPE_LIST) {
-                // Change child list if necessary and move any following list-elements of selected list to the child list.
-                if (childList.listType !== currentListNode.listType) {
-                  Transforms.setNodes(
-                    editor,
-                    { listType: currentListNode.listType },
-                    { at: [...currentItemPath, currentItemNode.children.length - 1] },
-                  );
-                }
-                Transforms.moveNodes(editor, {
-                  match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
-                  mode: 'lowest',
-                  at: {
-                    anchor,
-                    focus,
-                  },
-                  to: [
-                    ...currentItemPath,
-                    currentItemNode.children.length - 1,
-                    childList.children.length,
-                  ],
-                });
-              } else {
-                // If a child list does not exist and following items exist, insert empty list and move following items
-                Editor.withoutNormalizing(editor, () => {
-                  Transforms.insertNodes(editor, defaultListBlock(currentListNode.listType), {
-                    at: [...currentItemPath, currentItemNode.children.length],
-                  });
+          if (Element.isElement(targetItemNode) && targetItemNode.type === TYPE_LIST_ITEM) {
+            if (Editor.hasPath(editor, Path.next(currentItemPath))) {
+              const anchor = Editor.start(editor, Path.next(currentItemPath));
+              const focus = Editor.end(editor, [
+                ...currentListPath,
+                currentListNode.children.length - 1,
+              ]);
+              if (anchor && focus) {
+                const childList = currentItemNode.children[currentItemNode.children.length - 1];
+                if (Element.isElement(childList) && childList.type === TYPE_LIST) {
+                  // Change child list if necessary and move any following list-elements of selected list to the child list.
+                  if (childList.listType !== currentListNode.listType) {
+                    Transforms.setNodes(
+                      editor,
+                      { listType: currentListNode.listType },
+                      { at: [...currentItemPath, currentItemNode.children.length - 1] },
+                    );
+                  }
                   Transforms.moveNodes(editor, {
                     match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
                     mode: 'lowest',
@@ -107,18 +88,47 @@ const onTab = (
                       anchor,
                       focus,
                     },
-                    to: [...currentItemPath, currentItemNode.children.length, 0],
+                    to: [
+                      ...currentItemPath,
+                      currentItemNode.children.length - 1,
+                      childList.children.length,
+                    ],
                   });
-                });
+                } else {
+                  // If a child list does not exist and following items exist, wrap following items in list and move it
+                  // inside selected item
+                  Editor.withoutNormalizing(editor, () => {
+                    Transforms.wrapNodes(editor, defaultListBlock(currentListNode.listType), {
+                      match: node => {
+                        if (!(Element.isElement(node) && node.type === TYPE_LIST_ITEM)) {
+                          return false;
+                        }
+                        const nodePath = ReactEditor.findPath(editor, node);
+                        if (Path.equals(Path.parent(nodePath), Path.parent(currentItemPath))) {
+                          return true;
+                        }
+                        return false;
+                      },
+                      at: {
+                        anchor,
+                        focus,
+                      },
+                    });
+                    Transforms.moveNodes(editor, {
+                      at: Path.next(currentItemPath),
+                      to: [...currentItemPath, currentItemNode.children.length],
+                    });
+                  });
+                }
               }
             }
-          }
 
-          if (Element.isElement(targetItemNode) && targetItemNode.type === TYPE_LIST_ITEM) {
+            // Move selected item to correct index in upper list.
             Transforms.moveNodes(editor, {
               at: currentItemPath,
               to: Path.next(targetPath),
             });
+            // Clean up old list node if it initally had one item only
             if (currentListNode.children.length === 1 || !Path.hasPrevious(currentItemPath)) {
               Transforms.removeNodes(editor, { at: currentListPath });
             }

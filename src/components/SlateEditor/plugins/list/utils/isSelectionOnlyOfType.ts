@@ -1,6 +1,15 @@
-import { Editor, Element, Node, Range } from 'slate';
+import { Editor, Element, Node, Path, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { ListElement, ListItemElement, LIST_TYPES, TYPE_LIST, TYPE_LIST_ITEM } from '..';
+
+export const getListItemType = (editor: Editor, path: Path) => {
+  const [parentNode] = Editor.node(editor, Path.parent(path));
+
+  if (Element.isElement(parentNode) && parentNode.type === TYPE_LIST) {
+    return parentNode.listType;
+  }
+  return 'numbered-list';
+};
 
 export const isListItemSelected = (editor: Editor, node: ListItemElement) => {
   if (!Range.isRange(editor.selection)) return false;

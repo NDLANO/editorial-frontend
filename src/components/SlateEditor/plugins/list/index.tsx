@@ -8,11 +8,16 @@ import onEnter from './handlers/onEnter';
 import { Dictionary } from 'lodash';
 import { firstTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
-import { defaultListBlock } from './utils/defaultBlocks';
+import { defaultListBlock, defaultListItemBlock } from './utils/defaultBlocks';
+import onTab from './handlers/onTab';
+import { getListItemType } from './utils/isSelectionOnlyOfType';
 
 export const LIST_TYPES = ['numbered-list', 'bulleted-list', 'letter-list'];
 export const TYPE_LIST = 'list';
 export const TYPE_LIST_ITEM = 'list-item';
+
+const KEY_ENTER = 'Enter';
+const KEY_TAB = 'Tab';
 
 export interface ListElement {
   type: 'list';
@@ -25,6 +30,8 @@ export interface ListItemElement {
   type: 'list-item';
   children: Descendant[];
   changeTo?: string;
+  moveUp?: boolean;
+  moveDown?: boolean;
 }
 
 export const listSerializer: SlateSerializer = {
@@ -169,6 +176,7 @@ export const listPlugin = (editor: Editor) => {
         }
       }
 
+      // Handle changing list-items marked for listType change
       if (node.changeTo) {
         const changeTo = node.changeTo;
         Editor.withoutNormalizing(editor, () => {
@@ -177,6 +185,12 @@ export const listPlugin = (editor: Editor) => {
           Transforms.liftNodes(editor, { at: path });
         });
         return;
+      }
+      // Handle moving list-items marked for moving up in the tree (left)
+      if (node.moveUp) {
+      }
+      // Handle moving list-items marked for moving down in the tree (right)
+      if (node.moveDown) {
       }
     }
     if (Element.isElement(node) && node.type === TYPE_LIST) {
@@ -219,8 +233,10 @@ export const listPlugin = (editor: Editor) => {
 
   editor.onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     switch (event.key) {
-      case 'Enter':
+      case KEY_ENTER:
         return onEnter(event, editor, onKeyDown);
+      case KEY_TAB:
+        return onTab(event, editor, onKeyDown);
       default:
         if (onKeyDown) return onKeyDown(event);
         else return undefined;

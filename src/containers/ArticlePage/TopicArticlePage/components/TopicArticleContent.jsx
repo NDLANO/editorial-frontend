@@ -99,8 +99,7 @@ const TopicArticleContent = props => {
     <Fragment>
       <TitleField
         handleSubmit={handleSubmit}
-        onBlur={(event, editor, next) => {
-          next();
+        onBlur={(event, editor) => {
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
           // formik handleBlur needs to be called for validation to work (and touched to be set)
@@ -132,8 +131,7 @@ const TopicArticleContent = props => {
       <IngressField
         preview={preview}
         handleSubmit={handleSubmit}
-        onBlur={(event, editor, next) => {
-          next();
+        onBlur={(event, editor) => {
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
           // formik handleBlur needs to be called for validation to work (and touched to be set)
@@ -156,10 +154,16 @@ const TopicArticleContent = props => {
               submitted={isSubmitting}
               plugins={plugins}
               handleSubmit={handleSubmit}
-              onChange={onChange}
+              onChange={value => {
+                onChange({
+                  target: {
+                    value,
+                    name,
+                  },
+                });
+              }}
               actionsToShowInAreas={actionsToShowInAreas}
-              onBlur={(event, editor, next) => {
-                next();
+              onBlur={(event, editor) => {
                 // this is a hack since formik onBlur-handler interferes with slates
                 // related to: https://github.com/ianstormtaylor/slate/issues/2434
                 // formik handleBlur needs to be called for validation to work (and touched to be set)

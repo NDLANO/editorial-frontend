@@ -44,6 +44,8 @@ const onTab = (
       // Move list-elements up
       if (event.shiftKey) {
         const [parentNode, parentPath] = Editor.node(editor, Path.parent(currentListPath));
+        // If item at highest level in list => Lift entire list element out of current list.
+        // The list element will be unwrapped in list normalizer.
         if (!Element.isElement(parentNode) || parentNode.type !== TYPE_LIST_ITEM) {
           const childList = currentItemNode.children[currentItemNode.children.length - 1];
           if (Element.isElement(childList) && childList.type === TYPE_LIST) {
@@ -93,6 +95,7 @@ const onTab = (
                   ],
                 });
               } else {
+                // If a child list does not exist and following items exist, insert empty list and move following items
                 Editor.withoutNormalizing(editor, () => {
                   Transforms.insertNodes(editor, defaultListBlock(currentListNode.listType), {
                     at: [...currentItemPath, currentItemNode.children.length],

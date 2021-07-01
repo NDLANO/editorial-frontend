@@ -6,7 +6,9 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
+import { Editor, Transforms, Element, Path } from 'slate';
+import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
 import { injectT, tType } from '@ndla/i18n';
 import SlateImage from './SlateImage';
@@ -15,16 +17,21 @@ import SlateAudio from './SlateAudio';
 import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
-import { getSchemaEmbed } from '../../editorSchema';
-import { FormikInputEvent, LocaleType, SlateFigureProps } from '../../../../interfaces';
+import { FormikInputEvent, LocaleType } from '../../../../interfaces';
+import { EmbedElement, TYPE_EMBED } from '.';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',
   prefix: 'c-',
 });
 
-interface Props extends SlateFigureProps {
+interface Props {
+  attributes: RenderElementProps['attributes'];
+  editor: Editor;
+  element: EmbedElement;
+  language: string;
   locale?: LocaleType;
+  children: ReactNode;
 }
 
 interface ChangesProp {
@@ -37,12 +44,12 @@ const SlateFigure = ({
   t,
   attributes,
   editor,
-  isSelected,
+  element,
   language,
   locale = 'nb',
-  node,
+  children,
 }: Props & tType) => {
-  const embed = getSchemaEmbed(node);
+  const embed = element.data;
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
 
   const onFigureInputChange = (event: FormikInputEvent) => {
@@ -55,40 +62,45 @@ const SlateFigure = ({
   };
 
   const saveEmbedUpdates = (updates: ChangesProp) => {
-    const properties = {
-      data: { ...getSchemaEmbed(node), ...updates },
-    };
-    editor.setNodeByKey(node.key, properties);
+    Transforms.setNodes(
+      editor,
+      { data: { ...embed, ...updates } },
+      { at: ReactEditor.findPath(editor, element) },
+    );
   };
 
   const isActive = () => {
-    return editor.value.selection.anchor.isInNode(node);
+    if (!editor.selection) return false;
+    return Path.isDescendant(editor.selection.anchor.path, ReactEditor.findPath(editor, element));
   };
+
+  const isSelected = useSelected();
 
   const onRemoveClick = (e: any) => {
     e.stopPropagation();
-    editor
-      .moveToRangeOfNode(node)
-      .moveToEnd()
-      .focus()
-      .moveForward(1);
-    editor.removeNodeByKey(node.key);
+    const path = ReactEditor.findPath(editor, element);
+    ReactEditor.focus(editor);
+    Transforms.removeNodes(editor, {
+      at: path,
+      match: node => Element.isElement(node) && node.type === TYPE_EMBED,
+    });
   };
 
   switch (embed.resource) {
     case 'image':
       return (
         <SlateImage
-          active={isActive()}
           attributes={attributes}
           embed={embed}
           figureClass={editorClasses('figure', isActive() ? 'active' : '')}
-          isSelectedForCopy={isSelected}
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
           visualElement={false}
-        />
+          active={isActive()}
+          isSelectedForCopy={isSelected}>
+          {children}
+        </SlateImage>
       );
     case 'brightcove':
       return (
@@ -99,7 +111,10 @@ const SlateFigure = ({
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
-        />
+          active={isActive()}
+          isSelectedForCopy={isSelected}>
+          {children}
+        </SlateVideo>
       );
     case 'audio':
       if (embed.type === 'podcast') {
@@ -110,7 +125,10 @@ const SlateFigure = ({
             language={language}
             locale={locale}
             onRemoveClick={onRemoveClick}
-          />
+            active={isActive()}
+            isSelectedForCopy={isSelected}>
+            {children}
+          </SlatePodcast>
         );
       }
       return (
@@ -122,7 +140,10 @@ const SlateFigure = ({
           locale={locale}
           onRemoveClick={onRemoveClick}
           onFigureInputChange={onFigureInputChange}
-        />
+          active={isActive()}
+          isSelectedForCopy={isSelected}>
+          {children}
+        </SlateAudio>
       );
     case 'external':
     case 'iframe':
@@ -136,25 +157,32 @@ const SlateFigure = ({
             language={language}
             onRemoveClick={onRemoveClick}
             saveEmbedUpdates={saveEmbedUpdates}
-          />
+            active={isActive()}
+            isSelectedForCopy={isSelected}>
+            {children}
+          </SlateVideo>
         );
       }
       return (
         <DisplayExternal
           onRemoveClick={onRemoveClick}
           editor={editor}
-          node={node}
+          element={element}
           embed={embed}
           language={language}
-        />
+          active={isActive()}
+          isSelectedForCopy={isSelected}>
+          {children}
+        </DisplayExternal>
       );
     case 'error':
       return (
         <EditorErrorMessage
           onRemoveClick={onRemoveClick}
           attributes={attributes}
-          msg={embed.message}
-        />
+          msg={embed.message}>
+          {children}
+        </EditorErrorMessage>
       );
     default:
       return (
@@ -162,8 +190,9 @@ const SlateFigure = ({
           attributes={attributes}
           msg={t('form.content.figure.notSupported', {
             mediaType: embed.resource,
-          })}
-        />
+          })}>
+          {children}
+        </EditorErrorMessage>
       );
   }
 };

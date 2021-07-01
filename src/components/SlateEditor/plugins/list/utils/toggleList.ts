@@ -4,7 +4,8 @@ import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 import { defaultListBlock, defaultListItemBlock } from './defaultBlocks';
-import { isListItemSelected, isSelectionOnlyOfType } from './isSelectionOnlyOfType';
+import { isListItemSelected } from './isListItemSelected';
+import { isSelectionOnlyOfType } from './isSelectionOnlyOfType';
 
 export const toggleList = (editor: Editor, type: string) => {
   const listType = type ? type : 'numbered-list';
@@ -55,7 +56,7 @@ export const toggleList = (editor: Editor, type: string) => {
     // List normalizer splits and merges list items that are changed to new list type.
   } else {
     Editor.withoutNormalizing(editor, () => {
-      for (const [node, path] of Editor.nodes(editor, {
+      for (const [, path] of Editor.nodes(editor, {
         match: node => Element.isElement(node) && node.type === TYPE_PARAGRAPH,
       })) {
         Transforms.wrapNodes(editor, defaultListItemBlock(), {

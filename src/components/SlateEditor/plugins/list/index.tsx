@@ -1,16 +1,14 @@
-import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
+import React, { KeyboardEvent } from 'react';
 import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
-import { SlateSerializer } from '../../interfaces';
-import { reduceElementDataAttributes, createDataProps } from '../../../../util/embedTagHelpers';
-import onEnter from './handlers/onEnter';
 import { Dictionary } from 'lodash';
+import { SlateSerializer } from '../../interfaces';
+import onEnter from './handlers/onEnter';
 import { firstTextBlockElement } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
-import { defaultListBlock, defaultListItemBlock } from './utils/defaultBlocks';
+import { defaultListBlock } from './utils/defaultBlocks';
 import onTab from './handlers/onTab';
-import { getListItemType } from './utils/isSelectionOnlyOfType';
 import onBackspace from './handlers/onBackspace';
 
 export const LIST_TYPES = ['numbered-list', 'bulleted-list', 'letter-list'];
@@ -124,7 +122,7 @@ export const listPlugin = (editor: Editor) => {
 
     if (Element.isElement(node) && node.type === TYPE_LIST_ITEM) {
       // If listItem is not placed insine list, unwrap it.
-      const [parentNode, parentPath] = Editor.node(editor, Path.parent(path));
+      const [parentNode] = Editor.node(editor, Path.parent(path));
       if (Element.isElement(parentNode) && parentNode.type !== TYPE_LIST) {
         return Transforms.unwrapNodes(editor, { at: path });
       }

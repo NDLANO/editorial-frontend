@@ -1,65 +1,17 @@
-import { Editor, Element, Node, Path, Range } from 'slate';
-import { ReactEditor } from 'slate-react';
-import { ListElement, ListItemElement, LIST_TYPES, TYPE_LIST, TYPE_LIST_ITEM } from '..';
-
-export const getListItemType = (editor: Editor, path: Path) => {
-  const [parentNode] = Editor.node(editor, Path.parent(path));
-
-  if (Element.isElement(parentNode) && parentNode.type === TYPE_LIST) {
-    return parentNode.listType;
-  }
-  return 'numbered-list';
-};
-
-export const isListItemSelected = (editor: Editor, node: ListItemElement) => {
-  if (!Range.isRange(editor.selection)) return false;
-
-  if (Range.includes(editor.selection, [...ReactEditor.findPath(editor, node), 0, 0])) {
-    return true;
-  }
-  return false;
-};
-
-const isListSelected = (editor: Editor, node: ListElement) => {
-  if (!Range.isRange(editor.selection)) return;
-  for (const [child] of Editor.nodes(editor, {
-    at: ReactEditor.findPath(editor, node),
-  })) {
-    if (Element.isElement(child) && child.type === TYPE_LIST_ITEM) {
-      if (isListItemSelected(editor, child)) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
-
-const isEntireListSelected = (editor: Editor, node: ListElement) => {
-  if (!Range.isRange(editor.selection)) return;
-  for (const [child, path] of Editor.nodes(editor, {
-    at: ReactEditor.findPath(editor, node),
-  })) {
-    if (Element.isElement(child) && child.type === TYPE_LIST_ITEM) {
-      if (isListItemSelected(editor, child)) {
-        continue;
-      } else {
-        return false;
-      }
-    }
-  }
-  return true;
-};
+import { Editor, Element } from 'slate';
+import { LIST_TYPES, TYPE_LIST, TYPE_LIST_ITEM } from '..';
+import { isListItemSelected } from './isListItemSelected';
 
 export const isSelectionOnlyOfType = (editor: Editor, type: string) => {
   const otherTypes = LIST_TYPES.filter(t => t !== type);
 
   let hasListItems = false;
   // For all selected list elements
-  for (const [node, path] of Editor.nodes(editor, {
+  for (const [, path] of Editor.nodes(editor, {
     match: node =>
       Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
   })) {
-    const [parentNode, parentPath] = Editor.parent(editor, path);
+    const [parentNode] = Editor.parent(editor, path);
     if (Element.isElement(parentNode) && parentNode.type === TYPE_LIST) {
       if (otherTypes.includes(parentNode.listType)) {
         return false;

@@ -1,13 +1,8 @@
 import { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { Editor, Element, Transforms, Path, Range, Node } from 'slate';
-import { ReactEditor } from 'slate-react';
-
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
-
-import { defaultListBlock } from '../utils/defaultBlocks';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
-import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 
 const onBackspace = (
   event: KeyboardEvent<HTMLDivElement>,

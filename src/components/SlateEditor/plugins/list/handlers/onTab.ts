@@ -42,7 +42,7 @@ const onTab = (
     ) {
       // Move list-elements up
       if (event.shiftKey) {
-        const [parentNode] = Editor.node(editor, Path.parent(currentListPath));
+        const [parentNode, parentPath] = Editor.node(editor, Path.parent(currentListPath));
         // If item at highest level in list => Lift entire list element out of current list.
         // The list element will be unwrapped in list normalizer.
         if (!Element.isElement(parentNode) || parentNode.type !== TYPE_LIST_ITEM) {
@@ -120,6 +120,17 @@ const onTab = (
                   });
                 }
               }
+            }
+            if (Editor.hasPath(editor, Path.next(currentListPath))) {
+              console.log('WORKS');
+              Transforms.moveNodes(editor, {
+                match: node => Element.isElement(node) && node.type === TYPE_LIST,
+                at: {
+                  anchor: Editor.start(editor, Path.next(currentListPath)),
+                  focus: Editor.end(editor, [...parentPath, parentNode.children.length - 1]),
+                },
+                to: [...currentItemPath, currentItemNode.children.length],
+              });
             }
 
             // Move selected item to correct index in upper list.

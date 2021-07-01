@@ -8,7 +8,8 @@
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
+import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
 import config from '../../../../config';
@@ -20,14 +21,14 @@ import { Embed } from '../../../../interfaces';
 const buttonStyle = css`
   min-width: -webkit-fill-available;
   min-width: -moz-available;
+  &:focus img {
+    box-shadow: rgb(32, 88, 143) 0 0 0 2px;
+  }
 `;
 
 interface Props {
   active?: boolean;
-  attributes?: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
+  attributes: RenderElementProps['attributes'];
   embed: Embed;
   figureClass?: { className: string };
   isSelectedForCopy?: boolean;
@@ -35,6 +36,7 @@ interface Props {
   onRemoveClick: Function;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   visualElement: boolean;
+  children: ReactNode;
 }
 
 const SlateImage = ({
@@ -48,6 +50,7 @@ const SlateImage = ({
   onRemoveClick,
   saveEmbedUpdates,
   visualElement,
+  children,
 }: Props & tType) => {
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
@@ -89,6 +92,7 @@ const SlateImage = ({
       )}
       {!(visualElement && editMode) && (
         <Button
+          contentEditable={false}
           css={buttonStyle}
           stripped
           data-label={t('imageEditor.editImage')}
@@ -98,18 +102,17 @@ const SlateImage = ({
               src={`${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`}
               alt={embed.alt}
               srcSet={getSrcSets(embed.resource_id, transformData())}
-              css={
-                showCopyOutline && {
-                  boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
-                }
-              }
+              css={css`
+                box-shadow: ${showCopyOutline ? 'rgb(32, 88, 143) 0 0 0 2px' : 'none'};
+              `}
             />
-            <figcaption className="c-figure__caption">
+            <figcaption className="c-figure__caption" contentEditable={false}>
               <div className="c-figure__info">{embed.caption}</div>
             </figcaption>
           </figure>
         </Button>
       )}
+      {children}
     </div>
   );
 };

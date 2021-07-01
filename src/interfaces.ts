@@ -460,6 +460,7 @@ export interface Embed {
   type: string;
   url: string;
   videoid: string;
+  message?: string;
 
   'focal-x': string;
   'focal-y': string;
@@ -467,6 +468,22 @@ export interface Embed {
   'upper-left-y': string;
   'lower-right-x': string;
   'lower-right-y': string;
+}
+
+export interface FileFormat {
+  url: string;
+  fileType: string;
+  tooltip: string;
+}
+
+export interface File {
+  path: string;
+  resource: string;
+  title: string;
+  type: string;
+  url: string;
+  display?: string;
+  formats?: FileFormat[];
 }
 
 export interface SlateAudio extends Omit<AudioApiType, 'title'> {

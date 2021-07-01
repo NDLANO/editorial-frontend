@@ -26,7 +26,7 @@ import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../../util/slateHelpers';
 import codeBlockPlugin from '../../../../components/SlateEditor/plugins/codeBlock';
 import { footnotePlugin, TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote';
-import createEmbedPlugin from '../../../../components/SlateEditor/plugins/embed';
+import { embedPlugin } from '../../../../components/SlateEditor/plugins/embed';
 import { bodyboxPlugin } from '../../../../components/SlateEditor/plugins/bodybox';
 import { asidePlugin } from '../../../../components/SlateEditor/plugins/aside';
 import { detailsPlugin } from '../../../../components/SlateEditor/plugins/details';
@@ -35,7 +35,7 @@ import listTextPlugin from '../../../../components/SlateEditor/plugins/listText'
 import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../../components/SlateEditor/plugins/blockPicker';
 import relatedPlugin from '../../../../components/SlateEditor/plugins/related';
-import filePlugin from '../../../../components/SlateEditor/plugins/file';
+import { filePlugin } from '../../../../components/SlateEditor/plugins/file';
 import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concept';
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
@@ -96,6 +96,7 @@ const LearningResourceContent = ({
   values: { id, language, creators, published },
   handleBlur,
   handleSubmit,
+  locale,
 }) => {
   const handleSubmitRef = React.useRef(handleSubmit);
 
@@ -106,7 +107,7 @@ const LearningResourceContent = ({
     sectionPlugin,
     paragraphPlugin,
     footnotePlugin,
-    // createEmbedPlugin(articleLanguage, props.locale),
+    embedPlugin(articleLanguage, locale),
     bodyboxPlugin,
     asidePlugin,
     detailsPlugin,
@@ -122,7 +123,7 @@ const LearningResourceContent = ({
     // createTablePlugin(),
     // editTablePlugin,
     // relatedPlugin(),
-    // filePlugin(),
+    filePlugin,
     mathmlPlugin,
     // codeBlockPlugin(),
     // blockPickerPlugin({

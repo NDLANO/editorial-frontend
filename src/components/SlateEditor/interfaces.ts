@@ -14,7 +14,9 @@ import { ListElement, ListItemElement } from './plugins/list';
 import { MathmlElement } from './plugins/mathml';
 import { ConceptElement } from './plugins/concept';
 import { AsideElement } from './plugins/aside';
+import { FileElement } from './plugins/file';
 import { DetailsElement, SummaryElement } from './plugins/details';
+import { EmbedElement } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
 
 export type SlatePlugin = (editor: Editor) => Editor;
@@ -49,8 +51,10 @@ declare module 'slate' {
       | MathmlElement
       | ConceptElement
       | AsideElement
+      | FileElement
       | DetailsElement
       | SummaryElement
+      | EmbedElement
       | BodyboxElement;
     Text: CustomTextWithMarks;
   }

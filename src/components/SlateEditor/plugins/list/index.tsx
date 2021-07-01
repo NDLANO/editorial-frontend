@@ -11,6 +11,7 @@ import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { defaultListBlock, defaultListItemBlock } from './utils/defaultBlocks';
 import onTab from './handlers/onTab';
 import { getListItemType } from './utils/isSelectionOnlyOfType';
+import onBackspace from './handlers/onBackspace';
 
 export const LIST_TYPES = ['numbered-list', 'bulleted-list', 'letter-list'];
 export const TYPE_LIST = 'list';
@@ -18,6 +19,7 @@ export const TYPE_LIST_ITEM = 'list-item';
 
 const KEY_ENTER = 'Enter';
 const KEY_TAB = 'Tab';
+const KEY_BACKSPACE = 'Backspace';
 
 export interface ListElement {
   type: 'list';
@@ -158,24 +160,6 @@ export const listPlugin = (editor: Editor) => {
         }
       }
 
-      // If last child is not a paragraph, insert an empty paragraph
-      const lastChild = node.children[node.children.length - 1];
-      if (Element.isElement(lastChild)) {
-        if (lastChild.type !== TYPE_PARAGRAPH && lastChild.type !== TYPE_LIST) {
-          Transforms.insertNodes(
-            editor,
-            {
-              type: TYPE_PARAGRAPH,
-              children: [{ text: '' }],
-            },
-            {
-              at: [...path, node.children.length],
-            },
-          );
-          return;
-        }
-      }
-
       // Handle changing list-items marked for listType change
       if (node.changeTo) {
         const changeTo = node.changeTo;
@@ -237,6 +221,8 @@ export const listPlugin = (editor: Editor) => {
         return onEnter(event, editor, onKeyDown);
       case KEY_TAB:
         return onTab(event, editor, onKeyDown);
+      case KEY_BACKSPACE:
+        return onBackspace(event, editor, onKeyDown);
       default:
         if (onKeyDown) return onKeyDown(event);
         else return undefined;

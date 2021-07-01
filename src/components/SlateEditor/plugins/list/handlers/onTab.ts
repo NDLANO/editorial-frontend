@@ -1,12 +1,11 @@
 import { KeyboardEvent, KeyboardEventHandler } from 'react';
-import { Editor, Element, Transforms, Path, Node, Range } from 'slate';
+import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor } from 'slate-react';
 
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
 
-import { getListItemType, isListItemSelected } from '../utils/isSelectionOnlyOfType';
-import { defaultListBlock, defaultListItemBlock } from '../utils/defaultBlocks';
+import { defaultListBlock } from '../utils/defaultBlocks';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
 
 const onTab = (
@@ -43,7 +42,7 @@ const onTab = (
     ) {
       // Move list-elements up
       if (event.shiftKey) {
-        const [parentNode, parentPath] = Editor.node(editor, Path.parent(currentListPath));
+        const [parentNode] = Editor.node(editor, Path.parent(currentListPath));
         // If item at highest level in list => Lift entire list element out of current list.
         // The list element will be unwrapped in list normalizer.
         if (!Element.isElement(parentNode) || parentNode.type !== TYPE_LIST_ITEM) {
@@ -135,6 +134,7 @@ const onTab = (
             return;
           }
         }
+
         // Move list item down
       } else {
         // Only if it is not the first sibling.

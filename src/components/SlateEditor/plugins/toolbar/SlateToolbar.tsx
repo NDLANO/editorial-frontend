@@ -19,9 +19,9 @@ import { isMarkActive } from '../mark';
 // import { listTypes } from '../externalPlugins';
 
 const topicArticleElements: { [key: string]: string[] } = {
-  // mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  // block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  // inline: ['link', 'mathml', 'concept'],
+  mark: ['bold', 'italic', 'code', 'sub', 'sup'],
+  block: ['quote', 'heading-two', 'heading-three' /*, ...listTypes*/],
+  inline: ['link', 'mathml', 'concept'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {

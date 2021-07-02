@@ -10,7 +10,7 @@ import React from 'react';
 import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import FileList from './FileList';
-import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
+import { createEmbedTag } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { File } from '../../../../interfaces';
 import { defaultFileBlock } from './utils';
@@ -28,14 +28,17 @@ export const fileSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== 'div') return;
     if (el.dataset.type !== TYPE_FILE) return;
-    return defaultFileBlock(
-      el.innerHTML.split(',').map(embed => (parseEmbedTag(embed) as unknown) as File),
-    );
+
+    let childs: DOMStringMap[] = [];
+    el.childNodes.forEach(node => {
+      childs.push((node as HTMLEmbedElement).dataset);
+    });
+    return defaultFileBlock(childs);
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_FILE) return;
-    return `<div data-type="file">${node.data.map(file => createEmbedTag(file))}</div>`;
+    return <div data-type="file">{node.data.map(file => createEmbedTag(file))}</div>;
   },
 };
 

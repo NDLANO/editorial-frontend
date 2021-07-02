@@ -9,7 +9,7 @@ export const textBlockElements: Element['type'][] = [
   'heading',
   'list',
   'quote',
-  //'table',
+  'table',
   //'embed',
   //'file',
   //'code-block',

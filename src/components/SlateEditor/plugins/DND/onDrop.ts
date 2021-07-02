@@ -75,7 +75,9 @@ const onDrop = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
         return;
       }
       const { height, top } = (event.target as HTMLDivElement).getBoundingClientRect();
-      const goUp = top + height / 2 > event.clientY;
+
+      const goUp =
+        top + height / 2 > event.clientY || !Editor.hasPath(editor, Path.next(topLevelTargetPath));
 
       HistoryEditor.withoutMerging(editor, () => {
         Transforms.moveNodes(editor, {

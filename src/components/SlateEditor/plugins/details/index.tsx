@@ -91,7 +91,7 @@ const onBackspace = (
 };
 
 export const detailsSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() === 'summary') {
       return jsx('element', { type: TYPE_SUMMARY }, children);
     } else if (el.tagName.toLowerCase() === 'details') {
@@ -99,12 +99,12 @@ export const detailsSerializer: SlateSerializer = {
     }
     return;
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_SUMMARY) {
-      return `<summary>${children}</summary>`;
+      return <summary>{children}</summary>;
     } else if (node.type === TYPE_DETAILS) {
-      return `<details>${children}</details>`;
+      return <details>{children}</details>;
     }
   },
 };
@@ -207,6 +207,7 @@ export const detailsPlugin = (editor: Editor) => {
           return;
         }
       }
+
       if (node.type === TYPE_SUMMARY) {
         const [parent] = Editor.node(editor, Path.parent(path));
         // Change summary node to paragraph if not a child of details element

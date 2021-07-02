@@ -12,14 +12,14 @@ import { ReactEditor } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
-import { defaultBlocks } from '../../utils';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions, { ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
 import { defaultDetailsBlock } from '../details/utils';
+import { defaultTableBlock } from '../table/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
-
-const { defaultRelatedBlock, defaultCodeBlock } = defaultBlocks;
+import { defaultCodeblockBlock } from '../codeBlock/utils';
+import { defaultRelatedBlock } from '../related';
 
 interface Props {
   editor: Editor;
@@ -81,10 +81,10 @@ const SlateBlockPicker = (props: Props & tType) => {
         onInsertBlock(defaultDetailsBlock());
         break;
       }
-      // case 'table': {
-      //   editor.insertTable(2, 2);
-      //   break;
-      // }
+      case 'table': {
+        onInsertBlock(defaultTableBlock(2, 2));
+        break;
+      }
       case 'aside': {
         onInsertBlock(defaultAsideBlock(data.object));
         break;
@@ -97,14 +97,18 @@ const SlateBlockPicker = (props: Props & tType) => {
         });
         break;
       }
+      case 'related': {
+        onInsertBlock(defaultRelatedBlock());
+        break;
+      }
       // case 'related': {
       //   this.onInsertBlock(defaultRelatedBlock());
       //   break;
       // }
-      // case 'code-block': {
-      //   this.onInsertBlock(defaultCodeBlock());
-      //   break;
-      // }
+      case 'code-block': {
+        onInsertBlock(defaultCodeblockBlock());
+        break;
+      }
       default:
         setIsOpen(false);
         break;

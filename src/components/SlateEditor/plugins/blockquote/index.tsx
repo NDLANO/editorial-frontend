@@ -23,16 +23,16 @@ export interface BlockQuoteElement {
 }
 
 export const blockQuoteSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'blockquote') {
       return jsx('element', { type: TYPE_QUOTE }, children);
     }
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_QUOTE) {
-      return `<blockquote>${children}</blockquote>`;
+      return <blockquote>{children}</blockquote>;
     }
   },
 };

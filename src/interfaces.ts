@@ -429,15 +429,6 @@ export interface SlateFigureProps {
   node: Node;
 }
 
-export interface CodeBlockProps {
-  attributes: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
-  editor: SlateEditor;
-  node: Node;
-}
-
 export interface SlateEditor extends Editor {
   props: {
     submitted: boolean;

@@ -18,6 +18,7 @@ import { defaultAsideBlock } from '../aside/utils';
 import { defaultDetailsBlock } from '../details/utils';
 import { defaultTableBlock } from '../table/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
+import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
 
 interface Props {
@@ -104,10 +105,10 @@ const SlateBlockPicker = (props: Props & tType) => {
       //   this.onInsertBlock(defaultRelatedBlock());
       //   break;
       // }
-      // case 'code-block': {
-      //   this.onInsertBlock(defaultCodeBlock());
-      //   break;
-      // }
+      case 'code-block': {
+        onInsertBlock(defaultCodeblockBlock());
+        break;
+      }
       default:
         setIsOpen(false);
         break;

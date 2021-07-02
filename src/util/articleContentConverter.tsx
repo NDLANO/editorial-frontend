@@ -30,6 +30,7 @@ import { tableSerializer } from '../components/SlateEditor/plugins/table';
 import { relatedSerializer } from '../components/SlateEditor/plugins/related';
 import { embedSerializer } from '../components/SlateEditor/plugins/embed';
 import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
+import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -81,6 +82,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
     relatedSerializer,
     embedSerializer,
     bodyboxSerializer,
+    codeblockSerializer,
   ];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {
@@ -147,6 +149,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
     relatedSerializer,
     embedSerializer,
     bodyboxSerializer,
+    codeblockSerializer,
   ];
 
   const serialize = (node: Descendant): JSX.Element | null => {

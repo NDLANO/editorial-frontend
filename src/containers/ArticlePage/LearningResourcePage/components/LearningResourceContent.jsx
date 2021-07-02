@@ -24,7 +24,7 @@ import LastUpdatedLine from '../../../../components/LastUpdatedLine';
 import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../../util/slateHelpers';
-import codeBlockPlugin from '../../../../components/SlateEditor/plugins/codeBlock';
+import { codeblockPlugin } from '../../../../components/SlateEditor/plugins/codeBlock';
 import { footnotePlugin, TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote';
 import { embedPlugin } from '../../../../components/SlateEditor/plugins/embed';
 import { bodyboxPlugin } from '../../../../components/SlateEditor/plugins/bodybox';
@@ -124,7 +124,7 @@ const LearningResourceContent = ({
     relatedPlugin,
     filePlugin,
     mathmlPlugin,
-    // codeBlockPlugin(),
+    codeblockPlugin,
     // blockPickerPlugin({
     //   articleLanguage,
     //   actionsToShowInAreas,

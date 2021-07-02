@@ -207,6 +207,7 @@ export const detailsPlugin = (editor: Editor) => {
           return;
         }
       }
+
       if (node.type === TYPE_SUMMARY) {
         const [parent] = Editor.node(editor, Path.parent(path));
         // Change summary node to paragraph if not a child of details element

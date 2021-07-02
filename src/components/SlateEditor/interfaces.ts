@@ -19,6 +19,7 @@ import { TableCellElement, TableElement, TableRowElement } from './plugins/table
 import { RelatedElement } from './plugins/related';
 import { EmbedElement } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
+import { CodeblockElement } from './plugins/codeBlock';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -53,6 +54,7 @@ declare module 'slate' {
       | FileElement
       | DetailsElement
       | SummaryElement
+      | CodeblockElement
       | TableElement
       | TableRowElement
       | TableCellElement

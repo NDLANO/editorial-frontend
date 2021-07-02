@@ -11,7 +11,7 @@ export const textBlockElements: Element['type'][] = [
   //'letter-list',
   //'numbered-list',
   'quote',
-  //'table',
+  'table',
   //'embed',
   //'file',
   //'code-block',

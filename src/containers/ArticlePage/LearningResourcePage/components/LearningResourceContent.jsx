@@ -48,7 +48,7 @@ import {
   editListPlugin,
   editTablePlugin,
 } from '../../../../components/SlateEditor/plugins/externalPlugins';
-import createTablePlugin from '../../../../components/SlateEditor/plugins/table';
+import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import { IngressField, TitleField } from '../../../FormikForm';
 import { ArticleShape } from '../../../../shapes';
@@ -119,7 +119,7 @@ const LearningResourceContent = ({
     // // unwrapping (jumping out of block) will not work.
     // editListPlugin,
     // listTextPlugin(),
-    // createTablePlugin(),
+    tablePlugin,
     // editTablePlugin,
     relatedPlugin,
     filePlugin,

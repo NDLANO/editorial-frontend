@@ -15,6 +15,7 @@ import { ConceptElement } from './plugins/concept';
 import { AsideElement } from './plugins/aside';
 import { FileElement } from './plugins/file';
 import { DetailsElement, SummaryElement } from './plugins/details';
+import { TableCellElement, TableElement, TableRowElement } from './plugins/table';
 import { RelatedElement } from './plugins/related';
 import { EmbedElement } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
@@ -22,8 +23,8 @@ import { BodyboxElement } from './plugins/bodybox';
 export type SlatePlugin = (editor: Editor) => Editor;
 
 export interface SlateSerializer {
-  serialize: (node: Descendant, children: string) => string | undefined | null;
-  deserialize: (el: HTMLElement, children: (Descendant | null)[]) => Descendant | undefined;
+  deserialize: (el: HTMLElement, children: Descendant[]) => Descendant | Descendant[] | undefined;
+  serialize: (node: Descendant, children: (JSX.Element | null)[]) => JSX.Element | null | undefined;
 }
 
 export type CustomEditor = {
@@ -52,6 +53,9 @@ declare module 'slate' {
       | FileElement
       | DetailsElement
       | SummaryElement
+      | TableElement
+      | TableRowElement
+      | TableCellElement
       | RelatedElement
       | EmbedElement
       | BodyboxElement;

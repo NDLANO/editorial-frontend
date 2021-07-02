@@ -27,7 +27,7 @@ export const breakSerializer: SlateSerializer = {
     if (!Element.isElement(node)) return;
     if (node.type !== 'br') return;
 
-    return `<br>`;
+    return <br />;
   },
 };
 

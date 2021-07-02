@@ -37,31 +37,31 @@ const marks: { [key: string]: string } = {
 };
 
 export const markSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant[] | Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     if (!Object.keys(marks).includes(el.tagName.toLowerCase())) return;
     return jsx('text', { [marks[el.tagName.toLowerCase()]]: true }, children);
   },
 
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Text.isText(node)) return;
     let ret;
     if (node.bold) {
-      ret = `<strong>${children}</strong>`;
+      ret = <strong>{children}</strong>;
     }
     if (node.italic) {
-      ret = `<em>${ret || children}</em>`;
+      ret = <em>{ret || children}</em>;
     }
     if (node.underlined) {
-      ret = `<u>${ret || children}</u>`;
+      ret = <u>{ret || children}</u>;
     }
     if (node.sup) {
-      ret = `<sup>${ret || children}</sup>`;
+      ret = <sup>${ret || children}</sup>;
     }
     if (node.sub) {
-      ret = `<sub>${ret || children}</sub>`;
+      ret = <sub>${ret || children}</sub>;
     }
     if (node.code) {
-      ret = `<code>${ret || children}</code>`;
+      ret = <code>${ret || children}</code>;
     }
     if (ret) {
       return ret;

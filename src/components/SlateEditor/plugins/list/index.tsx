@@ -62,24 +62,28 @@ export const listSerializer: SlateSerializer = {
       return jsx('element', { type: TYPE_LIST_ITEM }, children);
     }
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_LIST) {
       if (node.listType === 'bulleted-list') {
-        return `<ul>${children}</ul>`;
+        return <ul>{children}</ul>;
       }
       if (node.listType === 'numbered-list') {
         const { start } = node.data;
 
-        return `<ol${start ? ` start="${start}"` : ''}>${children}</ol>`;
+        return <ol start={start ? parseInt(start) : undefined}>{children}</ol>;
       }
       if (node.listType === 'letter-list') {
         const { start } = node.data;
-        return `<ol data-type='letters'${start ? ` start="${start}"` : ''}>${children}</ol>`;
+        return (
+          <ol data-type="letters" start={start ? parseInt(start) : undefined}>
+            {children}
+          </ol>
+        );
       }
     }
     if (node.type === TYPE_LIST_ITEM) {
-      return `<li>${children}</li>`;
+      return <li>{children}</li>;
     }
   },
 };

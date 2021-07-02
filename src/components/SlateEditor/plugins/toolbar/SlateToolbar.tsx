@@ -20,7 +20,7 @@ import { isMarkActive } from '../mark';
 
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-two', 'heading-three' /*, ...listTypes*/],
+  block: ['quote', 'heading-2', 'heading-3' /*, ...listTypes*/],
   inline: ['link', 'mathml', 'concept'],
 };
 

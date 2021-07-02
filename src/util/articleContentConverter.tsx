@@ -172,7 +172,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
 
 export function topicArticleContentToEditorValue(html: string) {
   if (!html) {
-    return [createEmptyValue()];
+    return createEmptyValue();
   }
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {
@@ -209,7 +209,7 @@ export function topicArticleContentToEditorValue(html: string) {
   const document = new DOMParser().parseFromString(html, 'text/html');
   const nodes = deserialize(document.body.children[0]);
   const normalizedNodes = convertFromHTML(Node.isNodeList(nodes) ? nodes[0] : nodes);
-  return [normalizedNodes];
+  return normalizedNodes;
 }
 
 export function topicArticleContentToHTML(value: Descendant[]) {

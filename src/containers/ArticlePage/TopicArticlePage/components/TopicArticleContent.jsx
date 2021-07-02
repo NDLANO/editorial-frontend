@@ -15,7 +15,7 @@ import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
-import headingPlugin from '../../../../components/SlateEditor/plugins/heading';
+import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import createNoEmbedsPlugin from '../../../../components/SlateEditor/plugins/noEmbed';
 import VisualElementField from '../../../FormikForm/components/VisualElementField';
 import { schema } from '../../../../components/SlateEditor/editorSchema';
@@ -27,13 +27,12 @@ import {
   renderMark,
   renderInline,
 } from '../../../../components/SlateEditor/slateRendering';
-import blockquotePlugin from '../../../../components/SlateEditor/plugins/blockquotePlugin';
-import { editListPlugin } from '../../../../components/SlateEditor/plugins/externalPlugins';
-import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
+import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
+// import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
+import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concept';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
-// import createLinkPlugin from '../../../../components/SlateEditor/plugins/link';
-import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
-import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
+import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
+import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
 import FormikField from '../../../../components/FormikField';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
@@ -41,6 +40,7 @@ import { IngressField, TitleField } from '../../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
+import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
 
 const byLineStyle = css`
   display: flex;
@@ -66,18 +66,17 @@ const actionsToShowInAreas = {
 const createPlugins = language => {
   return [
     // createNoEmbedsPlugin(),
-    // createLinkPlugin(language),
-    // headingPlugin(),
+    linkPlugin(language),
+    headingPlugin,
     // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
     // Blockquote and editList actions need to be triggered before paragraph action, else
     // unwrapping (jumping out of block) will not work.
-    // blockquotePlugin,
-    // editListPlugin,
-    // listTextPlugin(),
-    // conceptPlugin(language),
+    blockQuotePlugin,
+    // listPlugin,
+    conceptPlugin(language),
     paragraphPlugin,
-    // // mathmlPlugin(),
-    // // \\\toolbarPlugin(),
+    mathmlPlugin,
+    toolbarPlugin,
     textTransformPlugin,
   ];
 };

@@ -102,7 +102,11 @@ const FigureButtons = ({
   };
 
   return (
-    <StyledFigureButtons align={embed.align} theme={{}} withMargin={withMargin}>
+    <StyledFigureButtons
+      align={embed.align}
+      theme={{}}
+      withMargin={withMargin}
+      contentEditable={false}>
       <Tooltip tooltip={tooltip} align="right">
         <IconButton
           color="red"

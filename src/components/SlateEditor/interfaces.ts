@@ -16,6 +16,7 @@ import { AsideElement } from './plugins/aside';
 import { FileElement } from './plugins/file';
 import { DetailsElement, SummaryElement } from './plugins/details';
 import { TableCellElement, TableElement, TableRowElement } from './plugins/table';
+import { EmbedElement } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
 
 export type SlatePlugin = (editor: Editor) => Editor;
@@ -54,6 +55,7 @@ declare module 'slate' {
       | TableElement
       | TableRowElement
       | TableCellElement
+      | EmbedElement
       | BodyboxElement;
     Text: CustomTextWithMarks;
   }

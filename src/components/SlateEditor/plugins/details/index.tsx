@@ -251,4 +251,3 @@ export const detailsPlugin = (editor: Editor) => {
   };
   return editor;
 };
-

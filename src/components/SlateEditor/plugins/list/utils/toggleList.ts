@@ -1,8 +1,8 @@
 import { Editor, Transforms, Element, Range, Path } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
+import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
-import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 import { defaultListBlock, defaultListItemBlock } from './defaultBlocks';
 import { isListItemSelected } from './isListItemSelected';
 import { isSelectionOnlyOfType } from './isSelectionOnlyOfType';
@@ -17,18 +17,21 @@ export const toggleList = (editor: Editor, type: string) => {
     return;
   }
 
+  // If all selected list items are of type input by user, unwrap all of them by lifting them out.
   if (isIdentical) {
     if (!Range.isRange(editor.selection)) {
       return;
     }
 
+    // List normalizer removes empty list blocks afterwards.
     return Transforms.liftNodes(editor, {
       match: node =>
         Element.isElement(node) && node.type === TYPE_LIST_ITEM && isListItemSelected(editor, node),
       mode: 'all',
     });
-    // List normalizer removes empty list blocks afterwards.
+    // Selected list items are of mixed type.
   } else if (isList) {
+    // Mark list items for change. The actual change happens in list normalizer.
     Transforms.setNodes(
       editor,
       { changeTo: listType },
@@ -53,11 +56,12 @@ export const toggleList = (editor: Editor, type: string) => {
         mode: 'all',
       },
     );
-    // List normalizer splits and merges list items that are changed to new list type.
+    // No list items are selected
   } else {
+    // Wrap all regular text blocks. (paragraph, quote, blockquote)
     Editor.withoutNormalizing(editor, () => {
       for (const [, path] of Editor.nodes(editor, {
-        match: node => Element.isElement(node) && node.type === TYPE_PARAGRAPH,
+        match: node => Element.isElement(node) && firstTextBlockElement.includes(node.type),
       })) {
         Transforms.wrapNodes(editor, defaultListItemBlock(), {
           at: path,

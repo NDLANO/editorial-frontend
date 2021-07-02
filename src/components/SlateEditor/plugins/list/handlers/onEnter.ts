@@ -11,17 +11,15 @@ const onEnter = (
   editor: Editor,
   next?: KeyboardEventHandler<HTMLDivElement>,
 ) => {
-  // If shift+enter use default behaviour.
   if (event.shiftKey && next) return next(event);
 
-  // If no selection use default behaviour.
   if (!editor.selection && next) return next(event);
   else if (!editor.selection) return undefined;
 
   const [currentListItem, currentListItemPath] = getCurrentBlock(editor, TYPE_LIST_ITEM);
   const [currentParagraph, currentParagraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH);
 
-  // If blocks are not valid, use default behaviour.
+  // Check that list and paragraph are of correct type.
   if (!Element.isElement(currentListItem) || currentListItem.type !== TYPE_LIST_ITEM) {
     return next && next(event);
   }
@@ -29,14 +27,15 @@ const onEnter = (
     return next && next(event);
   }
 
-  // If paragraph is not direct descendant of list-item, use default behaviour.
+  // Paragraph must be a direct child of list item
   if (!Path.isChild(currentParagraphPath, currentListItemPath)) {
     return next && next(event);
   }
 
   event.preventDefault();
 
-  // If expanded, delete first.
+  // If expanded selection is expanded, delete selected content first.
+  // Selection should now be collapsed
   if (Range.isExpanded(editor.selection)) {
     Editor.deleteForward(editor);
   }

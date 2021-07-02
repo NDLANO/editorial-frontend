@@ -9,7 +9,6 @@ const onBackspace = (
   editor: Editor,
   next?: KeyboardEventHandler<HTMLDivElement>,
 ) => {
-  // If no selection use default behaviour.
   if (!editor.selection) return next && next(event);
   const isList = hasNodeOfType(editor, TYPE_LIST);
 
@@ -18,8 +17,9 @@ const onBackspace = (
   }
 
   const [currentItemNode, currentItemPath] = getCurrentBlock(editor, TYPE_LIST_ITEM);
-  const [currentListNode, currentListPath] = getCurrentBlock(editor, TYPE_LIST);
+  const [currentListNode] = getCurrentBlock(editor, TYPE_LIST);
 
+  // Confirm type of item and list
   if (
     currentItemNode &&
     Element.isElement(currentItemNode) &&
@@ -28,30 +28,16 @@ const onBackspace = (
     Element.isElement(currentListNode) &&
     currentListNode.type === TYPE_LIST
   ) {
-    if (!editor.selection) {
-      return;
-    }
+    // Check that cursor is not expanded and that cursor is placed inside list item
     if (
       Range.isCollapsed(editor.selection) &&
       Path.isDescendant(editor.selection.anchor.path, currentItemPath)
     ) {
       const [firstItemNode, firstItemNodePath] = Editor.node(editor, [...currentItemPath, 0]);
-      const [parentNode] = Editor.node(editor, Path.parent(currentListPath));
-      // If first block of list element is empty (usually a header, paragraph or blockquote)
+      // If the first block in list item is an empty string
       if (Node.string(firstItemNode) === '') {
         event.preventDefault();
-        if (!Element.isElement(parentNode) || parentNode.type !== TYPE_LIST_ITEM) {
-          const childList = currentItemNode.children[currentItemNode.children.length - 1];
-          if (Element.isElement(childList) && childList.type === TYPE_LIST) {
-            if (childList.listType !== currentListNode.listType) {
-              Transforms.setNodes(
-                editor,
-                { listType: currentListNode.listType },
-                { at: [...currentItemPath, currentItemNode.children.length - 1] },
-              );
-            }
-          }
-        }
+
         // Remove first block since it is empty and lift entire item.
         // List Normalizer will remove empty list caused by lifting list items out
         return Editor.withoutNormalizing(editor, () => {

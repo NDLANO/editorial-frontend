@@ -13,7 +13,6 @@ const onTab = (
   editor: Editor,
   next?: KeyboardEventHandler<HTMLDivElement>,
 ) => {
-  // If no selection use default behaviour.
   if (!editor.selection) return next && next(event);
   const isList = hasNodeOfType(editor, TYPE_LIST);
 
@@ -40,7 +39,7 @@ const onTab = (
       Path.isDescendant(editor.selection.anchor.path, currentItemPath) &&
       Path.isDescendant(editor.selection.focus.path, currentItemPath)
     ) {
-      // Move list-elements up
+      // Move list-elements up (left)
       if (event.shiftKey) {
         const [parentNode, parentPath] = Editor.node(editor, Path.parent(currentListPath));
         // If item at highest level in list => Lift entire list element out of current list.
@@ -58,11 +57,13 @@ const onTab = (
           }
           return Transforms.liftNodes(editor, { at: currentItemPath });
         }
-
+        // Otherwise: It should exist a list item (targetPath) outside of the current list.
+        // Try to move current list item there.
         const targetPath = Path.parent(Path.parent(currentItemPath));
         if (Editor.hasPath(editor, targetPath)) {
           const [targetItemNode] = Editor.node(editor, targetPath);
           if (Element.isElement(targetItemNode) && targetItemNode.type === TYPE_LIST_ITEM) {
+            // If current item contains more than one block, they should be moved as well
             if (Editor.hasPath(editor, Path.next(currentItemPath))) {
               const anchor = Editor.start(editor, Path.next(currentItemPath));
               const focus = Editor.end(editor, [
@@ -72,14 +73,19 @@ const onTab = (
               if (anchor && focus) {
                 const childList = currentItemNode.children[currentItemNode.children.length - 1];
                 if (Element.isElement(childList) && childList.type === TYPE_LIST) {
-                  // Change child list if necessary and move any following list-elements of selected list to the child list.
+                  // Child list will be changed to match current list type
                   if (childList.listType !== currentListNode.listType) {
                     Transforms.setNodes(
                       editor,
-                      { listType: currentListNode.listType },
-                      { at: [...currentItemPath, currentItemNode.children.length - 1] },
+                      {
+                        listType: currentListNode.listType,
+                      },
+                      {
+                        at: [...currentItemPath, currentItemNode.children.length - 1],
+                      },
                     );
                   }
+                  // move any following list-items of selected list to the child list.
                   Transforms.moveNodes(editor, {
                     match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
                     mode: 'lowest',
@@ -121,7 +127,7 @@ const onTab = (
                 }
               }
             }
-            // If current list is followed by more blocks, move them to selected item
+            // If current list is followed by more blocks, move the blocks to the selected list item
             if (Editor.hasPath(editor, Path.next(currentListPath))) {
               Transforms.moveNodes(editor, {
                 match: node => Element.isElement(node) && node.type === TYPE_LIST,
@@ -133,7 +139,7 @@ const onTab = (
               });
             }
 
-            // Move selected item to correct index in upper list.
+            // Move selected list item to correct index in upper list.
             Transforms.moveNodes(editor, {
               at: currentItemPath,
               to: Path.next(targetPath),

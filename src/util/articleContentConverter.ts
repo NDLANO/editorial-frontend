@@ -24,7 +24,11 @@ import { conceptSerializer } from '../components/SlateEditor/plugins/concept';
 import { asideSerializer } from '../components/SlateEditor/plugins/aside';
 import { fileSerializer } from '../components/SlateEditor/plugins/file';
 import { detailsSerializer } from '../components/SlateEditor/plugins/details';
+<<<<<<< HEAD
 import { relatedSerializer } from '../components/SlateEditor/plugins/related';
+=======
+import { embedSerializer } from '../components/SlateEditor/plugins/embed';
+>>>>>>> 81625fd57db1b06065e753f1f6724364c4fb94c7
 import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
 
 export const sectionSplitter = (html: string) => {
@@ -73,7 +77,11 @@ export const learningResourceContentToEditorValue = (html: string) => {
     asideSerializer,
     fileSerializer,
     detailsSerializer,
+<<<<<<< HEAD
     relatedSerializer,
+=======
+    embedSerializer,
+>>>>>>> 81625fd57db1b06065e753f1f6724364c4fb94c7
     bodyboxSerializer,
   ];
   const deserialize = (el: HTMLElement | ChildNode) => {
@@ -134,7 +142,11 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
     asideSerializer,
     fileSerializer,
     detailsSerializer,
+<<<<<<< HEAD
     relatedSerializer,
+=======
+    embedSerializer,
+>>>>>>> 81625fd57db1b06065e753f1f6724364c4fb94c7
     bodyboxSerializer,
   ];
 

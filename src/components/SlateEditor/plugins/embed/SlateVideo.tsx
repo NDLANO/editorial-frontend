@@ -8,7 +8,8 @@
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import React, { Fragment, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
@@ -29,15 +30,15 @@ const videoStyle = css`
 `;
 
 interface Props {
-  attributes?: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
+  attributes: RenderElementProps['attributes'];
   embed: Embed;
   figureClass: any;
   language: string;
   onRemoveClick: Function;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
+  active: boolean;
+  isSelectedForCopy: boolean;
+  children: ReactNode;
 }
 
 const SlateVideo = ({
@@ -48,12 +49,16 @@ const SlateVideo = ({
   language,
   onRemoveClick,
   saveEmbedUpdates,
+  active,
+  isSelectedForCopy,
+  children,
 }: Props & tType) => {
   const [editMode, setEditMode] = useState(false);
   const [src, setSrc] = useState('');
   const [startTime, setStartTime] = useState('');
   const [stopTime, setStopTime] = useState('');
   const [caption, setCaption] = useState(embed.caption);
+  const showCopyOutline = isSelectedForCopy && (!editMode || !active);
 
   useEffect(() => {
     const { resource, account, videoid, url, player = 'default' } = embed;
@@ -101,13 +106,18 @@ const SlateVideo = ({
           saveEmbedUpdates={saveEmbedUpdates}
         />
       ) : (
-        <Fragment>
+        <div contentEditable={false}>
           <Figure
             draggable
             style={{ paddingTop: '57%' }}
             {...figureClass}
             id={embed.videoid || embed.url}
-            resizeIframe>
+            resizeIframe
+            css={
+              showCopyOutline && {
+                boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+              }
+            }>
             <iframe
               title={`Video: ${embed?.metaData?.name || ''}`}
               frameBorder="0"
@@ -121,8 +131,9 @@ const SlateVideo = ({
               <div className="c-figure__info">{embed.caption}</div>
             </figcaption>
           </Button>
-        </Fragment>
+        </div>
       )}
+      {children}
     </div>
   );
 };

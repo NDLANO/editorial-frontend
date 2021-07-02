@@ -8,6 +8,8 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Transforms } from 'slate';
+import { ReactEditor } from 'slate-react';
 import { injectT } from '@ndla/i18n';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
@@ -46,14 +48,14 @@ export class DisplayExternal extends Component {
   }
 
   onEditEmbed(properties) {
-    const { editor, node, embed } = this.props;
+    const { editor, element, embed } = this.props;
 
     if (properties.url !== embed.url || properties.path !== embed.path) {
-      editor.setNodeByKey(node.key, {
-        data: {
-          ...properties,
-        },
-      });
+      Transforms.setNodes(
+        editor,
+        { data: this.state.files },
+        { at: ReactEditor.findPath(editor, element) },
+      );
       this.closeEditEmbed();
     }
   }
@@ -117,8 +119,9 @@ export class DisplayExternal extends Component {
   }
 
   render() {
-    const { onRemoveClick, embed, t, language } = this.props;
+    const { onRemoveClick, embed, t, language, children, isSelectedForCopy, active } = this.props;
     const { isEditMode, title, src, height, error, type, provider, domain } = this.state;
+    const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
 
     const errorHolder = () => (
       <EditorErrorMessage
@@ -155,7 +158,13 @@ export class DisplayExternal extends Component {
       return <div />;
     }
     return (
-      <div className="c-figure">
+      <div
+        className="c-figure"
+        css={
+          showCopyOutline && {
+            boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+          }
+        }>
         <FigureButtons
           language={language}
           tooltip={t('form.external.remove', {
@@ -172,6 +181,7 @@ export class DisplayExternal extends Component {
           }
         />
         <iframe
+          contentEditable={false}
           ref={iframe => {
             this.iframe = iframe;
           }}
@@ -190,6 +200,7 @@ export class DisplayExternal extends Component {
           onClose={this.closeEditEmbed}
           allowedProvider={allowedProvider}
         />
+        {children}
       </div>
     );
   }
@@ -199,7 +210,7 @@ DisplayExternal.propTypes = {
   onRemoveClick: PropTypes.func,
   changeVisualElement: PropTypes.func,
   editor: EditorShape,
-  node: PropTypes.any,
+  element: PropTypes.any,
   isIframe: PropTypes.bool,
   embed: PropTypes.shape({
     width: PropTypes.string,
@@ -209,6 +220,9 @@ DisplayExternal.propTypes = {
     resource: PropTypes.string,
   }),
   language: PropTypes.string,
+  children: PropTypes.any,
+  isSelectedForCopy: PropTypes.bool.isRequired,
+  active: PropTypes.bool.isRequired,
 };
 
 export default injectT(DisplayExternal);

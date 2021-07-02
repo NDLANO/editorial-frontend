@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
@@ -18,20 +19,31 @@ import FigureButtons from './FigureButtons';
 import { SlateAudio as Audio, Embed, LocaleType } from '../../../../interfaces';
 
 interface BaseProps {
-  attributes?: {
-    'data-key': String;
-    'data-slate-object': String;
-  };
+  attributes: RenderElementProps['attributes'];
   embed: Embed;
   language: string;
   locale: LocaleType;
   onRemoveClick: Function;
+  active: boolean;
+  isSelectedForCopy: boolean;
+  children: ReactNode;
 }
 
 type Props = BaseProps & tType;
 
-const SlatePodcast = ({ t, attributes, embed, language, locale, onRemoveClick }: Props) => {
+const SlatePodcast = ({
+  t,
+  attributes,
+  embed,
+  language,
+  locale,
+  onRemoveClick,
+  active,
+  isSelectedForCopy,
+  children,
+}: Props) => {
   const [audio, setAudio] = useState<Audio>({} as Audio);
+  const showCopyOutline = isSelectedForCopy;
 
   useEffect(() => {
     const getAudio = async () => {
@@ -60,8 +72,17 @@ const SlatePodcast = ({ t, attributes, embed, language, locale, onRemoveClick }:
           embed={embed}
           language={language}
         />
-        {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={false} />}
+        <div
+          contentEditable={false}
+          css={
+            showCopyOutline && {
+              boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+            }
+          }>
+          {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={false} />}
+        </div>
       </Figure>
+      {children}
     </div>
   );
 };

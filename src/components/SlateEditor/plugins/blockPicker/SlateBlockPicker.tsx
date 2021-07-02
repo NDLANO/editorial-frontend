@@ -87,7 +87,8 @@ const SlateBlockPicker = (props: Props & tType) => {
         onInsertBlock(defaultAsideBlock(data.object));
         break;
       }
-      case 'file': {
+      case 'file':
+      case 'embed': {
         setVisualElementSelect({
           isOpen: true,
           visualElementType: data.object,
@@ -240,7 +241,7 @@ const SlateBlockPicker = (props: Props & tType) => {
           onInsertBlock={onInsertBlock}
         />
       </Portal>
-      <Portal isOpened>
+      <Portal isOpened={!visualElementSelect.isOpen}>
         <div data-cy="slate-block-picker-button" ref={slateBlockRef}>
           <SlateBlockMenu
             ref={slateBlockButtonRef}

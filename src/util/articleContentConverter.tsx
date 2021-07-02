@@ -82,9 +82,9 @@ export const learningResourceContentToEditorValue = (html: string) => {
     detailsSerializer,
     tableSerializer,
     relatedSerializer,
+    codeblockSerializer,
     embedSerializer,
     bodyboxSerializer,
-    codeblockSerializer,
   ];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {

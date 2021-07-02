@@ -55,18 +55,17 @@ export const relatedSerializer: SlateSerializer = {
       { text: '' },
     );
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== TYPE_RELATED) return;
 
-    return `<div data-type="related-content">${
-      node.data.nodes
-        ? node.data.nodes
-            .map(child => {
-              return createEmbedTag(child);
-            })
-            .join('')
-        : ''
-    }</div>`;
+    return (
+      <div data-type="related-content">
+        {node.data.nodes &&
+          node.data.nodes.map(child => {
+            return createEmbedTag(child);
+          })}
+      </div>
+    );
   },
 };
 

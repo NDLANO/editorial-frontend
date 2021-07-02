@@ -7,8 +7,9 @@
  */
 
 import { jsx } from 'slate-hyperscript';
-import { TYPE_FILE } from '.';
+import { TYPE_EMBED } from '.';
+import { Embed } from '../../../../interfaces';
 
-export const defaultFileBlock = (data: DOMStringMap[]) => {
-  return jsx('element', { type: TYPE_FILE, data }, [{ text: '' }]);
+export const defaultEmbedBlock = (data: Embed) => {
+  return jsx('element', { type: TYPE_EMBED, data }, [{ text: '' }]);
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
-import { defaultBlocks } from '../../utils';
+import { defaultEmbedBlock } from '../embed/utils';
 import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
 
@@ -15,7 +15,7 @@ const SlateVisualElementPicker = ({
 }) => {
   const onVisualElementAdd = (visualElement, type = 'embed') => {
     if (type === 'embed') {
-      const blockToInsert = defaultBlocks.defaultEmbedBlock(visualElement);
+      const blockToInsert = defaultEmbedBlock(visualElement);
       onInsertBlock(blockToInsert);
     } else if (type === 'file') {
       const blockToInsert = defaultFileBlock(visualElement);

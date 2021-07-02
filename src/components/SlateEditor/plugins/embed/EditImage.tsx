@@ -76,9 +76,7 @@ const EditImage = ({ t, embed, saveEmbedUpdates, setEditModus }: Props & tType) 
   useEffect(() => {
     const bodyRect = document.body.getBoundingClientRect();
     // Use contenteditable as reference to fetch embed size when previewing.
-    const placeholderRect = placeholderElement
-      .closest('div[contenteditable="false"]')
-      .getBoundingClientRect();
+    const placeholderRect = placeholderElement.closest('div.c-figure').getBoundingClientRect();
 
     embedElement.style.position = 'absolute';
     embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;

@@ -25,7 +25,7 @@ export interface ConceptElement {
 }
 
 export const conceptSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== 'embed') return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
@@ -45,7 +45,7 @@ export const conceptSerializer: SlateSerializer = {
       ],
     );
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_CONCEPT) return;
 

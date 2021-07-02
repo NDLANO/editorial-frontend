@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import { Dictionary } from 'lodash';
 import { Descendant, Editor, Element, NodeEntry, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';

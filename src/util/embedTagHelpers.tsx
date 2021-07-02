@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import React from 'react';
 import { Dictionary } from 'lodash';
 import isObject from 'lodash/fp/isObject';
 import { isEmpty } from '../components/validators';
 
-export const removeEmptyElementDataAttributes = (obj: Dictionary<string>) => {
+export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   const newObject: Dictionary<string> = {};
   Object.keys(obj).forEach((key: string) => {
     if (obj[key] !== null && obj[key] !== undefined) {
@@ -35,29 +36,32 @@ export const reduceElementDataAttributes = (
   return obj;
 };
 
-export const reduceChildElements = (el, type) => {
-  const childs = [];
+export const reduceChildElements = (el: HTMLElement, type: string) => {
+  const childs: object[] = [];
   el.childNodes.forEach(node => {
+    const childElement = node as HTMLElement;
     if (type === 'file') {
       childs.push({
-        ...node.dataset,
+        ...childElement.dataset,
       });
     } else if (type === 'related-content') {
-      const convertedDataset = Object.keys(node.dataset).reduce((acc, curr) => {
-        const currValue = node.dataset[curr];
-        if (curr === 'articleId')
+      if (childElement.dataset) {
+        const convertedDataset = Object.keys(childElement.dataset).reduce((acc, curr) => {
+          const currValue = childElement.dataset[curr];
+          if (curr === 'articleId')
+            return {
+              ...acc,
+              'article-id': currValue,
+            };
           return {
             ...acc,
-            'article-id': currValue,
+            [curr]: currValue,
           };
-        return {
-          ...acc,
-          [curr]: currValue,
-        };
-      }, {});
-      childs.push(convertedDataset);
+        }, {});
+        childs.push(convertedDataset);
+      }
     } else {
-      childs.push(node.dataset);
+      childs.push(childElement.dataset);
     }
   });
 
@@ -93,13 +97,15 @@ export const parseEmbedTag = embedTag => {
 
 export const createEmbedTag = (data: { [key: string]: any }) => {
   if (Object.keys(data).length === 0) {
-    return '';
+    return undefined;
   }
   const embed = document.createElement('embed');
+  const props: Dictionary<string> = {};
   Object.keys(data)
     .filter(key => data[key] !== undefined && !isObject(data[key]))
-    .forEach(key => embed.setAttribute(`data-${key}`, data[key]));
-  return embed.outerHTML;
+    .forEach(key => (props[`data-${key}`] = data[key]));
+
+  return <embed {...props}></embed>;
 };
 
 export const isUserProvidedEmbedDataValid = embed => {

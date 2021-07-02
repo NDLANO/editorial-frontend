@@ -36,7 +36,7 @@ export interface ContentLinkElement {
 }
 
 export const linkSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'a') {
       const a = el as HTMLLinkElement;
@@ -76,19 +76,25 @@ export const linkSerializer: SlateSerializer = {
     }
     return;
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_LINK) {
-      return `<a href="${node.href}" target="${node.target}" title="${node.title}" rel="${node.rel}">${children}</a>`;
+      return (
+        <a href={node.href} target={node.target} title={node.title} rel={node.rel}>
+          {children}
+        </a>
+      );
     }
     if (node.type === TYPE_CONTENT_LINK) {
-      return `<embed
-          data-content-id="${node['content-id']}"
-          data-link-text="${Node.string(node)}"
-          data-open-in="${node['open-in']}"
+      return (
+        <embed
+          data-content-id={node['content-id']}
+          data-link-text={Node.string(node)}
+          data-open-in={node['open-in']}
           data-resource="content-link"
-          data-content-type="${node['content-type']}"
-        />`;
+          data-content-type={node['content-type']}
+        />
+      );
     }
   },
 };

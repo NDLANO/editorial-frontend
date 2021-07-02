@@ -25,7 +25,7 @@ export interface HeadingElement {
 }
 
 export const headingSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'h1') {
       return jsx('element', { type: TYPE_HEADING, level: 1 }, children);
@@ -46,10 +46,10 @@ export const headingSerializer: SlateSerializer = {
       return jsx('element', { type: TYPE_HEADING, level: 6 }, children);
     }
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_HEADING) {
-      return `<h${node.level}>${children}</h${node.level}>`;
+      return React.createElement('h' + node.level, [], [children]);
     }
   },
 };

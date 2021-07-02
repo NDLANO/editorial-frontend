@@ -93,7 +93,11 @@ export const listPlugin = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_LIST) {
       if (element.listType === 'bulleted-list') {
-        return <ul {...attributes}>{children}</ul>;
+        return (
+          <ul className="c-block__bulleted-list" {...attributes}>
+            {children}
+          </ul>
+        );
       } else if (element.listType === 'numbered-list') {
         const { start } = element.data;
 
@@ -114,7 +118,11 @@ export const listPlugin = (editor: Editor) => {
         );
       }
     } else if (element.type === TYPE_LIST_ITEM) {
-      return <li {...attributes}>{children}</li>;
+      return (
+        <li className="c-block__list-item" {...attributes}>
+          {children}
+        </li>
+      );
     } else if (renderElement) {
       return renderElement({ attributes, children, element });
     }

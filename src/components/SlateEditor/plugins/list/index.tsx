@@ -180,12 +180,6 @@ export const listPlugin = (editor: Editor) => {
         });
         return;
       }
-      // Handle moving list-items marked for moving up in the tree (left)
-      if (node.moveUp) {
-      }
-      // Handle moving list-items marked for moving down in the tree (right)
-      if (node.moveDown) {
-      }
     }
     if (Element.isElement(node) && node.type === TYPE_LIST) {
       // If list is empty, remove it
@@ -193,6 +187,7 @@ export const listPlugin = (editor: Editor) => {
         return Transforms.removeNodes(editor, { at: path });
       }
 
+      // Merge list with previous list if identical type
       if (Path.hasPrevious(path)) {
         const prevPath = Path.previous(path);
         if (Editor.hasPath(editor, prevPath)) {
@@ -208,6 +203,7 @@ export const listPlugin = (editor: Editor) => {
         }
       }
 
+      // Merge list with next list if identical type
       const nextPath = Path.next(path);
       if (Editor.hasPath(editor, nextPath)) {
         const [nextNode] = Editor.node(editor, nextPath);

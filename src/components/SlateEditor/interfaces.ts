@@ -15,6 +15,7 @@ import { ConceptElement } from './plugins/concept';
 import { AsideElement } from './plugins/aside';
 import { FileElement } from './plugins/file';
 import { DetailsElement, SummaryElement } from './plugins/details';
+import { EmbedElement } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
 import { CodeblockElement } from './plugins/codeBlock';
 
@@ -52,7 +53,8 @@ declare module 'slate' {
       | DetailsElement
       | SummaryElement
       | BodyboxElement
-      | CodeblockElement;
+      | CodeblockElement
+      | EmbedElement;
     Text: CustomTextWithMarks;
   }
 }

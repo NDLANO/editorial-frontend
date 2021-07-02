@@ -26,7 +26,7 @@ import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../../util/slateHelpers';
 import { codeblockPlugin } from '../../../../components/SlateEditor/plugins/codeBlock';
 import { footnotePlugin, TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote';
-import createEmbedPlugin from '../../../../components/SlateEditor/plugins/embed';
+import { embedPlugin } from '../../../../components/SlateEditor/plugins/embed';
 import { bodyboxPlugin } from '../../../../components/SlateEditor/plugins/bodybox';
 import { asidePlugin } from '../../../../components/SlateEditor/plugins/aside';
 import { detailsPlugin } from '../../../../components/SlateEditor/plugins/details';
@@ -95,6 +95,7 @@ const LearningResourceContent = ({
   values: { id, language, creators, published },
   handleBlur,
   handleSubmit,
+  locale,
 }) => {
   const handleSubmitRef = React.useRef(handleSubmit);
 
@@ -105,7 +106,7 @@ const LearningResourceContent = ({
     sectionPlugin,
     paragraphPlugin,
     footnotePlugin,
-    // createEmbedPlugin(articleLanguage, props.locale),
+    embedPlugin(articleLanguage, locale),
     bodyboxPlugin,
     asidePlugin,
     detailsPlugin,

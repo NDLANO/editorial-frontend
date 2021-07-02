@@ -27,6 +27,7 @@ import { asideSerializer } from '../components/SlateEditor/plugins/aside';
 import { fileSerializer } from '../components/SlateEditor/plugins/file';
 import { detailsSerializer } from '../components/SlateEditor/plugins/details';
 import { tableSerializer } from '../components/SlateEditor/plugins/table';
+import { relatedSerializer } from '../components/SlateEditor/plugins/related';
 import { embedSerializer } from '../components/SlateEditor/plugins/embed';
 import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
 
@@ -77,6 +78,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
     fileSerializer,
     detailsSerializer,
     tableSerializer,
+    relatedSerializer,
     embedSerializer,
     bodyboxSerializer,
   ];
@@ -142,6 +144,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
     fileSerializer,
     detailsSerializer,
     tableSerializer,
+    relatedSerializer,
     embedSerializer,
     bodyboxSerializer,
   ];

@@ -21,18 +21,18 @@ export interface UdirCoreType {
   id: string;
   kode: string;
   uri: string;
-  "url-data": string;
+  'url-data': string;
   tittel: Title[];
-  "grep-type": string;
+  'grep-type': string;
 }
 
 export interface KjerneElementer extends UdirCoreType {
-      rekkefoelge: number,
-      "tilhoerer_laereplan": {
-        kode: string,
-        uri: string,
-        "url-data": string,
-      }
+  rekkefoelge: number;
+  tilhoerer_laereplan: {
+    kode: string;
+    uri: string;
+    'url-data': string;
+  };
 }
 
 export interface Laereplaner extends UdirCoreType {
@@ -46,16 +46,14 @@ export interface TverrfagligeTemaer extends UdirCoreType {
 export interface KompetanseMaal extends UdirCoreType {
   status: string;
   rekkefoelge: number;
-  "tilhoerer_laereplan": {
-    kode: string,
-    uri: string,
-    "url-data": string,
-  }
+  tilhoerer_laereplan: {
+    kode: string;
+    uri: string;
+    'url-data': string;
+  };
 }
 
 export type KompetanseMaalsett = KompetanseMaal;
-
-
 
 const getTitlesObject = (titles: Tekst | Title[] | undefined): Title[] => {
   return (titles as Tekst)?.tekst || titles || [];
@@ -100,7 +98,7 @@ export const fetchGrepCodeTitle = async (grepCode: string): Promise<string | und
     if (res?.status === 404) {
       return null;
     }
-    const jsonResponse = await resolveJsonOrRejectWithError<UdirCoreType>(res); 
+    const jsonResponse = await resolveJsonOrRejectWithError<UdirCoreType>(res);
     const titlesObj = getTitlesObject(jsonResponse?.tittel);
     const titleInLanguage = getTitle(titlesObj);
     return titleInLanguage;

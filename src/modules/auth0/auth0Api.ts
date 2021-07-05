@@ -15,9 +15,7 @@ export const fetchAuth0Users = (uniqueUserIds: string): Promise<User[]> =>
   );
 
 export const fetchAuth0Editors = (role: string): Promise<User[]> =>
-  fetchAuthorized(`/get_editors?role=${role}`).then(r =>
-    resolveJsonOrRejectWithError<User[]>(r),
-  );
+  fetchAuthorized(`/get_editors?role=${role}`).then(r => resolveJsonOrRejectWithError<User[]>(r));
 
 export const fetchZendeskToken = (): Promise<ZendeskToken> =>
   fetchAuthorized('/get_zendesk_token').then(r => resolveJsonOrRejectWithError<ZendeskToken>(r));

@@ -118,16 +118,16 @@ export const fetchOembed = async (url: string, options?: FetchConfig): Promise<H
   return resolveJsonOrRejectWithError(data);
 };
 
-const setH5pOembedUrl = (query: {url: string}) =>
+const setH5pOembedUrl = (query: { url: string }) =>
   `${config.h5pApiUrl}/oembed/preview?${queryString.stringify(query)}`;
 
-const setOembedUrl = (query: {url: string}) =>
+const setOembedUrl = (query: { url: string }) =>
   `${apiResourceUrl('/oembed-proxy/v1/oembed')}?${queryString.stringify(query)}`;
 
 export const fetchExternalOembed = (url: string, options?: FetchConfig) => {
-  let setOembed = setOembedUrl({url});
+  let setOembed = setOembedUrl({ url });
   if (config.h5pApiUrl && url.includes(config.h5pApiUrl)) {
-    setOembed = setH5pOembedUrl({url});
+    setOembed = setH5pOembedUrl({ url });
   }
   return fetchOembed(setOembed, options);
 };

@@ -12,7 +12,7 @@ import { fetchReAuthorized, resolveJsonOrRejectWithError } from '../../util/apiH
 export const fetchH5PiframeUrl = async (
   locale: string = '',
   canReturnResources: boolean = false,
-): Promise<{url: string}> => {
+): Promise<{ url: string }> => {
   const response = await fetchReAuthorized(
     `${config.h5pApiUrl}/select?locale=${getH5pLocale(
       locale,
@@ -25,7 +25,10 @@ export const fetchH5PiframeUrl = async (
   return resolveJsonOrRejectWithError(response);
 };
 
-export const editH5PiframeUrl = async (url: string, locale: string = ''): Promise<{url: string}> => {
+export const editH5PiframeUrl = async (
+  url: string,
+  locale: string = '',
+): Promise<{ url: string }> => {
   const response = await fetchReAuthorized(
     `${config.h5pApiUrl}/select/edit/byurl?locale=${getH5pLocale(locale)}`,
     {

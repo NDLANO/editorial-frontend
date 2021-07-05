@@ -22,13 +22,12 @@ import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import Spinner from '../../../components/Spinner';
+import { StructureShape } from '../../../shapes';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
     super();
-    this.state = {
-      filterPickerId: '',
-    };
+    this.state = {};
     this.onDelete = this.onDelete.bind(this);
     this.toggleDelete = this.toggleDelete.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
@@ -94,25 +93,27 @@ class ResourceItems extends React.PureComponent {
   }
 
   render() {
-    const { contentType, resources, t, currentSubject, locale } = this.props;
+    const { resources, t, currentSubject, structure, locale } = this.props;
 
-    const { deleteId, error, filterPickerId, loading } = this.state;
+    const { deleteId, error, loading } = this.state;
 
     if (loading) {
       return <Spinner />;
     }
     return (
       <ul {...classes('list')}>
-        <MakeDndList onDragEnd={this.onDragEnd} disableDnd={!!filterPickerId} dragHandle>
+        <MakeDndList onDragEnd={this.onDragEnd} dragHandle>
           {resources.map(resource => (
             <Resource
+              resource={resource}
               key={resource.id}
-              contentType={contentType}
+              id={resource.id}
               currentSubject={currentSubject}
+              structure={structure}
               onDelete={this.toggleDelete}
+              locale={locale}
               updateRelevanceId={this.updateRelevanceId}
               {...resource}
-              locale={locale}
             />
           ))}
         </MakeDndList>
@@ -142,7 +143,6 @@ class ResourceItems extends React.PureComponent {
 }
 
 ResourceItems.propTypes = {
-  contentType: PropTypes.string.isRequired,
   resources: PropTypes.arrayOf(ResourceShape),
   classes: PropTypes.func,
   refreshResources: PropTypes.func.isRequired,
@@ -150,6 +150,8 @@ ResourceItems.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
+  currentTopic: PropTypes.shape({}),
+  structure: PropTypes.arrayOf(StructureShape),
   locale: PropTypes.string,
 };
 

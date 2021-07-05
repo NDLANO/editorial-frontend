@@ -46,6 +46,7 @@ export class StructureContainer extends React.PureComponent {
     this.state = {
       editStructureHidden: false,
       subjects: [],
+      topics: [],
       jsPlumbConnections: [],
       activeConnections: [],
       resourcesUpdated: false,
@@ -128,6 +129,9 @@ export class StructureContainer extends React.PureComponent {
     try {
       this.saveSubjectItems(subjectid, { loading: true });
       const allTopics = await fetchSubjectTopics(subjectid, locale);
+      this.setState({
+        topics: allTopics,
+      });
       const topics = groupTopics(allTopics);
       this.saveSubjectItems(subjectid, { topics, loading: false });
     } catch (e) {
@@ -148,24 +152,14 @@ export class StructureContainer extends React.PureComponent {
     }));
   }
 
-  saveSubjectTopicItems(subjectid, topicId, saveItems) {
-    this.setState(prevState => ({
-      subjects: prevState.subjects.map(subject => {
-        if (subject.id === subjectid)
-          return {
-            ...subject,
-            topics: subject.topics.map(topic => {
-              if (topic.id === topicId)
-                return {
-                  ...topic,
-                  ...saveItems,
-                };
-              return topic;
-            }),
-          };
-        return subject;
-      }),
-    }));
+  saveSubjectTopicItems(subjectId, topicId, saveItems) {
+    this.setState(prevState => {
+      return {
+        topics: prevState.topics.map(topic =>
+          topic.id === topicId ? { ...topic, ...saveItems } : topic,
+        ),
+      };
+    });
   }
 
   async setPrimary(subjectId) {
@@ -289,7 +283,7 @@ export class StructureContainer extends React.PureComponent {
 
     const currentTopic = getCurrentTopic({
       params,
-      subject: currentSubject,
+      allTopics: this.state.topics,
     });
     const topics = currentTopic.subtopics || currentSubject.topics;
     const currentRank = topics[source.index].rank;
@@ -346,6 +340,7 @@ export class StructureContainer extends React.PureComponent {
     const {
       jsPlumbConnections,
       subjects,
+      topics,
       editStructureHidden,
       showFavorites,
       favoriteSubjects,
@@ -355,8 +350,9 @@ export class StructureContainer extends React.PureComponent {
     const currentSubject = subjects.find(sub => sub.id === params.subject);
     const currentTopic = getCurrentTopic({
       params,
-      subject: currentSubject,
+      allTopics: topics,
     });
+    const grouped = currentTopic.metadata?.customFields['topic-resources'] || 'grouped';
     const linkViewOpen = jsPlumbConnections.length > 0;
 
     return (
@@ -413,7 +409,7 @@ export class StructureContainer extends React.PureComponent {
                     deleteTopicLink={this.deleteTopicLink}
                     structure={subjects}
                     jumpToResources={() =>
-                      this.resourceSection && this.resourceSection.current.scrollIntoView()
+                      this.resourceSection && this.resourceSection.current?.scrollIntoView()
                     }
                     locale={locale}
                     userAccess={userAccess}
@@ -438,6 +434,7 @@ export class StructureContainer extends React.PureComponent {
               saveSubjectTopicItems={this.saveSubjectTopicItems}
               resourcesUpdated={this.state.resourcesUpdated}
               setResourcesUpdated={this.setResourcesUpdated}
+              grouped={grouped}
             />
           )}
         </OneColumn>

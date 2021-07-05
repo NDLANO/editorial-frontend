@@ -11,7 +11,6 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../../util/apiHelpers';
-import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 import { taxonomyApi } from '../../../config';
 import {
   Resource,
@@ -21,12 +20,15 @@ import {
   TaxonomyMetadata,
   Topic,
 } from '../taxonomyApiInterfaces';
+import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
 export const fetchResource = (id: string, language?: string): Promise<Resource> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}${lang}`).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/resources/${id}${lang}`).then(r =>
+    resolveJsonOrRejectWithError<Resource>(r),
+  );
 };
 
 export const fetchFullResource = (
@@ -34,8 +36,8 @@ export const fetchFullResource = (
   language?: string,
 ): Promise<ResourceWithParentTopics> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}/full${lang}`).then(
-    resolveJsonOrRejectWithError,
+  return fetchAuthorized(`${baseUrl}/resources/${id}/full${lang}`).then(r =>
+    resolveJsonOrRejectWithError<ResourceWithParentTopics>(r),
   );
 };
 
@@ -50,7 +52,7 @@ export const createResource = (resource: {
     },
     method: 'POST',
     body: JSON.stringify(resource),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(resolveLocation);
 };
 
 export const fetchResourceResourceType = (
@@ -58,13 +60,15 @@ export const fetchResourceResourceType = (
   language?: string,
 ): Promise<ResourceResourceType[]> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}/resource-types/${lang}`).then(
-    resolveJsonOrRejectWithError,
+  return fetchAuthorized(`${baseUrl}/resources/${id}/resource-types/${lang}`).then(r =>
+    resolveJsonOrRejectWithError<ResourceResourceType[]>(r),
   );
 };
 
 export const fetchResourceMetadata = (id: string): Promise<TaxonomyMetadata> => {
-  return fetchAuthorized(`${baseUrl}/resources/${id}/metadata`).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/resources/${id}/metadata`).then(r =>
+    resolveJsonOrRejectWithError<TaxonomyMetadata>(r),
+  );
 };
 
 export const updateResourceMetadata = (
@@ -75,7 +79,7 @@ export const updateResourceMetadata = (
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<TaxonomyMetadata>(r));
 };
 
 export async function getResourceId({
@@ -104,7 +108,7 @@ export const queryResources = (
     `${baseUrl}/resources/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
     )}&language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
+  ).then(r => resolveJsonOrRejectWithError<Resource[]>(r));
 };
 
 export const queryTopics = (
@@ -116,13 +120,13 @@ export const queryTopics = (
     `${baseUrl}/topics/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
     )}&language=${language}`,
-  ).then(resolveJsonOrRejectWithError);
+  ).then(r => resolveJsonOrRejectWithError<Topic[]>(r));
 };
 
 export const queryLearningPathResource = (learningpathId: number): Promise<Resource[]> => {
   return fetchAuthorized(
     `${baseUrl}/resources/?contentURI=${encodeURIComponent(`urn:learningpath:${learningpathId}`)}`,
-  ).then(resolveJsonOrRejectWithError);
+  ).then(r => resolveJsonOrRejectWithError<Resource[]>(r));
 };
 
 export async function queryContent(id: string, language: string, contentType?: string) {
@@ -142,8 +146,8 @@ export async function queryContent(id: string, language: string, contentType?: s
 }
 
 export const fetchResourceTranslations = (id: string): Promise<ResourceTranslation[]> => {
-  return fetchAuthorized(`${baseUrl}/resources/${id}/translations`).then(
-    resolveTaxonomyJsonOrRejectWithError,
+  return fetchAuthorized(`${baseUrl}/resources/${id}/translations`).then(r =>
+    resolveJsonOrRejectWithError<ResourceTranslation[]>(r),
   );
 };
 
@@ -153,7 +157,7 @@ export const setResourceTranslation = (
   body: {
     name: string;
   },
-): Promise<boolean> => {
+): Promise<void> => {
   const url = `${baseUrl}/resources/${id}/translations/${language}`;
   return fetchAuthorized(url, {
     headers: {
@@ -161,5 +165,5 @@ export const setResourceTranslation = (
     },
     method: 'PUT',
     body: JSON.stringify(body),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<void>(r));
 };

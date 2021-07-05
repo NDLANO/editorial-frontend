@@ -174,17 +174,15 @@ export class StructureContainer extends React.PureComponent {
     );
 
     if (connection.connectionId.includes('topic-subtopic')) {
-      const ok = await updateTopicSubtopic(connection.connectionId, {
+      updateTopicSubtopic(connection.connectionId, {
         id: connection.targetId,
         primary: true,
-      });
-      if (ok) this.deleteConnections();
+      }).then(() => this.deleteConnections());
     } else {
-      const ok = await updateSubjectTopic(connection.connectionId, {
+      updateSubjectTopic(connection.connectionId, {
         id: connection.targetId,
         primary: true,
-      });
-      if (ok) this.deleteConnections();
+      }).then(() => this.deleteConnections());
     }
   }
 

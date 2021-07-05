@@ -26,13 +26,15 @@ const ChangeSubjectName = ({
   refreshTopics,
   t,
 }: Props & tType) => {
-  const onChangeSubjectName = async (name: string) => {
+  const onChangeSubjectName = async (name: string): Promise<boolean> => {
     if (name && name.trim() !== '') {
-      const ok = await updateSubject(id, name, contentUri);
-      getAllSubjects();
-      refreshTopics();
-      return ok;
+      return updateSubject(id, name, contentUri)
+        .then(() => getAllSubjects())
+        .then(() => refreshTopics())
+        .then(() => true)
+        .catch(_ => false);
     }
+    return false;
   };
   if (editMode === 'changeSubjectName') {
     return (

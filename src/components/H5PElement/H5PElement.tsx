@@ -94,7 +94,7 @@ class H5PElement extends Component<Props & tType, State> {
     const url = oembedUrl.match(/url=([^&]*)/)?.[0].replace('url=', '');
     const path = url?.replace(/https?:\/\/h5p.{0,8}.ndla.no/, '');
     try {
-      const metadata = await fetchH5PMetadata(event.data.embed_id);
+      const metadata: any = await fetchH5PMetadata(event.data.embed_id);
       const title = metadata.h5p.title;
       onSelect({ path, title });
     } catch (e) {

@@ -12,21 +12,21 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
-import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 import { taxonomyApi } from '../../../config';
 import { ResourceResourceType, ResourceType } from '../taxonomyApiInterfaces';
+import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
 const fetchAllResourceTypes = (language: string): Promise<ResourceType[]> => {
-  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(
-    resolveJsonOrRejectWithError,
+  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(r =>
+    resolveJsonOrRejectWithError<ResourceType[]>(r),
   );
 };
 
 const fetchResourceType = (id: string, locale: string): Promise<ResourceType> => {
-  return fetchAuthorized(`${baseUrl}/resource-types/${id}?language=${locale}`).then(
-    resolveJsonOrRejectWithError,
+  return fetchAuthorized(`${baseUrl}/resource-types/${id}?language=${locale}`).then(r =>
+    resolveJsonOrRejectWithError<ResourceType>(r),
   );
 };
 
@@ -40,7 +40,7 @@ const createResourceResourceType = (resourceType: {
     },
     method: 'POST',
     body: JSON.stringify(resourceType),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(resolveLocation);
 };
 
 const deleteResourceResourceType = (id: string): Promise<void> => {
@@ -49,7 +49,7 @@ const deleteResourceResourceType = (id: string): Promise<void> => {
       'Content-Type': 'application/json',
     },
     method: 'DELETE',
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<void>(r));
 };
 
 const createDeleteResourceTypes = async (

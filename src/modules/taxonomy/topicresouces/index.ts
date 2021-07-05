@@ -12,20 +12,22 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
-import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 import { taxonomyApi } from '../../../config';
 import { ParentTopicWithRelevanceAndConnections, TopicSubtopic } from '../taxonomyApiInterfaces';
+import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
 const fetchAllTopicResource = (language: string): Promise<TopicSubtopic[]> => {
-  return fetchAuthorized(`${baseUrl}/topic-resources/?language=${language}`).then(
-    resolveJsonOrRejectWithError,
+  return fetchAuthorized(`${baseUrl}/topic-resources/?language=${language}`).then(r =>
+    resolveJsonOrRejectWithError<TopicSubtopic[]>(r),
   );
 };
 
 const fetchSingleTopicResource = (id: string): Promise<TopicSubtopic> => {
-  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`).then(r =>
+    resolveJsonOrRejectWithError<TopicSubtopic>(r),
+  );
 };
 
 const createTopicResource = (topicResource: {
@@ -41,7 +43,7 @@ const createTopicResource = (topicResource: {
     },
     method: 'POST',
     body: JSON.stringify(topicResource),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(resolveLocation);
 };
 
 const updateTopicResource = (
@@ -58,7 +60,7 @@ const updateTopicResource = (
     },
     method: 'PUT',
     body: JSON.stringify(topicResource),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<void>(r));
 };
 
 const deleteTopicResource = (id: string): Promise<void> => {
@@ -67,7 +69,7 @@ const deleteTopicResource = (id: string): Promise<void> => {
       'Content-Type': 'application/json',
     },
     method: 'DELETE',
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<void>(r));
 };
 
 async function createDeleteUpdateTopicResources(

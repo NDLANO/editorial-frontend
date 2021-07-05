@@ -21,7 +21,7 @@ import { fetchDraftHistory } from '../modules/draft/draftApi';
 import { fetchAuth0Users } from '../modules/auth0/auth0Api';
 import formatDate from '../util/formatDate';
 import { getIdFromUrn } from '../util/taxonomyHelpers';
-import { Note } from '../interfaces';
+import { Note, User } from '../interfaces';
 
 const StyledResourceLinkContainer = styled.div`
   display: flex;
@@ -38,13 +38,6 @@ interface VersionHistoryNotes {
   author: string;
   date: string;
   status: string;
-}
-
-interface User {
-  app_metadata: {
-    ndla_id: string;
-  };
-  name: string;
 }
 
 interface Props {

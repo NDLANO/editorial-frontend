@@ -25,7 +25,7 @@ const H5PPage = props => {
           <H5PElement
             canReturnResources={false}
             h5pApiUrl={`${config.h5pApiUrl}/select`}
-            onSelect={() => {}}
+            onSelect={() => { }}
             onClose={() => {
               props.history.push('/');
             }}

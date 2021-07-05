@@ -40,7 +40,6 @@ export {
   fetchSubject,
   fetchSubjectTopics,
   addSubject,
-  updateSubjectName,
   updateSubject,
   addSubjectTopic,
   updateSubjectTopic,

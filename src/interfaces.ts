@@ -113,6 +113,17 @@ export interface ContentResultType {
   ];
 }
 
+export interface User {
+  app_metadata: {
+    ndla_id: string;
+  };
+  name: string;
+}
+
+export interface ZendeskToken {
+  token: string;
+}
+
 export interface ArticleType {
   id: number;
   title: string;
@@ -437,6 +448,21 @@ export interface AccordionProps {
 export interface FormikProperties {
   field: FieldProps<FormikValues>['field'];
   form: FormikHelpers<FormikValues>;
+}
+
+export interface BrightcoveAccessToken {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+}
+
+export interface H5POembed {
+  height: number;
+  width: number;
+  html: string;
+  type: string;
+  version: string;
+  title: string;
 }
 
 export interface License {

@@ -6,6 +6,7 @@
  *
  */
 
+import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -19,24 +20,27 @@ import {
   TopicConnections,
   TopicResourceType,
 } from '../taxonomyApiInterfaces';
-import { resolveTaxonomyJsonOrRejectWithError } from '../helpers';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
 const fetchTopics = (language?: string): Promise<Topic[]> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/topics${lang}`).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/topics${lang}`).then(r =>
+    resolveJsonOrRejectWithError<Topic[]>(r),
+  );
 };
 
 const fetchTopic = (urn: string, language?: string): Promise<Topic> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/topics/${urn}${lang}`).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/topics/${urn}${lang}`).then(r =>
+    resolveJsonOrRejectWithError<Topic>(r),
+  );
 };
 
 const fetchTopicResourceTypes = (language?: string): Promise<TopicResourceType[]> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/topic-resourcetypes/${lang}`).then(
-    resolveJsonOrRejectWithError,
+  return fetchAuthorized(`${baseUrl}/topic-resourcetypes/${lang}`).then(r =>
+    resolveJsonOrRejectWithError<TopicResourceType[]>(r),
   );
 };
 
@@ -50,7 +54,7 @@ const fetchTopicResources = (
   if (relevance) query.push(`relevance=${relevance}`);
   return fetchAuthorized(
     `${baseUrl}/topics/${topicUrn}/resources/${query.length ? `?${query.join('&')}` : ''}`,
-  ).then(resolveJsonOrRejectWithError);
+  ).then(r => resolveJsonOrRejectWithError<ResourceWithTopicConnection[]>(r));
 };
 
 const addTopic = (body: { contentUri?: string; id?: string; name: string }): Promise<string> => {
@@ -60,7 +64,7 @@ const addTopic = (body: { contentUri?: string; id?: string; name: string }): Pro
       'Content-Type': 'application/json; charset=utf-8',
     },
     body: JSON.stringify(body),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(resolveLocation);
 };
 
 const updateTopic = ({
@@ -70,19 +74,19 @@ const updateTopic = ({
   id: string;
   name?: string;
   contentUri?: string;
-}): Promise<boolean> => {
+}): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topics/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ ...params }),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<void>(r));
 };
 
-const deleteTopic = (id: string): Promise<boolean> => {
+const deleteTopic = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topics/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<void>(r));
 };
 
 const addTopicToTopic = (body: {
@@ -96,7 +100,7 @@ const addTopicToTopic = (body: {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(resolveLocation);
 };
 
 const updateTopicSubtopic = (
@@ -106,28 +110,30 @@ const updateTopicSubtopic = (
     rank?: number;
     relevanceId?: string;
   },
-): Promise<boolean> => {
+): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topic-subtopics/${connectionId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<void>(r));
 };
 
-const deleteTopicConnection = (id: string): Promise<boolean> => {
+const deleteTopicConnection = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/subject-topics/${id}`, {
     method: 'DELETE',
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<void>(r));
 };
 
-const deleteSubTopicConnection = (id: string): Promise<boolean> => {
+const deleteSubTopicConnection = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topic-subtopics/${id}`, {
     method: 'DELETE',
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<void>(r));
 };
 
 const fetchTopicConnections = (id: string): Promise<TopicConnections[]> => {
-  return fetchAuthorized(`${baseUrl}/topics/${id}/connections`).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/topics/${id}/connections`).then(r =>
+    resolveJsonOrRejectWithError<TopicConnections[]>(r),
+  );
 };
 
 const updateTopicMetadata = (
@@ -138,7 +144,7 @@ const updateTopicMetadata = (
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(resolveTaxonomyJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<TaxonomyMetadata>(r));
 };
 
 export {

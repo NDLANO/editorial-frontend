@@ -6,13 +6,18 @@
  *
  */
 
+import { User, ZendeskToken } from '../../interfaces';
 import { resolveJsonOrRejectWithError, fetchAuthorized } from '../../util/apiHelpers';
 
-export const fetchAuth0Users = (uniqueUserIds: string) =>
-  fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then(resolveJsonOrRejectWithError);
+export const fetchAuth0Users = (uniqueUserIds: string): Promise<User[]> =>
+  fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then(r =>
+    resolveJsonOrRejectWithError<User[]>(r),
+  );
 
-export const fetchAuth0Editors = (role: string) =>
-  fetchAuthorized(`/get_editors?role=${role}`).then(resolveJsonOrRejectWithError);
+export const fetchAuth0Editors = (role: string): Promise<User[]> =>
+  fetchAuthorized(`/get_editors?role=${role}`).then(r =>
+    resolveJsonOrRejectWithError<User[]>(r),
+  );
 
-export const fetchZendeskToken = () =>
-  fetchAuthorized('/get_zendesk_token').then(resolveJsonOrRejectWithError);
+export const fetchZendeskToken = (): Promise<ZendeskToken> =>
+  fetchAuthorized('/get_zendesk_token').then(r => resolveJsonOrRejectWithError<ZendeskToken>(r));

@@ -175,7 +175,7 @@ class SearchContentForm extends Component<Props & tType, State> {
 
   async getUsers() {
     const editors = await fetchAuth0Editors(DRAFT_WRITE_SCOPE);
-    return editors.map((u: { app_metadata: { ndla_id: string }; name: string }) => {
+    return editors.map(u => {
       return { id: `"${u.app_metadata.ndla_id}"`, name: u.name };
     });
   }

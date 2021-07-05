@@ -37,6 +37,7 @@ import {
 } from '../../../util/articleContentConverter';
 import { License } from '../../../interfaces';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
+import AddPodcastSeries from './AddPodcastSeries';
 
 const podcastRules = {
   title: {
@@ -98,6 +99,7 @@ export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => (
   introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),
   coverPhotoId: audio.podcastMeta?.coverPhoto.id,
   metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
+  series: audio.series,
 });
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
@@ -181,6 +183,7 @@ const PodcastForm = ({
         introduction: editorValueToPlainText(values.introduction),
         coverPhotoId: values.coverPhotoId,
         coverPhotoAltText: values.metaImageAlt,
+        series: values.series
       },
     };
 
@@ -205,6 +208,8 @@ const PodcastForm = ({
           dirty,
           changed: podcastChanged,
         });
+
+        console.log('isformdirty', formIsDirty)
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
@@ -254,13 +259,12 @@ const PodcastForm = ({
                       setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
                     }}
                   />
-                  <PodcastSeriesInformation
-                    podcastSeries={audio.series}
-                    language={audio.language}
-                  />
+                  <PodcastSeriesInformation />
+                  
                 </AccordionSection>
+
                 <AccordionSection
-                  id="podcast-upload-metadata"
+                  id="podcast-upload-series"
                   title={t('form.metadataSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(

@@ -113,7 +113,7 @@ export interface ContentResultType {
   ];
 }
 
-export interface User {
+export interface Auth0UserData {
   app_metadata: {
     ndla_id: string;
   };

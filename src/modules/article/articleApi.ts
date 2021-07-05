@@ -18,6 +18,7 @@ import {
   ArticleSearchResult,
   ArticleSearchSummaryApiType,
 } from './articleApiInterfaces';
+import { LocaleType } from '../../interfaces';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
 
@@ -28,7 +29,7 @@ export const searchArticles = (locale: string, queryString = ''): Promise<Articl
 
 export const searchRelatedArticles = async (
   input: string,
-  locale: string,
+  locale: LocaleType,
   contentType: string,
 ): Promise<ArticleSearchSummaryApiType[]> => {
   await new Promise(resolve => setTimeout(resolve, 50));

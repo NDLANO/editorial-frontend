@@ -30,7 +30,7 @@ export interface HttpHeadersType {
   Authorization: string;
 }
 
-export interface FetchConfig {
+export interface FetchConfigType {
   method?: 'POST' | 'PUT' | 'DELETE' | 'GET' | 'PATCH';
   headers?: Partial<HttpHeadersType>;
   body?: any;
@@ -55,7 +55,7 @@ export function googleSearchApiResourceUrl(path: string) {
 
 export const fetchWithAuthorization = async (
   url: string,
-  config: FetchConfig = {},
+  config: FetchConfigType = {},
   forceAuth: boolean,
 ) => {
   if (forceAuth || !isAccessTokenValid()) {
@@ -63,23 +63,24 @@ export const fetchWithAuthorization = async (
   }
 
   const contentType = config.headers ? config.headers['Content-Type']! : 'text/plain';
-  const extraHeaders = contentType ? { 'Content-Type': contentType } : {};
+  const extraHeaders = contentType ? { 'Content-Type': contentType } : null;
   const cacheControl = { 'Cache-Control': 'no-cache' };
+  const headers: HeadersInit = {
+    ...extraHeaders,
+    ...cacheControl,
+    Authorization: `Bearer ${getAccessToken()}`,
+  };
 
   return fetch(url, {
     ...config,
-    headers: {
-      ...extraHeaders,
-      ...cacheControl,
-      Authorization: `Bearer ${getAccessToken()}`,
-    } as HeadersInit,
+    headers,
   });
 };
 
-export const fetchAuthorized = (url: string, config: FetchConfig = {}) =>
+export const fetchAuthorized = (url: string, config: FetchConfigType = {}) =>
   fetchWithAuthorization(url, config, false);
 
-export const fetchReAuthorized = async (url: string, config: FetchConfig = {}) =>
+export const fetchReAuthorized = async (url: string, config: FetchConfigType = {}) =>
   fetchWithAuthorization(url, config, true);
 
 export const fetchBrightcoveAccessToken = () =>
@@ -113,7 +114,7 @@ export const fetchWithBrightCoveToken = (url: string) => {
   });
 };
 
-export const fetchOembed = async (url: string, options?: FetchConfig): Promise<H5POembed> => {
+export const fetchOembed = async (url: string, options?: FetchConfigType): Promise<H5POembed> => {
   const data = await fetchAuthorized(url, options);
   return resolveJsonOrRejectWithError(data);
 };
@@ -124,7 +125,7 @@ const setH5pOembedUrl = (query: { url: string }) =>
 const setOembedUrl = (query: { url: string }) =>
   `${apiResourceUrl('/oembed-proxy/v1/oembed')}?${queryString.stringify(query)}`;
 
-export const fetchExternalOembed = (url: string, options?: FetchConfig) => {
+export const fetchExternalOembed = (url: string, options?: FetchConfigType) => {
   let setOembed = setOembedUrl({ url });
   if (config.h5pApiUrl && url.includes(config.h5pApiUrl)) {
     setOembed = setH5pOembedUrl({ url });

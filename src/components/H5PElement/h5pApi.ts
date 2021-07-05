@@ -9,11 +9,11 @@
 import config from '../../config';
 import { fetchReAuthorized, resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 
-export const fetchH5PiframeUrl = async (
+export const fetchH5PiframeUrl = (
   locale: string = '',
   canReturnResources: boolean = false,
 ): Promise<{ url: string }> => {
-  const response = await fetchReAuthorized(
+  return fetchReAuthorized(
     `${config.h5pApiUrl}/select?locale=${getH5pLocale(
       locale,
     )}&canReturnResources=${canReturnResources}`,
@@ -21,26 +21,18 @@ export const fetchH5PiframeUrl = async (
       method: 'POST',
       headers: { Authorization: `Bearer JWT-token` },
     },
-  );
-  return resolveJsonOrRejectWithError(response);
+  ).then(r => resolveJsonOrRejectWithError(r));
 };
 
-export const editH5PiframeUrl = async (
-  url: string,
-  locale: string = '',
-): Promise<{ url: string }> => {
-  const response = await fetchReAuthorized(
-    `${config.h5pApiUrl}/select/edit/byurl?locale=${getH5pLocale(locale)}`,
-    {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        Authorization: `Bearer JWT-token`,
-      },
-      method: 'POST',
-      body: `url=${encodeURIComponent(url)}`,
+export const editH5PiframeUrl = (url: string, locale: string = ''): Promise<{ url: string }> => {
+  return fetchReAuthorized(`${config.h5pApiUrl}/select/edit/byurl?locale=${getH5pLocale(locale)}`, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      Authorization: `Bearer JWT-token`,
     },
-  );
-  return resolveJsonOrRejectWithError(response);
+    method: 'POST',
+    body: `url=${encodeURIComponent(url)}`,
+  }).then(r => resolveJsonOrRejectWithError(r));
 };
 
 export const getH5pLocale = (language: string) => {
@@ -49,6 +41,5 @@ export const getH5pLocale = (language: string) => {
 
 export const fetchH5PMetadata = async (resourceId: string) => {
   const url = `${config.h5pApiUrl}/v1/resource/${resourceId}/copyright`;
-  const response = await fetch(url);
-  return resolveJsonOrRejectWithError(response);
+  return fetch(url).then(r => resolveJsonOrRejectWithError(r));
 };

@@ -63,7 +63,7 @@ export const onError = (err: Response & Error) => {
 export const deleteLanguageVersionImage = (
   imageId: number,
   locale: string,
-): Promise<ImageApiType> | void => // how would this type work?
+): Promise<ImageApiType | void> =>
   fetchAuthorized(`${baseUrl}/${imageId}/language/${locale}`, {
     method: 'DELETE',
   }).then(r => resolveJsonOrRejectWithError<ImageApiType>(r));

@@ -21,7 +21,7 @@ import { fetchDraftHistory } from '../modules/draft/draftApi';
 import { fetchAuth0Users } from '../modules/auth0/auth0Api';
 import formatDate from '../util/formatDate';
 import { getIdFromUrn } from '../util/taxonomyHelpers';
-import { Note, User } from '../interfaces';
+import { Note, Auth0UserData } from '../interfaces';
 
 const StyledResourceLinkContainer = styled.div`
   display: flex;
@@ -61,7 +61,7 @@ const VersionHistoryLightBox = ({
   const [notes, setNotes] = useState<VersionHistoryNotes[] | undefined>(undefined);
 
   useEffect(() => {
-    const cleanupNotes = (notes: Note[], users: User[]) =>
+    const cleanupNotes = (notes: Note[], users: Auth0UserData[]) =>
       notes.map((note, index) => ({
         id: index,
         note: note.note,

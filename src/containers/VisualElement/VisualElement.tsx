@@ -10,8 +10,7 @@ import React, { useMemo } from 'react';
 import { FormikHandlers } from 'formik';
 import { Descendant } from 'slate';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
-import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
-import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
+import { embedPlugin } from '../../components/SlateEditor/plugins/embed';
 
 interface Props {
   onChange: FormikHandlers['handleChange'];
@@ -23,25 +22,6 @@ interface Props {
   value: Descendant[];
 }
 
-const createPlugins = (
-  empty: boolean,
-  types: string[],
-  changeVisualElement: (visualElement: string) => void,
-  language: string,
-) => {
-  return [
-    visualElementPickerPlugin({
-      types,
-      changeVisualElement,
-      empty,
-      language,
-    }),
-    visualElementPlugin({
-      language,
-    }),
-  ];
-};
-
 const VisualElement = ({
   onChange,
   changeVisualElement,
@@ -52,9 +32,8 @@ const VisualElement = ({
   value,
 }: Props) => {
   const plugins = useMemo(() => {
-    return createPlugins(!Object.keys(value).length, types, changeVisualElement, language);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, language, changeVisualElement]);
+    return [embedPlugin(language)];
+  }, [language]);
 
   /*if (isSubjectPage && value.resource === 'image') {
     delete value.caption;
@@ -64,7 +43,7 @@ const VisualElement = ({
     <VisualElementEditor
       name={name}
       value={value}
-      plugins={[]}
+      plugins={plugins}
       onChange={onChange}
       changeVisualElement={changeVisualElement}
       types={types}

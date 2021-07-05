@@ -64,7 +64,9 @@ export const getInitialValues = (article = {}) => {
     slatetitle: plainTextToEditorValue(article.title || ''),
     updated: article.updated,
     updatePublished: false,
-    visualElementObject: [defaultEmbedBlock(parseEmbedTag(article.visualElement))],
+    visualElementObject: article.visualElement
+      ? [defaultEmbedBlock(parseEmbedTag(article.visualElement))]
+      : [],
     grepCodes: article.grepCodes || [],
     conceptIds: article.conceptIds || [],
     availability: article.availability || 'everyone',

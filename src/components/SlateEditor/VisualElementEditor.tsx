@@ -9,12 +9,10 @@
 import React, { useMemo } from 'react';
 import { FormikHandlers } from 'formik';
 import { Descendant, Editor, createEditor } from 'slate';
-import { Slate, Editable, withReact } from 'slate-react';
+import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
 import { withHistory } from 'slate-history';
 
 import { SlateProvider } from './SlateContext';
-import { renderBlock } from './slateRendering';
-import { VisualElement } from '../../interfaces';
 import { SlatePlugin } from './interfaces';
 import VisualElementPicker from './plugins/visualElementPicker/VisualElementPicker';
 
@@ -45,7 +43,20 @@ const VisualElementEditor = ({
   language,
   types,
 }: Props) => {
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), [
+    plugins,
+  ]);
+
+  const renderElement = (elementProps: RenderElementProps) => {
+    const { attributes, children } = elementProps;
+    if (editor.renderElement) {
+      const ret = editor.renderElement(elementProps);
+      if (ret) {
+        return ret;
+      }
+    }
+    return <div {...attributes}>{children}</div>;
+  };
 
   return (
     <SlateProvider>
@@ -60,12 +71,15 @@ const VisualElementEditor = ({
             },
           });
         }}>
-        <VisualElementPicker
-          editor={editor}
-          language={language}
-          onSelect={changeVisualElement}
-          types={types}
-        />
+        {!value.length && (
+          <VisualElementPicker
+            editor={editor}
+            language={language}
+            onSelect={changeVisualElement}
+            types={types}
+          />
+        )}
+        <Editable renderElement={renderElement} />
       </Slate>
     </SlateProvider>
   );

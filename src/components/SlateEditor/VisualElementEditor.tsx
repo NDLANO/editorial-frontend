@@ -66,6 +66,7 @@ const VisualElementEditor = ({
         onChange={(val: Descendant[]) => {
           onChange({
             target: {
+              name,
               value: val,
               type: 'SlateEditorValue',
             },

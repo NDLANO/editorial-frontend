@@ -77,6 +77,7 @@ const SlateFigure = ({
   const isSelected = useSelected();
 
   const onRemoveClick = (e: any) => {
+    console.log('remove')
     e.stopPropagation();
     const path = ReactEditor.findPath(editor, element);
     ReactEditor.focus(editor);

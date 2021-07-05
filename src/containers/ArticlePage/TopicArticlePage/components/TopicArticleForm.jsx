@@ -36,6 +36,7 @@ import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import { useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
+import { defaultEmbedBlock } from '../../../../components/SlateEditor/plugins/embed/utils';
 
 export const getInitialValues = (article = {}) => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -63,7 +64,7 @@ export const getInitialValues = (article = {}) => {
     slatetitle: plainTextToEditorValue(article.title || ''),
     updated: article.updated,
     updatePublished: false,
-    visualElementObject: visualElement || {},
+    visualElementObject: [defaultEmbedBlock(parseEmbedTag(article.visualElement))],
     grepCodes: article.grepCodes || [],
     conceptIds: article.conceptIds || [],
     availability: article.availability || 'everyone',

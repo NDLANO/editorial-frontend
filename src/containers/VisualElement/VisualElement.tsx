@@ -8,10 +8,10 @@
 
 import React, { useMemo } from 'react';
 import { FormikHandlers } from 'formik';
+import { Descendant } from 'slate';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import visualElementPlugin from '../../components/SlateEditor/plugins/visualElement';
 import visualElementPickerPlugin from '../../components/SlateEditor/plugins/visualElementPicker';
-import { VisualElement as VisualElementType } from '../../interfaces';
 
 interface Props {
   onChange: FormikHandlers['handleChange'];
@@ -20,7 +20,7 @@ interface Props {
   isSubjectPage: boolean;
   types: string[];
   language: string;
-  value: VisualElementType;
+  value: Descendant[];
 }
 
 const createPlugins = (
@@ -56,12 +56,11 @@ const VisualElement = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, language, changeVisualElement]);
 
-  if (isSubjectPage && value.resource === 'image') {
+  /*if (isSubjectPage && value.resource === 'image') {
     delete value.caption;
-  }
+  }*/
   // TODO: Upgrade to slate 0.62
-  return null;
-  // return <VisualElementEditor name={name} value={value} plugins={plugins} onChange={onChange} />;
+  return <VisualElementEditor name={name} value={value} plugins={[]} onChange={onChange} />;
 };
 
 export default VisualElement;

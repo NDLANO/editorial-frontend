@@ -60,7 +60,17 @@ const VisualElement = ({
     delete value.caption;
   }*/
   // TODO: Upgrade to slate 0.62
-  return <VisualElementEditor name={name} value={value} plugins={[]} onChange={onChange} />;
+  return (
+    <VisualElementEditor
+      name={name}
+      value={value}
+      plugins={[]}
+      onChange={onChange}
+      changeVisualElement={changeVisualElement}
+      types={types}
+      language={language}
+    />
+  );
 };
 
 export default VisualElement;

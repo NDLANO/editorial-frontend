@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { Editor, Block } from 'slate';
+import { Editor, Element } from 'slate';
 
 import SlateVisualElementPicker from '../blockPicker/SlateVisualElementPicker';
 import VisualElementMenu from '../../../../containers/VisualElement/VisualElementMenu';
@@ -37,8 +37,8 @@ const VisualElementPicker = ({ editor, language, onSelect, types }: Props) => {
     });
   };
 
-  const onInsertBlock = (block: Block) => {
-    editor.insertBlock(block);
+  const onInsertBlock = (block: Element) => {
+    Editor.insertNode(editor, block);
   };
 
   return (

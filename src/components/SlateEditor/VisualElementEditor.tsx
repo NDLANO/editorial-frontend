@@ -15,13 +15,17 @@ import { withHistory } from 'slate-history';
 import { SlateProvider } from './SlateContext';
 import { renderBlock } from './slateRendering';
 import { VisualElement } from '../../interfaces';
-import { SlatePlugin } from './interfaces';
+import { SlatePlugin } from './interfaces';
+import VisualElementPicker from './plugins/visualElementPicker/VisualElementPicker';
 
 interface Props {
   name: string;
   value: Descendant[];
   plugins: SlatePlugin[];
   onChange: FormikHandlers['handleChange'];
+  changeVisualElement: (visualElement: string) => void;
+  language: string;
+  types: string[];
 }
 
 //TODO: Move to util
@@ -37,11 +41,11 @@ const VisualElementEditor = ({
   value,
   plugins,
   onChange,
+  changeVisualElement,
+  language,
+  types,
 }: Props) => {
-  const editor = useMemo(
-    () => withHistory(withReact(createEditor())),
-    [],
-  );
+  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   return (
     <SlateProvider>
@@ -56,10 +60,15 @@ const VisualElementEditor = ({
             },
           });
         }}>
+        <VisualElementPicker
+          editor={editor}
+          language={language}
+          onSelect={changeVisualElement}
+          types={types}
+        />
       </Slate>
-
     </SlateProvider>
   );
-}
+};
 
 export default VisualElementEditor;

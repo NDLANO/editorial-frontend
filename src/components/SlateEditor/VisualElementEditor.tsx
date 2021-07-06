@@ -14,7 +14,7 @@ import { withHistory } from 'slate-history';
 
 import { SlateProvider } from './SlateContext';
 import { SlatePlugin } from './interfaces';
-import VisualElementPicker from './plugins/visualElementPicker/VisualElementPicker';
+import VisualElementPicker from '../../containers/VisualElement/VisualElementPicker';
 import { EmbedElement } from './plugins/embed';
 
 interface Props {

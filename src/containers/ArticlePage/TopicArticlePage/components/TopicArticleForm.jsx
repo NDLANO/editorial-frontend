@@ -17,7 +17,7 @@ import {
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../../util/articleContentConverter';
-import { parseEmbedTag, createEmbedTag } from '../../../../util/embedTagHelpers';
+import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { LicensesArrayOf, ArticleShape } from '../../../../shapes';
 import {
   DEFAULT_LICENSE,

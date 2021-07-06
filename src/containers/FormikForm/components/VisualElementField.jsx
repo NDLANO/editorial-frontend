@@ -13,7 +13,6 @@ import { injectT } from '@ndla/i18n';
 import { ErrorMessage, connect } from 'formik';
 import BEMHelper from 'react-bem-helper';
 import { FieldHeader } from '@ndla/forms';
-import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElement from '../../VisualElement/VisualElement';
 import FormikField, { FormikFieldHelp } from '../../../components/FormikField';
 import { FormikShape } from '../../../shapes';

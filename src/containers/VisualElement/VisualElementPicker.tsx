@@ -8,9 +8,8 @@
 
 import React from 'react';
 import { Editor, Element } from 'slate';
-
-import SlateVisualElementPicker from '../blockPicker/SlateVisualElementPicker';
-import VisualElementMenu from '../../../../containers/VisualElement/VisualElementMenu';
+import SlateVisualElementPicker from '../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
+import VisualElementMenu from './VisualElementMenu';
 
 interface Props {
   editor: Editor;

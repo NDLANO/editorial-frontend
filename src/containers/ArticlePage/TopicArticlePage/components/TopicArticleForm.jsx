@@ -37,9 +37,9 @@ import { useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
 import { defaultEmbedBlock } from '../../../../components/SlateEditor/plugins/embed/utils';
+import { embedSerializer } from '../../../../components/SlateEditor/plugins/embed';
 
 export const getInitialValues = (article = {}) => {
-  const visualElement = parseEmbedTag(article.visualElement);
   const metaImageId = parseImageUrl(article.metaImage);
   return {
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
@@ -64,7 +64,7 @@ export const getInitialValues = (article = {}) => {
     slatetitle: plainTextToEditorValue(article.title || ''),
     updated: article.updated,
     updatePublished: false,
-    visualElementObject: article.visualElement
+    visualElementObject: article.visualElement?.length
       ? [defaultEmbedBlock(parseEmbedTag(article.visualElement))]
       : [],
     grepCodes: article.grepCodes || [],
@@ -92,9 +92,7 @@ const getPublishedDate = (values, initialValues, preview = false) => {
 // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
 const getArticleFromSlate = ({ values, initialValues, licenses, preview = false }) => {
   const emptyField = values.id ? '' : undefined;
-  const visualElement = createEmbedTag(
-    isEmpty(values.visualElementObject) ? {} : values.visualElementObject,
-  );
+  const visualElement = embedSerializer.serialize(values.visualElementObject[0]) || '';
   const content = topicArticleContentToHTML(values.content);
   const metaImage = values?.metaImageId
     ? {

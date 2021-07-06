@@ -40,18 +40,13 @@ const VisualElementField = ({ t, formik, isSubjectPage, types, videoTypes }) => 
             <FieldHeader title={t('form.visualElement.title')} />
             <Fragment>
               <VisualElement
+                selectedResource={selectedResource}
+                resetSelectedResource={() => setSelectedResource(undefined)}
                 changeVisualElement={setSelectedResource}
                 label={t('form.visualElement.label')}
                 language={formik.values.language}
                 isSubjectPage={isSubjectPage}
                 types={types}
-                {...field}
-              />
-              <VisualElementSelectField
-                selectedResource={selectedResource}
-                resetSelectedResource={() => setSelectedResource(undefined)}
-                videoTypes={videoTypes}
-                articleLanguage={formik.values.language}
                 {...field}
               />
             </Fragment>

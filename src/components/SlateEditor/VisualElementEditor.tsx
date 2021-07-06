@@ -15,15 +15,18 @@ import { withHistory } from 'slate-history';
 import { SlateProvider } from './SlateContext';
 import { SlatePlugin } from './interfaces';
 import VisualElementPicker from './plugins/visualElementPicker/VisualElementPicker';
+import { EmbedElement } from './plugins/embed';
 
 interface Props {
   name: string;
-  value: Descendant[];
+  value: EmbedElement[];
   plugins: SlatePlugin[];
   onChange: FormikHandlers['handleChange'];
   changeVisualElement: (visualElement: string) => void;
   language: string;
   types: string[];
+  selectedResource: string;
+  resetSelectedResource: () => void;
 }
 
 //TODO: Move to util
@@ -42,6 +45,8 @@ const VisualElementEditor = ({
   changeVisualElement,
   language,
   types,
+  selectedResource,
+  resetSelectedResource,
 }: Props) => {
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), [
     plugins,
@@ -72,15 +77,18 @@ const VisualElementEditor = ({
             },
           });
         }}>
-        {!value.length && (
+        {value.length ? (
+          <Editable renderElement={renderElement} />
+        ) : (
           <VisualElementPicker
             editor={editor}
             language={language}
             onSelect={changeVisualElement}
             types={types}
+            selectedResource={selectedResource}
+            resetSelectedResource={resetSelectedResource}
           />
         )}
-        <Editable renderElement={renderElement} />
       </Slate>
     </SlateProvider>
   );

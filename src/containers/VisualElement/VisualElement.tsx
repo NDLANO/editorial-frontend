@@ -8,9 +8,8 @@
 
 import React, { useMemo } from 'react';
 import { FormikHandlers } from 'formik';
-import { Descendant } from 'slate';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
-import { embedPlugin } from '../../components/SlateEditor/plugins/embed';
+import { embedPlugin, EmbedElement } from '../../components/SlateEditor/plugins/embed';
 
 interface Props {
   onChange: FormikHandlers['handleChange'];
@@ -19,7 +18,9 @@ interface Props {
   isSubjectPage: boolean;
   types: string[];
   language: string;
-  value: Descendant[];
+  value: EmbedElement[];
+  selectedResource: string;
+  resetSelectedResource: () => void;
 }
 
 const VisualElement = ({
@@ -30,6 +31,8 @@ const VisualElement = ({
   types,
   language,
   value,
+  selectedResource,
+  resetSelectedResource,
 }: Props) => {
   const plugins = useMemo(() => {
     return [embedPlugin(language)];
@@ -38,7 +41,7 @@ const VisualElement = ({
   /*if (isSubjectPage && value.resource === 'image') {
     delete value.caption;
   }*/
-  // TODO: Upgrade to slate 0.62
+
   return (
     <VisualElementEditor
       name={name}
@@ -48,6 +51,8 @@ const VisualElement = ({
       changeVisualElement={changeVisualElement}
       types={types}
       language={language}
+      selectedResource={selectedResource}
+      resetSelectedResource={resetSelectedResource}
     />
   );
 };

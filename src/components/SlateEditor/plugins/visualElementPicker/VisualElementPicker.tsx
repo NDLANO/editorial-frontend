@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Editor, Element } from 'slate';
 
 import SlateVisualElementPicker from '../blockPicker/SlateVisualElementPicker';
@@ -17,37 +17,29 @@ interface Props {
   language: string;
   onSelect: (visualElement: string) => void;
   types: string[];
+  selectedResource: string;
+  resetSelectedResource: () => void;
 }
 
-interface VisualElementSelect {
-  isOpen: boolean;
-  type: string;
-}
-
-const VisualElementPicker = ({ editor, language, onSelect, types }: Props) => {
-  const [visualElementSelect, setVisualElementSelect] = useState<VisualElementSelect>({
-    isOpen: false,
-    type: '',
-  });
-
-  const onVisualElementClose = () => {
-    setVisualElementSelect({
-      isOpen: false,
-      type: '',
-    });
-  };
-
+const VisualElementPicker = ({
+  editor,
+  language,
+  onSelect,
+  types,
+  selectedResource,
+  resetSelectedResource,
+}: Props) => {
   const onInsertBlock = (block: Element) => {
     Editor.insertNode(editor, block);
   };
 
   return (
     <>
-      {visualElementSelect.isOpen && (
+      {selectedResource && (
         <SlateVisualElementPicker
           articleLanguage={language}
-          resource={visualElementSelect.type}
-          onVisualElementClose={onVisualElementClose}
+          resource={selectedResource}
+          onVisualElementClose={resetSelectedResource}
           onInsertBlock={onInsertBlock}
         />
       )}

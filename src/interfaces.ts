@@ -83,6 +83,13 @@ export interface MetaImage {
   language: string;
 }
 
+export interface FlattenedResourceType {
+  id: string;
+  name: string;
+  typeId?: string;
+  typeName?: string;
+}
+
 export interface ContentResultType {
   articleType: string;
   contexts: [

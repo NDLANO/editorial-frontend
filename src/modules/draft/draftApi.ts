@@ -31,6 +31,7 @@ import {
   UploadedFileType,
   UserDataApiType,
 } from './draftApiInterfaces';
+import { resolveVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
 const baseUrl: string = apiResourceUrl('/draft-api/v1/drafts');
 const baseAgreementsUrl: string = apiResourceUrl('/draft-api/v1/agreements');
@@ -188,5 +189,5 @@ export const deleteFile = async (fileUrl: string): Promise<void> => {
   const query = encodeURIComponent(fileUrl);
   fetchAuthorized(`${baseFileUrl}/?path=${query}`, {
     method: 'DELETE',
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(resolveVoidOrRejectWithError);
 };

@@ -17,6 +17,7 @@ export interface SubjectTopic extends TaxonomyElement {
   parent: string;
   path: string;
   connectionId: string;
+  subtopics?: SubjectTopic[];
 }
 
 export interface ResolvedUrl {
@@ -98,7 +99,7 @@ export interface ResourceResourceType {
 export interface ResourceType {
   id: string;
   name: string;
-  subTypes: {
+  subtypes: {
     id: string;
     name: string;
   }[];

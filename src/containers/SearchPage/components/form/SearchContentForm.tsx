@@ -23,6 +23,7 @@ import { searchFormClasses, SearchParams } from './SearchForm';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { DRAFT_WRITE_SCOPE } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { FlattenedResourceType } from '../../../../interfaces';
 
 const emptySearchState: SearchState = {
   query: '',
@@ -52,13 +53,6 @@ export interface SearchState extends Record<string, string | boolean | undefined
   lang: string;
 }
 
-export interface ResourceType {
-  id: string;
-  name: string;
-  typeId: string;
-  typeName: string;
-}
-
 export interface User {
   id: string;
   name: string;
@@ -66,7 +60,7 @@ export interface User {
 
 interface State {
   dropDown: {
-    resourceTypes: ResourceType[];
+    resourceTypes: FlattenedResourceType[];
     users: User[];
   };
   search: SearchState;

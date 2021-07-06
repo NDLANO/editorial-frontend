@@ -13,7 +13,10 @@ import {
 } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
 import { SubjectTopic, SubjectType, TaxonomyMetadata } from '../taxonomyApiInterfaces';
-import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
+import {
+  resolveLocation,
+  resolveVoidOrRejectWithError,
+} from '../../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
@@ -70,7 +73,7 @@ const updateSubjectTopic = (
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(resolveVoidOrRejectWithError);
 };
 
 const updateSubject = (id: string, name?: string, contentUri?: string): Promise<void> => {
@@ -78,7 +81,7 @@ const updateSubject = (id: string, name?: string, contentUri?: string): Promise<
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ name, contentUri }),
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(resolveVoidOrRejectWithError);
 };
 
 const updateSubjectMetadata = (

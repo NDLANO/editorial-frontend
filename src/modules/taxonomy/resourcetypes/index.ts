@@ -14,7 +14,10 @@ import {
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { taxonomyApi } from '../../../config';
 import { ResourceResourceType, ResourceType } from '../taxonomyApiInterfaces';
-import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
+import {
+  resolveLocation,
+  resolveVoidOrRejectWithError,
+} from '../../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
@@ -49,7 +52,7 @@ const deleteResourceResourceType = (id: string): Promise<void> => {
       'Content-Type': 'application/json',
     },
     method: 'DELETE',
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(resolveVoidOrRejectWithError);
 };
 
 const createDeleteResourceTypes = async (

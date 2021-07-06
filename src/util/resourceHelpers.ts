@@ -18,7 +18,7 @@ import {
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
 } from '../constants';
-import { ResourceResourceType } from '../modules/taxonomy/taxonomyApiInterfaces';
+import { ResourceType } from '../modules/taxonomy/taxonomyApiInterfaces';
 
 const { contentTypes } = constants;
 
@@ -58,9 +58,7 @@ export const getResourceLanguages = (t: tType['t']) => [
   { id: 'unknown', name: t('language.unknown') },
 ];
 
-export const getContentTypeFromResourceTypes = (
-  resourceTypes: ResourceResourceType[],
-): ContentType => {
+export const getContentTypeFromResourceTypes = (resourceTypes: ResourceType[]): ContentType => {
   const resourceType = resourceTypes.find(type => !!mapping[type.id]);
   if (resourceType) {
     return mapping[resourceType.id];

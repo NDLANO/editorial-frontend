@@ -46,25 +46,21 @@ export function useFetchSubjectpageData(
     );
     const elementIds = taxonomyElements
       .filter(el => el.contentUri)
-      .map(element => element.contentUri!.split(':'));
+      .map(element => element.contentUri!.split(':'))
+      .filter(uri => uri.length > 0 && !isNaN(parseInt(uri[uri.length - 1])));
     return Promise.all(
-      elementIds
-        .filter(el => {
-          const element = el.length === 0 ? null : el[el.length - 1];
-          return element === null ? false : isNaN(parseInt(element));
-        })
-        .map(async elementId => {
-          if (elementId[1] === 'learningpath') {
-            const learningpath = await fetchLearningpath(parseInt(elementId.pop()!));
-            return {
-              ...learningpath,
-              metaImage: {
-                url: learningpath.coverPhoto.url,
-              },
-            };
-          }
-          return fetchDraft(parseInt(elementId.pop()!));
-        }),
+      elementIds.map(async elementId => {
+        if (elementId[1] === 'learningpath') {
+          const learningpath = await fetchLearningpath(parseInt(elementId.pop()!));
+          return {
+            ...learningpath,
+            metaImage: {
+              url: learningpath.coverPhoto.url,
+            },
+          };
+        }
+        return fetchDraft(parseInt(elementId.pop()!));
+      }),
     );
   };
 

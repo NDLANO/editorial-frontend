@@ -82,7 +82,6 @@ const VersionHistoryLightBox = ({
         setNotes([]);
       }
     };
-
     const id = getIdFromUrn(contentUri);
     if (id) {
       fetchHistory(id);

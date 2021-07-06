@@ -6,25 +6,36 @@
  *
  */
 
-import defined from 'defined';
+import * as _ from 'lodash';
+import { FlattenedResourceType } from '../interfaces';
+import {
+  ResourceType,
+  ResourceWithTopicConnection,
+  SubjectTopic,
+  TaxonomyElement,
+} from '../modules/taxonomy/taxonomyApiInterfaces';
 
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
-export const getIdFromUrn = urn => {
+export const getIdFromUrn = (urn?: string) => {
+  if (!urn) return;
   const [, , id] = urn.split(':');
   const idWithoutRevision = parseInt(id.split('#')[0]);
   return idWithoutRevision;
 };
 
-const sortByName = (a, b) => {
+const sortByName = (a: TaxonomyElement, b: TaxonomyElement) => {
   if (a.name < b.name) return -1;
   if (a.name > b.name) return 1;
   return 0;
 };
 
-function flattenResourceTypesAndAddContextTypes(data = [], t) {
-  const resourceTypes = [];
+function flattenResourceTypesAndAddContextTypes(
+  data: ResourceType[] = [],
+  t: (key: string) => string,
+) {
+  const resourceTypes: FlattenedResourceType[] = [];
   data.forEach(type => {
     if (type.subtypes) {
       type.subtypes.forEach(subtype =>
@@ -46,29 +57,29 @@ function flattenResourceTypesAndAddContextTypes(data = [], t) {
   return resourceTypes;
 }
 
-function sortIntoCreateDeleteUpdate({
+function sortIntoCreateDeleteUpdate<T extends { id: string }>({
   changedItems,
   originalItems,
-  changedId = 'id',
-  originalId = 'id',
   updateProperties = [],
+}: {
+  changedItems: T[];
+  originalItems: T[];
+  updateProperties?: string[];
 }) {
-  const updateItems = [];
-  const createItems = [];
+  const updateItems: T[] = [];
+  const createItems: T[] = [];
   const deleteItems = originalItems.filter(item => {
-    const originalItemInChangedItem = changedItems.find(
-      changedItem => changedItem[changedId] === item[originalId],
-    );
+    const originalItemInChangedItem = changedItems.find(changedItem => changedItem.id === item.id);
     return !originalItemInChangedItem;
   });
   changedItems.forEach(changedItem => {
-    const foundItem = originalItems.find(item => item[originalId] === changedItem[changedId]);
+    const foundItem = originalItems.find(item => item.id === changedItem.id);
     if (foundItem) {
       updateProperties.forEach(updateProperty => {
-        if (foundItem[updateProperty] !== changedItem[updateProperty]) {
+        if (_.get(foundItem, updateProperty) !== _.get(changedItem, updateProperty)) {
           updateItems.push({
             ...foundItem,
-            [updateProperty]: changedItem[updateProperty],
+            [updateProperty]: _.get(changedItem, updateProperty),
           });
         }
       });
@@ -81,10 +92,13 @@ function sortIntoCreateDeleteUpdate({
 }
 
 // Same structuring used from ndla-frontend
-function getResourcesGroupedByResourceTypes(resourcesByTopic) {
-  return resourcesByTopic.reduce((obj, resource) => {
+
+function getResourcesGroupedByResourceTypes(
+  resourcesByTopic: ResourceWithTopicConnection[],
+): Record<string, ResourceWithTopicConnection[]> {
+  return resourcesByTopic.reduce<Record<string, ResourceWithTopicConnection[]>>((obj, resource) => {
     const resourceTypesWithResources = resource.resourceTypes.map(type => {
-      const existing = defined(obj[type.id], []);
+      const existing = obj[type.id] ?? [];
       return { ...type, resources: [...existing, resource] };
     });
     const reduced = resourceTypesWithResources.reduce(
@@ -96,31 +110,39 @@ function getResourcesGroupedByResourceTypes(resourcesByTopic) {
 }
 
 // Same structuring used from ndla-frontend
-function getTopicResourcesByType(resourceTypes, groupedResourceListItem) {
+function getTopicResourcesByType(
+  resourceTypes: ResourceType[],
+  groupedResourceListItem: Record<string, ResourceWithTopicConnection[]>,
+): (ResourceType & { resources: ResourceWithTopicConnection[] })[] {
   return resourceTypes
     .map(type => {
-      const resources = defined(groupedResourceListItem[type.id], []);
+      const resources: ResourceWithTopicConnection[] = groupedResourceListItem[type.id] ?? [];
       return { ...type, resources };
     })
     .filter(type => type.resources.length > 0);
 }
 
-function topicResourcesByTypeWithMetaData(resorceTypesByTopic) {
+function topicResourcesByTypeWithMetaData(
+  resorceTypesByTopic: (ResourceType & {
+    resources: ResourceWithTopicConnection[];
+  })[],
+) {
   return resorceTypesByTopic.map(type => ({
     ...type,
     contentType: getContentTypeFromResourceTypes([type]).contentType,
   }));
 }
 
-function groupSortResourceTypesFromTopicResources(resourceTypes, topicResources) {
+function groupSortResourceTypesFromTopicResources(
+  resourceTypes: ResourceType[],
+  topicResources: ResourceWithTopicConnection[],
+) {
   const sortedResourceTypes = getResourcesGroupedByResourceTypes(topicResources);
-
   const resorceTypesByTopic = getTopicResourcesByType(resourceTypes, sortedResourceTypes);
-
   return topicResourcesByTypeWithMetaData(resorceTypesByTopic);
 }
 
-function insertSubTopic(topics, subTopic) {
+function insertSubTopic(topics: SubjectTopic[], subTopic: SubjectTopic): SubjectTopic[] {
   return topics.map(topic => {
     if (topic.id === subTopic.parent) {
       return {
@@ -138,7 +160,7 @@ function insertSubTopic(topics, subTopic) {
   });
 }
 
-const groupTopics = allTopics =>
+const groupTopics = (allTopics: SubjectTopic[]) =>
   allTopics.reduce((acc, curr) => {
     const mainTopic = curr.parent.includes('subject');
     if (mainTopic) return acc;
@@ -148,10 +170,19 @@ const groupTopics = allTopics =>
     );
   }, allTopics);
 
-const getCurrentTopic = ({ params, allTopics = [] }) => {
+const getCurrentTopic = ({
+  params,
+  allTopics = [],
+}: {
+  params: {
+    topic?: string;
+    subtopics?: string;
+  };
+  allTopics: SubjectTopic[];
+}) => {
   const { topic, subtopics } = params;
   const topics = subtopics?.split('/');
-  if (topics?.length > 0) {
+  if (topics && topics.length > 0) {
     const lastTopic = topics.slice(-1)[0];
     return allTopics.find(t => t.id === lastTopic) || {};
   }
@@ -161,7 +192,7 @@ const getCurrentTopic = ({ params, allTopics = [] }) => {
   return {};
 };
 
-const selectedResourceTypeValue = resourceTypes => {
+const selectedResourceTypeValue = (resourceTypes: any[]) => {
   if (resourceTypes.length === 0) {
     return '';
   }
@@ -173,7 +204,7 @@ const selectedResourceTypeValue = resourceTypes => {
   return resourceTypes[0].id;
 };
 
-const pathToUrnArray = path =>
+const pathToUrnArray = (path: string) =>
   path
     .split('/')
     .splice(1)

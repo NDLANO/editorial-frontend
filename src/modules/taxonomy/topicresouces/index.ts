@@ -14,7 +14,10 @@ import {
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { taxonomyApi } from '../../../config';
 import { ParentTopicWithRelevanceAndConnections, TopicSubtopic } from '../taxonomyApiInterfaces';
-import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
+import {
+  resolveLocation,
+  resolveVoidOrRejectWithError,
+} from '../../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
@@ -60,7 +63,7 @@ const updateTopicResource = (
     },
     method: 'PUT',
     body: JSON.stringify(topicResource),
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(r => resolveVoidOrRejectWithError(r));
 };
 
 const deleteTopicResource = (id: string): Promise<void> => {
@@ -69,7 +72,9 @@ const deleteTopicResource = (id: string): Promise<void> => {
       'Content-Type': 'application/json',
     },
     method: 'DELETE',
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(r => {
+    return resolveVoidOrRejectWithError(r);
+  });
 };
 
 async function createDeleteUpdateTopicResources(

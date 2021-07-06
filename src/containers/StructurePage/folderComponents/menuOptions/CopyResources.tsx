@@ -151,16 +151,15 @@ const CopyResources = ({
 
   const cloneResource = async (resource: Resource) => {
     const resourceType = resource.contentUri?.split(':')[1];
-    const resourceId = getIdFromUrn(resource.contentUri);
-
-    if (resourceType === 'article') {
+    const resourceId = resource.contentUri ? getIdFromUrn(resource.contentUri!) : null;
+    if (resourceType === 'article' && resourceId) {
       const clonedArticle = await cloneDraft(resourceId, undefined, false);
       const newResourceBody = {
         contentUri: `urn:article:${clonedArticle.id}`,
         name: resource.name,
       };
       return await clonedResource(newResourceBody, resource);
-    } else if (resourceType === 'learningpath') {
+    } else if (resourceType === 'learningpath' && resourceId) {
       const newLearningpathBody = {
         title: resource.name,
         language: locale,

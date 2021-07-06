@@ -20,7 +20,10 @@ import {
   TaxonomyMetadata,
   Topic,
 } from '../taxonomyApiInterfaces';
-import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
+import {
+  resolveLocation,
+  resolveVoidOrRejectWithError,
+} from '../../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
@@ -165,5 +168,5 @@ export const setResourceTranslation = (
     },
     method: 'PUT',
     body: JSON.stringify(body),
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(resolveVoidOrRejectWithError);
 };

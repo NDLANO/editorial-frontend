@@ -10,7 +10,7 @@ export const resolveLocation = (res: Response): Promise<string> => {
     if (res.status === 201 && location) {
       return resolve(location);
     }
-    return reject(createErrorPayload(400, 'Location does not exist!', null));
+    return reject(createErrorPayload(-1, 'Location does not exist!', null));
   });
 };
 
@@ -21,6 +21,20 @@ export interface ResolveOptions<T> {
     reject: (reason?: any) => void,
   ) => T;
 }
+
+export const resolveVoidOrRejectWithError = (res: Response): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    if (res.ok) {
+      return resolve();
+    }
+    return res
+      .json()
+      .then(json => {
+        reject(createErrorPayload(res.status, defined(json.messages, res.statusText), json));
+      })
+      .catch(reject);
+  });
+};
 
 export const resolveJsonOrRejectWithError = <T>(
   res: Response,

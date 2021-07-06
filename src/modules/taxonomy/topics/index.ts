@@ -6,7 +6,10 @@
  *
  */
 
-import { resolveLocation } from '../../../util/resolveJsonOrRejectWithError';
+import {
+  resolveLocation,
+  resolveVoidOrRejectWithError,
+} from '../../../util/resolveJsonOrRejectWithError';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -79,14 +82,14 @@ const updateTopic = ({
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ ...params }),
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(resolveVoidOrRejectWithError);
 };
 
 const deleteTopic = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topics/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(resolveVoidOrRejectWithError);
 };
 
 const addTopicToTopic = (body: {
@@ -115,19 +118,19 @@ const updateTopicSubtopic = (
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify(body),
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(resolveVoidOrRejectWithError);
 };
 
 const deleteTopicConnection = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/subject-topics/${id}`, {
     method: 'DELETE',
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(resolveVoidOrRejectWithError);
 };
 
 const deleteSubTopicConnection = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topic-subtopics/${id}`, {
     method: 'DELETE',
-  }).then(r => resolveJsonOrRejectWithError<void>(r));
+  }).then(resolveVoidOrRejectWithError);
 };
 
 const fetchTopicConnections = (id: string): Promise<TopicConnections[]> => {

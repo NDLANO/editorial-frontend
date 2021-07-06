@@ -112,7 +112,7 @@ const CopyResources = ({
 
   const cloneResourceResourceTypes = async (
     resourceTypes: ResourceResourceType[],
-    resourceId: String,
+    resourceId: string,
   ) => {
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().

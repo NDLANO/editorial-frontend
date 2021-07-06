@@ -6,8 +6,31 @@
  *
  */
 
+import { Author } from '../../interfaces';
 import config from '../../config';
 import { fetchReAuthorized, resolveJsonOrRejectWithError } from '../../util/apiHelpers';
+
+export interface H5PData {
+  authors: Author[];
+  contentType: string;
+  license: string;
+  licenseExtras: string;
+  licenseVersion: string;
+  source: string;
+  thumbnail: string;
+  title: string;
+  yearFrom: string;
+  yearTo: string;
+}
+export interface H5PMetadata {
+  assets: H5PData[];
+  h5p: H5PData;
+  h5pLibrary: {
+    majorVersion: number;
+    minorVersion: number;
+    name: string;
+  };
+}
 
 export const fetchH5PiframeUrl = (
   locale: string = '',
@@ -39,7 +62,7 @@ export const getH5pLocale = (language: string) => {
   return language === 'en' ? 'en-gb' : 'nb-no';
 };
 
-export const fetchH5PMetadata = async (resourceId: string) => {
+export const fetchH5PMetadata = async (resourceId: string): Promise<H5PMetadata> => {
   const url = `${config.h5pApiUrl}/v1/resource/${resourceId}/copyright`;
   return fetch(url).then(r => resolveJsonOrRejectWithError(r));
 };

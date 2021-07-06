@@ -77,7 +77,7 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
   const publishTopic = () => {
     if (!done) {
       fetchTopic(id, locale)
-        .then((topic: Topic) => publishResource({ ...topic }))
+        .then((topic: Topic) => publishResource(topic))
         .catch((e: Error) => handleError(e));
 
       fetchTopicResources(id)

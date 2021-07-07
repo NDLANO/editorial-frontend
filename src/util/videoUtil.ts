@@ -12,12 +12,12 @@ export const toHMS = (seconds: number) => {
   const hour = Math.floor(seconds / 3600) % 60;
   const second = seconds % 60;
 
-  const hours = hour > 0 ? `${hour < 10 ? '0' + hour: hour}:` : '00:';
+  const hours = hour > 0 ? `${hour < 10 ? '0' + hour : hour}:` : '00:';
   const minutes = minute > 0 ? `${minute < 10 ? '0' + minute : minute}:` : '00:';
   const secondos = second < 10 && second >= 0 ? '0' + second : second;
   const hms = `${hours}${minutes}${secondos}`;
 
-  return hms === 'NaN' || hms === '0' || hms.includes('NaN') ? '' : hms;
+  return hms === '0' || hms.includes('NaN') ? '' : hms;
 };
 
 export const calcSecondsFromHMS = (hms: string) => {
@@ -73,7 +73,9 @@ export const addBrightCoveTimeStampVideoid = (videoid: string, start: string) =>
 
 export const addBrightCovetimeStampSrc = (src: string, start: string) => {
   const [baseUrl, videoid] = src.split('?');
-  const newVideoid = start ?  addBrightCoveTimeStampVideoid(videoid, start) : videoid.split('&t=')[0];
+  const newVideoid = start
+    ? addBrightCoveTimeStampVideoid(videoid, start)
+    : videoid.split('&t=')[0];
 
   return `${baseUrl}?${newVideoid}`;
 };

@@ -71,7 +71,6 @@ const SlateVideo = ({
         );
       }
       setStartTime(getBrightCoveStartTime(videoid));
-      console.log(resource)
     } else {
       const tempUrl = url.includes('embed') ? url : getYoutubeEmbedUrl(url);
       setSrc(tempUrl);

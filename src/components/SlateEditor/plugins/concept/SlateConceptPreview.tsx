@@ -21,6 +21,7 @@ import { ConceptType } from '../../../../interfaces';
 import IconButton from '../../../IconButton';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
+import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import config from '../../../../config';
 
 const StyledFigureButtons = styled('span')`
@@ -51,7 +52,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id, t }: Props & tType) =>
   markdown.inline.ruler.enable(['sub', 'sup']);
 
   const VisualElement = () => {
-    const visualElement = concept.parsedVisualElement;
+    const visualElement = parseEmbedTag(concept.visualElement);
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);

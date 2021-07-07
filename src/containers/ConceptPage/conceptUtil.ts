@@ -11,11 +11,10 @@ import isEmpty from 'lodash/fp/isEmpty';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
-  embedToEditorValue,
+  embedTagToEditorValue,
   editorValueToEmbedTag,
-  editorValueToEmbed,
 } from '../../util/articleContentConverter';
-import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { SubjectType, License, ConceptType } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
 
@@ -45,7 +44,7 @@ export const transformApiConceptToFormValues = (
     tags: concept.tags || [],
     articles: concept.articles || [],
     status: concept.status || {},
-    visualElementObject: embedToEditorValue(concept.parsedVisualElement),
+    visualElementObject: embedTagToEditorValue(concept.visualElement),
   };
 };
 
@@ -61,31 +60,6 @@ export const getCreatedDate = (values: ConceptFormValues, initialValues: Concept
   return undefined;
 };
 
-export const getNewApiConcept = (
-  values: ConceptFormValues,
-  licenses: License[],
-): NewConceptType => ({
-  title: editorValueToPlainText(values.slatetitle),
-  content: editorValueToPlainText(values.conceptContent),
-  language: values.language,
-  copyright: {
-    license: licenses.find(license => license.license === values.license),
-    creators: values.creators,
-    processors: values.processors,
-    rightsholders: values.rightsholders,
-  },
-  metaImage: values.metaImageId
-    ? {
-        id: values.metaImageId,
-        alt: values.metaImageAlt,
-      }
-    : undefined,
-  source: values.source,
-  subjectIds: values.subjects.map(subject => subject.id),
-  tags: values.tags,
-  articleIds: values.articles.map(a => a.id),
-  visualElement: editorValueToEmbedTag(values.visualElementObject),
-});
 export const getPatchApiConcept = (
   values: ConceptFormValues,
   licenses: License[],
@@ -137,7 +111,6 @@ export const getConcept = (
     subjectIds: values.subjects.map(subject => subject.id),
     articleIds: values.articles.map(a => a.id),
     visualElement: editorValueToEmbedTag(values.visualElementObject),
-    parsedVisualElement: editorValueToEmbed(values.visualElementObject),
     updatedBy,
   };
 };

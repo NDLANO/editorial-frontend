@@ -536,7 +536,6 @@ export interface ConceptType extends StrippedConceptType {
   created?: string;
   updated: string;
   metaImageId: string;
-  parsedVisualElement: Embed;
 }
 
 export interface ConceptPreviewType extends ConceptType {

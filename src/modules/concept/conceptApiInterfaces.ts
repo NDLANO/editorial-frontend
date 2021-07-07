@@ -6,20 +6,11 @@
  *
  */
 
-import { Copyright, Status, Embed, ArticleType, StrippedConceptType } from '../../interfaces';
+import { Copyright, Status } from '../../interfaces';
 
 export type LanguageFieldType<T> = T & {
   language: string;
 };
-
-export interface ConceptSubmitType extends StrippedConceptType {
-  agreementId?: number;
-  articles: ArticleType[];
-  supportedLanguages: string[];
-  metaImageId: string;
-  created?: string;
-  parsedVisualElement: Embed;
-}
 
 export interface ConceptTagsSearchResult {
   totalCount: number;

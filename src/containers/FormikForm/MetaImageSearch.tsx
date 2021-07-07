@@ -11,6 +11,7 @@ import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { FormikHandlers } from 'formik';
 import { LocaleContext } from '../App/App';
 import { createFormData } from '../../util/formDataHelper';
 import {
@@ -20,7 +21,7 @@ import {
   fetchImage,
   onError,
 } from '../../modules/image/imageApi';
-import { transformApiToCLeanImage } from '../../modules/image/imageApiUtil';
+import { transformApiToCleanImage } from '../../modules/image/imageApiUtil';
 import HowToHelper from '../../components/HowTo/HowToHelper';
 import ImageSearchAndUploader from '../../components/ControlledImageSearchAndUploader';
 
@@ -30,12 +31,7 @@ import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 
 interface Props {
   metaImageId: string;
-  onChange: (event: {
-    target: {
-      value: string | null;
-      name: string;
-    };
-  }) => void;
+  onChange: FormikHandlers['handleChange'];
   name: string;
   isSavingImage: boolean;
   setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void;
@@ -61,7 +57,7 @@ const MetaImageSearch = ({
   useEffect(() => {
     if (metaImageId) {
       fetchImageWithLocale(parseInt(metaImageId)).then(image =>
-        setImage(transformApiToCLeanImage(image, locale)),
+        setImage(transformApiToCleanImage(image, locale)),
       );
     } else {
       setImage(undefined);
@@ -100,11 +96,11 @@ const MetaImageSearch = ({
   const onImageUpdate = async (image: UpdatedImageMetadata, file: string | Blob | undefined) => {
     if (image.id) {
       const updatedImage = await updateImage(image);
-      onImageSet(transformApiToCLeanImage(updatedImage, locale));
+      onImageSet(transformApiToCleanImage(updatedImage, locale));
     } else {
       const formData = await createFormData(file, image);
       const createdImage = await postImage(formData);
-      onImageSet({ ...transformApiToCLeanImage(createdImage, locale) });
+      onImageSet({ ...transformApiToCleanImage(createdImage, locale) });
     }
   };
 

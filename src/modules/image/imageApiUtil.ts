@@ -10,7 +10,7 @@ import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { ImageApiType } from './imageApiInterfaces';
 import { ImageType } from '../../interfaces';
 
-export const transformApiToCLeanImage = (image: ImageApiType, language: string): ImageType => {
+export const transformApiToCleanImage = (image: ImageApiType, language: string): ImageType => {
   return {
     ...image,
     title: convertFieldWithFallback<'title'>(image, 'title', '', language),

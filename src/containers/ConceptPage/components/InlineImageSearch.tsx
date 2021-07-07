@@ -15,7 +15,7 @@ import Button from '@ndla/button';
 import ImageSearch from '@ndla/image-search';
 import { FieldHeader } from '@ndla/forms';
 
-import { transformApiToCLeanImage } from '../../../modules/image/imageApiUtil';
+import { transformApiToCleanImage } from '../../../modules/image/imageApiUtil';
 import MetaImageField from '../../FormikForm/components/MetaImageField';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { fetchImage, searchImages, onError } from '../../../modules/image/imageApi';
@@ -43,7 +43,7 @@ const InlineImageSearch = ({ name, t }: Props & tType) => {
   if (image) {
     return (
       <MetaImageField
-        image={transformApiToCLeanImage(image, locale)}
+        image={transformApiToCleanImage(image, locale)}
         onImageSelectOpen={() => {
           setFieldValue(name, undefined);
           setImage(undefined);

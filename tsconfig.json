@@ -30,8 +30,9 @@
       "@emotion/styled",
       "jest",
       "node",
-      "webpack-env"
+      "webpack-env",
     ],
+    "typeRoots": ["./src/types", "node_modules/@types"],
     "paths": {
       "*": [
         "node_modules/*",

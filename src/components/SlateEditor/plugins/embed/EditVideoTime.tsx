@@ -42,6 +42,8 @@ interface Event {
 
 const EditVideoTime = (props: Props & tType) => {
   const { name, t, startTime, stopTime, setStartTime, setStopTime } = props;
+  console.log(stopTime);
+  console.log(startTime);
   return (
     <StyledInputTimeWrapper>
       <div>

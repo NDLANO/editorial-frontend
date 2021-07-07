@@ -12,21 +12,20 @@ export const toHMS = (seconds: number) => {
   const hour = Math.floor(seconds / 3600) % 60;
   const second = seconds % 60;
 
-  const hours = hour > 0 ? hour + ':' : '';
-  const minutes = minute > 0 ? minute + ':' : '';
-  const secondos = second < 10 && second > 0 ? '0' + second : second;
-
+  const hours = hour > 0 ? `${hour < 10 ? '0' + hour: hour}:` : '00:';
+  const minutes = minute > 0 ? `${minute < 10 ? '0' + minute : minute}:` : '00:';
+  const secondos = second < 10 && second >= 0 ? '0' + second : second;
   const hms = `${hours}${minutes}${secondos}`;
 
-  return hms === 'NaN' || hms === '0' ? '' : hms;
+  return hms === 'NaN' || hms === '0' || hms.includes('NaN') ? '' : hms;
 };
 
 export const calcSecondsFromHMS = (hms: string) => {
   return hms
     .split(':')
     .reverse()
-    .filter(Number)
     .map(numberString => parseInt(numberString, 10))
+    .filter(value => !Number.isNaN(value))
     .reduce((accumulator, number, index) => accumulator + number * Math.pow(60, index), 0);
 };
 
@@ -66,26 +65,20 @@ export const removeParams = (url: string) => {
 };
 
 export const addBrightCoveTimeStampVideoid = (videoid: string, start: string) => {
-  const [baseVideoid, seconds] = videoid.split('&t=');
-  const startSeconds = start ? `${calcSecondsFromHMS(start)}s` : `${seconds}`;
+  const [baseVideoid] = videoid.split('&t=');
+  const startSeconds = start ? `${calcSecondsFromHMS(start)}s` : ``;
 
   return `${baseVideoid}&t=${startSeconds}`;
 };
 
 export const addBrightCovetimeStampSrc = (src: string, start: string) => {
-  const [baseUrl, query] = src.split('?');
-  const params = queryString.parse(query);
+  const [baseUrl, videoid] = src.split('?');
+  const newVideoid = start ?  addBrightCoveTimeStampVideoid(videoid, start) : videoid.split('&t=')[0];
 
-  const startSeconds = start ? calcSecondsFromHMS(start) : params.t;
-
-  const updatedQuery = queryString.stringify({
-    ...(startSeconds && { start: startSeconds }),
-  });
-
-  return `${baseUrl}?${updatedQuery}`;
+  return `${baseUrl}?${newVideoid}`;
 };
 
 export const getBrightCoveStartTime = (videoid: string) => {
   const time = videoid.split('&t=')[1] || '';
-  return toHMS(parseInt(time));
+  return time === '' ? '' : toHMS(parseInt(time));
 };

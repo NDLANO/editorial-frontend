@@ -83,25 +83,28 @@ const EditVideo = ({
   };
 
   const onSave = () => {
+    
     saveEmbedUpdates({
       caption,
-      url:
-        embed.resource === 'brightcove'
-          ? addBrightCovetimeStampSrc(src, startTime)
-          : addYoutubeTimeStamps(src, startTime, stopTime),
       videoid:
         embed.resource === 'brightcove'
           ? addBrightCoveTimeStampVideoid(embed.videoid, startTime)
           : embed.videoid,
+      url:
+        embed.resource === 'brightcove'
+          ? addBrightCovetimeStampSrc(src,startTime)
+          : addYoutubeTimeStamps(src, startTime, stopTime),
     });
     toggleEditModus();
   };
 
-  const saveDisabled =
-    ((embed.resource === 'brightcove' && embed.caption === '') ||
-      embed.url === addYoutubeTimeStamps(src, startTime, stopTime) ||
-      embed.url === addBrightCovetimeStampSrc(src, startTime)) &&
-    embed.caption === caption;
+  console.log(addBrightCovetimeStampSrc(src,startTime) ,src
+  )
+
+  const saveDisabled = 
+  (addBrightCovetimeStampSrc(src,startTime) === src
+  || addYoutubeTimeStamps(src,startTime,stopTime) === src) 
+  && (caption === embed.caption);
 
   return (
     <Fragment>

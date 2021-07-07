@@ -7,7 +7,8 @@
  */
 import queryString from 'query-string';
 
-export const toHMS = (seconds: number) => {
+export const toHMS = (time: number) => {
+  const seconds = time < 0 ? time * -1 : time;
   const minute = Math.floor(seconds / 60) % 60;
   const hour = Math.floor(seconds / 3600) % 60;
   const second = seconds % 60;

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, NDLA.
+ * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -15,20 +15,19 @@ import { Switch } from '@ndla/switch';
 
 import { updateSubjectMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
-import { TaxonomyMetadata, TranslateType } from '../../../../interfaces';
+import { TaxonomyMetadata } from '../../../../interfaces';
 import MenuItemButton from './MenuItemButton';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../constants';
 
 interface Props {
   editMode: string;
-  getAllSubjects: Function;
+  getAllSubjects: () => Promise<void>;
   id: string;
   name: string;
   metadata: TaxonomyMetadata;
-  refreshTopics: Function;
-  setResourcesUpdated: Function;
-  t: TranslateType;
-  toggleEditMode: Function;
+  refreshTopics: () => void;
+  setResourcesUpdated: (updated: boolean) => void;
+  toggleEditMode: (name: string) => Promise<void>;
 }
 
 export const DropDownWrapper = styled('div')`
@@ -49,7 +48,7 @@ const ToggleExplanationSubject = ({
   setResourcesUpdated,
   t,
   toggleEditMode,
-}: Props) => {
+}: Props & tType) => {
   const [explanationSubject, setExplanationSubject] = useState(
     metadata?.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]?.toLowerCase() === 'true',
   );

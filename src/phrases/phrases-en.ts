@@ -1148,7 +1148,7 @@ const phrases = {
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
-        resourceGroupPlaceholder: 'Grouped resources',
+        resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
       },
     },

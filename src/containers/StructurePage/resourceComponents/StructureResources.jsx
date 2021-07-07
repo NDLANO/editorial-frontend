@@ -25,7 +25,7 @@ import { StructureShape } from '../../../shapes';
 import GroupTopicResources from '../folderComponents/GroupTopicResources';
 
 const StyledDiv = styled('div')`
-  width: calc(${spacing.large} * 4.5);
+  width: calc(${spacing.large} * 5);
   margin-left: auto;
   margin-right: calc(${spacing.nsmall});
 `;

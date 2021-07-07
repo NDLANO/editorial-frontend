@@ -42,7 +42,7 @@ const ConceptContent = ({ t }: tType) => {
   const [showWarning, setShowWarning] = useState(false);
   const formikContext = useFormikContext<ConceptFormValues>();
   const {
-    values: { creators, created },
+    values: { creators, updated },
     handleBlur,
     submitForm,
     isValid,
@@ -61,7 +61,7 @@ const ConceptContent = ({ t }: tType) => {
         }}
       />
       <ByLine>
-        <LastUpdatedLineConcept creators={creators} published={created} />
+        <LastUpdatedLineConcept creators={creators} published={updated} />
         <IconContainer>
           <Tooltip tooltip={t('form.markdown.button')}>
             <ToggleButton active={preview} onClick={() => setPreview(!preview)}>

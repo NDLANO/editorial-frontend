@@ -16,8 +16,9 @@ import {
   topicArticleContentToEditorValue,
   editorValueToPlainText,
   plainTextToEditorValue,
+  embedTagToEditorValue,
+  editorValueToEmbedTag,
 } from '../../../../util/articleContentConverter';
-import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { LicensesArrayOf, ArticleShape } from '../../../../shapes';
 import {
   DEFAULT_LICENSE,
@@ -36,8 +37,6 @@ import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import { useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
-import { defaultEmbedBlock } from '../../../../components/SlateEditor/plugins/embed/utils';
-import { embedSerializer } from '../../../../components/SlateEditor/plugins/embed';
 
 export const getInitialValues = (article = {}) => {
   const metaImageId = parseImageUrl(article.metaImage);
@@ -64,9 +63,7 @@ export const getInitialValues = (article = {}) => {
     slatetitle: plainTextToEditorValue(article.title || ''),
     updated: article.updated,
     updatePublished: false,
-    visualElementObject: article.visualElement?.length
-      ? [defaultEmbedBlock(parseEmbedTag(article.visualElement))]
-      : [],
+    visualElementObject: embedTagToEditorValue(article.visualElement),
     grepCodes: article.grepCodes || [],
     conceptIds: article.conceptIds || [],
     availability: article.availability || 'everyone',
@@ -92,7 +89,6 @@ const getPublishedDate = (values, initialValues, preview = false) => {
 // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
 const getArticleFromSlate = ({ values, initialValues, licenses, preview = false }) => {
   const emptyField = values.id ? '' : undefined;
-  const visualElement = embedSerializer.serialize(values.visualElementObject[0]) || '';
   const content = topicArticleContentToHTML(values.content);
   const metaImage = values?.metaImageId
     ? {
@@ -121,7 +117,7 @@ const getArticleFromSlate = ({ values, initialValues, licenses, preview = false 
     supportedLanguages: values.supportedLanguages,
     tags: values.tags,
     title: editorValueToPlainText(values.slatetitle),
-    visualElement: visualElement,
+    visualElement: editorValueToEmbedTag(values.visualElementObject),
     grepCodes: values.grepCodes,
     conceptIds: values.conceptIds,
     availability: values.availability,

@@ -9,13 +9,13 @@
 import { Descendant } from 'slate';
 import {
   SubjectType,
-  VisualElement,
   Author,
   StrippedConceptType,
   ConceptType,
   ArticleType,
   FormValues,
 } from '../../interfaces';
+import { EmbedElement } from '../../components/SlateEditor/plugins/embed';
 
 export interface ConceptFormType extends ConceptType {
   articles: ArticleType[];
@@ -39,6 +39,6 @@ export interface ConceptFormValues extends StrippedConceptType, FormValues {
   tags: string[];
   updateCreated: boolean;
   updated: string;
-  visualElementObject: VisualElement;
+  visualElementObject: EmbedElement[];
   agreementId?: number;
 }

@@ -8,8 +8,13 @@
 
 import { FormikContextType } from 'formik';
 import isEmpty from 'lodash/fp/isEmpty';
-import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
-import { createEmbedTag } from '../../util/embedTagHelpers';
+import {
+  plainTextToEditorValue,
+  editorValueToPlainText,
+  embedToEditorValue,
+  editorValueToEmbedTag,
+  editorValueToEmbed,
+} from '../../util/articleContentConverter';
 import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { SubjectType, License, ConceptType } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
@@ -40,7 +45,7 @@ export const transformApiConceptToFormValues = (
     tags: concept.tags || [],
     articles: concept.articles || [],
     status: concept.status || {},
-    visualElementObject: concept.parsedVisualElement || {},
+    visualElementObject: embedToEditorValue(concept.parsedVisualElement),
   };
 };
 
@@ -79,7 +84,7 @@ export const getNewApiConcept = (
   subjectIds: values.subjects.map(subject => subject.id),
   tags: values.tags,
   articleIds: values.articles.map(a => a.id),
-  visualElement: createEmbedTag(values.visualElementObject),
+  visualElement: editorValueToEmbedTag(values.visualElementObject),
 });
 export const getPatchApiConcept = (
   values: ConceptFormValues,
@@ -105,7 +110,7 @@ export const getPatchApiConcept = (
   subjectIds: values.subjects.map(subject => subject.id),
   tags: values.tags,
   articleIds: values.articles.map(a => a.id),
-  visualElement: createEmbedTag(values.visualElementObject),
+  visualElement: editorValueToEmbedTag(values.visualElementObject),
 });
 
 export const getConcept = (
@@ -131,8 +136,8 @@ export const getConcept = (
       : undefined,
     subjectIds: values.subjects.map(subject => subject.id),
     articleIds: values.articles.map(a => a.id),
-    visualElement: createEmbedTag(values.visualElementObject),
-    parsedVisualElement: values.visualElementObject,
+    visualElement: editorValueToEmbedTag(values.visualElementObject),
+    parsedVisualElement: editorValueToEmbed(values.visualElementObject),
     updatedBy,
   };
 };

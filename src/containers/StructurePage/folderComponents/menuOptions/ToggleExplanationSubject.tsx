@@ -55,9 +55,12 @@ const ToggleExplanationSubject = ({
   const toggleExplanationSubject = async () => {
     await updateSubjectMetadata(id, {
       ...metadata,
-      customFields: { ...metadata.customFields, forklaringsfag: !explanationSubject },
+      customFields: {
+        ...metadata.customFields,
+        [TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]: !explanationSubject,
+      },
     });
-    setExplanationSubject(!explanationSubject);
+    setExplanationSubject(prev => !prev);
     getAllSubjects();
     refreshTopics();
     setResourcesUpdated(true);

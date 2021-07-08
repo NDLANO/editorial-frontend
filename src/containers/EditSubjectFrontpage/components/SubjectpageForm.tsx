@@ -128,8 +128,11 @@ const SubjectpageForm = ({
     <Formik
       initialValues={initialValues}
       onSubmit={() => {}}
-      validate={values => validateFormik(values, subjectpageRules, t)}>
-      {(formik: FormikProps<SubjectpageEditType>) => {
+      validate={values => validateFormik({
+        ...values,
+        visualElementObject: values.visualElementObject[0]?.data,
+      }, subjectpageRules, t)}>
+      {(formik: FormikProps<SubjectFormValues>) => {
         const { values, dirty, isSubmitting, errors, isValid, handleBlur } = formik;
 
         const formIsDirty: boolean = isFormikFormDirty({

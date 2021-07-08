@@ -24,7 +24,7 @@ import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
   isFormikFormDirty,
-  topicArticleRules,
+  formikCommonArticleRules,
   parseImageUrl,
 } from '../../../../util/formHelper';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
@@ -241,7 +241,7 @@ const TopicArticleForm = props => {
       validateOnChange={false}
       innerRef={formikRef}
       onSubmit={handleSubmit}
-      validate={values => validateFormik(values, topicArticleRules, t)}>
+      validate={values => validateFormik(values, formikCommonArticleRules, t)}>
       {FormikChild}
     </Formik>
   );

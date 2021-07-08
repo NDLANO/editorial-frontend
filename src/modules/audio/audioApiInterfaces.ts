@@ -143,7 +143,7 @@ export interface PodcastSeriesApiType {
   revision: number;
   title: { title: string; language: string };
   description: { description: string; language: string };
-  coverPhoto: { id: string; altText: string };
+  coverPhoto: { id: string; altText: string , url: string};
   episodes?: AudioApiType[];
   supportedLanguages: string[];
 }

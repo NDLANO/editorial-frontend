@@ -183,7 +183,7 @@ const PodcastForm = ({
         introduction: editorValueToPlainText(values.introduction),
         coverPhotoId: values.coverPhotoId,
         coverPhotoAltText: values.metaImageAlt,
-        series: values.series
+        series: values.series,
       },
     };
 
@@ -208,8 +208,6 @@ const PodcastForm = ({
           dirty,
           changed: podcastChanged,
         });
-
-        console.log('isformdirty', formIsDirty)
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
@@ -260,7 +258,6 @@ const PodcastForm = ({
                     }}
                   />
                   <PodcastSeriesInformation />
-                  
                 </AccordionSection>
 
                 <AccordionSection

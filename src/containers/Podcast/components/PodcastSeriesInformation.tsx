@@ -14,24 +14,37 @@ import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { fetchSeries, searchSeries } from 'modules/audio/audioApi';
 import { StyledButtonIcons } from 'containers/FormikForm/components/ElementListItem';
-import { isEmptyArray, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
+import { css } from '@emotion/core';
 import isEmpty from 'lodash/fp/isEmpty';
-import { toEditPodcastSeries } from '../../../util/routeHelpers';
-import { AudioApiType, NewPodcastSeries, PodcastFormValues, PodcastSeriesApiType, SeriesSearchResult, SeriesSearchSummary } from '../../../modules/audio/audioApiInterfaces';
+import ElementList from '../../FormikForm/components/ElementList';
+import {
+  AudioApiType,
+  NewPodcastSeries,
+  PodcastFormValues,
+  PodcastSeriesApiType,
+  SeriesSearchResult,
+  SeriesSearchSummary,
+} from '../../../modules/audio/audioApiInterfaces';
 
 import { AsyncDropdown } from '../../../components/Dropdown';
 import handleError from '../../../util/handleError';
 import * as audioApi from '../../../modules/audio/audioApi';
+import { StyledListItem } from 'containers/FormikForm/components/ElementListItem';
 
 
-const PodcastSeriesInformation = ({ t }: & tType) => {
-  const { values, setFieldValue } = useFormikContext<PodcastFormValues>()
-    const { series, language } = values;
+const containerStyle = css`
+  display: aflex;
+  
+`;
 
+const PodcastSeriesInformation = ({ t }: tType) => {
+  const { values, setFieldValue } = useFormikContext<PodcastFormValues>();
+  const { series, language } = values;
 
-    useEffect (() => {
-      if(series !== undefined){
-        if(!isEmpty(series)){
+  useEffect(() => {
+    if (series !== undefined) {
+      if (!isEmpty(series)) {
         try {
           const newSeries = fetchSeries(series.id, language);
           if (newSeries !== undefined) {
@@ -41,149 +54,121 @@ const PodcastSeriesInformation = ({ t }: & tType) => {
           handleError(e);
         }
       }
-      }else{
-        setFieldValue('series', {})
+    } else {
+      setFieldValue('series', {});
+    }
+  }, [series, language, setFieldValue]);
+
+  const onAddSeries = async (series: SeriesSearchSummary) => {
+    try {
+      const newSeries = await fetchSeries(series.id, language);
+      if (newSeries !== undefined) {
+        setFieldValue('series', newSeries);
+        const newPodcastSeries: NewPodcastSeries = updateSeriesEpisodes(newSeries, false);
+        await audioApi.updateSeries(series.id, newPodcastSeries);
       }
-    }, [series, language, setFieldValue])
-    
+    } catch (e) {
+      handleError(e);
+    }
+  };
 
-     const onAddSeries = async (series: SeriesSearchSummary) => {
-       try {
-         const newSeries = await fetchSeries(series.id, language);
-         if (newSeries !== undefined) {
-           setFieldValue('series', newSeries);
-           const newPodcastSeries: NewPodcastSeries = updateSeriesEpisodes(newSeries, false)
-           await audioApi.updateSeries(series.id, newPodcastSeries);
-         }
-       } catch (e) {
-         handleError(e);
-       }
-     };
 
-     const updateSeriesEpisodes = (series: PodcastSeriesApiType, remove: boolean) => {
-      let podcastEpisodes = series.episodes ? ((series.episodes!).map((ep:AudioApiType) => ep.id)) : ([])
-      if(remove){
-        //console.log('epsioder før slett', podcastEpisodes)
-        const index = podcastEpisodes.indexOf(values.id as number);
-        if (index > -1) {
-            podcastEpisodes.splice(index, 1);
-        }
-        //console.log("hei remove", index, podcastEpisodes)
-      }else{
-        podcastEpisodes = [...podcastEpisodes, values.id as number] 
+  const onUpdateElements = (series: PodcastSeriesApiType) => {
+    setFieldValue('series', series);
+  };
+
+  const updateSeriesEpisodes = (series: PodcastSeriesApiType, remove: boolean) => {
+    let podcastEpisodes = series.episodes ? series.episodes!.map((ep: AudioApiType) => ep.id) : [];
+    if (remove) {
+      const index = podcastEpisodes.indexOf(values.id as number);
+      if (index > -1) {
+        podcastEpisodes.splice(index, 1);
       }
-      const newPodcastSeries: NewPodcastSeries = {
-        id: series.id,
-        revision: series.revision,
-        title: series.title.title,
-        description: series.description.description,
-        coverPhotoId: series.coverPhoto.id,
-        coverPhotoAltText: series.coverPhoto.altText,
-        language: series.title.language,
-        episodes: podcastEpisodes
-
-      };
-      //console.log('newpodsereies', newPodcastSeries)
-      return newPodcastSeries
-    
-     }
-
-     const onDeleteSeries = async() => {
-      try{
-        setFieldValue('series', {})
-        const newSeries = await fetchSeries(series!.id, language);
-        const newPodcastSeries: NewPodcastSeries = updateSeriesEpisodes(newSeries, true)
-        await audioApi.updateSeries(series!.id, newPodcastSeries);
-      }catch(e) {
-        handleError(e);
-      }
-
+    } else {
+      podcastEpisodes = [...podcastEpisodes, values.id as number];
+    }
+    const newPodcastSeries: NewPodcastSeries = {
+      id: series.id,
+      revision: series.revision,
+      title: series.title.title,
+      description: series.description.description,
+      coverPhotoId: series.coverPhoto.id,
+      coverPhotoAltText: series.coverPhoto.altText,
+      language: series.title.language,
+      episodes: podcastEpisodes,
     };
-  
+    return newPodcastSeries;
+  };
 
-     const searchForSeries = async (
-       input: string,
-     ): Promise<SeriesSearchResult> => {
-       const searchResult = await searchSeries({
-         query: input,
-         language: language,
-       });
+  const onDeleteSeries = async () => {
+    try {
+      setFieldValue('series', {});
+      const newSeries = await fetchSeries(series!.id, language);
+      const newPodcastSeries: NewPodcastSeries = updateSeriesEpisodes(newSeries, true);
+      await audioApi.updateSeries(series!.id, newPodcastSeries);
+    } catch (e) {
+      handleError(e);
+    }
+  };
 
-       const results = searchResult.results.map((result:SeriesSearchSummary) => {
-        const haveSelected = series?.id !== undefined && series.id !== result.id
-        const disabledText = haveSelected ? 'disabled' : undefined;
-        return {
-          ...result,
-          disabledText,
-          image: result.coverPhoto.url,
-          alt: result.coverPhoto.altText,
-        };
-       });
-       return { ...searchResult, results };
-     };
+  const searchForSeries = async (input: string): Promise<SeriesSearchResult> => {
+    const searchResult = await searchSeries({
+      query: input,
+      language: language,
+    });
 
-     console.log("values", values)
+    const results = searchResult.results.map((result: SeriesSearchSummary) => {
+      const haveSelected = series?.id !== undefined && series.id !== result.id;
+      const disabledText = haveSelected ? ' ' : undefined;
+      return {
+        ...result,
+        disabledText,
+      };
+    });
+    return { ...searchResult, results };
+  };
 
- /*
-  
-     let elements = [series].map(ep => ({
-      ...ep,
-      metaImage: {
-        alt: ep?.coverPhoto.altText,
-        language,
-      },
-      articleType: 'series',
-   
-    }));
+  const elements = [series].map(s =>({
+    ...s,
+    metaImage: {
+      alt: s?.coverPhoto.altText,
+      url: s?.coverPhoto.url,
+      language,
+    },
+    articleType: 'series',
+  }));
 
-  
-*/
-  //console.log('elements', elements)
 
   return (
     <>
       <FieldHeader title={t('podcastForm.fields.series')} />
       {!isEmpty(series) ? (
-      <div>
-        {t('podcastForm.information.partOfSeries')}
-        {': '}
-        <Link
-            to={toEditPodcastSeries(series!.id, language!)}
-            target="_blank"
-            rel="noopener noreferrer">
-            {series!.title.title}
-          </Link>
-        <Tooltip tooltip={"fjern.element"}>
-            <StyledButtonIcons
-              data-cy="elementListItemDeleteButton"
-              tabIndex={-1}
-              type="button"
-              onClick={() => onDeleteSeries()}
-              delete>
-              <DeleteForever />
-            </StyledButtonIcons>
-          </Tooltip>
-        
-      </div>
-      ):(<p>Ingen serie</p>)}
-     
-              <AsyncDropdown
-              selectedItems={[series]}
-              idField="id"
-              name="relatedArticleSearch"
-              labelField="title"
-              placeholder={t('form.content.relatedArticle.placeholder')}
-              label="label"
-              apiAction={searchForSeries}
-              onClick={(event: Event) => event.stopPropagation()}
-              onChange={(series: SeriesSearchSummary) => onAddSeries(series)}
-              multiselect
-              disableSelected
-              clearInputField
-            />
-          
-        
-    
+       <ElementList
+        elements={elements}
+        isOrderable={false}
+        messages={{
+          dragElement: t('conceptpageForm.changeOrder'),
+          removeElement: t('conceptpageForm.removeArticle'),
+        }}
+        onUpdateElements={onUpdateElements}
+      />
+      ) : (
+        <p>{t('podcastForm.information.noSeries')}</p>
+      )}
+      <AsyncDropdown
+        selectedItems={[series]}
+        idField="id"
+        name="relatedSeriesSearch"
+        labelField="title"
+        placeholder={t('form.content.relatedArticle.placeholder')}
+        label="label"
+        apiAction={searchForSeries}
+        onClick={(event: Event) => event.stopPropagation()}
+        onChange={(series: SeriesSearchSummary) => onAddSeries(series)}
+        multiSelect
+        disableSelected
+        clearInputField
+      />
     </>
   );
 };

@@ -28,7 +28,7 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-const VisualElementField = ({ t, formik, isSubjectPage, types, videoTypes }) => {
+const VisualElementField = ({ t, formik, types, videoTypes }) => {
   const [selectedResource, setSelectedResource] = useState(undefined);
 
   return (
@@ -44,7 +44,6 @@ const VisualElementField = ({ t, formik, isSubjectPage, types, videoTypes }) => 
                 changeVisualElement={setSelectedResource}
                 label={t('form.visualElement.label')}
                 language={formik.values.language}
-                isSubjectPage={isSubjectPage}
                 types={types}
                 {...field}
               />
@@ -67,7 +66,6 @@ const VisualElementField = ({ t, formik, isSubjectPage, types, videoTypes }) => 
 
 VisualElementField.propTypes = {
   formik: FormikShape,
-  isSubjectPage: PropTypes.bool,
   types: PropTypes.arrayOf(PropTypes.string),
   videoTypes: PropTypes.array,
   visualElementCaptionName: PropTypes.string,

@@ -15,7 +15,6 @@ interface Props {
   onChange: FormikHandlers['handleChange'];
   changeVisualElement: (visualElement: string) => void;
   name: string;
-  isSubjectPage: boolean;
   types: string[];
   language: string;
   value: EmbedElement[];
@@ -27,7 +26,6 @@ const VisualElement = ({
   onChange,
   changeVisualElement,
   name,
-  isSubjectPage,
   types,
   language,
   value,
@@ -37,10 +35,6 @@ const VisualElement = ({
   const plugins = useMemo(() => {
     return [embedPlugin(language)];
   }, [language]);
-
-  /*if (isSubjectPage && value.resource === 'image') {
-    delete value.caption;
-  }*/
 
   return (
     <VisualElementEditor

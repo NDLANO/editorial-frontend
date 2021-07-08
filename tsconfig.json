@@ -30,7 +30,7 @@
       "@emotion/styled",
       "jest",
       "node",
-      "webpack-env"
+      "webpack-env",
     ],
     "paths": {
       "*": [

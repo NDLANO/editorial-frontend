@@ -69,8 +69,8 @@ const SlateVideo = ({
         setSrc(
           `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
         );
-        setStartTime(getBrightCoveStartTime(videoid));
       }
+      setStartTime(getBrightCoveStartTime(videoid));
     } else {
       const tempUrl = url.includes('embed') ? url : getYoutubeEmbedUrl(url);
       setSrc(tempUrl);

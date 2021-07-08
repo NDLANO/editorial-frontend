@@ -31,10 +31,10 @@ const sortByName = (a: TaxonomyElement, b: TaxonomyElement) => {
   return 0;
 };
 
-function flattenResourceTypesAndAddContextTypes(
+const flattenResourceTypesAndAddContextTypes = (
   data: ResourceType[] = [],
   t: (key: string) => string,
-) {
+) => {
   const resourceTypes: FlattenedResourceType[] = [];
   data.forEach(type => {
     if (type.subtypes) {
@@ -55,9 +55,9 @@ function flattenResourceTypesAndAddContextTypes(
   });
   resourceTypes.push({ name: t('contextTypes.topic'), id: 'topic-article' });
   return resourceTypes;
-}
+};
 
-function sortIntoCreateDeleteUpdate<T extends { id: string }>({
+const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
   changedItems,
   originalItems,
   updateProperties = [],
@@ -65,7 +65,7 @@ function sortIntoCreateDeleteUpdate<T extends { id: string }>({
   changedItems: T[];
   originalItems: T[];
   updateProperties?: string[];
-}) {
+}) => {
   const updateItems: T[] = [];
   const createItems: T[] = [];
   const deleteItems = originalItems.filter(item => {
@@ -89,13 +89,13 @@ function sortIntoCreateDeleteUpdate<T extends { id: string }>({
   });
 
   return [createItems, deleteItems, updateItems];
-}
+};
 
 // Same structuring used from ndla-frontend
 
-function getResourcesGroupedByResourceTypes(
+const getResourcesGroupedByResourceTypes = (
   resourcesByTopic: ResourceWithTopicConnection[],
-): Record<string, ResourceWithTopicConnection[]> {
+): Record<string, ResourceWithTopicConnection[]> => {
   return resourcesByTopic.reduce<Record<string, ResourceWithTopicConnection[]>>((obj, resource) => {
     const resourceTypesWithResources = resource.resourceTypes.map(type => {
       const existing = obj[type.id] ?? [];
@@ -107,42 +107,42 @@ function getResourcesGroupedByResourceTypes(
     );
     return { ...obj, ...reduced };
   }, {});
-}
+};
 
 // Same structuring used from ndla-frontend
-function getTopicResourcesByType(
+const getTopicResourcesByType = (
   resourceTypes: ResourceType[],
   groupedResourceListItem: Record<string, ResourceWithTopicConnection[]>,
-): (ResourceType & { resources: ResourceWithTopicConnection[] })[] {
+): (ResourceType & { resources: ResourceWithTopicConnection[] })[] => {
   return resourceTypes
     .map(type => {
       const resources: ResourceWithTopicConnection[] = groupedResourceListItem[type.id] ?? [];
       return { ...type, resources };
     })
     .filter(type => type.resources.length > 0);
-}
+};
 
-function topicResourcesByTypeWithMetaData(
+const topicResourcesByTypeWithMetaData = (
   resorceTypesByTopic: (ResourceType & {
     resources: ResourceWithTopicConnection[];
   })[],
-) {
+) => {
   return resorceTypesByTopic.map(type => ({
     ...type,
     contentType: getContentTypeFromResourceTypes([type]).contentType,
   }));
-}
+};
 
-function groupSortResourceTypesFromTopicResources(
+const groupSortResourceTypesFromTopicResources = (
   resourceTypes: ResourceType[],
   topicResources: ResourceWithTopicConnection[],
-) {
+) => {
   const sortedResourceTypes = getResourcesGroupedByResourceTypes(topicResources);
   const resorceTypesByTopic = getTopicResourcesByType(resourceTypes, sortedResourceTypes);
   return topicResourcesByTypeWithMetaData(resorceTypesByTopic);
-}
+};
 
-function insertSubTopic(topics: SubjectTopic[], subTopic: SubjectTopic): SubjectTopic[] {
+const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): SubjectTopic[] => {
   return topics.map(topic => {
     if (topic.id === subTopic.parent) {
       return {
@@ -158,7 +158,7 @@ function insertSubTopic(topics: SubjectTopic[], subTopic: SubjectTopic): Subject
     }
     return topic;
   });
-}
+};
 
 const groupTopics = (allTopics: SubjectTopic[]) =>
   allTopics.reduce((acc, curr) => {
@@ -192,7 +192,7 @@ const getCurrentTopic = ({
   return {};
 };
 
-const selectedResourceTypeValue = (resourceTypes: any[]) => {
+const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {
   if (resourceTypes.length === 0) {
     return '';
   }

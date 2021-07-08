@@ -63,7 +63,7 @@ const updateTopicResource = (
     },
     method: 'PUT',
     body: JSON.stringify(topicResource),
-  }).then(r => resolveVoidOrRejectWithError(r));
+  }).then(resolveVoidOrRejectWithError);
 };
 
 const deleteTopicResource = (id: string): Promise<void> => {
@@ -72,9 +72,7 @@ const deleteTopicResource = (id: string): Promise<void> => {
       'Content-Type': 'application/json',
     },
     method: 'DELETE',
-  }).then(r => {
-    return resolveVoidOrRejectWithError(r);
-  });
+  }).then(resolveVoidOrRejectWithError);
 };
 
 async function createDeleteUpdateTopicResources(

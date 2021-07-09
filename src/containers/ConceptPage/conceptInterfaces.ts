@@ -22,7 +22,7 @@ export interface ConceptFormType extends ConceptType {
   revision?: string;
 }
 
-export interface ConceptFormValues extends StrippedConceptType, FormValues {
+export interface ConceptFormValues extends Omit<StrippedConceptType, 'visualElement'>, FormValues {
   articles: ArticleType[];
   slatetitle: Descendant[];
   conceptContent: Descendant[];
@@ -39,6 +39,6 @@ export interface ConceptFormValues extends StrippedConceptType, FormValues {
   tags: string[];
   updateCreated: boolean;
   updated: string;
-  visualElementObject: EmbedElement[];
+  visualElement: EmbedElement[];
   agreementId?: number;
 }

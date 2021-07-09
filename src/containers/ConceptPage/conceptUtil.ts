@@ -44,7 +44,7 @@ export const transformApiConceptToFormValues = (
     tags: concept.tags || [],
     articles: concept.articles || [],
     status: concept.status || {},
-    visualElementObject: embedTagToEditorValue(concept.visualElement),
+    visualElement: embedTagToEditorValue(concept.visualElement),
   };
 };
 
@@ -84,7 +84,7 @@ export const getPatchApiConcept = (
   subjectIds: values.subjects.map(subject => subject.id),
   tags: values.tags,
   articleIds: values.articles.map(a => a.id),
-  visualElement: editorValueToEmbedTag(values.visualElementObject),
+  visualElement: editorValueToEmbedTag(values.visualElement),
 });
 
 export const getConcept = (
@@ -110,7 +110,7 @@ export const getConcept = (
       : undefined,
     subjectIds: values.subjects.map(subject => subject.id),
     articleIds: values.articles.map(a => a.id),
-    visualElement: editorValueToEmbedTag(values.visualElementObject),
+    visualElement: editorValueToEmbedTag(values.visualElement),
     updatedBy,
   };
 };

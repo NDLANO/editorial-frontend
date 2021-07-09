@@ -33,7 +33,7 @@ const VisualElementField = ({ t, formik, types, videoTypes }) => {
 
   return (
     <Fragment>
-      <FormikField name="visualElementObject">
+      <FormikField name="visualElement">
         {({ field }) => (
           <div>
             <FieldHeader title={t('form.visualElement.title')} />

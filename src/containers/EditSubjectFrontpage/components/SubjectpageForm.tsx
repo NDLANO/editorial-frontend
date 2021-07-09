@@ -37,7 +37,7 @@ interface Props {
 }
 export interface SubjectFormValues
   extends Omit<SubjectpageType, 'description' | 'metaDescription'> {
-  visualElementObject: EmbedElement[];
+  visualElement: EmbedElement[];
   articleType: string;
   description?: Descendant[];
   metaDescription?: Descendant[];
@@ -62,7 +62,7 @@ const getInitialValues = (
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElementObject: embedToEditorValue(subjectpage.visualElement),
+    visualElement: embedToEditorValue(subjectpage.visualElement),
     editorsChoices: subjectpage.editorsChoices || [],
     facebook: subjectpage.facebook || '',
     filters: subjectpage.filters || [],
@@ -85,7 +85,7 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
     supportedLanguages: values.supportedLanguages,
     description: values.description ? editorValueToPlainText(values.description) : '',
     title: values.title,
-    visualElement: editorValueToEmbed(values.visualElementObject),
+    visualElement: editorValueToEmbed(values.visualElement),
     language: values.language,
     mobileBanner: values.mobileBanner,
     desktopBanner: values.desktopBanner,
@@ -128,16 +128,7 @@ const SubjectpageForm = ({
     <Formik
       initialValues={initialValues}
       onSubmit={() => {}}
-      validate={values =>
-        validateFormik(
-          {
-            ...values,
-            visualElementObject: values.visualElementObject[0]?.data,
-          },
-          subjectpageRules,
-          t,
-        )
-      }>
+      validate={values => validateFormik(getSubjectpageFromSlate(values), subjectpageRules, t)}>
       {(formik: FormikProps<SubjectFormValues>) => {
         const { values, dirty, isSubmitting, errors, isValid, handleBlur } = formik;
 

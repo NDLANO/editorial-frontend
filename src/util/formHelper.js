@@ -162,7 +162,7 @@ export const subjectpageRules = {
     required: true,
     maxLength: 300,
   },
-  visualElementObject: {
+  visualElement: {
     required: true,
     test: values => {
       const hasElement = values?.resource_id === '';
@@ -186,7 +186,7 @@ export const ndlaFilmRules = {
     required: true,
     maxLength: 300,
   },
-  visualElementObject: {
+  visualElement: {
     required: true,
     test: values => {
       const hasElement = values.resource_id === '';

@@ -61,9 +61,7 @@ export const fetchWithAuthorization = async (
     await renewAuth();
   }
 
-  const contentType = config.headers?.['Content-Type']
-    ? config.headers['Content-Type']
-    : 'text/plain';
+  const contentType = config.headers?.['Content-Type'] ?? 'text/plain';
   const extraHeaders = contentType ? { 'Content-Type': contentType } : null;
   const cacheControl = { 'Cache-Control': 'no-cache' };
   const headers: HeadersInit = {

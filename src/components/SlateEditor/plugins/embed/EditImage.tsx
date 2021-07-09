@@ -100,13 +100,20 @@ const EditImage = ({ t, embed, saveEmbedUpdates, setEditModus }: Props & tType) 
   };
 
   const onSave = () => {
-    const newAlignmentCenter = state.imageUpdates?.align === 'center';
+    let updatedSize = state.imageUpdates?.size;
+
+    if (state.imageUpdates?.align === 'center') {
+      updatedSize = 'fullbredde';
+      if (state.imageUpdates?.size.includes('hide-byline')) {
+        updatedSize += '-hide-byline';
+      }
+    }
 
     saveEmbedUpdates({
       ...state,
       ...state.imageUpdates?.transformData,
       align: state.imageUpdates?.align,
-      size: newAlignmentCenter ? 'fullbredde' : state.imageUpdates?.size,
+      size: updatedSize,
       caption: state.caption,
       alt: state.alt,
     });

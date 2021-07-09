@@ -20,7 +20,10 @@ import { fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
-import { ResourceWithTopicConnection, SubjectType } from '../../interfaces';
+import {
+  ResourceWithTopicConnection,
+  SubjectType,
+} from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../util/retriveBreadCrumbs';
 
 const StyledTitleModal = styled('h1')`

@@ -16,12 +16,51 @@ interface Title {
   spraak: string;
   verdi: string;
 }
+
+export interface UdirCoreType {
+  id: string;
+  kode: string;
+  uri: string;
+  'url-data': string;
+  tittel: Title[];
+  'grep-type': string;
+}
+
+export interface KjerneElementer extends UdirCoreType {
+  rekkefoelge: number;
+  tilhoerer_laereplan: {
+    kode: string;
+    uri: string;
+    'url-data': string;
+  };
+}
+
+export interface Laereplaner extends UdirCoreType {
+  status: string;
+}
+
+export interface TverrfagligeTemaer extends UdirCoreType {
+  rekkefoelge: number;
+}
+
+export interface KompetanseMaal extends UdirCoreType {
+  status: string;
+  rekkefoelge: number;
+  tilhoerer_laereplan: {
+    kode: string;
+    uri: string;
+    'url-data': string;
+  };
+}
+
+export type KompetanseMaalsett = KompetanseMaal;
+
 const getTitlesObject = (titles: Tekst | Title[] | undefined): Title[] => {
   return (titles as Tekst)?.tekst || titles || [];
 };
 
 // Uses nob, but falls back to default if missing.
-const getTitle = (titles: Title[]) => {
+const getTitle = (titles: Title[]): string | undefined => {
   const title = titles.find(t => t.spraak === 'nob') || titles.find(t => t.spraak === 'default');
   return title?.verdi;
 };
@@ -53,13 +92,13 @@ const doGrepCodeRequest = async (code: string) => {
   }
 };
 
-export const fetchGrepCodeTitle = async (grepCode: string) => {
+export const fetchGrepCodeTitle = async (grepCode: string): Promise<string | undefined | null> => {
   const res = await doGrepCodeRequest(grepCode);
   try {
     if (res?.status === 404) {
       return null;
     }
-    const jsonResponse = await resolveJsonOrRejectWithError(res);
+    const jsonResponse = await resolveJsonOrRejectWithError<UdirCoreType>(res);
     const titlesObj = getTitlesObject(jsonResponse?.tittel);
     const titleInLanguage = getTitle(titlesObj);
     return titleInLanguage;

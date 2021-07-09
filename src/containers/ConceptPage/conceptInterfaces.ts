@@ -7,15 +7,13 @@
  */
 
 import { Value } from 'slate';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { VisualElement, Author, ArticleType } from '../../interfaces';
 import {
-  SubjectType,
-  VisualElement,
-  Author,
-  StrippedConceptType,
   ConceptType,
-  ArticleType,
   FormValues,
-} from '../../interfaces';
+  StrippedConceptType,
+} from '../../modules/concept/conceptApiInterfaces';
 
 export interface ConceptFormType extends ConceptType {
   articles: ArticleType[];

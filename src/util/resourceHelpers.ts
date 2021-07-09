@@ -18,7 +18,7 @@ import {
   RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
 } from '../constants';
-import { ResourceType } from '../interfaces';
+import { ResourceType } from '../modules/taxonomy/taxonomyApiInterfaces';
 
 const { contentTypes } = constants;
 

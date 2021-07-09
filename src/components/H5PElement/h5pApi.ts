@@ -6,14 +6,37 @@
  *
  */
 
+import { Author } from '../../interfaces';
 import config from '../../config';
-import { resolveJsonOrRejectWithError, fetchReAuthorized } from '../../util/apiHelpers';
+import { fetchReAuthorized, resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 
-export const fetchH5PiframeUrl = async (
+export interface H5PData {
+  authors: Author[];
+  contentType: string;
+  license: string;
+  licenseExtras: string;
+  licenseVersion: string;
+  source: string;
+  thumbnail: string;
+  title: string;
+  yearFrom: string;
+  yearTo: string;
+}
+export interface H5PMetadata {
+  assets: H5PData[];
+  h5p: H5PData;
+  h5pLibrary: {
+    majorVersion: number;
+    minorVersion: number;
+    name: string;
+  };
+}
+
+export const fetchH5PiframeUrl = (
   locale: string = '',
   canReturnResources: boolean = false,
-) => {
-  const response = await fetchReAuthorized(
+): Promise<{ url: string }> => {
+  return fetchReAuthorized(
     `${config.h5pApiUrl}/select?locale=${getH5pLocale(
       locale,
     )}&canReturnResources=${canReturnResources}`,
@@ -21,31 +44,25 @@ export const fetchH5PiframeUrl = async (
       method: 'POST',
       headers: { Authorization: `Bearer JWT-token` },
     },
-  );
-  return resolveJsonOrRejectWithError(response);
+  ).then(r => resolveJsonOrRejectWithError(r));
 };
 
-export const editH5PiframeUrl = async (url: string, locale: string = '') => {
-  const response = await fetchReAuthorized(
-    `${config.h5pApiUrl}/select/edit/byurl?locale=${getH5pLocale(locale)}`,
-    {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        Authorization: `Bearer JWT-token`,
-      },
-      method: 'POST',
-      body: `url=${encodeURIComponent(url)}`,
+export const editH5PiframeUrl = (url: string, locale: string = ''): Promise<{ url: string }> => {
+  return fetchReAuthorized(`${config.h5pApiUrl}/select/edit/byurl?locale=${getH5pLocale(locale)}`, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      Authorization: `Bearer JWT-token`,
     },
-  );
-  return resolveJsonOrRejectWithError(response);
+    method: 'POST',
+    body: `url=${encodeURIComponent(url)}`,
+  }).then(r => resolveJsonOrRejectWithError(r));
 };
 
 export const getH5pLocale = (language: string) => {
   return language === 'en' ? 'en-gb' : 'nb-no';
 };
 
-export const fetchH5PMetadata = async (resourceId: string) => {
+export const fetchH5PMetadata = async (resourceId: string): Promise<H5PMetadata> => {
   const url = `${config.h5pApiUrl}/v1/resource/${resourceId}/copyright`;
-  const response = await fetch(url);
-  return resolveJsonOrRejectWithError(response);
+  return fetch(url).then(r => resolveJsonOrRejectWithError(r));
 };

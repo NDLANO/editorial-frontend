@@ -20,19 +20,17 @@ import {
 
 const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 
-export const fetchLearningpath = (
-  id: number,
-  locale?: string,
-  ignore403: boolean = false,
-): Promise<Learningpath> => {
+export const fetchLearningpath = (id: number, locale?: string): Promise<Learningpath> => {
   const language = locale ? `?language=${locale}&fallback=true` : '';
-  return fetchAuthorized(`${baseUrl}/${id}${language}`).then((res: any) =>
-    resolveJsonOrRejectWithError(res, { ignore403 }),
+  return fetchAuthorized(`${baseUrl}/${id}${language}`).then(res =>
+    resolveJsonOrRejectWithError<Learningpath>(res),
   );
 };
 
 export const fetchLearningpathsWithArticle = (id: number): Promise<Learningpath[]> =>
-  fetchAuthorized(`${baseUrl}/contains-article/${id}`).then(resolveJsonOrRejectWithError);
+  fetchAuthorized(`${baseUrl}/contains-article/${id}`).then(r =>
+    resolveJsonOrRejectWithError<Learningpath[]>(r),
+  );
 
 export const updateStatusLearningpath = (
   id: number,
@@ -45,7 +43,7 @@ export const updateStatusLearningpath = (
       status,
       message,
     }),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<Learningpath>(r));
 
 export const updateLearningPathTaxonomy = (
   id: number,
@@ -53,16 +51,16 @@ export const updateLearningPathTaxonomy = (
 ): Promise<Learningpath> =>
   fetchAuthorized(`${baseUrl}/${id}/update-taxonomy/?create-if-missing=${createIfMissing}`, {
     method: 'POST',
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<Learningpath>(r));
 
 export const learningpathSearch = (query: SearchBody): Promise<LearningPathSearchResult> =>
   fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',
     body: JSON.stringify(query),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<LearningPathSearchResult>(r));
 
 export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promise<Learningpath> =>
   fetchAuthorized(`${baseUrl}/${id}/copy/`, {
     method: 'POST',
     body: JSON.stringify(query),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<Learningpath>(r));

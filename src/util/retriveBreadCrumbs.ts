@@ -1,6 +1,6 @@
+import { TaxonomyElement } from '../modules/taxonomy/taxonomyApiInterfaces';
 import handleError from './handleError';
 import { pathToUrnArray } from './taxonomyHelpers';
-import { TaxonomyElement } from '../interfaces';
 
 export type Input = {
   topicPath: string;

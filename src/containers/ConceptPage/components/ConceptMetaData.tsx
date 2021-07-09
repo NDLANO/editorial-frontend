@@ -14,10 +14,11 @@ import { MultiSelectDropdown } from '../../../components/Dropdown';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MetaImageSearch } from '../../FormikForm';
 
-import { SubjectType, SearchResult } from '../../../interfaces';
+import { SearchResult } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 import InlineImageSearch from './InlineImageSearch';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../constants';
+import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   subjects: SubjectType[];

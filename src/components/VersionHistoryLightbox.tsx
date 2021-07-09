@@ -20,8 +20,8 @@ import ResourceItemLink from '../containers/StructurePage/resourceComponents/Res
 import { fetchDraftHistory } from '../modules/draft/draftApi';
 import { fetchAuth0Users } from '../modules/auth0/auth0Api';
 import formatDate from '../util/formatDate';
-import { Note } from '../interfaces';
 import { getIdFromUrn } from '../util/taxonomyHelpers';
+import { Note, Auth0UserData } from '../interfaces';
 
 const StyledResourceLinkContainer = styled.div`
   display: flex;
@@ -38,13 +38,6 @@ interface VersionHistoryNotes {
   author: string;
   date: string;
   status: string;
-}
-
-interface User {
-  app_metadata: {
-    ndla_id: string;
-  };
-  name: string;
 }
 
 interface Props {
@@ -68,7 +61,7 @@ const VersionHistoryLightBox = ({
   const [notes, setNotes] = useState<VersionHistoryNotes[] | undefined>(undefined);
 
   useEffect(() => {
-    const cleanupNotes = (notes: Note[], users: User[]) =>
+    const cleanupNotes = (notes: Note[], users: Auth0UserData[]) =>
       notes.map((note, index) => ({
         id: index,
         note: note.note,
@@ -89,7 +82,6 @@ const VersionHistoryLightBox = ({
         setNotes([]);
       }
     };
-
     const id = getIdFromUrn(contentUri);
     if (id) {
       fetchHistory(id);

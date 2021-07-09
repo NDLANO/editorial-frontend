@@ -16,7 +16,10 @@ import styled from '@emotion/styled';
 import { DeleteForever } from '@ndla/icons/editor';
 import GroupTopicResources from '../GroupTopicResources';
 import RoundIcon from '../../../../components/RoundIcon';
-import { TaxonomyElement, TaxonomyMetadata } from '../../../../interfaces';
+import {
+  TaxonomyElement,
+  TaxonomyMetadata,
+} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { searchClasses } from '../../../../containers/SearchPage/SearchContainer';
 import CustomFieldComponent from './CustomFieldComponent';
 import {

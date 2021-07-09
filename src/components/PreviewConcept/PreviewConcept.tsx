@@ -19,8 +19,9 @@ import {
 } from '@ndla/notion';
 import { Remarkable } from 'remarkable';
 import { getSrcSets } from '../../util/imageEditorUtil';
-import { SubjectType, ConceptPreviewType } from '../../interfaces';
-import { fetchSubject } from '../../modules/taxonomy/taxonomyApi';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
+import { fetchSubject } from '../../modules/taxonomy/subjects';
 
 const StyledBody = styled.div`
   margin: 0 ${spacing.normal} ${spacing.small};

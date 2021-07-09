@@ -20,8 +20,8 @@ import SharedTopicConnections from './SharedTopicConnections';
 import Breadcrumb from './Breadcrumb';
 import RelevanceOption from '../../containers/StructurePage/folderComponents/menuOptions/RelevanceOption';
 import RemoveButton from '../RemoveButton';
-import { ResourceWithTopicConnection } from '../../interfaces';
 import { PathArray } from '../../util/retriveBreadCrumbs';
+import { ResourceWithTopicConnection } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   retriveBreadCrumbs: (path: string) => PathArray;

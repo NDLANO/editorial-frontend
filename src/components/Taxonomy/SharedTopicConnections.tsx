@@ -13,7 +13,7 @@ import {
   StyledDuplicateConnectionLabel,
 } from '../../style/LearningResourceTaxonomyStyles';
 import Breadcrumb from './Breadcrumb';
-import { ResourceWithTopicConnection } from '../../interfaces';
+import { ResourceWithTopicConnection } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../util/retriveBreadCrumbs';
 
 interface Props {

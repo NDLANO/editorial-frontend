@@ -92,7 +92,7 @@ export const getEditors = async (managementToken: ManagementToken, role: string)
   return results.reduce((acc, res) => [...acc, ...res.users], []);
 };
 
-export const getZendeskToken = (name: string, email: string) => {
+export const getZendeskToken = (name: string, email: string): string => {
   const payload = {
     name: name,
     email: email,

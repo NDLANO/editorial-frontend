@@ -94,7 +94,7 @@ export function useFetchArticleData(articleId, locale) {
       articleIds
         .filter(a => !!a)
         .map(async elementId => {
-          return fetchConcept(elementId, '', true);
+          return fetchConcept(elementId, '');
         }),
     );
   };

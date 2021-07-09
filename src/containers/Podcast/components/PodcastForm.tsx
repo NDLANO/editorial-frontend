@@ -183,7 +183,6 @@ const PodcastForm = ({
         introduction: editorValueToPlainText(values.introduction),
         coverPhotoId: values.coverPhotoId,
         coverPhotoAltText: values.metaImageAlt,
-        series: values.series,
       },
       seriesId: values.series?.id,
     };
@@ -262,7 +261,7 @@ const PodcastForm = ({
                 </AccordionSection>
 
                 <AccordionSection
-                  id="podcast-upload-series"
+                  id="podcast-upload-metadata"
                   title={t('form.metadataSection')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(

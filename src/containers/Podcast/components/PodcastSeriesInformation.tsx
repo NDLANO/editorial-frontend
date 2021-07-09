@@ -61,7 +61,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
 
   let elements: PodcastSeriesApiType[] = [];
 
-  if (series !== undefined) {
+  if (series !== undefined && !isEmpty(series)) {
     elements = [series].map(s => ({
       ...s,
       metaImage: {

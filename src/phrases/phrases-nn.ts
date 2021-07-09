@@ -420,8 +420,7 @@ const phrases = {
     information: {
       partOfSeries: 'Denne podkasten er ein del av serien',
       removeSeries: 'Fjern serie',
-      noSeries: 'Podkasten tilhøyrer ingen serie'
-
+      noSeries: 'Podkasten tilhøyrer ingen serie',
     },
   },
   imageEditor: {

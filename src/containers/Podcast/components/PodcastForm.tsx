@@ -37,7 +37,6 @@ import {
 } from '../../../util/articleContentConverter';
 import { License } from '../../../interfaces';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
-import AddPodcastSeries from './AddPodcastSeries';
 
 const podcastRules = {
   title: {
@@ -100,6 +99,7 @@ export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => (
   coverPhotoId: audio.podcastMeta?.coverPhoto.id,
   metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
   series: audio.series,
+  seriesId: audio.series?.id,
 });
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
@@ -185,6 +185,7 @@ const PodcastForm = ({
         coverPhotoAltText: values.metaImageAlt,
         series: values.series,
       },
+      seriesId: values.series?.id,
     };
 
     await onUpdate(podcastMetaData, values.audioFile.newFile?.file);

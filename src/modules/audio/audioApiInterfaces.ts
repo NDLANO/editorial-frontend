@@ -78,6 +78,7 @@ export interface AudioApiType {
   audioType: AudioType;
   podcastMeta?: PodcastMeta;
   series?: PodcastSeriesApiType;
+  seriesId?: number;
 }
 
 export interface PodcastFormValues extends Omit<AudioFormikType, 'language'> {
@@ -89,6 +90,7 @@ export interface PodcastFormValues extends Omit<AudioFormikType, 'language'> {
   metaImageAlt?: string;
   metaImageUrl?: string;
   series?: PodcastSeriesApiType;
+  seriesId?: number;
 }
 
 export interface AudioSearchResultType {
@@ -143,7 +145,7 @@ export interface PodcastSeriesApiType {
   revision: number;
   title: { title: string; language: string };
   description: { description: string; language: string };
-  coverPhoto: { id: string; altText: string , url: string};
+  coverPhoto: { id: string; altText: string; url: string };
   episodes?: AudioApiType[];
   supportedLanguages: string[];
 }

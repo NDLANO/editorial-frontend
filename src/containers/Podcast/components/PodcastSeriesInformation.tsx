@@ -8,41 +8,101 @@
 
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { Link } from 'react-router-dom';
 import { FieldHeader } from '@ndla/forms';
-import { toEditPodcastSeries } from '../../../util/routeHelpers';
-import { PodcastSeriesApiType } from '../../../modules/audio/audioApiInterfaces';
+import { fetchSeries, searchSeries } from 'modules/audio/audioApi';
+import { useFormikContext } from 'formik';
+import isEmpty from 'lodash/fp/isEmpty';
+import ElementList from '../../FormikForm/components/ElementList';
+import {
+  PodcastFormValues,
+  PodcastSeriesApiType,
+  SeriesSearchResult,
+  SeriesSearchSummary,
+} from '../../../modules/audio/audioApiInterfaces';
 
-interface Props {
-  podcastSeries: PodcastSeriesApiType | undefined;
-  language: string;
-}
+import { AsyncDropdown } from '../../../components/Dropdown';
+import handleError from '../../../util/handleError';
 
-const PodcastSeriesInformation = ({ podcastSeries, language, t }: Props & tType) => {
-  const languageForLink =
-    podcastSeries?.supportedLanguages.find(l => l === language) ??
-    podcastSeries?.supportedLanguages?.[0] ??
-    language;
+const PodcastSeriesInformation = ({ t }: tType) => {
+  const { values, setFieldValue } = useFormikContext<PodcastFormValues>();
+  const { series, language } = values;
 
-  if (podcastSeries?.id === undefined) {
-    return null;
+  const onAddSeries = async (series: SeriesSearchSummary) => {
+    try {
+      const newSeries = await fetchSeries(series.id, language);
+      if (newSeries !== undefined) {
+        setFieldValue('series', newSeries);
+      }
+    } catch (e) {
+      handleError(e);
+    }
+  };
+
+  const onUpdateSeries = (series: PodcastSeriesApiType) => {
+    setFieldValue('series', series);
+  };
+
+  const searchForSeries = async (input: string): Promise<SeriesSearchResult> => {
+    const searchResult = await searchSeries({
+      query: input,
+      language: language,
+    });
+
+    const results = searchResult.results.map((result: SeriesSearchSummary) => {
+      const haveSelected = series?.id !== undefined && series.id !== result.id;
+      const disabledText = haveSelected ? ' ' : undefined;
+      return {
+        ...result,
+        disabledText,
+      };
+    });
+    return { ...searchResult, results };
+  };
+
+  let elements: PodcastSeriesApiType[] = [];
+
+  if (series !== undefined && !isEmpty(series)) {
+    elements = [series].map(s => ({
+      ...s,
+      metaImage: {
+        alt: s?.coverPhoto.altText,
+        url: s?.coverPhoto.url,
+        language,
+      },
+      articleType: 'series',
+    }));
   }
 
   return (
     <>
       <FieldHeader title={t('podcastForm.fields.series')} />
-      <p>
-        {t('podcastForm.information.partOfSeries')}
-        {': '}
-        <q>
-          <Link
-            to={toEditPodcastSeries(podcastSeries.id, languageForLink)}
-            target="_blank"
-            rel="noopener noreferrer">
-            {podcastSeries?.title.title}
-          </Link>
-        </q>
-      </p>
+      {!isEmpty(series) ? (
+        <ElementList
+          elements={elements}
+          isOrderable={false}
+          messages={{
+            dragElement: t('conceptpageForm.changeOrder'),
+            removeElement: t('podcastForm.information.removeSeries'),
+          }}
+          onUpdateElements={onUpdateSeries}
+        />
+      ) : (
+        <p>{t('podcastForm.information.noSeries')}</p>
+      )}
+      <AsyncDropdown
+        selectedItems={elements}
+        idField="id"
+        name="relatedSeriesSearch"
+        labelField="title"
+        placeholder={t('form.content.relatedArticle.placeholder')}
+        label="label"
+        apiAction={searchForSeries}
+        onClick={(event: Event) => event.stopPropagation()}
+        onChange={(series: SeriesSearchSummary) => onAddSeries(series)}
+        multiSelect
+        disableSelected
+        clearInputField
+      />
     </>
   );
 };

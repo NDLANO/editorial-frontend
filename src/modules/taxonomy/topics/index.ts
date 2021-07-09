@@ -21,7 +21,6 @@ import {
   TaxonomyMetadata,
   Topic,
   TopicConnections,
-  TopicResourceType,
 } from '../taxonomyApiInterfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
@@ -37,13 +36,6 @@ const fetchTopic = (urn: string, language?: string): Promise<Topic> => {
   const lang = language ? `?language=${language}` : '';
   return fetchAuthorized(`${baseUrl}/topics/${urn}${lang}`).then(r =>
     resolveJsonOrRejectWithError<Topic>(r),
-  );
-};
-
-const fetchTopicResourceTypes = (language?: string): Promise<TopicResourceType[]> => {
-  const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/topic-resourcetypes/${lang}`).then(r =>
-    resolveJsonOrRejectWithError<TopicResourceType[]>(r),
   );
 };
 
@@ -162,6 +154,5 @@ export {
   fetchTopicResources,
   fetchTopicConnections,
   updateTopicSubtopic,
-  fetchTopicResourceTypes,
   updateTopicMetadata,
 };

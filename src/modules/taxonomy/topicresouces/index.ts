@@ -6,32 +6,16 @@
  *
  */
 
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-} from '../../../util/apiHelpers';
+import { apiResourceUrl, fetchAuthorized } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { taxonomyApi } from '../../../config';
-import { ParentTopicWithRelevanceAndConnections, TopicSubtopic } from '../taxonomyApiInterfaces';
+import { ParentTopicWithRelevanceAndConnections } from '../taxonomyApiInterfaces';
 import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
-
-const fetchAllTopicResource = (language: string): Promise<TopicSubtopic[]> => {
-  return fetchAuthorized(`${baseUrl}/topic-resources/?language=${language}`).then(r =>
-    resolveJsonOrRejectWithError<TopicSubtopic[]>(r),
-  );
-};
-
-const fetchSingleTopicResource = (id: string): Promise<TopicSubtopic> => {
-  return fetchAuthorized(`${baseUrl}/topic-resources/${id}`).then(r =>
-    resolveJsonOrRejectWithError<TopicSubtopic>(r),
-  );
-};
 
 const createTopicResource = (topicResource: {
   resourceId: string;
@@ -119,8 +103,6 @@ async function createDeleteUpdateTopicResources(
 }
 
 export {
-  fetchAllTopicResource,
-  fetchSingleTopicResource,
   createTopicResource,
   updateTopicResource,
   deleteTopicResource,

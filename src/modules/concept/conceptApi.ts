@@ -37,13 +37,10 @@ export const fetchSearchTags = async (
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchConcept = async (conceptId: number, locale: string): Promise<ConceptType> => {
-  const response = await fetchAuthorized(
+export const fetchConcept = async (conceptId: number, locale: string): Promise<ApiConceptType> => {
+  return fetchAuthorized(
     `${draftConceptUrl}/${conceptId}?language=${locale}&fallback=true`,
-  );
-  return resolveJsonOrRejectWithError<ApiConceptType>(response).then((resolved: ApiConceptType) =>
-    transformApiToCleanConcept(resolved, locale),
-  );
+  ).then(r => resolveJsonOrRejectWithError<ApiConceptType>(r));
 };
 
 export const addConcept = async (concept: NewConceptType): Promise<ConceptType> =>

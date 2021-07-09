@@ -20,6 +20,7 @@ import handleError from '../../util/handleError';
 import { ArticleType } from '../../interfaces';
 import { ConceptFormType } from '../ConceptPage/conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { transformApiToCleanConcept } from '../../modules/concept/conceptApiUtil';
 
 export function useFetchConceptData(conceptId: number, locale: string) {
   const [concept, setConcept] = useState<ConceptFormType>();
@@ -32,7 +33,9 @@ export function useFetchConceptData(conceptId: number, locale: string) {
       try {
         if (conceptId) {
           setLoading(true);
-          const concept = await conceptApi.fetchConcept(conceptId, locale);
+          const concept = await conceptApi
+            .fetchConcept(conceptId, locale)
+            .then(resolved => transformApiToCleanConcept(resolved, locale));
 
           const convertedArticles = await fetchElementList(concept.articleIds);
           setConcept({
@@ -96,7 +99,9 @@ export function useFetchConceptData(conceptId: number, locale: string) {
   ) => {
     const newConcept = dirty
       ? await conceptApi.updateConcept(updatedConcept)
-      : await conceptApi.fetchConcept(updatedConcept.id, updatedConcept.language);
+      : await conceptApi
+          .fetchConcept(updatedConcept.id, updatedConcept.language)
+          .then(resolved => transformApiToCleanConcept(resolved, locale));
     const convertedArticles = await fetchElementList(newConcept.articleIds);
     const conceptChangedStatus = await conceptApi.updateConceptStatus(updatedConcept.id, newStatus);
     setConcept({

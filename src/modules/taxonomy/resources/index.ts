@@ -68,12 +68,6 @@ export const fetchResourceResourceType = (
   );
 };
 
-export const fetchResourceMetadata = (id: string): Promise<TaxonomyMetadata> => {
-  return fetchAuthorized(`${baseUrl}/resources/${id}/metadata`).then(r =>
-    resolveJsonOrRejectWithError<TaxonomyMetadata>(r),
-  );
-};
-
 export const updateResourceMetadata = (
   resourceId: string,
   body: Partial<TaxonomyMetadata>,

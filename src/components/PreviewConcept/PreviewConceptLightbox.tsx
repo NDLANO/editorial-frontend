@@ -23,6 +23,7 @@ import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
 import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
+import { transformApiToCleanConcept } from '../../modules/concept/conceptApiUtil';
 
 interface Props {
   getConcept: Function;
@@ -71,7 +72,9 @@ const PreviewConceptLightbox = ({ t, getConcept, typeOfPreview }: Props & tType)
 
   const onChangePreviewLanguage = async (language: string) => {
     const originalConcept = getConcept();
-    const secondConcept = await fetchConcept(originalConcept.id, language);
+    const secondConcept = await fetchConcept(originalConcept.id, language).then(concept =>
+      transformApiToCleanConcept(concept, language),
+    );
     const secondVisualElement =
       secondConcept.visualElement && (await getVisualElement(secondConcept.visualElement));
     setPreviewLanguage(language);

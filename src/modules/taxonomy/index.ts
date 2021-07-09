@@ -13,7 +13,6 @@ export {
   queryResources,
   queryTopics,
   fetchResourceResourceType,
-  fetchResourceMetadata,
   fetchFullResource,
   getResourceId, // fetchTopicResource,
   queryLearningPathResource,
@@ -27,8 +26,6 @@ export {
   createDeleteResourceTypes,
 } from './resourcetypes';
 export {
-  fetchAllTopicResource,
-  fetchSingleTopicResource,
   createTopicResource,
   updateTopicResource,
   deleteTopicResource,

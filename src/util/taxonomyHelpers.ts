@@ -6,7 +6,6 @@
  *
  */
 
-import * as _ from 'lodash';
 import { FlattenedResourceType } from '../interfaces';
 import {
   ResourceType,
@@ -64,7 +63,7 @@ const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
 }: {
   changedItems: T[];
   originalItems: T[];
-  updateProperties?: string[];
+  updateProperties?: Array<keyof T>;
 }) => {
   const updateItems: T[] = [];
   const createItems: T[] = [];
@@ -76,10 +75,10 @@ const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
     const foundItem = originalItems.find(item => item.id === changedItem.id);
     if (foundItem) {
       updateProperties.forEach(updateProperty => {
-        if (_.get(foundItem, updateProperty) !== _.get(changedItem, updateProperty)) {
+        if (foundItem[updateProperty] !== changedItem[updateProperty]) {
           updateItems.push({
             ...foundItem,
-            [updateProperty]: _.get(changedItem, updateProperty),
+            [updateProperty]: changedItem[updateProperty],
           });
         }
       });

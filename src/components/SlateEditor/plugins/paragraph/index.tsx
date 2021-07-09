@@ -70,16 +70,19 @@ const onEnter = (
 };
 
 export const paragraphSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== 'p') return;
 
     return jsx(
       'element',
-      { type: TYPE_PARAGRAPH, data: reduceElementDataAttributes(el, ['align', 'data-align']) },
+      {
+        type: TYPE_PARAGRAPH,
+        data: reduceElementDataAttributes(el, ['align', 'data-align']),
+      },
       children,
     );
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_PARAGRAPH /*&& node.type !== 'line'*/) return;
 
@@ -92,8 +95,8 @@ export const paragraphSerializer: SlateSerializer = {
     if (Node.string(node) === '' && node.children.length === 1 && Text.isText(node.children[0]))
       return null;
 
-    const attributes = node.data?.align ? ` data-align="${node.data.align}"` : '';
-    return `<p${attributes}>${children}</p>`;
+    const attributes = node.data?.align ? { 'data-align': node.data.align } : {};
+    return <p {...attributes}>{children}</p>;
   },
 };
 

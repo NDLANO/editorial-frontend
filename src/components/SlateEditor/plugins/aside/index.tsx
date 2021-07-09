@@ -26,14 +26,14 @@ export interface AsideElement {
 }
 
 export const asideSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== 'aside') return;
     return jsx('element', { type: TYPE_ASIDE, data: getAsideType(el) }, children);
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type !== 'aside') return;
-    return `<aside data-type="${node.data.type || ''}">${children}</aside>`;
+    return <aside data-type={node.data.type || ''}>${children}</aside>;
   },
 };
 

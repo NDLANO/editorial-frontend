@@ -39,11 +39,11 @@ const actions: Action[] = [
     icon: <ArrowExpand />,
     helpIcon: renderArticleInModal('Details'),
   },
-  // {
-  //   data: { type: 'table', object: 'table' },
-  //   icon: <TableMaterial />,
-  //   helpIcon: renderArticleInModal('Table'),
-  // },
+  {
+    data: { type: 'table', object: 'table' },
+    icon: <TableMaterial />,
+    helpIcon: renderArticleInModal('Table'),
+  },
   {
     data: { type: 'bodybox', object: 'bodybox' },
     icon: <Framed />,
@@ -84,16 +84,16 @@ const actions: Action[] = [
     icon: <Download />,
     helpIcon: renderArticleInModal('File'),
   },
-  // {
-  //   data: { type: 'related', object: 'related' },
-  //   icon: <RelatedArticle />,
-  //   helpIcon: renderArticleInModal('RelatedArticle'),
-  // },
-  // {
-  //   data: { type: 'code-block', object: 'code' },
-  //   icon: <Code />,
-  //   helpIcon: renderArticleInModal('CodeBlock'),
-  // },
+  {
+    data: { type: 'related', object: 'related' },
+    icon: <RelatedArticle />,
+    helpIcon: renderArticleInModal('RelatedArticle'),
+  },
+  {
+    data: { type: 'code-block', object: 'code' },
+    icon: <Code />,
+    helpIcon: renderArticleInModal('CodeBlock'),
+  },
 ];
 
 export default actions;

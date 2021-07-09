@@ -21,7 +21,7 @@ export interface SectionElement {
 }
 
 export const sectionSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === TYPE_SECTION) {
       // Wrap single text node in section in a paragraph
@@ -32,10 +32,10 @@ export const sectionSerializer: SlateSerializer = {
     }
     return;
   },
-  serialize(node: Descendant, children: string) {
+  serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_SECTION) {
-      return `<section>${children}</section>`;
+      return <section>{children}</section>;
     }
   },
 };

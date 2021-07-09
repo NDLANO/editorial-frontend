@@ -24,7 +24,7 @@ import LastUpdatedLine from '../../../../components/LastUpdatedLine';
 import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../../util/slateHelpers';
-import codeBlockPlugin from '../../../../components/SlateEditor/plugins/codeBlock';
+import { codeblockPlugin } from '../../../../components/SlateEditor/plugins/codeBlock';
 import { footnotePlugin, TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote';
 import { embedPlugin } from '../../../../components/SlateEditor/plugins/embed';
 import { bodyboxPlugin } from '../../../../components/SlateEditor/plugins/bodybox';
@@ -34,7 +34,7 @@ import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
 import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
 import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import blockPickerPlugin from '../../../../components/SlateEditor/plugins/blockPicker';
-import relatedPlugin from '../../../../components/SlateEditor/plugins/related';
+import { relatedPlugin } from '../../../../components/SlateEditor/plugins/related';
 import { filePlugin } from '../../../../components/SlateEditor/plugins/file';
 import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concept';
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
@@ -48,7 +48,7 @@ import {
   editListPlugin,
   editTablePlugin,
 } from '../../../../components/SlateEditor/plugins/externalPlugins';
-import createTablePlugin from '../../../../components/SlateEditor/plugins/table';
+import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import { IngressField, TitleField } from '../../../FormikForm';
 import { ArticleShape } from '../../../../shapes';
@@ -119,12 +119,12 @@ const LearningResourceContent = ({
     // // unwrapping (jumping out of block) will not work.
     // editListPlugin,
     // listTextPlugin(),
-    // createTablePlugin(),
+    tablePlugin,
     // editTablePlugin,
-    // relatedPlugin(),
+    relatedPlugin,
     filePlugin,
     mathmlPlugin,
-    // codeBlockPlugin(),
+    codeblockPlugin,
     // blockPickerPlugin({
     //   articleLanguage,
     //   actionsToShowInAreas,

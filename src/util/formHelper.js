@@ -189,7 +189,7 @@ export const ndlaFilmRules = {
   visualElement: {
     required: true,
     test: values => {
-      const hasElement = values.resource_id === '';
+      const hasElement = values?.resource_id === '';
       return hasElement ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
     },
   },

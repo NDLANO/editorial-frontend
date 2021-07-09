@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+import {
+  deleteTopicResource,
+  updateTopicResource,
+  updateTopicSubtopic,
+  updateSubjectTopic,
+} from '../../../modules/taxonomy';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
@@ -42,6 +48,23 @@ class TopicDescription extends Component {
 
     const { displayTopicDescription, showAddModal } = this.state;
 
+    const updateRelevanceId = (connectionId, body) => {
+      const [, connectionType] = connectionId.split(':');
+      switch (connectionType) {
+        case 'topic-resource':
+          updateTopicResource(connectionId, body);
+          break;
+        case 'topic-subtopic':
+          updateTopicSubtopic(connectionId, body);
+          break;
+        case 'subject-topic':
+          updateSubjectTopic(connectionId, body);
+          break;
+        default:
+          return;
+      }
+    };
+
     return (
       <div ref={resourceRef}>
         <Accordion
@@ -59,7 +82,7 @@ class TopicDescription extends Component {
               metadata={currentTopic.metadata}
               connectionId={currentTopic.connectionId}
               relevanceId={currentTopic.relevanceId}
-              updateRelevanceId={() => {}}
+              updateRelevanceId={updateRelevanceId}
               refreshResources={refreshTopics}
               primary={currentTopic.isPrimary}
               rank={currentTopic.rank}

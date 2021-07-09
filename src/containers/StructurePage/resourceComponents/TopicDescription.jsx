@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import {
-  deleteTopicResource,
   updateTopicResource,
   updateTopicSubtopic,
   updateSubjectTopic,

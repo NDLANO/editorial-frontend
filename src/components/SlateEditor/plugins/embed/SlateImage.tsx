@@ -6,8 +6,7 @@
  *
  */
 
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css } from '@emotion/core';
 import React, { useState } from 'react';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';

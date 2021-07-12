@@ -6,8 +6,7 @@
  *
  */
 
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css } from '@emotion/core';
 import React, { Fragment, useEffect, useState } from 'react';
 import Button from '@ndla/button';
 // @ts-ignore

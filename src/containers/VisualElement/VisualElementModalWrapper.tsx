@@ -1,6 +1,6 @@
 import { injectT, tType } from '@ndla/i18n';
 import React, { useState } from 'react';
-import css from '@emotion/css';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Lightbox from '../../components/Lightbox';
@@ -50,12 +50,12 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, t }: P
       backgroundColor="white"
       onClose={onClose}>
       {(onCloseModal: () => void) => (
-        <>
+        <React.Fragment>
           <ModalHeader>
             <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
           </ModalHeader>
           <ModalBody>{children(setH5pFetchFail)}</ModalBody>
-        </>
+        </React.Fragment>
       )}
     </StyledVisualElementModal>
   );

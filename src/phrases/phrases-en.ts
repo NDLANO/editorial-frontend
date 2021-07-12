@@ -1208,6 +1208,9 @@ const phrases = {
   metadata: {
     visible: 'is visible',
     notVisible: 'is not visible',
+    changeExplanationSubject: 'Change explanation subject status',
+    explanationSubject: 'is an explanation subject',
+    notExplanationSubject: 'is not an explanation subject',
     changeVisibility: 'Change visibility',
   },
 };

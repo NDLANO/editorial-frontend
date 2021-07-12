@@ -1235,6 +1235,9 @@ const phrases = {
   metadata: {
     visible: 'er synlig',
     notVisible: 'er ikke synlig',
+    changeExplanationSubject: 'Endre forklaringsfag-status',
+    explanationSubject: 'er forklaringsfag',
+    notExplanationSubject: 'er ikke forklaringsfag',
     changeVisibility: 'Endre synlighet',
   },
 };

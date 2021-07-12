@@ -7,6 +7,7 @@
  */
 
 import React, { Fragment, useMemo, useState } from 'react';
+import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
@@ -36,7 +37,6 @@ import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
-import { ReactEditor } from 'slate-react';
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
 
 const byLineStyle = css`

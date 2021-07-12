@@ -1,7 +1,7 @@
 import { Editor } from 'slate';
 
 export const blockPickerPlugin = (editor: Editor) => {
-  editor.shouldShowToolbar = () => true;
+  editor.shouldShowBlockPicker = () => true;
 
   return editor;
 };

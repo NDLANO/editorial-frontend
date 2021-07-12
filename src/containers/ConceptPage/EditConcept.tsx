@@ -15,6 +15,13 @@ import Spinner from '../../components/Spinner';
 import { License } from '../../interfaces';
 import ConceptForm from './ConceptForm';
 
+interface Props {
+  conceptId: string;
+  selectedLanguage: string;
+  licenses: License[];
+  isNewlyCreated: boolean;
+}
+
 const EditConcept = ({
   conceptId,
   isNewlyCreated,
@@ -67,12 +74,5 @@ const EditConcept = ({
     </>
   );
 };
-
-interface Props {
-  conceptId: string;
-  selectedLanguage: string;
-  licenses: License[];
-  isNewlyCreated: boolean;
-}
 
 export default injectT(EditConcept);

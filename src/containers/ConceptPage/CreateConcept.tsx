@@ -16,6 +16,16 @@ import ConceptForm from './ConceptForm';
 import { ConceptType, License } from '../../interfaces';
 import { NewConceptType } from '../../modules/concept/conceptApiInterfaces';
 
+interface Props extends RouteComponentProps {
+  initialConcept: {
+    title: string;
+  };
+  locale: string;
+  licenses: License[];
+  inModal: boolean;
+  addConceptInModal?: (savedConcept: ConceptType) => void;
+}
+
 const CreateConcept = ({
   licenses,
   locale,
@@ -63,16 +73,6 @@ const CreateConcept = ({
     </>
   );
 };
-
-interface Props extends RouteComponentProps {
-  initialConcept: {
-    title: string;
-  };
-  locale: string;
-  licenses: License[];
-  inModal: boolean;
-  addConceptInModal: (savedConcept: ConceptType) => void;
-}
 
 CreateConcept.defaultProps = {
   inModal: false,

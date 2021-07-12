@@ -2,14 +2,12 @@ import { Editor, Element, NodeEntry, Node, Transforms, Text, Path } from 'slate'
 import { jsx } from 'slate-hyperscript';
 import { TYPE_PARAGRAPH } from '../plugins/paragraph/utils';
 
-export const firstTextBlockElement: Element['type'][] = ['paragraph', 'heading'];
+export const firstTextBlockElement: Element['type'][] = ['paragraph', 'heading', 'quote'];
 
 export const textBlockElements: Element['type'][] = [
   'paragraph',
   'heading',
-  //'bulleted-list',
-  //'letter-list',
-  //'numbered-list',
+  'list',
   'quote',
   'table',
   //'embed',

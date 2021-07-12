@@ -58,16 +58,16 @@ const toolbarPlugin = (editor: Editor) => {
       block = 'heading-3';
     } else if (isItalicHotKey(e)) {
       mark = 'italic';
-      // } else if (isLetteredListHotKey(e)) {
-      //   block = 'letter-list';
+    } else if (isLetteredListHotKey(e)) {
+      block = 'letter-list';
     } else if (isLinkHotKey(e)) {
       inline = 'link';
-      // } else if (isListHotKey(e)) {
-      //   block = 'bulleted-list';
+    } else if (isListHotKey(e)) {
+      block = 'bulleted-list';
     } else if (isMathHotKey(e)) {
       inline = 'mathml';
-      // } else if (isNumberedListHotKey(e)) {
-      //   block = 'numbered-list';
+    } else if (isNumberedListHotKey(e)) {
+      block = 'numbered-list';
     } else if (isQuoteHotKey(e)) {
       block = 'quote';
     } else if (isSubHotKey(e)) {

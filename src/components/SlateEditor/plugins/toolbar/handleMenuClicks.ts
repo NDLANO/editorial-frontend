@@ -11,6 +11,8 @@ import { KeyboardEvent } from 'react';
 import { insertLink } from '../link/utils';
 import toggleBlock from '../../utils/toggleBlock';
 import { toggleHeading } from '../heading/utils';
+import { LIST_TYPES } from '../list';
+import { toggleList } from '../list/utils/toggleList';
 import { insertFootnote } from '../footnote/utils';
 import { insertMathml } from '../mathml/utils';
 import { insertConcept } from '../concept/utils';
@@ -27,20 +29,9 @@ export function handleClickBlock(
     toggleHeading(editor, 2);
   } else if (type === 'heading-3') {
     toggleHeading(editor, 3);
+  } else if (LIST_TYPES.includes(type)) {
+    toggleList(editor, type);
   }
-  // TODO: Upgrade. Old code for handling lists
-  //   // Current list type is active
-  //   if (isListTypeActive) {
-  //     editor.unwrapList();
-  //     // Current selection is list, but not the same type
-  //   } else if (editor.isSelectionInList()) {
-  //     editor.unwrapList();
-  //     editor.wrapInList(type);
-  //     // No list found, wrap in list type
-  //   } else {
-  //     editor.wrapInList(type);
-  //   }
-  // }
 }
 
 export function handleClickInline(

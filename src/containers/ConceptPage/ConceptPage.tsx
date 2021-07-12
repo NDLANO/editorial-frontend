@@ -7,22 +7,43 @@
  */
 
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
-import { connect } from 'react-redux';
+import { injectT, tType } from '@ndla/i18n';
+import { connect, ConnectedProps } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
+// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
+import { RouteComponentProps } from 'react-router';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import * as messageActions from '../Messages/messagesActions';
 import { getLocale } from '../../modules/locale/locale';
-import { LicensesArrayOf, LocationShape } from '../../shapes';
 import Footer from '../App/components/Footer';
+import { ReduxState } from '../../interfaces';
 const CreateConcept = loadable(() => import('./CreateConcept'));
 const EditConcept = loadable(() => import('./EditConcept'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
-class ConceptPage extends PureComponent {
+interface BaseProps {}
+
+const mapDispatchToProps = {
+  fetchLicenses: licenseActions.fetchLicenses,
+  applicationError: messageActions.applicationError,
+};
+
+const mapStateToProps = (state: ReduxState) => ({
+  locale: getLocale(state),
+  licenses: getAllLicenses(state),
+});
+
+const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
+type Props = BaseProps & tType & RouteComponentProps & PropsFromRedux;
+
+interface State {
+  previousLocation: string;
+}
+
+class ConceptPage extends PureComponent<Props, State> {
   state = {
     previousLocation: '',
   };
@@ -34,7 +55,7 @@ class ConceptPage extends PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.location.pathname !== prevProps.location.pathname) {
       this.setState({ previousLocation: prevProps.location.pathname });
     }
@@ -70,30 +91,5 @@ class ConceptPage extends PureComponent {
     );
   }
 }
-
-ConceptPage.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }).isRequired,
-  licenses: LicensesArrayOf.isRequired,
-  fetchLicenses: PropTypes.func.isRequired,
-  applicationError: PropTypes.func.isRequired,
-  userAccess: PropTypes.string,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  locale: PropTypes.string.isRequired,
-  location: LocationShape,
-};
-
-const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
-  applicationError: messageActions.applicationError,
-};
-
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-  licenses: getAllLicenses(state),
-});
 
 export default injectT(connect(mapStateToProps, mapDispatchToProps)(ConceptPage));

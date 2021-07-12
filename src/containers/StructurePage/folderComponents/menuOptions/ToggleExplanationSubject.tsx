@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
@@ -66,7 +66,6 @@ const ToggleExplanationSubject = ({
     setResourcesUpdated(true);
   };
   const toggleEditModes = () => toggleEditMode('toggleMetadataExplanationSubject');
-  useEffect(() => {}, [editMode]);
 
   const toggle = (
     <DropDownWrapper>

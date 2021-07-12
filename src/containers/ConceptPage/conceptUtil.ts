@@ -11,8 +11,9 @@ import isEmpty from 'lodash/fp/isEmpty';
 import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
 import { createEmbedTag } from '../../util/embedTagHelpers';
 import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
-import { SubjectType, License, ConceptType } from '../../interfaces';
+import { SubjectType, License, ConceptType, VisualElement } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
+import { renderToStaticMarkup } from 'react-dom/server';
 
 export const transformApiConceptToFormValues = (
   concept: ConceptFormType,
@@ -56,6 +57,14 @@ export const getCreatedDate = (values: ConceptFormValues, initialValues: Concept
   return undefined;
 };
 
+const getVisualElementString = (visualElement: VisualElement) => {
+  const embedTag = createEmbedTag(visualElement);
+  if (embedTag) {
+    return renderToStaticMarkup(embedTag);
+  }
+  return undefined;
+};
+
 export const getNewApiConcept = (
   values: ConceptFormValues,
   licenses: License[],
@@ -79,7 +88,7 @@ export const getNewApiConcept = (
   subjectIds: values.subjects.map(subject => subject.id),
   tags: values.tags,
   articleIds: values.articles.map(a => a.id),
-  visualElement: createEmbedTag(values.visualElementObject),
+  visualElement: getVisualElementString(values.visualElementObject),
 });
 export const getPatchApiConcept = (
   values: ConceptFormValues,
@@ -105,7 +114,7 @@ export const getPatchApiConcept = (
   subjectIds: values.subjects.map(subject => subject.id),
   tags: values.tags,
   articleIds: values.articles.map(a => a.id),
-  visualElement: createEmbedTag(values.visualElementObject),
+  visualElement: getVisualElementString(values.visualElementObject),
 });
 
 export const getConcept = (
@@ -131,7 +140,7 @@ export const getConcept = (
       : undefined,
     subjectIds: values.subjects.map(subject => subject.id),
     articleIds: values.articles.map(a => a.id),
-    visualElement: createEmbedTag(values.visualElementObject),
+    visualElement: getVisualElementString(values.visualElementObject),
     parsedVisualElement: values.visualElementObject,
     updatedBy,
   };

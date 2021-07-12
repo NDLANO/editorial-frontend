@@ -165,14 +165,16 @@ const SlateBlockPicker = (props: Props & tType) => {
     });
 
     return (
-      isOpen ||
-      (node &&
-        Element.isElement(node[0]) &&
-        Node.string(node[0]).length === 0 &&
-        node[0].children.length === 1 &&
-        !illegalBlock &&
-        allowedPickAreas.includes(node[0].type) &&
-        ReactEditor.isFocused(editor))
+      editor.shouldShowBlockPicker &&
+      editor.shouldShowBlockPicker() &&
+      (isOpen ||
+        (node &&
+          Element.isElement(node[0]) &&
+          Node.string(node[0]).length === 0 &&
+          node[0].children.length === 1 &&
+          !illegalBlock &&
+          allowedPickAreas.includes(node[0].type) &&
+          ReactEditor.isFocused(editor)))
     );
   };
 

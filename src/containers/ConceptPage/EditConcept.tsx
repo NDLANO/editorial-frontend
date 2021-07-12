@@ -7,16 +7,21 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT } from '@ndla/i18n';
-import ConceptForm from './ConceptForm';
+import { injectT, tType } from '@ndla/i18n';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
-import { LicensesArrayOf } from '../../shapes';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import Spinner from '../../components/Spinner';
+import { License } from '../../interfaces';
+import ConceptForm from './ConceptForm';
 
-const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t, ...rest }) => {
+const EditConcept = ({
+  conceptId,
+  isNewlyCreated,
+  licenses,
+  selectedLanguage,
+  t,
+}: Props & tType) => {
   const {
     concept,
     fetchSearchTags,
@@ -27,7 +32,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
     subjects,
     updateConcept,
     updateConceptAndStatus,
-  } = useFetchConceptData(conceptId, selectedLanguage);
+  } = useFetchConceptData(parseInt(conceptId), selectedLanguage);
 
   const { translating, translateToNN } = useTranslateApi(concept, setConcept, [
     'id',
@@ -44,6 +49,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
   return (
     <>
       <HelmetWithTracker title={`${concept.title} ${t('htmlTitles.titleTemplate')}`} />
+      {/* @ts-ignore */}
       <ConceptForm
         concept={concept}
         conceptChanged={conceptChanged}
@@ -57,18 +63,16 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
         translating={translating}
         updateConceptAndStatus={updateConceptAndStatus}
         setConcept={setConcept}
-        {...rest}
       />
     </>
   );
 };
 
-EditConcept.propTypes = {
-  conceptId: PropTypes.string,
-  selectedLanguage: PropTypes.string.isRequired,
-  licenses: LicensesArrayOf.isRequired,
-  isNewlyCreated: PropTypes.bool,
-  createMessage: PropTypes.func.isRequired,
-};
+interface Props {
+  conceptId: string;
+  selectedLanguage: string;
+  licenses: License[];
+  isNewlyCreated: boolean;
+}
 
 export default injectT(EditConcept);

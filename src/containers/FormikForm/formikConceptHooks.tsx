@@ -16,7 +16,7 @@ import handleError from '../../util/handleError';
 import { ArticleType, ConceptStatusType } from '../../interfaces';
 import { ConceptFormType } from '../ConceptPage/conceptInterfaces';
 
-export function useFetchConceptData(conceptId: number, locale: string) {
+export function useFetchConceptData(conceptId: number | undefined, locale: string) {
   const [concept, setConcept] = useState<ConceptFormType>();
   const [conceptChanged, setConceptChanged] = useState(false);
   const [loading, setLoading] = useState(false);

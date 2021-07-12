@@ -7,26 +7,25 @@
  */
 
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
-import { withRouter } from 'react-router-dom';
+import { injectT, tType } from '@ndla/i18n';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../util/routeHelpers';
 import ConceptForm from './ConceptForm';
-import { LicensesArrayOf } from '../../shapes';
+import { ConceptType, License } from '../../interfaces';
+import { NewConceptType } from '../../modules/concept/conceptApiInterfaces';
 
-const CreateConcept = props => {
-  const {
-    licenses,
-    locale,
-    t,
-    history,
-    initialConcept,
-    inModal,
-    addConceptInModal,
-    ...rest
-  } = props;
+const CreateConcept = ({
+  licenses,
+  locale,
+  t,
+  history,
+  initialConcept,
+  inModal,
+  addConceptInModal,
+  ...rest
+}: Props & tType) => {
   const {
     subjects,
     concept,
@@ -36,8 +35,8 @@ const CreateConcept = props => {
     setConcept,
   } = useFetchConceptData(undefined, locale);
 
-  const createConceptAndPushRoute = async createdConcept => {
-    const savedConcept = await createConcept(createdConcept);
+  const createConceptAndPushRoute = async (createdConcept: NewConceptType): Promise<void> => {
+    const savedConcept: ConceptType = await createConcept(createdConcept);
     if (inModal && addConceptInModal) {
       addConceptInModal(savedConcept);
     } else {
@@ -46,8 +45,9 @@ const CreateConcept = props => {
   };
 
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker title={t(`conceptform.title`)} />
+      {/* @ts-ignore */}
       <ConceptForm
         concept={concept ? concept : { ...initialConcept, language: locale }}
         locale={locale}
@@ -60,22 +60,19 @@ const CreateConcept = props => {
         setConcept={setConcept}
         {...rest}
       />
-    </Fragment>
+    </>
   );
 };
 
-CreateConcept.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  initialConcept: PropTypes.shape({
-    title: PropTypes.string,
-  }),
-  locale: PropTypes.string.isRequired,
-  licenses: LicensesArrayOf,
-  inModal: PropTypes.bool,
-  addConceptInModal: PropTypes.func,
-};
+interface Props extends RouteComponentProps {
+  initialConcept: {
+    title: string;
+  };
+  locale: string;
+  licenses: License[];
+  inModal: boolean;
+  addConceptInModal: (savedConcept: ConceptType) => void;
+}
 
 CreateConcept.defaultProps = {
   inModal: false,

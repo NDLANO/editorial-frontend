@@ -3,6 +3,7 @@ import { Editor, Element, Transforms, Path, Range, Node } from 'slate';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
+import containsVoid from '../../../utils/containsVoid';
 
 const onBackspace = (
   event: KeyboardEvent<HTMLDivElement>,
@@ -34,6 +35,13 @@ const onBackspace = (
       Path.isDescendant(editor.selection.anchor.path, currentItemPath)
     ) {
       const [firstItemNode, firstItemNodePath] = Editor.node(editor, [...currentItemPath, 0]);
+
+      // If entire block is empty, remove list item.
+      if (Node.string(currentItemNode) === '' && !containsVoid(editor, currentItemNode)) {
+        event.preventDefault();
+        return Transforms.removeNodes(editor, { at: currentItemPath });
+      }
+
       // If the first block in list item is an empty string
       if (Node.string(firstItemNode) === '') {
         event.preventDefault();

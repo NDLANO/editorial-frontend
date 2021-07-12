@@ -166,7 +166,6 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
         .join(''),
     )
     .join('');
-
   return elements.replace(/<deleteme><\/deleteme>/g, '');
 }
 
@@ -209,16 +208,16 @@ export function topicArticleContentToEditorValue(html: string) {
   const document = new DOMParser().parseFromString(html, 'text/html');
   const nodes = deserialize(document.body.children[0]);
   const normalizedNodes = convertFromHTML(Node.isNodeList(nodes) ? nodes[0] : nodes);
-  return normalizedNodes;
+  return [normalizedNodes];
 }
 
 export function topicArticleContentToHTML(value: Descendant[]) {
   const serialize = (node: Descendant): JSX.Element | null => {
     let children;
     if (Text.isText(node)) {
-      children = escapeHtml(node.text);
+      children = [escapeHtml(node.text)];
     } else {
-      children = node.children.map((n: Descendant) => serialize(n)).join('');
+      children = node.children.map((n: Descendant) => serialize(n));
     }
 
     for (const rule of rules) {
@@ -238,7 +237,13 @@ export function topicArticleContentToHTML(value: Descendant[]) {
     return <>{children}</>;
   };
 
-  const elements = value.map((descendant: Descendant) => serialize(descendant)).join('');
+  const elements = value
+    .map((descendant: Descendant) => {
+      const html = serialize(descendant);
+      return html ? renderToStaticMarkup(html) : '';
+    })
+    .join('');
+
   return elements.replace(/<deleteme><\/deleteme>/g, '');
 }
 

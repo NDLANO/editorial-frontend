@@ -18,15 +18,10 @@ import { Eye } from '@ndla/icons/editor';
 import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import createNoEmbedsPlugin from '../../../../components/SlateEditor/plugins/noEmbed';
 import VisualElementField from '../../../FormikForm/components/VisualElementField';
-import { schema } from '../../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from './../../../../components/LastUpdatedLine';
 import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
-import {
-  renderBlock,
-  renderMark,
-  renderInline,
-} from '../../../../components/SlateEditor/slateRendering';
+
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 // import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concept';

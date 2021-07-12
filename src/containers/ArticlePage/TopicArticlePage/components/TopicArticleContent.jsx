@@ -38,6 +38,8 @@ import { toEditMarkup } from '../../../../util/routeHelpers';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
+import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
+import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
 
 const byLineStyle = css`
   display: flex;
@@ -63,6 +65,7 @@ const actionsToShowInAreas = {
 const createPlugins = (language, handleSubmitRef) => {
   // Plugins are checked from last to first
   return [
+    sectionPlugin,
     // createNoEmbedsPlugin(),
     linkPlugin(language),
     headingPlugin,
@@ -74,6 +77,7 @@ const createPlugins = (language, handleSubmitRef) => {
     conceptPlugin(language),
     paragraphPlugin,
     mathmlPlugin,
+    markPlugin,
     toolbarPlugin,
     textTransformPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current()),

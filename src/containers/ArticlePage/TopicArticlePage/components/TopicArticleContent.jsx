@@ -42,6 +42,7 @@ import { toEditMarkup } from '../../../../util/routeHelpers';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
 import { ReactEditor } from 'slate-react';
+import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
 
 const byLineStyle = css`
   display: flex;
@@ -64,7 +65,8 @@ const actionsToShowInAreas = {
   summary: actions,
 };
 
-const createPlugins = language => {
+const createPlugins = (language, handleSubmitRef) => {
+  // Plugins are checked from last to first
   return [
     // createNoEmbedsPlugin(),
     linkPlugin(language),
@@ -79,6 +81,7 @@ const createPlugins = language => {
     mathmlPlugin,
     toolbarPlugin,
     textTransformPlugin,
+    saveHotkeyPlugin(() => handleSubmitRef.current()),
   ];
 };
 
@@ -91,9 +94,15 @@ const TopicArticleContent = props => {
     handleSubmit,
   } = props;
   const [preview, setPreview] = useState(false);
+  const handleSubmitRef = React.useRef(handleSubmit);
   const plugins = useMemo(() => {
-    return createPlugins(language);
+    return createPlugins(language, handleSubmitRef);
   }, [language]);
+
+  React.useEffect(() => {
+    handleSubmitRef.current = handleSubmit;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleSubmit]);
 
   return (
     <Fragment>

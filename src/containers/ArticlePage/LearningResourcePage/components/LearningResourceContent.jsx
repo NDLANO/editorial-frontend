@@ -100,7 +100,6 @@ const LearningResourceContent = ({
   const handleSubmitRef = React.useRef(handleSubmit);
 
   const [preview, setPreview] = useState(false);
-  // TODO: Implement all plugins
   // Plugins are checked from last to first
   const plugins = [
     sectionPlugin,

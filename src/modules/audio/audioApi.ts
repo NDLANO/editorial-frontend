@@ -7,6 +7,7 @@
  */
 
 import queryString from 'query-string';
+import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 import {
   apiResourceUrl,
   fetchAuthorized,
@@ -52,18 +53,18 @@ export const searchAudio = (query: object): Promise<AudioSearchResult> =>
 export const deleteLanguageVersionAudio = (
   audioId: number,
   locale: string,
-): Promise<AudioApiType | undefined> =>
+): Promise<AudioApiType | void> =>
   fetchAuthorized(`${baseUrl}/${audioId}/language/${locale}`, {
     method: 'DELETE',
-  }).then(r => resolveJsonOrRejectWithError<AudioApiType | undefined>(r));
+  }).then(r => resolveJsonOrVoidOrRejectWithError(r));
 
 export const deleteLanguageVersionSeries = (
   seriesId: number,
   language: string,
-): Promise<PodcastSeriesApiType | undefined> => {
+): Promise<PodcastSeriesApiType | void> => {
   return fetchAuthorized(`${seriesBaseUrl}/${seriesId}/language/${language}`, {
     method: 'DELETE',
-  }).then(r => resolveJsonOrRejectWithError<PodcastSeriesApiType | undefined>(r));
+  }).then(r => resolveJsonOrVoidOrRejectWithError(r));
 };
 
 export const fetchSearchTags = async (

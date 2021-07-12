@@ -14,13 +14,13 @@ import { resolveJsonOrRejectWithError, createErrorPayload } from './resolveJsonO
 
 export const formatErrorMessage = (error: {
   json: {
-    messages: {
+    messages?: {
       field: string;
       message: string;
     }[];
   };
 }) => ({
-  message: error.json.messages.map(message => `${message.field}: ${message.message}`).join(', '),
+  message: error?.json?.messages?.map(message => `${message.field}: ${message.message}`).join(', '),
   severity: 'danger',
   timeToLive: 0,
 });

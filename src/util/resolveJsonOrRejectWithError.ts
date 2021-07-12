@@ -36,6 +36,11 @@ export const resolveVoidOrRejectWithError = (res: Response): Promise<void> => {
   });
 };
 
+export const resolveJsonOrVoidOrRejectWithError = <T>(res: Response): Promise<T | void> =>
+  res.headers.get('content-type')?.includes('application/json')
+    ? resolveJsonOrRejectWithError<T>(res)
+    : resolveVoidOrRejectWithError(res);
+
 export const resolveJsonOrRejectWithError = <T>(
   res: Response,
   { alternateResolve }: ResolveOptions<T> = {},

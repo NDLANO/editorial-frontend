@@ -61,14 +61,16 @@ const EditFootnote = (props: Props & tType) => {
   return (
     <Portal isOpened>
       <Lightbox display appearance="big" onClose={onClose}>
-        <h2>{t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}</h2>
-        <FootnoteForm
-          footnote={existingFootnote}
-          onClose={onClose}
-          isEdit={isEdit}
-          onRemove={handleRemove}
-          onSave={handleSave}
-        />
+        <div>
+          <h2>{t(`form.content.footnote.${isEdit ? 'editTitle' : 'addTitle'}`)}</h2>
+          <FootnoteForm
+            footnote={existingFootnote}
+            onClose={onClose}
+            isEdit={isEdit}
+            onRemove={handleRemove}
+            onSave={handleSave}
+          />
+        </div>
       </Lightbox>
     </Portal>
   );

@@ -177,15 +177,17 @@ const EditLink = (props: Props & tType) => {
   return (
     <Portal isOpened>
       <Lightbox display appearance="big" onClose={onClose}>
-        <h2>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h2>
-        <LinkForm
-          onClose={onClose}
-          link={model}
-          node={element}
-          isEdit={isEdit}
-          onRemove={handleRemove}
-          onSave={handleSave}
-        />
+        <div>
+          <h2>{t(`form.content.link.${isEdit ? 'changeTitle' : 'addTitle'}`)}</h2>
+          <LinkForm
+            onClose={onClose}
+            link={model}
+            node={element}
+            isEdit={isEdit}
+            onRemove={handleRemove}
+            onSave={handleSave}
+          />
+        </div>
       </Lightbox>
     </Portal>
   );

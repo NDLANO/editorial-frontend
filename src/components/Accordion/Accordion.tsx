@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
@@ -14,6 +14,7 @@ import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import AccordionButtonLine from './AccordionButtonLine';
+import { ButtonAppearance } from './types';
 
 const classes = new BEMHelper({
   name: 'accordion',
@@ -32,6 +33,19 @@ const arrowButtonStyle = css`
   width: 50px;
 `;
 
+interface Props {
+  inModal?: boolean;
+  header: string | object;
+  hidden: boolean;
+  disabled?: boolean;
+  handleToggle: () => void;
+  className?: string;
+  addButton?: ReactElement;
+  appearance: ButtonAppearance;
+  toggleSwitch?: ReactElement;
+  children: ReactElement;
+}
+
 const Accordion = ({
   inModal,
   header,
@@ -42,7 +56,7 @@ const Accordion = ({
   appearance,
   toggleSwitch,
   ...rest
-}) => {
+}: Props) => {
   const contentModifiers = appearance
     ? {
         hidden,
@@ -64,11 +78,14 @@ const Accordion = ({
   return (
     <div {...classes('', appearance)} {...rest}>
       {addButton ? (
-        <AccordionButtonLine addButton={addButton} appearance={appearance}>
+        <AccordionButtonLine
+          addButton={addButton}
+          appearance={appearance}
+          handleToggle={handleToggle}>
           <Button css={buttonStyle} stripped onClick={handleToggle}>
             {title}
           </Button>
-          {toggleSwitch}
+          <>{toggleSwitch}</>
           {addButton}
           <Button css={arrowButtonStyle} stripped onClick={handleToggle}>
             {arrow}
@@ -77,7 +94,7 @@ const Accordion = ({
       ) : (
         <AccordionButtonLine appearance={appearance} handleToggle={handleToggle}>
           {title}
-          {toggleSwitch}
+          <>{toggleSwitch}</>
           {arrow}
         </AccordionButtonLine>
       )}
@@ -102,8 +119,7 @@ Accordion.propTypes = {
   header: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   hidden: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
-  addButtonAction: PropTypes.func,
-  appearance: PropTypes.oneOf(['fill', 'resourceGroup', 'taxonomy']),
+  appearance: PropTypes.oneOf(['fill', 'resourceGroup', 'taxonomy']).isRequired,
   toggleSwitch: PropTypes.node,
 };
 

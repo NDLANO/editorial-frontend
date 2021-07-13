@@ -1,4 +1,4 @@
-import { Editor, Descendant, BaseEditor } from 'slate';
+import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange } from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import React from 'react';
@@ -34,6 +34,7 @@ export type CustomEditor = {
   renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
   removeSection?: () => void;
   shouldShowToolbar: () => boolean;
+  decorations?: (editor: Editor, entry: NodeEntry) => BaseRange[];
 };
 
 declare module 'slate' {

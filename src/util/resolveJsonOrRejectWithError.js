@@ -26,10 +26,6 @@ export function resolveJsonOrRejectWithError(res, options = { taxonomy: false, i
       return resolve({});
     }
 
-    if (res.status === 404) {
-      return resolve({});
-    }
-
     res
       .json()
       .then(json => {

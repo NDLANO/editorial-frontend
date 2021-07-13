@@ -36,15 +36,11 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
     'content',
   ]);
 
-  if (!concept) {
-    return null;
-  }
-
   if (loading || translating) {
     return <Spinner withWrapper />;
   }
 
-  if (!concept.created) {
+  if (!concept?.created) {
     return <NotFoundPage />;
   }
 

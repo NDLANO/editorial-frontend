@@ -13,7 +13,7 @@ import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import MetaInformation from '../../../components/MetaInformation';
-import { VisualElement } from '../../../interfaces';
+import { Embed } from '../../../interfaces';
 import config from '../../../config';
 
 const bannerImageButtonStyle = css`
@@ -23,7 +23,7 @@ const bannerImageButtonStyle = css`
 `;
 
 interface Props {
-  image: VisualElement;
+  image: Embed;
   onImageSelectOpen: Function;
 }
 

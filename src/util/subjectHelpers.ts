@@ -1,4 +1,4 @@
-import { ArticleType, SubjectpageApiType, SubjectpageEditType, VisualElement } from '../interfaces';
+import { ArticleType, SubjectpageApiType, SubjectpageEditType, Embed } from '../interfaces';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
@@ -9,7 +9,7 @@ export const transformSubjectpageFromApiVersion = (
   elementId: string,
   selectedLanguage: string,
   editorsChoices: ArticleType[],
-  banner: VisualElement,
+  banner: Embed,
 ) => {
   const visualElementVideoId = subjectpage.about.visualElement.url.split('videoId=')?.[1];
   const visualElementImageId = subjectpage.about.visualElement.url.split('/').pop();

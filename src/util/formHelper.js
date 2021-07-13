@@ -86,7 +86,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false, change
   return dirtyFields.length > 0 || changed;
 };
 
-const formikCommonArticleRules = {
+export const formikCommonArticleRules = {
   slatetitle: {
     required: true,
     maxLength: 256,
@@ -154,22 +154,6 @@ export const learningResourceRules = {
   },
 };
 
-export const topicArticleRules = {
-  ...formikCommonArticleRules,
-  visualElementAlt: {
-    required: false,
-    onlyValidateIf: values =>
-      values.visualElementObject && values.visualElementObject.resource === 'image',
-  },
-  visualElementCaption: {
-    required: false,
-    onlyValidateIf: values =>
-      values.visualElementObject &&
-      (values.visualElementObject.resource === 'image' ||
-        values.visualElementObject.resource === 'brightcove'),
-  },
-};
-
 export const subjectpageRules = {
   title: {
     required: true,
@@ -178,10 +162,10 @@ export const subjectpageRules = {
     required: true,
     maxLength: 300,
   },
-  visualElementObject: {
+  visualElement: {
     required: true,
     test: values => {
-      const hasElement = values.resource_id === '';
+      const hasElement = values?.resource_id === '';
       return hasElement ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
     },
   },
@@ -202,10 +186,10 @@ export const ndlaFilmRules = {
     required: true,
     maxLength: 300,
   },
-  visualElementObject: {
+  visualElement: {
     required: true,
     test: values => {
-      const hasElement = values.resource_id === '';
+      const hasElement = values?.resource_id === '';
       return hasElement ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
     },
   },

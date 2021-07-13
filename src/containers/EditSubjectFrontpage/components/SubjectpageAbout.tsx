@@ -38,7 +38,7 @@ const SubjectpageAbout = ({ t, handleSubmit, onBlur }: Props & tType) => {
           />
         )}
       </FormikField>
-      <VisualElementField types={['image', 'video']} videoTypes={['Brightcove']} isSubjectPage />
+      <VisualElementField types={['image', 'video']} videoTypes={['Brightcove']} />
     </>
   );
 };

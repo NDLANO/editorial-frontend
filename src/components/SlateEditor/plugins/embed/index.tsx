@@ -36,7 +36,7 @@ export const embedSerializer: SlateSerializer = {
   },
 };
 
-export const embedPlugin = (language: string, locale: LocaleType) => (editor: Editor) => {
+export const embedPlugin = (language: string, locale?: LocaleType) => (editor: Editor) => {
   const {
     renderElement: nextRenderElement,
     normalizeNode: nextNormalizeNode,

@@ -38,7 +38,7 @@ const SubjectpageAccordionPanels = ({
         id="about"
         title={t('subjectpageForm.about')}
         className="u-4/6@desktop u-push-1/6@desktop"
-        hasError={['title', 'description', 'visualElementObject'].some(field => field in errors)}
+        hasError={['title', 'description', 'visualElement'].some(field => field in errors)}
         startOpen>
         <SubjectpageAbout handleSubmit={handleSubmit} onBlur={onBlur} />
       </AccordionSection>

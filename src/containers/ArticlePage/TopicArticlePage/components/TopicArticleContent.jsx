@@ -55,6 +55,14 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
+const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
+const actionsToShowInAreas = {
+  details: actions,
+  aside: actions,
+  bodybox: actions,
+  summary: actions,
+};
+
 const createPlugins = language => {
   return [
     // createNoEmbedsPlugin(),
@@ -67,10 +75,10 @@ const createPlugins = language => {
     // editListPlugin,
     // listTextPlugin(),
     // conceptPlugin(language),
-    // paragraphPlugin(),
+    paragraphPlugin,
     // // mathmlPlugin(),
     // // \\\toolbarPlugin(),
-    // textTransformPlugin(),
+    textTransformPlugin,
   ];
 };
 
@@ -91,8 +99,7 @@ const TopicArticleContent = props => {
     <Fragment>
       <TitleField
         handleSubmit={handleSubmit}
-        onBlur={(event, editor, next) => {
-          next();
+        onBlur={(event, editor) => {
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
           // formik handleBlur needs to be called for validation to work (and touched to be set)
@@ -124,8 +131,7 @@ const TopicArticleContent = props => {
       <IngressField
         preview={preview}
         handleSubmit={handleSubmit}
-        onBlur={(event, editor, next) => {
-          next();
+        onBlur={(event, editor) => {
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
           // formik handleBlur needs to be called for validation to work (and touched to be set)
@@ -146,15 +152,18 @@ const TopicArticleContent = props => {
               name={name}
               value={value}
               submitted={isSubmitting}
-              renderBlock={renderBlock}
-              renderInline={renderInline}
-              renderMark={renderMark}
               plugins={plugins}
-              schema={schema}
               handleSubmit={handleSubmit}
-              onChange={onChange}
-              onBlur={(event, editor, next) => {
-                next();
+              onChange={value => {
+                onChange({
+                  target: {
+                    value,
+                    name,
+                  },
+                });
+              }}
+              actionsToShowInAreas={actionsToShowInAreas}
+              onBlur={(event, editor) => {
                 // this is a hack since formik onBlur-handler interferes with slates
                 // related to: https://github.com/ianstormtaylor/slate/issues/2434
                 // formik handleBlur needs to be called for validation to work (and touched to be set)

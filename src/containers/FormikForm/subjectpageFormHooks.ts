@@ -7,6 +7,7 @@
 import { FormikProps } from 'formik';
 import { useState } from 'react';
 import { SubjectpageEditType, TranslateType } from '../../interfaces';
+import { SubjectFormValues } from '../EditSubjectFrontpage/components/SubjectpageForm';
 import * as messageActions from '../Messages/messagesActions';
 import { formatErrorMessage } from '../../util/apiHelpers';
 
@@ -22,7 +23,7 @@ export function useSubjectpageFormHooks(
   const [savedToServer, setSavedToServer] = useState(false);
   const initialValues = getInitialValues(subjectpage, elementId, selectedLanguage);
 
-  const handleSubmit = async (formik: FormikProps<SubjectpageEditType>) => {
+  const handleSubmit = async (formik: FormikProps<SubjectFormValues>) => {
     formik.setSubmitting(true);
     const newSubjectpage = getSubjectpageFromSlate(formik.values);
     try {

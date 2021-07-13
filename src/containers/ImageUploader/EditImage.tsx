@@ -16,6 +16,7 @@ import { actions, FlatReduxImage, getImage } from '../../modules/image/image';
 import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { License, ReduxState } from '../../interfaces';
 import { LocaleContext } from '../App/App';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface ImageType extends UpdatedImageMetadata {
   revision?: number;
@@ -100,6 +101,11 @@ class EditImage extends Component<Props> {
       isNewlyCreated,
       ...rest
     } = this.props;
+
+    if (!imageData) {
+      return <NotFoundPage />;
+    }
+
     return (
       <LocaleContext.Consumer>
         {locale => (

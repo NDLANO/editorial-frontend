@@ -19,6 +19,7 @@ import {
   FlattenedAudioApiType,
   UpdatedAudioMetaInformation,
 } from '../../modules/audio/audioApiInterfaces';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
   locale: LocaleType;
@@ -62,12 +63,12 @@ const EditAudio = ({
     fetchAudio();
   }, [audioId, audioLanguage]);
 
-  if (audioId && !audio?.id) {
-    return null;
-  }
-
   if (loading) {
     return <Spinner withWrapper />;
+  }
+
+  if (audioId && !audio?.id) {
+    return <NotFoundPage />;
   }
 
   if (audio?.audioType === 'podcast') {

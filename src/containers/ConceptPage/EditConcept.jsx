@@ -14,10 +14,12 @@ import ConceptForm from './ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
 
 const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t, ...rest }) => {
   const {
+    error,
     concept,
     fetchSearchTags,
     fetchStatusStateMachine,
@@ -35,12 +37,18 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
     'content',
   ]);
 
-  if (!concept) {
-    return null;
-  }
   if (loading || translating) {
     return <Spinner withWrapper />;
   }
+
+  if (error?.status === 404) {
+    return <NotFoundPage />;
+  }
+
+  if (!concept) {
+    return null;
+  }
+
   return (
     <>
       <HelmetWithTracker title={`${concept.title} ${t('htmlTitles.titleTemplate')}`} />

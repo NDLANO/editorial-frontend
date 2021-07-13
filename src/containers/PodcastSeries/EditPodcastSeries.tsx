@@ -12,6 +12,7 @@ import { transformSeries } from '../../util/audioHelpers';
 import Spinner from '../../components/Spinner';
 import { FlattenedPodcastSeries, NewPodcastSeries } from '../../modules/audio/audioApiInterfaces';
 import PodcastSeriesForm from './components/PodcastSeriesForm';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
   podcastSeriesId: number;
@@ -47,8 +48,8 @@ const EditPodcastSeries = ({ podcastSeriesId, podcastSeriesLanguage, isNewlyCrea
     return <Spinner />;
   }
 
-  if (podcastSeries === undefined) {
-    return null;
+  if (!podcastSeries) {
+    return <NotFoundPage />;
   }
 
   const language = podcastSeriesLanguage ?? locale;

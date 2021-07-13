@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Editor, Element } from 'slate';
+import { Editor, Element, Transforms } from 'slate';
 import SlateVisualElementPicker from '../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 import VisualElementMenu from './VisualElementMenu';
 
@@ -29,7 +29,7 @@ const VisualElementPicker = ({
   resetSelectedResource,
 }: Props) => {
   const onInsertBlock = (block: Element) => {
-    Editor.insertNode(editor, block);
+    Transforms.insertNodes(editor, block, { at: [0] });
   };
 
   return (

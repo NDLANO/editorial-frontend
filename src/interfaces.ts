@@ -428,6 +428,8 @@ export interface Embed {
   size?: string;
   url?: string;
   videoid?: string;
+  type?: string;
+  message?: string;
   'focal-x'?: string;
   'focal-y'?: string;
   'lower-right-y'?: string;

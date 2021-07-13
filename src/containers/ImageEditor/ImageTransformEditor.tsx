@@ -6,9 +6,8 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
-import { EmbedShape } from '../../shapes';
+import { Embed } from '../../interfaces';
 import ImageFocalPointEdit from './ImageFocalPointEdit';
 import ImageCropEdit from './ImageCropEdit';
 import { getSrcSets } from '../../util/imageEditorUtil';
@@ -18,13 +17,30 @@ const imgStyle = css`
   min-width: -moz-available;
 `;
 
+interface Props {
+  embed: Embed;
+  editType: string | undefined;
+  onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
+  onCropComplete: (crop: ReactCrop.Crop, size: ReactCrop.Size) => void;
+  transformData:
+    | {
+        'upper-left-x': string;
+        'upper-left-y': string;
+        'lower-right-x': string;
+        'lower-right-y': string;
+        'focal-x': string;
+        'focal-y': string;
+      }
+    | undefined;
+}
+
 const ImageTransformEditor = ({
   embed,
   editType,
   onFocalPointChange,
   onCropComplete,
   transformData,
-}) => {
+}: Props) => {
   switch (editType) {
     case 'focalPoint':
       return (
@@ -53,21 +69,6 @@ const ImageTransformEditor = ({
         </figure>
       );
   }
-};
-
-ImageTransformEditor.propTypes = {
-  embed: EmbedShape.isRequired,
-  editType: PropTypes.string,
-  onFocalPointChange: PropTypes.func.isRequired,
-  onCropComplete: PropTypes.func.isRequired,
-  transformData: PropTypes.shape({
-    'upper-left-x': PropTypes.string,
-    'upper-left-y': PropTypes.string,
-    'lower-right-x': PropTypes.string,
-    'lower-right-y': PropTypes.string,
-    'focal-x': PropTypes.string,
-    'focal-y': PropTypes.string,
-  }),
 };
 
 export default ImageTransformEditor;

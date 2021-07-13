@@ -106,10 +106,7 @@ const ImageEditor = ({ t, embed, onUpdatedImageSettings, imageUpdates }: Props &
     });
   };
 
-  const onCropComplete = (
-    crop: { x: number; y: number; height: number; width: number },
-    size: { width: number },
-  ) => {
+  const onCropComplete = (crop: ReactCrop.Crop, size: ReactCrop.Size) => {
     if (size.width === 0) {
       setEditType(undefined);
       onUpdatedImageSettings({ transformData: defaultData.crop });

@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
@@ -24,19 +23,18 @@ const EditButton = styled(Button)`
     color: #fff;
   }
 `;
+interface Props {
+  isActive?: boolean;
+  children: React.ReactNode;
+  stripped: boolean;
+  tabIndex: number;
+  onClick: (evt: MouseEvent) => void;
+}
 
-const ImageEditorButton = ({ isActive, children, ...rest }) => (
+const ImageEditorButton = ({ isActive, children, ...rest }: Props) => (
   <EditButton isActive={isActive} {...rest}>
     {children}
   </EditButton>
 );
-
-ImageEditorButton.propTypes = {
-  isActive: PropTypes.bool,
-};
-
-ImageEditorButton.defaultProps = {
-  isActive: false,
-};
 
 export default ImageEditorButton;

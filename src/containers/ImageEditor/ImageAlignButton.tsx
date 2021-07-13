@@ -6,20 +6,25 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import Tooltip from '@ndla/tooltip';
 import { AlignLeft, AlignCenter, AlignRight } from '@ndla/icons/editor';
 import ImageEditorButton from './ImageEditorButton';
 
-const icon = {
+const icon: Record<string, JSX.Element> = {
   left: <AlignLeft />,
   right: <AlignRight />,
   center: <AlignCenter />,
 };
 
-const ImageAlignButton = ({ currentAlign, alignType, onFieldChange, t }) => {
-  const onChange = evt => {
+interface Props {
+  currentAlign?: string;
+  alignType: string;
+  onFieldChange: (evt: MouseEvent, field: string, value: string) => void;
+}
+
+const ImageAlignButton = ({ currentAlign, alignType, onFieldChange, t }: Props & tType) => {
+  const onChange = (evt: MouseEvent) => {
     onFieldChange(evt, 'align', alignType);
   };
 
@@ -34,11 +39,6 @@ const ImageAlignButton = ({ currentAlign, alignType, onFieldChange, t }) => {
       </ImageEditorButton>
     </Tooltip>
   );
-};
-ImageAlignButton.propTypes = {
-  currentAlign: PropTypes.string,
-  alignType: PropTypes.string.isRequired,
-  onFieldChange: PropTypes.func.isRequired,
 };
 
 export default injectT(ImageAlignButton);

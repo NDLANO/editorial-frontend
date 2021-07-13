@@ -12,7 +12,7 @@ import { Embed } from '../../interfaces';
 
 interface Props {
   embed: Embed;
-  onCropComplete: (crop: ReactCrop.Crop, pixelCrop: ReactCrop.Size) => void;
+  onCropComplete: (crop: ReactCrop.Crop, pixelCrop: ReactCrop.PixelCrop) => void;
   transformData:
     | {
         'focal-x': string;

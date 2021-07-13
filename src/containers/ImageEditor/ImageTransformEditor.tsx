@@ -21,7 +21,7 @@ interface Props {
   embed: Embed;
   editType: string | undefined;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
-  onCropComplete: (crop: ReactCrop.Crop, size: ReactCrop.Size) => void;
+  onCropComplete: (crop: ReactCrop.Crop, size: ReactCrop.PixelCrop) => void;
   transformData:
     | {
         'upper-left-x': string;

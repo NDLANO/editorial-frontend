@@ -19,6 +19,7 @@ import Spinner from '../../components/Spinner';
 
 const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t, ...rest }) => {
   const {
+    error,
     concept,
     fetchSearchTags,
     fetchStatusStateMachine,
@@ -40,8 +41,12 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
     return <Spinner withWrapper />;
   }
 
-  if (!concept?.created) {
+  if (error?.status === 404) {
     return <NotFoundPage />;
+  }
+
+  if (!concept) {
+    return null;
   }
 
   return (

@@ -19,19 +19,17 @@ const imgStyle = css`
 
 interface Props {
   embed: Embed;
-  editType: string | undefined;
+  editType?: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   onCropComplete: (crop: ReactCrop.Crop, size: ReactCrop.PixelCrop) => void;
-  transformData:
-    | {
-        'upper-left-x': string;
-        'upper-left-y': string;
-        'lower-right-x': string;
-        'lower-right-y': string;
-        'focal-x': string;
-        'focal-y': string;
-      }
-    | undefined;
+  transformData?: {
+    'upper-left-x': string;
+    'upper-left-y': string;
+    'lower-right-x': string;
+    'lower-right-y': string;
+    'focal-x': string;
+    'focal-y': string;
+  };
 }
 
 const ImageTransformEditor = ({

@@ -43,28 +43,24 @@ const StyledFocalPointContainer = styled('div')`
 interface Props {
   embed: Embed;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
-  transformData:
-    | {
-        'focal-x': string;
-        'focal-y': string;
-        'upper-left-x': string;
-        'upper-left-y': string;
-        'lower-right-x': string;
-        'lower-right-y': string;
-      }
-    | undefined;
+  transformData?: {
+    'focal-x': string;
+    'focal-y': string;
+    'upper-left-x': string;
+    'upper-left-y': string;
+    'lower-right-x': string;
+    'lower-right-y': string;
+  };
 }
 
 type Marker = {
-  xMarkPos: number | undefined;
-  yMarkPos: number | undefined;
+  xMarkPos?: number;
+  yMarkPos?: number;
   showMarker: boolean;
 };
 
 const ImageFocalPointEdit = ({ embed, onFocalPointChange, transformData }: Props) => {
   const [marker, setMarker] = useState<Marker>({
-    xMarkPos: undefined,
-    yMarkPos: undefined,
     showMarker: false,
   });
   let focalImgRef = React.useRef<HTMLImageElement | null>(null);

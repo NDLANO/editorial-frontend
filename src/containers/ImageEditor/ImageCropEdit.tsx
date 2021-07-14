@@ -13,16 +13,14 @@ import { Embed } from '../../interfaces';
 interface Props {
   embed: Embed;
   onCropComplete: (crop: ReactCrop.Crop, pixelCrop: ReactCrop.PixelCrop) => void;
-  transformData:
-    | {
-        'focal-x': string;
-        'focal-y': string;
-        'upper-left-x': string;
-        'upper-left-y': string;
-        'lower-right-x': string;
-        'lower-right-y': string;
-      }
-    | undefined;
+  transformData?: {
+    'focal-x': string;
+    'focal-y': string;
+    'upper-left-x': string;
+    'upper-left-y': string;
+    'lower-right-x': string;
+    'lower-right-y': string;
+  };
 }
 
 const ImageCropEdit = ({ embed, onCropComplete, transformData }: Props) => {

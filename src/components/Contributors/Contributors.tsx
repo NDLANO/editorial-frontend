@@ -8,7 +8,7 @@
 
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
@@ -23,21 +23,45 @@ const StyledFormWarningText = styled.p`
   ${fonts.sizes(14, 1.1)};
 `;
 
-const Contributors = props => {
-  const {
-    name,
-    label,
-    errorMessages,
-    disabled,
-    showError,
-    onChange,
-    value,
-    t,
-    width,
-    ...rest
-  } = props;
+// keyof typeof contributorGroups
+
+enum ContGroups {
+  CREATORS = 'creators',
+  PROCESSORS = 'processors',
+  RIGHTSHOLDERS = 'rightsholders',
+}
+interface ContributorType {
+  name: string;
+  type: string;
+  focusOnMount: boolean;
+}
+
+interface Props {
+  name: ContGroups;
+  label: string;
+  onChange: (event: { target: { value: ContributorType[]; name: string } }) => void;
+  errorMessages?: Array<string>;
+  showError?: boolean;
+  placeholder?: string;
+  disabled?: boolean;
+  value: Array<ContributorType>;
+  width?: number;
+}
+
+const Contributors = ({
+  name,
+  label,
+  errorMessages = [],
+  disabled,
+  showError = false,
+  onChange,
+  value,
+  t,
+  width = 3 / 4,
+  ...rest
+}: Props & tType) => {
   const locale = useContext(LocaleContext);
-  const onContributorChange = newContributors => {
+  const onContributorChange = (newContributors: ContributorType[]) => {
     onChange({
       target: {
         value: newContributors,
@@ -45,21 +69,26 @@ const Contributors = props => {
       },
     });
   };
+
   const addContributor = () => {
-    const newContributors = [].concat(value);
+    const newContributors = [...value];
     newContributors.push({ name: '', type: '', focusOnMount: true });
     onContributorChange(newContributors);
   };
 
-  const removeContributor = (e, index) => {
+  const removeContributor = (e: React.FormEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
-    const newContributors = [].concat(value);
+    const newContributors = [...value];
     newContributors.splice(index, 1);
     onContributorChange(newContributors);
   };
 
-  const handleContributorChange = (evt, fieldName, index) => {
-    const newContributors = [].concat(value);
+  const handleContributorChange = (
+    evt: React.ChangeEvent<HTMLInputElement>,
+    fieldName: 'type' | 'name',
+    index: number,
+  ) => {
+    const newContributors = [...value];
     newContributors[index] = {
       ...newContributors[index],
       [fieldName]: evt.target.value,
@@ -67,7 +96,7 @@ const Contributors = props => {
     onContributorChange(newContributors);
   };
 
-  const contributorTypeItems = contributorGroups[name].map(item => ({
+  const contributorTypeItems = contributorGroups[name].map((item: string) => ({
     type: item,
     translation: contributorTypes[locale]
       ? contributorTypes[locale][item]
@@ -101,7 +130,11 @@ const Contributors = props => {
 };
 
 Contributors.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.oneOf<ContGroups>([
+    ContGroups.CREATORS,
+    ContGroups.PROCESSORS,
+    ContGroups.RIGHTSHOLDERS,
+  ]).isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   errorMessages: PropTypes.arrayOf(PropTypes.string),
@@ -113,13 +146,8 @@ Contributors.propTypes = {
       name: PropTypes.string,
       type: PropTypes.string,
     }),
-  ),
+  ).isRequired,
   width: PropTypes.number,
-};
-
-Contributors.defaultProps = {
-  showError: false,
-  width: 3 / 4,
 };
 
 export default injectT(Contributors);

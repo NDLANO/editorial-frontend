@@ -6,10 +6,55 @@
  *
  */
 
+import { Value } from 'slate';
 import { editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
 import { LOCALE_VALUES } from '../constants';
+import {
+  FilmFrontpageAbout,
+  FilmFrontpageApiType,
+  FilmVisualElementType,
+} from '../modules/frontpage/frontpageApiInterfaces';
+import { MovieTheme } from '../modules/frontpage/frontpageApiInterfaces';
+import { BaseMovie, NdlaEditMovieThemeType } from '../containers/NdlaFilm/NdlaFilmEditor';
+import { VisualElement } from '../interfaces';
 
-export const getInitialValues = (filmFrontpage, slideshowMovies, themes, language) => {
+export interface ThemeNames {
+  name: {
+    nb: string;
+    nn: string;
+    en: string;
+  };
+  warnings: {
+    nb: boolean;
+    nn: boolean;
+    en: boolean;
+  };
+}
+
+export interface FilmFrontpageFormikType {
+  articleType: string;
+  name: string;
+  title: string;
+  description: Value;
+  visualElementObject?: FilmVisualElement;
+  language: string;
+  supportedLanguages: string[];
+  slideShow: BaseMovie[];
+  themes: NdlaEditMovieThemeType[];
+}
+
+export interface FilmVisualElement extends Omit<VisualElement, 'metaData'> {
+  metaData: {
+    id: string;
+  };
+}
+
+export const getInitialValues = (
+  filmFrontpage: FilmFrontpageApiType,
+  slideshowMovies: BaseMovie[],
+  themes: NdlaEditMovieThemeType[],
+  language: string,
+): FilmFrontpageFormikType => {
   const supportedLanguages = filmFrontpage.about.map(about => about.language);
   let selectedLanguage = language;
   if (!supportedLanguages.find(lan => lan === language)) {
@@ -18,12 +63,16 @@ export const getInitialValues = (filmFrontpage, slideshowMovies, themes, languag
   const aboutInSelectedLanguage = filmFrontpage.about.find(
     about => about.language === selectedLanguage,
   );
-  const visualElement = convertVisualElement(aboutInSelectedLanguage.visualElement);
+  const visualElement = aboutInSelectedLanguage
+    ? convertVisualElement(aboutInSelectedLanguage.visualElement)
+    : undefined;
   return {
     articleType: 'subjectpage',
     name: filmFrontpage.name,
-    title: aboutInSelectedLanguage.title,
-    description: plainTextToEditorValue(aboutInSelectedLanguage.description),
+    title: aboutInSelectedLanguage?.title!,
+    description: aboutInSelectedLanguage
+      ? plainTextToEditorValue(aboutInSelectedLanguage.description!)
+      : '',
     visualElementObject: visualElement,
     language: language,
     supportedLanguages: supportedLanguages,
@@ -32,9 +81,9 @@ export const getInitialValues = (filmFrontpage, slideshowMovies, themes, languag
   };
 };
 
-const convertVisualElement = visualElement => {
+const convertVisualElement = (visualElement: FilmVisualElementType) => {
   const id = getVisualElementId(visualElement);
-  let newVisualElement = {
+  let newVisualElement: FilmVisualElement = {
     url: visualElement.url,
     resource: visualElement.type,
     resource_id: id,
@@ -45,7 +94,7 @@ const convertVisualElement = visualElement => {
       id: id,
     },
   };
-  if (visualElement.type === 'brightcove') {
+  if (visualElement.type === 'brightcove' && visualElement.url) {
     const splittedUrl = visualElement.url.split('/');
     const account = splittedUrl[3];
     const player = splittedUrl[4].split('_')[0];
@@ -59,21 +108,25 @@ const convertVisualElement = visualElement => {
   return newVisualElement;
 };
 
-const getVisualElementId = visualElement => {
+const getVisualElementId = (visualElement: FilmVisualElementType) => {
   const splitter = visualElement.type === 'brightcove' ? '=' : '/';
-  const splittedUrl = visualElement.url.split(splitter);
-  return splittedUrl.pop();
+  const splittedUrl = visualElement.url!.split(splitter);
+  return splittedUrl.pop()!;
 };
 
-export const getNdlaFilmFromSlate = (oldFilmFrontpage, newFilmFrontpage, selectedLanguage) => {
-  const editedAbout = {
+export const getNdlaFilmFromSlate = (
+  oldFilmFrontpage: FilmFrontpageApiType,
+  newFilmFrontpage: FilmFrontpageFormikType,
+  selectedLanguage: string,
+): FilmFrontpageApiType => {
+  const editedAbout: FilmFrontpageAbout = {
     description: editorValueToPlainText(newFilmFrontpage.description),
     language: selectedLanguage,
-    title: newFilmFrontpage.title,
+    title: newFilmFrontpage.title ?? '',
     visualElement: {
-      alt: newFilmFrontpage.visualElementObject.alt || newFilmFrontpage.visualElementObject.caption,
-      id: newFilmFrontpage.visualElementObject.metaData.id,
-      type: newFilmFrontpage.visualElementObject.resource,
+      alt: newFilmFrontpage?.visualElementObject?.caption,
+      id: newFilmFrontpage?.visualElementObject?.metaData.id,
+      type: newFilmFrontpage!.visualElementObject!.resource,
     },
   };
   let newLanguage = true;
@@ -85,7 +138,7 @@ export const getNdlaFilmFromSlate = (oldFilmFrontpage, newFilmFrontpage, selecte
     return {
       ...about,
       visualElement: {
-        alt: about.visualElement.alt || about.visualElement.caption,
+        alt: about.visualElement.alt,
         type: about.visualElement.type,
         id: getVisualElementId(about.visualElement),
       },
@@ -109,34 +162,38 @@ export const getNdlaFilmFromSlate = (oldFilmFrontpage, newFilmFrontpage, selecte
   };
 };
 
-export const getIdFromUrn = urnId => {
+export const getIdFromUrn = (urnId: string) => {
   return parseInt(urnId.replace('urn:article:', ''));
 };
 
-export const getUrnFromId = id => {
+export const getUrnFromId = (id: string | number) => {
   return `urn:article:${id}`;
 };
 
-export const addMovieToTheme = (themes, index, newMovie) => {
+export const addMovieToTheme = (themes: MovieTheme[], index: number, newMovie: BaseMovie) => {
   return themes.map((theme, i) =>
     i === index ? { ...theme, movies: [...theme.movies, newMovie] } : theme,
   );
 };
 
-export const changeMoviesInTheme = (themes, index, movies) => {
+export const changeMoviesInTheme = (themes: MovieTheme[], index: number, movies: string[]) => {
   return themes.map((theme, i) => (i === index ? { ...theme, movies } : theme));
 };
 
-export const changeThemeNames = (themes, names, index) => {
+export const changeThemeNames = (
+  themes: MovieTheme[],
+  names: { name: string; language: string }[],
+  index: number,
+) => {
   return themes.map((theme, i) => (i === index ? { ...theme, name: names } : theme));
 };
 
-export const findName = (themeNames, language) => {
+export const findName = (themeNames: { name: string; language: string }[], language: string) => {
   const filteredName = themeNames.filter(name => name.language === language);
   return filteredName.length > 0 ? filteredName.map(name => name.name).join() : '';
 };
 
-export const convertThemeNames = names => {
+export const convertThemeNames = (names: ThemeNames) => {
   return LOCALE_VALUES.map(lang => ({
     language: lang,
     name: names.name[lang],

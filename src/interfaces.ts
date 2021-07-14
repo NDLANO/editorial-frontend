@@ -307,7 +307,7 @@ export interface SubjectpageType {
   facebook?: string;
   filters?: string[];
   goTo?: string[];
-  id?: string;
+  id?: number;
   latestContent?: string[];
   layout?: string;
   metaDescription?: string;
@@ -316,27 +316,6 @@ export interface SubjectpageType {
   topical?: string;
   twitter?: string;
   supportedLanguages?: string[];
-}
-
-export interface SubjectpageApiType extends SubjectpageType {
-  about: {
-    visualElement: {
-      type: string;
-      url: string;
-      alt: string;
-      caption: string;
-      resource_id: string;
-    };
-    title: string;
-    description: string;
-  };
-  banner: {
-    mobileUrl: string;
-    mobileId: number;
-    desktopUrl: string;
-    desktopId: number;
-  };
-  editorsChoices: string[];
 }
 
 export interface SubjectpageEditType extends SubjectpageType {
@@ -350,58 +329,6 @@ export interface SubjectpageEditType extends SubjectpageType {
   title?: string;
   visualElement?: VisualElement;
 }
-
-export interface NdlaFilmType {
-  name: string;
-}
-
-export interface NdlaFilmApiType extends NdlaFilmType {
-  about: [
-    {
-      description: string;
-      language: string;
-      title: string;
-      visualElement: {
-        alt: string;
-        id: string;
-        type: string;
-      };
-    },
-  ];
-  themes: NdlaFilmThemesApiType[];
-  slideShow: string[];
-}
-
-export interface NdlaFilmEditType extends NdlaFilmType {
-  articleType: string;
-  title: string;
-  description: string;
-  visualElement: VisualElement;
-  language: string;
-  supportedLanguages: string[];
-  themes: NdlaFilmThemesEditType[];
-  slideShow: ContentResultType[];
-}
-
-export interface NdlaFilmThemesApiType {
-  movies: string[];
-  name: [
-    {
-      name: string;
-      language: string;
-    },
-  ];
-}
-export interface NdlaFilmThemesEditType {
-  movies: ContentResultType[];
-  name: [
-    {
-      name: string;
-      language: string;
-    },
-  ];
-}
-
 export interface VisualElement {
   resource: string;
   resource_id: string;

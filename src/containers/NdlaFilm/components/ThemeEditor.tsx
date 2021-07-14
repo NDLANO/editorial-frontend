@@ -25,31 +25,21 @@ import {
   changeMoviesInTheme,
   convertThemeNames,
   changeThemeNames,
+  ThemeNames,
 } from '../../../util/ndlaFilmHelpers';
 import DropdownSearch from './DropdownSearch';
-import { ContentResultType, NdlaFilmThemesEditType } from '../../../interfaces';
 import { NDLA_FILM_SUBJECT } from '../../../constants';
+import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
+import { MovieTheme } from '../../../modules/frontpage/frontpageApiInterfaces';
+import { BaseMovie } from '../NdlaFilmEditor';
 
 interface Props {
-  allMovies: ContentResultType[];
-  field: FieldProps<NdlaFilmThemesEditType[]>['field'];
+  allMovies: BaseMovie[];
+  field: FieldProps<MovieTheme[]>['field'];
   form: FormikHelpers<FormikValues>;
   onUpdateMovieTheme: Function;
   loading: boolean;
   selectedLanguage: string;
-}
-
-interface ThemeNames {
-  name: {
-    nb: string;
-    nn: string;
-    en: string;
-  };
-  warnings: {
-    nb: boolean;
-    nn: boolean;
-    en: boolean;
-  };
 }
 
 const ThemeEditor = ({
@@ -66,7 +56,7 @@ const ThemeEditor = ({
   }
 
   const themes = field.value;
-  const onAddMovieToTheme = (newMovie: ContentResultType, index: number) => {
+  const onAddMovieToTheme = (newMovie: MultiSearchSummary, index: number) => {
     const movie = allMovies.find(movie => movie.id === newMovie.id);
     if (movie) {
       const temp = addMovieToTheme(themes.slice(), index, movie);
@@ -94,11 +84,7 @@ const ThemeEditor = ({
     }
   };
 
-  const rearrangeTheme = (
-    themes: NdlaFilmThemesEditType[],
-    index: number,
-    desiredNewIndex: number,
-  ) => {
+  const rearrangeTheme = (themes: MovieTheme[], index: number, desiredNewIndex: number) => {
     return themes.map((theme, i) => {
       if (i === index) {
         return themes[desiredNewIndex];
@@ -154,7 +140,7 @@ const ThemeEditor = ({
                     <Pencil />
                   </Button>
                 }
-                wrapperFunctionForButton={(activateButton: Object) => (
+                wrapperFunctionForButton={(activateButton: JSX.Element) => (
                   <Tooltip tooltip={t('ndlaFilm.editor.editMovieGroupName')}>
                     {activateButton}
                   </Tooltip>
@@ -214,7 +200,7 @@ const ThemeEditor = ({
             />
             <DropdownSearch
               selectedElements={theme.movies}
-              onChange={(movie: ContentResultType) => onAddMovieToTheme(movie, index)}
+              onChange={(movie: MultiSearchSummary) => onAddMovieToTheme(movie, index)}
               subjectId={NDLA_FILM_SUBJECT}
               contextTypes={'standard'}
               placeholder={t('ndlaFilm.editor.addMovieToGroup', {

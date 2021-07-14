@@ -11,27 +11,39 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
+import {
+  FilmFrontpageApiType,
+  SubjectpageApiType,
+  SubjectPagePatchApiType,
+  SubjectPagePostDto,
+} from './frontpageApiInterfaces';
 
 const baseUrl = apiResourceUrl('/frontpage-api/v1');
 
-export const fetchFilmFrontpage = () =>
+export const fetchFilmFrontpage = (): Promise<FilmFrontpageApiType> =>
   fetchAuthorized(`${baseUrl}/filmfrontpage/`).then(resolveJsonOrRejectWithError);
 
-export const updateFilmFrontpage = filmfrontpage => {
+export const updateFilmFrontpage = (
+  filmfrontpage: FilmFrontpageApiType,
+): Promise<FilmFrontpageApiType> => {
   return fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
     method: 'POST',
     body: JSON.stringify(filmfrontpage),
   }).then(resolveJsonOrRejectWithError);
 };
 
-export const fetchSubjectpage = (id, language) => {
+export const fetchSubjectpage = (id: string, language: string): Promise<SubjectpageApiType> => {
   const query = queryString.stringify({ language });
   const url = `${baseUrl}/subjectpage/${id}`;
   const urlLang = language ? url + `?${query}&fallback=true` : url;
   return fetchAuthorized(urlLang).then(resolveJsonOrRejectWithError);
 };
 
-export const updateSubjectpage = (subjectpage, subjectpageId, language) => {
+export const updateSubjectpage = (
+  subjectpage: SubjectPagePatchApiType,
+  subjectpageId: number,
+  language: string,
+) => {
   const query = queryString.stringify({ language });
   return fetchAuthorized(`${baseUrl}/subjectpage/${subjectpageId}?${query}`, {
     method: 'PATCH',
@@ -39,7 +51,9 @@ export const updateSubjectpage = (subjectpage, subjectpageId, language) => {
   }).then(resolveJsonOrRejectWithError);
 };
 
-export const createSubjectpage = subjectpage =>
+export const createSubjectpage = (
+  subjectpage: SubjectPagePostDto & { id: number; supportedLanguages: string[] },
+): Promise<SubjectpageApiType> =>
   fetchAuthorized(`${baseUrl}/subjectpage/`, {
     method: 'POST',
     body: JSON.stringify(subjectpage),

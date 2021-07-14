@@ -7,7 +7,6 @@
 import { injectT, tType } from '@ndla/i18n';
 import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
-import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../../interfaces';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Field from '../../../components/Field';
@@ -18,15 +17,17 @@ import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleL
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
+import { FilmFrontpageApiType } from '../../../modules/frontpage/frontpageApiInterfaces';
+import { BaseMovie, NdlaEditMovieThemeType } from '../NdlaFilmEditor';
 
 interface Props {
-  filmFrontpage: NdlaFilmApiType;
-  updateFilmFrontpage: Function;
+  filmFrontpage: FilmFrontpageApiType;
+  updateFilmFrontpage: (newState: FilmFrontpageApiType) => void;
   selectedLanguage: string;
-  allMovies: ContentResultType[];
+  allMovies: BaseMovie[];
   loading: boolean;
-  slideshowMovies: ContentResultType[];
-  themes: NdlaFilmThemesEditType;
+  slideshowMovies: BaseMovie[];
+  themes: NdlaEditMovieThemeType[];
 }
 
 const NdlaFilmForm = ({

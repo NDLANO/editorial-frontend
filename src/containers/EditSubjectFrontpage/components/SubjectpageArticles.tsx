@@ -11,10 +11,11 @@ import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
-import { ArticleType, ContentResultType, FormikProperties } from '../../../interfaces';
+import { ArticleType, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
+import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 interface Props {
   editorsChoices: ArticleType[];
@@ -36,7 +37,7 @@ const SubjectpageArticles = ({ t, editorsChoices, elementId, field, form }: Prop
   const [articles, setArticles] = useState<ArticleType[]>(editorsChoices);
   const subjectId = getSubject(elementId);
 
-  const onAddArticleToList = async (article: ContentResultType) => {
+  const onAddArticleToList = async (article: MultiSearchSummary) => {
     try {
       let newArticle = undefined;
       if (article.learningResourceType === 'learningpath') {
@@ -89,9 +90,9 @@ const SubjectpageArticles = ({ t, editorsChoices, elementId, field, form }: Prop
       <DropdownSearch
         selectedElements={articles}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(article: ContentResultType) => onAddArticleToList(article)}
+        onChange={(article: MultiSearchSummary) => onAddArticleToList(article)}
         placeholder={t('subjectpageForm.addArticle')}
-        subjectId={subjectId}
+        subjectId={subjectId!}
         clearInputField
       />
     </>

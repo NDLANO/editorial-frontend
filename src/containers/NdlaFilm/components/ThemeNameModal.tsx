@@ -6,12 +6,12 @@
  */
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { NdlaFilmThemeEditorModal } from '@ndla/editor';
 import Modal from '@ndla/modal';
+import { ThemeNames } from '../../../util/ndlaFilmHelpers';
 
-const blankTheme = {
+const blankTheme: ThemeNames = {
   name: {
     nb: '',
     nn: '',
@@ -31,28 +31,27 @@ const initialState = (initialTheme = {}) => {
   };
 };
 
-const ThemeNameModal = props => {
-  const {
-    initialTheme,
-    activateButton,
-    messages,
-    onSaveTheme,
-    createTheme,
-    wrapperFunctionForButton,
-  } = props;
+const ThemeNameModal = ({
+  initialTheme,
+  activateButton,
+  messages,
+  onSaveTheme,
+  createTheme,
+  wrapperFunctionForButton,
+}: Props) => {
   const [newTheme, setNewTheme] = useState(initialState(initialTheme));
   return (
     <Modal
       narrow
       activateButton={activateButton}
       wrapperFunctionForButton={wrapperFunctionForButton}>
-      {onCloseModal => (
+      {(onCloseModal: () => void) => (
         <NdlaFilmThemeEditorModal
           onClose={() => {
             if (createTheme) setNewTheme(blankTheme);
             onCloseModal();
           }}
-          onEditName={evt => {
+          onEditName={(evt: { value: string; lang: string }) => {
             setNewTheme({
               ...newTheme,
               name: {
@@ -73,28 +72,18 @@ const ThemeNameModal = props => {
     </Modal>
   );
 };
-ThemeNameModal.propTypes = {
-  onSaveTheme: PropTypes.func.isRequired,
-  initialTheme: PropTypes.shape({
-    name: PropTypes.shape({
-      nb: PropTypes.string,
-      nn: PropTypes.string,
-      en: PropTypes.string,
-    }),
-    warnings: PropTypes.shape({
-      nb: PropTypes.bool,
-      nn: PropTypes.bool,
-      en: PropTypes.bool,
-    }),
-  }),
-  activateButton: PropTypes.node.isRequired,
-  messages: PropTypes.shape({
-    save: PropTypes.string,
-    cancel: PropTypes.string,
-    title: PropTypes.string,
-  }),
-  createTheme: PropTypes.bool,
-  wrapperFunctionForButton: PropTypes.func,
-};
+
+interface Props {
+  onSaveTheme: Function;
+  initialTheme?: Pick<ThemeNames, 'name'>;
+  activateButton: JSX.Element;
+  messages: {
+    save: string;
+    cancel: string;
+    title: string;
+  };
+  createTheme?: boolean;
+  wrapperFunctionForButton?: (button: JSX.Element) => JSX.Element;
+}
 
 export default injectT(ThemeNameModal);

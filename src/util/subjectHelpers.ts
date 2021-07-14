@@ -1,4 +1,8 @@
-import { ArticleType, SubjectpageApiType, SubjectpageEditType, VisualElement } from '../interfaces';
+import {
+  SubjectpageApiType,
+  SubjectPagePatchDto,
+} from '../modules/frontpage/frontpageApiInterfaces';
+import { ArticleType, SubjectpageEditType, VisualElement } from '../interfaces';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
@@ -51,7 +55,7 @@ export const transformSubjectpageFromApiVersion = (
 export const transformSubjectpageToApiVersion = (
   subjectpage: SubjectpageEditType,
   editorsChoices: string[],
-) => {
+): SubjectPagePatchDto => {
   const id =
     subjectpage.visualElement?.resource === 'image'
       ? subjectpage.visualElement?.resource_id
@@ -68,19 +72,19 @@ export const transformSubjectpageToApiVersion = (
     },
     about: [
       {
-        title: subjectpage.title,
-        description: subjectpage.description,
+        title: subjectpage.title ?? '',
+        description: subjectpage.description ?? '',
         language: subjectpage.language,
         visualElement: {
-          type: subjectpage.visualElement?.resource,
-          id: id,
+          type: subjectpage.visualElement!.resource!,
+          id: id!,
           alt: subjectpage.visualElement?.alt || subjectpage.visualElement?.caption,
         },
       },
     ],
     metaDescription: [
       {
-        metaDescription: subjectpage.metaDescription,
+        metaDescription: subjectpage.metaDescription ?? '',
         language: subjectpage.language,
       },
     ],

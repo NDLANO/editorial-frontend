@@ -11,7 +11,7 @@ import {
   transformSubjectpageToApiVersion,
   getUrnFromId,
 } from '../../util/subjectHelpers';
-import { SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
+import { SubjectpageEditType } from '../../interfaces';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import {
   fetchResource,
@@ -24,6 +24,10 @@ import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
 import * as visualElementApi from '../VisualElement/visualElementApi';
 import { imageToVisualElement } from '../../util/visualElementHelper';
+import {
+  SubjectpageApiType,
+  SubjectPagePostDto,
+} from '../../modules/frontpage/frontpageApiInterfaces';
 
 export function useFetchSubjectpageData(
   elementId: string,
@@ -82,7 +86,7 @@ export function useFetchSubjectpageData(
     );
     const savedSubjectpage = await frontpageApi.updateSubjectpage(
       transformSubjectpageToApiVersion(updatedSubjectpage, editorsChoices),
-      updatedSubjectpage.id,
+      updatedSubjectpage.id!,
       selectedLanguage,
     );
     setSubjectpage(
@@ -103,10 +107,15 @@ export function useFetchSubjectpageData(
       createdSubjectpage.language,
     );
 
-    const savedSubjectpage = await frontpageApi.createSubjectpage(
-      transformSubjectpageToApiVersion(createdSubjectpage, editorsChoices),
-    );
-    await updateSubject(elementId, savedSubjectpage.name, getUrnFromId(savedSubjectpage.id));
+    const savedSubjectpage = await frontpageApi.createSubjectpage({
+      ...(transformSubjectpageToApiVersion(
+        createdSubjectpage,
+        editorsChoices,
+      ) as SubjectPagePostDto),
+      id: createdSubjectpage.id!,
+      supportedLanguages: createdSubjectpage.supportedLanguages!,
+    });
+    await updateSubject(elementId, savedSubjectpage.name, getUrnFromId(savedSubjectpage.id!));
     setSubjectpage(
       transformSubjectpageFromApiVersion(
         savedSubjectpage,

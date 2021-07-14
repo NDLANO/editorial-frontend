@@ -10,14 +10,17 @@ import { injectT, tType } from '@ndla/i18n';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
 import { Editor } from 'slate';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
-import { ContentResultType, FormikProperties, NdlaFilmThemesEditType } from '../../../interfaces';
+import { FormikProperties } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
 import ThemeEditor from './ThemeEditor';
 import SlideshowEditor from './SlideshowEditor';
 import FormikField from '../../../components/FormikField';
+import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
+import { MovieTheme } from '../../../modules/frontpage/frontpageApiInterfaces';
+import { BaseMovie } from '../NdlaFilmEditor';
 
 interface Props {
-  allMovies: Array<ContentResultType>;
+  allMovies: BaseMovie[];
   loading: boolean;
   selectedLanguage: string;
 }
@@ -30,12 +33,12 @@ interface ComponentProps extends Props {
 }
 
 interface FormikSlideshowProps {
-  field: FieldProps<ContentResultType[]>['field'];
+  field: FieldProps<MultiSearchSummary[]>['field'];
   form: FormikProperties['form'];
 }
 
 interface FormikThemeProps {
-  field: FieldProps<NdlaFilmThemesEditType[]>['field'];
+  field: FieldProps<MovieTheme[]>['field'];
   form: FormikProperties['form'];
 }
 
@@ -51,7 +54,7 @@ const SubjectpageAccordionPanels = ({
   const onUpdateMovieList = (
     field: FieldProps<FormikValues>['field'],
     form: FormikHelpers<FormikValues>,
-    movieList: ContentResultType[],
+    movieList: MultiSearchSummary[],
   ) => {
     form.setFieldTouched(field.name, true, false);
     field.onChange({

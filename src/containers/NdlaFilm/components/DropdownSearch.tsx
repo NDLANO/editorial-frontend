@@ -6,10 +6,12 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { ContentResultShape } from '../../../shapes';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchResources } from '../../../modules/search/searchApi';
+import {
+  MultiSearchApiQuery,
+  MultiSearchSummary,
+} from '../../../modules/search/searchApiInterfaces';
 
 const DropdownSearch = ({
   selectedElements,
@@ -19,9 +21,9 @@ const DropdownSearch = ({
   contextTypes,
   clearInputField,
   onClick,
-}) => {
-  const queryResources = async input => {
-    const query = {
+}: Props) => {
+  const queryResources = async (input: string | undefined) => {
+    const query: MultiSearchApiQuery = {
       page: 1,
       subjects: subjectId,
       sort: '-relevance',
@@ -39,10 +41,10 @@ const DropdownSearch = ({
   return (
     <AsyncDropdown
       idField="id"
-      onChange={element => {
+      onChange={(element: MultiSearchSummary) => {
         onChange(element);
       }}
-      apiAction={input => queryResources(input)}
+      apiAction={(input: string | undefined) => queryResources(input)}
       selectedItems={selectedElements.map(element => ({
         ...element,
         title: element.title ? element.title.title : '',
@@ -57,14 +59,14 @@ const DropdownSearch = ({
   );
 };
 
-DropdownSearch.propTypes = {
-  selectedElements: PropTypes.arrayOf(ContentResultShape),
-  onChange: PropTypes.func.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  subjectId: PropTypes.string,
-  contextTypes: PropTypes.string,
-  clearInputField: PropTypes.bool,
-  onClick: PropTypes.func,
-};
+interface Props {
+  selectedElements: any[];
+  onChange: (element: MultiSearchSummary) => void;
+  placeholder: string;
+  subjectId: string;
+  contextTypes?: string;
+  clearInputField: boolean;
+  onClick?: (event: Event) => void;
+}
 
 export default DropdownSearch;

@@ -1,8 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { ContentResultShape } from '../../../shapes';
+import { BaseMovie } from '../NdlaFilmEditor';
 
-const AddMovieOptions = ({ addedMovies, allMovies }) =>
+interface Props {
+  addedMovies: BaseMovie[];
+  allMovies: BaseMovie[];
+}
+
+const AddMovieOptions = ({ addedMovies, allMovies }: Props) =>
   allMovies
     .sort((a, b) => (a.title.title < b.title.title ? -1 : 1))
     .map(movie => (
@@ -17,11 +21,6 @@ const AddMovieOptions = ({ addedMovies, allMovies }) =>
 AddMovieOptions.defaultProps = {
   addedMovies: [],
   allMovies: [],
-};
-
-AddMovieOptions.propTypes = {
-  addedMovies: PropTypes.arrayOf(ContentResultShape),
-  allMovies: PropTypes.arrayOf(ContentResultShape),
 };
 
 export default AddMovieOptions;

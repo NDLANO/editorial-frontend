@@ -12,14 +12,15 @@ import { Spinner } from '@ndla/editor';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import DropdownSearch from './DropdownSearch';
-import { ContentResultType } from '../../../interfaces';
 import { NDLA_FILM_SUBJECT } from '../../../constants';
+import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
+import { BaseMovie } from '../NdlaFilmEditor';
 
 interface Props {
   onUpdateSlideshow: Function;
-  allMovies: ContentResultType[];
+  allMovies: BaseMovie[];
   loading: boolean;
-  field: FieldProps<ContentResultType[]>['field'];
+  field: FieldProps<MultiSearchSummary[]>['field'];
   form: FormikHelpers<FormikValues>;
 }
 
@@ -36,12 +37,10 @@ const SlideshowEditor = ({
   }
 
   const slideshowMovies = field.value;
-  const onAddMovieToSlideshow = (newMovie: ContentResultType) => {
+  const onAddMovieToSlideshow = (newMovie: MultiSearchSummary) => {
     const movie = allMovies.find(movie => movie.id === newMovie.id);
     if (movie) {
-      const temp = slideshowMovies.slice();
-      temp.push(movie);
-      onUpdateSlideshow(field, form, temp);
+      onUpdateSlideshow(field, form, [...slideshowMovies, movie]);
     }
   };
 
@@ -58,11 +57,11 @@ const SlideshowEditor = ({
           dragElement: t('ndlaFilm.editor.changeOrder'),
           removeElement: t('ndlaFilm.editor.removeMovieFromSlideshow'),
         }}
-        onUpdateElements={(movies: ContentResultType[]) => onUpdateSlideshow(field, form, movies)}
+        onUpdateElements={(movies: MultiSearchSummary[]) => onUpdateSlideshow(field, form, movies)}
       />
       <DropdownSearch
         selectedElements={slideshowMovies}
-        onChange={(movie: ContentResultType) => onAddMovieToSlideshow(movie)}
+        onChange={(movie: MultiSearchSummary) => onAddMovieToSlideshow(movie)}
         placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
         subjectId={NDLA_FILM_SUBJECT}
         contextTypes={'standard'}

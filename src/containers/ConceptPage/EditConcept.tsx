@@ -14,6 +14,7 @@ import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import Spinner from '../../components/Spinner';
 import { License } from '../../interfaces';
 import ConceptForm from './ConceptForm';
+import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   conceptId: string;
@@ -21,6 +22,10 @@ interface Props {
   licenses: License[];
   isNewlyCreated: boolean;
 }
+
+const isPatchConceptType = (
+  concept: NewConceptType | PatchConceptType,
+): concept is PatchConceptType => (concept as PatchConceptType).id !== undefined;
 
 const EditConcept = ({
   conceptId,
@@ -32,7 +37,6 @@ const EditConcept = ({
   const {
     concept,
     fetchSearchTags,
-    fetchStatusStateMachine,
     loading,
     setConcept,
     conceptChanged,
@@ -56,20 +60,21 @@ const EditConcept = ({
   return (
     <>
       <HelmetWithTracker title={`${concept.title} ${t('htmlTitles.titleTemplate')}`} />
-      {/* @ts-ignore */}
       <ConceptForm
         concept={concept}
         conceptChanged={conceptChanged}
         fetchConceptTags={fetchSearchTags}
-        fetchStateStatuses={fetchStatusStateMachine}
         isNewlyCreated={isNewlyCreated}
         licenses={licenses}
-        onUpdate={updateConcept}
+        onUpdate={c => {
+          if (isPatchConceptType(c)) {
+            updateConcept(c);
+          }
+        }}
+        onClose={() => null}
         subjects={subjects}
         translateToNN={translateToNN}
-        translating={translating}
         updateConceptAndStatus={updateConceptAndStatus}
-        setConcept={setConcept}
       />
     </>
   );

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -14,7 +14,7 @@ import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../util/routeHelpers';
 import ConceptForm from './ConceptForm';
 import { ConceptType, License } from '../../interfaces';
-import { NewConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
 
 interface Props extends RouteComponentProps {
   initialConcept: {
@@ -26,6 +26,9 @@ interface Props extends RouteComponentProps {
   addConceptInModal?: (savedConcept: ConceptType) => void;
 }
 
+const isNewConceptType = (concept: NewConceptType | PatchConceptType): concept is NewConceptType =>
+  (concept as NewConceptType).title !== undefined;
+
 const CreateConcept = ({
   licenses,
   locale,
@@ -36,14 +39,10 @@ const CreateConcept = ({
   addConceptInModal,
   ...rest
 }: Props & tType) => {
-  const {
-    subjects,
-    concept,
-    createConcept,
-    fetchStatusStateMachine,
-    fetchSearchTags,
-    setConcept,
-  } = useFetchConceptData(undefined, locale);
+  const { subjects, concept, createConcept, fetchSearchTags } = useFetchConceptData(
+    undefined,
+    locale,
+  );
 
   const createConceptAndPushRoute = async (createdConcept: NewConceptType): Promise<void> => {
     const savedConcept: ConceptType = await createConcept(createdConcept);
@@ -57,17 +56,20 @@ const CreateConcept = ({
   return (
     <>
       <HelmetWithTracker title={t(`conceptform.title`)} />
-      {/* @ts-ignore */}
       <ConceptForm
+        // @ts-ignore
         concept={concept ? concept : { ...initialConcept, language: locale }}
-        locale={locale}
-        onUpdate={createConceptAndPushRoute}
-        fetchStateStatuses={fetchStatusStateMachine}
+        onUpdate={c => {
+          if (isNewConceptType(c)) {
+            createConceptAndPushRoute(c);
+          }
+        }}
+        conceptChanged={false}
+        isNewlyCreated={false}
         fetchConceptTags={fetchSearchTags}
         licenses={licenses}
         inModal={inModal}
         subjects={subjects}
-        setConcept={setConcept}
         {...rest}
       />
     </>

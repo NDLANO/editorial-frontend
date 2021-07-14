@@ -25,18 +25,6 @@ const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 interface BaseProps {}
 
-const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
-  applicationError: messageActions.applicationError,
-};
-
-const mapStateToProps = (state: ReduxState) => ({
-  locale: getLocale(state),
-  licenses: getAllLicenses(state),
-});
-
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 type Props = BaseProps & tType & RouteComponentProps & PropsFromRedux;
 
 interface State {
@@ -91,5 +79,18 @@ class ConceptPage extends PureComponent<Props, State> {
     );
   }
 }
+
+const mapDispatchToProps = {
+  fetchLicenses: licenseActions.fetchLicenses,
+  applicationError: messageActions.applicationError,
+};
+
+const mapStateToProps = (state: ReduxState) => ({
+  locale: getLocale(state),
+  licenses: getAllLicenses(state),
+});
+
+const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 export default injectT(connect(mapStateToProps, mapDispatchToProps)(ConceptPage));

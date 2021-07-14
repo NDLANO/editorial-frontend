@@ -22,7 +22,7 @@ import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../constants';
 interface Props {
   subjects: SubjectType[];
   fetchTags: (input: string, language: string) => Promise<SearchResult>;
-  inModal: boolean;
+  inModal?: boolean;
 }
 
 const ConceptMetaData = ({ subjects, fetchTags, inModal, t }: Props & tType) => {

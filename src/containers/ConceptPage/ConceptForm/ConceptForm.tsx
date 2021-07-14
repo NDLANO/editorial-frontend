@@ -7,9 +7,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { connect, ConnectedProps } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
@@ -34,16 +33,15 @@ import { NewConceptType, PatchConceptType } from '../../../modules/concept/conce
 import { License, SubjectType, SearchResult, ConceptStatusType } from '../../../interfaces';
 import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
 
-interface Props {
-  applicationError: (err: string) => void;
+interface BaseProps {
   concept: ConceptFormType;
   conceptChanged: boolean;
   fetchConceptTags: (input: string, language: string) => Promise<SearchResult>;
-  inModal: boolean;
+  inModal?: boolean;
   isNewlyCreated: boolean;
   licenses: License[];
   onClose: () => void;
-  onUpdate: (updateConcept: NewConceptType | PatchConceptType, revision?: string) => void;
+  onUpdate: (updateConcept: PatchConceptType | NewConceptType, revision?: string) => any;
   subjects: SubjectType[];
   translateToNN: () => void;
   updateConceptAndStatus: (
@@ -52,6 +50,8 @@ interface Props {
     dirty: boolean,
   ) => void;
 }
+
+type Props = BaseProps & RouteComponentProps & PropsFromRedux & tType;
 
 const ConceptForm = ({
   concept,
@@ -65,9 +65,9 @@ const ConceptForm = ({
   translateToNN,
   updateConceptAndStatus,
   onUpdate,
-  applicationError,
   t,
-}: Props & tType) => {
+  applicationError,
+}: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
@@ -190,5 +190,7 @@ const ConceptForm = ({
 const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
 };
+const reduxConnector = connect(undefined, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-export default compose(injectT, withRouter, connect(undefined, mapDispatchToProps))(ConceptForm);
+export default reduxConnector(withRouter(injectT(ConceptForm)));

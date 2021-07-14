@@ -137,15 +137,16 @@ Contributors.propTypes = {
   ]).isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  errorMessages: PropTypes.arrayOf(PropTypes.string),
+  errorMessages: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   showError: PropTypes.bool,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   value: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
-      type: PropTypes.string,
-    }),
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      focusOnMount: PropTypes.bool.isRequired,
+    }).isRequired,
   ).isRequired,
   width: PropTypes.number,
 };

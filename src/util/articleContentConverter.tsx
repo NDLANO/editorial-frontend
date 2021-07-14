@@ -30,6 +30,7 @@ import { relatedSerializer } from '../components/SlateEditor/plugins/related';
 import { embedSerializer } from '../components/SlateEditor/plugins/embed';
 import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
 import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock';
+import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -58,7 +59,8 @@ export const createEmptyValue = () => [
   },
 ];
 
-const rules: SlateSerializer[] = [
+// Rules are checked from first to last
+const learningResourceRules: SlateSerializer[] = [
   paragraphSerializer,
   sectionSerializer,
   breakSerializer,
@@ -79,6 +81,21 @@ const rules: SlateSerializer[] = [
   bodyboxSerializer,
 ];
 
+// Rules are checked from first to last
+const topicArticleRules: SlateSerializer[] = [
+  paragraphSerializer,
+  sectionSerializer,
+  breakSerializer,
+  markSerializer,
+  linkSerializer,
+  blockQuoteSerializer,
+  headingSerializer,
+  footnoteSerializer,
+  mathmlSerializer,
+  conceptSerializer,
+  noEmbedSerializer,
+];
+
 export const learningResourceContentToEditorValue = (html: string) => {
   if (!html) {
     return [createEmptyValue()];
@@ -96,7 +113,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
       children = [{ text: '' }];
     }
 
-    for (const rule of rules) {
+    for (const rule of learningResourceRules) {
       if (!rule.deserialize) {
         continue;
       }
@@ -139,7 +156,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
       children = node.children.map((n: Descendant) => serialize(n));
     }
 
-    for (const rule of rules) {
+    for (const rule of learningResourceRules) {
       if (!rule.serialize) {
         continue;
       }
@@ -185,7 +202,7 @@ export function topicArticleContentToEditorValue(html: string) {
       children = [{ text: '' }];
     }
 
-    for (const rule of rules) {
+    for (const rule of topicArticleRules) {
       if (!rule.deserialize) {
         continue;
       }
@@ -220,7 +237,7 @@ export function topicArticleContentToHTML(value: Descendant[]) {
       children = node.children.map((n: Descendant) => serialize(n));
     }
 
-    for (const rule of rules) {
+    for (const rule of topicArticleRules) {
       if (!rule.serialize) {
         continue;
       }
@@ -244,6 +261,7 @@ export function topicArticleContentToHTML(value: Descendant[]) {
     })
     .join('');
 
+  console.log(elements);
   return elements.replace(/<deleteme><\/deleteme>/g, '');
 }
 

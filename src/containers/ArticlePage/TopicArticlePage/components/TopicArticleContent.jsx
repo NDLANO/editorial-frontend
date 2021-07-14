@@ -17,7 +17,7 @@ import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
 import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
-import createNoEmbedsPlugin from '../../../../components/SlateEditor/plugins/noEmbed';
+import { noEmbedPlugin } from '../../../../components/SlateEditor/plugins/noEmbed';
 import VisualElementField from '../../../FormikForm/components/VisualElementField';
 import LastUpdatedLine from './../../../../components/LastUpdatedLine';
 import ToggleButton from '../../../../components/ToggleButton';
@@ -66,7 +66,7 @@ const createPlugins = (language, handleSubmitRef) => {
   // Plugins are checked from last to first
   return [
     sectionPlugin,
-    // createNoEmbedsPlugin(),
+    noEmbedPlugin,
     linkPlugin(language),
     headingPlugin,
     // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.

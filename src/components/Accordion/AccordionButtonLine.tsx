@@ -8,7 +8,7 @@
 
 import React, { ReactElement } from 'react';
 import PropTypes from 'prop-types';
-import { css, SerializedStyles } from '@emotion/core';
+import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { AppearanceMap, ButtonAppearance } from './types';
@@ -45,7 +45,7 @@ const appearances: AppearanceMap = {
   `,
 };
 
-const buttonLineStyle = (styledAppearance: ButtonAppearance): SerializedStyles => css`
+const buttonLineStyle = (styledAppearance: ButtonAppearance) => css`
   display: flex;
   position: relative;
   justify-content: space-between;

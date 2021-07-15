@@ -10,18 +10,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { actions } from '../../modules/session/session';
 
-interface Props{
-  logout:({}) => void;
+type Logout = { federated: boolean; returnToLogin?: boolean };
+interface Props {
+  logout: (arg0: Logout) => void;
 }
 
-export const LogoutFederated = ({logout}: Props) => {
-
+export const LogoutFederated = ({ logout }: Props) => {
   useEffect(() => {
     logout({ federated: true });
-  })
+  });
 
   return null;
-}
+};
 
 LogoutFederated.propTypes = {
   logout: PropTypes.func.isRequired,

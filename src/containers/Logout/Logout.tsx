@@ -6,7 +6,6 @@
  */
 
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -18,7 +17,7 @@ import Footer from '../App/components/Footer';
 const LogoutFederated = loadable(() => import('./LogoutFederated'));
 const LogoutSession = loadable(() => import('./LogoutSession'));
 
-interface Props{
+interface Props {
   match: RouteComponentProps['match'];
 }
 
@@ -37,6 +36,5 @@ const Logout = ({ t, match }: Props & tType) => (
     <Footer showLocaleSelector />
   </Fragment>
 );
-
 
 export default injectT(Logout);

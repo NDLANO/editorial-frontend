@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FieldSection, FieldSplitter, Input, Select, FieldRemoveButton } from '@ndla/forms';
+import { ContributorType, ContributorFieldName } from './types';
 
 interface ContributorTypeItem {
   translation: string;
@@ -18,31 +19,27 @@ interface ContributorTypeItem {
 interface Props {
   showError: boolean;
   placeholder?: string;
-  disabled: boolean;
+  disabled?: boolean;
   labelRemove?: string;
-  contributor: {
-    name: string;
-    type: string;
-    focusOnMount: boolean;
-  };
+  contributor: ContributorType;
   handleContributorChange: (
     event: React.ChangeEvent<HTMLInputElement>,
-    name: 'type' | 'name',
+    name: ContributorFieldName,
     index: number,
   ) => void;
   removeContributor: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void;
-  contributorTypeItems: Array<ContributorTypeItem>;
+  contributorTypeItems: ContributorTypeItem[];
   index: number;
-  errorMessages: Array<string>;
+  errorMessages?: string[];
 }
 
 const Contributor = ({
   labelRemove,
   showError,
   placeholder,
-  disabled,
+  disabled = false,
   contributor,
-  errorMessages,
+  errorMessages = [],
   handleContributorChange,
   index,
   contributorTypeItems,
@@ -94,19 +91,14 @@ const Contributor = ({
   </FieldSection>
 );
 
-Contributor.defaultProps = {
-  errorMessages: [],
-  disabled: false,
-};
-
 Contributor.propTypes = {
   showError: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   labelRemove: PropTypes.string,
   contributor: PropTypes.shape({
-    name: PropTypes.string,
-    type: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     focusOnMount: PropTypes.bool,
   }).isRequired,
   handleContributorChange: PropTypes.func.isRequired,

@@ -16,6 +16,7 @@ import { fonts, colors } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Contributor from './Contributor';
 import { LocaleContext } from '../../containers/App/App';
+import { ContributorType, ContributorFieldName } from './types';
 
 const StyledFormWarningText = styled.p`
   font-family: ${fonts.sans};
@@ -23,28 +24,21 @@ const StyledFormWarningText = styled.p`
   ${fonts.sizes(14, 1.1)};
 `;
 
-// keyof typeof contributorGroups
-
-enum ContGroups {
+enum ContributorGroups {
   CREATORS = 'creators',
   PROCESSORS = 'processors',
   RIGHTSHOLDERS = 'rightsholders',
 }
-interface ContributorType {
-  name: string;
-  type: string;
-  focusOnMount: boolean;
-}
 
 interface Props {
-  name: ContGroups;
+  name: ContributorGroups;
   label: string;
   onChange: (event: { target: { value: ContributorType[]; name: string } }) => void;
-  errorMessages?: Array<string>;
+  errorMessages?: string[];
   showError?: boolean;
   placeholder?: string;
   disabled?: boolean;
-  value: Array<ContributorType>;
+  value: ContributorType[];
   width?: number;
 }
 
@@ -85,7 +79,7 @@ const Contributors = ({
 
   const handleContributorChange = (
     evt: React.ChangeEvent<HTMLInputElement>,
-    fieldName: 'type' | 'name',
+    fieldName: ContributorFieldName,
     index: number,
   ) => {
     const newContributors = [...value];
@@ -130,10 +124,10 @@ const Contributors = ({
 };
 
 Contributors.propTypes = {
-  name: PropTypes.oneOf<ContGroups>([
-    ContGroups.CREATORS,
-    ContGroups.PROCESSORS,
-    ContGroups.RIGHTSHOLDERS,
+  name: PropTypes.oneOf<ContributorGroups>([
+    ContributorGroups.CREATORS,
+    ContributorGroups.PROCESSORS,
+    ContributorGroups.RIGHTSHOLDERS,
   ]).isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -145,7 +139,7 @@ Contributors.propTypes = {
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
-      focusOnMount: PropTypes.bool.isRequired,
+      focusOnMount: PropTypes.bool,
     }).isRequired,
   ).isRequired,
   width: PropTypes.number,

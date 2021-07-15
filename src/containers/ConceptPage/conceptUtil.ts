@@ -100,7 +100,7 @@ export const getPatchApiConcept = (
         id: values.metaImageId,
         alt: values.metaImageAlt,
       }
-    : undefined,
+    : null,
   source: values.source,
   subjectIds: values.subjects.map(subject => subject.id),
   tags: values.tags,

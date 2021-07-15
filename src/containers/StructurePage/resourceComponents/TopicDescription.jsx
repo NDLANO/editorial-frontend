@@ -5,6 +5,7 @@ import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
 import { MetadataShape } from '../../../shapes';
+import { ButtonAppearance } from '../../../components/Accordion/types';
 
 class TopicDescription extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class TopicDescription extends Component {
     return (
       <div ref={resourceRef}>
         <Accordion
-          appearance="resourceGroup"
+          appearance={ButtonAppearance.RESOURCEGROUP}
           header={t('searchForm.articleType.topicArticle')}
           hidden={!displayTopicDescription}
           handleToggle={this.toggleDisplayTopicDescription}>

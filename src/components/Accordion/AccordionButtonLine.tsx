@@ -6,13 +6,14 @@
  *
  */
 
-import React from 'react';
+import React, { ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
+import { AppearanceMap, ButtonAppearance } from './types';
 
-const appearances = {
+const appearances: AppearanceMap = {
   resourceGroup: css`
     &,
     &:hover {
@@ -44,7 +45,7 @@ const appearances = {
   `,
 };
 
-const buttonLineStyle = styledAppearance => css`
+const buttonLineStyle = (styledAppearance: ButtonAppearance) => css`
   display: flex;
   position: relative;
   justify-content: space-between;
@@ -55,7 +56,14 @@ const buttonLineStyle = styledAppearance => css`
   ${appearances[styledAppearance]};
 `;
 
-const AccordionButtonLine = ({ appearance, handleToggle, addButton, children, ...rest }) => {
+interface Props {
+  appearance: ButtonAppearance;
+  children: ReactElement | ReactElement[];
+  addButton?: ReactElement;
+  handleToggle: () => void;
+}
+
+const AccordionButtonLine = ({ appearance, handleToggle, addButton, children }: Props) => {
   if (addButton) {
     return <div css={buttonLineStyle(appearance)}>{children}</div>;
   }

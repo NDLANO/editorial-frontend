@@ -7,19 +7,28 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
+//@ts-ignore
 import { OneColumn } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import loadable from '@loadable/component';
 import LoginProviders from './LoginProviders';
 import { LocationShape, HistoryShape } from '../../shapes';
 import Footer from '../App/components/Footer';
+import { ReduxState } from '../../interfaces';
 const LoginFailure = loadable(() => import('./LoginFailure'));
 const LoginSuccess = loadable(() => import('./LoginSuccess'));
 
-export const Login = ({ t, match, authenticated, location, history }) => {
+interface Props {
+  match:RouteComponentProps['match'];
+  location:RouteComponentProps['location'];
+  history:RouteComponentProps['history'];
+  authenticated: boolean;
+}
+
+export const Login = ({ t, match, authenticated, location, history }: Props&tType) => {
   if (authenticated && location.hash === '' && match.url === '/login') {
     history.push('/');
     return null;
@@ -42,16 +51,8 @@ export const Login = ({ t, match, authenticated, location, history }) => {
   );
 };
 
-Login.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }).isRequired,
-  authenticated: PropTypes.bool.isRequired,
-  location: LocationShape,
-  history: HistoryShape,
-};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state:ReduxState) => ({
   authenticated: state.session.authenticated,
 });
 

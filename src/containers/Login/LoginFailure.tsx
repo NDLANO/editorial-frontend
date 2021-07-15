@@ -8,10 +8,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { connect } from 'react-redux';
+import { ReduxState } from '../../interfaces';
 
-export const LoginFailure = ({ t, userNotRegistered }) => (
+interface Props{
+  userNotRegistered: boolean;
+}
+
+export const LoginFailure = ({ t, userNotRegistered }: Props & tType) => (
   <div>
     <h2>{t('loginFailure.errorMessage')}</h2>
     {userNotRegistered && <p>{t('loginFailure.userNotRegistered')}</p>}
@@ -21,11 +26,8 @@ export const LoginFailure = ({ t, userNotRegistered }) => (
   </div>
 );
 
-LoginFailure.propTypes = {
-  userNotRegistered: PropTypes.bool,
-};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: ReduxState) => ({
   userNotRegistered: state.session.userNotRegistered,
 });
 

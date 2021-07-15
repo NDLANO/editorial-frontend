@@ -7,9 +7,10 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, RouteComponentProps } from 'react-router-dom';
+//@ts-ignore
 import { OneColumn } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import loadable from '@loadable/component';
 import LogoutProviders from './LogoutProviders';
@@ -17,7 +18,11 @@ import Footer from '../App/components/Footer';
 const LogoutFederated = loadable(() => import('./LogoutFederated'));
 const LogoutSession = loadable(() => import('./LogoutSession'));
 
-const Logout = ({ t, match }) => (
+interface Props{
+  match: RouteComponentProps['match'];
+}
+
+const Logout = ({ t, match }: Props & tType) => (
   <Fragment>
     <HelmetWithTracker title={t('htmlTitles.logoutPage')} />
     <OneColumn cssModifier="clear">
@@ -33,10 +38,5 @@ const Logout = ({ t, match }) => (
   </Fragment>
 );
 
-Logout.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }).isRequired,
-};
 
 export default injectT(Logout);

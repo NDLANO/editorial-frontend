@@ -1,7 +1,7 @@
 import defined from 'defined';
 
 export function createErrorPayload(status: number, messages: string, json: any) {
-  throw Object.assign(new Error(''), { status, json, messages }); // TODO: should be fixed in future
+  throw Object.assign({}, { status, json, messages }, new Error(''));
 }
 
 export const resolveLocation = (res: Response): Promise<string> => {
@@ -57,7 +57,13 @@ export const resolveJsonOrRejectWithError = <T>(
     return res
       .json()
       .then(json => {
-        reject(createErrorPayload(res.status, defined(json.messages, res.statusText), json));
+        reject(
+          createErrorPayload(
+            res.status,
+            defined(json.messages, json.description, res.statusText),
+            json,
+          ),
+        );
       })
       .catch(reject);
   });

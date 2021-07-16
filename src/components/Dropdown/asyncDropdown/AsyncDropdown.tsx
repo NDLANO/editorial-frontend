@@ -15,7 +15,7 @@ import { Spinner } from '@ndla/editor';
 import { injectT, tType } from '@ndla/i18n';
 import { itemToString } from '../../../util/downShiftHelpers';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
-import { exec } from 'node:child_process';
+
 interface Props<T> {
   onChange: (value: T | undefined) => Promise<void>;
   apiAction: (query: any) => Promise<SearchResultBase<T[]>>;
@@ -79,7 +79,7 @@ const AsyncDropDown = <T extends titleObj>({
   const [selectedItem, setSelectedItem] = useState<T | null>(null);
   const [page, setPage] = useState<number>(1);
   const [inputValue, setInputValue] = useState<EventTarget | string>('');
-  const [currentDebounce, setCurrentDebounce] = useState<Function | undefined>(undefined);
+  const [currentDebounce, setCurrentDebounce] = useState<{ cancel: Function } | undefined>();
   const [keepOpen, setKeepOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [totalCount, setTotalCount] = useState<number | null>(1);
@@ -90,7 +90,6 @@ const AsyncDropDown = <T extends titleObj>({
       const apiOutput = await apiAction(showPagination ? { query: query, page: page } : query);
       const items = (Array.isArray(apiOutput) ? apiOutput : apiOutput?.results) || [];
       setTotalCount(apiOutput?.totalCount || null);
-      console.log('innei search', query);
       setItems(
         items
           ? items.map(item => ({
@@ -111,40 +110,18 @@ const AsyncDropDown = <T extends titleObj>({
   const handleInputChange = async (evt: React.ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     if (currentDebounce) {
-      console.log('heihei');
-      // @ts-ignore
       currentDebounce.cancel();
     }
-
-    console.log('debounce', currentDebounce);
     const debounced = debounce(() => handleSearch(value, page), 400);
-    console.log('debounced function', debounced);
-    setCurrentDebounce(debounced);
+    setCurrentDebounce({ ...debounced });
     debounced();
     setInputValue(value);
-    console.log(page);
-    setPage(2);
+    setPage(1);
   };
 
-  /*
-     async handleInputChange(evt) {
-     const { value } = evt.target;
-     const { currentDebounce } = this.state;
-     if (currentDebounce) {
-       currentDebounce.cancel();
-     }
-     const debounced = debounce(() => this.handleSearch(value), 400);
-     debounced();
-     this.setState({
-       page: 1,
-       inputValue: value,
-       currentDebounce: debounced,
-     });
-   }
-   */
   useEffect(() => {
     handleSearch('', page);
-  }, []);
+  }, [handleSearch, page]);
 
   const handlePageChange = (page: { page: number }) => {
     handleSearch(inputValue, page.page);
@@ -164,7 +141,6 @@ const AsyncDropDown = <T extends titleObj>({
       setInputValue('');
     }
   };
-  // ((options: StateChangeOptions<any>, stateAndHelpers: ControllerStateAndHelpers<any>) => void) | undefined
   const handleStateChange = (changes: StateChangeOptions<any>) => {
     const { type } = changes;
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
@@ -244,30 +220,5 @@ const AsyncDropDown = <T extends titleObj>({
     </Downshift>
   );
 };
-/*
- AsyncDropDown.propTypes = {
-   onChange: PropTypes.func.isRequired,
-   apiAction: PropTypes.func.isRequired,
-   placeholder: PropTypes.string,
-   labelField: PropTypes.string,
-   idField: PropTypes.string,
-   onClick: PropTypes.func,
-   testid: PropTypes.string,
-   positionAbsolute: PropTypes.bool,
-   startOpen: PropTypes.bool,
-   multiSelect: PropTypes.bool,
-   selectedItems: PropTypes.array,
-   disableSelected: PropTypes.bool,
-   onCreate: PropTypes.func,
-   onKeyDown: PropTypes.func,
-   children: PropTypes.func,
-   removeItem: PropTypes.func,
-   clearInputField: PropTypes.bool,
-   customCreateButtonText: PropTypes.string,
-   hideTotalSearchCount: PropTypes.bool,
-   page: PropTypes.number,
-   saveOnEnter: PropTypes.bool,
-   showPagination: PropTypes.bool,
- };
- */
+
 export default injectT(AsyncDropDown);

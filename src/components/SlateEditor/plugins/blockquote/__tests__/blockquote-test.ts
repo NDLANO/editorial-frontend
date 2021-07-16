@@ -30,7 +30,7 @@ const editor: Descendant[][] = [
 
 const html = '<section><blockquote>content</blockquote></section>';
 
-describe('aside serializing tests', () => {
+describe('blockquote serializing tests', () => {
   test('serializing', () => {
     const res = learningResourceContentToHTML(editor);
     expect(res).toMatch(html);

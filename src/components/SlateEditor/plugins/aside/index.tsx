@@ -20,7 +20,7 @@ export const TYPE_ASIDE = 'aside';
 export interface AsideElement {
   type: 'aside';
   data: {
-    type: string;
+    type: 'rightAside' | 'factAside';
   };
   children: Descendant[];
 }
@@ -33,7 +33,7 @@ export const asideSerializer: SlateSerializer = {
   serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type !== 'aside') return;
-    return <aside data-type={node.data.type || ''}>${children}</aside>;
+    return <aside data-type={node.data.type || ''}>{children}</aside>;
   },
 };
 

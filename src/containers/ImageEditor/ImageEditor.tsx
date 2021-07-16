@@ -107,7 +107,7 @@ const ImageEditor = ({ t, embed, onUpdatedImageSettings, imageUpdates }: Props &
   };
 
   const onCropComplete = (crop: ReactCrop.Crop, size: ReactCrop.PixelCrop) => {
-    let width = crop.width?? 0;
+    let width = crop.width ?? 0;
     let height = crop.height ?? 0;
     if (size.width === 0) {
       setEditType(undefined);

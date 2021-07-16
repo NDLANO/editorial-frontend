@@ -39,6 +39,7 @@ import RoundIcon from '../../components/RoundIcon';
 import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { LocationShape, HistoryShape } from '../../shapes';
 import Footer from '../App/components/Footer';
+import { ButtonAppearance } from '../../components/Accordion/types';
 
 export class StructureContainer extends React.PureComponent {
   constructor(props) {
@@ -366,7 +367,7 @@ export class StructureContainer extends React.PureComponent {
                 {t('taxonomy.editStructure')}
               </React.Fragment>
             }
-            appearance="taxonomy"
+            appearance={ButtonAppearance.TAXONOMY}
             addButton={
               userAccess &&
               userAccess.includes(TAXONOMY_ADMIN_SCOPE) && (

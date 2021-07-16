@@ -14,6 +14,7 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
+import { ButtonAppearance } from '../../../components/Accordion/types';
 import { Resource } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
 export const classes = new BEMHelper({
@@ -83,7 +84,7 @@ const AllResourcesGroup = ({
           </AddTopicResourceButton>
         }
         handleToggle={toggleDisplayResource}
-        appearance="resourceGroup"
+        appearance={ButtonAppearance.RESOURCEGROUP}
         header={t('taxonomy.resources')}
         hidden={!displayResource}>
         <ResourceItems

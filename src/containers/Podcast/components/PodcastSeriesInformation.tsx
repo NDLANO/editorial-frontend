@@ -11,7 +11,6 @@ import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { fetchSeries, searchSeries } from 'modules/audio/audioApi';
 import { useFormikContext } from 'formik';
-import isEmpty from 'lodash/fp/isEmpty';
 import ElementList from '../../FormikForm/components/ElementList';
 import {
   PodcastFormValues,

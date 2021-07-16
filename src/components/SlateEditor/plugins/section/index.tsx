@@ -11,6 +11,7 @@ import { jsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { SlateSerializer } from '../../interfaces';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const TYPE_SECTION = 'section';
 const KEY_BACKSPACE = 'Backspace';
@@ -19,6 +20,9 @@ export interface SectionElement {
   type: 'section';
   children: Descendant[];
 }
+
+export const defaultSectionBlock = () =>
+  jsx('element', { type: TYPE_SECTION }, defaultParagraphBlock());
 
 export const sectionSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {

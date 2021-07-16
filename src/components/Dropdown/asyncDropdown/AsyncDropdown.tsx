@@ -18,7 +18,7 @@ import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback
 
 interface Props<T> {
   onChange: (value: T | undefined) => Promise<void>;
-  apiAction: (query: any) => Promise<SearchResultBase<T[]>>;
+  apiAction: (query: SearchParams) => Promise<SearchResultBase<T[]>>;
   placeholder?: string;
   labelField?: string;
   idField?: string;
@@ -29,7 +29,7 @@ interface Props<T> {
   multiSelect?: boolean;
   selectedItems?: T[];
   disableSelected?: boolean;
-  onCreate?: any;
+  onCreate?: (inputValue: string | EventTarget) => void;
   onKeyDown?: (event: Event) => void;
   children?: (value: { selectedItems?: T[]; removeItem: (id: number) => void }) => JSX.Element;
   removeItem: (id: number) => void;
@@ -41,16 +41,24 @@ interface Props<T> {
   showPagination?: boolean;
 }
 interface SearchResultBase<T> {
-  totalCount?: number;
-  page?: number;
-  pageSize?: number;
-  language?: string;
-  results?: T[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  language: string;
+  results: T[];
 }
 interface titleObj {
   title: string;
 }
-const AsyncDropDown = <T extends titleObj>({
+
+interface SearchParams {
+  query?: string;
+  page?: number;
+  'page-size'?: number;
+  language?: string;
+}
+
+const AsyncDropDown = <T extends {[key:string]:any}>({
   children,
   placeholder = '',
   labelField,
@@ -75,7 +83,7 @@ const AsyncDropDown = <T extends titleObj>({
   onChange,
   ...rest
 }: Props<T> & tType) => {
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<(SearchResultBase<T> & {title:string, description:string, image:string, alt:string  }) []>([]);
   const [selectedItem, setSelectedItem] = useState<T | null>(null);
   const [page, setPage] = useState<number>(1);
   const [inputValue, setInputValue] = useState<EventTarget | string>('');
@@ -106,6 +114,7 @@ const AsyncDropDown = <T extends titleObj>({
     },
     [apiAction, keepOpen, showPagination],
   );
+
 
   const handleInputChange = async (evt: React.ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
@@ -141,8 +150,9 @@ const AsyncDropDown = <T extends titleObj>({
       setInputValue('');
     }
   };
-  const handleStateChange = (changes: StateChangeOptions<any>) => {
+  const handleStateChange = (changes: StateChangeOptions<T>) => {
     const { type } = changes;
+    console.log(type)
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
       setInputValue('');
     }
@@ -165,7 +175,9 @@ const AsyncDropDown = <T extends titleObj>({
     };
   };
   const handleCreate = () => {
-    onCreate(inputValue);
+    if(onCreate){
+      onCreate(inputValue);
+    }
     if (children || clearInputField) {
       setInputValue('');
     }

@@ -21,7 +21,6 @@ export function useFetchConceptData(conceptId: number, locale: string) {
   const [conceptChanged, setConceptChanged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState([]);
-  const [error, setError] = useState<{ status: number } | undefined>(undefined);
 
   useEffect(() => {
     const fetchConcept = async (): Promise<void> => {
@@ -39,7 +38,6 @@ export function useFetchConceptData(conceptId: number, locale: string) {
           setLoading(false);
         }
       } catch (e) {
-        setError({ status: e.status });
         setLoading(false);
         handleError(e);
       }
@@ -106,7 +104,6 @@ export function useFetchConceptData(conceptId: number, locale: string) {
   };
 
   return {
-    error,
     concept,
     createConcept,
     fetchSearchTags,

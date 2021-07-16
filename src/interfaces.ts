@@ -453,6 +453,7 @@ export interface Embed {
   videoid?: string;
   message?: string;
   title?: string;
+  path?: string;
 
   'focal-x'?: string;
   'focal-y'?: string;

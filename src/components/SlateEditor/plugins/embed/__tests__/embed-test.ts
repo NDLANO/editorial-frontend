@@ -171,8 +171,8 @@ describe('embed audio serializing tests', () => {
   });
 });
 
-describe('embed audio serializing tests', () => {
-  const editorWithAudio: Descendant[][] = [
+describe('embed podcast serializing tests', () => {
+  const editorWithPodcast: Descendant[][] = [
     [
       {
         type: TYPE_SECTION,
@@ -197,16 +197,54 @@ describe('embed audio serializing tests', () => {
     ],
   ];
 
-  const htmlWithAudio =
+  const htmlWithPodcast =
     '<section><embed data-caption="" data-resource="audio" data-resource_id="123" data-type="podcast" data-url="https://test.url"/></section>';
 
-  test('serializing audio', () => {
-    const res = learningResourceContentToHTML(editorWithAudio);
-    expect(res).toMatch(htmlWithAudio);
+  test('serializing podcast', () => {
+    const res = learningResourceContentToHTML(editorWithPodcast);
+    expect(res).toMatch(htmlWithPodcast);
   });
 
-  test('deserializing audio', () => {
-    const res = learningResourceContentToEditorValue(htmlWithAudio);
-    expect(res).toEqual(editorWithAudio);
+  test('deserializing podcast', () => {
+    const res = learningResourceContentToEditorValue(htmlWithPodcast);
+    expect(res).toEqual(editorWithPodcast);
+  });
+});
+
+describe('embed h5p serializing tests', () => {
+  const editorWithH5P: Descendant[][] = [
+    [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_EMBED,
+            data: {
+              resource: 'h5p',
+              path: '/resource/123',
+              url: 'https://test.url/resource/123',
+            },
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  ];
+
+  const htmlWithH5P =
+    '<section><embed data-resource="h5p" data-path="/resource/123" data-url="https://test.url/resource/123"/></section>';
+
+  test('serializing h5p', () => {
+    const res = learningResourceContentToHTML(editorWithH5P);
+    expect(res).toMatch(htmlWithH5P);
+  });
+
+  test('deserializing h5p', () => {
+    const res = learningResourceContentToEditorValue(htmlWithH5P);
+    expect(res).toEqual(editorWithH5P);
   });
 });

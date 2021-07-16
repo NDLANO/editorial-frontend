@@ -108,6 +108,7 @@ const TopicArticleContent = props => {
               name={field.name}
               creators={creators}
               published={published}
+              allowEdit={true}
               onChange={date => {
                 form.setFieldValue(field.name, date);
               }}

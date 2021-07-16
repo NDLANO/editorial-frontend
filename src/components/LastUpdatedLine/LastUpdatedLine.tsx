@@ -1,0 +1,49 @@
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import { injectT, tType } from '@ndla/i18n';
+import { css } from '@emotion/core';
+import { colors } from '@ndla/core';
+import formatDate from '../../util/formatDate';
+
+import { Creators } from './types';
+import DateEdit from './DateEdit';
+
+const infoCss = css`
+  color: ${colors.text.light};
+  line-height: 1.4rem;
+`;
+
+interface Props {
+  creators: Creators;
+  allowEdit?: boolean;
+  published?: string;
+}
+
+const LastUpdatedLine = ({ creators, published, allowEdit = false, t, ...rest }: Props & tType) => (
+  <div css={infoCss}>
+    {creators.map(creator => creator.name).join(', ')}
+    {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
+    {published &&
+      (allowEdit ? <DateEdit {...rest} published={published} /> : formatDate(published))}
+  </div>
+);
+
+LastUpdatedLine.propTypes = {
+  creators: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
+  published: PropTypes.string,
+  allowEdit: PropTypes.bool,
+};
+
+export default injectT(LastUpdatedLine);

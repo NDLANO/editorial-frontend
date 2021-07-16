@@ -130,3 +130,43 @@ describe('embed youtube video serializing tests', () => {
     expect(res).toEqual(editorWithYotube);
   });
 });
+
+describe('embed audio serializing tests', () => {
+  const editorWithAudio: Descendant[][] = [
+    [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_EMBED,
+            data: {
+              caption: 'test-caption',
+              resource: 'audio',
+              resource_id: '123',
+              type: 'standard',
+              url: 'https://test.url',
+            },
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  ];
+
+  const htmlWithAudio =
+    '<section><embed data-caption="test-caption" data-resource="audio" data-resource_id="123" data-type="standard" data-url="https://test.url"/></section>';
+
+  test('serializing audio', () => {
+    const res = learningResourceContentToHTML(editorWithAudio);
+    expect(res).toMatch(htmlWithAudio);
+  });
+
+  test('deserializing audio', () => {
+    const res = learningResourceContentToEditorValue(htmlWithAudio);
+    expect(res).toEqual(editorWithAudio);
+  });
+});

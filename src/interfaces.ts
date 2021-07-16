@@ -438,27 +438,28 @@ export interface SlateEditor extends Editor {
 
 export interface Embed {
   account?: string;
-  align: string;
-  alt: string;
-  caption: string;
+  align?: string;
+  alt?: string;
+  caption?: string;
   metaData?: {
     name: string;
   };
   player?: string;
   resource: string;
-  resource_id: number;
-  size: string;
-  type: string;
-  url: string;
-  videoid: string;
+  resource_id?: string;
+  size?: string;
+  type?: string;
+  url?: string;
+  videoid?: string;
   message?: string;
+  title?: string;
 
-  'focal-x': string;
-  'focal-y': string;
-  'upper-left-x': string;
-  'upper-left-y': string;
-  'lower-right-x': string;
-  'lower-right-y': string;
+  'focal-x'?: string;
+  'focal-y'?: string;
+  'upper-left-x'?: string;
+  'upper-left-y'?: string;
+  'lower-right-x'?: string;
+  'lower-right-y'?: string;
 }
 
 export interface FileFormat {

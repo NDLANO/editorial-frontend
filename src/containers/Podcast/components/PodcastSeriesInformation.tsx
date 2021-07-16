@@ -26,9 +26,6 @@ const PodcastSeriesInformation = ({ t }: tType) => {
   const { values, setFieldValue } = useFormikContext<PodcastFormValues>();
   const { series, language } = values;
 
-  if (series) {
-  }
-
   const onAddSeries = async (series: SeriesSearchSummary) => {
     try {
       const newSeries = await fetchSeries(series.id, language);
@@ -42,7 +39,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
 
   const onUpdateSeries = (series: PodcastSeriesApiType) => {
     if (isEmptyArray(series)) {
-      setFieldValue('series', undefined);
+      setFieldValue('series', null);
     } else {
       setFieldValue('series', series);
     }
@@ -53,29 +50,38 @@ const PodcastSeriesInformation = ({ t }: tType) => {
       query: input,
       language: language,
     });
-    return { ...searchResult };
+    return searchResult;
   };
 
-  let elements: PodcastSeriesApiType[] = [];
+  let element:
+    | (PodcastSeriesApiType & {
+        metaImage: {
+          alt: string;
+          url: string;
+          language?: string;
+        };
+        articleType: string;
+      })
+    | {} = {};
 
-  if (series && Object.keys(series).length > 0) {
-    elements = [series].map(s => ({
-      ...s,
+  if (series) {
+    element = {
+      ...series,
       metaImage: {
-        alt: s?.coverPhoto.altText,
-        url: s?.coverPhoto.url,
+        alt: series?.coverPhoto.altText,
+        url: series?.coverPhoto.url,
         language,
       },
       articleType: 'series',
-    }));
+    };
   }
 
   return (
     <>
       <FieldHeader title={t('podcastForm.fields.series')} />
-      {series && Object.keys(series).length > 0 ? (
+      {Object.keys(element).length > 0 ? (
         <ElementList
-          elements={elements}
+          elements={[element]}
           isOrderable={false}
           messages={{
             dragElement: t('conceptpageForm.changeOrder'),
@@ -87,7 +93,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
         <p>{t('podcastForm.information.noSeries')}</p>
       )}
       <AsyncDropdown
-        selectedItems={elements}
+        selectedItems={[element]}
         idField="id"
         name="relatedSeriesSearch"
         labelField="title"

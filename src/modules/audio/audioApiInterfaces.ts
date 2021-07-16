@@ -89,7 +89,7 @@ export interface PodcastFormValues extends Omit<AudioFormikType, 'language'> {
   coverPhotoId?: string;
   metaImageAlt?: string;
   metaImageUrl?: string;
-  series?: PodcastSeriesApiType;
+  series: PodcastSeriesApiType | null;
   seriesId?: number;
 }
 

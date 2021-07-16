@@ -98,8 +98,8 @@ export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => (
   introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),
   coverPhotoId: audio.podcastMeta?.coverPhoto.id,
   metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
-  series: audio.series,
-  seriesId: audio.series?.id,
+  series: audio.series ?? null,
+  seriesId: audio.series?.id ?? undefined,
 });
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {

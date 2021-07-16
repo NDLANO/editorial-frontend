@@ -47,21 +47,12 @@ const PodcastSeriesInformation = ({ t }: tType) => {
       query: input,
       language: language,
     });
-
-    const results = searchResult.results.map((result: SeriesSearchSummary) => {
-      const haveSelected = series?.id !== undefined && series.id !== result.id;
-      const disabledText = haveSelected ? ' ' : undefined;
-      return {
-        ...result,
-        disabledText,
-      };
-    });
-    return { ...searchResult, results };
+    return { ...searchResult };
   };
 
   let elements: PodcastSeriesApiType[] = [];
 
-  if (series !== undefined && !isEmpty(series)) {
+  if (series && Object.keys(series).length > 0) {
     elements = [series].map(s => ({
       ...s,
       metaImage: {
@@ -76,7 +67,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
   return (
     <>
       <FieldHeader title={t('podcastForm.fields.series')} />
-      {!isEmpty(series) ? (
+      {series && Object.keys(series).length > 0 ? (
         <ElementList
           elements={elements}
           isOrderable={false}

@@ -68,7 +68,7 @@ interface UpdateConceptType {
   articleIds?: number[];
   content?: string;
   copyright?: Copyright;
-  metaImage?: { id: string; alt: string };
+  metaImage?: { id: string; alt: string } | null;
   source?: string;
   subjectIds?: string[];
   tags?: string[];

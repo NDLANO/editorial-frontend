@@ -10,7 +10,7 @@ import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { fetchSeries, searchSeries } from 'modules/audio/audioApi';
-import { useFormikContext } from 'formik';
+import { isEmptyArray, useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import {
   PodcastFormValues,
@@ -26,6 +26,9 @@ const PodcastSeriesInformation = ({ t }: tType) => {
   const { values, setFieldValue } = useFormikContext<PodcastFormValues>();
   const { series, language } = values;
 
+  if (series) {
+  }
+
   const onAddSeries = async (series: SeriesSearchSummary) => {
     try {
       const newSeries = await fetchSeries(series.id, language);
@@ -38,7 +41,11 @@ const PodcastSeriesInformation = ({ t }: tType) => {
   };
 
   const onUpdateSeries = (series: PodcastSeriesApiType) => {
-    setFieldValue('series', series);
+    if (isEmptyArray(series)) {
+      setFieldValue('series', undefined);
+    } else {
+      setFieldValue('series', series);
+    }
   };
 
   const searchForSeries = async (input: string): Promise<SeriesSearchResult> => {

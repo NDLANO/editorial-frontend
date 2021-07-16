@@ -73,11 +73,13 @@ export const paragraphSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== 'p') return;
 
+    const data = reduceElementDataAttributes(el, ['align', 'data-align']);
+
     return jsx(
       'element',
       {
         type: TYPE_PARAGRAPH,
-        data: reduceElementDataAttributes(el, ['align', 'data-align']),
+        ...(Object.keys(data).length > 0 ? { data } : {}),
       },
       children,
     );

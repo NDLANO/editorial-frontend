@@ -12,7 +12,7 @@ import { RenderElementProps } from 'slate-react';
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { SlateSerializer } from '../../interfaces';
 
-const TYPE_SECTION = 'section';
+export const TYPE_SECTION = 'section';
 const KEY_BACKSPACE = 'Backspace';
 
 export interface SectionElement {

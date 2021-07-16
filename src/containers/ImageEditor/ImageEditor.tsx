@@ -107,6 +107,8 @@ const ImageEditor = ({ t, embed, onUpdatedImageSettings, imageUpdates }: Props &
   };
 
   const onCropComplete = (crop: ReactCrop.Crop, size: ReactCrop.PixelCrop) => {
+    let width = crop.width?? 0;
+    let height = crop.height ?? 0;
     if (size.width === 0) {
       setEditType(undefined);
       onUpdatedImageSettings({ transformData: defaultData.crop });
@@ -115,8 +117,8 @@ const ImageEditor = ({ t, embed, onUpdatedImageSettings, imageUpdates }: Props &
         transformData: {
           'upper-left-x': crop.x.toString(),
           'upper-left-y': crop.y.toString(),
-          'lower-right-x': (crop.x + crop.width).toString(),
-          'lower-right-y': (crop.y + crop.height).toString(),
+          'lower-right-x': (crop.x + width).toString(),
+          'lower-right-y': (crop.y + height).toString(),
           ...defaultData.focalPoint,
         },
       });

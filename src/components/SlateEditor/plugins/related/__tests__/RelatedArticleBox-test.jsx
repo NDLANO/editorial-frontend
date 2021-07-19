@@ -8,23 +8,58 @@
 
 import React from 'react';
 import nock from 'nock';
+import { createEditor } from 'slate';
+import { withHistory } from 'slate-history';
+import { Editable, Slate, withReact } from 'slate-react';
 import { render, fireEvent, cleanup, wait } from '@testing-library/react';
 import { RelatedArticleBox } from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
+import { TYPE_SECTION } from '../../section';
+import { TYPE_RELATED } from '..';
 
 afterEach(cleanup);
 
-const wrapper = () =>
-  render(
+const element = {
+  type: TYPE_SECTION,
+  children: [
+    {
+      type: TYPE_RELATED,
+      data: {
+        nodes: [
+          {
+            resource: 'related-content',
+            'article-id': '123',
+          },
+          {
+            resource: 'related-content',
+            url: 'http://google.com',
+            title: 'test-title',
+          },
+        ],
+      },
+      children: [
+        {
+          text: '',
+        },
+      ],
+    },
+  ],
+};
+
+const wrapper = () => {
+  const editor = withHistory(withReact(createEditor()));
+
+  return render(
     <IntlWrapper>
-      <RelatedArticleBox
-        t={() => 'injected'}
-        editor={{ setNodeByKey: () => {}, onChange: () => {} }}
-        locale="nb"
-        node={{}}
-      />
+      <div>
+        <Slate editor={editor} value={[element]} onChange={() => {}}>
+          <Editable />
+        </Slate>
+        <RelatedArticleBox t={() => 'injected'} editor={editor} locale="nb" element={element} />
+      </div>
     </IntlWrapper>,
   );
+};
 
 test('it goes in and out of edit mode', async () => {
   nock('http://ndla-api')

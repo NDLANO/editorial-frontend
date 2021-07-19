@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { fetchSeries, searchSeries } from 'modules/audio/audioApi';
@@ -18,70 +18,69 @@ import {
   SeriesSearchResult,
   SeriesSearchSummary,
 } from '../../../modules/audio/audioApiInterfaces';
-
 import { AsyncDropdown } from '../../../components/Dropdown';
 import handleError from '../../../util/handleError';
+import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
+
+type element = PodcastSeriesApiType &
+  Pick<ArticleSearchSummaryApiType, 'metaImage' | 'articleType'>;
 
 const PodcastSeriesInformation = ({ t }: tType) => {
-  const { values, setFieldValue } = useFormikContext<PodcastFormValues>();
-  const { series, language } = values;
+  const {
+    values: { series, language },
+    setFieldValue,
+  } = useFormikContext<PodcastFormValues>();
+  const [element, setElement] = useState<element[]>([]);
+
+  useEffect(() => {
+    if (series) {
+      setElement([
+        {
+          ...series,
+          metaImage: {
+            alt: series.coverPhoto.altText,
+            url: series.coverPhoto.url,
+            language: language || 'nb',
+          },
+          articleType: 'series',
+        },
+      ]);
+    } else {
+      setElement([]);
+    }
+  }, [series, language]);
 
   const onAddSeries = async (series: SeriesSearchSummary) => {
     try {
       const newSeries = await fetchSeries(series.id, language);
-      if (newSeries !== undefined) {
-        setFieldValue('series', newSeries);
-      }
+      delete newSeries.episodes;
+      setFieldValue('series', newSeries);
     } catch (e) {
       handleError(e);
     }
   };
 
-  const onUpdateSeries = (series: PodcastSeriesApiType) => {
-    if (isEmptyArray(series)) {
+  const onUpdateSeries = (seriesValue: PodcastSeriesApiType) => {
+    if (isEmptyArray(seriesValue)) {
       setFieldValue('series', null);
     } else {
-      setFieldValue('series', series);
+      setFieldValue('series', seriesValue);
     }
   };
 
-  const searchForSeries = async (input: string): Promise<SeriesSearchResult> => {
-    const searchResult = await searchSeries({
+  const searchForSeries = (input: string): Promise<SeriesSearchResult> => {
+    return searchSeries({
       query: input,
       language: language,
     });
-    return searchResult;
   };
-
-  let element:
-    | (PodcastSeriesApiType & {
-        metaImage: {
-          alt: string;
-          url: string;
-          language?: string;
-        };
-        articleType: string;
-      })
-    | {} = {};
-
-  if (series) {
-    element = {
-      ...series,
-      metaImage: {
-        alt: series?.coverPhoto.altText,
-        url: series?.coverPhoto.url,
-        language,
-      },
-      articleType: 'series',
-    };
-  }
 
   return (
     <>
       <FieldHeader title={t('podcastForm.fields.series')} />
       {Object.keys(element).length > 0 ? (
         <ElementList
-          elements={[element]}
+          elements={element}
           isOrderable={false}
           messages={{
             dragElement: t('conceptpageForm.changeOrder'),
@@ -93,7 +92,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
         <p>{t('podcastForm.information.noSeries')}</p>
       )}
       <AsyncDropdown
-        selectedItems={[element]}
+        selectedItems={element}
         idField="id"
         name="relatedSeriesSearch"
         labelField="title"

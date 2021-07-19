@@ -64,7 +64,7 @@ interface Props extends Omit<SlateEditorProps, 'onChange'> {
   children: any;
 }
 
-const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
+export const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
   if (plugins) {
     return plugins.reduce((editor, plugin) => plugin(editor), editor);
   }

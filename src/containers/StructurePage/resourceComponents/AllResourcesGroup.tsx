@@ -14,9 +14,8 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-
-import { Resource } from '../../../interfaces';
 import { ButtonAppearance } from '../../../components/Accordion/types';
+import { Resource } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',

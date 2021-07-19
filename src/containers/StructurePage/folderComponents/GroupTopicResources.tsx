@@ -18,7 +18,7 @@ import {
 import { StyledMenuItemEditField, StyledMenuItemInputField } from './styles';
 import RoundIcon from '../../../components/RoundIcon';
 import ToggleSwitch from '../../../components/ToggleSwitch';
-import { TaxonomyMetadata } from '../../../interfaces';
+import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { updateTopicMetadata } from '../../../modules/taxonomy/topics';
 
 interface Props {

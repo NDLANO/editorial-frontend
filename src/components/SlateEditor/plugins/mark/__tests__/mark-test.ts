@@ -82,7 +82,7 @@ const editor: Descendant[][] = [
 ];
 
 const html =
-  '<<section><p><strong>bold</strong></p><p><em>italic</em></p><p><sup>sup</sup></p><p><sub>sub</sub></p><p><code>code</code></p><p><code><sub><sup><em><strong>all</strong></em></sup></sub></code></p></section>';
+  '<section><p><strong>bold</strong></p><p><em>italic</em></p><p><sup>sup</sup></p><p><sub>sub</sub></p><p><code>code</code></p><p><code><sub><sup><em><strong>all</strong></em></sup></sub></code></p></section>';
 
 describe('heading serializing tests', () => {
   test('serializing', () => {

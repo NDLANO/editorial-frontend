@@ -12,8 +12,8 @@ import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } from '../../../../../util/articleContentConverter';
-import { TYPE_MATHML } from '..';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
+import { TYPE_MATHML } from '..';
 
 const editor: Descendant[][] = [
   [
@@ -23,7 +23,7 @@ const editor: Descendant[][] = [
         {
           children: [
             {
-              type: 'mathml',
+              type: TYPE_MATHML,
               data: {
                 innerHTML:
                   '<math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mn>2</mn></mfrac></math>',
@@ -35,7 +35,7 @@ const editor: Descendant[][] = [
               ],
             },
           ],
-          type: 'paragraph',
+          type: TYPE_PARAGRAPH,
         },
       ],
     },

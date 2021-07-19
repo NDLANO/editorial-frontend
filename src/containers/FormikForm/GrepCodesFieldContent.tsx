@@ -11,9 +11,9 @@ import { injectT, tType } from '@ndla/i18n';
 import { FormPill } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import styled from '@emotion/styled';
+import AsyncDropdown from 'components/Dropdown/asyncDropdown/AsyncDropdown';
 import { fetchGrepCodes } from '../../modules/draft/draftApi';
 import { fetchGrepCodeTitle } from '../../modules/grep/grepApi';
-import { AsyncDropdown } from '../../components/Dropdown';
 import { isGrepCodeValid } from '../../util/articleUtil';
 import FormikFieldDescription from '../../components/FormikField/FormikFieldDescription';
 import { FormikFieldHelp } from '../../components/FormikField';
@@ -132,7 +132,7 @@ const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tTy
           </StyledErrorPreLine>
         </FormikFieldHelp>
       )}
-      <AsyncDropdown
+      <AsyncDropdown<GrepCode>
         idField="title"
         name="GrepCodesSearch"
         labelField="title"

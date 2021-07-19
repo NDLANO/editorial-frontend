@@ -9,11 +9,10 @@ import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
+import AsyncDropdown from 'components/Dropdown/asyncDropdown/AsyncDropdown';
 import ElementList from '../../FormikForm/components/ElementList';
-import { AsyncDropdown } from '../../../components/Dropdown';
 import handleError from '../../../util/handleError';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
-
 import { ArticleType, ContentResultType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 
@@ -56,7 +55,7 @@ const ConceptArticles = ({ t }: tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown
+      <AsyncDropdown<ArticleType>
         selectedItems={articles}
         idField="id"
         name="relatedArticleSearch"

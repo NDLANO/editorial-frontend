@@ -29,7 +29,7 @@ interface Props<T> {
   multiSelect?: boolean;
   selectedItems?: T[];
   disableSelected?: boolean;
-  onCreate?: (inputValue: string | EventTarget) => void;
+  onCreate?: (inputValue: string) => void;
   onKeyDown?: (event: Event) => void;
   children?: (value: { selectedItems?: T[]; removeItem: (id: number) => void }) => JSX.Element;
   removeItem: (id: number) => void;
@@ -58,7 +58,7 @@ interface SearchParams {
   language?: string;
 }
 
-const AsyncDropDown = <T extends {[key:string]:any}>({
+const AsyncDropDown = <T extends titleObj>({
   children,
   placeholder = '',
   labelField,
@@ -86,11 +86,13 @@ const AsyncDropDown = <T extends {[key:string]:any}>({
   const [items, setItems] = useState<(SearchResultBase<T> & {title:string, description:string, image:string, alt:string  }) []>([]);
   const [selectedItem, setSelectedItem] = useState<T | null>(null);
   const [page, setPage] = useState<number>(1);
-  const [inputValue, setInputValue] = useState<EventTarget | string>('');
+  const [inputValue, setInputValue] = useState<string>('');
   const [currentDebounce, setCurrentDebounce] = useState<{ cancel: Function } | undefined>();
   const [keepOpen, setKeepOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [totalCount, setTotalCount] = useState<number | null>(1);
+
+  console.log(rest)
 
   const handleSearch = useCallback(
     async (query = '', page: number) => {

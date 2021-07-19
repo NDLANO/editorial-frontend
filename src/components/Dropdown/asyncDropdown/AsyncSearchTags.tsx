@@ -9,8 +9,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
+import AsyncDropdown from 'components/Dropdown/asyncDropdown/AsyncDropdown';
 import { FieldInputProps, FormikHelpers } from 'formik';
-import { AsyncDropdown } from '../index';
 import { SearchResult } from '../../../interfaces';
 
 interface Props {
@@ -92,7 +92,7 @@ const AsyncSearchTags = ({
 
   return (
     <Fragment>
-      <AsyncDropdown
+      <AsyncDropdown<TagWithTitle>
         idField="title"
         name="TagSearch"
         labelField="title"

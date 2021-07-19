@@ -80,16 +80,6 @@ export const codeblockPlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_CODEBLOCK) {
-      for (const [child, childPath] of Node.children(editor, path)) {
-        if (!Path.hasPrevious(childPath)) {
-          // Unwrap element if it exists
-          if (Element.isElement(child)) {
-            Transforms.unwrapNodes(editor, { at: childPath });
-            return;
-          }
-        }
-      }
-
       if (addSurroundingParagraphs(editor, path)) {
         return;
       }

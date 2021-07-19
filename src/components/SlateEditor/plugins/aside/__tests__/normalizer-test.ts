@@ -109,7 +109,7 @@ describe('aside normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('adds paragraph after aside with only heading', () => {
+  test('adds paragraph at the end of aside with only heading', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,

@@ -36,26 +36,8 @@ export const defaultTextBlockNormalizer = (
     return;
   }
 
-  const firstChild = node.children[0];
-  if (Element.isElement(firstChild)) {
-    if (!firstTextBlockElement.includes(firstChild.type)) {
-      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]), {
-        at: [...path, 0],
-      });
-      return;
-    }
-  }
-
-  const lastChild = node.children[node.children.length - 1];
-  if (Element.isElement(lastChild)) {
-    if (!lastTextBlockElement.includes(lastChild.type)) {
-      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]), {
-        at: [...path, node.children.length],
-      });
-      return;
-    }
-  }
-
+  // All children must be one of types defined in textBlockElements
+  // If wrong type, unwrap it.
   for (const [child, childPath] of Node.children(editor, path)) {
     if (Text.isText(child)) {
       Transforms.wrapNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
@@ -71,8 +53,30 @@ export const defaultTextBlockNormalizer = (
     }
   }
 
-  const nextPath = Path.next(path);
+  // First child must be paragraph or heading.
+  const firstChild = node.children[0];
+  if (Element.isElement(firstChild)) {
+    if (!firstTextBlockElement.includes(firstChild.type)) {
+      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]), {
+        at: [...path, 0],
+      });
+      return;
+    }
+  }
 
+  // Last child must be paragraph
+  const lastChild = node.children[node.children.length - 1];
+  if (Element.isElement(lastChild)) {
+    if (!lastTextBlockElement.includes(lastChild.type)) {
+      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]), {
+        at: [...path, node.children.length],
+      });
+      return;
+    }
+  }
+
+  // Next element must be a paragraph
+  const nextPath = Path.next(path);
   if (Editor.hasPath(editor, nextPath)) {
     const [nextNode] = Editor.node(editor, nextPath);
     if (!Element.isElement(nextNode) || !afterOrBeforeTextBlockElement.includes(nextNode.type)) {
@@ -84,6 +88,7 @@ export const defaultTextBlockNormalizer = (
     }
   }
 
+  // Previous element must be a paragraph
   if (Path.hasPrevious(path)) {
     const previousPath = Path.previous(path);
 

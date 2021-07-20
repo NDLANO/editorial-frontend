@@ -4,7 +4,8 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { injectT, tType } from '@ndla/i18n';
 import Downshift, { StateChangeOptions } from 'downshift';
 import debounce from 'lodash/debounce';
 // @ts-ignore
@@ -12,13 +13,11 @@ import { DropdownMenu, Input } from '@ndla/forms';
 import { Search } from '@ndla/icons/common';
 // @ts-ignore
 import { Spinner } from '@ndla/editor';
-import { injectT, tType } from '@ndla/i18n';
-import { itemToString } from '../../../util/downShiftHelpers';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
-
-interface Props<T> {
-  onChange: (value: T | undefined) => Promise<void>;
-  apiAction: (query: SearchParams) => Promise<SearchResultBase<T[]>>;
+import { itemToString } from '../../../util/downShiftHelpers';
+interface Props<SearchResultType, T> {
+  onChange: (value: SearchResultType | undefined) => Promise<void>;
+  apiAction: (query: string) => SearchResultBase<SearchResultType>;
   placeholder?: string;
   labelField?: string;
   idField?: string;
@@ -29,7 +28,7 @@ interface Props<T> {
   multiSelect?: boolean;
   selectedItems?: T[];
   disableSelected?: boolean;
-  onCreate?: (inputValue: string) => void;
+  onCreate?: (inputValue: string | EventTarget) => void;
   onKeyDown?: (event: Event) => void;
   children?: (value: { selectedItems?: T[]; removeItem: (id: number) => void }) => JSX.Element;
   removeItem: (id: number) => void;
@@ -47,18 +46,13 @@ interface SearchResultBase<T> {
   language: string;
   results: T[];
 }
-interface titleObj {
-  title: string;
-}
-
 interface SearchParams {
   query?: string;
   page?: number;
   'page-size'?: number;
   language?: string;
 }
-
-const AsyncDropDown = <T extends titleObj>({
+export const AsyncDropdown = <SearchResultType extends { [key: string]: any }, T extends { [key: string]: any }>({
   children,
   placeholder = '',
   labelField,
@@ -82,18 +76,17 @@ const AsyncDropDown = <T extends titleObj>({
   apiAction,
   onChange,
   ...rest
-}: Props<T> & tType) => {
-  const [items, setItems] = useState<(SearchResultBase<T> & {title:string, description:string, image:string, alt:string  }) []>([]);
-  const [selectedItem, setSelectedItem] = useState<T | null>(null);
+}: Props<SearchResultType, T> & tType) => {
+  const [items, setItems] = useState<
+    (SearchResultBase<T> & { title: string; description: string; image: string; alt: string })[]
+  >([]);
+  const [selectedItem, setSelectedItem] = useState<SearchResultType | null>(null);
   const [page, setPage] = useState<number>(1);
-  const [inputValue, setInputValue] = useState<string>('');
+  const [inputValue, setInputValue] = useState<EventTarget | string>('');
   const [currentDebounce, setCurrentDebounce] = useState<{ cancel: Function } | undefined>();
   const [keepOpen, setKeepOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [totalCount, setTotalCount] = useState<number | null>(1);
-
-  console.log(rest)
-
   const handleSearch = useCallback(
     async (query = '', page: number) => {
       setLoading(true);
@@ -116,8 +109,6 @@ const AsyncDropDown = <T extends titleObj>({
     },
     [apiAction, keepOpen, showPagination],
   );
-
-
   const handleInputChange = async (evt: React.ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
     if (currentDebounce) {
@@ -129,16 +120,14 @@ const AsyncDropDown = <T extends titleObj>({
     setInputValue(value);
     setPage(1);
   };
-
   useEffect(() => {
     handleSearch('', page);
   }, [handleSearch, page]);
-
   const handlePageChange = (page: { page: number }) => {
     handleSearch(inputValue, page.page);
     setPage(page.page);
   };
-  const handleChange = (selectedItem: T) => {
+  const handleChange = (selectedItem: SearchResultType) => {
     if (!selectedItem) {
       onChange(undefined);
       setSelectedItem(null);
@@ -154,7 +143,6 @@ const AsyncDropDown = <T extends titleObj>({
   };
   const handleStateChange = (changes: StateChangeOptions<T>) => {
     const { type } = changes;
-    console.log(type)
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
       setInputValue('');
     }
@@ -177,7 +165,7 @@ const AsyncDropDown = <T extends titleObj>({
     };
   };
   const handleCreate = () => {
-    if(onCreate){
+    if (onCreate) {
       onCreate(inputValue);
     }
     if (children || clearInputField) {
@@ -234,5 +222,6 @@ const AsyncDropDown = <T extends titleObj>({
     </Downshift>
   );
 };
-
-export default injectT(AsyncDropDown);
+export default injectT(AsyncDropdown) as <SearchResultType, T extends { [key: string]: any }>(
+  props: Props<SearchResultType, T>,
+) => any;

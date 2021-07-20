@@ -15,7 +15,7 @@ import { FormikHelpers, FormikValues } from 'formik';
 import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
-import { AsyncDropdown } from '../../../components/Dropdown';
+import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
@@ -90,7 +90,7 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown
+      <AsyncDropdown<ContentResultType>
         selectedItems={relatedContent.filter(e => typeof e !== 'number')}
         idField="id"
         name="relatedConceptsSearch"

@@ -10,10 +10,11 @@ import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
-import { AsyncDropdown } from '../../../components/Dropdown';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import handleError from '../../../util/handleError';
 
 import {
+  AudioApiType,
   AudioSearchResult,
   AudioSearchResultType,
 } from '../../../modules/audio/audioApiInterfaces';
@@ -23,9 +24,9 @@ import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
 const PodcastEpisodes = ({ t }: tType) => {
   const { values, setFieldValue } = useFormikContext<PodcastSeriesFormikType>();
   const { episodes, language } = values;
-  const onAddEpisodeToList = async (audio: AudioSearchResultType) => {
+  const onAddEpisodeToList = async (audio?: AudioSearchResultType ) => {
     try {
-      const newAudio = await fetchAudio(audio.id, language);
+      const newAudio = await fetchAudio(audio!.id, language);
       if (newAudio !== undefined) {
         setFieldValue('episodes', [...episodes, newAudio]);
       }
@@ -86,7 +87,7 @@ const PodcastEpisodes = ({ t }: tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown
+      <AsyncDropdown<AudioSearchResultType, AudioApiType>
         selectedItems={elements}
         idField="id"
         name="relatedArticleSearch"
@@ -95,7 +96,7 @@ const PodcastEpisodes = ({ t }: tType) => {
         label="label"
         apiAction={searchForPodcasts}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(audio: AudioSearchResultType) => onAddEpisodeToList(audio)}
+        onChange={(audio?: AudioSearchResultType) => onAddEpisodeToList(audio)}
         multiSelect
         disableSelected
         clearInputField

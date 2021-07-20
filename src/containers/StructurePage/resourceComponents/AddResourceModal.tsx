@@ -13,7 +13,7 @@ import { tType } from '@ndla/i18n';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
-import { AsyncDropdown } from '../../../components/Dropdown';
+import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { groupSearch } from '../../../modules/search/searchApi';
 import {
   createTopicResource,

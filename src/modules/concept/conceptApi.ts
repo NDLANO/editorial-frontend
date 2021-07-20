@@ -15,10 +15,11 @@ import {
   ConceptStatusStateMachineType,
   ConceptTagsSearchResult,
   ConceptQuery,
-  ConceptSearchResult,
   NewConceptType,
   PatchConceptType,
   ApiConceptType,
+  SearchResultBase,
+  SearchConceptType,
 } from './conceptApiInterfaces';
 import { ConceptType, ConceptStatusType } from '../../interfaces';
 
@@ -84,7 +85,9 @@ export const updateConceptStatus = async (
     method: 'PUT',
   }).then(resolveJsonOrRejectWithError);
 
-export const searchConcepts = async (query: ConceptQuery): Promise<ConceptSearchResult> =>
+export const searchConcepts = async (
+  query: ConceptQuery,
+): Promise<SearchResultBase<SearchConceptType>> =>
   fetchAuthorized(`${draftConceptUrl}/?${queryString.stringify(query)}`).then(
     resolveJsonOrRejectWithError,
   );

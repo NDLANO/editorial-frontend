@@ -9,9 +9,7 @@ import { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { toLogoutSession } from '../../util/routeHelpers';
 
-interface Props {
-  history: RouteComponentProps['history'];
-}
+interface Props extends RouteComponentProps {}
 
 const LogoutProviders = ({ history }: Props) => {
   useEffect(() => {

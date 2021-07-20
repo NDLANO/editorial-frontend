@@ -18,27 +18,21 @@ type Success = {
   accessToken: string;
   history: History;
 };
-interface Props {
+interface Props extends RouteComponentProps {
   loginSuccess: (arg0: Success) => void;
-  location: {
-    hash: RouteComponentProps['location']['hash'];
-  };
-  history: RouteComponentProps['history'];
 }
 
 export const LoginSuccess = ({ loginSuccess, location: { hash }, history }: Props) => {
   useEffect(() => {
     parseHash(hash).then(authResult => {
-      if (authResult && authResult?.scope?.includes(':')) {
-        if (authResult.accessToken) {
-          if (authResult.state) {
-            window.location.href = authResult.state;
-          }
-          loginSuccess({
-            accessToken: authResult.accessToken,
-            history,
-          });
+      if (authResult.scope?.includes(':') && authResult.accessToken) {
+        if (authResult.state) {
+          window.location.href = authResult.state;
         }
+        loginSuccess({
+          accessToken: authResult.accessToken,
+          history,
+        });
       } else {
         history.replace(`${toLogin()}/failure`);
       }

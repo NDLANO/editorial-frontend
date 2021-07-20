@@ -15,9 +15,8 @@ import { actions } from '../../modules/session/session';
 import { LocationShape } from '../../shapes';
 
 type Logout = { federated: boolean; returnToLogin?: boolean };
-interface Props {
+interface Props extends RouteComponentProps {
   logout: (arg0: Logout) => void;
-  location: RouteComponentProps['location'];
 }
 
 export const LogoutSession = ({ logout, location }: Props) => {

@@ -19,10 +19,7 @@ import { ReduxState } from '../../interfaces';
 const LoginFailure = loadable(() => import('./LoginFailure'));
 const LoginSuccess = loadable(() => import('./LoginSuccess'));
 
-interface Props {
-  match: RouteComponentProps['match'];
-  location: RouteComponentProps['location'];
-  history: RouteComponentProps['history'];
+interface Props extends RouteComponentProps {
   authenticated: boolean;
 }
 

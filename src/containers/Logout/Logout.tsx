@@ -17,9 +17,7 @@ import Footer from '../App/components/Footer';
 const LogoutFederated = loadable(() => import('./LogoutFederated'));
 const LogoutSession = loadable(() => import('./LogoutSession'));
 
-interface Props {
-  match: RouteComponentProps['match'];
-}
+interface Props extends RouteComponentProps {}
 
 const Logout = ({ t, match }: Props & tType) => (
   <Fragment>

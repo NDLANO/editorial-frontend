@@ -6,15 +6,14 @@
  *
  */
 
-import React, { ChangeEventHandler } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
 
 interface Props {
   on: boolean;
-  onClick: ChangeEventHandler;
+  onClick: (event: React.ChangeEvent) => void;
   testId?: string;
   large?: boolean;
   labelOff?: string;
@@ -22,13 +21,20 @@ interface Props {
 }
 
 const ToggleSwitch = ({ on, onClick, testId, large, labelOff = 'T', labelOn = 'K' }: Props) => (
-  <StyledLabel data-testid={testId} large={!!large} labelOn={labelOn}>
-    <input checked={on} onChange={onClick} type="checkbox" />
-    <StyledSlider large={!!large} labelOff={labelOff} />
-  </StyledLabel>
+  <>
+    <StyledLabel data-testid={testId} large={large} labelOn={labelOn}>
+      <input checked={on} onChange={onClick} type="checkbox" />
+      <StyledSlider large={large} labelOff={labelOff} />
+    </StyledLabel>
+  </>
 );
 
-const StyledSlider = styled.span<{ large: boolean; labelOff: string }>`
+interface SliderProps {
+  large?: boolean;
+  labelOff: string;
+}
+
+const StyledSlider = styled.span`
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -41,7 +47,7 @@ const StyledSlider = styled.span<{ large: boolean; labelOff: string }>`
   transition: 0.4s;
   border-radius: 10px;
 
-  ${props =>
+  ${(props: SliderProps) =>
     props.large &&
     css`
       height: 26px;
@@ -55,7 +61,7 @@ const StyledSlider = styled.span<{ large: boolean; labelOff: string }>`
 
   &::before {
     position: absolute;
-    content: '${props => props.labelOff}';
+    content: '${(props: SliderProps) => props.labelOff}';
     left: -3px;
     top: -0.63px;
     display: flex;
@@ -71,13 +77,18 @@ const StyledSlider = styled.span<{ large: boolean; labelOff: string }>`
   }
 `;
 
-const StyledLabel = styled.label<{ large: boolean; labelOn: string }>`
+interface LabelProps {
+  large?: boolean;
+  labelOn: string;
+}
+
+const StyledLabel = styled.label`
   position: relative;
   display: inline-block;
   width: 37px;
   height: 22px;
 
-  ${props =>
+  ${(props: LabelProps) =>
     props.large &&
     css`
       margin: 0 ${spacing.normal};
@@ -89,27 +100,13 @@ const StyledLabel = styled.label<{ large: boolean; labelOn: string }>`
     display: none;
   }
 
-  & > input:checked + ${StyledSlider}::before {
+  & > input:checked + ${StyledSlider.name}::before {
     transform: translateX(20px);
     background-color: #507aa4;
     color: white;
-    content: '${props => props.labelOn}';
+    content: '${(props: LabelProps) => props.labelOn}';
     border: 0.91px solid #446b92;
   }
 `;
-
-// ToggleSwitch.propTypes = {
-//   on: PropTypes.bool,
-//   onClick: PropTypes.func,
-//   testId: PropTypes.string,
-//   large: PropTypes.bool,
-//   labelOff: PropTypes.string,
-//   labelOn: PropTypes.string,
-// };
-
-// ToggleSwitch.defaultProps = {
-//   labelOff: 'T',
-//   labelOn: 'K',
-// };
 
 export default ToggleSwitch;

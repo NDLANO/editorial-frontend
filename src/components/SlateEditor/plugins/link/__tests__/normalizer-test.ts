@@ -1,0 +1,122 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { createEditor, Descendant, Editor } from 'slate';
+import { withHistory } from 'slate-history';
+import { withReact } from 'slate-react';
+import { TYPE_PARAGRAPH } from '../../paragraph/utils';
+import { TYPE_LINK, TYPE_CONTENT_LINK } from '..';
+import { withPlugins } from '../../../RichTextEditor';
+import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
+import { TYPE_SECTION } from '../../section';
+
+const editor = withHistory(
+  withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
+);
+
+describe('link normalizer tests', () => {
+  test('Remove any elements in links', () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                type: TYPE_LINK,
+                href: 'test-url',
+                children: [
+                  { text: '' },
+                  {
+                    // @ts-ignore
+                    type: TYPE_PARAGRAPH,
+                    children: [{ text: 'illegal block' }],
+                  },
+                  { text: '' },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              { text: '' },
+              {
+                type: TYPE_LINK,
+                href: 'test-url',
+                children: [{ text: 'illegal block' }],
+              },
+              { text: '' },
+            ],
+          },
+        ],
+      },
+    ];
+    editor.children = editorValue;
+    Editor.normalize(editor, { force: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
+
+  test('Remove styling on content-link text', () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              { text: '' },
+              {
+                type: TYPE_CONTENT_LINK,
+                'content-id': '123',
+                'content-type': 'article',
+                'open-in': 'current-context',
+                children: [{ bold: true, italic: true, text: 'content' }],
+              },
+              { text: '' },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              { text: '' },
+              {
+                type: TYPE_CONTENT_LINK,
+                'content-id': '123',
+                'content-type': 'article',
+                'open-in': 'current-context',
+                children: [{ text: 'content' }],
+              },
+              { text: '' },
+            ],
+          },
+        ],
+      },
+    ];
+    editor.children = editorValue;
+    Editor.normalize(editor, { force: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
+});

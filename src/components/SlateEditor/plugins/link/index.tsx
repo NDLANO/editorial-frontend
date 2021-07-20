@@ -132,15 +132,15 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
     const [node, path] = entry;
     if (Element.isElement(node)) {
       if (node.type === 'content-link' || node.type === 'link') {
-        node.children.forEach((child, index) => {
+        for (const [index, child] of node.children.entries()) {
           if (!Text.isText(child)) {
-            Transforms.delete(editor, { at: [...path, index] });
+            Transforms.unwrapNodes(editor, { at: [...path, index] });
             return;
           }
-        });
+        }
       }
       if (node.type === 'content-link') {
-        node.children.forEach(child => {
+        for (const child of node.children) {
           if (
             child.bold ||
             child.code ||
@@ -155,7 +155,7 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
             });
             return;
           }
-        });
+        }
       }
     }
     nextNormalizeNode(entry);

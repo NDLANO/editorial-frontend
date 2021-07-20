@@ -29,9 +29,9 @@ describe('heading normalizer tests', () => {
             type: TYPE_PARAGRAPH,
             children: [{ text: '' }],
           },
+          // @ts-ignore
           {
             type: TYPE_HEADING,
-            level: undefined,
             children: [{ text: 'title' }],
           },
           {

@@ -28,19 +28,19 @@ describe('link normalizer tests', () => {
           {
             type: TYPE_PARAGRAPH,
             children: [
+              { text: '' },
               {
                 type: TYPE_LINK,
                 href: 'test-url',
                 children: [
-                  { text: '' },
                   {
                     // @ts-ignore
                     type: TYPE_PARAGRAPH,
                     children: [{ text: 'illegal block' }],
                   },
-                  { text: '' },
                 ],
               },
+              { text: '' },
             ],
           },
         ],

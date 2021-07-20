@@ -46,6 +46,7 @@ export function useFetchConceptData(conceptId: number, locale: string) {
           setLoading(false);
         }
       } catch (e) {
+        setLoading(false);
         handleError(e);
       }
     };

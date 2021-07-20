@@ -25,7 +25,7 @@ interface BaseProps {
   embed: Embed;
   language: string;
   locale: LocaleType;
-  onRemoveClick: Function;
+  onRemoveClick: (event: React.MouseEvent) => void;
 }
 
 type Props = BaseProps & tType;

@@ -6,20 +6,29 @@
  *
  */
 
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
 
-const ToggleSwitch = ({ on, onClick, testId, large, labelOff, labelOn }) => (
-  <StyledLabel data-testid={testId} large={large} labelOn={labelOn}>
+interface Props {
+  on: boolean;
+  onClick: ChangeEventHandler;
+  testId?: string;
+  large?: boolean;
+  labelOff?: string;
+  labelOn?: string;
+}
+
+const ToggleSwitch = ({ on, onClick, testId, large, labelOff = 'T', labelOn = 'K' }: Props) => (
+  <StyledLabel data-testid={testId} large={!!large} labelOn={labelOn}>
     <input checked={on} onChange={onClick} type="checkbox" />
-    <StyledSlider large={large} labelOff={labelOff} />
+    <StyledSlider large={!!large} labelOff={labelOff} />
   </StyledLabel>
 );
 
-const StyledSlider = styled.span`
+const StyledSlider = styled.span<{ large: boolean; labelOff: string }>`
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -62,7 +71,7 @@ const StyledSlider = styled.span`
   }
 `;
 
-const StyledLabel = styled.label`
+const StyledLabel = styled.label<{ large: boolean; labelOn: string }>`
   position: relative;
   display: inline-block;
   width: 37px;
@@ -89,18 +98,18 @@ const StyledLabel = styled.label`
   }
 `;
 
-ToggleSwitch.propTypes = {
-  on: PropTypes.bool,
-  onClick: PropTypes.func,
-  testId: PropTypes.string,
-  large: PropTypes.bool,
-  labelOff: PropTypes.string,
-  labelOn: PropTypes.string,
-};
+// ToggleSwitch.propTypes = {
+//   on: PropTypes.bool,
+//   onClick: PropTypes.func,
+//   testId: PropTypes.string,
+//   large: PropTypes.bool,
+//   labelOff: PropTypes.string,
+//   labelOn: PropTypes.string,
+// };
 
-ToggleSwitch.defaultProps = {
-  labelOff: 'T',
-  labelOn: 'K',
-};
+// ToggleSwitch.defaultProps = {
+//   labelOff: 'T',
+//   labelOn: 'K',
+// };
 
 export default ToggleSwitch;

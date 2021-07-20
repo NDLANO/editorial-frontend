@@ -103,7 +103,7 @@ class SearchContentForm extends Component<Props & tType, State> {
     this.getExternalData();
   }
 
-  onFieldChange(evt: FormEvent<HTMLInputElement>) {
+  onFieldChange(evt: FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>) {
     const { name, value } = evt.currentTarget;
     this.setState(prevState => {
       const includeOtherStatuses =
@@ -246,7 +246,7 @@ class SearchContentForm extends Component<Props & tType, State> {
                 name={selectField.name}
                 options={selectField.options}
                 idKey="id"
-                value={this.state.search[selectField.name]}
+                value={this.state.search[selectField.name] as string} // TODO: Does this have to be cast?
                 labelKey="name"
                 emptyField
                 placeholder={t(`searchForm.types.${selectField.label}`)}

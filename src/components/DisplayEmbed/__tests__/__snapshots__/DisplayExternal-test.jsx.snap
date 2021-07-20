@@ -35,18 +35,18 @@ exports[`DisplayExternal renders external correctly 1`] = `
 `;
 
 exports[`DisplayExternal renders iframe correctly 1`] = `
-.emotion-14 {
+.emotion-12 {
   position: absolute;
   top: 0;
   z-index: 1;
   right: -6.5px;
 }
 
-.emotion-14 > * {
+.emotion-12 > * {
   margin-bottom: 6.5px;
 }
 
-.emotion-5 {
+.emotion-4 {
   position: relative;
 }
 
@@ -141,7 +141,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   opacity: 1;
 }
 
-.emotion-10 {
+.emotion-9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -166,7 +166,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   height: 26px;
 }
 
-.emotion-10 svg {
+.emotion-9 svg {
   width: 22px;
   height: 22px;
   position: relative;
@@ -174,7 +174,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   pointer-events: none;
 }
 
-.emotion-10::before {
+.emotion-9::before {
   content: '';
   display: block;
   position: absolute;
@@ -190,13 +190,13 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   transition: all 200ms ease;
 }
 
-.emotion-10:hover,
-.emotion-10:focus {
+.emotion-9:hover,
+.emotion-9:focus {
   color: #20588f;
 }
 
-.emotion-10:hover::before,
-.emotion-10:focus::before {
+.emotion-9:hover::before,
+.emotion-9:focus::before {
   -webkit-transform: scale(1.25);
   -ms-transform: scale(1.25);
   transform: scale(1.25);
@@ -207,10 +207,10 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   className="c-figure"
 >
   <div
-    className="emotion-14"
+    className="emotion-12"
   >
     <div
-      className=" emotion-5 emotion-6"
+      className=" emotion-4 emotion-5"
     >
       <div
         className="emotion-1 emotion-2"
@@ -230,7 +230,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
         onMouseLeave={[Function]}
       >
         <button
-          className="emotion-3 emotion-4"
+          className="emotion-3"
           color="red"
           data-cy="remove-element"
           onClick={[Function]}
@@ -274,7 +274,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       </div>
     </div>
     <div
-      className=" emotion-5 emotion-6"
+      className=" emotion-4 emotion-5"
     >
       <div
         className="emotion-1 emotion-2"
@@ -294,7 +294,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
         onMouseLeave={[Function]}
       >
         <button
-          className="emotion-10 emotion-4"
+          className="emotion-9"
           onClick={[Function]}
           tabIndex={-1}
           type="button"

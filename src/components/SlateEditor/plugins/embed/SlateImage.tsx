@@ -32,7 +32,7 @@ interface Props {
   figureClass?: { className: string };
   isSelectedForCopy?: boolean;
   language: string;
-  onRemoveClick: Function;
+  onRemoveClick: (event: React.MouseEvent) => void;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   visualElement: boolean;
 }

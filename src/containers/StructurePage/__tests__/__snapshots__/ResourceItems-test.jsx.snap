@@ -5,7 +5,7 @@ exports[`matches snapshot 1`] = `
   color: #20588f;
 }
 
-.emotion-10 {
+.emotion-6 {
   position: relative;
 }
 
@@ -38,7 +38,7 @@ exports[`matches snapshot 1`] = `
   max-width: calc(100vw - #{26px});
 }
 
-.emotion-9 {
+.emotion-5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -54,70 +54,7 @@ exports[`matches snapshot 1`] = `
   margin-left: 10px;
 }
 
-.emotion-7 {
-  position: relative;
-  display: inline-block;
-  width: 37px;
-  height: 22px;
-}
-
-.emotion-7 input {
-  display: none;
-}
-
-.emotion-7 > input:checked + .emotion-6::before {
-  -webkit-transform: translateX(20px);
-  -ms-transform: translateX(20px);
-  transform: translateX(20px);
-  background-color: #507aa4;
-  color: white;
-  content: 'K';
-  border: 0.91px solid #446b92;
-}
-
-.emotion-5 {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 22px;
-  background-color: white;
-  border: 0.63px solid #a9a9a9;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 10px;
-}
-
-.emotion-5::before {
-  position: absolute;
-  content: 'T';
-  left: -3px;
-  top: -0.63px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  height: 22px;
-  width: 22px;
-  background-color: #777777;
-  color: black;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 50%;
-  font-size: 0.8rem;
-}
-
-.emotion-15 {
+.emotion-11 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -151,35 +88,35 @@ exports[`matches snapshot 1`] = `
   line-height: 1;
 }
 
-.emotion-15:hover,
-.emotion-15:focus {
+.emotion-11:hover,
+.emotion-11:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-15[disabled] {
+.emotion-11[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-15:focus {
+.emotion-11:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-15:hover,
-.emotion-15:active,
-.emotion-15:disabled,
-.emotion-15:focus {
+.emotion-11:hover,
+.emotion-11:active,
+.emotion-11:disabled,
+.emotion-11:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-15:focus {
+.emotion-11:focus {
   outline-width: medium;
 }
 
@@ -243,7 +180,7 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -260,25 +197,12 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
-            >
-              <label
-                class="emotion-7 emotion-8"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-5 emotion-6"
-                />
-              </label>
-            </div>
+              class="emotion-5"
+            />
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -295,7 +219,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-11 emotion-12"
               type="button"
             >
               <svg
@@ -387,7 +311,7 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -404,25 +328,12 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
-            >
-              <label
-                class="emotion-7 emotion-8"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-5 emotion-6"
-                />
-              </label>
-            </div>
+              class="emotion-5"
+            />
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -439,7 +350,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-11 emotion-12"
               type="button"
             >
               <svg
@@ -531,7 +442,7 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -548,25 +459,12 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
-            >
-              <label
-                class="emotion-7 emotion-8"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-5 emotion-6"
-                />
-              </label>
-            </div>
+              class="emotion-5"
+            />
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -583,7 +481,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-11 emotion-12"
               type="button"
             >
               <svg
@@ -675,7 +573,7 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -692,25 +590,12 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
-            >
-              <label
-                class="emotion-7 emotion-8"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-5 emotion-6"
-                />
-              </label>
-            </div>
+              class="emotion-5"
+            />
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -727,7 +612,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-11 emotion-12"
               type="button"
             >
               <svg
@@ -819,7 +704,7 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -836,25 +721,12 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
-            >
-              <label
-                class="emotion-7 emotion-8"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-5 emotion-6"
-                />
-              </label>
-            </div>
+              class="emotion-5"
+            />
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -871,7 +743,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-11 emotion-12"
               type="button"
             >
               <svg
@@ -963,7 +835,7 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -980,25 +852,12 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
-            >
-              <label
-                class="emotion-7 emotion-8"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-5 emotion-6"
-                />
-              </label>
-            </div>
+              class="emotion-5"
+            />
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-6 emotion-7"
         >
           <div
             class="emotion-3 emotion-4"
@@ -1015,7 +874,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-11 emotion-12"
               type="button"
             >
               <svg

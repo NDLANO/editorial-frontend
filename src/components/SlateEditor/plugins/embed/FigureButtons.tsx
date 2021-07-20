@@ -59,8 +59,8 @@ interface Props {
   embed: Embed;
   figureType: string;
   language: string;
-  onEdit?: Function;
-  onRemoveClick: Function;
+  onEdit?: (event: React.MouseEvent) => void;
+  onRemoveClick: (event: React.MouseEvent) => void;
   providerName?: string;
   tooltip: string;
   withMargin?: boolean;

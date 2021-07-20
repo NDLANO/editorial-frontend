@@ -8,13 +8,12 @@
 
 import React from 'react';
 import Button from '@ndla/button';
-import PropTypes from 'prop-types';
 import { Cross } from '@ndla/icons/action';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/core';
 import { colors, breakpoints, spacing } from '@ndla/core';
 
-const appearances = {
+const appearances: Record<string, SerializedStyles> = {
   big: css`
     max-width: 870px;
   `,
@@ -32,7 +31,7 @@ const appearances = {
   `,
 };
 
-const severities = {
+const severities: Record<string, SerializedStyles> = {
   success: css`
     background-color: ${colors.support.green};
     color: white;
@@ -51,7 +50,7 @@ const severities = {
   `,
 };
 
-const StyledLightbox = styled('div')`
+const StyledLightbox = styled('div')<{ appearance?: string }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -78,14 +77,19 @@ const StyledLightbox = styled('div')`
   }
 `;
 
-const StyledLightboxContent = styled('div')`
+const StyledLightboxContent = styled('div')<{
+  maxWidth?: string;
+  appearance?: string;
+  severity?: string;
+}>`
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
   padding: 1em 2em 3em;
   max-width: ${p => p.maxWidth || '400px'};
   border-radius: 5px;
-  ${p => appearances[p.appearance]} ${p => severities[p.severity]};
+  ${p => (p.appearance ? appearances[p.appearance] : null)}
+  ${p => (p.severity ? severities[p.severity] : null)};
 `;
 
 export const closeLightboxButtonStyle = css`
@@ -96,13 +100,13 @@ export const closeLightboxButtonStyle = css`
   margin-right: -20px;
 `;
 
-export const StyledCross = styled(Cross)`
+export const StyledCross = styled(Cross)<{ severity?: string }>`
   float: right;
   height: 24px;
   width: 24px;
   margin-right: 7px;
   color: ${colors.brand.grey};
-  ${p => severities[p.severity]};
+  ${p => (p.severity ? severities[p.severity] : null)};
 `;
 
 const ChildWrapper = styled.div`
@@ -110,19 +114,34 @@ const ChildWrapper = styled.div`
   height: 100%;
 `;
 
-class Lightbox extends React.PureComponent {
-  constructor(props) {
+interface State {
+  display: boolean;
+}
+
+interface Props {
+  onClose: Function;
+  display: boolean;
+  width?: string;
+  closeButton?: React.ReactNode;
+  appearance?: 'modal' | 'big' | 'fullscreen';
+  severity?: 'danger' | 'info' | 'success' | 'warning';
+  contentCss?: SerializedStyles;
+  hideCloseButton?: boolean;
+}
+
+class Lightbox extends React.PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = { display: props.display };
     this.onCloseButtonClick = this.onCloseButtonClick.bind(this);
   }
 
-  onCloseButtonClick(evt) {
+  onCloseButtonClick(evt: Event) {
     this.setState({ display: false }, () => this.props.onClose());
     evt.preventDefault();
   }
 
-  static getDerivedStateFromProps({ display }, prevState) {
+  static getDerivedStateFromProps({ display }: Props, prevState: State) {
     if (display !== prevState.display) {
       return { display };
     }
@@ -165,16 +184,5 @@ class Lightbox extends React.PureComponent {
     ) : null;
   }
 }
-
-Lightbox.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  display: PropTypes.bool,
-  width: PropTypes.string,
-  closeButton: PropTypes.node,
-  appearance: PropTypes.oneOf(['modal', 'big', 'fullscreen']),
-  severity: PropTypes.oneOf(['danger', 'info', 'success', 'warning']),
-  contentCss: PropTypes.string,
-  hideCloseButton: PropTypes.bool,
-};
 
 export default Lightbox;

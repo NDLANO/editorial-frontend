@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 
 const classes = new BEMHelper({
@@ -15,7 +14,17 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const ArticlePreview = ({ article, locale }) => (
+interface Props {
+  article: {
+    id: number;
+    metaDescription?: string;
+    title?: string;
+    imageUrl?: string;
+  };
+  locale?: string;
+}
+
+const ArticlePreview = ({ article, locale }: Props) => (
   <div data-testid="articlePreview" {...classes('')}>
     <div {...classes('image')}>
       <img src={article.imageUrl || '/placeholder.png'} alt="" />
@@ -26,16 +35,5 @@ const ArticlePreview = ({ article, locale }) => (
     </div>
   </div>
 );
-
-ArticlePreview.propTypes = {
-  article: PropTypes.shape({
-    id: PropTypes.number,
-    articleType: PropTypes.string,
-    metaDescription: PropTypes.string,
-    title: PropTypes.string,
-    imageUrl: PropTypes.string,
-  }),
-  locale: PropTypes.string,
-};
 
 export default ArticlePreview;

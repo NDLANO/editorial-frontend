@@ -202,7 +202,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   padding: 0;
 }
 
-.emotion-168 {
+.emotion-167 {
   -webkit-animation-duration: 200ms;
   animation-duration: 200ms;
   -webkit-animation-name: fadeInTop;
@@ -421,7 +421,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #f1f5f8;
 }
 
-.emotion-171 {
+.emotion-170 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -433,7 +433,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-166 {
+.emotion-165 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -448,11 +448,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #ceddea;
 }
 
-.emotion-166:hover {
+.emotion-165:hover {
   background: #ceddea;
 }
 
-.emotion-162 {
+.emotion-161 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -460,11 +460,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   display: flex;
 }
 
-.emotion-162 > button {
+.emotion-161 > button {
   outline: none;
 }
 
-.emotion-160 {
+.emotion-159 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -496,35 +496,35 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   font-weight: 400;
 }
 
-.emotion-160:hover,
-.emotion-160:focus {
+.emotion-159:hover,
+.emotion-159:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-160[disabled] {
+.emotion-159[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-160:focus {
+.emotion-159:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-160:hover,
-.emotion-160:active,
-.emotion-160:disabled,
-.emotion-160:focus {
+.emotion-159:hover,
+.emotion-159:active,
+.emotion-159:disabled,
+.emotion-159:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-160:focus {
+.emotion-159:focus {
   outline-width: medium;
 }
 
@@ -561,7 +561,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   color: #f8f8f8;
 }
 
-.emotion-164 {
+.emotion-163 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -595,46 +595,46 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   line-height: 1.1;
 }
 
-.emotion-164:hover,
-.emotion-164:focus {
+.emotion-163:hover,
+.emotion-163:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-164[disabled] {
+.emotion-163[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-164:focus {
+.emotion-163:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-164:hover,
-.emotion-164:focus {
+.emotion-163:hover,
+.emotion-163:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-164:disabled {
+.emotion-163:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
-.emotion-164:hover,
-.emotion-164:focus {
+.emotion-163:hover,
+.emotion-163:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-164:disabled {
+.emotion-163:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
@@ -721,7 +721,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="emotion-10 emotion-11"
         >
           <div
-            class="emotion-168"
+            class="emotion-167"
           >
             <li
               class="emotion-12 emotion-13"
@@ -1371,7 +1371,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="emotion-10 emotion-11"
               >
                 <div
-                  class="emotion-168"
+                  class="emotion-167"
                 >
                   <li
                     class="emotion-12 emotion-13"
@@ -1461,7 +1461,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       class="emotion-10 emotion-11"
                     >
                       <div
-                        class="emotion-168"
+                        class="emotion-167"
                       >
                         <li
                           class="emotion-12 emotion-13"
@@ -1486,10 +1486,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                           />
                         </li>
                         <li
-                          class="emotion-171 emotion-13"
+                          class="emotion-170 emotion-13"
                         >
                           <div
-                            class="emotion-166 emotion-9"
+                            class="emotion-165 emotion-9"
                           >
                             <button
                               class="emotion-120 emotion-7"
@@ -1503,15 +1503,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                               data-cy="folderWrapper"
                             >
                               <div
-                                class="emotion-162 emotion-163"
+                                class="emotion-161 emotion-162"
                               >
                                 <button
-                                  class="emotion-160 emotion-3"
+                                  class="emotion-159 emotion-3"
                                   data-cy="settings-button-topic"
                                   type="button"
                                 >
                                   <div
-                                    class="emotion-158 emotion-159"
+                                    class="emotion-158"
                                   >
                                     <svg
                                       class="c-icon"
@@ -1541,7 +1541,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                                 </button>
                               </div>
                               <button
-                                class="emotion-164 emotion-3"
+                                class="emotion-163 emotion-3"
                                 type="button"
                               >
                                 Hopp til ressurser
@@ -1552,7 +1552,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             class="emotion-10 emotion-11"
                           >
                             <div
-                              class="emotion-168"
+                              class="emotion-167"
                             />
                           </ul>
                         </li>

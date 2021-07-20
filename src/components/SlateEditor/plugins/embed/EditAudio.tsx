@@ -8,7 +8,7 @@
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, FormEvent } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Input } from '@ndla/forms';
 import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
@@ -31,9 +31,9 @@ interface Props {
   language: string;
   locale: LocaleType;
   onAudioFigureInputChange: Function;
-  onChange: Function;
-  onExit: Function;
-  onRemoveClick: Function;
+  onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
+  onExit: (event: React.MouseEvent) => void;
+  onRemoveClick: (event: React.MouseEvent) => void;
   speech: boolean;
   type: string;
 }
@@ -90,7 +90,7 @@ const EditAudio = ({
             embedElement = embedEl;
           }}>
           <ObjectSelector
-            onClick={(evt: MouseEvent) => evt.stopPropagation()}
+            onClick={(evt: React.MouseEvent) => evt.stopPropagation()}
             onChange={onChange}
             onBlur={onChange}
             key="type"

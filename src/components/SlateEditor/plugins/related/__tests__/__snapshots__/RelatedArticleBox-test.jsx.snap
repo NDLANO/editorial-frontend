@@ -17,7 +17,7 @@ exports[`it goes in and out of edit mode 1`] = `
 <div>
   <div
     aria-hidden="true"
-    class="emotion-0 emotion-1"
+    class="emotion-0"
   />
   <div
     style="height: 120px;"

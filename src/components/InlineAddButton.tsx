@@ -7,12 +7,11 @@
  */
 
 import React, { Fragment, PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';
 import { Plus } from '@ndla/icons/action';
 import handleError from '../util/handleError';
@@ -70,8 +69,18 @@ const saveButtonStyle = css`
   }
 `;
 
-export class InlineAddButton extends PureComponent {
-  constructor(props) {
+interface State {
+  status: string;
+  inputValue: string;
+}
+
+interface Props {
+  title: string;
+  action: Function;
+}
+
+export class InlineAddButton extends PureComponent<Props & tType, State> {
+  constructor(props: Props & tType) {
     super(props);
     this.state = {
       status: 'initial',
@@ -82,14 +91,14 @@ export class InlineAddButton extends PureComponent {
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  async handleClick(e) {
+  async handleClick(e: React.KeyboardEvent<HTMLInputElement>) {
     e.stopPropagation();
 
     this.setState(
       prevState => {
         return prevState.inputValue.trim() === ''
           ? { inputValue: '', status: 'initial' }
-          : { status: 'loading' };
+          : { status: 'loading', inputValue: '' };
       },
       async () => {
         const { inputValue, status } = this.state;
@@ -109,12 +118,12 @@ export class InlineAddButton extends PureComponent {
     );
   }
 
-  handleInputChange(e) {
+  handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.stopPropagation();
     this.setState({ inputValue: e.target.value });
   }
 
-  handleKeyPress(e) {
+  handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Escape') {
       this.setState({ status: 'initial' });
     }
@@ -167,9 +176,9 @@ export class InlineAddButton extends PureComponent {
   }
 }
 
-InlineAddButton.propTypes = {
-  title: PropTypes.string.isRequired,
-  action: PropTypes.func,
-};
+// InlineAddButton.propTypes = {
+//   title: PropTypes.string.isRequired,
+//   action: PropTypes.func,
+// };
 
 export default injectT(InlineAddButton);

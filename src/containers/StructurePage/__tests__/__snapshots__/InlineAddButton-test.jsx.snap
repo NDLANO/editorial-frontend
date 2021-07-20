@@ -36,7 +36,7 @@ exports[`Goes to edit mode, handles input and calls action prop 1`] = `
   padding: 0 13px;
   white-space: nowrap;
   font-size: 1.1rem;
-  background: linear-gradient( rgba(226,226,226,0.1),#507aa4 50%,rgba(226,226,226,0.1) 100% );
+  background: linear-gradient( rgba(226,226,226,0.1), #507aa4 50%, rgba(226,226,226,0.1) 100% );
 }
 
 .emotion-0:hover,
@@ -115,7 +115,7 @@ exports[`Goes to edit mode, handles input and calls action prop 2`] = `
 }
 
 <input
-  class="emotion-0 emotion-1"
+  class="emotion-0"
   data-testid="addSubjectInputField"
   type="text"
   value="Elefant"
@@ -129,9 +129,9 @@ exports[`Goes to edit mode, handles input and calls action prop 3`] = `
 }
 
 <input
-  class="emotion-0 emotion-1"
+  class="emotion-0"
   data-testid="addSubjectInputField"
   type="text"
-  value="Elefant"
+  value=""
 />
 `;

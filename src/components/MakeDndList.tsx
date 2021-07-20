@@ -1,6 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+  ResponderProvided,
+} from 'react-beautiful-dnd';
 import BEMHelper from 'react-bem-helper';
 
 const classes = new BEMHelper({
@@ -8,9 +13,16 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }) => {
+interface Props {
+  children: React.ReactElement;
+  disableDnd: boolean;
+  onDragEnd: (result: DropResult, provided: ResponderProvided) => void;
+  dragHandle: boolean;
+}
+
+const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }: Props) => {
   if (disableDnd) {
-    return <React.Fragment>{children}</React.Fragment>;
+    return <>{children}</>;
   }
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -48,10 +60,10 @@ const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }) => {
   );
 };
 
-MakeDndList.propTypes = {
-  disableDnd: PropTypes.bool,
-  onDragEnd: PropTypes.func,
-  dragHandle: PropTypes.bool,
-};
+// MakeDndList.propTypes = {
+//   disableDnd: PropTypes.bool,
+//   onDragEnd: PropTypes.func,
+//   dragHandle: PropTypes.bool,
+// };
 
 export default MakeDndList;

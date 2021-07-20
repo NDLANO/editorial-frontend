@@ -36,7 +36,7 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, t }: P
         appearance={'fullscreen'}
         onClose={onClose}
         hideCloseButton={!h5pFetchFail}
-        contentCss={!h5pFetchFail && h5pContentCss}>
+        contentCss={!h5pFetchFail ? h5pContentCss : undefined}>
         {children(setH5pFetchFail)}
       </Lightbox>
     );

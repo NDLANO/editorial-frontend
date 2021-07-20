@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import { Pencil } from '@ndla/icons/action';
 import Button from '@ndla/button';
 import DateTimeWrapper from './DateTime/DateTimeWrapper';
 import formatDate from '../util/formatDate';
+import { Author } from '../interfaces';
 
 const iconCss = css`
   margin-left: 0.2em;
@@ -22,7 +22,7 @@ const buttonCss = css`
   align-items: center;
 `;
 
-const LastUpdatedLine = ({ creators, published, t, ...rest }) => (
+const LastUpdatedLine = ({ creators, published, t, ...rest }: Props & tType) => (
   <div css={infoCss}>
     {creators.map(creator => creator.name).join(', ')}
     {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
@@ -36,13 +36,18 @@ const LastUpdatedLine = ({ creators, published, t, ...rest }) => (
   </div>
 );
 
-LastUpdatedLine.propTypes = {
-  creators: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-    }),
-  ),
-  published: PropTypes.string,
-};
+interface Props {
+  creators: Author[];
+  published: string;
+}
+
+// LastUpdatedLine.propTypes = {
+//   creators: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       name: PropTypes.string,
+//     }),
+//   ),
+//   published: PropTypes.string,
+// };
 
 export default injectT(LastUpdatedLine);

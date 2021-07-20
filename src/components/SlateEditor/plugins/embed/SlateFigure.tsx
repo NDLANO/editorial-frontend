@@ -16,7 +16,7 @@ import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import { getSchemaEmbed } from '../../editorSchema';
-import { FormikInputEvent, LocaleType, SlateFigureProps } from '../../../../interfaces';
+import { LocaleType, SlateFigureProps } from '../../../../interfaces';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',
@@ -45,9 +45,9 @@ const SlateFigure = ({
   const embed = getSchemaEmbed(node);
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
 
-  const onFigureInputChange = (event: FormikInputEvent) => {
+  const onFigureInputChange = (event: React.FormEvent<HTMLSelectElement>) => {
     event.preventDefault();
-    const { value, name } = event.target;
+    const { value, name } = event.currentTarget;
     const change = { [name]: value };
 
     setChanges(change);

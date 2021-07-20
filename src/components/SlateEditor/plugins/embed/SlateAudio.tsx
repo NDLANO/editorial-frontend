@@ -16,7 +16,7 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import { SlateAudio as Audio, Embed, FormikInputEvent, LocaleType } from '../../../../interfaces';
+import { SlateAudio as Audio, Embed, LocaleType } from '../../../../interfaces';
 
 interface Props {
   attributes?: {
@@ -27,8 +27,8 @@ interface Props {
   embed: Embed;
   language: string;
   locale: LocaleType;
-  onRemoveClick: Function;
-  onFigureInputChange: Function;
+  onRemoveClick: (event: React.MouseEvent) => void;
+  onFigureInputChange: (event: React.FormEvent<HTMLSelectElement>) => void;
 }
 
 const SlateAudio = ({
@@ -62,8 +62,8 @@ const SlateAudio = ({
     getAudio();
   }, [embed, language]);
 
-  const onAudioFigureInputChange = (e: FormikInputEvent) => {
-    const { value, name } = e.target;
+  const onAudioFigureInputChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    const { value, name } = e.currentTarget;
     setAudio({
       ...audio,
       [name]: value,

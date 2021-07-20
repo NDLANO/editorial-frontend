@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Descendant, Editor, Element, Path, Transforms, Node } from 'slate';
+import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import CodeBlock from './CodeBlock';

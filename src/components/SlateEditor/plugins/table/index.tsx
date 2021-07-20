@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { Descendant, Editor, Element, NodeEntry, Path, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
+import { RenderElementProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
@@ -28,8 +28,8 @@ import {
   TYPE_TABLE_ROW,
 } from './utils';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { defaultParagraphBlock, TYPE_PARAGRAPH } from '../paragraph/utils';
+import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -156,6 +156,15 @@ export const tablePlugin = (editor: Editor) => {
       if (node.type === TYPE_TABLE) {
         const tableNodes = node.children;
 
+        // If table contains non-row element, wrap it with row element
+        for (const [index, child] of tableNodes.entries()) {
+          if (!Element.isElement(child) || child.type !== TYPE_TABLE_ROW) {
+            return Transforms.wrapNodes(editor, defaultTableRowBlock(0), {
+              at: [...path, index],
+            });
+          }
+        }
+
         // Go to next normalizer if first child is invalid.
         const firstRow = tableNodes[0];
         if (!Element.isElement(firstRow) || firstRow.type !== TYPE_TABLE_ROW) {
@@ -170,22 +179,12 @@ export const tablePlugin = (editor: Editor) => {
                 editor,
                 {
                   data: {
+                    ...child.data,
                     isHeader: true,
-                    rowspan: child.data.rowspan,
-                    colspan: child.data.colspan,
                   },
                 },
                 { at: [...path, 0, index] },
               );
-            });
-          }
-        });
-
-        // If table contains non-row element, wrap it with row element
-        tableNodes.forEach((row, index) => {
-          if (!Element.isElement(row)) {
-            return Transforms.wrapNodes(editor, defaultTableRowBlock(0), {
-              at: ReactEditor.findPath(editor, row),
             });
           }
         });
@@ -207,40 +206,12 @@ export const tablePlugin = (editor: Editor) => {
             );
           }
         });
-        const nextPath = Path.next(path);
 
-        if (Editor.hasPath(editor, nextPath)) {
-          const [nextNode] = Editor.node(editor, nextPath);
-          if (
-            !Element.isElement(nextNode) ||
-            !afterOrBeforeTextBlockElement.includes(nextNode.type)
-          ) {
-            Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
-              at: nextPath,
-            });
-
-            return;
-          }
-        }
-
-        if (Path.hasPrevious(path)) {
-          const previousPath = Path.previous(path);
-
-          if (Editor.hasPath(editor, previousPath)) {
-            const [previousNode] = Editor.node(editor, previousPath);
-            if (
-              !Element.isElement(previousNode) ||
-              !afterOrBeforeTextBlockElement.includes(previousNode.type)
-            ) {
-              Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
-                at: path,
-              });
-
-              return;
-            }
-          }
+        if (addSurroundingParagraphs(editor, path)) {
+          return;
         }
       } else if (node.type === TYPE_TABLE_CELL) {
+        // Cells should only contain elements. If not, wrap content in paragraph
         if (!Element.isElementList(node.children)) {
           return Transforms.wrapNodes(editor, defaultParagraphBlock(), {
             at: path,
@@ -248,9 +219,10 @@ export const tablePlugin = (editor: Editor) => {
           });
         }
       } else if (node.type === TYPE_TABLE_ROW) {
+        // Row should only contain cells. If not, wrap content in cell
         for (const [index, child] of node.children.entries()) {
           if (!Element.isElement(child) || child.type !== TYPE_TABLE_CELL) {
-            return Transforms.removeNodes(editor, { at: [...path, index] });
+            return Transforms.wrapNodes(editor, defaultTableCellBlock(), { at: [...path, index] });
           }
         }
       }

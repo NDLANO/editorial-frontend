@@ -15,11 +15,16 @@ import {
   updateConcept,
   updateConceptStatus,
 } from '../../../../../modules/concept/conceptApi';
-import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
+import {
+  ConceptType,
+  SearchConceptType,
+} from '../../../../../modules/concept/conceptApiInterfaces';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
-import { SubjectType, License, ConceptType } from '../../../../../interfaces';
+import { License } from '../../../../../interfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
+import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { transformApiToCleanConcept } from '../../../../../modules/concept/conceptApiUtil';
 
 interface Props {
   concept: SearchConceptType;
@@ -45,7 +50,9 @@ const FormView = ({
   const [fullConcept, setFullConcept] = useState<ConceptType | undefined>();
 
   useEffect(() => {
-    fetchConcept(concept.id, language).then((c: any) => setFullConcept(c));
+    fetchConcept(concept.id, language)
+      .then(c => transformApiToCleanConcept(c, language))
+      .then((c: ConceptType) => setFullConcept(c));
   }, [concept.id, language]);
 
   const [formValues, setFormValues] = useState<InlineFormConcept | undefined>();

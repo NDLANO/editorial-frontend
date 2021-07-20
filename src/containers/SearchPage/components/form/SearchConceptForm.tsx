@@ -19,7 +19,7 @@ import { searchFormClasses, SearchParams } from './SearchForm';
 import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
 import { fetchAuth0Editors } from '../../../../modules/auth0/auth0Api';
 import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
-import { SubjectType } from '../../../../interfaces';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { User } from './SearchContentForm';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { MinimalTagType } from './SearchTag';
@@ -138,7 +138,7 @@ class SearchConceptForm extends Component<Props & tType, State> {
 
   async getUsers() {
     const editors = await fetchAuth0Editors(CONCEPT_WRITE_SCOPE);
-    return editors.map((u: { app_metadata: { ndla_id: string }; name: string }) => {
+    return editors.map(u => {
       return { id: `${u.app_metadata.ndla_id}`, name: u.name };
     });
   }

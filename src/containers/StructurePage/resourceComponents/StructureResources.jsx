@@ -158,7 +158,12 @@ export class StructureResources extends React.PureComponent {
           resource.status = article.status;
           return article;
         } else if (resourceType === 'learningpath') {
-          const learningpath = await fetchLearningpath(id, this.props.locale, true);
+          let learningpath;
+          try {
+            learningpath = await fetchLearningpath(id, this.props.locale);
+          } catch (e) {
+            learningpath = {};
+          } // TODO: Could be improved. Appliccable to entire file.
           resource.status = { current: learningpath.status };
           return learningpath;
         }

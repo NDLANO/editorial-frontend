@@ -99,7 +99,7 @@ export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => (
   coverPhotoId: audio.podcastMeta?.coverPhoto.id,
   metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
   series: audio.series ?? null,
-  seriesId: audio.series?.id ?? undefined,
+  seriesId: audio.series?.id,
 });
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {

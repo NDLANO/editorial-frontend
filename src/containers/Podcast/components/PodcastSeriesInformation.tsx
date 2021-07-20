@@ -9,8 +9,8 @@
 import React, { useEffect, useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
-import { fetchSeries, searchSeries } from 'modules/audio/audioApi';
 import { isEmptyArray, useFormikContext } from 'formik';
+import { fetchSeries, searchSeries } from '../../../modules/audio/audioApi';
 import ElementList from '../../FormikForm/components/ElementList';
 import {
   PodcastFormValues,
@@ -52,7 +52,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
 
   const onAddSeries = async (series: SeriesSearchSummary) => {
     try {
-      const newSeries = await fetchSeries(series.id, language);
+      const newSeries = await fetchSeries(series.id, language || 'nb');
       delete newSeries.episodes;
       setFieldValue('series', newSeries);
     } catch (e) {
@@ -68,11 +68,21 @@ const PodcastSeriesInformation = ({ t }: tType) => {
     }
   };
 
-  const searchForSeries = (input: string): Promise<SeriesSearchResult> => {
-    return searchSeries({
+  const searchForSeries = async(input: string,): Promise<SeriesSearchResult> => {
+    const searchResult = await searchSeries({
       query: input,
       language: language,
     });
+    const results = searchResult.results.map(result => {
+      return {
+        ...result,
+        metaImage: {
+        url: result.coverPhoto.url,
+        alt: result.coverPhoto.altText,
+      }
+    }
+    });
+    return {...searchResult, results };
   };
 
   return (

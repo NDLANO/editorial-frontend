@@ -8,7 +8,7 @@
 
 import { constants } from '@ndla/ui';
 import { tType } from '@ndla/i18n';
-import { toEditArticle, toEditAudio, toEditConcept, toLearningpathFull } from './routeHelpers';
+import { toEditArticle, toEditAudio, toEditConcept, toEditPodcastSeries, toLearningpathFull } from './routeHelpers';
 
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -71,6 +71,7 @@ const isLearningPathResourceType = (contentType?: string) =>
 
 const isConceptType = (contentType?: string) => contentType === 'concept';
 const isAudioType = (contentType?: string) => contentType === 'audio';
+const isSeriesType = (contentType?: string) => contentType === 'series';
 
 export const resourceToLinkProps = (
   content: {
@@ -102,6 +103,12 @@ export const resourceToLinkProps = (
       to: toEditAudio(content.id, languageOrDefault),
     };
   }
+
+if (isSeriesType(contentType)) {
+  return {
+    to: toEditPodcastSeries(content.id, languageOrDefault),
+  };
+}
 
   return {
     to: toEditArticle(

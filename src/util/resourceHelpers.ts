@@ -8,7 +8,13 @@
 
 import { constants } from '@ndla/ui';
 import { tType } from '@ndla/i18n';
-import { toEditArticle, toEditAudio, toEditConcept, toEditPodcastSeries, toLearningpathFull } from './routeHelpers';
+import {
+  toEditArticle,
+  toEditAudio,
+  toEditConcept,
+  toEditPodcastSeries,
+  toLearningpathFull,
+} from './routeHelpers';
 
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -104,11 +110,11 @@ export const resourceToLinkProps = (
     };
   }
 
-if (isSeriesType(contentType)) {
-  return {
-    to: toEditPodcastSeries(content.id, languageOrDefault),
-  };
-}
+  if (isSeriesType(contentType)) {
+    return {
+      to: toEditPodcastSeries(content.id, languageOrDefault),
+    };
+  }
 
   return {
     to: toEditArticle(

@@ -68,7 +68,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
     }
   };
 
-  const searchForSeries = async(input: string,): Promise<SeriesSearchResult> => {
+  const searchForSeries = async (input: string): Promise<SeriesSearchResult> => {
     const searchResult = await searchSeries({
       query: input,
       language: language,
@@ -77,12 +77,12 @@ const PodcastSeriesInformation = ({ t }: tType) => {
       return {
         ...result,
         metaImage: {
-        url: result.coverPhoto.url,
-        alt: result.coverPhoto.altText,
-      }
-    }
+          url: result.coverPhoto.url,
+          alt: result.coverPhoto.altText,
+        },
+      };
     });
-    return {...searchResult, results };
+    return { ...searchResult, results };
   };
 
   return (

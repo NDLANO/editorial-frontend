@@ -44,7 +44,7 @@ interface Props extends RouteComponentProps {
 
 export interface SearchState extends Record<string, string | boolean | undefined> {
   subjects: string;
-  resourceTypes?: string;
+  resourceTypes: string;
   status: string;
   includeOtherStatuses: boolean;
   query: string;

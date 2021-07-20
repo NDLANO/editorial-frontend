@@ -13,7 +13,7 @@ import { spacing, colors } from '@ndla/core';
 
 interface Props {
   on: boolean;
-  onClick: (event: React.ChangeEvent) => void;
+  onClick: () => void;
   testId?: string;
   large?: boolean;
   labelOff?: string;
@@ -35,47 +35,47 @@ interface SliderProps {
 }
 
 const StyledSlider = styled.span`
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 22px;
-  background-color: white;
-  border: 0.63px solid #a9a9a9;
-  transition: 0.4s;
-  border-radius: 10px;
+   position: absolute;
+   cursor: pointer;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   height: 22px;
+   background-color: white;
+   border: 0.63px solid #a9a9a9;
+   transition: 0.4s;
+   border-radius: 10px;
+ 
+   ${(props: SliderProps) =>
+     props.large &&
+     css`
+       height: 26px;
+       border-radius: 13px;
 
-  ${(props: SliderProps) =>
-    props.large &&
-    css`
-      height: 26px;
-      border-radius: 13px;
-
-      &::before {
-        height: 26px;
-        width: 26px;
-      }
-    `}
-
-  &::before {
-    position: absolute;
-    content: '${(props: SliderProps) => props.labelOff}';
-    left: -3px;
-    top: -0.63px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 22px;
-    width: 22px;
-    background-color: ${colors.brand.grey};
-    color: black;
-    transition: 0.4s;
-    border-radius: 50%;
-    font-size: 0.8rem;
-  }
-`;
+       &::before {
+         height: 26px;
+         width: 26px;
+       }
+     `}
+ 
+   &::before {
+     position: absolute;
+     content: '${(props: SliderProps) => props.labelOff}';
+     left: -3px;
+     top: -0.63px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 22px;
+     width: 22px;
+     background-color: ${colors.brand.grey};
+     color: black;
+     transition: 0.4s;
+     border-radius: 50%;
+     font-size: 0.8rem;
+   }
+ `;
 
 interface LabelProps {
   large?: boolean;
@@ -83,30 +83,30 @@ interface LabelProps {
 }
 
 const StyledLabel = styled.label`
-  position: relative;
-  display: inline-block;
-  width: 37px;
-  height: 22px;
-
-  ${(props: LabelProps) =>
-    props.large &&
-    css`
-      margin: 0 ${spacing.normal};
-      height: 26px;
-      width: 40px;
-    `}
-
-  & input {
-    display: none;
-  }
-
-  & > input:checked + ${StyledSlider.name}::before {
-    transform: translateX(20px);
-    background-color: #507aa4;
-    color: white;
-    content: '${(props: LabelProps) => props.labelOn}';
-    border: 0.91px solid #446b92;
-  }
-`;
+   position: relative;
+   display: inline-block;
+   width: 37px;
+   height: 22px;
+ 
+   ${(props: LabelProps) =>
+     props.large &&
+     css`
+       margin: 0 ${spacing.normal};
+       height: 26px;
+       width: 40px;
+     `}
+ 
+   & input {
+     display: none;
+   }
+ 
+   & > input:checked + ${StyledSlider}::before {
+     transform: translateX(20px);
+     background-color: #507aa4;
+     color: white;
+     content: '${(props: LabelProps) => props.labelOn}';
+     border: 0.91px solid #446b92;
+   }
+ `;
 
 export default ToggleSwitch;

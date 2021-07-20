@@ -19,7 +19,7 @@ import headingPlugin from '../../../../components/SlateEditor/plugins/heading';
 import createNoEmbedsPlugin from '../../../../components/SlateEditor/plugins/noEmbed';
 import VisualElementField from '../../../FormikForm/components/VisualElementField';
 import { schema } from '../../../../components/SlateEditor/editorSchema';
-import LastUpdatedLine from './../../../../components/LastUpdatedLine';
+import LastUpdatedLine from './../../../../components/LastUpdatedLine/LastUpdatedLine';
 import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import {

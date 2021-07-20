@@ -12,13 +12,19 @@ import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import formatDate from '../../util/formatDate';
 
-import { Creators } from './types';
 import DateEdit from './DateEdit';
 
 const infoCss = css`
   color: ${colors.text.light};
   line-height: 1.4rem;
 `;
+
+interface Creator {
+  name: string;
+  type: string;
+}
+
+type Creators = Creator[];
 
 interface Props {
   creators: Creators;

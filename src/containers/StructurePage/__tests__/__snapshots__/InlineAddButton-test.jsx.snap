@@ -132,6 +132,6 @@ exports[`Goes to edit mode, handles input and calls action prop 3`] = `
   class="emotion-0"
   data-testid="addSubjectInputField"
   type="text"
-  value=""
+  value="Elefant"
 />
 `;

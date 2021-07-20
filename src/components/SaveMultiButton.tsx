@@ -27,7 +27,7 @@ const checkStyle = css`
 interface Props {
   isSaving: boolean;
   showSaved: boolean;
-  formIsDirty: boolean;
+  formIsDirty?: boolean;
   large: boolean;
   disabled: boolean;
   onClick: (saveAsNew: boolean) => void;
@@ -39,7 +39,7 @@ const SaveMultiButton = ({
   isSaving,
   showSaved,
   t,
-  formIsDirty,
+  formIsDirty = true,
   large,
   disabled,
   onClick,
@@ -88,10 +88,6 @@ const SaveMultiButton = ({
       </Wrapper>
     </>
   );
-};
-
-SaveMultiButton.defaultProps = {
-  formIsDirty: true,
 };
 
 export default injectT(SaveMultiButton);

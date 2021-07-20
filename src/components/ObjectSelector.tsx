@@ -44,6 +44,7 @@ const ObjectSelector = ({
       value={value}
       disabled={disabled}
       name={name}
+      className={className}
       onClick={onClick}>
       {emptyField ? <option value="">{placeholder}</option> : ''}
       {options.map(option => (

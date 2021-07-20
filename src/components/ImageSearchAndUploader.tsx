@@ -94,14 +94,4 @@ const ImageSearchAndUploader = ({
   );
 };
 
-// ImageSearchAndUploader.propTypes = {
-//   onImageSelect: PropTypes.func.isRequired,
-//   locale: PropTypes.string.isRequired,
-//   isSavingImage: PropTypes.bool,
-//   closeModal: PropTypes.func,
-//   onError: PropTypes.func.isRequired,
-//   searchImages: PropTypes.func.isRequired,
-//   fetchImage: PropTypes.func.isRequired,
-// };
-
 export default injectT(ImageSearchAndUploader);

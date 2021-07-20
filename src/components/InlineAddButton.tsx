@@ -98,7 +98,7 @@ export class InlineAddButton extends PureComponent<Props & tType, State> {
       prevState => {
         return prevState.inputValue.trim() === ''
           ? { inputValue: '', status: 'initial' }
-          : { status: 'loading', inputValue: '' };
+          : { status: 'loading', inputValue: prevState.inputValue };
       },
       async () => {
         const { inputValue, status } = this.state;
@@ -175,10 +175,5 @@ export class InlineAddButton extends PureComponent<Props & tType, State> {
     );
   }
 }
-
-// InlineAddButton.propTypes = {
-//   title: PropTypes.string.isRequired,
-//   action: PropTypes.func,
-// };
 
 export default injectT(InlineAddButton);

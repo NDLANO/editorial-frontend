@@ -28,7 +28,7 @@ export const isEmpty = (value: null | undefined | object | string | Value) => {
   if (Object.keys(value).length === 0 && value.constructor === Object) {
     return true;
   }
-  if (value && value instanceof Value && value.document) {
+  if (value instanceof Value && value.document) {
     return value.document.text.length === 0;
   }
   return false;

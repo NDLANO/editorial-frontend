@@ -60,10 +60,4 @@ const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }: Props) => 
   );
 };
 
-// MakeDndList.propTypes = {
-//   disableDnd: PropTypes.bool,
-//   onDragEnd: PropTypes.func,
-//   dragHandle: PropTypes.bool,
-// };
-
 export default MakeDndList;

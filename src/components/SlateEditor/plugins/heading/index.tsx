@@ -20,7 +20,7 @@ export const TYPE_HEADING = 'heading';
 
 export interface HeadingElement {
   type: 'heading';
-  level: 1 | 2 | 3 | 4 | 5 | 6;
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
   children: Descendant[];
 }
 
@@ -49,7 +49,7 @@ export const headingSerializer: SlateSerializer = {
   serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_HEADING) {
-      return React.createElement('h' + node.level, [], [children]);
+      return React.createElement('h' + node.level || '2', [], [children]);
     }
   },
 };

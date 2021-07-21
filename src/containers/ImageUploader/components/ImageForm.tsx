@@ -22,7 +22,7 @@ import {
   AlertModalWrapper,
 } from '../../FormikForm';
 import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import { NewImageMetadata, UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
 

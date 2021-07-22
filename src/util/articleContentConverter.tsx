@@ -36,6 +36,7 @@ import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
 import { defaultEmbedBlock } from '../components/SlateEditor/plugins/embed/utils';
 import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
 import { Embed } from '../interfaces';
+import { defaultVisualElementPickerBlock } from '../components/SlateEditor/plugins/visualElementPicker';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -280,12 +281,12 @@ export function editorValueToPlainText(editorValue: Descendant[]) {
 }
 
 export function embedToEditorValue(embed?: Embed) {
-  return embed ? [defaultEmbedBlock(embed) as EmbedElement] : [];
+  return embed ? [defaultEmbedBlock(embed)] : [];
 }
 
 export function embedTagToEditorValue(embedTag: string) {
   const embed = parseEmbedTag(embedTag);
-  return embed ? embedToEditorValue(embed) : [];
+  return embed ? embedToEditorValue(embed) : [defaultVisualElementPickerBlock()];
 }
 
 export function editorValueToEmbed(editorValue: EmbedElement[]) {

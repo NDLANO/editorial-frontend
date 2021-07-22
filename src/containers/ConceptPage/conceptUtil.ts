@@ -8,6 +8,7 @@
 
 import { FormikContextType } from 'formik';
 import isEmpty from 'lodash/fp/isEmpty';
+import { PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { SubjectType, License, ConceptType } from '../../interfaces';
 import {
   plainTextToEditorValue,

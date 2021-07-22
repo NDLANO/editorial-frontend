@@ -1,6 +1,6 @@
 import { Editor, Element, NodeEntry, Node, Transforms, Text, Path } from 'slate';
 import { jsx } from 'slate-hyperscript';
-import { TYPE_PARAGRAPH } from '../plugins/paragraph/utils';
+import { defaultParagraphBlock, TYPE_PARAGRAPH } from '../plugins/paragraph/utils';
 
 export const firstTextBlockElement: Element['type'][] = ['paragraph', 'heading', 'quote'];
 
@@ -107,12 +107,18 @@ export const addSurroundingParagraphs = (editor: Editor, path: Path) => {
   if (Editor.hasPath(editor, nextPath)) {
     const [nextNode] = Editor.node(editor, nextPath);
     if (!Element.isElement(nextNode) || !afterOrBeforeTextBlockElement.includes(nextNode.type)) {
-      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+      Transforms.insertNodes(editor, defaultParagraphBlock(), {
         at: nextPath,
       });
 
       return true;
     }
+  } else {
+    Transforms.insertNodes(editor, defaultParagraphBlock(), {
+      at: nextPath,
+    });
+
+    return true;
   }
 
   if (Path.hasPrevious(path)) {

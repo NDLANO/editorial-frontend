@@ -10,10 +10,10 @@ import { Editor, Element } from 'slate';
 
 const getCurrentBlock = (editor: Editor, type: Element['type']) => {
   const [match] = Editor.nodes(editor, {
-    match: n => !Editor.isEditor(n) && Element.isElement(n) && n.type === type,
+    match: n => Element.isElement(n) && n.type === type,
     mode: 'lowest',
   });
-  return match;
+  return match || [];
 };
 
 export default getCurrentBlock;

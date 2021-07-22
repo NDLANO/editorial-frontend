@@ -20,6 +20,7 @@ import { markSerializer } from '../components/SlateEditor/plugins/mark';
 import { linkSerializer } from '../components/SlateEditor/plugins/link';
 import { blockQuoteSerializer } from '../components/SlateEditor/plugins/blockquote';
 import { headingSerializer } from '../components/SlateEditor/plugins/heading';
+import { listSerializer } from '../components/SlateEditor/plugins/list';
 import { footnoteSerializer } from '../components/SlateEditor/plugins/footnote';
 import { mathmlSerializer } from '../components/SlateEditor/plugins/mathml';
 import { conceptSerializer } from '../components/SlateEditor/plugins/concept';
@@ -72,6 +73,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
     linkSerializer,
     blockQuoteSerializer,
     headingSerializer,
+    listSerializer,
     footnoteSerializer,
     mathmlSerializer,
     conceptSerializer,
@@ -139,6 +141,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
     linkSerializer,
     blockQuoteSerializer,
     headingSerializer,
+    listSerializer,
     footnoteSerializer,
     mathmlSerializer,
     conceptSerializer,

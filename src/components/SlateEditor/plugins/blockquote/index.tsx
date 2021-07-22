@@ -42,7 +42,7 @@ const onEnter = (
   editor: Editor,
   nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
 ) => {
-  const [quoteNode, quotePath] = getCurrentBlock(editor, TYPE_QUOTE) || [];
+  const [quoteNode, quotePath] = getCurrentBlock(editor, TYPE_QUOTE);
 
   if (!quoteNode || !(editor.selection && editor.selection)) {
     if (nextOnKeyDown) {

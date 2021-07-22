@@ -1,7 +1,6 @@
 import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange } from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
-import React from 'react';
 import { BlockQuoteElement } from './plugins/blockquote';
 import { BreakElement } from './plugins/break';
 import { FootnoteElement } from './plugins/footnote';
@@ -31,7 +30,7 @@ export interface SlateSerializer {
 }
 
 export type CustomEditor = {
-  onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
+  onKeyDown?: (event: KeyboardEvent) => void;
   renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
   renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
   removeSection?: () => void;

@@ -8,7 +8,7 @@
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, FocusEvent, KeyboardEventHandler } from 'react';
 import { createEditor, Descendant, Editor, NodeEntry } from 'slate';
 import {
   Slate,
@@ -60,7 +60,7 @@ interface SlateEditorProps {
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
   handleSubmit: () => void;
   onChange: Function;
-  onBlur: (event: React.FocusEvent<HTMLDivElement>, editor: Editor) => void;
+  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
   children: any;
 }
 
@@ -164,8 +164,8 @@ const RichTextEditor = ({
             />
             <Editable
               decorate={entry => decorations(entry)}
-              onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
-              onKeyDown={editor.onKeyDown}
+              onBlur={(event: FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
+              onKeyDown={(editor.onKeyDown as unknown) as KeyboardEventHandler<HTMLDivElement>}
               placeholder={placeholder}
               renderElement={renderElement}
               renderLeaf={renderLeaf}

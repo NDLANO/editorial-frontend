@@ -17,12 +17,17 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import { SlateAudio as Audio, Embed, FormikInputEvent, LocaleType } from '../../../../interfaces';
+import {
+  SlateAudio as Audio,
+  FormikInputEvent,
+  LocaleType,
+  AudioEmbed,
+} from '../../../../interfaces';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
   changes: { [x: string]: string };
-  embed: Embed;
+  embed: AudioEmbed;
   language: string;
   locale: LocaleType;
   onRemoveClick: Function;

@@ -69,12 +69,12 @@ export const reduceChildElements = (el: HTMLElement, type: string) => {
   return { nodes: childs };
 };
 
-export const createDataProps = obj =>
+export const createDataProps = (obj: Dictionary<string>) =>
   Object.keys(obj)
     .filter(key => obj[key] !== undefined && !isObject(obj[key]))
     .reduce((acc, key) => ({ ...acc, [`data-${key}`]: obj[key] }), {});
 
-export const createProps = obj =>
+export const createProps = (obj: Dictionary<string>) =>
   Object.keys(obj)
     .filter(key => obj[key] !== undefined && !isObject(obj[key]))
     .reduce((acc, key) => ({ ...acc, [key]: obj[key] }), {});
@@ -108,7 +108,7 @@ export const createEmbedTag = (data: { [key: string]: any }) => {
   return <embed {...props}></embed>;
 };
 
-export const isUserProvidedEmbedDataValid = embed => {
+export const isUserProvidedEmbedDataValid = (embed: Embed) => {
   if (embed.resource === 'image') {
     return !isEmpty(embed.alt);
   }

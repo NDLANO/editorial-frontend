@@ -9,10 +9,10 @@
 import { Node, Element, Descendant, Editor, Text, Transforms, Range } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
-import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
+import React from 'react';
 import { SlateSerializer } from '../../interfaces';
 
-const TYPE_SECTION = 'section';
+export const TYPE_SECTION = 'section';
 const KEY_BACKSPACE = 'Backspace';
 
 export interface SectionElement {
@@ -41,9 +41,9 @@ export const sectionSerializer: SlateSerializer = {
 };
 
 const onBackspace = (
-  e: KeyboardEvent<HTMLDivElement>,
+  e: KeyboardEvent,
   editor: Editor,
-  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+  nextOnKeyDown?: (event: KeyboardEvent) => void,
 ) => {
   if (editor.selection) {
     // Find the closest ancestor <section>-element
@@ -86,7 +86,7 @@ export const sectionPlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_BACKSPACE) {
       onBackspace(e, editor, nextOnKeyDown);
     } else if (nextOnKeyDown) {

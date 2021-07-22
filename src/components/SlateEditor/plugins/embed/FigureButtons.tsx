@@ -103,7 +103,7 @@ const FigureButtons = ({
 
   return (
     <StyledFigureButtons
-      align={embed.align}
+      align={'align' in embed ? embed.align : ''}
       theme={{}}
       withMargin={withMargin}
       contentEditable={false}>
@@ -117,7 +117,7 @@ const FigureButtons = ({
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      {(figureType === 'image' || figureType === 'audio' || figureType === 'podcast') && (
+      {(embed.resource === 'image' || embed.resource === 'audio') && (
         <Tooltip tooltip={url[figureType].editTitle} align="right">
           <IconButton
             as={Link}
@@ -129,7 +129,7 @@ const FigureButtons = ({
           </IconButton>
         </Tooltip>
       )}
-      {figureType === 'external' && onEdit && (
+      {embed.resource === 'external' && onEdit && (
         <Tooltip
           tooltip={t('form.external.edit', {
             type: providerName || t('form.external.title'),
@@ -140,7 +140,7 @@ const FigureButtons = ({
           </IconButton>
         </Tooltip>
       )}
-      {figureType === 'video' && embed.resource === 'brightcove' && (
+      {embed.resource === 'brightcove' && (
         <Tooltip tooltip={t('form.video.brightcove')} align="right">
           <IconButton
             as={SafeLink}

@@ -1,4 +1,4 @@
-import { ArticleType, SubjectpageApiType, SubjectpageEditType, Embed } from '../interfaces';
+import { ArticleType, SubjectpageApiType, SubjectpageEditType, ImageEmbed } from '../interfaces';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
@@ -9,7 +9,7 @@ export const transformSubjectpageFromApiVersion = (
   elementId: string,
   selectedLanguage: string,
   editorsChoices: ArticleType[],
-  banner: Embed,
+  banner: ImageEmbed,
 ) => {
   const visualElementVideoId = subjectpage.about.visualElement.url.split('videoId=')?.[1];
   const visualElementImageId = subjectpage.about.visualElement.url.split('/').pop();
@@ -25,16 +25,19 @@ export const transformSubjectpageFromApiVersion = (
     name: subjectpage.name,
     description: subjectpage.about.description,
     title: subjectpage.about.title,
-    visualElement: {
-      url: subjectpage.about.visualElement?.url,
-      resource: subjectpage.about.visualElement?.type,
-      resource_id: visualElementImageId || '',
-      videoid: visualElementVideoId || '',
-      ...(visualElementVideoId
-        ? { caption: subjectpage.about.visualElement.alt }
-        : { alt: subjectpage.about.visualElement.alt }),
-      alt: subjectpage.about.visualElement.alt,
-    },
+    visualElement:
+      subjectpage.about.visualElement?.type === 'image'
+        ? {
+            url: subjectpage.about.visualElement?.url,
+            resource: 'image',
+            resource_id: visualElementImageId || '',
+            alt: subjectpage.about.visualElement.alt,
+          }
+        : {
+            resource: 'brightcove',
+            videoid: visualElementVideoId || '',
+            ...(visualElementVideoId && { caption: subjectpage.about.visualElement.alt }),
+          },
     metaDescription: subjectpage.metaDescription,
     topical: subjectpage.topical,
     mostRead: subjectpage.mostRead,
@@ -74,7 +77,10 @@ export const transformSubjectpageToApiVersion = (
         visualElement: {
           type: subjectpage.visualElement?.resource,
           id: id,
-          alt: subjectpage.visualElement?.alt || subjectpage.visualElement?.caption,
+          alt:
+            subjectpage.visualElement?.resource === 'image'
+              ? subjectpage.visualElement?.alt
+              : subjectpage.visualElement?.caption,
         },
       },
     ],

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
+import React from 'react';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'slate';
@@ -55,9 +55,9 @@ export const headingSerializer: SlateSerializer = {
 };
 
 const onEnter = (
-  e: KeyboardEvent<HTMLDivElement>,
+  e: KeyboardEvent,
   editor: Editor,
-  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+  nextOnKeyDown?: (event: KeyboardEvent) => void,
 ) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     e.preventDefault();
@@ -68,9 +68,9 @@ const onEnter = (
 };
 
 const onBackspace = (
-  e: KeyboardEvent<HTMLDivElement>,
+  e: KeyboardEvent,
   editor: Editor,
-  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+  nextOnKeyDown?: (event: KeyboardEvent) => void,
 ) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     if (Range.isRange(editor.selection)) {
@@ -164,7 +164,7 @@ export const headingPlugin = (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_ENTER) {
       onEnter(e, editor, nextOnKeyDown);
     } else if (e.key === KEY_BACKSPACE) {

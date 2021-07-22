@@ -7,7 +7,6 @@
  */
 
 import { Editor } from 'slate';
-import { KeyboardEvent } from 'react';
 import { insertLink } from '../link/utils';
 import toggleBlock from '../../utils/toggleBlock';
 import { toggleHeading } from '../heading/utils';
@@ -17,11 +16,7 @@ import { insertFootnote } from '../footnote/utils';
 import { insertMathml } from '../mathml/utils';
 import { insertConcept } from '../concept/utils';
 
-export function handleClickBlock(
-  event: KeyboardEvent<HTMLDivElement>,
-  editor: Editor,
-  type: string,
-) {
+export function handleClickBlock(event: KeyboardEvent, editor: Editor, type: string) {
   event.preventDefault();
   if (type === 'quote') {
     toggleBlock(editor, type);
@@ -34,11 +29,7 @@ export function handleClickBlock(
   }
 }
 
-export function handleClickInline(
-  event: KeyboardEvent<HTMLDivElement>,
-  editor: Editor,
-  type: string,
-) {
+export function handleClickInline(event: KeyboardEvent, editor: Editor, type: string) {
   if (editor.selection) {
     event.preventDefault();
     if (type === 'link') {

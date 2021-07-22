@@ -6,7 +6,7 @@
  *
  */
 
-import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
+import React from 'react';
 import { Element, Descendant, Editor, Path, Transforms, Node, Text, Range, Location } from 'slate';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
@@ -36,9 +36,9 @@ export interface SummaryElement {
 }
 
 const onEnter = (
-  e: KeyboardEvent<HTMLDivElement>,
+  e: KeyboardEvent,
   editor: Editor,
-  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+  nextOnKeyDown?: (event: KeyboardEvent) => void,
 ) => {
   if (hasNodeOfType(editor, TYPE_SUMMARY)) {
     e.preventDefault();
@@ -52,9 +52,9 @@ const onEnter = (
 };
 
 const onBackspace = (
-  e: KeyboardEvent<HTMLDivElement>,
+  e: KeyboardEvent,
   editor: Editor,
-  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+  nextOnKeyDown?: (event: KeyboardEvent) => void,
 ) => {
   if (
     hasNodeOfType(editor, TYPE_DETAILS) &&

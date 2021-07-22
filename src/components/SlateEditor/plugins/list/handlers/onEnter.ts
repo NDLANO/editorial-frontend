@@ -56,9 +56,8 @@ const onEnter = (
   // Split current listItem at selection.
   Editor.withoutNormalizing(editor, () => {
     Transforms.splitNodes(editor, { always: true });
-    const newPath = Path.next(currentParagraphPath);
-    Transforms.wrapNodes(editor, defaultListItemBlock(), { at: newPath });
-    Transforms.liftNodes(editor, { at: newPath });
+    Transforms.wrapNodes(editor, defaultListItemBlock(), { at: currentParagraphPath });
+    Transforms.liftNodes(editor, { at: currentParagraphPath });
   });
 };
 

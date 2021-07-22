@@ -24,7 +24,7 @@ import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
-// import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
+import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concept';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
@@ -66,6 +66,7 @@ const createPlugins = (language, handleSubmitRef) => {
   // Plugins are checked from last to first
   return [
     sectionPlugin,
+    paragraphPlugin,
     noEmbedPlugin,
     linkPlugin(language),
     headingPlugin,
@@ -73,9 +74,8 @@ const createPlugins = (language, handleSubmitRef) => {
     // Blockquote and editList actions need to be triggered before paragraph action, else
     // unwrapping (jumping out of block) will not work.
     blockQuotePlugin,
-    // listPlugin,
+    listPlugin,
     conceptPlugin(language),
-    paragraphPlugin,
     mathmlPlugin,
     markPlugin,
     toolbarPlugin,

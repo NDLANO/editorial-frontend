@@ -19,6 +19,7 @@ import { markSerializer } from '../components/SlateEditor/plugins/mark';
 import { linkSerializer } from '../components/SlateEditor/plugins/link';
 import { blockQuoteSerializer } from '../components/SlateEditor/plugins/blockquote';
 import { headingSerializer } from '../components/SlateEditor/plugins/heading';
+import { listSerializer } from '../components/SlateEditor/plugins/list';
 import { footnoteSerializer } from '../components/SlateEditor/plugins/footnote';
 import { mathmlSerializer } from '../components/SlateEditor/plugins/mathml';
 import { conceptSerializer } from '../components/SlateEditor/plugins/concept';
@@ -68,6 +69,7 @@ const learningResourceRules: SlateSerializer[] = [
   linkSerializer,
   blockQuoteSerializer,
   headingSerializer,
+  listSerializer,
   footnoteSerializer,
   mathmlSerializer,
   conceptSerializer,
@@ -90,6 +92,7 @@ const topicArticleRules: SlateSerializer[] = [
   linkSerializer,
   blockQuoteSerializer,
   headingSerializer,
+  listSerializer,
   footnoteSerializer,
   mathmlSerializer,
   conceptSerializer,
@@ -261,7 +264,6 @@ export function topicArticleContentToHTML(value: Descendant[]) {
     })
     .join('');
 
-  console.log(elements);
   return elements.replace(/<deleteme><\/deleteme>/g, '');
 }
 

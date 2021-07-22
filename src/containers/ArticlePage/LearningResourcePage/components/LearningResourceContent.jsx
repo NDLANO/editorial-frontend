@@ -31,7 +31,6 @@ import { bodyboxPlugin } from '../../../../components/SlateEditor/plugins/bodybo
 import { asidePlugin } from '../../../../components/SlateEditor/plugins/aside';
 import { detailsPlugin } from '../../../../components/SlateEditor/plugins/details';
 import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
-import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
 import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import { blockPickerPlugin } from '../../../../components/SlateEditor/plugins/blockPicker';
 import { relatedPlugin } from '../../../../components/SlateEditor/plugins/related';
@@ -40,14 +39,9 @@ import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concep
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
-import dndPlugin from '../../../../components/SlateEditor/plugins/DND';
 import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 
-import {
-  editListPlugin,
-  editTablePlugin,
-} from '../../../../components/SlateEditor/plugins/externalPlugins';
 import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import { IngressField, TitleField } from '../../../FormikForm';
@@ -59,6 +53,7 @@ import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHot
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
+import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 
 const byLineStyle = css`
   display: flex;
@@ -116,8 +111,6 @@ const LearningResourceContent = ({
     // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
     // // Blockquote and editList actions need to be triggered before paragraph action, else
     // // unwrapping (jumping out of block) will not work.
-    // editListPlugin,
-    // listTextPlugin(),
     tablePlugin,
     // editTablePlugin,
     relatedPlugin,
@@ -132,6 +125,7 @@ const LearningResourceContent = ({
     breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current()),
     markPlugin,
+    listPlugin,
   ];
 
   React.useEffect(() => {

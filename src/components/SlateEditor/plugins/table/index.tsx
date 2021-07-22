@@ -8,7 +8,6 @@
  */
 
 import React from 'react';
-import { Dictionary } from 'lodash';
 import { Descendant, Editor, Element, NodeEntry, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
@@ -29,8 +28,8 @@ import {
   TYPE_TABLE_ROW,
 } from './utils';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { defaultParagraphBlock, TYPE_PARAGRAPH } from '../paragraph/utils';
+import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -208,38 +207,9 @@ export const tablePlugin = (editor: Editor) => {
             );
           }
         });
-        const nextPath = Path.next(path);
 
-        if (Editor.hasPath(editor, nextPath)) {
-          const [nextNode] = Editor.node(editor, nextPath);
-          if (
-            !Element.isElement(nextNode) ||
-            !afterOrBeforeTextBlockElement.includes(nextNode.type)
-          ) {
-            Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
-              at: nextPath,
-            });
-
-            return;
-          }
-        }
-
-        if (Path.hasPrevious(path)) {
-          const previousPath = Path.previous(path);
-
-          if (Editor.hasPath(editor, previousPath)) {
-            const [previousNode] = Editor.node(editor, previousPath);
-            if (
-              !Element.isElement(previousNode) ||
-              !afterOrBeforeTextBlockElement.includes(previousNode.type)
-            ) {
-              Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
-                at: path,
-              });
-
-              return;
-            }
-          }
+        if (addSurroundingParagraphs(editor, path)) {
+          return;
         }
       } else if (node.type === TYPE_TABLE_CELL) {
         if (!Element.isElementList(node.children)) {
@@ -262,14 +232,16 @@ export const tablePlugin = (editor: Editor) => {
 
   editor.onKeyDown = event => {
     if (validKeys.includes(event.key)) {
-      const currentTable = getCurrentBlock(editor, TYPE_TABLE);
+      const [tableNode, tablePath] = getCurrentBlock(editor, TYPE_TABLE);
       if (
-        currentTable &&
+        tableNode &&
         editor.selection &&
-        Path.isDescendant(editor.selection.anchor.path, currentTable[1])
+        Path.isDescendant(editor.selection.anchor.path, tablePath)
       ) {
-        if (currentTable) {
-          return handleTableKeydown(event, editor, currentTable as NodeEntry<TableElement>);
+        if (tableNode) {
+          return handleTableKeydown(event, editor, [tableNode, tablePath] as NodeEntry<
+            TableElement
+          >);
         }
       }
     }

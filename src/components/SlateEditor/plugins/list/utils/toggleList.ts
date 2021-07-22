@@ -2,27 +2,22 @@ import { Editor, Transforms, Element, Range, Path } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
 import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
-import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { defaultListBlock, defaultListItemBlock } from './defaultBlocks';
 import { isListItemSelected } from './isListItemSelected';
 import { isSelectionOnlyOfType } from './isSelectionOnlyOfType';
+import hasListItem from './hasListItem';
 
 export const toggleList = (editor: Editor, type: string) => {
   const listType = type ? type : 'numbered-list';
 
   const isIdentical = isSelectionOnlyOfType(editor, listType);
 
-  const isList = hasNodeOfType(editor, TYPE_LIST);
   if (!Range.isRange(editor.selection)) {
     return;
   }
 
   // If all selected list items are of type input by user, unwrap all of them by lifting them out.
   if (isIdentical) {
-    if (!Range.isRange(editor.selection)) {
-      return;
-    }
-
     // List normalizer removes empty list blocks afterwards.
     return Transforms.liftNodes(editor, {
       match: node =>
@@ -30,7 +25,7 @@ export const toggleList = (editor: Editor, type: string) => {
       mode: 'all',
     });
     // Selected list items are of mixed type.
-  } else if (isList) {
+  } else if (hasListItem(editor)) {
     // Mark list items for change. The actual change happens in list normalizer.
     Transforms.setNodes(
       editor,

@@ -15,7 +15,7 @@ import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
 interface Props {
   handleSubmit: () => void;
-  onBlur: (event: Event, editor: Editor, next: Function) => void;
+  onBlur: (event: React.FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
 const SubjectpageAbout = ({ t, handleSubmit, onBlur }: Props & tType) => {

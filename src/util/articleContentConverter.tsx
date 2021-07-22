@@ -313,6 +313,10 @@ export function editorValueToEmbed(editorValue: EmbedElement[]) {
 }
 
 export function editorValueToEmbedTag(editorValue: EmbedElement[]) {
-  const embed = createEmbedTag(editorValueToEmbed(editorValue));
-  return embed ? renderToStaticMarkup(embed) : '';
+  const embed = editorValueToEmbed(editorValue);
+  if (embed) {
+    const embedTag = createEmbedTag(embed);
+    return embedTag ? renderToStaticMarkup(embedTag) : '';
+  }
+  return '';
 }

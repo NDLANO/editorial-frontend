@@ -1,4 +1,4 @@
-import { Editor, Descendant, BaseEditor } from 'slate';
+import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange } from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import React from 'react';
@@ -10,6 +10,7 @@ import { ContentLinkElement, LinkElement } from './plugins/link';
 import { CustomTextWithMarks } from './plugins/mark';
 import { ParagraphElement } from './plugins/paragraph';
 import { SectionElement } from './plugins/section';
+import { ListElement, ListItemElement } from './plugins/list';
 import { MathmlElement } from './plugins/mathml';
 import { ConceptElement } from './plugins/concept';
 import { AsideElement } from './plugins/aside';
@@ -34,6 +35,7 @@ export type CustomEditor = {
   renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
   removeSection?: () => void;
   shouldShowToolbar: () => boolean;
+  decorations?: (editor: Editor, entry: NodeEntry) => BaseRange[];
 };
 
 declare module 'slate' {
@@ -47,6 +49,8 @@ declare module 'slate' {
       | ContentLinkElement
       | BlockQuoteElement
       | HeadingElement
+      | ListElement
+      | ListItemElement
       | FootnoteElement
       | MathmlElement
       | ConceptElement

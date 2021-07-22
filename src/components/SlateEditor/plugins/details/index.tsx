@@ -8,7 +8,7 @@
 
 import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { Element, Descendant, Editor, Path, Transforms, Node, Text, Range, Location } from 'slate';
-import { RenderElementProps } from 'slate-react';
+import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import Details from './Details';
@@ -152,6 +152,34 @@ export const detailsPlugin = (editor: Editor) => {
       return nextRenderElement({ attributes, children, element });
     }
   };
+
+  editor.renderLeaf = (props: RenderLeafProps) => {
+    const { attributes, children, leaf, text } = props;
+    const path = ReactEditor.findPath(editor, text);
+
+    const [parent] = Editor.node(editor, Path.parent(path));
+    if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(leaf) === '') {
+      return (
+        <span style={{ position: 'relative' }}>
+          <span {...attributes}>{children}</span>
+          <span
+            style={{
+              position: 'absolute',
+              top: 0,
+              opacity: 0.3,
+              pointerEvents: 'none',
+              userSelect: 'none',
+              display: 'inline-block',
+            }}
+            contentEditable={false}>
+            Tittel
+          </span>
+        </span>
+      );
+    }
+    return;
+  };
+
   editor.normalizeNode = entry => {
     const [node, path] = entry;
 

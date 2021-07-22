@@ -7,10 +7,9 @@
  */
 import escapeHtml from 'escape-html';
 import React from 'react';
-import { Descendant, Element, Node, Text } from 'slate';
+import { Descendant, Node, Text } from 'slate';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Plain } from './slatePlainSerializer';
-import { topicArticeRules } from './slateHelpers';
 import { convertFromHTML } from './convertFromHTML';
 import { sectionSerializer } from '../components/SlateEditor/plugins/section';
 import { paragraphSerializer } from '../components/SlateEditor/plugins/paragraph';
@@ -314,6 +313,6 @@ export function editorValueToEmbed(editorValue: EmbedElement[]) {
 }
 
 export function editorValueToEmbedTag(editorValue: EmbedElement[]) {
-  const embed = editorValueToEmbed(editorValue);
-  return embed ? createEmbedTag(embed) : '';
+  const embed = createEmbedTag(editorValueToEmbed(editorValue));
+  return embed ? renderToStaticMarkup(embed) : '';
 }

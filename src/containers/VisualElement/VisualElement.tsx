@@ -33,7 +33,7 @@ const VisualElement = ({
   resetSelectedResource,
 }: Props) => {
   const plugins = useMemo(() => {
-    return [embedPlugin(language)];
+    return [embedPlugin(language, undefined, true)];
   }, [language]);
 
   return (

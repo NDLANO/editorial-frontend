@@ -29,7 +29,7 @@ interface Props {
   resetSelectedResource: () => void;
 }
 
-//TODO: Move to util
+// TODO: Move to util
 const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
   if (plugins) {
     return plugins.reduce((editor, plugin) => plugin(editor), editor);
@@ -78,7 +78,12 @@ const VisualElementEditor = ({
           });
         }}>
         {value.length ? (
-          <Editable renderElement={renderElement} />
+          <Editable
+            renderElement={renderElement}
+            onDragStart={e => {
+              e.stopPropagation();
+            }}
+          />
         ) : (
           <VisualElementPicker
             editor={editor}

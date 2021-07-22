@@ -100,7 +100,6 @@ export const createEmbedTag = (data: { [key: string]: any }) => {
   if (Object.keys(data).length === 0) {
     return undefined;
   }
-  const embed = document.createElement('embed');
   const props: Dictionary<string> = {};
   Object.keys(data)
     .filter(key => data[key] !== undefined && !isObject(data[key]))

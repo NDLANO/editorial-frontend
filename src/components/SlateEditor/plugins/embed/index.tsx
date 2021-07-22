@@ -36,7 +36,9 @@ export const embedSerializer: SlateSerializer = {
   },
 };
 
-export const embedPlugin = (language: string, locale?: LocaleType) => (editor: Editor) => {
+export const embedPlugin = (language: string, locale?: LocaleType, disableNormalize?: boolean) => (
+  editor: Editor,
+) => {
   const {
     renderElement: nextRenderElement,
     normalizeNode: nextNormalizeNode,
@@ -65,10 +67,11 @@ export const embedPlugin = (language: string, locale?: LocaleType) => (editor: E
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_EMBED) {
-      addSurroundingParagraphs(editor, path);
-    } else {
-      nextNormalizeNode(entry);
+      if (!disableNormalize && addSurroundingParagraphs(editor, path)) {
+        return;
+      }
     }
+    nextNormalizeNode(entry);
   };
 
   editor.isVoid = (element: Element) => {

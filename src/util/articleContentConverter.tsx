@@ -26,12 +26,16 @@ import { conceptSerializer } from '../components/SlateEditor/plugins/concept';
 import { asideSerializer } from '../components/SlateEditor/plugins/aside';
 import { fileSerializer } from '../components/SlateEditor/plugins/file';
 import { detailsSerializer } from '../components/SlateEditor/plugins/details';
+import { EmbedElement } from '../components/SlateEditor/plugins/embed';
+import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
 import { tableSerializer } from '../components/SlateEditor/plugins/table';
 import { relatedSerializer } from '../components/SlateEditor/plugins/related';
 import { embedSerializer } from '../components/SlateEditor/plugins/embed';
-import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
 import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock';
 import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
+import { defaultEmbedBlock } from '../components/SlateEditor/plugins/embed/utils';
+import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
+import { Embed } from '../interfaces';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -233,7 +237,7 @@ export function topicArticleContentToEditorValue(html: string) {
 
 export function topicArticleContentToHTML(value: Descendant[]) {
   const serialize = (node: Descendant): JSX.Element | null => {
-    let children;
+    let children: (JSX.Element | null)[];
     if (Text.isText(node)) {
       children = [escapeHtml(node.text)];
     } else {
@@ -273,4 +277,26 @@ export function plainTextToEditorValue(text: string): Descendant[] {
 
 export function editorValueToPlainText(editorValue: Descendant[]) {
   return editorValue ? Plain.serialize(editorValue) : '';
+}
+
+export function embedToEditorValue(embed?: Embed) {
+  return embed ? [defaultEmbedBlock(embed) as EmbedElement] : [];
+}
+
+export function embedTagToEditorValue(embedTag: string) {
+  const embed = parseEmbedTag(embedTag);
+  return embed ? embedToEditorValue(embed) : [];
+}
+
+export function editorValueToEmbed(editorValue: EmbedElement[]) {
+  return editorValue[0]?.data;
+}
+
+export function editorValueToEmbedTag(editorValue: EmbedElement[]) {
+  const embed = editorValueToEmbed(editorValue);
+  if (embed) {
+    const embedTag = createEmbedTag(embed);
+    return embedTag ? renderToStaticMarkup(embedTag) : '';
+  }
+  return '';
 }

@@ -9,20 +9,20 @@
 import { Descendant } from 'slate';
 import {
   SubjectType,
-  VisualElement,
   Author,
   StrippedConceptType,
   ConceptType,
   ArticleType,
   FormValues,
 } from '../../interfaces';
+import { EmbedElement } from '../../components/SlateEditor/plugins/embed';
 
 export interface ConceptFormType extends ConceptType {
   articles: ArticleType[];
   revision?: string;
 }
 
-export interface ConceptFormValues extends StrippedConceptType, FormValues {
+export interface ConceptFormValues extends Omit<StrippedConceptType, 'visualElement'>, FormValues {
   articles: ArticleType[];
   slatetitle: Descendant[];
   conceptContent: Descendant[];
@@ -39,6 +39,6 @@ export interface ConceptFormValues extends StrippedConceptType, FormValues {
   tags: string[];
   updateCreated: boolean;
   updated: string;
-  visualElementObject: VisualElement;
+  visualElement: EmbedElement[];
   agreementId?: number;
 }

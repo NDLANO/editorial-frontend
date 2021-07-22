@@ -16,14 +16,15 @@ import {
   topicArticleContentToEditorValue,
   editorValueToPlainText,
   plainTextToEditorValue,
+  embedTagToEditorValue,
+  editorValueToEmbedTag,
 } from '../../../../util/articleContentConverter';
-import { parseEmbedTag, createEmbedTag } from '../../../../util/embedTagHelpers';
 import { LicensesArrayOf, ArticleShape } from '../../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
   isFormikFormDirty,
-  topicArticleRules,
+  formikCommonArticleRules,
   parseImageUrl,
 } from '../../../../util/formHelper';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
@@ -38,7 +39,6 @@ import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook'
 import Spinner from '../../../../components/Spinner';
 
 export const getInitialValues = (article = {}) => {
-  const visualElement = parseEmbedTag(article.visualElement);
   const metaImageId = parseImageUrl(article.metaImage);
   return {
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
@@ -63,7 +63,7 @@ export const getInitialValues = (article = {}) => {
     slatetitle: plainTextToEditorValue(article.title || ''),
     updated: article.updated,
     updatePublished: false,
-    visualElementObject: visualElement || {},
+    visualElement: embedTagToEditorValue(article.visualElement),
     grepCodes: article.grepCodes || [],
     conceptIds: article.conceptIds || [],
     availability: article.availability || 'everyone',
@@ -89,9 +89,6 @@ const getPublishedDate = (values, initialValues, preview = false) => {
 // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
 const getArticleFromSlate = ({ values, initialValues, licenses, preview = false }) => {
   const emptyField = values.id ? '' : undefined;
-  const visualElement = createEmbedTag(
-    isEmpty(values.visualElementObject) ? {} : values.visualElementObject,
-  );
   const content = topicArticleContentToHTML(values.content);
   const metaImage = values?.metaImageId
     ? {
@@ -120,7 +117,7 @@ const getArticleFromSlate = ({ values, initialValues, licenses, preview = false 
     supportedLanguages: values.supportedLanguages,
     tags: values.tags,
     title: editorValueToPlainText(values.slatetitle),
-    visualElement: visualElement,
+    visualElement: editorValueToEmbedTag(values.visualElement),
     grepCodes: values.grepCodes,
     conceptIds: values.conceptIds,
     availability: values.availability,
@@ -244,7 +241,7 @@ const TopicArticleForm = props => {
       validateOnChange={false}
       innerRef={formikRef}
       onSubmit={handleSubmit}
-      validate={values => validateFormik(values, topicArticleRules, t)}>
+      validate={values => validateFormik(values, formikCommonArticleRules, t)}>
       {FormikChild}
     </Formik>
   );

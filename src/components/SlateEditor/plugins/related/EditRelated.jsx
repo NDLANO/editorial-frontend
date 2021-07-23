@@ -17,7 +17,7 @@ import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
 import { colors, spacing } from '@ndla/core';
 import { search } from '../../../../modules/search/searchApi';
-import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
+import AsyncDropdown from '../../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../Overlay';
 import RelatedArticle from './RelatedArticle';
 import TaxonomyLightbox from '../../../Taxonomy/TaxonomyLightbox';

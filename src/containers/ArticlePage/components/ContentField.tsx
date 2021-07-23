@@ -15,10 +15,11 @@ import { FormikHelpers, FormikValues } from 'formik';
 import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
-import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   locale: string;
@@ -35,8 +36,7 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
     values.relatedContent,
   );
-
-  const onAddArticleToList = async (article: ContentResultType) => {
+  const onAddArticleToList = async (article?: ContentResultType) => {
     try {
       // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
       const newArticle = (await fetchDraft(article.id, locale)) as ArticleType;
@@ -90,7 +90,8 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown<ContentResultType>
+      <AsyncDropdown<DraftSearchSummary, ContentResultType>
+        // @ts-ignore
         selectedItems={relatedContent.filter(e => typeof e !== 'number')}
         idField="id"
         name="relatedConceptsSearch"
@@ -98,7 +99,7 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
         placeholder={t('form.relatedContent.placeholder')}
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(concept: ContentResultType) => onAddArticleToList(concept)}
+        onChange={(concept?: ContentResultType) => onAddArticleToList(concept)}
         multiSelect
         disableSelected
         clearInputField

@@ -150,7 +150,7 @@ const ConceptForm = ({
           value={values.subjects}
           onChange={handleChange}
           minSearchLength={1}
-          data={allSubjects}
+          initialData={allSubjects}
           onBlur={handleBlur}
         />
         {errors.subjects ? (

@@ -4,7 +4,7 @@ import { injectT } from '@ndla/i18n';
 import styled from '@emotion/styled';
 import { updateTopic } from '../../../modules/taxonomy';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
-import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { searchRelatedArticles } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
 import { TopicShape } from '../../../shapes';

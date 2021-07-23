@@ -24,7 +24,8 @@ import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
 const PodcastEpisodes = ({ t }: tType) => {
   const { values, setFieldValue } = useFormikContext<PodcastSeriesFormikType>();
   const { episodes, language } = values;
-  const onAddEpisodeToList = async (audio?: AudioSearchResultType ) => {
+
+  const onAddEpisodeToList = async (audio?: AudioApiType) => {
     try {
       const newAudio = await fetchAudio(audio!.id, language);
       if (newAudio !== undefined) {
@@ -39,9 +40,7 @@ const PodcastEpisodes = ({ t }: tType) => {
     setFieldValue('episodes', eps);
   };
 
-  const searchForPodcasts = async (
-    input: string,
-  ): Promise<AudioSearchResult & { disabledText?: string; image?: string; alt?: string }> => {
+  const searchForPodcasts = async (input: string): Promise<AudioSearchResult> => {
     const searchResult = await searchAudio({
       query: input,
       language: language,
@@ -96,7 +95,7 @@ const PodcastEpisodes = ({ t }: tType) => {
         label="label"
         apiAction={searchForPodcasts}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(audio?: AudioSearchResultType) => onAddEpisodeToList(audio)}
+        onChange={onAddEpisodeToList}
         multiSelect
         disableSelected
         clearInputField

@@ -10,10 +10,11 @@ import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
-import { ContentResultType, FormikProperties, ConceptType } from '../../../interfaces';
+import { FormikProperties, ConceptType } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   locale: string;
@@ -29,7 +30,7 @@ interface Props {
 const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
   const [concepts, setConcepts] = useState<ConceptType[]>(values.conceptIds);
 
-  const onAddConceptToList = async (concept?: ContentResultType) => {
+  const onAddConceptToList = async (concept?: ConceptType) => {
     try {
       const newConcept = await fetchConcept(concept!.id, locale, true);
       const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
@@ -75,7 +76,7 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown<ContentResultType, ConceptType>
+      <AsyncDropdown<SearchConceptType, ConceptType>
         selectedItems={concepts}
         idField="id"
         name="relatedConceptsSearch"
@@ -83,7 +84,7 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
         placeholder={t('form.relatedConcepts.placeholder')}
         apiAction={searchForConcepts}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(concept?: ContentResultType) => onAddConceptToList(concept)}
+        onChange={onAddConceptToList}
         multiSelect
         disableSelected
         clearInputField

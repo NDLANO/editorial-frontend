@@ -56,7 +56,7 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal, t }: Props & tType) => 
           <MultiSelectDropdown
             labelField="name"
             minSearchLength={1}
-            data={conceptSubjects}
+            initialData={conceptSubjects}
             {...field}
           />
         )}

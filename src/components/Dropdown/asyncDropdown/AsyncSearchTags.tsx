@@ -9,8 +9,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
-import AsyncDropdown from 'components/Dropdown/asyncDropdown/AsyncDropdown';
 import { FieldInputProps, FormikHelpers } from 'formik';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { SearchResult } from '../../../interfaces';
 
 interface Props {
@@ -20,15 +20,6 @@ interface Props {
   form?: FormikHelpers<string[]>;
   fetchTags: (input: string, language: string) => Promise<SearchResult>;
   updateValue?: (value: string[]) => void;
-}
-
-interface AsyncDropdownProps {
-  selectedItems: TagWithTitle[];
-  value: string;
-  removeItem: (tag: string) => void;
-  onBlur: (event: Event) => void;
-  onChange: (event: Event) => void;
-  onKeyDown: (event: Event) => void;
 }
 
 interface TagWithTitle {
@@ -70,7 +61,7 @@ const AsyncSearchTags = ({
     }
   };
 
-  const addTag = (tag: TagWithTitle) => {
+  const addTag = (tag?: TagWithTitle) => {
     if (tag && !tags.includes(tag.title)) {
       const temp = [...tags, tag.title];
       updateField(temp);
@@ -92,7 +83,7 @@ const AsyncSearchTags = ({
 
   return (
     <Fragment>
-      <AsyncDropdown<TagWithTitle>
+      <AsyncDropdown<TagWithTitle, TagWithTitle>
         idField="title"
         name="TagSearch"
         labelField="title"
@@ -106,7 +97,7 @@ const AsyncSearchTags = ({
         saveOnEnter
         onCreate={createNewTag}
         removeItem={removeTag}>
-        {(props: AsyncDropdownProps) => (
+        {props => (
           <DropdownInput
             multiSelect
             idField={'title'}

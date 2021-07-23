@@ -14,7 +14,7 @@ import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import Field from '../../../Field';
 import { FootnoteShape } from '../../../../shapes';
-import { MultiSelectDropdown } from '../../../Dropdown';
+import MultiSelectDropdown from '../../../Dropdown/MultiSelectDropdown';
 import FormikField from '../../../FormikField';
 import validateFormik from '../../../formikValidationSchema';
 
@@ -64,7 +64,13 @@ class FootnoteForm extends Component {
             <FormikField name="title" type="text" label={t('form.content.footnote.title')} />
             <FormikField name="year" type="text" label={t('form.content.footnote.year')} />
             <FormikField name="authors" label={t('form.content.footnote.authors.label')} obligatory>
-              {({ field }) => <MultiSelectDropdown showCreateOption {...field} />}
+              {({ field }) => (
+                <MultiSelectDropdown
+                  showCreateOption
+                  shouldCreate={(allValues, newValue) => !allValues.includes(newValue)}
+                  {...field}
+                />
+              )}
             </FormikField>
             <FormikField name="edition" type="text" label={t('form.content.footnote.edition')} />
 

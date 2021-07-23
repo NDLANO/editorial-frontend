@@ -11,12 +11,12 @@ import { injectT, tType } from '@ndla/i18n';
 import { FormPill } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import styled from '@emotion/styled';
-import AsyncDropdown from 'components/Dropdown/asyncDropdown/AsyncDropdown';
 import { fetchGrepCodes } from '../../modules/draft/draftApi';
 import { fetchGrepCodeTitle } from '../../modules/grep/grepApi';
 import { isGrepCodeValid } from '../../util/articleUtil';
 import FormikFieldDescription from '../../components/FormikField/FormikFieldDescription';
 import { FormikFieldHelp } from '../../components/FormikField';
+import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
 
 interface Props {
   articleGrepCodes: string[];
@@ -52,11 +52,9 @@ const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tTy
   const [failedGrepCodes, setFailedGrepCodes] = useState<string[]>([]);
 
   const searchForGrepCodes = async (inp: string) => {
-    if (inp) {
-      const result = await fetchGrepCodes(inp);
-      const convertedGrepCodes = await convertGrepCodesToObject(result.results);
-      return { ...result, results: convertedGrepCodes };
-    } else return [];
+    const result = await fetchGrepCodes(inp);
+    const convertedGrepCodes = await convertGrepCodesToObject(result.results);
+    return { ...result, results: convertedGrepCodes };
   };
 
   useEffect(() => {
@@ -92,12 +90,14 @@ const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tTy
     return newGrepCodeNames;
   };
 
-  const createNewGrepCodes = async (input: string) => {
+  const createNewGrepCodes = async (input?: string) => {
     setFailedGrepCodes([]);
     const newGrepCodes = input
-      .toUpperCase()
-      .split(',')
-      .map(grepCode => grepCode.trim());
+      ? input
+          .toUpperCase()
+          .split(',')
+          .map(grepCode => grepCode.trim())
+      : [];
     const newGrepCodeNames = await fetchGrepCodeTitles(newGrepCodes);
     const temp = [...grepCodes].concat(newGrepCodeNames);
     setGrepCodes(temp);
@@ -132,7 +132,7 @@ const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tTy
           </StyledErrorPreLine>
         </FormikFieldHelp>
       )}
-      <AsyncDropdown<GrepCode>
+      <AsyncDropdown<GrepCode, GrepCode>
         idField="title"
         name="GrepCodesSearch"
         labelField="title"
@@ -140,7 +140,7 @@ const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tTy
         label="label"
         apiAction={searchForGrepCodes}
         onClick={(e: Event) => e.stopPropagation()}
-        onChange={(c: GrepCode) => createNewGrepCodes(c.code)}
+        onChange={(c?: GrepCode) => createNewGrepCodes(c?.code)}
         selectedItems={grepCodes}
         multiSelect
         disableSelected

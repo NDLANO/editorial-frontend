@@ -13,7 +13,6 @@ import { tType } from '@ndla/i18n';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
-import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { groupSearch } from '../../../modules/search/searchApi';
 import {
   createTopicResource,
@@ -29,8 +28,11 @@ import {
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
-import { LearningPathSearchSummary } from '../../../modules/learningpath/learningpathApiInterfaces';
-import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
+import {
+  LearningPathSearchResult,
+  LearningPathSearchSummary,
+} from '../../../modules/learningpath/learningpathApiInterfaces';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -79,8 +81,6 @@ interface SelectedType {
   coverPhotoUrl?: string;
 }
 
-type SummaryTypes = LearningPathSearchSummary | GroupSearchSummary;
-
 const AddResourceModal = ({
   onClose,
   type,
@@ -104,7 +104,7 @@ const AddResourceModal = ({
 
   const paste = allowPaste || selectedType !== RESOURCE_TYPE_LEARNING_PATH;
 
-  const onSelect = (selected: SelectedType) => {
+  const onSelect = (selected?: SelectedType) => {
     if (selected) {
       if (selected.url && !selected.url.includes('learningpaths')) {
         const articleId = Number(selected.url.split('/')?.pop());
@@ -154,26 +154,23 @@ const AddResourceModal = ({
     }
   };
 
-  const onInputSearch = async (input: string, type: string): Promise<SummaryTypes[]> => {
-    try {
-      if (type === RESOURCE_TYPE_LEARNING_PATH) {
-        const lps = await searchLearningpath(input);
-
-        return lps.map(lp => ({
-          ...lp,
-          metaDescription: lp.description.description,
-        }));
-      } else {
-        return await searchGroups(input, type);
-      }
-    } catch (err) {
-      handleError(err);
-      setError(err.message);
-      return [];
+  const onInputSearch = async (input: string, type: string): Promise<LearningPathSearchResult> => {
+    let results = [];
+    const searchResult = await searchLearningpath(input);
+    if (type === RESOURCE_TYPE_LEARNING_PATH) {
+    } else {
+      results = await searchGroups(input, type);
     }
+    results = searchResult.results.map(lp => {
+      return {
+        ...lp,
+        metaDescription: lp.description.description,
+      };
+    });
+    return { ...searchResult, results };
   };
 
-  const searchLearningpath = async (input: string): Promise<LearningPathSearchSummary[]> => {
+  const searchLearningpath = async (input: string): Promise<LearningPathSearchResult> => {
     const query = input
       ? {
           query: input,
@@ -189,7 +186,7 @@ const AddResourceModal = ({
           verificationStatus: 'CREATED_BY_NDLA',
         };
     const res = await learningpathSearch(query);
-    return res.results || [];
+    return res;
   };
 
   const searchGroups = async (input: string, type: string) => {
@@ -291,7 +288,7 @@ const AddResourceModal = ({
         {!pastedUrl && selectedType && (
           <React.Fragment>
             {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
-            <AsyncDropdown
+            <AsyncDropdown<LearningPathSearchSummary, SelectedType>
               idField="id"
               name="resourceSearch"
               labelField="title"

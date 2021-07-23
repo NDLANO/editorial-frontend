@@ -10,7 +10,6 @@ import React, { Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
-import { MultiSelectDropdown } from '../../../components/Dropdown';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MetaImageSearch } from '../../FormikForm';
 
@@ -19,6 +18,7 @@ import { ConceptFormValues } from '../conceptInterfaces';
 import InlineImageSearch from './InlineImageSearch';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../constants';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
 
 interface Props {
   subjects: SubjectType[];

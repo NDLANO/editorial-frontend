@@ -20,9 +20,9 @@ import { LIST_TYPES as listTypes } from '../list';
 import hasListItem from '../list/utils/hasListItem';
 
 const topicArticleElements: { [key: string]: string[] } = {
-  // mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  // block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  // inline: ['link', 'mathml', 'concept'],
+  mark: ['bold', 'italic', 'code', 'sub', 'sup'],
+  block: ['quote', 'heading-two', 'heading-three' /*, ...listTypes*/],
+  inline: ['link', 'mathml', 'concept'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {

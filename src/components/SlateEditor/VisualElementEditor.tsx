@@ -6,74 +6,97 @@
  *
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FormikHandlers } from 'formik';
-import { Plugin, Value, DocumentJSON } from 'slate';
-import { Editor } from 'slate-react';
+import { Descendant, Editor, createEditor } from 'slate';
+import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
+import { withHistory } from 'slate-history';
 
 import { SlateProvider } from './SlateContext';
-import { renderBlock } from './slateRendering';
-import { VisualElement } from '../../interfaces';
+import { SlatePlugin } from './interfaces';
+import VisualElementPicker from '../../containers/VisualElement/VisualElementPicker';
+import { EmbedElement } from './plugins/embed';
 
 interface Props {
   name: string;
-  value: VisualElement;
-  plugins: Plugin[];
+  value: EmbedElement[];
+  plugins: SlatePlugin[];
   onChange: FormikHandlers['handleChange'];
+  changeVisualElement: (visualElement: string) => void;
+  language: string;
+  types: string[];
+  selectedResource: string;
+  resetSelectedResource: () => void;
 }
 
-const VisualElementEditor = class extends React.PureComponent<
-  Props,
-  { slateStore: object } // Since the redux-actions we are using doesn't have types
-> {
-  constructor(props: Props) {
-    super(props);
-
-    this.onChangeVisualElement = this.onChangeVisualElement.bind(this);
+// TODO: Move to util
+const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
+  if (plugins) {
+    return plugins.reduce((editor, plugin) => plugin(editor), editor);
   }
+  return editor;
+};
 
-  onChangeVisualElement = (change: { value: Value }) => {
-    const node = change.value.toJSON()?.document?.nodes?.[0] as DocumentJSON;
-    this.props.onChange({
-      target: {
-        name: this.props.name,
-        value: node?.data || {},
-      },
-    });
+const VisualElementEditor = ({
+  name,
+  value,
+  plugins,
+  onChange,
+  changeVisualElement,
+  language,
+  types,
+  selectedResource,
+  resetSelectedResource,
+}: Props) => {
+  const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), [
+    plugins,
+  ]);
+
+  const renderElement = (elementProps: RenderElementProps) => {
+    const { attributes, children } = elementProps;
+    if (editor.renderElement) {
+      const ret = editor.renderElement(elementProps);
+      if (ret) {
+        return ret;
+      }
+    }
+    return <div {...attributes}>{children}</div>;
   };
 
-  render() {
-    const editorValue = Value.fromJSON({
-      document: {
-        nodes: [
-          {
-            object: 'block',
-            type: 'embed',
-            data: this.props.value,
-            nodes: [
-              {
-                marks: [],
-                object: 'text',
-                text: '',
-              },
-            ],
-          },
-        ],
-      },
-    });
-
-    return (
-      <SlateProvider>
-        <Editor
-          name={this.props.name}
-          value={editorValue}
-          plugins={this.props.plugins}
-          renderBlock={renderBlock}
-          onChange={this.onChangeVisualElement}
-        />
-      </SlateProvider>
-    );
-  }
+  return (
+    <SlateProvider>
+      <Slate
+        editor={editor}
+        value={value}
+        onChange={(val: Descendant[]) => {
+          onChange({
+            target: {
+              name,
+              value: val,
+              type: 'SlateEditorValue',
+            },
+          });
+        }}>
+        {value.length ? (
+          <Editable
+            renderElement={renderElement}
+            onDragStart={e => {
+              e.stopPropagation();
+            }}
+          />
+        ) : (
+          <VisualElementPicker
+            editor={editor}
+            language={language}
+            onSelect={changeVisualElement}
+            types={types}
+            selectedResource={selectedResource}
+            resetSelectedResource={resetSelectedResource}
+          />
+        )}
+      </Slate>
+    </SlateProvider>
+  );
 };
 
 export default VisualElementEditor;

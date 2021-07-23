@@ -8,9 +8,13 @@
 
 import { FormikContextType } from 'formik';
 import isEmpty from 'lodash/fp/isEmpty';
-import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
-import { createEmbedTag } from '../../util/embedTagHelpers';
-import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
+import {
+  plainTextToEditorValue,
+  editorValueToPlainText,
+  embedTagToEditorValue,
+  editorValueToEmbedTag,
+} from '../../util/articleContentConverter';
+import { PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { SubjectType, License, ConceptType } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
 
@@ -40,7 +44,7 @@ export const transformApiConceptToFormValues = (
     tags: concept.tags || [],
     articles: concept.articles || [],
     status: concept.status || {},
-    visualElementObject: concept.parsedVisualElement || {},
+    visualElement: embedTagToEditorValue(concept.visualElement),
   };
 };
 
@@ -56,31 +60,6 @@ export const getCreatedDate = (values: ConceptFormValues, initialValues: Concept
   return undefined;
 };
 
-export const getNewApiConcept = (
-  values: ConceptFormValues,
-  licenses: License[],
-): NewConceptType => ({
-  title: editorValueToPlainText(values.slatetitle),
-  content: editorValueToPlainText(values.conceptContent),
-  language: values.language,
-  copyright: {
-    license: licenses.find(license => license.license === values.license),
-    creators: values.creators,
-    processors: values.processors,
-    rightsholders: values.rightsholders,
-  },
-  metaImage: values.metaImageId
-    ? {
-        id: values.metaImageId,
-        alt: values.metaImageAlt,
-      }
-    : undefined,
-  source: values.source,
-  subjectIds: values.subjects.map(subject => subject.id),
-  tags: values.tags,
-  articleIds: values.articles.map(a => a.id),
-  visualElement: createEmbedTag(values.visualElementObject),
-});
 export const getPatchApiConcept = (
   values: ConceptFormValues,
   licenses: License[],
@@ -105,7 +84,7 @@ export const getPatchApiConcept = (
   subjectIds: values.subjects.map(subject => subject.id),
   tags: values.tags,
   articleIds: values.articles.map(a => a.id),
-  visualElement: createEmbedTag(values.visualElementObject),
+  visualElement: editorValueToEmbedTag(values.visualElement),
 });
 
 export const getConcept = (
@@ -131,8 +110,7 @@ export const getConcept = (
       : undefined,
     subjectIds: values.subjects.map(subject => subject.id),
     articleIds: values.articles.map(a => a.id),
-    visualElement: createEmbedTag(values.visualElementObject),
-    parsedVisualElement: values.visualElementObject,
+    visualElement: editorValueToEmbedTag(values.visualElement),
     updatedBy,
   };
 };

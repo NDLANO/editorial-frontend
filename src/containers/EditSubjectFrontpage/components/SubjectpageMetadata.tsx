@@ -13,11 +13,11 @@ import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 
-import { FormikProperties, VisualElement } from '../../../interfaces';
+import { FormikProperties, Embed } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';
 
 interface FormikProps {
-  field: FieldProps<VisualElement>['field'];
+  field: FieldProps<Embed>['field'];
   form: FormikProperties['form'];
 }
 

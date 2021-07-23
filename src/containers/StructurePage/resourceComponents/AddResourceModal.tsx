@@ -33,6 +33,7 @@ import {
   LearningPathSearchSummary,
 } from '../../../modules/learningpath/learningpathApiInterfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { GroupSearchResult, GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -156,20 +157,44 @@ const AddResourceModal = ({
     }
   };
 
-  const onInputSearch = async (input: string, type: string): Promise<LearningPathSearchResult> => {
-    let results = [];
-    const searchResult = await searchLearningpath(input);
-    if (type === RESOURCE_TYPE_LEARNING_PATH) {
-    } else {
-      results = await searchGroups(input, type);
-    }
-    results = searchResult.results.map(lp => {
+  const onInputSearch = async (
+    input: string,
+    type: string,
+  ): Promise<LearningPathSearchResult | GroupSearchResult> => {
+    try {
+      if (type === RESOURCE_TYPE_LEARNING_PATH) {
+        const lps = await searchLearningpath(input);
+        const results = lps.results.map(lp => ({
+          ...lp,
+          metaDescription: lp.description.description,
+        }));
+        return { ...lps, results };
+      } else {
+        const searchResult = await searchGroups(input, type);
+        if (!searchResult) {
+          return {
+            totalCount: 0,
+            page: 0,
+            pageSize: 0,
+            language: '',
+            results: [],
+            resourceType: '',
+          };
+        }
+        return searchResult;
+      }
+    } catch (err) {
+      handleError(err);
+      setError(err.message);
       return {
-        ...lp,
-        metaDescription: lp.description.description,
+        totalCount: 0,
+        page: 0,
+        pageSize: 0,
+        language: '',
+        results: [],
+        resourceType: '',
       };
-    });
-    return { ...searchResult, results };
+    }
   };
 
   const searchLearningpath = async (input: string): Promise<LearningPathSearchResult> => {
@@ -193,7 +218,7 @@ const AddResourceModal = ({
 
   const searchGroups = async (input: string, type: string) => {
     const res = await groupSearch(input, type);
-    return res?.pop()?.results || [];
+    return res.pop();
   };
 
   const articleToState = async (articleId: number) => {
@@ -294,7 +319,7 @@ const AddResourceModal = ({
         {!pastedUrl && selectedType && (
           <React.Fragment>
             {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
-            <AsyncDropdown<LearningPathSearchSummary, SelectedType>
+            <AsyncDropdown<LearningPathSearchSummary | GroupSearchSummary, SelectedType>
               idField="id"
               name="resourceSearch"
               labelField="title"

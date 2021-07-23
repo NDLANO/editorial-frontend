@@ -18,7 +18,7 @@ interface Props {
 export const LogoutFederated = ({ logout }: Props) => {
   useEffect(() => {
     logout({ federated: true });
-  });
+  }, []); //  eslint-disable-line
 
   return null;
 };

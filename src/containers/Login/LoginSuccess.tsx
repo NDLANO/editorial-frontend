@@ -37,7 +37,7 @@ export const LoginSuccess = ({ loginSuccess, location: { hash }, history }: Prop
         history.replace(`${toLogin()}/failure`);
       }
     });
-  }, [hash, history, loginSuccess]);
+  }, []); //  eslint-disable-line
 
   return null;
 };

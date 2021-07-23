@@ -23,7 +23,11 @@ interface Props<T> {
   labelField?: string;
   idField?: string;
   showCreateOption?: boolean;
-  setFieldTouched?: (field: string, isTouched?: boolean | undefined, shouldValidate?: boolean | undefined) => void
+  setFieldTouched?: (
+    field: string,
+    isTouched?: boolean | undefined,
+    shouldValidate?: boolean | undefined,
+  ) => void;
   minSearchLength?: number;
   onBlur?: (eventOrString: Event) => void;
   onFocus?: () => void;

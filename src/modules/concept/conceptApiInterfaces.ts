@@ -121,11 +121,3 @@ export interface ConceptSearchResult {
   language: string;
   results: SearchConceptType[];
 }
-
-export interface SearchResultBase<T> {
-  totalCount: number;
-  page?: number;
-  pageSize: number;
-  language: string;
-  results: T[];
-}

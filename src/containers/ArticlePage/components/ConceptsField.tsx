@@ -10,16 +10,16 @@ import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
-import { FormikProperties, ConceptType } from '../../../interfaces';
+import { FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
+import { ApiConceptType, SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   locale: string;
   values: {
-    conceptIds: ConceptType[];
+    conceptIds: ApiConceptType[];
   };
   field: FormikProperties['field'];
   form: {
@@ -28,11 +28,11 @@ interface Props {
 }
 
 const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
-  const [concepts, setConcepts] = useState<ConceptType[]>(values.conceptIds);
+  const [concepts, setConcepts] = useState<ApiConceptType[]>(values.conceptIds);
 
-  const onAddConceptToList = async (concept?: ConceptType) => {
+  const onAddConceptToList = async (concept?: ApiConceptType) => {
     try {
-      const newConcept = await fetchConcept(concept!.id, locale, true);
+      const newConcept = await fetchConcept(concept!.id, locale);
       const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
       if (newConcept) {
         setConcepts(temp);
@@ -43,12 +43,12 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
     }
   };
 
-  const onUpdateElements = (conceptList: ConceptType[]) => {
+  const onUpdateElements = (conceptList: ApiConceptType[]) => {
     setConcepts(conceptList);
     updateFormik(field, conceptList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: ConceptType[]) => {
+  const updateFormik = (formikField: Props['field'], newData: ApiConceptType[]) => {
     form.setFieldTouched('conceptIds', true, false);
     formikField.onChange({
       target: {
@@ -76,7 +76,7 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown<SearchConceptType, ConceptType>
+      <AsyncDropdown<SearchConceptType, ApiConceptType>
         selectedItems={concepts}
         idField="id"
         name="relatedConceptsSearch"

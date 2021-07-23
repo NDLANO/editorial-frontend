@@ -1,13 +1,16 @@
 import React from 'react';
 import { Global } from '@emotion/react';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT } from '@ndla/i18n';
-import config from '../../config';
+import { injectT, tType } from '@ndla/i18n';
 import { LocaleContext } from '../App/App';
-import H5PElement from '../../components/H5PElement';
+import H5PElement from '../../components/H5PElement/H5PElement';
 import { HistoryShape } from '../../shapes';
 
-const H5PPage = props => {
+interface Props {
+  history: { push: (path: string) => void };
+}
+
+const H5PPage = ({ t, history }: Props & tType) => {
   return (
     <LocaleContext.Consumer>
       {locale => (
@@ -21,13 +24,12 @@ const H5PPage = props => {
               },
             }}
           />
-          <HelmetWithTracker title={props.t('htmlTitles.h5pPage')} />
+          <HelmetWithTracker title={t('htmlTitles.h5pPage')} />
           <H5PElement
             canReturnResources={false}
-            h5pApiUrl={`${config.h5pApiUrl}/select`}
             onSelect={() => {}}
             onClose={() => {
-              props.history.push('/');
+              history.push('/');
             }}
             locale={locale}
           />

@@ -7,28 +7,12 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+// @ts-ignore
 import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
+import Status from '../../components/Status';
 
-const Status = ({ code, children }) => (
-  <Route
-    render={({ staticContext }) => {
-      const context = staticContext;
-      if (staticContext) {
-        context.status = code;
-      }
-      return children;
-    }}
-  />
-);
-
-Status.propTypes = {
-  code: PropTypes.number.isRequired,
-};
-
-const NotFound = ({ t }) => (
+const NotFound = ({ t }: tType) => (
   <Status code={404}>
     <OneColumn cssModifier="clear">
       <ErrorMessage

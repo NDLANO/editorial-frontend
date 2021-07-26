@@ -106,9 +106,9 @@ export const AsyncDropdown = <
   const handleSearch = useCallback(
     async (query = '', page: number) => {
       setLoading(true);
-      const apiOutput = apiAction(showPagination ? { query: query, page: page } : query);
-      const items = (Array.isArray(apiOutput) ? apiOutput : (await apiOutput).results) || [];
-      setTotalCount(Array.isArray(apiOutput) ? null : (await apiOutput).totalCount ?? null);
+      const apiOutput = await apiAction(showPagination ? { query: query, page: page } : query);
+      const items = (Array.isArray(apiOutput) ? apiOutput : apiOutput.results) || [];
+      setTotalCount(Array.isArray(apiOutput) ? null : apiOutput.totalCount ?? null);
       setItems(
         items
           ? items.map((item: S) => ({

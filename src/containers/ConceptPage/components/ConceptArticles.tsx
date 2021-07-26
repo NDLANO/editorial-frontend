@@ -9,21 +9,23 @@ import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
-import AsyncDropdown from 'components/Dropdown/asyncDropdown/AsyncDropdown';
 import ElementList from '../../FormikForm/components/ElementList';
 import handleError from '../../../util/handleError';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
-import { ArticleType, ContentResultType } from '../../../interfaces';
+import { ArticleType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
 const ConceptArticles = ({ t }: tType) => {
   const {
     values: { articles, language },
     setFieldValue,
   } = useFormikContext<ConceptFormValues>();
-  const onAddArticleToList = async (article: ContentResultType) => {
+
+  const onAddArticleToList = async (article?: ArticleType) => {
     try {
-      const newArticle = await fetchDraft(article.id);
+      const newArticle = await fetchDraft(article!.id);
       const temp = [...articles, newArticle];
       if (newArticle !== undefined) {
         setFieldValue('articles', temp);
@@ -55,7 +57,7 @@ const ConceptArticles = ({ t }: tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown<ArticleType>
+      <AsyncDropdown<DraftSearchSummary, ArticleType>
         selectedItems={articles}
         idField="id"
         name="relatedArticleSearch"
@@ -64,7 +66,7 @@ const ConceptArticles = ({ t }: tType) => {
         label="label"
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(article: ContentResultType) => onAddArticleToList(article)}
+        onChange={onAddArticleToList}
         multiSelect
         disableSelected
         clearInputField

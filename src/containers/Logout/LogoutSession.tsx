@@ -23,7 +23,7 @@ export const LogoutSession = ({ logout, location }: Props) => {
   useEffect(() => {
     const query = queryString.parse(location.search);
     logout({ federated: false, returnToLogin: query && query.returnToLogin });
-  }, [location.search, logout]);
+  }, []); //  eslint-disable-line
 
   return null;
 };

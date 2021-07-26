@@ -410,33 +410,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
         <span
           class="c-errorMessage"
         >
-          request to http://ndla-api/search-api/v1/search/group/?query=&resource-types=urn:resourcetype:reviewResource failed, reason: Nock: No match for request {
-  "method": "GET",
-  "url": "http://ndla-api/search-api/v1/search/group/?query=&resource-types=urn:resourcetype:reviewResource",
-  "headers": {
-    "content-type": [
-      "text/plain"
-    ],
-    "cache-control": [
-      "no-cache"
-    ],
-    "authorization": [
-      "Bearer 123456789"
-    ],
-    "accept": [
-      "*/*"
-    ],
-    "user-agent": [
-      "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"
-    ],
-    "accept-encoding": [
-      "gzip,deflate"
-    ],
-    "connection": [
-      "close"
-    ]
-  }
-}
+          Obs! Denne ressursen er en annen type urn:resourcetype:tasksAndActivities
         </span>
         <div
           class="c-article-preview"
@@ -1230,7 +1204,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
             <div
               class="emotion-79 emotion-80"
             >
-              Søket gav 180 treff
+              Søket gav 10 treff
             </div>
           </div>
         </div>
@@ -1666,37 +1640,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
             </form>
           </div>
         </div>
-        <span
-          class="c-errorMessage"
-        >
-          request to http://ndla-api/search-api/v1/search/group/?query=&resource-types=urn:resourcetype:reviewResource failed, reason: Nock: No match for request {
-  "method": "GET",
-  "url": "http://ndla-api/search-api/v1/search/group/?query=&resource-types=urn:resourcetype:reviewResource",
-  "headers": {
-    "content-type": [
-      "text/plain"
-    ],
-    "cache-control": [
-      "no-cache"
-    ],
-    "authorization": [
-      "Bearer 123456789"
-    ],
-    "accept": [
-      "*/*"
-    ],
-    "user-agent": [
-      "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"
-    ],
-    "accept-encoding": [
-      "gzip,deflate"
-    ],
-    "connection": [
-      "close"
-    ]
-  }
-}
-        </span>
         <div
           class="emotion-11"
         >

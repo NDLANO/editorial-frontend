@@ -2,15 +2,12 @@ import React from 'react';
 import { Global } from '@emotion/react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT, tType } from '@ndla/i18n';
+import { RouteComponentProps } from 'react-router-dom';
 import { LocaleContext } from '../App/App';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { HistoryShape } from '../../shapes';
 
-interface Props {
-  history: { push: (path: string) => void };
-}
-
-const H5PPage = ({ t, history }: Props & tType) => {
+const H5PPage = ({ t, history }: RouteComponentProps & tType) => {
   return (
     <LocaleContext.Consumer>
       {locale => (

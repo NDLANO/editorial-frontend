@@ -10,16 +10,13 @@
 import { OneColumn } from '@ndla/ui';
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import Status from '../../components/Status';
 
 const Forbidden = ({ t }: tType) => (
-  <Status code={403}>
-    <OneColumn>
-      <div>
-        <h2>403 - {t('forbiddenPage.description')}</h2>
-      </div>
-    </OneColumn>
-  </Status>
+  <OneColumn>
+    <div>
+      <h2>403 - {t('forbiddenPage.description')}</h2>
+    </div>
+  </OneColumn>
 );
 
 export default injectT(Forbidden);

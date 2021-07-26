@@ -1,7 +1,7 @@
-import VisualElementPicker from 'containers/VisualElement/VisualElementPicker';
 import React from 'react';
 import { Descendant, Editor } from 'slate';
 import { jsx } from 'slate-hyperscript';
+import VisualElementPicker from '../../../../containers/VisualElement/VisualElementPicker';
 
 export const TYPE_VISUAL_ELEMENT_PICKER = 'visualElementPicker';
 

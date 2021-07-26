@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Editor, Element, Descendant } from 'slate';
+import { Editor, Element, Descendant, Text } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import { SlateSerializer } from '../../interfaces';
@@ -18,12 +18,46 @@ export interface BreakElement {
   children: Descendant[];
 }
 
+const allowedBreakContainers = [
+  'section',
+  'div',
+  'aside',
+  'li',
+  'blockquote',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'summary',
+  'pre',
+];
+
 export const breakSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_BREAK) return;
-    return jsx('element', { type: TYPE_BREAK }, [{ text: '' }]);
+
+    if (el.parentElement && el.parentElement.tagName) {
+      const tagName = el.parentElement.tagName.toLowerCase();
+      if (allowedBreakContainers.includes(tagName)) {
+        return jsx('element', { type: TYPE_BREAK }, [{ text: '' }]);
+      }
+    }
+    return jsx('text', { text: '\n' });
   },
   serialize(node: Descendant) {
+    if (Text.isText(node)) {
+      return (
+        <>
+          {node.text.split('\n').reduce((array: (React.ReactElement | string)[], text, i) => {
+            if (i !== 0) array.push(<br key={i} />);
+            array.push(text);
+            return array;
+          }, [])}
+        </>
+      );
+    }
     if (!Element.isElement(node)) return;
     if (node.type !== 'br') return;
 
@@ -36,7 +70,6 @@ export const breakPlugin = (editor: Editor) => {
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_BREAK) {
-      // Children of br tag is not rendered.
       return (
         <div {...attributes} contentEditable={false}>
           <br />

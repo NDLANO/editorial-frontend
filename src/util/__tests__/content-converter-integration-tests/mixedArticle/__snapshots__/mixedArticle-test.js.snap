@@ -26,7 +26,7 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     </li>
   </ol>
   <aside data-type=\\"factAside\\">
-    <h2>Fact box</h2>
+    <h1>Fact box</h1>
     <p>This should contain some facts!</p>
     <p data-align=\\"center\\">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet sit
@@ -95,9 +95,9 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     data-alt=\\"focalpoint\\"
     data-resource_id=\\"2\\"
     data-resource=\\"image\\"
-    data-url=\\"https://test.api.ndla.no/image-api/v2/images/2\\"
     data-focal-x=\\"20.126776485788113\\"
     data-focal-y=\\"7.414585620197585\\"
+    data-url=\\"https://test.api.ndla.no/image-api/v2/images/2\\"
   /><embed
     data-size=\\"fullbredde\\"
     data-align=\\"\\"
@@ -105,11 +105,11 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     data-alt=\\"cropped\\"
     data-resource_id=\\"3\\"
     data-resource=\\"image\\"
-    data-url=\\"https://test.api.ndla.no/image-api/v2/images/3\\"
     data-lower-right-x=\\"71.0625\\"
     data-lower-right-y=\\"56.90364583333333\\"
     data-upper-left-x=\\"37.72916666666667\\"
     data-upper-left-y=\\"23.736979166666668\\"
+    data-url=\\"https://test.api.ndla.no/image-api/v2/images/3\\"
   />
   <p>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet sit
@@ -202,9 +202,9 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     Hei på <a href=\\"https://ndla.no/\\" title=\\"deg\\">deg</a> og
     <a
       href=\\"https://ndla.no/\\"
-      rel=\\"noopener noreferrer\\"
       target=\\"_blank\\"
       title=\\"NDLA\\"
+      rel=\\"noopener noreferrer\\"
       >meg</a
     >
   </p>
@@ -212,9 +212,9 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     NDLA
     <a
       href=\\"https://ndla.no/en/node/42\\"
-      rel=\\"noopener noreferrer\\"
       target=\\"_blank\\"
       title=\\"NODE ID\\"
+      rel=\\"noopener noreferrer\\"
       >NODE ID</a
     >
   </p>

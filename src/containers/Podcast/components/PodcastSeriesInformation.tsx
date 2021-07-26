@@ -18,9 +18,9 @@ import {
   SeriesSearchResult,
   SeriesSearchSummary,
 } from '../../../modules/audio/audioApiInterfaces';
-import { AsyncDropdown } from '../../../components/Dropdown';
 import handleError from '../../../util/handleError';
 import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 
 type element = PodcastSeriesApiType &
   Pick<ArticleSearchSummaryApiType, 'metaImage' | 'articleType'>;
@@ -50,9 +50,9 @@ const PodcastSeriesInformation = ({ t }: tType) => {
     }
   }, [series, language]);
 
-  const onAddSeries = async (series: SeriesSearchSummary) => {
+  const onAddSeries = async (series?: PodcastSeriesApiType) => {
     try {
-      const newSeries = await fetchSeries(series.id, language || 'nb');
+      const newSeries = await fetchSeries(series!.id, language || 'nb');
       delete newSeries.episodes;
       setFieldValue('series', newSeries);
     } catch (e) {
@@ -101,7 +101,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
       ) : (
         <p>{t('podcastForm.information.noSeries')}</p>
       )}
-      <AsyncDropdown
+      <AsyncDropdown<SeriesSearchSummary, PodcastSeriesApiType>
         selectedItems={element}
         idField="id"
         name="relatedSeriesSearch"
@@ -110,7 +110,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
         label="label"
         apiAction={searchForSeries}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(series: SeriesSearchSummary) => onAddSeries(series)}
+        onChange={onAddSeries}
         multiSelect
         disableSelected
         clearInputField

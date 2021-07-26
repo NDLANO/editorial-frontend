@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { Node } from 'slate';
 import isEmpty from 'lodash/fp/isEmpty';
 import { uuid } from '@ndla/util';
 import {
@@ -16,7 +17,6 @@ import {
   reduceChildElements,
   removeEmptyElementDataAttributes,
 } from './embedTagHelpers';
-import { Node } from 'slate';
 
 const BLOCK_TAGS = {
   section: 'section',

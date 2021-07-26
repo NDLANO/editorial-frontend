@@ -39,7 +39,7 @@ import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concep
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
-import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
+// import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 
 import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';

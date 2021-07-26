@@ -7,18 +7,13 @@
  */
 
 import React from 'react';
-import { Dictionary } from 'lodash';
 import { Descendant, Editor, Element, Path, Transforms, Node } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import CodeBlock from './CodeBlock';
 import { SlateSerializer } from '../../interfaces';
-import {
-  addSurroundingParagraphs,
-  afterOrBeforeTextBlockElement,
-} from '../../utils/normalizationHelpers';
+import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 export const TYPE_CODEBLOCK = 'code-block';
 

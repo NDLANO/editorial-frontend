@@ -20,7 +20,7 @@ const StyledEditorErrorMessage = styled('div')`
 `;
 
 const EditorErrorMessage = ({ msg, attributes, onRemoveClick, children }) => (
-  <StyledEditorErrorMessage {...attributes} contentEditable="false">
+  <StyledEditorErrorMessage {...attributes} contentEditable={false}>
     {onRemoveClick && <EditorDeleteButton onClick={onRemoveClick} />}
     <span>{msg}</span>
     {children}

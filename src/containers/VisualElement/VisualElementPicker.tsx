@@ -15,11 +15,15 @@ interface Props {
   editor: Editor;
   language: string;
   types?: string[];
+  children: React.ReactNode;
 }
 
-const VisualElementPicker = ({ editor, language, types }: Props) => {
+const VisualElementPicker = ({ editor, language, types, children }: Props) => {
   const onInsertBlock = (block: Element) => {
-    Transforms.insertNodes(editor, block, { at: [0] });
+    Editor.withoutNormalizing(editor, () => {
+      Transforms.removeNodes(editor, { at: [0] });
+      Transforms.insertNodes(editor, block, { at: [0] });
+    });
   };
 
   const [selectedResource, setSelectedResource] = useState<string | undefined>(undefined);
@@ -33,7 +37,7 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
   };
 
   return (
-    <>
+    <div contentEditable={false}>
       {selectedResource && (
         <SlateVisualElementPicker
           articleLanguage={language}
@@ -43,7 +47,8 @@ const VisualElementPicker = ({ editor, language, types }: Props) => {
         />
       )}
       <VisualElementMenu onSelect={onSelect} types={types} />
-    </>
+      {children}
+    </div>
   );
 };
 

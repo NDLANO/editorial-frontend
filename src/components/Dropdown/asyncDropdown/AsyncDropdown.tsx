@@ -137,10 +137,10 @@ export const AsyncDropdown = <
     setInputValue(value);
     setPage(1);
   };
-
+  
   useEffect(() => {
-    handleSearch('', page);
-  }, [handleSearch, page]);
+      handleSearch('', page);
+  },[]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handlePageChange = (page: { page: number }) => {
     handleSearch(inputValue, page.page);

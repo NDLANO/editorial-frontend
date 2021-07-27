@@ -5,21 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { actions } from '../../modules/session/session';
 
-export class LogoutFederated extends React.Component {
-  componentDidMount() {
-    const { logout } = this.props;
-    logout({ federated: true });
-  }
-
-  render() {
-    return null;
-  }
+type Logout = { federated: boolean; returnToLogin?: boolean };
+interface Props {
+  logout: (arg0: Logout) => void;
 }
+
+export const LogoutFederated = ({ logout }: Props) => {
+  useEffect(() => {
+    logout({ federated: true });
+  }, []); //  eslint-disable-line
+
+  return null;
+};
 
 LogoutFederated.propTypes = {
   logout: PropTypes.func.isRequired,

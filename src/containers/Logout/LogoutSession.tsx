@@ -6,24 +6,27 @@
  *
  */
 
-import React from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
 import { actions } from '../../modules/session/session';
 import { LocationShape } from '../../shapes';
 
-export class LogoutSession extends React.Component {
-  componentDidMount() {
-    const { logout, location } = this.props;
+type Logout = { federated: boolean; returnToLogin?: boolean };
+interface Props extends RouteComponentProps {
+  logout: (arg0: Logout) => void;
+}
+
+export const LogoutSession = ({ logout, location }: Props) => {
+  useEffect(() => {
     const query = queryString.parse(location.search);
     logout({ federated: false, returnToLogin: query && query.returnToLogin });
-  }
+  }, []); //  eslint-disable-line
 
-  render() {
-    return null;
-  }
-}
+  return null;
+};
 
 LogoutSession.propTypes = {
   logout: PropTypes.func.isRequired,

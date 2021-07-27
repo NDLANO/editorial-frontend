@@ -165,6 +165,7 @@ const SlateFigure = ({
       }
       return (
         <DisplayExternal
+          attributes={attributes}
           onRemoveClick={onRemoveClick}
           editor={editor}
           element={element}

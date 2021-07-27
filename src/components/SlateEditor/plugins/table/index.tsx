@@ -233,14 +233,16 @@ export const tablePlugin = (editor: Editor) => {
 
   editor.onKeyDown = event => {
     if (validKeys.includes(event.key)) {
-      const currentTable = getCurrentBlock(editor, TYPE_TABLE);
+      const [tableNode, tablePath] = getCurrentBlock(editor, TYPE_TABLE);
       if (
-        currentTable &&
+        tableNode &&
         editor.selection &&
-        Path.isDescendant(editor.selection.anchor.path, currentTable[1])
+        Path.isDescendant(editor.selection.anchor.path, tablePath)
       ) {
-        if (currentTable) {
-          return handleTableKeydown(event, editor, currentTable as NodeEntry<TableElement>);
+        if (tableNode) {
+          return handleTableKeydown(event, editor, [tableNode, tablePath] as NodeEntry<
+            TableElement
+          >);
         }
       }
     }

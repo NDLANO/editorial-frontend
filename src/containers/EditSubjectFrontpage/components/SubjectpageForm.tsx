@@ -9,16 +9,12 @@ import React, { useState } from 'react';
 import { Descendant } from 'slate';
 import { injectT, tType } from '@ndla/i18n';
 import { Formik, Form, FormikProps } from 'formik';
-import {
-  SubjectpageEditType,
-  SubjectpageType,
-  VisualElement,
-  ArticleType,
-} from '../../../interfaces';
+import { SubjectpageEditType, SubjectpageType, Embed, ArticleType } from '../../../interfaces';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
+import { EmbedElement } from '../../../components/SlateEditor/plugins/embed';
 import { isFormikFormDirty, subjectpageRules } from '../../../util/formHelper';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
@@ -27,6 +23,8 @@ import { useSubjectpageFormHooks } from '../../FormikForm/subjectpageFormHooks';
 import {
   editorValueToPlainText,
   plainTextToEditorValue,
+  embedToEditorValue,
+  editorValueToEmbed,
 } from '../../../util/articleContentConverter';
 import SaveButton from '../../../components/SaveButton';
 
@@ -39,11 +37,11 @@ interface Props {
 }
 export interface SubjectFormValues
   extends Omit<SubjectpageType, 'description' | 'metaDescription'> {
-  visualElementObject: VisualElement | {};
+  visualElement: EmbedElement[];
   articleType: string;
   description?: Descendant[];
   metaDescription?: Descendant[];
-  desktopBanner?: VisualElement;
+  desktopBanner?: Embed;
   editorsChoices: ArticleType[];
   language: string;
   mobileBanner?: number;
@@ -64,7 +62,7 @@ const getInitialValues = (
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElementObject: subjectpage.visualElement || {},
+    visualElement: embedToEditorValue(subjectpage.visualElement),
     editorsChoices: subjectpage.editorsChoices || [],
     facebook: subjectpage.facebook || '',
     filters: subjectpage.filters || [],
@@ -87,16 +85,7 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
     supportedLanguages: values.supportedLanguages,
     description: values.description ? editorValueToPlainText(values.description) : '',
     title: values.title,
-    visualElement:
-      'resource_id' in values.visualElementObject
-        ? {
-            resource: values.visualElementObject.resource,
-            url: values.visualElementObject.url,
-            resource_id: values.visualElementObject.resource_id,
-            videoid: values.visualElementObject.videoid,
-            alt: values.visualElementObject.alt || values.visualElementObject.caption,
-          }
-        : undefined,
+    visualElement: editorValueToEmbed(values.visualElement),
     language: values.language,
     mobileBanner: values.mobileBanner,
     desktopBanner: values.desktopBanner,
@@ -139,8 +128,8 @@ const SubjectpageForm = ({
     <Formik
       initialValues={initialValues}
       onSubmit={() => {}}
-      validate={values => validateFormik(values, subjectpageRules, t)}>
-      {(formik: FormikProps<SubjectpageEditType>) => {
+      validate={values => validateFormik(getSubjectpageFromSlate(values), subjectpageRules, t)}>
+      {(formik: FormikProps<SubjectFormValues>) => {
         const { values, dirty, isSubmitting, errors, isValid, handleBlur } = formik;
 
         const formIsDirty: boolean = isFormikFormDirty({

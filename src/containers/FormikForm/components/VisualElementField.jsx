@@ -6,14 +6,13 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
 import { ErrorMessage, connect } from 'formik';
 import BEMHelper from 'react-bem-helper';
 import { FieldHeader } from '@ndla/forms';
-import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElement from '../../VisualElement/VisualElement';
 import FormikField, { FormikFieldHelp } from '../../../components/FormikField';
 import { FormikShape } from '../../../shapes';
@@ -29,29 +28,18 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-const VisualElementField = ({ t, formik, isSubjectPage, types, videoTypes }) => {
-  const [selectedResource, setSelectedResource] = useState(undefined);
-
+const VisualElementField = ({ t, formik, types, videoTypes }) => {
   return (
     <Fragment>
-      <FormikField name="visualElementObject">
+      <FormikField name="visualElement">
         {({ field }) => (
           <div>
             <FieldHeader title={t('form.visualElement.title')} />
             <Fragment>
               <VisualElement
-                changeVisualElement={setSelectedResource}
                 label={t('form.visualElement.label')}
                 language={formik.values.language}
-                isSubjectPage={isSubjectPage}
                 types={types}
-                {...field}
-              />
-              <VisualElementSelectField
-                selectedResource={selectedResource}
-                resetSelectedResource={() => setSelectedResource(undefined)}
-                videoTypes={videoTypes}
-                articleLanguage={formik.values.language}
                 {...field}
               />
             </Fragment>
@@ -73,7 +61,6 @@ const VisualElementField = ({ t, formik, isSubjectPage, types, videoTypes }) => 
 
 VisualElementField.propTypes = {
   formik: FormikShape,
-  isSubjectPage: PropTypes.bool,
   types: PropTypes.arrayOf(PropTypes.string),
   videoTypes: PropTypes.array,
   visualElementCaptionName: PropTypes.string,

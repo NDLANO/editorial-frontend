@@ -37,7 +37,12 @@ export const breakPlugin = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_BREAK) {
       // Children of br tag is not rendered.
-      return <br {...attributes} contentEditable={false} />;
+      return (
+        <div {...attributes} contentEditable={false}>
+          <br />
+          {children}
+        </div>
+      );
     } else if (nextRenderELement) {
       return nextRenderELement({ attributes, children, element });
     }

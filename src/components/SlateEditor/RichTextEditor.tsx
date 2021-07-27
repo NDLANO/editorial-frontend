@@ -9,7 +9,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { useEffect, useMemo, useRef } from 'react';
-import { createEditor, Descendant, Editor } from 'slate';
+import { createEditor, Descendant, Editor, NodeEntry } from 'slate';
 import {
   Slate,
   Editable,
@@ -106,6 +106,7 @@ const RichTextEditor = ({
 
   useEffect(() => {
     if (!submitted && prevSubmitted.current) {
+      editor.history = { redos: [], undos: [] };
       Editor.normalize(editor, { force: true });
     } else if (submitted && !prevSubmitted.current) {
       ReactEditor.deselect(editor);
@@ -136,6 +137,13 @@ const RichTextEditor = ({
     return <span {...attributes}>{children}</span>;
   };
 
+  const decorations = (entry: NodeEntry) => {
+    if (editor.decorations) {
+      return editor.decorations(editor, entry);
+    }
+    return [];
+  };
+
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
@@ -156,6 +164,7 @@ const RichTextEditor = ({
               })}
             />
             <Editable
+              decorate={entry => decorations(entry)}
               onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
               onKeyDown={editor.onKeyDown}
               placeholder={placeholder}

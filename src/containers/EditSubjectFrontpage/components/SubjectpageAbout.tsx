@@ -15,7 +15,7 @@ import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
 interface Props {
   handleSubmit: () => void;
-  onBlur: (event: Event, editor: Editor, next: Function) => void;
+  onBlur: (event: React.FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
 const SubjectpageAbout = ({ t, handleSubmit, onBlur }: Props & tType) => {
@@ -38,7 +38,7 @@ const SubjectpageAbout = ({ t, handleSubmit, onBlur }: Props & tType) => {
           />
         )}
       </FormikField>
-      <VisualElementField types={['image', 'video']} videoTypes={['Brightcove']} isSubjectPage />
+      <VisualElementField types={['image', 'video']} videoTypes={['Brightcove']} />
     </>
   );
 };

@@ -336,13 +336,13 @@ export interface SubjectpageApiType extends SubjectpageType {
 export interface SubjectpageEditType extends SubjectpageType {
   articleType?: string;
   description?: string;
-  desktopBanner?: VisualElement;
+  desktopBanner?: Embed;
   editorsChoices?: ArticleType[];
   language: string;
   mobileBanner?: number;
   elementId?: string;
   title?: string;
-  visualElement?: VisualElement;
+  visualElement?: Embed;
 }
 
 export interface NdlaFilmType {
@@ -370,7 +370,7 @@ export interface NdlaFilmEditType extends NdlaFilmType {
   articleType: string;
   title: string;
   description: string;
-  visualElement: VisualElement;
+  visualElement: Embed;
   language: string;
   supportedLanguages: string[];
   themes: NdlaFilmThemesEditType[];
@@ -396,28 +396,6 @@ export interface NdlaFilmThemesEditType {
   ];
 }
 
-export interface VisualElement {
-  resource: string;
-  resource_id: string;
-  account?: string;
-  align?: string;
-  alt?: string;
-  caption?: string;
-  metaData?: any;
-  path?: string;
-  player?: string;
-  title?: string;
-  size?: string;
-  url?: string;
-  videoid?: string;
-  'focal-x'?: string;
-  'focal-y'?: string;
-  'lower-right-y'?: string;
-  'lower-right-x'?: string;
-  'upper-left-y'?: string;
-  'upper-left-x'?: string;
-}
-
 export interface SlateFigureProps {
   attributes?: {
     'data-key': string;
@@ -437,30 +415,27 @@ export interface SlateEditor extends Editor {
 }
 
 export interface Embed {
+  resource: string;
+  resource_id: string;
   account?: string;
   align?: string;
   alt?: string;
   caption?: string;
-  metaData?: {
-    name: string;
-  };
+  metaData?: any;
+  path?: string;
   player?: string;
-  resource: string;
-  resource_id?: string;
+  title?: string;
   size?: string;
-  type?: string;
   url?: string;
   videoid?: string;
+  type?: string;
   message?: string;
-  title?: string;
-  path?: string;
-
   'focal-x'?: string;
   'focal-y'?: string;
-  'upper-left-x'?: string;
-  'upper-left-y'?: string;
-  'lower-right-x'?: string;
   'lower-right-y'?: string;
+  'lower-right-x'?: string;
+  'upper-left-y'?: string;
+  'upper-left-x'?: string;
 }
 
 export interface FileFormat {
@@ -554,11 +529,10 @@ export interface ConceptType extends StrippedConceptType {
   created?: string;
   updated: string;
   metaImageId: string;
-  parsedVisualElement: VisualElement;
 }
 
 export interface ConceptPreviewType extends ConceptType {
-  visualElementResources: VisualElement;
+  visualElementResources: Embed;
 }
 
 export interface ConceptFormType extends ConceptType {

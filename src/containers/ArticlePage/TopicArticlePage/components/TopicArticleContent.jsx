@@ -7,6 +7,7 @@
  */
 
 import React, { Fragment, useMemo, useState } from 'react';
+import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
@@ -15,25 +16,19 @@ import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
-import headingPlugin from '../../../../components/SlateEditor/plugins/heading';
-import createNoEmbedsPlugin from '../../../../components/SlateEditor/plugins/noEmbed';
+import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
+import { noEmbedPlugin } from '../../../../components/SlateEditor/plugins/noEmbed';
 import VisualElementField from '../../../FormikForm/components/VisualElementField';
-import { schema } from '../../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from './../../../../components/LastUpdatedLine';
 import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
-import {
-  renderBlock,
-  renderMark,
-  renderInline,
-} from '../../../../components/SlateEditor/slateRendering';
-import blockquotePlugin from '../../../../components/SlateEditor/plugins/blockquotePlugin';
-import { editListPlugin } from '../../../../components/SlateEditor/plugins/externalPlugins';
-import conceptPlugin from '../../../../components/SlateEditor/plugins/concept';
+
+import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
+import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
+import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concept';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
-// import createLinkPlugin from '../../../../components/SlateEditor/plugins/link';
-import listTextPlugin from '../../../../components/SlateEditor/plugins/listText';
-import mathmlPlugin from '../../../../components/SlateEditor/plugins/mathml';
+import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
+import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
 import FormikField from '../../../../components/FormikField';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
@@ -41,6 +36,11 @@ import { IngressField, TitleField } from '../../../FormikForm';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
+import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolbar';
+import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
+import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
+import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
+import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 
 const byLineStyle = css`
   display: flex;
@@ -55,22 +55,34 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-const createPlugins = language => {
+const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
+const actionsToShowInAreas = {
+  details: actions,
+  aside: actions,
+  bodybox: actions,
+  summary: actions,
+};
+
+const createPlugins = (language, handleSubmitRef) => {
+  // Plugins are checked from last to first
   return [
-    // createNoEmbedsPlugin(),
-    // createLinkPlugin(language),
-    // headingPlugin(),
+    sectionPlugin,
+    paragraphPlugin,
+    noEmbedPlugin,
+    linkPlugin(language),
+    headingPlugin,
     // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
     // Blockquote and editList actions need to be triggered before paragraph action, else
     // unwrapping (jumping out of block) will not work.
-    // blockquotePlugin,
-    // editListPlugin,
-    // listTextPlugin(),
-    // conceptPlugin(language),
-    // paragraphPlugin(),
-    // // mathmlPlugin(),
-    // // \\\toolbarPlugin(),
-    // textTransformPlugin(),
+    blockQuotePlugin,
+    listPlugin,
+    conceptPlugin(language),
+    mathmlPlugin,
+    markPlugin,
+    toolbarPlugin,
+    textTransformPlugin,
+    breakPlugin,
+    saveHotkeyPlugin(() => handleSubmitRef.current()),
   ];
 };
 
@@ -83,16 +95,26 @@ const TopicArticleContent = props => {
     handleSubmit,
   } = props;
   const [preview, setPreview] = useState(false);
+  const handleSubmitRef = React.useRef(handleSubmit);
   const plugins = useMemo(() => {
-    return createPlugins(language);
+    return createPlugins(language, handleSubmitRef);
   }, [language]);
+
+  React.useEffect(() => {
+    handleSubmitRef.current = handleSubmit;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleSubmit]);
 
   return (
     <Fragment>
       <TitleField
         handleSubmit={handleSubmit}
-        onBlur={(event, editor, next) => {
-          next();
+        onBlur={(event, editor) => {
+          // Forcing slate field to be deselected before selecting new field.
+          // Fixes a problem where slate field is not properly focused on click.
+          ReactEditor.deselect(editor);
+
+          // TODO: Can possibly be removed
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
           // formik handleBlur needs to be called for validation to work (and touched to be set)
@@ -124,8 +146,12 @@ const TopicArticleContent = props => {
       <IngressField
         preview={preview}
         handleSubmit={handleSubmit}
-        onBlur={(event, editor, next) => {
-          next();
+        onBlur={(event, editor) => {
+          // Forcing slate field to be deselected before selecting new field.
+          // Fixes a problem where slate field is not properly focused on click.
+          ReactEditor.deselect(editor);
+
+          // TODO: Can possibly be removed
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
           // formik handleBlur needs to be called for validation to work (and touched to be set)
@@ -146,15 +172,18 @@ const TopicArticleContent = props => {
               name={name}
               value={value}
               submitted={isSubmitting}
-              renderBlock={renderBlock}
-              renderInline={renderInline}
-              renderMark={renderMark}
               plugins={plugins}
-              schema={schema}
               handleSubmit={handleSubmit}
-              onChange={onChange}
-              onBlur={(event, editor, next) => {
-                next();
+              onChange={value => {
+                onChange({
+                  target: {
+                    value,
+                    name,
+                  },
+                });
+              }}
+              actionsToShowInAreas={actionsToShowInAreas}
+              onBlur={(event, editor) => {
                 // this is a hack since formik onBlur-handler interferes with slates
                 // related to: https://github.com/ianstormtaylor/slate/issues/2434
                 // formik handleBlur needs to be called for validation to work (and touched to be set)

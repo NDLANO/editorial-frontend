@@ -9,6 +9,7 @@ import React from 'react';
 import { Dictionary } from 'lodash';
 import isObject from 'lodash/fp/isObject';
 import { isEmpty } from '../components/validators';
+import { Embed } from '../interfaces';
 
 export const removeEmptyElementDataAttributes = (obj: Dictionary<any>) => {
   const newObject: Dictionary<string> = {};
@@ -78,7 +79,7 @@ export const createProps = obj =>
     .filter(key => obj[key] !== undefined && !isObject(obj[key]))
     .reduce((acc, key) => ({ ...acc, [key]: obj[key] }), {});
 
-export const parseEmbedTag = embedTag => {
+export const parseEmbedTag = (embedTag: string) => {
   if (embedTag === '') {
     return undefined;
   }
@@ -92,14 +93,13 @@ export const parseEmbedTag = embedTag => {
 
   const obj = reduceElementDataAttributes(embedElements[0]);
   delete obj.id;
-  return obj;
+  return (obj as unknown) as Embed;
 };
 
 export const createEmbedTag = (data: { [key: string]: any }) => {
   if (Object.keys(data).length === 0) {
     return undefined;
   }
-  const embed = document.createElement('embed');
   const props: Dictionary<string> = {};
   Object.keys(data)
     .filter(key => data[key] !== undefined && !isObject(data[key]))

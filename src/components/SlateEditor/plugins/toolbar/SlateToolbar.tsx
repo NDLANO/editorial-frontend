@@ -16,17 +16,18 @@ import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock } from './handleMenuClicks';
 import hasNodeWithProps from '../../utils/hasNodeWithProps';
 import { isMarkActive } from '../mark';
-// import { listTypes } from '../externalPlugins';
+import { LIST_TYPES as listTypes } from '../list';
+import hasListItem from '../list/utils/hasListItem';
 
 const topicArticleElements: { [key: string]: string[] } = {
-  // mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  // block: ['quote', ...listTypes, 'heading-two', 'heading-three'],
-  // inline: ['link', 'mathml', 'concept'],
+  mark: ['bold', 'italic', 'code', 'sub', 'sup'],
+  block: ['quote', 'heading-2', 'heading-3', ...listTypes],
+  inline: ['link', 'mathml', 'concept'],
 };
 
 const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
-  block: ['quote', 'heading-2', 'heading-3' /*, ...listTypes*/],
+  block: ['quote', 'heading-2', 'heading-3', ...listTypes],
   inline: ['link', 'footnote', 'mathml', 'concept'],
 };
 
@@ -133,7 +134,11 @@ const SlateToolbar = (props: Props) => {
       key={type}
       type={type}
       kind={'block'}
-      isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
+      isActive={
+        type.includes('list')
+          ? hasListItem(editor, type)
+          : hasNodeWithProps(editor, specialRules[type] ?? { type })
+      }
       handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
         onButtonClick(event, editor, kind, type);
       }}

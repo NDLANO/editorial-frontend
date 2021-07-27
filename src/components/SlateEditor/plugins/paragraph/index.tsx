@@ -115,7 +115,11 @@ export const paragraphPlugin = (editor: Editor) => {
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_PARAGRAPH) {
-      return <p {...attributes}>{children}</p>;
+      return (
+        <p className={element.data?.align === 'center' ? 'u-text-center' : ''} {...attributes}>
+          {children}
+        </p>
+      );
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });
     }

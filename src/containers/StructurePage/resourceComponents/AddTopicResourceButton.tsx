@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
@@ -28,14 +27,17 @@ const addButtonStyle = css`
   }
 `;
 
-const AddTopicResourceButton = ({ children, ...rest }) => (
+interface Props {
+  onClick: () => void;
+  stripped?: boolean;
+  disabled?: boolean;
+  children: React.ReactNode;
+}
+
+const AddTopicResourceButton = ({ children, ...rest }: Props) => (
   <Button type="button" css={addButtonStyle} {...rest}>
     {children}
   </Button>
 );
-
-AddTopicResourceButton.propTypes = {
-  onClick: PropTypes.func,
-};
 
 export default AddTopicResourceButton;

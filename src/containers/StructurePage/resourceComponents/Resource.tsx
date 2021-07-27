@@ -7,10 +7,10 @@
  */
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+//@ts-ignore
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
@@ -24,8 +24,8 @@ import ResourceItemLink from './ResourceItemLink';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-
-import { StructureShape, ResourceShape } from '../../../shapes';
+import { Resource as ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -37,23 +37,38 @@ const statusButtonStyle = css`
   margin-right: ${spacing.xsmall};
 `;
 
+interface Props {
+  resource: ResourceType & { status?: DraftStatus };
+  onDelete?: (connectionId: string) => void;
+  connectionId: string;
+  dragHandleProps?: object;
+  locale: string;
+  relevanceId?: string;
+  updateRelevanceId?: (
+    connectionId: string,
+    body: { primary?: boolean; rank?: number; relevanceId?: string },
+  ) => Promise<void>;
+  primary?: boolean;
+  rank?: number;
+}
+
 const Resource = ({
   resource,
-  structure,
   onDelete,
   connectionId,
-  dragHandleProps,
+  dragHandleProps = {},
   locale,
   relevanceId,
   updateRelevanceId,
   primary,
   rank,
   t,
-}) => {
+}: Props & tType) => {
   const [showVersionHistory, setShowVersionHistory] = useState(false);
 
   const contentType = resource.resourceTypes
-    ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
+    ? getContentTypeFromResourceTypes(resource.resourceTypes.map(r => ({ ...r, subtypes: [] })))
+        .contentType
     : 'topic-article';
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
@@ -91,11 +106,13 @@ const Resource = ({
       <RelevanceOption
         relevanceId={relevanceId}
         onChange={relevanceIdUpdate =>
-          updateRelevanceId(connectionId, {
-            relevanceId: relevanceIdUpdate,
-            primary,
-            rank,
-          })
+          updateRelevanceId
+            ? updateRelevanceId(connectionId, {
+                relevanceId: relevanceIdUpdate,
+                primary,
+                rank,
+              })
+            : null
         }
       />
 
@@ -112,34 +129,6 @@ const Resource = ({
       )}
     </div>
   );
-};
-
-Resource.defaultProps = {
-  dragHandleProps: {},
-};
-
-Resource.propTypes = {
-  resource: ResourceShape.isRequired,
-  onDelete: PropTypes.func,
-  currentTopic: PropTypes.shape({}),
-  currentSubject: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  }),
-  structure: PropTypes.arrayOf(StructureShape),
-  connectionId: PropTypes.string,
-  resourceId: PropTypes.string,
-  dragHandleProps: PropTypes.object,
-  locale: PropTypes.string.isRequired,
-  relevanceId: PropTypes.oneOf([
-    'urn:relevance:core',
-    'urn:relevance:supplementary',
-    null,
-    undefined,
-  ]),
-  updateRelevanceId: PropTypes.func,
-  primary: PropTypes.bool,
-  rank: PropTypes.number,
 };
 
 export default injectT(Resource);

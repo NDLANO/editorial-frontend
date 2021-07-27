@@ -7,8 +7,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
@@ -27,10 +26,28 @@ import MenuItemButton from './MenuItemButton';
 import { StyledErrorMessage } from '../styles';
 import { updateStatusDraft } from '../../../../modules/draft/draftApi';
 import { ARCHIVED } from '../../../../util/constants/ArticleStatus';
+import { TopicConnections } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
-class DeleteTopic extends PureComponent {
-  constructor() {
-    super();
+interface State {
+  loading: boolean;
+  error: string;
+  connections?: TopicConnections[];
+}
+
+interface BaseProps {
+  editMode: string;
+  toggleEditMode: (mode: string) => void;
+  parent: string;
+  id: string;
+  refreshTopics: () => Promise<void>;
+  locale: string;
+}
+
+type Props = BaseProps & tType;
+
+class DeleteTopic extends PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props);
     this.state = { loading: false, error: '' };
     this.onDeleteTopic = this.onDeleteTopic.bind(this);
     this.toggleEditMode = this.toggleEditMode.bind(this);
@@ -79,12 +96,12 @@ class DeleteTopic extends PureComponent {
     }));
   }
 
-  async setTopicArticleArchived(topicId, locale) {
+  async setTopicArticleArchived(topicId: string, locale: string) {
     let article = await fetchTopic(topicId, locale);
     let articleId = article.contentUri.split(':')[2];
     const topics = await queryTopics(articleId, locale);
     if (topics.length === 1) {
-      await updateStatusDraft(articleId, ARCHIVED);
+      await updateStatusDraft(parseInt(articleId), ARCHIVED);
     }
   }
 
@@ -93,7 +110,7 @@ class DeleteTopic extends PureComponent {
     const { error, loading, connections } = this.state;
     const isDisabled = connections && connections.length > 1;
     return (
-      <React.Fragment>
+      <>
         <MenuItemButton stripped disabled={isDisabled} onClick={this.toggleEditMode}>
           <RoundIcon small icon={<DeleteForever />} />
           {t('alertModal.delete')}
@@ -120,18 +137,9 @@ class DeleteTopic extends PureComponent {
         {error && (
           <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
         )}
-      </React.Fragment>
+      </>
     );
   }
 }
-
-DeleteTopic.propTypes = {
-  editMode: PropTypes.string,
-  toggleEditMode: PropTypes.func,
-  parent: PropTypes.string,
-  id: PropTypes.string,
-  refreshTopics: PropTypes.func.isRequired,
-  locale: PropTypes.string,
-};
 
 export default injectT(DeleteTopic);

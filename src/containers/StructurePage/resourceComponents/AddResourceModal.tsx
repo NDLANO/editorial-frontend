@@ -52,13 +52,13 @@ const StyledContent = styled.div`
 
 interface Props {
   onClose: () => void;
-  resourceTypes: {
+  resourceTypes?: {
     id: string;
     name: string;
   }[];
   type?: string;
   allowPaste?: boolean;
-  topicId: string;
+  topicId?: string;
   refreshResources: () => void;
 }
 
@@ -227,7 +227,7 @@ const AddResourceModal = ({
             ? await findResourceIdLearningPath(Number(selected.id))
             : getResourceIdFromPath(selected?.paths?.[0]);
 
-        if (!resourceId) {
+        if (!resourceId || !topicId) {
           return;
         }
 
@@ -295,7 +295,7 @@ const AddResourceModal = ({
         {error && <span className="c-errorMessage">{error}</span>}
 
         {!pastedUrl && selectedType && (
-          <React.Fragment>
+          <>
             {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
             <AsyncDropdown
               idField="id"
@@ -307,7 +307,7 @@ const AddResourceModal = ({
               onChange={onSelect}
               startOpen
             />
-          </React.Fragment>
+          </>
         )}
         {selected?.id && content?.id && <ArticlePreview article={content} />}
       </StyledContent>

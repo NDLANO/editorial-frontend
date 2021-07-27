@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DeleteForever, Done } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';
@@ -69,7 +69,7 @@ const CustomFieldComponent = ({
   };
 
   return (
-    <Fragment>
+    <>
       <StyledMenuItemEditField>
         <RoundIcon open small />
         <StyledMenuItemInputField
@@ -95,7 +95,7 @@ const CustomFieldComponent = ({
           <DeleteForever />
         </MenuItemSaveButton>
       </StyledMenuItemEditField>
-    </Fragment>
+    </>
   );
 };
 

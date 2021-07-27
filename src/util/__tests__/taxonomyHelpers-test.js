@@ -167,7 +167,7 @@ test('getCurrentTopic', () => {
     },
   ];
 
-  const output = [{}, {}, { id: 'topic1' }, { id: 'topic2' }, {}];
+  const output = [undefined, undefined, { id: 'topic1' }, { id: 'topic2' }, undefined];
 
   input.forEach((variables, i) => {
     expect(getCurrentTopic(variables)).toEqual(output[i]);

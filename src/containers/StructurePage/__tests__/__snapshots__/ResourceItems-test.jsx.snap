@@ -5,11 +5,11 @@ exports[`matches snapshot 1`] = `
   color: #20588f;
 }
 
-.emotion-10 {
+.emotion-9 {
   position: relative;
 }
 
-.emotion-3 {
+.emotion-2 {
   opacity: 0;
   position: absolute;
   z-index: 9999;
@@ -22,7 +22,7 @@ exports[`matches snapshot 1`] = `
   animation-duration: 300ms;
 }
 
-.emotion-2 {
+.emotion-1 {
   display: block;
   color: #fff;
   background: #20588f;
@@ -38,7 +38,7 @@ exports[`matches snapshot 1`] = `
   max-width: calc(100vw - #{26px});
 }
 
-.emotion-9 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -54,18 +54,18 @@ exports[`matches snapshot 1`] = `
   margin-left: 10px;
 }
 
-.emotion-7 {
+.emotion-6 {
   position: relative;
   display: inline-block;
   width: 37px;
   height: 22px;
 }
 
-.emotion-7 input {
+.emotion-6 input {
   display: none;
 }
 
-.emotion-7 > input:checked + .emotion-6::before {
+.emotion-6 > input:checked + .emotion-5::before {
   -webkit-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
@@ -75,7 +75,7 @@ exports[`matches snapshot 1`] = `
   border: 0.91px solid #446b92;
 }
 
-.emotion-5 {
+.emotion-4 {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -90,7 +90,7 @@ exports[`matches snapshot 1`] = `
   border-radius: 10px;
 }
 
-.emotion-5::before {
+.emotion-4::before {
   position: absolute;
   content: 'T';
   left: -3px;
@@ -117,7 +117,7 @@ exports[`matches snapshot 1`] = `
   font-size: 0.8rem;
 }
 
-.emotion-15 {
+.emotion-14 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -151,35 +151,35 @@ exports[`matches snapshot 1`] = `
   line-height: 1;
 }
 
-.emotion-15:hover,
-.emotion-15:focus {
+.emotion-14:hover,
+.emotion-14:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-15[disabled] {
+.emotion-14[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-15:focus {
+.emotion-14:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-15:hover,
-.emotion-15:active,
-.emotion-15:disabled,
-.emotion-15:focus {
+.emotion-14:hover,
+.emotion-14:active,
+.emotion-14:disabled,
+.emotion-14:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-15:focus {
+.emotion-14:focus {
   outline-width: medium;
 }
 
@@ -237,19 +237,19 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-0"
           >
             Kontrast og balanse i grafisk design
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -260,10 +260,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-8"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-6 emotion-7"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -271,20 +271,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-4 emotion-5"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -295,7 +295,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-14 emotion-15"
               type="button"
             >
               <svg
@@ -375,7 +375,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-0"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/89/first-step"
@@ -387,13 +387,13 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -404,10 +404,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-8"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-6 emotion-7"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -415,20 +415,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-4 emotion-5"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -439,7 +439,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-14 emotion-15"
               type="button"
             >
               <svg
@@ -519,7 +519,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-0"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/78/first-step"
@@ -531,13 +531,13 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -548,10 +548,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-8"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-6 emotion-7"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -559,20 +559,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-4 emotion-5"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -583,7 +583,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-14 emotion-15"
               type="button"
             >
               <svg
@@ -663,7 +663,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-0"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/813/first-step"
@@ -675,13 +675,13 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -692,10 +692,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-8"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-6 emotion-7"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -703,20 +703,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-4 emotion-5"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -727,7 +727,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-14 emotion-15"
               type="button"
             >
               <svg
@@ -807,7 +807,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-0"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/508/first-step"
@@ -819,13 +819,13 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -836,10 +836,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-8"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-6 emotion-7"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -847,20 +847,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-4 emotion-5"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -871,7 +871,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-14 emotion-15"
               type="button"
             >
               <svg
@@ -951,7 +951,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-0"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/401/first-step"
@@ -963,13 +963,13 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -980,10 +980,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-8"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-6 emotion-7"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -991,20 +991,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-4 emotion-5"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-9 emotion-10"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-2 emotion-3"
           >
             <span
-              class="emotion-2"
+              class="emotion-1"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -1015,7 +1015,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-14 emotion-15"
               type="button"
             >
               <svg

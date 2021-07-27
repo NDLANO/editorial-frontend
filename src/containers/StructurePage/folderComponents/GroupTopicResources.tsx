@@ -25,7 +25,7 @@ interface Props {
   topicId: string;
   subjectId: string;
   metadata: TaxonomyMetadata;
-  updateLocalTopics: (a: string, b: string, c: any) => void;
+  updateLocalTopics: (topicId: string, saveItems: { metadata: TaxonomyMetadata }) => void;
   hideIcon?: boolean;
 }
 
@@ -45,7 +45,7 @@ const GroupTopicResources = ({
         : TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
     };
     const response = await updateTopicMetadata(topicId, { customFields });
-    updateLocalTopics(subjectId, topicId, {
+    updateLocalTopics(topicId, {
       metadata: { ...metadata, customFields: response.customFields },
     });
   };

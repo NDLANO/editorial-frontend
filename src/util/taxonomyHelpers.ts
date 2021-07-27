@@ -6,10 +6,10 @@
  *
  */
 
+import { TopicResource } from '../containers/StructurePage/resourceComponents/StructureResources';
 import { FlattenedResourceType } from '../interfaces';
 import {
   ResourceType,
-  ResourceWithTopicConnection,
   SubjectTopic,
   TaxonomyElement,
 } from '../modules/taxonomy/taxonomyApiInterfaces';
@@ -93,9 +93,9 @@ const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
 // Same structuring used from ndla-frontend
 
 const getResourcesGroupedByResourceTypes = (
-  resourcesByTopic: ResourceWithTopicConnection[],
-): Record<string, ResourceWithTopicConnection[]> => {
-  return resourcesByTopic.reduce<Record<string, ResourceWithTopicConnection[]>>((obj, resource) => {
+  resourcesByTopic: TopicResource[],
+): Record<string, TopicResource[]> => {
+  return resourcesByTopic.reduce<Record<string, TopicResource[]>>((obj, resource) => {
     const resourceTypesWithResources = resource.resourceTypes.map(type => {
       const existing = obj[type.id] ?? [];
       return { ...type, resources: [...existing, resource] };
@@ -111,11 +111,11 @@ const getResourcesGroupedByResourceTypes = (
 // Same structuring used from ndla-frontend
 const getTopicResourcesByType = (
   resourceTypes: ResourceType[],
-  groupedResourceListItem: Record<string, ResourceWithTopicConnection[]>,
-): (ResourceType & { resources: ResourceWithTopicConnection[] })[] => {
+  groupedResourceListItem: Record<string, TopicResource[]>,
+): (ResourceType & { resources: TopicResource[] })[] => {
   return resourceTypes
     .map(type => {
-      const resources: ResourceWithTopicConnection[] = groupedResourceListItem[type.id] ?? [];
+      const resources: TopicResource[] = groupedResourceListItem[type.id] ?? [];
       return { ...type, resources };
     })
     .filter(type => type.resources.length > 0);
@@ -123,7 +123,7 @@ const getTopicResourcesByType = (
 
 const topicResourcesByTypeWithMetaData = (
   resorceTypesByTopic: (ResourceType & {
-    resources: ResourceWithTopicConnection[];
+    resources: TopicResource[];
   })[],
 ) => {
   return resorceTypesByTopic.map(type => ({
@@ -134,7 +134,7 @@ const topicResourcesByTypeWithMetaData = (
 
 const groupSortResourceTypesFromTopicResources = (
   resourceTypes: ResourceType[],
-  topicResources: ResourceWithTopicConnection[],
+  topicResources: TopicResource[],
 ) => {
   const sortedResourceTypes = getResourcesGroupedByResourceTypes(topicResources);
   const resorceTypesByTopic = getTopicResourcesByType(resourceTypes, sortedResourceTypes);
@@ -183,12 +183,11 @@ const getCurrentTopic = ({
   const topics = subtopics?.split('/');
   if (topics && topics.length > 0) {
     const lastTopic = topics.slice(-1)[0];
-    return allTopics.find(t => t.id === lastTopic) || {};
+    return allTopics.find(t => t.id === lastTopic);
   }
   if (topic) {
-    return allTopics.find(t => t.id === topic) || {};
+    return allTopics.find(t => t.id === topic);
   }
-  return {};
 };
 
 const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {

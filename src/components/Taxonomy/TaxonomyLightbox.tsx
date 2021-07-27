@@ -19,9 +19,9 @@ import Spinner from '../Spinner';
 interface Props {
   children: JSX.Element;
   onClose: () => void;
-  loading: boolean;
+  loading?: boolean;
   title: string;
-  onSelect: () => void;
+  onSelect?: () => void;
 }
 
 const TaxonomyLightbox = ({ children, title, onSelect, t, loading, onClose }: Props & tType) => (

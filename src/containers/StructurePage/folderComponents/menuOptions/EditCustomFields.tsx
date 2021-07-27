@@ -10,7 +10,11 @@ import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Pencil } from '@ndla/icons/action';
 import RoundIcon from '../../../../components/RoundIcon';
-import { TaxonomyElement } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import {
+  SubjectTopic,
+  TaxonomyElement,
+  TaxonomyMetadata,
+} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import MenuItemButton from './MenuItemButton';
 import MenuItemCustomField from './MenuItemCustomField';
 
@@ -18,12 +22,11 @@ interface Props extends TaxonomyElement {
   subjectId: string;
   toggleEditMode: (state: string) => void;
   editMode: string;
-  saveSubjectItems: (subjectid: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  saveSubjectTopicItems: (
-    subjectId: string,
-    topicId: string,
-    saveItems: Pick<TaxonomyElement, 'metadata'>,
+  saveSubjectItems: (
+    subjectid: string,
+    saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
   ) => void;
+  saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
   type: 'topic' | 'subject';
 }
 

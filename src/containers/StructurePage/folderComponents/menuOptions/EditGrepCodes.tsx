@@ -22,23 +22,18 @@ import MenuItemEditField from '../menuOptions/MenuItemEditField';
 
 interface Props {
   editMode: string;
-  getAllSubjects: Function;
+  getAllSubjects: () => Promise<void>;
   id: string;
   name: string;
-  menuType: MenuType;
+  menuType: 'subject' | 'topic';
   metadata: { grepCodes: string[]; visible: boolean };
-  refreshTopics: Function;
-  toggleEditMode: Function;
+  refreshTopics: () => Promise<void>;
+  toggleEditMode: (mode: string) => void;
 }
 
 interface GrepCode {
   code: string;
   title: string | undefined | null;
-}
-
-enum MenuType {
-  subject = 'subject',
-  topic = 'topic',
 }
 
 export const DropDownWrapper = styled('div')`
@@ -103,7 +98,7 @@ const EditGrepCodes = ({
     grepCodeDescriptionTitle();
   }, [editMode, grepCodes, addingNewGrepCode]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const addGrepCode = (grepCode: string) => {
+  const addGrepCode = async (grepCode: string) => {
     grepCodes.push(grepCode.toUpperCase());
     updateMetadata(grepCodes);
   };

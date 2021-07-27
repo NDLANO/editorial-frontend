@@ -1,6 +1,18 @@
-import { jsPlumb } from 'jsplumb';
+import { Connection, jsPlumb, jsPlumbInstance } from 'jsplumb';
+import { RefObject } from 'react';
+import { TopicConnections } from '../modules/taxonomy/taxonomyApiInterfaces';
 
-export const connectLinkItems = async (source, connectionArray, parent, subject, container) => {
+export interface JsPlumbInstanceConnection {
+  instance: jsPlumbInstance;
+  connection: Connection;
+}
+
+export const connectLinkItems = async (
+  source: string,
+  connectionArray: TopicConnections[],
+  parent: string | undefined,
+  starButton: RefObject<any>,
+): Promise<JsPlumbInstanceConnection[]> => {
   const filteredConnections = connectionArray.filter(
     connection => connection.targetId !== parent && connection.type !== 'subtopic',
   );
@@ -11,12 +23,13 @@ export const connectLinkItems = async (source, connectionArray, parent, subject,
     }
     return conn;
   });
-  const { isPrimary } = connectionArray.find(connection => connection.targetId === parent);
+  const { isPrimary } = connectionArray.find(connection => connection.targetId === parent)!;
 
   const instance = jsPlumb.getInstance({
     Container: 'plumbContainer',
     Endpoint: 'Blank',
     Connector: ['Flowchart', { stub: 70 }],
+    // @ts-ignore
     PaintStyle: { strokeWidth: 1, stroke: '#000000', dashstyle: '4 2' },
     Anchors: ['Left', 'Left'],
     deleteEndpointsOnDetach: false,
@@ -25,8 +38,8 @@ export const connectLinkItems = async (source, connectionArray, parent, subject,
           [
             'Custom',
             {
-              create: component => {
-                return container.starButton.current;
+              create: (component: any) => {
+                return starButton.current;
               },
               location: 57,
               id: 'sourceOverlay',
@@ -50,8 +63,8 @@ export const connectLinkItems = async (source, connectionArray, parent, subject,
             [
               'Custom',
               {
-                create: component => {
-                  return container.starButton.current;
+                create: (component: any) => {
+                  return starButton.current;
                 },
                 location: -40,
                 id: `targetOverlay`,

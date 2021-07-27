@@ -46,7 +46,6 @@ const wrapLink = (editor: Editor) => {
     'element',
     {
       type: 'link',
-      href: '',
     },
     [],
   );

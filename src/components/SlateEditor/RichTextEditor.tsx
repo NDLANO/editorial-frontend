@@ -158,8 +158,8 @@ const RichTextEditor = ({
             <SlateBlockPicker
               editor={editor}
               onChange={editor.onChange}
+              articleLanguage={language}
               {...options({
-                articleLanguage: language,
                 actionsToShowInAreas,
               })}
             />

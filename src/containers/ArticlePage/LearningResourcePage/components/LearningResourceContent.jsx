@@ -132,7 +132,6 @@ const LearningResourceContent = ({
 
   React.useEffect(() => {
     handleSubmitRef.current = handleSubmit;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
 
   // Todo: Rewrite the following plugins. For language support, consider using React.useRef().

@@ -117,19 +117,20 @@ const FigureButtons = ({
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      {(embed.resource === 'image' || embed.resource === 'audio') && (
-        <Tooltip tooltip={url[figureType].editTitle} align="right">
-          <IconButton
-            as={Link}
-            to={`${url[figureType].path}/${embed.resource_id}/edit/${language}`}
-            target="_blank"
-            title={url[figureType].editTitle}
-            tabIndex={-1}>
-            <LinkIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-      {embed.resource === 'external' && onEdit && (
+      {(figureType === 'image' || figureType === 'audio' || figureType === 'podcast') &&
+        (embed.resource === 'image' || embed.resource === 'audio') && (
+          <Tooltip tooltip={url[figureType].editTitle} align="right">
+            <IconButton
+              as={Link}
+              to={`${url[figureType].path}/${embed.resource_id}/edit/${language}`}
+              target="_blank"
+              title={url[figureType].editTitle}
+              tabIndex={-1}>
+              <LinkIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      {figureType === 'external' && onEdit && (
         <Tooltip
           tooltip={t('form.external.edit', {
             type: providerName || t('form.external.title'),
@@ -140,7 +141,7 @@ const FigureButtons = ({
           </IconButton>
         </Tooltip>
       )}
-      {embed.resource === 'brightcove' && (
+      {figureType === 'video' && embed.resource === 'brightcove' && (
         <Tooltip tooltip={t('form.video.brightcove')} align="right">
           <IconButton
             as={SafeLink}

@@ -153,7 +153,6 @@ export const learningResourceContentToEditorValue = (html: string) => {
     // Deserialize function sometimes return a list of descendants, but that should never occur at root level.
     // Expect nodes to always be returned.
     const normalizedNodes = convertFromHTML(Node.isNodeList(nodes) ? nodes[0] : nodes);
-    console.log(JSON.stringify(normalizedNodes));
 
     return normalizedNodes ? [normalizedNodes] : [];
   });

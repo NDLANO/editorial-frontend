@@ -7,12 +7,10 @@
  */
 
 import React from 'react';
-import { Editor, Node, Element, Descendant, Text } from 'slate';
+import { Editor, Element, Descendant } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
-
-const KEY_ENTER = 'Enter';
 
 export const TYPE_DIV = 'div';
 

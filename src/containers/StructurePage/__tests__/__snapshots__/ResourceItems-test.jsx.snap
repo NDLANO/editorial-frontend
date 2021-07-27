@@ -147,7 +147,8 @@ exports[`matches snapshot 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  margin-left: 13pxundefined;
+  margin-left: 13px;
+  line-height: 1;
 }
 
 .emotion-16:hover,

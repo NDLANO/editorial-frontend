@@ -101,10 +101,6 @@ const SlateBlockPicker = (props: Props & tType) => {
         onInsertBlock(defaultRelatedBlock());
         break;
       }
-      // case 'related': {
-      //   this.onInsertBlock(defaultRelatedBlock());
-      //   break;
-      // }
       case 'code-block': {
         onInsertBlock(defaultCodeblockBlock());
         break;

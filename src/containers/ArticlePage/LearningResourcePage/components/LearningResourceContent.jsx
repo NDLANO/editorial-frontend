@@ -134,24 +134,6 @@ const LearningResourceContent = ({
     handleSubmitRef.current = handleSubmit;
   }, [handleSubmit]);
 
-  // Todo: Rewrite the following plugins. For language support, consider using React.useRef().
-  // componentDidUpdate({ article: { id: prevId, language: prevArticleLanguage } }) {
-  //   const {
-  //     article: { id, language: articleLanguage },
-  //   } = this.props;
-  //   if (prevArticleLanguage !== articleLanguage || prevId !== id) {
-  //     this.plugins = [
-  //       createEmbedPlugin(articleLanguage),
-  //       conceptPlugin(articleLanguage),
-  //       blockPickerPlugin({
-  //         articleLanguage,
-  //         actionsToShowInAreas,
-  //         ...this.plugins,
-  //       }),
-  //     ];
-  //   }
-  // }
-
   return (
     <Fragment>
       <TitleField

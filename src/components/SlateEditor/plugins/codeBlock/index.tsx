@@ -106,32 +106,3 @@ export const codeblockPlugin = (editor: Editor) => {
 
   return editor;
 };
-
-// export default function codeBlockPlugin() {
-//   const schema = {
-//     blocks: {
-//       'code-block': {
-//         isVoid: true,
-//         data: {},
-//         next: [
-//           {
-//             type: 'paragraph',
-//           },
-//           { type: 'heading-two' },
-//           { type: 'heading-three' },
-//         ],
-//         normalize: (editor: SlateEditor, error: { code: string; child: any }) => {
-//           switch (error.code) {
-//             case 'next_sibling_type_invalid': {
-//               editor.withoutSaving(() => {
-//                 editor.moveToEndOfNode(error.child).insertBlock(defaultBlocks.defaultBlock);
-//               });
-//               break;
-//             }
-//             default:
-//               break;
-//           }
-//         },
-//       },
-//     },
-//   };

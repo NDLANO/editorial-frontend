@@ -44,9 +44,16 @@ export const markSerializer: SlateSerializer = {
     );
   },
 
-  serialize(node: Descendant, children: (JSX.Element | null)[]) {
+  serialize(node: Descendant) {
     if (!Text.isText(node)) return;
     let ret;
+    const children = node.text
+      .split('\n')
+      .reduce((array: (React.ReactElement | string)[], text, i) => {
+        if (i !== 0) array.push(<br key={i} />);
+        array.push(text);
+        return array;
+      }, []);
     if (node.bold) {
       ret = <strong>{children}</strong>;
     }
@@ -68,7 +75,7 @@ export const markSerializer: SlateSerializer = {
     if (ret) {
       return ret;
     }
-    return undefined;
+    return <>{children}</>;
   },
 };
 

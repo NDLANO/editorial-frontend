@@ -54,6 +54,7 @@ import { sectionPlugin } from '../../../../components/SlateEditor/plugins/sectio
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
+import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 
 const byLineStyle = css`
   display: flex;
@@ -98,6 +99,7 @@ const LearningResourceContent = ({
   // Plugins are checked from last to first
   const plugins = [
     sectionPlugin,
+    divPlugin,
     paragraphPlugin,
     footnotePlugin,
     embedPlugin(articleLanguage, locale),

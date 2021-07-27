@@ -112,6 +112,7 @@ export const tableSerializer: SlateSerializer = {
       return <tr>{children}</tr>;
     }
     if (node.type === TYPE_TABLE_CELL) {
+      // console.log(renderToStaticMarkup(<>{children}</>));
       const data = node.data;
       const props = removeEmptyElementDataAttributes({ ...data });
       delete props.isHeader;

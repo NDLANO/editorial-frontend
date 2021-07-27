@@ -36,7 +36,7 @@ export function convertFromHTML(root: Descendant | null) {
       let openWrapperBlock;
       for (const child of children) {
         if (Text.isText(child) || (Element.isElement(child) && inlines.includes(child.type))) {
-          if (Node.string(child) === '') {
+          if (Node.string(child) === '' || Node.string(child) === ' ') {
             continue;
           }
           if (!openWrapperBlock) {

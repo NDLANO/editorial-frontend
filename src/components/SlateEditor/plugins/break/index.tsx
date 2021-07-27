@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Editor, Element, Descendant, Text } from 'slate';
+import { Editor, Element, Descendant } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import { SlateSerializer } from '../../interfaces';
@@ -47,17 +47,6 @@ export const breakSerializer: SlateSerializer = {
     return jsx('text', { text: '\n' });
   },
   serialize(node: Descendant) {
-    if (Text.isText(node)) {
-      return (
-        <>
-          {node.text.split('\n').reduce((array: (React.ReactElement | string)[], text, i) => {
-            if (i !== 0) array.push(<br key={i} />);
-            array.push(text);
-            return array;
-          }, [])}
-        </>
-      );
-    }
     if (!Element.isElement(node)) return;
     if (node.type !== 'br') return;
 

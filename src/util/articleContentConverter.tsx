@@ -38,6 +38,7 @@ import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
 import { Embed } from '../interfaces';
 import { defaultVisualElementPickerBlock } from '../components/SlateEditor/plugins/visualElementPicker';
 import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/utils';
+import { divSerializer } from '../components/SlateEditor/plugins/div';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -87,6 +88,7 @@ const learningResourceRules: SlateSerializer[] = [
   codeblockSerializer,
   embedSerializer,
   bodyboxSerializer,
+  divSerializer,
 ];
 
 // Rules are checked from first to last
@@ -103,6 +105,7 @@ const topicArticleRules: SlateSerializer[] = [
   mathmlSerializer,
   conceptSerializer,
   noEmbedSerializer,
+  divSerializer,
 ];
 
 export const learningResourceContentToEditorValue = (html: string) => {
@@ -110,7 +113,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
     return [createEmptyValue()];
   }
 
-  const deserialize = (el: HTMLElement | ChildNode) => {
+  const deserialize = (el: HTMLElement | ChildNode): Descendant | Descendant[] => {
     if (el.nodeType === 3) {
       return { text: el.textContent || '' };
     } else if (el.nodeType !== 1) {
@@ -138,8 +141,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
         return ret;
       }
     }
-
-    return { text: el.textContent || '' };
+    return children;
   };
 
   const sections = sectionSplitter(html);
@@ -151,6 +153,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
     // Deserialize function sometimes return a list of descendants, but that should never occur at root level.
     // Expect nodes to always be returned.
     const normalizedNodes = convertFromHTML(Node.isNodeList(nodes) ? nodes[0] : nodes);
+    console.log(JSON.stringify(normalizedNodes));
 
     return normalizedNodes ? [normalizedNodes] : [];
   });

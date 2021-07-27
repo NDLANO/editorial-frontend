@@ -10,7 +10,7 @@ exports[`DisplayExternal display error on fetch fail 1`] = `
 
 <div
   className="emotion-0 emotion-1"
-  contentEditable="false"
+  contentEditable={false}
 >
   <span>
     oEmbed av type  og kilde  er ikke støttet.
@@ -28,7 +28,7 @@ exports[`DisplayExternal renders external correctly 1`] = `
 
 <div
   className="emotion-0 emotion-1"
-  contentEditable="false"
+  contentEditable={false}
 >
   <span>
     oEmbed av type  og kilde  er ikke støttet.

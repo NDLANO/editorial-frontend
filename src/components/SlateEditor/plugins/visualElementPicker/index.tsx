@@ -22,10 +22,9 @@ export const visualElementPickerPlugin = (language: string, types?: string[]) =>
   editor.renderElement = ({ attributes, children, element }) => {
     if (element.type === TYPE_VISUAL_ELEMENT_PICKER) {
       return (
-        <div {...attributes} contentEditable="false">
-          <VisualElementPicker editor={editor} language={language} types={types} />
+        <VisualElementPicker editor={editor} language={language} types={types}>
           {children}
-        </div>
+        </VisualElementPicker>
       );
     }
     return renderElement && renderElement({ attributes, children, element });

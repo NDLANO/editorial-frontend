@@ -106,6 +106,7 @@ const RichTextEditor = ({
 
   useEffect(() => {
     if (!submitted && prevSubmitted.current) {
+      editor.history = { redos: [], undos: [] };
       Editor.normalize(editor, { force: true });
     } else if (submitted && !prevSubmitted.current) {
       ReactEditor.deselect(editor);

@@ -41,6 +41,7 @@ import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHot
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
+import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 
 const byLineStyle = css`
   display: flex;
@@ -82,6 +83,7 @@ const createPlugins = (language, handleSubmitRef) => {
     markPlugin,
     toolbarPlugin,
     textTransformPlugin,
+    breakPlugin,
     saveHotkeyPlugin(() => handleSubmitRef.current()),
   ];
 };

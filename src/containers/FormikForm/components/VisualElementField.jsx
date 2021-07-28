@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { injectT } from '@ndla/i18n';
@@ -29,8 +29,6 @@ const StyledErrorPreLine = styled.span`
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
 const VisualElementField = ({ t, formik, types, videoTypes }) => {
-  const [selectedResource, setSelectedResource] = useState(undefined);
-
   return (
     <Fragment>
       <FormikField name="visualElement">
@@ -39,9 +37,6 @@ const VisualElementField = ({ t, formik, types, videoTypes }) => {
             <FieldHeader title={t('form.visualElement.title')} />
             <Fragment>
               <VisualElement
-                selectedResource={selectedResource}
-                resetSelectedResource={() => setSelectedResource(undefined)}
-                changeVisualElement={setSelectedResource}
                 label={t('form.visualElement.label')}
                 language={formik.values.language}
                 types={types}

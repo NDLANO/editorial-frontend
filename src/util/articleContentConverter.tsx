@@ -32,9 +32,11 @@ import { tableSerializer } from '../components/SlateEditor/plugins/table';
 import { relatedSerializer } from '../components/SlateEditor/plugins/related';
 import { embedSerializer } from '../components/SlateEditor/plugins/embed';
 import { codeblockSerializer } from '../components/SlateEditor/plugins/codeBlock';
+import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
 import { defaultEmbedBlock } from '../components/SlateEditor/plugins/embed/utils';
 import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
 import { Embed } from '../interfaces';
+import { defaultVisualElementPickerBlock } from '../components/SlateEditor/plugins/visualElementPicker';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -63,7 +65,8 @@ export const createEmptyValue = () => [
   },
 ];
 
-const rules: SlateSerializer[] = [
+// Rules are checked from first to last
+const learningResourceRules: SlateSerializer[] = [
   paragraphSerializer,
   sectionSerializer,
   breakSerializer,
@@ -71,13 +74,34 @@ const rules: SlateSerializer[] = [
   linkSerializer,
   blockQuoteSerializer,
   headingSerializer,
+  listSerializer,
   footnoteSerializer,
   mathmlSerializer,
   conceptSerializer,
   asideSerializer,
   fileSerializer,
   detailsSerializer,
+  tableSerializer,
+  relatedSerializer,
+  codeblockSerializer,
+  embedSerializer,
   bodyboxSerializer,
+];
+
+// Rules are checked from first to last
+const topicArticleRules: SlateSerializer[] = [
+  paragraphSerializer,
+  sectionSerializer,
+  breakSerializer,
+  markSerializer,
+  linkSerializer,
+  blockQuoteSerializer,
+  headingSerializer,
+  listSerializer,
+  footnoteSerializer,
+  mathmlSerializer,
+  conceptSerializer,
+  noEmbedSerializer,
 ];
 
 export const learningResourceContentToEditorValue = (html: string) => {
@@ -85,27 +109,6 @@ export const learningResourceContentToEditorValue = (html: string) => {
     return [createEmptyValue()];
   }
 
-  const rules: SlateSerializer[] = [
-    paragraphSerializer,
-    sectionSerializer,
-    breakSerializer,
-    markSerializer,
-    linkSerializer,
-    blockQuoteSerializer,
-    headingSerializer,
-    listSerializer,
-    footnoteSerializer,
-    mathmlSerializer,
-    conceptSerializer,
-    asideSerializer,
-    fileSerializer,
-    detailsSerializer,
-    tableSerializer,
-    relatedSerializer,
-    codeblockSerializer,
-    embedSerializer,
-    bodyboxSerializer,
-  ];
   const deserialize = (el: HTMLElement | ChildNode) => {
     if (el.nodeType === 3) {
       return { text: el.textContent || '' };
@@ -118,7 +121,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
       children = [{ text: '' }];
     }
 
-    for (const rule of rules) {
+    for (const rule of learningResourceRules) {
       if (!rule.deserialize) {
         continue;
       }
@@ -153,28 +156,6 @@ export const learningResourceContentToEditorValue = (html: string) => {
 };
 
 export function learningResourceContentToHTML(contentValues: Descendant[][]) {
-  const rules: SlateSerializer[] = [
-    paragraphSerializer,
-    sectionSerializer,
-    breakSerializer,
-    markSerializer,
-    linkSerializer,
-    blockQuoteSerializer,
-    headingSerializer,
-    listSerializer,
-    footnoteSerializer,
-    mathmlSerializer,
-    conceptSerializer,
-    asideSerializer,
-    fileSerializer,
-    detailsSerializer,
-    tableSerializer,
-    relatedSerializer,
-    embedSerializer,
-    bodyboxSerializer,
-    codeblockSerializer,
-  ];
-
   const serialize = (node: Descendant): JSX.Element | null => {
     let children: (JSX.Element | null)[];
     if (Text.isText(node)) {
@@ -183,7 +164,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
       children = node.children.map((n: Descendant) => serialize(n));
     }
 
-    for (const rule of rules) {
+    for (const rule of learningResourceRules) {
       if (!rule.serialize) {
         continue;
       }
@@ -210,7 +191,6 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
         .join(''),
     )
     .join('');
-
   return elements.replace(/<deleteme><\/deleteme>/g, '');
 }
 
@@ -230,7 +210,7 @@ export function topicArticleContentToEditorValue(html: string) {
       children = [{ text: '' }];
     }
 
-    for (const rule of rules) {
+    for (const rule of topicArticleRules) {
       if (!rule.deserialize) {
         continue;
       }
@@ -260,12 +240,12 @@ export function topicArticleContentToHTML(value: Descendant[]) {
   const serialize = (node: Descendant): JSX.Element | null => {
     let children: (JSX.Element | null)[];
     if (Text.isText(node)) {
-      children = escapeHtml(node.text);
+      children = [escapeHtml(node.text)];
     } else {
       children = node.children.map((n: Descendant) => serialize(n));
     }
 
-    for (const rule of rules) {
+    for (const rule of topicArticleRules) {
       if (!rule.serialize) {
         continue;
       }
@@ -288,6 +268,7 @@ export function topicArticleContentToHTML(value: Descendant[]) {
       return html ? renderToStaticMarkup(html) : '';
     })
     .join('');
+
   return elements.replace(/<deleteme><\/deleteme>/g, '');
 }
 
@@ -300,12 +281,12 @@ export function editorValueToPlainText(editorValue: Descendant[]) {
 }
 
 export function embedToEditorValue(embed?: Embed) {
-  return embed ? [defaultEmbedBlock(embed) as EmbedElement] : [];
+  return embed ? [defaultEmbedBlock(embed)] : [];
 }
 
 export function embedTagToEditorValue(embedTag: string) {
   const embed = parseEmbedTag(embedTag);
-  return embed ? embedToEditorValue(embed) : [];
+  return embed ? embedToEditorValue(embed) : [defaultVisualElementPickerBlock()];
 }
 
 export function editorValueToEmbed(editorValue: EmbedElement[]) {

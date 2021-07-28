@@ -21,6 +21,7 @@ import { RelatedElement } from './plugins/related';
 import { EmbedElement } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
 import { CodeblockElement } from './plugins/codeBlock';
+import { VisualElementPickerElement } from './plugins/visualElementPicker';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -35,6 +36,7 @@ export type CustomEditor = {
   renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
   removeSection?: () => void;
   shouldShowToolbar: () => boolean;
+  shouldShowBlockPicker?: () => boolean;
   decorations?: (editor: Editor, entry: NodeEntry) => BaseRange[];
 };
 
@@ -64,7 +66,8 @@ declare module 'slate' {
       | TableCellElement
       | RelatedElement
       | EmbedElement
-      | BodyboxElement;
+      | BodyboxElement
+      | VisualElementPickerElement;
     Text: CustomTextWithMarks;
   }
 }

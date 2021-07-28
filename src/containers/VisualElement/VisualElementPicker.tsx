@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Editor, Element, Transforms } from 'slate';
 import SlateVisualElementPicker from '../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 import VisualElementMenu from './VisualElementMenu';
@@ -14,26 +14,30 @@ import VisualElementMenu from './VisualElementMenu';
 interface Props {
   editor: Editor;
   language: string;
-  onSelect: (visualElement: string) => void;
-  types: string[];
-  selectedResource: string;
-  resetSelectedResource: () => void;
+  types?: string[];
+  children: React.ReactNode;
 }
 
-const VisualElementPicker = ({
-  editor,
-  language,
-  onSelect,
-  types,
-  selectedResource,
-  resetSelectedResource,
-}: Props) => {
+const VisualElementPicker = ({ editor, language, types, children }: Props) => {
   const onInsertBlock = (block: Element) => {
-    Transforms.insertNodes(editor, block, { at: [0] });
+    Editor.withoutNormalizing(editor, () => {
+      Transforms.removeNodes(editor, { at: [0] });
+      Transforms.insertNodes(editor, block, { at: [0] });
+    });
+  };
+
+  const [selectedResource, setSelectedResource] = useState<string | undefined>(undefined);
+
+  const resetSelectedResource = () => {
+    setSelectedResource(undefined);
+  };
+
+  const onSelect = (visualElement: string) => {
+    setSelectedResource(visualElement);
   };
 
   return (
-    <>
+    <div contentEditable={false}>
       {selectedResource && (
         <SlateVisualElementPicker
           articleLanguage={language}
@@ -43,7 +47,8 @@ const VisualElementPicker = ({
         />
       )}
       <VisualElementMenu onSelect={onSelect} types={types} />
-    </>
+      {children}
+    </div>
   );
 };
 

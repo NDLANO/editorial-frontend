@@ -55,13 +55,13 @@ export const markSerializer: SlateSerializer = {
       ret = <u>{ret || children}</u>;
     }
     if (node.sup) {
-      ret = <sup>${ret || children}</sup>;
+      ret = <sup>{ret || children}</sup>;
     }
     if (node.sub) {
-      ret = <sub>${ret || children}</sub>;
+      ret = <sub>{ret || children}</sub>;
     }
     if (node.code) {
-      ret = <code>${ret || children}</code>;
+      ret = <code>{ret || children}</code>;
     }
     if (ret) {
       return ret;

@@ -8,14 +8,14 @@
 
 import { FormikContextType } from 'formik';
 import isEmpty from 'lodash/fp/isEmpty';
+import { PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { SubjectType, License, ConceptType } from '../../interfaces';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
   embedTagToEditorValue,
   editorValueToEmbedTag,
 } from '../../util/articleContentConverter';
-import { PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
-import { SubjectType, License, ConceptType } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
 
 export const transformApiConceptToFormValues = (

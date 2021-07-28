@@ -31,7 +31,7 @@ const visualElementButtonStyle = css`
 `;
 
 interface Props {
-  types: string[];
+  types?: string[];
   onSelect: Function;
 }
 

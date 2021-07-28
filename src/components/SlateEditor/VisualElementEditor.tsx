@@ -6,25 +6,24 @@
  *
  */
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { FormikHandlers } from 'formik';
-import { Descendant, Editor, createEditor } from 'slate';
+import { Descendant, Editor, createEditor, Transforms } from 'slate';
 import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
 import { withHistory } from 'slate-history';
+import { jsx } from 'slate-hyperscript';
 
 import { SlateProvider } from './SlateContext';
 import { SlatePlugin } from './interfaces';
-import VisualElementPicker from '../../containers/VisualElement/VisualElementPicker';
-import { EmbedElement } from './plugins/embed';
+import { TYPE_VISUAL_ELEMENT_PICKER } from './plugins/visualElementPicker';
 
 interface Props {
   name: string;
-  value: EmbedElement[];
+  value: Descendant[];
   plugins: SlatePlugin[];
   onChange: FormikHandlers['handleChange'];
   changeVisualElement: (visualElement: string) => void;
   language: string;
-  types: string[];
   selectedResource: string;
   resetSelectedResource: () => void;
 }
@@ -37,20 +36,9 @@ const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
   return editor;
 };
 
-const VisualElementEditor = ({
-  name,
-  value,
-  plugins,
-  onChange,
-  changeVisualElement,
-  language,
-  types,
-  selectedResource,
-  resetSelectedResource,
-}: Props) => {
-  const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), [
-    plugins,
-  ]);
+const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
   const renderElement = (elementProps: RenderElementProps) => {
     const { attributes, children } = elementProps;
@@ -62,6 +50,17 @@ const VisualElementEditor = ({
     }
     return <div {...attributes}>{children}</div>;
   };
+
+  useEffect(() => {
+    if (editor.children.length === 0) {
+      Transforms.insertNodes(
+        editor,
+        jsx('element', { type: TYPE_VISUAL_ELEMENT_PICKER }, { text: '' }),
+        { at: [0] },
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor.children]);
 
   return (
     <SlateProvider>
@@ -77,23 +76,12 @@ const VisualElementEditor = ({
             },
           });
         }}>
-        {value.length ? (
-          <Editable
-            renderElement={renderElement}
-            onDragStart={e => {
-              e.stopPropagation();
-            }}
-          />
-        ) : (
-          <VisualElementPicker
-            editor={editor}
-            language={language}
-            onSelect={changeVisualElement}
-            types={types}
-            selectedResource={selectedResource}
-            resetSelectedResource={resetSelectedResource}
-          />
-        )}
+        <Editable
+          renderElement={renderElement}
+          onDragStart={e => {
+            e.stopPropagation();
+          }}
+        />
       </Slate>
     </SlateProvider>
   );

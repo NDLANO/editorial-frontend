@@ -67,7 +67,7 @@ const SlateBlockPicker = (props: Props & tType) => {
   const onInsertBlock = (block: Element) => {
     const { editor } = props;
     setIsOpen(false);
-    if (block.type === 'embed' && block.data.resource === 'h5p') {
+    if (block.type === 'embed') {
       setTimeout(() => {
         ReactEditor.focus(editor);
       }, 0);

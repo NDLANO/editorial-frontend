@@ -7,7 +7,7 @@
  */
 
 import defined from 'defined';
-import auth0 from 'auth0-js';
+import auth0, { Auth0DecodedHash, Auth0ParseHashError } from 'auth0-js';
 import config from '../config';
 import { expiresIn, ndlaId, ndlaUserName, ndlaUserEmail } from './jwtHelper';
 import * as messageActions from '../containers/Messages/messagesActions';
@@ -85,15 +85,15 @@ const auth = new auth0.WebAuth({
   audience: 'ndla_system',
 });
 
-export function parseHash(hash: string): Promise<any> {
+export function parseHash(hash: string): Promise<Auth0DecodedHash> {
   return new Promise((resolve, reject) => {
     auth.parseHash(
       {
         hash,
         _idTokenVerification: false,
       },
-      (err: any, authResult: any) => {
-        if (!err) {
+      (err: Auth0ParseHashError | null, authResult: Auth0DecodedHash | null) => {
+        if (!err && authResult) {
           resolve(authResult);
         } else {
           reject(err);

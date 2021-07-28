@@ -83,6 +83,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     url: ['liste.ndla.no', 'liste.test.ndla.no', 'liste.staging.ndla.no'],
     height: '398px',
   },
+  { name: 'ebok', url: ['ebok.no'] },
 ];
 
 export const SearchTypeValues = [

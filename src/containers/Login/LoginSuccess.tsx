@@ -6,25 +6,26 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
+import { History } from 'history';
 import { actions } from '../../modules/session/session';
 import { parseHash } from '../../util/authHelpers';
-import { LocationShape } from '../../shapes';
 import { toLogin } from '../../util/routeHelpers';
 
-export class LoginSuccess extends React.Component {
-  async componentDidMount() {
-    const {
-      loginSuccess,
-      location: { hash },
-      history,
-    } = this.props;
+type Success = {
+  accessToken: string;
+  history: History;
+};
+interface Props extends RouteComponentProps {
+  loginSuccess: (arg0: Success) => void;
+}
 
-    const authResult = await parseHash(hash);
-    if (authResult.scope.includes(':')) {
-      if (authResult && authResult.accessToken) {
+export const LoginSuccess = ({ loginSuccess, location: { hash }, history }: Props) => {
+  useEffect(() => {
+    parseHash(hash).then(authResult => {
+      if (authResult.scope?.includes(':') && authResult.accessToken) {
         if (authResult.state) {
           window.location.href = authResult.state;
         }
@@ -32,23 +33,13 @@ export class LoginSuccess extends React.Component {
           accessToken: authResult.accessToken,
           history,
         });
+      } else {
+        history.replace(`${toLogin()}/failure`);
       }
-    } else {
-      history.replace(`${toLogin()}/failure`);
-    }
-  }
+    });
+  }, []); //  eslint-disable-line
 
-  render() {
-    return <div />;
-  }
-}
-
-LoginSuccess.propTypes = {
-  history: PropTypes.shape({
-    replace: PropTypes.func.isRequired,
-  }).isRequired,
-  loginSuccess: PropTypes.func.isRequired,
-  location: LocationShape,
+  return null;
 };
 
 const mapDispatchToProps = {

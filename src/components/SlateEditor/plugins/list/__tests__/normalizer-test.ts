@@ -116,7 +116,79 @@ describe('list normalizer tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ text: 'abc ' }],
+            children: [{ text: 'abc' }],
+          },
+        ],
+      },
+    ];
+    editor.children = editorValue;
+    Editor.normalize(editor, { force: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
+
+  test('If listItem contains text, wrap it in paragraph.', () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_LIST,
+            listType: 'letter-list',
+            data: {},
+            children: [
+              {
+                type: TYPE_LIST_ITEM,
+                children: [
+                  {
+                    text: 'abc',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+          {
+            type: TYPE_LIST,
+            listType: 'letter-list',
+            data: {},
+            children: [
+              {
+                type: TYPE_LIST_ITEM,
+                children: [
+                  {
+                    type: TYPE_PARAGRAPH,
+                    children: [
+                      {
+                        text: 'abc',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
           },
         ],
       },

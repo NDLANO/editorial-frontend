@@ -150,7 +150,7 @@ export const listPlugin = (editor: Editor) => {
             editor,
             {
               type: TYPE_PARAGRAPH,
-              children: [],
+              children: [{ text: '' }],
             },
             { at: childPath },
           );

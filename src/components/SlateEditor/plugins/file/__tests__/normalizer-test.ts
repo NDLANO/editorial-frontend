@@ -32,7 +32,7 @@ describe('file normalizer tests', () => {
                 text: '',
               },
             ],
-            data: []
+            data: [],
           },
           {
             type: TYPE_FILE,
@@ -41,7 +41,7 @@ describe('file normalizer tests', () => {
                 text: '',
               },
             ],
-            data: []
+            data: [],
           },
           {
             type: TYPE_FILE,
@@ -50,7 +50,7 @@ describe('file normalizer tests', () => {
                 text: '',
               },
             ],
-            data: []
+            data: [],
           },
         ],
       },
@@ -71,7 +71,7 @@ describe('file normalizer tests', () => {
                 text: '',
               },
             ],
-            data: []
+            data: [],
           },
           {
             type: TYPE_PARAGRAPH,
@@ -84,7 +84,7 @@ describe('file normalizer tests', () => {
                 text: '',
               },
             ],
-            data: []
+            data: [],
           },
           {
             type: TYPE_PARAGRAPH,
@@ -97,7 +97,7 @@ describe('file normalizer tests', () => {
                 text: '',
               },
             ],
-            data: []
+            data: [],
           },
           {
             type: TYPE_PARAGRAPH,

@@ -165,7 +165,7 @@ const StructureResources = ({
             learningpath = await fetchLearningpath(parseInt(id), locale);
           } catch (e) {
             learningpath = {};
-          } // TODO: Could be improved. Appliccable to entire file.
+          }
           if (learningpath.status) {
             resource.status = { current: learningpath.status as DraftStatusTypes, other: [] };
           }

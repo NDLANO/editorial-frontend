@@ -66,10 +66,11 @@ const Resource = ({
 }: Props & tType) => {
   const [showVersionHistory, setShowVersionHistory] = useState(false);
 
-  const contentType = resource.resourceTypes
-    ? getContentTypeFromResourceTypes(resource.resourceTypes.map(r => ({ ...r, subtypes: [] })))
-        .contentType
-    : 'topic-article';
+  const contentType =
+    resource.resourceTypes.length > 0
+      ? getContentTypeFromResourceTypes(resource.resourceTypes.map(r => ({ ...r, subtypes: [] })))
+          .contentType
+      : 'topic-article';
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 

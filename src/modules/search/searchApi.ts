@@ -33,6 +33,6 @@ export const searchResources = async (query: MultiSearchApiQuery): Promise<Multi
 };
 
 export const groupSearch = (query: string, type: string): Promise<GroupSearchResult[]> =>
-  fetchAuthorized(`${groupUrl}?query=${query}&resource-types=${type}`).then(
-    resolveJsonOrRejectWithError,
+  fetchAuthorized(`${groupUrl}?query=${query}&resource-types=${type}`).then(r =>
+    resolveJsonOrRejectWithError<GroupSearchResult[]>(r),
   );

@@ -22,7 +22,7 @@ import {
   AlertModalWrapper,
 } from '../../FormikForm';
 import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
-import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
+import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import { NewImageMetadata, UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
 
@@ -126,6 +126,7 @@ interface Props {
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
+  isSaving?: boolean;
 }
 
 interface State {
@@ -181,7 +182,7 @@ class ImageForm extends Component<Props & tType, State> {
   };
 
   render() {
-    const { t, image, licenses, inModal, closeModal, isNewlyCreated } = this.props;
+    const { t, image, licenses, inModal, closeModal, isNewlyCreated, isSaving } = this.props;
     const { savedToServer } = this.state;
     type ErrorFields =
       | 'alttext'
@@ -195,6 +196,7 @@ class ImageForm extends Component<Props & tType, State> {
       | 'title';
 
     const initialValues = getInitialValues(image);
+
     return (
       <Formik
         initialValues={initialValues}
@@ -256,12 +258,12 @@ class ImageForm extends Component<Props & tType, State> {
                     {t('form.abort')}
                   </ActionButton>
                 ) : (
-                  <AbortButton outline disabled={isSubmitting}>
+                  <AbortButton outline disabled={isSubmitting || isSaving}>
                     {t('form.abort')}
                   </AbortButton>
                 )}
                 <SaveButton
-                  isSaving={isSubmitting}
+                  isSaving={isSubmitting || isSaving}
                   showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                   formIsDirty={formIsDirty}
                   submit={!inModal}

@@ -168,7 +168,6 @@ export class DisplayExternal extends Component {
     }
     return (
       <div
-        draggable
         className="c-figure"
         css={
           showCopyOutline && {

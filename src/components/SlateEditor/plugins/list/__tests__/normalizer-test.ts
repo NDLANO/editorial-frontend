@@ -306,4 +306,147 @@ describe('list normalizer tests', () => {
     Editor.normalize(editor, { force: true });
     expect(editor.children).toEqual(expectedValue);
   });
+
+  test('Handle changing list-items marked for listType change.', () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_LIST,
+            listType: 'letter-list',
+            data: {},
+            children: [
+              {
+                type: TYPE_LIST_ITEM,
+                children: [
+                  {
+                    type: TYPE_LIST,
+                    listType: 'letter-list',
+                    data: {},
+                    children: [
+                      {
+                        type: TYPE_LIST_ITEM,
+                        changeTo: 'numbered-list',
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: 'abc',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      {
+                        type: TYPE_LIST_ITEM,
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: 'def',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+          {
+            type: TYPE_LIST,
+            listType: 'letter-list',
+            data: {},
+            children: [
+              {
+                type: TYPE_LIST_ITEM,
+                children: [
+                  {
+                    type: TYPE_PARAGRAPH,
+                    children: [
+                      {
+                        text: '',
+                      },
+                    ],
+                  },
+                  {
+                    type: TYPE_LIST,
+                    listType: 'numbered-list',
+                    data: {},
+                    children: [
+                      {
+                        type: TYPE_LIST_ITEM,
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: 'abc',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    type: TYPE_LIST,
+                    listType: 'letter-list',
+                    data: {},
+                    children: [
+                      {
+                        type: TYPE_LIST_ITEM,
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: 'def',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    editor.children = editorValue;
+    Editor.normalize(editor, { force: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
 });

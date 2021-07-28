@@ -68,9 +68,6 @@ const SlateBlockPicker = (props: Props & tType) => {
     const { editor } = props;
     setIsOpen(false);
     Editor.insertNode(editor, block);
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-    }, 0);
   };
 
   const onElementAdd = (data: ActionData) => {

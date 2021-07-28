@@ -45,7 +45,7 @@ export const listSerializer: SlateSerializer = {
       if (el.getAttribute('data-type') === 'letters') {
         return jsx(
           'element',
-          { type: TYPE_LIST, listType: 'letter-list', data: { start } },
+          { type: TYPE_LIST, listType: 'letter-list', data: { start: start ? start : undefined } },
           children,
         );
       }
@@ -53,7 +53,11 @@ export const listSerializer: SlateSerializer = {
       else {
         return jsx(
           'element',
-          { type: TYPE_LIST, listType: 'numbered-list', data: { start } },
+          {
+            type: TYPE_LIST,
+            listType: 'numbered-list',
+            data: { start: start ? start : undefined },
+          },
           children,
         );
       }

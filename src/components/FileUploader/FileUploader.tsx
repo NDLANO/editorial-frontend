@@ -43,7 +43,6 @@ const FileUploader = ({ onFileSave, t }: Props & tType) => {
           title: files[i].name.replace(/\..*/, ''),
         })),
       );
-      setSaving(false);
     } catch (err) {
       if (err && err.json && err.json.messages) {
         setErrorMessage(
@@ -52,6 +51,7 @@ const FileUploader = ({ onFileSave, t }: Props & tType) => {
       }
       handleError(err);
     }
+    setSaving(false);
   };
 
   if (errorMessage) {
@@ -62,34 +62,7 @@ const FileUploader = ({ onFileSave, t }: Props & tType) => {
     <div css={wrapperCSS}>
       <UploadDropZone
         name="file"
-        allowedFiles={[
-          '.csv',
-          '.doc',
-          '.docx',
-          '.dwg',
-          '.dxf',
-          '.ggb',
-          '.ipynb',
-          '.json',
-          '.odp',
-          '.ods',
-          '.odt',
-          '.pdf',
-          '.pln',
-          '.pro',
-          '.ppt',
-          '.pptx',
-          '.pub',
-          '.rtf',
-          '.skp',
-          '.stl',
-          '.tex',
-          '.tsv',
-          '.txt',
-          '.xls',
-          '.xlsx',
-          '.xml',
-        ]}
+        allowedFiles={allowedFiles}
         onAddedFiles={onSave}
         multiple
         loading={saving}
@@ -99,5 +72,34 @@ const FileUploader = ({ onFileSave, t }: Props & tType) => {
     </div>
   );
 };
+
+const allowedFiles = [
+  '.csv',
+  '.doc',
+  '.docx',
+  '.dwg',
+  '.dxf',
+  '.ggb',
+  '.ipynb',
+  '.json',
+  '.odp',
+  '.ods',
+  '.odt',
+  '.pdf',
+  '.pln',
+  '.pro',
+  '.ppt',
+  '.pptx',
+  '.pub',
+  '.rtf',
+  '.skp',
+  '.stl',
+  '.tex',
+  '.tsv',
+  '.txt',
+  '.xls',
+  '.xlsx',
+  '.xml',
+];
 
 export default injectT(FileUploader);

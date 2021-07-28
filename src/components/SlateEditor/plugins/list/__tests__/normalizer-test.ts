@@ -19,74 +19,6 @@ const editor = withHistory(
   withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
 );
 
-const DELETE_SOON = [
-  {
-    type: TYPE_SECTION,
-    children: [
-      {
-        type: TYPE_LIST,
-        listType: 'letter-list',
-        data: {},
-        children: [
-          {
-            type: TYPE_LIST_ITEM,
-            children: [
-              {
-                type: TYPE_PARAGRAPH,
-                children: [
-                  {
-                    text: 'abc',
-                  },
-                ],
-              },
-              {
-                type: TYPE_LIST,
-                listType: 'numbered-list',
-                data: {},
-                children: [
-                  {
-                    type: TYPE_LIST_ITEM,
-                    children: [
-                      {
-                        type: TYPE_PARAGRAPH,
-                        children: [
-                          {
-                            text: '123',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                type: TYPE_LIST,
-                listType: 'bulleted-list',
-                data: {},
-                children: [
-                  {
-                    type: TYPE_LIST_ITEM,
-                    children: [
-                      {
-                        type: TYPE_PARAGRAPH,
-                        children: [
-                          {
-                            text: 'def',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
-
 describe('list normalizer tests', () => {
   test('Unwrap list item not placed inside list', () => {
     const editorValue: Descendant[] = [
@@ -521,6 +453,132 @@ describe('list normalizer tests', () => {
                     children: [
                       {
                         text: 'abc',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    editor.children = editorValue;
+    Editor.normalize(editor, { force: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
+
+  test('Merge sibling lists if identical type', () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+          {
+            type: TYPE_LIST,
+            listType: 'letter-list',
+            data: {},
+            children: [
+              {
+                type: TYPE_LIST_ITEM,
+                children: [
+                  {
+                    type: TYPE_PARAGRAPH,
+                    children: [
+                      {
+                        text: 'abc',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_LIST,
+            listType: 'letter-list',
+            data: {},
+            children: [
+              {
+                type: TYPE_LIST_ITEM,
+                children: [
+                  {
+                    type: TYPE_PARAGRAPH,
+                    children: [
+                      {
+                        text: 'def',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+          {
+            type: TYPE_LIST,
+            listType: 'letter-list',
+            data: {},
+            children: [
+              {
+                type: TYPE_LIST_ITEM,
+                children: [
+                  {
+                    type: TYPE_PARAGRAPH,
+                    children: [
+                      {
+                        text: 'abc',
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: TYPE_LIST_ITEM,
+                children: [
+                  {
+                    type: TYPE_PARAGRAPH,
+                    children: [
+                      {
+                        text: 'def',
                       },
                     ],
                   },

@@ -166,7 +166,8 @@ const RichTextEditor = ({
             <Editable
               decorate={entry => decorations(entry)}
               onBlur={(event: FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
-              onKeyDown={(editor.onKeyDown as unknown) as KeyboardEventHandler<HTMLDivElement>}
+              // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
+              onKeyDown={editor.onKeyDown}
               placeholder={placeholder}
               renderElement={renderElement}
               renderLeaf={renderLeaf}

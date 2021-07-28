@@ -7,7 +7,7 @@
  */
 
 import React, { useRef, useEffect, useState } from 'react';
-import { Editor, Element, Node, Location, Range } from 'slate';
+import { Editor, Element, Node, Location, Range, Path } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
@@ -20,6 +20,7 @@ import { defaultTableBlock } from '../table/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
+import { TYPE_LIST_ITEM } from '../list';
 
 interface Props {
   editor: Editor;
@@ -133,8 +134,20 @@ const SlateBlockPicker = (props: Props & tType) => {
       const range = ReactEditor.toDOMRange(editor, editor.selection);
       const rect = range.getBoundingClientRect();
 
+      const [[, path]] = Editor.nodes(editor, {
+        match: node => Element.isElement(node) && !editor.isInline(node),
+        mode: 'lowest',
+      });
+
+      const [parent] = Editor.node(editor, Path.parent(path));
+
+      const isListItem = path && Element.isElement(parent) && parent.type === TYPE_LIST_ITEM;
+
       slateBlockRef.current.style.top = `${rect.top + window.scrollY - 14}px`;
-      slateBlockRef.current.style.left = `${rect.left + window.scrollX - 78 - rect.width / 2}px`;
+      slateBlockRef.current.style.left = `${rect.left +
+        window.scrollX -
+        (isListItem ? 110 : 78) -
+        rect.width / 2}px`;
       slateBlockRef.current.style.position = 'absolute';
       slateBlockRef.current.style.opacity = '1';
 

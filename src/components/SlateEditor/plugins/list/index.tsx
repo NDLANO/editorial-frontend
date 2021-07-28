@@ -158,7 +158,7 @@ export const listPlugin = (editor: Editor) => {
         }
       }
 
-      // If first child is not a paragraph or heading, insert an empty paragraph
+      // If first child is not a paragraph, heading or quote, insert an empty paragraph
       const firstChild = node.children[0];
       if (Element.isElement(firstChild)) {
         if (!firstTextBlockElement.includes(firstChild.type)) {

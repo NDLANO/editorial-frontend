@@ -197,4 +197,113 @@ describe('list normalizer tests', () => {
     Editor.normalize(editor, { force: true });
     expect(editor.children).toEqual(expectedValue);
   });
+
+  test('If first child of list item is not a paragraph or heading, insert an empty paragraph.', () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_LIST,
+            listType: 'letter-list',
+            data: {},
+            children: [
+              {
+                type: TYPE_LIST_ITEM,
+                children: [
+                  {
+                    type: TYPE_LIST,
+                    listType: 'letter-list',
+                    data: {},
+                    children: [
+                      {
+                        type: TYPE_LIST_ITEM,
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+          {
+            type: TYPE_LIST,
+            listType: 'letter-list',
+            data: {},
+            children: [
+              {
+                type: TYPE_LIST_ITEM,
+                children: [
+                  {
+                    type: TYPE_PARAGRAPH,
+                    children: [
+                      {
+                        text: '',
+                      },
+                    ],
+                  },
+                  {
+                    type: TYPE_LIST,
+                    listType: 'letter-list',
+                    data: {},
+                    children: [
+                      {
+                        type: TYPE_LIST_ITEM,
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    editor.children = editorValue;
+    Editor.normalize(editor, { force: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
 });

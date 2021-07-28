@@ -10,9 +10,9 @@ export const textBlockElements: Element['type'][] = [
   'list',
   'quote',
   'table',
-  //'embed',
-  //'file',
-  //'code-block',
+  'embed',
+  'file',
+  'code-block',
 ];
 
 export const lastTextBlockElement: Element['type'][] = ['paragraph'];

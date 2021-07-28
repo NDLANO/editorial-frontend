@@ -342,32 +342,12 @@ export interface SubjectpageEditType extends SubjectpageType {
   mobileBanner?: number;
   elementId?: string;
   title?: string;
-  visualElement?: VisualElement;
+  visualElement?: PartialVisualElement;
 }
 
-type VisualElement =
+type PartialVisualElement =
   | (Omit<Partial<BrightcoveEmbed>, 'resource'> & { resource: 'brightcove' | 'video' })
   | (Omit<Partial<ImageEmbed>, 'resource'> & { resource: 'image' });
-
-// export interface VisualElement {}
-// resource_id?: string;
-// account?: string;
-// align?: string;
-// alt?: string;
-// caption?: string;
-// metaData?: any;
-// path?: string;
-// player?: string;
-// title?: string;
-// size?: string;
-// url?: string;
-// videoid?: string;
-// 'focal-x'?: string;
-// 'focal-y'?: string;
-// 'lower-right-y'?: string;
-// 'lower-right-x'?: string;
-// 'upper-left-y'?: string;
-// 'upper-left-x'?: string;
 
 export interface NdlaFilmType {
   name: string;

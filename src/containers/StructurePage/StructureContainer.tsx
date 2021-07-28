@@ -249,7 +249,7 @@ export const StructureContainer = ({
     const currentPath = url.replace('/structure/', '');
     const levelAbove = removeLastItemFromUrl(currentPath);
     const newPath = currentPath === path ? levelAbove : path;
-    const deleteSearch = params.subject ? !newPath.includes(params.subject) : true; // consider this later.
+    const deleteSearch = !!params.subject && !newPath.includes(params.subject);
     history.push(`/structure/${newPath.concat(deleteSearch ? '' : search)}`);
   };
 

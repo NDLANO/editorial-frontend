@@ -52,7 +52,7 @@ const MenuItemEditField = ({
   const handleSubmit = async () => {
     setStatus('loading');
     try {
-      await onSubmit(input!); // can this throw on empty?
+      await onSubmit(input!);
       setStatus('success');
       onClose();
     } catch (e) {

@@ -30,6 +30,7 @@ interface Props {
   actions?: {
     text: string;
     onClick: Function;
+    'data-testid'?: string;
   }[];
 }
 

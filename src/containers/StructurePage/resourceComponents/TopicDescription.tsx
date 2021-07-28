@@ -44,24 +44,21 @@ const TopicDescription = ({
         hidden={!displayTopicDescription}
         handleToggle={toggleDisplayTopicDescription}>
         {topicDescription && (
-          <>
-            <div>Test</div>
-            <Resource
-              resource={{
-                ...currentTopic,
-                name: topicDescription,
-                status,
-                topicId: currentTopic.id,
-                paths: [],
-                resourceTypes: [],
-              }}
-              locale={locale}
-              connectionId={currentTopic.connectionId}
-              relevanceId={currentTopic.relevanceId}
-              primary={currentTopic.isPrimary}
-              rank={currentTopic.rank}
-            />
-          </>
+          <Resource
+            resource={{
+              ...currentTopic,
+              name: topicDescription,
+              status,
+              topicId: currentTopic.id,
+              paths: [],
+              resourceTypes: [],
+            }}
+            locale={locale}
+            connectionId={currentTopic.connectionId}
+            relevanceId={currentTopic.relevanceId}
+            primary={currentTopic.isPrimary}
+            rank={currentTopic.rank}
+          />
         )}
       </Accordion>
       {showAddModal && (

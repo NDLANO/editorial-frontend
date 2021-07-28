@@ -15,7 +15,7 @@ import { spacing } from '@ndla/core';
 import AlertModalFooter from './AlertModalFooter';
 import Lightbox from '../Lightbox';
 
-const StyledAlertModal = styled('div')`
+const StyledAlertModal = styled('div')<{ severity: string }>`
   height: 100%;
   padding-top: ${spacing.normal};
   font-size: 24px;
@@ -40,7 +40,16 @@ const alertModalBodyIconStyle = css`
   margin-right: ${spacing.small};
 `;
 
-const AlertModal = ({ text, onCancel, actions, component, show, severity }) =>
+interface Props {
+  text: string;
+  onCancel: () => void;
+  component?: React.ReactElement[] | React.ReactElement;
+  actions?: { text: string; onClick: Function }[];
+  show?: boolean;
+  severity?: string;
+}
+
+const AlertModal = ({ text, onCancel, actions, component, show, severity = 'danger' }: Props) =>
   show ? (
     <Lightbox display={show} onClose={onCancel} appearance="modal" severity={severity}>
       <StyledAlertModal severity={severity}>
@@ -65,10 +74,6 @@ AlertModal.propTypes = {
   ),
   show: PropTypes.bool,
   severity: PropTypes.string,
-};
-
-AlertModal.defaultProps = {
-  severity: 'danger',
 };
 
 export default AlertModal;

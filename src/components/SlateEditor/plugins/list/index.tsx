@@ -186,11 +186,28 @@ export const listPlugin = (editor: Editor) => {
       }
     }
     if (Element.isElement(node) && node.type === TYPE_LIST) {
-      // If list is empty, remove it
-      if (node.children.length === 0) {
+      // If list is empty or zero-length text element, remove it
+      if (
+        node.children.length === 0 ||
+        (Text.isTextList(node.children) && Node.string(node) === '')
+      ) {
         return Transforms.removeNodes(editor, { at: path });
       }
 
+      // If list contains elements of other type than list-item, wrap it
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (!Element.isElement(child) || child.type !== TYPE_LIST_ITEM) {
+          Transforms.wrapNodes(
+            editor,
+            {
+              type: TYPE_LIST_ITEM,
+              children: [],
+            },
+            { at: childPath },
+          );
+          return;
+        }
+      }
       // Merge list with previous list if identical type
       if (Path.hasPrevious(path)) {
         const prevPath = Path.previous(path);

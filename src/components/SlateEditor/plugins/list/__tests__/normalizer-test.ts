@@ -449,4 +449,98 @@ describe('list normalizer tests', () => {
     Editor.normalize(editor, { force: true });
     expect(editor.children).toEqual(expectedValue);
   });
+
+  test('If list is empty, remove it', () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_LIST,
+            listType: 'numbered-list',
+            data: {},
+            children: [],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: '' }],
+          },
+        ],
+      },
+    ];
+    editor.children = editorValue;
+    Editor.normalize(editor, { force: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
+
+  test('Force all elements in list to be list-item', () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_LIST,
+            listType: 'numbered-list',
+            data: {},
+            children: [{ text: 'abc' }],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+          {
+            type: TYPE_LIST,
+            listType: 'numbered-list',
+            data: {},
+            children: [
+              {
+                type: TYPE_LIST_ITEM,
+                children: [
+                  {
+                    type: TYPE_PARAGRAPH,
+                    children: [
+                      {
+                        text: 'abc',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              {
+                text: '',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    editor.children = editorValue;
+    Editor.normalize(editor, { force: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
 });

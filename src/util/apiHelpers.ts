@@ -19,7 +19,11 @@ export const formatErrorMessage = (error: {
       message: string;
     }[];
   };
-}) => ({
+}): {
+  message?: string;
+  severity: 'danger' | 'info' | 'success' | 'warning';
+  timeToLive: number;
+} => ({
   message: error?.json?.messages?.map(message => `${message.field}: ${message.message}`).join(', '),
   severity: 'danger',
   timeToLive: 0,

@@ -21,10 +21,9 @@ interface Props {
     title?: string;
     imageUrl?: string;
   };
-  locale?: string;
 }
 
-const ArticlePreview = ({ article, locale }: Props) => (
+const ArticlePreview = ({ article }: Props) => (
   <div data-testid="articlePreview" {...classes('')}>
     <div {...classes('image')}>
       <img src={article.imageUrl || '/placeholder.png'} alt="" />

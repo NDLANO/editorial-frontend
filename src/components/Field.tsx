@@ -33,8 +33,4 @@ Field.propTypes = {
   title: PropTypes.bool,
 };
 
-Field.defaultProps = {
-  noBorder: false,
-};
-
 export default Field;

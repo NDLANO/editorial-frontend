@@ -16,7 +16,7 @@ export interface ReduxMessage {
   translationObject?: {
     message?: string;
   };
-  severity?: string;
+  severity?: 'danger' | 'info' | 'success' | 'warning';
   action?: string;
   timeToLive: number;
   statusCode?: number;

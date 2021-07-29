@@ -53,7 +53,7 @@ interface Props {
   modifiers?: string | string[];
 }
 
-const Overlay = ({ onExit, modifiers = [] }: Props) =>
+const Overlay = ({ onExit, modifiers = '' }: Props) =>
   onExit ? (
     <StyledOverlay onClick={onExit} modifiers={modifiers} aria-hidden="true" />
   ) : (

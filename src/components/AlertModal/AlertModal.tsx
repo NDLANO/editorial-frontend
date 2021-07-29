@@ -46,7 +46,7 @@ interface Props {
   component?: React.ReactElement[] | React.ReactElement;
   actions?: { text: string; onClick: Function }[];
   show?: boolean;
-  severity?: string;
+  severity?: 'danger' | 'info' | 'success' | 'warning';
 }
 
 const AlertModal = ({ text, onCancel, actions, component, show, severity = 'danger' }: Props) =>

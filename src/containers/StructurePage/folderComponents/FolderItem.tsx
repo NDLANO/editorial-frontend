@@ -35,11 +35,8 @@ const resourceButtonStyle = css`
 `;
 
 interface BaseProps {
-  key: string;
   getAllSubjects: () => Promise<void>;
   refreshTopics: () => Promise<void>;
-  setPrimary: (subjectId: string) => Promise<void>;
-  deleteTopicLink: (subjectId: string) => Promise<void>;
   structure: SubjectType[];
   jumpToResources: () => void;
   locale: string;

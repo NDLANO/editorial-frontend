@@ -18,6 +18,14 @@ const StyledH1 = styled.h1<{ isVisible?: boolean }>`
   color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
 `;
 
+interface Props {
+  contentType?: string;
+  contentUri?: string;
+  locale: string;
+  name?: string;
+  isVisible?: boolean;
+}
+
 const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = true }: Props) => {
   const linkTo = contentUri && contentUri.split(':').pop();
 
@@ -51,13 +59,5 @@ const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = t
     </StyledH1>
   );
 };
-
-interface Props {
-  contentType?: string;
-  contentUri?: string;
-  locale: string;
-  name?: string;
-  isVisible?: boolean;
-}
 
 export default ResourceItemLink;

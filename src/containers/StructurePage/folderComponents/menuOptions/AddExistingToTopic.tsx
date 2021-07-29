@@ -22,12 +22,13 @@ import MenuItemButton from './MenuItemButton';
 import MenuItemDropdown from './MenuItemDropdown';
 import retrieveBreadCrumbs, { PathArray } from '../../../../util/retrieveBreadCrumbs';
 import { Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { EditMode } from '../SettingsMenu';
 
 interface Props {
   path: string;
   onClose: () => void;
   editMode: string;
-  toggleEditMode: (mode: string) => void;
+  toggleEditMode: (mode: EditMode) => void;
   locale: string;
   id: string;
   numberOfSubtopics?: number;
@@ -63,7 +64,7 @@ const AddExistingToTopic = ({
     })();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const getTopicBreadcrumb = (topic: any, topics: any[]) => {
+  const getTopicBreadcrumb = (topic: any, topics: Topic[]) => {
     if (!topic.path) return undefined;
     const bc = retrieveBreadCrumbs({
       topicPath: topic.path,

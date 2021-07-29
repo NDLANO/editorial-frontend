@@ -52,6 +52,15 @@ interface Props {
   structure: PathArray;
 }
 
+export type EditMode =
+  | 'changeSubjectName'
+  | 'deleteTopic'
+  | 'addExistingSubjectTopic'
+  | 'openCustomFields'
+  | 'toggleMetadataVisibility'
+  | 'editGrepCodes'
+  | 'addExistingTopic';
+
 const SettingsMenu = ({
   type,
   setShowAlertModal,
@@ -73,8 +82,8 @@ const SettingsMenu = ({
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState('');
 
-  const toggleEditMode = (name: string) => {
-    setEditMode(prev => (name === prev ? '' : name));
+  const toggleEditMode = (mode: EditMode) => {
+    setEditMode(prev => (mode === prev ? '' : mode));
   };
 
   const toggleOpenMenu = () => {

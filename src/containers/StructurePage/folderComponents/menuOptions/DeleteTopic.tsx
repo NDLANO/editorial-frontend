@@ -27,6 +27,7 @@ import { StyledErrorMessage } from '../styles';
 import { updateStatusDraft } from '../../../../modules/draft/draftApi';
 import { ARCHIVED } from '../../../../util/constants/ArticleStatus';
 import { TopicConnections } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { EditMode } from '../SettingsMenu';
 
 interface State {
   loading: boolean;
@@ -36,7 +37,7 @@ interface State {
 
 interface BaseProps {
   editMode: string;
-  toggleEditMode: (mode: string) => void;
+  toggleEditMode: (mode: EditMode) => void;
   parent: string;
   id: string;
   refreshTopics: () => Promise<void>;

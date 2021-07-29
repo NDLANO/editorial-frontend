@@ -23,6 +23,7 @@ import {
   TaxonomyMetadata,
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../../util/retrieveBreadCrumbs';
+import { EditMode } from './SettingsMenu';
 
 interface Props {
   metadata: TaxonomyMetadata;
@@ -36,7 +37,7 @@ interface Props {
   refreshTopics: () => Promise<void>;
   subjectId: string;
   editMode: string;
-  toggleEditMode: (mode: string) => void;
+  toggleEditMode: (mode: EditMode) => void;
   path: string;
   locale: string;
   setResourcesUpdated: (updated: boolean) => void;

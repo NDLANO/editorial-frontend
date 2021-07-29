@@ -12,7 +12,7 @@ import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Taxonomy, Star } from '@ndla/icons/editor';
+import { Taxonomy } from '@ndla/icons/editor';
 import { Structure } from '@ndla/editor';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
@@ -20,7 +20,6 @@ import { useEffect } from 'react';
 import { useRef } from 'react';
 import { useLayoutEffect } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
-import { connectLinkItems, JsPlumbInstanceConnection } from '../../util/jsPlumbHelpers';
 import handleError from '../../util/handleError';
 import StructureResources from './resourceComponents/StructureResources';
 import FolderItem from './folderComponents/FolderItem';
@@ -32,15 +31,11 @@ import {
   fetchSubjects,
   fetchSubjectTopics,
   addSubject as addSubjectApi,
-  fetchTopicConnections,
   updateTopicSubtopic,
   updateSubjectTopic,
-  deleteTopicConnection,
-  deleteSubTopicConnection,
 } from '../../modules/taxonomy';
 import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
 import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
-import RoundIcon from '../../components/RoundIcon';
 import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
 import { ButtonAppearance } from '../../components/Accordion/types';
@@ -49,7 +44,6 @@ import {
   SubjectType,
   TaxonomyElement,
   TaxonomyMetadata,
-  TopicConnections,
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props
@@ -69,12 +63,9 @@ export const StructureContainer = ({
   const [editStructureHidden, setEditStructureHidden] = useState(false);
   const [subjects, setSubjects] = useState<(SubjectType & { topics?: SubjectTopic[] })[]>([]);
   const [topics, setTopics] = useState<SubjectTopic[]>([]);
-  const [jsPlumbConnections, setJsPlumbConnections] = useState<JsPlumbInstanceConnection[]>([]);
-  const [activeConnections, setActiveConnections] = useState<TopicConnections[]>([]);
   const [resourcesUpdated, setResourcesUpdated] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   const [favoriteSubjects, setFavoriteSubjects] = useState<string[]>([]);
-  const starButton = useRef<HTMLDivElement>(null);
   const resourceSection = useRef<HTMLDivElement>(null);
   const prevRouteParams = useRef<
     | {
@@ -92,7 +83,6 @@ export const StructureContainer = ({
       if (subject) {
         getSubjectTopics(subject, locale);
       }
-      showLink();
       fetchFavoriteSubjects();
       const shouldShowFavorites = window.localStorage.getItem(REMEMBER_FAVOURITE_SUBJECTS);
       setShowFavorites(shouldShowFavorites === 'true');
@@ -106,13 +96,9 @@ export const StructureContainer = ({
         return;
       }
       if (location.pathname !== prevRouteParams.current!.location.pathname) {
-        deleteConnections();
         const currentSub = subjects.find(sub => sub.id === params.subject);
         if (currentSub) {
           getSubjectTopics(params.subject!, locale);
-        }
-        if (location.pathname.includes('topic')) {
-          showLink();
         }
       }
       prevRouteParams.current = { params, location };
@@ -163,74 +149,10 @@ export const StructureContainer = ({
     );
   };
 
-  const setPrimary = async (subjectId: string) => {
-    const connection = activeConnections.find(conn =>
-      conn.paths.some(path => path.includes(subjectId.replace('urn:', ''))),
-    )!;
-
-    if (connection.connectionId.includes('topic-subtopic')) {
-      updateTopicSubtopic(connection.connectionId, {
-        id: connection.targetId,
-        primary: true,
-      }).then(() => deleteConnections());
-    } else {
-      updateSubjectTopic(connection.connectionId, {
-        id: connection.targetId,
-        primary: true,
-      }).then(() => deleteConnections());
-    }
-  };
-
   const addSubject = async (name: string) => {
     const newPath = await addSubjectApi({ name });
     getAllSubjects();
     return newPath;
-  };
-
-  const deleteConnections = () => {
-    if (jsPlumbConnections.length > 0) {
-      jsPlumbConnections[0].instance.deleteEveryConnection();
-      setJsPlumbConnections([]);
-      setActiveConnections([]);
-    }
-  };
-
-  const deleteTopicLink = async (subjectId: string) => {
-    const connectionToDelete = activeConnections.find(conn =>
-      conn.paths.some(path => path.includes(subjectId.replace('urn:', ''))),
-    )!;
-    const { connectionId } = connectionToDelete;
-    try {
-      if (connectionId.includes('topic-subtopic')) {
-        await deleteSubTopicConnection(connectionId);
-      } else {
-        await deleteTopicConnection(connectionId);
-      }
-      deleteConnections();
-      getSubjectTopics(subjectId, locale);
-    } catch (e) {
-      handleError(e);
-    }
-  };
-
-  const showLink = async () => {
-    const paths = match.url.split('/');
-
-    if (paths.length < 4) return;
-    const topicId: string = paths.pop()!;
-    const parentId = paths.pop();
-    try {
-      const connectionArray = await fetchTopicConnections(topicId);
-      if (connectionArray.length < 2) {
-        return;
-      }
-      const uniqueId = parentId ? `${parentId}/${topicId}` : topicId;
-      const connections = await connectLinkItems(uniqueId, connectionArray, parentId, starButton);
-      setJsPlumbConnections(connections);
-      setActiveConnections(connectionArray);
-    } catch (e) {
-      handleError(e);
-    }
   };
 
   const refreshTopics = async () => {
@@ -315,7 +237,6 @@ export const StructureContainer = ({
     allTopics: topics,
   });
   const grouped = currentTopic?.metadata?.customFields['topic-resources'] || 'grouped';
-  const linkViewOpen = jsPlumbConnections.length > 0;
 
   return (
     <ErrorBoundary>
@@ -384,8 +305,6 @@ export const StructureContainer = ({
                   isMainActive={isMainActive}
                   getAllSubjects={getAllSubjects}
                   refreshTopics={refreshTopics}
-                  setPrimary={setPrimary}
-                  deleteTopicLink={deleteTopicLink}
                   structure={subjects}
                   jumpToResources={() =>
                     resourceSection && resourceSection.current?.scrollIntoView()
@@ -398,7 +317,6 @@ export const StructureContainer = ({
                 />
               )}
             />
-            <div ref={starButton}>{linkViewOpen && <RoundIcon icon={<Star />} />}</div>
           </div>
         </Accordion>
         {topicId && currentTopic && (

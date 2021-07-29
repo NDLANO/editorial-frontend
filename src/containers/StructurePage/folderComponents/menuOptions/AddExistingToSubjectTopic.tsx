@@ -23,12 +23,13 @@ import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
 import retrieveBreadCrumbs, { PathArray } from '../../../../util/retrieveBreadCrumbs';
 import { Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { EditMode } from '../SettingsMenu';
 
 interface Props {
   path: string;
   onClose: () => void;
   editMode: string;
-  toggleEditMode: (mode: string) => void;
+  toggleEditMode: (mode: EditMode) => void;
   locale: string;
   id: string;
   refreshTopics: () => Promise<void>;

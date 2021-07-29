@@ -14,6 +14,7 @@ import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemEditField from './MenuItemEditField';
 import { updateSubject } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
+import { EditMode } from '../SettingsMenu';
 
 const ChangeSubjectName = ({
   toggleEditMode,
@@ -57,7 +58,7 @@ const ChangeSubjectName = ({
 };
 
 interface Props {
-  toggleEditMode: (s: string) => void;
+  toggleEditMode: (s: EditMode) => void;
   onClose: () => void;
   editMode: string;
   name: string;

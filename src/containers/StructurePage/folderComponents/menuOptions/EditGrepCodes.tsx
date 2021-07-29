@@ -19,6 +19,7 @@ import RoundIcon from '../../../../components/RoundIcon';
 import { convertGrepCodesToObject } from '../../../FormikForm/GrepCodesFieldContent';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from '../menuOptions/MenuItemEditField';
+import { EditMode } from '../SettingsMenu';
 
 interface Props {
   editMode: string;
@@ -28,7 +29,7 @@ interface Props {
   menuType: 'subject' | 'topic';
   metadata: { grepCodes: string[]; visible: boolean };
   refreshTopics: () => Promise<void>;
-  toggleEditMode: (mode: string) => void;
+  toggleEditMode: (mode: EditMode) => void;
 }
 
 interface GrepCode {
@@ -48,17 +49,7 @@ const StyledGrepItem = styled('div')`
   margin: calc(var(--spacing--small) / 2);
 `;
 
-const EditGrepCodes = ({
-  editMode,
-  getAllSubjects,
-  id,
-  name,
-  menuType,
-  metadata,
-  refreshTopics,
-  t,
-  toggleEditMode,
-}: Props & tType) => {
+const EditGrepCodes = ({ editMode, id, menuType, metadata, t, toggleEditMode }: Props & tType) => {
   const [grepCodes, setGrepCodes] = useState(metadata?.grepCodes);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
   const [grepCodesWithName, setGrepCodesWithName] = useState<GrepCode[]>([]);

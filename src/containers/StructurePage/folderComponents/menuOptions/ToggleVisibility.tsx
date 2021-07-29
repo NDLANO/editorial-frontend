@@ -16,6 +16,7 @@ import { Switch } from '@ndla/switch';
 import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
+import { EditMode } from '../SettingsMenu';
 
 interface Props {
   editMode: string;
@@ -26,7 +27,7 @@ interface Props {
   metadata: { grepCodes: string[]; visible: boolean };
   refreshTopics: () => Promise<void>;
   setResourcesUpdated: (updated: boolean) => void;
-  toggleEditMode: (mode: string) => void;
+  toggleEditMode: (mode: EditMode) => void;
 }
 
 export const DropDownWrapper = styled('div')`

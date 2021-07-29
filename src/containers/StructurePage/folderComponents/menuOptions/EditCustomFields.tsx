@@ -17,10 +17,11 @@ import {
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import MenuItemButton from './MenuItemButton';
 import MenuItemCustomField from './MenuItemCustomField';
+import { EditMode } from '../SettingsMenu';
 
 interface Props extends TaxonomyElement {
   subjectId: string;
-  toggleEditMode: (state: string) => void;
+  toggleEditMode: (state: EditMode) => void;
   editMode: string;
   saveSubjectItems: (
     subjectid: string,

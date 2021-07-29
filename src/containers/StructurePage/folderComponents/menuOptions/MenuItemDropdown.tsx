@@ -48,6 +48,8 @@ interface Props {
   smallIcon?: boolean;
 }
 
+type StatusType = 'initial' | 'loading' | 'success' | 'error';
+
 const MenuItemDropdown = ({
   searchResult,
   filter,
@@ -58,7 +60,7 @@ const MenuItemDropdown = ({
   icon,
   t,
 }: Props & tType) => {
-  const [status, setStatus] = useState('initial');
+  const [status, setStatus] = useState<StatusType>('initial');
 
   const getResultItems = () => {
     const options = {

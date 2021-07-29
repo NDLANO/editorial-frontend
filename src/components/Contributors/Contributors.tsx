@@ -8,7 +8,7 @@
 
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
@@ -16,6 +16,7 @@ import { fonts, colors } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Contributor from './Contributor';
 import { LocaleContext } from '../../containers/App/App';
+import { ContributorType, ContributorFieldName } from './types';
 
 const StyledFormWarningText = styled.p`
   font-family: ${fonts.sans};
@@ -23,21 +24,38 @@ const StyledFormWarningText = styled.p`
   ${fonts.sizes(14, 1.1)};
 `;
 
-const Contributors = props => {
-  const {
-    name,
-    label,
-    errorMessages,
-    disabled,
-    showError,
-    onChange,
-    value,
-    t,
-    width,
-    ...rest
-  } = props;
+enum ContributorGroups {
+  CREATORS = 'creators',
+  PROCESSORS = 'processors',
+  RIGHTSHOLDERS = 'rightsholders',
+}
+
+interface Props {
+  name: ContributorGroups;
+  label: string;
+  onChange: (event: { target: { value: ContributorType[]; name: string } }) => void;
+  errorMessages?: string[];
+  showError?: boolean;
+  placeholder?: string;
+  disabled?: boolean;
+  value: ContributorType[];
+  width?: number;
+}
+
+const Contributors = ({
+  name,
+  label,
+  errorMessages = [],
+  disabled,
+  showError = false,
+  onChange,
+  value,
+  t,
+  width = 3 / 4,
+  ...rest
+}: Props & tType) => {
   const locale = useContext(LocaleContext);
-  const onContributorChange = newContributors => {
+  const onContributorChange = (newContributors: ContributorType[]) => {
     onChange({
       target: {
         value: newContributors,
@@ -45,21 +63,26 @@ const Contributors = props => {
       },
     });
   };
+
   const addContributor = () => {
-    const newContributors = [].concat(value);
+    const newContributors = [...value];
     newContributors.push({ name: '', type: '', focusOnMount: true });
     onContributorChange(newContributors);
   };
 
-  const removeContributor = (e, index) => {
+  const removeContributor = (e: React.FormEvent<HTMLInputElement>, index: number) => {
     e.preventDefault();
-    const newContributors = [].concat(value);
+    const newContributors = [...value];
     newContributors.splice(index, 1);
     onContributorChange(newContributors);
   };
 
-  const handleContributorChange = (evt, fieldName, index) => {
-    const newContributors = [].concat(value);
+  const handleContributorChange = (
+    evt: React.ChangeEvent<HTMLInputElement>,
+    fieldName: ContributorFieldName,
+    index: number,
+  ) => {
+    const newContributors = [...value];
     newContributors[index] = {
       ...newContributors[index],
       [fieldName]: evt.target.value,
@@ -67,7 +90,7 @@ const Contributors = props => {
     onContributorChange(newContributors);
   };
 
-  const contributorTypeItems = contributorGroups[name].map(item => ({
+  const contributorTypeItems = contributorGroups[name].map((item: string) => ({
     type: item,
     translation: contributorTypes[locale]
       ? contributorTypes[locale][item]
@@ -101,25 +124,25 @@ const Contributors = props => {
 };
 
 Contributors.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.oneOf<ContributorGroups>([
+    ContributorGroups.CREATORS,
+    ContributorGroups.PROCESSORS,
+    ContributorGroups.RIGHTSHOLDERS,
+  ]).isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  errorMessages: PropTypes.arrayOf(PropTypes.string),
+  errorMessages: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   showError: PropTypes.bool,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   value: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
-      type: PropTypes.string,
-    }),
-  ),
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      focusOnMount: PropTypes.bool,
+    }).isRequired,
+  ).isRequired,
   width: PropTypes.number,
-};
-
-Contributors.defaultProps = {
-  showError: false,
-  width: 3 / 4,
 };
 
 export default injectT(Contributors);

@@ -34,8 +34,6 @@ interface Props {
 
 const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
   const [relatedContent, setRelatedContent] = useState<RelatedContentType[]>(values.relatedContent);
-  console.log('values', values.relatedContent);
-  console.log(relatedContent);
 
   const onAddArticleToList = async (article: DraftApiType) => {
     try {

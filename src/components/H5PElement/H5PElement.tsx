@@ -58,6 +58,22 @@ const H5PElement = ({
   const [url, setUrl] = useState<string>('');
   const [fetchFailed, setFetchFailed] = useState<boolean>(false);
 
+  useEffect(() => {
+    window.addEventListener('message', handleH5PChange);
+    window.addEventListener('message', handleH5PClose);
+    try {
+      fetchAndSetH5PUrl();
+    } catch (e) {
+      setFetchFailed(true);
+      setH5pFetchFail && setH5pFetchFail(true);
+    }
+
+    return () => {
+      window.removeEventListener('message', handleH5PChange);
+      window.removeEventListener('message', handleH5PClose);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const fetchAndSetH5PUrl = async () => {
     const data = h5pUrl
       ? await editH5PiframeUrl(h5pUrl, locale)
@@ -89,23 +105,6 @@ const H5PElement = ({
     }
     onClose();
   };
-
-  useEffect(() => {
-    window.addEventListener('message', handleH5PChange);
-    window.addEventListener('message', handleH5PClose);
-    try {
-      fetchAndSetH5PUrl();
-    } catch (e) {
-      setFetchFailed(true);
-      setH5pFetchFail && setH5pFetchFail(true);
-    }
-
-    return () => {
-      window.removeEventListener('message', handleH5PChange);
-      window.removeEventListener('message', handleH5PClose);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <FlexWrapper data-cy="h5p-editor">

@@ -25,7 +25,7 @@ const PodcastEpisodes = ({ t }: tType) => {
   const { values, setFieldValue } = useFormikContext<PodcastSeriesFormikType>();
   const { episodes, language } = values;
 
-  const onAddEpisodeToList = async (audio?: AudioApiType) => {
+  const onAddEpisodeToList = async (audio: AudioApiType) => {
     try {
       const newAudio = await fetchAudio(audio!.id, language);
       if (newAudio !== undefined) {
@@ -89,10 +89,8 @@ const PodcastEpisodes = ({ t }: tType) => {
       <AsyncDropdown<AudioSearchResultType, AudioApiType>
         selectedItems={elements}
         idField="id"
-        name="relatedArticleSearch"
         labelField="title"
         placeholder={t('form.content.relatedArticle.placeholder')}
-        label="label"
         apiAction={searchForPodcasts}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={onAddEpisodeToList}

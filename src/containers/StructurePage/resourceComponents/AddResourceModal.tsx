@@ -105,7 +105,7 @@ const AddResourceModal = ({
 
   const paste = allowPaste || selectedType !== RESOURCE_TYPE_LEARNING_PATH;
 
-  const onSelect = (selected?: SelectedType) => {
+  const onSelect = (selected: SelectedType) => {
     if (selected) {
       if (selected.url && !selected.url.includes('learningpaths')) {
         const articleId = Number(selected.url.split('/')?.pop());
@@ -321,10 +321,8 @@ const AddResourceModal = ({
             {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
             <AsyncDropdown<LearningPathSearchSummary | GroupSearchSummary, SelectedType>
               idField="id"
-              name="resourceSearch"
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
-              label="label"
               apiAction={(input: string) => onInputSearch(input, selectedType)}
               onChange={onSelect}
               startOpen

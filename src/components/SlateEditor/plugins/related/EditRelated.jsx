@@ -240,7 +240,6 @@ class EditRelated extends React.PureComponent {
               <StyledArticle data-cy="styled-article-modal">
                 <AsyncDropdown
                   idField="id"
-                  name="relatedArticleSearch"
                   labelField="title"
                   placeholder={t('form.content.relatedArticle.placeholder')}
                   label="label"

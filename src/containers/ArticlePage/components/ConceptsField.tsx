@@ -30,14 +30,12 @@ interface Props {
 const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
   const [concepts, setConcepts] = useState<ApiConceptType[]>(values.conceptIds);
 
-  const onAddConceptToList = async (concept?: ApiConceptType) => {
+  const onAddConceptToList = async (concept: ApiConceptType) => {
     try {
-      const newConcept = await fetchConcept(concept!.id, locale);
+      const newConcept = await fetchConcept(concept.id, locale);
       const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
-      if (newConcept) {
-        setConcepts(temp);
-        updateFormik(field, temp);
-      }
+      setConcepts(temp);
+      updateFormik(field, temp);
     } catch (e) {
       handleError(e);
     }
@@ -79,7 +77,6 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
       <AsyncDropdown<SearchConceptType, ApiConceptType>
         selectedItems={concepts}
         idField="id"
-        name="relatedConceptsSearch"
         labelField="title"
         placeholder={t('form.relatedConcepts.placeholder')}
         apiAction={searchForConcepts}

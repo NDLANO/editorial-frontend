@@ -15,16 +15,16 @@ import { FormikHelpers, FormikValues } from 'formik';
 import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
-import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
+import { FormikProperties, RelatedContentType } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
+import { DraftApiType, DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   locale: string;
   values: {
-    relatedContent: ConvertedRelatedContent[];
+    relatedContent: RelatedContentType[];
   };
   field: FormikProperties['field'];
   form: {
@@ -33,14 +33,13 @@ interface Props {
 }
 
 const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
-  const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
-    values.relatedContent,
-  );
-  const onAddArticleToList = async (article?: ContentResultType) => {
-    try {
-      // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
-      const newArticle = (await fetchDraft(article.id, locale)) as ArticleType;
+  const [relatedContent, setRelatedContent] = useState<RelatedContentType[]>(values.relatedContent);
+  console.log('values', values.relatedContent);
+  console.log(relatedContent);
 
+  const onAddArticleToList = async (article: DraftApiType) => {
+    try {
+      const newArticle = await fetchDraft(article.id, locale);
       const temp = [...relatedContent, newArticle];
       if (newArticle) {
         setRelatedContent(temp);
@@ -51,12 +50,12 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
     }
   };
 
-  const onUpdateElements = (relatedContent: ConvertedRelatedContent[]) => {
+  const onUpdateElements = (relatedContent: DraftApiType[]) => {
     setRelatedContent(relatedContent);
     updateFormik(field, relatedContent);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: ConvertedRelatedContent[]) => {
+  const updateFormik = (formikField: Props['field'], newData: RelatedContentType[]) => {
     form.setFieldTouched('relatedContent', true, false);
     formikField.onChange({
       target: {
@@ -79,6 +78,10 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
     updateFormik(field, temp);
   };
 
+  const isDraftApiType = (item: any): item is DraftApiType => {
+    return item.id !== undefined;
+  };
+
   return (
     <>
       <FieldHeader title={t('form.relatedContent.articlesTitle')} />
@@ -90,16 +93,14 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown<DraftSearchSummary, ContentResultType>
-        // @ts-ignore
-        selectedItems={relatedContent.filter(e => typeof e !== 'number')}
+      <AsyncDropdown<DraftSearchSummary, DraftApiType>
+        selectedItems={relatedContent.filter(isDraftApiType)}
         idField="id"
-        name="relatedConceptsSearch"
         labelField="title"
         placeholder={t('form.relatedContent.placeholder')}
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(concept?: ContentResultType) => onAddArticleToList(concept)}
+        onChange={onAddArticleToList}
         multiSelect
         disableSelected
         clearInputField

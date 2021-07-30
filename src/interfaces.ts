@@ -16,6 +16,7 @@ import { ReduxSessionState } from './modules/session/session';
 import { ReduxMessageState } from './containers/Messages/messagesSelectors';
 import { ReduxLocaleState } from './modules/locale/locale';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
+import { DraftApiType } from './modules/draft/draftApiInterfaces';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
@@ -190,6 +191,8 @@ export interface RelatedContentLink {
 export type RelatedContent = RelatedContentLink | number;
 
 export type ConvertedRelatedContent = RelatedContentLink | ArticleType;
+
+export type RelatedContentType = RelatedContentLink | DraftApiType;
 
 export interface Learningpath {
   copyright: {

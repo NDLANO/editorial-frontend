@@ -23,7 +23,7 @@ const ConceptArticles = ({ t }: tType) => {
     setFieldValue,
   } = useFormikContext<ConceptFormValues>();
 
-  const onAddArticleToList = async (article?: ArticleType) => {
+  const onAddArticleToList = async (article: ArticleType) => {
     try {
       const newArticle = await fetchDraft(article!.id);
       const temp = [...articles, newArticle];
@@ -60,10 +60,8 @@ const ConceptArticles = ({ t }: tType) => {
       <AsyncDropdown<DraftSearchSummary, ArticleType>
         selectedItems={articles}
         idField="id"
-        name="relatedArticleSearch"
         labelField="title"
         placeholder={t('form.content.relatedArticle.placeholder')}
-        label="label"
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={onAddArticleToList}

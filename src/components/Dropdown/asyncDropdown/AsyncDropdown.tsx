@@ -16,23 +16,21 @@ import { Spinner } from '@ndla/editor';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import { itemToString } from '../../../util/downShiftHelpers';
 
-interface Props<S, T> {
-  onChange: (value?: T) => Promise<void> | void;
-  apiAction: (query: string) => Promise<SearchResultBase<S>>;
+interface Props<SearchResult, ApiType> {
+  onChange: (value: ApiType) => Promise<void> | void;
+  apiAction: (query: string) => Promise<SearchResultBase<SearchResult>>;
   placeholder?: string;
   labelField?: string;
   idField?: string;
   onClick?: (event: Event) => void;
-  testid?: string;
   positionAbsolute?: boolean;
   startOpen?: boolean;
   multiSelect?: boolean;
-  selectedItems?: T[];
+  selectedItems?: ApiType[];
   disableSelected?: boolean;
   onCreate?: (inputValue: string) => void;
-  onKeyDown?: (event: KeyboardEvent) => void;
   children?: (value: {
-    selectedItems: T[];
+    selectedItems: ApiType[];
     value: string;
     removeItem?: (tag: string) => void;
     onBlur?: (event: Event) => void;
@@ -42,12 +40,8 @@ interface Props<S, T> {
   clearInputField?: boolean;
   customCreateButtonText?: string;
   hideTotalSearchCount?: boolean;
-  page?: number;
   saveOnEnter?: boolean;
   showPagination?: boolean;
-  name?: string;
-  label?: string;
-  value?: string;
   onBlur?: (event: Event) => void;
   removeItem?: (id: string) => void;
 }
@@ -61,17 +55,17 @@ export interface ExtendedSearchResultType {
   };
 }
 
-interface SearchResultBase<S> {
-  totalCount?: number;
+interface SearchResultBase<SearchResult> {
+  totalCount: number;
   page?: number;
   pageSize?: number;
   language?: string;
-  results: S[];
+  results: SearchResult[];
 }
 
 export const AsyncDropdown = <
-  S extends ExtendedSearchResultType,
-  T extends { title: { title: string; language: string } | string }
+  SearchResult extends ExtendedSearchResultType,
+  ApiType extends { title: { title: string; language: string } | string }
 >({
   children,
   placeholder = '',
@@ -93,25 +87,29 @@ export const AsyncDropdown = <
   onChange,
   onBlur,
   removeItem,
-}: Props<S, T> & tType) => {
-  const [items, setItems] = useState<S[]>([]);
-  const [selectedItem, setSelectedItem] = useState<T | null>(null);
+}: Props<SearchResult, ApiType> & tType) => {
+  const [items, setItems] = useState<SearchResult[]>([]);
+  const [selectedItem, setSelectedItem] = useState<ApiType | null>(null);
   const [page, setPage] = useState<number>(1);
   const [inputValue, setInputValue] = useState<string>('');
-  const [currentDebounce, setCurrentDebounce] = useState<{ cancel: Function } | undefined>();
+  const [currentDebounce, setCurrentDebounce] = useState<{ cancel: Function }>();
   const [keepOpen, setKeepOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [totalCount, setTotalCount] = useState<number | null>(1);
+  const [totalCount, setTotalCount] = useState<number>(1);
+
+  useEffect(() => {
+    handleSearch('', page);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSearch = useCallback(
     async (query = '', page: number) => {
       setLoading(true);
       const apiOutput = await apiAction(showPagination ? { query: query, page: page } : query);
       const items = (Array.isArray(apiOutput) ? apiOutput : apiOutput.results) || [];
-      setTotalCount(Array.isArray(apiOutput) ? null : apiOutput.totalCount ?? null);
+      setTotalCount(apiOutput.totalCount ?? 1);
       setItems(
         items
-          ? items.map((item: S) => ({
+          ? items.map((item: SearchResult) => ({
               ...item,
               title: convertFieldWithFallback(item, 'title', ''),
               description: convertFieldWithFallback(item, 'metaDescription', ''),
@@ -138,31 +136,22 @@ export const AsyncDropdown = <
     setPage(1);
   };
 
-  useEffect(() => {
-    handleSearch('', page);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const handlePageChange = (page: { page: number }) => {
     handleSearch(inputValue, page.page);
     setPage(page.page);
   };
 
-  const handleChange = (selectedItem: T) => {
-    if (!selectedItem) {
-      onChange(undefined);
-      setSelectedItem(null);
-      setInputValue('');
-    } else {
-      setSelectedItem(selectedItem);
-      setInputValue(labelField ? itemToString(selectedItem, labelField) : selectedItem.title);
-      onChange(selectedItem);
-    }
+  const handleChange = (selectedItem: ApiType) => {
+    setSelectedItem(selectedItem);
+    setInputValue(labelField ? itemToString(selectedItem, labelField) : selectedItem.title);
+    onChange(selectedItem);
+
     if (children || clearInputField) {
       setInputValue('');
     }
   };
 
-  const handleStateChange = (changes: StateChangeOptions<T>) => {
+  const handleStateChange = (changes: StateChangeOptions<ApiType>) => {
     const { type } = changes;
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
       setInputValue('');
@@ -247,4 +236,6 @@ export const AsyncDropdown = <
     </Downshift>
   );
 };
-export default injectT(AsyncDropdown) as <S, T>(props: Props<S, T>) => any;
+export default injectT(AsyncDropdown) as <SearchResult, ApiType>(
+  props: Props<SearchResult, ApiType>,
+) => any;

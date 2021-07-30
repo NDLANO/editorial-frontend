@@ -9,14 +9,14 @@
 import React, { Fragment } from 'react';
 import { ApiConceptType } from '../../../modules/concept/conceptApiInterfaces';
 import FormikField from '../../../components/FormikField';
-import { ConvertedRelatedContent } from '../../../interfaces';
 import ConceptsField from './ConceptsField';
 import ContentField from './ContentField';
+import { RelatedContentType } from '../../../interfaces';
 
 interface Props {
   values: {
     conceptIds: ApiConceptType[];
-    relatedContent: ConvertedRelatedContent[];
+    relatedContent: RelatedContentType[];
   };
   locale: string;
 }

@@ -13,13 +13,10 @@ import { FormikHandlers } from 'formik';
 import { itemToString } from '../../util/downShiftHelpers';
 
 interface Props<T> {
-  id?: string;
   initialData: T[];
   onChange: FormikHandlers['handleChange'];
   value: T[];
   name: string;
-  disableCreate?: boolean;
-  placeholder?: string;
   labelField?: string;
   idField?: string;
   showCreateOption?: boolean;
@@ -29,8 +26,6 @@ interface Props<T> {
     shouldValidate?: boolean | undefined,
   ) => void;
   minSearchLength?: number;
-  onBlur?: (eventOrString: Event) => void;
-  onFocus?: () => void;
   shouldCreate?: (allValues: T[], newValue: string) => boolean;
 }
 
@@ -69,9 +64,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
   };
 
   const onInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = evt;
+    const value = evt.target.value;
 
     if (value.length >= minSearchLength) {
       setIsOpen(true);
@@ -96,7 +89,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
     onChange({
       target: {
         name,
-        value: value.filter((val: Record<string, any>) => (idField ? val[idField] : val) !== id),
+        value: value.filter((val: Record<string, any>) => (val[idField] ?? val) !== id),
       },
     });
     triggerTouched();

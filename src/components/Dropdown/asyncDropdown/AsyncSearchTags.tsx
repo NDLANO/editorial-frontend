@@ -85,10 +85,8 @@ const AsyncSearchTags = ({
     <Fragment>
       <AsyncDropdown<TagWithTitle, TagWithTitle>
         idField="title"
-        name="TagSearch"
         labelField="title"
         placeholder={t('form.tags.searchPlaceholder')}
-        label="label"
         apiAction={searchForTags}
         onChange={addTag}
         selectedItems={convertToTagsWithTitle(tags)}

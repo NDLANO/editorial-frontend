@@ -50,9 +50,9 @@ const PodcastSeriesInformation = ({ t }: tType) => {
     }
   }, [series, language]);
 
-  const onAddSeries = async (series?: PodcastSeriesApiType) => {
+  const onAddSeries = async (series: PodcastSeriesApiType) => {
     try {
-      const newSeries = await fetchSeries(series!.id, language || 'nb');
+      const newSeries = await fetchSeries(series.id, language || 'nb');
       delete newSeries.episodes;
       setFieldValue('series', newSeries);
     } catch (e) {
@@ -104,10 +104,8 @@ const PodcastSeriesInformation = ({ t }: tType) => {
       <AsyncDropdown<SeriesSearchSummary, PodcastSeriesApiType>
         selectedItems={element}
         idField="id"
-        name="relatedSeriesSearch"
         labelField="title"
         placeholder={t('form.content.relatedArticle.placeholder')}
-        label="label"
         apiAction={searchForSeries}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={onAddSeries}

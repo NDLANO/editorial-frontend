@@ -90,7 +90,7 @@ const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tTy
     return newGrepCodeNames;
   };
 
-  const createNewGrepCodes = async (input?: string) => {
+  const createNewGrepCodes = async (input: string) => {
     setFailedGrepCodes([]);
     const newGrepCodes = input
       ? input
@@ -134,13 +134,11 @@ const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tTy
       )}
       <AsyncDropdown<GrepCode, GrepCode>
         idField="title"
-        name="GrepCodesSearch"
         labelField="title"
         placeholder={t('form.grepCodes.placeholder')}
-        label="label"
         apiAction={searchForGrepCodes}
         onClick={(e: Event) => e.stopPropagation()}
-        onChange={(c?: GrepCode) => createNewGrepCodes(c?.code)}
+        onChange={(c: GrepCode) => createNewGrepCodes(c.code)}
         selectedItems={grepCodes}
         multiSelect
         disableSelected

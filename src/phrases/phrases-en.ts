@@ -401,6 +401,8 @@ const phrases = {
     },
     information: {
       partOfSeries: 'This podcast is a part of the series',
+      removeSeries: 'Remove Series',
+      noSeries: 'This podcast is not a part of any series',
     },
   },
   imageEditor: {

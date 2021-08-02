@@ -6,8 +6,7 @@
  *
  */
 
-import { ApiConceptType } from './conceptApiInterfaces';
-import { ConceptType } from '../../interfaces';
+import { ApiConceptType, ConceptType } from './conceptApiInterfaces';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { parseImageUrl } from '../../util/formHelper';

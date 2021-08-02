@@ -17,7 +17,8 @@ import SearchAudioForm from './SearchAudioForm';
 import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
 import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
-import { SearchType, SubjectType } from '../../../../interfaces';
+import { SearchType } from '../../../../interfaces';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { SearchParamsShape } from '../../../../shapes';
 import { SearchTypeValues } from '../../../../constants';
 

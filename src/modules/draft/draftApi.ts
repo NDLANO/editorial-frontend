@@ -31,6 +31,7 @@ import {
   UploadedFileType,
   UserDataApiType,
 } from './draftApiInterfaces';
+import { resolveVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
 const baseUrl: string = apiResourceUrl('/draft-api/v1/drafts');
 const baseAgreementsUrl: string = apiResourceUrl('/draft-api/v1/agreements');
@@ -40,26 +41,26 @@ const baseUserDataUrl: string = apiResourceUrl('/draft-api/v1/user-data');
 export const fetchDraft = async (id: number, language?: string): Promise<DraftApiType> => {
   const query = queryString.stringify({ language });
   const url = language ? `${baseUrl}/${id}?${query}&fallback=true` : `${baseUrl}/${id}`;
-  return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(url).then(r => resolveJsonOrRejectWithError<DraftApiType>(r));
 };
 
 export const updateDraft = async (draft: UpdatedDraftApiType): Promise<DraftApiType> =>
   fetchAuthorized(`${baseUrl}/${draft.id}`, {
     method: 'PATCH',
     body: JSON.stringify(draft),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<DraftApiType>(r));
 
 export const createDraft = async (draft: NewDraftApiType): Promise<DraftApiType> =>
   fetchAuthorized(`${baseUrl}/`, {
     method: 'POST',
     body: JSON.stringify(draft),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<DraftApiType>(r));
 
 export const searchDrafts = async (query: DraftSearchQuery): Promise<DraftSearchResult> =>
   fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',
     body: JSON.stringify(query),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<DraftSearchResult>(r));
 
 export const cloneDraft = async (
   id: number,
@@ -72,7 +73,9 @@ export const cloneDraft = async (
     fallback: true,
   });
   const url = `${baseUrl}/clone/${id}?${query}`;
-  return fetchAuthorized(url, { method: 'POST' }).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(url, { method: 'POST' }).then(r =>
+    resolveJsonOrRejectWithError<DraftApiType>(r),
+  );
 };
 
 export const fetchDraftHistory = async (id: number, language?: string): Promise<DraftApiType[]> => {
@@ -80,24 +83,27 @@ export const fetchDraftHistory = async (id: number, language?: string): Promise<
   const url = language
     ? `${baseUrl}/${id}/history?${query}&fallback=true`
     : `${baseUrl}/${id}/history`;
-  return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(url).then(r => resolveJsonOrRejectWithError<DraftApiType[]>(r));
 };
 
 export const deleteLanguageVersion = async (id: number, language: string): Promise<DraftApiType> =>
   fetchAuthorized(`${baseUrl}/${id}/language/${language}`, {
     method: 'DELETE',
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<DraftApiType>(r));
 
-export const fetchNewArticleId = async (id: number): Promise<number> => {
+export const fetchNewArticleId = async (id: number): Promise<{ id: number }> => {
   const url = `${baseUrl}/external_id/${id}`;
-  return fetchAuthorized(url).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(url).then(r => resolveJsonOrRejectWithError<{ id: number }>(r));
 };
 
-export const validateDraft = async (id: number, draft: UpdatedDraftApiType): Promise<number> =>
+export const validateDraft = async (
+  id: number,
+  draft: UpdatedDraftApiType,
+): Promise<{ id: number }> =>
   fetchAuthorized(`${baseUrl}/${id}/validate/`, {
     method: 'PUT',
     body: JSON.stringify(draft),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<{ id: number }>(r));
 
 export const updateStatusDraft = async (
   id: number,
@@ -105,26 +111,32 @@ export const updateStatusDraft = async (
 ): Promise<DraftApiType> =>
   fetchAuthorized(`${baseUrl}/${id}/status/${status}`, {
     method: 'PUT',
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<DraftApiType>(r));
 
 export const fetchTags = async (language: string): Promise<TagResult> => {
   const query = queryString.stringify({ size: 7000, language });
-  return fetchAuthorized(`${baseUrl}/tags/?${query}`).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(`${baseUrl}/tags/?${query}`).then(r =>
+    resolveJsonOrRejectWithError<TagResult>(r),
+  );
 };
 
 export const fetchSearchTags = async (input: string, language: string): Promise<TagSearchResult> =>
-  fetchAuthorized(`${baseUrl}/tag-search/?language=${language}&query=${input}&fallback=true`).then(
-    resolveJsonOrRejectWithError,
-  );
+  fetchAuthorized(
+    `${baseUrl}/tag-search/?language=${language}&query=${input}&fallback=true`,
+  ).then(r => resolveJsonOrRejectWithError<TagSearchResult>(r));
 
 export const fetchLicenses = async (): Promise<License[]> =>
-  fetchAuthorized(`${baseUrl}/licenses/`).then(resolveJsonOrRejectWithError);
+  fetchAuthorized(`${baseUrl}/licenses/`).then(r => resolveJsonOrRejectWithError<License[]>(r));
 
 export const fetchAgreements = async (query: string): Promise<AgreementSearchResult> =>
-  fetchAuthorized(`${baseAgreementsUrl}?query=${query}`).then(resolveJsonOrRejectWithError);
+  fetchAuthorized(`${baseAgreementsUrl}?query=${query}`).then(r =>
+    resolveJsonOrRejectWithError<AgreementSearchResult>(r),
+  );
 
 export const fetchAgreement = async (id: number): Promise<AgreementApiType> =>
-  fetchAuthorized(`${baseAgreementsUrl}/${id}`).then(resolveJsonOrRejectWithError);
+  fetchAuthorized(`${baseAgreementsUrl}/${id}`).then(r =>
+    resolveJsonOrRejectWithError<AgreementApiType>(r),
+  );
 
 export const updateAgreement = async (
   agreement: UpdatedAgreementApiType,
@@ -132,28 +144,32 @@ export const updateAgreement = async (
   fetchAuthorized(`${baseAgreementsUrl}/${agreement.id}`, {
     method: 'PATCH',
     body: JSON.stringify(agreement),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<AgreementApiType>(r));
 
 export const createAgreement = async (agreement: NewAgreementApiType): Promise<AgreementApiType> =>
   fetchAuthorized(`${baseAgreementsUrl}/`, {
     method: 'POST',
     body: JSON.stringify(agreement),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<AgreementApiType>(r));
 
 export const fetchGrepCodes = async (query: string): Promise<GrepCodesSearchResult> =>
-  fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then(resolveJsonOrRejectWithError);
+  fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then(r =>
+    resolveJsonOrRejectWithError<GrepCodesSearchResult>(r),
+  );
 
 export const fetchUserData = async (): Promise<UserDataApiType> =>
-  fetchAuthorized(`${baseUserDataUrl}`).then(resolveJsonOrRejectWithError);
+  fetchAuthorized(`${baseUserDataUrl}`).then(r => resolveJsonOrRejectWithError<UserDataApiType>(r));
 
 export const updateUserData = async (userData: UpdatedUserDataApiType): Promise<UserDataApiType> =>
   fetchAuthorized(`${baseUserDataUrl}`, {
     method: 'PATCH',
     body: JSON.stringify(userData),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<UserDataApiType>(r));
 
 export const fetchStatusStateMachine = async (): Promise<DraftStatusStateMachineType> =>
-  fetchAuthorized(`${baseUrl}/status-state-machine/`).then(resolveJsonOrRejectWithError);
+  fetchAuthorized(`${baseUrl}/status-state-machine/`).then(r =>
+    resolveJsonOrRejectWithError<DraftStatusStateMachineType>(r),
+  );
 
 export const headFileAtRemote = async (fileUrl: string): Promise<boolean> => {
   const res = await fetch(fileUrl, {
@@ -167,11 +183,11 @@ export const uploadFile = async (formData: any): Promise<UploadedFileType> =>
     method: 'POST',
     headers: { 'Content-Type': undefined },
     body: formData,
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<UploadedFileType>(r));
 
 export const deleteFile = async (fileUrl: string): Promise<void> => {
   const query = encodeURIComponent(fileUrl);
   fetchAuthorized(`${baseFileUrl}/?path=${query}`, {
     method: 'DELETE',
-  }).then(resolveJsonOrRejectWithError);
+  }).then(resolveVoidOrRejectWithError);
 };

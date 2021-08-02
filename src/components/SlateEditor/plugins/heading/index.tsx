@@ -37,13 +37,13 @@ export const headingSerializer: SlateSerializer = {
       return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
     if (tag === 'h4') {
-      return jsx('element', { type: TYPE_HEADING, level: 4 }, children);
+      return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
     if (tag === 'h5') {
-      return jsx('element', { type: TYPE_HEADING, level: 5 }, children);
+      return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
     if (tag === 'h6') {
-      return jsx('element', { type: TYPE_HEADING, level: 6 }, children);
+      return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
   },
   serialize(node: Descendant, children: (JSX.Element | null)[]) {

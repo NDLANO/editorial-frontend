@@ -6,8 +6,6 @@
  *
  */
 
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
-
 const titleTemplate = '- Produksjonsystem - NDLA';
 
 const phrases = {
@@ -579,7 +577,7 @@ const phrases = {
       addConcept: 'Legg til eksisterende forklaring',
       removeConcept: 'Ta bort forklaring',
       source: 'Kilde',
-      subjects: `Bare fag med metadatafelt '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' vil vises i lista.`,
+      subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
     },
     abort: 'Avbryt',
     edit: 'Rediger',

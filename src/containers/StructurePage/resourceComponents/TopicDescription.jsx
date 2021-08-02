@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import {
-  updateTopicResource,
-  updateTopicSubtopic,
-  updateSubjectTopic,
-} from '../../../modules/taxonomy';
+
+import { updateRelevanceId } from '../../../util/taxonomyHelpers';
 import Accordion from '../../../components/Accordion';
+import { ButtonAppearance } from '../../../components/Accordion/types';
+import { MetadataShape } from '../../../shapes';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
-import { MetadataShape } from '../../../shapes';
-import { ButtonAppearance } from '../../../components/Accordion/types';
 
 class TopicDescription extends Component {
   constructor(props) {
@@ -47,23 +44,6 @@ class TopicDescription extends Component {
     } = this.props;
 
     const { displayTopicDescription, showAddModal } = this.state;
-
-    const updateRelevanceId = (connectionId, body) => {
-      const [, connectionType] = connectionId.split(':');
-      switch (connectionType) {
-        case 'topic-resource':
-          updateTopicResource(connectionId, body);
-          break;
-        case 'topic-subtopic':
-          updateTopicSubtopic(connectionId, body);
-          break;
-        case 'subject-topic':
-          updateSubjectTopic(connectionId, body);
-          break;
-        default:
-          return;
-      }
-    };
 
     return (
       <div ref={resourceRef}>

@@ -27,6 +27,7 @@ import { SlateToolbar } from './plugins/toolbar';
 import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
 import options from './plugins/blockPicker/options';
 import { onDragOver, onDragStart, onDrop } from './plugins/DND';
+import withPlugins from './utils/withPlugins';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -63,13 +64,6 @@ interface Props extends Omit<SlateEditorProps, 'onChange'> {
   onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
   children: any;
 }
-
-const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
-  if (plugins) {
-    return plugins.reduce((editor, plugin) => plugin(editor), editor);
-  }
-  return editor;
-};
 
 const RichTextEditor = ({
   children,

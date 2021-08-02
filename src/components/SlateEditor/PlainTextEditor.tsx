@@ -12,6 +12,7 @@ import { createEditor, Descendant, Editor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { SlatePlugin } from './interfaces';
+import withPlugins from './utils/withPlugins';
 
 interface SlateEditorProps {
   id?: string;
@@ -33,13 +34,6 @@ interface Props extends Omit<SlateEditorProps, 'onChange'> {
   onChange: Function;
   onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
-
-const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
-  if (plugins) {
-    return plugins.reduce((editor, plugin) => plugin(editor), editor);
-  }
-  return editor;
-};
 
 const PlainTextEditor: React.FC<Props> = props => {
   const {

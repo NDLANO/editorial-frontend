@@ -1150,6 +1150,7 @@ const phrases = {
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
+        explanationSubject: 'Explanation Subject',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
       },
@@ -1210,9 +1211,6 @@ const phrases = {
   metadata: {
     visible: 'is visible',
     notVisible: 'is not visible',
-    changeExplanationSubject: 'Change explanation subject status',
-    explanationSubject: 'is an explanation subject',
-    notExplanationSubject: 'is not an explanation subject',
     changeVisibility: 'Change visibility',
   },
 };

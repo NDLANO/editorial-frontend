@@ -1170,6 +1170,7 @@ const phrases = {
         alterFields: 'Legg til/endra metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
+        explanationSubject: 'Forklaringsfag',
         resourceGroupPlaceholder: 'Gruppering av ressursar',
         RGTooltip: 'Vis ressursar Gruppert eller Ugruppert',
       },
@@ -1231,9 +1232,6 @@ const phrases = {
   metadata: {
     visible: 'er synleg',
     notVisible: 'er ikkje synleg',
-    changeExplanationSubject: 'Endre forklaringsfag-status',
-    explanationSubject: 'er forklaringsfag',
-    notExplanationSubject: 'er ikkje forklaringsfag',
     changeVisibility: 'Endre synlegheit',
   },
 };

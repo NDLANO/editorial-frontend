@@ -19,7 +19,6 @@ import PublishTopic from './menuOptions/PublishTopic';
 import ToggleVisibility from './menuOptions/ToggleVisibility';
 import EditSubjectpageOption from './menuOptions/EditSubjectpageOption';
 import EditCustomFields from './menuOptions/EditCustomFields';
-import ToggleExplanationSubject from './menuOptions/ToggleExplanationSubject';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -37,7 +36,6 @@ const SettingsMenuDropdownType = ({
               <EditCustomFields {...rest} type={settingsMenuType} />
               <AddExistingToSubjectTopic {...rest} />
               <ToggleVisibility {...rest} menuType={settingsMenuType} />
-              <ToggleExplanationSubject {...rest} />
               <EditGrepCodes {...rest} menuType={settingsMenuType} />
               <EditSubjectpageOption {...rest} />
             </>

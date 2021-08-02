@@ -184,6 +184,7 @@ const TopicArticleContent = props => {
                   },
                 });
               }}
+              language={language}
               actionsToShowInAreas={actionsToShowInAreas}
               onBlur={(event, editor) => {
                 // this is a hack since formik onBlur-handler interferes with slates

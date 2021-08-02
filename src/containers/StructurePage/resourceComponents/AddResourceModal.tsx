@@ -58,7 +58,7 @@ interface Props {
   }[];
   type?: string;
   allowPaste?: boolean;
-  topicId?: string;
+  topicId: string;
   refreshResources: () => void;
 }
 
@@ -227,7 +227,7 @@ const AddResourceModal = ({
             ? await findResourceIdLearningPath(Number(selected.id))
             : getResourceIdFromPath(selected?.paths?.[0]);
 
-        if (!resourceId || !topicId) {
+        if (!resourceId) {
           return;
         }
 

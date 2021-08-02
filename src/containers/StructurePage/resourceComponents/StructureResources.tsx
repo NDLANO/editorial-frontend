@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useRef } from 'react';
+import React, { memo, useRef } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -91,10 +91,10 @@ const StructureResources = ({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useLayoutEffect(() => {
-    if (!prevCurrentTopic.current) {
-      return;
-    }
     (async () => {
+      if (!prevCurrentTopic.current) {
+        return;
+      }
       if (currentTopic.id !== prevCurrentTopic.current?.id || resourcesUpdated) {
         await getTopicResources();
       }
@@ -236,4 +236,4 @@ const StructureResources = ({
   );
 };
 
-export default injectT(StructureResources);
+export default memo(injectT(StructureResources));

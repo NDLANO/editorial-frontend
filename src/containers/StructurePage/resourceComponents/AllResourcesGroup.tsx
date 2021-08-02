@@ -55,7 +55,7 @@ const AllResourcesGroup = ({
     setShowAddModal(prev => !prev);
   };
 
-  const topicId = params.subtopics?.split('/')?.pop() || params.topic;
+  const topicId = (params.subtopics?.split('/')?.pop() || params.topic)!;
 
   const newResourceTypeOptions = resourceTypes
     .filter(rt => rt.id !== 'missing')

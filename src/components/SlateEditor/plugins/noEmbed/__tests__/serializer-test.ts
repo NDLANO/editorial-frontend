@@ -1,6 +1,3 @@
-// Teste at embedcode fjernes
-// Teste at embed-tekst blir gjort om til type embed
-
 /**
  * Copyright (c) 2021-present, NDLA.
  *

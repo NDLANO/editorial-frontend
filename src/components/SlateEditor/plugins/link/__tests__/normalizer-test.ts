@@ -34,7 +34,6 @@ describe('link normalizer tests', () => {
                 href: 'test-url',
                 children: [
                   {
-                    // @ts-ignore
                     type: TYPE_PARAGRAPH,
                     children: [{ text: 'illegal block' }],
                   },

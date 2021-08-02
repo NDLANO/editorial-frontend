@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { injectT, tType } from '@ndla/i18n';
@@ -58,44 +58,6 @@ const H5PElement = ({
   const [url, setUrl] = useState<string>('');
   const [fetchFailed, setFetchFailed] = useState<boolean>(false);
 
-  const fetchAndSetH5PUrl = useCallback(async () => {
-    const data = h5pUrl
-      ? await editH5PiframeUrl(h5pUrl, locale)
-      : await fetchH5PiframeUrl(locale, canReturnResources);
-    setUrl(data.url);
-  }, [canReturnResources, h5pUrl, locale]);
-
-  const handleH5PChange = useCallback(
-    async (event: MessageEvent) => {
-      if (event.data.type !== 'h5p') {
-        return;
-      }
-      // Currently, we need to strip oembed part of H5P-url to support NDLA proxy oembed service
-      const { oembed_url: oembedUrl } = event.data;
-      const url = oembedUrl.match(/url=([^&]*)/)?.[0].replace('url=', '');
-      const path = url?.replace(/https?:\/\/h5p.{0,8}.ndla.no/, '');
-      try {
-        const metadata = await fetchH5PMetadata(event.data.embed_id);
-        const title = metadata.h5p.title;
-        onSelect({ path, title });
-      } catch (e) {
-        onSelect({ path });
-        handleError(e);
-      }
-    },
-    [onSelect],
-  );
-
-  const handleH5PClose = useCallback(
-    (event: MessageEvent) => {
-      if (event.data.messageType !== 'closeEdlibModal') {
-        return;
-      }
-      onClose();
-    },
-    [onClose],
-  );
-
   useEffect(() => {
     window.addEventListener('message', handleH5PChange);
     window.addEventListener('message', handleH5PClose);
@@ -110,7 +72,39 @@ const H5PElement = ({
       window.removeEventListener('message', handleH5PChange);
       window.removeEventListener('message', handleH5PClose);
     };
-  }, [fetchAndSetH5PUrl, handleH5PChange, handleH5PClose, setH5pFetchFail]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const fetchAndSetH5PUrl = async () => {
+    const data = h5pUrl
+      ? await editH5PiframeUrl(h5pUrl, locale)
+      : await fetchH5PiframeUrl(locale, canReturnResources);
+    setUrl(data.url);
+  };
+
+  const handleH5PChange = async (event: MessageEvent) => {
+    if (event.data.type !== 'h5p') {
+      return;
+    }
+    // Currently, we need to strip oembed part of H5P-url to support NDLA proxy oembed service
+    const { oembed_url: oembedUrl } = event.data;
+    const url = oembedUrl.match(/url=([^&]*)/)?.[0].replace('url=', '');
+    const path = url?.replace(/https?:\/\/h5p.{0,8}.ndla.no/, '');
+    try {
+      const metadata = await fetchH5PMetadata(event.data.embed_id);
+      const title = metadata.h5p.title;
+      onSelect({ path, title });
+    } catch (e) {
+      onSelect({ path });
+      handleError(e);
+    }
+  };
+
+  const handleH5PClose = async (event: MessageEvent) => {
+    if (event.data.messageType !== 'closeEdlibModal') {
+      return;
+    }
+    onClose();
+  };
 
   return (
     <FlexWrapper data-cy="h5p-editor">

@@ -481,29 +481,6 @@ export type Embed =
   | H5pEmbed
   | ExternalEmbed
   | ErrorEmbed;
-// {
-//   resource: string;
-//   resource_id: string;
-//   account?: string;
-//   align?: string;
-//   alt?: string;
-//   caption?: string;
-//   metaData?: any;
-//   path?: string;
-//   player?: string;
-//   title?: string;
-//   size?: string;
-//   url?: string;
-//   videoid?: string;
-//   type?: string;
-//   message?: string;
-//   'focal-x'?: string;
-//   'focal-y'?: string;
-//   'lower-right-y'?: string;
-//   'lower-right-x'?: string;
-//   'upper-left-y'?: string;
-//   'upper-left-x'?: string;
-// }
 
 export interface FileFormat {
   url: string;

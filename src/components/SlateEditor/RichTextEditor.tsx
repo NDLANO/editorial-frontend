@@ -8,7 +8,7 @@
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { useEffect, useMemo, useRef, FocusEvent, KeyboardEventHandler } from 'react';
+import React, { useEffect, useMemo, useRef, FocusEvent } from 'react';
 import { createEditor, Descendant, Editor, NodeEntry } from 'slate';
 import {
   Slate,

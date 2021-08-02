@@ -48,6 +48,7 @@ test('validators/minLength returns true if value does not exceed length', () => 
 });
 
 test('validators/minLength returns false if value exceed length', () => {
+  expect(minLength(undefined)).toBe(false);
   expect(minLength('Something', 9)).toBe(false);
   expect(minLength(Plain.deserialize('Something'), 9)).toBe(false);
 });

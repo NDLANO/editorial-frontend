@@ -28,7 +28,7 @@ export const headingSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'h1') {
-      return jsx('element', { type: TYPE_HEADING, level: 1 }, children);
+      return jsx('element', { type: TYPE_HEADING, level: 2 }, children);
     }
     if (tag === 'h2') {
       return jsx('element', { type: TYPE_HEADING, level: 2 }, children);

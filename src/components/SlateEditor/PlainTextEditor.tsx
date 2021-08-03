@@ -65,7 +65,8 @@ const PlainTextEditor: React.FC<Props> = props => {
       }}>
       <Editable
         onBlur={(event: FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
-        onKeyDown={(editor.onKeyDown as unknown) as React.KeyboardEventHandler<HTMLDivElement>}
+        // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
+        onKeyDown={editor.onKeyDown}
         className={className}
         placeholder={placeholder}
         {...rest}

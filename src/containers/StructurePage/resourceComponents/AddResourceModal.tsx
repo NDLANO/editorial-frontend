@@ -31,7 +31,7 @@ import {
 import ArticlePreview from '../../../components/ArticlePreview';
 import { LearningPathSearchSummary } from '../../../modules/learningpath/learningpathApiInterfaces';
 import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
-import AlertModal from 'components/AlertModal';
+import AlertModal from '../../../components/AlertModal';
 
 const StyledOrDivider = styled.div`
   display: flex;

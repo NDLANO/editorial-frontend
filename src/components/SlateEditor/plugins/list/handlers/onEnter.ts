@@ -35,12 +35,8 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
     Editor.deleteForward(editor);
   }
 
-  // If paragraph is empty, remove list item and jump out of list.
-  if (
-    Node.string(currentParagraph) === '' &&
-    currentParagraph.children.length === 1 &&
-    Text.isText(currentParagraph.children[0])
-  ) {
+  // If list-item is empty, remove list item and jump out of list.
+  if (Node.string(currentListItem) === '') {
     Editor.withoutNormalizing(editor, () => {
       Transforms.unwrapNodes(editor, { at: currentListItemPath });
       Transforms.liftNodes(editor, { at: currentListItemPath });

@@ -9,6 +9,7 @@
 import React from 'react';
 import nock from 'nock';
 import { createEditor } from 'slate';
+import { withReact, Slate, Editable } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { render, fireEvent, cleanup, wait } from '@testing-library/react';
 import { RelatedArticleBox } from '../RelatedArticleBox';
@@ -16,11 +17,18 @@ import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
 import { TYPE_SECTION } from '../../section';
 import { TYPE_RELATED } from '..';
 
-const slatereact = jest.createMockFromModule('slate-react');
-
-slatereact.ReactEditor.findPath = (editor, element) => {
-  return [0, 0, 0];
-};
+jest.mock('slate-react', () => {
+  const slatereact = jest.requireActual('slate-react');
+  return {
+    ...slatereact,
+    ReactEditor: {
+      ...slatereact.ReactEditor,
+      findPath: (editor, element) => {
+        return [0, 0, 0];
+      },
+    },
+  };
+});
 
 afterEach(cleanup);
 

@@ -108,7 +108,7 @@ const topicArticleRules: SlateSerializer[] = [
   divSerializer,
 ];
 
-export const learningResourceContentToEditorValue = (html: string) => {
+export const learningResourceContentToEditorValue = (html?: string) => {
   if (!html) {
     return [createEmptyValue()];
   }

@@ -20,53 +20,6 @@ const editor = withHistory(
 );
 
 describe('heading normalizer tests', () => {
-  test('add level 2 to heading without level', () => {
-    const editorValue: Descendant[] = [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-          // @ts-ignore
-          {
-            type: TYPE_HEADING,
-            children: [{ text: 'title' }],
-          },
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-        ],
-      },
-    ];
-
-    const expectedValue: Descendant[] = [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-          {
-            type: TYPE_HEADING,
-            level: 2,
-            children: [{ text: 'title' }],
-          },
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-        ],
-      },
-    ];
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
-    expect(editor.children).toEqual(expectedValue);
-  });
-
   test('unwrap empty header if not selected', () => {
     const editorValue: Descendant[] = [
       {

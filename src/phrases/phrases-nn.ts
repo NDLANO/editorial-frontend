@@ -1136,7 +1136,7 @@ const phrases = {
         'Vil du fjerne ressursen frå denne mappa? Dette vil ikkje påverke plasseringa andre steder',
       copyError:
         'Det oppstod ein feil ved kopiering av ressursar. Dobbeltsjekk dei kopierte ressursane og prøv å fikse manglar manuelt, eller slett dei kopierte ressursane og prøv å kopiere på nytt',
-        addResourceConflict: 'Ressursen du forsøkte å legge til finnes allerede på emnet.',
+      addResourceConflict: 'Ressursen du forsøkte å legge til finnes allerede på emnet.',
     },
     removeLink: 'Fjern lenke',
     resourceTypes: {

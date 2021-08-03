@@ -7,6 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import Modal from '@ndla/modal/lib/Modal';
 import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
@@ -25,7 +26,6 @@ import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/ConceptForm';
 import { ConceptShape, SubjectShape } from '../../../../shapes';
 import * as messageActions from '../../../../containers/Messages/messagesActions';
-import { debounce } from 'lodash';
 
 const type = 'concept';
 

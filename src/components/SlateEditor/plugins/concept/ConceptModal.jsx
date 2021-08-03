@@ -25,6 +25,7 @@ import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/ConceptForm';
 import { ConceptShape, SubjectShape } from '../../../../shapes';
 import * as messageActions from '../../../../containers/Messages/messagesActions';
+import { debounce } from 'lodash';
 
 const type = 'concept';
 
@@ -131,7 +132,7 @@ const ConceptModal = ({
                         </h2>
                         <SearchForm
                           type={type}
-                          search={searchConcept}
+                          search={debounce(searchConcept, 400)}
                           searchObject={searchObject}
                           locale={locale}
                           location={window.location}

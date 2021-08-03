@@ -34,6 +34,12 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'image',
+              resource_id: '123',
+              size: 'small',
+              align: 'right',
+              alt: 'test-alt',
+              caption: 'test-caption',
+              url: 'https://test.url',
             },
           },
           {
@@ -45,6 +51,8 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'h5p',
+              url: 'https://test.url',
+              path: 'test/path',
             },
           },
           {
@@ -56,6 +64,10 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'audio',
+              resource_id: '123',
+              caption: 'test-caption',
+              type: 'standard',
+              url: 'https://test.url',
             },
           },
         ],
@@ -79,6 +91,12 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'image',
+              resource_id: '123',
+              size: 'small',
+              align: 'right',
+              alt: 'test-alt',
+              caption: 'test-caption',
+              url: 'https://test.url',
             },
           },
           {
@@ -94,6 +112,8 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'h5p',
+              url: 'https://test.url',
+              path: 'test/path',
             },
           },
           {
@@ -109,6 +129,10 @@ describe('embed normalizer tests', () => {
             ],
             data: {
               resource: 'audio',
+              resource_id: '123',
+              caption: 'test-caption',
+              type: 'standard',
+              url: 'https://test.url',
             },
           },
           {

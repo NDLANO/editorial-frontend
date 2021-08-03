@@ -92,6 +92,7 @@ exports[`EditorErrorMessage renders 1`] = `
 
 <div
   className="emotion-2 emotion-3"
+  contentEditable={false}
 >
   <button
     className="emotion-0 emotion-1"

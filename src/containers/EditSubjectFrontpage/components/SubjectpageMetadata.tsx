@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { FocusEvent } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps } from 'formik';
 import { Editor } from 'slate';
@@ -13,21 +13,21 @@ import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 
-import { FormikProperties, Embed } from '../../../interfaces';
+import { FormikProperties, ImageEmbed } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';
 
 interface FormikProps {
-  field: FieldProps<Embed>['field'];
+  field: FieldProps<ImageEmbed>['field'];
   form: FormikProperties['form'];
 }
 
 interface Props {
   handleSubmit: () => void;
-  onBlur: (event: Event, editor: Editor, next: Function) => void;
+  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
 const SubjectpageMetadata = ({ handleSubmit, onBlur, t }: Props & tType) => {
-  const plugins = [textTransformPlugin()];
+  const plugins = [textTransformPlugin];
   return (
     <>
       <FormikField

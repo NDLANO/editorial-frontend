@@ -35,6 +35,7 @@ const VisualElement = ({
 }: Props) => {
   const plugins = useMemo(() => {
     return [embedPlugin(language, undefined, true), visualElementPickerPlugin(language, types)];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedResource]);
 
   return (

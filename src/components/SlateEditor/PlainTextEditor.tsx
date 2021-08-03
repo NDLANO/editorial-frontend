@@ -7,11 +7,12 @@
  *
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, FocusEvent } from 'react';
 import { createEditor, Descendant, Editor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { SlatePlugin } from './interfaces';
+import withPlugins from './utils/withPlugins';
 
 interface SlateEditorProps {
   id?: string;
@@ -31,15 +32,8 @@ interface SlateEditorProps {
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
   handleSubmit: () => void;
   onChange: Function;
-  onBlur: (event: React.FocusEvent<HTMLDivElement>, editor: Editor) => void;
+  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
-
-const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
-  if (plugins) {
-    return plugins.reduce((editor, plugin) => plugin(editor), editor);
-  }
-  return editor;
-};
 
 const PlainTextEditor: React.FC<Props> = props => {
   const {
@@ -70,7 +64,8 @@ const PlainTextEditor: React.FC<Props> = props => {
         });
       }}>
       <Editable
-        onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
+        onBlur={(event: FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
+        // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
         onKeyDown={editor.onKeyDown}
         className={className}
         placeholder={placeholder}

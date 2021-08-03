@@ -39,7 +39,7 @@ import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concep
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
-import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
+// import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 
 import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
@@ -54,6 +54,7 @@ import { sectionPlugin } from '../../../../components/SlateEditor/plugins/sectio
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
+import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 
 const byLineStyle = css`
   display: flex;
@@ -87,6 +88,7 @@ const actionsToShowInAreas = {
 export const plugins = (articleLanguage, locale, handleSubmitRef) => {
   return [
     sectionPlugin,
+    divPlugin,
     paragraphPlugin,
     footnotePlugin,
     embedPlugin(articleLanguage, locale),
@@ -133,26 +135,7 @@ const LearningResourceContent = ({
 
   React.useEffect(() => {
     handleSubmitRef.current = handleSubmit;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
-
-  // Todo: Rewrite the following plugins. For language support, consider using React.useRef().
-  // componentDidUpdate({ article: { id: prevId, language: prevArticleLanguage } }) {
-  //   const {
-  //     article: { id, language: articleLanguage },
-  //   } = this.props;
-  //   if (prevArticleLanguage !== articleLanguage || prevId !== id) {
-  //     this.plugins = [
-  //       createEmbedPlugin(articleLanguage),
-  //       conceptPlugin(articleLanguage),
-  //       blockPickerPlugin({
-  //         articleLanguage,
-  //         actionsToShowInAreas,
-  //         ...this.plugins,
-  //       }),
-  //     ];
-  //   }
-  // }
 
   return (
     <Fragment>

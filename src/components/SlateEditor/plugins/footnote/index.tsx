@@ -6,7 +6,7 @@
  *
  */
 
-import React, { KeyboardEvent } from 'react';
+import React from 'react';
 import { Descendant, Editor, Element, Transforms } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
@@ -97,7 +97,7 @@ export const footnotePlugin = (editor: Editor) => {
     return nextIsVoid(element);
   };
 
-  editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_BACKSPACE || e.key === KEY_DELETE) {
       if (editor.selection) {
         const [selected] = Editor.parent(editor, Editor.unhangRange(editor, editor.selection));

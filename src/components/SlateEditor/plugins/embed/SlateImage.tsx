@@ -16,7 +16,7 @@ import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
-import { Embed } from '../../../../interfaces';
+import { ImageEmbed } from '../../../../interfaces';
 
 const buttonStyle = css`
   min-width: -webkit-fill-available;
@@ -29,7 +29,7 @@ const buttonStyle = css`
 interface Props {
   active?: boolean;
   attributes: RenderElementProps['attributes'];
-  embed: Embed;
+  embed: ImageEmbed;
   figureClass?: { className: string };
   isSelectedForCopy?: boolean;
   language: string;
@@ -57,8 +57,8 @@ const SlateImage = ({
 
   const constructFigureClassName = () => {
     const isFullWidth = embed.align === 'center';
-    const size = ['small', 'xsmall'].includes(embed.size) ? `-${embed.size}` : '';
-    const align = ['left', 'right'].includes(embed.align) ? `-${embed.align}` : '';
+    const size = embed.size && ['small', 'xsmall'].includes(embed.size) ? `-${embed.size}` : '';
+    const align = embed.align && ['left', 'right'].includes(embed.align) ? `-${embed.align}` : '';
 
     return `c-figure ${!isFullWidth ? `u-float${size}${align}` : ''}`;
   };

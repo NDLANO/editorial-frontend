@@ -1,4 +1,3 @@
-import { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { Editor, Node, Element, Range, Transforms, Path, Text } from 'slate';
 
 import { TYPE_LIST_ITEM } from '..';
@@ -6,11 +5,7 @@ import getCurrentBlock from '../../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 import { defaultListItemBlock } from '../utils/defaultBlocks';
 
-const onEnter = (
-  event: KeyboardEvent<HTMLDivElement>,
-  editor: Editor,
-  next?: KeyboardEventHandler<HTMLDivElement>,
-) => {
+const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (event.shiftKey && next) return next(event);
 
   if (!editor.selection && next) return next(event);

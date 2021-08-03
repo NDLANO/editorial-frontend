@@ -9,13 +9,13 @@ import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import Button from '@ndla/button';
-import { Embed } from '../../../interfaces';
+import { ImageEmbed } from '../../../interfaces';
 import VisualElementSearch from '../../VisualElement/VisualElementSearch';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
 import Lightbox from '../../../components/Lightbox';
 
 interface Props {
-  field: FieldProps<Embed>['field'];
+  field: FieldProps<ImageEmbed>['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
@@ -25,12 +25,12 @@ interface Props {
 const SubjectpageBanner = ({ t, field, form, title }: Props & tType) => {
   const [showImageSelect, setShowImageSelect] = useState(false);
 
-  const onImageChange = (image: Embed) => {
+  const onImageChange = (image: ImageEmbed) => {
     updateFormik(image);
     onImageSelectClose();
   };
 
-  const updateFormik = (value: Embed | undefined) => {
+  const updateFormik = (value?: ImageEmbed) => {
     form.setFieldTouched(field.name, true, false);
     field.onChange({
       target: {

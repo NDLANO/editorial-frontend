@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { Value } from 'slate';
 import { parseCopyrightContributors, isFormikFormDirty } from '../formHelper';
 import {
   valueWithTwoImageEmbeds,
@@ -32,16 +31,10 @@ test('util/formHelper isFormikFormDirty is true', () => {
 test('util/formHelper isFormDirty is false', () => {
   const initialValues = {
     articleType: 'standard',
-    content: [
-      Value.fromJSON(valueWithTwoImageEmbeds),
-      Value.fromJSON(valueWithInlineFootnotesAndContentLinks),
-    ],
+    content: [valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks],
   };
   const values = {
-    content: [
-      Value.fromJSON(valueWithTwoImageEmbeds),
-      Value.fromJSON(valueWithInlineFootnotesAndContentLinks),
-    ],
+    content: [valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks],
   };
   expect(
     isFormikFormDirty({
@@ -55,13 +48,10 @@ test('util/formHelper isFormDirty is false', () => {
 test('util/formHelper isFormikFormDirty content sections is removed', () => {
   const initialValues = {
     articleType: 'standard',
-    content: [
-      Value.fromJSON(valueWithTwoImageEmbeds),
-      Value.fromJSON(valueWithInlineFootnotesAndContentLinks),
-    ],
+    content: [valueWithTwoImageEmbeds, valueWithInlineFootnotesAndContentLinks],
   };
   const values = {
-    content: [Value.fromJSON(valueWithTwoImageEmbeds)],
+    content: [valueWithTwoImageEmbeds],
   };
   expect(
     isFormikFormDirty({

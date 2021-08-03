@@ -84,8 +84,7 @@ const NdlaFilmForm = ({
               loading={loading}
               selectedLanguage={selectedLanguage}
               handleSubmit={() => handleSubmit(formik)}
-              onBlur={(event, editor, next) => {
-                next();
+              onBlur={(event, editor) => {
                 // this is a hack since formik onBlur-handler interferes with slates
                 // related to: https://github.com/ianstormtaylor/slate/issues/2434
                 // formik handleBlur needs to be called for validation to work (and touched to be set)

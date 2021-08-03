@@ -10,7 +10,7 @@ import { createEditor, Descendant, Editor } from 'slate';
 import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
-import { withPlugins } from '../../../RichTextEditor';
+import withPlugins from '../../../utils/withPlugins';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 import { TYPE_SECTION } from '../../section';
 import { TYPE_EMBED } from '..';

@@ -7,7 +7,7 @@
  */
 
 import { setToken } from '../../support';
-import editorRoutes from "./editorRoutes";
+import editorRoutes from './editorRoutes';
 
 describe('can enter both element types SlateBlockPicker and SlateVisualElementPicker and add, remove, open and close them', () => {
   before(() => {
@@ -18,11 +18,13 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   beforeEach(() => {
-    cy.get('[data-slate-object=block] > p').clear({ force: true });
-    cy.get('[data-slate-object=block] > p')
+    cy.get('[data-slate-node=element] > p').clear({ force: true });
+    cy.get('[data-slate-node=element] > p')
       .first()
       .click();
-    cy.get('[data-cy=slate-block-picker]').click({ force: true }).wait(100);
+    cy.get('[data-cy=slate-block-picker]')
+      .click({ force: true })
+      .wait(100);
     cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
   });
 
@@ -75,7 +77,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy=create-video]').click();
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
-    cy.apiwait('@editor/videos/videoListBrightcove')
+    cy.apiwait('@editor/videos/videoListBrightcove');
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
@@ -84,7 +86,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.apiroute('GET', '**/videos/**', 'editor/videos/videoListBrightcove');
 
     cy.get('[data-cy=create-video]').click();
-    cy.apiwait('@editor/videos/videoListBrightcove')
+    cy.apiwait('@editor/videos/videoListBrightcove');
     cy.get('[data-cy="use-video"]')
       .first()
       .click();
@@ -99,7 +101,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.apiroute('GET', '**/embed/**', 'editor/videos/videoYoutube2');
 
     cy.get('[data-cy=create-video]').click();
-    cy.apiwait('@editor/videos/videoListBrightcove')
+    cy.apiwait('@editor/videos/videoListBrightcove');
     cy.get('[data-cy="YouTube-video-tab"]').click();
     cy.apiwait('@editor/videos/videoListYoutube');
     cy.get('[data-cy="use-video"]')
@@ -124,10 +126,14 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   it('opens and closes audio', () => {
-    cy.apiroute('GET', '/audio-api/v1/audio/?audio-type=standard&page=1&query=&page-size=16', 'editor/audios/audioList');
+    cy.apiroute(
+      'GET',
+      '/audio-api/v1/audio/?audio-type=standard&page=1&query=&page-size=16',
+      'editor/audios/audioList',
+    );
     cy.apiroute('GET', '**/audio-api/v1/audio/*?language=nb', 'editor/audios/audio-1');
 
-    cy.get('[data-cy=create-audio]').click()
+    cy.get('[data-cy=create-audio]').click();
     cy.apiwait(['@editor/audios/audioList', '@editor/audios/audio-1']);
 
     cy.get('[data-cy="modal-header"]').should('exist');
@@ -151,24 +157,24 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
 
   it('opens and closes related', () => {
     setToken();
-    cy.apiroute('GET', '**/search-api/v1/search/editorial/*','search');
+    cy.apiroute('GET', '**/search-api/v1/search/editorial/*', 'search');
 
     cy.get('[data-cy=create-related]').click();
     cy.get('[data-cy="styled-article-modal"]').should('exist');
-    cy.apiwait('@search')
+    cy.apiwait('@search');
     cy.get('[data-cy="close-related-button"]').click();
   });
 
   // Placed last because closing depends on event from iframe.
   it('opens and closes H5P', () => {
     // Discard h5p-auth request
-    cy.intercept('*', (req) => {
+    cy.intercept('*', req => {
       if (req.url.includes('auth')) {
         req.reply({
-          statusCode: 404
-        })
+          statusCode: 404,
+        });
       }
-    })
+    });
 
     cy.get('[data-cy=create-h5p]').click();
     cy.get('[data-cy="h5p-editor"]').should('exist');

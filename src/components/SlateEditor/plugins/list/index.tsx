@@ -1,4 +1,4 @@
-import React, { KeyboardEvent } from 'react';
+import React from 'react';
 import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
@@ -242,7 +242,7 @@ export const listPlugin = (editor: Editor) => {
     normalizeNode(entry);
   };
 
-  editor.onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+  editor.onKeyDown = (event: KeyboardEvent) => {
     switch (event.key) {
       case KEY_ENTER:
         return onEnter(event, editor, onKeyDown);

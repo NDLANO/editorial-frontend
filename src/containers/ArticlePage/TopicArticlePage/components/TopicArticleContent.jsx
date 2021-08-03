@@ -40,6 +40,7 @@ import { toolbarPlugin } from '../../../../components/SlateEditor/plugins/toolba
 import saveHotkeyPlugin from '../../../../components/SlateEditor/plugins/saveHotkey';
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
+import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 
 const byLineStyle = css`
@@ -67,6 +68,7 @@ const createPlugins = (language, handleSubmitRef) => {
   // Plugins are checked from last to first
   return [
     sectionPlugin,
+    divPlugin,
     paragraphPlugin,
     noEmbedPlugin,
     linkPlugin(language),
@@ -182,6 +184,7 @@ const TopicArticleContent = props => {
                   },
                 });
               }}
+              language={language}
               actionsToShowInAreas={actionsToShowInAreas}
               onBlur={(event, editor) => {
                 // this is a hack since formik onBlur-handler interferes with slates

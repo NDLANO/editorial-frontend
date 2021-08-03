@@ -6,7 +6,7 @@
  *
  */
 
-import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
+import React from 'react';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms } from 'slate';
@@ -38,9 +38,9 @@ export const blockQuoteSerializer: SlateSerializer = {
 };
 
 const onEnter = (
-  e: KeyboardEvent<HTMLDivElement>,
+  e: KeyboardEvent,
   editor: Editor,
-  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+  nextOnKeyDown?: (event: KeyboardEvent) => void,
 ) => {
   const [quoteNode, quotePath] = getCurrentBlock(editor, TYPE_QUOTE);
 
@@ -81,7 +81,7 @@ export const blockQuotePlugin = (editor: Editor) => {
     return undefined;
   };
 
-  editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_ENTER) {
       onEnter(e, editor, nextOnKeyDown);
     } else if (nextOnKeyDown) {

@@ -19,7 +19,7 @@ describe('Selecting text and using the toolbar', () => {
   it('change the text styling', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
-      .focus()
+      .click()
       .wait(500)
       .type('This is test content{leftarrow}{leftarrow}{selectall}');
 
@@ -41,9 +41,9 @@ describe('Selecting text and using the toolbar', () => {
         cy.get('[data-testid=toolbar-button-code]').click();
         cy.get('[data-testid=toolbar-button-sub]').click();
         cy.get('[data-testid=toolbar-button-sup]').click();
-        cy.get('[data-testid=toolbar-button-heading-two]').click();
+        cy.get('[data-testid=toolbar-button-heading-2]').click();
         cy.wrap($el).type('{selectall}new heading{selectall}');
-        cy.get('[data-testid=toolbar-button-heading-three]').click();
+        cy.get('[data-testid=toolbar-button-heading-3]').click();
         cy.wrap($el)
           .find('h3')
           .should('have.length', 1);
@@ -97,13 +97,13 @@ describe('Selecting text and using the toolbar', () => {
           .wait(500)
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-bulleted-list]').click();
-        cy.get('ul > li').should('have.length', 4); // N.B {selectall} selects empty paragraphs so item increases by 2
+        cy.get('ul > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
           .wait(500)
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-letter-list]').click();
-        cy.get('ol > li').should('have.length', 6);
+        cy.get('ol > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
           .wait(500)

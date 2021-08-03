@@ -6,7 +6,7 @@
  *
  */
 
-import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
+import React from 'react';
 import { Descendant, Editor, Element, Node, Range, Transforms } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
@@ -59,9 +59,9 @@ export const conceptSerializer: SlateSerializer = {
 };
 
 const onBackspace = (
-  e: KeyboardEvent<HTMLDivElement>,
+  e: KeyboardEvent,
   editor: Editor,
-  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+  nextOnKeyDown?: (event: KeyboardEvent) => void,
 ) => {
   if (hasNodeOfType(editor, TYPE_CONCEPT)) {
     if (Range.isRange(editor.selection)) {
@@ -110,7 +110,7 @@ export const conceptPlugin = (locale: string) => (editor: Editor) => {
     }
   };
 
-  editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_BACKSPACE) {
       onBackspace(e, editor, nextOnKeyDown);
     } else if (nextOnKeyDown) {

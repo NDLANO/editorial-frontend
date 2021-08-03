@@ -1,4 +1,4 @@
-import { Editor, Node, Element, Range, Transforms, Path, Text } from 'slate';
+import { Editor, Node, Element, Range, Transforms, Path } from 'slate';
 
 import { TYPE_LIST_ITEM } from '..';
 import getCurrentBlock from '../../../utils/getCurrentBlock';

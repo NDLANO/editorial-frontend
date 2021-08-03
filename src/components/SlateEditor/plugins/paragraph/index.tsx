@@ -6,7 +6,7 @@
  *
  */
 
-import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
+import React from 'react';
 import { Editor, Node, Element, Descendant, Text } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
@@ -27,9 +27,9 @@ export interface ParagraphElement {
 }
 
 const onEnter = (
-  e: KeyboardEvent<HTMLDivElement>,
+  e: KeyboardEvent,
   editor: Editor,
-  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+  nextOnKeyDown?: (event: KeyboardEvent) => void,
 ) => {
   const currentParagraph = getCurrentParagraph(editor);
 
@@ -103,7 +103,7 @@ export const paragraphSerializer: SlateSerializer = {
 export const paragraphPlugin = (editor: Editor) => {
   const { onKeyDown: nextOnKeyDown, renderElement: nextRenderElement } = editor;
 
-  editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_ENTER) {
       onEnter(e, editor, nextOnKeyDown);
     } else if (nextOnKeyDown) {

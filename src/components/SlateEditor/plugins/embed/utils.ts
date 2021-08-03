@@ -10,6 +10,6 @@ import { jsx } from 'slate-hyperscript';
 import { TYPE_EMBED } from '.';
 import { Embed } from '../../../../interfaces';
 
-export const defaultEmbedBlock = (data: Embed) => {
+export const defaultEmbedBlock = (data: Partial<Embed>) => {
   return jsx('element', { type: TYPE_EMBED, data }, { text: '' });
 };

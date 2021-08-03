@@ -67,7 +67,13 @@ const SlateBlockPicker = (props: Props & tType) => {
   const onInsertBlock = (block: Element) => {
     const { editor } = props;
     setIsOpen(false);
-    ReactEditor.focus(editor);
+    if (block.type === 'embed') {
+      setTimeout(() => {
+        ReactEditor.focus(editor);
+      }, 0);
+    } else {
+      ReactEditor.focus(editor);
+    }
     Editor.insertNode(editor, block);
   };
 
@@ -101,10 +107,6 @@ const SlateBlockPicker = (props: Props & tType) => {
         onInsertBlock(defaultRelatedBlock());
         break;
       }
-      // case 'related': {
-      //   this.onInsertBlock(defaultRelatedBlock());
-      //   break;
-      // }
       case 'code-block': {
         onInsertBlock(defaultCodeblockBlock());
         break;

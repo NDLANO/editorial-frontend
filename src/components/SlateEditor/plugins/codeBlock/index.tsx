@@ -7,18 +7,13 @@
  */
 
 import React from 'react';
-import { Dictionary } from 'lodash';
 import { Descendant, Editor, Element, Path, Transforms, Node } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import CodeBlock from './CodeBlock';
 import { SlateSerializer } from '../../interfaces';
-import {
-  addSurroundingParagraphs,
-  afterOrBeforeTextBlockElement,
-} from '../../utils/normalizationHelpers';
+import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 export const TYPE_CODEBLOCK = 'code-block';
 
@@ -111,32 +106,3 @@ export const codeblockPlugin = (editor: Editor) => {
 
   return editor;
 };
-
-// export default function codeBlockPlugin() {
-//   const schema = {
-//     blocks: {
-//       'code-block': {
-//         isVoid: true,
-//         data: {},
-//         next: [
-//           {
-//             type: 'paragraph',
-//           },
-//           { type: 'heading-two' },
-//           { type: 'heading-three' },
-//         ],
-//         normalize: (editor: SlateEditor, error: { code: string; child: any }) => {
-//           switch (error.code) {
-//             case 'next_sibling_type_invalid': {
-//               editor.withoutSaving(() => {
-//                 editor.moveToEndOfNode(error.child).insertBlock(defaultBlocks.defaultBlock);
-//               });
-//               break;
-//             }
-//             default:
-//               break;
-//           }
-//         },
-//       },
-//     },
-//   };

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Editor, Element, NodeEntry, Path, Transforms } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
@@ -156,7 +155,7 @@ export const removeTable = (editor: Editor, path: Path) => {
 };
 
 export const handleTableKeydown = (
-  event: React.KeyboardEvent<HTMLDivElement>,
+  event: KeyboardEvent,
   editor: Editor,
   tableEntry: NodeEntry<TableElement>,
 ) => {

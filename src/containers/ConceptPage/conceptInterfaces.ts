@@ -15,7 +15,6 @@ import {
   ArticleType,
   FormValues,
 } from '../../interfaces';
-import { EmbedElement } from '../../components/SlateEditor/plugins/embed';
 
 export interface ConceptFormType extends ConceptType {
   articles: ArticleType[];
@@ -39,6 +38,6 @@ export interface ConceptFormValues extends Omit<StrippedConceptType, 'visualElem
   tags: string[];
   updateCreated: boolean;
   updated: string;
-  visualElement: EmbedElement[];
+  visualElement: Descendant[];
   agreementId?: number;
 }

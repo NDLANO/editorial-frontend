@@ -8,23 +8,39 @@
 
 import React from 'react';
 import nock from 'nock';
+import { createEditor } from 'slate';
 import { render, fireEvent, cleanup, wait } from '@testing-library/react';
 import { RelatedArticleBox } from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
+import { TYPE_SECTION } from '../../section';
+import { defaultRelatedBlock } from '..';
 
 afterEach(cleanup);
 
-const wrapper = () =>
-  render(
+const relatedArticleBlock = defaultRelatedBlock();
+
+const wrapper = () => {
+  const slate = [
+    {
+      type: TYPE_SECTION,
+      children: [relatedArticleBlock],
+    },
+  ];
+  const editor = createEditor();
+  editor.children = slate;
+  return render(
     <IntlWrapper>
       <RelatedArticleBox
         t={() => 'injected'}
-        editor={{ setNodeByKey: () => {}, onChange: () => {} }}
+        editor={editor}
         locale="nb"
-        node={{}}
+        element={relatedArticleBlock}
       />
     </IntlWrapper>,
   );
+};
+
+jest.mock('slate-react');
 
 test('it goes in and out of edit mode', async () => {
   nock('http://ndla-api')

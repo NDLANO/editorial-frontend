@@ -6,7 +6,7 @@
  *
  */
 
-import React, { KeyboardEvent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Editor, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
@@ -51,12 +51,7 @@ interface Props {
   editor: Editor;
 }
 
-const onButtonClick = (
-  event: KeyboardEvent<HTMLDivElement>,
-  editor: Editor,
-  kind: string,
-  type: string,
-) => {
+const onButtonClick = (event: KeyboardEvent, editor: Editor, kind: string, type: string) => {
   if (kind === 'mark') {
     toggleMark(event, editor, type);
   } else if (kind === 'block') {
@@ -123,7 +118,7 @@ const SlateToolbar = (props: Props) => {
       type={type}
       kind={'mark'}
       isActive={isMarkActive(editor, type)}
-      handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
+      handleOnClick={(event: KeyboardEvent, kind: string, type: string) => {
         onButtonClick(event, editor, kind, type);
       }}
     />
@@ -139,7 +134,7 @@ const SlateToolbar = (props: Props) => {
           ? hasListItem(editor, type)
           : hasNodeWithProps(editor, specialRules[type] ?? { type })
       }
-      handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
+      handleOnClick={(event: KeyboardEvent, kind: string, type: string) => {
         onButtonClick(event, editor, kind, type);
       }}
     />
@@ -150,7 +145,7 @@ const SlateToolbar = (props: Props) => {
       type={type}
       kind={'inline'}
       isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
-      handleOnClick={(event: KeyboardEvent<HTMLDivElement>, kind: string, type: string) => {
+      handleOnClick={(event: KeyboardEvent, kind: string, type: string) => {
         onButtonClick(event, editor, kind, type);
       }}
     />

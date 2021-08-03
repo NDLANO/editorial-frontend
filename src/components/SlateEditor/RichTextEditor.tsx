@@ -8,7 +8,7 @@
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, FocusEvent } from 'react';
 import { createEditor, Descendant, Editor, NodeEntry } from 'slate';
 import {
   Slate,
@@ -27,6 +27,7 @@ import { SlateToolbar } from './plugins/toolbar';
 import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
 import options from './plugins/blockPicker/options';
 import { onDragOver, onDragStart, onDrop } from './plugins/DND';
+import withPlugins from './utils/withPlugins';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -60,16 +61,9 @@ interface SlateEditorProps {
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
   handleSubmit: () => void;
   onChange: Function;
-  onBlur: (event: React.FocusEvent<HTMLDivElement>, editor: Editor) => void;
+  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
   children: any;
 }
-
-const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
-  if (plugins) {
-    return plugins.reduce((editor, plugin) => plugin(editor), editor);
-  }
-  return editor;
-};
 
 const RichTextEditor = ({
   children,
@@ -158,14 +152,15 @@ const RichTextEditor = ({
             <SlateBlockPicker
               editor={editor}
               onChange={editor.onChange}
+              articleLanguage={language}
               {...options({
-                articleLanguage: language,
                 actionsToShowInAreas,
               })}
             />
             <Editable
               decorate={entry => decorations(entry)}
-              onBlur={(event: React.FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
+              onBlur={(event: FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
+              // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
               onKeyDown={editor.onKeyDown}
               placeholder={placeholder}
               renderElement={renderElement}

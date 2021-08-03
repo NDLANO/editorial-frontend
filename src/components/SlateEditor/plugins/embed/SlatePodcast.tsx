@@ -16,11 +16,11 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import { SlateAudio as Audio, Embed, LocaleType } from '../../../../interfaces';
+import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 
 interface BaseProps {
   attributes: RenderElementProps['attributes'];
-  embed: Embed;
+  embed: AudioEmbed;
   language: string;
   locale: LocaleType;
   onRemoveClick: Function;

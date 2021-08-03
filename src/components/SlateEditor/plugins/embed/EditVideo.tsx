@@ -16,7 +16,7 @@ import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
 import { StyledInputWrapper } from './FigureInput';
 import EditVideoTime from './EditVideoTime';
-import { Embed, FormikInputEvent } from '../../../../interfaces';
+import { BrightcoveEmbed, ExternalEmbed, FormikInputEvent } from '../../../../interfaces';
 import { addYoutubeTimeStamps } from '../../../../util/videoUtil';
 
 const videoStyle = css`
@@ -30,7 +30,7 @@ const videoStyle = css`
 
 interface Props {
   caption: string;
-  embed: Embed;
+  embed: BrightcoveEmbed | ExternalEmbed;
   figureClass: any;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   setCaption: (caption: string) => void;

@@ -1,7 +1,6 @@
 import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange } from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
-import React from 'react';
 import { BlockQuoteElement } from './plugins/blockquote';
 import { BreakElement } from './plugins/break';
 import { FootnoteElement } from './plugins/footnote';
@@ -22,6 +21,7 @@ import { EmbedElement } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
 import { CodeblockElement } from './plugins/codeBlock';
 import { VisualElementPickerElement } from './plugins/visualElementPicker';
+import { DivElement } from './plugins/div';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -31,7 +31,7 @@ export interface SlateSerializer {
 }
 
 export type CustomEditor = {
-  onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
+  onKeyDown?: (event: KeyboardEvent) => void;
   renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
   renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
   removeSection?: () => void;
@@ -67,7 +67,8 @@ declare module 'slate' {
       | RelatedElement
       | EmbedElement
       | BodyboxElement
-      | VisualElementPickerElement;
+      | VisualElementPickerElement
+      | DivElement;
     Text: CustomTextWithMarks;
   }
 }

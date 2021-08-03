@@ -5,12 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import jsdom from 'jsdom';
-import Html from 'slate-html-serializer';
-import { parseEmbedTag, createEmbedTag, isUserProvidedEmbedDataValid } from '../embedTagHelpers';
-import { divRule, toJSON } from '../slateHelpers';
 
-const { fragment } = jsdom.JSDOM;
+import { learningResourceContentToEditorValue } from '../articleContentConverter';
+import { parseEmbedTag, createEmbedTag, isUserProvidedEmbedDataValid } from '../embedTagHelpers';
 
 test('parseEmbedTag parses image embed tag to object', () => {
   const obj = parseEmbedTag(
@@ -96,8 +93,8 @@ test('createEmbedTag creates brightcove embed tag from object', () => {
   expect(tag).toMatchSnapshot();
 });
 
-test('createEmbedTag returns empty string if the object contains no keys', () => {
-  expect(createEmbedTag({})).toBe('');
+test('createEmbedTag returns undefined if the object contains no keys', () => {
+  expect(createEmbedTag({})).toBe(undefined);
 });
 
 test('isUserProvidedEmbedDataValid for image', () => {
@@ -150,10 +147,9 @@ test('isUserProvidedEmbedDataValid for audio', () => {
 });
 
 test('deserializing related-content works', () => {
-  const serializer = new Html({ rules: [divRule], parseHtml: fragment });
-  const deserialized = serializer.deserialize(
+  const deserialized = learningResourceContentToEditorValue(
     '<div data-type="related-content"><embed data-url="www.vg.no" data-title="Forsiden vg" /><embed data-article-id="54" /></div>',
   );
 
-  expect(toJSON(deserialized)).toMatchSnapshot();
+  expect(deserialized).toMatchSnapshot();
 });

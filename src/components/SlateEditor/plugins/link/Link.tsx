@@ -139,7 +139,7 @@ const Link = (props: Props & tType) => {
   const isInline = isNodeInCurrentSelection(editor, element);
 
   return (
-    <a {...attributes} {...classes('link')} ref={linkRef}>
+    <a {...attributes} href={model?.href} {...classes('link')} ref={linkRef}>
       {children}
       {model && (
         <>

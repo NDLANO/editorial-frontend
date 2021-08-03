@@ -8,7 +8,7 @@
 
 import React, { useEffect, useMemo } from 'react';
 import { FormikHandlers } from 'formik';
-import { Descendant, Editor, createEditor, Transforms } from 'slate';
+import { Descendant, createEditor, Transforms } from 'slate';
 import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { jsx } from 'slate-hyperscript';
@@ -16,6 +16,7 @@ import { jsx } from 'slate-hyperscript';
 import { SlateProvider } from './SlateContext';
 import { SlatePlugin } from './interfaces';
 import { TYPE_VISUAL_ELEMENT_PICKER } from './plugins/visualElementPicker';
+import withPlugins from './utils/withPlugins';
 
 interface Props {
   name: string;
@@ -27,14 +28,6 @@ interface Props {
   selectedResource: string;
   resetSelectedResource: () => void;
 }
-
-// TODO: Move to util
-const withPlugins = (editor: Editor, plugins?: SlatePlugin[]) => {
-  if (plugins) {
-    return plugins.reduce((editor, plugin) => plugin(editor), editor);
-  }
-  return editor;
-};
 
 const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps

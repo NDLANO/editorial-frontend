@@ -9,38 +9,70 @@
 import React from 'react';
 import nock from 'nock';
 import { createEditor } from 'slate';
+import { withReact, Slate, Editable } from 'slate-react';
+import { withHistory } from 'slate-history';
 import { render, fireEvent, cleanup, wait } from '@testing-library/react';
 import { RelatedArticleBox } from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
 import { TYPE_SECTION } from '../../section';
-import { defaultRelatedBlock } from '..';
+import { TYPE_RELATED } from '..';
+
+jest.mock('slate-react', () => {
+  const slatereact = jest.requireActual('slate-react');
+  return {
+    ...slatereact,
+    ReactEditor: {
+      ...slatereact.ReactEditor,
+      findPath: (editor, element) => {
+        return [0, 0, 0];
+      },
+    },
+  };
+});
 
 afterEach(cleanup);
 
-const relatedArticleBlock = defaultRelatedBlock();
+const element = {
+  type: TYPE_SECTION,
+  children: [
+    {
+      type: TYPE_RELATED,
+      data: {
+        nodes: [
+          {
+            resource: 'related-content',
+            'article-id': '123',
+          },
+          {
+            resource: 'related-content',
+            url: 'http://google.com',
+            title: 'test-title',
+          },
+        ],
+      },
+      children: [
+        {
+          text: '',
+        },
+      ],
+    },
+  ],
+};
 
 const wrapper = () => {
-  const slate = [
-    {
-      type: TYPE_SECTION,
-      children: [relatedArticleBlock],
-    },
-  ];
-  const editor = createEditor();
-  editor.children = slate;
+  const editor = withHistory(withReact(createEditor()));
+
   return render(
     <IntlWrapper>
-      <RelatedArticleBox
-        t={() => 'injected'}
-        editor={editor}
-        locale="nb"
-        element={relatedArticleBlock}
-      />
+      <div>
+        <Slate editor={editor} value={[element]} onChange={() => {}}>
+          <Editable />
+        </Slate>
+        <RelatedArticleBox t={() => 'injected'} editor={editor} locale="nb" element={element} />
+      </div>
     </IntlWrapper>,
   );
 };
-
-jest.mock('slate-react');
 
 test('it goes in and out of edit mode', async () => {
   nock('http://ndla-api')

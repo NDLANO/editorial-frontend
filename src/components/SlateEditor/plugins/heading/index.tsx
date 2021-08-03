@@ -142,12 +142,6 @@ export const headingPlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_HEADING) {
-      // If header exists without level, change it to h2.
-      if (!node.level) {
-        Transforms.setNodes(editor, { level: 2 }, { at: path });
-        return;
-      }
-
       // Remove empty headers, but not when cursor is placed inside it.
       if (
         Node.string(node) === '' &&

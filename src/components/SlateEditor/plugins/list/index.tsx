@@ -45,7 +45,7 @@ export const listSerializer: SlateSerializer = {
       if (el.getAttribute('data-type') === 'letters') {
         return jsx(
           'element',
-          { type: TYPE_LIST, listType: 'letter-list', data: { start } },
+          { type: TYPE_LIST, listType: 'letter-list', data: { start: start ? start : undefined } },
           children,
         );
       }
@@ -53,7 +53,11 @@ export const listSerializer: SlateSerializer = {
       else {
         return jsx(
           'element',
-          { type: TYPE_LIST, listType: 'numbered-list', data: { start } },
+          {
+            type: TYPE_LIST,
+            listType: 'numbered-list',
+            data: { start: start ? start : undefined },
+          },
           children,
         );
       }
@@ -146,7 +150,7 @@ export const listPlugin = (editor: Editor) => {
             editor,
             {
               type: TYPE_PARAGRAPH,
-              children: [],
+              children: [{ text: '' }],
             },
             { at: childPath },
           );
@@ -154,7 +158,7 @@ export const listPlugin = (editor: Editor) => {
         }
       }
 
-      // If first child is not a paragraph or heading, insert an empty paragraph
+      // If first child is not a paragraph, heading or quote, insert an empty paragraph
       const firstChild = node.children[0];
       if (Element.isElement(firstChild)) {
         if (!firstTextBlockElement.includes(firstChild.type)) {
@@ -182,11 +186,28 @@ export const listPlugin = (editor: Editor) => {
       }
     }
     if (Element.isElement(node) && node.type === TYPE_LIST) {
-      // If list is empty, remove it
-      if (node.children.length === 0) {
+      // If list is empty or zero-length text element, remove it
+      if (
+        node.children.length === 0 ||
+        (Text.isTextList(node.children) && Node.string(node) === '')
+      ) {
         return Transforms.removeNodes(editor, { at: path });
       }
 
+      // If list contains elements of other type than list-item, wrap it
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (!Element.isElement(child) || child.type !== TYPE_LIST_ITEM) {
+          Transforms.wrapNodes(
+            editor,
+            {
+              type: TYPE_LIST_ITEM,
+              children: [],
+            },
+            { at: childPath },
+          );
+          return;
+        }
+      }
       // Merge list with previous list if identical type
       if (Path.hasPrevious(path)) {
         const prevPath = Path.previous(path);

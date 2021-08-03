@@ -21,8 +21,6 @@ const KEY_DELETE = 'Delete';
 export interface FootnoteElement {
   type: 'footnote';
   data: {
-    [key: string]: string;
-  } & {
     authors: string[];
     title: string;
     year: string;

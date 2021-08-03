@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Node, Editor, Transforms } from 'slate';
+import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import he from 'he';
 
@@ -36,7 +36,7 @@ const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
 
 const getInfoFromNode = (element: CodeblockElement) => {
   const { data } = element;
-  const codeBlock = data['code-block'] || Node.string(element);
+  const codeBlock = data['code-block'] || {};
 
   const code = codeBlock.code || data['code-content'] || '';
   const format = codeBlock.format || data['code-format'] || 'text';

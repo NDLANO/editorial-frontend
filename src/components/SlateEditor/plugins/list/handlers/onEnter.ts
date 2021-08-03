@@ -29,7 +29,7 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
 
   event.preventDefault();
 
-  // If expanded selection is expanded, delete selected content first.
+  // If selection is expanded, delete selected content first.
   // Selection should now be collapsed
   if (Range.isExpanded(editor.selection)) {
     Editor.deleteForward(editor);
@@ -49,10 +49,13 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   }
 
   // Split current listItem at selection.
+  const liftPath = Editor.hasPath(editor, Path.next(currentParagraphPath))
+    ? currentParagraphPath
+    : Path.next(currentParagraphPath);
   Editor.withoutNormalizing(editor, () => {
     Transforms.splitNodes(editor, { always: true });
-    Transforms.wrapNodes(editor, defaultListItemBlock(), { at: currentParagraphPath });
-    Transforms.liftNodes(editor, { at: currentParagraphPath });
+    Transforms.wrapNodes(editor, defaultListItemBlock(), { at: liftPath });
+    Transforms.liftNodes(editor, { at: liftPath });
   });
 };
 

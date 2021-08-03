@@ -20,7 +20,7 @@ export const TYPE_ASIDE = 'aside';
 export interface AsideElement {
   type: 'aside';
   data: {
-    type: string;
+    type: 'rightAside' | 'factAside';
   };
   children: Descendant[];
 }

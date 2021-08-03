@@ -40,7 +40,9 @@ export const defaultTableCellBlock = () => {
     'element',
     {
       type: TYPE_TABLE_CELL,
-      data: {},
+      data: {
+        isHeader: false,
+      },
     },
     defaultParagraphBlock(),
   );

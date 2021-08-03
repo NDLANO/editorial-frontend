@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Descendant, Editor, Element, Path, Transforms, Node } from 'slate';
+import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import CodeBlock from './CodeBlock';
@@ -20,13 +20,14 @@ export const TYPE_CODEBLOCK = 'code-block';
 export interface CodeblockElement {
   type: 'code-block';
   data: {
-    'code-block': {
+    'code-block'?: {
       code?: string;
       format?: string;
       title?: string;
     };
     'code-format': string;
     'code-content': string;
+    resource: string;
     title: string;
   };
   children: Descendant[];
@@ -79,16 +80,6 @@ export const codeblockPlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_CODEBLOCK) {
-      for (const [child, childPath] of Node.children(editor, path)) {
-        if (!Path.hasPrevious(childPath)) {
-          // Unwrap element if it exists
-          if (Element.isElement(child)) {
-            Transforms.unwrapNodes(editor, { at: childPath });
-            return;
-          }
-        }
-      }
-
       if (addSurroundingParagraphs(editor, path)) {
         return;
       }

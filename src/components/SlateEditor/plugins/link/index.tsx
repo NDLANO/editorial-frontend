@@ -23,7 +23,7 @@ export interface LinkElement {
   target?: string;
   title?: string;
   rel?: string;
-  children: Text[];
+  children: Descendant[];
 }
 
 // TODO: change to data: {content-type, content-id, open-in}
@@ -32,7 +32,7 @@ export interface ContentLinkElement {
   'content-type': string;
   'content-id': string;
   'open-in': string;
-  children: Text[];
+  children: Descendant[];
 }
 
 export const linkSerializer: SlateSerializer = {
@@ -132,22 +132,18 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
     const [node, path] = entry;
     if (Element.isElement(node)) {
       if (node.type === 'content-link' || node.type === 'link') {
-        node.children.forEach((child, index) => {
+        for (const [index, child] of node.children.entries()) {
           if (!Text.isText(child)) {
-            Transforms.delete(editor, { at: [...path, index] });
+            Transforms.unwrapNodes(editor, { at: [...path, index] });
             return;
           }
-        });
+        }
       }
       if (node.type === 'content-link') {
-        node.children.forEach(child => {
+        for (const child of node.children) {
           if (
-            child.bold ||
-            child.code ||
-            child.italic ||
-            child.sub ||
-            child.sup ||
-            child.underlined
+            Text.isText(child) &&
+            (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined)
           ) {
             Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
               at: path,
@@ -155,7 +151,7 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
             });
             return;
           }
-        });
+        }
       }
     }
     nextNormalizeNode(entry);

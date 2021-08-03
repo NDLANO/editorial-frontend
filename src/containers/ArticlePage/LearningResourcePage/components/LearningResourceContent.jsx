@@ -84,20 +84,9 @@ const actionsToShowInAreas = {
   summary: actions,
 };
 
-const LearningResourceContent = ({
-  article: { language: articleLanguage },
-  t,
-  userAccess,
-  values: { id, language, creators, published },
-  handleBlur,
-  handleSubmit,
-  locale,
-}) => {
-  const handleSubmitRef = React.useRef(handleSubmit);
-
-  const [preview, setPreview] = useState(false);
-  // Plugins are checked from last to first
-  const plugins = [
+// Plugins are checked from last to first
+export const plugins = (articleLanguage, locale, handleSubmitRef) => {
+  return [
     sectionPlugin,
     divPlugin,
     paragraphPlugin,
@@ -129,6 +118,20 @@ const LearningResourceContent = ({
     markPlugin,
     listPlugin,
   ];
+};
+
+const LearningResourceContent = ({
+  article: { language: articleLanguage },
+  t,
+  userAccess,
+  values: { id, language, creators, published },
+  handleBlur,
+  handleSubmit,
+  locale,
+}) => {
+  const handleSubmitRef = React.useRef(handleSubmit);
+
+  const [preview, setPreview] = useState(false);
 
   React.useEffect(() => {
     handleSubmitRef.current = handleSubmit;
@@ -203,7 +206,7 @@ const LearningResourceContent = ({
               submitted={isSubmitting}
               placeholder={t('form.content.placeholder')}
               data-cy="learning-resource-content"
-              plugins={plugins}
+              plugins={plugins(articleLanguage, locale, handleSubmitRef)}
               setFieldValue={setFieldValue}
               value={value}
               name={name}

@@ -17,7 +17,6 @@ const onBackspace = (
 
   const [currentItemNode, currentItemPath] = getCurrentBlock(editor, TYPE_LIST_ITEM);
 
-  // Paragraph must be direct child of list
   if (
     currentItemNode &&
     Element.isElement(currentItemNode) &&

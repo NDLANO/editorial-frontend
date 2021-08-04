@@ -6,6 +6,7 @@ import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
 
 import { defaultListBlock } from '../utils/defaultBlocks';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
+import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
 
 const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (!editor.selection) return next && next(event);
@@ -17,6 +18,10 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
 
   const [currentItemNode, currentItemPath] = getCurrentBlock(editor, TYPE_LIST_ITEM);
   const [currentListNode, currentListPath] = getCurrentBlock(editor, TYPE_LIST);
+  const [[currentTextBlockNode, currentTextBlockPath]] = Editor.nodes(editor, {
+    match: n => Element.isElement(n) && firstTextBlockElement.includes(n.type),
+    mode: 'lowest',
+  });
 
   if (
     currentItemNode &&
@@ -24,11 +29,14 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
     currentItemNode.type === TYPE_LIST_ITEM &&
     currentListNode &&
     Element.isElement(currentListNode) &&
-    currentListNode.type === TYPE_LIST
+    currentListNode.type === TYPE_LIST &&
+    // selected text block node must be a direct child of list item.
+    currentTextBlockNode &&
+    Path.isChild(currentTextBlockPath, currentItemPath)
   ) {
     event.preventDefault();
     if (!editor.selection) {
-      return;
+      return next && next(event);
     }
     if (
       Path.isDescendant(editor.selection.anchor.path, currentItemPath) &&

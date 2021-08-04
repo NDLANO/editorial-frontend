@@ -7,6 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import Modal from '@ndla/modal/lib/Modal';
 import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
@@ -131,7 +132,7 @@ const ConceptModal = ({
                         </h2>
                         <SearchForm
                           type={type}
-                          search={searchConcept}
+                          search={debounce(searchConcept, 400)}
                           searchObject={searchObject}
                           locale={locale}
                           location={window.location}

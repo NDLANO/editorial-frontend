@@ -7,7 +7,7 @@
  */
 
 import React, { useRef, useEffect, useState } from 'react';
-import { Editor, Element, Node, Location, Range, Path } from 'slate';
+import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
@@ -21,6 +21,8 @@ import { defaultBodyboxBlock } from '../bodybox/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
 import { TYPE_LIST_ITEM } from '../list';
+import getCurrentBlock from '../../utils/getCurrentBlock';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 interface Props {
   editor: Editor;
@@ -38,6 +40,7 @@ interface VisualElementSelect {
 const SlateBlockPicker = (props: Props & tType) => {
   const [isOpen, setIsOpen] = useState(false);
   const [lastActiveSelection, setLastActiveSelection] = useState<Range>();
+  const [selectedParagraphPath, setSelectedParagraphPath] = useState<Path>();
   const [visualElementSelect, setVisualElementSelect] = useState<VisualElementSelect>({
     isOpen: false,
   });
@@ -67,15 +70,18 @@ const SlateBlockPicker = (props: Props & tType) => {
 
   const onInsertBlock = (block: Element) => {
     const { editor } = props;
-    setIsOpen(false);
-    if (block.type === 'embed') {
-      setTimeout(() => {
+
+    setTimeout(() => {
+      if (selectedParagraphPath) {
+        Transforms.select(editor, selectedParagraphPath);
         ReactEditor.focus(editor);
-      }, 0);
-    } else {
-      ReactEditor.focus(editor);
-    }
-    Editor.insertNode(editor, block);
+      }
+      Transforms.insertNodes(editor, block, {
+        at: selectedParagraphPath,
+      });
+    }, 0);
+    setIsOpen(false);
+    setSelectedParagraphPath(undefined);
   };
 
   const onElementAdd = (data: ActionData) => {
@@ -114,11 +120,17 @@ const SlateBlockPicker = (props: Props & tType) => {
       }
       default:
         setIsOpen(false);
+        setSelectedParagraphPath(undefined);
         break;
     }
   };
 
-  const toggleIsOpen = (open: boolean) => {
+  const openBlockPicker = (open: boolean) => {
+    const { editor } = props;
+    const [, paragraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH);
+    if (Path.isPath(paragraphPath)) {
+      setSelectedParagraphPath(paragraphPath);
+    }
     setIsOpen(open);
   };
 
@@ -271,7 +283,7 @@ const SlateBlockPicker = (props: Props & tType) => {
               ...action,
               label: t(`editorBlockpicker.actions.${action.data.object}`),
             }))}
-            onToggleOpen={toggleIsOpen}
+            onToggleOpen={openBlockPicker}
             clickItem={(data: ActionData) => {
               onElementAdd(data);
             }}

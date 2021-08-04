@@ -129,10 +129,11 @@ const StructureResources = ({
         );
 
         if (currentTopic.contentUri) {
-          await fetchDraft(
+          const article = await fetchDraft(
             parseInt(currentTopic.contentUri.replace('urn:article:', '')),
             locale,
-          ).then(article => setTopicStatus(article.status));
+          )
+          setTopicStatus(article.status);
         }
         await getResourceStatuses(allTopicResources);
 

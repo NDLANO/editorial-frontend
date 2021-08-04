@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Editor, Transforms } from 'slate';
+import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import he from 'he';
 
@@ -72,7 +72,11 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
 
     setEditMode(false);
     setFirstEdit(false);
-    Transforms.setNodes(editor, properties, { at: ReactEditor.findPath(editor, element) });
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.setNodes(editor, properties, { at: path });
+    if (Editor.hasPath(editor, Path.next(path))) {
+      Transforms.select(editor, Path.next(path));
+    }
   };
 
   const handleRemove = () => {

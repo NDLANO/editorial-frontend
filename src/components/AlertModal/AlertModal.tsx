@@ -44,7 +44,7 @@ interface Props {
   text: string;
   onCancel: () => void;
   component?: React.ReactElement[] | React.ReactElement;
-  actions?: { text: string; onClick: Function; 'data-testid'?: string }[];
+  actions?: { text: string; onClick: (event: Event) => void; 'data-testid'?: string }[];
   show?: boolean;
   severity?: string;
 }

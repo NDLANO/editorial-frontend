@@ -31,6 +31,7 @@ import {
   TaxonomyMetadata,
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftStatus, DraftStatusTypes } from '../../../modules/draft/draftApiInterfaces';
+import { StructureRouteParams } from '../StructureContainer';
 
 const StyledDiv = styled('div')`
   width: calc(${spacing.large} * 5);
@@ -44,10 +45,7 @@ export interface TopicResource extends ResourceWithTopicConnection {
 
 interface Props {
   locale: string;
-  params: {
-    topic?: string;
-    subtopics?: string;
-  };
+  params: StructureRouteParams;
   currentTopic: SubjectTopic;
   refreshTopics: () => Promise<void>;
   resourceRef: RefObject<HTMLDivElement>;
@@ -71,8 +69,8 @@ const StructureResources = ({
 }: Props & tType) => {
   const [resourceTypes, setResourceTypes] = useState<(ResourceType & { disabled?: boolean })[]>([]);
   const [topicResources, setTopicResources] = useState<TopicResource[]>([]);
-  const [loading, setLoading] = useState<boolean>();
-  const [topicStatus, setTopicStatus] = useState<DraftStatus>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [topicStatus, setTopicStatus] = useState<DraftStatus | undefined>(undefined);
   const prevCurrentTopic = useRef<SubjectTopic | null>(null);
 
   useEffect(() => {
@@ -81,12 +79,10 @@ const StructureResources = ({
         setLoading(true);
         await getAllResourceTypes();
         await getTopicResources();
-        if (loading) {
-          setLoading(false);
-        }
       } catch (error) {
         handleError(error);
       }
+      setLoading(false);
     })();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -112,7 +108,6 @@ const StructureResources = ({
         ...resourceTypes,
         {
           id: 'missing',
-          subtypes: [],
           name: t('taxonomy.missingResourceType'),
           disabled: true,
         },

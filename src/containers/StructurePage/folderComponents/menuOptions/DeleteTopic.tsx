@@ -27,7 +27,7 @@ import { StyledErrorMessage } from '../styles';
 import { updateStatusDraft } from '../../../../modules/draft/draftApi';
 import { ARCHIVED } from '../../../../util/constants/ArticleStatus';
 import { TopicConnections } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { EditMode } from '../SettingsMenu';
+import { EditMode } from '../../../../interfaces';
 
 interface State {
   loading: boolean;

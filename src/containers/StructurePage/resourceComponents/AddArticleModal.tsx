@@ -52,9 +52,9 @@ const AddArticleModal = ({
         id: currentTopic.id,
         name: currentTopic.name,
         contentUri: `urn:article:${article.id}`,
-      })
-        .then(refreshTopics)
-        .then(toggleAddModal);
+      });
+      await refreshTopics();
+      toggleAddModal();
     } catch (err) {
       handleError(err);
     }

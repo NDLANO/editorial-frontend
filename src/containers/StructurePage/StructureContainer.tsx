@@ -7,7 +7,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -45,21 +45,24 @@ import {
   TaxonomyElement,
   TaxonomyMetadata,
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { LocaleContext, UserAccessContext } from '../App/App';
 
-interface Props
-  extends RouteComponentProps<{ subject?: string; subtopics?: string; topic?: string }> {
-  locale: string;
-  userAccess?: string;
+interface Props extends RouteComponentProps<StructureRouteParams> {}
+
+export interface StructureRouteParams {
+  subject?: string;
+  subtopics?: string;
+  topic?: string;
 }
 
-export const StructureContainer = ({
-  locale,
-  userAccess,
-  match,
-  location,
-  history,
-  t,
-}: Props & tType) => {
+interface RouteProps {
+  params: StructureRouteParams;
+  location: { pathname: string };
+}
+
+export const StructureContainer = ({ match, location, history, t }: Props & tType) => {
+  const locale = useContext(LocaleContext);
+  const userAccess = useContext(UserAccessContext);
   const [editStructureHidden, setEditStructureHidden] = useState(false);
   const [subjects, setSubjects] = useState<(SubjectType & { topics?: SubjectTopic[] })[]>([]);
   const [topics, setTopics] = useState<SubjectTopic[]>([]);
@@ -67,13 +70,15 @@ export const StructureContainer = ({
   const [showFavorites, setShowFavorites] = useState(false);
   const [favoriteSubjects, setFavoriteSubjects] = useState<string[]>([]);
   const resourceSection = useRef<HTMLDivElement>(null);
-  const prevRouteParams = useRef<
-    | {
-        params: { subject?: string; subtopics?: string; topic?: string };
-        location: { pathname: string };
-      }
-    | undefined
-  >(undefined);
+  const prevRouteParams = useRef<RouteProps | undefined>(undefined);
+
+  const { params } = match;
+  const topicId = params.subtopics?.split('/')?.pop() || params.topic;
+  const currentTopic = getCurrentTopic({
+    params,
+    allTopics: topics,
+  });
+  const grouped = currentTopic?.metadata?.customFields['topic-resources'] || 'grouped';
 
   useEffect(() => {
     (async () => {
@@ -98,7 +103,7 @@ export const StructureContainer = ({
       if (location.pathname !== prevRouteParams.current!.location.pathname) {
         const currentSub = subjects.find(sub => sub.id === params.subject);
         if (currentSub) {
-          getSubjectTopics(params.subject!, locale);
+          await getSubjectTopics(params.subject!, locale);
         }
       }
       prevRouteParams.current = { params, location };
@@ -229,14 +234,6 @@ export const StructureContainer = ({
     window.localStorage.setItem(REMEMBER_FAVOURITE_SUBJECTS, (!showFavorites).toString());
     setShowFavorites(!showFavorites);
   };
-
-  const { params } = match;
-  const topicId = params.subtopics?.split('/')?.pop() || params.topic;
-  const currentTopic = getCurrentTopic({
-    params,
-    allTopics: topics,
-  });
-  const grouped = currentTopic?.metadata?.customFields['topic-resources'] || 'grouped';
 
   return (
     <ErrorBoundary>

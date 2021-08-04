@@ -21,7 +21,7 @@ import {
   TaxonomyMetadata,
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../../util/retrieveBreadCrumbs';
-import { EditMode } from './SettingsMenu';
+import { EditMode } from '../../../interfaces';
 
 interface Props {
   onClose: () => void;

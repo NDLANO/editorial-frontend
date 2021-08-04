@@ -40,7 +40,7 @@ const DropdownWrapper = styled.div`
 
 interface Props {
   icon: React.ReactNode;
-  onSubmit: (selected: Topic & { description?: string }[]) => Promise<void>;
+  onSubmit: (selected: Topic & { description?: string }) => Promise<void>;
   onClose: () => void;
   searchResult: (Topic & { description?: string })[];
   placeholder: string;
@@ -80,7 +80,7 @@ const MenuItemDropdown = ({
     );
   };
 
-  const handleSubmit = async (selected: any) => {
+  const handleSubmit = async (selected: Topic & { description: string }) => {
     if (selected) {
       setStatus('loading');
       try {

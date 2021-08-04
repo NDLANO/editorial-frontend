@@ -68,8 +68,7 @@ const Resource = ({
 
   const contentType =
     resource.resourceTypes.length > 0
-      ? getContentTypeFromResourceTypes(resource.resourceTypes.map(r => ({ ...r, subtypes: [] })))
-          .contentType
+      ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
       : 'topic-article';
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
@@ -107,13 +106,11 @@ const Resource = ({
       <RelevanceOption
         relevanceId={relevanceId}
         onChange={relevanceIdUpdate =>
-          updateRelevanceId
-            ? updateRelevanceId(connectionId, {
-                relevanceId: relevanceIdUpdate,
-                primary,
-                rank,
-              })
-            : null
+          updateRelevanceId?.(connectionId, {
+            relevanceId: relevanceIdUpdate,
+            primary,
+            rank,
+          })
         }
       />
 

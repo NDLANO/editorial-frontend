@@ -13,7 +13,7 @@ interface Props {
   refreshTopics: () => Promise<void>;
   currentTopic: SubjectTopic;
   status?: DraftStatus;
-  resourceRef: React.RefObject<any>;
+  resourceRef: React.RefObject<HTMLDivElement>;
 }
 
 const TopicDescription = ({

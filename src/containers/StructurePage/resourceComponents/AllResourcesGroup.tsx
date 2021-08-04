@@ -17,6 +17,7 @@ import AddResourceModal from './AddResourceModal';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TopicResource } from './StructureResources';
+import { StructureRouteParams } from '../StructureContainer';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -28,10 +29,7 @@ interface Props {
   resourceTypes: (ResourceType & {
     disabled?: boolean;
   })[];
-  params: {
-    topic?: string;
-    subtopics?: string;
-  };
+  params: StructureRouteParams;
   refreshResources: () => Promise<void>;
   locale: string;
 }

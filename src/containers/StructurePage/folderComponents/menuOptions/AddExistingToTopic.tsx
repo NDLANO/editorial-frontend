@@ -22,7 +22,7 @@ import MenuItemButton from './MenuItemButton';
 import MenuItemDropdown from './MenuItemDropdown';
 import retrieveBreadCrumbs, { PathArray } from '../../../../util/retrieveBreadCrumbs';
 import { Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { EditMode } from '../SettingsMenu';
+import { EditMode } from '../../../../interfaces';
 
 interface Props {
   path: string;
@@ -64,7 +64,7 @@ const AddExistingToTopic = ({
     })();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const getTopicBreadcrumb = (topic: any, topics: Topic[]) => {
+  const getTopicBreadcrumb = (topic: Topic, topics: Topic[]) => {
     if (!topic.path) return undefined;
     const bc = retrieveBreadCrumbs({
       topicPath: topic.path,

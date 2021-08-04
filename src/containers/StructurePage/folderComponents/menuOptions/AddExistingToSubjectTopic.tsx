@@ -23,7 +23,7 @@ import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
 import retrieveBreadCrumbs, { PathArray } from '../../../../util/retrieveBreadCrumbs';
 import { Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { EditMode } from '../SettingsMenu';
+import { EditMode } from '../../../../interfaces';
 
 interface Props {
   path: string;

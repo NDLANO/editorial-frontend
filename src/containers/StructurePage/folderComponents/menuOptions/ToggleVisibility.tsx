@@ -16,7 +16,7 @@ import { Switch } from '@ndla/switch';
 import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
-import { EditMode } from '../SettingsMenu';
+import { EditMode } from '../../../../interfaces';
 
 interface Props {
   editMode: string;
@@ -50,7 +50,7 @@ const ToggleVisibility = ({
   t,
   toggleEditMode,
 }: Props & tType) => {
-  const [visible, setVisible] = useState(metadata?.visible);
+  const [visible, setVisible] = useState<boolean | undefined>(metadata?.visible);
 
   const toggleVisibility = async () => {
     switch (menuType) {

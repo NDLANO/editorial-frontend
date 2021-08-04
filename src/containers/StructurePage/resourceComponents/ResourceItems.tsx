@@ -29,9 +29,9 @@ interface Props {
 }
 
 const ResourceItems = ({ refreshResources, resources, locale, t }: Props & tType) => {
-  const [deleteId, setDeleteId] = useState<string>();
-  const [error, setError] = useState<string>();
-  const [loading, setLoading] = useState<boolean>();
+  const [deleteId, setDeleteId] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onDelete = async (deleteId: string) => {
     try {

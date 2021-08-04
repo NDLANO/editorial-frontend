@@ -20,6 +20,7 @@ import {
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import SettingsMenuDropdown from './SettingsMenuDropdown';
 import { PathArray } from '../../../util/retrieveBreadCrumbs';
+import { EditMode } from '../../../interfaces';
 
 const StyledDivWrapper = styled('div')`
   position: relative;
@@ -51,15 +52,6 @@ interface Props {
   parent: string;
   structure: PathArray;
 }
-
-export type EditMode =
-  | 'changeSubjectName'
-  | 'deleteTopic'
-  | 'addExistingSubjectTopic'
-  | 'openCustomFields'
-  | 'toggleMetadataVisibility'
-  | 'editGrepCodes'
-  | 'addExistingTopic';
 
 const SettingsMenu = ({
   type,

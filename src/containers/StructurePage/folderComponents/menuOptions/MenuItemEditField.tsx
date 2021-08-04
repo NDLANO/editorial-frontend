@@ -47,12 +47,12 @@ const MenuItemEditField = ({
   autoFocus,
 }: Props) => {
   const [status, setStatus] = useState('initial');
-  const [input, setInput] = useState<string>();
+  const [input, setInput] = useState<string>('');
 
   const handleSubmit = async () => {
     setStatus('loading');
     try {
-      await onSubmit(input!);
+      await onSubmit(input);
       setStatus('success');
       onClose();
     } catch (e) {

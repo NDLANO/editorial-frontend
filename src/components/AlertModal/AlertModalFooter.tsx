@@ -29,7 +29,7 @@ interface Props {
   component?: React.ReactElement[] | React.ReactElement;
   actions?: {
     text: string;
-    onClick: Function;
+    onClick: (event: Event) => void;
     'data-testid'?: string;
   }[];
 }

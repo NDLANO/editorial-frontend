@@ -101,7 +101,7 @@ export interface ResourceResourceType {
 export interface ResourceType {
   id: string;
   name: string;
-  subtypes: {
+  subtypes?: {
     id: string;
     name: string;
   }[];

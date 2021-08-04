@@ -19,7 +19,7 @@ import RoundIcon from '../../../../components/RoundIcon';
 import { convertGrepCodesToObject } from '../../../FormikForm/GrepCodesFieldContent';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from '../menuOptions/MenuItemEditField';
-import { EditMode } from '../SettingsMenu';
+import { EditMode } from '../../../../interfaces';
 
 interface Props {
   editMode: string;
@@ -50,7 +50,7 @@ const StyledGrepItem = styled('div')`
 `;
 
 const EditGrepCodes = ({ editMode, id, menuType, metadata, t, toggleEditMode }: Props & tType) => {
-  const [grepCodes, setGrepCodes] = useState(metadata?.grepCodes);
+  const [grepCodes, setGrepCodes] = useState<string[]>(metadata?.grepCodes ?? []);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
   const [grepCodesWithName, setGrepCodesWithName] = useState<GrepCode[]>([]);
 

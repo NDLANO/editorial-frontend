@@ -17,7 +17,7 @@ import {
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import MenuItemButton from './MenuItemButton';
 import MenuItemCustomField from './MenuItemCustomField';
-import { EditMode } from '../SettingsMenu';
+import { EditMode } from '../../../../interfaces';
 
 interface Props extends TaxonomyElement {
   subjectId: string;

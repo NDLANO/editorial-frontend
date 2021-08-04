@@ -8,6 +8,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Editor, Node } from 'slate';
+import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
@@ -62,13 +63,7 @@ function hasHrefOrContentId(node: LinkElement | ContentLinkElement) {
 }
 
 interface Props {
-  attributes: {
-    'data-slate-node': 'element';
-    'data-slate-inline'?: true;
-    'data-slate-void'?: true;
-    dir?: 'rtl';
-    ref: any;
-  };
+  attributes: RenderElementProps['attributes'];
   editor: Editor;
   element: LinkElement | ContentLinkElement;
   language: string;

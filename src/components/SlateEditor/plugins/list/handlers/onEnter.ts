@@ -3,7 +3,6 @@ import { Editor, Node, Element, Range, Transforms, Path } from 'slate';
 import { TYPE_LIST_ITEM } from '..';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
-import { defaultListItemBlock } from '../utils/defaultBlocks';
 
 const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (event.shiftKey && next) return next(event);
@@ -45,13 +44,12 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   }
 
   // Split current listItem at selection.
-  const liftPath = Editor.hasPath(editor, Path.next(currentParagraphPath))
-    ? currentParagraphPath
-    : Path.next(currentParagraphPath);
   Editor.withoutNormalizing(editor, () => {
-    Transforms.splitNodes(editor, { always: true });
-    Transforms.wrapNodes(editor, defaultListItemBlock(), { at: liftPath });
-    Transforms.liftNodes(editor, { at: liftPath });
+    Transforms.splitNodes(editor, {
+      always: true,
+      match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
+      mode: 'lowest',
+    });
   });
 };
 

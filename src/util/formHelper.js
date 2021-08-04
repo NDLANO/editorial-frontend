@@ -142,7 +142,7 @@ export const learningResourceRules = {
     required: true,
     test: value => {
       const embedsHasErrors = value.find(sectionValue => {
-        const embeds = findNodesByType(sectionValue.document, 'embed').map(node => node.data);
+        const embeds = findNodesByType(sectionValue, 'embed').map(node => node.data);
         const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
         return notValidEmbeds.length > 0;
       });

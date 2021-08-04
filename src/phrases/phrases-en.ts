@@ -1118,6 +1118,7 @@ const phrases = {
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
       copyError:
         'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
+      addResourceConflict: 'The resource you attempted to add already exists on the topic.',
     },
     resourceTypes: {
       title: 'Content type',

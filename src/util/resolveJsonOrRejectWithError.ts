@@ -10,7 +10,7 @@ export const resolveLocation = (res: Response): Promise<string> => {
     if (res.status === 201 && location) {
       return resolve(location);
     }
-    return reject(createErrorPayload(-1, 'Location does not exist!', null));
+    return reject(createErrorPayload(res.status || -1, 'Location does not exist!', null));
   });
 };
 

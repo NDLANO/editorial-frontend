@@ -26,10 +26,10 @@ const hmsCSS = css`
 
 interface Props {
   name: string;
-  startTime: string;
-  stopTime: string;
-  setStartTime: (startTime: string) => void;
-  setStopTime: (stopTime: string) => void;
+  startTime?: string;
+  stopTime?: string;
+  setStartTime?: (startTime: string) => void;
+  setStopTime?: (stopTime: string) => void;
 }
 
 interface Event {
@@ -42,36 +42,39 @@ interface Event {
 
 const EditVideoTime = (props: Props & tType) => {
   const { name, t, startTime, stopTime, setStartTime, setStopTime } = props;
-
   return (
     <StyledInputTimeWrapper>
       <div>
-        <Input
-          name={name}
-          label={t(`form.video.time.start`)}
-          value={startTime}
-          onChange={(e: Event) => {
-            setStartTime(e.target.value);
-          }}
-          container="div"
-          placeholder={t(`form.video.time.hms`)}
-          white
-          customCSS={hmsCSS}
-        />
+        {setStartTime && (
+          <Input
+            name={name}
+            label={t(`form.video.time.start`)}
+            value={startTime}
+            onChange={(e: Event) => {
+              setStartTime(e.target.value);
+            }}
+            container="div"
+            placeholder={t(`form.video.time.hms`)}
+            white
+            customCSS={hmsCSS}
+          />
+        )}
       </div>
       <div>
-        <Input
-          name={name}
-          label={t(`form.video.time.stop`)}
-          value={stopTime}
-          onChange={(e: Event) => {
-            setStopTime(e.target.value);
-          }}
-          container="div"
-          placeholder={t(`form.video.time.hms`)}
-          white
-          customCSS={hmsCSS}
-        />
+        {setStopTime && (
+          <Input
+            name={name}
+            label={t(`form.video.time.stop`)}
+            value={stopTime}
+            onChange={(e: Event) => {
+              setStopTime(e.target.value);
+            }}
+            container="div"
+            placeholder={t(`form.video.time.hms`)}
+            white
+            customCSS={hmsCSS}
+          />
+        )}
       </div>
     </StyledInputTimeWrapper>
   );

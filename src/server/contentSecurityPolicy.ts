@@ -165,6 +165,8 @@ const frameSrc = (() => {
     '*.worldbank.org',
     'embed.molview.org',
     'embed.ted.com',
+    'reader.pubfront.com',
+    'ebok.no',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

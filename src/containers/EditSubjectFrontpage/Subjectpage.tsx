@@ -6,20 +6,22 @@
  */
 
 import React from 'react';
-import { Route, RouteComponentProps, StaticContext, Switch } from 'react-router';
+import { Route, RouteComponentProps, Switch } from 'react-router';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
-import EditSubjectpage from './EditSubjectpage';
-import CreateSubjectpage from './CreateSubjectpage';
-import Footer from '../App/components/Footer';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import loadable from '@loadable/component';
+
 import { usePreviousLocation } from '../../util/routeHelpers';
+import Footer from '../App/components/Footer';
+const EditSubjectpage = loadable(() => import('./EditSubjectpage'));
+const CreateSubjectpage = loadable(() => import('./CreateSubjectpage'));
+const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 interface Props extends RouteComponentProps {}
 
 type NewRouteProps = RouteComponentProps<
   { elementId: string; selectedLanguage: string },
-  StaticContext,
+  {},
   { elementName: string }
 >;
 

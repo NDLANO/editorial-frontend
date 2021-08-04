@@ -20,7 +20,20 @@ export const fetchNnTranslation = ({ id, ...content }) =>
     body: JSON.stringify({
       token: config.npkToken,
       guid: config.ndlaEnvironment + '_' + id,
-      prefs: { x: true }, // Hack to tell the service to use old html-parser, ref jo.christian.oterhals@ntb.no
+      prefs: {
+        pronoun: 'vi',
+        vi: 'vi',
+        infinitive: 'e',
+        gg: false,
+        k: false,
+        skilnad: false,
+        enten: true,
+        dokker: false,
+        mens: true,
+        einig: true,
+        blant: false,
+        loven: false,
+      },
       document: content,
       fileType: 'htmlp', // Tells old html-parser to skip changing æøå to entities.
     }),

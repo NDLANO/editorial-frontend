@@ -6,8 +6,6 @@
  *
  */
 
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
-
 const titleTemplate = '- Production system - NDLA';
 
 const phrases = {
@@ -401,6 +399,8 @@ const phrases = {
     },
     information: {
       partOfSeries: 'This podcast is a part of the series',
+      removeSeries: 'Remove Series',
+      noSeries: 'This podcast is not a part of any series',
     },
   },
   imageEditor: {
@@ -649,7 +649,7 @@ const phrases = {
       addConcept: 'Add existing concept',
       removeConcept: 'Remove concept',
       source: 'Source',
-      subjects: `Ony subjects with metadata field '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' will be displayed in the list.`,
+      subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
     },
     workflow: {
       title: 'Status',
@@ -1078,6 +1078,7 @@ const phrases = {
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',
+    resources: 'Resources',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     changeName: 'Change name',
@@ -1146,7 +1147,8 @@ const phrases = {
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
-        resourceGroupPlaceholder: 'Grouped resources',
+        explanationSubject: 'Explanation Subject',
+        resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
       },
     },

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { colors, fonts } from '@ndla/core';
 import SafeLink from '@ndla/safelink';
 import { ChevronRight } from '@ndla/icons/common';
-import { TaxonomyElement } from '../../interfaces';
+import { TaxonomyElement } from '../../modules/taxonomy/taxonomyApiInterfaces';
 interface Props {
   breadcrumb: Array<TaxonomyElement>;
   type?: string;

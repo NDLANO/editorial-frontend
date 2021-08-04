@@ -1,15 +1,15 @@
+import { TaxonomyElement } from '../modules/taxonomy/taxonomyApiInterfaces';
 import handleError from './handleError';
 import { pathToUrnArray } from './taxonomyHelpers';
-import { TaxonomyElement } from '../interfaces';
 
-type Input = {
+export type Input = {
   topicPath: string;
   structure: PathArray;
   allTopics: PathArray;
   title: string;
 };
 
-type PathArray = Array<TaxonomyElement>;
+export type PathArray = Array<TaxonomyElement>;
 
 const retriveBreadCrumbs = ({ topicPath, structure, allTopics, title }: Input): PathArray => {
   try {

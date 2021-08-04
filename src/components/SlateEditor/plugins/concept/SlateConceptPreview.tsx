@@ -17,12 +17,12 @@ import { injectT, tType } from '@ndla/i18n';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
-import { ConceptType } from '../../../../interfaces';
 import IconButton from '../../../IconButton';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import config from '../../../../config';
+import { ConceptType } from '../../../../modules/concept/conceptApiInterfaces';
 
 const StyledFigureButtons = styled('span')`
   position: absolute;

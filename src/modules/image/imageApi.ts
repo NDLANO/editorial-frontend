@@ -21,6 +21,7 @@ import {
   TagSearchResult,
   UpdatedImageMetadata,
 } from './imageApiInterfaces';
+import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl('/image-api/v2/images');
 
@@ -29,27 +30,29 @@ export const postImage = (formData: FormData): Promise<ImageApiType> =>
     method: 'POST',
     headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData,
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<ImageApiType>(r));
 
-export const fetchImage = (id: number | string, language?: string): Promise<ImageApiType> =>
-  fetchAuthorized(`${baseUrl}/${id}?language=${language}`).then(resolveJsonOrRejectWithError);
+export const fetchImage = (id: number, language?: string): Promise<ImageApiType> =>
+  fetchAuthorized(`${baseUrl}/${id}?language=${language}`).then(r =>
+    resolveJsonOrRejectWithError<ImageApiType>(r),
+  );
 
 export const updateImage = (imageMetadata: UpdatedImageMetadata): Promise<ImageApiType> =>
   fetchAuthorized(`${baseUrl}/${imageMetadata.id}`, {
     method: 'PATCH',
     body: JSON.stringify(imageMetadata),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<ImageApiType>(r));
 
 export const patchImage = (id: number, formData: FormData): Promise<ImageApiType> =>
   fetchAuthorized(`${baseUrl}/${id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData,
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError<ImageApiType>(r));
 
 export const searchImages = (query: ImageSearchQuery): Promise<ImageSearchResult> => {
-  const response = fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(
-    resolveJsonOrRejectWithError,
+  const response = fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(r =>
+    resolveJsonOrRejectWithError<ImageSearchResult>(r),
   );
   return response;
 };
@@ -61,10 +64,10 @@ export const onError = (err: Response & Error) => {
 export const deleteLanguageVersionImage = (
   imageId: number,
   locale: string,
-): Promise<ImageApiType> | void =>
+): Promise<ImageApiType | void> =>
   fetchAuthorized(`${baseUrl}/${imageId}/language/${locale}`, {
     method: 'DELETE',
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrVoidOrRejectWithError(r));
 
 export const fetchSearchTags = async (
   input: string,

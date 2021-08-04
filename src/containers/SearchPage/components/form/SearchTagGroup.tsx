@@ -9,8 +9,9 @@
 import React, { Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import SearchTag, { MinimalTagType } from './SearchTag';
-import { ResourceType, User } from './SearchContentForm';
-import { SubjectType } from '../../../../interfaces';
+import { User } from './SearchContentForm';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { FlattenedResourceType } from '../../../../interfaces';
 
 interface NameAndId {
   id: string;
@@ -47,7 +48,7 @@ interface Props {
   searchObject: SearchState;
   onRemoveItem: (tag: MinimalTagType) => void;
   languages: (tFunc: tType['t']) => { id: string; name: string }[];
-  resourceTypes?: ResourceType[];
+  resourceTypes?: FlattenedResourceType[];
   users: User[];
   status: { id: string; name: string }[];
   subjects: SubjectType[];

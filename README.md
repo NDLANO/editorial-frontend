@@ -1,12 +1,12 @@
 ![CI](https://github.com/NDLANO/editorial-frontend/workflows/CI/badge.svg)
 
-# NDLA Editorial frontend
+# ED
 
-System for producing content for NDLA
+NDLA Editorial Frontend for producing content for NDLA
 
 ## Requirements
 
-- Node.JS 10
+- Node.JS 14
 - yarn ~1.15.0
 - Docker (optional)
 
@@ -37,7 +37,7 @@ Start node server with hot reloading middleware listening on port 3000.
 $ yarn start
 ```
 
-To use a different api set the `NDLA_API_URL` environment variable.
+To use a different api set the `NDLA_ENVIRONMENT` environment variable.
 
 ### Unit tests
 
@@ -69,13 +69,20 @@ $ yarn e2e-use-fixtures
 
 ### Code style
 
-_tl;dr_: Use eslint!
+_tl;dr_: Use prettier and eslint!
 
-Lint code with [eslint](http://eslint.org/), including [eslint react plugin](https://github.com/yannickcr/eslint-plugin-react), [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import), [eslint-plugin-jsx-a11y](https://github.com/evcohen/eslint-plugin-jsx-a11y#readme).
-Beside linting with globally installed eslint, eslint can be invoked with `npm`:
+Format code with prettier to get uniform codestyle:
 
 ```
-$ yarn run lint
+$ yarn format
+```
+
+
+Lint code with [eslint](http://eslint.org/), including [eslint react plugin](https://github.com/yannickcr/eslint-plugin-react), [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import), [eslint-plugin-jsx-a11y](https://github.com/evcohen/eslint-plugin-jsx-a11y#readme).
+Beside linting with globally installed eslint, eslint can be invoked with `yarn`:
+
+```
+$ yarn lint
 ```
 
 Rules are configured in `./.eslintrc.js` and extends [eslint-config-react-app](https://github.com/facebook/create-react-app/tree/master/packages/eslint-config-react-app). If feeling brave, try `eslint --fix`.
@@ -84,7 +91,7 @@ Rules are configured in `./.eslintrc.js` and extends [eslint-config-react-app](h
 
 ```
 # Create minified production ready build with webpack:
-$ yarn run build
+$ yarn build
 ```
 
 ```

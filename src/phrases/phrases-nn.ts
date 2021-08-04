@@ -6,8 +6,6 @@
  *
  */
 
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
-
 const titleTemplate = '- Produksjonsystem - NDLA';
 
 const phrases = {
@@ -418,7 +416,9 @@ const phrases = {
       series: 'Serie',
     },
     information: {
-      partOfSeries: 'Denne podkasten er en del av serien',
+      partOfSeries: 'Denne podkasten er ein del av serien',
+      removeSeries: 'Fjern serie',
+      noSeries: 'Podkasten tilhøyrer ingen serie',
     },
   },
   imageEditor: {
@@ -671,7 +671,7 @@ const phrases = {
       addConcept: 'Legg til eksisterande forklaring',
       removeConcept: 'Ta bort forklaring',
       source: 'Kjelde',
-      subjects: `Berre fag med metadatafelt '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' vil visast i lista.`,
+      subjects: 'Berre fag markert som forklaringsfag vil visast i lista.',
     },
     workflow: {
       title: 'Status',
@@ -1093,6 +1093,7 @@ const phrases = {
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterande emne hit',
     newSubject: 'Nytt fag',
+    resources: 'Ressurser',
     existingTopic: 'Eksisterande emne',
     newTopic: 'Nytt emne',
     subjectSettings: 'Faginnstillinger',
@@ -1166,7 +1167,8 @@ const phrases = {
         alterFields: 'Legg til/endra metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
-        resourceGroupPlaceholder: 'Grupperte ressursar',
+        explanationSubject: 'Forklaringsfag',
+        resourceGroupPlaceholder: 'Gruppering av ressursar',
         RGTooltip: 'Vis ressursar Gruppert eller Ugruppert',
       },
     },

@@ -14,6 +14,7 @@ import ConceptForm from './ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
 
 const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t, ...rest }) => {
@@ -35,12 +36,14 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t,
     'content',
   ]);
 
-  if (!concept) {
-    return null;
-  }
   if (loading || translating) {
     return <Spinner withWrapper />;
   }
+
+  if (!concept) {
+    return <NotFoundPage />;
+  }
+
   return (
     <>
       <HelmetWithTracker title={`${concept.title} ${t('htmlTitles.titleTemplate')}`} />

@@ -33,6 +33,7 @@ interface Props {
   };
   dataTestid?: string;
   placeholder?: string;
+  autoFocus?: boolean;
 }
 
 const MenuItemEditField = ({
@@ -43,6 +44,7 @@ const MenuItemEditField = ({
   messages = {},
   dataTestid = 'inlineEditInput',
   placeholder,
+  autoFocus,
 }: Props) => {
   const [status, setStatus] = useState('initial');
   const [input, setInput] = useState<string | undefined>(undefined);
@@ -80,6 +82,7 @@ const MenuItemEditField = ({
           data-testid={dataTestid}
           onChange={e => setInput(e.target.value)}
           onKeyDown={handleKeyPress}
+          autoFocus={autoFocus}
         />
         <MenuItemSaveButton
           data-testid="inlineEditSaveButton"
@@ -111,6 +114,7 @@ MenuItemEditField.propTypes = {
     errorMessage: PropTypes.string,
   }),
   placeholder: PropTypes.string,
+  autoFocus: PropTypes.bool,
 };
 
 export default MenuItemEditField;

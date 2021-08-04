@@ -20,7 +20,7 @@ import {
   fetchTopicConnections,
   fetchTopicResources,
   updateTaxonomy,
-  getFullResource,
+  fetchFullResource,
   createResource,
   getResourceId,
 } from '../../../../modules/taxonomy';
@@ -32,9 +32,15 @@ import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
 import ResourceTypeSelect from '../../components/ResourceTypeSelect';
 import TaxonomyInfo from './taxonomy/TaxonomyInfo';
-import { TAXONOMY_ADMIN_SCOPE, RESOURCE_FILTER_CORE } from '../../../../constants';
+import {
+  TAXONOMY_ADMIN_SCOPE,
+  RESOURCE_FILTER_CORE,
+  RESOURCE_TYPE_LEARNING_PATH,
+} from '../../../../constants';
 import { ArticleShape } from '../../../../shapes';
 import { FormikFieldHelp } from '../../../../components/FormikField';
+
+const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
 const emptyTaxonomy = {
   resourceTypes: [],
@@ -268,13 +274,16 @@ class LearningResourceTaxonomy extends Component {
   };
 
   fetchFullResource = async (resourceId, language) => {
-    const { resourceTypes, metadata, topics } = await getFullResource(resourceId, language);
+    const { resourceTypes, metadata, parentTopics } = await fetchFullResource(resourceId, language);
+    const sortedParents = parentTopics.filter(pt => pt.path).sort((a, b) => (a.id < b.id ? -1 : 1));
 
     const topicConnections = await Promise.all(
-      topics.map(topic => fetchTopicConnections(topic.id)),
+      sortedParents.map(topic => fetchTopicConnections(topic.id)),
     );
-    const topicResources = await Promise.all(topics.map(topic => fetchTopicResources(topic.id)));
-    const topicsWithConnectionsAndRelevanceId = topics.map((topic, index) => ({
+    const topicResources = await Promise.all(
+      sortedParents.map(topic => fetchTopicResources(topic.id)),
+    );
+    const topicsWithConnectionsAndRelevanceId = sortedParents.map((topic, index) => ({
       topicConnections: topicConnections[index],
       relevanceId:
         topicResources[index].find(resource => resource.id === resourceId).relevanceId ??
@@ -344,6 +353,12 @@ class LearningResourceTaxonomy extends Component {
       isDirty,
       showWarning,
     } = this.state;
+    const filteredResourceTypes = availableResourceTypes
+      .filter(rt => !blacklistedResourceTypes.includes(rt.id))
+      .map(rt => ({
+        ...rt,
+        subtype: rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
+      }));
 
     const { userAccess, t } = this.props;
 
@@ -385,7 +400,7 @@ class LearningResourceTaxonomy extends Component {
           />
         )}
         <ResourceTypeSelect
-          availableResourceTypes={availableResourceTypes}
+          availableResourceTypes={filteredResourceTypes}
           resourceTypes={resourceTypes}
           onChangeSelectedResource={this.onChangeSelectedResource}
         />

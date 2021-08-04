@@ -20,7 +20,7 @@ import { Eye } from '@ndla/icons/editor';
 import FormikField, { classes as formikFieldClasses } from '../../../../components/FormikField';
 import RichBlockTextEditor from '../../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
-import LastUpdatedLine from '../../../../components/LastUpdatedLine';
+import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
 import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import { findNodesByType } from '../../../../util/slateHelpers';
@@ -160,6 +160,7 @@ const LearningResourceContent = ({
               name={field.name}
               creators={creators}
               published={published}
+              allowEdit={true}
               onChange={date => {
                 form.setFieldValue(field.name, date);
               }}

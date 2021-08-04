@@ -59,7 +59,7 @@ configureTracker({
   googleTagManagerId: config.googleTagManagerId,
 });
 
-const renderApp = () =>
+const renderApp = () => {
   render(
     <Provider store={store}>
       <IntlProvider locale={locale.abbreviation} messages={locale.messages}>
@@ -70,7 +70,7 @@ const renderApp = () =>
     </Provider>,
     document.getElementById('root'),
   );
-
+};
 renderApp();
 
 if (module.hot) {

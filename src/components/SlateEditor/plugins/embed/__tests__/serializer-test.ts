@@ -69,6 +69,7 @@ describe('embed brightcove video serializing tests', () => {
               caption: 'test caption',
               account: '1000',
               player: 'abc',
+              url: 'https://test.url',
               title: 'test title',
             },
             children: [
@@ -83,7 +84,7 @@ describe('embed brightcove video serializing tests', () => {
     ],
   ];
   const htmlWithBrightcove =
-    '<section><embed data-resource="brightcove" data-videoid="123" data-caption="test caption" data-account="1000" data-player="abc" data-title="test title"/></section>';
+    '<section><embed data-resource="brightcove" data-videoid="123" data-caption="test caption" data-account="1000" data-player="abc" data-url="https://test.url" data-title="test title"/></section>';
   test('serializing', () => {
     const res = learningResourceContentToHTML(editorWithBrightcove);
     expect(res).toMatch(htmlWithBrightcove);

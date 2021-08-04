@@ -7,11 +7,11 @@
  */
 import escapeHtml from 'escape-html';
 import React from 'react';
-import { Descendant, Node, Text } from 'slate';
+import { Descendant, Element, Node, Text } from 'slate';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Plain } from './slatePlainSerializer';
 import { convertFromHTML } from './convertFromHTML';
-import { sectionSerializer } from '../components/SlateEditor/plugins/section';
+import { sectionSerializer, TYPE_SECTION } from '../components/SlateEditor/plugins/section';
 import { paragraphSerializer } from '../components/SlateEditor/plugins/paragraph';
 import { SlateSerializer } from '../components/SlateEditor/interfaces';
 import { breakSerializer } from '../components/SlateEditor/plugins/break';
@@ -26,7 +26,7 @@ import { conceptSerializer } from '../components/SlateEditor/plugins/concept';
 import { asideSerializer } from '../components/SlateEditor/plugins/aside';
 import { fileSerializer } from '../components/SlateEditor/plugins/file';
 import { detailsSerializer } from '../components/SlateEditor/plugins/details';
-import { EmbedElement } from '../components/SlateEditor/plugins/embed';
+import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed';
 import { bodyboxSerializer } from '../components/SlateEditor/plugins/bodybox';
 import { tableSerializer } from '../components/SlateEditor/plugins/table';
 import { relatedSerializer } from '../components/SlateEditor/plugins/related';
@@ -37,6 +37,8 @@ import { defaultEmbedBlock } from '../components/SlateEditor/plugins/embed/utils
 import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
 import { Embed } from '../interfaces';
 import { defaultVisualElementPickerBlock } from '../components/SlateEditor/plugins/visualElementPicker';
+import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/utils';
+import { divSerializer } from '../components/SlateEditor/plugins/div';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -49,12 +51,12 @@ export const sectionSplitter = (html: string) => {
   return sections;
 };
 
-export const createEmptyValue = () => [
+export const createEmptyValue = (): Descendant[] => [
   {
-    type: 'section',
+    type: TYPE_SECTION,
     children: [
       {
-        type: 'paragraph',
+        type: TYPE_PARAGRAPH,
         children: [
           {
             text: '',
@@ -86,6 +88,7 @@ const learningResourceRules: SlateSerializer[] = [
   codeblockSerializer,
   embedSerializer,
   bodyboxSerializer,
+  divSerializer,
 ];
 
 // Rules are checked from first to last
@@ -102,14 +105,15 @@ const topicArticleRules: SlateSerializer[] = [
   mathmlSerializer,
   conceptSerializer,
   noEmbedSerializer,
+  divSerializer,
 ];
 
-export const learningResourceContentToEditorValue = (html: string) => {
+export const learningResourceContentToEditorValue = (html?: string) => {
   if (!html) {
     return [createEmptyValue()];
   }
 
-  const deserialize = (el: HTMLElement | ChildNode) => {
+  const deserialize = (el: HTMLElement | ChildNode): Descendant | Descendant[] => {
     if (el.nodeType === 3) {
       return { text: el.textContent || '' };
     } else if (el.nodeType !== 1) {
@@ -137,8 +141,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
         return ret;
       }
     }
-
-    return { text: el.textContent || '' };
+    return children;
   };
 
   const sections = sectionSplitter(html);
@@ -151,7 +154,7 @@ export const learningResourceContentToEditorValue = (html: string) => {
     // Expect nodes to always be returned.
     const normalizedNodes = convertFromHTML(Node.isNodeList(nodes) ? nodes[0] : nodes);
 
-    return [normalizedNodes];
+    return normalizedNodes ? [normalizedNodes] : [];
   });
 };
 
@@ -280,7 +283,7 @@ export function editorValueToPlainText(editorValue: Descendant[]) {
   return editorValue ? Plain.serialize(editorValue) : '';
 }
 
-export function embedToEditorValue(embed?: Embed) {
+export function embedToEditorValue(embed?: Partial<Embed>) {
   return embed ? [defaultEmbedBlock(embed)] : [];
 }
 
@@ -289,11 +292,12 @@ export function embedTagToEditorValue(embedTag: string) {
   return embed ? embedToEditorValue(embed) : [defaultVisualElementPickerBlock()];
 }
 
-export function editorValueToEmbed(editorValue: EmbedElement[]) {
-  return editorValue[0]?.data;
+export function editorValueToEmbed(editorValue: Descendant[]) {
+  const embed = editorValue[0];
+  if (Element.isElement(embed) && embed.type === TYPE_EMBED) return embed?.data;
 }
 
-export function editorValueToEmbedTag(editorValue: EmbedElement[]) {
+export function editorValueToEmbedTag(editorValue: Descendant[]) {
   const embed = editorValueToEmbed(editorValue);
   if (embed) {
     const embedTag = createEmbedTag(embed);

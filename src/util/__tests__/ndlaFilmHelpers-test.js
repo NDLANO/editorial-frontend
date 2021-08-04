@@ -37,7 +37,16 @@ const filmFrontPage = {
 
 const filmFrontPageAfterTransformation = {
   articleType: 'subjectpage',
-  description: undefined,
+  description: [
+    {
+      children: [
+        {
+          text: '',
+        },
+      ],
+      type: 'paragraph',
+    },
+  ],
   themes: [
     {
       name: [

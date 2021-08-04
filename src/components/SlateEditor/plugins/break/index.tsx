@@ -18,10 +18,33 @@ export interface BreakElement {
   children: Descendant[];
 }
 
+const allowedBreakContainers = [
+  'section',
+  'div',
+  'aside',
+  'li',
+  'blockquote',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'summary',
+  'pre',
+];
+
 export const breakSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_BREAK) return;
-    return jsx('element', { type: TYPE_BREAK }, [{ text: '' }]);
+
+    if (el.parentElement && el.parentElement.tagName) {
+      const tagName = el.parentElement.tagName.toLowerCase();
+      if (allowedBreakContainers.includes(tagName)) {
+        return jsx('element', { type: TYPE_BREAK }, [{ text: '' }]);
+      }
+    }
+    return jsx('text', { text: '\n' });
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
@@ -36,7 +59,6 @@ export const breakPlugin = (editor: Editor) => {
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_BREAK) {
-      // Children of br tag is not rendered.
       return (
         <div {...attributes} contentEditable={false}>
           <br />

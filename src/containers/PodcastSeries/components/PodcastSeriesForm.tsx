@@ -9,7 +9,7 @@ import React, { useState, ReactNode } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { Value } from 'slate';
+import { Descendant } from 'slate';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -48,8 +48,8 @@ type PodcastSeriesPropType = Partial<FlattenedPodcastSeries> & { language: strin
 export interface PodcastSeriesFormikType {
   id?: number;
   revision?: number;
-  title: Value;
-  description: Value;
+  title: Descendant[];
+  description: Descendant[];
   language: string;
   coverPhotoId?: string;
   metaImageAlt?: string;
@@ -58,8 +58,8 @@ export interface PodcastSeriesFormikType {
 }
 
 const getInitialValues = (podcastSeries: PodcastSeriesPropType): PodcastSeriesFormikType => {
-  const title: Value = plainTextToEditorValue(podcastSeries.title || '', true);
-  const description: Value = plainTextToEditorValue(podcastSeries.description || '', true);
+  const title = plainTextToEditorValue(podcastSeries.title || '');
+  const description = plainTextToEditorValue(podcastSeries.description || '');
   return {
     id: podcastSeries.id,
     revision: podcastSeries.revision,

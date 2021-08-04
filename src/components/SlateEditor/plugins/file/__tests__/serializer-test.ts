@@ -32,9 +32,17 @@ const editor: Descendant[][] = [
             {
               path: '/files/resources/file2.pdf',
               type: 'pdf',
-              title: 'test_pdf',
+              title: 'test_pdf2',
               resource: 'file',
               url: 'https://api.test.ndla.no/files/resources/file2.pdf',
+            },
+            {
+              path: '/files/resources/file3.pdf',
+              type: 'pdf',
+              title: 'test_pdf3',
+              resource: 'file',
+              display: 'block',
+              url: 'https://api.test.ndla.no/files/resources/file3.pdf',
             },
           ],
           children: [{ text: '' }],
@@ -45,7 +53,7 @@ const editor: Descendant[][] = [
 ];
 
 const html =
-  '<section><div data-type="file"><embed data-resource="file" data-path="/files/resources/file1.txt" data-type="txt" data-title="test_txt" data-url="https://api.test.ndla.no/files/resources/file1.txt"/><embed data-path="/files/resources/file2.pdf" data-type="pdf" data-title="test_pdf" data-resource="file" data-url="https://api.test.ndla.no/files/resources/file2.pdf"/></div></section>';
+  '<section><div data-type="file"><embed data-resource="file" data-path="/files/resources/file1.txt" data-type="txt" data-title="test_txt" data-url="https://api.test.ndla.no/files/resources/file1.txt"/><embed data-path="/files/resources/file2.pdf" data-type="pdf" data-title="test_pdf2" data-resource="file" data-url="https://api.test.ndla.no/files/resources/file2.pdf"/><embed data-path="/files/resources/file3.pdf" data-type="pdf" data-title="test_pdf3" data-resource="file" data-display="block" data-url="https://api.test.ndla.no/files/resources/file3.pdf"/></div></section>';
 
 describe('file serializing tests', () => {
   test('serializing', () => {

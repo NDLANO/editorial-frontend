@@ -6,7 +6,7 @@
  *
  */
 
-import React, { KeyboardEvent, KeyboardEventHandler } from 'react';
+import React from 'react';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'slate';
@@ -28,7 +28,7 @@ export const headingSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'h1') {
-      return jsx('element', { type: TYPE_HEADING, level: 1 }, children);
+      return jsx('element', { type: TYPE_HEADING, level: 2 }, children);
     }
     if (tag === 'h2') {
       return jsx('element', { type: TYPE_HEADING, level: 2 }, children);
@@ -37,27 +37,27 @@ export const headingSerializer: SlateSerializer = {
       return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
     if (tag === 'h4') {
-      return jsx('element', { type: TYPE_HEADING, level: 4 }, children);
+      return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
     if (tag === 'h5') {
-      return jsx('element', { type: TYPE_HEADING, level: 5 }, children);
+      return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
     if (tag === 'h6') {
-      return jsx('element', { type: TYPE_HEADING, level: 6 }, children);
+      return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
   },
   serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_HEADING) {
-      return React.createElement('h' + node.level || '2', [], [children]);
+      return React.createElement('h' + node.level, [], [children]);
     }
   },
 };
 
 const onEnter = (
-  e: KeyboardEvent<HTMLDivElement>,
+  e: KeyboardEvent,
   editor: Editor,
-  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+  nextOnKeyDown?: (event: KeyboardEvent) => void,
 ) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     e.preventDefault();
@@ -68,9 +68,9 @@ const onEnter = (
 };
 
 const onBackspace = (
-  e: KeyboardEvent<HTMLDivElement>,
+  e: KeyboardEvent,
   editor: Editor,
-  nextOnKeyDown?: KeyboardEventHandler<HTMLDivElement>,
+  nextOnKeyDown?: (event: KeyboardEvent) => void,
 ) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     if (Range.isRange(editor.selection)) {
@@ -142,12 +142,6 @@ export const headingPlugin = (editor: Editor) => {
     const [node, path] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_HEADING) {
-      // If header exists without level, change it to h2.
-      if (!node.level) {
-        Transforms.setNodes(editor, { level: 2 }, { at: path });
-        return;
-      }
-
       // Remove empty headers, but not when cursor is placed inside it.
       if (
         Node.string(node) === '' &&
@@ -164,7 +158,7 @@ export const headingPlugin = (editor: Editor) => {
     nextNormalizeNode(entry);
   };
 
-  editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_ENTER) {
       onEnter(e, editor, nextOnKeyDown);
     } else if (e.key === KEY_BACKSPACE) {

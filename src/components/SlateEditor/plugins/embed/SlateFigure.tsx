@@ -148,7 +148,7 @@ const SlateFigure = ({
     case 'external':
     case 'iframe':
     case 'h5p':
-      if (embed.url?.includes('youtu')) {
+      if (embed.resource !== 'h5p' && embed.url?.includes('youtu')) {
         return (
           <SlateVideo
             attributes={attributes}
@@ -165,6 +165,7 @@ const SlateFigure = ({
       }
       return (
         <DisplayExternal
+          attributes={attributes}
           onRemoveClick={onRemoveClick}
           editor={editor}
           element={element}

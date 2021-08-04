@@ -6,7 +6,6 @@
  *
  */
 
-import { KeyboardEvent } from 'react';
 import { isKeyHotkey, isCodeHotkey } from 'is-hotkey';
 import { Editor } from 'slate';
 import SlateToolbar from './SlateToolbar';
@@ -40,7 +39,7 @@ const toolbarPlugin = (editor: Editor) => {
     }
   };
 
-  editor.onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  editor.onKeyDown = (e: KeyboardEvent) => {
     let inline;
     let mark;
     let block;

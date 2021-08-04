@@ -23,7 +23,7 @@ export interface LinkElement {
   target?: string;
   title?: string;
   rel?: string;
-  children: Text[];
+  children: Descendant[];
 }
 
 // TODO: change to data: {content-type, content-id, open-in}
@@ -32,7 +32,7 @@ export interface ContentLinkElement {
   'content-type': string;
   'content-id': string;
   'open-in': string;
-  children: Text[];
+  children: Descendant[];
 }
 
 export const linkSerializer: SlateSerializer = {
@@ -142,12 +142,8 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
       if (node.type === 'content-link') {
         for (const child of node.children) {
           if (
-            child.bold ||
-            child.code ||
-            child.italic ||
-            child.sub ||
-            child.sup ||
-            child.underlined
+            Text.isText(child) &&
+            (child.bold || child.code || child.italic || child.sub || child.sup || child.underlined)
           ) {
             Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
               at: path,

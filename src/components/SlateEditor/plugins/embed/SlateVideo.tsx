@@ -18,7 +18,7 @@ import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
 import { getYoutubeEmbedUrl, getStartTime, getStopTime } from '../../../../util/videoUtil';
 import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
-import { Embed } from '../../../../interfaces';
+import { ExternalEmbed, BrightcoveEmbed } from '../../../../interfaces';
 
 const videoStyle = css`
   width: 100%;
@@ -31,7 +31,7 @@ const videoStyle = css`
 
 interface Props {
   attributes: RenderElementProps['attributes'];
-  embed: Embed;
+  embed: BrightcoveEmbed | ExternalEmbed;
   figureClass: any;
   language: string;
   onRemoveClick: Function;
@@ -57,20 +57,21 @@ const SlateVideo = ({
   const [src, setSrc] = useState('');
   const [startTime, setStartTime] = useState('');
   const [stopTime, setStopTime] = useState('');
-  const [caption, setCaption] = useState(embed.caption);
+  const [caption, setCaption] = useState(embed.caption || '');
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
 
   useEffect(() => {
-    const { resource, account, videoid, url, player = 'default' } = embed;
-    if (resource === 'brightcove') {
-      if (isBrightcoveUrl(url)) {
+    if (embed.resource === 'brightcove') {
+      const { account, videoid, url, player = 'default' } = embed;
+      if (url && isBrightcoveUrl(url)) {
         setSrc(url);
       } else {
         setSrc(
           `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
         );
       }
-    } else {
+    } else if (embed.resource === 'external') {
+      const { url } = embed;
       const tempUrl = url.includes('embed') ? url : getYoutubeEmbedUrl(url);
       setSrc(tempUrl);
       setStartTime(getStartTime(url));
@@ -111,7 +112,7 @@ const SlateVideo = ({
             draggable
             style={{ paddingTop: '57%' }}
             {...figureClass}
-            id={embed.videoid || embed.url}
+            id={'brightcove' === embed.resource ? embed.videoid || embed.url : embed.url}
             resizeIframe
             css={
               showCopyOutline && {

@@ -4,7 +4,7 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import React from 'react';
+import React, { FocusEvent } from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
@@ -26,7 +26,7 @@ interface ComponentProps extends Props {
   errors: FormikErrors<Values>;
   formIsDirty: boolean;
   handleSubmit: () => void;
-  onBlur: (event: Event, editor: Editor, next: Function) => void;
+  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
 interface FormikSlideshowProps {

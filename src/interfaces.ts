@@ -315,7 +315,7 @@ export interface SubjectpageType {
 export interface SubjectpageApiType extends SubjectpageType {
   about: {
     visualElement: {
-      type: string;
+      type: 'brightcove' | 'image';
       url: string;
       alt: string;
       caption: string;
@@ -336,14 +336,18 @@ export interface SubjectpageApiType extends SubjectpageType {
 export interface SubjectpageEditType extends SubjectpageType {
   articleType?: string;
   description?: string;
-  desktopBanner?: Embed;
+  desktopBanner?: ImageEmbed;
   editorsChoices?: ArticleType[];
   language: string;
   mobileBanner?: number;
   elementId?: string;
   title?: string;
-  visualElement?: Embed;
+  visualElement?: PartialVisualElement;
 }
+
+type PartialVisualElement =
+  | (Omit<Partial<BrightcoveEmbed>, 'resource'> & { resource: 'brightcove' | 'video' })
+  | (Omit<Partial<ImageEmbed>, 'resource'> & { resource: 'image' });
 
 export interface NdlaFilmType {
   name: string;
@@ -414,29 +418,69 @@ export interface SlateEditor extends Editor {
   };
 }
 
-export interface Embed {
-  resource: string;
+export interface ImageEmbed {
+  resource: 'image';
   resource_id: string;
-  account?: string;
-  align?: string;
-  alt?: string;
-  caption?: string;
-  metaData?: any;
-  path?: string;
-  player?: string;
-  title?: string;
-  size?: string;
+  size: string;
+  align: string;
+  alt: string;
+  caption: string;
   url?: string;
-  videoid?: string;
-  type?: string;
-  message?: string;
   'focal-x'?: string;
   'focal-y'?: string;
   'lower-right-y'?: string;
   'lower-right-x'?: string;
   'upper-left-y'?: string;
   'upper-left-x'?: string;
+  metaData?: any;
 }
+
+export interface BrightcoveEmbed {
+  resource: 'brightcove' | 'video';
+  videoid: string;
+  caption: string;
+  account: string;
+  player: string;
+  title: string;
+  url: string;
+  metaData?: any;
+}
+
+export interface AudioEmbed {
+  resource: 'audio';
+  resource_id: string;
+  caption: string;
+  type: string;
+  url: string;
+}
+
+export interface H5pEmbed {
+  resource: 'h5p';
+  path: string;
+  url: string;
+  title?: string;
+}
+
+export interface ExternalEmbed {
+  resource: 'external' | 'iframe';
+  url: string;
+  metaData?: any;
+  caption?: string;
+  title?: string;
+}
+
+export interface ErrorEmbed {
+  resource: 'error';
+  message: string;
+}
+
+export type Embed =
+  | ImageEmbed
+  | BrightcoveEmbed
+  | AudioEmbed
+  | H5pEmbed
+  | ExternalEmbed
+  | ErrorEmbed;
 
 export interface FileFormat {
   url: string;
@@ -532,7 +576,7 @@ export interface ConceptType extends StrippedConceptType {
 }
 
 export interface ConceptPreviewType extends ConceptType {
-  visualElementResources: Embed;
+  visualElementResources?: Embed;
 }
 
 export interface ConceptFormType extends ConceptType {

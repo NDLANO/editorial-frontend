@@ -119,7 +119,16 @@ export class DisplayExternal extends Component {
   }
 
   render() {
-    const { onRemoveClick, embed, t, language, children, isSelectedForCopy, active } = this.props;
+    const {
+      onRemoveClick,
+      embed,
+      t,
+      language,
+      children,
+      isSelectedForCopy,
+      active,
+      attributes,
+    } = this.props;
     const { isEditMode, title, src, height, error, type, provider, domain } = this.state;
     const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
 
@@ -164,7 +173,8 @@ export class DisplayExternal extends Component {
           showCopyOutline && {
             boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
           }
-        }>
+        }
+        {...attributes}>
         <FigureButtons
           language={language}
           tooltip={t('form.external.remove', {
@@ -223,6 +233,7 @@ DisplayExternal.propTypes = {
   children: PropTypes.any,
   isSelectedForCopy: PropTypes.bool.isRequired,
   active: PropTypes.bool.isRequired,
+  attributes: PropTypes.object.isRequired,
 };
 
 export default injectT(DisplayExternal);

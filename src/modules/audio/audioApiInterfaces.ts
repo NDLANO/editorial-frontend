@@ -6,9 +6,9 @@
  *
  */
 
+import { Descendant } from 'slate';
 import { Copyright } from '../../interfaces';
 import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
-import { Descendant } from 'slate';
 
 type AudioType = 'standard' | 'podcast';
 

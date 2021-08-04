@@ -1,4 +1,3 @@
-import { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor } from 'slate-react';
 
@@ -8,11 +7,7 @@ import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
 import { defaultListBlock } from '../utils/defaultBlocks';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
 
-const onTab = (
-  event: KeyboardEvent<HTMLDivElement>,
-  editor: Editor,
-  next?: KeyboardEventHandler<HTMLDivElement>,
-) => {
+const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (!editor.selection) return next && next(event);
   const isList = hasNodeOfType(editor, TYPE_LIST);
 

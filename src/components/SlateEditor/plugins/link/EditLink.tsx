@@ -172,7 +172,7 @@ const EditLink = (props: Props & tType) => {
   };
 
   const { t, model, element } = props;
-  const isEdit = model !== undefined && model.href !== undefined;
+  const isEdit = model && model.href !== undefined;
 
   return (
     <Portal isOpened>

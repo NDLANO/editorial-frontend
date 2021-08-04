@@ -11,7 +11,7 @@ import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from '..';
-import { withPlugins } from '../../../RichTextEditor';
+import withPlugins from '../../../utils/withPlugins';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 import { TYPE_SECTION } from '../../section';
 
@@ -34,7 +34,6 @@ describe('link normalizer tests', () => {
                 href: 'test-url',
                 children: [
                   {
-                    // @ts-ignore
                     type: TYPE_PARAGRAPH,
                     children: [{ text: 'illegal block' }],
                   },

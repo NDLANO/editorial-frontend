@@ -1,4 +1,3 @@
-import { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { Editor, Element, Transforms, Path, Range, Node } from 'slate';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
@@ -6,9 +5,9 @@ import getCurrentBlock from '../../../utils/getCurrentBlock';
 import containsVoid from '../../../utils/containsVoid';
 
 const onBackspace = (
-  event: KeyboardEvent<HTMLDivElement>,
+  event: KeyboardEvent,
   editor: Editor,
-  next?: KeyboardEventHandler<HTMLDivElement>,
+  next?: (event: KeyboardEvent) => void,
 ) => {
   if (!editor.selection) return next && next(event);
   const isList = hasNodeOfType(editor, TYPE_LIST);

@@ -14,7 +14,6 @@ import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
-import { EmbedElement } from '../../../components/SlateEditor/plugins/embed';
 import { isFormikFormDirty, subjectpageRules } from '../../../util/formHelper';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
@@ -37,7 +36,7 @@ interface Props {
 }
 export interface SubjectFormValues
   extends Omit<SubjectpageType, 'description' | 'metaDescription'> {
-  visualElement: EmbedElement[];
+  visualElement: Descendant[];
   articleType: string;
   description?: Descendant[];
   metaDescription?: Descendant[];
@@ -154,8 +153,7 @@ const SubjectpageForm = ({
               elementId={values.elementId!}
               errors={errors}
               handleSubmit={() => handleSubmit(formik)}
-              onBlur={(event, editor, next) => {
-                next();
+              onBlur={(event, editor) => {
                 // this is a hack since formik onBlur-handler interferes with slates
                 // related to: https://github.com/ianstormtaylor/slate/issues/2434
                 // formik handleBlur needs to be called for validation to work (and touched to be set)

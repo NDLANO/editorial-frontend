@@ -25,14 +25,6 @@ Object {
   "id": 400,
   "language": "nb",
   "metaImageId": "",
-  "parsedVisualElement": Object {
-    "align": "",
-    "alt": "Test data alt",
-    "caption": "",
-    "resource": "image",
-    "resource_id": "1234",
-    "size": "fullbredde",
-  },
   "subjectIds": Array [],
   "supportedLanguages": Array [
     "nb",

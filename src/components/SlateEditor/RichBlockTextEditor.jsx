@@ -103,7 +103,7 @@ RichBlockTextEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired,
-  actionsToShowInAreas: PropTypes.arrayOf(PropTypes.string).isRequired,
+  actionsToShowInAreas: PropTypes.object.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,

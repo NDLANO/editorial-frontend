@@ -6,8 +6,6 @@
  *
  */
 
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
-
 const titleTemplate = '- Produksjonsystem - NDLA';
 
 const phrases = {
@@ -674,7 +672,7 @@ const phrases = {
       addConcept: 'Legg til eksisterande forklaring',
       removeConcept: 'Ta bort forklaring',
       source: 'Kjelde',
-      subjects: `Berre fag med metadatafelt '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' vil visast i lista.`,
+      subjects: 'Berre fag markert som forklaringsfag vil visast i lista.',
     },
     workflow: {
       title: 'Status',
@@ -1170,6 +1168,7 @@ const phrases = {
         alterFields: 'Legg til/endra metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
+        explanationSubject: 'Forklaringsfag',
         resourceGroupPlaceholder: 'Gruppering av ressursar',
         RGTooltip: 'Vis ressursar Gruppert eller Ugruppert',
       },

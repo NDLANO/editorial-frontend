@@ -984,6 +984,7 @@ const phrases = {
       missingTitle: '[Mangler filnavn]',
       missingFileTooltip:
         'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',
+      missingFilename: 'Filtypen støttes ikke',
       dragdrop: {
         main: 'Dra og slipp',
         sub: 'eller trykk for å laste opp file(r)',

@@ -990,6 +990,13 @@ const phrases = {
       missingTitle: '[Mangler filnamn]',
       missingFileTooltip:
         'Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.',
+      missingFilename: 'Filtypen støttes ikke',
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp file(r)',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp file(r)',
+        noFilesAdded: 'Ingen filer er lagt til',
+      },
       showPdf: 'Vis ekspandert',
       showPdfTooltip: 'Vis ekspandert PDF i artikkel',
     },

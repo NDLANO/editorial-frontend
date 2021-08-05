@@ -27,7 +27,6 @@ const MathML = ({ model, attributes }: Props) => {
     } else {
       // Note: a small delay before a 're-render" is required in order to
       // get the MathJax script to render correctly after editing the MathML
-      console.log(model.innerHTML)
       setReRender(true);
       setTimeout(() => {
         setReRender(false);

@@ -7,14 +7,14 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { RenderElementProps } from 'slate-react';
+import { RenderElementProps } from 'slate-react';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
   model: {
     xlmns: string;
     innerHTML: string;
-  }
+  };
 }
 
 const MathML = ({ model, attributes }: Props) => {
@@ -48,7 +48,7 @@ const MathML = ({ model, attributes }: Props) => {
         }}
       />
     </span>
-  )
-}
+  );
+};
 
 export default MathML;

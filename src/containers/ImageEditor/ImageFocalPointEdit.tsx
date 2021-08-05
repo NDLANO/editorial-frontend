@@ -17,7 +17,7 @@ import {
   getImageDimensions,
   getSrcSets,
 } from '../../util/imageEditorUtil';
-import { Embed } from '../../interfaces';
+import { ImageEmbed } from '../../interfaces';
 
 const focalPointButtonStyle = css`
   cursor: crosshair;
@@ -41,15 +41,15 @@ const StyledFocalPointContainer = styled('div')`
 `;
 
 interface Props {
-  embed: Embed;
+  embed: ImageEmbed;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   transformData?: {
-    'focal-x': string;
-    'focal-y': string;
-    'upper-left-x': string;
-    'upper-left-y': string;
-    'lower-right-x': string;
-    'lower-right-y': string;
+    'focal-x'?: string;
+    'focal-y'?: string;
+    'upper-left-x'?: string;
+    'upper-left-y'?: string;
+    'lower-right-x'?: string;
+    'lower-right-y'?: string;
   };
 }
 

@@ -972,6 +972,13 @@ const phrases = {
       missingTitle: '[Missing filename]',
       missingFileTooltip:
         'This file does not seem to exist on the server. It might have been deleted from another article.',
+      missingFilename: 'File type is not supported',
+      dragdrop: {
+        main: 'Drag and drop',
+        sub: 'or click to upload file(s)',
+        ariaLabel: 'Drag and drop or click to upload file(s)',
+        noFilesAdded: 'No files are added',
+      },
       showPdf: 'Show expanded',
       showPdfTooltip: 'Show expanded PDF in article',
     },

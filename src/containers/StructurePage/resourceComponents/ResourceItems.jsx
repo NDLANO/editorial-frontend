@@ -11,12 +11,8 @@ import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { ResourceShape } from '../../../shapes';
 import Resource from './Resource';
-import {
-  deleteTopicResource,
-  updateTopicResource,
-  updateTopicSubtopic,
-  updateSubjectTopic,
-} from '../../../modules/taxonomy';
+import { deleteTopicResource, updateTopicResource } from '../../../modules/taxonomy';
+import { updateRelevanceId } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
@@ -75,23 +71,6 @@ class ResourceItems extends React.PureComponent {
     this.setState({ deleteId });
   }
 
-  updateRelevanceId(connectionId, body) {
-    const [, connectionType] = connectionId.split(':');
-    switch (connectionType) {
-      case 'topic-resource':
-        updateTopicResource(connectionId, body);
-        break;
-      case 'topic-subtopic':
-        updateTopicSubtopic(connectionId, body);
-        break;
-      case 'subject-topic':
-        updateSubjectTopic(connectionId, body);
-        break;
-      default:
-        return;
-    }
-  }
-
   render() {
     const { resources, t, currentSubject, structure, locale } = this.props;
 
@@ -112,7 +91,7 @@ class ResourceItems extends React.PureComponent {
               structure={structure}
               onDelete={this.toggleDelete}
               locale={locale}
-              updateRelevanceId={this.updateRelevanceId}
+              updateRelevanceId={updateRelevanceId}
               {...resource}
             />
           ))}

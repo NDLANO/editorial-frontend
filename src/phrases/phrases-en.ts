@@ -971,6 +971,13 @@ const phrases = {
       missingTitle: '[Missing filename]',
       missingFileTooltip:
         'This file does not seem to exist on the server. It might have been deleted from another article.',
+      missingFilename: 'File type is not supported',
+      dragdrop: {
+        main: 'Drag and drop',
+        sub: 'or click to upload file(s)',
+        ariaLabel: 'Drag and drop or click to upload file(s)',
+        noFilesAdded: 'No files are added',
+      },
       showPdf: 'Show expanded',
       showPdfTooltip: 'Show expanded PDF in article',
     },
@@ -1117,6 +1124,7 @@ const phrases = {
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
       copyError:
         'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
+      addResourceConflict: 'The resource you attempted to add already exists on the topic.',
     },
     resourceTypes: {
       title: 'Content type',

@@ -100,6 +100,7 @@ const allowedFiles = [
   '.xls',
   '.xlsx',
   '.xml',
+  '.f3d',
 ];
 
 export default injectT(FileUploader);

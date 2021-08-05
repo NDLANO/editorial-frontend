@@ -30,6 +30,7 @@ export interface CodeblockElement {
     resource: string;
     title: string;
   };
+  isFirstEdit: boolean;
   children: Descendant[];
 }
 
@@ -39,7 +40,11 @@ export const codeblockSerializer: SlateSerializer = {
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource !== 'code-block') return;
-    return jsx('element', { type: TYPE_CODEBLOCK, data: { ...embedAttributes } }, [{ text: '' }]);
+    return jsx(
+      'element',
+      { type: TYPE_CODEBLOCK, data: { ...embedAttributes }, isFirstEdit: false },
+      [{ text: '' }],
+    );
   },
   serialize(node: Descendant, children: (JSX.Element | null)[]) {
     if (!Element.isElement(node) || node.type !== 'code-block') return;

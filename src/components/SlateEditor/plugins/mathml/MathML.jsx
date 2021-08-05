@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { AttributesShape } from '../../../../shapes';
 
 class MathML extends Component {
   constructor(props) {
@@ -52,9 +53,7 @@ class MathML extends Component {
 }
 
 MathML.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
+  attributes: AttributesShape,
   innerHTML: PropTypes.string,
   node: PropTypes.any,
   model: PropTypes.shape({

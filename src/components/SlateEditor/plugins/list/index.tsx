@@ -66,8 +66,9 @@ export const listSerializer: SlateSerializer = {
       return jsx('element', { type: TYPE_LIST_ITEM }, children);
     }
   },
-  serialize(node: Descendant, children: (JSX.Element | null)[]) {
+  serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
+
     if (node.type === TYPE_LIST) {
       if (node.listType === 'bulleted-list') {
         return <ul>{children}</ul>;
@@ -87,7 +88,16 @@ export const listSerializer: SlateSerializer = {
       }
     }
     if (node.type === TYPE_LIST_ITEM) {
-      return <li>{children}</li>;
+      // If first child of list-item is a list, it means that an empty paragraph has been removed by
+      // paragraph serializer. This should not be removed, therefore inserting it when serializing.
+      const firstChild = children[0];
+      const test = firstChild && ['ol', 'ul'].includes(firstChild.type);
+      return (
+        <li>
+          {test && <p></p>}
+          {children}
+        </li>
+      );
     }
   },
 };

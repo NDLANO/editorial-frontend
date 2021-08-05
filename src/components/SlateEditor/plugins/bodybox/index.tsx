@@ -28,7 +28,7 @@ export const bodyboxSerializer: SlateSerializer = {
       return jsx('element', { type: TYPE_BODYBOX }, children);
     }
   },
-  serialize(node: Descendant, children: (JSX.Element | null)[]) {
+  serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node) || node.type !== TYPE_BODYBOX) return;
     return <div className="c-bodybox">{children}</div>;
   },

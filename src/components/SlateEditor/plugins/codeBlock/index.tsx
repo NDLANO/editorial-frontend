@@ -35,7 +35,7 @@ export interface CodeblockElement {
 }
 
 export const codeblockSerializer: SlateSerializer = {
-  deserialize(el: HTMLElement, children: (Descendant | null)[]) {
+  deserialize(el: HTMLElement) {
     if (!el.tagName.toLowerCase().startsWith('embed')) return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
@@ -46,7 +46,7 @@ export const codeblockSerializer: SlateSerializer = {
       [{ text: '' }],
     );
   },
-  serialize(node: Descendant, children: (JSX.Element | null)[]) {
+  serialize(node: Descendant) {
     if (!Element.isElement(node) || node.type !== 'code-block') return;
 
     const { data } = node;

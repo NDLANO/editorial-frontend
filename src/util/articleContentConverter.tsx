@@ -7,6 +7,7 @@
  */
 import escapeHtml from 'escape-html';
 import React from 'react';
+import { compact } from 'lodash';
 import { Descendant, Element, Node, Text } from 'slate';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Plain } from './slatePlainSerializer';
@@ -160,11 +161,11 @@ export const learningResourceContentToEditorValue = (html?: string) => {
 
 export function learningResourceContentToHTML(contentValues: Descendant[][]) {
   const serialize = (node: Descendant): JSX.Element | null => {
-    let children: (JSX.Element | null)[];
+    let children: JSX.Element[];
     if (Text.isText(node)) {
       children = [escapeHtml(node.text)];
     } else {
-      children = node.children.map((n: Descendant) => serialize(n));
+      children = compact(node.children.map((n: Descendant) => serialize(n)));
     }
 
     for (const rule of learningResourceRules) {
@@ -241,11 +242,11 @@ export function topicArticleContentToEditorValue(html: string) {
 
 export function topicArticleContentToHTML(value: Descendant[]) {
   const serialize = (node: Descendant): JSX.Element | null => {
-    let children: (JSX.Element | null)[];
+    let children: JSX.Element[];
     if (Text.isText(node)) {
       children = [escapeHtml(node.text)];
     } else {
-      children = node.children.map((n: Descendant) => serialize(n));
+      children = compact(node.children.map((n: Descendant) => serialize(n)));
     }
 
     for (const rule of topicArticleRules) {

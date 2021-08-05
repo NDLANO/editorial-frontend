@@ -168,7 +168,7 @@ const MathEditor = (props: Props & RenderElementProps) => {
         style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
         {...attributes}
         ref={mathMLRef}>
-        <MathML node={element} model={model} {...props} />
+        <MathML model={model} {...props} />
         <Portal isOpened={showMenu}>
           <BlockMenu
             top={top}

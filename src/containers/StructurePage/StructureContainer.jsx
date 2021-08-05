@@ -33,7 +33,7 @@ import {
   deleteTopicConnection,
   deleteSubTopicConnection,
 } from '../../modules/taxonomy';
-import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
+import { groupTopics, getCurrentTopic, getSubtopics } from '../../util/taxonomyHelpers';
 import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import RoundIcon from '../../components/RoundIcon';
 import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
@@ -286,7 +286,7 @@ export class StructureContainer extends React.PureComponent {
       params,
       allTopics: this.state.topics,
     });
-    const topics = currentTopic.subtopics || currentSubject.topics;
+    const topics = getSubtopics(currentTopic.id, this.state.topics) || currentSubject.topics;
     const currentRank = topics[source.index].rank;
     const destinationRank = topics[destination.index].rank;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;

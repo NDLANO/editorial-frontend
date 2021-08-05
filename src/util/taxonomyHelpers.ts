@@ -191,6 +191,10 @@ const getCurrentTopic = ({
   return {};
 };
 
+const getSubtopics = (topicId: string, allTopics: SubjectTopic[]) => {
+  return allTopics.filter(t => t.parent === topicId);
+};
+
 const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {
   if (resourceTypes.length === 0) {
     return '';
@@ -218,6 +222,7 @@ export {
   groupSortResourceTypesFromTopicResources,
   groupTopics,
   getCurrentTopic,
+  getSubtopics,
   sortByName,
   selectedResourceTypeValue,
   pathToUrnArray,

@@ -370,3 +370,14 @@ export const AttributesShape = PropTypes.shape({
   dir: PropTypes.string,
   ref: PropTypes.any.isRequired,
 });
+
+const ActionsShape = PropTypes.arrayOf(
+  PropTypes.oneOf(['table', 'embed', 'code-block', 'file', 'h5p']),
+);
+
+export const ActionsInAreasShape = PropTypes.shape({
+  details: ActionsShape,
+  aside: ActionsShape,
+  bodybox: ActionsShape,
+  summary: ActionsShape,
+});

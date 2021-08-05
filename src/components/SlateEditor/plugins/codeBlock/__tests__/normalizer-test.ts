@@ -34,6 +34,7 @@ describe('codeblock normalizer tests', () => {
               title: 'tittel',
             },
             children: [{ text: '' }],
+            isFirstEdit: false,
           },
           {
             type: TYPE_CODEBLOCK,
@@ -44,6 +45,7 @@ describe('codeblock normalizer tests', () => {
               title: 'tittel',
             },
             children: [{ text: '' }],
+            isFirstEdit: false,
           },
           {
             type: TYPE_CODEBLOCK,
@@ -54,6 +56,7 @@ describe('codeblock normalizer tests', () => {
               title: 'tittel',
             },
             children: [{ text: '' }],
+            isFirstEdit: false,
           },
         ],
       },
@@ -73,6 +76,7 @@ describe('codeblock normalizer tests', () => {
               title: 'tittel',
             },
             children: [{ text: '' }],
+            isFirstEdit: false,
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
           {
@@ -84,6 +88,7 @@ describe('codeblock normalizer tests', () => {
               title: 'tittel',
             },
             children: [{ text: '' }],
+            isFirstEdit: false,
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
           {
@@ -95,6 +100,7 @@ describe('codeblock normalizer tests', () => {
               title: 'tittel',
             },
             children: [{ text: '' }],
+            isFirstEdit: false,
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
         ],

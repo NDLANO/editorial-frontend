@@ -95,7 +95,24 @@ const SlateBlockPicker = (props: Props & tType) => {
         break;
       }
       case 'table': {
-        onInsertBlock(defaultTableBlock(2, 2));
+        const { editor } = props;
+
+        setTimeout(() => {
+          if (selectedParagraphPath) {
+            Transforms.select(editor, selectedParagraphPath);
+            ReactEditor.focus(editor);
+            Transforms.insertNodes(editor, defaultTableBlock(2, 2), {
+              at: selectedParagraphPath,
+            });
+            // Cursor is always placed after table. Move it four characters back to place it in first cell
+            Transforms.move(editor, {
+              distance: 4,
+              reverse: true,
+            });
+          }
+        }, 0);
+        setIsOpen(false);
+        setSelectedParagraphPath(undefined);
         break;
       }
       case 'aside': {

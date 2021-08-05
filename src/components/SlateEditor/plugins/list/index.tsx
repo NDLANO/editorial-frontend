@@ -90,11 +90,11 @@ export const listSerializer: SlateSerializer = {
     if (node.type === TYPE_LIST_ITEM) {
       // If first child of list-item is a list, it means that an empty paragraph has been removed by
       // paragraph serializer. This should not be removed, therefore inserting it when serializing.
-      const firstChild = children[0];
-      const test = firstChild && ['ol', 'ul'].includes(firstChild.type);
+      const firstElement = children[0];
+      const illegalFirstElement = !firstElement || ['ol', 'ul'].includes(firstElement.type);
       return (
         <li>
-          {test && <p></p>}
+          {illegalFirstElement && <p></p>}
           {children}
         </li>
       );

@@ -29,7 +29,7 @@ export const blockQuoteSerializer: SlateSerializer = {
       return jsx('element', { type: TYPE_QUOTE }, children);
     }
   },
-  serialize(node: Descendant, children: (JSX.Element | null)[]) {
+  serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_QUOTE) {
       return <blockquote>{children}</blockquote>;

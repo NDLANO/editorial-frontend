@@ -240,7 +240,8 @@ class SearchContentForm extends Component<Props & tType, State> {
                 name={selectField.name}
                 options={selectField.options}
                 idKey="id"
-                // Will always be a string. The boolean field in SearchState is never hit.
+                // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
+                // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
                 value={this.state.search[selectField.name] as string}
                 labelKey="name"
                 emptyField

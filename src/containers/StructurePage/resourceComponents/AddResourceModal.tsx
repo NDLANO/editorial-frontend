@@ -211,11 +211,13 @@ const AddResourceModal = ({
   const learningpathToState = (learningpath: SelectedType) => {
     setContent({
       id: parseInt(learningpath.id),
+      // We do not know the language of the description or the title. Thus, they should not be used
+      // further down the component tree. They are only present to appease TypeScript.
       metaDescription: {
-        metaDescription: learningpath.description!,
+        metaDescription: learningpath.description ?? '',
         language: 'unknown',
       },
-      title: { title: learningpath.title!, language: 'unknown' },
+      title: { title: learningpath.title ?? '', language: 'unknown' },
       metaUrl: learningpath.coverPhotoUrl,
     });
   };

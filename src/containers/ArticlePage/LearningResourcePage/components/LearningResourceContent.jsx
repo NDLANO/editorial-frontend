@@ -68,7 +68,6 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-// TODO: Rewrite to new slate
 const findFootnotes = content =>
   content
     .reduce((all, value) => [...all, ...findNodesByType(value, TYPE_FOOTNOTE)], [])
@@ -102,13 +101,11 @@ export const plugins = (articleLanguage, locale, handleSubmitRef) => {
     // // Blockquote and editList actions need to be triggered before paragraph action, else
     // // unwrapping (jumping out of block) will not work.
     tablePlugin,
-    // editTablePlugin,
     relatedPlugin,
     filePlugin,
     mathmlPlugin,
     codeblockPlugin,
     blockPickerPlugin,
-    // dndPlugin,
     // pasteHandler(),
     toolbarPlugin,
     textTransformPlugin,

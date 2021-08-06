@@ -15,7 +15,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
-import { RouteComponentProps, StaticContext } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { Row, PreviewDraftLightbox } from '../../components';
@@ -130,7 +130,7 @@ interface MarkupLocationState {
   backUrl?: string;
 }
 
-interface Props extends RouteComponentProps<MatchParams, StaticContext, MarkupLocationState> {}
+interface Props extends RouteComponentProps<MatchParams, {}, MarkupLocationState> {}
 
 type Status =
   | 'initial'

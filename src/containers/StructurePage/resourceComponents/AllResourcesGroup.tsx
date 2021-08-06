@@ -101,6 +101,7 @@ const AllResourcesGroup = ({
           topicId={topicId}
           refreshResources={refreshResources}
           onClose={() => setShowAddModal(false)}
+          existingResourceIds={topicResources.flatMap(r => r.resources.map(x => x.id))}
         />
       )}
     </React.Fragment>

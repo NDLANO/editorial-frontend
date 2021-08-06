@@ -13,6 +13,7 @@ import {
   SubjectTopic,
   TaxonomyElement,
 } from '../modules/taxonomy/taxonomyApiInterfaces';
+import { updateTopicResource, updateTopicSubtopic, updateSubjectTopic } from '../modules/taxonomy';
 
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 
@@ -209,6 +210,30 @@ const pathToUrnArray = (path: string) =>
     .splice(1)
     .map(url => `urn:${url}`);
 
+const updateRelevanceId = (
+  connectionId: string,
+  body: {
+    relevanceId: string;
+    primary: boolean;
+    rank: number;
+  },
+) => {
+  const [, connectionType] = connectionId.split(':');
+  switch (connectionType) {
+    case 'topic-resource':
+      updateTopicResource(connectionId, body);
+      break;
+    case 'topic-subtopic':
+      updateTopicSubtopic(connectionId, body);
+      break;
+    case 'subject-topic':
+      updateSubjectTopic(connectionId, body);
+      break;
+    default:
+      return;
+  }
+};
+
 export {
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
@@ -221,4 +246,5 @@ export {
   sortByName,
   selectedResourceTypeValue,
   pathToUrnArray,
+  updateRelevanceId,
 };

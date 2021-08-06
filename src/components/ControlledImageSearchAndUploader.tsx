@@ -32,10 +32,10 @@ interface Props {
   locale: string;
   isSavingImage?: boolean;
   closeModal: () => void;
-  onError: (err: any) => void;
+  onError: (err: Error & Response) => void;
   searchImages: (queryObject: ImageSearchQuery) => void;
   fetchImage: (id: number) => Promise<ImageApiType>;
-  image: ImageType;
+  image?: ImageType;
   updateImage: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
 }
 

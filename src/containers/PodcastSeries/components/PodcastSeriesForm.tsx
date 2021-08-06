@@ -29,6 +29,7 @@ import {
 } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
+import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
 
 const podcastRules = {
   title: {
@@ -138,7 +139,7 @@ const PodcastSeriesForm = ({
   ]): FormikErrors<PodcastFormValues> => {
     if (width !== height) {
       return { coverPhotoId: t('validation.podcastImageShape') };
-    } else if (width < 1400 || width > 3000) {
+    } else if (width < ITUNES_STANDARD_MINIMUM_WIDTH || width > ITUNES_STANDARD_MAXIMUM_WIDTH) {
       return { coverPhotoId: t('validation.podcastImageSize') };
     }
     return {};

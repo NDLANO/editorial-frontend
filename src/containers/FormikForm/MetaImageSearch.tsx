@@ -130,7 +130,7 @@ const MetaImageSearch = ({
                 searchImages={searchImages}
                 onError={onError}
                 updateImage={onImageUpdate}
-                image={image!}
+                image={image}
               />
             </ModalBody>
           </>

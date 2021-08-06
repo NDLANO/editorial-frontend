@@ -21,7 +21,7 @@ import { UserAccessContext } from '../App/App';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { ArticleShape } from '../../shapes';
 
-const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }) => {
+const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit }) => {
   const userAccess = useContext(UserAccessContext);
   const plugins = [textTransformPlugin];
 
@@ -63,12 +63,6 @@ const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }
               // Forcing slate field to be deselected before selecting new field.
               // Fixes a problem where slate field is not properly focused on click.
               ReactEditor.deselect(editor);
-
-              // TODO: Can possibly be removed
-              // this is a hack since formik onBlur-handler interferes with slates
-              // related to: https://github.com/ianstormtaylor/slate/issues/2434
-              // formik handleBlur needs to be called for validation to work (and touched to be set)
-              setTimeout(() => handleBlur({ target: { name: 'metaDescription' } }), 0);
             }}
             plugins={plugins}
           />

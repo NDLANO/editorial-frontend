@@ -59,7 +59,7 @@ const getPlayerObject = (
 };
 
 const AudioContent = ({ t, formik }: Props & tType) => {
-  const { values, setFieldValue, submitForm, handleBlur } = formik;
+  const { values, setFieldValue, submitForm } = formik;
   const playerObject = getPlayerObject(values);
 
   return (
@@ -71,12 +71,6 @@ const AudioContent = ({ t, formik }: Props & tType) => {
           // Forcing slate field to be deselected before selecting new field.
           // Fixes a problem where slate field is not properly focused on click.
           ReactEditor.deselect(editor);
-
-          // TODO: Can possibly be removed
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'title' } }), 0);
         }}
       />
 

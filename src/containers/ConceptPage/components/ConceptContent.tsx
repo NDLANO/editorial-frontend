@@ -44,7 +44,6 @@ const ConceptContent = ({ t }: tType) => {
   const formikContext = useFormikContext<ConceptFormValues>();
   const {
     values: { creators, created },
-    handleBlur,
     submitForm,
     isValid,
   } = formikContext;
@@ -57,12 +56,6 @@ const ConceptContent = ({ t }: tType) => {
           // Forcing slate field to be deselected before selecting new field.
           // Fixes a problem where slate field is not properly focused on click.
           ReactEditor.deselect(editor);
-
-          // TODO: Can possibly be removed
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'slatetitle' } }), 0);
         }}
       />
       <ByLine>
@@ -89,18 +82,6 @@ const ConceptContent = ({ t }: tType) => {
           // Forcing slate field to be deselected before selecting new field.
           // Fixes a problem where slate field is not properly focused on click.
           ReactEditor.deselect(editor);
-
-          // TODO: Can possibly be removed
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(
-            () =>
-              handleBlur({
-                target: { name: 'conceptContent' },
-              }),
-            0,
-          );
         }}
       />
       {!isValid && showWarning && <StyledHelpMessage error>{t('form.feil')}</StyledHelpMessage>}

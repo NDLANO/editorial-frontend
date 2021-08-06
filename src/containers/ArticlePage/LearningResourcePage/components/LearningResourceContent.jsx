@@ -125,7 +125,6 @@ const LearningResourceContent = ({
   t,
   userAccess,
   values: { id, language, creators, published },
-  handleBlur,
   handleSubmit,
   locale,
 }) => {
@@ -145,12 +144,6 @@ const LearningResourceContent = ({
           // Forcing slate field to be deselected before selecting new field.
           // Fixes a problem where slate field is not properly focused on click.
           ReactEditor.deselect(editor);
-
-          // TODO: Can possibly be removed
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'slateTitle' } }), 0);
         }}
       />
       <FormikField name="published" css={byLineStyle}>
@@ -182,12 +175,6 @@ const LearningResourceContent = ({
           // Forcing slate field to be deselected before selecting new field.
           // Fixes a problem where slate field is not properly focused on click.
           ReactEditor.deselect(editor);
-
-          // TODO: Can possibly be removed
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
         }}
       />
       <FormikField
@@ -213,13 +200,6 @@ const LearningResourceContent = ({
               onChange={onChange}
               language={articleLanguage}
               actionsToShowInAreas={actionsToShowInAreas}
-              onBlur={(event, editor) => {
-                // TODO: Can possibly be removed
-                // this is a hack since formik onBlur-handler interferes with slates
-                // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                // formik handleBlur needs to be called for validation to work (and touched to be set)
-                setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
-              }}
               handleSubmit={handleSubmit}
             />
             <LearningResourceFootnotes footnotes={findFootnotes(value)} />

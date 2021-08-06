@@ -28,7 +28,7 @@ const LearningResourcePanels = ({
 }) => {
   const locale = useContext(LocaleContext);
   const formikContext = useFormikContext();
-  const { values, setValues, errors, handleBlur } = formikContext;
+  const { values, setValues, errors } = formikContext;
 
   return (
     <Accordions>
@@ -41,7 +41,6 @@ const LearningResourcePanels = ({
         <LearningResourceContent
           userAccess={userAccess}
           handleSubmit={handleSubmit}
-          handleBlur={handleBlur}
           values={values}
           article={article}
           locale={locale}
@@ -75,7 +74,6 @@ const LearningResourcePanels = ({
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
         <MetaDataField
-          handleBlur={handleBlur}
           fetchSearchTags={fetchSearchTags}
           handleSubmit={handleSubmit}
           article={article}

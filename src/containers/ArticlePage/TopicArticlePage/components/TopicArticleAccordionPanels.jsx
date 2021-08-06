@@ -28,7 +28,7 @@ const TopicArticleAccordionPanels = ({
 }) => {
   const locale = useContext(LocaleContext);
   const formikContext = useFormikContext();
-  const { values, handleBlur, errors, setValues } = formikContext;
+  const { values, errors, setValues } = formikContext;
   return (
     <Accordions>
       <AccordionSection
@@ -39,12 +39,7 @@ const TopicArticleAccordionPanels = ({
           !!(errors.slatetitle || errors.introduction || errors.content || errors.visualElement)
         }
         startOpen>
-        <TopicArticleContent
-          userAccess={userAccess}
-          handleSubmit={handleSubmit}
-          handleBlur={handleBlur}
-          values={values}
-        />
+        <TopicArticleContent userAccess={userAccess} handleSubmit={handleSubmit} values={values} />
       </AccordionSection>
       {values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
         <AccordionSection
@@ -71,7 +66,6 @@ const TopicArticleAccordionPanels = ({
         <MetaDataField
           article={article}
           handleSubmit={handleSubmit}
-          handleBlur={handleBlur}
           fetchSearchTags={fetchSearchTags}
         />
       </AccordionSection>

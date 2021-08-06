@@ -26,7 +26,7 @@ const newTabAttributes = {
 
 const createContentLinkData = (
   id: string,
-  resourceType: string,
+  resourceType: string | undefined,
   targetRel: { 'open-in': string },
 ): Partial<ContentLinkElement> => {
   return {

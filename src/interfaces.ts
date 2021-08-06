@@ -456,6 +456,13 @@ export interface File {
   formats?: FileFormat[];
 }
 
+export interface UnsavedFile {
+  path: string;
+  title: string;
+  type: string;
+  formats?: FileFormat[];
+}
+
 export interface SlateAudio extends Omit<AudioApiType, 'title'> {
   title: string;
   caption: string;

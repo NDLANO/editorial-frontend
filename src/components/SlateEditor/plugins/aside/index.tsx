@@ -30,7 +30,7 @@ export const asideSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== 'aside') return;
     return jsx('element', { type: TYPE_ASIDE, data: getAsideType(el) }, children);
   },
-  serialize(node: Descendant, children: (JSX.Element | null)[]) {
+  serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
     if (node.type !== 'aside') return;
     return <aside data-type={node.data.type || ''}>{children}</aside>;

@@ -46,7 +46,7 @@ export const headingSerializer: SlateSerializer = {
       return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
   },
-  serialize(node: Descendant, children: (JSX.Element | null)[]) {
+  serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_HEADING) {
       return React.createElement('h' + node.level, [], [children]);

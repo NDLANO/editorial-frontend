@@ -8,8 +8,8 @@
  */
 
 import React, { useMemo, FocusEvent } from 'react';
-import { createEditor, Descendant, Editor } from 'slate';
-import { Slate, Editable, withReact } from 'slate-react';
+import { createEditor, Descendant } from 'slate';
+import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { SlatePlugin } from './interfaces';
 import withPlugins from './utils/withPlugins';
@@ -32,21 +32,10 @@ interface SlateEditorProps {
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
   handleSubmit: () => void;
   onChange: Function;
-  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
 const PlainTextEditor: React.FC<Props> = props => {
-  const {
-    onChange,
-    value,
-    handleSubmit,
-    id,
-    className,
-    placeholder,
-    onBlur,
-    plugins,
-    ...rest
-  } = props;
+  const { onChange, value, handleSubmit, id, className, placeholder, plugins, ...rest } = props;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
@@ -64,7 +53,11 @@ const PlainTextEditor: React.FC<Props> = props => {
         });
       }}>
       <Editable
-        onBlur={(event: FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
+        onBlur={(event: FocusEvent<HTMLDivElement>) => {
+          // Forcing slate field to be deselected before selecting new field.
+          // Fixes a problem where slate field is not properly focused on click.
+          ReactEditor.deselect(editor);
+        }}
         // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
         onKeyDown={editor.onKeyDown}
         className={className}

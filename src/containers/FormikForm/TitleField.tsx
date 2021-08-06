@@ -9,7 +9,6 @@
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 
-import { Editor } from 'slate';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
@@ -20,17 +19,10 @@ interface Props {
   maxLength?: number;
   name?: string;
   handleSubmit: () => Promise<void>;
-  onBlur: (event: Event, editor: Editor) => void;
   type?: string;
 }
 
-const TitleField = ({
-  t,
-  maxLength = 256,
-  name = 'slatetitle',
-  handleSubmit,
-  onBlur,
-}: Props & tType) => {
+const TitleField = ({ t, maxLength = 256, name = 'slatetitle', handleSubmit }: Props & tType) => {
   const handleSubmitRef = React.useRef(handleSubmit);
 
   React.useEffect(() => {
@@ -50,7 +42,6 @@ const TitleField = ({
           data-cy="learning-resource-title"
           plugins={plugins}
           handleSubmit={handleSubmit}
-          onBlur={onBlur}
         />
       )}
     </FormikField>

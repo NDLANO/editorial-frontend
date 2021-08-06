@@ -6,7 +6,6 @@
  */
 
 import React, { useState, ReactNode } from 'react';
-import { ReactEditor } from 'slate-react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
@@ -245,14 +244,7 @@ const PodcastForm = ({
                   hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
                     field => field in errors,
                   )}>
-                  <PodcastMetaData
-                    handleSubmit={submitForm}
-                    onBlur={(event, editor) => {
-                      // Forcing slate field to be deselected before selecting new field.
-                      // Fixes a problem where slate field is not properly focused on click.
-                      ReactEditor.deselect(editor);
-                    }}
-                  />
+                  <PodcastMetaData handleSubmit={submitForm} />
                   <PodcastSeriesInformation
                     podcastSeries={audio.series}
                     language={audio.language}

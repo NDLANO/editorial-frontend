@@ -7,7 +7,6 @@
  */
 
 import React, { Fragment, useMemo, useState } from 'react';
-import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
@@ -108,14 +107,7 @@ const TopicArticleContent = props => {
 
   return (
     <Fragment>
-      <TitleField
-        handleSubmit={handleSubmit}
-        onBlur={(event, editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-        }}
-      />
+      <TitleField handleSubmit={handleSubmit} />
       <FormikField name="published" css={byLineStyle}>
         {({ field, form }) => (
           <>
@@ -138,15 +130,7 @@ const TopicArticleContent = props => {
           </>
         )}
       </FormikField>
-      <IngressField
-        preview={preview}
-        handleSubmit={handleSubmit}
-        onBlur={(event, editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-        }}
-      />
+      <IngressField preview={preview} handleSubmit={handleSubmit} />
       <VisualElementField />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
@@ -183,7 +167,6 @@ const TopicArticleContent = props => {
 
 TopicArticleContent.propTypes = {
   userAccess: PropTypes.string,
-  handleBlur: PropTypes.func,
   values: PropTypes.shape({
     id: PropTypes.number,
     language: PropTypes.string,

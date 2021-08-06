@@ -7,7 +7,6 @@
  */
 
 import React, { Fragment, useContext } from 'react';
-import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 
@@ -59,11 +58,6 @@ const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit }) => {
             placeholder={t('form.metaDescription.label')}
             handleSubmit={handleSubmit}
             {...field}
-            onBlur={(event, editor) => {
-              // Forcing slate field to be deselected before selecting new field.
-              // Fixes a problem where slate field is not properly focused on click.
-              ReactEditor.deselect(editor);
-            }}
             plugins={plugins}
           />
         )}

@@ -8,7 +8,6 @@
 
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { ReactEditor } from 'slate-react';
 
 import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
@@ -25,15 +24,7 @@ const PodcastSeriesMetadata = ({ t }: Props & tType) => {
   const plugins = [textTransformPlugin];
   return (
     <>
-      <TitleField
-        name="title"
-        handleSubmit={submitForm}
-        onBlur={(event, editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-        }}
-      />
+      <TitleField name="title" handleSubmit={submitForm} />
 
       <FormikField name="description" label={t('podcastSeriesForm.description')}>
         {({ field }) => (
@@ -42,11 +33,6 @@ const PodcastSeriesMetadata = ({ t }: Props & tType) => {
             placeholder={t('podcastSeriesForm.description')}
             handleSubmit={() => {}}
             {...field}
-            onBlur={(event, editor) => {
-              // Forcing slate field to be deselected before selecting new field.
-              // Fixes a problem where slate field is not properly focused on click.
-              ReactEditor.deselect(editor);
-            }}
             plugins={plugins}
           />
         )}

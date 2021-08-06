@@ -13,8 +13,6 @@ import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
-import { ReactEditor } from 'slate-react';
-import { Editor } from 'slate';
 import { IngressField, TitleField } from '../../FormikForm';
 import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
@@ -50,14 +48,7 @@ const ConceptContent = ({ t }: tType) => {
 
   return (
     <>
-      <TitleField
-        handleSubmit={submitForm}
-        onBlur={(event: Event, editor: Editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-        }}
-      />
+      <TitleField handleSubmit={submitForm} />
       <ByLine>
         <LastUpdatedLineConcept creators={creators} published={created} />
         <IconContainer>
@@ -78,11 +69,6 @@ const ConceptContent = ({ t }: tType) => {
         preview={preview}
         concept
         handleSubmit={() => submitFormWithMessage(formikContext, () => setShowWarning(true))}
-        onBlur={(event: Event, editor: Editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-        }}
       />
       {!isValid && showWarning && <StyledHelpMessage error>{t('form.feil')}</StyledHelpMessage>}
     </>

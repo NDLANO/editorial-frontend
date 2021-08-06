@@ -34,6 +34,7 @@ interface Props {
   dataTestid?: string;
   placeholder?: string;
   autoFocus?: boolean;
+  initialValue?: string;
 }
 
 const MenuItemEditField = ({
@@ -47,7 +48,7 @@ const MenuItemEditField = ({
   autoFocus,
 }: Props) => {
   const [status, setStatus] = useState('initial');
-  const [input, setInput] = useState<string>('');
+  const [input, setInput] = useState<string>(currentVal);
 
   const handleSubmit = async () => {
     setStatus('loading');

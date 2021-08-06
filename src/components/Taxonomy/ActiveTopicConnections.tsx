@@ -9,7 +9,7 @@
 import React from 'react';
 import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnection from './ActiveTopicConnection';
-import { ResourceWithTopicConnection } from '../../interfaces';
+import { ResourceWithTopicConnection } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../util/retriveBreadCrumbs';
 
 interface Props {

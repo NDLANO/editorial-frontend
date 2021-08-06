@@ -21,6 +21,7 @@ import {
   addTopicToTopic,
   addSubjectTopic,
   addTopic,
+  fetchResourceTypes,
 } from '../../../../modules/taxonomy';
 import { sortByName, groupTopics, pathToUrnArray } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
@@ -77,10 +78,11 @@ class TopicArticleTaxonomy extends Component {
       article: { language, id },
     } = this.props;
     try {
-      const [topics, allTopics, subjects] = await Promise.all([
+      const [topics, allTopics, subjects, allResourceTypes] = await Promise.all([
         queryTopics(id, language),
         fetchTopics(language),
         fetchSubjects(language),
+        fetchResourceTypes(language),
       ]);
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
@@ -101,6 +103,7 @@ class TopicArticleTaxonomy extends Component {
         stagedTopicChanges: topicsWithConnections,
         structure: sortedSubjects,
         taxonomyChoices: {
+          availableResourceTypes: allResourceTypes.filter(resourceType => resourceType.name),
           allTopics: allTopics.filter(topic => topic.name),
         },
       });
@@ -304,6 +307,7 @@ TopicArticleTaxonomy.propTypes = {
   setIsOpen: PropTypes.func,
   article: ArticleShape.isRequired,
   updateNotes: PropTypes.func.isRequired,
+  userAccess: PropTypes.string,
 };
 
 export default injectT(TopicArticleTaxonomy);

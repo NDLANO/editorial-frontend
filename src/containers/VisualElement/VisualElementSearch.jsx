@@ -26,7 +26,7 @@ import config from '../../config';
 import * as visualElementApi from './visualElementApi';
 import * as imageApi from '../../modules/image/imageApi';
 import { getLocale } from '../../modules/locale/locale';
-import H5PElement from '../../components/H5PElement';
+import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import VisualElementUrlPreview from './VisualElementUrlPreview';
 import FileUploader from '../../components/FileUploader';

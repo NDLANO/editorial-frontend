@@ -10,6 +10,7 @@ import { injectT } from '@ndla/i18n';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { tType } from '@ndla/i18n';
+import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { AsyncDropdown } from '../../../components/Dropdown';
@@ -30,6 +31,7 @@ import {
 import ArticlePreview from '../../../components/ArticlePreview';
 import { LearningPathSearchSummary } from '../../../modules/learningpath/learningpathApiInterfaces';
 import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
+import AlertModal from '../../../components/AlertModal';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -51,10 +53,15 @@ const StyledContent = styled.div`
 
 interface Props {
   onClose: () => void;
-  type: string;
-  allowPaste: boolean;
+  resourceTypes: {
+    id: string;
+    name: string;
+  }[];
+  type?: string;
+  allowPaste?: boolean;
   topicId: string;
   refreshResources: () => void;
+  existingResourceIds: string[];
 }
 
 interface ContentType {
@@ -79,11 +86,14 @@ type SummaryTypes = LearningPathSearchSummary | GroupSearchSummary;
 const AddResourceModal = ({
   onClose,
   type,
+  resourceTypes,
   allowPaste,
   topicId,
   refreshResources,
+  existingResourceIds,
   t,
 }: Props & tType) => {
+  const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [selected, setSelected] = useState<SelectedType | null>(null);
   const [content, setContent] = useState<ContentType | null>(null);
   const [pastedUrl, setPastedUrl] = useState('');
@@ -94,6 +104,8 @@ const AddResourceModal = ({
     setSelected(null);
     setContent(null);
   };
+
+  const paste = allowPaste || selectedType !== RESOURCE_TYPE_LEARNING_PATH;
 
   const onSelect = (selected: SelectedType) => {
     if (selected) {
@@ -125,10 +137,12 @@ const AddResourceModal = ({
           fetchResource(resourceId),
           fetchResourceResourceType(resourceId),
         ]);
-        articleToState(resource.contentUri.split(':').pop());
+        if (resource.contentUri) {
+          articleToState(parseInt(resource.contentUri.split(':').pop()!));
+        }
 
         const pastedType = resourceType.length > 0 && resourceType[0].id;
-        const error = pastedType === type ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
+        const error = pastedType === selectedType ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
         setSelected({ id: val, paths: [val] });
         setPastedUrl(val);
         setError(error);
@@ -145,7 +159,7 @@ const AddResourceModal = ({
     }
   };
 
-  const onInputSearch = async (input: string): Promise<SummaryTypes[]> => {
+  const onInputSearch = async (input: string, type: string): Promise<SummaryTypes[]> => {
     try {
       if (type === RESOURCE_TYPE_LEARNING_PATH) {
         const lps = await searchLearningpath(input);
@@ -155,7 +169,7 @@ const AddResourceModal = ({
           metaDescription: lp.description.description,
         }));
       } else {
-        return await searchGroups(input);
+        return await searchGroups(input, type);
       }
     } catch (err) {
       handleError(err);
@@ -183,7 +197,7 @@ const AddResourceModal = ({
     return res.results || [];
   };
 
-  const searchGroups = async (input: string) => {
+  const searchGroups = async (input: string, type: string) => {
     const res = await groupSearch(input, type);
     return res?.pop()?.results || [];
   };
@@ -212,9 +226,20 @@ const AddResourceModal = ({
       try {
         setLoading(true);
         const resourceId =
-          type === RESOURCE_TYPE_LEARNING_PATH
+          selectedType === RESOURCE_TYPE_LEARNING_PATH
             ? await findResourceIdLearningPath(Number(selected.id))
             : getResourceIdFromPath(selected?.paths?.[0]);
+
+        if (!resourceId) {
+          return;
+        }
+
+        if (existingResourceIds.includes(resourceId)) {
+          setError(t('taxonomy.resource.addResourceConflict'));
+          setLoading(false);
+          setNoSelection();
+          return;
+        }
 
         await createTopicResource({
           resourceId,
@@ -227,7 +252,7 @@ const AddResourceModal = ({
       } catch (e) {
         handleError(e);
         setLoading(false);
-        setError(e.message);
+        setError(e.messages);
       }
     }
   };
@@ -259,7 +284,16 @@ const AddResourceModal = ({
       loading={loading}
       onClose={onClose}>
       <StyledContent>
-        {allowPaste && (
+        {!type && (
+          <ResourceTypeSelect
+            availableResourceTypes={resourceTypes}
+            resourceTypes={selectedType ? [selectedType] : []}
+            onChangeSelectedResource={(e: { target: { value: string } }) => {
+              setSelectedType(e.target.value);
+            }}
+          />
+        )}
+        {paste && selectedType && (
           <Input
             type="text"
             data-testid="addResourceUrlInput"
@@ -268,27 +302,40 @@ const AddResourceModal = ({
             placeholder={t('taxonomy.urlPlaceholder')}
           />
         )}
-        {error && <span className="c-errorMessage">{error}</span>}
 
-        {!pastedUrl && (
+        {!pastedUrl && selectedType && (
           <React.Fragment>
-            {allowPaste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
+            {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
             <AsyncDropdown
               idField="id"
               name="resourceSearch"
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
               label="label"
-              apiAction={onInputSearch}
+              apiAction={(input: string) => onInputSearch(input, selectedType)}
               onChange={onSelect}
               startOpen
             />
           </React.Fragment>
         )}
         {selected?.id && content?.id && <ArticlePreview article={content} />}
+        {error && (
+          <AlertModal
+            show={!!error}
+            text={error}
+            onCancel={() => {
+              setError(null);
+            }}
+            severity={'danger'}
+          />
+        )}
       </StyledContent>
     </TaxonomyLightbox>
   );
+};
+
+AddResourceModal.defaultProps = {
+  allowPaste: false,
 };
 
 export default injectT(AddResourceModal);

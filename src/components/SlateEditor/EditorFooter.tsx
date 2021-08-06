@@ -16,10 +16,11 @@ import { useFormikContext } from 'formik';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
 import { Article, PossibleStatuses } from './editorTypes';
-import { ConceptType, FormValues, CreateMessageType } from '../../interfaces';
+import { CreateMessageType } from '../../interfaces';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
+import { ConceptType, FormValues } from '../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   formIsDirty: boolean;

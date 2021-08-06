@@ -10,9 +10,14 @@ import { FormikContextType } from 'formik';
 import isEmpty from 'lodash/fp/isEmpty';
 import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
 import { createEmbedTag } from '../../util/embedTagHelpers';
-import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
-import { SubjectType, License, ConceptType } from '../../interfaces';
+import {
+  ConceptType,
+  NewConceptType,
+  PatchConceptType,
+} from '../../modules/concept/conceptApiInterfaces';
+import { License } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 export const transformApiConceptToFormValues = (
   concept: ConceptFormType,
@@ -100,7 +105,7 @@ export const getPatchApiConcept = (
         id: values.metaImageId,
         alt: values.metaImageAlt,
       }
-    : undefined,
+    : null,
   source: values.source,
   subjectIds: values.subjects.map(subject => subject.id),
   tags: values.tags,

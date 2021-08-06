@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+
+import { updateRelevanceId } from '../../../util/taxonomyHelpers';
 import Accordion from '../../../components/Accordion';
+import { ButtonAppearance } from '../../../components/Accordion/types';
+import { MetadataShape } from '../../../shapes';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
-import { MetadataShape } from '../../../shapes';
-import { ButtonAppearance } from '../../../components/Accordion/types';
 
 class TopicDescription extends Component {
   constructor(props) {
@@ -60,7 +62,7 @@ class TopicDescription extends Component {
               metadata={currentTopic.metadata}
               connectionId={currentTopic.connectionId}
               relevanceId={currentTopic.relevanceId}
-              updateRelevanceId={() => {}}
+              updateRelevanceId={updateRelevanceId}
               refreshResources={refreshTopics}
               primary={currentTopic.isPrimary}
               rank={currentTopic.rank}

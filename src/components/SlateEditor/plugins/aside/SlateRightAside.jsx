@@ -16,6 +16,7 @@ import { ChevronLeft } from '@ndla/icons/common';
 import { css } from '@emotion/core';
 import darken from 'polished/lib/color/darken';
 import DeleteButton from '../../../DeleteButton';
+import { AttributesShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -60,9 +61,7 @@ const SlateRightAside = props => {
 };
 
 SlateRightAside.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
+  attributes: AttributesShape,
   onRemoveClick: PropTypes.func.isRequired,
   onMoveContent: PropTypes.func.isRequired,
 };

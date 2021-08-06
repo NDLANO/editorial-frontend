@@ -9,10 +9,8 @@
 import React, { ReactNode } from 'react';
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import PropTypes from 'prop-types';
 import SlateRightAside from './SlateRightAside';
 import SlateFactAside from './SlateFactAside';
-import { EditorShape } from '../../../../shapes';
 import { AsideElement, TYPE_ASIDE } from '.';
 
 interface Props {
@@ -69,14 +67,6 @@ const SlateAside = (props: Props) => {
       );
     }
   }
-};
-
-SlateAside.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
-  node: PropTypes.any,
-  editor: EditorShape,
 };
 
 export default SlateAside;

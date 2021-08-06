@@ -84,7 +84,7 @@ const toolbarButtonStyle = isActive => css`
     border-left-width: 0px;
   }
 
-  :first-child {
+  :first-of-type {
     border-left-width: 1px;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { EditorDeleteButton } from './common/EditorDeleteButton';
+import { AttributesShape } from '../../shapes';
 
 const StyledEditorErrorMessage = styled('div')`
   position: relative;
@@ -28,9 +29,7 @@ const EditorErrorMessage = ({ msg, attributes, onRemoveClick, children }) => (
 );
 
 EditorErrorMessage.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
+  attributes: AttributesShape,
   msg: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,
 };

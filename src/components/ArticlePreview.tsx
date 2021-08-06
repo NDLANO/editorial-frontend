@@ -8,6 +8,7 @@
 
 import React from 'react';
 import BEMHelper from 'react-bem-helper';
+import { ArticleSearchSummaryApiType } from '../modules/article/articleApiInterfaces';
 
 const classes = new BEMHelper({
   name: 'article-preview',
@@ -15,22 +16,19 @@ const classes = new BEMHelper({
 });
 
 interface Props {
-  article: {
-    id: number;
-    metaDescription?: string;
-    title?: string;
-    imageUrl?: string;
+  article: Pick<ArticleSearchSummaryApiType, 'title' | 'metaDescription'> & {
+    metaUrl?: string;
   };
 }
 
 const ArticlePreview = ({ article }: Props) => (
   <div data-testid="articlePreview" {...classes('')}>
     <div {...classes('image')}>
-      <img src={article.imageUrl || '/placeholder.png'} alt="" />
+      <img src={article.metaUrl || '/placeholder.png'} alt="" />
     </div>
     <div {...classes('content')}>
-      <h1 {...classes('title')}>{article.title}</h1>
-      <p {...classes('description')}>{article.metaDescription}</p>
+      <h1 {...classes('title')}>{article.title.title}</h1>
+      <p {...classes('description')}>{article.metaDescription?.metaDescription}</p>
     </div>
   </div>
 );

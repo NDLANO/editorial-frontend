@@ -12,6 +12,7 @@ import { Cross } from '@ndla/icons/action';
 import styled from '@emotion/styled';
 import { css, SerializedStyles } from '@emotion/core';
 import { colors, breakpoints, spacing } from '@ndla/core';
+import { MessageSeverity } from '../interfaces';
 
 const appearances: Record<string, SerializedStyles> = {
   big: css`
@@ -124,7 +125,7 @@ interface Props {
   width?: string;
   closeButton?: React.ReactNode;
   appearance?: 'modal' | 'big' | 'fullscreen';
-  severity?: 'danger' | 'info' | 'success' | 'warning';
+  severity?: MessageSeverity;
   contentCss?: SerializedStyles;
   hideCloseButton?: boolean;
 }

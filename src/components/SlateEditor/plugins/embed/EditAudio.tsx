@@ -30,7 +30,7 @@ interface Props {
   embed: Embed;
   language: string;
   locale: LocaleType;
-  onAudioFigureInputChange: Function;
+  onAudioFigureInputChange: (event: React.FormEvent<HTMLSelectElement>) => void;
   onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
   onExit: (event: React.MouseEvent) => void;
   onRemoveClick: (event: React.MouseEvent) => void;

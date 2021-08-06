@@ -29,9 +29,9 @@ interface Props {
   style?: string | SerializedStyles;
   children?: React.ReactNode;
   stripped?: boolean;
-  onMouseDown?: Function;
+  onMouseDown?: (event: MouseEvent) => void;
   'data-cy'?: string;
-  onClick?: Function;
+  onClick?: (event: Event) => void;
   title?: string;
 }
 

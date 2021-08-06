@@ -31,6 +31,7 @@ import {
 import ArticlePreview from '../../../components/ArticlePreview';
 import { LearningPathSearchSummary } from '../../../modules/learningpath/learningpathApiInterfaces';
 import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
+import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -62,12 +63,10 @@ interface Props {
   refreshResources: () => void;
 }
 
-interface ContentType {
-  id: number;
-  metaDescription?: string;
-  title?: string;
-  imageUrl?: string;
-}
+type ContentType = Pick<ArticleSearchSummaryApiType, 'title' | 'metaDescription' | 'id'> & {
+  metaUrl?: string;
+  paths?: string[];
+};
 
 interface SelectedType {
   id: string;
@@ -85,7 +84,7 @@ const AddResourceModal = ({
   onClose,
   type,
   resourceTypes,
-  allowPaste,
+  allowPaste = false,
   topicId,
   refreshResources,
   t,
@@ -203,18 +202,21 @@ const AddResourceModal = ({
     const article = await getArticle(articleId);
     setContent({
       id: article.id,
-      metaDescription: article.metaDescription.metaDescription,
-      title: article.title.title,
-      imageUrl: article?.metaImage?.url,
+      metaDescription: article.metaDescription,
+      title: article.title,
+      metaUrl: article.metaImage?.url,
     });
   };
 
   const learningpathToState = (learningpath: SelectedType) => {
     setContent({
-      id: Number(learningpath.id),
-      metaDescription: learningpath.description,
-      title: learningpath.title,
-      imageUrl: learningpath.coverPhotoUrl,
+      id: parseInt(learningpath.id),
+      metaDescription: {
+        metaDescription: learningpath.description!,
+        language: 'unknown',
+      },
+      title: { title: learningpath.title!, language: 'unknown' },
+      metaUrl: learningpath.coverPhotoUrl,
     });
   };
 
@@ -313,10 +315,6 @@ const AddResourceModal = ({
       </StyledContent>
     </TaxonomyLightbox>
   );
-};
-
-AddResourceModal.defaultProps = {
-  allowPaste: false,
 };
 
 export default injectT(AddResourceModal);

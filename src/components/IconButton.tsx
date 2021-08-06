@@ -56,10 +56,6 @@ export const StyledButton = styled.button<{ color?: keyof typeof colors.support 
   }
 `;
 
-export const IconButton = ({ children, tag = 'button', ...rest }: Props) => (
-  <StyledButton {...rest}>{children}</StyledButton>
-);
-
 interface Props {
   as?: React.ReactNode;
   to?: string;
@@ -72,5 +68,9 @@ interface Props {
   color?: 'red' | 'green';
   tag?: string | React.ReactNode;
 }
+
+export const IconButton = ({ children, tag = 'button', ...rest }: Props) => (
+  <StyledButton {...rest}>{children}</StyledButton>
+);
 
 export default IconButton;

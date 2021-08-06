@@ -15,8 +15,8 @@ interface Props {
   'data-cy'?: string;
   stripped?: boolean;
   css?: (SerializedStyles | string | undefined)[];
-  onMouseDown?: Function;
-  onClick?: Function;
+  onMouseDown?: (event: MouseEvent) => void;
+  onClick?: (event: MouseEvent) => void;
   title?: string;
 }
 

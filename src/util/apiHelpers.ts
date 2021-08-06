@@ -7,7 +7,7 @@
  */
 import fetch from 'cross-fetch';
 import queryString from 'query-string';
-import { BrightcoveAccessToken, H5POembed } from '../interfaces';
+import { BrightcoveAccessToken, H5POembed, MessageSeverity } from '../interfaces';
 import config from '../config';
 import { apiBaseUrl, getAccessToken, isAccessTokenValid, renewAuth } from './authHelpers';
 import { resolveJsonOrRejectWithError, createErrorPayload } from './resolveJsonOrRejectWithError';
@@ -21,7 +21,7 @@ export const formatErrorMessage = (error: {
   };
 }): {
   message?: string;
-  severity: 'danger' | 'info' | 'success' | 'warning';
+  severity: MessageSeverity;
   timeToLive: number;
 } => ({
   message: error?.json?.messages?.map(message => `${message.field}: ${message.message}`).join(', '),

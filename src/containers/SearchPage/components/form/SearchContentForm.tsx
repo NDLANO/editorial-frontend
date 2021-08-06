@@ -240,7 +240,8 @@ class SearchContentForm extends Component<Props & tType, State> {
                 name={selectField.name}
                 options={selectField.options}
                 idKey="id"
-                value={this.state.search[selectField.name] as string} // TODO: Does this have to be cast?
+                // Will always be a string. The boolean field in SearchState is never hit.
+                value={this.state.search[selectField.name] as string}
                 labelKey="name"
                 emptyField
                 placeholder={t(`searchForm.types.${selectField.label}`)}

@@ -14,13 +14,14 @@ import { UploadDropZone } from '@ndla/forms';
 import { uploadFile } from '../../modules/draft/draftApi';
 import { createFormData } from '../../util/formDataHelper';
 import handleError from '../../util/handleError';
+import { File } from '../../interfaces';
 
 const wrapperCSS = css`
   padding: 0 ${spacing.large};
 `;
 
 interface Props {
-  onFileSave: (files: { path: string; type: string; title: string }[]) => void;
+  onFileSave: (files: Partial<File>[]) => void;
 }
 
 const FileUploader = ({ onFileSave, t }: Props & tType) => {

@@ -34,7 +34,7 @@ export const divSerializer: SlateSerializer = {
       children,
     );
   },
-  serialize(node: Descendant, children: (JSX.Element | null)[]) {
+  serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_DIV) return;
 

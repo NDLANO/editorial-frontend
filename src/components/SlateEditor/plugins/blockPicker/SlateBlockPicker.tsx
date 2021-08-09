@@ -7,7 +7,7 @@
  */
 
 import React, { useRef, useEffect, useState } from 'react';
-import { Editor, Element, Node, Location, Range } from 'slate';
+import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { SlateBlockMenu } from '@ndla/editor';
@@ -20,6 +20,9 @@ import { defaultTableBlock } from '../table/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
+import { TYPE_LIST_ITEM } from '../list';
+import getCurrentBlock from '../../utils/getCurrentBlock';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 interface Props {
   editor: Editor;
@@ -37,6 +40,7 @@ interface VisualElementSelect {
 const SlateBlockPicker = (props: Props & tType) => {
   const [isOpen, setIsOpen] = useState(false);
   const [lastActiveSelection, setLastActiveSelection] = useState<Range>();
+  const [selectedParagraphPath, setSelectedParagraphPath] = useState<Path>();
   const [visualElementSelect, setVisualElementSelect] = useState<VisualElementSelect>({
     isOpen: false,
   });
@@ -66,15 +70,18 @@ const SlateBlockPicker = (props: Props & tType) => {
 
   const onInsertBlock = (block: Element) => {
     const { editor } = props;
-    setIsOpen(false);
-    if (block.type === 'embed') {
-      setTimeout(() => {
+
+    setTimeout(() => {
+      if (selectedParagraphPath) {
+        Transforms.select(editor, selectedParagraphPath);
         ReactEditor.focus(editor);
-      }, 0);
-    } else {
-      ReactEditor.focus(editor);
-    }
-    Editor.insertNode(editor, block);
+      }
+      Transforms.insertNodes(editor, block, {
+        at: selectedParagraphPath,
+      });
+    }, 0);
+    setIsOpen(false);
+    setSelectedParagraphPath(undefined);
   };
 
   const onElementAdd = (data: ActionData) => {
@@ -88,7 +95,24 @@ const SlateBlockPicker = (props: Props & tType) => {
         break;
       }
       case 'table': {
-        onInsertBlock(defaultTableBlock(2, 2));
+        const { editor } = props;
+
+        setTimeout(() => {
+          if (selectedParagraphPath) {
+            Transforms.select(editor, selectedParagraphPath);
+            ReactEditor.focus(editor);
+            Transforms.insertNodes(editor, defaultTableBlock(2, 2), {
+              at: selectedParagraphPath,
+            });
+            // Cursor is always placed after table. Move it four characters back to place it in first cell
+            Transforms.move(editor, {
+              distance: 4,
+              reverse: true,
+            });
+          }
+        }, 0);
+        setIsOpen(false);
+        setSelectedParagraphPath(undefined);
         break;
       }
       case 'aside': {
@@ -113,11 +137,17 @@ const SlateBlockPicker = (props: Props & tType) => {
       }
       default:
         setIsOpen(false);
+        setSelectedParagraphPath(undefined);
         break;
     }
   };
 
-  const toggleIsOpen = (open: boolean) => {
+  const openBlockPicker = (open: boolean) => {
+    const { editor } = props;
+    const [, paragraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH);
+    if (Path.isPath(paragraphPath)) {
+      setSelectedParagraphPath(paragraphPath);
+    }
     setIsOpen(open);
   };
 
@@ -135,8 +165,20 @@ const SlateBlockPicker = (props: Props & tType) => {
       const range = ReactEditor.toDOMRange(editor, editor.selection);
       const rect = range.getBoundingClientRect();
 
+      const [[, path]] = Editor.nodes(editor, {
+        match: node => Element.isElement(node) && !editor.isInline(node),
+        mode: 'lowest',
+      });
+
+      const [parent] = Editor.node(editor, Path.parent(path));
+
+      const isListItem = path && Element.isElement(parent) && parent.type === TYPE_LIST_ITEM;
+
       slateBlockRef.current.style.top = `${rect.top + window.scrollY - 14}px`;
-      slateBlockRef.current.style.left = `${rect.left + window.scrollX - 78 - rect.width / 2}px`;
+      slateBlockRef.current.style.left = `${rect.left +
+        window.scrollX -
+        (isListItem ? 110 : 78) -
+        rect.width / 2}px`;
       slateBlockRef.current.style.position = 'absolute';
       slateBlockRef.current.style.opacity = '1';
 
@@ -258,7 +300,7 @@ const SlateBlockPicker = (props: Props & tType) => {
               ...action,
               label: t(`editorBlockpicker.actions.${action.data.object}`),
             }))}
-            onToggleOpen={toggleIsOpen}
+            onToggleOpen={openBlockPicker}
             clickItem={(data: ActionData) => {
               onElementAdd(data);
             }}

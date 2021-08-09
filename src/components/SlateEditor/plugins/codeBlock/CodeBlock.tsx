@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Editor, Transforms } from 'slate';
+import { Editor, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import he from 'he';
 
@@ -48,14 +48,13 @@ const getInfoFromNode = (element: CodeblockElement) => {
       title,
       format,
     },
-    isFirstEdit: data['code-block'] === undefined,
   };
 };
 
 const CodeBlock = ({ attributes, editor, element, children }: Props) => {
-  const { isFirstEdit, model } = getInfoFromNode(element);
+  const { model } = getInfoFromNode(element);
   const [editMode, setEditMode] = useState<boolean>(!model.code && !model.title);
-  const [firstEdit, setFirstEdit] = useState<boolean>(isFirstEdit);
+  const [firstEdit, setFirstEdit] = useState<boolean>(element.isFirstEdit);
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -68,11 +67,16 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
         ...element.data,
         'code-block': { ...codeBlock, code: he.encode(code) },
       },
+      isFirstEdit: false,
     };
 
     setEditMode(false);
     setFirstEdit(false);
-    Transforms.setNodes(editor, properties, { at: ReactEditor.findPath(editor, element) });
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.setNodes(editor, properties, { at: path });
+    if (Editor.hasPath(editor, Path.next(path))) {
+      Transforms.select(editor, Path.next(path));
+    }
   };
 
   const handleRemove = () => {
@@ -87,6 +91,10 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
     setEditMode(false);
     if (firstEdit) {
       handleUndo();
+    }
+    const path = ReactEditor.findPath(editor, element);
+    if (Editor.hasPath(editor, Path.next(path))) {
+      Transforms.select(editor, Path.next(path));
     }
   };
 
@@ -108,7 +116,7 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
         <EditCodeBlock
           editor={editor}
           onChange={editor.onChange}
-          closeDialog={toggleEditMode}
+          closeDialog={onExit}
           handleSave={handleSave}
           model={model}
           onExit={onExit}

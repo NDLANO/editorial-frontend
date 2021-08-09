@@ -82,6 +82,8 @@ const actionsToShowInAreas = {
   aside: actions,
   bodybox: actions,
   summary: actions,
+  list: actions,
+  'list-item': actions,
 };
 
 // Plugins are checked from last to first

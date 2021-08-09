@@ -28,6 +28,7 @@ const editor: Descendant[][] = [
             title: 'tittel',
           },
           children: [{ text: '' }],
+          isFirstEdit: false,
         },
       ],
     },

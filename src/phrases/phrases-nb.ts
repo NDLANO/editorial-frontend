@@ -6,8 +6,6 @@
  *
  */
 
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
-
 const titleTemplate = '- Produksjonsystem - NDLA';
 
 const phrases = {
@@ -418,6 +416,8 @@ const phrases = {
     },
     information: {
       partOfSeries: 'Denne podkasten er en del av serien',
+      removeSeries: 'Fjern serie',
+      noSeries: 'Podkasten tilhører ingen serie',
     },
   },
   imageEditor: {
@@ -577,7 +577,7 @@ const phrases = {
       addConcept: 'Legg til eksisterende forklaring',
       removeConcept: 'Ta bort forklaring',
       source: 'Kilde',
-      subjects: `Bare fag med metadatafelt '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' vil vises i lista.`,
+      subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
     },
     abort: 'Avbryt',
     edit: 'Rediger',
@@ -986,6 +986,7 @@ const phrases = {
       missingTitle: '[Mangler filnavn]',
       missingFileTooltip:
         'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',
+      missingFilename: 'Filtypen støttes ikke',
       dragdrop: {
         main: 'Dra og slipp',
         sub: 'eller trykk for å laste opp file(r)',
@@ -1058,6 +1059,8 @@ const phrases = {
     noEmptyNote: 'En merknad kan ikke være tom',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',
+    podcastImageShape: 'Metabilde må være like høyt som det er bredt.',
+    podcastImageSize: 'Metabilde må være mellom 1400 og 3000 piksler bredt.',
   },
   errorMessage: {
     title: 'Oops, noe gikk galt',
@@ -1136,6 +1139,7 @@ const phrases = {
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
       copyError:
         'Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressursene og prøv å fikse mangler manuelt, eller slett de kopierte ressursene og prøv å kopiere på nytt',
+      addResourceConflict: 'Ressursen du forsøkte å legge til finnes allerede på emnet.',
     },
     removeLink: 'Fjern link',
     resourceTypes: {
@@ -1172,6 +1176,7 @@ const phrases = {
         alterFields: 'Legg til/endre metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
+        explanationSubject: 'Forklaringsfag',
         resourceGroupPlaceholder: 'Gruppering av ressurser',
         RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
       },

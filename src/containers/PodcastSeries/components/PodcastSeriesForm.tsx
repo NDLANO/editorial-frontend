@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, ReactNode } from 'react';
-import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
+import React, { useState, ReactNode, useRef } from 'react';
+import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Value } from 'slate';
@@ -29,6 +29,7 @@ import {
 } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
+import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
 
 const podcastRules = {
   title: {
@@ -97,6 +98,7 @@ const PodcastSeriesForm = ({
   onUpdate,
 }: Props & tType) => {
   const [savedToServer, setSavedToServer] = useState(false);
+  const size = useRef<[number, number] | undefined>(undefined);
 
   const handleSubmit = async (
     values: PodcastSeriesFormikType,
@@ -131,6 +133,18 @@ const PodcastSeriesForm = ({
     setSavedToServer(true);
   };
 
+  const validateMetaImage = ([width, height]: [
+    number,
+    number,
+  ]): FormikErrors<PodcastFormValues> => {
+    if (width !== height) {
+      return { coverPhotoId: t('validation.podcastImageShape') };
+    } else if (width < ITUNES_STANDARD_MINIMUM_WIDTH || width > ITUNES_STANDARD_MAXIMUM_WIDTH) {
+      return { coverPhotoId: t('validation.podcastImageSize') };
+    }
+    return {};
+  };
+
   const initialValues = getInitialValues(podcastSeries);
 
   return (
@@ -139,9 +153,13 @@ const PodcastSeriesForm = ({
       onSubmit={handleSubmit}
       validateOnMount
       enableReinitialize
-      validate={values => validateFormik(values, podcastRules, t)}>
+      validate={values => {
+        const errors = validateFormik(values, podcastRules, t);
+        const metaImageErrors = validateMetaImage(size.current!);
+        return { ...errors, ...metaImageErrors };
+      }}>
       {formikProps => {
-        const { values, dirty, isSubmitting, errors, submitForm } = formikProps;
+        const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -166,7 +184,12 @@ const PodcastSeriesForm = ({
                 title={t('form.podcastSeriesSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}>
-                <PodcastSeriesMetaData />
+                <PodcastSeriesMetaData
+                  onImageLoad={el => {
+                    size.current = [el.currentTarget.naturalWidth, el.currentTarget.naturalHeight];
+                    validateForm();
+                  }}
+                />
               </AccordionSection>
               <AccordionSection
                 id="podcast-series-podcastepisodes"

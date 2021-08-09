@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { injectT, tType } from '@ndla/i18n';
@@ -37,11 +37,6 @@ interface Props {
   setH5pFetchFail?: (failed: boolean) => void;
 }
 
-interface State {
-  url?: string;
-  fetchFailed: boolean;
-}
-
 interface MessageEvent extends Event {
   data: {
     embed_id: string;
@@ -51,44 +46,45 @@ interface MessageEvent extends Event {
   };
 }
 
-class H5PElement extends Component<Props & tType, State> {
-  constructor(props: Props & tType) {
-    super(props);
-    this.state = {
-      url: undefined,
-      fetchFailed: false,
-    };
-    this.handleH5PChange = this.handleH5PChange.bind(this);
-    this.handleH5PClose = this.handleH5PClose.bind(this);
-  }
+const H5PElement = ({
+  h5pUrl,
+  onSelect,
+  onClose,
+  locale,
+  canReturnResources,
+  setH5pFetchFail,
+  t,
+}: Props & tType) => {
+  const [url, setUrl] = useState<string>('');
+  const [fetchFailed, setFetchFailed] = useState<boolean>(false);
 
-  /* eslint-disable react/no-did-mount-set-state -- See: https://github.com/yannickcr/eslint-plugin-react/issues/1110 */
-  async componentDidMount() {
-    const { h5pUrl, locale, setH5pFetchFail } = this.props;
-    window.addEventListener('message', this.handleH5PChange);
-    window.addEventListener('message', this.handleH5PClose);
+  useEffect(() => {
+    window.addEventListener('message', handleH5PChange);
+    window.addEventListener('message', handleH5PClose);
     try {
-      const data = h5pUrl
-        ? await editH5PiframeUrl(h5pUrl, locale)
-        : await fetchH5PiframeUrl(locale, this.props.canReturnResources);
-      this.setState(() => ({ url: data.url }));
+      fetchAndSetH5PUrl();
     } catch (e) {
-      this.setState({ fetchFailed: true });
+      setFetchFailed(true);
       setH5pFetchFail && setH5pFetchFail(true);
     }
-  }
 
-  componentWillUnmount() {
-    window.removeEventListener('message', this.handleH5PChange);
-    window.removeEventListener('message', this.handleH5PClose);
-  }
+    return () => {
+      window.removeEventListener('message', handleH5PChange);
+      window.removeEventListener('message', handleH5PClose);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  async handleH5PChange(event: MessageEvent) {
-    const { onSelect } = this.props;
+  const fetchAndSetH5PUrl = async () => {
+    const data = h5pUrl
+      ? await editH5PiframeUrl(h5pUrl, locale)
+      : await fetchH5PiframeUrl(locale, canReturnResources);
+    setUrl(data.url);
+  };
+
+  const handleH5PChange = async (event: MessageEvent) => {
     if (event.data.type !== 'h5p') {
       return;
     }
-
     // Currently, we need to strip oembed part of H5P-url to support NDLA proxy oembed service
     const { oembed_url: oembedUrl } = event.data;
     const url = oembedUrl.match(/url=([^&]*)/)?.[0].replace('url=', '');
@@ -101,47 +97,43 @@ class H5PElement extends Component<Props & tType, State> {
       onSelect({ path });
       handleError(e);
     }
-  }
+  };
 
-  async handleH5PClose(event: MessageEvent) {
-    const { onClose } = this.props;
+  const handleH5PClose = async (event: MessageEvent) => {
     if (event.data.messageType !== 'closeEdlibModal') {
       return;
     }
     onClose();
-  }
-
-  render() {
-    const { url, fetchFailed } = this.state;
-    const { t } = this.props;
-    return (
-      <FlexWrapper data-cy="h5p-editor">
-        {fetchFailed && (
-          <ErrorMessage
-            illustration={{
-              url: '/Oops.gif',
-              altText: t('errorMessage.title'),
-            }}
-            messages={{
-              title: t('errorMessage.title'),
-              description: t('h5pElement.fetchError'),
-              back: t('errorMessage.back'),
-              goToFrontPage: t('errorMessage.goToFrontPage'),
-            }}
-          />
-        )}
-        {url && <StyledIFrame src={url} title="H5P" frameBorder="0" />}
-      </FlexWrapper>
-    );
-  }
-
-  static propTypes = {
-    h5pUrl: PropTypes.string,
-    onSelect: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
-    canReturnResources: PropTypes.bool,
   };
-}
+
+  return (
+    <FlexWrapper data-cy="h5p-editor">
+      {fetchFailed && (
+        <ErrorMessage
+          illustration={{
+            url: '/Oops.gif',
+            altText: t('errorMessage.title'),
+          }}
+          messages={{
+            title: t('errorMessage.title'),
+            description: t('h5pElement.fetchError'),
+            back: t('errorMessage.back'),
+            goToFrontPage: t('errorMessage.goToFrontPage'),
+          }}
+        />
+      )}
+      {url && <StyledIFrame src={url} title="H5P" frameBorder="0" />}
+    </FlexWrapper>
+  );
+};
+
+H5PElement.propTypes = {
+  h5pUrl: PropTypes.string,
+  onSelect: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
+  canReturnResources: PropTypes.bool,
+  setH5pFetchFail: PropTypes.func,
+};
 
 export default injectT(H5PElement);

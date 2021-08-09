@@ -20,9 +20,12 @@ import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { HowToHelper } from '../../../../components/HowTo';
 import StructureFunctionButtons from './StructureFunctionButtons';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
-import { SubjectType, ResourceWithTopicConnection } from '../../../../interfaces';
 import { PathArray } from '../../../../util/retriveBreadCrumbs';
 import { TopicShape, StructureShape } from '../../../../shapes';
+import {
+  ResourceWithTopicConnection,
+  SubjectType,
+} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   structure: SubjectType[];

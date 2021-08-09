@@ -16,6 +16,9 @@ export const RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES = 'urn:resourcetype:exter
 export const RESOURCE_TYPE_SOURCE_MATERIAL = 'urn:resourcetype:SourceMaterial';
 export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept'; // Not yet added to @ndla/ui
 
+export const ITUNES_STANDARD_MINIMUM_WIDTH = 1400;
+export const ITUNES_STANDARD_MAXIMUM_WIDTH = 3000;
+
 export const REMEMBER_FAVOURITE_SUBJECTS = 'rememberFavouriteSubjects';
 // Relevances
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
@@ -83,6 +86,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     url: ['liste.ndla.no', 'liste.test.ndla.no', 'liste.staging.ndla.no'],
     height: '398px',
   },
+  { name: 'ebok', url: ['ebok.no'] },
 ];
 
 export const SearchTypeValues = [

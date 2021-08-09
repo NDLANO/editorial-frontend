@@ -15,7 +15,6 @@ import Tooltip from '@ndla/tooltip';
 
 import { Editor } from 'slate';
 import { IngressField, TitleField } from '../../FormikForm';
-import LastUpdatedLineConcept from '../../../components/LastUpdatedLineConcept';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { StyledHelpMessage } from '../../../components/FormikField/FormikFieldHelp';
@@ -23,6 +22,7 @@ import VisualElementField from '../../FormikForm/components/VisualElementField';
 import { submitFormWithMessage } from '../conceptUtil';
 
 import { ConceptFormValues } from '../conceptInterfaces';
+import LastUpdatedLine from '../../../components/LastUpdatedLine/LastUpdatedLine';
 
 const ByLine = styled.div`
   display: flex;
@@ -42,7 +42,7 @@ const ConceptContent = ({ t }: tType) => {
   const [showWarning, setShowWarning] = useState(false);
   const formikContext = useFormikContext<ConceptFormValues>();
   const {
-    values: { creators, created },
+    values: { creators, updated },
     handleBlur,
     submitForm,
     isValid,
@@ -61,7 +61,7 @@ const ConceptContent = ({ t }: tType) => {
         }}
       />
       <ByLine>
-        <LastUpdatedLineConcept creators={creators} published={created} />
+        <LastUpdatedLine creators={creators} published={updated} />
         <IconContainer>
           <Tooltip tooltip={t('form.markdown.button')}>
             <ToggleButton active={preview} onClick={() => setPreview(!preview)}>

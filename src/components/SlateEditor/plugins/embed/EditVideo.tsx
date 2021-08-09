@@ -98,10 +98,9 @@ const EditVideo = ({
   };
 
   const saveDisabled =
-    ((embed.resource === 'brightcove' && embed.caption === '') ||
-      embed.url === addYoutubeTimeStamps(src, startTime, stopTime) ||
-      embed.url === addBrightCovetimeStampSrc(src, startTime)) &&
-    embed.caption === caption;
+    (addBrightCovetimeStampSrc(src, startTime) === src ||
+      addYoutubeTimeStamps(src, startTime, stopTime) === src) &&
+    caption === embed.caption;
 
   return (
     <Fragment>

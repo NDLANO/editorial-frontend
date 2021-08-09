@@ -35,16 +35,7 @@ interface Props extends Omit<SlateEditorProps, 'onChange'> {
 }
 
 const PlainTextEditor: React.FC<Props> = props => {
-  const {
-    onChange,
-    value,
-    handleSubmit,
-    id,
-    className,
-    placeholder,
-    plugins,
-    ...rest
-  } = props;
+  const { onChange, value, handleSubmit, id, className, placeholder, plugins, ...rest } = props;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 

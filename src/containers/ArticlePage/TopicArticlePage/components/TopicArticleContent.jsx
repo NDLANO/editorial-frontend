@@ -92,7 +92,6 @@ const TopicArticleContent = props => {
     t,
     userAccess,
     values: { id, language, creators, published },
-    handleBlur,
     handleSubmit,
   } = props;
   const [preview, setPreview] = useState(false);
@@ -159,12 +158,6 @@ const TopicArticleContent = props => {
               }}
               language={language}
               actionsToShowInAreas={actionsToShowInAreas}
-              onBlur={(event, editor) => {
-                // this is a hack since formik onBlur-handler interferes with slates
-                // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                // formik handleBlur needs to be called for validation to work (and touched to be set)
-                setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
-              }}
             />
           </Fragment>
         )}

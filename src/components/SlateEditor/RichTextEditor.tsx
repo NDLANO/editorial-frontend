@@ -8,7 +8,7 @@
 
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import React, { useEffect, useMemo, useRef, FocusEvent } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { createEditor, Descendant, Editor, NodeEntry } from 'slate';
 import {
   Slate,
@@ -61,7 +61,6 @@ interface SlateEditorProps {
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
   handleSubmit: () => void;
   onChange: Function;
-  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
   children: any;
 }
 
@@ -69,7 +68,6 @@ const RichTextEditor = ({
   children,
   className,
   id,
-  onBlur,
   placeholder,
   plugins,
   value,
@@ -159,7 +157,6 @@ const RichTextEditor = ({
             />
             <Editable
               decorate={entry => decorations(entry)}
-              onBlur={(event: FocusEvent<HTMLDivElement>) => onBlur(event, editor)}
               // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
               onKeyDown={editor.onKeyDown}
               placeholder={placeholder}

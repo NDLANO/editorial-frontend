@@ -126,7 +126,6 @@ const LearningResourceContent = ({
   t,
   userAccess,
   values: { id, language, creators, published },
-  handleBlur,
   handleSubmit,
   locale,
 }) => {
@@ -188,13 +187,6 @@ const LearningResourceContent = ({
               onChange={onChange}
               language={articleLanguage}
               actionsToShowInAreas={actionsToShowInAreas}
-              onBlur={(event, editor) => {
-                // TODO: Can possibly be removed
-                // this is a hack since formik onBlur-handler interferes with slates
-                // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                // formik handleBlur needs to be called for validation to work (and touched to be set)
-                setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
-              }}
               handleSubmit={handleSubmit}
             />
             <LearningResourceFootnotes footnotes={findFootnotes(value)} />

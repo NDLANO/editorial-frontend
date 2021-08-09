@@ -20,7 +20,7 @@ import FormikField, { classes as formikFieldClasses } from '../../../../componen
 import RichBlockTextEditor from '../../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes from './LearningResourceFootnotes';
 import { schema } from '../../../../components/SlateEditor/editorSchema';
-import LastUpdatedLine from '../../../../components/LastUpdatedLine';
+import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
 import {
   renderBlock,
   renderMark,
@@ -175,6 +175,7 @@ class LearningResourceContent extends Component {
                 name={field.name}
                 creators={creators}
                 published={published}
+                allowEdit={true}
                 onChange={date => {
                   form.setFieldValue(field.name, date);
                 }}

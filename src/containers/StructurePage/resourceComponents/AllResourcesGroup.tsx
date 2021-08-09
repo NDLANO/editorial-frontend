@@ -14,8 +14,8 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-
-import { Resource } from '../../../interfaces';
+import { ButtonAppearance } from '../../../components/Accordion/types';
+import { Resource } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -84,7 +84,7 @@ const AllResourcesGroup = ({
           </AddTopicResourceButton>
         }
         handleToggle={toggleDisplayResource}
-        appearance="resourceGroup"
+        appearance={ButtonAppearance.RESOURCEGROUP}
         header={t('taxonomy.resources')}
         hidden={!displayResource}>
         <ResourceItems
@@ -101,6 +101,7 @@ const AllResourcesGroup = ({
           topicId={topicId}
           refreshResources={refreshResources}
           onClose={() => setShowAddModal(false)}
+          existingResourceIds={topicResources.flatMap(r => r.resources.map(x => x.id))}
         />
       )}
     </React.Fragment>

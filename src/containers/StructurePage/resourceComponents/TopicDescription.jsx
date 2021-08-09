@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
+
+import { updateRelevanceId } from '../../../util/taxonomyHelpers';
 import Accordion from '../../../components/Accordion';
+import { ButtonAppearance } from '../../../components/Accordion/types';
+import { MetadataShape } from '../../../shapes';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
-import { MetadataShape } from '../../../shapes';
 
 class TopicDescription extends Component {
   constructor(props) {
@@ -45,7 +48,7 @@ class TopicDescription extends Component {
     return (
       <div ref={resourceRef}>
         <Accordion
-          appearance="resourceGroup"
+          appearance={ButtonAppearance.RESOURCEGROUP}
           header={t('searchForm.articleType.topicArticle')}
           hidden={!displayTopicDescription}
           handleToggle={this.toggleDisplayTopicDescription}>
@@ -59,7 +62,7 @@ class TopicDescription extends Component {
               metadata={currentTopic.metadata}
               connectionId={currentTopic.connectionId}
               relevanceId={currentTopic.relevanceId}
-              updateRelevanceId={() => {}}
+              updateRelevanceId={updateRelevanceId}
               refreshResources={refreshTopics}
               primary={currentTopic.isPrimary}
               rank={currentTopic.rank}

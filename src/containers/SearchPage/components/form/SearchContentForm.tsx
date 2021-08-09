@@ -22,7 +22,8 @@ import { fetchAuth0Editors } from '../../../../modules/auth0/auth0Api';
 import { searchFormClasses, SearchParams } from './SearchForm';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { DRAFT_WRITE_SCOPE } from '../../../../constants';
-import { SubjectType } from '../../../../interfaces';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { FlattenedResourceType } from '../../../../interfaces';
 
 const emptySearchState: SearchState = {
   query: '',
@@ -52,13 +53,6 @@ export interface SearchState extends Record<string, string | boolean | undefined
   lang: string;
 }
 
-export interface ResourceType {
-  id: string;
-  name: string;
-  typeId: string;
-  typeName: string;
-}
-
 export interface User {
   id: string;
   name: string;
@@ -66,7 +60,7 @@ export interface User {
 
 interface State {
   dropDown: {
-    resourceTypes: ResourceType[];
+    resourceTypes: FlattenedResourceType[];
     users: User[];
   };
   search: SearchState;
@@ -175,7 +169,7 @@ class SearchContentForm extends Component<Props & tType, State> {
 
   async getUsers() {
     const editors = await fetchAuth0Editors(DRAFT_WRITE_SCOPE);
-    return editors.map((u: { app_metadata: { ndla_id: string }; name: string }) => {
+    return editors.map(u => {
       return { id: `"${u.app_metadata.ndla_id}"`, name: u.name };
     });
   }

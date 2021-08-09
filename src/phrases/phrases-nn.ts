@@ -6,8 +6,6 @@
  *
  */
 
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
-
 const titleTemplate = '- Produksjonsystem - NDLA';
 
 const phrases = {
@@ -418,7 +416,9 @@ const phrases = {
       series: 'Serie',
     },
     information: {
-      partOfSeries: 'Denne podkasten er en del av serien',
+      partOfSeries: 'Denne podkasten er ein del av serien',
+      removeSeries: 'Fjern serie',
+      noSeries: 'Podkasten tilhøyrer ingen serie',
     },
   },
   imageEditor: {
@@ -672,7 +672,7 @@ const phrases = {
       addConcept: 'Legg til eksisterande forklaring',
       removeConcept: 'Ta bort forklaring',
       source: 'Kjelde',
-      subjects: `Berre fag med metadatafelt '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' vil visast i lista.`,
+      subjects: 'Berre fag markert som forklaringsfag vil visast i lista.',
     },
     workflow: {
       title: 'Status',
@@ -990,6 +990,13 @@ const phrases = {
       missingTitle: '[Mangler filnamn]',
       missingFileTooltip:
         'Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.',
+      missingFilename: 'Filtypen støttes ikke',
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp file(r)',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp file(r)',
+        noFilesAdded: 'Ingen filer er lagt til',
+      },
       showPdf: 'Vis ekspandert',
       showPdfTooltip: 'Vis ekspandert PDF i artikkel',
     },
@@ -1134,6 +1141,7 @@ const phrases = {
         'Vil du fjerne ressursen frå denne mappa? Dette vil ikkje påverke plasseringa andre steder',
       copyError:
         'Det oppstod ein feil ved kopiering av ressursar. Dobbeltsjekk dei kopierte ressursane og prøv å fikse manglar manuelt, eller slett dei kopierte ressursane og prøv å kopiere på nytt',
+      addResourceConflict: 'Ressursen du forsøkte å legge til finnes allerede på emnet.',
     },
     removeLink: 'Fjern lenke',
     resourceTypes: {
@@ -1168,6 +1176,7 @@ const phrases = {
         alterFields: 'Legg til/endra metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
+        explanationSubject: 'Forklaringsfag',
         resourceGroupPlaceholder: 'Gruppering av ressursar',
         RGTooltip: 'Vis ressursar Gruppert eller Ugruppert',
       },

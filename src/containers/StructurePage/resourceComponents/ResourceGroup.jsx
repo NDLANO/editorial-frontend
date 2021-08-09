@@ -17,6 +17,7 @@ import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
 
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
+import { ButtonAppearance } from '../../../components/Accordion/types';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -68,7 +69,7 @@ class ResourceGroup extends PureComponent {
             </AddTopicResourceButton>
           }
           handleToggle={this.handleToggle}
-          appearance="resourceGroup"
+          appearance={ButtonAppearance.RESOURCEGROUP}
           header={resourceType.name}
           hidden={topicResource.resources ? this.state.displayResource : true}>
           {topicResource.resources && (
@@ -87,6 +88,7 @@ class ResourceGroup extends PureComponent {
             topicId={topicId}
             refreshResources={refreshResources}
             onClose={this.toggleAddModal}
+            existingResourceIds={topicResource?.resources?.map(r => r.id) ?? []}
           />
         )}
       </React.Fragment>

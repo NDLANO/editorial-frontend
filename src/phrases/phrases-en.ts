@@ -6,8 +6,6 @@
  *
  */
 
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
-
 const titleTemplate = '- Production system - NDLA';
 
 const phrases = {
@@ -401,6 +399,8 @@ const phrases = {
     },
     information: {
       partOfSeries: 'This podcast is a part of the series',
+      removeSeries: 'Remove Series',
+      noSeries: 'This podcast is not a part of any series',
     },
   },
   imageEditor: {
@@ -650,7 +650,7 @@ const phrases = {
       addConcept: 'Add existing concept',
       removeConcept: 'Remove concept',
       source: 'Source',
-      subjects: `Ony subjects with metadata field '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' will be displayed in the list.`,
+      subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
     },
     workflow: {
       title: 'Status',
@@ -972,6 +972,13 @@ const phrases = {
       missingTitle: '[Missing filename]',
       missingFileTooltip:
         'This file does not seem to exist on the server. It might have been deleted from another article.',
+      missingFilename: 'File type is not supported',
+      dragdrop: {
+        main: 'Drag and drop',
+        sub: 'or click to upload file(s)',
+        ariaLabel: 'Drag and drop or click to upload file(s)',
+        noFilesAdded: 'No files are added',
+      },
       showPdf: 'Show expanded',
       showPdfTooltip: 'Show expanded PDF in article',
     },
@@ -1118,6 +1125,7 @@ const phrases = {
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
       copyError:
         'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
+      addResourceConflict: 'The resource you attempted to add already exists on the topic.',
     },
     resourceTypes: {
       title: 'Content type',
@@ -1148,6 +1156,7 @@ const phrases = {
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
+        explanationSubject: 'Explanation Subject',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
       },

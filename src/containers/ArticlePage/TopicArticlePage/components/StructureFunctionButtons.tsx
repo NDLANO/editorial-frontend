@@ -14,7 +14,7 @@ import { css } from '@emotion/core';
 import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
-import { ResourceWithTopicConnection } from '../../../../interfaces';
+import { ResourceWithTopicConnection } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   isSubject?: boolean;

@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import { ReactEditor } from 'slate-react';
 import { injectT, tType } from '@ndla/i18n';
 import { connect, FormikContextType } from 'formik';
 import BEMHelper from 'react-bem-helper';
@@ -41,10 +40,6 @@ const AudioManuscript = ({ t, formik }: Props & tType) => {
           handleSubmit={submitForm}
           plugins={plugins}
           onBlur={(event, editor) => {
-            // Forcing slate field to be deselected before selecting new field.
-            // Fixes a problem where slate field is not properly focused on click.
-            ReactEditor.deselect(editor);
-
             // TODO: Can possibly be removed
             // this is a hack since formik onBlur-handler interferes with slates
             // related to: https://github.com/ianstormtaylor/slate/issues/2434

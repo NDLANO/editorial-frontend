@@ -7,7 +7,6 @@
  */
 
 import React, { Fragment, useState } from 'react';
-import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
@@ -144,10 +143,6 @@ const LearningResourceContent = ({
       <TitleField
         handleSubmit={handleSubmit}
         onBlur={(event, editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-
           // TODO: Can possibly be removed
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
@@ -182,10 +177,6 @@ const LearningResourceContent = ({
         preview={preview}
         handleSubmit={handleSubmit}
         onBlur={(event, editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-
           // TODO: Can possibly be removed
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434

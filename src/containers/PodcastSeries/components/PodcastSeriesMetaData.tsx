@@ -8,7 +8,6 @@
 
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { ReactEditor } from 'slate-react';
 
 import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
@@ -29,10 +28,6 @@ const PodcastSeriesMetadata = ({ t }: Props & tType) => {
         name="title"
         handleSubmit={submitForm}
         onBlur={(event, editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-
           // TODO: Can possibly be removed
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
@@ -49,10 +44,6 @@ const PodcastSeriesMetadata = ({ t }: Props & tType) => {
             handleSubmit={() => {}}
             {...field}
             onBlur={(event, editor) => {
-              // Forcing slate field to be deselected before selecting new field.
-              // Fixes a problem where slate field is not properly focused on click.
-              ReactEditor.deselect(editor);
-
               // TODO: Can possibly be removed
               // this is a hack since formik onBlur-handler interferes with slates
               // related to: https://github.com/ianstormtaylor/slate/issues/2434

@@ -13,7 +13,6 @@ import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
-import { ReactEditor } from 'slate-react';
 import { Editor } from 'slate';
 import { IngressField, TitleField } from '../../FormikForm';
 import ToggleButton from '../../../components/ToggleButton';
@@ -54,10 +53,6 @@ const ConceptContent = ({ t }: tType) => {
       <TitleField
         handleSubmit={submitForm}
         onBlur={(event: Event, editor: Editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-
           // TODO: Can possibly be removed
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
@@ -86,10 +81,6 @@ const ConceptContent = ({ t }: tType) => {
         concept
         handleSubmit={() => submitFormWithMessage(formikContext, () => setShowWarning(true))}
         onBlur={(event: Event, editor: Editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-
           // TODO: Can possibly be removed
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434

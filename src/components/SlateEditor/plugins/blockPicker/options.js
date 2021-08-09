@@ -1,6 +1,12 @@
+import { TYPE_QUOTE } from '../blockquote';
+import { TYPE_HEADING } from '../heading';
+import { TYPE_LIST } from '../list';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
+import { TYPE_TABLE } from '../table/utils';
+
 const defaultOptions = {
-  allowedPickAreas: ['paragraph', 'heading'],
-  illegalAreas: ['quote', 'table'],
+  allowedPickAreas: [TYPE_PARAGRAPH, TYPE_HEADING],
+  illegalAreas: [TYPE_QUOTE, TYPE_TABLE, TYPE_LIST],
 };
 
 const options = opts => ({

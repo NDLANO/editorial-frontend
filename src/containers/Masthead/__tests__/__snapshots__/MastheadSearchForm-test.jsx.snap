@@ -33,7 +33,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
   width: 400px;
 }
 
-.emotion-2>button {
+.emotion-2 > button {
   color: #777777;
 }
 
@@ -48,8 +48,6 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 .emotion-2:focus-within .c-icon {
   color: #20588f;
 }
-
-
 
 .emotion-2:hover:not(:focus-within),
 .emotion-2:focus:not(:focus-within) {
@@ -199,7 +197,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
   width: 400px;
 }
 
-.emotion-2>button {
+.emotion-2 > button {
   color: #777777;
 }
 
@@ -214,8 +212,6 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 .emotion-2:focus-within .c-icon {
   color: #20588f;
 }
-
-
 
 .emotion-2:hover:not(:focus-within),
 .emotion-2:focus:not(:focus-within) {
@@ -365,7 +361,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
   width: 400px;
 }
 
-.emotion-2>button {
+.emotion-2 > button {
   color: #777777;
 }
 
@@ -380,8 +376,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 .emotion-2:focus-within .c-icon {
   color: #20588f;
 }
-
-
 
 .emotion-2:hover:not(:focus-within),
 .emotion-2:focus:not(:focus-within) {
@@ -531,7 +525,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
   width: 400px;
 }
 
-.emotion-2>button {
+.emotion-2 > button {
   color: #777777;
 }
 
@@ -546,8 +540,6 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 .emotion-2:focus-within .c-icon {
   color: #20588f;
 }
-
-
 
 .emotion-2:hover:not(:focus-within),
 .emotion-2:focus:not(:focus-within) {
@@ -697,7 +689,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
   width: 400px;
 }
 
-.emotion-2>button {
+.emotion-2 > button {
   color: #777777;
 }
 
@@ -712,8 +704,6 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 .emotion-2:focus-within .c-icon {
   color: #20588f;
 }
-
-
 
 .emotion-2:hover:not(:focus-within),
 .emotion-2:focus:not(:focus-within) {

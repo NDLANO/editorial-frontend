@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EditorErrorMessage renders 1`] = `
-.emotion-3 {
+.emotion-2 {
   position: relative;
   border: 1px solid #d1372e;
   color: #d1372e;
   padding: 1rem;
 }
 
-.emotion-1 {
+.emotion-0 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -38,49 +38,46 @@ exports[`EditorErrorMessage renders 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  color: #d1372e;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  color: #d1372e;
 }
 
-.emotion-1:hover,
-.emotion-1:focus {
+.emotion-0:hover,
+.emotion-0:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-1[disabled] {
+.emotion-0[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-1:focus {
+.emotion-0:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-1:hover,
-.emotion-1:active,
-.emotion-1:disabled,
-.emotion-1:focus {
+.emotion-0:hover,
+.emotion-0:active,
+.emotion-0:disabled,
+.emotion-0:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-1:focus {
+.emotion-0:focus {
   outline-width: medium;
-}
-
-.emotion-0 {
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
 }
 
 .emotion-0:hover,
@@ -94,10 +91,10 @@ exports[`EditorErrorMessage renders 1`] = `
 }
 
 <div
-  className="emotion-3 emotion-4"
+  className="emotion-2 emotion-3"
 >
   <button
-    className="emotion-0 emotion-1 emotion-2"
+    className="emotion-0 emotion-1"
     data-cy="close-related-button"
     disabled={false}
     onClick={[Function]}

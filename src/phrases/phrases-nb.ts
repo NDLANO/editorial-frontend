@@ -1057,6 +1057,8 @@ const phrases = {
     noEmptyNote: 'En merknad kan ikke være tom',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',
+    podcastImageShape: 'Metabilde må være like høyt som det er bredt.',
+    podcastImageSize: 'Metabilde må være mellom 1400 og 3000 piksler bredt.',
   },
   errorMessage: {
     title: 'Oops, noe gikk galt',

@@ -15,7 +15,11 @@ import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
 import { fetchLicenses } from '../modules/draft/draftApi';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
-import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
+import {
+  ImageApiType,
+  ImageSearchQuery,
+  UpdatedImageMetadata,
+} from '../modules/image/imageApiInterfaces';
 import { ImageType, License } from '../interfaces';
 import EditorErrorMessage from './SlateEditor/EditorErrorMessage';
 
@@ -24,15 +28,15 @@ const StyledTitleDiv = styled.div`
 `;
 
 interface Props {
-  onImageSelect: () => void;
+  onImageSelect: (image: ImageType) => void;
   locale: string;
   isSavingImage?: boolean;
   closeModal: () => void;
-  onError: () => void;
+  onError: (err: Error & Response) => void;
   searchImages: (queryObject: ImageSearchQuery) => void;
-  fetchImage: () => void;
-  image: ImageType;
-  updateImage: () => void;
+  fetchImage: (id: number) => Promise<ImageApiType>;
+  image?: ImageType;
+  updateImage: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
 }
 
 const ImageSearchAndUploader = ({

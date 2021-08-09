@@ -14,7 +14,7 @@ import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
-import { EditorShape } from '../../../../shapes';
+import { EditorShape, AttributesShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -95,9 +95,7 @@ class SlateFactAside extends React.Component {
 }
 
 SlateFactAside.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
+  attributes: AttributesShape,
   onRemoveClick: PropTypes.func.isRequired,
   onMoveContent: PropTypes.func.isRequired,
   editor: EditorShape.isRequired,

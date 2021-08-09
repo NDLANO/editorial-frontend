@@ -21,7 +21,7 @@ import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallb
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { queryResources } from '../../../../modules/taxonomy';
 import { getLocale } from '../../../../modules/locale/locale';
-import { EditorShape } from '../../../../shapes';
+import { EditorShape, AttributesShape } from '../../../../shapes';
 import EditRelated from './EditRelated';
 import handleError from '../../../../util/handleError';
 import RelatedArticle from './RelatedArticle';
@@ -217,9 +217,7 @@ export class RelatedArticleBox extends React.Component {
 }
 
 RelatedArticleBox.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
+  attributes: AttributesShape,
   editor: EditorShape.isRequired,
   element: PropTypes.any,
   locale: PropTypes.string.isRequired,

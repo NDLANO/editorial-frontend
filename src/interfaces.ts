@@ -5,7 +5,7 @@
  */
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-import { Editor, Node } from 'slate';
+import { Editor } from 'slate';
 import { Store } from 'redux';
 
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
@@ -356,17 +356,6 @@ export interface NdlaFilmThemesEditType {
       language: string;
     },
   ];
-}
-
-export interface SlateFigureProps {
-  attributes?: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
-  editor: SlateEditor;
-  isSelected: boolean;
-  language: string;
-  node: Node;
 }
 
 export interface SlateEditor extends Editor {

@@ -242,7 +242,7 @@ const SlateBlockPicker = (props: Props & tType) => {
       <Portal isOpened={visualElementSelect.isOpen}>
         <SlateVisualElementPicker
           articleLanguage={articleLanguage}
-          resource={visualElementSelect.visualElementType}
+          resource={visualElementSelect.visualElementType || ''}
           onVisualElementClose={onVisualElementClose}
           onInsertBlock={onInsertBlock}
         />

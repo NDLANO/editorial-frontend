@@ -117,10 +117,10 @@ class EditRelated extends React.PureComponent {
     }));
   }
 
-  async searchForArticles(query) {
+  async searchForArticles(query, page) {
     return search({
-      query: query.query,
-      page: query.page,
+      query: query,
+      page: page,
       'context-types': 'standard, topic-article',
     });
   }

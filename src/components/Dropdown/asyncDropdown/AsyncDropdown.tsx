@@ -18,7 +18,7 @@ import { itemToString } from '../../../util/downShiftHelpers';
 
 interface Props<SearchResult, ApiType> {
   onChange: (value: ApiType) => Promise<void> | void;
-  apiAction: (query: string) => Promise<SearchResultBase<SearchResult>>;
+  apiAction: (query: string, page?: number) => Promise<SearchResultBase<SearchResult>>;
   placeholder?: string;
   labelField?: string;
   idField?: string;
@@ -102,9 +102,9 @@ export const AsyncDropdown = <
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSearch = useCallback(
-    async (query = '', page: number) => {
+    async (query: string = '', page: number) => {
       setLoading(true);
-      const apiOutput = await apiAction(showPagination ? { query: query, page: page } : query);
+      const apiOutput = await apiAction(query, showPagination ? page : undefined);
       const items = (Array.isArray(apiOutput) ? apiOutput : apiOutput.results) || [];
       setTotalCount(apiOutput.totalCount ?? 1);
       setItems(

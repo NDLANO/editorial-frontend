@@ -16,7 +16,12 @@ import { Figure } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
-import { getYoutubeEmbedUrl, getStartTime, getStopTime } from '../../../../util/videoUtil';
+import {
+  getYoutubeEmbedUrl,
+  getStartTime,
+  getStopTime,
+  getBrightCoveStartTime,
+} from '../../../../util/videoUtil';
 import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
 import { ExternalEmbed, BrightcoveEmbed } from '../../../../interfaces';
 
@@ -70,6 +75,7 @@ const SlateVideo = ({
           `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
         );
       }
+      setStartTime(getBrightCoveStartTime(videoid));
     } else if (embed.resource === 'external') {
       const { url } = embed;
       const tempUrl = url.includes('embed') ? url : getYoutubeEmbedUrl(url);

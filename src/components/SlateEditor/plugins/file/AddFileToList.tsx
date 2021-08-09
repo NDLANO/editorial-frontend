@@ -11,12 +11,12 @@ import { injectT, tType } from '@ndla/i18n';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Portal } from '../../../Portal';
 import FileUploader from '../../../FileUploader';
-import { File } from '../../../../interfaces';
+import { UnsavedFile } from '../../../../interfaces';
 
 interface Props {
   showFileUploader: boolean;
   onClose: () => void;
-  onFileSave: (files: File[]) => void;
+  onFileSave: (files: UnsavedFile[]) => void;
 }
 
 const AddFileToList = ({ showFileUploader, onClose, onFileSave, t }: Props & tType) =>
@@ -34,7 +34,7 @@ const AddFileToList = ({ showFileUploader, onClose, onFileSave, t }: Props & tTy
               <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
             </ModalHeader>
             <ModalBody>
-              <FileUploader onClose={onClose} onFileSave={onFileSave} />
+              <FileUploader onFileSave={onFileSave} />
             </ModalBody>
           </>
         )}

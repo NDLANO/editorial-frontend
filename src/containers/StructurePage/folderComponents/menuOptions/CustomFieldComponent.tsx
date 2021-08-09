@@ -13,7 +13,7 @@ import { spacing } from '@ndla/core';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemSaveButton from './MenuItemSaveButton';
 import { StyledMenuItemInputField, StyledMenuItemEditField } from '../styles';
-import { TaxonomyMetadata } from '../../../../interfaces';
+import { TaxonomyMetadata } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   onSubmit: (prevState: any) => void;

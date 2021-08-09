@@ -13,10 +13,11 @@ import { Link } from 'react-router-dom';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
 import { toEditSubjectpage, toCreateSubjectpage } from '../../../../util/routeHelpers';
-import { SubjectType, TranslateType } from '../../../../interfaces';
-import * as taxonomyApi from '../../../../modules/taxonomy/taxonomyApi';
+import { TranslateType } from '../../../../interfaces';
+import { fetchSubject as apiFetchSubject } from '../../../../modules/taxonomy/subjects';
 import { getIdFromUrn } from '../../../../util/subjectHelpers';
 import '../../../../style/link.css';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   t: TranslateType;
@@ -29,7 +30,7 @@ const EditSubjectpageOption = ({ t, id, locale }: Props) => {
 
   useEffect(() => {
     const fetchSubject = async () => {
-      const fetchedSubject = await taxonomyApi.fetchSubject(id);
+      const fetchedSubject = await apiFetchSubject(id);
       setSubject(fetchedSubject);
     };
     fetchSubject();

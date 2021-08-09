@@ -17,10 +17,9 @@ import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
 import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
-import { uuid } from '@ndla/util';
 import { spacing } from '@ndla/core';
 import config from '../../../../config';
-import { File } from '../../../../interfaces';
+import { File, UnsavedFile } from '../../../../interfaces';
 import { headFileAtRemote } from '../../../../modules/draft/draftApi';
 import { arrMove } from '../../../../util/arrayHelpers';
 import AddFileToList from './AddFileToList';
@@ -33,8 +32,7 @@ const StyledSection = styled.section`
   }
 `;
 
-const formatFile = (file: File, id: string, t: tType['t']) => ({
-  id,
+const formatFile = (file: File, t: tType['t']): File => ({
   ...file,
   formats: [
     { url: file.url, fileType: file.type, tooltip: `${t(`form.file.download`)} ${file.title}` },
@@ -83,7 +81,7 @@ class FileList extends React.Component<Props & tType, State> {
     super(props);
     this.checkForRemoteFiles.bind(this);
     const { element, t } = this.props;
-    const files = element.data.map((file, id) => formatFile(file, `${id}`, t));
+    const files = element.data.map(file => formatFile(file, t));
     this.state = { files, missingFilePaths: [], showFileUploader: false };
     this.checkForRemoteFiles(files);
   }
@@ -155,20 +153,13 @@ class FileList extends React.Component<Props & tType, State> {
     }
   };
 
-  onAddFileToList = (files: File[]) => {
+  onAddFileToList = (files: UnsavedFile[]) => {
     const { t } = this.props;
     this.setState({
       showFileUploader: false,
     });
     const newFiles = files.map(file => {
-      if (file.formats) {
-        return file;
-      }
-      return formatFile(
-        { ...file, url: config.ndlaApiUrl + file.path, resource: 'file' },
-        uuid(),
-        t,
-      );
+      return formatFile({ ...file, url: config.ndlaApiUrl + file.path, resource: 'file' }, t);
     });
     this.setState(
       prevState => ({

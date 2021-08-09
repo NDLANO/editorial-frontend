@@ -98,6 +98,8 @@ export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => (
   introduction: plainTextToEditorValue(audio.podcastMeta?.introduction || ''),
   coverPhotoId: audio.podcastMeta?.coverPhoto.id,
   metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
+  series: audio.series ?? null,
+  seriesId: audio.series?.id,
 });
 
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
@@ -182,6 +184,7 @@ const PodcastForm = ({
         coverPhotoId: values.coverPhotoId,
         coverPhotoAltText: values.metaImageAlt,
       },
+      seriesId: values.series?.id,
     };
 
     await onUpdate(podcastMetaData, values.audioFile.newFile?.file);
@@ -245,11 +248,9 @@ const PodcastForm = ({
                     field => field in errors,
                   )}>
                   <PodcastMetaData handleSubmit={submitForm} />
-                  <PodcastSeriesInformation
-                    podcastSeries={audio.series}
-                    language={audio.language}
-                  />
+                  <PodcastSeriesInformation />
                 </AccordionSection>
+
                 <AccordionSection
                   id="podcast-upload-metadata"
                   title={t('form.metadataSection')}

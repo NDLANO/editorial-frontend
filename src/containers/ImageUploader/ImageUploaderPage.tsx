@@ -14,14 +14,15 @@ import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT, tType } from '@ndla/i18n';
 import { RouteComponentProps } from 'react-router';
+import loadable from '@loadable/component';
 import { getSaving } from '../../modules/image/image';
 import { getShowSaved } from '../Messages/messagesSelectors';
-import EditImage from './EditImage';
-import CreateImage from './CreateImage';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { RoutePropTypes } from '../../shapes';
 import { ReduxState } from '../../interfaces';
 import { usePreviousLocation } from '../../util/routeHelpers';
+const EditImage = loadable(() => import('./EditImage'));
+const CreateImage = loadable(() => import('./CreateImage'));
+const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 interface MatchParams {
   imageId?: string;

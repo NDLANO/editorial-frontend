@@ -6,7 +6,7 @@
  *
  */
 
-import { Author } from '../../interfaces';
+import { ArticleType, Author, AvailabilityType } from '../../interfaces';
 
 export interface ArticleSearchResult {
   totalCount: number;
@@ -45,6 +45,20 @@ export interface ArticleSearchSummaryApiType {
   lastUpdated: string;
   supportedLanguages: string[];
   grepCodes: string[];
+}
+
+export interface ArticleConverterApiType extends ArticleType {
+  availability: AvailabilityType;
+  metaData: {
+    images: {
+      title: string;
+      altText: string;
+      copyright: Copyright;
+      src: string;
+      copyText: string;
+    }[];
+    copyText: string;
+  };
 }
 
 export interface ArticleApiType {

@@ -79,6 +79,8 @@ const TableActions = ({ editor, t, element }: Props & tType) => {
     Range.isRange(editor.selection) &&
     Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&
     ReactEditor.isFocused(editor);
+  console.log(show)
+  console.log(ReactEditor.isFocused(editor))
   return (
     <StyledTableActions show={show} contentEditable={false}>
       {supportedTableOperations.map(operation => (

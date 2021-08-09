@@ -12,6 +12,7 @@ import { injectT } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import ResourceGroup from './ResourceGroup';
+import AllResourcesGroup from './AllResourcesGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
 import { fetchAllResourceTypes, fetchTopicResources, fetchTopic } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
@@ -19,11 +20,12 @@ import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
+
 import { StructureShape } from '../../../shapes';
 import GroupTopicResources from '../folderComponents/GroupTopicResources';
 
 const StyledDiv = styled('div')`
-  width: calc(${spacing.large} * 4.5);
+  width: calc(${spacing.large} * 5);
   margin-left: auto;
   margin-right: calc(${spacing.nsmall});
 `;
@@ -113,7 +115,6 @@ export class StructureResources extends React.PureComponent {
       locale,
       currentTopic,
     } = this.props;
-    const { resourceTypes } = this.state;
     if (topicId) {
       try {
         this.setState({ loading: true });
@@ -138,11 +139,7 @@ export class StructureResources extends React.PureComponent {
         }
         await this.getResourceStatuses(allTopicResources);
 
-        const topicResources = groupSortResourceTypesFromTopicResources(
-          resourceTypes,
-          allTopicResources,
-        );
-        this.setState({ topicResources, loading: false });
+        this.setState({ topicResources: allTopicResources, loading: false });
       } catch (error) {
         handleError(error);
         this.setState({ loading: false });
@@ -161,7 +158,12 @@ export class StructureResources extends React.PureComponent {
           resource.status = article.status;
           return article;
         } else if (resourceType === 'learningpath') {
-          const learningpath = await fetchLearningpath(id, this.props.locale, true);
+          let learningpath;
+          try {
+            learningpath = await fetchLearningpath(id, this.props.locale);
+          } catch (e) {
+            learningpath = {};
+          } // TODO: Could be improved. Appliccable to entire file.
           resource.status = { current: learningpath.status };
           return learningpath;
         }
@@ -209,12 +211,20 @@ export class StructureResources extends React.PureComponent {
       currentTopic,
       resourceRef,
       currentSubject,
+      structure,
       saveSubjectTopicItems,
+      grouped,
     } = this.props;
     const { topicDescription, resourceTypes, topicResources, topicStatus, loading } = this.state;
     if (loading) {
       return <Spinner />;
     }
+
+    const groupedTopicResources = groupSortResourceTypesFromTopicResources(
+      resourceTypes,
+      topicResources,
+    );
+
     return (
       <Fragment>
         {currentTopic.id && (
@@ -236,22 +246,36 @@ export class StructureResources extends React.PureComponent {
           currentTopic={currentTopic}
           status={topicStatus}
         />
-        {resourceTypes.map(resourceType => {
-          const topicResource =
-            topicResources.find(resource => resource.id === resourceType.id) || {};
-          return (
-            <ResourceGroup
-              key={resourceType.id}
-              resource={resourceType}
-              topicResource={topicResource}
-              params={this.props.params}
-              refreshResources={this.getTopicResources}
-              locale={locale}
-              currentSubject={currentSubject}
-              disable={resourceType.disabled}
-            />
-          );
-        })}
+        {grouped === 'ungrouped' && (
+          <AllResourcesGroup
+            key="ungrouped"
+            params={this.props.params}
+            topicResources={topicResources}
+            refreshResources={this.getTopicResources}
+            locale={locale}
+            currentTopic={currentTopic}
+            currentSubject={currentSubject}
+            structure={structure}
+            resourceTypes={resourceTypes}
+          />
+        )}
+        {grouped === 'grouped' &&
+          resourceTypes.map(resourceType => {
+            const topicResource =
+              groupedTopicResources.find(resource => resource.id === resourceType.id) || {};
+            return (
+              <ResourceGroup
+                key={resourceType.id}
+                resourceType={resourceType}
+                topicResource={topicResource}
+                params={this.props.params}
+                refreshResources={this.getTopicResources}
+                locale={locale}
+                currentSubject={currentSubject}
+                disable={resourceType.disabled}
+              />
+            );
+          })}
       </Fragment>
     );
   }
@@ -279,6 +303,7 @@ StructureResources.propTypes = {
   resourcesUpdated: PropTypes.bool,
   setResourcesUpdated: PropTypes.func,
   saveSubjectTopicItems: PropTypes.func,
+  grouped: PropTypes.string,
 };
 
 export default injectT(StructureResources);

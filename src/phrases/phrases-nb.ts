@@ -6,8 +6,6 @@
  *
  */
 
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
-
 const titleTemplate = '- Produksjonsystem - NDLA';
 
 const phrases = {
@@ -418,6 +416,8 @@ const phrases = {
     },
     information: {
       partOfSeries: 'Denne podkasten er en del av serien',
+      removeSeries: 'Fjern serie',
+      noSeries: 'Podkasten tilhører ingen serie',
     },
   },
   imageEditor: {
@@ -576,7 +576,7 @@ const phrases = {
       addConcept: 'Legg til eksisterende forklaring',
       removeConcept: 'Ta bort forklaring',
       source: 'Kilde',
-      subjects: `Bare fag med metadatafelt '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' vil vises i lista.`,
+      subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
     },
     abort: 'Avbryt',
     edit: 'Rediger',
@@ -983,6 +983,7 @@ const phrases = {
       missingTitle: '[Mangler filnavn]',
       missingFileTooltip:
         'Ser ikke ut til å eksistere på serveren. Den kan ha blitt slettet fra en annen artikkel.',
+      missingFilename: 'Filtypen støttes ikke',
       dragdrop: {
         main: 'Dra og slipp',
         sub: 'eller trykk for å laste opp file(r)',
@@ -1095,6 +1096,7 @@ const phrases = {
     newSubject: 'Nytt fag',
     existingTopic: 'Eksisterende emne',
     newTopic: 'Nytt emne',
+    resources: 'Ressurser',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     changeName: 'Endre navn',
@@ -1132,6 +1134,7 @@ const phrases = {
         'Vil du fjerne ressursen fra denne mappen? Dette vil ikke påvirke plasseringen andre steder',
       copyError:
         'Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressursene og prøv å fikse mangler manuelt, eller slett de kopierte ressursene og prøv å kopiere på nytt',
+      addResourceConflict: 'Ressursen du forsøkte å legge til finnes allerede på emnet.',
     },
     removeLink: 'Fjern link',
     resourceTypes: {
@@ -1168,7 +1171,8 @@ const phrases = {
         alterFields: 'Legg til/endre metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
-        resourceGroupPlaceholder: 'Grupperte ressurser',
+        explanationSubject: 'Forklaringsfag',
+        resourceGroupPlaceholder: 'Gruppering av ressurser',
         RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
       },
     },

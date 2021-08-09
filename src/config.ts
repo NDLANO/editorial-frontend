@@ -6,13 +6,19 @@
  *
  */
 
-export const getEnvironmentVariabel = (key: string, fallback?: string): string | undefined => {
+export function getEnvironmentVariabel(key: string, fallback: string): string;
+export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
+export function getEnvironmentVariabel(key: string, fallback?: string): string | undefined;
+export function getEnvironmentVariabel(
+  key: string,
+  fallback?: string | boolean,
+): string | boolean | undefined {
   const env = 'env';
   const variabel = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
   return variabel || fallback;
-};
+}
 
-const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test') as string;
+const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'test');
 
 export const getNdlaApiUrl = (env: string): string => {
   switch (env) {
@@ -103,6 +109,17 @@ export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
 };
 
+const usernamePasswordEnabled = () => {
+  switch (ndlaEnvironment) {
+    case 'test':
+    case 'local':
+    case 'dev':
+      return true;
+    default:
+      return false;
+  }
+};
+
 export type ConfigType = {
   brightCoveAccountId: string | undefined;
   checkArticleScript: boolean;
@@ -133,6 +150,7 @@ export type ConfigType = {
   zendeskWidgetKey: string | undefined;
   brightcovePlayerId: string | undefined;
   disableCSP: string | undefined;
+  usernamePasswordEnabled: boolean;
 };
 
 const config: ConfigType = {
@@ -146,11 +164,14 @@ const config: ConfigType = {
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
-  ndlaFrontendDomain: ndlaFrontendDomain(),
-  editorialFrontendDomain: editorialFrontendDomain(),
-  learningpathFrontendDomain: learningpathFrontendDomain(),
+  ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),
+  editorialFrontendDomain: getEnvironmentVariabel('EDITORIAL_DOMAIN', editorialFrontendDomain()),
+  learningpathFrontendDomain: getEnvironmentVariabel(
+    'LEARNINGPATH_DOMAIN',
+    learningpathFrontendDomain(),
+  ),
   ndlaPersonalClientId: getEnvironmentVariabel('NDLA_PERSONAL_CLIENT_ID', ''),
-  auth0Domain: getAuth0Hostname(),
+  auth0Domain: getEnvironmentVariabel('AUTH0_DOMAIN', getAuth0Hostname()),
   brightCoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
   brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
   brightcoveApiUrl: 'https://cms.api.brightcove.com',
@@ -161,10 +182,14 @@ const config: ConfigType = {
   localConverter: getEnvironmentVariabel('LOCAL_CONVERTER', 'false') === 'true',
   checkArticleScript: getEnvironmentVariabel('CHECK_ARTICLE_SCRIPT', 'false') === 'true',
   googleTagManagerId: getEnvironmentVariabel('NDLA_GOOGLE_TAG_MANAGER_ID'),
-  gaTrackingId: gaTrackingId(),
+  gaTrackingId: getEnvironmentVariabel('GA_TRACKING_ID', gaTrackingId()),
   npkToken: getEnvironmentVariabel('NPK_TOKEN'),
   zendeskWidgetKey: getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_KEY'),
   disableCSP: getEnvironmentVariabel('DISABLE_CSP', 'false'),
+  usernamePasswordEnabled: getEnvironmentVariabel(
+    'USERNAME_PASSWORD_ENABLED',
+    usernamePasswordEnabled(),
+  ),
 };
 
 export function getUniversalConfig(): ConfigType {

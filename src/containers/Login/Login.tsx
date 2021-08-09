@@ -5,21 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Fragment, useContext } from 'react';
+import { Switch, Route, RouteComponentProps } from 'react-router-dom';
+//@ts-ignore
 import { OneColumn } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import loadable from '@loadable/component';
 import LoginProviders from './LoginProviders';
-import { LocationShape, HistoryShape } from '../../shapes';
 import Footer from '../App/components/Footer';
+import { AuthenticatedContext } from '../App/App';
 const LoginFailure = loadable(() => import('./LoginFailure'));
 const LoginSuccess = loadable(() => import('./LoginSuccess'));
 
-export const Login = ({ t, match, authenticated, location, history }) => {
+interface Props extends RouteComponentProps {}
+
+export const Login = ({ t, match, location, history }: Props & tType) => {
+  const authenticated = useContext(AuthenticatedContext);
   if (authenticated && location.hash === '' && match.url === '/login') {
     history.push('/');
     return null;
@@ -42,17 +44,4 @@ export const Login = ({ t, match, authenticated, location, history }) => {
   );
 };
 
-Login.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }).isRequired,
-  authenticated: PropTypes.bool.isRequired,
-  location: LocationShape,
-  history: HistoryShape,
-};
-
-const mapStateToProps = state => ({
-  authenticated: state.session.authenticated,
-});
-
-export default connect(mapStateToProps)(injectT(Login));
+export default injectT(Login);

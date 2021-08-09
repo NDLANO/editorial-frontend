@@ -34,6 +34,7 @@ import {
 } from '../../../modules/learningpath/learningpathApiInterfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { GroupSearchResult, GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
+import AlertModal from '../../../components/AlertModal';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -63,6 +64,7 @@ interface Props {
   allowPaste?: boolean;
   topicId: string;
   refreshResources: () => void;
+  existingResourceIds: string[];
 }
 
 interface ContentType {
@@ -89,6 +91,7 @@ const AddResourceModal = ({
   allowPaste,
   topicId,
   refreshResources,
+  existingResourceIds,
   t,
 }: Props & tType) => {
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
@@ -253,6 +256,13 @@ const AddResourceModal = ({
           return;
         }
 
+        if (existingResourceIds.includes(resourceId)) {
+          setError(t('taxonomy.resource.addResourceConflict'));
+          setLoading(false);
+          setNoSelection();
+          return;
+        }
+
         await createTopicResource({
           resourceId,
           topicid: topicId,
@@ -264,7 +274,7 @@ const AddResourceModal = ({
       } catch (e) {
         handleError(e);
         setLoading(false);
-        setError(e.message);
+        setError(e.messages);
       }
     }
   };
@@ -314,7 +324,6 @@ const AddResourceModal = ({
             placeholder={t('taxonomy.urlPlaceholder')}
           />
         )}
-        {error && <span className="c-errorMessage">{error}</span>}
 
         {!pastedUrl && selectedType && (
           <React.Fragment>
@@ -330,6 +339,16 @@ const AddResourceModal = ({
           </React.Fragment>
         )}
         {selected?.id && content?.id && <ArticlePreview article={content} />}
+        {error && (
+          <AlertModal
+            show={!!error}
+            text={error}
+            onCancel={() => {
+              setError(null);
+            }}
+            severity={'danger'}
+          />
+        )}
       </StyledContent>
     </TaxonomyLightbox>
   );

@@ -71,7 +71,7 @@ export const Message = injectT(({ message, dispatch, t }: MessageProps & tType) 
       text={
         message.translationKey
           ? t(message.translationKey, message.translationObject)
-          : message.message
+          : message.message!
       }
       actions={getActions(message, dispatch, t)}
       onCancel={() => dispatch(clearMessage(message.id))}

@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { uuid } from '@ndla/util';
 import styled from '@emotion/styled';
@@ -26,8 +25,18 @@ const StyledFooter = styled('div')`
   margin-top: ${spacing.small};
 `;
 
-const AlertModalFooter = ({ component, actions }) =>
-  component || (
+interface Props {
+  component?: React.ReactElement[] | React.ReactElement;
+  actions?: {
+    text: string;
+    onClick: Function;
+  }[];
+}
+
+const AlertModalFooter = ({ component, actions = [] }: Props) =>
+  component ? (
+    <>{component}</>
+  ) : (
     <StyledFooter>
       {actions.map(action => {
         const { text, ...rest } = action;
@@ -39,19 +48,5 @@ const AlertModalFooter = ({ component, actions }) =>
       })}
     </StyledFooter>
   );
-
-AlertModalFooter.propTypes = {
-  component: PropTypes.node,
-  actions: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string,
-      onClick: PropTypes.func,
-    }),
-  ),
-};
-
-AlertModalFooter.defaultProps = {
-  actions: [],
-};
 
 export default AlertModalFooter;

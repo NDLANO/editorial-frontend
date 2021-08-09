@@ -15,7 +15,9 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
+
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
+import { ButtonAppearance } from '../../../components/Accordion/types';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -44,7 +46,7 @@ class ResourceGroup extends PureComponent {
 
   render() {
     const {
-      resource,
+      resourceType,
       topicResource,
       t,
       params,
@@ -53,6 +55,7 @@ class ResourceGroup extends PureComponent {
       currentSubject,
     } = this.props;
     const topicId = params.subtopics?.split('/')?.pop() || params.topic;
+
     return (
       <React.Fragment>
         <Accordion
@@ -60,19 +63,18 @@ class ResourceGroup extends PureComponent {
             <AddTopicResourceButton
               stripped
               onClick={this.toggleAddModal}
-              disabled={resource.disabled}>
+              disabled={resourceType.disabled}>
               <Plus />
               {t('taxonomy.addResource')}
             </AddTopicResourceButton>
           }
           handleToggle={this.handleToggle}
-          appearance="resourceGroup"
-          header={resource.name}
+          appearance={ButtonAppearance.RESOURCEGROUP}
+          header={resourceType.name}
           hidden={topicResource.resources ? this.state.displayResource : true}>
           {topicResource.resources && (
             <ResourceItems
               resources={topicResource.resources}
-              contentType={topicResource.contentType}
               refreshResources={refreshResources}
               locale={locale}
               currentSubject={currentSubject}
@@ -81,11 +83,12 @@ class ResourceGroup extends PureComponent {
         </Accordion>
         {this.state.showAddModal && (
           <AddResourceModal
-            type={resource.id}
-            allowPaste={resource.id !== RESOURCE_TYPE_LEARNING_PATH}
+            type={resourceType.id}
+            allowPaste={resourceType.id !== RESOURCE_TYPE_LEARNING_PATH}
             topicId={topicId}
             refreshResources={refreshResources}
             onClose={this.toggleAddModal}
+            existingResourceIds={topicResource.resources.map(r => r.id)}
           />
         )}
       </React.Fragment>
@@ -98,7 +101,7 @@ ResourceGroup.propTypes = {
     resources: PropTypes.array,
     contentType: PropTypes.string,
   }),
-  resource: PropTypes.shape({
+  resourceType: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
     disabled: PropTypes.bool,
@@ -109,6 +112,7 @@ ResourceGroup.propTypes = {
   }),
   refreshResources: PropTypes.func,
   locale: PropTypes.string,
+  currentTopic: PropTypes.shape({}),
   currentSubject: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

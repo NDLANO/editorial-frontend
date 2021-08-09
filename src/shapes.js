@@ -285,8 +285,8 @@ export const HistoryShape = PropTypes.shape({
 });
 
 export const MetadataShape = PropTypes.shape({
-  grepCodes: PropTypes.arrayOf(PropTypes.string),
-  visible: PropTypes.bool,
+  grepCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  visible: PropTypes.bool.isRequired,
 });
 
 export const TopicConnectionShape = PropTypes.shape({
@@ -299,10 +299,11 @@ export const TopicConnectionShape = PropTypes.shape({
 
 export const TopicShape = PropTypes.shape({
   connectionId: PropTypes.string,
-  contentUri: PropTypes.string,
-  id: PropTypes.string,
-  name: PropTypes.string,
-  path: PropTypes.string,
+  contentUri: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  paths: PropTypes.arrayOf(PropTypes.string).isRequired,
   primary: PropTypes.bool,
   topicConnections: PropTypes.arrayOf(TopicConnectionShape),
 });

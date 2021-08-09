@@ -72,7 +72,7 @@ export const searchBrightcoveVideos = query =>
 
 export async function fetchVideoSources(videoId, accountId) {
   const url = `https://cms.api.brightcove.com/v1/accounts/${accountId}/videos/${videoId}/sources`;
-  const response = await fetchWithBrightCoveToken(url, {});
+  const response = await fetchWithBrightCoveToken(url);
   return resolveJsonOrRejectWithError(response);
 }
 

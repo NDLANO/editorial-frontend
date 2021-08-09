@@ -11,11 +11,12 @@ import { RouteComponentProps, Route, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT, tType } from '@ndla/i18n';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import loadable from '@loadable/component';
 import { fetchLicenses } from '../../modules/draft/draftApi';
 import { License } from '../../interfaces';
-import CreatePodcast from './CreatePodcast';
-import EditPodcast from './EditPodcast';
+const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
+const CreatePodcast = loadable(() => import('./CreatePodcast'));
+const EditPodcast = loadable(() => import('./EditPodcast'));
 
 interface Props {
   match: RouteComponentProps['match'];

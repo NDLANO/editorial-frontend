@@ -100,6 +100,7 @@ class EditImage extends Component<Props> {
       isNewlyCreated,
       ...rest
     } = this.props;
+
     return (
       <LocaleContext.Consumer>
         {locale => (

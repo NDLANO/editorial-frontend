@@ -7,14 +7,13 @@
  */
 
 import { Descendant } from 'slate';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { Author, ArticleType } from '../../interfaces';
 import {
-  SubjectType,
-  Author,
-  StrippedConceptType,
   ConceptType,
-  ArticleType,
   FormValues,
-} from '../../interfaces';
+  StrippedConceptType,
+} from '../../modules/concept/conceptApiInterfaces';
 
 export interface ConceptFormType extends ConceptType {
   articles: ArticleType[];

@@ -11,10 +11,11 @@ import { RouteComponentProps, Route, Switch, RouteProps } from 'react-router-dom
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { injectT, tType } from '@ndla/i18n';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import CreatePodcastSeries from './CreatePodcastSeries';
-import EditPodcastSeries from './EditPodcastSeries';
+import loadable from '@loadable/component';
 import { usePreviousLocation } from '../../util/routeHelpers';
+const CreatePodcastSeries = loadable(() => import('./CreatePodcastSeries'));
+const EditPodcastSeries = loadable(() => import('./EditPodcastSeries'));
+const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 interface MatchParams {
   seriesId: string;

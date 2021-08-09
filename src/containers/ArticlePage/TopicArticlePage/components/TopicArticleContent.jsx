@@ -19,7 +19,7 @@ import { Eye } from '@ndla/icons/editor';
 import { headingPlugin } from '../../../../components/SlateEditor/plugins/heading';
 import { noEmbedPlugin } from '../../../../components/SlateEditor/plugins/noEmbed';
 import VisualElementField from '../../../FormikForm/components/VisualElementField';
-import LastUpdatedLine from './../../../../components/LastUpdatedLine';
+import LastUpdatedLine from './../../../../components/LastUpdatedLine/LastUpdatedLine';
 import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 
@@ -130,6 +130,7 @@ const TopicArticleContent = props => {
               name={field.name}
               creators={creators}
               published={published}
+              allowEdit={true}
               onChange={date => {
                 form.setFieldValue(field.name, date);
               }}

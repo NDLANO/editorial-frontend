@@ -8,15 +8,16 @@
 
 import { FormikContextType } from 'formik';
 import isEmpty from 'lodash/fp/isEmpty';
-import { PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
-import { SubjectType, License, ConceptType } from '../../interfaces';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
   embedTagToEditorValue,
   editorValueToEmbedTag,
 } from '../../util/articleContentConverter';
+import { ConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { License } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 export const transformApiConceptToFormValues = (
   concept: ConceptFormType,
@@ -79,7 +80,7 @@ export const getPatchApiConcept = (
         id: values.metaImageId,
         alt: values.metaImageAlt,
       }
-    : undefined,
+    : null,
   source: values.source,
   subjectIds: values.subjects.map(subject => subject.id),
   tags: values.tags,
@@ -111,6 +112,7 @@ export const getConcept = (
     subjectIds: values.subjects.map(subject => subject.id),
     articleIds: values.articles.map(a => a.id),
     visualElement: editorValueToEmbedTag(values.visualElement),
+
     updatedBy,
   };
 };

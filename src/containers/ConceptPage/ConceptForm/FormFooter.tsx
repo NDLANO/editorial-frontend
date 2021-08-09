@@ -15,8 +15,8 @@ import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { AlertModalWrapper, formClasses, ActionButton } from '../../FormikForm';
-import { ConceptType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
+import { ConceptType } from '../../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   entityStatus: { current: string };

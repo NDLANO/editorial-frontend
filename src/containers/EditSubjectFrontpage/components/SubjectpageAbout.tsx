@@ -5,20 +5,18 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FocusEvent } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps } from 'formik';
-import { Editor } from 'slate';
 import FormikField from '../../../components/FormikField';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
 interface Props {
   handleSubmit: () => void;
-  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
-const SubjectpageAbout = ({ t, handleSubmit, onBlur }: Props & tType) => {
+const SubjectpageAbout = ({ t, handleSubmit }: Props & tType) => {
   return (
     <>
       <FormikField name="title" noBorder title placeholder={t('form.name.title')} />
@@ -34,7 +32,6 @@ const SubjectpageAbout = ({ t, handleSubmit, onBlur }: Props & tType) => {
             {...field}
             placeholder={t('subjectpageForm.description')}
             handleSubmit={handleSubmit}
-            onBlur={onBlur}
           />
         )}
       </FormikField>

@@ -8,7 +8,7 @@
  */
 
 import React, { useMemo, FocusEvent } from 'react';
-import { createEditor, Descendant, Editor } from 'slate';
+import { createEditor, Descendant } from 'slate';
 import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { SlatePlugin } from './interfaces';
@@ -32,7 +32,6 @@ interface SlateEditorProps {
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
   handleSubmit: () => void;
   onChange: Function;
-  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
 const PlainTextEditor: React.FC<Props> = props => {
@@ -43,7 +42,6 @@ const PlainTextEditor: React.FC<Props> = props => {
     id,
     className,
     placeholder,
-    onBlur,
     plugins,
     ...rest
   } = props;
@@ -65,7 +63,6 @@ const PlainTextEditor: React.FC<Props> = props => {
       }}>
       <Editable
         onBlur={(event: FocusEvent<HTMLDivElement>) => {
-          onBlur(event, editor);
           // Forcing slate field to be deselected before selecting new field.
           // Fixes a problem where slate field is not properly focused on click.
           ReactEditor.deselect(editor);

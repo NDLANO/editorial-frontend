@@ -140,16 +140,7 @@ const LearningResourceContent = ({
 
   return (
     <Fragment>
-      <TitleField
-        handleSubmit={handleSubmit}
-        onBlur={(event, editor) => {
-          // TODO: Can possibly be removed
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'slateTitle' } }), 0);
-        }}
-      />
+      <TitleField handleSubmit={handleSubmit} />
       <FormikField name="published" css={byLineStyle}>
         {({ field, form }) => (
           <>
@@ -173,17 +164,7 @@ const LearningResourceContent = ({
           </>
         )}
       </FormikField>
-      <IngressField
-        preview={preview}
-        handleSubmit={handleSubmit}
-        onBlur={(event, editor) => {
-          // TODO: Can possibly be removed
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
-        }}
-      />
+      <IngressField preview={preview} handleSubmit={handleSubmit} />
       <FormikField
         name="content"
         label={t('form.content.label')}

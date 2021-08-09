@@ -4,11 +4,10 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import React, { FocusEvent } from 'react';
+import React from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { injectT, tType } from '@ndla/i18n';
 import { FormikErrors } from 'formik';
-import { Editor } from 'slate';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
@@ -21,7 +20,6 @@ interface Props {
   elementId: string;
   errors: FormikErrors<SubjectFormValues>;
   handleSubmit: () => void;
-  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
 const SubjectpageAccordionPanels = ({
@@ -30,7 +28,6 @@ const SubjectpageAccordionPanels = ({
   elementId,
   errors,
   handleSubmit,
-  onBlur,
 }: Props & tType) => {
   return (
     <Accordions>
@@ -40,14 +37,14 @@ const SubjectpageAccordionPanels = ({
         className="u-4/6@desktop u-push-1/6@desktop"
         hasError={['title', 'description', 'visualElement'].some(field => field in errors)}
         startOpen>
-        <SubjectpageAbout handleSubmit={handleSubmit} onBlur={onBlur} />
+        <SubjectpageAbout handleSubmit={handleSubmit} />
       </AccordionSection>
       <AccordionSection
         id="metadata"
         title={t('subjectpageForm.metadata')}
         className="u-6/6"
         hasError={['metaDescription', 'mobileBannerId'].some(field => field in errors)}>
-        <SubjectpageMetadata handleSubmit={handleSubmit} onBlur={onBlur} />
+        <SubjectpageMetadata handleSubmit={handleSubmit} />
       </AccordionSection>
       <AccordionSection
         id="articles"

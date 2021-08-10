@@ -26,11 +26,19 @@ const StyledContent = styled.div`
 interface Props {
   onAddLink: (title: string, url: string) => void;
   onClose: () => void;
+  initialTitle?: string;
+  initialUrl?: string;
 }
 
-const ContentLink = ({ t, onAddLink, onClose }: Props & tType) => {
-  const [title, setTitle] = useState('');
-  const [url, setUrl] = useState('');
+const ContentLink = ({
+  t,
+  onAddLink,
+  onClose,
+  initialTitle = '',
+  initialUrl = '',
+}: Props & tType) => {
+  const [title, setTitle] = useState(initialTitle);
+  const [url, setUrl] = useState(initialUrl);
   const [showError, setShowError] = useState(false);
 
   const isEmpty = (title: string) => {
@@ -38,8 +46,7 @@ const ContentLink = ({ t, onAddLink, onClose }: Props & tType) => {
   };
 
   const isUrl = (field: string) => {
-    var pattern = /^((http:|https:)\/\/)/;
-
+    const pattern = /^((http:|https:)\/\/)/;
     return pattern.test(field);
   };
 

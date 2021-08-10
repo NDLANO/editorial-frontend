@@ -10,6 +10,7 @@ import {
   KEY_TAB,
 } from '.';
 import { defaultParagraphBlock } from '../paragraph/utils';
+import { getTableAsMatrix } from './matrix';
 
 export const TYPE_TABLE = 'table';
 export const TYPE_TABLE_ROW = 'table-row';
@@ -61,7 +62,7 @@ export const defaultTableRowBlock = (width: number) => {
 export const getTableWidth = (element: TableElement) => {
   const firstRow = element.children[0];
   if (Element.isElement(firstRow) && firstRow.type === TYPE_TABLE_ROW) {
-    return firstRow.children.length;
+    return countCells(firstRow);
   }
   return null;
 };
@@ -108,6 +109,8 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
   });
   const columnPath = columnEntry && columnEntry[1];
   const targetColumn = columnPath[columnPath.length - 1] + 1;
+
+  getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
 
   Editor.withoutNormalizing(editor, () => {
     tableElement.children.forEach((row, index) => {

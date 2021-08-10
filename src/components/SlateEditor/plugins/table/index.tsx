@@ -19,7 +19,6 @@ import {
 } from '../../../../util/embedTagHelpers';
 import SlateTable from './SlateTable';
 import {
-  countCells,
   defaultTableCellBlock,
   defaultTableRowBlock,
   handleTableKeydown,
@@ -30,6 +29,7 @@ import {
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
+import { normalizeTableAsMatrix } from './matrix';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -172,7 +172,7 @@ export const tablePlugin = (editor: Editor) => {
         }
 
         // Make sure all cells in first row are flagged as headers
-        firstRow.children.forEach((child, index) => {
+        for (const [index, child] of firstRow.children.entries()) {
           if (Element.isElement(child) && child.type === TYPE_TABLE_CELL && !child.data.isHeader) {
             return HistoryEditor.withoutSaving(editor, () => {
               Transforms.setNodes(
@@ -187,25 +187,58 @@ export const tablePlugin = (editor: Editor) => {
               );
             });
           }
-        });
+        }
 
-        const rows = tableNodes as TableRowElement[];
+        if (normalizeTableAsMatrix(editor, node, path)) {
+          return;
+        }
 
-        const maxCols = Math.max(...rows.map(e => countCells(e)));
+        //const rows = tableNodes as TableRowElement[];
+        // const maxCols = Math.max(...rows.map(e => countCells(e)));
+        // const rowsMissingCols = rows.filter(row => countCells(row) < maxCols);
+        // const missingCells = new Map();
+        // if (rowsMissingCols) {
+        //   rowsMissingCols.forEach(row => {
+        //     let cellCount = row.children
+        //       .map(child => Element.isElement(child) && child.type === TYPE_TABLE_CELL && child.data.colspan ? parseInt(child.data.colspan) : 1)
+        //       .reduce((a, b) => a + b);
+        //     for (let i = rows.indexOf(row) - 1; i > 0; i--) {
+        //       const rowSpan = rows[i]
+        //         .children.map(child => Element.isElement(child) && child.type === TYPE_TABLE_CELL && child.data.colspan ? parseInt(child.data.colspan) : 1)
+        //         .filter(val => val > rows.indexOf(row) - 1);
+        //       cellCount += rowSpan.size;
+        //     }
+        //     if (cellCount < maxCols) {
+        //       missingCells.set(ReactEditor.findKey(editor, row), maxCols - cellCount);
+        //     }
+        //   });
+        // }
+        // if (missingCells.size > 0) {
+        //   return () =>
+        //     HistoryEditor.withoutSaving(editor,() =>
+        //       rowsMissingCols.forEach(row =>
+        //         Array.from({ length: missingCells.get(ReactEditor.findKey(editor, row)) })
+        //           .map(() =>
+        //             defaultTableCellBlock()
+        //           )
+        //           .forEach(cell => editor.insertNodeByKey(row.key, row.nodes.size, cell)),
+        //       ),
+        //     );
+        // }}
 
-        // Insert cells if row is missing some
-        rows.forEach((row, index) => {
-          const colCount = countCells(row);
-          if (colCount < maxCols) {
-            return Transforms.insertNodes(
-              editor,
-              [...Array(maxCols - colCount)].map(() => {
-                return defaultTableCellBlock();
-              }),
-              { at: [...path, index, row.children.length] },
-            );
-          }
-        });
+        // // Insert cells if row is missing some
+        // rows.forEach((row, index) => {
+        //   const colCount = countCells(row);
+        //   if (colCount < maxCols) {
+        //     return Transforms.insertNodes(
+        //       editor,
+        //       [...Array(maxCols - colCount)].map(() => {
+        //         return defaultTableCellBlock();
+        //       }),
+        //       { at: [...path, index, row.children.length] },
+        //     );
+        //   }
+        // });
 
         if (addSurroundingParagraphs(editor, path)) {
           return;

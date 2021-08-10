@@ -68,9 +68,12 @@ const SlateVideo = ({
 
   const [linkedVideoId, setLinkedVideoId] = useState<string | undefined>();
   useEffect(() => {
-    visualElementApi.fetchBrightcoveVideo(embed.videoid).then((v: { link?: { text: string } }) => {
-      setLinkedVideoId(v.link?.text);
-    });
+    const idWithoutTimestamp = embed.videoid.split('&')[0];
+    visualElementApi
+      .fetchBrightcoveVideo(idWithoutTimestamp)
+      .then((v: { link?: { text: string } }) => {
+        setLinkedVideoId(v.link?.text);
+      });
   }, [embed.videoid]);
 
   useEffect(() => {
@@ -82,7 +85,6 @@ const SlateVideo = ({
         setSrc(
           `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
         );
-        setStartTime(getBrightCoveStartTime(videoid));
       }
       setStartTime(getBrightCoveStartTime(videoid));
     } else {

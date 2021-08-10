@@ -45,7 +45,7 @@ class VisualElementSearch extends Component {
       handleVisualElementChange({
         resource: selectedResource,
         resource_id: uploadedImage.id,
-        size: 'fullbredde',
+        size: 'full',
         align: '',
         alt: uploadedImage.alttext.alttext,
         caption: uploadedImage.caption.caption,
@@ -94,7 +94,7 @@ class VisualElementSearch extends Component {
               handleVisualElementChange({
                 resource: selectedResource,
                 resource_id: image.id,
-                size: 'fullbredde',
+                size: 'full',
                 align: '',
                 alt: convertFieldWithFallback(image, 'alttext', ''),
                 caption: convertFieldWithFallback(image, 'caption', ''),

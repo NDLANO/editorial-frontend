@@ -6,11 +6,22 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { injectT, tType } from '@ndla/i18n';
 import { Input } from '@ndla/forms';
-import Button from '@ndla/button';
+import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
+
+const StyledContent = styled.div`
+  width: 100%;
+
+  > * {
+    width: 100%;
+  }
+
+  & form {
+    background-color: white;
+  }
+`;
 
 interface Props {
   onAddLink: (title: string, url: string) => void;
@@ -42,32 +53,30 @@ const ContentLink = ({ t, onAddLink, onClose }: Props & tType) => {
   };
 
   return (
-    <>
-      <Input
-        warningText={showError && isEmpty(title) && t('form.relatedContent.link.missingTitle')}
-        container="div"
-        type="text"
-        placeholder={t('form.relatedContent.link.titlePlaceholder')}
-        value={title}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
-      />
-      <Input
-        warningText={showError && !isUrl(url) && t('form.relatedContent.link.missingUrl')}
-        container="div"
-        type="text"
-        placeholder={t('form.relatedContent.link.urlPlaceholder')}
-        value={url}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
-      />
-      <StyledButtonWrapper>
-        <Button onClick={handleSubmit}>{t('form.relatedContent.link.addLink')}</Button>
-      </StyledButtonWrapper>
-    </>
+    <TaxonomyLightbox
+      title={t('form.content.relatedArticle.searchExternal')}
+      onSelect={handleSubmit}
+      onClose={onClose}>
+      <StyledContent>
+        <Input
+          warningText={showError && isEmpty(title) && t('form.relatedContent.link.missingTitle')}
+          container="div"
+          type="text"
+          placeholder={t('form.relatedContent.link.titlePlaceholder')}
+          value={title}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+        />
+        <Input
+          warningText={showError && !isUrl(url) && t('form.relatedContent.link.missingUrl')}
+          container="div"
+          type="text"
+          placeholder={t('form.relatedContent.link.urlPlaceholder')}
+          value={url}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
+        />
+      </StyledContent>
+    </TaxonomyLightbox>
   );
 };
-
-const StyledButtonWrapper = styled.div`
-  margin: ${spacing.small} 0;
-`;
 
 export default injectT(ContentLink);

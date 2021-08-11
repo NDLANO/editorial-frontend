@@ -1179,9 +1179,14 @@ const phrases = {
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
         explanationSubject: 'Forklaringsfag',
+        subjectCategory: 'Fagkategori',
         resourceGroupPlaceholder: 'Gruppering av ressursar',
         RGTooltip: 'Vis ressursar Gruppert eller Ugruppert',
       },
+      placeholders: {
+        category: 'Velg kategori',
+        language: 'Velg språkkode',
+      }
     },
   },
   notions: {

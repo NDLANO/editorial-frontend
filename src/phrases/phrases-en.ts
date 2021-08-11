@@ -1158,10 +1158,15 @@ const phrases = {
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
-        explanationSubject: 'Explanation Subject',
+        explanationSubject: 'Explanation subject',
+        subjectCategory: 'Subject category',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
       },
+      placeholders: {
+        category: 'Choose category',
+        language: 'Choose language',
+      }
     },
   },
   notions: {

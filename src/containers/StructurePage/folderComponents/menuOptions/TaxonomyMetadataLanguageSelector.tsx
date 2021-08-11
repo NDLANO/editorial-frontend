@@ -24,9 +24,7 @@ interface Props {
 
 const StyledSelect = styled('select')`
   padding: 0 ${spacing.nsmall} 0 calc(${spacing.nsmall} / 2);
-  width: calc(${spacing.large} * 2);
   margin-left: 0;
-  margin-right: 35%;
 `;
 
 const TaxonomyMetadataLanguageSelector = ({

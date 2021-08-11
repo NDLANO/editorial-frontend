@@ -1182,7 +1182,7 @@ const phrases = {
       placeholders: {
         category: 'Velg kategori',
         language: 'Velg språkkode',
-      }
+      },
     },
   },
   detailBox: {

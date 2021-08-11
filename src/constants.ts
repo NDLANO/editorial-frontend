@@ -55,7 +55,7 @@ export const SUBJECT_CATEGORIES = [
   subjectCategories.SPECIALIZED_SUBJECTS,
   subjectCategories.BETA_SUBJECTS,
   subjectCategories.ARCHIVE_SUBJECTS,
-]
+];
 
 export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'H5P', url: ['h5p'] },

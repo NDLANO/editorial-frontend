@@ -1166,7 +1166,7 @@ const phrases = {
       placeholders: {
         category: 'Choose category',
         language: 'Choose language',
-      }
+      },
     },
   },
   notions: {

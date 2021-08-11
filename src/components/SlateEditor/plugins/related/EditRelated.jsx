@@ -274,7 +274,14 @@ class EditRelated extends React.PureComponent {
                     insertExternal(url, title);
                   }
                 }}
-                onClose={this.toggleAddExternal}
+                onClose={() => {
+                  this.setState({
+                    tempId: undefined,
+                    url: '',
+                    title: '',
+                  });
+                  this.toggleAddExternal();
+                }}
                 initialTitle={this.state.title}
                 initialUrl={this.state.url}
               />

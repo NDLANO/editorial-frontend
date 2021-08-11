@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Can paste a valid url and add it to topic 1`] = `
-.emotion-31 {
+.emotion-33 {
   position: fixed;
   top: 0;
   left: 0;
@@ -32,7 +32,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   animation-name: fadeIn;
 }
 
-.emotion-30 {
+.emotion-32 {
   background-color: #f8f8f8;
   box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
   width: 600px;
@@ -136,7 +136,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   margin-right: 7px;
 }
 
-.emotion-29 {
+.emotion-31 {
   padding: 2em;
   height: 100%;
   display: -webkit-box;
@@ -156,15 +156,15 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   align-items: flex-end;
 }
 
-.emotion-26 {
+.emotion-28 {
   width: 100%;
 }
 
-.emotion-26 > * {
+.emotion-28 > * {
   width: 100%;
 }
 
-.emotion-26 form {
+.emotion-28 form {
   background-color: white;
 }
 
@@ -267,7 +267,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   height: 24px;
 }
 
-.emotion-27 {
+.emotion-29 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -299,47 +299,47 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   font-weight: 400;
 }
 
-.emotion-27:hover,
-.emotion-27:focus {
+.emotion-29:hover,
+.emotion-29:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-27[disabled] {
+.emotion-29[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-27:focus {
+.emotion-29:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-27:hover,
-.emotion-27:active,
-.emotion-27:disabled,
-.emotion-27:focus {
+.emotion-29:hover,
+.emotion-29:active,
+.emotion-29:disabled,
+.emotion-29:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-27:focus {
+.emotion-29:focus {
   outline-width: medium;
 }
 
-.emotion-27,
-.emotion-27:hover {
+.emotion-29,
+.emotion-29:hover {
   border-radius: 5px;
   background-color: white;
   margin-top: 26px;
   padding: 3px 52px;
 }
 
-.emotion-24 {
+.emotion-26 {
   position: fixed;
   top: 0;
   left: 0;
@@ -351,7 +351,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 }
 
 @media (max-width:48em) {
-  .emotion-24 {
+  .emotion-26 {
     top: 64px;
     overflow-y: auto;
     white-space: normal;
@@ -360,12 +360,12 @@ exports[`Can paste a valid url and add it to topic 1`] = `
 }
 
 @media (max-width:29.75em) {
-  .emotion-24 {
+  .emotion-26 {
     top: 43px;
   }
 }
 
-.emotion-22 {
+.emotion-24 {
   overflow-x: auto;
   background-color: white;
   margin: 52px auto 52px;
@@ -380,7 +380,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   color: white;
 }
 
-.emotion-13 {
+.emotion-14 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -410,42 +410,37 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  float: right;
-  height: 44px;
-  width: 44px;
-  margin-top: -5px;
-  margin-right: -20px;
 }
 
-.emotion-13:hover,
-.emotion-13:focus {
+.emotion-14:hover,
+.emotion-14:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-13[disabled] {
+.emotion-14[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-13:focus {
+.emotion-14:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-13:hover,
-.emotion-13:active,
-.emotion-13:disabled,
-.emotion-13:focus {
+.emotion-14:hover,
+.emotion-14:active,
+.emotion-14:disabled,
+.emotion-14:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-13:focus {
+.emotion-14:focus {
   outline-width: medium;
 }
 
@@ -459,7 +454,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   color: white;
 }
 
-.emotion-20 {
+.emotion-21 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -467,7 +462,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   height: 100%;
 }
 
-.emotion-19 {
+.emotion-20 {
   height: 100%;
   padding-top: 26px;
   font-size: 24px;
@@ -484,26 +479,26 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   justify-content: space-between;
 }
 
-.emotion-17 {
+.emotion-18 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-15 {
+.emotion-16 {
   width: 27px;
   height: 27px;
   margin-right: 13px;
 }
 
-.emotion-16 {
+.emotion-17 {
   width: 100%;
   display: inline-block;
   text-align: left;
 }
 
-.emotion-18 {
+.emotion-19 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -519,15 +514,25 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   margin-top: 13px;
 }
 
+
+
+.emotion-13 {
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+}
+
 <div
-  class="emotion-31"
+  class="emotion-33"
 >
   <div
     aria-hidden="true"
     class="emotion-0 emotion-1"
   />
   <div
-    class="emotion-30"
+    class="emotion-32"
   >
     <div
       class="emotion-5"
@@ -564,10 +569,10 @@ exports[`Can paste a valid url and add it to topic 1`] = `
       </button>
     </div>
     <div
-      class="emotion-29"
+      class="emotion-31"
     >
       <div
-        class="emotion-26"
+        class="emotion-28"
       >
         <div
           class="emotion-9 emotion-10"
@@ -613,13 +618,13 @@ exports[`Can paste a valid url and add it to topic 1`] = `
           </div>
         </div>
         <div
-          class="emotion-24 emotion-25"
+          class="emotion-26 emotion-27"
         >
           <div
-            class="emotion-22 emotion-23"
+            class="emotion-23 emotion-24 emotion-25"
           >
             <button
-              class="emotion-13 emotion-4"
+              class="emotion-13 emotion-14 emotion-4"
               data-testid="closeAlert"
               type="button"
             >
@@ -650,16 +655,16 @@ exports[`Can paste a valid url and add it to topic 1`] = `
               </svg>
             </button>
             <div
-              class="emotion-20 emotion-21"
+              class="emotion-21 emotion-22"
             >
               <div
-                class="emotion-19"
+                class="emotion-20"
               >
                 <div
-                  class="emotion-17"
+                  class="emotion-18"
                 >
                   <svg
-                    class="c-icon emotion-15"
+                    class="c-icon emotion-16"
                     data-license="Apache License 2.0"
                     data-source="Material Design"
                     fill="currentColor"
@@ -683,13 +688,13 @@ exports[`Can paste a valid url and add it to topic 1`] = `
                     </g>
                   </svg>
                   <span
-                    class="emotion-16"
+                    class="emotion-17"
                   >
                     Obs! Denne ressursen er en annen type urn:resourcetype:tasksAndActivities
                   </span>
                 </div>
                 <div
-                  class="emotion-18"
+                  class="emotion-19"
                 />
               </div>
             </div>
@@ -697,7 +702,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
         </div>
       </div>
       <button
-        class="emotion-27 emotion-4"
+        class="emotion-29 emotion-4"
         data-testid="taxonomyLightboxButton"
         type="button"
       >

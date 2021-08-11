@@ -13,7 +13,7 @@ import React from 'react';
 import { Concept } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 import Button from '@ndla/button';
-import css from '@emotion/css';
+import { css } from '@emotion/react';
 import { Check } from '@ndla/icons/lib/editor';
 import Tooltip from '@ndla/tooltip';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';

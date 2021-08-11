@@ -155,7 +155,7 @@ const PodcastSeriesForm = ({
       enableReinitialize
       validate={values => {
         const errors = validateFormik(values, podcastRules, t);
-        const metaImageErrors = validateMetaImage(size.current!);
+        const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
         return { ...errors, ...metaImageErrors };
       }}>
       {formikProps => {

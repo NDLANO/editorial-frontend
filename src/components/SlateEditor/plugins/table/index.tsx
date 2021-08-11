@@ -23,7 +23,9 @@ import {
   defaultTableRowBlock,
   handleTableKeydown,
   TYPE_TABLE,
+  TYPE_TABLE_BODY,
   TYPE_TABLE_CELL,
+  TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
 } from './utils';
 import getCurrentBlock from '../../utils/getCurrentBlock';
@@ -39,6 +41,16 @@ const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB];
 
 export interface TableElement {
   type: 'table';
+  children: Descendant[];
+}
+
+export interface TableHeadElement {
+  type: 'table-head';
+  children: Descendant[];
+}
+
+export interface TableBodyElement {
+  type: 'table-body';
   children: Descendant[];
 }
 
@@ -69,14 +81,19 @@ export const TABLE_TAGS: { [key: string]: string } = {
 export const tableSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     const tagName = el.tagName.toLowerCase();
-    if (tagName === 'thead' || tagName === 'tbody') {
-      return children;
-    }
     if (tagName === 'table') {
       return jsx('element', { type: TYPE_TABLE }, children);
     }
     if (tagName === 'tr') {
       return jsx('element', { type: TYPE_TABLE_ROW }, children);
+    }
+
+    if (tagName === 'thead') {
+      return jsx('element', { type: TYPE_TABLE_HEAD }, children);
+    }
+
+    if (tagName === 'tbody') {
+      return jsx('element', { type: TYPE_TABLE_BODY }, children);
     }
 
     const tableTag = TABLE_TAGS[tagName];
@@ -96,16 +113,23 @@ export const tableSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
-    if (node.type !== TYPE_TABLE && node.type !== TYPE_TABLE_ROW && node.type !== TYPE_TABLE_CELL)
+    if (
+      ![TYPE_TABLE, TYPE_TABLE_HEAD, TYPE_TABLE_BODY, TYPE_TABLE_ROW, TYPE_TABLE_CELL].includes(
+        node.type,
+      )
+    )
       return;
 
+    if (node.type === TYPE_TABLE_HEAD) {
+      return <thead>{children}</thead>;
+    }
+
+    if (node.type === TYPE_TABLE_BODY) {
+      return <tbody>{children}</tbody>;
+    }
+
     if (node.type === TYPE_TABLE) {
-      const ret = (
-        <table>
-          <thead>{children.slice(0, 1)}</thead>
-          <tbody>{children.slice(1)}</tbody>
-        </table>
-      );
+      const ret = <table>{children}</table>;
       return ret;
     }
     if (node.type === TYPE_TABLE_ROW) {
@@ -146,6 +170,10 @@ export const tablePlugin = (editor: Editor) => {
             {children}
           </td>
         );
+      case TYPE_TABLE_HEAD:
+        return <thead {...attributes}>{children}</thead>;
+      case TYPE_TABLE_BODY:
+        return <tbody {...attributes}>{children}</tbody>;
       default:
         return renderElement && renderElement({ attributes, children, element });
     }
@@ -154,11 +182,15 @@ export const tablePlugin = (editor: Editor) => {
     const [node, path] = entry;
     if (Element.isElement(node)) {
       if (node.type === TYPE_TABLE) {
-        console.log('NEW RUN');
-        const tableNodes = node.children;
+        if (addSurroundingParagraphs(editor, path)) {
+          return;
+        }
+      }
+      if (node.type === TYPE_TABLE_HEAD || node.type === TYPE_TABLE_BODY) {
+        const bodyNodes = node.children;
 
-        // If table contains non-row element, wrap it with row element
-        for (const [index, child] of tableNodes.entries()) {
+        // If head or body contains non-row element, wrap it with row element
+        for (const [index, child] of bodyNodes.entries()) {
           if (!Element.isElement(child) || child.type !== TYPE_TABLE_ROW) {
             return Transforms.wrapNodes(editor, defaultTableRowBlock(0), {
               at: [...path, index],
@@ -167,34 +199,12 @@ export const tablePlugin = (editor: Editor) => {
         }
 
         // Go to next normalizer if first child is invalid.
-        const firstRow = tableNodes[0];
+        const firstRow = bodyNodes[0];
         if (!Element.isElement(firstRow) || firstRow.type !== TYPE_TABLE_ROW) {
           return normalizeNode(entry);
         }
 
-        // Make sure all cells in first row are flagged as headers
-        for (const [index, child] of firstRow.children.entries()) {
-          if (Element.isElement(child) && child.type === TYPE_TABLE_CELL && !child.data.isHeader) {
-            return HistoryEditor.withoutSaving(editor, () => {
-              Transforms.setNodes(
-                editor,
-                {
-                  data: {
-                    ...child.data,
-                    isHeader: true,
-                  },
-                },
-                { at: [...path, 0, index] },
-              );
-            });
-          }
-        }
-
         if (normalizeTableAsMatrix(editor, node, path)) {
-          return;
-        }
-
-        if (addSurroundingParagraphs(editor, path)) {
           return;
         }
       } else if (node.type === TYPE_TABLE_CELL) {
@@ -210,6 +220,53 @@ export const tablePlugin = (editor: Editor) => {
         for (const [index, child] of node.children.entries()) {
           if (!Element.isElement(child) || child.type !== TYPE_TABLE_CELL) {
             return Transforms.wrapNodes(editor, defaultTableCellBlock(), { at: [...path, index] });
+          }
+        }
+
+        const [parent] = Editor.node(editor, Path.parent(path));
+        if (Element.isElement(parent)) {
+          if (parent.type === TYPE_TABLE_HEAD) {
+            for (const [index, child] of node.children.entries()) {
+              if (
+                Element.isElement(child) &&
+                child.type === TYPE_TABLE_CELL &&
+                !child.data.isHeader
+              ) {
+                return HistoryEditor.withoutSaving(editor, () => {
+                  Transforms.setNodes(
+                    editor,
+                    {
+                      data: {
+                        ...child.data,
+                        isHeader: true,
+                      },
+                    },
+                    { at: [...path, index] },
+                  );
+                });
+              }
+            }
+          } else if (parent.type === TYPE_TABLE_BODY) {
+            for (const [index, child] of node.children.entries()) {
+              if (
+                Element.isElement(child) &&
+                child.type === TYPE_TABLE_CELL &&
+                child.data.isHeader
+              ) {
+                return HistoryEditor.withoutSaving(editor, () => {
+                  Transforms.setNodes(
+                    editor,
+                    {
+                      data: {
+                        ...child.data,
+                        isHeader: false,
+                      },
+                    },
+                    { at: [...path, index] },
+                  );
+                });
+              }
+            }
           }
         }
       }

@@ -1,7 +1,7 @@
 import { compact } from 'lodash';
 import { Editor, Element, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { TableCellElement, TableElement } from '.';
+import { TableBodyElement, TableCellElement, TableHeadElement } from '.';
 import {
   defaultTableCellBlock,
   defaultTableRowBlock,
@@ -162,7 +162,11 @@ const normalizeAfterInsert = (
   }
   return false;
 };
-export const normalizeTableAsMatrix = (editor: Editor, table: TableElement, tablePath: Path) => {
+export const normalizeTableAsMatrix = (
+  editor: Editor,
+  table: TableHeadElement | TableBodyElement,
+  tablePath: Path,
+) => {
   let matrix: TableCellElement[][] = [];
 
   for (const [rowIndex, row] of table.children.entries()) {

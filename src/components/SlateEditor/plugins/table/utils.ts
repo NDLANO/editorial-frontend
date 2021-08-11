@@ -13,6 +13,8 @@ import { defaultParagraphBlock } from '../paragraph/utils';
 import { getTableAsMatrix } from './matrix';
 
 export const TYPE_TABLE = 'table';
+export const TYPE_TABLE_HEAD = 'table-head';
+export const TYPE_TABLE_BODY = 'table-body';
 export const TYPE_TABLE_ROW = 'table-row';
 export const TYPE_TABLE_CELL = 'table-cell';
 
@@ -32,7 +34,8 @@ export const defaultTableBlock = (height: number, width: number) => {
   return jsx(
     'element',
     { type: TYPE_TABLE },
-    [...Array(height)].map(() => defaultTableRowBlock(width)),
+    [...Array(1)].map(() => defaultTableHeadBlock(width)),
+    [...Array(height - 1)].map(() => defaultTableBodyBlock(width)),
   );
 };
 
@@ -56,6 +59,26 @@ export const defaultTableRowBlock = (width: number) => {
       type: TYPE_TABLE_ROW,
     },
     [...Array(width)].map(() => defaultTableCellBlock()),
+  );
+};
+
+export const defaultTableHeadBlock = (width: number) => {
+  return jsx(
+    'element',
+    {
+      type: TYPE_TABLE_HEAD,
+    },
+    [...Array(width)].map(() => defaultTableRowBlock(width)),
+  );
+};
+
+export const defaultTableBodyBlock = (width: number) => {
+  return jsx(
+    'element',
+    {
+      type: TYPE_TABLE_BODY,
+    },
+    [...Array(width)].map(() => defaultTableRowBlock(width)),
   );
 };
 
@@ -110,6 +133,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
   const columnPath = columnEntry && columnEntry[1];
   const targetColumn = columnPath[columnPath.length - 1] + 1;
 
+  // TEMPORARY
   getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
 
   Editor.withoutNormalizing(editor, () => {

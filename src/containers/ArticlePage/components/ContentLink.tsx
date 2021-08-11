@@ -67,6 +67,7 @@ const ContentLink = ({
       <StyledContent>
         <Input
           warningText={showError && isEmpty(title) && t('form.relatedContent.link.missingTitle')}
+          data-testid="addExternalTitleInput"
           container="div"
           type="text"
           placeholder={t('form.relatedContent.link.titlePlaceholder')}
@@ -75,6 +76,7 @@ const ContentLink = ({
         />
         <Input
           warningText={showError && !isUrl(url) && t('form.relatedContent.link.missingUrl')}
+          data-testid="addExternalUrlInput"
           container="div"
           type="text"
           placeholder={t('form.relatedContent.link.urlPlaceholder')}

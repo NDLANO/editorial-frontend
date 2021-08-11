@@ -5,8 +5,11 @@ import { TableBodyElement, TableCellElement, TableHeadElement } from '.';
 import {
   defaultTableCellBlock,
   defaultTableRowBlock,
+  getTableWidth,
   TYPE_TABLE,
+  TYPE_TABLE_BODY,
   TYPE_TABLE_CELL,
+  TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
 } from './utils';
 
@@ -101,19 +104,19 @@ const normalizeAfterInsert = (
   editor: Editor,
   matrix: TableCellElement[][],
   rowIndex: number,
-  tablePath: Path,
+  tableBodyPath: Path,
 ) => {
   for (const [columnIndex, element] of matrix[rowIndex].entries()) {
     // Cell is empty
     if (!element) {
       if (columnIndex === 0) {
-        if (!Editor.hasPath(editor, [...tablePath, rowIndex, 0])) {
+        if (!Editor.hasPath(editor, [...tableBodyPath, rowIndex, 0])) {
           Transforms.insertNodes(editor, defaultTableRowBlock(1), {
-            at: [...tablePath, rowIndex],
+            at: [...tableBodyPath, rowIndex],
           });
         } else {
           Transforms.insertNodes(editor, defaultTableCellBlock(), {
-            at: [...tablePath, rowIndex, 0],
+            at: [...tableBodyPath, rowIndex, 0],
           });
         }
         return true;
@@ -126,7 +129,7 @@ const normalizeAfterInsert = (
     const lengthDiff = compact(matrix[rowIndex]).length - matrix[rowIndex - 1].length;
     // Previous row is shorter
     if (lengthDiff > 0) {
-      const lastCellPath = [...tablePath, rowIndex - 1, findLastCellPath(matrix, rowIndex - 1)];
+      const lastCellPath = [...tableBodyPath, rowIndex - 1, findLastCellPath(matrix, rowIndex - 1)];
 
       Transforms.insertNodes(
         editor,
@@ -138,13 +141,11 @@ const normalizeAfterInsert = (
       return true;
       // Current row is shorter
     } else if (lengthDiff < 0) {
-      const lastCellPath = [...tablePath, rowIndex, findLastCellPath(matrix, rowIndex)];
+      const lastCellPath = [...tableBodyPath, rowIndex, findLastCellPath(matrix, rowIndex)];
 
-      // Det ser ut som at den faktisk setter inn en ny rad med ett element. Det er bra, men spørsmålet
-      // er hvorfor og HVOR den looper evig etter dette.
-      if (!Editor.hasPath(editor, [...tablePath, rowIndex])) {
+      if (!Editor.hasPath(editor, [...tableBodyPath, rowIndex])) {
         Transforms.insertNodes(editor, defaultTableRowBlock(1), {
-          at: [...tablePath, rowIndex],
+          at: [...tableBodyPath, rowIndex],
         });
 
         return true;
@@ -164,12 +165,12 @@ const normalizeAfterInsert = (
 };
 export const normalizeTableAsMatrix = (
   editor: Editor,
-  table: TableHeadElement | TableBodyElement,
-  tablePath: Path,
+  tableBody: TableHeadElement | TableBodyElement,
+  tableBodyPath: Path,
 ) => {
   let matrix: TableCellElement[][] = [];
 
-  for (const [rowIndex, row] of table.children.entries()) {
+  for (const [rowIndex, row] of tableBody.children.entries()) {
     if (!Element.isElement(row) || row.type !== TYPE_TABLE_ROW) return;
     if (!matrix[rowIndex]) {
       matrix[rowIndex] = [];
@@ -187,20 +188,69 @@ export const normalizeTableAsMatrix = (
       placeInMatrix(matrix, rowIndex, colspan, rowspan, cell);
     }
     // Validate insertion of the current row. Normalize if needed and start from beginning.
-    if (normalizeAfterInsert(editor, matrix, rowIndex, tablePath)) {
+    if (normalizeAfterInsert(editor, matrix, rowIndex, tableBodyPath)) {
       return true;
     }
   }
   // Rowspan can cause matrix to have more rows than slate. Normalize if needed.
-  if (table.children.length < matrix.length) {
-    if (normalizeAfterInsert(editor, matrix, table.children.length, tablePath)) {
+  if (tableBody.children.length < matrix.length) {
+    if (normalizeAfterInsert(editor, matrix, tableBody.children.length, tableBodyPath)) {
       return true;
     }
   }
+  // Previous header/body can have different width. Add cells if necessary.
+  if (Path.hasPrevious(tableBodyPath)) {
+    const [previousBody, previousBodyPath] = Editor.node(editor, Path.previous(tableBodyPath));
+    if (
+      Element.isElement(previousBody) &&
+      (previousBody.type === TYPE_TABLE_BODY || previousBody.type === TYPE_TABLE_HEAD)
+    ) {
+      const previousBodyWidth = getTableWidth(previousBody);
+      const currentBodyWidth = getTableWidth(tableBody);
+
+      const lengthDiff = currentBodyWidth - previousBodyWidth;
+
+      // previous body is missing width. Add cells in all rows
+      if (lengthDiff > 0) {
+        Editor.withoutNormalizing(editor, () => {
+          for (const [index, row] of previousBody.children.entries()) {
+            if (Element.isElement(row) && row.type === TYPE_TABLE_ROW) {
+              Transforms.insertNodes(
+                editor,
+                [...Array(lengthDiff)].map(() => defaultTableCellBlock()),
+                {
+                  at: [...previousBodyPath, index, row.children.length],
+                },
+              );
+            }
+          }
+        });
+        return true;
+        // Current body is missing width. Add cells in all rows
+      } else if (lengthDiff < 0) {
+        Editor.withoutNormalizing(editor, () => {
+          for (const [index, row] of tableBody.children.entries()) {
+            if (Element.isElement(row) && row.type === TYPE_TABLE_ROW) {
+              Transforms.insertNodes(
+                editor,
+                [...Array(Math.abs(lengthDiff))].map(() => defaultTableCellBlock()),
+                {
+                  at: [...tableBodyPath, index, row.children.length],
+                },
+              );
+            }
+          }
+        });
+        return true;
+      }
+    }
+  }
+
   return false;
 };
 
 // Expects a perfectly normalized table.
+// TODO: Rewrite to thead, tbody format
 export const getTableAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;
   const [table] = Editor.node(editor, path);

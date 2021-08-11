@@ -8,6 +8,8 @@ import {
   KEY_ARROW_DOWN,
   KEY_ARROW_UP,
   KEY_TAB,
+  TableHeadElement,
+  TableBodyElement,
 } from '.';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { getTableAsMatrix } from './matrix';
@@ -82,15 +84,15 @@ export const defaultTableBodyBlock = (width: number) => {
   );
 };
 
-export const getTableWidth = (element: TableElement) => {
+export const getTableWidth = (element: TableHeadElement | TableBodyElement) => {
   const firstRow = element.children[0];
   if (Element.isElement(firstRow) && firstRow.type === TYPE_TABLE_ROW) {
     return countCells(firstRow);
   }
-  return null;
+  return 0;
 };
 
-export const getTableHeight = (element: TableElement) => {
+export const getTableHeight = (element: TableHeadElement | TableBodyElement) => {
   return element.children.length;
 };
 

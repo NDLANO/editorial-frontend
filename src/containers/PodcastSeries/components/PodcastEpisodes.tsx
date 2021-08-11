@@ -27,7 +27,7 @@ const PodcastEpisodes = ({ t }: tType) => {
 
   const onAddEpisodeToList = async (audio: AudioApiType) => {
     try {
-      const newAudio = await fetchAudio(audio!.id, language);
+      const newAudio = await fetchAudio(audio.id, language);
       if (newAudio !== undefined) {
         setFieldValue('episodes', [...episodes, newAudio]);
       }

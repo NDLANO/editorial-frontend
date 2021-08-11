@@ -61,7 +61,7 @@ const AsyncSearchTags = ({
     }
   };
 
-  const addTag = (tag?: TagWithTitle) => {
+  const addTag = (tag: TagWithTitle) => {
     if (tag && !tags.includes(tag.title)) {
       const temp = [...tags, tag.title];
       updateField(temp);

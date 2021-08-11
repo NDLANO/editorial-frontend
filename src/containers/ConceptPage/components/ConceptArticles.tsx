@@ -25,7 +25,7 @@ const ConceptArticles = ({ t }: tType) => {
 
   const onAddArticleToList = async (article: ArticleType) => {
     try {
-      const newArticle = await fetchDraft(article!.id);
+      const newArticle = await fetchDraft(article.id);
       const temp = [...articles, newArticle];
       if (newArticle !== undefined) {
         setFieldValue('articles', temp);

@@ -1,7 +1,14 @@
+import { compact } from 'lodash';
 import { Editor, Element, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { TableCellElement, TableElement } from '.';
-import { defaultTableCellBlock, TYPE_TABLE, TYPE_TABLE_CELL, TYPE_TABLE_ROW } from './utils';
+import {
+  defaultTableCellBlock,
+  defaultTableRowBlock,
+  TYPE_TABLE,
+  TYPE_TABLE_CELL,
+  TYPE_TABLE_ROW,
+} from './utils';
 
 const placeInMatrix = (
   matrix: TableCellElement[][],
@@ -64,9 +71,13 @@ const normalizeBeforeInsert = (
             // A cell has already occupied this space. Push cell the required amount of steps to the right.
             const stepsRight = colIndex + colspan - c;
             const cellPath = ReactEditor.findPath(editor, matrix[r][c]);
-            Transforms.insertNodes(editor, [...Array(stepsRight)].fill(defaultTableCellBlock()), {
-              at: cellPath,
-            });
+            Transforms.insertNodes(
+              editor,
+              [...Array(stepsRight)].map(() => defaultTableCellBlock()),
+              {
+                at: cellPath,
+              },
+            );
 
             return true;
           }
@@ -80,7 +91,7 @@ const normalizeBeforeInsert = (
 
 const findLastCellPath = (matrix: TableCellElement[][], rowIndex: number) => {
   return (
-    [...new Set(matrix[rowIndex])].filter(cell =>
+    compact([...new Set(matrix[rowIndex])]).filter(cell =>
       rowIndex > 0 ? !matrix[rowIndex - 1].includes(cell) : true,
     ).length - 1
   );
@@ -93,37 +104,55 @@ const normalizeAfterInsert = (
   tablePath: Path,
 ) => {
   for (const [columnIndex, element] of matrix[rowIndex].entries()) {
-    // Matrix is empty.
+    // Cell is empty
     if (!element) {
       if (columnIndex === 0) {
-        Transforms.insertNodes(editor, defaultTableCellBlock(), { at: [...tablePath, 0] });
-        return true;
-      } else {
-        const prevElementPath = ReactEditor.findPath(editor, matrix[rowIndex][columnIndex - 1]);
-
-        Transforms.insertNodes(editor, defaultTableCellBlock(), { at: Path.next(prevElementPath) });
+        if (!Editor.hasPath(editor, [...tablePath, rowIndex, 0])) {
+          Transforms.insertNodes(editor, defaultTableRowBlock(1), {
+            at: [...tablePath, rowIndex],
+          });
+        } else {
+          Transforms.insertNodes(editor, defaultTableCellBlock(), {
+            at: [...tablePath, rowIndex, 0],
+          });
+        }
         return true;
       }
     }
   }
 
   if (rowIndex > 0) {
-    const lengthDiff = matrix[rowIndex].length - matrix[rowIndex - 1].length;
+    // TODO: Denne regner ikke ut den faktiske forskjellen. Her kan det være tomme objekter.
+    const lengthDiff = compact(matrix[rowIndex]).length - matrix[rowIndex - 1].length;
     // Previous row is shorter
     if (lengthDiff > 0) {
       const lastCellPath = [...tablePath, rowIndex - 1, findLastCellPath(matrix, rowIndex - 1)];
 
-      Transforms.insertNodes(editor, [...Array(lengthDiff)].fill(defaultTableCellBlock()), {
-        at: Path.next(lastCellPath),
-      });
+      Transforms.insertNodes(
+        editor,
+        [...Array(lengthDiff)].map(() => defaultTableCellBlock()),
+        {
+          at: Path.next(lastCellPath),
+        },
+      );
       return true;
       // Current row is shorter
     } else if (lengthDiff < 0) {
       const lastCellPath = [...tablePath, rowIndex, findLastCellPath(matrix, rowIndex)];
 
+      // Det ser ut som at den faktisk setter inn en ny rad med ett element. Det er bra, men spørsmålet
+      // er hvorfor og HVOR den looper evig etter dette.
+      if (!Editor.hasPath(editor, [...tablePath, rowIndex])) {
+        Transforms.insertNodes(editor, defaultTableRowBlock(1), {
+          at: [...tablePath, rowIndex],
+        });
+
+        return true;
+      }
+
       Transforms.insertNodes(
         editor,
-        [...Array(Math.abs(lengthDiff))].fill(defaultTableCellBlock()),
+        [...Array(Math.abs(lengthDiff))].map(() => defaultTableCellBlock()),
         {
           at: Path.next(lastCellPath),
         },
@@ -155,6 +184,12 @@ export const normalizeTableAsMatrix = (editor: Editor, table: TableElement, tabl
     }
     // Validate insertion of the current row. Normalize if needed and start from beginning.
     if (normalizeAfterInsert(editor, matrix, rowIndex, tablePath)) {
+      return true;
+    }
+  }
+  // Rowspan can cause matrix to have more rows than slate. Normalize if needed.
+  if (table.children.length < matrix.length) {
+    if (normalizeAfterInsert(editor, matrix, table.children.length, tablePath)) {
       return true;
     }
   }

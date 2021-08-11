@@ -762,7 +762,7 @@ const phrases = {
         addExternal: 'Legg til ekstern artikkel',
         removeExternal: 'Slett ekstern artikkel',
         changeExternal: 'Endre ekstern artikkel',
-        searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
+        searchExternal: 'Skriv inn tittel og url på ekstern artikkel',
       },
       concept: {
         remove: 'Fjern forklaring',

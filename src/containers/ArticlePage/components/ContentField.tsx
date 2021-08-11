@@ -7,6 +7,8 @@
 
 import React, { useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import { FormikHelpers, FormikValues } from 'formik';
@@ -101,14 +103,20 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
         disableSelected
         clearInputField
       />
-      <Button onClick={() => setShowAddExternal(true)}>
-        {t('form.relatedContent.addExternal')}
-      </Button>
+      <StyledButtonWrapper>
+        <Button onClick={() => setShowAddExternal(true)}>
+          {t('form.relatedContent.addExternal')}
+        </Button>
+      </StyledButtonWrapper>
       {showAddExternal && (
         <ContentLink onAddLink={addExternalLink} onClose={() => setShowAddExternal(false)} />
       )}
     </>
   );
 };
+
+const StyledButtonWrapper = styled.div`
+  margin: ${spacing.small} 0;
+`;
 
 export default injectT(ContentField);

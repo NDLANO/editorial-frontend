@@ -21,6 +21,7 @@ const placeInMatrix = (
   descendant: TableCellElement,
 ) => {
   const rowLength = matrix[rowIndex].length;
+  // If row has no elements, fill from first index.
   if (rowLength === 0) {
     for (let r = rowIndex; r < rowIndex + rowspan; r++) {
       for (let c = 0; c < colspan; c++) {
@@ -32,6 +33,7 @@ const placeInMatrix = (
     }
     return;
   }
+  // If row has empty element, fill from first matching index.
   for (const [colIndex, cell] of matrix[rowIndex].entries()) {
     if (cell) {
       continue;
@@ -47,6 +49,7 @@ const placeInMatrix = (
       return;
     }
   }
+  // Otherwise, fill from end of list.
   for (let r = rowIndex; r < rowIndex + rowspan; r++) {
     for (let c = rowLength; c < rowLength + colspan; c++) {
       if (!matrix[r]) {
@@ -57,6 +60,8 @@ const placeInMatrix = (
   }
 };
 
+// Before placing a cell in the table matrix, make sure the cell has the required space
+// If not, add the required space by inserting empty cells.
 const normalizeBeforeInsert = (
   editor: Editor,
   matrix: TableCellElement[][],
@@ -68,10 +73,12 @@ const normalizeBeforeInsert = (
     if (cell) {
       continue;
     } else {
+      // The cell should be placed at this index, spanning in both column and row direction.
+      // Check that no other cells are blocking the required space.
       for (let r = rowIndex; r < rowIndex + rowspan; r++) {
         for (let c = colIndex; c < colIndex + colspan; c++) {
           if (matrix[r][c]) {
-            // A cell has already occupied this space. Push cell the required amount of steps to the right.
+            // A cell is blocking required space. Insert the required amount of  cells to push the blocking cell to the right.
             const stepsRight = colIndex + colspan - c;
             const cellPath = ReactEditor.findPath(editor, matrix[r][c]);
             Transforms.insertNodes(
@@ -92,7 +99,8 @@ const normalizeBeforeInsert = (
   return false;
 };
 
-const findLastCellPath = (matrix: TableCellElement[][], rowIndex: number) => {
+// Find the index of the last cell path in a row
+const findLastCellPath = (matrix: TableCellElement[][], rowIndex: number): number => {
   return (
     compact([...new Set(matrix[rowIndex])]).filter(cell =>
       rowIndex > 0 ? !matrix[rowIndex - 1].includes(cell) : true,
@@ -106,10 +114,12 @@ const normalizeAfterInsert = (
   rowIndex: number,
   tableBodyPath: Path,
 ) => {
+  // Insert  cells if row has empty positions.
   for (const [columnIndex, element] of matrix[rowIndex].entries()) {
-    // Cell is empty
     if (!element) {
       if (columnIndex === 0) {
+        // TODO: Check if it can be removed
+        // Check if cell at first index exists in Slate.
         if (!Editor.hasPath(editor, [...tableBodyPath, rowIndex, 0])) {
           Transforms.insertNodes(editor, defaultTableRowBlock(1), {
             at: [...tableBodyPath, rowIndex],
@@ -124,8 +134,8 @@ const normalizeAfterInsert = (
     }
   }
 
+  // Compare width of previous and current row and insert empty cells if they are of unequal length.
   if (rowIndex > 0) {
-    // TODO: Denne regner ikke ut den faktiske forskjellen. Her kan det være tomme objekter.
     const lengthDiff = compact(matrix[rowIndex]).length - matrix[rowIndex - 1].length;
     // Previous row is shorter
     if (lengthDiff > 0) {
@@ -143,6 +153,8 @@ const normalizeAfterInsert = (
     } else if (lengthDiff < 0) {
       const lastCellPath = [...tableBodyPath, rowIndex, findLastCellPath(matrix, rowIndex)];
 
+      // TODO: Check if it can be removed
+      // In case current row does not exist in Slate, insert an entire row.
       if (!Editor.hasPath(editor, [...tableBodyPath, rowIndex])) {
         Transforms.insertNodes(editor, defaultTableRowBlock(1), {
           at: [...tableBodyPath, rowIndex],
@@ -163,23 +175,27 @@ const normalizeAfterInsert = (
   }
   return false;
 };
-export const normalizeTableAsMatrix = (
+
+export const normalizeTableBodyAsMatrix = (
   editor: Editor,
   tableBody: TableHeadElement | TableBodyElement,
   tableBodyPath: Path,
 ) => {
   let matrix: TableCellElement[][] = [];
 
+  // For each row in slate.
   for (const [rowIndex, row] of tableBody.children.entries()) {
     if (!Element.isElement(row) || row.type !== TYPE_TABLE_ROW) return;
     if (!matrix[rowIndex]) {
       matrix[rowIndex] = [];
     }
+    // For each cell in row.
     for (const cell of row.children) {
       if (!Element.isElement(cell) || cell.type !== TYPE_TABLE_CELL) return;
 
       const colspan = cell.data.colspan ? parseInt(cell.data.colspan) : 1;
       const rowspan = cell.data.rowspan ? parseInt(cell.data.rowspan) : 1;
+
       // Check if next element can be placed in matrix without needing a normalize.
       // Normalize if needed and start from beginning.
       if (normalizeBeforeInsert(editor, matrix, rowIndex, colspan, rowspan)) {
@@ -210,7 +226,7 @@ export const normalizeTableAsMatrix = (
 
       const lengthDiff = currentBodyWidth - previousBodyWidth;
 
-      // previous body is missing width. Add cells in all rows
+      // Previous body is narrower. Add cells in all rows
       if (lengthDiff > 0) {
         Editor.withoutNormalizing(editor, () => {
           for (const [index, row] of previousBody.children.entries()) {
@@ -226,7 +242,7 @@ export const normalizeTableAsMatrix = (
           }
         });
         return true;
-        // Current body is missing width. Add cells in all rows
+        // Current body is narrower. Add cells in all rows
       } else if (lengthDiff < 0) {
         Editor.withoutNormalizing(editor, () => {
           for (const [index, row] of tableBody.children.entries()) {

@@ -31,7 +31,7 @@ import {
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
-import { normalizeTableAsMatrix } from './matrix';
+import { normalizeTableBodyAsMatrix } from './matrix';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -204,7 +204,7 @@ export const tablePlugin = (editor: Editor) => {
           return normalizeNode(entry);
         }
 
-        if (normalizeTableAsMatrix(editor, node, path)) {
+        if (normalizeTableBodyAsMatrix(editor, node, path)) {
           return;
         }
       } else if (node.type === TYPE_TABLE_CELL) {

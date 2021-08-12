@@ -1,4 +1,4 @@
-import { Editor, Element, Node, NodeEntry, Path, Transforms } from 'slate';
+import { Editor, Element, NodeEntry, Path, Transforms } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
 import {
@@ -132,7 +132,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
     at: path,
     match: node => Element.isElement(node) && node.type === TYPE_TABLE_CELL,
   });
-  const [cell, cellPath] = cellEntry;
+  const [cell] = cellEntry;
 
   const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
 
@@ -174,7 +174,6 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
                 type: TYPE_TABLE_CELL,
                 data: {
                   ...cell.data,
-                  rowspan: cell.data.rowspan && cell.data.rowspan,
                   colspan: undefined,
                 },
                 children: [defaultParagraphBlock()],

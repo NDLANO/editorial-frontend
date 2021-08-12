@@ -67,7 +67,7 @@ const SlateVideo = ({
 
   const [linkedVideoId, setLinkedVideoId] = useState<string | undefined>();
   useEffect(() => {
-    const idWithoutTimestamp = embed.videoid.split('&')[0];
+    const idWithoutTimestamp = embed.videoid?.split('&')[0];
     visualElementApi
       .fetchBrightcoveVideo(idWithoutTimestamp)
       .then((v: { link?: { text: string } }) => {

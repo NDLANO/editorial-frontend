@@ -26,7 +26,7 @@ export const countCells = (row: TableRowElement, stop?: number) => {
       if (!Element.isElement(child) || child.type !== TYPE_TABLE_CELL) {
         return 0;
       }
-      return child.data.colspan ? parseInt(child.data.colspan) : 1;
+      return child.data.colspan || 1;
     })
     .slice(0, stop)
     .reduce((a, b) => a + b);
@@ -140,9 +140,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
     const selectedPath = findCellInMatrix(matrix, cell);
     if (selectedPath) {
       const selectedColumnIndex =
-        selectedPath[1] +
-        parseInt(matrix[selectedPath[0]][selectedPath[1]].data.colspan || '1') -
-        1;
+        selectedPath[1] + (matrix[selectedPath[0]][selectedPath[1]].data.colspan || 1) - 1;
 
       Editor.withoutNormalizing(editor, () => {
         for (const [rowIndex, row] of matrix.entries()) {
@@ -163,7 +161,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
                 ...cell,
                 data: {
                   ...cell.data,
-                  colspan: (parseInt(cell.data.colspan) + 1).toString(),
+                  colspan: cell.data.colspan + 1,
                 },
               },
               { at: ReactEditor.findPath(editor, cell) },
@@ -176,7 +174,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
                 type: TYPE_TABLE_CELL,
                 data: {
                   ...cell.data,
-                  rowspan: cell.data.rowspan && parseInt(cell.data.rowspan!).toString(),
+                  rowspan: cell.data.rowspan && cell.data.rowspan,
                   colspan: undefined,
                 },
                 children: [defaultParagraphBlock()],

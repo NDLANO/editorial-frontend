@@ -62,8 +62,8 @@ export interface TableRowElement {
 export interface TableCellElement {
   type: 'table-cell';
   data: {
-    rowspan?: string;
-    colspan?: string;
+    rowspan?: number;
+    colspan?: number;
     align?: string;
     valign?: string;
     class?: string;
@@ -98,15 +98,19 @@ export const tableSerializer: SlateSerializer = {
 
     const tableTag = TABLE_TAGS[tagName];
     if (!tableTag) return;
-    let data = {
+    let data: object = {
       isHeader: tagName === 'th',
     };
     if (tagName === 'th' || tagName === 'td') {
       const filter = ['rowspan', 'colspan', 'align', 'valign', 'class'];
       const attrs = reduceElementDataAttributes(el, filter);
+      const colspan = attrs.colspan && parseInt(attrs.colspan);
+      const rowspan = attrs.rowspan && parseInt(attrs.rowspan);
       data = {
-        isHeader: tagName === 'th',
         ...attrs,
+        colspan: colspan > 1 ? colspan : undefined,
+        rowspan: rowspan > 1 ? rowspan : undefined,
+        isHeader: tagName === 'th',
       };
     }
     return jsx('element', { type: tableTag, data }, children);
@@ -164,8 +168,8 @@ export const tablePlugin = (editor: Editor) => {
         return (
           <td
             className={element.data.isHeader ? 'c-table__header' : ''}
-            rowSpan={element.data.rowspan ? parseInt(element.data.rowspan) : 1}
-            colSpan={element.data.colspan ? parseInt(element.data.colspan) : 1}
+            rowSpan={element.data.rowspan}
+            colSpan={element.data.colspan}
             {...attributes}>
             {children}
           </td>

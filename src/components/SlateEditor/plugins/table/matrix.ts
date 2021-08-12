@@ -206,8 +206,8 @@ export const normalizeTableBodyAsMatrix = (
     for (const cell of row.children) {
       if (!Element.isElement(cell) || cell.type !== TYPE_TABLE_CELL) return;
 
-      const colspan = cell.data.colspan ? parseInt(cell.data.colspan) : 1;
-      const rowspan = cell.data.rowspan ? parseInt(cell.data.rowspan) : 1;
+      const colspan = cell.data.colspan ? cell.data.colspan : 1;
+      const rowspan = cell.data.rowspan ? cell.data.rowspan : 1;
 
       // Check if next element can be placed in matrix without needing a normalize.
       // Normalize if needed and start from beginning.
@@ -302,8 +302,8 @@ export const getTableAsMatrix = (editor: Editor, path: Path) => {
       for (const cell of row.children) {
         if (!Element.isElement(cell) || cell.type !== TYPE_TABLE_CELL) return;
 
-        const colspan = cell.data.colspan ? parseInt(cell.data.colspan) : 1;
-        const rowspan = cell.data.rowspan ? parseInt(cell.data.rowspan) : 1;
+        const colspan = cell.data.colspan || 1;
+        const rowspan = cell.data.rowspan || 1;
         placeInMatrix(matrix, rowIndex, colspan, rowspan, cell);
       }
     });

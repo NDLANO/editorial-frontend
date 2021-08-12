@@ -4,7 +4,7 @@ exports[`createEmbedTag creates brightcove embed tag from object 1`] = `"<embed 
 
 exports[`createEmbedTag creates h5p embed tag from object 1`] = `"<embed data-resource=\\"h5p\\" data-url=\\"https://h5p-test.ndla.no/resource/3ab6850d/oembed\\">"`;
 
-exports[`createEmbedTag creates image embed tag from object 1`] = `"<embed data-align=\\"\\" data-alt=\\"Guinness sign\\" data-caption=\\"Guinness is good for you\\" data-resource=\\"image\\" data-resource_id=\\"42159\\" data-size=\\"fullbredde\\" data-url=\\"https://api.ndla.no/image-api/v2/images/42159\\">"`;
+exports[`createEmbedTag creates image embed tag from object 1`] = `"<embed data-align=\\"\\" data-alt=\\"Guinness sign\\" data-caption=\\"Guinness is good for you\\" data-resource=\\"image\\" data-resource_id=\\"42159\\" data-size=\\"full\\" data-url=\\"https://api.ndla.no/image-api/v2/images/42159\\">"`;
 
 exports[`deserializing related-content works 1`] = `
 Object {
@@ -64,7 +64,7 @@ Object {
   "caption": "Guinness is good for you",
   "resource": "image",
   "resource_id": "42159",
-  "size": "fullbredde",
+  "size": "full",
   "url": "https://api.ndla.no/image-api/v2/images/42159",
 }
 `;

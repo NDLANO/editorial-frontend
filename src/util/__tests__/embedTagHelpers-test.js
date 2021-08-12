@@ -15,7 +15,7 @@ const { fragment } = jsdom.JSDOM;
 test('parseEmbedTag parses image embed tag to object', () => {
   const obj = parseEmbedTag(
     `<embed
-      data-size="fullbredde"
+      data-size="full"
       data-align=""
       data-resource="image"
       data-alt="Guinness sign"
@@ -67,7 +67,7 @@ test('createEmbedTag creates image embed tag from object', () => {
     metaData: {},
     resource: 'image',
     resource_id: '42159',
-    size: 'fullbredde',
+    size: 'full',
     url: 'https://api.ndla.no/image-api/v2/images/42159',
   });
   expect(tag).toMatchSnapshot();

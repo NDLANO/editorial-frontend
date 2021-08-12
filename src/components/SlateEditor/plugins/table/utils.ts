@@ -12,7 +12,7 @@ import {
   TableBodyElement,
 } from '.';
 import { defaultParagraphBlock } from '../paragraph/utils';
-import { getTableAsMatrix } from './matrix';
+import { findCellInMatrix, getTableAsMatrix } from './matrix';
 
 export const TYPE_TABLE = 'table';
 export const TYPE_TABLE_HEAD = 'table-head';
@@ -128,24 +128,66 @@ export const insertRow = (editor: Editor, path: Path) => {
 };
 
 export const insertColumn = (editor: Editor, tableElement: TableElement, path: Path) => {
-  const [columnEntry] = Editor.nodes(editor, {
+  const [cellEntry] = Editor.nodes(editor, {
     at: path,
     match: node => Element.isElement(node) && node.type === TYPE_TABLE_CELL,
   });
-  const columnPath = columnEntry && columnEntry[1];
-  const targetColumn = columnPath[columnPath.length - 1] + 1;
+  const [cell, cellPath] = cellEntry;
 
-  Editor.withoutNormalizing(editor, () => {
-    tableElement.children.forEach((row, index) => {
-      Transforms.insertNodes(editor, defaultTableCellBlock(), {
-        at: [...ReactEditor.findPath(editor, tableElement), index, targetColumn],
+  const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
+
+  if (matrix && Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
+    const selectedPath = findCellInMatrix(matrix, cell);
+    if (selectedPath) {
+      const selectedColumnIndex =
+        selectedPath[1] +
+        parseInt(matrix[selectedPath[0]][selectedPath[1]].data.colspan || '1') -
+        1;
+
+      Editor.withoutNormalizing(editor, () => {
+        for (const [rowIndex, row] of matrix.entries()) {
+          const cell = row[selectedColumnIndex];
+          // If previous row contains the same cell, skip
+          if (rowIndex > 0 && cell === matrix[rowIndex - 1][selectedColumnIndex]) {
+            continue;
+          }
+          // If next cell is identical, extend columnspan
+          if (
+            selectedColumnIndex + 1 < row.length &&
+            cell.data.colspan &&
+            row[selectedColumnIndex + 1] === cell
+          ) {
+            Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  colspan: (parseInt(cell.data.colspan) + 1).toString(),
+                },
+              },
+              { at: ReactEditor.findPath(editor, cell) },
+            );
+            // Insert column of same type and height
+          } else {
+            Transforms.insertNodes(
+              editor,
+              {
+                type: TYPE_TABLE_CELL,
+                data: {
+                  ...cell.data,
+                  rowspan: cell.data.rowspan && parseInt(cell.data.rowspan!).toString(),
+                  colspan: undefined,
+                },
+                children: [defaultParagraphBlock()],
+              },
+              { at: Path.next(ReactEditor.findPath(editor, cell)) },
+            );
+          }
+        }
       });
-    });
-    Transforms.select(editor, {
-      anchor: Editor.point(editor, columnPath, { edge: 'start' }),
-      focus: Editor.point(editor, columnPath, { edge: 'start' }),
-    });
-  });
+    }
+  }
 };
 
 export const removeColumn = (editor: Editor, tableElement: TableElement, path: Path) => {

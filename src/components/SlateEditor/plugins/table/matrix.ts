@@ -108,6 +108,19 @@ const findLastCellPath = (matrix: TableCellElement[][], rowIndex: number): numbe
   );
 };
 
+export const findCellInMatrix = (
+  matrix: TableCellElement[][],
+  targetCell: TableCellElement,
+): [number, number] | undefined => {
+  for (const [rowIndex, row] of matrix.entries()) {
+    for (const [cellIndex, cell] of row.entries()) {
+      if (cell === targetCell) {
+        return [rowIndex, cellIndex];
+      }
+    }
+  }
+};
+
 const normalizeAfterInsert = (
   editor: Editor,
   matrix: TableCellElement[][],

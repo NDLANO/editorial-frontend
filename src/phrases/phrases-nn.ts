@@ -762,7 +762,7 @@ const phrases = {
         addExternal: 'Legg til ekstern artikkel',
         removeExternal: 'Slett ekstern artikkel',
         changeExternal: 'Endre ekstern artikkel',
-        searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
+        searchExternal: 'Skriv inn tittel og url på ekstern artikkel',
       },
       concept: {
         remove: 'Fjern forklaring',
@@ -1063,6 +1063,8 @@ const phrases = {
     noEmptyNote: 'Ein merknad kan ikkje være tom',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
+    podcastImageShape: 'Metabilde må være like høgt som det er breitt.',
+    podcastImageSize: 'Metabilde må være mellom 1400 og 3000 pikslar breitt.',
   },
   errorMessage: {
     title: 'Oops, noko gjekk gale',

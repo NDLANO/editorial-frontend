@@ -6,8 +6,7 @@
  *
  */
 
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css } from '@emotion/core';
 import React, { useEffect, Fragment } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Input } from '@ndla/forms';

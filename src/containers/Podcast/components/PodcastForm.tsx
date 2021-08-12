@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, ReactNode } from 'react';
-import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
+import React, { useState, ReactNode, useRef } from 'react';
+import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
@@ -37,6 +37,7 @@ import {
 } from '../../../util/articleContentConverter';
 import { License } from '../../../interfaces';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
+import handleError from '../../../util/handleError';
 
 const podcastRules = {
   title: {
@@ -137,6 +138,7 @@ const PodcastForm = ({
   translateToNN,
 }: Props & tType) => {
   const [savedToServer, setSavedToServer] = useState(false);
+  const size = useRef<[number, number] | undefined>(undefined);
 
   const handleSubmit = async (
     values: PodcastFormValues,
@@ -186,9 +188,24 @@ const PodcastForm = ({
       },
       seriesId: values.series?.id,
     };
-
-    await onUpdate(podcastMetaData, values.audioFile.newFile?.file);
+    try {
+      await onUpdate(podcastMetaData, values.audioFile.newFile?.file);
+    } catch (e) {
+      handleError(e);
+    }
     setSavedToServer(true);
+  };
+
+  const validateMetaImage = ([width, height]: [
+    number,
+    number,
+  ]): FormikErrors<PodcastFormValues> => {
+    if (width !== height) {
+      return { coverPhotoId: t('validation.podcastImageShape') };
+    } else if (width < 1400 || width > 3000) {
+      return { coverPhotoId: t('validation.podcastImageSize') };
+    }
+    return {};
   };
 
   const initialValues = getInitialValues(audio);
@@ -199,9 +216,21 @@ const PodcastForm = ({
       onSubmit={handleSubmit}
       validateOnMount
       enableReinitialize
-      validate={values => validateFormik(values, podcastRules, t)}>
+      validate={values => {
+        const errors = validateFormik(values, podcastRules, t);
+        const metaImageErrors = validateMetaImage(size.current!);
+        return { ...errors, ...metaImageErrors };
+      }}>
       {formikProps => {
-        const { values, dirty, isSubmitting, errors, submitForm, handleBlur } = formikProps;
+        const {
+          values,
+          dirty,
+          isSubmitting,
+          errors,
+          submitForm,
+          handleBlur,
+          validateForm,
+        } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -248,6 +277,13 @@ const PodcastForm = ({
                     field => field in errors,
                   )}>
                   <PodcastMetaData
+                    onImageLoad={el => {
+                      size.current = [
+                        el.currentTarget.naturalWidth,
+                        el.currentTarget.naturalHeight,
+                      ];
+                      validateForm();
+                    }}
                     handleSubmit={submitForm}
                     onBlur={(event, editor, next) => {
                       next();

@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { Editor } from 'slate';
 
@@ -18,11 +18,12 @@ import { MetaImageSearch } from '../../FormikForm';
 interface Props {
   handleSubmit: () => void;
   onBlur: (event: Event, editor: Editor, next: () => void) => void;
+  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
 }
 
 const plugins = [textTransformPlugin()];
 
-const PodcastMetaData = ({ handleSubmit, onBlur, t }: Props & tType) => {
+const PodcastMetaData = ({ handleSubmit, onBlur, onImageLoad, t }: Props & tType) => {
   return (
     <>
       <FormikField
@@ -42,16 +43,18 @@ const PodcastMetaData = ({ handleSubmit, onBlur, t }: Props & tType) => {
           />
         )}
       </FormikField>
-
       <FormikField name="coverPhotoId">
-        {({ field, form }) => (
-          <MetaImageSearch
-            metaImageId={field.value}
-            setFieldTouched={form.setFieldTouched}
-            showRemoveButton
-            {...field}
-          />
-        )}
+        {({ field, form }) => {
+          return (
+            <MetaImageSearch
+              metaImageId={field.value}
+              setFieldTouched={form.setFieldTouched}
+              showRemoveButton
+              onImageLoad={onImageLoad}
+              {...field}
+            />
+          );
+        }}
       </FormikField>
     </>
   );

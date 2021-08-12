@@ -1,5 +1,5 @@
 import { compact } from 'lodash';
-import { Editor, Element, Path, Transforms } from 'slate';
+import { Descendant, Editor, Element, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { TableBodyElement, TableCellElement, TableHeadElement } from '.';
 import {
@@ -265,26 +265,35 @@ export const normalizeTableBodyAsMatrix = (
   return false;
 };
 
-// Expects a perfectly normalized table.
-// TODO: Rewrite to thead, tbody format
+// Expects a perfectly normalized table. Requires path to the table
 export const getTableAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;
   const [table] = Editor.node(editor, path);
   if (!Element.isElement(table) || table.type !== TYPE_TABLE) return;
   let matrix: TableCellElement[][] = [];
 
-  table.children.forEach((row, rowIndex) => {
-    if (!Element.isElement(row) || row.type !== TYPE_TABLE_ROW) return;
-    if (!matrix[rowIndex]) {
-      matrix[rowIndex] = [];
-    }
+  // Merge table head and body into one list containing every row.
+  table.children
+    .reduce((acc, cur) => {
+      if (Element.isElement(cur) && [TYPE_TABLE_BODY, TYPE_TABLE_HEAD].includes(cur.type)) {
+        acc.push(...cur.children);
+      }
+      return acc;
+    }, [] as Descendant[])
+    .forEach((row, rowIndex) => {
+      if (!Element.isElement(row) || row.type !== TYPE_TABLE_ROW) return;
+      if (!matrix[rowIndex]) {
+        matrix[rowIndex] = [];
+      }
 
-    for (const cell of row.children) {
-      if (!Element.isElement(cell) || cell.type !== TYPE_TABLE_CELL) return;
+      for (const cell of row.children) {
+        if (!Element.isElement(cell) || cell.type !== TYPE_TABLE_CELL) return;
 
-      const colspan = cell.data.colspan ? parseInt(cell.data.colspan) : 1;
-      const rowspan = cell.data.rowspan ? parseInt(cell.data.rowspan) : 1;
-      placeInMatrix(matrix, rowIndex, colspan, rowspan, cell);
-    }
-  });
+        const colspan = cell.data.colspan ? parseInt(cell.data.colspan) : 1;
+        const rowspan = cell.data.rowspan ? parseInt(cell.data.rowspan) : 1;
+        placeInMatrix(matrix, rowIndex, colspan, rowspan, cell);
+      }
+    });
+
+  return matrix;
 };

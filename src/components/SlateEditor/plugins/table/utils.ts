@@ -188,30 +188,47 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
 };
 
 export const removeColumn = (editor: Editor, tableElement: TableElement, path: Path) => {
-  const firstRow = tableElement.children[0];
-
-  if (
-    !Element.isElement(firstRow) ||
-    firstRow.type !== TYPE_TABLE_ROW ||
-    firstRow.children.length < 2
-  ) {
-    return;
-  }
-  const [columnEntry] = Editor.nodes(editor, {
+  const [cellEntry] = Editor.nodes(editor, {
     at: path,
     match: node => Element.isElement(node) && node.type === TYPE_TABLE_CELL,
   });
-  const columnPath = columnEntry && columnEntry[1];
-  const targetColumn = columnPath[columnPath.length - 1];
+  const [cell] = cellEntry;
 
-  Editor.withoutNormalizing(editor, () => {
-    tableElement.children.forEach((row, index) => {
-      Transforms.removeNodes(editor, {
-        at: [...ReactEditor.findPath(editor, tableElement), index, targetColumn],
-        match: node => Element.isElement(node) && node.type === TYPE_TABLE_CELL,
+  const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
+
+  if (matrix && Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
+    const selectedPath = findCellInMatrix(matrix, cell);
+    if (selectedPath) {
+      const [, selectedColumnIndex] = selectedPath;
+
+      Editor.withoutNormalizing(editor, () => {
+        for (const [rowIndex, row] of matrix.entries()) {
+          const cell = row[selectedColumnIndex];
+          // If next row contains the same cell, skip
+          if (rowIndex < matrix.length - 1 && cell === matrix[rowIndex + 1][selectedColumnIndex]) {
+            continue;
+          }
+          // If cell has spans over multiple columns, reduce span by 1.
+          if (cell.data.colspan && cell.data.colspan > 1) {
+            Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  colspan: cell.data.colspan - 1,
+                },
+              },
+              { at: ReactEditor.findPath(editor, cell) },
+            );
+            // Remove cell
+          } else {
+            Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, cell) });
+          }
+        }
       });
-    });
-  });
+    }
+  }
 };
 
 export const removeTable = (editor: Editor, path: Path) => {

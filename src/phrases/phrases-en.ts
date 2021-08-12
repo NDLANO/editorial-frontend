@@ -631,6 +631,13 @@ const phrases = {
       label: 'Availability',
       description: 'Who the article is intended for:',
     },
+    modelReleased: {
+      label: 'Model released',
+      yes: 'Yes',
+      no: 'No',
+      'not-applicable': 'Not applicable',
+      description: 'Whether the image is model released or not:',
+    },
     markdown: {
       button: 'Click to view markdown',
       helpLabel: 'What is markdown?',

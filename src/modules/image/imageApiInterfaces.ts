@@ -49,6 +49,7 @@ export interface ImageApiType {
     language: string;
   };
   supportedLanguages: string[];
+  modelRelease: string;
 }
 
 export interface NewImageMetadata {
@@ -59,6 +60,7 @@ export interface NewImageMetadata {
   language: string;
   tags: string[];
   title: string;
+  modelReleased: string;
 }
 
 export interface UpdatedImageMetadata {
@@ -69,6 +71,7 @@ export interface UpdatedImageMetadata {
   language: string;
   tags?: string[];
   title?: string;
+  modelReleased?: string;
 }
 
 interface SearchResultBase<T> {

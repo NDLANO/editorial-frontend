@@ -70,6 +70,7 @@ interface ImageFormikType {
   rightsholders?: Author[];
   origin?: string;
   license?: string;
+  modelReleased?: string;
 }
 
 export const getInitialValues = (image: ImagePropType = {}): ImageFormikType => {
@@ -87,6 +88,7 @@ export const getInitialValues = (image: ImagePropType = {}): ImageFormikType => 
     rightsholders: parseCopyrightContributors(image, 'rightsholders'),
     origin: image?.copyright?.origin || '',
     license: image?.copyright?.license?.license,
+    modelReleased: image?.modelRelease,
   };
 };
 
@@ -110,6 +112,7 @@ interface ImagePropType {
   supportedLanguages?: string[];
   tags?: string[];
   title?: string;
+  modelRelease?: string;
 }
 
 type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
@@ -154,7 +157,8 @@ class ImageForm extends Component<Props & tType, State> {
       values.creators === undefined ||
       values.processors === undefined ||
       values.rightsholders === undefined ||
-      values.imageFile === undefined
+      values.imageFile === undefined ||
+      values.modelReleased === undefined
     ) {
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });
@@ -176,6 +180,7 @@ class ImageForm extends Component<Props & tType, State> {
         processors: values.processors,
         rightsholders: values.rightsholders,
       },
+      modelReleased: values.modelReleased,
     };
     await onUpdate(imageMetaData, values.imageFile);
     this.setState({ savedToServer: true });

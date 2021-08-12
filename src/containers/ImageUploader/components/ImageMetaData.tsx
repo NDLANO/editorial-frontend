@@ -15,6 +15,7 @@ import FormikField from '../../../components/FormikField';
 import { LicenseField, ContributorsField } from '../../FormikForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { ImageApiLicense } from '../../../modules/image/imageApiInterfaces';
+import { RadioButtonGroup } from '@ndla/ui';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
@@ -48,6 +49,29 @@ const ImageMetaData = ({ t, imageTags, licenses, imageLanguage }: Props & tType)
     </FormikField>
     <FormikField label={t('form.origin.label')} name="origin" />
     <ContributorsField contributorTypes={contributorTypes} />
+
+    <FormikField name="modelReleased" label={t('form.modelReleased.label')}>
+      {({ field }: { field: FieldInputProps<string> }) => {
+        const options = ['yes', 'not-applicable', 'no'];
+        const defaultValue = 'no';
+        return (
+          <RadioButtonGroup
+            label={t('form.modelReleased.description')}
+            selected={field.value ?? defaultValue}
+            uniqeIds
+            options={options.map(value => ({ title: t(`form.modelReleased.${value}`), value }))}
+            onChange={(value: string) =>
+              field.onChange({
+                target: {
+                  name: field.name,
+                  value: value,
+                },
+              })
+            }
+          />
+        );
+      }}
+    </FormikField>
   </Fragment>
 );
 

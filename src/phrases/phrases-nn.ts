@@ -653,6 +653,13 @@ const phrases = {
       label: 'Tilgjengelighet',
       description: 'Kven er artikkelen meint for:',
     },
+    modelReleased: {
+      label: 'Modelklarert',
+      yes: 'Ja',
+      no: 'Nei',
+      'not-applicable': 'Gjeld ikkje',
+      description: 'Om bildet er modelklarert eller ikkje:',
+    },
     markdown: {
       button: 'Klikk for å se markdown',
       helpLabel: 'Kva er markdown?',

@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { constants } from '@ndla/ui';
-const { subjectCategories } = constants;
 
 export const NAVIGATION_HEADER_MARGIN = '71px';
 
@@ -49,13 +47,6 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT = 'forklaringsfag';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 
 export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
-export const SUBJECT_CATEGORIES = [
-  subjectCategories.COMMON_SUBJECTS,
-  subjectCategories.PROGRAMME_SUBJECTS,
-  subjectCategories.SPECIALIZED_SUBJECTS,
-  subjectCategories.BETA_SUBJECTS,
-  subjectCategories.ARCHIVE_SUBJECTS,
-];
 
 export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'H5P', url: ['h5p'] },

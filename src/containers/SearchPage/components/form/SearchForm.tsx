@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
+import BEMHelper, { StringConstructorOptions } from 'react-bem-helper';
 import { RouteComponentProps } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import queryString from 'query-string';
@@ -42,6 +42,7 @@ export interface SearchParams {
   users?: string;
   sort?: string;
   type?: string;
+  'model-released'?: string;
 }
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
@@ -52,6 +53,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     'include-other-statuses': queryStringObject['include-other-statuses'] === 'true',
     'resource-types': queryStringObject['resource-types'],
     'audio-type': queryStringObject['audio-type'],
+    'model-released': queryStringObject['model-released'],
     fallback: queryStringObject.fallback === 'true',
     language: queryStringObject.language,
     page: queryStringObject.page ? parseInt(queryStringObject.page, 10) : undefined,

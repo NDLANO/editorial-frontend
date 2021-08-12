@@ -205,6 +205,7 @@ const phrases = {
       imageQuery: 'Søk på bilder',
       language: 'Velg språk',
       users: 'Velg bruker',
+      modelReleased: 'Velg modelklarering',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innholdstype',
       status: 'Velg status',
@@ -267,6 +268,11 @@ const phrases = {
     },
   },
   imageSearch: {
+    modelReleased: {
+      yes: 'Modelklarert',
+      no: 'Ikke modelklarert',
+      'not-applicable': 'Gjelder ikke',
+    },
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',

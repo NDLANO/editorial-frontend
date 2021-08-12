@@ -265,6 +265,11 @@ const phrases = {
     },
   },
   imageSearch: {
+    modelReleased: {
+      yes: 'Model released',
+      no: 'Not model released',
+      'not-applicable': 'Not applicable',
+    },
     placeholder: 'Search images',
     buttonTitle: 'Search',
     useImage: 'Use image',

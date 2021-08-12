@@ -274,6 +274,11 @@ const phrases = {
     noTitle: 'Ingen tittel',
     noResultsText: 'Fann ingen bilder på søk. Ønskjer du å laste opp eit nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
+    modelReleased: {
+      yes: 'Modelklarert',
+      no: 'Ikkje modelklarert',
+      'not-applicable': 'Gjeld ikkje',
+    },
   },
   videoSearch: {
     searchPlaceholder: 'Søk i videoar',

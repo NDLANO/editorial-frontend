@@ -12,7 +12,6 @@ import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import { FormikHelpers, FormikValues } from 'formik';
-import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
 import { AsyncDropdown } from '../../../components/Dropdown';
@@ -35,6 +34,7 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
     values.relatedContent,
   );
+  const [showAddExternal, setShowAddExternal] = useState(false);
 
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
@@ -104,21 +104,13 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
         clearInputField
       />
       <StyledButtonWrapper>
-        <Modal
-          backgroundColor="white"
-          activateButton={<Button>{t('form.relatedContent.addExternal')}</Button>}>
-          {(onClose: () => void) => (
-            <>
-              <ModalHeader>
-                <ModalCloseButton onClick={onClose} title={t('dialog.close')} />
-              </ModalHeader>
-              <ModalBody>
-                <ContentLink onAddLink={addExternalLink} onClose={onClose} />
-              </ModalBody>
-            </>
-          )}
-        </Modal>
+        <Button onClick={() => setShowAddExternal(true)}>
+          {t('form.relatedContent.addExternal')}
+        </Button>
       </StyledButtonWrapper>
+      {showAddExternal && (
+        <ContentLink onAddLink={addExternalLink} onClose={() => setShowAddExternal(false)} />
+      )}
     </>
   );
 };

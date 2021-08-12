@@ -102,7 +102,7 @@ const EditImage = ({ t, embed, saveEmbedUpdates, setEditModus }: Props & tType) 
     let updatedSize = state.imageUpdates?.size;
 
     if (state.imageUpdates?.align === 'center') {
-      updatedSize = 'fullbredde';
+      updatedSize = 'full';
       if (state.imageUpdates?.size.includes('hide-byline')) {
         updatedSize += '-hide-byline';
       }

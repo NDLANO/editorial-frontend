@@ -286,8 +286,10 @@ export class StructureContainer extends React.PureComponent {
       params,
       allTopics: this.state.topics,
     });
-    const topics = getSubtopics(currentTopic.id, this.state.topics) || currentSubject.topics;
-    const currentRank = topics[source.index].rank;
+    const topics = currentTopic.id
+      ? getSubtopics(currentTopic.id, this.state.topics)
+      : currentSubject.topics;
+    const currentRank = topics[source.index]?.rank;
     const destinationRank = topics[destination.index].rank;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
     if (currentRank === destinationRank) return;

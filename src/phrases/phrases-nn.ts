@@ -819,7 +819,7 @@ const phrases = {
     },
     categories: {
       label: 'Liste og filter',
-      description: 'Format: liste:filter1:filter2',
+      description: 'Format: Liste:Filter1:Filter2',
       searchPlaceholder: 'Søk etter lister',
     },
     grepCodes: {

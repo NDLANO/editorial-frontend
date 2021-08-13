@@ -232,6 +232,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
           if (
             columnIndex + 1 < matrix[selectedRowIndex].length &&
             cell.data.rowspan &&
+            matrix[selectedRowIndex + 1] &&
             matrix[selectedRowIndex + 1][columnIndex] === cell
           ) {
             Transforms.setNodes(
@@ -252,6 +253,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
                 at: newRowPath,
               });
             }
+
             Transforms.insertNodes(
               editor,
               {

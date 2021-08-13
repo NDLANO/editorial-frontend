@@ -8,7 +8,7 @@
  */
 
 import React, { useMemo, FocusEvent } from 'react';
-import { createEditor, Descendant } from 'slate';
+import { createEditor, Descendant, Editor } from 'slate';
 import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { SlatePlugin } from './interfaces';
@@ -32,10 +32,21 @@ interface SlateEditorProps {
 interface Props extends Omit<SlateEditorProps, 'onChange'> {
   handleSubmit: () => void;
   onChange: Function;
+  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
 const PlainTextEditor: React.FC<Props> = props => {
-  const { onChange, value, handleSubmit, id, className, placeholder, plugins, ...rest } = props;
+  const {
+    onChange,
+    value,
+    handleSubmit,
+    id,
+    className,
+    placeholder,
+    onBlur,
+    plugins,
+    ...rest
+  } = props;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 

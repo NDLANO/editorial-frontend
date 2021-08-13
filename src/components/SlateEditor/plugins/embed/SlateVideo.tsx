@@ -12,8 +12,12 @@ import Button from '@ndla/button';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
+import Tooltip from '@ndla/tooltip';
+import SafeLink from '@ndla/safelink';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
+import IconButton from '../../../IconButton';
+import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import {
   getYoutubeEmbedUrl,
   getStartTime,
@@ -54,13 +58,25 @@ const SlateVideo = ({
   saveEmbedUpdates,
 }: Props & tType) => {
   const [editMode, setEditMode] = useState(false);
+  const [tEmbed, setEmbed] = useState(embed);
+  const isOriginalEmbed = tEmbed.videoid === embed.videoid;
   const [src, setSrc] = useState('');
   const [startTime, setStartTime] = useState('');
   const [stopTime, setStopTime] = useState('');
-  const [caption, setCaption] = useState(embed.caption);
+  const [caption, setCaption] = useState(tEmbed.caption);
+
+  const [linkedVideoId, setLinkedVideoId] = useState<string | undefined>();
+  useEffect(() => {
+    const idWithoutTimestamp = embed.videoid?.split('&')[0];
+    visualElementApi
+      .fetchBrightcoveVideo(idWithoutTimestamp)
+      .then((v: { link?: { text: string } }) => {
+        setLinkedVideoId(v.link?.text);
+      });
+  }, [embed.videoid]);
 
   useEffect(() => {
-    const { resource, account, videoid, url, player = 'default' } = embed;
+    const { resource, account, videoid, url, player = 'default' } = tEmbed;
     if (resource === 'brightcove') {
       if (isBrightcoveUrl(url)) {
         setSrc(url);
@@ -76,10 +92,15 @@ const SlateVideo = ({
       setStartTime(getStartTime(url));
       setStopTime(getStopTime(url));
     }
-  }, [embed]);
+  }, [tEmbed]);
 
   const toggleEditModus = () => {
     setEditMode(!editMode);
+  };
+
+  const switchEmbedSource = () => {
+    const newEmbed = isOriginalEmbed && linkedVideoId ? linkedVideoId : embed.videoid;
+    setEmbed(embed => ({ ...embed, videoid: newEmbed }));
   };
 
   return (
@@ -87,13 +108,24 @@ const SlateVideo = ({
       <FigureButtons
         tooltip={t('form.video.remove')}
         onRemoveClick={onRemoveClick}
-        embed={embed}
+        embed={tEmbed}
         figureType="video"
-        language={language}
-      />
+        language={language}>
+        <Tooltip
+          tooltip={
+            isOriginalEmbed ? t('form.video.toLinkedVideo') : t('form.video.fromLinkedVideo')
+          }
+          align="right">
+          {linkedVideoId && (
+            <IconButton as={SafeLink} onClick={switchEmbedSource}>
+              {t('form.video.linkedVideoButton')}
+            </IconButton>
+          )}
+        </Tooltip>
+      </FigureButtons>
       {editMode ? (
         <EditVideo
-          embed={embed}
+          embed={tEmbed}
           toggleEditModus={toggleEditModus}
           figureClass={figureClass}
           src={src}
@@ -111,10 +143,10 @@ const SlateVideo = ({
             draggable
             style={{ paddingTop: '57%' }}
             {...figureClass}
-            id={embed.videoid || embed.url}
+            id={tEmbed.videoid || tEmbed.url}
             resizeIframe>
             <iframe
-              title={`Video: ${embed?.metaData?.name || ''}`}
+              title={`Video: ${tEmbed?.metaData?.name || ''}`}
               frameBorder="0"
               src={src}
               allowFullScreen
@@ -123,7 +155,7 @@ const SlateVideo = ({
           </Figure>
           <Button stripped style={{ width: '100%' }} onClick={toggleEditModus}>
             <figcaption className="c-figure__caption">
-              <div className="c-figure__info">{embed.caption}</div>
+              <div className="c-figure__info">{tEmbed.caption}</div>
             </figcaption>
           </Button>
         </Fragment>

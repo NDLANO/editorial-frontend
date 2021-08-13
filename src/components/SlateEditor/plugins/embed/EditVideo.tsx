@@ -84,14 +84,14 @@ const EditVideo = ({
   const onSave = () => {
     saveEmbedUpdates({
       caption,
-      videoid:
-        embed.resource === 'brightcove'
-          ? addBrightCoveTimeStampVideoid(embed.videoid, startTime)
-          : embed.videoid,
       url:
         embed.resource === 'brightcove'
           ? addBrightCovetimeStampSrc(src, startTime)
           : addYoutubeTimeStamps(src, startTime, stopTime),
+      videoid:
+        embed.resource === 'brightcove'
+          ? addBrightCoveTimeStampVideoid(embed.videoid, startTime)
+          : embed.videoid,
     });
     toggleEditModus();
   };

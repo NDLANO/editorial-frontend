@@ -25,6 +25,7 @@ import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import { NewImageMetadata, UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
+import Spinner from 'components/Spinner';
 
 const imageRules = {
   title: {
@@ -130,6 +131,7 @@ interface Props {
   isNewlyCreated?: boolean;
   closeModal?: () => void;
   isSaving?: boolean;
+  isLoading?: boolean;
 }
 
 interface State {
@@ -187,7 +189,16 @@ class ImageForm extends Component<Props & tType, State> {
   };
 
   render() {
-    const { t, image, licenses, inModal, closeModal, isNewlyCreated, isSaving } = this.props;
+    const {
+      t,
+      image,
+      licenses,
+      inModal,
+      closeModal,
+      isNewlyCreated,
+      isSaving,
+      isLoading,
+    } = this.props;
     const { savedToServer } = this.state;
     type ErrorFields =
       | 'alttext'
@@ -201,6 +212,8 @@ class ImageForm extends Component<Props & tType, State> {
       | 'title';
 
     const initialValues = getInitialValues(image);
+
+    if (isLoading) return <Spinner />;
 
     return (
       <Formik

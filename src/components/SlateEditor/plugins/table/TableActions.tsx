@@ -58,7 +58,7 @@ const TableActions = ({ editor, t, element }: Props & tType) => {
           break;
         }
         case 'row-add':
-          insertRow(editor, selectedPath);
+          insertRow(editor, element, selectedPath);
           break;
         case 'column-remove': {
           removeColumn(editor, element, selectedPath);

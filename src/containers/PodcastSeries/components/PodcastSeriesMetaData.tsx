@@ -24,7 +24,7 @@ const PodcastSeriesMetadata = ({ t }: Props & tType) => {
   const plugins = [textTransformPlugin];
   return (
     <>
-      <TitleField name="title" handleSubmit={submitForm} />
+      <TitleField handleSubmit={submitForm} />
 
       <FormikField name="description" label={t('podcastSeriesForm.description')}>
         {({ field }) => (

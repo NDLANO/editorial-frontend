@@ -278,6 +278,35 @@ export const normalizeTableBodyAsMatrix = (
   return false;
 };
 
+export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
+  if (!Editor.hasPath(editor, path)) return;
+  const [tableBody] = Editor.node(editor, path);
+  if (
+    !Element.isElement(tableBody) ||
+    (tableBody.type !== TYPE_TABLE_BODY && tableBody.type !== TYPE_TABLE_HEAD)
+  )
+    return;
+  let matrix: TableCellElement[][] = [];
+
+  // Merge table head and body into one list containing every row.
+  tableBody.children.forEach((row, rowIndex) => {
+    if (!Element.isElement(row) || row.type !== TYPE_TABLE_ROW) return;
+    if (!matrix[rowIndex]) {
+      matrix[rowIndex] = [];
+    }
+
+    for (const cell of row.children) {
+      if (!Element.isElement(cell) || cell.type !== TYPE_TABLE_CELL) return;
+
+      const colspan = cell.data.colspan || 1;
+      const rowspan = cell.data.rowspan || 1;
+      placeInMatrix(matrix, rowIndex, colspan, rowspan, cell);
+    }
+  });
+
+  return matrix;
+};
+
 // Expects a perfectly normalized table. Requires path to the table
 export const getTableAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;

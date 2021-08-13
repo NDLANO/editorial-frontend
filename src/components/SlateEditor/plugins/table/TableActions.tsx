@@ -52,9 +52,7 @@ const TableActions = ({ editor, t, element }: Props & tType) => {
     if (selectedPath && Path.isDescendant(selectedPath, tablePath)) {
       switch (operation) {
         case 'row-remove': {
-          if (element.children.length > 2) {
-            removeRow(editor, selectedPath);
-          }
+          removeRow(editor, selectedPath);
           break;
         }
         case 'row-add':

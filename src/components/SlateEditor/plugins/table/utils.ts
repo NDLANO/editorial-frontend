@@ -12,7 +12,7 @@ import {
   TableBodyElement,
 } from '.';
 import { defaultParagraphBlock } from '../paragraph/utils';
-import { findCellInMatrix, getTableAsMatrix } from './matrix';
+import { findCellInMatrix, getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
 
 export const TYPE_TABLE = 'table';
 export const TYPE_TABLE_HEAD = 'table-head';
@@ -33,12 +33,10 @@ export const countCells = (row: TableRowElement, stop?: number) => {
 };
 
 export const defaultTableBlock = (height: number, width: number) => {
-  return jsx(
-    'element',
-    { type: TYPE_TABLE },
-    [...Array(1)].map(() => defaultTableHeadBlock(width)),
-    [...Array(height - 1)].map(() => defaultTableBodyBlock(width)),
-  );
+  return jsx('element', { type: TYPE_TABLE }, [
+    defaultTableHeadBlock(width),
+    defaultTableBodyBlock(height - 1, width),
+  ]);
 };
 
 export const defaultTableCellBlock = () => {
@@ -70,17 +68,17 @@ export const defaultTableHeadBlock = (width: number) => {
     {
       type: TYPE_TABLE_HEAD,
     },
-    [...Array(width)].map(() => defaultTableRowBlock(width)),
+    defaultTableRowBlock(width),
   );
 };
 
-export const defaultTableBodyBlock = (width: number) => {
+export const defaultTableBodyBlock = (height: number, width: number) => {
   return jsx(
     'element',
     {
       type: TYPE_TABLE_BODY,
     },
-    [...Array(width)].map(() => defaultTableRowBlock(width)),
+    [...Array(height)].map(() => defaultTableRowBlock(width)),
   );
 };
 
@@ -97,15 +95,109 @@ export const getTableHeight = (element: TableHeadElement | TableBodyElement) => 
 };
 
 export const removeRow = (editor: Editor, path: Path) => {
-  const [rowEntry] = Editor.nodes(editor, {
+  const [cellEntry] = Editor.nodes(editor, {
     at: path,
-    match: node => Element.isElement(node) && node.type === TYPE_TABLE_ROW,
+    match: node => Element.isElement(node) && node.type === TYPE_TABLE_CELL,
   });
-  const rowPath = rowEntry && rowEntry[1];
-  Transforms.removeNodes(editor, {
-    at: rowPath,
-    match: node => Element.isElement(node) && node.type === TYPE_TABLE_ROW,
-  });
+  const [selectedCell, selectedCellPath] = cellEntry;
+
+  const matrix = getTableBodyAsMatrix(editor, Path.parent(Path.parent(selectedCellPath)));
+
+  if (matrix && Element.isElement(selectedCell) && selectedCell.type === TYPE_TABLE_CELL) {
+    // If selected cell has same height as entire body. Don't delete anything.
+    if ((selectedCell.data.rowspan || 1) === matrix.length) {
+      return;
+    }
+    const selectedPath = findCellInMatrix(matrix, selectedCell);
+    if (selectedPath) {
+      const selectedRowIndex = selectedPath[0];
+
+      Editor.withoutNormalizing(editor, () => {
+        for (let rowIndex = 0; rowIndex < (selectedCell.data.rowspan || 1); rowIndex++) {
+          const currentRowPath = [
+            ...Path.parent(Path.parent(selectedCellPath)),
+            selectedRowIndex + rowIndex,
+          ];
+
+          for (const [columnIndex, cell] of matrix[selectedRowIndex].entries()) {
+            // If cell in previous column is the same, skip
+            if (columnIndex > 0 && cell === matrix[selectedRowIndex + rowIndex][columnIndex - 1]) {
+              continue;
+            }
+            // If cell in next row is the same, skip
+            if (
+              rowIndex < (selectedCell.data.rowspan || 1) - 1 &&
+              cell === matrix[selectedRowIndex + rowIndex + 1][columnIndex]
+            ) {
+              continue;
+            }
+            // If current cell exists above rows to be deleted => Reduce rowspan
+            if (
+              selectedRowIndex > 0 &&
+              matrix[selectedRowIndex - 1][columnIndex] === cell &&
+              cell.data.rowspan
+            ) {
+              const reductionAmount = matrix
+                .slice(selectedRowIndex, selectedRowIndex + (cell.data.rowspan || 1))
+                .map(e => e[columnIndex])
+                .filter(c => c === cell).length;
+
+              Transforms.setNodes(
+                editor,
+                {
+                  ...cell,
+                  data: {
+                    ...cell.data,
+                    rowspan: cell.data.rowspan - reductionAmount,
+                  },
+                },
+                { at: ReactEditor.findPath(editor, cell) },
+              );
+              // If current cell exists beneith rows to be deleted => Reduce rowspan and move cell down.
+            } else if (
+              selectedRowIndex < matrix.length - 1 &&
+              matrix[selectedRowIndex + 1][columnIndex] === cell &&
+              cell.data.rowspan
+            ) {
+              const reductionAmount = matrix
+                .slice(selectedRowIndex, selectedRowIndex + (selectedCell.data.rowspan || 1))
+                .map(e => e[columnIndex])
+                .filter(c => c === cell).length;
+
+              const targetPath =
+                columnIndex === 0
+                  ? [...Path.next(Path.parent(ReactEditor.findPath(editor, cell))), 0]
+                  : Path.next(
+                      ReactEditor.findPath(editor, matrix[selectedRowIndex + 1][columnIndex - 1]),
+                    );
+
+              Transforms.setNodes(
+                editor,
+                {
+                  ...cell,
+                  data: {
+                    ...cell.data,
+                    rowspan: cell.data.rowspan - reductionAmount,
+                  },
+                },
+                { at: ReactEditor.findPath(editor, cell) },
+              );
+
+              Transforms.moveNodes(editor, {
+                at: ReactEditor.findPath(editor, cell),
+                to: targetPath,
+              });
+            }
+          }
+
+          // Delete current row
+          Transforms.removeNodes(editor, {
+            at: currentRowPath,
+          });
+        }
+      });
+    }
+  }
 };
 
 export const insertRow = (editor: Editor, tableElement: TableElement, path: Path) => {

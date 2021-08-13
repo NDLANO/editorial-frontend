@@ -916,6 +916,7 @@ const phrases = {
       brightcove: 'Open in Brightcove',
       toLinkedVideo: 'Switch to interpreted video',
       fromLinkedVideo: 'Switch back to original video',
+      linkedVideoButton: 'ST',
     },
     audio: {
       file: 'Audio file',

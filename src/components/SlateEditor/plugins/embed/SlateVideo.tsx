@@ -118,7 +118,7 @@ const SlateVideo = ({
           align="right">
           {linkedVideoId ? (
             <IconButton as={SafeLink} onClick={switchEmbedSource}>
-              ST
+              {t('form.video.linkedVideoButton')}
             </IconButton>
           ) : (
             undefined

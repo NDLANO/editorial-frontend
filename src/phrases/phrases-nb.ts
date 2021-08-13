@@ -925,6 +925,7 @@ const phrases = {
       brightcove: 'Åpne i Brightcove',
       toLinkedVideo: 'Bytt til synstolket versjon',
       fromLinkedVideo: 'Bytt tilbake til original versjon',
+      linkedVideoButton: 'ST',
     },
     audio: {
       file: 'Lydfil',

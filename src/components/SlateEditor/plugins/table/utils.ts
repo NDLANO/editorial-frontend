@@ -426,90 +426,19 @@ export const handleTableKeydown = (
         );
       case KEY_TAB:
         if (event.shiftKey) {
-          return moveLeft(
-            editor,
-            tableEntry,
-            rowEntry as NodeEntry<TableRowElement>,
-            cellEntry as NodeEntry<TableCellElement>,
-          );
+          Transforms.select(editor, Editor.start(editor, cellEntry[1]));
+          Transforms.move(editor, { reverse: true });
+          Transforms.select(editor, Editor.range(editor, editor.selection.anchor.path));
+          return;
         }
-        return moveRight(
-          editor,
-          tableEntry,
-          rowEntry as NodeEntry<TableRowElement>,
-          cellEntry as NodeEntry<TableCellElement>,
-        );
+        Transforms.select(editor, Editor.end(editor, cellEntry[1]));
+        Transforms.move(editor);
+        Transforms.select(editor, Editor.range(editor, editor.selection.anchor.path));
+        return;
+
       default:
         return;
     }
-  }
-};
-
-const moveLeft = (
-  editor: Editor,
-  tableEntry: NodeEntry<TableElement>,
-  rowEntry: NodeEntry<TableRowElement>,
-  cellEntry: NodeEntry<TableCellElement>,
-) => {
-  const tablePath = tableEntry[1];
-  const [row, rowPath] = rowEntry;
-  const cellPath = cellEntry[1];
-  if (Path.hasPrevious(cellPath)) {
-    const previousPath = Path.previous(cellPath);
-
-    if (Editor.hasPath(editor, previousPath)) {
-      return Transforms.select(editor, previousPath);
-    }
-  }
-  if (Path.hasPrevious(rowPath)) {
-    const previousPath = Path.previous(rowPath);
-    if (Editor.hasPath(editor, previousPath)) {
-      const targetCellPath = [...previousPath, row.children.length - 1];
-      if (Editor.hasPath(editor, targetCellPath)) {
-        return Transforms.select(editor, targetCellPath);
-      }
-    }
-  }
-  if (Path.equals([...tablePath, 0, 0], cellPath)) {
-    const targetPath = [...tablePath, 0];
-    Transforms.insertNodes(editor, defaultTableRowBlock(1), { at: targetPath });
-    Transforms.select(editor, {
-      anchor: Editor.point(editor, targetPath, { edge: 'start' }),
-      focus: Editor.point(editor, targetPath, { edge: 'start' }),
-    });
-  }
-};
-
-const moveRight = (
-  editor: Editor,
-  tableEntry: NodeEntry<TableElement>,
-  rowEntry: NodeEntry<TableRowElement>,
-  cellEntry: NodeEntry<TableCellElement>,
-) => {
-  const tablePath = tableEntry[1];
-  const [row, rowPath] = rowEntry;
-  const cellPath = cellEntry[1];
-  const nextPath = Path.next(cellPath);
-
-  if (Editor.hasPath(editor, nextPath)) {
-    return Transforms.select(editor, nextPath);
-  }
-
-  const nextRowPath = Path.next(rowPath);
-  if (Editor.hasPath(editor, nextRowPath)) {
-    const targetCellPath = [...nextRowPath, 0];
-    if (Editor.hasPath(editor, targetCellPath)) {
-      return Transforms.select(editor, targetCellPath);
-    }
-  }
-  const TableEndPoint = Editor.point(editor, tablePath, { edge: 'end' });
-  if (Path.isDescendant(TableEndPoint.path, cellPath)) {
-    const targetPath = [...tablePath, row.children.length];
-    Transforms.insertNodes(editor, defaultTableRowBlock(1), { at: targetPath });
-    Transforms.select(editor, {
-      anchor: Editor.point(editor, tablePath, { edge: 'end' }),
-      focus: Editor.point(editor, tablePath, { edge: 'end' }),
-    });
   }
 };
 

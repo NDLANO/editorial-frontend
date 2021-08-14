@@ -25,6 +25,12 @@ interface Copyright {
   validTo?: string;
 }
 
+export interface EditorNote {
+  timestamp: string;
+  updatedBy: string;
+  note: string;
+}
+
 export interface ImageApiType {
   id: string;
   metaUrl: string;
@@ -50,6 +56,7 @@ export interface ImageApiType {
   };
   supportedLanguages: string[];
   modelRelease: string;
+  editorNotes?: EditorNote[];
 }
 
 export interface NewImageMetadata {

@@ -23,8 +23,13 @@ import {
 } from '../../FormikForm';
 import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
-import { NewImageMetadata, UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
+import {
+  EditorNote,
+  NewImageMetadata,
+  UpdatedImageMetadata,
+} from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
+import ImageVersionNotes from './ImageVersionNotes';
 import Spinner from 'components/Spinner';
 
 const imageRules = {
@@ -100,7 +105,7 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-interface ImagePropType {
+export interface ImagePropType {
   alttext?: string;
   caption?: string;
   contentType?: string;
@@ -114,6 +119,7 @@ interface ImagePropType {
   tags?: string[];
   title?: string;
   modelRelease?: string;
+  editorNotes?: EditorNote[];
 }
 
 type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
@@ -213,7 +219,7 @@ class ImageForm extends Component<Props & tType, State> {
 
     const initialValues = getInitialValues(image);
 
-    if (isLoading) return <Spinner />;
+    if (isLoading) return <Spinner withWrapper />;
 
     return (
       <Formik
@@ -268,8 +274,13 @@ class ImageForm extends Component<Props & tType, State> {
                     imageTags={values.tags}
                   />
                 </AccordionSection>
+                <AccordionSection
+                  id="image-upload-version-history"
+                  title={t('form.workflowSection')} // TODO: Maybe think about changing this if we don't do notes.
+                  className="u-4/6@desktop u-push-1/6@desktop">
+                  <ImageVersionNotes image={image}/>
+                </AccordionSection>
               </Accordions>
-
               <Field right>
                 {inModal ? (
                   <ActionButton outline onClick={closeModal}>

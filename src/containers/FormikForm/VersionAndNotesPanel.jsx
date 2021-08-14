@@ -68,7 +68,7 @@ const VersionAndNotesPanel = ({
   getArticle,
 }) => {
   const [versions, setVersions] = useState([]);
-  const [loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const getVersions = async () => {

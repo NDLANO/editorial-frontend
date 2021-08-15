@@ -63,7 +63,7 @@ const AudioContent = ({ t, formik }: Props & tType) => {
 
   return (
     <Fragment>
-      <TitleField handleSubmit={submitForm} name={'title'} />
+      <TitleField handleSubmit={submitForm} />
 
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
         {() =>

@@ -75,9 +75,7 @@ const LearningResourcePanels = ({
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
         <MetaDataField
-          handleBlur={handleBlur}
           fetchSearchTags={fetchSearchTags}
-          handleSubmit={handleSubmit}
           article={article}
         />
       </AccordionSection>

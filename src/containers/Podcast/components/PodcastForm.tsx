@@ -238,7 +238,7 @@ const PodcastForm = ({
                   title={t('podcastForm.fields.manuscript')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={[].some(field => field in errors)}>
-                  <AudioManuscript classes={formClasses} />
+                  <AudioManuscript />
                 </AccordionSection>
                 <AccordionSection
                   id="podcast-upload-podcastmeta"
@@ -247,7 +247,7 @@ const PodcastForm = ({
                   hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
                     field => field in errors,
                   )}>
-                  <PodcastMetaData handleSubmit={submitForm} />
+                  <PodcastMetaData />
                   <PodcastSeriesInformation />
                 </AccordionSection>
 

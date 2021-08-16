@@ -20,7 +20,7 @@ import { UserAccessContext } from '../App/App';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { ArticleShape } from '../../shapes';
 
-const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }) => {
+const MetaDataField = ({ t, article, fetchSearchTags }) => {
   const userAccess = useContext(UserAccessContext);
   const plugins = [textTransformPlugin];
 
@@ -56,7 +56,6 @@ const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }
           <PlainTextEditor
             id={field.name}
             placeholder={t('form.metaDescription.label')}
-            handleSubmit={handleSubmit}
             {...field}
             plugins={plugins}
           />
@@ -79,8 +78,6 @@ const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }
 MetaDataField.propTypes = {
   article: ArticleShape.isRequired,
   fetchSearchTags: PropTypes.func,
-  handleSubmit: PropTypes.func,
-  handleBlur: PropTypes.func,
 };
 
 export default injectT(MetaDataField);

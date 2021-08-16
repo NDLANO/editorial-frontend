@@ -20,11 +20,7 @@ interface FormikProps {
   form: FormikProperties['form'];
 }
 
-interface Props {
-  handleSubmit: () => void;
-}
-
-const SubjectpageMetadata = ({ handleSubmit, t }: Props & tType) => {
+const SubjectpageMetadata = ({ t }: tType) => {
   const plugins = [textTransformPlugin];
   return (
     <>
@@ -39,7 +35,6 @@ const SubjectpageMetadata = ({ handleSubmit, t }: Props & tType) => {
             id={field.name}
             {...field}
             placeholder={t('form.metaDescription.label')}
-            handleSubmit={handleSubmit}
             plugins={plugins}
           />
         )}

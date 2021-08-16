@@ -16,9 +16,7 @@ import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 
-interface Props {}
-
-const PodcastSeriesMetadata = ({ t }: Props & tType) => {
+const PodcastSeriesMetadata = ({ t }: tType) => {
   const formikContext = useFormikContext<PodcastSeriesFormikType>();
   const { submitForm } = formikContext;
   const plugins = [textTransformPlugin];
@@ -31,7 +29,6 @@ const PodcastSeriesMetadata = ({ t }: Props & tType) => {
           <PlainTextEditor
             id={field.name}
             placeholder={t('podcastSeriesForm.description')}
-            handleSubmit={() => {}}
             {...field}
             plugins={plugins}
           />

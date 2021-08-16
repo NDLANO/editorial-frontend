@@ -14,13 +14,9 @@ import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 import { MetaImageSearch } from '../../FormikForm';
 
-interface Props {
-  handleSubmit: () => void;
-}
-
 const plugins = [textTransformPlugin];
 
-const PodcastMetaData = ({ handleSubmit, t }: Props & tType) => {
+const PodcastMetaData = ({ t }: tType) => {
   return (
     <>
       <FormikField
@@ -34,7 +30,6 @@ const PodcastMetaData = ({ handleSubmit, t }: Props & tType) => {
             {...field}
             className={'introduction'}
             placeholder={t('podcastForm.fields.introduction')}
-            handleSubmit={handleSubmit}
             plugins={plugins}
           />
         )}

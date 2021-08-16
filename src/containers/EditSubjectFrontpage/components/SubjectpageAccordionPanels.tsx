@@ -19,7 +19,6 @@ interface Props {
   editorsChoices: ArticleType[];
   elementId: string;
   errors: FormikErrors<SubjectFormValues>;
-  handleSubmit: () => void;
 }
 
 const SubjectpageAccordionPanels = ({
@@ -27,7 +26,6 @@ const SubjectpageAccordionPanels = ({
   editorsChoices,
   elementId,
   errors,
-  handleSubmit,
 }: Props & tType) => {
   return (
     <Accordions>
@@ -37,14 +35,14 @@ const SubjectpageAccordionPanels = ({
         className="u-4/6@desktop u-push-1/6@desktop"
         hasError={['title', 'description', 'visualElement'].some(field => field in errors)}
         startOpen>
-        <SubjectpageAbout handleSubmit={handleSubmit} />
+        <SubjectpageAbout />
       </AccordionSection>
       <AccordionSection
         id="metadata"
         title={t('subjectpageForm.metadata')}
         className="u-6/6"
         hasError={['metaDescription', 'mobileBannerId'].some(field => field in errors)}>
-        <SubjectpageMetadata handleSubmit={handleSubmit} />
+        <SubjectpageMetadata />
       </AccordionSection>
       <AccordionSection
         id="articles"

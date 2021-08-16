@@ -68,8 +68,6 @@ const TopicArticleAccordionPanels = ({
         hasError={!!(errors.metaDescription || errors.tags)}>
         <MetaDataField
           article={article}
-          handleSubmit={handleSubmit}
-          handleBlur={handleBlur}
           fetchSearchTags={fetchSearchTags}
         />
       </AccordionSection>

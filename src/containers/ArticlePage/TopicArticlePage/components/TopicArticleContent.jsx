@@ -143,11 +143,9 @@ const TopicArticleContent = props => {
             </FieldHeader>
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
-              name={name}
               value={value}
               submitted={isSubmitting}
               plugins={plugins}
-              handleSubmit={handleSubmit}
               onChange={value => {
                 onChange({
                   target: {

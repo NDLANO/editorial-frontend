@@ -184,7 +184,6 @@ const LearningResourceContent = ({
               onChange={onChange}
               language={articleLanguage}
               actionsToShowInAreas={actionsToShowInAreas}
-              handleSubmit={handleSubmit}
             />
             <LearningResourceFootnotes footnotes={findFootnotes(value)} />
           </Fragment>

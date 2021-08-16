@@ -54,11 +54,9 @@ class RichBlockTextEditor extends PureComponent {
       t,
       children,
       value,
-      name,
       placeholder,
       plugins,
       submitted,
-      handleSubmit,
       language,
       actionsToShowInAreas,
     } = this.props;
@@ -76,8 +74,6 @@ class RichBlockTextEditor extends PureComponent {
               </Tooltip>
             )}
             <RichTextEditor
-              id={name}
-              name={name}
               index={index}
               data-cy={this.props['data-cy']}
               placeholder={placeholder}
@@ -88,7 +84,6 @@ class RichBlockTextEditor extends PureComponent {
               value={blockValue}
               actionsToShowInAreas={actionsToShowInAreas}
               removeSection={this.removeSection}
-              handleSubmit={handleSubmit}
             />
             {children}
           </StyledFormContainer>
@@ -111,7 +106,6 @@ RichBlockTextEditor.propTypes = {
   submitted: PropTypes.bool.isRequired,
   'data-cy': PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default injectT(RichBlockTextEditor);

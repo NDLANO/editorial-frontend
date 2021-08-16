@@ -38,47 +38,32 @@ const slateEditorDivStyle = css`
   position: relative;
 `;
 
-interface SlateEditorProps {
-  id?: string;
-  index: number;
-  autoCorrect?: string;
-  autoFocus?: boolean;
+interface Props {
+  value: Descendant[];
+  onChange: Function;
   className?: string;
-  onChange: (value: Descendant[]) => void;
   placeholder?: string;
   plugins?: SlatePlugin[];
-  readOnly?: boolean;
-  role?: string;
-  spellCheck?: boolean;
+  submitted: boolean;
   language: string;
   actionsToShowInAreas: { [key: string]: string[] };
-  taxIndex?: number;
-  value: Descendant[];
-  submitted: boolean;
+  index: number;
   removeSection: (index: number) => void;
-}
-
-interface Props extends Omit<SlateEditorProps, 'onChange'> {
-  handleSubmit: () => void;
-  onChange: Function;
-  children: any;
+  children: JSX.Element;
 }
 
 const RichTextEditor = ({
   children,
   className,
-  id,
   placeholder,
   plugins,
   value,
   onChange,
-  handleSubmit,
   submitted,
   language,
   actionsToShowInAreas,
   index,
   removeSection,
-  ...rest
 }: Props) => {
   const editor = useMemo(
     () => withHistory(withReact(withPlugins(createEditor(), plugins))),
@@ -107,10 +92,10 @@ const RichTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted]);
 
-  const renderElement = (props: RenderElementProps) => {
-    const { attributes, children } = props;
+  const renderElement = (renderProps: RenderElementProps) => {
+    const { attributes, children } = renderProps;
     if (editor.renderElement) {
-      const ret = editor.renderElement(props);
+      const ret = editor.renderElement(renderProps);
       if (ret) {
         return ret;
       }
@@ -118,10 +103,10 @@ const RichTextEditor = ({
     return <p {...attributes}>{children}</p>;
   };
 
-  const renderLeaf = (props: RenderLeafProps) => {
-    const { attributes, children } = props;
+  const renderLeaf = (renderProps: RenderLeafProps) => {
+    const { attributes, children } = renderProps;
     if (editor.renderLeaf) {
-      const ret = editor.renderLeaf(props);
+      const ret = editor.renderLeaf(renderProps);
       if (ret) {
         return ret;
       }

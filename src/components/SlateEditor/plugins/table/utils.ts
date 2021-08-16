@@ -37,6 +37,8 @@ export const defaultTableCellBlock = () => {
       type: TYPE_TABLE_CELL,
       data: {
         isHeader: false,
+        colspan: 1,
+        rowspan: 1,
       },
     },
     defaultParagraphBlock(),

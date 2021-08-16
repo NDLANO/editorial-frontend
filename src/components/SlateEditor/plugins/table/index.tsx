@@ -19,7 +19,9 @@ import {
 } from '../../../../util/embedTagHelpers';
 import SlateTable from './SlateTable';
 import {
+  defaultTableBodyBlock,
   defaultTableCellBlock,
+  defaultTableHeadBlock,
   defaultTableRowBlock,
   TYPE_TABLE,
   TYPE_TABLE_BODY,
@@ -197,11 +199,27 @@ export const tablePlugin = (editor: Editor) => {
         if (addSurroundingParagraphs(editor, path)) {
           return;
         }
+        // If table contains element other than head or body element, wrap it with head or body element
+        for (const [index, child] of node.children.entries()) {
+          if (
+            !Element.isElement(child) ||
+            ![TYPE_TABLE_HEAD, TYPE_TABLE_BODY].includes(child.type)
+          ) {
+            const wrapAsHeader = index === 0;
+            return Transforms.wrapNodes(
+              editor,
+              wrapAsHeader ? defaultTableHeadBlock(0) : defaultTableBodyBlock(0, 0),
+              {
+                at: [...path, index],
+              },
+            );
+          }
+        }
       }
       if (node.type === TYPE_TABLE_HEAD || node.type === TYPE_TABLE_BODY) {
         const bodyNodes = node.children;
 
-        // If head or body contains non-row element, wrap it with row element
+        // If head or body contains non-row element, wrap it in row element
         for (const [index, child] of bodyNodes.entries()) {
           if (!Element.isElement(child) || child.type !== TYPE_TABLE_ROW) {
             return Transforms.wrapNodes(editor, defaultTableRowBlock(0), {

@@ -273,6 +273,51 @@ export const normalizeTableBodyAsMatrix = (
         return true;
       }
     }
+  } else if (Editor.hasPath(editor, Path.next(tableBodyPath))) {
+    const [nextBody, nextBodyPath] = Editor.node(editor, Path.next(tableBodyPath));
+    if (
+      Element.isElement(nextBody) &&
+      (nextBody.type === TYPE_TABLE_BODY || nextBody.type === TYPE_TABLE_HEAD)
+    ) {
+      const previousBodyWidth = getTableWidth(nextBody);
+      const currentBodyWidth = getTableWidth(tableBody);
+
+      const lengthDiff = currentBodyWidth - previousBodyWidth;
+
+      // Next body is narrower. Add cells in all rows
+      if (lengthDiff > 0) {
+        Editor.withoutNormalizing(editor, () => {
+          for (const [index, row] of nextBody.children.entries()) {
+            if (Element.isElement(row) && row.type === TYPE_TABLE_ROW) {
+              Transforms.insertNodes(
+                editor,
+                [...Array(lengthDiff)].map(() => defaultTableCellBlock()),
+                {
+                  at: [...nextBodyPath, index, row.children.length],
+                },
+              );
+            }
+          }
+        });
+        return true;
+        // Current body is narrower. Add cells in all rows
+      } else if (lengthDiff < 0) {
+        Editor.withoutNormalizing(editor, () => {
+          for (const [index, row] of tableBody.children.entries()) {
+            if (Element.isElement(row) && row.type === TYPE_TABLE_ROW) {
+              Transforms.insertNodes(
+                editor,
+                [...Array(Math.abs(lengthDiff))].map(() => defaultTableCellBlock()),
+                {
+                  at: [...tableBodyPath, index, row.children.length],
+                },
+              );
+            }
+          }
+        });
+        return true;
+      }
+    }
   }
 
   return false;

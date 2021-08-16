@@ -13,7 +13,13 @@ import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 import withPlugins from '../../../utils/withPlugins';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 import { TYPE_SECTION } from '../../section';
-import { TYPE_TABLE, TYPE_TABLE_CELL, TYPE_TABLE_ROW } from '../utils';
+import {
+  TYPE_TABLE,
+  TYPE_TABLE_BODY,
+  TYPE_TABLE_CELL,
+  TYPE_TABLE_HEAD,
+  TYPE_TABLE_ROW,
+} from '../utils';
 
 const editor = withHistory(
   withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
@@ -33,36 +39,44 @@ describe('table normalizer tests', () => {
             type: TYPE_TABLE,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TYPE_TABLE_HEAD,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: false,
-                      colspan: '1',
-                    },
+                    type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '1',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '1',
+                              },
+                            ],
                           },
                         ],
                       },
-                    ],
-                  },
-                  {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: true,
-                    },
-                    children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: true,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '2',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '2',
+                              },
+                            ],
                           },
                         ],
                       },
@@ -71,35 +85,44 @@ describe('table normalizer tests', () => {
                 ],
               },
               {
-                type: TYPE_TABLE_ROW,
+                type: TYPE_TABLE_BODY,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: false,
-                    },
+                    type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '3',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '3',
+                              },
+                            ],
                           },
                         ],
                       },
-                    ],
-                  },
-                  {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: false,
-                    },
-                    children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '4',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '4',
+                              },
+                            ],
                           },
                         ],
                       },
@@ -129,36 +152,44 @@ describe('table normalizer tests', () => {
             type: TYPE_TABLE,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TYPE_TABLE_HEAD,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: true,
-                      colspan: '1',
-                    },
+                    type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: true,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '1',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '1',
+                              },
+                            ],
                           },
                         ],
                       },
-                    ],
-                  },
-                  {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: true,
-                    },
-                    children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: true,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '2',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '2',
+                              },
+                            ],
                           },
                         ],
                       },
@@ -167,35 +198,44 @@ describe('table normalizer tests', () => {
                 ],
               },
               {
-                type: TYPE_TABLE_ROW,
+                type: TYPE_TABLE_BODY,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: false,
-                    },
+                    type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '3',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '3',
+                              },
+                            ],
                           },
                         ],
                       },
-                    ],
-                  },
-                  {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: false,
-                    },
-                    children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '4',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '4',
+                              },
+                            ],
                           },
                         ],
                       },
@@ -218,7 +258,7 @@ describe('table normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Make sure non-row element in table is wrapped in row', () => {
+  test('Make sure non-row element in table-head or body is wrapped in row', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -231,43 +271,57 @@ describe('table normalizer tests', () => {
             type: TYPE_TABLE,
             children: [
               {
-                type: TYPE_PARAGRAPH,
+                type: TYPE_TABLE_HEAD,
                 children: [
                   {
-                    text: '1',
+                    type: TYPE_PARAGRAPH,
+                    children: [
+                      {
+                        text: '1',
+                      },
+                    ],
                   },
                 ],
               },
               {
-                type: TYPE_TABLE_ROW,
+                type: TYPE_TABLE_BODY,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: false,
-                    },
+                    type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '3',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '3',
+                              },
+                            ],
                           },
                         ],
                       },
-                    ],
-                  },
-                  {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: false,
-                    },
-                    children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '4',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '4',
+                              },
+                            ],
                           },
                         ],
                       },
@@ -297,35 +351,44 @@ describe('table normalizer tests', () => {
             type: TYPE_TABLE,
             children: [
               {
-                type: TYPE_TABLE_ROW,
+                type: TYPE_TABLE_HEAD,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: true,
-                    },
+                    type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: true,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '1',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '1',
+                              },
+                            ],
                           },
                         ],
                       },
-                    ],
-                  },
-                  {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: true,
-                    },
-                    children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: true,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '',
+                              },
+                            ],
                           },
                         ],
                       },
@@ -334,35 +397,44 @@ describe('table normalizer tests', () => {
                 ],
               },
               {
-                type: TYPE_TABLE_ROW,
+                type: TYPE_TABLE_BODY,
                 children: [
                   {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: false,
-                    },
+                    type: TYPE_TABLE_ROW,
                     children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '3',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '3',
+                              },
+                            ],
                           },
                         ],
                       },
-                    ],
-                  },
-                  {
-                    type: TYPE_TABLE_CELL,
-                    data: {
-                      isHeader: false,
-                    },
-                    children: [
                       {
-                        type: TYPE_PARAGRAPH,
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
                         children: [
                           {
-                            text: '4',
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '4',
+                              },
+                            ],
                           },
                         ],
                       },
@@ -412,6 +484,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: true,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -433,6 +507,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: false,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -449,6 +525,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: false,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -491,6 +569,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: true,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -507,6 +587,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: true,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -528,6 +610,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: false,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -544,6 +628,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: false,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -592,6 +678,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: true,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -608,6 +696,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: true,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -629,6 +719,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: false,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -671,6 +763,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: true,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -687,6 +781,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: true,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -708,6 +804,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: false,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {
@@ -724,6 +822,8 @@ describe('table normalizer tests', () => {
                     type: TYPE_TABLE_CELL,
                     data: {
                       isHeader: false,
+                      colspan: 1,
+                      rowspan: 1,
                     },
                     children: [
                       {

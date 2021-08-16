@@ -8,7 +8,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { injectT } from '@ndla/i18n';
-import { VersionLogTag, VersionHistory } from '@ndla/editor';
+import { VersionHistory } from '@ndla/editor';
 import { ImagePropType } from './ImageForm';
 import { EditorNote } from '../../../modules/image/imageApiInterfaces';
 import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
@@ -45,22 +45,25 @@ interface Props {
 }
 
 const ImageVersionNotes = ({ image }: Props) => {
+  const numNotes = image?.editorNotes?.length ?? 0;
+
   const [users, setUsers] = useState<SimpleUserType[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(numNotes > 0);
 
   const cleanupNotes = useCallback(
     (notes: EditorNote[]) =>
-      notes.map(note => ({
+      notes.map((note, idx) => ({
         ...note,
         author: getUser(note.updatedBy, users),
         date: formatDate(note.timestamp),
+        id: idx.toString(),
       })),
     [users],
   );
 
   useEffect(() => {
     let shouldUpdate = true;
-    if (image?.editorNotes?.length ?? 0 > 0) {
+    if (numNotes > 0) {
       getUsersFromNotes(image?.editorNotes ?? [], setUsers).then(r => {
         if (shouldUpdate) setLoading(false);
       });
@@ -69,11 +72,13 @@ const ImageVersionNotes = ({ image }: Props) => {
     return () => {
       shouldUpdate = false;
     };
-  }, [image?.editorNotes]);
+  }, [image?.editorNotes, numNotes]);
 
   if (loading) return <Spinner />;
 
-  return <VersionHistory notes={cleanupNotes(image?.editorNotes ?? [])} />;
+  const cleanedNotes = cleanupNotes(image?.editorNotes ?? []);
+
+  return <VersionHistory notes={cleanedNotes} />;
 };
 
 export default injectT(ImageVersionNotes);

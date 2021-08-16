@@ -33,7 +33,7 @@ const StyledBadge = styled.div`
 `;
 
 interface VersionHistoryNotes {
-  id: number;
+  id: string;
   note: string;
   author: string;
   date: string;
@@ -63,7 +63,7 @@ const VersionHistoryLightBox = ({
   useEffect(() => {
     const cleanupNotes = (notes: Note[], users: Auth0UserData[]) =>
       notes.map((note, index) => ({
-        id: index,
+        id: index.toString(),
         note: note.note,
         author: users.find(user => user.app_metadata.ndla_id === note.user)?.name || '',
         date: formatDate(note.timestamp),

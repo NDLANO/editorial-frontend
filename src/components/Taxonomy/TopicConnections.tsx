@@ -8,6 +8,7 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+// @ts-ignore
 import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { Switch } from '@ndla/switch';

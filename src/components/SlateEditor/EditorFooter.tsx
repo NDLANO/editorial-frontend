@@ -154,6 +154,7 @@ function EditorFooter<T extends FormValues>({
 
   return (
     <Footer>
+      <>
       <div data-cy="footerPreviewAndValidate">
         {values.id && isConcept && (
           <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
@@ -188,10 +189,12 @@ function EditorFooter<T extends FormValues>({
             warningSavedWithoutComment: t('editorFooter.warningSaveWithoutComment'),
             newStatusPrefix: t('editorFooter.newStatusPrefix'),
             statusLabel: t('editorFooter.statusLabel'),
+            commentPlaceholder: '',
           }}
         />
         {saveButton}
       </div>
+      </>
     </Footer>
   );
 }

@@ -35,16 +35,16 @@ describe('Table plugin', () => {
       .focus()
       .wait(500)
       .then($el => {
-        cy.wrap($el).type('{downarrow}{downarrow}{rightarrow}TEST{leftarrow}TEST2{uparrow}TEST3', {
+        cy.wrap($el).type('{rightarrow}{downarrow}TEST{uparrow}TEST2{uparrow}TEST3', {
           force: true,
         });
         cy.get('[data-cy=column-add]').click({ force: true });
         cy.wait(500);
-        cy.wrap($el).type('Test new column');
+        cy.wrap($el).type('{rightarrow}Test new column');
         cy.wait(500);
         cy.get('[data-cy=row-add]').click({ force: true });
         cy.wait(500);
-        cy.wrap($el).type('Test new row');
+        cy.wrap($el).type('{downarrow}Test new row');
       });
 
     cy.get('[data-cy=column-remove]').click({ force: true });

@@ -36,8 +36,10 @@ import { handleTableKeydown } from './handleKeyDown';
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
 export const KEY_TAB = 'Tab';
+export const KEY_BACKSPACE = 'Backspace';
+export const KEY_DELETE = 'Delete';
 
-const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB];
+const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
 
 export interface TableElement {
   type: 'table';

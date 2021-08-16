@@ -1,8 +1,10 @@
-import { Editor, Element, NodeEntry, Path, Transforms } from 'slate';
+import { Editor, Element, NodeEntry, Path, Point, Range, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import {
   KEY_ARROW_DOWN,
   KEY_ARROW_UP,
+  KEY_BACKSPACE,
+  KEY_DELETE,
   KEY_TAB,
   TableBodyElement,
   TableCellElement,
@@ -25,7 +27,6 @@ export const handleTableKeydown = (
   editor: Editor,
   tableEntry: NodeEntry<TableElement>,
 ) => {
-  event.preventDefault();
   if (editor.selection) {
     const [cellEntry] = Editor.nodes(editor, {
       at: editor.selection.anchor.path,
@@ -52,10 +53,13 @@ export const handleTableKeydown = (
 
     switch (event.key) {
       case KEY_ARROW_DOWN:
+        event.preventDefault();
         return moveDown(editor, tableEntry, cellEntry as NodeEntry<TableCellElement>);
       case KEY_ARROW_UP:
+        event.preventDefault();
         return moveUp(editor, tableEntry, cellEntry as NodeEntry<TableCellElement>);
       case KEY_TAB:
+        event.preventDefault();
         if (event.shiftKey) {
           return moveLeft(
             editor,
@@ -72,9 +76,38 @@ export const handleTableKeydown = (
           rowEntry as NodeEntry<TableRowElement>,
           cellEntry as NodeEntry<TableCellElement>,
         );
+      case KEY_BACKSPACE:
+        return handleBackspaceClick(event, editor, cellEntry as NodeEntry<TableCellElement>);
+      case KEY_DELETE:
+        return handleDeleteClick(event, editor, cellEntry as NodeEntry<TableCellElement>);
 
       default:
         return;
+    }
+  }
+};
+
+const handleBackspaceClick = (
+  event: KeyboardEvent,
+  editor: Editor,
+  cellEntry: NodeEntry<TableCellElement>,
+) => {
+  const firstCellPoint = Editor.point(editor, cellEntry[1], { edge: 'start' });
+  if (editor.selection && Range.isCollapsed(editor.selection)) {
+    if (Point.equals(editor.selection.anchor, firstCellPoint)) {
+      event.preventDefault();
+    }
+  }
+};
+const handleDeleteClick = (
+  event: KeyboardEvent,
+  editor: Editor,
+  cellEntry: NodeEntry<TableCellElement>,
+) => {
+  const lastCellPoint = Editor.point(editor, cellEntry[1], { edge: 'end' });
+  if (editor.selection && Range.isCollapsed(editor.selection)) {
+    if (Point.equals(editor.selection.anchor, lastCellPoint)) {
+      event.preventDefault();
     }
   }
 };

@@ -204,7 +204,11 @@ export const normalizeTableBodyAsMatrix = (
     }
     // For each cell in row.
     for (const cell of row.children) {
-      if (!Element.isElement(cell) || cell.type !== TYPE_TABLE_CELL) return;
+      if (!Element.isElement(cell) || cell.type !== TYPE_TABLE_CELL) {
+        const path = ReactEditor.findPath(editor, cell);
+        Transforms.wrapNodes(editor, defaultTableCellBlock(), { at: path });
+        return true;
+      }
 
       const colspan = cell.data.colspan ? cell.data.colspan : 1;
       const rowspan = cell.data.rowspan ? cell.data.rowspan : 1;

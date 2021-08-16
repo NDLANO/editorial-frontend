@@ -215,6 +215,16 @@ export const tablePlugin = (editor: Editor) => {
             );
           }
         }
+        for (const [index, child] of node.children.entries()) {
+          if (
+            Element.isElement(child) &&
+            (child.type === TYPE_TABLE_HEAD || child.type === TYPE_TABLE_BODY)
+          ) {
+            if (normalizeTableBodyAsMatrix(editor, child, [...path, index])) {
+              return;
+            }
+          }
+        }
       }
       if (node.type === TYPE_TABLE_HEAD || node.type === TYPE_TABLE_BODY) {
         const bodyNodes = node.children;
@@ -232,10 +242,6 @@ export const tablePlugin = (editor: Editor) => {
         const firstRow = bodyNodes[0];
         if (!Element.isElement(firstRow) || firstRow.type !== TYPE_TABLE_ROW) {
           return normalizeNode(entry);
-        }
-
-        if (normalizeTableBodyAsMatrix(editor, node, path)) {
-          return;
         }
       } else if (node.type === TYPE_TABLE_CELL) {
         // Cells should only contain elements. If not, wrap content in paragraph

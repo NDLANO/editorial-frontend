@@ -94,6 +94,25 @@ export const getTableHeight = (element: TableHeadElement | TableBodyElement) => 
   return element.children.length;
 };
 
+const createIdenticalRow = (element: TableRowElement) => {
+  return jsx(
+    'element',
+    { type: TYPE_TABLE_ROW },
+    element.children.map(child => {
+      if (Element.isElement(child) && child.type === TYPE_TABLE_CELL) {
+        return {
+          ...defaultTableCellBlock(),
+          data: {
+            ...child.data,
+            rowspan: undefined,
+          },
+        };
+      }
+      return defaultTableCellBlock();
+    }),
+  );
+};
+
 export const removeRow = (editor: Editor, path: Path) => {
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
@@ -478,10 +497,8 @@ const moveLeft = (
   }
 
   if (Path.equals([...tablePath, 0, 0, 0], cellPath)) {
-    console.log('left');
-
     const targetPath = [...tablePath, 0, 0];
-    Transforms.insertNodes(editor, defaultTableRowBlock(1), { at: targetPath });
+    Transforms.insertNodes(editor, createIdenticalRow(row), { at: targetPath });
     Transforms.select(editor, {
       anchor: Editor.point(editor, targetPath, { edge: 'start' }),
       focus: Editor.point(editor, targetPath, { edge: 'start' }),
@@ -518,7 +535,6 @@ const moveRight = (
 
   const TableEndPoint = Editor.point(editor, tablePath, { edge: 'end' });
   if (Path.isDescendant(TableEndPoint.path, cellPath)) {
-    console.log('right');
     const targetPath = [...bodyPath, row.children.length];
     Transforms.insertNodes(editor, defaultTableRowBlock(1), { at: targetPath });
     Transforms.select(editor, {

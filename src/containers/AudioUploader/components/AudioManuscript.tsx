@@ -16,7 +16,6 @@ import { textTransformPlugin } from '../../../components/SlateEditor/plugins/tex
 const plugins = [textTransformPlugin];
 
 const AudioManuscript = ({ t }: tType) => {
-
   return (
     <FormikField label={t('podcastForm.fields.manuscript')} name="manuscript">
       {({ field }) => (

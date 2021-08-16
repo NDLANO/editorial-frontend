@@ -21,12 +21,7 @@ interface Props {
   errors: FormikErrors<SubjectFormValues>;
 }
 
-const SubjectpageAccordionPanels = ({
-  t,
-  editorsChoices,
-  elementId,
-  errors,
-}: Props & tType) => {
+const SubjectpageAccordionPanels = ({ t, editorsChoices, elementId, errors }: Props & tType) => {
   return (
     <Accordions>
       <AccordionSection

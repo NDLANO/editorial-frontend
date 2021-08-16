@@ -23,14 +23,7 @@ interface Props {
   plugins?: SlatePlugin[];
 }
 
-const PlainTextEditor = ({
-  onChange,
-  value,
-  id,
-  className,
-  placeholder,
-  plugins,
-  }: Props) => {
+const PlainTextEditor = ({ onChange, value, id, className, placeholder, plugins }: Props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 

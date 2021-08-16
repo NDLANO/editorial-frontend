@@ -66,10 +66,7 @@ const TopicArticleAccordionPanels = ({
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.tags)}>
-        <MetaDataField
-          article={article}
-          fetchSearchTags={fetchSearchTags}
-        />
+        <MetaDataField article={article} fetchSearchTags={fetchSearchTags} />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-grepCodes'}

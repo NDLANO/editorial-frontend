@@ -74,10 +74,7 @@ const LearningResourcePanels = ({
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
-        <MetaDataField
-          fetchSearchTags={fetchSearchTags}
-          article={article}
-        />
+        <MetaDataField fetchSearchTags={fetchSearchTags} article={article} />
       </AccordionSection>
       <AccordionSection
         id={'learning-resource-grepCodes'}

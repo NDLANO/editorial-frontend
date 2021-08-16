@@ -21,9 +21,10 @@ interface Props {
   className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];
+  cy?: string;
 }
 
-const PlainTextEditor = ({ onChange, value, id, className, placeholder, plugins }: Props) => {
+const PlainTextEditor = ({ onChange, value, id, className, placeholder, plugins, cy }: Props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
@@ -50,6 +51,7 @@ const PlainTextEditor = ({ onChange, value, id, className, placeholder, plugins 
         onKeyDown={editor.onKeyDown}
         className={className}
         placeholder={placeholder}
+        data-cy={cy}
       />
     </Slate>
   );

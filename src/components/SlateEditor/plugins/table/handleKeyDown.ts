@@ -15,7 +15,6 @@ import {
 import { findCellInMatrix, getTableAsMatrix } from './matrix';
 import {
   createIdenticalRow,
-  defaultTableRowBlock,
   TYPE_TABLE_BODY,
   TYPE_TABLE_CELL,
   TYPE_TABLE_HEAD,
@@ -172,8 +171,7 @@ const moveRight = (
 
   const TableEndPoint = Editor.point(editor, tablePath, { edge: 'end' });
   if (Path.isDescendant(TableEndPoint.path, cellPath)) {
-    const targetPath = [...bodyPath, row.children.length];
-    Transforms.insertNodes(editor, defaultTableRowBlock(1), { at: targetPath });
+    Transforms.insertNodes(editor, createIdenticalRow(row), { at: nextRowPath });
     Transforms.select(editor, {
       anchor: Editor.point(editor, tablePath, { edge: 'end' }),
       focus: Editor.point(editor, tablePath, { edge: 'end' }),

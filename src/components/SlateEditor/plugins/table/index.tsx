@@ -21,7 +21,6 @@ import SlateTable from './SlateTable';
 import {
   defaultTableCellBlock,
   defaultTableRowBlock,
-  handleTableKeydown,
   TYPE_TABLE,
   TYPE_TABLE_BODY,
   TYPE_TABLE_CELL,
@@ -32,6 +31,7 @@ import getCurrentBlock from '../../utils/getCurrentBlock';
 import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { normalizeTableBodyAsMatrix } from './matrix';
+import { handleTableKeydown } from './handleKeyDown';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';

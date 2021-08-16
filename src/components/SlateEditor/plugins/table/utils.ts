@@ -408,6 +408,14 @@ export const handleTableKeydown = (
     if (!rowEntry) {
       return;
     }
+    const [bodyEntry] = Editor.nodes(editor, {
+      at: editor.selection.anchor.path,
+      match: node =>
+        Element.isElement(node) && (node.type === TYPE_TABLE_HEAD || node.type === TYPE_TABLE_BODY),
+    });
+    if (!bodyEntry) {
+      return;
+    }
 
     switch (event.key) {
       case KEY_ARROW_DOWN:
@@ -426,19 +434,97 @@ export const handleTableKeydown = (
         );
       case KEY_TAB:
         if (event.shiftKey) {
-          Transforms.select(editor, Editor.start(editor, cellEntry[1]));
-          Transforms.move(editor, { reverse: true });
-          Transforms.select(editor, Editor.range(editor, editor.selection.anchor.path));
-          return;
+          return moveLeft(
+            editor,
+            tableEntry,
+            bodyEntry as NodeEntry<TableHeadElement | TableBodyElement>,
+            rowEntry as NodeEntry<TableRowElement>,
+            cellEntry as NodeEntry<TableCellElement>,
+          );
         }
-        Transforms.select(editor, Editor.end(editor, cellEntry[1]));
-        Transforms.move(editor);
-        Transforms.select(editor, Editor.range(editor, editor.selection.anchor.path));
-        return;
+        return moveRight(
+          editor,
+          tableEntry,
+          bodyEntry as NodeEntry<TableHeadElement | TableBodyElement>,
+          rowEntry as NodeEntry<TableRowElement>,
+          cellEntry as NodeEntry<TableCellElement>,
+        );
 
       default:
         return;
     }
+  }
+};
+
+const moveLeft = (
+  editor: Editor,
+  tableEntry: NodeEntry<TableElement>,
+  bodyEntry: NodeEntry<TableBodyElement | TableHeadElement>,
+  rowEntry: NodeEntry<TableRowElement>,
+  cellEntry: NodeEntry<TableCellElement>,
+) => {
+  const tablePath = tableEntry[1];
+  const bodyPath = bodyEntry[1];
+  const [row, rowPath] = rowEntry;
+  const cellPath = cellEntry[1];
+  if (
+    (Path.hasPrevious(cellPath) || Path.hasPrevious(rowPath) || Path.hasPrevious(bodyPath)) &&
+    editor.selection
+  ) {
+    Transforms.select(editor, Editor.start(editor, cellEntry[1]));
+    Transforms.move(editor, { reverse: true });
+    Transforms.select(editor, Editor.range(editor, editor.selection.anchor.path));
+    return;
+  }
+
+  if (Path.equals([...tablePath, 0, 0, 0], cellPath)) {
+    console.log('left');
+
+    const targetPath = [...tablePath, 0, 0];
+    Transforms.insertNodes(editor, defaultTableRowBlock(1), { at: targetPath });
+    Transforms.select(editor, {
+      anchor: Editor.point(editor, targetPath, { edge: 'start' }),
+      focus: Editor.point(editor, targetPath, { edge: 'start' }),
+    });
+  }
+};
+
+const moveRight = (
+  editor: Editor,
+  tableEntry: NodeEntry<TableElement>,
+  bodyEntry: NodeEntry<TableBodyElement | TableHeadElement>,
+  rowEntry: NodeEntry<TableRowElement>,
+  cellEntry: NodeEntry<TableCellElement>,
+) => {
+  const tablePath = tableEntry[1];
+  const bodyPath = bodyEntry[1];
+  const [row, rowPath] = rowEntry;
+  const cellPath = cellEntry[1];
+  const nextPath = Path.next(cellPath);
+  const nextRowPath = Path.next(rowPath);
+  const nextBodyPath = Path.next(bodyPath);
+
+  if (
+    (Editor.hasPath(editor, nextPath) ||
+      Editor.hasPath(editor, nextRowPath) ||
+      Editor.hasPath(editor, nextBodyPath)) &&
+    editor.selection
+  ) {
+    Transforms.select(editor, Editor.end(editor, cellEntry[1]));
+    Transforms.move(editor);
+    Transforms.select(editor, Editor.range(editor, editor.selection.anchor.path));
+    return;
+  }
+
+  const TableEndPoint = Editor.point(editor, tablePath, { edge: 'end' });
+  if (Path.isDescendant(TableEndPoint.path, cellPath)) {
+    console.log('right');
+    const targetPath = [...bodyPath, row.children.length];
+    Transforms.insertNodes(editor, defaultTableRowBlock(1), { at: targetPath });
+    Transforms.select(editor, {
+      anchor: Editor.point(editor, tablePath, { edge: 'end' }),
+      focus: Editor.point(editor, tablePath, { edge: 'end' }),
+    });
   }
 };
 

@@ -17,7 +17,7 @@ export const countCells = (row: TableRowElement, stop?: number) => {
       if (!Element.isElement(child) || child.type !== TYPE_TABLE_CELL) {
         return 0;
       }
-      return child.data.colspan || 1;
+      return child.data.colspan;
     })
     .slice(0, stop)
     .reduce((a, b) => a + b);
@@ -123,7 +123,7 @@ export const removeRow = (editor: Editor, path: Path) => {
       const selectedRowIndex = selectedPath[0];
 
       Editor.withoutNormalizing(editor, () => {
-        for (let rowIndex = 0; rowIndex < (selectedCell.data.rowspan || 1); rowIndex++) {
+        for (let rowIndex = 0; rowIndex < selectedCell.data.rowspan; rowIndex++) {
           const currentRowPath = [
             ...Path.parent(Path.parent(selectedCellPath)),
             selectedRowIndex + rowIndex,
@@ -136,7 +136,7 @@ export const removeRow = (editor: Editor, path: Path) => {
             }
             // If cell in next row is the same, skip
             if (
-              rowIndex < (selectedCell.data.rowspan || 1) - 1 &&
+              rowIndex < selectedCell.data.rowspan - 1 &&
               cell === matrix[selectedRowIndex + rowIndex + 1][columnIndex]
             ) {
               continue;
@@ -148,7 +148,7 @@ export const removeRow = (editor: Editor, path: Path) => {
               cell.data.rowspan
             ) {
               const reductionAmount = matrix
-                .slice(selectedRowIndex, selectedRowIndex + (cell.data.rowspan || 1))
+                .slice(selectedRowIndex, selectedRowIndex + cell.data.rowspan)
                 .map(e => e[columnIndex])
                 .filter(c => c === cell).length;
 
@@ -170,7 +170,7 @@ export const removeRow = (editor: Editor, path: Path) => {
               cell.data.rowspan
             ) {
               const reductionAmount = matrix
-                .slice(selectedRowIndex, selectedRowIndex + (selectedCell.data.rowspan || 1))
+                .slice(selectedRowIndex, selectedRowIndex + selectedCell.data.rowspan)
                 .map(e => e[columnIndex])
                 .filter(c => c === cell).length;
 
@@ -223,14 +223,14 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
     const selectedPath = findCellInMatrix(matrix, cell);
     if (selectedPath) {
       const selectedRowIndex =
-        selectedPath[0] + (matrix[selectedPath[0]][selectedPath[1]].data.rowspan || 1) - 1;
+        selectedPath[0] + matrix[selectedPath[0]][selectedPath[1]].data.rowspan - 1;
 
       Editor.withoutNormalizing(editor, () => {
         let rowsInserted = 0;
         const currentRowPath = Path.parent(cellPath);
         const newRowPath = [
           ...Path.parent(currentRowPath),
-          currentRowPath[currentRowPath.length - 1] + (cell.data.rowspan || 1),
+          currentRowPath[currentRowPath.length - 1] + cell.data.rowspan,
         ];
         for (const [columnIndex, cell] of matrix[selectedRowIndex].entries()) {
           // If cell in previous column is the same, skip
@@ -270,7 +270,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
                 type: TYPE_TABLE_CELL,
                 data: {
                   ...cell.data,
-                  rowspan: undefined,
+                  rowspan: 1,
                 },
                 children: [defaultParagraphBlock()],
               },
@@ -299,7 +299,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
     const selectedPath = findCellInMatrix(matrix, cell);
     if (selectedPath) {
       const selectedColumnIndex =
-        selectedPath[1] + (matrix[selectedPath[0]][selectedPath[1]].data.colspan || 1) - 1;
+        selectedPath[1] + matrix[selectedPath[0]][selectedPath[1]].data.colspan - 1;
 
       Editor.withoutNormalizing(editor, () => {
         for (const [rowIndex, row] of matrix.entries()) {
@@ -333,7 +333,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
                 type: TYPE_TABLE_CELL,
                 data: {
                   ...cell.data,
-                  colspan: undefined,
+                  colspan: 1,
                 },
                 children: [defaultParagraphBlock()],
               },

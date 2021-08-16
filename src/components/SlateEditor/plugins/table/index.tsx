@@ -64,8 +64,8 @@ export interface TableRowElement {
 export interface TableCellElement {
   type: 'table-cell';
   data: {
-    rowspan?: number;
-    colspan?: number;
+    rowspan: number;
+    colspan: number;
     align?: string;
     valign?: string;
     class?: string;
@@ -110,8 +110,8 @@ export const tableSerializer: SlateSerializer = {
       const rowspan = attrs.rowspan && parseInt(attrs.rowspan);
       data = {
         ...attrs,
-        colspan: colspan > 1 ? colspan : undefined,
-        rowspan: rowspan > 1 ? rowspan : undefined,
+        colspan: colspan || 1,
+        rowspan: rowspan || 1,
         isHeader: tagName === 'th',
       };
     }
@@ -144,6 +144,12 @@ export const tableSerializer: SlateSerializer = {
     if (node.type === TYPE_TABLE_CELL) {
       const data = node.data;
       const props = removeEmptyElementDataAttributes({ ...data });
+      if (data.colspan === 1) {
+        delete props.colspan;
+      }
+      if (data.rowspan === 1) {
+        delete props.rowspan;
+      }
       delete props.isHeader;
       if (node.data.isHeader) {
         return <th {...props}>{children}</th>;

@@ -298,8 +298,8 @@ export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
     for (const cell of row.children) {
       if (!Element.isElement(cell) || cell.type !== TYPE_TABLE_CELL) return;
 
-      const colspan = cell.data.colspan || 1;
-      const rowspan = cell.data.rowspan || 1;
+      const colspan = cell.data.colspan;
+      const rowspan = cell.data.rowspan;
       placeInMatrix(matrix, rowIndex, colspan, rowspan, cell);
     }
   });
@@ -331,8 +331,8 @@ export const getTableAsMatrix = (editor: Editor, path: Path) => {
       for (const cell of row.children) {
         if (!Element.isElement(cell) || cell.type !== TYPE_TABLE_CELL) return;
 
-        const colspan = cell.data.colspan || 1;
-        const rowspan = cell.data.rowspan || 1;
+        const colspan = cell.data.colspan;
+        const rowspan = cell.data.rowspan;
         placeInMatrix(matrix, rowIndex, colspan, rowspan, cell);
       }
     });

@@ -195,7 +195,7 @@ const moveDown = (
   if (matrix) {
     const matrixPath = findCellInMatrix(matrix, cell);
     if (matrixPath) {
-      const nextCell = matrix[matrixPath[0] + (cell.data.rowspan || 1)]?.[matrixPath[1]];
+      const nextCell = matrix[matrixPath[0] + cell.data.rowspan]?.[matrixPath[1]];
 
       if (nextCell) {
         const nextCellPath = ReactEditor.findPath(editor, nextCell);

@@ -229,12 +229,13 @@ export const tablePlugin = (editor: Editor) => {
 
         const [parent] = Editor.node(editor, Path.parent(path));
         if (Element.isElement(parent)) {
-          if (parent.type === TYPE_TABLE_HEAD) {
+          if (parent.type === TYPE_TABLE_HEAD || parent.type === TYPE_TABLE_BODY) {
+            const isHeader = parent.type === TYPE_TABLE_HEAD;
             for (const [index, child] of node.children.entries()) {
               if (
                 Element.isElement(child) &&
                 child.type === TYPE_TABLE_CELL &&
-                !child.data.isHeader
+                child.data.isHeader !== isHeader
               ) {
                 return HistoryEditor.withoutSaving(editor, () => {
                   Transforms.setNodes(
@@ -242,28 +243,7 @@ export const tablePlugin = (editor: Editor) => {
                     {
                       data: {
                         ...child.data,
-                        isHeader: true,
-                      },
-                    },
-                    { at: [...path, index] },
-                  );
-                });
-              }
-            }
-          } else if (parent.type === TYPE_TABLE_BODY) {
-            for (const [index, child] of node.children.entries()) {
-              if (
-                Element.isElement(child) &&
-                child.type === TYPE_TABLE_CELL &&
-                child.data.isHeader
-              ) {
-                return HistoryEditor.withoutSaving(editor, () => {
-                  Transforms.setNodes(
-                    editor,
-                    {
-                      data: {
-                        ...child.data,
-                        isHeader: false,
+                        isHeader: isHeader,
                       },
                     },
                     { at: [...path, index] },

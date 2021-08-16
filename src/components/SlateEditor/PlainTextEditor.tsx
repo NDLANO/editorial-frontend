@@ -10,13 +10,14 @@ import React, { useMemo, FocusEvent } from 'react';
 import { createEditor, Descendant } from 'slate';
 import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
+import { FormikHandlers } from 'formik';
 import { SlatePlugin } from './interfaces';
 import withPlugins from './utils/withPlugins';
 
 interface Props {
   id: string;
   value: Descendant[];
-  onChange: Function;
+  onChange: FormikHandlers['handleChange'];
   className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];

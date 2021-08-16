@@ -40,7 +40,7 @@ const slateEditorDivStyle = css`
 
 interface Props {
   value: Descendant[];
-  onChange: Function;
+  onChange: (descendant: Descendant[], index: number) => void;
   className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];

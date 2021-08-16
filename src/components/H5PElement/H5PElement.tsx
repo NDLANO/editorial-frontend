@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { ErrorMessage } from '@ndla/ui';
 import handleError from '../../util/handleError';
 import { fetchH5PiframeUrl, editH5PiframeUrl, fetchH5PMetadata } from './h5pApi';
@@ -53,8 +53,8 @@ const H5PElement = ({
   locale,
   canReturnResources,
   setH5pFetchFail,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [url, setUrl] = useState<string>('');
   const [fetchFailed, setFetchFailed] = useState<boolean>(false);
 
@@ -136,4 +136,4 @@ H5PElement.propTypes = {
   setH5pFetchFail: PropTypes.func,
 };
 
-export default injectT(H5PElement);
+export default H5PElement;

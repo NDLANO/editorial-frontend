@@ -17,7 +17,7 @@ import loadable from '@loadable/component';
 // @ts-ignore
 import { Content, PageContainer } from '@ndla/ui';
 import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import Navigation from '../Masthead/components/Navigation';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
@@ -67,7 +67,7 @@ const mapStateToProps = (state: ReduxState) => ({
 const reduxConnector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-type ActualProps = Props & RouteComponentProps & PropsFromRedux & tType;
+type ActualProps = Props & RouteComponentProps & PropsFromRedux & WithTranslation;
 
 class App extends React.Component<ActualProps, InternalState> {
   constructor(props: ActualProps) {
@@ -148,4 +148,4 @@ class App extends React.Component<ActualProps, InternalState> {
   };
 }
 
-export default reduxConnector(withRouter(injectT(App)));
+export default reduxConnector(withRouter(withTranslation()(App)));

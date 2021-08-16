@@ -1,12 +1,16 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Portal } from '../../../Portal';
 import FileUploader from '../../../FileUploader';
 
-const AddFileToList = ({ showFileUploader, onClose, onFileSave, addedFiles, t }) =>
-  showFileUploader ? (
+const AddFileToList = ({ showFileUploader, onClose, onFileSave, addedFiles}) => {
+  const {t} = useTranslation();
+  if(!showFileUploader) {
+    return null;
+  }
+  return (
     <Portal isOpened>
       <Modal
         controllable
@@ -26,7 +30,8 @@ const AddFileToList = ({ showFileUploader, onClose, onFileSave, addedFiles, t })
         )}
       </Modal>
     </Portal>
-  ) : null;
+  );
+}
 
 AddFileToList.propTypes = {
   onFileSave: PropTypes.func.isRequired,
@@ -35,4 +40,4 @@ AddFileToList.propTypes = {
   addedFiles: PropTypes.arrayOf(PropTypes.shape),
 };
 
-export default injectT(AddFileToList);
+export default AddFileToList;

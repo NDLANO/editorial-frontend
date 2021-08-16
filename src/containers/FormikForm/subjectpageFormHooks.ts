@@ -6,14 +6,15 @@
  */
 import { FormikProps } from 'formik';
 import { useState } from 'react';
-import { SubjectpageEditType, TranslateType } from '../../interfaces';
+import { TFunction } from 'react-i18next';
+import { SubjectpageEditType } from '../../interfaces';
 import * as messageActions from '../Messages/messagesActions';
 import { formatErrorMessage } from '../../util/apiHelpers';
 
 export function useSubjectpageFormHooks(
   getSubjectpageFromSlate: Function, // TODO fix type
   updateSubjectpage: Function, // TODO fix type
-  t: TranslateType,
+  t: TFunction,
   subjectpage: SubjectpageEditType,
   getInitialValues: Function, // TODO fix type
   selectedLanguage: string,

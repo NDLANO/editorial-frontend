@@ -8,7 +8,7 @@
 
 import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
@@ -20,7 +20,8 @@ import { UserAccessContext } from '../App/App';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { ArticleShape } from '../../shapes';
 
-const MetaDataField = ({ t, article, fetchSearchTags, handleSubmit, handleBlur }) => {
+const MetaDataField = ({ article, fetchSearchTags, handleSubmit, handleBlur }) => {
+  const {t} = useTranslation();
   const userAccess = useContext(UserAccessContext);
   const plugins = [textTransformPlugin()];
 
@@ -90,4 +91,4 @@ MetaDataField.propTypes = {
   handleBlur: PropTypes.func,
 };
 
-export default injectT(MetaDataField);
+export default MetaDataField;

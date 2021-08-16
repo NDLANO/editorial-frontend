@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ContentTypeBadge } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ContentResultShape } from '../../../../shapes';
 import {
@@ -39,7 +39,8 @@ const ContentTypeWrapper = styled.div`
   margin-top: 10px;
 `;
 
-const SearchContent = ({ content, locale, t, userAccess }) => {
+const SearchContent = ({ content, locale, userAccess }) => {
+  const {t} = useTranslation();
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
   let resourceType = {};
@@ -161,4 +162,4 @@ SearchContent.propTypes = {
   userAccess: PropTypes.string,
 };
 
-export default injectT(SearchContent);
+export default SearchContent;

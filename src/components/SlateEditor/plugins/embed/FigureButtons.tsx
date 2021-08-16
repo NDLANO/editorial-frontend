@@ -13,7 +13,7 @@ import Tooltip from '@ndla/tooltip';
 import { spacing } from '@ndla/core';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
 import { Link } from 'react-router-dom';
 import IconButton from '../../../IconButton';
@@ -77,7 +77,6 @@ interface urlProps {
 }
 
 const FigureButtons = ({
-  t,
   embed,
   figureType,
   language,
@@ -87,7 +86,8 @@ const FigureButtons = ({
   tooltip,
   withMargin,
   children,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const url: urlProps = {
     audio: {
       path: '/media/audio-upload',
@@ -157,4 +157,4 @@ const FigureButtons = ({
   );
 };
 
-export default injectT(FigureButtons);
+export default FigureButtons;

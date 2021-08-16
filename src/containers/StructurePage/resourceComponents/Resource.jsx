@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
@@ -48,8 +48,8 @@ const Resource = ({
   updateRelevanceId,
   primary,
   rank,
-  t,
 }) => {
+  const {t} = useTranslation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
 
   const contentType = resource.resourceTypes
@@ -142,4 +142,4 @@ Resource.propTypes = {
   rank: PropTypes.number,
 };
 
-export default injectT(Resource);
+export default Resource;

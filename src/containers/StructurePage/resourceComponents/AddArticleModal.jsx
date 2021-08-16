@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { updateTopic } from '../../../modules/taxonomy';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
@@ -82,4 +82,4 @@ AddArticleModal.propTypes = {
   currentTopic: TopicShape,
 };
 
-export default injectT(AddArticleModal);
+export default withTranslation()(AddArticleModal);

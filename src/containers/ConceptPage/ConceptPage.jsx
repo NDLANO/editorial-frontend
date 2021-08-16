@@ -8,7 +8,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
@@ -96,4 +96,4 @@ const mapStateToProps = state => ({
   licenses: getAllLicenses(state),
 });
 
-export default injectT(connect(mapStateToProps, mapDispatchToProps)(ConceptPage));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(ConceptPage));

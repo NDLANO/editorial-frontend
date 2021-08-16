@@ -9,11 +9,11 @@
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import EditImage from '../containers/ImageUploader/EditImage';
 
 const StyledTitleDiv = styled.div`
@@ -22,6 +22,7 @@ const StyledTitleDiv = styled.div`
 
 const ImageSearchAndUploader = props => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const {t} = useTranslation();
 
   const {
     isSavingImage,
@@ -31,7 +32,6 @@ const ImageSearchAndUploader = props => {
     fetchImage,
     searchImages,
     onError,
-    t,
   } = props;
 
   const searchImagesWithParameters = (query, page) => {
@@ -98,4 +98,4 @@ ImageSearchAndUploader.propTypes = {
   fetchImage: PropTypes.func.isRequired,
 };
 
-export default injectT(ImageSearchAndUploader);
+export default ImageSearchAndUploader;

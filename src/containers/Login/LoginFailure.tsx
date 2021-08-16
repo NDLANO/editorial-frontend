@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { ReduxState } from '../../interfaces';
 
@@ -15,18 +15,21 @@ interface Props {
   userNotRegistered: boolean;
 }
 
-export const LoginFailure = ({ t, userNotRegistered }: Props & tType) => (
-  <div>
-    <h2>{t('loginFailure.errorMessage')}</h2>
-    {userNotRegistered && <p>{t('loginFailure.userNotRegistered')}</p>}
-    <p>
-      <Link to="/login">{t('loginFailure.loginLink')}</Link>
-    </p>
-  </div>
-);
+export const LoginFailure = ({ userNotRegistered }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <h2>{t('loginFailure.errorMessage')}</h2>
+      {userNotRegistered && <p>{t('loginFailure.userNotRegistered')}</p>}
+      <p>
+        <Link to="/login">{t('loginFailure.loginLink')}</Link>
+      </p>
+    </div>
+  );
+};
 
 const mapStateToProps = (state: ReduxState) => ({
   userNotRegistered: state.session.userNotRegistered,
 });
 
-export default connect(mapStateToProps)(injectT(LoginFailure));
+export default connect(mapStateToProps)(LoginFailure);

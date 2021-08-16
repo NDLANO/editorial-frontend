@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import { connect, FieldProps, FormikContextType } from 'formik';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { UploadDropZone, Input } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -36,7 +36,8 @@ interface Props {
   formik: FormikContextType<any>;
 }
 
-const ImageContent = ({ t, formik }: Props & tType) => {
+const ImageContent = ({ formik }: Props) => {
+  const { t } = useTranslation();
   const { values, errors, setFieldValue } = formik;
   return (
     <Fragment>
@@ -108,4 +109,4 @@ const ImageContent = ({ t, formik }: Props & tType) => {
   );
 };
 
-export default injectT(connect<tType, any>(ImageContent));
+export default connect<tType, any>(ImageContent);

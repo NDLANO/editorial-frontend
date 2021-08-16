@@ -8,7 +8,7 @@
 
 import React, { Fragment, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { connect } from 'formik';
 import { css } from '@emotion/core';
@@ -77,8 +77,8 @@ const createPlugins = language => {
 };
 
 const TopicArticleContent = props => {
+  const {t} = useTranslation();
   const {
-    t,
     userAccess,
     values: { id, language, creators, published },
     handleBlur,
@@ -183,4 +183,4 @@ TopicArticleContent.propTypes = {
   handleSubmit: PropTypes.func,
 };
 
-export default connect(injectT(TopicArticleContent));
+export default connect(TopicArticleContent);

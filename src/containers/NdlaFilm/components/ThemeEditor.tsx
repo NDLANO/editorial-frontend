@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { Spinner } from '@ndla/editor';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
@@ -53,14 +53,14 @@ interface ThemeNames {
 }
 
 const ThemeEditor = ({
-  t,
   allMovies,
   field,
   form,
   onUpdateMovieTheme,
   loading,
   selectedLanguage,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   if (loading) {
     return <Spinner />;
   }
@@ -233,4 +233,4 @@ const StyledThemeWrapper = styled('div')`
   margin-bottom: ${spacing.large};
 `;
 
-export default injectT(ThemeEditor);
+export default ThemeEditor;

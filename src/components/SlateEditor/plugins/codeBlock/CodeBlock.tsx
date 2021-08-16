@@ -5,7 +5,6 @@ import he from 'he';
 
 import Button from '@ndla/button';
 import { DeleteForever } from '@ndla/icons/editor';
-import { injectT } from '@ndla/i18n';
 import { Codeblock } from '@ndla/code';
 
 import { getSchemaEmbed } from '../../editorSchema';
@@ -117,4 +116,4 @@ const CodeBlock = ({ attributes, editor, node }: CodeBlockProps) => {
   );
 };
 
-export default injectT(CodeBlock);
+export default CodeBlock;

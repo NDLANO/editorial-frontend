@@ -8,14 +8,15 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Concept } from '@ndla/icons/editor';
 import { searchClasses } from '../../../SearchContainer';
 import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFallback';
 import ContentView from './ContentView';
 import FormView from './FormView';
 
-const SearchConcept = ({ concept, locale, subjects, t, editingState, licenses }) => {
+const SearchConcept = ({ concept, locale, subjects, editingState, licenses }) => {
+  const {t} = useTranslation();
   const [editing, setEditing] = editingState;
   const [localConcept, setLocalConcept] = useState(concept);
   const [showForm, setShowForm] = useState(false);
@@ -102,4 +103,4 @@ SearchConcept.propTypes = {
   licenses: PropTypes.array,
 };
 
-export default injectT(SearchConcept);
+export default SearchConcept;

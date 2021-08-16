@@ -8,7 +8,7 @@
 
 import React, { ReactElement, useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import {
   Field,
   connect,
@@ -59,10 +59,10 @@ const FormikField = ({
   description,
   obligatory,
   showError,
-  t,
   formik: { values, handleBlur, errors },
   ...rest
-}: Props & tType & { formik: FormikContextType<FormikValues> }) => {
+}: Props & { formik: FormikContextType<FormikValues> }) => {
+  const { t } = useTranslation();
   const [focus, setFocus] = useState(false);
 
   const isSlateValue = Value.isValue(values[name]);
@@ -134,4 +134,4 @@ FormikField.defaultProps = {
   showMaxLength: false,
 };
 
-export default injectT(connect<Props & tType, any>(FormikField));
+export default connect<Props, any>(FormikField);

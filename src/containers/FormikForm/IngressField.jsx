@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
 import parse from 'html-react-parser';
 import Plain from 'slate-plain-serializer';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
@@ -32,7 +32,6 @@ const renderMarkdown = (text, concept) => {
 const plugins = [textTransformPlugin()];
 
 const IngressField = ({
-  t,
   name,
   maxLength,
   placeholder,
@@ -40,7 +39,9 @@ const IngressField = ({
   preview = false,
   concept = false,
   onBlur,
-}) => (
+}) => {
+  const {t} = useTranslation();
+  return(
   <StyledFormContainer>
     <FormikField
       noBorder
@@ -68,7 +69,8 @@ const IngressField = ({
       }
     </FormikField>
   </StyledFormContainer>
-);
+  );
+}
 
 IngressField.defaultProps = {
   name: 'introduction',
@@ -87,4 +89,4 @@ IngressField.propTypes = {
   onBlur: PropTypes.func.isRequired,
 };
 
-export default injectT(IngressField);
+export default IngressField;

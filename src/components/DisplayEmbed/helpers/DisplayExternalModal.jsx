@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
 import VisualElementModalWrapper from '../../../containers/VisualElement/VisualElementModalWrapper';
 
@@ -11,7 +10,6 @@ const DisplayExternalModal = ({
   onClose,
   type,
   src,
-  t,
 }) => {
   if (!isEditMode) {
     return null;
@@ -48,4 +46,4 @@ DisplayExternalModal.propTypes = {
   }).isRequired,
 };
 
-export default injectT(DisplayExternalModal);
+export default DisplayExternalModal;

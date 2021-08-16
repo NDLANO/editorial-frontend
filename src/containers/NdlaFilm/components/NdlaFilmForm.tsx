@@ -4,7 +4,7 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
 import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../../interfaces';
@@ -30,7 +30,6 @@ interface Props {
 }
 
 const NdlaFilmForm = ({
-  t,
   filmFrontpage,
   updateFilmFrontpage,
   selectedLanguage,
@@ -38,7 +37,8 @@ const NdlaFilmForm = ({
   allMovies,
   slideshowMovies,
   themes,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const { savedToServer, handleSubmit, initialValues } = useNdlaFilmFormHooks(
     t,
     filmFrontpage,
@@ -115,4 +115,4 @@ const NdlaFilmForm = ({
   );
 };
 
-export default injectT(NdlaFilmForm);
+export default NdlaFilmForm;

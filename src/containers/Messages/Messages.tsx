@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { TFunction, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { css, SerializedStyles } from '@emotion/core';
 import { createBrowserHistory as createHistory } from 'history';
@@ -36,7 +36,7 @@ const StyledMessageAlertOverlay = styled('div')`
   ${(p: { appearance: 'hidden' | '' }) => appearances[p.appearance]};
 `;
 
-const getActions = (message: ReduxMessage, dispatch: Dispatch, t: tType['t']) => {
+const getActions = (message: ReduxMessage, dispatch: Dispatch, t: TFunction) => {
   if (message.type === 'auth0') {
     return [
       {
@@ -64,7 +64,8 @@ interface MessageProps {
   message: ReduxMessage;
   dispatch: Dispatch;
 }
-export const Message = injectT(({ message, dispatch, t }: MessageProps & tType) => {
+export const Message = ({ message, dispatch }: MessageProps) => {
+  const { t } = useTranslation();
   return (
     <AlertModal
       show
@@ -78,7 +79,7 @@ export const Message = injectT(({ message, dispatch, t }: MessageProps & tType) 
       severity={message.severity}
     />
   );
-});
+};
 
 Message.propTypes = {
   message: MessageShape.isRequired,

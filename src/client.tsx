@@ -10,7 +10,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Router, useHistory } from 'react-router-dom';
-import IntlProvider, { I18nextProvider, useTranslation } from '@ndla/i18n';
+import IntlProvider from '@ndla/i18n';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
 import { configureTracker } from '@ndla/tracker';
 import { createBrowserHistory } from 'history';
@@ -22,6 +23,7 @@ import { getSessionStateFromLocalStorage } from './modules/session/session';
 import App from './containers/App/App';
 import { initializeI18n } from './i18n2';
 import { STORED_LANGUAGE_KEY } from './constants';
+import Spinner from './components/Spinner';
 
 declare global {
   interface Window {
@@ -39,10 +41,6 @@ const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : undefined;
 if (basename && isValidLocale(basename)) {
   window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
-}
-const storedLang = window.localStorage.getItem(STORED_LANGUAGE_KEY);
-if (!basename && storedLang && isValidLocale(storedLang) && storedLang !== getDefaultLanguage()) {
-  window.location.href = `${storedLang}${window.location.pathname}`;
 }
 
 export const store = configureStore({
@@ -69,18 +67,31 @@ configureTracker({
 
 const I18nWrapper = ({ basename }: { basename?: string }) => {
   const { i18n } = useTranslation();
-  //@ts-ignore
-  initializeI18n(i18n);
   const history = useHistory();
   const [lang, setLang] = useState(basename);
   const firstRender = useRef(true);
+  initializeI18n(i18n);
+
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
+      const storedLang = window.localStorage.getItem(STORED_LANGUAGE_KEY);
+      if (
+        !basename &&
+        storedLang &&
+        isValidLocale(storedLang) &&
+        storedLang !== getDefaultLanguage()
+      ) {
+        setLang(storedLang);
+        if (!window.location.pathname.includes('/login/success')) {
+          history.replace(`/${storedLang}${window.location.pathname}`);
+        }
+      }
+
       return;
     }
-    const supLangs: string[] = i18n.options.supportedLngs as string[];
-    const regex = new RegExp(supLangs.map(l => `/${l}/`).join('|'));
+    const supportedLanguages: string[] = i18n.options.supportedLngs as string[]; // hard-coded as a string array in i18n2.ts.
+    const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
     const paths = window.location.pathname.replace(regex, '').split('/');
     const { search } = window.location;
     const p = paths.slice().join('/');
@@ -90,10 +101,14 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
     setLang(i18n.language); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i18n.language]);
 
+  if (!i18n.isInitialized) {
+    return <Spinner />;
+  }
+
   return (
     <BrowserRouter basename={lang} key={lang}>
       <IntlProvider locale={i18n.language} messages={getLocaleObject(i18n.language).messages}>
-        <App />
+        <App key={lang} />
       </IntlProvider>
     </BrowserRouter>
   );
@@ -101,6 +116,7 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
 
 const renderApp = () => {
   render(
+    //@ts-ignore i18nInstance is not recognized as valid by I18nextProvider. It works, however.
     <I18nextProvider i18n={i18nInstance}>
       <Provider store={store}>
         <Router history={browserHistory}>

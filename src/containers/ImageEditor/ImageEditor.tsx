@@ -13,7 +13,7 @@ import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Crop, FocalPoint } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import ImageTransformEditor from './ImageTransformEditor';
 import ImageAlignButton from './ImageAlignButton';
 import ImageSizeButton from './ImageSizeButton';
@@ -84,7 +84,8 @@ interface Props {
 
 type StateProp = 'crop' | 'focalPoint' | undefined;
 
-const ImageEditor = ({ t, embed, onUpdatedImageSettings, imageUpdates }: Props & tType) => {
+const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => {
+  const { t } = useTranslation();
   const [editType, setEditType] = useState<StateProp>(undefined);
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);
 
@@ -236,4 +237,4 @@ const ImageEditor = ({ t, embed, onUpdatedImageSettings, imageUpdates }: Props &
   );
 };
 
-export default injectT(ImageEditor);
+export default ImageEditor;

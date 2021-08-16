@@ -8,7 +8,7 @@
 
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { Hero, OneColumn } from '@ndla/ui';
 import { css } from '@emotion/core';
@@ -23,8 +23,8 @@ const PreviewDraftPage = ({
   match: {
     params: { draftId, language },
   },
-  t,
 }) => {
+  const {t} = useTranslation();
   const [draft, setDraft] = useState(undefined);
   const [resource, setResource] = useState(undefined);
 
@@ -88,4 +88,4 @@ PreviewDraftPage.propTypes = {
   }),
 };
 
-export default injectT(PreviewDraftPage);
+export default PreviewDraftPage;

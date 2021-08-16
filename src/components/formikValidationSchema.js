@@ -95,6 +95,7 @@ const validateFormik = (values, rules, t, formType = undefined) => {
             label,
             labelLowerCase: label.toLowerCase(),
             minItems: rules[ruleKey].minItems,
+            count: rules[ruleKey].minItems,
           }),
         );
       }

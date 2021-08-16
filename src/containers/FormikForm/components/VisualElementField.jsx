@@ -9,7 +9,7 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { ErrorMessage, connect } from 'formik';
 import BEMHelper from 'react-bem-helper';
 import { FieldHeader } from '@ndla/forms';
@@ -29,7 +29,8 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-const VisualElementField = ({ t, formik, isSubjectPage, types, videoTypes }) => {
+const VisualElementField = ({ formik, isSubjectPage, types, videoTypes }) => {
+  const {t} = useTranslation();
   const [selectedResource, setSelectedResource] = useState(undefined);
 
   return (
@@ -80,4 +81,4 @@ VisualElementField.propTypes = {
   getArticle: PropTypes.func,
 };
 
-export default injectT(connect(VisualElementField));
+export default connect(VisualElementField);

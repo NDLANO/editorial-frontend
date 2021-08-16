@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { ResourceShape } from '../../../shapes';
 import Resource from './Resource';
 import { deleteTopicResource, updateTopicResource } from '../../../modules/taxonomy';
@@ -134,4 +134,4 @@ ResourceItems.propTypes = {
   locale: PropTypes.string,
 };
 
-export default injectT(ResourceItems);
+export default withTranslation()(ResourceItems);

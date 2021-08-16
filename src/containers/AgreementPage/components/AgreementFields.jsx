@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { LicenseField, DatePicker, ContributorsField } from '../../FormikForm';
 import FormikField, { classes as fieldsClasses } from '../../../components/FormikField';
 import { LocaleContext } from '../../App/App';
 
 const contributorTypes = ['rightsholders', 'creators'];
 const AgreementFields = props => {
-  const { t, licenses } = props;
+  const {t} = useTranslation();
+  const { licenses } = props;
   const locale = useContext(LocaleContext);
 
   return (
@@ -64,4 +65,4 @@ AgreementFields.propTypes = {
   ).isRequired,
 };
 
-export default injectT(AgreementFields);
+export default AgreementFields;

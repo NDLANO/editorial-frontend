@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
@@ -27,7 +27,8 @@ interface Props {
   onImageSelectOpen: Function;
 }
 
-const SubjectpageBannerImage = ({ image, onImageSelectOpen, t }: Props & tType) => {
+const SubjectpageBannerImage = ({ image, onImageSelectOpen }: Props) => {
+  const { t } = useTranslation();
   const title = convertFieldWithFallback(image.metaData, 'title', '');
   const alt = convertFieldWithFallback(image, 'alt', '');
   const imageAction = (
@@ -53,4 +54,4 @@ const SubjectpageBannerImage = ({ image, onImageSelectOpen, t }: Props & tType) 
   );
 };
 
-export default injectT(SubjectpageBannerImage);
+export default SubjectpageBannerImage;

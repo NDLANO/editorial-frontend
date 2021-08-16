@@ -8,12 +8,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Types from 'slate-prop-types';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import { getSchemaEmbed } from '../../editorSchema';
 
-const NoEmbedMessage = ({ text, t, node, attributes }) => {
+const NoEmbedMessage = ({ text, node, attributes }) => {
+  const {t} = useTranslation();
   const embed = getSchemaEmbed(node);
   const msg = text || t('noEmbedMessage.deleteOnSave', { type: embed.resource });
 
@@ -28,4 +29,4 @@ NoEmbedMessage.propTypes = {
   node: Types.node.isRequired,
 };
 
-export default injectT(NoEmbedMessage);
+export default NoEmbedMessage;

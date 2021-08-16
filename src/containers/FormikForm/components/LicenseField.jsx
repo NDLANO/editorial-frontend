@@ -8,7 +8,7 @@
 
 import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { FieldHeader, FieldSection, Select } from '@ndla/forms';
 import { LocaleContext } from '../../App/App';
@@ -17,7 +17,6 @@ import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 const LicenseField = props => {
   const {
-    t,
     onChange,
     onBlur,
     name,
@@ -28,6 +27,7 @@ const LicenseField = props => {
     width,
     enableLicenseNA,
   } = props;
+  const {t} = useTranslation();
   const locale = useContext(LocaleContext);
   const licensesWithTranslations = licenses
     .filter(license => license.license !== 'N/A' || enableLicenseNA)
@@ -85,4 +85,4 @@ LicenseField.defaultProps = {
   width: 3 / 4,
 };
 
-export default injectT(LicenseField);
+export default LicenseField;

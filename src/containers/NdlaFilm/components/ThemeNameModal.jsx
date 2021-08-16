@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { NdlaFilmThemeEditorModal } from '@ndla/editor';
 import Modal from '@ndla/modal';
 
@@ -97,4 +97,4 @@ ThemeNameModal.propTypes = {
   wrapperFunctionForButton: PropTypes.func,
 };
 
-export default injectT(ThemeNameModal);
+export default withTranslation()(ThemeNameModal);

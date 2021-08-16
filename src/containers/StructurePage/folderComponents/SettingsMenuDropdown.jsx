@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, animations, shadows } from '@ndla/core';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
@@ -17,7 +17,8 @@ import RoundIcon from '../../../components/RoundIcon';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 import CrossButton from '../../../components/CrossButton';
 
-const SettingsMenuDropdown = ({ onClose, t, id, setShowAlertModal, ...rest }) => {
+const SettingsMenuDropdown = ({ onClose, id, setShowAlertModal, ...rest }) => {
+  const {t} = useTranslation();
   const settingsMenuType = id.includes('subject') ? 'subject' : 'topic';
   return (
     <StyledDivWrapper>
@@ -75,4 +76,4 @@ SettingsMenuDropdown.propTypes = {
   setShowAlertModal: PropTypes.func,
 };
 
-export default injectT(SettingsMenuDropdown);
+export default SettingsMenuDropdown;

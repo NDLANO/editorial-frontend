@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { css } from '@emotion/core';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 const StyledMenu = styled('span')`
@@ -65,4 +65,4 @@ BlockMenu.propTypes = {
   handleRemove: PropTypes.func,
 };
 
-export default injectT(BlockMenu);
+export default withTranslation()(BlockMenu);

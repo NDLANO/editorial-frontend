@@ -7,14 +7,15 @@
 
 import React, { useContext, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { LocaleContext } from '../../App/App';
 import TopicArticleForm from './components/TopicArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 
-const CreateTopicArticle = ({ history, t, ...rest }) => {
+const CreateTopicArticle = ({ history, ...rest }) => {
+  const {t} = useTranslation();
   const locale = useContext(LocaleContext);
   const { createArticle } = useFetchArticleData(undefined, locale);
 
@@ -45,4 +46,4 @@ CreateTopicArticle.propTypes = {
   createMessage: PropTypes.func.isRequired,
 };
 
-export default injectT(CreateTopicArticle);
+export default CreateTopicArticle;

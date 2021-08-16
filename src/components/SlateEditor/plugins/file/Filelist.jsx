@@ -13,7 +13,7 @@ import debounce from 'lodash/debounce';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
 import { uuid } from '@ndla/util';
 import { FileListEditor } from '@ndla/editor';
@@ -267,4 +267,4 @@ Filelist.propTypes = {
   locale: PropTypes.string,
 };
 
-export default injectT(Filelist);
+export default withTranslation()(Filelist);

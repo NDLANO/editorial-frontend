@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import { Taxonomy, Star } from '@ndla/icons/editor';
@@ -460,4 +460,4 @@ StructureContainer.propTypes = {
   userAccess: PropTypes.string,
 };
 
-export default withRouter(injectT(StructureContainer));
+export default withRouter(withTranslation()(StructureContainer));

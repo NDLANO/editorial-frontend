@@ -7,7 +7,7 @@
 
 import React, { useState, ReactNode, useRef } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Value } from 'slate';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
@@ -90,13 +90,8 @@ interface Props {
   revision?: number;
 }
 
-const PodcastSeriesForm = ({
-  t,
-  podcastSeries,
-  inModal,
-  isNewlyCreated,
-  onUpdate,
-}: Props & tType) => {
+const PodcastSeriesForm = ({ podcastSeries, inModal, isNewlyCreated, onUpdate }: Props) => {
+  const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
 
@@ -227,4 +222,4 @@ const PodcastSeriesForm = ({
   );
 };
 
-export default injectT(PodcastSeriesForm);
+export default PodcastSeriesForm;

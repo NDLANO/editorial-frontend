@@ -13,7 +13,7 @@ import { FieldHeader } from '@ndla/forms';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { fetchUserData } from '../../modules/draft/draftApi';
 import { fetchTopicConnections } from '../../modules/taxonomy';
@@ -69,8 +69,8 @@ const TopicConnections = ({
   getSubjectTopics,
   setRelevance,
   retriveBreadCrumbs,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
@@ -204,4 +204,4 @@ const TopicConnections = ({
   );
 };
 
-export default injectT(TopicConnections);
+export default TopicConnections;

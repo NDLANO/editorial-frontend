@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 
@@ -32,7 +32,6 @@ interface Props {
 }
 
 const SlateAudio = ({
-  t,
   attributes,
   changes,
   embed,
@@ -40,7 +39,8 @@ const SlateAudio = ({
   locale,
   onRemoveClick,
   onFigureInputChange,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const speech = embed.type === 'minimal';
   const [editMode, setEditMode] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);
@@ -120,4 +120,4 @@ const SlateAudio = ({
   );
 };
 
-export default injectT(SlateAudio);
+export default SlateAudio;

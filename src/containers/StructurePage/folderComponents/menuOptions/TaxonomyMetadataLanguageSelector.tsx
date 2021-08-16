@@ -6,7 +6,7 @@
  *
  */
 
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/lib/editor';
 import React from 'react';
 import { spacing } from '@ndla/core';
@@ -29,11 +29,8 @@ const StyledSelect = styled('select')`
   margin-right: 35%;
 `;
 
-const TaxonomyMetadataLanguageSelector = ({
-  customFields,
-  updateCustomFields,
-  t,
-}: Props & tType) => {
+const TaxonomyMetadataLanguageSelector = ({ customFields, updateCustomFields }: Props) => {
+  const { t } = useTranslation();
   // eslint-disable-next-line react/prop-types
   const languageValue = customFields[TAXONOMY_CUSTOM_FIELD_LANGUAGE];
   return (
@@ -73,4 +70,4 @@ const TaxonomyMetadataLanguageSelector = ({
   );
 };
 
-export default injectT(TaxonomyMetadataLanguageSelector);
+export default TaxonomyMetadataLanguageSelector;

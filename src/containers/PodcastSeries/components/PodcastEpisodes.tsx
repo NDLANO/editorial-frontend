@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -20,7 +20,8 @@ import {
 import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
 
-const PodcastEpisodes = ({ t }: tType) => {
+const PodcastEpisodes = () => {
+  const { t } = useTranslation();
   const { values, setFieldValue } = useFormikContext<PodcastSeriesFormikType>();
   const { episodes, language } = values;
   const onAddEpisodeToList = async (audio: AudioSearchResultType) => {
@@ -104,4 +105,4 @@ const PodcastEpisodes = ({ t }: tType) => {
   );
 };
 
-export default injectT(PodcastEpisodes);
+export default PodcastEpisodes;

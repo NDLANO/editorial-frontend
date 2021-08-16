@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
@@ -19,7 +19,8 @@ import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 
-const PreviewLightBox = injectT(({ type, getEntity, articleType, supportedLanguages, t }) => {
+const PreviewLightBox = ({ type, getEntity, articleType, supportedLanguages}) => {
+  const {t} = useTranslation();
   if (type === 'concept')
     return (
       supportedLanguages.length > 1 && (
@@ -40,7 +41,7 @@ const PreviewLightBox = injectT(({ type, getEntity, articleType, supportedLangua
         )}
       </PreviewDraftLightbox>
     );
-});
+};
 
 const HeaderActions = ({
   editUrl,
@@ -50,11 +51,11 @@ const HeaderActions = ({
   isSubmitting,
   noStatus,
   setTranslateOnContinue,
-  t,
   type,
   translateToNN,
   values,
 }) => {
+  const { t } = useTranslation();
   const { articleType, id, language, supportedLanguages } = values;
 
   const languages = [
@@ -143,4 +144,4 @@ HeaderActions.propTypes = {
   }),
 };
 
-export default injectT(HeaderActions);
+export default HeaderActions;

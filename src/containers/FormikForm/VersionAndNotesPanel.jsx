@@ -10,7 +10,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { spacing, colors } from '@ndla/core';
 import { css } from '@emotion/core';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Accordion, {
   AccordionWrapper,
   AccordionPanel,
@@ -60,13 +60,13 @@ const getUsersFromNotes = async (notes, setUsers) => {
 };
 
 const VersionAndNotesPanel = ({
-  t,
   article,
   getInitialValues,
   setValues,
   createMessage,
   getArticle,
 }) => {
+  const {t} = useTranslation();
   const [versions, setVersions] = useState([]);
   const [loading, setLoading] = useState([]);
   const [users, setUsers] = useState([]);
@@ -206,4 +206,4 @@ VersionAndNotesPanel.defaultProps = {
   article: {},
 };
 
-export default injectT(VersionAndNotesPanel);
+export default VersionAndNotesPanel;

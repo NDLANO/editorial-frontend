@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
 import { LocaleContext } from '../../../App/App';
@@ -13,7 +13,6 @@ import LearningResourceContent from './LearningResourceContent';
 import { ArticleShape, LicensesArrayOf } from '../../../../shapes';
 
 const LearningResourcePanels = ({
-  t,
   userAccess,
   fetchSearchTags,
   article,
@@ -26,6 +25,7 @@ const LearningResourcePanels = ({
   formIsDirty,
   handleSubmit,
 }) => {
+  const {t} = useTranslation();
   const locale = useContext(LocaleContext);
   const formikContext = useFormikContext();
   const { values, setValues, errors, handleBlur } = formikContext;
@@ -133,4 +133,4 @@ LearningResourcePanels.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
-export default injectT(LearningResourcePanels);
+export default LearningResourcePanels;

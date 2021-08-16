@@ -7,16 +7,17 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FieldHeader, Select } from '@ndla/forms';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { selectedResourceTypeValue } from '../../../util/taxonomyHelpers';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 const ResourceTypeSelect = ({
-  t,
   resourceTypes,
   availableResourceTypes,
   onChangeSelectedResource,
-}) => (
+}) => {
+  const {t} = useTranslation();
+  return (
   <Fragment>
     <FieldHeader
       title={t('taxonomy.resourceTypes.title')}
@@ -40,7 +41,8 @@ const ResourceTypeSelect = ({
       )}
     </Select>
   </Fragment>
-);
+  );
+}
 
 ResourceTypeSelect.propTypes = {
   onChangeSelectedResource: PropTypes.func.isRequired,
@@ -65,4 +67,4 @@ ResourceTypeSelect.propTypes = {
   ).isRequired,
 };
 
-export default injectT(ResourceTypeSelect);
+export default ResourceTypeSelect;

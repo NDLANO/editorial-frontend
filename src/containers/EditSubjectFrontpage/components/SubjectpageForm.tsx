@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikProps } from 'formik';
 import {
   SubjectpageEditType,
@@ -113,13 +113,13 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
 };
 
 const SubjectpageForm = ({
-  t,
   elementId,
   subjectpage,
   selectedLanguage,
   updateSubjectpage,
   isNewlyCreated,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const { savedToServer, handleSubmit, initialValues } = useSubjectpageFormHooks(
     getSubjectpageFromSlate,
     updateSubjectpage,
@@ -193,4 +193,4 @@ const SubjectpageForm = ({
   );
 };
 
-export default injectT(SubjectpageForm);
+export default SubjectpageForm;

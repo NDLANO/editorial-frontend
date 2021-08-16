@@ -6,7 +6,7 @@
  */
 
 import React, { Component, ReactNode } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import Field from '../../../components/Field';
@@ -133,7 +133,7 @@ interface State {
   savedToServer: boolean;
 }
 
-class ImageForm extends Component<Props & tType, State> {
+class ImageForm extends Component<Props & WithTranslation, State> {
   state = {
     savedToServer: false,
   };
@@ -290,4 +290,4 @@ class ImageForm extends Component<Props & tType, State> {
   }
 }
 
-export default injectT(ImageForm);
+export default withTranslation()(ImageForm);

@@ -8,14 +8,15 @@
 import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { LocaleContext } from '../../App/App';
 import { LicensesArrayOf } from '../../../shapes';
 import LearningResourceForm from './components/LearningResourceForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 
-const CreateLearningResource = ({ t, history, ...rest }) => {
+const CreateLearningResource = ({ history, ...rest }) => {
+  const {t} = useTranslation();
   const locale = useContext(LocaleContext);
   const { createArticle } = useFetchArticleData(undefined, locale);
 
@@ -44,4 +45,4 @@ CreateLearningResource.propTypes = {
   }).isRequired,
 };
 
-export default injectT(CreateLearningResource);
+export default CreateLearningResource;

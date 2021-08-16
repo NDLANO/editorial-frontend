@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Cross } from '@ndla/icons/action';
 import { Menu } from '@ndla/icons/common';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { colors, fonts, spacing, misc } from '@ndla/core';
 import { css } from '@emotion/core';
 
@@ -47,7 +47,9 @@ const crossCss = css`
   height: 22px;
 `;
 
-const MastheadButton = ({ children, color, minWidth, open, onClick, t }) => (
+const MastheadButton = ({ children, color, minWidth, open, onClick}) => {
+  const {t} = useTranslation();
+  return (
   <button type="button" onClick={onClick} css={buttonStyle}>
     {open ? (
       <>
@@ -61,7 +63,8 @@ const MastheadButton = ({ children, color, minWidth, open, onClick, t }) => (
       </>
     )}
   </button>
-);
+  );
+}
 
 MastheadButton.propTypes = {
   color: PropTypes.string,
@@ -75,4 +78,4 @@ MastheadButton.defaultProps = {
   minWidth: 0,
 };
 
-export default injectT(MastheadButton);
+export default MastheadButton;

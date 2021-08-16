@@ -21,15 +21,6 @@ export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
-export interface TranslateType {
-  (
-    key: string,
-    values?: {
-      [key: string]: string | number;
-    },
-  ): string;
-}
-
 export interface Author {
   name: string;
   type: string;

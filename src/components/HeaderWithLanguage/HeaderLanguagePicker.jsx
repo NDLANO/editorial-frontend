@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import FocusTrapReact from 'focus-trap-react';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import StyledFilledButton from '../../components/StyledFilledButton';
 import StyledListButton from '../../components/StyledListButton';
@@ -19,7 +19,8 @@ import { StyledDropdownOverlay } from '../../components/Dropdown';
 
 const StyledLink = StyledListButton.withComponent(Link);
 
-const LanguagePicker = ({ emptyLanguages, editUrl, t }) => {
+const LanguagePicker = ({ emptyLanguages, editUrl, }) => {
+  const {t} = useTranslation();
   const [display, setDisplay] = useState(false);
   return (
     <div>
@@ -67,4 +68,4 @@ LanguagePicker.propTypes = {
   editUrl: PropTypes.func.isRequired,
 };
 
-export default injectT(LanguagePicker);
+export default LanguagePicker;

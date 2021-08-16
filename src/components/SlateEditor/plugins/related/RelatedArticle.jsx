@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { RelatedArticle as RelatedArticleUI } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { mapping as iconMapping } from '../../utils/relatedArticleMapping';
 import { urlDomain } from '../../../../util/htmlHelpers';
@@ -21,7 +21,9 @@ const resourceTypeProps = (item, numberInList) => {
   return iconMapping(numberInList).default;
 };
 
-const RelatedArticle = ({ item, t, numberInList }) => (
+const RelatedArticle = ({ item, numberInList }) => {
+  const {t} = useTranslation();
+  return (
   <RelatedArticleUI
     {...resourceTypeProps(item, numberInList)}
     title={convertFieldWithFallback(item, 'title', item.title)}
@@ -36,7 +38,8 @@ const RelatedArticle = ({ item, t, numberInList }) => (
         : ''
     }
   />
-);
+  );
+}
 
 RelatedArticle.propTypes = {
   item: PropTypes.shape({
@@ -48,4 +51,4 @@ RelatedArticle.propTypes = {
   numberInList: PropTypes.number,
 };
 
-export default injectT(RelatedArticle);
+export default RelatedArticle;

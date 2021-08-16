@@ -8,8 +8,8 @@
 
 import React from 'react';
 import { RadioButtonGroup } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
 import { FieldInputProps } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { AvailabilityType } from '../../../interfaces';
 
 interface Props {
@@ -17,15 +17,19 @@ interface Props {
   field: FieldInputProps<string[]>;
 }
 
-const AvailabilityField = ({ availability, field, t }: Props & tType) => {
+const AvailabilityField = ({ availability, field }: Props) => {
+  const { t } = useTranslation();
   const availabilityValues: AvailabilityType[] = ['everyone', 'teacher', 'student'];
 
   return (
     <RadioButtonGroup
-      label={t('description')}
+      label={t('form.availability.description')}
       selected={availability}
       uniqeIds
-      options={availabilityValues.map(value => ({ title: t(value), value: value }))}
+      options={availabilityValues.map(value => ({
+        title: t(`form.availability.${value}`),
+        value: value,
+      }))}
       onChange={(value: string) =>
         field.onChange({
           target: {
@@ -38,4 +42,4 @@ const AvailabilityField = ({ availability, field, t }: Props & tType) => {
   );
 };
 
-export default injectT(AvailabilityField, 'form.availability.');
+export default AvailabilityField;

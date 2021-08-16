@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { HistoryShape } from '../../shapes';
 import { toPreviewDraft } from '../../util/routeHelpers';
@@ -23,12 +23,12 @@ const StyledSelect = styled.select`
 
 const LanguageSelector = ({
   supportedLanguages,
-  t,
   history,
   match: {
     params: { draftId, language },
   },
 }) => {
+  const {t} = useTranslation();
   if (supportedLanguages.length === 0) {
     return null;
   }
@@ -56,4 +56,4 @@ LanguageSelector.propTypes = {
   history: HistoryShape,
 };
 
-export default injectT(withRouter(LanguageSelector));
+export default withRouter(LanguageSelector);

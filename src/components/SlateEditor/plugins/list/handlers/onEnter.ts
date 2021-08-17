@@ -45,6 +45,9 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
 
   // Split current listItem at selection.
   Editor.withoutNormalizing(editor, () => {
+    Transforms.unsetNodes(editor, 'serializeAsText', {
+      match: node => Element.isElement(node) && node.type === TYPE_PARAGRAPH,
+    });
     Transforms.splitNodes(editor, {
       always: true,
       match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,

@@ -37,6 +37,31 @@ export interface ListItemElement {
 export const listSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     const tag = el.tagName.toLowerCase();
+
+    children = children.reduce((acc, cur) => {
+      const lastElement = acc[acc.length - 1];
+      if (!cur) {
+        return acc;
+      } else if (Element.isElement(cur)) {
+        acc.push(cur);
+        return acc;
+      } else if (Text.isText(cur)) {
+        if (
+          Element.isElement(lastElement) &&
+          lastElement.type === TYPE_PARAGRAPH &&
+          lastElement.serializeAsText
+        ) {
+          lastElement.children.push(cur);
+          return acc;
+        } else {
+          acc.push(jsx('element', { type: TYPE_PARAGRAPH, serializeAsText: true }, cur));
+          return acc;
+        }
+      }
+      acc.push(cur);
+      return acc;
+    }, [] as Descendant[]);
+
     if (tag === 'ul') {
       return jsx('element', { type: TYPE_LIST, listType: 'bulleted-list', data: {} }, children);
     }

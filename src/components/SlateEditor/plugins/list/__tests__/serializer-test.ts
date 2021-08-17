@@ -111,4 +111,65 @@ describe('paragraph serializing tests', () => {
     const res = learningResourceContentToEditorValue(html);
     expect(res).toEqual(editor);
   });
+
+  test('deserializing <li> with plaintext as children', () => {
+    const html =
+      '<section><ol data-type="letters"><li>abc<strong>123</strong>def<p>paragraph</p>456</li></ol></section>';
+    const expected: Descendant[][] = [
+      [
+        {
+          type: 'section',
+          children: [
+            {
+              type: 'list',
+              listType: 'letter-list',
+              data: {},
+              children: [
+                {
+                  type: 'list-item',
+                  children: [
+                    {
+                      type: 'paragraph',
+                      serializeAsText: true,
+                      children: [
+                        {
+                          text: 'abc',
+                        },
+                        {
+                          bold: true,
+                          text: '123',
+                        },
+                        {
+                          text: 'def',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'paragraph',
+                      children: [
+                        {
+                          text: 'paragraph',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'paragraph',
+                      serializeAsText: true,
+                      children: [
+                        {
+                          text: '456',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    ];
+    const res = learningResourceContentToEditorValue(html);
+    expect(res).toEqual(expected);
+  });
 });

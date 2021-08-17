@@ -97,7 +97,7 @@ export const createIdenticalRow = (element: TableRowElement) => {
           ...defaultTableCellBlock(),
           data: {
             ...child.data,
-            rowspan: undefined,
+            rowspan: 1,
           },
         };
       }

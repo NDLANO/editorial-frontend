@@ -7,7 +7,6 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
 import { NdlaFilmThemeEditorModal } from '@ndla/editor';
 import Modal from '@ndla/modal';
 

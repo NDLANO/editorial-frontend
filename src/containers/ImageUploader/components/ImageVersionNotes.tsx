@@ -11,34 +11,14 @@ import { injectT } from '@ndla/i18n';
 import { VersionHistory } from '@ndla/editor';
 import { ImagePropType } from './ImageForm';
 import { EditorNote } from '../../../modules/image/imageApiInterfaces';
-import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
+import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../../modules/auth0/auth0Api';
 import Spinner from '../../../components/Spinner';
 import formatDate from '../../../util/formatDate';
 
-const getUser = (userId: string, allUsers: { id?: string; name?: string }[]): string => {
-  const user = allUsers.find(user => user.id === userId) || {};
-  return user.name ?? '';
+const getUser = (userId: string, allUsers: SimpleUserType[]): string => {
+  const user = allUsers.find(user => user.id === userId);
+  return user?.name ?? '';
 };
-
-const getUsersFromNotes = async (
-  notes: EditorNote[],
-  setUsers: (users: SimpleUserType[]) => void,
-): Promise<void> => {
-  const userIds = notes.map(note => note.updatedBy).filter(user => user !== 'System');
-  const uniqueUserIds = Array.from(new Set(userIds)).join(',');
-  const users = await fetchAuth0Users(uniqueUserIds);
-  const systemUser = { id: 'System', name: 'System' };
-  setUsers(
-    users
-      ? [...users.map(user => ({ id: user.app_metadata.ndla_id, name: user.name })), systemUser]
-      : [systemUser],
-  );
-};
-
-interface SimpleUserType {
-  id: string;
-  name: string;
-}
 
 interface Props {
   image?: ImagePropType;
@@ -64,7 +44,9 @@ const ImageVersionNotes = ({ image }: Props) => {
   useEffect(() => {
     let shouldUpdate = true;
     if (numNotes > 0) {
-      getUsersFromNotes(image?.editorNotes ?? [], setUsers).then(r => {
+      const notes = image?.editorNotes ?? [];
+      const userIds = notes.map(note => note.updatedBy).filter(user => user !== 'System');
+      fetchAuth0UsersFromUserIds(userIds, setUsers).then(r => {
         if (shouldUpdate) setLoading(false);
       });
     }

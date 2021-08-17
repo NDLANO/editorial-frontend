@@ -30,7 +30,7 @@ import {
 } from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
 import ImageVersionNotes from './ImageVersionNotes';
-import Spinner from 'components/Spinner';
+import Spinner from '../../../components/Spinner';
 
 const imageRules = {
   title: {
@@ -278,7 +278,7 @@ class ImageForm extends Component<Props & tType, State> {
                   id="image-upload-version-history"
                   title={t('form.workflowSection')} // TODO: Maybe think about changing this if we don't do notes.
                   className="u-4/6@desktop u-push-1/6@desktop">
-                  <ImageVersionNotes image={image}/>
+                  <ImageVersionNotes image={image} />
                 </AccordionSection>
               </Accordions>
               <Field right>

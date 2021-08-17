@@ -9,13 +9,13 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
+import { RadioButtonGroup } from '@ndla/ui';
 import { FieldInputProps, FieldProps } from 'formik';
 import { fetchSearchTags } from '../../../modules/image/imageApi';
 import FormikField from '../../../components/FormikField';
 import { LicenseField, ContributorsField } from '../../FormikForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { ImageApiLicense } from '../../../modules/image/imageApiInterfaces';
-import { RadioButtonGroup } from '@ndla/ui';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 

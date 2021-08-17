@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BEMHelper, { StringConstructorOptions } from 'react-bem-helper';
+import BEMHelper from 'react-bem-helper';
 import { RouteComponentProps } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import queryString from 'query-string';

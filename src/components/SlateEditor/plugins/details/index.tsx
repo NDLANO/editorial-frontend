@@ -10,6 +10,7 @@ import React from 'react';
 import { Element, Descendant, Editor, Path, Transforms, Node, Text, Range, Location } from 'slate';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
+import { colors } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
 import Details from './Details';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
@@ -167,6 +168,7 @@ export const detailsPlugin = (editor: Editor) => {
               position: 'absolute',
               top: 0,
               opacity: 0.3,
+              color: `${colors.black}`,
               pointerEvents: 'none',
               userSelect: 'none',
               display: 'inline-block',

@@ -68,7 +68,7 @@ const onBackspace = (
 
       const summaryEntry = getCurrentBlock(editor, TYPE_SUMMARY);
 
-      if (summaryEntry) {
+      if (summaryEntry?.length) {
         const [summaryNode] = summaryEntry;
         if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === '') {
           e.preventDefault();

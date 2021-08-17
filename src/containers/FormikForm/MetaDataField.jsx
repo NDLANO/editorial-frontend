@@ -21,7 +21,7 @@ import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { ArticleShape } from '../../shapes';
 
 const MetaDataField = ({ article, fetchSearchTags, handleSubmit, handleBlur }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const userAccess = useContext(UserAccessContext);
   const plugins = [textTransformPlugin()];
 

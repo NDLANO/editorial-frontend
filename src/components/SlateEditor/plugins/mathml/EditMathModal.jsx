@@ -47,7 +47,7 @@ const EditMathModal = ({
   renderMathML,
   previewMath,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   useEffect(() => {
     if (window.MathJax) window.MathJax.typesetPromise();
   }, [renderMathML]);

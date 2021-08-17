@@ -67,7 +67,7 @@ const StyledButtonWrapper = styled.div`
 `;
 
 const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   if (isSubject) {
     return null;
   }

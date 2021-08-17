@@ -40,7 +40,7 @@ const ContentTypeWrapper = styled.div`
 `;
 
 const SearchContent = ({ content, locale, userAccess }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
   let resourceType = {};

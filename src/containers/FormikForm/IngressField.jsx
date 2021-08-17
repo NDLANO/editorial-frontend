@@ -40,37 +40,37 @@ const IngressField = ({
   concept = false,
   onBlur,
 }) => {
-  const {t} = useTranslation();
-  return(
-  <StyledFormContainer>
-    <FormikField
-      noBorder
-      label={t('form.introduction.label')}
-      name={name}
-      showMaxLength
-      maxLength={maxLength}>
-      {({ field }) =>
-        preview ? (
-          <p className="article_introduction">
-            {parse(renderMarkdown(Plain.serialize(field.value), concept))}
-          </p>
-        ) : (
-          <PlainTextEditor
-            id={field.name}
-            {...field}
-            placeholder={placeholder || t('form.introduction.label')}
-            className="article_introduction"
-            data-cy="learning-resource-ingress"
-            handleSubmit={handleSubmit}
-            onBlur={onBlur}
-            plugins={plugins}
-          />
-        )
-      }
-    </FormikField>
-  </StyledFormContainer>
+  const { t } = useTranslation();
+  return (
+    <StyledFormContainer>
+      <FormikField
+        noBorder
+        label={t('form.introduction.label')}
+        name={name}
+        showMaxLength
+        maxLength={maxLength}>
+        {({ field }) =>
+          preview ? (
+            <p className="article_introduction">
+              {parse(renderMarkdown(Plain.serialize(field.value), concept))}
+            </p>
+          ) : (
+            <PlainTextEditor
+              id={field.name}
+              {...field}
+              placeholder={placeholder || t('form.introduction.label')}
+              className="article_introduction"
+              data-cy="learning-resource-ingress"
+              handleSubmit={handleSubmit}
+              onBlur={onBlur}
+              plugins={plugins}
+            />
+          )
+        }
+      </FormikField>
+    </StyledFormContainer>
   );
-}
+};
 
 IngressField.defaultProps = {
   name: 'introduction',

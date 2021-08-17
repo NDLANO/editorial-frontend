@@ -45,7 +45,7 @@ const ConceptModal = ({
   createMessage,
   setConcept,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [searchObject, updateSearchObject] = useState({
     page: 1,
     sort: '-relevance',

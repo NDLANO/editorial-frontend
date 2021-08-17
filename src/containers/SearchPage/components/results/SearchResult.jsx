@@ -16,16 +16,8 @@ import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 import SearchPodcastSeries from './SearchPodcastSeries';
 
-const SearchResult = ({
-  result,
-  locale,
-  type,
-  subjects,
-  userAccess,
-  editingState,
-  licenses,
-}) => {
-  const {t} = useTranslation();
+const SearchResult = ({ result, locale, type, subjects, userAccess, editingState, licenses }) => {
+  const { t } = useTranslation();
   switch (type) {
     case 'content':
       return <SearchContent content={result} locale={locale} userAccess={userAccess} />;

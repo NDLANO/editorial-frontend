@@ -47,24 +47,24 @@ const crossCss = css`
   height: 22px;
 `;
 
-const MastheadButton = ({ children, color, minWidth, open, onClick}) => {
-  const {t} = useTranslation();
+const MastheadButton = ({ children, color, minWidth, open, onClick }) => {
+  const { t } = useTranslation();
   return (
-  <button type="button" onClick={onClick} css={buttonStyle}>
-    {open ? (
-      <>
-        <Cross css={crossCss} />
-        <span>{t('masthead.menu.close')}</span>
-      </>
-    ) : (
-      <>
-        <Menu />
-        <span>{t('menu.title')}</span>
-      </>
-    )}
-  </button>
+    <button type="button" onClick={onClick} css={buttonStyle}>
+      {open ? (
+        <>
+          <Cross css={crossCss} />
+          <span>{t('masthead.menu.close')}</span>
+        </>
+      ) : (
+        <>
+          <Menu />
+          <span>{t('menu.title')}</span>
+        </>
+      )}
+    </button>
   );
-}
+};
 
 MastheadButton.propTypes = {
   color: PropTypes.string,

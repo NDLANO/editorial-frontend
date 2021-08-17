@@ -16,8 +16,8 @@ import { searchClasses } from '../../SearchContainer';
 
 const supported = ['en', 'nb', 'nn'];
 
-const SearchContentLanguage = ({ language, content, contentType}) => {
-  const {t} = useTranslation();
+const SearchContentLanguage = ({ language, content, contentType }) => {
+  const { t } = useTranslation();
   if (!supported.includes(language) || content.title.language === language) {
     return null;
   }

@@ -59,7 +59,7 @@ const StyledCheckIcon = styled(Check)`
 `;
 
 const SearchConceptResults = ({ results, searchObject, addConcept, searching }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <div>
       {searching && <Spinner appearance="absolute" />}

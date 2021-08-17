@@ -30,7 +30,7 @@ const StyledErrorPreLine = styled.span`
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
 const VisualElementField = ({ formik, isSubjectPage, types, videoTypes }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState(undefined);
 
   return (

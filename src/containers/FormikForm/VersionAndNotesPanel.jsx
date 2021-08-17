@@ -66,7 +66,7 @@ const VersionAndNotesPanel = ({
   createMessage,
   getArticle,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [versions, setVersions] = useState([]);
   const [loading, setLoading] = useState([]);
   const [users, setUsers] = useState([]);

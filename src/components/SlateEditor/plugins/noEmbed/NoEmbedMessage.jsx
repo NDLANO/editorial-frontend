@@ -14,7 +14,7 @@ import EditorErrorMessage from '../../EditorErrorMessage';
 import { getSchemaEmbed } from '../../editorSchema';
 
 const NoEmbedMessage = ({ text, node, attributes }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const embed = getSchemaEmbed(node);
   const msg = text || t('noEmbedMessage.deleteOnSave', { type: embed.resource });
 

@@ -41,7 +41,7 @@ const HeaderStatusInformation = ({
   type,
   id,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const StyledStatus = styled.p`
     ${fonts.sizes(fontSize || 18, 1.1)};
     font-weight: ${fonts.weight.semibold};

@@ -28,7 +28,7 @@ const LanguageSelector = ({
     params: { draftId, language },
   },
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   if (supportedLanguages.length === 0) {
     return null;
   }

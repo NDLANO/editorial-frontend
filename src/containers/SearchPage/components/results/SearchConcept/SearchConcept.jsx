@@ -16,7 +16,7 @@ import ContentView from './ContentView';
 import FormView from './FormView';
 
 const SearchConcept = ({ concept, locale, subjects, editingState, licenses }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [editing, setEditing] = editingState;
   const [localConcept, setLocalConcept] = useState(concept);
   const [showForm, setShowForm] = useState(false);

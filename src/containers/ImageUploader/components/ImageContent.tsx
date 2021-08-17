@@ -109,4 +109,4 @@ const ImageContent = ({ formik }: Props) => {
   );
 };
 
-export default connect<tType, any>(ImageContent);
+export default connect<any, any>(ImageContent);

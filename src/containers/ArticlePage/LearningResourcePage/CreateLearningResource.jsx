@@ -16,7 +16,7 @@ import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 
 const CreateLearningResource = ({ history, ...rest }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const { createArticle } = useFetchArticleData(undefined, locale);
 

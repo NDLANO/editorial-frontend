@@ -23,7 +23,7 @@ import {
 } from '../../../util/routeHelpers';
 
 const OpenMenu = ({ close }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const StyledLink = StyledListButton.withComponent(Link);
   const StyledHrefLink = StyledListButton.withComponent('a');
   const { contentTypes } = constants;

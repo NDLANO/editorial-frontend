@@ -13,7 +13,7 @@ import StructureContainer from './StructureContainer';
 import { LocaleContext, UserAccessContext } from '../App/App';
 
 const StructurePage = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const userAccess = useContext(UserAccessContext);
   return (

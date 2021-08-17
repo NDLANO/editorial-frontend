@@ -22,7 +22,7 @@ const StyledTitleDiv = styled.div`
 
 const ImageSearchAndUploader = props => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const {
     isSavingImage,

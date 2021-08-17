@@ -34,7 +34,7 @@ const moveContentButtonStyle = css`
 `;
 
 const SlateRightAside = props => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const { children, onRemoveClick, onMoveContent, attributes } = props;
 
   return (

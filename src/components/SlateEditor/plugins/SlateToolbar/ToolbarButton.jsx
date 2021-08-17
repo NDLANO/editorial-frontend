@@ -67,8 +67,8 @@ const toolbarButtonStyle = css`
   margin-right: 0.5rem;
   display: inline-block;
 `;
-const ToolbarButton = ({ isActive, type, kind, handleOnClick}) => {
-  const {t} = useTranslation();
+const ToolbarButton = ({ isActive, type, kind, handleOnClick }) => {
+  const { t } = useTranslation();
   const onMouseDown = e => handleOnClick(e, kind, type);
   return (
     <Button

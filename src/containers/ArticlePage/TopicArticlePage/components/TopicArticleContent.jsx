@@ -77,7 +77,7 @@ const createPlugins = language => {
 };
 
 const TopicArticleContent = props => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const {
     userAccess,
     values: { id, language, creators, published },

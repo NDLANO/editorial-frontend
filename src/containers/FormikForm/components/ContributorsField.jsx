@@ -5,7 +5,7 @@ import Contributors from '../../../components/Contributors';
 import FormikField from '../../../components/FormikField';
 
 const ContributorsField = ({ contributorTypes, width }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return contributorTypes.map(contributorType => {
     const label = t(`form.${contributorType}.label`);
     return (

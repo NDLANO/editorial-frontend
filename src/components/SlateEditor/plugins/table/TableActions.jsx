@@ -37,8 +37,8 @@ const supportedTableOperations = [
   'table-remove',
 ];
 
-const TableActions = ({ value, editor}) => {
-  const {t} = useTranslation();
+const TableActions = ({ value, editor }) => {
+  const { t } = useTranslation();
   const handleOnClick = (e, operation) => {
     e.preventDefault();
     const position = editor.getTablePosition();

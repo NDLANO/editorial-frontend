@@ -39,7 +39,7 @@ const HeaderWithLanguage = ({
   values,
   ...rest
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const { supportedLanguages, articleType } = values;
   const { id, title, status, language } = content;
 

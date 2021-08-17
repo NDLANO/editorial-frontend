@@ -70,7 +70,14 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
   const history = useHistory();
   const [lang, setLang] = useState(basename);
   const firstRender = useRef(true);
-  initializeI18n(i18n);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    initializeI18n(i18n);
+    i18n.loadLanguages(i18n.options.supportedLngs as string[]);
+    i18n.loadResources(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (firstRender.current) {
@@ -90,18 +97,21 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
 
       return;
     }
+    changeBaseName(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [i18n.language]);
+
+  const changeBaseName = () => {
     const supportedLanguages: string[] = i18n.options.supportedLngs as string[]; // hard-coded as a string array in i18n2.ts.
     const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
     const paths = window.location.pathname.replace(regex, '').split('/');
     const { search } = window.location;
-    const p = paths.slice().join('/');
-    const test = p.startsWith('/') ? p : `/${p}`;
-    history.replace(`/${i18n.language}${test}${search}`);
-    //@ts-ignore
-    setLang(i18n.language); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [i18n.language]);
+    const path = paths.slice().join('/');
+    const fullPath = path.startsWith('/') ? path : `/${path}`;
+    history.replace(`/${i18n.language}${fullPath}${search}`);
+    setLang(i18n.language);
+  };
 
-  if (!i18n.isInitialized) {
+  if (loading) {
     return <Spinner />;
   }
 

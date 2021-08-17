@@ -70,9 +70,8 @@ const FormFooter = ({
             onClick={(evt: { preventDefault: () => void }) => {
               evt.preventDefault();
               submitForm();
-            }}>
-            {t('form.save')}
-          </SaveButton>
+            }}
+          />
         </Field>
       ) : (
         <EditorFooter

@@ -268,4 +268,4 @@ LearningResourceContent.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
-export default compose( formikConnect)(withTranslation()(LearningResourceContent));
+export default compose(formikConnect)(withTranslation()(LearningResourceContent));

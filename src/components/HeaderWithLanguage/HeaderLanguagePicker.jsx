@@ -19,8 +19,8 @@ import { StyledDropdownOverlay } from '../../components/Dropdown';
 
 const StyledLink = StyledListButton.withComponent(Link);
 
-const LanguagePicker = ({ emptyLanguages, editUrl, }) => {
-  const {t} = useTranslation();
+const LanguagePicker = ({ emptyLanguages, editUrl }) => {
+  const { t } = useTranslation();
   const [display, setDisplay] = useState(false);
   return (
     <div>

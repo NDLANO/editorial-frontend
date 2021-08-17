@@ -18,7 +18,7 @@ import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 import CrossButton from '../../../components/CrossButton';
 
 const SettingsMenuDropdown = ({ onClose, id, setShowAlertModal, ...rest }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const settingsMenuType = id.includes('subject') ? 'subject' : 'topic';
   return (
     <StyledDivWrapper>

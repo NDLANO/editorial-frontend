@@ -19,8 +19,8 @@ import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 
-const PreviewLightBox = ({ type, getEntity, articleType, supportedLanguages}) => {
-  const {t} = useTranslation();
+const PreviewLightBox = ({ type, getEntity, articleType, supportedLanguages }) => {
+  const { t } = useTranslation();
   if (type === 'concept')
     return (
       supportedLanguages.length > 1 && (

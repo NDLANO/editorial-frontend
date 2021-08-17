@@ -24,7 +24,7 @@ const PreviewDraftPage = ({
     params: { draftId, language },
   },
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [draft, setDraft] = useState(undefined);
   const [resource, setResource] = useState(undefined);
 

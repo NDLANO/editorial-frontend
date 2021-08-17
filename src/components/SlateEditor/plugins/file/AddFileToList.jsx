@@ -5,9 +5,9 @@ import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Portal } from '../../../Portal';
 import FileUploader from '../../../FileUploader';
 
-const AddFileToList = ({ showFileUploader, onClose, onFileSave, addedFiles}) => {
-  const {t} = useTranslation();
-  if(!showFileUploader) {
+const AddFileToList = ({ showFileUploader, onClose, onFileSave, addedFiles }) => {
+  const { t } = useTranslation();
+  if (!showFileUploader) {
     return null;
   }
   return (
@@ -31,7 +31,7 @@ const AddFileToList = ({ showFileUploader, onClose, onFileSave, addedFiles}) => 
       </Modal>
     </Portal>
   );
-}
+};
 
 AddFileToList.propTypes = {
   onFileSave: PropTypes.func.isRequired,

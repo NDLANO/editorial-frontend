@@ -26,7 +26,7 @@ const getConceptDataAttributes = ({ id, title: { title } }) => ({
 });
 
 const EditSlateConcept = props => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const { children, node, locale, editor, attributes } = props;
   const nodeText = node.text.trim();
 

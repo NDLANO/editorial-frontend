@@ -50,7 +50,7 @@ function hasHrefOrContentId(node) {
 }
 
 const Link = props => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const {
     attributes,
     editor: { onChange, blur, value },

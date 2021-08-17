@@ -25,7 +25,7 @@ const LearningResourcePanels = ({
   formIsDirty,
   handleSubmit,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const formikContext = useFormikContext();
   const { values, setValues, errors, handleBlur } = formikContext;

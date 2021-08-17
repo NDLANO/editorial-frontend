@@ -109,6 +109,7 @@ const SearchPage = ({ match }: Props) => {
         {supportedTypes.map(type => {
           return (
             <PrivateRoute
+              locale={locale}
               key={type.type}
               path={type.path}
               component={SearchContainer}

@@ -16,33 +16,36 @@ const ResourceTypeSelect = ({
   availableResourceTypes,
   onChangeSelectedResource,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
-  <Fragment>
-    <FieldHeader
-      title={t('taxonomy.resourceTypes.title')}
-      subTitle={t('taxonomy.resourceTypes.subTitle')}>
-      <HowToHelper pageId="TaxonomyContentTypes" tooltip={t('taxonomy.resourceTypes.helpLabel')} />
-    </FieldHeader>
-    <Select value={selectedResourceTypeValue(resourceTypes)} onChange={onChangeSelectedResource}>
-      <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
-      {availableResourceTypes.map(resourceType =>
-        resourceType.subtypes ? (
-          resourceType.subtypes.map(subtype => (
-            <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
-              {resourceType.name} - {subtype.name}
+    <Fragment>
+      <FieldHeader
+        title={t('taxonomy.resourceTypes.title')}
+        subTitle={t('taxonomy.resourceTypes.subTitle')}>
+        <HowToHelper
+          pageId="TaxonomyContentTypes"
+          tooltip={t('taxonomy.resourceTypes.helpLabel')}
+        />
+      </FieldHeader>
+      <Select value={selectedResourceTypeValue(resourceTypes)} onChange={onChangeSelectedResource}>
+        <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
+        {availableResourceTypes.map(resourceType =>
+          resourceType.subtypes ? (
+            resourceType.subtypes.map(subtype => (
+              <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
+                {resourceType.name} - {subtype.name}
+              </option>
+            ))
+          ) : (
+            <option key={resourceType.id} value={resourceType.id}>
+              {resourceType.name}
             </option>
-          ))
-        ) : (
-          <option key={resourceType.id} value={resourceType.id}>
-            {resourceType.name}
-          </option>
-        ),
-      )}
-    </Select>
-  </Fragment>
+          ),
+        )}
+      </Select>
+    </Fragment>
   );
-}
+};
 
 ResourceTypeSelect.propTypes = {
   onChangeSelectedResource: PropTypes.func.isRequired,

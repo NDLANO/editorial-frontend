@@ -16,7 +16,7 @@ import DateTimeInput from '../../../components/DateTime/DateTimeInput';
 import Field from '../../../components/Field';
 
 const DatePicker = ({ name, onReset, label, ...rest }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   return (
     <Field>

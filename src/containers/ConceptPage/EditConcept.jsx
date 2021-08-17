@@ -18,7 +18,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
 
 const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, ...rest }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const {
     concept,
     fetchSearchTags,

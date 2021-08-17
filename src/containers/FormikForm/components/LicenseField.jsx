@@ -27,7 +27,7 @@ const LicenseField = props => {
     width,
     enableLicenseNA,
   } = props;
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const licensesWithTranslations = licenses
     .filter(license => license.license !== 'N/A' || enableLicenseNA)

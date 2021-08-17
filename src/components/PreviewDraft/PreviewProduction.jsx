@@ -13,8 +13,8 @@ import PreviewDraft from './PreviewDraft';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 
 const PreviewProduction = props => {
-  const {t} = useTranslation();
-  const { firstEntity, secondEntity, label, previewLanguage, contentType} = props;
+  const { t } = useTranslation();
+  const { firstEntity, secondEntity, label, previewLanguage, contentType } = props;
   return (
     <Fragment>
       <StyledPreviewTwoArticles>

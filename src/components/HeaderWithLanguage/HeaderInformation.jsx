@@ -110,7 +110,7 @@ const HeaderInformation = ({
   history,
   taxonomyPaths,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const onSaveAsNew = async () => {
     try {

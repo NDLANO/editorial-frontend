@@ -17,16 +17,8 @@ import ConceptForm from './ConceptForm';
 import { LicensesArrayOf } from '../../shapes';
 
 const CreateConcept = props => {
-  const {
-    licenses,
-    locale,
-    history,
-    initialConcept,
-    inModal,
-    addConceptInModal,
-    ...rest
-  } = props;
-  const {t} = useTranslation();
+  const { licenses, locale, history, initialConcept, inModal, addConceptInModal, ...rest } = props;
+  const { t } = useTranslation();
   const {
     subjects,
     concept,

@@ -22,24 +22,24 @@ const resourceTypeProps = (item, numberInList) => {
 };
 
 const RelatedArticle = ({ item, numberInList }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
-  <RelatedArticleUI
-    {...resourceTypeProps(item, numberInList)}
-    title={convertFieldWithFallback(item, 'title', item.title)}
-    introduction={convertFieldWithFallback(item, 'metaDescription', item.description)}
-    to={item.url || toEditArticle(item.id, 'standard')}
-    target="_blank"
-    linkInfo={
-      item.id === 'external-learning-resources'
-        ? t('form.content.relatedArticle.urlLocation', {
-            domain: urlDomain(item.url),
-          })
-        : ''
-    }
-  />
+    <RelatedArticleUI
+      {...resourceTypeProps(item, numberInList)}
+      title={convertFieldWithFallback(item, 'title', item.title)}
+      introduction={convertFieldWithFallback(item, 'metaDescription', item.description)}
+      to={item.url || toEditArticle(item.id, 'standard')}
+      target="_blank"
+      linkInfo={
+        item.id === 'external-learning-resources'
+          ? t('form.content.relatedArticle.urlLocation', {
+              domain: urlDomain(item.url),
+            })
+          : ''
+      }
+    />
   );
-}
+};
 
 RelatedArticle.propTypes = {
   item: PropTypes.shape({

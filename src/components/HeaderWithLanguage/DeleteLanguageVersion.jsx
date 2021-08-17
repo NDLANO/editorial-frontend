@@ -188,4 +188,7 @@ const mapDispatchToProps = {
   createMessage: (message = {}) => messageActions.addMessage(message),
 };
 
-export default connect(undefined, mapDispatchToProps)(withRouter(withTranslation()(DeleteLanguageVersion)));
+export default connect(
+  undefined,
+  mapDispatchToProps,
+)(withRouter(withTranslation()(DeleteLanguageVersion)));

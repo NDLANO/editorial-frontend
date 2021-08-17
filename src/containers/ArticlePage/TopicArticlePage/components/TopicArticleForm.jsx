@@ -143,7 +143,7 @@ const TopicArticleForm = props => {
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const {
     article,

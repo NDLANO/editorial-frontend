@@ -97,4 +97,4 @@ ThemeNameModal.propTypes = {
   wrapperFunctionForButton: PropTypes.func,
 };
 
-export default withTranslation()(ThemeNameModal);
+export default ThemeNameModal;

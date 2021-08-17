@@ -49,7 +49,7 @@ const Resource = ({
   primary,
   rank,
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
 
   const contentType = resource.resourceTypes

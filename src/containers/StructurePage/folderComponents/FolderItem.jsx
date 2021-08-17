@@ -39,7 +39,7 @@ const FolderItem = ({
   metadata,
   ...rest
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const type = id.includes('subject') ? 'subject' : 'topic';
   const showJumpToResources = isMainActive && type === 'topic';
 

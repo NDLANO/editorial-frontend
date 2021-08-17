@@ -3,14 +3,7 @@ import PropTypes from 'prop-types';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
 import VisualElementModalWrapper from '../../../containers/VisualElement/VisualElementModalWrapper';
 
-const DisplayExternalModal = ({
-  isEditMode,
-  allowedProvider,
-  onEditEmbed,
-  onClose,
-  type,
-  src,
-}) => {
+const DisplayExternalModal = ({ isEditMode, allowedProvider, onEditEmbed, onClose, type, src }) => {
   if (!isEditMode) {
     return null;
   }

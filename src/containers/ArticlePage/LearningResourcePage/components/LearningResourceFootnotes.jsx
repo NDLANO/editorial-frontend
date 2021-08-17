@@ -18,8 +18,8 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const Footnote = ({ footnote, id}) => {
-  const {t} = useTranslation();
+const Footnote = ({ footnote, id }) => {
+  const { t } = useTranslation();
   const authors = footnote.authors.join(' ');
   const editonLabel = t('learningResourceForm.fields.footnotes.edition');
   const publisherLabel = t('learningResourceForm.fields.footnotes.publisher');

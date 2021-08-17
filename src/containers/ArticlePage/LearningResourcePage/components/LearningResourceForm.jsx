@@ -125,7 +125,7 @@ const getArticleFromSlate = ({ values, licenses, initialValues, preview = false 
 };
 
 const LearningResourceForm = props => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const {
     savedToServer,
     formikRef,

@@ -32,7 +32,7 @@ const StyledErrorPreLine = styled.span`
 
 interface GrepCode {
   code: string;
-  title: string | undefined | null;
+  title?: string;
 }
 
 export const convertGrepCodesToObject = async (grepCodes: string[]) => {

@@ -150,4 +150,4 @@ export const MultiSelectDropdown = <T extends { id: string }>({
   );
 };
 
-export default MultiSelectDropdown as <T>(props: Props<T>) => any;
+export default MultiSelectDropdown;

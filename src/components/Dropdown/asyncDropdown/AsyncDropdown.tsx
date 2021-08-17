@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import React, { useCallback, useEffect, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
 import Downshift, { StateChangeOptions } from 'downshift';
 import debounce from 'lodash/debounce';
 // @ts-ignore
@@ -65,7 +64,7 @@ interface SearchResultBase<SearchResult> {
 
 export const AsyncDropdown = <
   SearchResult extends ExtendedSearchResultType,
-  ApiType extends { title: { title: string; language: string } | string }
+  ApiType extends { title?: { title: string; language: string } | string }
 >({
   children,
   placeholder = '',
@@ -87,7 +86,7 @@ export const AsyncDropdown = <
   onChange,
   onBlur,
   removeItem,
-}: Props<SearchResult, ApiType> & tType) => {
+}: Props<SearchResult, ApiType>) => {
   const [items, setItems] = useState<SearchResult[]>([]);
   const [selectedItem, setSelectedItem] = useState<ApiType | null>(null);
   const [page, setPage] = useState<number>(1);
@@ -236,6 +235,4 @@ export const AsyncDropdown = <
     </Downshift>
   );
 };
-export default injectT(AsyncDropdown) as <SearchResult, ApiType>(
-  props: Props<SearchResult, ApiType>,
-) => any;
+export default AsyncDropdown;

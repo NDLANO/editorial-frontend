@@ -93,6 +93,7 @@ class AddExistingToSubjectTopic extends React.PureComponent {
           onClose={onClose}
           onSubmit={this.onAddExistingTopic}
           icon={<Plus />}
+          showPagination
         />
       );
     }

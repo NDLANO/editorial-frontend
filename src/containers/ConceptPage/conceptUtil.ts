@@ -25,7 +25,7 @@ export const transformApiConceptToFormValues = (
 ): ConceptFormValues => {
   return {
     id: concept.id,
-    slatetitle: plainTextToEditorValue(concept.title || ''),
+    title: plainTextToEditorValue(concept.title || ''),
     language: concept.language,
     updated: concept.updated,
     updateCreated: false,
@@ -66,7 +66,7 @@ export const getPatchApiConcept = (
   licenses: License[],
 ): PatchConceptType => ({
   id: values.id,
-  title: editorValueToPlainText(values.slatetitle),
+  title: editorValueToPlainText(values.title),
   content: editorValueToPlainText(values.conceptContent),
   language: values.language,
   copyright: {
@@ -95,7 +95,7 @@ export const getConcept = (
 ): ConceptType => {
   return {
     ...values,
-    title: editorValueToPlainText(values.slatetitle),
+    title: editorValueToPlainText(values.title),
     content: editorValueToPlainText(values.conceptContent),
     copyright: {
       license: licenses.find(license => license.license === values.license),
@@ -118,7 +118,7 @@ export const getConcept = (
 };
 
 export const conceptFormRules = {
-  slatetitle: {
+  title: {
     required: true,
   },
   conceptContent: {

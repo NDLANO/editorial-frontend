@@ -13,8 +13,6 @@ import { injectT, tType } from '@ndla/i18n';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
-import { ReactEditor } from 'slate-react';
-import { Editor } from 'slate';
 import { IngressField, TitleField } from '../../FormikForm';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
@@ -44,27 +42,13 @@ const ConceptContent = ({ t }: tType) => {
   const formikContext = useFormikContext<ConceptFormValues>();
   const {
     values: { creators, updated },
-    handleBlur,
     submitForm,
     isValid,
   } = formikContext;
 
   return (
     <>
-      <TitleField
-        handleSubmit={submitForm}
-        onBlur={(event: Event, editor: Editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-
-          // TODO: Can possibly be removed
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'slatetitle' } }), 0);
-        }}
-      />
+      <TitleField handleSubmit={submitForm} />
       <ByLine>
         <LastUpdatedLine creators={creators} published={updated} />
         <IconContainer>
@@ -85,23 +69,6 @@ const ConceptContent = ({ t }: tType) => {
         preview={preview}
         concept
         handleSubmit={() => submitFormWithMessage(formikContext, () => setShowWarning(true))}
-        onBlur={(event: Event, editor: Editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-
-          // TODO: Can possibly be removed
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(
-            () =>
-              handleBlur({
-                target: { name: 'conceptContent' },
-              }),
-            0,
-          );
-        }}
       />
       {!isValid && showWarning && <StyledHelpMessage error>{t('form.feil')}</StyledHelpMessage>}
     </>

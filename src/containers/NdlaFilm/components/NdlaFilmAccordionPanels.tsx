@@ -4,11 +4,10 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import React, { FocusEvent } from 'react';
+import React from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
-import { Editor } from 'slate';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
 import { ContentResultType, FormikProperties, NdlaFilmThemesEditType } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
@@ -25,8 +24,6 @@ interface Props {
 interface ComponentProps extends Props {
   errors: FormikErrors<Values>;
   formIsDirty: boolean;
-  handleSubmit: () => void;
-  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
 }
 
 interface FormikSlideshowProps {
@@ -45,8 +42,6 @@ const SubjectpageAccordionPanels = ({
   allMovies,
   loading,
   selectedLanguage,
-  handleSubmit,
-  onBlur,
 }: ComponentProps & tType) => {
   const onUpdateMovieList = (
     field: FieldProps<FormikValues>['field'],
@@ -69,7 +64,7 @@ const SubjectpageAccordionPanels = ({
         title={t('subjectpageForm.about')}
         className="u-4/6@desktop u-push-1/6@desktop"
         hasError={['title', 'description', 'visualElement'].some(field => field in errors)}>
-        <SubjectpageAbout handleSubmit={handleSubmit} onBlur={onBlur} />
+        <SubjectpageAbout />
       </AccordionSection>
       <AccordionSection
         id="slideshow"

@@ -6,7 +6,6 @@
  */
 
 import React, { useState, ReactNode } from 'react';
-import { ReactEditor } from 'slate-react';
 import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
 import { injectT, tType } from '@ndla/i18n';
 import { Accordions, AccordionSection } from '@ndla/accordion';
@@ -202,7 +201,7 @@ const PodcastForm = ({
       enableReinitialize
       validate={values => validateFormik(values, podcastRules, t)}>
       {formikProps => {
-        const { values, dirty, isSubmitting, errors, submitForm, handleBlur } = formikProps;
+        const { values, dirty, isSubmitting, errors, submitForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -239,7 +238,7 @@ const PodcastForm = ({
                   title={t('podcastForm.fields.manuscript')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={[].some(field => field in errors)}>
-                  <AudioManuscript classes={formClasses} />
+                  <AudioManuscript />
                 </AccordionSection>
                 <AccordionSection
                   id="podcast-upload-podcastmeta"
@@ -248,20 +247,7 @@ const PodcastForm = ({
                   hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
                     field => field in errors,
                   )}>
-                  <PodcastMetaData
-                    handleSubmit={submitForm}
-                    onBlur={(event, editor) => {
-                      // Forcing slate field to be deselected before selecting new field.
-                      // Fixes a problem where slate field is not properly focused on click.
-                      ReactEditor.deselect(editor);
-
-                      // TODO: Can possibly be removed
-                      // this is a hack since formik onBlur-handler interferes with slates
-                      // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                      // formik handleBlur needs to be called for validation to work (and touched to be set)
-                      setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
-                    }}
-                  />
+                  <PodcastMetaData />
                   <PodcastSeriesInformation />
                 </AccordionSection>
 

@@ -36,7 +36,7 @@ const LearningResourcePanels = ({
         id={'learning-resource-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
-        hasError={!!(errors.slatetitle || errors.introduction || errors.content)}
+        hasError={!!(errors.title || errors.introduction || errors.content)}
         startOpen>
         <LearningResourceContent
           userAccess={userAccess}
@@ -74,12 +74,7 @@ const LearningResourcePanels = ({
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
-        <MetaDataField
-          handleBlur={handleBlur}
-          fetchSearchTags={fetchSearchTags}
-          handleSubmit={handleSubmit}
-          article={article}
-        />
+        <MetaDataField fetchSearchTags={fetchSearchTags} article={article} />
       </AccordionSection>
       <AccordionSection
         id={'learning-resource-grepCodes'}

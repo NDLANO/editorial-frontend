@@ -236,7 +236,7 @@ class AudioForm extends Component<Props, State> {
                   title={t('podcastForm.fields.manuscript')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={[].some(field => field in errors)}>
-                  <AudioManuscript classes={formClasses} />
+                  <AudioManuscript />
                 </AccordionSection>
                 <AccordionSection
                   id="audio-upload-metadataSection"

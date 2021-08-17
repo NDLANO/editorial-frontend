@@ -129,7 +129,7 @@ const SubjectpageForm = ({
       onSubmit={() => {}}
       validate={values => validateFormik(getSubjectpageFromSlate(values), subjectpageRules, t)}>
       {(formik: FormikProps<SubjectFormValues>) => {
-        const { values, dirty, isSubmitting, errors, isValid, handleBlur } = formik;
+        const { values, dirty, isSubmitting, errors, isValid } = formik;
 
         const formIsDirty: boolean = isFormikFormDirty({
           values,
@@ -152,13 +152,6 @@ const SubjectpageForm = ({
               editorsChoices={values.editorsChoices!}
               elementId={values.elementId!}
               errors={errors}
-              handleSubmit={() => handleSubmit(formik)}
-              onBlur={(event, editor) => {
-                // this is a hack since formik onBlur-handler interferes with slates
-                // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                // formik handleBlur needs to be called for validation to work (and touched to be set)
-                setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
-              }}
             />
             <Field right>
               <SaveButton

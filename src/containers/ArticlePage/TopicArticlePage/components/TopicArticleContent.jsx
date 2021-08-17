@@ -7,7 +7,6 @@
  */
 
 import React, { Fragment, useMemo, useState } from 'react';
-import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
@@ -93,7 +92,6 @@ const TopicArticleContent = props => {
     t,
     userAccess,
     values: { id, language, creators, published },
-    handleBlur,
     handleSubmit,
   } = props;
   const [preview, setPreview] = useState(false);
@@ -109,20 +107,7 @@ const TopicArticleContent = props => {
 
   return (
     <Fragment>
-      <TitleField
-        handleSubmit={handleSubmit}
-        onBlur={(event, editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-
-          // TODO: Can possibly be removed
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'slatetitle' } }), 0);
-        }}
-      />
+      <TitleField handleSubmit={handleSubmit} />
       <FormikField name="published" css={byLineStyle}>
         {({ field, form }) => (
           <>
@@ -146,21 +131,7 @@ const TopicArticleContent = props => {
           </>
         )}
       </FormikField>
-      <IngressField
-        preview={preview}
-        handleSubmit={handleSubmit}
-        onBlur={(event, editor) => {
-          // Forcing slate field to be deselected before selecting new field.
-          // Fixes a problem where slate field is not properly focused on click.
-          ReactEditor.deselect(editor);
-
-          // TODO: Can possibly be removed
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
-        }}
-      />
+      <IngressField preview={preview} handleSubmit={handleSubmit} />
       <VisualElementField />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
@@ -172,11 +143,9 @@ const TopicArticleContent = props => {
             </FieldHeader>
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
-              name={name}
               value={value}
               submitted={isSubmitting}
               plugins={plugins}
-              handleSubmit={handleSubmit}
               onChange={value => {
                 onChange({
                   target: {
@@ -187,12 +156,6 @@ const TopicArticleContent = props => {
               }}
               language={language}
               actionsToShowInAreas={actionsToShowInAreas}
-              onBlur={(event, editor) => {
-                // this is a hack since formik onBlur-handler interferes with slates
-                // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                // formik handleBlur needs to be called for validation to work (and touched to be set)
-                setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
-              }}
             />
           </Fragment>
         )}

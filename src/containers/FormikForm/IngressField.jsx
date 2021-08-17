@@ -38,7 +38,6 @@ const IngressField = ({
   handleSubmit,
   preview = false,
   concept = false,
-  onBlur,
 }) => {
   const handleSubmitRef = React.useRef(handleSubmit);
 
@@ -67,9 +66,7 @@ const IngressField = ({
               {...field}
               placeholder={placeholder || t('form.introduction.label')}
               className="article_introduction"
-              data-cy="learning-resource-ingress"
-              handleSubmit={handleSubmit}
-              onBlur={onBlur}
+              cy="learning-resource-ingress"
               plugins={plugins}
             />
           )
@@ -93,7 +90,6 @@ IngressField.propTypes = {
   preview: PropTypes.bool,
   concept: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
 };
 
 export default injectT(IngressField);

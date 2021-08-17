@@ -8,21 +8,15 @@
 
 import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
-import { Editor } from 'slate';
 
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 import { MetaImageSearch } from '../../FormikForm';
 
-interface Props {
-  handleSubmit: () => void;
-  onBlur: (event: Event, editor: Editor, next: () => void) => void;
-}
-
 const plugins = [textTransformPlugin];
 
-const PodcastMetaData = ({ handleSubmit, onBlur, t }: Props & tType) => {
+const PodcastMetaData = ({ t }: tType) => {
   return (
     <>
       <FormikField
@@ -36,9 +30,7 @@ const PodcastMetaData = ({ handleSubmit, onBlur, t }: Props & tType) => {
             {...field}
             className={'introduction'}
             placeholder={t('podcastForm.fields.introduction')}
-            handleSubmit={handleSubmit}
             plugins={plugins}
-            onBlur={onBlur}
           />
         )}
       </FormikField>

@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { FocusEvent } from 'react';
+import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { FieldProps } from 'formik';
-import { Editor } from 'slate';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
@@ -21,12 +20,7 @@ interface FormikProps {
   form: FormikProperties['form'];
 }
 
-interface Props {
-  handleSubmit: () => void;
-  onBlur: (event: FocusEvent<HTMLDivElement>, editor: Editor) => void;
-}
-
-const SubjectpageMetadata = ({ handleSubmit, onBlur, t }: Props & tType) => {
+const SubjectpageMetadata = ({ t }: tType) => {
   const plugins = [textTransformPlugin];
   return (
     <>
@@ -41,9 +35,7 @@ const SubjectpageMetadata = ({ handleSubmit, onBlur, t }: Props & tType) => {
             id={field.name}
             {...field}
             placeholder={t('form.metaDescription.label')}
-            handleSubmit={handleSubmit}
             plugins={plugins}
-            onBlur={onBlur}
           />
         )}
       </FormikField>

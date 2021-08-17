@@ -140,6 +140,8 @@ export function diffHTML(oldHtml, newHtml) {
 
   let shouldWarn = false;
 
+  logDiff(diffs);
+
   diffs.forEach((diff, index) => {
     // green for additions, red for deletions
     // grey for common parts
@@ -160,3 +162,22 @@ export function diffHTML(oldHtml, newHtml) {
   });
   return { diff: diffString, warn: shouldWarn };
 }
+
+const logDiff = diffs => {
+  // TODO: Remove before releasing beta ed.
+  // eslint-disable-next-line no-console
+  console.log(
+    diffs.map(diff => {
+      let result = diff[0];
+      if (result === 1) {
+        diff[0] = 'removed';
+      } else if (result === -1) {
+        diff[0] = 'added';
+      } else {
+        diff[0] = '';
+      }
+
+      return diff;
+    }),
+  );
+};

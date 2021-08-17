@@ -95,13 +95,13 @@ class App extends React.Component<ActualProps, InternalState> {
   };
 
   render() {
-    const { authenticated, dispatch, locale, messages, t, userName, userAccess } = this.props;
+    const { authenticated, dispatch, messages, t, userName, userAccess } = this.props;
 
     return (
       <ErrorBoundary>
         <UserAccessContext.Provider value={userAccess}>
           <AuthenticatedContext.Provider value={authenticated}>
-            <LocaleContext.Provider value={locale}>
+            <LocaleContext.Provider value={this.props.i18n.language as LocaleType}>
               <FirstLoadContext.Provider value={this.state.firstLoad}>
                 <PageContainer background>
                   <Zendesk authenticated={authenticated} />

@@ -53,16 +53,27 @@ export const transformSubjectpageFromApiVersion = (
 export const transformSubjectpageToApiVersion = (
   subjectpage: SubjectpageEditType,
   editorsChoices: string[],
-): NewSubjectFrontPageData => {
-  // TODO: Find a way to handle possible missing values without assertions, this is terrible.
+): NewSubjectFrontPageData | null => {
   const id =
     subjectpage.visualElementObject?.resource === 'image'
       ? subjectpage.visualElementObject?.resource_id
       : subjectpage.visualElementObject?.videoid;
+
+  if (
+    subjectpage.layout === undefined ||
+    subjectpage.title === undefined ||
+    subjectpage.description === undefined ||
+    subjectpage.visualElementObject?.resource === undefined ||
+    subjectpage.metaDescription === undefined ||
+    id === undefined
+  ) {
+    return null;
+  }
+
   return {
     name: subjectpage.name,
     filters: subjectpage.filters,
-    layout: subjectpage.layout!, // TODO: Better?
+    layout: subjectpage.layout,
     twitter: subjectpage.twitter,
     facebook: subjectpage.facebook,
     banner: {
@@ -71,19 +82,19 @@ export const transformSubjectpageToApiVersion = (
     },
     about: [
       {
-        title: subjectpage.title!, // TODO: better?
-        description: subjectpage.description!, // TODO: better?
+        title: subjectpage.title,
+        description: subjectpage.description,
         language: subjectpage.language,
         visualElement: {
-          type: subjectpage.visualElementObject?.resource!, // TODO: better?
-          id: id!, // TODO: better?
+          type: subjectpage.visualElementObject?.resource,
+          id: id,
           alt: subjectpage.visualElementObject?.alt || subjectpage.visualElementObject?.caption,
         },
       },
     ],
     metaDescription: [
       {
-        metaDescription: subjectpage.metaDescription!, // TODO: better?
+        metaDescription: subjectpage.metaDescription,
         language: subjectpage.language,
       },
     ],

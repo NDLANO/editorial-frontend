@@ -31,7 +31,11 @@ const CreateSubjectpage = ({
 
   const createSubjectpageAndPushRoute = async (createdSubjectpage: SubjectpageEditType) => {
     const savedSubjectpage = await createSubjectpage(createdSubjectpage);
-    history.push(toEditSubjectpage(elementId, selectedLanguage, savedSubjectpage.id));
+    const savedId = savedSubjectpage?.id;
+    if (savedId) {
+      history.push(toEditSubjectpage(elementId, selectedLanguage, savedId));
+    }
+    return savedSubjectpage;
   };
 
   return (

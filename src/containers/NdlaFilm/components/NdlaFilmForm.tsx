@@ -55,7 +55,9 @@ const ndlaFilmRules: RulesType<NdlaFilmFormikType> = {
     required: true,
     test: (values: NdlaFilmFormikType) => {
       const badVisualElementId = values.visualElementObject?.resource_id === '';
-      return badVisualElementId ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
+      return badVisualElementId
+        ? { translationKey: 'subjectpageForm.missingVisualElement' }
+        : undefined;
     },
   },
 };

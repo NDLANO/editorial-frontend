@@ -13,6 +13,7 @@ import {
   SubjectpageType,
   VisualElement,
   ArticleType,
+  SubjectpageApiType,
 } from '../../../interfaces';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
@@ -31,13 +32,15 @@ import SaveButton from '../../../components/SaveButton';
 
 interface Props {
   subjectpage: SubjectpageEditType;
-  updateSubjectpage: Function;
+  updateSubjectpage: (
+    updatedSubjectpage: SubjectpageEditType,
+  ) => Promise<SubjectpageApiType | null>;
   selectedLanguage: string;
   elementId: string;
   isNewlyCreated: boolean;
 }
 export interface SubjectFormValues extends SubjectpageType {
-  visualElementObject: VisualElement | {};
+  visualElementObject?: VisualElement;
   articleType: string;
   description?: string;
   desktopBanner?: VisualElement;
@@ -48,7 +51,7 @@ export interface SubjectFormValues extends SubjectpageType {
   title: string;
 }
 
-const subjectpageRules: RulesType<SubjectpageEditType> = {
+const subjectpageRules: RulesType<SubjectFormValues> = {
   title: {
     required: true,
   },
@@ -58,8 +61,8 @@ const subjectpageRules: RulesType<SubjectpageEditType> = {
   },
   visualElementObject: {
     required: true,
-    test: (values: SubjectpageEditType) => {
-      const badVisualElementId = values.visualElementObject?.resource_id === '';
+    test: (values: SubjectFormValues) => {
+      const badVisualElementId = values?.visualElementObject?.resource_id === '';
       return badVisualElementId
         ? { translationKey: 'subjectpageForm.missingVisualElement' }
         : undefined;
@@ -87,7 +90,7 @@ const getInitialValues = (
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElementObject: subjectpage.visualElementObject || {},
+    visualElementObject: subjectpage.visualElementObject,
     editorsChoices: subjectpage.editorsChoices || [],
     facebook: subjectpage.facebook || '',
     filters: subjectpage.filters || [],
@@ -111,13 +114,13 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
     description: editorValueToPlainText(values.description),
     title: values.title,
     visualElementObject:
-      'resource_id' in values.visualElementObject
+      'resource_id' in (values.visualElementObject ?? {})
         ? {
-            resource: values.visualElementObject.resource,
-            url: values.visualElementObject.url,
-            resource_id: values.visualElementObject.resource_id,
-            videoid: values.visualElementObject.videoid,
-            alt: values.visualElementObject.alt || values.visualElementObject.caption,
+            resource: values.visualElementObject?.resource,
+            url: values.visualElementObject?.url,
+            resource_id: values.visualElementObject?.resource_id,
+            videoid: values.visualElementObject?.videoid,
+            alt: values.visualElementObject?.alt || values.visualElementObject?.caption,
           }
         : undefined,
     language: values.language,
@@ -166,7 +169,7 @@ const SubjectpageForm = ({
       initialErrors={initialErrors}
       onSubmit={() => {}}
       validate={values => validateFormik(values, subjectpageRules, t)}>
-      {(formik: FormikProps<SubjectpageEditType>) => {
+      {(formik: FormikProps<SubjectFormValues>) => {
         const { values, dirty, isSubmitting, errors, isValid, handleBlur } = formik;
 
         const formIsDirty: boolean = isFormikFormDirty({

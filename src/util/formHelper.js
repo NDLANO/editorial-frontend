@@ -172,7 +172,6 @@ export const topicArticleRules = {
   },
 };
 
-
 export const parseImageUrl = metaImage => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
     if (metaImage?.id) {

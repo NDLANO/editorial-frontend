@@ -59,10 +59,10 @@ const subjectpageRules: RulesType<SubjectpageEditType> = {
   visualElementObject: {
     required: true,
     test: (values: SubjectpageEditType) => {
-      // TODO: fjern ts-ignore her og fiks typen
-      // @ts-ignore
-      const hasElement = values.resource_id === '';
-      return hasElement ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
+      const badVisualElementId = values.visualElementObject?.resource_id === '';
+      return badVisualElementId
+        ? { translationKey: 'subjectpageForm.missingVisualElement' }
+        : undefined;
     },
   },
   metaDescription: {
@@ -87,7 +87,7 @@ const getInitialValues = (
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElementObject: subjectpage.visualElement || {},
+    visualElementObject: subjectpage.visualElementObject || {},
     editorsChoices: subjectpage.editorsChoices || [],
     facebook: subjectpage.facebook || '',
     filters: subjectpage.filters || [],
@@ -110,7 +110,7 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
     supportedLanguages: values.supportedLanguages,
     description: editorValueToPlainText(values.description),
     title: values.title,
-    visualElement:
+    visualElementObject:
       'resource_id' in values.visualElementObject
         ? {
             resource: values.visualElementObject.resource,
@@ -158,9 +158,12 @@ const SubjectpageForm = ({
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
+  const initialErrors = validateFormik(initialValues, subjectpageRules, t);
+
   return (
     <Formik
       initialValues={initialValues}
+      initialErrors={initialErrors}
       onSubmit={() => {}}
       validate={values => validateFormik(values, subjectpageRules, t)}>
       {(formik: FormikProps<SubjectpageEditType>) => {

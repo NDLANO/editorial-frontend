@@ -9,13 +9,13 @@ import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
-import { SubjectpageEditType } from '../../interfaces';
+import { LocaleType, SubjectpageEditType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import { toEditSubjectpage } from '../../util/routeHelpers';
 
 interface Props extends RouteComponentProps {
-  selectedLanguage: string;
+  selectedLanguage: LocaleType;
   elementId: string;
   elementName: string;
 }

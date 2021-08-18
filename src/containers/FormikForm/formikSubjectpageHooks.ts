@@ -11,7 +11,12 @@ import {
   transformSubjectpageToApiVersion,
   getUrnFromId,
 } from '../../util/subjectHelpers';
-import { Learningpath, SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
+import {
+  Learningpath,
+  LocaleType,
+  SubjectpageApiType,
+  SubjectpageEditType,
+} from '../../interfaces';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import {
   fetchResource,
@@ -28,7 +33,7 @@ import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 export function useFetchSubjectpageData(
   elementId: string,
-  selectedLanguage: string,
+  selectedLanguage: LocaleType,
   subjectpageId: string | undefined,
 ) {
   const [subjectpage, setSubjectpage] = useState<SubjectpageEditType>();
@@ -89,7 +94,7 @@ export function useFetchSubjectpageData(
     );
     const savedSubjectpage = await frontpageApi.updateSubjectpage(
       transformSubjectpageToApiVersion(updatedSubjectpage, editorsChoices),
-      updatedSubjectpage.id,
+      updatedSubjectpage.id!, // TODO: better?
       selectedLanguage,
     );
     setSubjectpage(

@@ -7,6 +7,7 @@
  */
 
 import get from 'lodash/fp/get';
+import { tType } from '@ndla/i18n';
 import {
   isUrl,
   isEmpty,
@@ -18,13 +19,6 @@ import {
   validDateRange,
 } from './validators';
 import handleError from '../util/handleError';
-import { tType } from '@ndla/i18n';
-import { AudioFormikType } from '../containers/AudioUploader/components/AudioForm';
-import { ConceptFormValues } from '../containers/ConceptPage/conceptInterfaces';
-import { PodcastFormValues } from '../modules/audio/audioApiInterfaces';
-import { ImageFormikType } from '../containers/ImageUploader/components/ImageForm';
-import { SubjectpageEditType } from '../interfaces';
-import { PodcastSeriesFormikType } from '../containers/PodcastSeries/components/PodcastSeriesForm';
 
 const appendError = (error: string, newError: string): string =>
   error ? `${error} \n ${newError}` : newError;

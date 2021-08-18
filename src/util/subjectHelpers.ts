@@ -1,8 +1,10 @@
+import { NewSubjectFrontPageData } from '../modules/frontpage/frontpageApiInterfaces';
 import { ArticleType, SubjectpageApiType, SubjectpageEditType, VisualElement } from '../interfaces';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
-export const getUrnFromId = (id: number) => `urn:frontpage:${id}`;
+export const getUrnFromId = (id?: number | string): string | undefined =>
+  id ? `urn:frontpage:${id}` : undefined;
 
 export const transformSubjectpageFromApiVersion = (
   subjectpage: SubjectpageApiType,
@@ -25,7 +27,7 @@ export const transformSubjectpageFromApiVersion = (
     name: subjectpage.name,
     description: subjectpage.about.description,
     title: subjectpage.about.title,
-    visualElement: {
+    visualElementObject: {
       url: subjectpage.about.visualElement?.url,
       resource: subjectpage.about.visualElement?.type,
       resource_id: visualElementImageId || '',
@@ -51,15 +53,16 @@ export const transformSubjectpageFromApiVersion = (
 export const transformSubjectpageToApiVersion = (
   subjectpage: SubjectpageEditType,
   editorsChoices: string[],
-) => {
+): NewSubjectFrontPageData => {
+  // TODO: Find a way to handle possible missing values without assertions, this is terrible.
   const id =
-    subjectpage.visualElement?.resource === 'image'
-      ? subjectpage.visualElement?.resource_id
-      : subjectpage.visualElement?.videoid;
+    subjectpage.visualElementObject?.resource === 'image'
+      ? subjectpage.visualElementObject?.resource_id
+      : subjectpage.visualElementObject?.videoid;
   return {
     name: subjectpage.name,
     filters: subjectpage.filters,
-    layout: subjectpage.layout,
+    layout: subjectpage.layout!, // TODO: Better?
     twitter: subjectpage.twitter,
     facebook: subjectpage.facebook,
     banner: {
@@ -68,19 +71,19 @@ export const transformSubjectpageToApiVersion = (
     },
     about: [
       {
-        title: subjectpage.title,
-        description: subjectpage.description,
+        title: subjectpage.title!, // TODO: better?
+        description: subjectpage.description!, // TODO: better?
         language: subjectpage.language,
         visualElement: {
-          type: subjectpage.visualElement?.resource,
-          id: id,
-          alt: subjectpage.visualElement?.alt || subjectpage.visualElement?.caption,
+          type: subjectpage.visualElementObject?.resource!, // TODO: better?
+          id: id!, // TODO: better?
+          alt: subjectpage.visualElementObject?.alt || subjectpage.visualElementObject?.caption,
         },
       },
     ],
     metaDescription: [
       {
-        metaDescription: subjectpage.metaDescription,
+        metaDescription: subjectpage.metaDescription!, // TODO: better?
         language: subjectpage.language,
       },
     ],

@@ -28,7 +28,7 @@ import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import AudioManuscript from './AudioManuscript';
 import { toCreateAudioFile, toEditAudio } from '../../../util/routeHelpers';
-import validateFormik from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -87,7 +87,7 @@ export const getInitialValues = (
   };
 };
 
-const rules = {
+const rules: RulesType<AudioFormikType> = {
   title: {
     required: true,
   },

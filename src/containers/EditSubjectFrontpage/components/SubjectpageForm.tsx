@@ -17,8 +17,8 @@ import {
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
-import validateFormik from '../../../components/formikValidationSchema';
-import { isFormikFormDirty, subjectpageRules } from '../../../util/formHelper';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
+import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
@@ -47,6 +47,32 @@ export interface SubjectFormValues extends SubjectpageType {
   elementId?: string;
   title: string;
 }
+
+const subjectpageRules: RulesType<SubjectpageEditType> = {
+  title: {
+    required: true,
+  },
+  description: {
+    required: true,
+    maxLength: 300,
+  },
+  visualElementObject: {
+    required: true,
+    test: (values: SubjectpageEditType) => {
+      // TODO: fjern ts-ignore her og fiks typen
+      // @ts-ignore
+      const hasElement = values.resource_id === '';
+      return hasElement ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
+    },
+  },
+  metaDescription: {
+    required: true,
+    maxLength: 300,
+  },
+  desktopBanner: {
+    required: true,
+  },
+};
 
 const getInitialValues = (
   subjectpage: SubjectpageEditType,

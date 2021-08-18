@@ -18,11 +18,47 @@ import {
   validDateRange,
 } from './validators';
 import handleError from '../util/handleError';
+import { tType } from '@ndla/i18n';
+import { AudioFormikType } from '../containers/AudioUploader/components/AudioForm';
+import { ConceptFormValues } from '../containers/ConceptPage/conceptInterfaces';
+import { PodcastFormValues } from '../modules/audio/audioApiInterfaces';
+import { ImageFormikType } from '../containers/ImageUploader/components/ImageForm';
+import { SubjectpageEditType } from '../interfaces';
+import { PodcastSeriesFormikType } from '../containers/PodcastSeries/components/PodcastSeriesForm';
 
-const appendError = (error, newError) => (error ? `${error} \n ${newError}` : newError);
+const appendError = (error: string, newError: string): string =>
+  error ? `${error} \n ${newError}` : newError;
 
-const validateFormik = (values, rules, t, formType = undefined) => {
-  const errors = {};
+interface RuleObject<FormikValuesType> {
+  minItems?: number;
+  minLength?: number;
+  maxLength?: number;
+  required?: boolean;
+  allObjectFieldsRequired?: boolean;
+  dateBefore?: boolean;
+  dateAfter?: boolean;
+  afterKey?: string;
+  beforeKey?: string;
+  numeric?: boolean;
+  url?: boolean;
+  urlOrNumber?: boolean;
+  test?: (
+    value: FormikValuesType,
+  ) =>
+    | { translationKey: string; variables?: { [key: string]: string | boolean | number } }
+    | undefined;
+  onlyValidateIf?: (value: FormikValuesType) => boolean;
+}
+
+export type RulesType<FormikValuesType> = Record<string, RuleObject<FormikValuesType>>;
+
+const validateFormik = <FormikValuesType>(
+  values: FormikValuesType,
+  rules: RulesType<FormikValuesType>,
+  t: tType['t'],
+  formType: string | undefined = undefined,
+) => {
+  const errors: Record<string, string> = {};
   try {
     Object.keys(rules).forEach(ruleKey => {
       const value = get(ruleKey, values);
@@ -32,7 +68,7 @@ const validateFormik = (values, rules, t, formType = undefined) => {
         errors[ruleKey] = appendError(errors[ruleKey], t('validation.isRequired', { label }));
       }
       if (rules[ruleKey].allObjectFieldsRequired) {
-        if (value.filter(v => !objectHasBothField(v)).length > 0) {
+        if (value.filter((v: any) => !objectHasBothField(v)).length > 0) {
           errors[ruleKey] = appendError(
             errors[ruleKey],
             t('validation.bothFields', {
@@ -70,31 +106,34 @@ const validateFormik = (values, rules, t, formType = undefined) => {
         }
       }
 
-      if (rules[ruleKey].minLength && minLength(value, rules[ruleKey].minLength)) {
+      const ruleMinLength = rules[ruleKey].minLength;
+      if (ruleMinLength && minLength(value, ruleMinLength)) {
         errors[ruleKey] = appendError(
           errors[ruleKey],
           t('validation.minLength', {
             label,
-            minLength: rules[ruleKey].minLength,
+            minLength: ruleMinLength,
           }),
         );
       }
-      if (rules[ruleKey].maxLength && maxLength(value, rules[ruleKey].maxLength)) {
+      const ruleMaxLength = rules[ruleKey].maxLength;
+      if (ruleMaxLength && maxLength(value, ruleMaxLength)) {
         errors[ruleKey] = appendError(
           errors[ruleKey],
           t('validation.maxLength', {
             label,
-            maxLength: rules[ruleKey].maxLength,
+            maxLength: ruleMaxLength,
           }),
         );
       }
-      if (rules[ruleKey].minItems && minItems(value, rules[ruleKey].minItems)) {
+      const ruleMinItems = rules[ruleKey].minItems;
+      if (ruleMinItems && minItems(value, ruleMinItems)) {
         errors[ruleKey] = appendError(
           errors[ruleKey],
           t('validation.minItems', {
             label,
             labelLowerCase: label.toLowerCase(),
-            minItems: rules[ruleKey].minItems,
+            minItems: ruleMinItems,
           }),
         );
       }
@@ -107,8 +146,9 @@ const validateFormik = (values, rules, t, formType = undefined) => {
       if (rules[ruleKey].urlOrNumber && !isUrl(value) && !isNumeric(value)) {
         errors[ruleKey] = appendError(errors[ruleKey], t('validation.urlOrNumber', { label }));
       }
-      if (rules[ruleKey].test) {
-        const testError = rules[ruleKey].test(value);
+      const testFunction = rules[ruleKey].test;
+      if (testFunction) {
+        const testError = testFunction(value);
         if (testError) {
           errors[ruleKey] = appendError(
             errors[ruleKey],
@@ -116,7 +156,8 @@ const validateFormik = (values, rules, t, formType = undefined) => {
           );
         }
       }
-      if (rules[ruleKey].onlyValidateIf && !rules[ruleKey].onlyValidateIf(values)) {
+      const onlyValidateIfFunction = rules[ruleKey].onlyValidateIf;
+      if (onlyValidateIfFunction && !onlyValidateIfFunction(values)) {
         delete errors[ruleKey];
       }
     });

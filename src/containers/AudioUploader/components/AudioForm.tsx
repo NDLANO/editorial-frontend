@@ -77,7 +77,7 @@ export const getInitialValues = (
     supportedLanguages: audio.supportedLanguages || [],
     title: plainTextToEditorValue(audio.title || '', true),
     manuscript: plainTextToEditorValue(audio?.manuscript, true),
-    audioFile: { storedFile: audio.audioFile },
+    audioFile: audio.audioFile ? { storedFile: audio.audioFile } : {},
     tags: audio.tags || [],
     creators: parseCopyrightContributors(audio, 'creators'),
     processors: parseCopyrightContributors(audio, 'processors'),

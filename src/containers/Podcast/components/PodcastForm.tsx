@@ -87,7 +87,7 @@ export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => (
   supportedLanguages: audio.supportedLanguages || [],
   title: plainTextToEditorValue(audio.title || '', true),
   manuscript: plainTextToEditorValue(audio.manuscript || '', true),
-  audioFile: { storedFile: audio.audioFile },
+  audioFile: audio.audioFile ? { storedFile: audio.audioFile } : {},
   filepath: '',
   tags: audio.tags || [],
   origin: audio?.copyright?.origin || '',

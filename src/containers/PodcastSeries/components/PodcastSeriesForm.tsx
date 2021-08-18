@@ -18,7 +18,6 @@ import Field from '../../../components/Field';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeHelpers';
 import {
-  PodcastFormValues,
   NewPodcastSeries,
   FlattenedPodcastSeries,
   AudioApiType,
@@ -40,7 +39,7 @@ const podcastRules = {
   },
   metaImageAlt: {
     required: true,
-    onlyValidateIf: (values: PodcastFormValues) => !!values.coverPhotoId,
+    onlyValidateIf: (values: PodcastSeriesFormikType) => !!values.coverPhotoId,
   },
 };
 
@@ -136,7 +135,7 @@ const PodcastSeriesForm = ({
   const validateMetaImage = ([width, height]: [
     number,
     number,
-  ]): FormikErrors<PodcastFormValues> => {
+  ]): FormikErrors<PodcastSeriesFormikType> => {
     if (width !== height) {
       return { coverPhotoId: t('validation.podcastImageShape') };
     } else if (width < ITUNES_STANDARD_MINIMUM_WIDTH || width > ITUNES_STANDARD_MAXIMUM_WIDTH) {

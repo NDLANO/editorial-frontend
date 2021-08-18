@@ -58,7 +58,7 @@ const FormikField = ({
   right = false,
   description,
   obligatory,
-  showError,
+  showError = true,
   t,
   formik: { values, handleBlur, errors },
   ...rest

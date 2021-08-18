@@ -191,12 +191,15 @@ class AudioForm extends Component<Props, State> {
     const { savedToServer } = this.state;
 
     const initialValues = getInitialValues(audio);
+    const initialErrors = validateFormik(initialValues, rules, t);
+
     return (
       <Formik
         initialValues={initialValues}
         onSubmit={this.handleSubmit}
         enableReinitialize
         validateOnMount
+        initialErrors={initialErrors}
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
           const { values, dirty, isSubmitting, submitForm, errors } = formikProps;

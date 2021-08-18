@@ -29,8 +29,11 @@ import {
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
-import { LearningPathSearchSummary } from '../../../modules/learningpath/learningpathApiInterfaces';
-import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
+import { LearningPathSearchResult } from '../../../modules/learningpath/learningpathApiInterfaces';
+import {
+  GroupSearchResult,
+  MultiSearchApiQuery,
+} from '../../../modules/search/searchApiInterfaces';
 import AlertModal from '../../../components/AlertModal';
 
 const StyledOrDivider = styled.div`
@@ -81,7 +84,7 @@ interface SelectedType {
   coverPhotoUrl?: string;
 }
 
-type SummaryTypes = LearningPathSearchSummary | GroupSearchSummary;
+type ResultTypes = LearningPathSearchResult | GroupSearchResult;
 
 const AddResourceModal = ({
   onClose,
@@ -159,47 +162,50 @@ const AddResourceModal = ({
     }
   };
 
-  const onInputSearch = async (input: string, type: string): Promise<SummaryTypes[]> => {
+  const onInputSearch = async (
+    query: MultiSearchApiQuery,
+    type: string,
+  ): Promise<ResultTypes | undefined> => {
     try {
       if (type === RESOURCE_TYPE_LEARNING_PATH) {
-        const lps = await searchLearningpath(input);
+        const lps = await searchLearningpath(query);
 
-        return lps.map(lp => ({
-          ...lp,
-          metaDescription: lp.description.description,
-        }));
+        return {
+          ...lps,
+          results: lps?.results.map(lp => ({
+            ...lp,
+            metaDescription: lp.description.description,
+          })),
+        };
       } else {
-        return await searchGroups(input, type);
+        return await searchGroups(query, type);
       }
     } catch (err) {
       handleError(err);
       setError(err.message);
-      return [];
+      return undefined;
     }
   };
 
-  const searchLearningpath = async (input: string): Promise<LearningPathSearchSummary[]> => {
-    const query = input
-      ? {
-          query: input,
-          pageSize: 10,
-          language: 'nb',
-          fallback: true,
-          verificationStatus: 'CREATED_BY_NDLA',
-        }
-      : {
-          pageSize: 10,
-          language: 'nb',
-          fallback: true,
-          verificationStatus: 'CREATED_BY_NDLA',
-        };
-    const res = await learningpathSearch(query);
-    return res.results || [];
+  const searchLearningpath = async (
+    query: MultiSearchApiQuery,
+  ): Promise<LearningPathSearchResult> => {
+    const searchBody = {
+      ...query,
+      pageSize: 10,
+      language: 'nb',
+      fallback: true,
+      verificationStatus: 'CREATED_BY_NDLA',
+    };
+    return learningpathSearch(searchBody);
   };
 
-  const searchGroups = async (input: string, type: string) => {
-    const res = await groupSearch(input, type);
-    return res?.pop()?.results || [];
+  const searchGroups = async (query: MultiSearchApiQuery, type: string) => {
+    const res = await groupSearch({
+      ...query,
+      'resource-types': type,
+    });
+    return res?.pop();
   };
 
   const articleToState = async (articleId: number) => {
@@ -312,9 +318,10 @@ const AddResourceModal = ({
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
               label="label"
-              apiAction={(input: string) => onInputSearch(input, selectedType)}
+              apiAction={(query: MultiSearchApiQuery) => onInputSearch(query, selectedType)}
               onChange={onSelect}
               startOpen
+              showPagination
             />
           </React.Fragment>
         )}

@@ -740,7 +740,7 @@ const phrases = {
         addExternal: 'Add external article',
         removeExternal: 'Delete external article',
         changeExternal: 'Edit external article',
-        searchExternal: 'Write the url and title of the external article',
+        searchExternal: 'Write the title and url of the external article',
       },
       concept: {
         remove: 'Remove concept',
@@ -914,6 +914,9 @@ const phrases = {
         hms: 'h:m:s',
       },
       brightcove: 'Open in Brightcove',
+      toLinkedVideo: 'Switch to interpreted video',
+      fromLinkedVideo: 'Switch back to original video',
+      linkedVideoButton: 'IV',
     },
     audio: {
       file: 'Audio file',

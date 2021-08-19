@@ -183,8 +183,7 @@ const ImageEditor = ({ t, embed, onUpdatedImageSettings, imageUpdates }: Props &
           ) : (
             ''
           )}
-          {imageUpdates?.size.startsWith('fullbredde') ||
-          imageUpdates?.size.startsWith('medium') ? (
+          {imageUpdates?.size.startsWith('full') || imageUpdates?.size.startsWith('medium') ? (
             <StyledImageEditorMenu>
               {bylineOptions.map(option => (
                 <ShowBylineButton

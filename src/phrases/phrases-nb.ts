@@ -753,7 +753,7 @@ const phrases = {
         addExternal: 'Legg til ekstern artikkel',
         removeExternal: 'Slett ekstern artikkel',
         changeExternal: 'Endre ekstern artikkel',
-        searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
+        searchExternal: 'Skriv inn tittel og url på ekstern artikkel',
       },
       concept: {
         remove: 'Fjern forklaring',
@@ -810,7 +810,7 @@ const phrases = {
     },
     categories: {
       label: 'Liste og filter',
-      description: 'Format: liste:filter1:filter2',
+      description: 'Format: Liste:Filter1:Filter2',
       searchPlaceholder: 'Søk etter lister',
     },
     grepCodes: {
@@ -923,6 +923,9 @@ const phrases = {
         hms: 'h:m:s',
       },
       brightcove: 'Åpne i Brightcove',
+      toLinkedVideo: 'Bytt til synstolket versjon',
+      fromLinkedVideo: 'Bytt tilbake til original versjon',
+      linkedVideoButton: 'ST',
     },
     audio: {
       file: 'Lydfil',

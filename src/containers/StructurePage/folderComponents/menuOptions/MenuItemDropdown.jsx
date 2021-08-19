@@ -127,6 +127,7 @@ class MenuItemDropdown extends PureComponent {
                     totalCount={items.length}
                     page={showPagination && page}
                     handlePageChange={this.handlePageChange}
+                    wide={showPagination}
                   />
                 </DropdownWrapper>
               );

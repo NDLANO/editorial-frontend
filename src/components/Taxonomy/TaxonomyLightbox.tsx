@@ -85,7 +85,7 @@ const StyledLightboxWrapper = styled.div`
 const StyledContentWrapper = styled.div`
   background-color: ${colors.brand.greyLightest};
   box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
-  width: 600px;
+  width: 620px;
   border-radius: 5px;
   position: absolute;
   top: 5%;

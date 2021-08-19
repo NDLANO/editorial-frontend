@@ -3,7 +3,7 @@ import { jsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
 import { TableElement, TableRowElement, TableHeadElement, TableBodyElement } from '.';
 import { defaultParagraphBlock } from '../paragraph/utils';
-import { findCellInMatrix, getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
+import { findCellCoordinate, getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
 
 export const TYPE_TABLE = 'table';
 export const TYPE_TABLE_HEAD = 'table-head';
@@ -120,7 +120,7 @@ export const removeRow = (editor: Editor, path: Path) => {
     if ((selectedCell.data.rowspan || 1) === matrix.length) {
       return;
     }
-    const selectedPath = findCellInMatrix(matrix, selectedCell);
+    const selectedPath = findCellCoordinate(matrix, selectedCell);
     if (selectedPath) {
       const selectedRowIndex = selectedPath[0];
 
@@ -222,7 +222,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
   const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
 
   if (matrix && Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
-    const selectedPath = findCellInMatrix(matrix, cell);
+    const selectedPath = findCellCoordinate(matrix, cell);
     if (selectedPath) {
       const selectedRowIndex =
         selectedPath[0] + matrix[selectedPath[0]][selectedPath[1]].data.rowspan - 1;
@@ -298,7 +298,7 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
   const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
 
   if (matrix && Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
-    const selectedPath = findCellInMatrix(matrix, cell);
+    const selectedPath = findCellCoordinate(matrix, cell);
     if (selectedPath) {
       const selectedColumnIndex =
         selectedPath[1] + matrix[selectedPath[0]][selectedPath[1]].data.colspan - 1;
@@ -358,7 +358,7 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
   const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
 
   if (matrix && Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
-    const selectedPath = findCellInMatrix(matrix, cell);
+    const selectedPath = findCellCoordinate(matrix, cell);
     if (selectedPath) {
       const [, selectedColumnIndex] = selectedPath;
 

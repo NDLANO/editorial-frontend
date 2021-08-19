@@ -12,7 +12,7 @@ import {
   TableHeadElement,
   TableRowElement,
 } from '.';
-import { findCellInMatrix, getTableAsMatrix } from './matrix';
+import { findCellCoordinate, getTableAsMatrix } from './matrix';
 import {
   createIdenticalRow,
   TYPE_TABLE_BODY,
@@ -191,7 +191,7 @@ const moveDown = (
   const matrix = getTableAsMatrix(editor, tablePath);
 
   if (matrix) {
-    const matrixPath = findCellInMatrix(matrix, cell);
+    const matrixPath = findCellCoordinate(matrix, cell);
     if (matrixPath) {
       const nextCell = matrix[matrixPath[0] + cell.data.rowspan]?.[matrixPath[1]];
 
@@ -231,7 +231,7 @@ const moveUp = (
   const matrix = getTableAsMatrix(editor, tablePath);
 
   if (matrix) {
-    const matrixPath = findCellInMatrix(matrix, cell);
+    const matrixPath = findCellCoordinate(matrix, cell);
     if (matrixPath) {
       if (matrixPath[0] > 0) {
         const previousCell = matrix[matrixPath[0] - 1]?.[matrixPath[1]];

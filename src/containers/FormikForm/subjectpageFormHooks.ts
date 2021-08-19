@@ -6,30 +6,37 @@
  */
 import { FormikProps } from 'formik';
 import { useState } from 'react';
-import { SubjectpageEditType, TranslateType } from '../../interfaces';
+import { SubjectpageApiType, SubjectpageEditType, TranslateType } from '../../interfaces';
 import * as messageActions from '../Messages/messagesActions';
 import { formatErrorMessage } from '../../util/apiHelpers';
+import { SubjectFormValues } from '../../containers/EditSubjectFrontpage/components/SubjectpageForm';
 
 export function useSubjectpageFormHooks(
   getSubjectpageFromSlate: Function, // TODO fix type
-  updateSubjectpage: Function, // TODO fix type
+  updateSubjectpage: (
+    updatedSubjectpage: SubjectpageEditType,
+  ) => Promise<SubjectpageApiType | null>,
   t: TranslateType,
   subjectpage: SubjectpageEditType,
-  getInitialValues: Function, // TODO fix type
+  getInitialValues: (
+    subjectpage: SubjectpageEditType,
+    elementId: string,
+    selectedLanguage: string,
+  ) => SubjectFormValues,
   selectedLanguage: string,
   elementId: string,
 ) {
   const [savedToServer, setSavedToServer] = useState(false);
   const initialValues = getInitialValues(subjectpage, elementId, selectedLanguage);
 
-  const handleSubmit = async (formik: FormikProps<SubjectpageEditType>) => {
+  const handleSubmit = async (formik: FormikProps<SubjectFormValues>) => {
     formik.setSubmitting(true);
     const newSubjectpage = getSubjectpageFromSlate(formik.values);
     try {
       await updateSubjectpage(newSubjectpage);
 
       Object.keys(formik.values).map(fieldName => formik.setFieldTouched(fieldName, true, true));
-      formik.resetForm(initialValues);
+      formik.resetForm({ values: initialValues });
       setSavedToServer(true);
     } catch (err) {
       if (err?.status === 409) {

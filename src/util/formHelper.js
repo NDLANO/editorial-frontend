@@ -172,47 +172,6 @@ export const topicArticleRules = {
   },
 };
 
-export const subjectpageRules = {
-  title: {
-    required: true,
-  },
-  description: {
-    required: true,
-    maxLength: 300,
-  },
-  visualElementObject: {
-    required: true,
-    test: values => {
-      const hasElement = values.resource_id === '';
-      return hasElement ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
-    },
-  },
-  metaDescription: {
-    required: true,
-    maxLength: 300,
-  },
-  desktopBanner: {
-    required: true,
-  },
-};
-
-export const ndlaFilmRules = {
-  title: {
-    required: true,
-  },
-  description: {
-    required: true,
-    maxLength: 300,
-  },
-  visualElementObject: {
-    required: true,
-    test: values => {
-      const hasElement = values.resource_id === '';
-      return hasElement ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
-    },
-  },
-};
-
 export const parseImageUrl = metaImage => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
     if (metaImage?.id) {

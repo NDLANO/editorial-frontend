@@ -1,9 +1,9 @@
-import { Editor, Element, Path, Transforms } from 'slate';
+import { Editor, Path, Transforms } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
 import { TableElement, TableRowElement, TableHeadElement, TableBodyElement } from '.';
 import { defaultParagraphBlock } from '../paragraph/utils';
-import { isTableCell } from './helpers';
+import { isTable, isTableCell, isTableRow } from './helpers';
 import { findCellCoordinate, getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
 
 export const TYPE_TABLE = 'table';
@@ -15,7 +15,7 @@ export const TYPE_TABLE_CELL = 'table-cell';
 export const countCells = (row: TableRowElement, stop?: number) => {
   return row.children
     .map(child => {
-      if (!Element.isElement(child) || child.type !== TYPE_TABLE_CELL) {
+      if (!isTableCell(child)) {
         return 0;
       }
       return child.data.colspan;
@@ -76,15 +76,15 @@ export const defaultTableBodyBlock = (height: number, width: number) => {
   );
 };
 
-export const getTableWidth = (element: TableHeadElement | TableBodyElement) => {
+export const getTableBodyWidth = (element: TableHeadElement | TableBodyElement) => {
   const firstRow = element.children[0];
-  if (Element.isElement(firstRow) && firstRow.type === TYPE_TABLE_ROW) {
+  if (isTableRow(firstRow)) {
     return countCells(firstRow);
   }
   return 0;
 };
 
-export const getTableHeight = (element: TableHeadElement | TableBodyElement) => {
+export const getTableBodyHeight = (element: TableHeadElement | TableBodyElement) => {
   return element.children.length;
 };
 
@@ -93,7 +93,7 @@ export const createIdenticalRow = (element: TableRowElement) => {
     'element',
     { type: TYPE_TABLE_ROW },
     element.children.map(child => {
-      if (Element.isElement(child) && child.type === TYPE_TABLE_CELL) {
+      if (isTableCell(child)) {
         return {
           ...defaultTableCellBlock(),
           data: {
@@ -110,7 +110,7 @@ export const createIdenticalRow = (element: TableRowElement) => {
 export const removeRow = (editor: Editor, path: Path) => {
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
-    match: node => Element.isElement(node) && node.type === TYPE_TABLE_CELL,
+    match: node => isTableCell(node),
   });
   const [selectedCell, selectedCellPath] = cellEntry;
 
@@ -412,6 +412,6 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
 export const removeTable = (editor: Editor, path: Path) => {
   Transforms.removeNodes(editor, {
     at: path,
-    match: node => Element.isElement(node) && node.type === TYPE_TABLE,
+    match: node => isTable(node),
   });
 };

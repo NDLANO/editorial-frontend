@@ -10,7 +10,7 @@ import {
   isTableHead,
   isTableRow,
 } from './helpers';
-import { defaultTableCellBlock, defaultTableRowBlock, getTableWidth } from './utils';
+import { defaultTableCellBlock, defaultTableRowBlock, getTableBodyWidth } from './utils';
 
 /**
  * Insert cellElement into the matrix and the first available column in rowIndex.
@@ -228,8 +228,8 @@ export const normalizeTableBodyAsMatrix = (
   if (Path.hasPrevious(tableBodyPath)) {
     const [previousBody, previousBodyPath] = Editor.node(editor, Path.previous(tableBodyPath));
     if (isTableHead(previousBody) || isTableBody(previousBody)) {
-      const previousBodyWidth = getTableWidth(previousBody);
-      const currentBodyWidth = getTableWidth(tableBody);
+      const previousBodyWidth = getTableBodyWidth(previousBody);
+      const currentBodyWidth = getTableBodyWidth(tableBody);
 
       const widthDiff = currentBodyWidth - previousBodyWidth;
 
@@ -261,8 +261,8 @@ export const normalizeTableBodyAsMatrix = (
   } else if (Editor.hasPath(editor, Path.next(tableBodyPath))) {
     const [nextBody, nextBodyPath] = Editor.node(editor, Path.next(tableBodyPath));
     if (isTableHead(nextBody) || isTableBody(nextBody)) {
-      const previousBodyWidth = getTableWidth(nextBody);
-      const currentBodyWidth = getTableWidth(tableBody);
+      const previousBodyWidth = getTableBodyWidth(nextBody);
+      const currentBodyWidth = getTableBodyWidth(tableBody);
 
       const widthDiff = currentBodyWidth - previousBodyWidth;
 

@@ -12,27 +12,33 @@ import {
 } from './helpers';
 import { defaultTableCellBlock, defaultTableRowBlock, getTableWidth } from './utils';
 
+/**
+ * Insert cellElement into the matrix and the first available column in rowIndex.
+ * Example:
+ * A cell with rowspan=2 and colspan=4 will be inserted in 8 slots.
+ * It will represent the 2x4 area of cells it covers in the html-table.
+ */
 const placeCellInMatrix = (
   matrix: TableCellElement[][],
   rowIndex: number,
   colspan: number,
   rowspan: number,
-  descendant: TableCellElement,
+  cellElement: TableCellElement,
 ) => {
   const rowLength = matrix[rowIndex].length;
-  // If row has no elements, fill from first index.
+  // A. If row has no elements => Place cell at start of the row.
   if (rowLength === 0) {
     for (let r = rowIndex; r < rowIndex + rowspan; r++) {
       for (let c = 0; c < colspan; c++) {
         if (!matrix[r]) {
           matrix[r] = [];
         }
-        matrix[r][c] = descendant;
+        matrix[r][c] = cellElement;
       }
     }
     return;
   }
-  // If row has empty element, fill from first matching index.
+  // B. If there are open slots in the row => Place cell at first open slot.
   for (const [colIndex, cell] of matrix[rowIndex].entries()) {
     if (cell) {
       continue;
@@ -42,19 +48,19 @@ const placeCellInMatrix = (
           if (!matrix[r]) {
             matrix[r] = [];
           }
-          matrix[r][c] = descendant;
+          matrix[r][c] = cellElement;
         }
       }
       return;
     }
   }
-  // Otherwise, fill from end of list.
+  // C. Otherwise place cell at end of row.
   for (let r = rowIndex; r < rowIndex + rowspan; r++) {
     for (let c = rowLength; c < rowLength + colspan; c++) {
       if (!matrix[r]) {
         matrix[r] = [];
       }
-      matrix[r][c] = descendant;
+      matrix[r][c] = cellElement;
     }
   }
 };
@@ -99,6 +105,7 @@ const countMatrixRowCells = (matrix: TableCellElement[][], rowIndex: number): nu
   ).length;
 };
 
+// Find the matrix coordinates for a cell. Returns the coordinates for top left corner of cell.
 export const findCellCoordinate = (
   matrix: TableCellElement[][],
   targetCell: TableCellElement,
@@ -118,14 +125,14 @@ const normalizeRow = (
   rowIndex: number,
   tableBodyPath: Path,
 ) => {
-  // If row does not exist in slate => Insert empty row
+  // A. If row does not exist in slate => Insert empty row
   if (!Editor.hasPath(editor, [...tableBodyPath, rowIndex])) {
     Transforms.insertNodes(editor, defaultTableRowBlock(1), {
       at: [...tableBodyPath, rowIndex],
     });
   }
 
-  // Insert cells if row has empty positions.
+  // B. Insert cells if row has empty positions.
   for (const [columnIndex, element] of matrix[rowIndex].entries()) {
     // A. Check if cell at first index exists in Slate.
     if (!element) {
@@ -139,7 +146,7 @@ const normalizeRow = (
     }
   }
 
-  // Compare width of previous and current row and insert empty cells if they are of unequal length.
+  // C. Compare width of previous and current row and insert empty cells if they are of unequal length.
   if (rowIndex > 0) {
     const lengthDiff = compact(matrix[rowIndex]).length - matrix[rowIndex - 1].length;
 
@@ -217,7 +224,7 @@ export const normalizeTableBodyAsMatrix = (
       return true;
     }
   }
-  // Previous header/body can have different width. Add cells if necessary.
+  // C. Previous header/body can have different width. Add cells if necessary.
   if (Path.hasPrevious(tableBodyPath)) {
     const [previousBody, previousBodyPath] = Editor.node(editor, Path.previous(tableBodyPath));
     if (isTableHead(previousBody) || isTableBody(previousBody)) {
@@ -250,6 +257,7 @@ export const normalizeTableBodyAsMatrix = (
         return true;
       }
     }
+    // D. Next head/body can have different width. Add cells if necessary.
   } else if (Editor.hasPath(editor, Path.next(tableBodyPath))) {
     const [nextBody, nextBodyPath] = Editor.node(editor, Path.next(tableBodyPath));
     if (isTableHead(nextBody) || isTableBody(nextBody)) {
@@ -293,7 +301,7 @@ export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
   if (!isTableHead(tableBody) && !isTableBody(tableBody)) return;
   let matrix: TableCellElement[][] = [];
 
-  // Merge table head and body into one list containing every row.
+  // Build up a matrix one row at a time.
   tableBody.children.forEach((row, rowIndex) => {
     if (!isTableRow(row)) return;
     if (!matrix[rowIndex]) {
@@ -319,7 +327,7 @@ export const getTableAsMatrix = (editor: Editor, path: Path) => {
   if (!isTable(table)) return;
   let matrix: TableCellElement[][] = [];
 
-  // Merge table head and body into one matrix
+  // Merge all rows in head and body. Then build up a matrix one row at a time.
   table.children
     .reduce((acc, cur) => {
       if (isTableHead(cur) || isTableBody(cur)) {

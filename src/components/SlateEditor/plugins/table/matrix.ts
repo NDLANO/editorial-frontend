@@ -10,7 +10,7 @@ import {
   isTableHead,
   isTableRow,
 } from './helpers';
-import { defaultTableCellBlock, defaultTableRowBlock, getTableBodyWidth } from './utils';
+import { defaultTableRowBlock, getTableBodyWidth } from './utils';
 
 /**
  * Insert cellElement into the matrix and the first available column in rowIndex.
@@ -187,38 +187,38 @@ export const normalizeTableBodyAsMatrix = (
 ): boolean => {
   let matrix: TableCellElement[][] = [];
 
-  // A. Make sure all children in all rows are TableCells. Concurrently
+  // Build up a matrix by inserting and normalizing one row at a time
   for (const [rowIndex, row] of tableBody.children.entries()) {
     if (!isTableRow(row)) return false;
     if (!matrix[rowIndex]) {
       matrix[rowIndex] = [];
     }
 
-    // Make sure all children are cells.
+    // A. Insert all cells in a each row into a matrix. Normalize if needed.
     for (const cell of row.children) {
       if (!isTableCell(cell)) {
-        const cellPath = ReactEditor.findPath(editor, cell);
-        Transforms.wrapNodes(editor, defaultTableCellBlock(), { at: cellPath });
-        return true;
+        return false;
       }
 
       const colspan = cell.data.colspan;
       const rowspan = cell.data.rowspan;
 
-      // Check if next element can be placed in matrix without needing a normalize.
-      // Normalize if needed and start from beginning.
+      // i. Check if next element can be placed in matrix without needing a normalize.
+      // Normalize if needed. This will restart the normalization.
       if (normalizeBeforeInsert(editor, matrix, rowIndex, colspan, rowspan)) {
         return true;
       }
+
+      // ii. Place cell in matrix
       placeCellInMatrix(matrix, rowIndex, colspan, rowspan, cell);
     }
-    // Validate insertion of the current row. Normalize if needed and start from beginning.
+    // B. Validate insertion of the current row. This will restart the normalization.
     if (normalizeRow(editor, matrix, rowIndex, tableBodyPath)) {
       return true;
     }
   }
 
-  // B.  Rowspan can cause matrix to have more rows than slate. Normalize if needed.
+  // B. Rowspan can cause matrix to have more rows than slate. Normalize if needed.
   if (tableBody.children.length < matrix.length) {
     if (normalizeRow(editor, matrix, tableBody.children.length, tableBodyPath)) {
       return true;
@@ -233,7 +233,7 @@ export const normalizeTableBodyAsMatrix = (
 
       const widthDiff = currentBodyWidth - previousBodyWidth;
 
-      // Previous body is narrower. Add cells in all rows
+      // i. Previous body is narrower. Add cells in all rows
       if (widthDiff > 0) {
         Editor.withoutNormalizing(editor, () => {
           for (const [index, row] of previousBody.children.entries()) {
@@ -244,7 +244,7 @@ export const normalizeTableBodyAsMatrix = (
           }
         });
         return true;
-        // Current body is narrower. Add cells at end of all rows
+        // ii. Current body is narrower. Add cells at end of all rows
       } else if (widthDiff < 0) {
         Editor.withoutNormalizing(editor, () => {
           for (const [index, row] of tableBody.children.entries()) {
@@ -266,7 +266,7 @@ export const normalizeTableBodyAsMatrix = (
 
       const widthDiff = currentBodyWidth - previousBodyWidth;
 
-      // Next body is narrower. Add cells in all rows
+      // i. Next body is narrower. Add cells in all rows
       if (widthDiff > 0) {
         Editor.withoutNormalizing(editor, () => {
           for (const [index, row] of nextBody.children.entries()) {
@@ -277,7 +277,7 @@ export const normalizeTableBodyAsMatrix = (
           }
         });
         return true;
-        // Current body is narrower. Add cells in all rows
+        // ii. Current body is narrower. Add cells in all rows
       } else if (widthDiff < 0) {
         Editor.withoutNormalizing(editor, () => {
           for (const [index, row] of tableBody.children.entries()) {
@@ -295,6 +295,7 @@ export const normalizeTableBodyAsMatrix = (
   return false;
 };
 
+// Expects a perfectly normalized table. Requires path to the table body
 export const getTableBodyAsMatrix = (editor: Editor, path: Path) => {
   if (!Editor.hasPath(editor, path)) return;
   const [tableBody] = Editor.node(editor, path);

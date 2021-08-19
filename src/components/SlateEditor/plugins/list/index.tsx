@@ -10,6 +10,7 @@ import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { defaultListBlock } from './utils/defaultBlocks';
 import onTab from './handlers/onTab';
 import onBackspace from './handlers/onBackspace';
+import { TYPE_BREAK } from '../break';
 
 export const LIST_TYPES = ['numbered-list', 'bulleted-list', 'letter-list'];
 export const TYPE_LIST = 'list';
@@ -43,7 +44,16 @@ export const listSerializer: SlateSerializer = {
       if (!cur) {
         return acc;
       } else if (Element.isElement(cur)) {
-        acc.push(cur);
+        if (
+          cur.type === TYPE_BREAK &&
+          Element.isElement(lastElement) &&
+          lastElement.type === TYPE_PARAGRAPH &&
+          lastElement.serializeAsText
+        ) {
+          lastElement.children.push({ text: '\n' });
+        } else {
+          acc.push(cur);
+        }
         return acc;
       } else if (Text.isText(cur)) {
         if (

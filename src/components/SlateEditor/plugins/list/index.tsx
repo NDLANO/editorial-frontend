@@ -44,13 +44,18 @@ export const listSerializer: SlateSerializer = {
       if (!cur) {
         return acc;
       } else if (Element.isElement(cur)) {
-        if (
-          cur.type === TYPE_BREAK &&
-          Element.isElement(lastElement) &&
-          lastElement.type === TYPE_PARAGRAPH &&
-          lastElement.serializeAsText
-        ) {
-          lastElement.children.push({ text: '\n' });
+        if (cur.type === TYPE_BREAK) {
+          if (
+            Element.isElement(lastElement) &&
+            lastElement.type === TYPE_PARAGRAPH &&
+            lastElement.serializeAsText
+          ) {
+            lastElement.children.push({ text: '\n' });
+          } else {
+            acc.push(
+              jsx('element', { type: TYPE_PARAGRAPH, serializeAsText: true }, { text: '\n' }),
+            );
+          }
         } else {
           acc.push(cur);
         }

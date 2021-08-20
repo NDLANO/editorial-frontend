@@ -6,9 +6,9 @@ import { STORED_LANGUAGE_KEY } from './constants';
 
 export const initializeI18n = (i18n: i18n): void => {
   i18n.options.supportedLngs = ['nb', 'nn', 'en'];
-  i18n.addResourceBundle('en', 'translation', en, false, false);
-  i18n.addResourceBundle('nb', 'translation', nb, false, false);
-  i18n.addResourceBundle('nn', 'translation', nn, false, false);
+  i18n.addResourceBundle('en', 'translation', en, true, true);
+  i18n.addResourceBundle('nb', 'translation', nb, true, true);
+  i18n.addResourceBundle('nn', 'translation', nn, true, true);
 
   i18n.on('languageChanged', function(language) {
     if (typeof document != 'undefined') {

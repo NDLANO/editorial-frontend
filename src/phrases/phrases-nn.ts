@@ -1212,7 +1212,6 @@ const phrases = {
       createThemeGroup: 'Opprett gruppe',
       saveNameChanges: 'Lagre endringer',
       cancel: 'Avbryt',
-      groupNamePlaceholder: 'Skriv namn på {{lang}}',
       editGroupTitle: 'Endre namn(a) på filmgruppa:',
       newGroupTitle: 'Kva skal gruppa heite?',
       notFound: 'Vi finn ikkje metadata for denne filmen...',

@@ -10,14 +10,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Router, useHistory } from 'react-router-dom';
-import IntlProvider from '@ndla/i18n';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
 import { configureTracker } from '@ndla/tracker';
 import { createBrowserHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
 import config, { ConfigType, getDefaultLanguage } from './config';
-import { getLocaleObject, isValidLocale } from './i18n';
+import { isValidLocale } from './i18n';
 import configureStore from './configureStore';
 import { getSessionStateFromLocalStorage } from './modules/session/session';
 import App from './containers/App/App';
@@ -117,9 +116,7 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
 
   return (
     <BrowserRouter basename={lang} key={lang}>
-      <IntlProvider locale={i18n.language} messages={getLocaleObject(i18n.language).messages}>
-        <App key={lang} />
-      </IntlProvider>
+      <App key={lang} />
     </BrowserRouter>
   );
 };

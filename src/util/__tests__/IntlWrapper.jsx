@@ -10,19 +10,13 @@ import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { i18nInstance } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-import IntlProvider from '@ndla/i18n';
 import { initializeI18n } from '../../i18n2';
-import { getLocaleObject } from '../../i18n';
 
 const InitI18nWrapper = ({ children }) => {
   const { i18n } = useTranslation();
   initializeI18n(i18n);
   i18n.language = 'nb';
-  return (
-    <IntlProvider locale={i18n.language} messages={getLocaleObject(i18n.language).messages}>
-      {children}
-    </IntlProvider>
-  );
+  return children;
 };
 
 const IntlWrapper = ({ children }) => (

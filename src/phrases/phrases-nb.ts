@@ -34,7 +34,7 @@ const phrases = {
     },
   },
   dropdown: {
-    numberHits: `Søket gav {hits} treff`,
+    numberHits: `Søket gav {{hits}} treff`,
     searching: 'Søker...',
     create: 'Opprett nytt',
     isSelectedItem: 'Lagt til',
@@ -1213,7 +1213,6 @@ const phrases = {
       createThemeGroup: 'Opprett gruppe',
       saveNameChanges: 'Lagre endringer',
       cancel: 'Avbryt',
-      groupNamePlaceholder: 'Skriv navn på {{lang}}',
       editGroupTitle: 'Endre navn(ene) på filmgruppen:',
       newGroupTitle: 'Hva skal gruppen hete?',
       notFound: 'Vi finner ikke metadata for denne filmen...',

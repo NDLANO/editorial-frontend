@@ -40,7 +40,7 @@ describe('Film editing', () => {
     cy.apiroute('GET', '**/search-api/v1/search/*', 'allMovies');
     cy.get('[data-cy=add-theme-modal]')
       .click()
-      .get(`input[placeholder="Skriv navn på {{lang}}"]`)
+      .get(`input[placeholder="Skriv navn på Bokmål"]`)
       .first()
       .type('Ny testgruppe')
       .get('button')

@@ -7,23 +7,23 @@
  */
 
 import React from 'react';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID } from '../../../../constants';
 import CustomFieldComponent from './CustomFieldComponent';
 
 interface Props {
-  updateFields: (newFields: Record<string, string>) => void;
+  key: string;
   initialVal?: string;
+  updateFields: (newFields: Record<string, string>) => void;
 }
 
-const EditOldSubjectId = ({ updateFields, initialVal }: Props) => {
+const ConstantMetaField = ({ key, initialVal, updateFields }: Props) => {
   return (
     <CustomFieldComponent
       initialVal={initialVal}
-      initialKey={TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID}
+      initialKey={key}
       constantKey={true}
       onSubmit={newFields => updateFields(newFields)}
     />
   );
 };
 
-export default EditOldSubjectId;
+export default ConstantMetaField;

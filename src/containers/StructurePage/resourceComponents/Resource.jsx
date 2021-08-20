@@ -19,6 +19,7 @@ import Tooltip from '@ndla/tooltip';
 
 import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
+import GrepCodesModal from '../../../components/GrepCodesModal';
 import RemoveButton from '../../../components/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
@@ -51,6 +52,7 @@ const Resource = ({
   t,
 }) => {
   const [showVersionHistory, setShowVersionHistory] = useState(false);
+  const [showGrepCodes, setShowGrepCodes] = useState(false);
 
   const contentType = resource.resourceTypes
     ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
@@ -88,6 +90,9 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
+      <Button lighter css={statusButtonStyle} onClick={() => setShowGrepCodes(true)}>
+        {`GREP`}
+      </Button>
       <RelevanceOption
         relevanceId={relevanceId}
         onChange={relevanceIdUpdate =>
@@ -107,6 +112,13 @@ const Resource = ({
           contentType={contentType}
           name={resource.name}
           isVisible={resource.metadata?.visible}
+          locale={locale}
+        />
+      )}
+      {showGrepCodes && (
+        <GrepCodesModal
+          onClose={() => setShowGrepCodes(false)}
+          contentUri={resource.contentUri}
           locale={locale}
         />
       )}

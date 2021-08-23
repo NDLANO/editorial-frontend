@@ -10,7 +10,7 @@ import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
-import { spacing } from '@ndla/core';
+import { spacing, spacingUnit } from '@ndla/core';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
@@ -24,11 +24,11 @@ const centerAdjustedStyle = css`
 `;
 
 const rightAdjustedStyle = css`
-  right: -${spacing.spacingUnit * 1.25}px;
+  right: -${spacingUnit * 1.25}px;
 `;
 
 const leftAdjustedStyle = css`
-  left: -${spacing.spacingUnit * 1.25}px;
+  left: -${spacingUnit * 1.25}px;
 `;
 
 interface StyledFigureButtonsProps {

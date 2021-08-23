@@ -19,6 +19,7 @@ import {
   validDateRange,
 } from './validators';
 import handleError from '../util/handleError';
+import { TFunction } from 'i18next';
 
 const appendError = (error: string, newError: string): string =>
   error ? `${error} \n ${newError}` : newError;
@@ -49,7 +50,7 @@ export type RulesType<FormikValuesType> = Record<string, RuleObject<FormikValues
 const validateFormik = <FormikValuesType>(
   values: FormikValuesType,
   rules: RulesType<FormikValuesType>,
-  t: tType['t'],
+  t: TFunction,
   formType: string | undefined = undefined,
 ) => {
   const errors: Record<string, string> = {};

@@ -10,7 +10,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { spacing, spacingUnit } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +27,7 @@ const StyledFigureButtons = styled('span')`
   position: absolute;
   top: 0;
   z-index: 1;
-  right: -${spacing.spacingUnit * 1.5}px;
+  right: -${spacingUnit * 1.5}px;
   margin-right: 40px;
   margin-top: ${spacing.xsmall};
 

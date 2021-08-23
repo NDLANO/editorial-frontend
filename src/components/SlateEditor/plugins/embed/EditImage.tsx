@@ -9,7 +9,7 @@
 import { css } from '@emotion/core';
 import React, { useEffect, useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
-import { spacing, shadows } from '@ndla/core';
+import { spacing, shadows, spacingUnit } from '@ndla/core';
 import FigureInput from './FigureInput';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
@@ -81,9 +81,9 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
     embedElement.style.position = 'absolute';
     embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;
     embedElement.style.left = `${placeholderRect.left +
-      spacing.spacingUnit -
+      spacingUnit -
       placeholderRect.width * (0.333 / 2)}px`;
-    embedElement.style.width = `${placeholderRect.width * 1.333 - spacing.spacingUnit * 2}px`;
+    embedElement.style.width = `${placeholderRect.width * 1.333 - spacingUnit * 2}px`;
   }, [embedElement, placeholderElement]);
 
   const onUpdatedImageSettings = (transformedData: NonNullable<StateProps['imageUpdates']>) => {

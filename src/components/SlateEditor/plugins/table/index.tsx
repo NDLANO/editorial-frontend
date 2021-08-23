@@ -34,6 +34,7 @@ import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { normalizeTableBodyAsMatrix } from './matrix';
 import { handleTableKeydown } from './handleKeyDown';
+import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -146,6 +147,9 @@ export const tableSerializer: SlateSerializer = {
     if (node.type === TYPE_TABLE_CELL) {
       const data = node.data;
       const props = removeEmptyElementDataAttributes({ ...data });
+
+      // There is no need in saving colspan and rowspan = 1.
+      // Undefined gives the same result in html-rendering
       if (data.colspan === 1) {
         delete props.colspan;
       }
@@ -194,95 +198,88 @@ export const tablePlugin = (editor: Editor) => {
   };
   editor.normalizeNode = entry => {
     const [node, path] = entry;
-    if (Element.isElement(node)) {
-      if (node.type === TYPE_TABLE) {
-        if (addSurroundingParagraphs(editor, path)) {
-          return;
+
+    // A. Table normalizer
+    if (isTable(node)) {
+      if (addSurroundingParagraphs(editor, path)) {
+        return;
+      }
+      // i. If table contains elements other than head or body element, wrap it with head or body element
+      for (const [bodyIndex, child] of node.children.entries()) {
+        if (!isTableHead(child) && !isTableBody(child)) {
+          const wrapAsHeader = bodyIndex === 0;
+          return Transforms.wrapNodes(
+            editor,
+            wrapAsHeader ? defaultTableHeadBlock(0) : defaultTableBodyBlock(0, 0),
+            {
+              at: [...path, bodyIndex],
+            },
+          );
         }
-        // If table contains element other than head or body element, wrap it with head or body element
-        for (const [index, child] of node.children.entries()) {
-          if (
-            !Element.isElement(child) ||
-            ![TYPE_TABLE_HEAD, TYPE_TABLE_BODY].includes(child.type)
-          ) {
-            const wrapAsHeader = index === 0;
-            return Transforms.wrapNodes(
-              editor,
-              wrapAsHeader ? defaultTableHeadBlock(0) : defaultTableBodyBlock(0, 0),
-              {
-                at: [...path, index],
-              },
-            );
-          }
-        }
-        for (const [index, child] of node.children.entries()) {
-          if (
-            Element.isElement(child) &&
-            (child.type === TYPE_TABLE_HEAD || child.type === TYPE_TABLE_BODY)
-          ) {
-            if (normalizeTableBodyAsMatrix(editor, child, [...path, index])) {
-              return;
-            }
+      }
+      // ii. Normalize each tableBody using matrix convertion for help.
+      for (const [index, child] of node.children.entries()) {
+        if (isTableHead(child) || isTableBody(child)) {
+          if (normalizeTableBodyAsMatrix(editor, child, [...path, index])) {
+            return;
           }
         }
       }
-      if (node.type === TYPE_TABLE_HEAD || node.type === TYPE_TABLE_BODY) {
-        const bodyNodes = node.children;
+    }
 
-        // If head or body contains non-row element, wrap it in row element
-        for (const [index, child] of bodyNodes.entries()) {
-          if (!Element.isElement(child) || child.type !== TYPE_TABLE_ROW) {
-            return Transforms.wrapNodes(editor, defaultTableRowBlock(0), {
-              at: [...path, index],
-            });
-          }
-        }
+    // B. TableHead and TableBody normalizer
+    if (isTableHead(node) || isTableBody(node)) {
+      const bodyNodes = node.children;
 
-        // Go to next normalizer if first child is invalid.
-        const firstRow = bodyNodes[0];
-        if (!Element.isElement(firstRow) || firstRow.type !== TYPE_TABLE_ROW) {
-          return normalizeNode(entry);
-        }
-      } else if (node.type === TYPE_TABLE_CELL) {
-        // Cells should only contain elements. If not, wrap content in paragraph
-        if (!Element.isElementList(node.children)) {
-          return Transforms.wrapNodes(editor, defaultParagraphBlock(), {
-            at: path,
-            match: node => !Element.isElement(node),
+      // If head or body contains non-row element, wrap it in row element
+      for (const [index, child] of bodyNodes.entries()) {
+        if (!Element.isElement(child) || child.type !== TYPE_TABLE_ROW) {
+          return Transforms.wrapNodes(editor, defaultTableRowBlock(0), {
+            at: [...path, index],
           });
         }
-      } else if (node.type === TYPE_TABLE_ROW) {
-        // Row should only contain cells. If not, wrap content in cell
-        for (const [index, child] of node.children.entries()) {
-          if (!Element.isElement(child) || child.type !== TYPE_TABLE_CELL) {
-            return Transforms.wrapNodes(editor, defaultTableCellBlock(), { at: [...path, index] });
-          }
-        }
+      }
+    }
 
-        const [parent] = Editor.node(editor, Path.parent(path));
-        if (Element.isElement(parent)) {
-          if (parent.type === TYPE_TABLE_HEAD || parent.type === TYPE_TABLE_BODY) {
-            const isHeader = parent.type === TYPE_TABLE_HEAD;
-            for (const [index, child] of node.children.entries()) {
-              if (
-                Element.isElement(child) &&
-                child.type === TYPE_TABLE_CELL &&
-                child.data.isHeader !== isHeader
-              ) {
-                return HistoryEditor.withoutSaving(editor, () => {
-                  Transforms.setNodes(
-                    editor,
-                    {
-                      data: {
-                        ...child.data,
-                        isHeader: isHeader,
-                      },
-                    },
-                    { at: [...path, index] },
-                  );
-                });
-              }
-            }
+    // C. TableCell normalizer
+    if (isTableCell(node)) {
+      // Cells should only contain elements. If not, wrap content in paragraph
+      if (!Element.isElementList(node.children)) {
+        return Transforms.wrapNodes(editor, defaultParagraphBlock(), {
+          at: path,
+          match: node => !Element.isElement(node),
+        });
+      }
+    }
+
+    // D. TableRow normalizer
+    if (isTableRow(node)) {
+      // i. Row should only contain cell elements. If not, wrap element in cell
+      for (const [index, cell] of node.children.entries()) {
+        if (!isTableCell(cell)) {
+          return Transforms.wrapNodes(editor, defaultTableCellBlock(), { at: [...path, index] });
+        }
+      }
+
+      const [parent] = Editor.node(editor, Path.parent(path));
+
+      // ii. Make sure cells in TableHead are marked as isHeader. Cells in TableBody are not.
+      if (isTableHead(parent) || isTableBody(parent)) {
+        const isHeader = isTableHead(parent);
+        for (const [index, cell] of node.children.entries()) {
+          if (isTableCell(cell) && cell.data.isHeader !== isHeader) {
+            return HistoryEditor.withoutSaving(editor, () => {
+              Transforms.setNodes(
+                editor,
+                {
+                  data: {
+                    ...cell.data,
+                    isHeader: isHeader,
+                  },
+                },
+                { at: [...path, index] },
+              );
+            });
           }
         }
       }

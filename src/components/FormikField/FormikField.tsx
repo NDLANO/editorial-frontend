@@ -58,7 +58,7 @@ const FormikField = ({
   right = false,
   description,
   obligatory,
-  showError,
+  showError = true,
   formik: { values, handleBlur, errors },
   ...rest
 }: Props & { formik: FormikContextType<FormikValues> }) => {

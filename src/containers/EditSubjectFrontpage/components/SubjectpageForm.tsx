@@ -13,12 +13,13 @@ import {
   SubjectpageType,
   VisualElement,
   ArticleType,
+  SubjectpageApiType,
 } from '../../../interfaces';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
-import validateFormik from '../../../components/formikValidationSchema';
-import { isFormikFormDirty, subjectpageRules } from '../../../util/formHelper';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
+import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
@@ -31,13 +32,15 @@ import SaveButton from '../../../components/SaveButton';
 
 interface Props {
   subjectpage: SubjectpageEditType;
-  updateSubjectpage: Function;
+  updateSubjectpage: (
+    updatedSubjectpage: SubjectpageEditType,
+  ) => Promise<SubjectpageApiType | null>;
   selectedLanguage: string;
   elementId: string;
   isNewlyCreated: boolean;
 }
 export interface SubjectFormValues extends SubjectpageType {
-  visualElementObject: VisualElement | {};
+  visualElementObject?: VisualElement;
   articleType: string;
   description?: string;
   desktopBanner?: VisualElement;
@@ -47,6 +50,32 @@ export interface SubjectFormValues extends SubjectpageType {
   elementId?: string;
   title: string;
 }
+
+const subjectpageRules: RulesType<SubjectFormValues> = {
+  title: {
+    required: true,
+  },
+  description: {
+    required: true,
+    maxLength: 300,
+  },
+  visualElementObject: {
+    required: true,
+    test: (values: SubjectFormValues) => {
+      const badVisualElementId = values?.visualElementObject?.resource_id === '';
+      return badVisualElementId
+        ? { translationKey: 'subjectpageForm.missingVisualElement' }
+        : undefined;
+    },
+  },
+  metaDescription: {
+    required: true,
+    maxLength: 300,
+  },
+  desktopBanner: {
+    required: true,
+  },
+};
 
 const getInitialValues = (
   subjectpage: SubjectpageEditType,
@@ -61,7 +90,7 @@ const getInitialValues = (
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElementObject: subjectpage.visualElement || {},
+    visualElementObject: subjectpage.visualElementObject,
     editorsChoices: subjectpage.editorsChoices || [],
     facebook: subjectpage.facebook || '',
     filters: subjectpage.filters || [],
@@ -84,14 +113,14 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
     supportedLanguages: values.supportedLanguages,
     description: editorValueToPlainText(values.description),
     title: values.title,
-    visualElement:
-      'resource_id' in values.visualElementObject
+    visualElementObject:
+      'resource_id' in (values.visualElementObject ?? {})
         ? {
-            resource: values.visualElementObject.resource,
-            url: values.visualElementObject.url,
-            resource_id: values.visualElementObject.resource_id,
-            videoid: values.visualElementObject.videoid,
-            alt: values.visualElementObject.alt || values.visualElementObject.caption,
+            resource: values.visualElementObject?.resource,
+            url: values.visualElementObject?.url,
+            resource_id: values.visualElementObject?.resource_id,
+            videoid: values.visualElementObject?.videoid,
+            alt: values.visualElementObject?.alt || values.visualElementObject?.caption,
           }
         : undefined,
     language: values.language,
@@ -132,12 +161,15 @@ const SubjectpageForm = ({
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
+  const initialErrors = validateFormik(initialValues, subjectpageRules, t);
+
   return (
     <Formik
       initialValues={initialValues}
+      initialErrors={initialErrors}
       onSubmit={() => {}}
       validate={values => validateFormik(values, subjectpageRules, t)}>
-      {(formik: FormikProps<SubjectpageEditType>) => {
+      {(formik: FormikProps<SubjectFormValues>) => {
         const { values, dirty, isSubmitting, errors, isValid, handleBlur } = formik;
 
         const formIsDirty: boolean = isFormikFormDirty({

@@ -52,11 +52,12 @@ const VisualElement = ({
   value,
 }: Props) => {
   const plugins = useMemo(() => {
-    return createPlugins(!Object.keys(value).length, types, changeVisualElement, language);
+    const valueLength = value !== undefined ? Object.keys(value).length : 0;
+    return createPlugins(!valueLength, types, changeVisualElement, language);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, language, changeVisualElement]);
 
-  if (isSubjectPage && value.resource === 'image') {
+  if (isSubjectPage && value?.resource === 'image') {
     delete value.caption;
   }
 

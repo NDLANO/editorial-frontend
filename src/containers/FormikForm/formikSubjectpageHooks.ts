@@ -11,7 +11,12 @@ import {
   transformSubjectpageToApiVersion,
   getUrnFromId,
 } from '../../util/subjectHelpers';
-import { Learningpath, SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
+import {
+  Learningpath,
+  LocaleType,
+  SubjectpageApiType,
+  SubjectpageEditType,
+} from '../../interfaces';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import {
   fetchResource,
@@ -28,7 +33,7 @@ import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 export function useFetchSubjectpageData(
   elementId: string,
-  selectedLanguage: string,
+  selectedLanguage: LocaleType,
   subjectpageId: string | undefined,
 ) {
   const [subjectpage, setSubjectpage] = useState<SubjectpageEditType>();
@@ -82,13 +87,19 @@ export function useFetchSubjectpageData(
     return fetched.map(resource => resource?.[0]?.id?.toString()).filter(e => e !== undefined);
   };
 
-  const updateSubjectpage = async (updatedSubjectpage: SubjectpageEditType) => {
+  const updateSubjectpage = async (
+    updatedSubjectpage: SubjectpageEditType,
+  ): Promise<SubjectpageApiType | null> => {
     const editorsChoices = await fetchTaxonomyUrns(
       updatedSubjectpage.editorsChoices!,
       updatedSubjectpage.language,
     );
+
+    const apiSubjectPage = transformSubjectpageToApiVersion(updatedSubjectpage, editorsChoices);
+    if (!apiSubjectPage || !updatedSubjectpage.id) return null;
+
     const savedSubjectpage = await frontpageApi.updateSubjectpage(
-      transformSubjectpageToApiVersion(updatedSubjectpage, editorsChoices),
+      apiSubjectPage,
       updatedSubjectpage.id,
       selectedLanguage,
     );
@@ -104,15 +115,18 @@ export function useFetchSubjectpageData(
     return savedSubjectpage;
   };
 
-  const createSubjectpage = async (createdSubjectpage: SubjectpageEditType) => {
+  const createSubjectpage = async (
+    createdSubjectpage: SubjectpageEditType,
+  ): Promise<SubjectpageApiType | null> => {
     const editorsChoices = await fetchTaxonomyUrns(
       createdSubjectpage.editorsChoices!,
       createdSubjectpage.language,
     );
 
-    const savedSubjectpage = await frontpageApi.createSubjectpage(
-      transformSubjectpageToApiVersion(createdSubjectpage, editorsChoices),
-    );
+    const apiSubjectPage = transformSubjectpageToApiVersion(createdSubjectpage, editorsChoices);
+    if (!apiSubjectPage) return null;
+
+    const savedSubjectpage = await frontpageApi.createSubjectpage(apiSubjectPage);
     await updateSubject(elementId, savedSubjectpage.name, getUrnFromId(savedSubjectpage.id));
     setSubjectpage(
       transformSubjectpageFromApiVersion(

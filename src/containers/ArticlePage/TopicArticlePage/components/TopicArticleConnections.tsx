@@ -9,6 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+//@ts-ignore
 import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { colors } from '@ndla/core';

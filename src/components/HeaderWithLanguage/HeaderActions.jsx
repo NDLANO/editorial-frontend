@@ -70,7 +70,7 @@ const HeaderActions = ({
   const emptyLanguages = languages.filter(
     lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
-  const translatableTypes = ['concept', 'standard', 'topic-article', 'podcast'];
+  const translatableTypes = ['audio', 'concept', 'standard', 'topic-article', 'podcast'];
 
   if (id) {
     return (

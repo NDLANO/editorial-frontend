@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -80,6 +80,10 @@ const ConceptForm = ({
     setSavedToServer(false);
   }, [concept]);
   const initialValues = transformApiConceptToFormValues(concept, subjects);
+  const initialErrors = useMemo(() => validateFormik(initialValues, conceptFormRules, t), [
+    initialValues,
+    t,
+  ]);
 
   const handleSubmit = async (
     values: ConceptFormValues,
@@ -118,6 +122,7 @@ const ConceptForm = ({
   return (
     <Formik
       initialValues={initialValues}
+      initialErrors={initialErrors}
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount

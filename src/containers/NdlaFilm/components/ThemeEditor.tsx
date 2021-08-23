@@ -39,7 +39,7 @@ interface Props {
   selectedLanguage: string;
 }
 
-interface ThemeNames {
+export interface ThemeNames {
   name: {
     nb: string;
     nn: string;

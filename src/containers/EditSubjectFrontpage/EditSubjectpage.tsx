@@ -13,10 +13,11 @@ import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import Spinner from '../../components/Spinner';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { LocaleType } from '../../interfaces';
 
 interface Props extends RouteComponentProps {
   elementId: string;
-  selectedLanguage: string;
+  selectedLanguage: LocaleType;
   subjectpageId: string;
   isNewlyCreated: boolean;
 }

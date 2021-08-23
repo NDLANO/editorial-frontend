@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, ReactNode, useRef } from 'react';
+import React, { useState, ReactNode, useRef, useCallback, useMemo } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
@@ -15,7 +15,7 @@ import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import Spinner from '../../../components/Spinner';
@@ -39,7 +39,7 @@ import { License } from '../../../interfaces';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
 import handleError from '../../../util/handleError';
 
-const podcastRules = {
+const podcastRules: RulesType<PodcastFormValues> = {
   title: {
     required: true,
   },
@@ -87,7 +87,7 @@ export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => (
   supportedLanguages: audio.supportedLanguages || [],
   title: plainTextToEditorValue(audio.title || '', true),
   manuscript: plainTextToEditorValue(audio.manuscript || '', true),
-  audioFile: { storedFile: audio.audioFile },
+  audioFile: audio.audioFile ? { storedFile: audio.audioFile } : {},
   filepath: '',
   tags: audio.tags || [],
   origin: audio?.copyright?.origin || '',
@@ -196,41 +196,44 @@ const PodcastForm = ({
     setSavedToServer(true);
   };
 
-  const validateMetaImage = ([width, height]: [
-    number,
-    number,
-  ]): FormikErrors<PodcastFormValues> => {
-    if (width !== height) {
-      return { coverPhotoId: t('validation.podcastImageShape') };
-    } else if (width < 1400 || width > 3000) {
-      return { coverPhotoId: t('validation.podcastImageSize') };
-    }
-    return {};
-  };
+  const validateMetaImage = useCallback(
+    ([width, height]: [number, number]): FormikErrors<PodcastFormValues> => {
+      if (width !== height) {
+        return { coverPhotoId: t('validation.podcastImageShape') };
+      } else if (width < 1400 || width > 3000) {
+        return { coverPhotoId: t('validation.podcastImageSize') };
+      }
+      return {};
+    },
+    [t],
+  );
+
+  const validateFunction = useCallback(
+    (values: PodcastFormValues): FormikErrors<PodcastFormValues> => {
+      const errors = validateFormik(values, podcastRules, t);
+      const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
+      const resp = { ...errors, ...metaImageErrors };
+      return resp;
+    },
+    [t, validateMetaImage],
+  );
 
   const initialValues = getInitialValues(audio);
+  const initialErrors = useMemo(() => validateFunction(initialValues), [
+    initialValues,
+    validateFunction,
+  ]);
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
       validateOnMount
+      initialErrors={initialErrors}
       enableReinitialize
-      validate={values => {
-        const errors = validateFormik(values, podcastRules, t);
-        const metaImageErrors = validateMetaImage(size.current!);
-        return { ...errors, ...metaImageErrors };
-      }}>
+      validate={validateFunction}>
       {formikProps => {
-        const {
-          values,
-          dirty,
-          isSubmitting,
-          errors,
-          submitForm,
-          handleBlur,
-          validateForm,
-        } = formikProps;
+        const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -285,13 +288,6 @@ const PodcastForm = ({
                       validateForm();
                     }}
                     handleSubmit={submitForm}
-                    onBlur={(event, editor, next) => {
-                      next();
-                      // this is a hack since formik onBlur-handler interferes with slates
-                      // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                      // formik handleBlur needs to be called for validation to work (and touched to be set)
-                      setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
-                    }}
                   />
                   <PodcastSeriesInformation />
                 </AccordionSection>

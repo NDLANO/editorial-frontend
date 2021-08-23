@@ -1178,6 +1178,7 @@ const phrases = {
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
         explanationSubject: 'Forklaringsfag',
+        oldSubjectId: 'ID for videresending',
         resourceGroupPlaceholder: 'Gruppering av ressurser',
         RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
       },

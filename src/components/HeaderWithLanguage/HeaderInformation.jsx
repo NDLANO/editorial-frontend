@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
-import css from '@emotion/css';
+import { css } from '@emotion/react';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';

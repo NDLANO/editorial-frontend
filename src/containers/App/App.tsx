@@ -27,7 +27,6 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import Zendesk from './Zendesk';
 import { LocaleType, ReduxState } from '../../interfaces';
 import { LOCALE_VALUES } from '../../constants';
-import H5PPage from '../H5PPage/H5PPage';
 const Login = loadable(() => import('../Login/Login'));
 const Logout = loadable(() => import('../Logout/Logout'));
 const PrivateRoute = loadable(() => import('../PrivateRoute/PrivateRoute'));
@@ -44,6 +43,7 @@ const PreviewDraftPage = loadable(() => import('../PreviewDraftPage/PreviewDraft
 const NdlaFilm = loadable(() => import('../NdlaFilm/NdlaFilm'));
 const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
 const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
+const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 
 export const FirstLoadContext = React.createContext(true);
 export const LocaleContext = React.createContext<LocaleType>('nb');

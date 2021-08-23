@@ -93,7 +93,7 @@ const h5pApiUrl = () => {
 };
 
 export const getAuth0Hostname = () => {
-  switch (process.env.NDLA_ENVIRONMENT) {
+  switch (ndlaEnvironment) {
     case 'prod':
       return 'ndla.eu.auth0.com';
     case 'staging':

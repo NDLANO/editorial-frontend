@@ -6,8 +6,7 @@
  *
  */
 
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css } from '@emotion/core';
 import { injectT, tType } from '@ndla/i18n';
 import React, { Fragment, useEffect } from 'react';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
@@ -85,14 +84,14 @@ const EditVideo = ({
   const onSave = () => {
     saveEmbedUpdates({
       caption,
-      videoid:
-        embed.resource === 'brightcove'
-          ? addBrightCoveTimeStampVideoid(embed.videoid, startTime)
-          : embed.videoid,
       url:
         embed.resource === 'brightcove'
           ? addBrightCovetimeStampSrc(src, startTime)
           : addYoutubeTimeStamps(src, startTime, stopTime),
+      videoid:
+        embed.resource === 'brightcove'
+          ? addBrightCoveTimeStampVideoid(embed.videoid, startTime)
+          : embed.videoid,
     });
     toggleEditModus();
   };

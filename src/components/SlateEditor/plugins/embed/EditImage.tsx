@@ -6,8 +6,7 @@
  *
  */
 
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css } from '@emotion/core';
 import React, { useEffect, useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
 import { spacing, shadows } from '@ndla/core';
@@ -103,7 +102,7 @@ const EditImage = ({ t, embed, saveEmbedUpdates, setEditModus }: Props & tType) 
     let updatedSize = state.imageUpdates?.size;
 
     if (state.imageUpdates?.align === 'center') {
-      updatedSize = 'fullbredde';
+      updatedSize = 'full';
       if (state.imageUpdates?.size.includes('hide-byline')) {
         updatedSize += '-hide-byline';
       }

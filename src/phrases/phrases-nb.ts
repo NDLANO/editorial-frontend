@@ -753,7 +753,7 @@ const phrases = {
         addExternal: 'Legg til ekstern artikkel',
         removeExternal: 'Slett ekstern artikkel',
         changeExternal: 'Endre ekstern artikkel',
-        searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
+        searchExternal: 'Skriv inn tittel og url på ekstern artikkel',
       },
       concept: {
         remove: 'Fjern forklaring',
@@ -810,7 +810,7 @@ const phrases = {
     },
     categories: {
       label: 'Liste og filter',
-      description: 'Format: liste:filter1:filter2',
+      description: 'Format: Liste:Filter1:Filter2',
       searchPlaceholder: 'Søk etter lister',
     },
     grepCodes: {
@@ -923,6 +923,9 @@ const phrases = {
         hms: 'h:m:s',
       },
       brightcove: 'Åpne i Brightcove',
+      toLinkedVideo: 'Bytt til synstolket versjon',
+      fromLinkedVideo: 'Bytt tilbake til original versjon',
+      linkedVideoButton: 'ST',
     },
     audio: {
       file: 'Lydfil',
@@ -1057,6 +1060,8 @@ const phrases = {
     noEmptyNote: 'En merknad kan ikke være tom',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',
+    podcastImageShape: 'Metabilde må være like høyt som det er bredt.',
+    podcastImageSize: 'Metabilde må være mellom 1400 og 3000 piksler bredt.',
   },
   errorMessage: {
     title: 'Oops, noe gikk galt',

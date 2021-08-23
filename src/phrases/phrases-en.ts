@@ -740,7 +740,7 @@ const phrases = {
         addExternal: 'Add external article',
         removeExternal: 'Delete external article',
         changeExternal: 'Edit external article',
-        searchExternal: 'Write the url and title of the external article',
+        searchExternal: 'Write the title and url of the external article',
       },
       concept: {
         remove: 'Remove concept',
@@ -914,6 +914,9 @@ const phrases = {
         hms: 'h:m:s',
       },
       brightcove: 'Open in Brightcove',
+      toLinkedVideo: 'Switch to interpreted video',
+      fromLinkedVideo: 'Switch back to original video',
+      linkedVideoButton: 'IV',
     },
     audio: {
       file: 'Audio file',
@@ -1045,6 +1048,8 @@ const phrases = {
     noEmptyNote: 'A note cannot be empty',
     grepCodes:
       'The code format is wrong. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
+    podcastImageShape: 'A meta image must have equal height and width.',
+    podcastImageSize: 'A meta image must be between 1400 and 3000 pixels wide.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',

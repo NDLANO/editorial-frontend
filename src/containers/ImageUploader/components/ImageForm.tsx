@@ -12,7 +12,7 @@ import { Accordions, AccordionSection } from '@ndla/accordion';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/formHelper';
-import validateFormik from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import {
@@ -26,7 +26,7 @@ import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWit
 import { NewImageMetadata, UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
 
-const imageRules = {
+const imageRules: RulesType<ImageFormikType> = {
   title: {
     required: true,
   },
@@ -56,7 +56,7 @@ const imageRules = {
   },
 };
 
-interface ImageFormikType {
+export interface ImageFormikType {
   id?: number;
   language?: string;
   supportedLanguages?: string[];

@@ -28,7 +28,7 @@ import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import AudioManuscript from './AudioManuscript';
 import { toCreateAudioFile, toEditAudio } from '../../../util/routeHelpers';
-import validateFormik from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
 import * as messageActions from '../../Messages/messagesActions';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -77,7 +77,7 @@ export const getInitialValues = (
     supportedLanguages: audio.supportedLanguages || [],
     title: plainTextToEditorValue(audio.title || '', true),
     manuscript: plainTextToEditorValue(audio?.manuscript, true),
-    audioFile: { storedFile: audio.audioFile },
+    audioFile: audio.audioFile ? { storedFile: audio.audioFile } : {},
     tags: audio.tags || [],
     creators: parseCopyrightContributors(audio, 'creators'),
     processors: parseCopyrightContributors(audio, 'processors'),
@@ -87,7 +87,7 @@ export const getInitialValues = (
   };
 };
 
-const rules = {
+const rules: RulesType<AudioFormikType> = {
   title: {
     required: true,
   },
@@ -191,12 +191,15 @@ class AudioForm extends Component<Props, State> {
     const { savedToServer } = this.state;
 
     const initialValues = getInitialValues(audio);
+    const initialErrors = validateFormik(initialValues, rules, t);
+
     return (
       <Formik
         initialValues={initialValues}
         onSubmit={this.handleSubmit}
         enableReinitialize
         validateOnMount
+        initialErrors={initialErrors}
         validate={values => validateFormik(values, rules, t)}>
         {formikProps => {
           const { values, dirty, isSubmitting, submitForm, errors } = formikProps;

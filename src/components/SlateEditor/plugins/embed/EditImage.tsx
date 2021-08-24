@@ -9,7 +9,7 @@
 import { css } from '@emotion/core';
 import React, { useEffect, useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
-import { spacing, shadows, spacingUnit } from '@ndla/core';
+import { shadows, spacingUnit } from '@ndla/core';
 import FigureInput from './FigureInput';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';

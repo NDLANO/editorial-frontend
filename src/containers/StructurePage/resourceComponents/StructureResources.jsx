@@ -246,7 +246,7 @@ export class StructureResources extends React.PureComponent {
           currentTopic={currentTopic}
           status={topicStatus}
         />
-        {/* {grouped === 'ungrouped' && (
+        {grouped === 'ungrouped' && (
           <AllResourcesGroup
             key="ungrouped"
             params={this.props.params}
@@ -275,7 +275,7 @@ export class StructureResources extends React.PureComponent {
                 disable={resourceType.disabled}
               />
             );
-          })} */}
+          })}
       </Fragment>
     );
   }

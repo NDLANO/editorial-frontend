@@ -7,7 +7,7 @@
  */
 
 import get from 'lodash/fp/get';
-import { tType } from '@ndla/i18n';
+import { TFunction } from 'i18next';
 import {
   isUrl,
   isEmpty,
@@ -19,7 +19,6 @@ import {
   validDateRange,
 } from './validators';
 import handleError from '../util/handleError';
-import { TFunction } from 'i18next';
 
 const appendError = (error: string, newError: string): string =>
   error ? `${error} \n ${newError}` : newError;

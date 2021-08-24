@@ -22,7 +22,7 @@ const iconCSS = css`
 `;
 
 export const HelpMessage = ({ children }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Modal
       activateButton={
@@ -42,4 +42,4 @@ export const HelpMessage = ({ children }) => {
       )}
     </Modal>
   );
-}
+};

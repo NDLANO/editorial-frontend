@@ -80,7 +80,7 @@ const TopicArticleAccordionPanels = ({
         title={t('form.name.grepCodes')}
         className={'u-6/6'}
         hasError={!!errors.grepCodes}>
-        <GrepCodesField article={article} />
+        <GrepCodesField grepCodes={article.grepCodes} />
       </AccordionSection>
       {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
         <AccordionSection

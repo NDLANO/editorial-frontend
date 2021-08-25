@@ -18,7 +18,6 @@ import { TaxonomyMetadata } from '../../../../modules/taxonomy/taxonomyApiInterf
 interface Props {
   onSubmit: (prevState: any) => void;
   onClose?: () => void;
-  constantKey?: boolean;
   initialKey?: string;
   initialVal?: string;
   dataTestid?: string;
@@ -28,7 +27,6 @@ interface Props {
 const CustomFieldComponent = ({
   onSubmit,
   onClose,
-  constantKey = false,
   initialKey = '',
   initialVal = '',
   dataTestid = 'customFieldComponent',
@@ -75,7 +73,6 @@ const CustomFieldComponent = ({
       <StyledMenuItemEditField>
         <RoundIcon open small />
         <StyledMenuItemInputField
-          disabled={constantKey}
           type="text"
           placeholder={placeholder}
           value={currentKey ?? initialKey}

@@ -28,6 +28,7 @@ import { updateSubjectMetadata } from '../../../../modules/taxonomy/subjects';
 import { updateTopicMetadata } from '../../../../modules/taxonomy/topics';
 import ToggleExplanationSubject from './ToggleExplanationSubject';
 import TaxonomyMetadataLanguageSelector from './TaxonomyMetadataLanguageSelector';
+import ConstantMetaField from './ConstantMetaField';
 
 interface Props extends TaxonomyElement {
   subjectId: string;
@@ -95,10 +96,10 @@ const MenuItemCustomField = ({
             customFields={metadata.customFields}
             updateFields={setCustomFields}
           />
-          <CustomFieldComponent
-            constantKey={true}
-            placeholder={t('taxonomy.metadata.customFields.oldSubjectId')}
-            initialKey={TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID}
+          <ConstantMetaField
+            keyPlaceholder={t('taxonomy.metadata.customFields.oldSubjectId')}
+            valuePlaceholder={'urn:subject:***'}
+            fieldKey={TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID}
             onSubmit={setCustomFields}
             initialVal={metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID]}
           />

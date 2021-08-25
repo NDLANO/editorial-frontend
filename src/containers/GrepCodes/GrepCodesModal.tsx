@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { injectT, tType } from '@ndla/i18n';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import { getIdFromUrn } from '../../util/taxonomyHelpers';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
@@ -19,14 +20,14 @@ interface Props {
   locale: string;
 }
 
-const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
+const GrepCodesModal = ({ contentUri, onClose, locale, t }: Props & tType) => {
   const { loading, article, articleChanged, ...articleHooks } = useFetchArticleData(
     getIdFromUrn(contentUri),
     locale,
   );
 
   return (
-    <TaxonomyLightbox title={'Title'} onClose={onClose} wide>
+    <TaxonomyLightbox title={t('form.name.grepCodes')} onClose={onClose} wide>
       {loading || !article || !article.id ? (
         <Spinner />
       ) : (
@@ -36,4 +37,4 @@ const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
   );
 };
 
-export default GrepCodesModal;
+export default injectT(GrepCodesModal);

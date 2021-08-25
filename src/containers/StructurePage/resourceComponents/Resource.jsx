@@ -13,7 +13,7 @@ import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import { colors, spacing, fonts } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
@@ -34,8 +34,17 @@ const StyledCheckIcon = styled(Check)`
   fill: ${colors.support.green};
 `;
 
+const StyledGrepText = styled.small`
+  font-weight: ${fonts.weight.semibold};
+  ${fonts.sizes(14, 1)};
+`;
+
 const statusButtonStyle = css`
   margin-right: ${spacing.xsmall};
+`;
+
+const grepButtonStyle = css`
+  margin-left: ${spacing.xsmall};
 `;
 
 const Resource = ({
@@ -90,8 +99,8 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
-      <Button lighter css={statusButtonStyle} onClick={() => setShowGrepCodes(true)}>
-        {`GREP`}
+      <Button stripped css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
+        <StyledGrepText>GREP</StyledGrepText>
       </Button>
       <RelevanceOption
         relevanceId={relevanceId}

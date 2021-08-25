@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { ResourceShape } from '../../../shapes';
 import Resource from './Resource';
 import { deleteTopicResource, updateTopicResource } from '../../../modules/taxonomy';
@@ -19,6 +20,16 @@ import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import Spinner from '../../../components/Spinner';
 import { StructureShape } from '../../../shapes';
+
+const StyledResourceItems = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`;
+
+const StyledErrorMessage = styled.div`
+  text-align: center;
+`;
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -80,7 +91,7 @@ class ResourceItems extends React.PureComponent {
       return <Spinner />;
     }
     return (
-      <ul {...classes('list')}>
+      <StyledResourceItems {...classes('list')}>
         <MakeDndList onDragEnd={this.onDragEnd} dragHandle>
           {resources.map(resource => (
             <Resource
@@ -97,9 +108,9 @@ class ResourceItems extends React.PureComponent {
           ))}
         </MakeDndList>
         {error && (
-          <div data-testid="inlineEditErrorMessage" {...classes('errorMessage')}>
+          <StyledErrorMessage data-testid="inlineEditErrorMessage" {...classes('errorMessage')}>
             {error}
-          </div>
+          </StyledErrorMessage>
         )}
         <AlertModal
           show={!!deleteId}
@@ -116,7 +127,7 @@ class ResourceItems extends React.PureComponent {
           ]}
           onCancel={() => this.toggleDelete('')}
         />
-      </ul>
+      </StyledResourceItems>
     );
   }
 }

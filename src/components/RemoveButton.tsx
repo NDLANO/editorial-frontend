@@ -20,6 +20,12 @@ const deleteButtonStyle = css`
   line-height: 1;
 `;
 
+const removeCircleStyle = css`
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+`;
+
 interface Props {
   onClick: () => void;
 }
@@ -29,7 +35,7 @@ const RemoveButton = ({ onClick }: Props) => {
   return (
     <Tooltip tooltip={t('taxonomy.removeResource')}>
       <Button css={deleteButtonStyle} onClick={onClick} stripped>
-        <RemoveCircle {...classes('deleteIcon')} />
+        <RemoveCircle {...classes('deleteIcon')} css={removeCircleStyle} />
       </Button>
     </Tooltip>
   );

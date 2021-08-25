@@ -19,7 +19,7 @@ import Tooltip from '@ndla/tooltip';
 
 import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
-import GrepCodesModal from '../../../components/GrepCodesModal';
+import GrepCodesModal from '../../GrepCodes/GrepCodesModal';
 import RemoveButton from '../../../components/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';

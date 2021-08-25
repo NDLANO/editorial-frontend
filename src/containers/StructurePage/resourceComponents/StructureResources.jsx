@@ -211,7 +211,6 @@ export class StructureResources extends React.PureComponent {
       currentTopic,
       resourceRef,
       currentSubject,
-      structure,
       saveSubjectTopicItems,
       grouped,
     } = this.props;
@@ -255,7 +254,6 @@ export class StructureResources extends React.PureComponent {
             locale={locale}
             currentTopic={currentTopic}
             currentSubject={currentSubject}
-            structure={structure}
             resourceTypes={resourceTypes}
           />
         )}

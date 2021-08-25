@@ -25,8 +25,7 @@ import ResourceItemLink from './ResourceItemLink';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-
-import { StructureShape, ResourceShape } from '../../../shapes';
+import { ResourceShape } from '../../../shapes';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -49,7 +48,6 @@ const grepButtonStyle = css`
 
 const Resource = ({
   resource,
-  structure,
   onDelete,
   connectionId,
   dragHandleProps,
@@ -147,7 +145,6 @@ Resource.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
-  structure: PropTypes.arrayOf(StructureShape),
   connectionId: PropTypes.string,
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,

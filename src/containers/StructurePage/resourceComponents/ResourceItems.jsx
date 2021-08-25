@@ -18,7 +18,6 @@ import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import Spinner from '../../../components/Spinner';
-import { StructureShape } from '../../../shapes';
 
 class ResourceItems extends React.PureComponent {
   constructor() {
@@ -72,7 +71,7 @@ class ResourceItems extends React.PureComponent {
   }
 
   render() {
-    const { resources, t, currentSubject, structure, locale } = this.props;
+    const { resources, t, currentSubject, locale } = this.props;
 
     const { deleteId, error, loading } = this.state;
 
@@ -88,7 +87,6 @@ class ResourceItems extends React.PureComponent {
               key={resource.id}
               id={resource.id}
               currentSubject={currentSubject}
-              structure={structure}
               onDelete={this.toggleDelete}
               locale={locale}
               updateRelevanceId={updateRelevanceId}
@@ -130,7 +128,6 @@ ResourceItems.propTypes = {
     name: PropTypes.string,
   }),
   currentTopic: PropTypes.shape({}),
-  structure: PropTypes.arrayOf(StructureShape),
   locale: PropTypes.string,
 };
 

@@ -18,6 +18,7 @@ import { AsyncDropdown } from '../../../components/Dropdown';
 import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
+import { DraftSearchQuery } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   locale: string;
@@ -67,9 +68,9 @@ const ContentField = ({ locale, values, field, form }: Props) => {
     });
   };
 
-  const searchForArticles = async (inp: string) => {
+  const searchForArticles = async (query: DraftSearchQuery) => {
     return searchDrafts({
-      query: inp,
+      ...query,
       language: locale,
     });
   };
@@ -103,6 +104,7 @@ const ContentField = ({ locale, values, field, form }: Props) => {
         multiSelect
         disableSelected
         clearInputField
+        showPagination
       />
       <StyledButtonWrapper>
         <Button onClick={() => setShowAddExternal(true)}>

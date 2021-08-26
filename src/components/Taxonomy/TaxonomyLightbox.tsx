@@ -32,11 +32,11 @@ const TaxonomyLightbox = ({
   t,
   loading,
   onClose,
-  wide,
+  wide = false,
 }: Props & tType) => (
   <StyledLightboxWrapper>
     <Overlay onExit={onClose} />
-    <StyledContentWrapper wide={!!wide}>
+    <StyledContentWrapper wide={wide}>
       <StyledHeader>
         {title}
         <Button css={closeButtonStyle} stripped onClick={onClose}>

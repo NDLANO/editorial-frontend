@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.emotion-186 {
+.emotion-174 {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.emotion-29 {
+.emotion-27 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -76,7 +76,7 @@ exports[`matches snapshot 1`] = `
   }
 }
 
-.emotion-9 {
+.emotion-7 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -96,62 +96,52 @@ exports[`matches snapshot 1`] = `
   transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
   box-shadow: none;
   text-align: center;
-  -webkit-transition: background-color none;
-  transition: background-color none;
-  padding: 0;
-  border-radius: 0;
-  color: inherit;
-  font-size: inherit;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
+  font-size: 12px;
+  font-size: 0.6666666666666666rem;
+  line-height: 15px;
+  background-color: #deebf6;
+  border: 2px solid #deebf6;
+  color: #20588f;
+  font-weight: 600;
 }
 
-.emotion-9:hover,
-.emotion-9:focus {
+.emotion-7:hover,
+.emotion-7:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-9[disabled] {
+.emotion-7[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-9:focus {
+.emotion-7:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-9:hover,
-.emotion-9:active,
-.emotion-9:disabled,
-.emotion-9:focus {
-  box-shadow: none;
-  color: #20588f;
-  background-color: transparent;
-  border: none;
+.emotion-7:hover,
+.emotion-7:focus,
+.emotion-7:active {
+  background: #20588f;
+  border-color: #20588f;
 }
 
-.emotion-9:focus {
-  outline-width: medium;
+.emotion-7:disabled {
+  color: #777777;
+  border: 2px solid transparent;
+  background-color: #e6e6e6;
+  cursor: not-allowed;
 }
 
-.emotion-6 {
-  font-weight: 600;
-  font-size: 14;
-  font-size: 0.7777777777777778rem;
-  line-height: 1;
-}
-
-.emotion-19 {
+.emotion-17 {
   position: relative;
 }
 
-.emotion-12 {
+.emotion-10 {
   opacity: 0;
   position: absolute;
   z-index: 9999;
@@ -164,7 +154,7 @@ exports[`matches snapshot 1`] = `
   animation-duration: 300ms;
 }
 
-.emotion-11 {
+.emotion-9 {
   display: block;
   color: #fff;
   background: #20588f;
@@ -180,7 +170,7 @@ exports[`matches snapshot 1`] = `
   max-width: calc(100vw - #{26px});
 }
 
-.emotion-18 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -196,18 +186,18 @@ exports[`matches snapshot 1`] = `
   margin-left: 10px;
 }
 
-.emotion-16 {
+.emotion-14 {
   position: relative;
   display: inline-block;
   width: 37px;
   height: 22px;
 }
 
-.emotion-16 input {
+.emotion-14 input {
   display: none;
 }
 
-.emotion-16 > input:checked + .emotion-15::before {
+.emotion-14 > input:checked + .emotion-13::before {
   -webkit-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
@@ -217,7 +207,7 @@ exports[`matches snapshot 1`] = `
   border: 0.91px solid #446b92;
 }
 
-.emotion-14 {
+.emotion-12 {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -232,7 +222,7 @@ exports[`matches snapshot 1`] = `
   border-radius: 10px;
 }
 
-.emotion-14::before {
+.emotion-12::before {
   position: absolute;
   content: 'T';
   left: -3px;
@@ -259,7 +249,7 @@ exports[`matches snapshot 1`] = `
   font-size: 0.8rem;
 }
 
-.emotion-25 {
+.emotion-23 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -293,50 +283,50 @@ exports[`matches snapshot 1`] = `
   line-height: 1;
 }
 
-.emotion-25:hover,
-.emotion-25:focus {
+.emotion-23:hover,
+.emotion-23:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-25[disabled] {
+.emotion-23[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-25:focus {
+.emotion-23:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-25:hover,
-.emotion-25:active,
-.emotion-25:disabled,
-.emotion-25:focus {
+.emotion-23:hover,
+.emotion-23:active,
+.emotion-23:disabled,
+.emotion-23:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-25:focus {
+.emotion-23:focus {
   outline-width: medium;
 }
 
-.emotion-24 {
+.emotion-22 {
   width: 24px;
   height: 24px;
   opacity: 0.6;
 }
 
-.emotion-8 {
+.emotion-6 {
   margin-left: 6.5px;
 }
 
 <ul
-  class="c-topic-resource__list emotion-186 emotion-187"
+  class="c-topic-resource__list emotion-174 emotion-175"
 >
   <div
     class="c-dnd-list__drop-zone"
@@ -346,7 +336,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
+        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -395,23 +385,19 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <button
-          class="emotion-8 emotion-9 emotion-10"
+          class="emotion-6 emotion-7 emotion-8"
           type="button"
         >
-          <small
-            class="emotion-6 emotion-7"
-          >
-            GREP
-          </small>
+          GREP
         </button>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -422,10 +408,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-18"
+              class="emotion-16"
             >
               <label
-                class="emotion-16 emotion-17"
+                class="emotion-14 emotion-15"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -433,20 +419,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-14 emotion-15"
+                  class="emotion-12 emotion-13"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -457,11 +443,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-25 emotion-10"
+              class="emotion-23 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-24"
+                class="c-icon c-topic-resource__deleteIcon emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -494,7 +480,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
+        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -549,23 +535,19 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <button
-          class="emotion-8 emotion-9 emotion-10"
+          class="emotion-6 emotion-7 emotion-8"
           type="button"
         >
-          <small
-            class="emotion-6 emotion-7"
-          >
-            GREP
-          </small>
+          GREP
         </button>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -576,10 +558,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-18"
+              class="emotion-16"
             >
               <label
-                class="emotion-16 emotion-17"
+                class="emotion-14 emotion-15"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -587,20 +569,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-14 emotion-15"
+                  class="emotion-12 emotion-13"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -611,11 +593,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-25 emotion-10"
+              class="emotion-23 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-24"
+                class="c-icon c-topic-resource__deleteIcon emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -648,7 +630,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
+        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -703,23 +685,19 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <button
-          class="emotion-8 emotion-9 emotion-10"
+          class="emotion-6 emotion-7 emotion-8"
           type="button"
         >
-          <small
-            class="emotion-6 emotion-7"
-          >
-            GREP
-          </small>
+          GREP
         </button>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -730,10 +708,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-18"
+              class="emotion-16"
             >
               <label
-                class="emotion-16 emotion-17"
+                class="emotion-14 emotion-15"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -741,20 +719,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-14 emotion-15"
+                  class="emotion-12 emotion-13"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -765,11 +743,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-25 emotion-10"
+              class="emotion-23 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-24"
+                class="c-icon c-topic-resource__deleteIcon emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -802,7 +780,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
+        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -857,23 +835,19 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <button
-          class="emotion-8 emotion-9 emotion-10"
+          class="emotion-6 emotion-7 emotion-8"
           type="button"
         >
-          <small
-            class="emotion-6 emotion-7"
-          >
-            GREP
-          </small>
+          GREP
         </button>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -884,10 +858,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-18"
+              class="emotion-16"
             >
               <label
-                class="emotion-16 emotion-17"
+                class="emotion-14 emotion-15"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -895,20 +869,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-14 emotion-15"
+                  class="emotion-12 emotion-13"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -919,11 +893,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-25 emotion-10"
+              class="emotion-23 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-24"
+                class="c-icon c-topic-resource__deleteIcon emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -956,7 +930,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
+        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -1011,23 +985,19 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <button
-          class="emotion-8 emotion-9 emotion-10"
+          class="emotion-6 emotion-7 emotion-8"
           type="button"
         >
-          <small
-            class="emotion-6 emotion-7"
-          >
-            GREP
-          </small>
+          GREP
         </button>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -1038,10 +1008,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-18"
+              class="emotion-16"
             >
               <label
-                class="emotion-16 emotion-17"
+                class="emotion-14 emotion-15"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -1049,20 +1019,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-14 emotion-15"
+                  class="emotion-12 emotion-13"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -1073,11 +1043,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-25 emotion-10"
+              class="emotion-23 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-24"
+                class="c-icon c-topic-resource__deleteIcon emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -1110,7 +1080,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
+        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -1165,23 +1135,19 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <button
-          class="emotion-8 emotion-9 emotion-10"
+          class="emotion-6 emotion-7 emotion-8"
           type="button"
         >
-          <small
-            class="emotion-6 emotion-7"
-          >
-            GREP
-          </small>
+          GREP
         </button>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -1192,10 +1158,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-18"
+              class="emotion-16"
             >
               <label
-                class="emotion-16 emotion-17"
+                class="emotion-14 emotion-15"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -1203,20 +1169,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-14 emotion-15"
+                  class="emotion-12 emotion-13"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-19 emotion-20"
+          class=" emotion-17 emotion-18"
         >
           <div
-            class="emotion-12 emotion-13"
+            class="emotion-10 emotion-11"
           >
             <span
-              class="emotion-11"
+              class="emotion-9"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -1227,11 +1193,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-25 emotion-10"
+              class="emotion-23 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-24"
+                class="c-icon c-topic-resource__deleteIcon emotion-22"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"

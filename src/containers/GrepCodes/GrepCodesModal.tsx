@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import { getIdFromUrn } from '../../util/taxonomyHelpers';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
@@ -20,7 +20,8 @@ interface Props {
   locale: string;
 }
 
-const GrepCodesModal = ({ contentUri, onClose, locale, t }: Props & tType) => {
+const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
+  const { t } = useTranslation();
   const { loading, article, articleChanged, ...articleHooks } = useFetchArticleData(
     getIdFromUrn(contentUri),
     locale,
@@ -37,4 +38,4 @@ const GrepCodesModal = ({ contentUri, onClose, locale, t }: Props & tType) => {
   );
 };
 
-export default injectT(GrepCodesModal);
+export default GrepCodesModal;

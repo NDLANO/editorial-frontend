@@ -94,7 +94,7 @@ const StyledLightboxWrapper = styled.div`
 const StyledContentWrapper = styled.div<{ wide: boolean }>`
   background-color: ${colors.brand.greyLightest};
   box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
-  width: ${props => (props.wide ? '800px' : '600px')};
+  width: ${props => (props.wide ? '900px' : '600px')};
   border-radius: 5px;
   position: absolute;
   top: 5%;

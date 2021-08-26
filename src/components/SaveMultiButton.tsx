@@ -28,7 +28,7 @@ interface Props {
   isSaving: boolean;
   showSaved: boolean;
   formIsDirty: boolean;
-  large: boolean;
+  large?: boolean;
   disabled: boolean;
   onClick: (saveAsNew: boolean) => void;
   clippedButton?: boolean;

@@ -21,15 +21,16 @@ interface Props {
   onClose: () => void;
   loading?: boolean;
   title: string;
-  onSelect: () => void;
+  onSelect?: () => void;
+  wide?: boolean;
 }
 
-const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose }: Props) => {
+const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = false }: Props) => {
   const { t } = useTranslation();
   return (
     <StyledLightboxWrapper>
       <Overlay onExit={onClose} />
-      <StyledContentWrapper>
+      <StyledContentWrapper wide={wide}>
         <StyledHeader>
           {title}
           <Button css={closeButtonStyle} stripped onClick={onClose}>
@@ -85,10 +86,10 @@ const StyledLightboxWrapper = styled.div`
   justify-content: center;
 `;
 
-const StyledContentWrapper = styled.div`
+const StyledContentWrapper = styled.div<{ wide: boolean }>`
   background-color: ${colors.brand.greyLightest};
   box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
-  width: 620px;
+  width: ${props => (props.wide ? '900px' : '620px')};
   border-radius: 5px;
   position: absolute;
   top: 5%;

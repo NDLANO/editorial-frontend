@@ -39,8 +39,10 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
   const [resourceTypeName, setResourceTypeName] = useState('');
   const [userName, setUserName] = useState('');
   const [searchResults, setSearchResults] = useState<number | undefined>(undefined);
+  const [searchUrl, searchParams] = search.split('?');
 
-  const searchObject = transformQuery(queryString.parse(search));
+  const searchObject = transformQuery(queryString.parse(searchParams));
+  searchObject['type'] = searchUrl.replace('/search/', '');
   const subject = searchObject['subjects'] || '';
   const resourceType = searchObject['resource-types'] || '';
   const userId = searchObject['users'] || '';
@@ -87,9 +89,15 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
     const query = searchObject.query || undefined;
     const status = searchObject.status || searchObject['draft-status'] || undefined;
     const contextType = searchObject['context-types'] || undefined;
+    const language = searchObject['language'] || undefined;
+    const type = searchObject['type'] || undefined;
+    const audioType = searchObject['audio-type'] || undefined;
 
     const results = [];
+    results.push(type && t(`searchTypes.${type}`));
     results.push(query);
+    results.push(language && t(`language.${language}`));
+    results.push(audioType);
     results.push(status && t(`form.status.${status.toLowerCase()}`));
     results.push(subject && subjectName);
     results.push(resourceType && resourceTypeName);

@@ -44,7 +44,7 @@ const statusButtonStyle = css`
 
 const grepButtonStyle = css`
   margin-left: ${spacing.xsmall};
-`
+`;
 
 const StyledResourceIcon = styled.div`
   display: flex;

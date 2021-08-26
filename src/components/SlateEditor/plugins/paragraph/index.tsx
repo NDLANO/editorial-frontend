@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Editor, Node, Element, Descendant, Text } from 'slate';
+import { Editor, Node, Element, Descendant, Text, Path, Transforms } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
@@ -15,6 +15,7 @@ import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_BREAK } from '../break';
 import { getCurrentParagraph, TYPE_PARAGRAPH } from './utils';
 import containsVoid from '../../utils/containsVoid';
+import { TYPE_LIST_ITEM } from '../list';
 
 const KEY_ENTER = 'Enter';
 
@@ -23,6 +24,7 @@ export interface ParagraphElement {
   data?: {
     align?: string;
   };
+  serializeAsText?: boolean;
   children: Descendant[];
 }
 
@@ -97,20 +99,37 @@ export const paragraphSerializer: SlateSerializer = {
     if (Node.string(node) === '' && node.children.length === 1 && Text.isText(node.children[0]))
       return null;
 
+    if (node.serializeAsText) {
+      return <>{children}</>;
+    }
+
     const attributes = node.data?.align ? { 'data-align': node.data.align } : {};
     return <p {...attributes}>{children}</p>;
   },
 };
 
 export const paragraphPlugin = (editor: Editor) => {
-  const { onKeyDown: nextOnKeyDown, renderElement: nextRenderElement } = editor;
+  const { onKeyDown, renderElement, normalizeNode } = editor;
 
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_ENTER) {
-      onEnter(e, editor, nextOnKeyDown);
-    } else if (nextOnKeyDown) {
-      nextOnKeyDown(e);
+      onEnter(e, editor, onKeyDown);
+    } else if (onKeyDown) {
+      onKeyDown(e);
     }
+  };
+
+  editor.normalizeNode = entry => {
+    const [node, path] = entry;
+
+    if (Element.isElement(node) && node.type === TYPE_PARAGRAPH && node.serializeAsText) {
+      const [parentNode] = Editor.node(editor, Path.parent(path));
+
+      if (Element.isElement(parentNode) && parentNode.type !== TYPE_LIST_ITEM) {
+        return Transforms.unsetNodes(editor, 'serializeAsText', { at: path });
+      }
+    }
+    normalizeNode(entry);
   };
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
@@ -120,8 +139,8 @@ export const paragraphPlugin = (editor: Editor) => {
           {children}
         </p>
       );
-    } else if (nextRenderElement) {
-      return nextRenderElement({ attributes, children, element });
+    } else if (renderElement) {
+      return renderElement({ attributes, children, element });
     }
     return undefined;
   };

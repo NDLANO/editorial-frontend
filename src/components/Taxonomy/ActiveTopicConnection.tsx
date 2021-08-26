@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Cross } from '@ndla/icons/action';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import {
   StyledConnections,
@@ -42,10 +42,10 @@ const ActiveTopicConnection = ({
   removeConnection,
   setPrimaryConnection,
   setRelevance,
-  t,
   type,
   topic,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const breadcrumb = retriveBreadCrumbs(topic.path);
   if (!breadcrumb) {
     return (
@@ -96,4 +96,4 @@ const ActiveTopicConnection = ({
   );
 };
 
-export default injectT(ActiveTopicConnection);
+export default ActiveTopicConnection;

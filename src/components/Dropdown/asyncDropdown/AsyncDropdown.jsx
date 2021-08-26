@@ -12,7 +12,7 @@ import debounce from 'lodash/debounce';
 import { DropdownMenu, Input } from '@ndla/forms';
 import { Search } from '@ndla/icons/common';
 import { Spinner } from '@ndla/editor';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { itemToString } from '../../../util/downShiftHelpers';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 
@@ -258,4 +258,4 @@ AsyncDropDown.defaultPropTypes = {
   showPagination: false,
 };
 
-export default injectT(AsyncDropDown);
+export default withTranslation()(AsyncDropDown);

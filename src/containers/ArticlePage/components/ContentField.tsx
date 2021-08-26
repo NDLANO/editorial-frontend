@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
@@ -30,7 +30,8 @@ interface Props {
   };
 }
 
-const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
+const ContentField = ({ locale, values, field, form }: Props) => {
+  const { t } = useTranslation();
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
     values.relatedContent,
   );
@@ -119,4 +120,4 @@ const StyledButtonWrapper = styled.div`
   margin: ${spacing.small} 0;
 `;
 
-export default injectT(ContentField);
+export default ContentField;

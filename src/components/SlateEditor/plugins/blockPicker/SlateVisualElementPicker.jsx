@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultBlocks } from '../../utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
@@ -10,7 +9,6 @@ const SlateVisualElementPicker = ({
   resource,
   onVisualElementClose,
   onInsertBlock,
-  t,
 }) => {
   const onVisualElementAdd = (visualElement, type = 'embed') => {
     if (type === 'embed') {
@@ -47,4 +45,4 @@ SlateVisualElementPicker.propTypes = {
   onInsertBlock: PropTypes.func.isRequired,
 };
 
-export default injectT(SlateVisualElementPicker);
+export default SlateVisualElementPicker;

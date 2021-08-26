@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
@@ -22,7 +22,8 @@ interface Props {
   updateFields: (newFields: Record<string, string>) => void;
 }
 
-const ToggleExplanationSubject = ({ customFields, updateFields, t }: Props & tType) => {
+const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
+  const { t } = useTranslation();
   const isToggled =
     customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]?.toLowerCase() === 'true';
 
@@ -58,4 +59,4 @@ const ToggleExplanationSubject = ({ customFields, updateFields, t }: Props & tTy
   );
 };
 
-export default injectT(ToggleExplanationSubject);
+export default ToggleExplanationSubject;

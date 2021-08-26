@@ -9,8 +9,7 @@
 import { css } from '@emotion/core';
 import React, { useEffect, useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
-import { spacing, shadows } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
+import { shadows, spacingUnit } from '@ndla/core';
 import FigureInput from './FigureInput';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
@@ -51,7 +50,7 @@ interface StateProps {
   madeChanges: boolean;
 }
 
-const EditImage = ({ t, embed, saveEmbedUpdates, setEditModus }: Props & tType) => {
+const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
   const [state, setState] = useState<StateProps>({
@@ -82,9 +81,9 @@ const EditImage = ({ t, embed, saveEmbedUpdates, setEditModus }: Props & tType) 
     embedElement.style.position = 'absolute';
     embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;
     embedElement.style.left = `${placeholderRect.left +
-      spacing.spacingUnit -
+      spacingUnit -
       placeholderRect.width * (0.333 / 2)}px`;
-    embedElement.style.width = `${placeholderRect.width * 1.333 - spacing.spacingUnit * 2}px`;
+    embedElement.style.width = `${placeholderRect.width * 1.333 - spacingUnit * 2}px`;
   }, [embedElement, placeholderElement]);
 
   const onUpdatedImageSettings = (transformedData: NonNullable<StateProps['imageUpdates']>) => {
@@ -177,4 +176,4 @@ const EditImage = ({ t, embed, saveEmbedUpdates, setEditModus }: Props & tType) 
   );
 };
 
-export default injectT(EditImage);
+export default EditImage;

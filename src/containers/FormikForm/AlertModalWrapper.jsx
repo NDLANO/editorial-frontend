@@ -8,7 +8,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import AlertModal from '../../components/AlertModal';
 
 class AlertModalWrapper extends PureComponent {
@@ -97,4 +97,4 @@ AlertModalWrapper.propTypes = {
   onContinue: PropTypes.func,
 };
 
-export default withRouter(injectT(AlertModalWrapper));
+export default withRouter(withTranslation()(AlertModalWrapper));

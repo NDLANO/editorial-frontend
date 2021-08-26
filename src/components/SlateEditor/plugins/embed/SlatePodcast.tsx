@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 
@@ -17,7 +17,7 @@ import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
 import { SlateAudio as Audio, Embed, LocaleType } from '../../../../interfaces';
 
-interface BaseProps {
+interface Props {
   attributes?: {
     'data-key': String;
     'data-slate-object': String;
@@ -28,9 +28,8 @@ interface BaseProps {
   onRemoveClick: Function;
 }
 
-type Props = BaseProps & tType;
-
-const SlatePodcast = ({ t, attributes, embed, language, locale, onRemoveClick }: Props) => {
+const SlatePodcast = ({ attributes, embed, language, locale, onRemoveClick }: Props) => {
+  const { t } = useTranslation();
   const [audio, setAudio] = useState<Audio>({} as Audio);
 
   useEffect(() => {
@@ -66,4 +65,4 @@ const SlatePodcast = ({ t, attributes, embed, language, locale, onRemoveClick }:
   );
 };
 
-export default injectT(SlatePodcast);
+export default SlatePodcast;

@@ -109,6 +109,8 @@ export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
 };
 
+export const getDefaultLanguage = () => getEnvironmentVariabel('NDLA_DEFAULT_LANGUAGE', 'nb');
+
 const usernamePasswordEnabled = () => {
   switch (ndlaEnvironment) {
     case 'test':

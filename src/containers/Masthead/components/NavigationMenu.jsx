@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Launch } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { colors, spacing, animations } from '@ndla/core';
@@ -22,7 +22,8 @@ import {
   toEditNdlaFilm,
 } from '../../../util/routeHelpers';
 
-const OpenMenu = ({ t, close }) => {
+const OpenMenu = ({ close }) => {
+  const { t } = useTranslation();
   const StyledLink = StyledListButton.withComponent(Link);
   const StyledHrefLink = StyledListButton.withComponent('a');
   const { contentTypes } = constants;
@@ -132,4 +133,4 @@ OpenMenu.propTypes = {
   close: PropTypes.func,
 };
 
-export default injectT(OpenMenu);
+export default OpenMenu;

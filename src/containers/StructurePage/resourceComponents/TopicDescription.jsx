@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 
 import { updateRelevanceId } from '../../../util/taxonomyHelpers';
 import Accordion from '../../../components/Accordion';
@@ -107,4 +107,4 @@ TopicDescription.propTypes = {
   resourceRef: PropTypes.object,
 };
 
-export default injectT(TopicDescription);
+export default withTranslation()(TopicDescription);

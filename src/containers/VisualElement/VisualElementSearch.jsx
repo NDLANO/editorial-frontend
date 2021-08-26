@@ -9,7 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import { actions as tagActions, getAllTagsByLanguage } from '../../modules/tag/tag';
@@ -286,4 +286,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectT(VisualElementSearch));
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(VisualElementSearch));

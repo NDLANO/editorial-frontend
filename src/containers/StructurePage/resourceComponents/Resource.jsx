@@ -86,7 +86,9 @@ const Resource = ({
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
   return (
-    <StyledText data-testid={`resource-type-${contentType}`} {...classes('text o-flag o-flag--top')}>
+    <StyledText
+      data-testid={`resource-type-${contentType}`}
+      {...classes('text o-flag o-flag--top')}>
       {contentType && (
         <StyledResourceIcon key="img" {...classes('icon o-flag__img')} {...dragHandleProps}>
           <ContentTypeBadge background type={iconType} />

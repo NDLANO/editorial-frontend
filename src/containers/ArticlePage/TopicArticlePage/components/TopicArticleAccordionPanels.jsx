@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
 import TopicArticleContent from './TopicArticleContent';
@@ -13,7 +13,6 @@ import { ArticleShape, LicensesArrayOf } from '../../../../shapes';
 import { LocaleContext } from '../../../App/App';
 
 const TopicArticleAccordionPanels = ({
-  t,
   userAccess,
   fetchSearchTags,
   handleSubmit,
@@ -26,6 +25,7 @@ const TopicArticleAccordionPanels = ({
   getInitialValues,
   getArticle,
 }) => {
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const formikContext = useFormikContext();
   const { values, handleBlur, errors, setValues } = formikContext;
@@ -126,4 +126,4 @@ TopicArticleAccordionPanels.propTypes = {
   getInitialValues: PropTypes.func,
 };
 
-export default injectT(TopicArticleAccordionPanels);
+export default TopicArticleAccordionPanels;

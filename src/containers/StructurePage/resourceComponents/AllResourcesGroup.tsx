@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
 import AddTopicResourceButton from './AddTopicResourceButton';
@@ -55,8 +55,8 @@ const AllResourcesGroup = ({
   locale,
   currentSubject,
   structure,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState<boolean>(true);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
 
@@ -108,4 +108,4 @@ const AllResourcesGroup = ({
   );
 };
 
-export default injectT(AllResourcesGroup);
+export default AllResourcesGroup;

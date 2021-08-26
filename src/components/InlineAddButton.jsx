@@ -12,9 +12,9 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import { injectT } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';
 import { Plus } from '@ndla/icons/action';
+import { withTranslation } from 'react-i18next';
 import handleError from '../util/handleError';
 import Spinner from './Spinner';
 
@@ -172,4 +172,4 @@ InlineAddButton.propTypes = {
   action: PropTypes.func,
 };
 
-export default injectT(InlineAddButton);
+export default withTranslation()(InlineAddButton);

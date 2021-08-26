@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { uuid } from '@ndla/util';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FootnoteShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
@@ -18,7 +18,8 @@ const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const Footnote = ({ footnote, id, t }) => {
+const Footnote = ({ footnote, id }) => {
+  const { t } = useTranslation();
   const authors = footnote.authors.join(' ');
   const editonLabel = t('learningResourceForm.fields.footnotes.edition');
   const publisherLabel = t('learningResourceForm.fields.footnotes.publisher');
@@ -54,4 +55,4 @@ LearningResourceFootnotes.propTypes = {
   footnotes: PropTypes.arrayOf(FootnoteShape),
 };
 
-export default injectT(LearningResourceFootnotes);
+export default LearningResourceFootnotes;

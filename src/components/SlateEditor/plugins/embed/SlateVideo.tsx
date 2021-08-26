@@ -11,7 +11,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Button from '@ndla/button';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 import FigureButtons from './FigureButtons';
@@ -49,14 +49,14 @@ interface Props {
 }
 
 const SlateVideo = ({
-  t,
   attributes,
   embed,
   figureClass,
   language,
   onRemoveClick,
   saveEmbedUpdates,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [editMode, setEditMode] = useState(false);
   const [tEmbed, setEmbed] = useState(embed);
   const isOriginalEmbed = tEmbed.videoid === embed.videoid;
@@ -164,4 +164,4 @@ const SlateVideo = ({
   );
 };
 
-export default injectT(SlateVideo);
+export default SlateVideo;

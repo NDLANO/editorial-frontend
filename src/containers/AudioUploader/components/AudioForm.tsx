@@ -7,7 +7,7 @@
 
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikHelpers } from 'formik';
 import PropTypes from 'prop-types';
@@ -140,10 +140,10 @@ interface State {
   savedToServer: boolean;
 }
 
-type Props = BaseProps & tType;
+type Props = BaseProps & WithTranslation;
 
 class AudioForm extends Component<Props, State> {
-  constructor(props: Props & tType) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       savedToServer: false,
@@ -310,4 +310,4 @@ class AudioForm extends Component<Props, State> {
   };
 }
 
-export default reduxConnector(injectT(AudioForm));
+export default reduxConnector(withTranslation()(AudioForm));

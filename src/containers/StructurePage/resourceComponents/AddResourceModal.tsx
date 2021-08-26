@@ -6,10 +6,9 @@
  *
  */
 import React, { useState } from 'react';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
-import { tType } from '@ndla/i18n';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
@@ -91,8 +90,8 @@ const AddResourceModal = ({
   topicId,
   refreshResources,
   existingResourceIds,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [selected, setSelected] = useState<SelectedType | null>(null);
   const [content, setContent] = useState<ContentType | null>(null);
@@ -338,4 +337,4 @@ AddResourceModal.defaultProps = {
   allowPaste: false,
 };
 
-export default injectT(AddResourceModal);
+export default AddResourceModal;

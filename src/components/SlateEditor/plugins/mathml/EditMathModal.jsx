@@ -9,7 +9,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
@@ -46,8 +46,8 @@ const EditMathModal = ({
   openDiscardModal,
   renderMathML,
   previewMath,
-  t,
 }) => {
+  const { t } = useTranslation();
   useEffect(() => {
     if (window.MathJax) window.MathJax.typesetPromise();
   }, [renderMathML]);
@@ -123,4 +123,4 @@ EditMathModal.propTypes = {
   renderMathML: PropTypes.string,
 };
 
-export default injectT(EditMathModal);
+export default EditMathModal;

@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -32,7 +32,8 @@ const getSubject = (elementId: string) => {
   return undefined;
 };
 
-const SubjectpageArticles = ({ t, editorsChoices, elementId, field, form }: Props & tType) => {
+const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) => {
+  const { t } = useTranslation();
   const [articles, setArticles] = useState<ArticleType[]>(editorsChoices);
   const subjectId = getSubject(elementId);
 
@@ -98,4 +99,4 @@ const SubjectpageArticles = ({ t, editorsChoices, elementId, field, form }: Prop
   );
 };
 
-export default injectT(SubjectpageArticles);
+export default SubjectpageArticles;

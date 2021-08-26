@@ -8,7 +8,7 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
+import { spacing, colors, spacingUnit } from '@ndla/core';
 import { Link } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
@@ -104,7 +104,7 @@ const ElementListLink = ({
 const StyledLinkContainer = styled.div`
   background: ${colors.background.darker};
   width: ${ELEMENT_HEIGHT * 1.33}px;
-  height: ${ELEMENT_HEIGHT - spacing.spacingUnit / 2}px;
+  height: ${ELEMENT_HEIGHT - spacingUnit / 2}px;
   object-fit: cover;
   margin-right: ${spacing.small};
   display: flex;

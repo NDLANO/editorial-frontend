@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { useSlateContext } from '../../SlateContext';
 import { isEmpty } from '../../../validators';
 
@@ -31,15 +31,8 @@ interface Props {
   onSave: Function;
 }
 
-const FigureInput = ({
-  t,
-  caption,
-  alt,
-  madeChanges,
-  onChange,
-  onAbort,
-  onSave,
-}: Props & tType) => {
+const FigureInput = ({ caption, alt, madeChanges, onChange, onAbort, onSave }: Props) => {
+  const { t } = useTranslation();
   const { submitted } = useSlateContext();
 
   return (
@@ -81,4 +74,4 @@ const FigureInput = ({
   );
 };
 
-export default injectT(FigureInput);
+export default FigureInput;

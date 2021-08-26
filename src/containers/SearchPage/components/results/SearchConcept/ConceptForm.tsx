@@ -11,7 +11,7 @@ import isEqual from 'lodash/fp/isEqual';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Select } from '@ndla/forms';
 import Button, { MultiButton } from '@ndla/button';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
@@ -71,8 +71,8 @@ const ConceptForm = ({
   licenses,
   allSubjects,
   cancel,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const formik = useFormik<InlineFormConcept>({
     initialValues,
     validate,
@@ -206,4 +206,4 @@ const ConceptForm = ({
   );
 };
 
-export default injectT(ConceptForm);
+export default ConceptForm;

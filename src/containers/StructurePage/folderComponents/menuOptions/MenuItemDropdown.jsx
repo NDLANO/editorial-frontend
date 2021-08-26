@@ -8,7 +8,7 @@
 
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
@@ -157,4 +157,4 @@ MenuItemDropdown.propTypes = {
   showPagination: PropTypes.bool,
 };
 
-export default injectT(MenuItemDropdown);
+export default withTranslation()(MenuItemDropdown);

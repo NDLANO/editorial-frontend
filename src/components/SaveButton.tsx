@@ -8,11 +8,11 @@
 
 import React from 'react';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css, SerializedStyles } from '@emotion/core';
 import { colors, spacing, fonts } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
 
 interface AppearanceMap {
   [index: string]: SerializedStyles;
@@ -72,7 +72,6 @@ interface Props {
 const SaveButton = ({
   isSaving,
   showSaved,
-  t,
   defaultText,
   formIsDirty,
   large,
@@ -81,12 +80,13 @@ const SaveButton = ({
   clippedButton,
   submit,
   ...rest
-}: Props & tType) => {
+}: Props) => {
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';
     return defaultText || 'save';
   };
+  const { t } = useTranslation();
   const modifier = getModifier();
   const disabledButton = isSaving || !formIsDirty || disabled;
 
@@ -112,4 +112,4 @@ SaveButton.defaultProps = {
   formIsDirty: true,
 };
 
-export default injectT(SaveButton);
+export default SaveButton;

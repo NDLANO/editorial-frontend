@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
 import {
@@ -125,6 +125,7 @@ const getArticleFromSlate = ({ values, licenses, initialValues, preview = false 
 };
 
 const LearningResourceForm = props => {
+  const { t } = useTranslation();
   const {
     savedToServer,
     formikRef,
@@ -134,7 +135,7 @@ const LearningResourceForm = props => {
     fetchStatusStateMachine,
     validateDraft,
     fetchSearchTags,
-  } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
+  } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, t, ...props });
   const { articleChanged, userAccess, createMessage, history } = props;
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
@@ -211,7 +212,6 @@ const LearningResourceForm = props => {
   };
 
   const {
-    t,
     article,
     updateArticle,
     translating,
@@ -262,4 +262,4 @@ LearningResourceForm.propTypes = {
   }).isRequired,
 };
 
-export default injectT(LearningResourceForm);
+export default LearningResourceForm;

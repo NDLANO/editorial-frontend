@@ -6,41 +6,58 @@
  *
  */
 import * as queryString from 'query-string';
+import { LocaleType, NdlaFilmApiType, SubjectpageApiType } from '../../interfaces';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
+import {
+  NewOrUpdatedFilmFrontPageData,
+  NewSubjectFrontPageData,
+  UpdatedSubjectFrontPageData,
+} from './frontpageApiInterfaces';
 
 const baseUrl = apiResourceUrl('/frontpage-api/v1');
 
 export const fetchFilmFrontpage = () =>
   fetchAuthorized(`${baseUrl}/filmfrontpage/`).then(resolveJsonOrRejectWithError);
 
-export const updateFilmFrontpage = filmfrontpage => {
+export const updateFilmFrontpage = (
+  filmfrontpage: NewOrUpdatedFilmFrontPageData,
+): Promise<NdlaFilmApiType> => {
   return fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
     method: 'POST',
     body: JSON.stringify(filmfrontpage),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError(r));
 };
 
-export const fetchSubjectpage = (id, language) => {
+export const fetchSubjectpage = (
+  id: number | string,
+  language: LocaleType,
+): Promise<SubjectpageApiType> => {
   const query = queryString.stringify({ language });
   const url = `${baseUrl}/subjectpage/${id}`;
   const urlLang = language ? url + `?${query}&fallback=true` : url;
-  return fetchAuthorized(urlLang).then(resolveJsonOrRejectWithError);
+  return fetchAuthorized(urlLang).then(r => resolveJsonOrRejectWithError(r));
 };
 
-export const updateSubjectpage = (subjectpage, subjectpageId, language) => {
+export const updateSubjectpage = (
+  subjectpage: UpdatedSubjectFrontPageData,
+  subjectpageId: number | string,
+  language: LocaleType,
+): Promise<SubjectpageApiType> => {
   const query = queryString.stringify({ language });
   return fetchAuthorized(`${baseUrl}/subjectpage/${subjectpageId}?${query}`, {
     method: 'PATCH',
     body: JSON.stringify(subjectpage),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError(r));
 };
 
-export const createSubjectpage = subjectpage =>
+export const createSubjectpage = (
+  subjectpage: NewSubjectFrontPageData,
+): Promise<SubjectpageApiType> =>
   fetchAuthorized(`${baseUrl}/subjectpage/`, {
     method: 'POST',
     body: JSON.stringify(subjectpage),
-  }).then(resolveJsonOrRejectWithError);
+  }).then(r => resolveJsonOrRejectWithError(r));

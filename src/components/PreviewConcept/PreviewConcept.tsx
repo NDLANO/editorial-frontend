@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing, fonts, misc } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import {
   NotionDialogContent,
   NotionHeaderWithoutExitButton,
@@ -61,7 +61,8 @@ interface Props {
   concept: ConceptPreviewType;
 }
 
-const PreviewConcept = ({ concept, t }: Props & tType) => {
+const PreviewConcept = ({ concept }: Props) => {
+  const { t } = useTranslation();
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
@@ -137,4 +138,4 @@ const PreviewConcept = ({ concept, t }: Props & tType) => {
   );
 };
 
-export default injectT(PreviewConcept);
+export default PreviewConcept;

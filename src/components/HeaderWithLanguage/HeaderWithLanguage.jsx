@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
 
@@ -34,12 +34,12 @@ const HeaderWithLanguage = ({
   isSubmitting,
   noStatus,
   setTranslateOnContinue,
-  t,
   translateToNN,
   type,
   values,
   ...rest
 }) => {
+  const { t } = useTranslation();
   const { supportedLanguages, articleType } = values;
   const { id, title, status, language } = content;
 
@@ -115,4 +115,4 @@ HeaderWithLanguage.propTypes = {
   }),
 };
 
-export default injectT(HeaderWithLanguage);
+export default HeaderWithLanguage;

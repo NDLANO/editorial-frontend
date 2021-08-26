@@ -9,7 +9,7 @@
 import React from 'react';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
@@ -24,31 +24,34 @@ interface Props {
   onSelect: () => void;
 }
 
-const TaxonomyLightbox = ({ children, title, onSelect, t, loading, onClose }: Props & tType) => (
-  <StyledLightboxWrapper>
-    <Overlay onExit={onClose} />
-    <StyledContentWrapper>
-      <StyledHeader>
-        {title}
-        <Button css={closeButtonStyle} stripped onClick={onClose}>
-          <Cross css={crossStyle} />
-        </Button>
-      </StyledHeader>
-      <StyledContent>
-        {children}
-        {onSelect && (
-          <Button
-            data-testid="taxonomyLightboxButton"
-            stripped
-            css={selectButtonStyle}
-            onClick={onSelect}>
-            {loading ? <Spinner appearance="small" /> : t('form.save')}
+const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <StyledLightboxWrapper>
+      <Overlay onExit={onClose} />
+      <StyledContentWrapper>
+        <StyledHeader>
+          {title}
+          <Button css={closeButtonStyle} stripped onClick={onClose}>
+            <Cross css={crossStyle} />
           </Button>
-        )}
-      </StyledContent>
-    </StyledContentWrapper>
-  </StyledLightboxWrapper>
-);
+        </StyledHeader>
+        <StyledContent>
+          {children}
+          {onSelect && (
+            <Button
+              data-testid="taxonomyLightboxButton"
+              stripped
+              css={selectButtonStyle}
+              onClick={onSelect}>
+              {loading ? <Spinner appearance="small" /> : t('form.save')}
+            </Button>
+          )}
+        </StyledContent>
+      </StyledContentWrapper>
+    </StyledLightboxWrapper>
+  );
+};
 
 const closeButtonStyle = css`
   height: 50px;
@@ -114,4 +117,4 @@ const StyledContent = styled.div`
   align-items: flex-end;
 `;
 
-export default injectT(TaxonomyLightbox);
+export default TaxonomyLightbox;

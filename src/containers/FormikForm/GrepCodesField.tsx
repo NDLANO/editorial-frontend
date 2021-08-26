@@ -7,7 +7,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldProps, FormikValues } from 'formik';
 import FormikField from '../../components/FormikField';
 import GrepCodesFieldContent from './GrepCodesFieldContent';
@@ -17,7 +17,8 @@ interface Props {
   article: ArticleType;
 }
 
-const GrepCodesField = ({ t, article }: Props & tType) => {
+const GrepCodesField = ({ article }: Props) => {
+  const { t } = useTranslation();
   return (
     <Fragment>
       <FormikField name="grepCodes" label={t('form.grepCodes.label')}>
@@ -29,4 +30,4 @@ const GrepCodesField = ({ t, article }: Props & tType) => {
   );
 };
 
-export default injectT(GrepCodesField);
+export default GrepCodesField;

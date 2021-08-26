@@ -7,7 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Check } from '@ndla/icons/editor';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { Link, useHistory } from 'react-router-dom';
 import HeaderLanguagePill from './HeaderLanguagePill';
@@ -23,8 +23,8 @@ const HeaderSupportedLanguages = ({
   isSubmitting,
   language,
   replace,
-  t,
 }) => {
+  const { t } = useTranslation();
   return supportedLanguages.map(supportedLanguage =>
     language === supportedLanguage ? (
       <HeaderLanguagePill current key={`types_${supportedLanguage}`}>
@@ -64,4 +64,4 @@ LinkWithReplace.propTypes = {
   to: PropTypes.string,
 };
 
-export default injectT(HeaderSupportedLanguages);
+export default HeaderSupportedLanguages;

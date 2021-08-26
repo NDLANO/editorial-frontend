@@ -10,7 +10,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { Input } from '@ndla/forms';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 const StyledInputTimeWrapper = styled.div`
   display: flex;
@@ -40,8 +40,9 @@ interface Event {
   };
 }
 
-const EditVideoTime = (props: Props & tType) => {
-  const { name, t, startTime, stopTime, setStartTime, setStopTime } = props;
+const EditVideoTime = (props: Props) => {
+  const { t } = useTranslation();
+  const { name, startTime, stopTime, setStartTime, setStopTime } = props;
   return (
     <StyledInputTimeWrapper>
       <div>
@@ -80,4 +81,4 @@ const EditVideoTime = (props: Props & tType) => {
   );
 };
 
-export default injectT(EditVideoTime);
+export default EditVideoTime;

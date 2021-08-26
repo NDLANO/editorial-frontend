@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -27,7 +27,8 @@ interface Props {
   };
 }
 
-const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
+const ConceptsField = ({ locale, values, field, form }: Props) => {
+  const { t } = useTranslation();
   const [concepts, setConcepts] = useState<ApiConceptType[]>(values.conceptIds);
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {
@@ -93,4 +94,4 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
   );
 };
 
-export default injectT(ConceptsField);
+export default ConceptsField;

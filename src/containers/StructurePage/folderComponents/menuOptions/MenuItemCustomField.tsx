@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { Plus } from '@ndla/icons/action';
@@ -46,8 +46,8 @@ const MenuItemCustomField = ({
   saveSubjectItems,
   type,
   updateLocalTopics,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [isOpen, setOpen] = useState<boolean>(false);
   const [customFields, setCustomFields] = useState<TaxonomyMetadata['customFields']>(
     metadata.customFields,
@@ -134,4 +134,4 @@ const MenuItemCustomField = ({
   );
 };
 
-export default injectT(MenuItemCustomField);
+export default MenuItemCustomField;

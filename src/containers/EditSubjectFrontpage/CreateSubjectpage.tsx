@@ -6,32 +6,31 @@
  */
 import { withRouter } from 'react-router';
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
-import { SubjectpageEditType } from '../../interfaces';
+import { LocaleType, SubjectpageEditType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import { toEditSubjectpage } from '../../util/routeHelpers';
 
 interface Props extends RouteComponentProps {
-  selectedLanguage: string;
+  selectedLanguage: LocaleType;
   elementId: string;
   elementName: string;
 }
 
-const CreateSubjectpage = ({
-  t,
-  selectedLanguage,
-  history,
-  elementId,
-  elementName,
-}: Props & tType) => {
+const CreateSubjectpage = ({ selectedLanguage, history, elementId, elementName }: Props) => {
+  const { t } = useTranslation();
   const { createSubjectpage } = useFetchSubjectpageData(elementId, selectedLanguage, undefined);
 
   const createSubjectpageAndPushRoute = async (createdSubjectpage: SubjectpageEditType) => {
     const savedSubjectpage = await createSubjectpage(createdSubjectpage);
-    history.push(toEditSubjectpage(elementId, selectedLanguage, savedSubjectpage.id));
+    const savedId = savedSubjectpage?.id;
+    if (savedId) {
+      history.push(toEditSubjectpage(elementId, selectedLanguage, savedId));
+    }
+    return savedSubjectpage;
   };
 
   return (
@@ -48,4 +47,4 @@ const CreateSubjectpage = ({
   );
 };
 
-export default withRouter(injectT(CreateSubjectpage));
+export default withRouter(CreateSubjectpage);

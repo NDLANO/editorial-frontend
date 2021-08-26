@@ -12,7 +12,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { EditorShape } from '../../../../shapes';
 
 const tableActionButtonStyle = css`
@@ -37,7 +37,8 @@ const supportedTableOperations = [
   'table-remove',
 ];
 
-const TableActions = ({ value, editor, t }) => {
+const TableActions = ({ value, editor }) => {
+  const { t } = useTranslation();
   const handleOnClick = (e, operation) => {
     e.preventDefault();
     const position = editor.getTablePosition();
@@ -89,4 +90,4 @@ TableActions.propTypes = {
   editor: EditorShape.isRequired,
 };
 
-export default injectT(TableActions);
+export default TableActions;

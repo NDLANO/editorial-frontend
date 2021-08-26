@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { RadioButtonGroup } from '@ndla/ui';
-import { tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import {
   fetchConcept,
@@ -34,14 +34,8 @@ interface Props {
   licenses: License[] | undefined;
 }
 
-const FormView = ({
-  concept,
-  cancel,
-  subjects,
-  updateLocalConcept,
-  licenses,
-  t,
-}: Props & tType) => {
+const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: Props) => {
+  const { t } = useTranslation();
   const languageOptions = concept.supportedLanguages.map(lan => ({
     title: t(`language.${lan}`),
     value: lan,

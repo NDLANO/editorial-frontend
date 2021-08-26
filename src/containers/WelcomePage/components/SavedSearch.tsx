@@ -19,7 +19,6 @@ import IconButton from '../../../components/IconButton';
 import { fetchSubject, fetchResourceType } from '../../../modules/taxonomy';
 import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
 import { getSearchFunctionFromType, transformQuery } from '../../../util/searchHelpers';
-import { SearchType } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 
 interface Props {
@@ -43,6 +42,13 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
 
   const searchObject = transformQuery(queryString.parse(searchParams));
   searchObject['type'] = searchUrl.replace('/search/', '');
+  const localizedSearch =
+    searchObject['type'] === 'content'
+      ? search.replace(`language=${searchObject['language']}`, `language=${locale}`)
+      : search;
+  if (searchObject['type'] === 'content' && searchObject['language']) {
+    searchObject['language'] = locale;
+  }
   const subject = searchObject['subjects'] || '';
   const resourceType = searchObject['resource-types'] || '';
   const userId = searchObject['users'] || '';
@@ -73,19 +79,17 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
 
   useEffect(() => {
     (async () => {
-      const type = search.split('/')[2].split('?')[0];
-      const q = queryString.parse(search);
       try {
-        const searchFunction = getSearchFunctionFromType(type as SearchType);
-        const res = await searchFunction(q);
+        const searchFunction = getSearchFunctionFromType(searchObject['type']);
+        const res = await searchFunction(searchObject);
         setSearchResults(res.totalCount);
       } catch (e) {
         handleError(e);
       }
     })();
-  }, [search]);
+  }, [searchObject]);
 
-  const linkText = (search: string) => {
+  const linkText = (searchObject: Record<string, string>) => {
     const query = searchObject.query || undefined;
     const status = searchObject.status || searchObject['draft-status'] || undefined;
     const contextType = searchObject['context-types'] || undefined;
@@ -119,8 +123,8 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      <Link {...classes('link')} to={search}>
-        {linkText(search)}
+      <Link {...classes('link')} to={localizedSearch}>
+        {linkText(searchObject)}
       </Link>
     </div>
   );

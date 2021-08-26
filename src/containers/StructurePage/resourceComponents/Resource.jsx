@@ -126,7 +126,7 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
-      <Button stripped css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
+      <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
         <StyledGrepText>GREP</StyledGrepText>
       </Button>
       <RelevanceOption

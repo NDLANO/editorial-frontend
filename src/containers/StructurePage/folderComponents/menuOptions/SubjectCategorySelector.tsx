@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { constants } from '@ndla/ui';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from '../../../../constants';
 import TaxonomyMetadataDropdown from './TaxonomyMetadataDropdown';
@@ -17,7 +17,8 @@ interface Props {
   updateCustomFields: (newFields: Record<string, string>) => void;
 }
 
-const SubjectCategorySelector = ({ customFields, updateCustomFields, t }: Props & tType) => {
+const SubjectCategorySelector = ({ customFields, updateCustomFields }: Props) => {
+  const { t } = useTranslation();
   const { subjectCategories } = constants;
   const options = [
     {
@@ -56,4 +57,4 @@ const SubjectCategorySelector = ({ customFields, updateCustomFields, t }: Props 
   );
 };
 
-export default injectT(SubjectCategorySelector);
+export default SubjectCategorySelector;

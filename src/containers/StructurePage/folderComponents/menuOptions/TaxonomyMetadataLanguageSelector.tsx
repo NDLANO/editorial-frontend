@@ -6,8 +6,8 @@
  *
  */
 
-import { injectT, tType } from '@ndla/i18n';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { LOCALE_VALUES, TAXONOMY_CUSTOM_FIELD_LANGUAGE } from '../../../../constants';
 import TaxonomyMetadataDropdown from './TaxonomyMetadataDropdown';
 
@@ -16,11 +16,8 @@ interface Props {
   updateCustomFields: (newFields: Record<string, string>) => void;
 }
 
-const TaxonomyMetadataLanguageSelector = ({
-  customFields,
-  updateCustomFields,
-  t,
-}: Props & tType) => {
+const TaxonomyMetadataLanguageSelector = ({ customFields, updateCustomFields }: Props) => {
+  const { t } = useTranslation();
   const options = [
     {
       key: LOCALE_VALUES[0],
@@ -51,4 +48,4 @@ const TaxonomyMetadataLanguageSelector = ({
   );
 };
 
-export default injectT(TaxonomyMetadataLanguageSelector);
+export default TaxonomyMetadataLanguageSelector;

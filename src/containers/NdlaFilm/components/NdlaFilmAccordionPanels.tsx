@@ -6,7 +6,7 @@
  */
 import React from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
 import { Editor } from 'slate';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
@@ -40,14 +40,14 @@ interface FormikThemeProps {
 }
 
 const SubjectpageAccordionPanels = ({
-  t,
   errors,
   allMovies,
   loading,
   selectedLanguage,
   handleSubmit,
   onBlur,
-}: ComponentProps & tType) => {
+}: ComponentProps) => {
+  const { t } = useTranslation();
   const onUpdateMovieList = (
     field: FieldProps<FormikValues>['field'],
     form: FormikHelpers<FormikValues>,
@@ -112,4 +112,4 @@ const SubjectpageAccordionPanels = ({
   );
 };
 
-export default injectT(SubjectpageAccordionPanels);
+export default SubjectpageAccordionPanels;

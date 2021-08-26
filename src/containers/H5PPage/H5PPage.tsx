@@ -1,13 +1,14 @@
 import React from 'react';
 import { Global } from '@emotion/react';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { LocaleContext } from '../App/App';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { HistoryShape } from '../../shapes';
 
-const H5PPage = ({ t, history }: RouteComponentProps & tType) => {
+const H5PPage = ({ history }: RouteComponentProps) => {
+  const { t } = useTranslation();
   return (
     <LocaleContext.Consumer>
       {locale => (
@@ -40,4 +41,4 @@ H5PPage.propTypes = {
   history: HistoryShape,
 };
 
-export default injectT(H5PPage);
+export default H5PPage;

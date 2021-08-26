@@ -8,7 +8,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
 import AddTopicResourceButton from './AddTopicResourceButton';
@@ -119,4 +119,4 @@ ResourceGroup.propTypes = {
   }),
 };
 
-export default injectT(ResourceGroup);
+export default withTranslation()(ResourceGroup);

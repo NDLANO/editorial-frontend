@@ -6,12 +6,8 @@
  */
 import { FormikProps } from 'formik';
 import { useState } from 'react';
-import {
-  ContentResultType,
-  NdlaFilmApiType,
-  NdlaFilmThemesEditType,
-  TranslateType,
-} from '../../interfaces';
+import { TFunction } from 'react-i18next';
+import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../interfaces';
 import * as messageActions from '../Messages/messagesActions';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { updateFilmFrontpage } from '../../modules/frontpage/frontpageApi';
@@ -20,7 +16,7 @@ import { getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
 import { NdlaFilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
 
 export function useNdlaFilmFormHooks(
-  t: TranslateType,
+  t: TFunction,
   filmFrontpage: NdlaFilmApiType,
   updateEditorState: Function,
   slideshowMovies: ContentResultType[],

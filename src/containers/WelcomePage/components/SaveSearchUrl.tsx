@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from 'react';
 import BEMHelper from 'react-bem-helper';
 
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
@@ -30,7 +30,8 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SaveSearchUrl = ({ locale, t }: Props & tType) => {
+const SaveSearchUrl = ({ locale }: Props) => {
+  const { t } = useTranslation();
   const [isValidUrl, setIsValidUrl] = useState(true);
   const [inputFieldValue, setInputFieldValue] = useState('');
   const [savedSearches, setSavedSearches] = useState<string[]>([]);
@@ -135,4 +136,4 @@ const SaveSearchUrl = ({ locale, t }: Props & tType) => {
   );
 };
 
-export default injectT(SaveSearchUrl);
+export default SaveSearchUrl;

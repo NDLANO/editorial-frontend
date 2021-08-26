@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
@@ -64,8 +64,8 @@ function EditorFooter<T extends FormValues>({
   hideSecondaryButton,
   isNewlyCreated,
   hasErrors,
-  t,
-}: Props & tType) {
+}: Props) {
+  const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
 
@@ -154,46 +154,48 @@ function EditorFooter<T extends FormValues>({
 
   return (
     <Footer>
-      <div data-cy="footerPreviewAndValidate">
-        {values.id && isConcept && (
-          <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
-        )}
-        {values.id && isArticle && (
-          <FooterLinkButton
-            bold
-            onClick={() => window.open(toPreviewDraft(values.id, values.language))}>
-            {t('form.preview.button')}
-            <Launch />
-          </FooterLinkButton>
-        )}
-        <StyledLine />
-        {values.id && isArticle && (
-          <FooterLinkButton bold onClick={() => onValidateClick()}>
-            {t('form.validate')}
-          </FooterLinkButton>
-        )}
-      </div>
-      <div data-cy="footerStatus">
-        <FooterStatus
-          onSave={updateStatus}
-          options={getStatuses()}
-          messages={{
-            label: '',
-            changeStatus: t(`form.status.${entityStatus.current.toLowerCase()}`),
-            back: t('editorFooter.back'),
-            inputHeader: t('editorFooter.inputHeader'),
-            inputHelperText: t('editorFooter.inputHelperText'),
-            cancelLabel: t('editorFooter.cancelLabel'),
-            saveLabel: t('editorFooter.saveLabel'),
-            warningSavedWithoutComment: t('editorFooter.warningSaveWithoutComment'),
-            newStatusPrefix: t('editorFooter.newStatusPrefix'),
-            statusLabel: t('editorFooter.statusLabel'),
-          }}
-        />
-        {saveButton}
-      </div>
+      <>
+        <div data-cy="footerPreviewAndValidate">
+          {values.id && isConcept && (
+            <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
+          )}
+          {values.id && isArticle && (
+            <FooterLinkButton
+              bold
+              onClick={() => window.open(toPreviewDraft(values.id, values.language))}>
+              {t('form.preview.button')}
+              <Launch />
+            </FooterLinkButton>
+          )}
+          <StyledLine />
+          {values.id && isArticle && (
+            <FooterLinkButton bold onClick={() => onValidateClick()}>
+              {t('form.validate')}
+            </FooterLinkButton>
+          )}
+        </div>
+        <div data-cy="footerStatus">
+          <FooterStatus
+            onSave={updateStatus}
+            options={getStatuses()}
+            messages={{
+              label: '',
+              changeStatus: t(`form.status.${entityStatus.current.toLowerCase()}`),
+              back: t('editorFooter.back'),
+              inputHeader: t('editorFooter.inputHeader'),
+              inputHelperText: t('editorFooter.inputHelperText'),
+              cancelLabel: t('editorFooter.cancelLabel'),
+              saveLabel: t('editorFooter.saveLabel'),
+              warningSavedWithoutComment: t('editorFooter.warningSaveWithoutComment'),
+              newStatusPrefix: t('editorFooter.newStatusPrefix'),
+              statusLabel: t('editorFooter.statusLabel'),
+            }}
+          />
+          {saveButton}
+        </div>
+      </>
     </Footer>
   );
 }
 
-export default injectT(EditorFooter);
+export default EditorFooter;

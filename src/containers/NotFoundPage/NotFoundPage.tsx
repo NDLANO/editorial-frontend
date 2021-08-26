@@ -9,23 +9,26 @@
 import React from 'react';
 // @ts-ignore
 import { OneColumn, ErrorMessage } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
-const NotFound = ({ t }: tType) => (
-  <OneColumn cssModifier="clear">
-    <ErrorMessage
-      illustration={{
-        url: '/not-exist.gif',
-        altText: t('errorMessage.title'),
-      }}
-      messages={{
-        title: t('errorMessage.title'),
-        description: t('notFound.description'),
-        back: t('errorMessage.back'),
-        goToFrontPage: t('errorMessage.goToFrontPage'),
-      }}
-    />
-  </OneColumn>
-);
+const NotFound = () => {
+  const { t } = useTranslation();
+  return (
+    <OneColumn cssModifier="clear">
+      <ErrorMessage
+        illustration={{
+          url: '/not-exist.gif',
+          altText: t('errorMessage.title'),
+        }}
+        messages={{
+          title: t('errorMessage.title'),
+          description: t('notFound.description'),
+          back: t('errorMessage.back'),
+          goToFrontPage: t('errorMessage.goToFrontPage'),
+        }}
+      />
+    </OneColumn>
+  );
+};
 
-export default injectT(NotFound);
+export default NotFound;

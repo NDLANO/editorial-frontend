@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { LearningPath } from '@ndla/icons/contentType';
 import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
@@ -29,7 +29,8 @@ const LearningpathIcon = styled(LearningPath)`
   cursor: pointer;
 `;
 
-const LearningpathConnection = ({ t, id }: Props & tType) => {
+const LearningpathConnection = ({ id }: Props) => {
+  const { t } = useTranslation();
   const [learningpaths, setLearningpaths] = useState<Learningpath[]>([]);
 
   useEffect(() => {
@@ -69,4 +70,4 @@ const LearningpathConnection = ({ t, id }: Props & tType) => {
   );
 };
 
-export default injectT(LearningpathConnection);
+export default LearningpathConnection;

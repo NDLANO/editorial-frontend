@@ -12,7 +12,7 @@ import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
-import { Trans } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { HelpIcon } from './HowTo';
 
 const iconCSS = css`
@@ -21,26 +21,25 @@ const iconCSS = css`
   padding: 0;
 `;
 
-export const HelpMessage = ({ children }) => (
-  <Trans>
-    {({ t }) => (
-      <Modal
-        activateButton={
-          <Button stripped tabIndex={-1}>
-            <Tooltip tooltip={t('editMarkup.helpMessage.tooltip')}>
-              <HelpIcon css={iconCSS} />
-            </Tooltip>
-          </Button>
-        }>
-        {onClose => (
-          <>
-            <ModalHeader>
-              <ModalCloseButton onClick={onClose} title={t('dialog.close')} />
-            </ModalHeader>
-            <ModalBody>{children}</ModalBody>
-          </>
-        )}
-      </Modal>
-    )}
-  </Trans>
-);
+export const HelpMessage = ({ children }) => {
+  const { t } = useTranslation();
+  return (
+    <Modal
+      activateButton={
+        <Button stripped tabIndex={-1}>
+          <Tooltip tooltip={t('editMarkup.helpMessage.tooltip')}>
+            <HelpIcon css={iconCSS} />
+          </Tooltip>
+        </Button>
+      }>
+      {onClose => (
+        <>
+          <ModalHeader>
+            <ModalCloseButton onClick={onClose} title={t('dialog.close')} />
+          </ModalHeader>
+          <ModalBody>{children}</ModalBody>
+        </>
+      )}
+    </Modal>
+  );
+};

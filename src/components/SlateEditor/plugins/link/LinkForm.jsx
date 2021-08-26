@@ -8,11 +8,10 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+import { withTranslation } from 'react-i18next';
 import { Formik, Form } from 'formik';
 import Types from 'slate-prop-types';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Field from '../../../Field';
@@ -118,4 +117,4 @@ LinkForm.propTypes = {
   node: PropTypes.oneOfType([Types.node, PropTypes.shape({ type: PropTypes.string.isRequired })]),
 };
 
-export default compose(injectT)(LinkForm);
+export default withTranslation()(LinkForm);

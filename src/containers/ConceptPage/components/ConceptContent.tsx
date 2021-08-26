@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
@@ -37,7 +37,8 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-const ConceptContent = ({ t }: tType) => {
+const ConceptContent = () => {
+  const { t } = useTranslation();
   const [preview, setPreview] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -93,4 +94,4 @@ const ConceptContent = ({ t }: tType) => {
   );
 };
 
-export default injectT(ConceptContent);
+export default ConceptContent;

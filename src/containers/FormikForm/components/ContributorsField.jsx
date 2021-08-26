@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Contributors from '../../../components/Contributors';
 import FormikField from '../../../components/FormikField';
 
-const ContributorsField = ({ t, contributorTypes, width }) => {
+const ContributorsField = ({ contributorTypes, width }) => {
+  const { t } = useTranslation();
   return contributorTypes.map(contributorType => {
     const label = t(`form.${contributorType}.label`);
     return (
@@ -36,4 +37,4 @@ ContributorsField.propTypes = {
   width: PropTypes.number,
 };
 
-export default injectT(ContributorsField);
+export default ContributorsField;

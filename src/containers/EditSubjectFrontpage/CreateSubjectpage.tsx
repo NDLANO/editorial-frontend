@@ -9,13 +9,13 @@ import React from 'react';
 import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
-import { SubjectpageEditType } from '../../interfaces';
+import { LocaleType, SubjectpageEditType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import { toEditSubjectpage } from '../../util/routeHelpers';
 
 interface Props extends RouteComponentProps {
-  selectedLanguage: string;
+  selectedLanguage: LocaleType;
   elementId: string;
   elementName: string;
 }
@@ -31,7 +31,11 @@ const CreateSubjectpage = ({
 
   const createSubjectpageAndPushRoute = async (createdSubjectpage: SubjectpageEditType) => {
     const savedSubjectpage = await createSubjectpage(createdSubjectpage);
-    history.push(toEditSubjectpage(elementId, selectedLanguage, savedSubjectpage.id));
+    const savedId = savedSubjectpage?.id;
+    if (savedId) {
+      history.push(toEditSubjectpage(elementId, selectedLanguage, savedId));
+    }
+    return savedSubjectpage;
   };
 
   return (

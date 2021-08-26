@@ -14,6 +14,7 @@ import { transformAudio } from '../../util/audioHelpers';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import Spinner from '../../components/Spinner';
+import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import { License, LocaleType } from '../../interfaces';
 import {
   FlattenedAudioApiType,
@@ -39,6 +40,11 @@ const EditAudio = ({
 }: Props) => {
   const [audio, setAudio] = useState<FlattenedAudioApiType | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
+  const { translating, translateToNN } = useTranslateApi(
+    audio,
+    (audio: FlattenedAudioApiType) => setAudio(audio),
+    ['id', 'manuscript', 'title'],
+  );
 
   const onUpdate = async (
     newAudio: UpdatedAudioMetaInformation,
@@ -84,6 +90,8 @@ const EditAudio = ({
       audioLanguage={audioLanguage}
       isNewlyCreated={isNewlyCreated}
       licenses={licenses}
+      translating={translating}
+      translateToNN={translateToNN}
       {...rest}
     />
   );

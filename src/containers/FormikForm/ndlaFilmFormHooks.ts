@@ -10,7 +10,6 @@ import {
   ContentResultType,
   NdlaFilmApiType,
   NdlaFilmThemesEditType,
-  SubjectpageEditType,
   TranslateType,
 } from '../../interfaces';
 import * as messageActions from '../Messages/messagesActions';
@@ -18,20 +17,21 @@ import { formatErrorMessage } from '../../util/apiHelpers';
 import { updateFilmFrontpage } from '../../modules/frontpage/frontpageApi';
 import { getInitialValues } from '../../util/ndlaFilmHelpers';
 import { getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
+import { NdlaFilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
 
 export function useNdlaFilmFormHooks(
   t: TranslateType,
   filmFrontpage: NdlaFilmApiType,
   updateEditorState: Function,
   slideshowMovies: ContentResultType[],
-  themes: NdlaFilmThemesEditType,
+  themes: NdlaFilmThemesEditType[],
   selectedLanguage: string,
 ) {
   const [savedToServer, setSavedToServer] = useState(false);
 
   const initialValues = getInitialValues(filmFrontpage, slideshowMovies, themes, selectedLanguage);
 
-  const handleSubmit = async (formik: FormikProps<SubjectpageEditType>) => {
+  const handleSubmit = async (formik: FormikProps<NdlaFilmFormikType>) => {
     formik.setSubmitting(true);
     const newNdlaFilm = getNdlaFilmFromSlate(filmFrontpage, formik.values, selectedLanguage);
 
@@ -41,7 +41,7 @@ export function useNdlaFilmFormHooks(
 
       Object.keys(formik.values).map(fieldName => formik.setFieldTouched(fieldName, true, true));
 
-      formik.resetForm(initialValues);
+      formik.resetForm({ values: initialValues });
       setSavedToServer(true);
     } catch (err) {
       if (err?.status === 409) {

@@ -615,7 +615,7 @@ const phrases = {
     },
     updatePublished: 'Endre publisert dato',
     editImage: 'Endre bilde',
-    editOriginalImage: 'Rediger orginal bilde',
+    editOriginalImage: 'Rediger original bilde',
     editAudio: 'Endre lyd',
     editPodcast: 'Endre podkast',
     resetToProd: {

@@ -234,6 +234,7 @@ const CopyResources = ({
           onSubmit={copyResources}
           icon={<Copy />}
           smallIcon
+          showPagination
         />
       )}
       {!showCloneSearch ? (
@@ -254,6 +255,7 @@ const CopyResources = ({
           onSubmit={copyAndCloneResources}
           icon={<Copy />}
           smallIcon
+          showPagination
         />
       )}
     </>

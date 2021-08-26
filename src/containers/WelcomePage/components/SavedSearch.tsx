@@ -20,6 +20,7 @@ import { fetchSubject, fetchResourceType } from '../../../modules/taxonomy';
 import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
 import { getSearchFunctionFromType, transformQuery } from '../../../util/searchHelpers';
 import { SearchType } from '../../../interfaces';
+import handleError from '../../../util/handleError';
 
 interface Props {
   deleteSearch: Function;
@@ -37,7 +38,7 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
   const [subjectName, setSubjectName] = useState('');
   const [resourceTypeName, setResourceTypeName] = useState('');
   const [userName, setUserName] = useState('');
-  const [searchResults, setSearchResults] = useState(0);
+  const [searchResults, setSearchResults] = useState<number | undefined>(undefined);
 
   const searchObject = transformQuery(queryString.parse(search));
   const subject = searchObject['subjects'] || '';
@@ -72,9 +73,13 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
     (async () => {
       const type = search.split('/')[2].split('?')[0];
       const q = queryString.parse(search);
-      const searchFunction = getSearchFunctionFromType(type as SearchType);
-      const res = await searchFunction(q);
-      setSearchResults(res.totalCount);
+      try {
+        const searchFunction = getSearchFunctionFromType(type as SearchType);
+        const res = await searchFunction(q);
+        setSearchResults(res.totalCount);
+      } catch (e) {
+        handleError(e);
+      }
     })();
   }, [search]);
 
@@ -90,13 +95,9 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
     results.push(resourceType && resourceTypeName);
     results.push(contextType && t(`contextTypes.topic`));
     results.push(userName);
-
-    const nameString = results
-      .filter(function(e) {
-        return e;
-      })
-      .join(' + ');
-    return `${nameString} (${searchResults})`;
+    const resultHitsString = searchResults !== undefined ? ` (${searchResults})` : '';
+    const joinedResults = results.filter(e => e).join(' + ');
+    return `${joinedResults}${resultHitsString}`;
   };
 
   return (

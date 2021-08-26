@@ -64,7 +64,7 @@ export function useArticleFormHooks({
   const handleSubmit = async (values, formikHelpers) => {
     formikHelpers.setSubmitting(true);
     const initialStatus = articleStatus ? articleStatus.current : undefined;
-    const newStatus = values.status.current;
+    const newStatus = values.status?.current;
     const statusChange = initialStatus !== newStatus;
     const slateArticle = getArticleFromSlate({
       values,

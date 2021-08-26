@@ -8,7 +8,7 @@
 
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
@@ -38,13 +38,17 @@ const DropdownWrapper = styled.div`
   width: 90%;
 `;
 
+const PAGE_SIZE = 10;
+
 class MenuItemDropdown extends PureComponent {
   constructor() {
     super();
     this.state = {
       status: 'initial',
+      page: 1,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
     this.getResultItems = this.getResultItems.bind(this);
   }
 
@@ -82,10 +86,16 @@ class MenuItemDropdown extends PureComponent {
     }
   }
 
+  handlePageChange(page) {
+    this.setState({
+      page: page.page,
+    });
+  }
+
   render() {
-    const { icon, t, placeholder, smallIcon } = this.props;
-    const { selected, status } = this.state;
-    const items = this.getResultItems();
+    const { icon, t, placeholder, smallIcon, showPagination } = this.props;
+    const { selected, status, page } = this.state;
+    const allItems = this.getResultItems();
     return (
       <Fragment>
         <div css={menuItemStyle}>
@@ -94,26 +104,34 @@ class MenuItemDropdown extends PureComponent {
             selectedItem={selected}
             itemToString={item => itemToString(item, 'name')}
             onChange={this.handleSubmit}>
-            {({ getInputProps, getRootProps, ...downshiftProps }) => (
-              <DropdownWrapper {...getRootProps()}>
-                <Input
-                  {...getInputProps({ placeholder })}
-                  data-testid="inlineDropdownInput"
-                  white
-                  css={dropdownInputStyle}
-                  iconRight={
-                    status === 'loading' ? <Spinner size="normal" margin="0" /> : <Search />
-                  }
-                />
-                <DropdownMenu
-                  items={items ? items.search(downshiftProps.inputValue) : []}
-                  idField="id"
-                  labelField="name"
-                  {...downshiftProps}
-                  positionAbsolute
-                />
-              </DropdownWrapper>
-            )}
+            {({ getInputProps, getRootProps, ...downshiftProps }) => {
+              const items = allItems ? allItems.search(downshiftProps.inputValue) : [];
+              return (
+                <DropdownWrapper {...getRootProps()}>
+                  <Input
+                    {...getInputProps({ placeholder })}
+                    data-testid="inlineDropdownInput"
+                    white
+                    css={dropdownInputStyle}
+                    iconRight={
+                      status === 'loading' ? <Spinner size="normal" margin="0" /> : <Search />
+                    }
+                  />
+                  <DropdownMenu
+                    items={items.slice((page - 1) * PAGE_SIZE)}
+                    idField="id"
+                    labelField="name"
+                    {...downshiftProps}
+                    positionAbsolute
+                    maxRender={PAGE_SIZE}
+                    totalCount={items.length}
+                    page={showPagination && page}
+                    handlePageChange={this.handlePageChange}
+                    wide={showPagination}
+                  />
+                </DropdownWrapper>
+              );
+            }}
           </Downshift>
         </div>
         {status === 'error' && (
@@ -136,6 +154,7 @@ MenuItemDropdown.propTypes = {
   placeholder: PropTypes.string,
   filter: PropTypes.string,
   smallIcon: PropTypes.bool,
+  showPagination: PropTypes.bool,
 };
 
-export default injectT(MenuItemDropdown);
+export default withTranslation()(MenuItemDropdown);

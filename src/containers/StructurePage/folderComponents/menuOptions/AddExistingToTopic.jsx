@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import RoundIcon from '../../../../components/RoundIcon';
 import {
   fetchTopics,
@@ -92,6 +92,7 @@ class AddExistingToTopic extends React.PureComponent {
         onClose={onClose}
         onSubmit={this.onAddExistingSubTopic}
         icon={<Plus />}
+        showPagination
       />
     ) : (
       <MenuItemButton stripped onClick={this.toggleEditMode}>
@@ -114,4 +115,4 @@ AddExistingToTopic.propTypes = {
   structure: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default injectT(AddExistingToTopic);
+export default withTranslation()(AddExistingToTopic);

@@ -8,7 +8,7 @@
 
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import queryString from 'query-string';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input, FieldSplitter, FieldRemoveButton } from '@ndla/forms';
@@ -246,4 +246,4 @@ VisualElementUrlPreview.propTypes = {
   onUrlSave: PropTypes.func.isRequired,
 };
 
-export default injectT(VisualElementUrlPreview);
+export default withTranslation()(VisualElementUrlPreview);

@@ -7,7 +7,7 @@
  */
 
 import React, { SyntheticEvent } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Editor } from 'slate';
 
 import { useFormikContext } from 'formik';
@@ -21,7 +21,8 @@ interface Props {
   onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
 }
 
-const PodcastSeriesMetadata = ({ onImageLoad, t }: Props & tType) => {
+const PodcastSeriesMetadata = ({ onImageLoad }: Props) => {
+  const { t } = useTranslation();
   const formikContext = useFormikContext<PodcastSeriesFormikType>();
   const { handleBlur, submitForm } = formikContext;
   const plugins = [textTransformPlugin()];
@@ -73,4 +74,4 @@ const PodcastSeriesMetadata = ({ onImageLoad, t }: Props & tType) => {
   );
 };
 
-export default injectT(PodcastSeriesMetadata);
+export default PodcastSeriesMetadata;

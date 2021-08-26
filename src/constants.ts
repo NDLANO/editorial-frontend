@@ -19,6 +19,8 @@ export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept'; // Not yet adde
 export const ITUNES_STANDARD_MINIMUM_WIDTH = 1400;
 export const ITUNES_STANDARD_MAXIMUM_WIDTH = 3000;
 
+export const STORED_LANGUAGE_KEY = 'language';
+
 export const REMEMBER_FAVOURITE_SUBJECTS = 'rememberFavouriteSubjects';
 // Relevances
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';

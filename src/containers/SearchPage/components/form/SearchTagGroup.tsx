@@ -7,7 +7,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation, TFunction } from 'react-i18next';
 import SearchTag, { MinimalTagType } from './SearchTag';
 import { User } from './SearchContentForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
@@ -47,7 +47,7 @@ interface SearchState {
 interface Props {
   searchObject: SearchState;
   onRemoveItem: (tag: MinimalTagType) => void;
-  languages: (tFunc: tType['t']) => { id: string; name: string }[];
+  languages: (tFunc: TFunction) => { id: string; name: string }[];
   resourceTypes?: FlattenedResourceType[];
   users: User[];
   status: { id: string; name: string }[];
@@ -61,9 +61,9 @@ const SearchTagGroup = ({
   searchObject,
   users,
   languages,
-  t,
   onRemoveItem,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const tagTypes: TagType[] = [
     {
       type: 'query',
@@ -114,4 +114,4 @@ const SearchTagGroup = ({
   );
 };
 
-export default injectT(SearchTagGroup);
+export default SearchTagGroup;

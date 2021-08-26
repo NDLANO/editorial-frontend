@@ -10,7 +10,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Types from 'slate-prop-types';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
@@ -50,8 +50,8 @@ function hasHrefOrContentId(node) {
 }
 
 const Link = props => {
+  const { t } = useTranslation();
   const {
-    t,
     attributes,
     editor: { onChange, blur, value },
     node,
@@ -148,4 +148,4 @@ Link.propTypes = {
   language: PropTypes.string.isRequired,
 };
 
-export default injectT(Link);
+export default Link;

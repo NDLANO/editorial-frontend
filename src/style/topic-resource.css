@@ -7,44 +7,7 @@
  */
 
 .c-topic-resource {
-  &__list {
-    margin-top: 0.5em;
-  }
-
-  &__item {
-    line-height: 0;
-    margin-bottom: 0;
-  }
-
-  &__text {
-    display: flex;
-    padding: 10px;
-    margin-bottom: 6.5px;
-    box-shadow: none;
-    align-items: center;
-  }
-
-  &__title {
-    font-weight: 500;
-  }
-
-  &__deleteIcon {
-    width: 24px;
-    height: 24px;
-    opacity: 0.6;
-  }
-
-  &__filterIcon {
-    height: 24px;
-    width: 24px;
-  }
-
-  &__icon {
-    padding-right: 15px;
-  }
-
   &__errorMessage {
     color: var(--red-1);
-    text-align: center;
   }
 }

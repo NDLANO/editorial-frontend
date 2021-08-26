@@ -7,7 +7,7 @@
  */
 
 import React, { ReactElement, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Block, Document, Editor, Inline, Node, Text } from 'slate';
 import { css } from '@emotion/core';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
@@ -61,7 +61,8 @@ interface Props {
   node: Node;
 }
 
-const DetailsBox = ({ t, attributes, children, editor, node }: Props & tType) => {
+const DetailsBox = ({ attributes, children, editor, node }: Props) => {
+  const { t } = useTranslation();
   const summary: Node | null = (node as ParentNode)?.findDescendant(
     node => (node as ParentNode)?.type === 'summary',
   );
@@ -139,4 +140,4 @@ const DetailsBox = ({ t, attributes, children, editor, node }: Props & tType) =>
   );
 };
 
-export default injectT(DetailsBox);
+export default DetailsBox;

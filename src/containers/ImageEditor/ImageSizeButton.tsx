@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { ImageNormal, ImageSmall, ImageXsmall, ImageXxSmall } from '@ndla/icons/editor';
 import ImageEditorButton from './ImageEditorButton';
@@ -24,16 +24,19 @@ interface Props {
   currentSize: string;
 }
 
-const ImageSizeButton = ({ currentSize = 'fullwidth', size, onFieldChange, t }: Props & tType) => (
-  <Tooltip tooltip={t(`form.image.sizes.${size}`)}>
-    <ImageEditorButton
-      isActive={currentSize.startsWith(size)}
-      tabIndex={-1}
-      stripped
-      onClick={evt => onFieldChange(evt, 'size', size)}>
-      {icon[size]}
-    </ImageEditorButton>
-  </Tooltip>
-);
+const ImageSizeButton = ({ currentSize = 'fullwidth', size, onFieldChange }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <Tooltip tooltip={t(`form.image.sizes.${size}`)}>
+      <ImageEditorButton
+        isActive={currentSize.startsWith(size)}
+        tabIndex={-1}
+        stripped
+        onClick={evt => onFieldChange(evt, 'size', size)}>
+        {icon[size]}
+      </ImageEditorButton>
+    </Tooltip>
+  );
+};
 
-export default injectT(ImageSizeButton);
+export default ImageSizeButton;

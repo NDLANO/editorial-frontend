@@ -8,7 +8,7 @@
 
 import React, { Component, FormEvent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { RouteComponentProps } from 'react-router-dom';
@@ -66,8 +66,8 @@ interface State {
   search: SearchState;
 }
 
-class SearchContentForm extends Component<Props & tType, State> {
-  constructor(props: Props & tType) {
+class SearchContentForm extends Component<Props & WithTranslation, State> {
+  constructor(props: Props & WithTranslation) {
     super(props);
     const { searchObject, locale } = props;
     this.state = {
@@ -291,4 +291,4 @@ class SearchContentForm extends Component<Props & tType, State> {
   };
 }
 
-export default injectT(SearchContentForm);
+export default withTranslation()(SearchContentForm);

@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
@@ -34,8 +34,8 @@ interface State {
   search: SearchState;
 }
 
-class SearchAudioForm extends Component<Props & tType, State> {
-  constructor(props: Props & tType) {
+class SearchAudioForm extends Component<Props & WithTranslation, State> {
+  constructor(props: Props & WithTranslation) {
     super(props);
 
     const { searchObject } = props;
@@ -52,7 +52,7 @@ class SearchAudioForm extends Component<Props & tType, State> {
     };
   }
 
-  componentDidUpdate(prevProps: Props & tType) {
+  componentDidUpdate(prevProps: Props & WithTranslation) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({
@@ -157,4 +157,4 @@ class SearchAudioForm extends Component<Props & tType, State> {
   };
 }
 
-export default injectT(SearchAudioForm);
+export default withTranslation()(SearchAudioForm);

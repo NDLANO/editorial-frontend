@@ -7,7 +7,7 @@
  */
 
 import React, { useContext, useState, useEffect, SyntheticEvent } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
@@ -46,8 +46,8 @@ const MetaImageSearch = ({
   setFieldTouched,
   onChange,
   onImageLoad,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [showImageSelect, setShowImageSelect] = useState(false);
   const [image, setImage] = useState<ImageType | undefined>(undefined);
   const locale = useContext(LocaleContext);
@@ -152,4 +152,4 @@ const MetaImageSearch = ({
   );
 };
 
-export default injectT(MetaImageSearch);
+export default MetaImageSearch;

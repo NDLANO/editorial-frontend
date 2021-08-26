@@ -7,7 +7,7 @@
 
 import React, { useState, ReactNode, useRef, useCallback, useMemo } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
@@ -127,7 +127,6 @@ interface Props {
 }
 
 const PodcastForm = ({
-  t,
   audio,
   podcastChanged,
   inModal,
@@ -136,7 +135,8 @@ const PodcastForm = ({
   onUpdate,
   translating,
   translateToNN,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
 
@@ -332,4 +332,4 @@ const PodcastForm = ({
   );
 };
 
-export default injectT(PodcastForm);
+export default PodcastForm;

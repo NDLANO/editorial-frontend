@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
@@ -18,6 +18,7 @@ import { AsyncDropdown } from '../../../components/Dropdown';
 import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
+import { DraftSearchQuery } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   locale: string;
@@ -30,7 +31,8 @@ interface Props {
   };
 }
 
-const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
+const ContentField = ({ locale, values, field, form }: Props) => {
+  const { t } = useTranslation();
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
     values.relatedContent,
   );
@@ -66,9 +68,9 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
     });
   };
 
-  const searchForArticles = async (inp: string) => {
+  const searchForArticles = async (query: DraftSearchQuery) => {
     return searchDrafts({
-      query: inp,
+      ...query,
       language: locale,
     });
   };
@@ -102,6 +104,7 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
         multiSelect
         disableSelected
         clearInputField
+        showPagination
       />
       <StyledButtonWrapper>
         <Button onClick={() => setShowAddExternal(true)}>
@@ -119,4 +122,4 @@ const StyledButtonWrapper = styled.div`
   margin: ${spacing.small} 0;
 `;
 
-export default injectT(ContentField);
+export default ContentField;

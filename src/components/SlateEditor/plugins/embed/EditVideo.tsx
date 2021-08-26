@@ -7,7 +7,7 @@
  */
 
 import { css } from '@emotion/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import React, { Fragment, useEffect } from 'react';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Button from '@ndla/button';
@@ -46,7 +46,6 @@ interface Props {
 }
 
 const EditVideo = ({
-  t,
   caption,
   embed,
   figureClass,
@@ -58,7 +57,8 @@ const EditVideo = ({
   setStartTime,
   setStopTime,
   toggleEditModus,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
 
@@ -167,4 +167,4 @@ const EditVideo = ({
   );
 };
 
-export default injectT(EditVideo);
+export default EditVideo;

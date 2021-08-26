@@ -29,15 +29,6 @@ export interface SearchResultBase<T> {
   results: T[];
 }
 
-export interface TranslateType {
-  (
-    key: string,
-    values?: {
-      [key: string]: string | number;
-    },
-  ): string;
-}
-
 export interface Author {
   name: string;
   type: string;

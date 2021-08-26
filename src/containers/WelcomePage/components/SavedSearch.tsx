@@ -18,7 +18,8 @@ import Tooltip from '@ndla/tooltip';
 import IconButton from '../../../components/IconButton';
 import { fetchSubject, fetchResourceType } from '../../../modules/taxonomy';
 import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
-import { transformQuery } from '../../../util/searchHelpers';
+import { getSearchFunctionFromType, transformQuery } from '../../../util/searchHelpers';
+import { SearchType } from '../../../interfaces';
 
 interface Props {
   deleteSearch: Function;
@@ -36,6 +37,7 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
   const [subjectName, setSubjectName] = useState('');
   const [resourceTypeName, setResourceTypeName] = useState('');
   const [userName, setUserName] = useState('');
+  const [searchResults, setSearchResults] = useState(0);
 
   const searchObject = transformQuery(queryString.parse(search));
   const subject = searchObject['subjects'] || '';
@@ -66,6 +68,16 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
     }
   }, [subject, resourceType, userId, locale]);
 
+  useEffect(() => {
+    (async () => {
+      const type = search.split('/')[2].split('?')[0];
+      const q = queryString.parse(search);
+      const searchFunction = getSearchFunctionFromType(type as SearchType);
+      const res = await searchFunction(q);
+      setSearchResults(res.totalCount);
+    })();
+  }, [search]);
+
   const linkText = (search: string) => {
     const query = searchObject.query || undefined;
     const status = searchObject.status || searchObject['draft-status'] || undefined;
@@ -79,11 +91,12 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
     results.push(contextType && t(`contextTypes.topic`));
     results.push(userName);
 
-    return results
+    const nameString = results
       .filter(function(e) {
         return e;
       })
       .join(' + ');
+    return `${nameString} (${searchResults})`;
   };
 
   return (

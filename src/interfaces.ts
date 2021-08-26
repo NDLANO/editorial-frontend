@@ -21,6 +21,14 @@ export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
+export interface SearchResultBase<T> {
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  language: string;
+  results: T[];
+}
+
 export interface TranslateType {
   (
     key: string,

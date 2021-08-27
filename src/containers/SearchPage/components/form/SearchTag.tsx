@@ -14,7 +14,7 @@ import { Cross } from '@ndla/icons/action';
 import { tagClasses } from '../../../../components/Tag';
 
 export type MinimalTagType = {
-  name: string;
+  name?: string;
   type: string;
 };
 
@@ -42,7 +42,7 @@ class SearchTag extends Component<Props & WithTranslation> {
     return (
       <dl className="c-tag c-tag--search">
         <dt {...tagClasses('label')}>{t(`searchForm.tagType.${tag.type}`)}:</dt>
-        <dd {...tagClasses('description')}>{tag.name}</dd>
+        <dd {...tagClasses('description')}>{tag.name || ''}</dd>
         <Button onClick={this.onRemove} stripped>
           <Cross className="c-icon--small" />
         </Button>

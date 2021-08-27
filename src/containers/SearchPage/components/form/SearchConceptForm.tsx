@@ -13,6 +13,7 @@ import { css } from '@emotion/core';
 import PropTypes from 'prop-types';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
+import { getTagName } from '../../../../util/formHelper';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses, SearchParams } from './SearchForm';
@@ -155,6 +156,34 @@ class SearchConceptForm extends Component<Props & WithTranslation, State> {
     const { t, subjects } = this.props;
     const { search, users } = this.state;
 
+    const tagTypes = [
+      {
+        type: 'query',
+        id: search.query,
+        name: search.query,
+      },
+      {
+        type: 'language',
+        id: search.language,
+        name: getTagName(search.language, getResourceLanguages(t)),
+      },
+      {
+        type: 'users',
+        id: search.users,
+        name: getTagName(search.users, users),
+      },
+      {
+        type: 'subjects',
+        id: search.subjects,
+        name: getTagName(search.subjects, subjects),
+      },
+      {
+        type: 'status',
+        id: search.status,
+        name: getTagName(search.status, this.getConceptStatuses()),
+      },
+    ];
+
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
         <div {...searchFormClasses('field', '50-width')}>
@@ -234,14 +263,7 @@ class SearchConceptForm extends Component<Props & WithTranslation, State> {
           </Button>
         </div>
         <div {...searchFormClasses('tagline')}>
-          <SearchTagGroup
-            onRemoveItem={this.removeTagItem}
-            languages={getResourceLanguages}
-            users={users}
-            subjects={subjects}
-            searchObject={this.state.search}
-            status={this.getConceptStatuses()}
-          />
+          <SearchTagGroup onRemoveItem={this.removeTagItem} tagTypes={tagTypes} />
         </div>
       </form>
     );

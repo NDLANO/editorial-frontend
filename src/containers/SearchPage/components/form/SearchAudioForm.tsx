@@ -83,8 +83,11 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
     if (evt) {
       evt.preventDefault();
     }
+    const {
+      search: { query, language, audioType },
+    } = this.state;
     const { search } = this.props;
-    search({ ...this.state.search, 'audio-type': this.state.search.audioType, page: 1 });
+    search({ query, language, 'audio-type': audioType, page: 1 });
   }
 
   removeTagItem(tag: MinimalTagType) {

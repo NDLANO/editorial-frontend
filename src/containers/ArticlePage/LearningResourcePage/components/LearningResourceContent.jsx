@@ -8,7 +8,7 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { compose } from 'redux';
@@ -268,4 +268,4 @@ LearningResourceContent.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
-export default compose(injectT, formikConnect)(LearningResourceContent);
+export default compose(formikConnect)(withTranslation()(LearningResourceContent));

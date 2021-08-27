@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import Types from 'slate-prop-types';
 import FootnoteForm from './FootnoteForm';
 import { Portal } from '../../../Portal';
@@ -77,4 +77,4 @@ EditFootnote.propTypes = {
   node: PropTypes.oneOfType([Types.node, PropTypes.shape({ type: PropTypes.string.isRequired })]),
 };
 
-export default injectT(EditFootnote);
+export default withTranslation()(EditFootnote);

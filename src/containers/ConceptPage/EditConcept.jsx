@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import ConceptForm from './ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
@@ -17,7 +17,8 @@ import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
 
-const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, t, ...rest }) => {
+const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, ...rest }) => {
+  const { t } = useTranslation();
   const {
     concept,
     fetchSearchTags,
@@ -74,4 +75,4 @@ EditConcept.propTypes = {
   createMessage: PropTypes.func.isRequired,
 };
 
-export default injectT(EditConcept);
+export default EditConcept;

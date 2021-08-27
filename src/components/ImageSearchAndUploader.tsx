@@ -8,11 +8,11 @@
 
 import React, { useState } from 'react';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import EditImage from '../containers/ImageUploader/EditImage';
 import {
   ImageApiType,
@@ -42,9 +42,9 @@ const ImageSearchAndUploader = ({
   onError,
   searchImages,
   fetchImage,
-  t,
-}: Props & tType) => {
+}: Props) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const { t } = useTranslation();
 
   const searchImagesWithParameters = (query: string, page: number) => {
     return searchImages({ query, page, 'page-size': 16 });
@@ -94,4 +94,4 @@ const ImageSearchAndUploader = ({
   );
 };
 
-export default injectT(ImageSearchAndUploader);
+export default ImageSearchAndUploader;

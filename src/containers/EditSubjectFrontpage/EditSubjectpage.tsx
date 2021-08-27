@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import SubjectpageForm from './components/SubjectpageForm';
@@ -22,13 +22,8 @@ interface Props extends RouteComponentProps {
   isNewlyCreated: boolean;
 }
 
-const EditSubjectpage = ({
-  t,
-  elementId,
-  selectedLanguage,
-  subjectpageId,
-  isNewlyCreated,
-}: Props & tType) => {
+const EditSubjectpage = ({ elementId, selectedLanguage, subjectpageId, isNewlyCreated }: Props) => {
+  const { t } = useTranslation();
   const { loading, subjectpage, updateSubjectpage, error } = useFetchSubjectpageData(
     elementId,
     selectedLanguage,
@@ -57,4 +52,4 @@ const EditSubjectpage = ({
   );
 };
 
-export default withRouter(injectT(EditSubjectpage));
+export default withRouter(EditSubjectpage);

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { searchClasses } from '../../SearchContainer';
 
 const pageSizeOptions = [4, 6, 8, 10, 12, 14, 16, 18, 20];
@@ -63,4 +63,4 @@ SearchListOptions.defaultProps = {
   },
 };
 
-export default injectT(SearchListOptions);
+export default withTranslation()(SearchListOptions);

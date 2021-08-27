@@ -8,7 +8,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
@@ -134,4 +134,4 @@ DeleteTopic.propTypes = {
   locale: PropTypes.string,
 };
 
-export default injectT(DeleteTopic);
+export default withTranslation()(DeleteTopic);

@@ -8,7 +8,7 @@
 
 import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation, withTranslation, WithTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -104,16 +104,19 @@ interface ErrorMessageProps {
   messageId: string;
 }
 
-const ErrorMessage = injectT(({ draftId, language, messageId, t }: ErrorMessageProps & tType) => (
-  <Container>
-    <StyledErrorMessage>{t(messageId)}</StyledErrorMessage>
-    <Row justifyContent="center" alignItems="baseline">
-      <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
-        {t('editMarkup.back')}
-      </Link>
-    </Row>
-  </Container>
-));
+const ErrorMessage = ({ draftId, language, messageId }: ErrorMessageProps) => {
+  const { t } = useTranslation();
+  return (
+    <Container>
+      <StyledErrorMessage>{t(messageId)}</StyledErrorMessage>
+      <Row justifyContent="center" alignItems="baseline">
+        <Link to={`/subject-matter/learning-resource/${draftId}/edit/${language}`}>
+          {t('editMarkup.back')}
+        </Link>
+      </Row>
+    </Container>
+  );
+};
 
 ErrorMessage.propTypes = {
   messageId: PropTypes.string.isRequired,
@@ -146,8 +149,8 @@ interface State {
   draft: DraftApiType | undefined;
 }
 
-class EditMarkupPage extends Component<Props & tType, State> {
-  constructor(props: Props & tType) {
+class EditMarkupPage extends Component<Props & WithTranslation, State> {
+  constructor(props: Props & WithTranslation) {
     super(props);
     this.state = {
       status: 'initial',
@@ -336,4 +339,4 @@ class EditMarkupPage extends Component<Props & tType, State> {
   };
 }
 
-export default injectT(EditMarkupPage);
+export default withTranslation()(EditMarkupPage);

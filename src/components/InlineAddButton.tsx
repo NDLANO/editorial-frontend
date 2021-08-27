@@ -11,9 +11,9 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
 import { Done } from '@ndla/icons/editor';
 import { Plus } from '@ndla/icons/action';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import handleError from '../util/handleError';
 import Spinner from './Spinner';
 
@@ -79,8 +79,8 @@ interface Props {
   action: Function;
 }
 
-export class InlineAddButton extends PureComponent<Props & tType, State> {
-  constructor(props: Props & tType) {
+export class InlineAddButton extends PureComponent<Props & WithTranslation, State> {
+  constructor(props: Props & WithTranslation) {
     super(props);
     this.state = {
       status: 'initial',
@@ -176,4 +176,4 @@ export class InlineAddButton extends PureComponent<Props & tType, State> {
   }
 }
 
-export default injectT(InlineAddButton);
+export default withTranslation()(InlineAddButton);

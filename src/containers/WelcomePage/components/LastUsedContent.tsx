@@ -8,7 +8,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import formatDate from '../../../util/formatDate';
@@ -24,7 +24,8 @@ interface Props {
   userAccess?: string;
 }
 
-const LastUsedContent = ({ articleId, locale, userAccess, t }: Props & tType) => {
+const LastUsedContent = ({ articleId, locale, userAccess }: Props) => {
+  const { t } = useTranslation();
   const [article, setArticle] = useState<DraftApiType>();
 
   useEffect(() => {
@@ -63,4 +64,4 @@ const LastUsedContent = ({ articleId, locale, userAccess, t }: Props & tType) =>
   );
 };
 
-export default injectT(LastUsedContent);
+export default LastUsedContent;

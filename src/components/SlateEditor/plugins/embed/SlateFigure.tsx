@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import BEMHelper from 'react-bem-helper';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
@@ -33,15 +33,8 @@ interface ChangesProp {
   [x: string]: string;
 }
 
-const SlateFigure = ({
-  t,
-  attributes,
-  editor,
-  isSelected,
-  language,
-  locale = 'nb',
-  node,
-}: Props & tType) => {
+const SlateFigure = ({ attributes, editor, isSelected, language, locale = 'nb', node }: Props) => {
+  const { t } = useTranslation();
   const embed = getSchemaEmbed(node);
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
 
@@ -168,4 +161,4 @@ const SlateFigure = ({
   }
 };
 
-export default injectT(SlateFigure);
+export default SlateFigure;

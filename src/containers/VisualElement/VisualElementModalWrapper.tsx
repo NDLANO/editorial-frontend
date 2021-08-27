@@ -1,4 +1,4 @@
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -26,7 +26,8 @@ const StyledVisualElementModal = styled(Modal)`
   }
 `;
 
-const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, t }: Props & tType) => {
+const VisualElementModalWrapper = ({ resource, children, onClose, isOpen }: Props) => {
+  const { t } = useTranslation();
   const [h5pFetchFail, setH5pFetchFail] = useState(false);
 
   if (resource === 'h5p') {
@@ -61,4 +62,4 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen, t }: P
   );
 };
 
-export default injectT(VisualElementModalWrapper);
+export default VisualElementModalWrapper;

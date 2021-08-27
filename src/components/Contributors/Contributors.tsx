@@ -8,12 +8,12 @@
 
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { fonts, colors } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
+import { useTranslation } from 'react-i18next';
 import Contributor from './Contributor';
 import { LocaleContext } from '../../containers/App/App';
 import { ContributorType, ContributorFieldName } from './types';
@@ -50,10 +50,10 @@ const Contributors = ({
   showError = false,
   onChange,
   value,
-  t,
   width = 3 / 4,
   ...rest
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const onContributorChange = (newContributors: ContributorType[]) => {
     onChange({
@@ -145,4 +145,4 @@ Contributors.propTypes = {
   width: PropTypes.number,
 };
 
-export default injectT(Contributors);
+export default Contributors;

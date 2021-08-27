@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
@@ -28,8 +28,8 @@ interface Props {
   onRemoveItem: (tag: MinimalTagType) => void;
 }
 
-class SearchTag extends Component<Props & tType> {
-  constructor(props: Props & tType) {
+class SearchTag extends Component<Props & WithTranslation> {
+  constructor(props: Props & WithTranslation) {
     super(props);
     this.onRemove = this.onRemove.bind(this);
   }
@@ -64,4 +64,4 @@ class SearchTag extends Component<Props & tType> {
   };
 }
 
-export default injectT(SearchTag);
+export default withTranslation()(SearchTag);

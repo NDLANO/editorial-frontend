@@ -8,7 +8,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import ResourceGroup from './ResourceGroup';
@@ -211,7 +211,6 @@ export class StructureResources extends React.PureComponent {
       currentTopic,
       resourceRef,
       currentSubject,
-      structure,
       saveSubjectTopicItems,
       grouped,
     } = this.props;
@@ -255,7 +254,6 @@ export class StructureResources extends React.PureComponent {
             locale={locale}
             currentTopic={currentTopic}
             currentSubject={currentSubject}
-            structure={structure}
             resourceTypes={resourceTypes}
           />
         )}
@@ -306,4 +304,4 @@ StructureResources.propTypes = {
   grouped: PropTypes.string,
 };
 
-export default injectT(StructureResources);
+export default withTranslation()(StructureResources);

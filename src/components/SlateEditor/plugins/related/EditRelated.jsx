@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import darken from 'polished/lib/color/darken';
@@ -302,4 +302,4 @@ EditRelated.propTypes = {
   insertExternal: PropTypes.func,
 };
 
-export default injectT(EditRelated);
+export default withTranslation()(EditRelated);

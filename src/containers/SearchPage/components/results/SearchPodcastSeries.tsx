@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { SeriesSearchSummary } from '../../../../modules/audio/audioApiInterfaces';
 import { toEditPodcastSeries } from '../../../../util/routeHelpers';
 import { SeriesResultShape } from '../../../../shapes';
@@ -18,7 +18,8 @@ interface Props {
   series: SeriesSearchSummary;
 }
 
-const SearchPodcastSeries = ({ series, t }: Props & tType) => {
+const SearchPodcastSeries = ({ series }: Props) => {
+  const { t } = useTranslation();
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
@@ -45,4 +46,4 @@ SearchPodcastSeries.propTypes = {
   series: SeriesResultShape.isRequired,
 };
 
-export default injectT(SearchPodcastSeries);
+export default SearchPodcastSeries;

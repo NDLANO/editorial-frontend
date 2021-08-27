@@ -7,7 +7,7 @@
  */
 
 import { constants } from '@ndla/ui';
-import { tType } from '@ndla/i18n';
+import { TFunction } from 'react-i18next';
 import {
   toEditArticle,
   toEditAudio,
@@ -56,7 +56,7 @@ const mapping: Record<string, ContentType> = {
   },
 };
 
-export const getResourceLanguages = (t: tType['t']) => [
+export const getResourceLanguages = (t: TFunction) => [
   { id: 'nb', name: t('language.nb') },
   { id: 'nn', name: t('language.nn') },
   { id: 'en', name: t('language.en') },

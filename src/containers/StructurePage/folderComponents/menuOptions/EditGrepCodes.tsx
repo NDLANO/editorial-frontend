@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { Plus, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -61,9 +61,9 @@ const EditGrepCodes = ({
   menuType,
   metadata,
   refreshTopics,
-  t,
   toggleEditMode,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [grepCodes, setGrepCodes] = useState(metadata?.grepCodes);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
   const [grepCodesWithName, setGrepCodesWithName] = useState<GrepCode[]>([]);
@@ -168,4 +168,4 @@ const EditGrepCodes = ({
   );
 };
 
-export default injectT(EditGrepCodes);
+export default EditGrepCodes;

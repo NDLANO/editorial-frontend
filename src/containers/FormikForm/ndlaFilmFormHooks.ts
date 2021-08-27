@@ -37,7 +37,8 @@ export function useNdlaFilmFormHooks(
 
       Object.keys(formik.values).map(fieldName => formik.setFieldTouched(fieldName, true, true));
 
-      formik.resetForm({ values: initialValues });
+      //@ts-ignore
+      formik.resetForm(initialValues);
       setSavedToServer(true);
     } catch (err) {
       if (err?.status === 409) {

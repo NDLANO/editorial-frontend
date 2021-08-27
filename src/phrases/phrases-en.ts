@@ -215,6 +215,7 @@ const phrases = {
       users: 'Editor',
       resourceTypes: 'Resource type',
       status: 'Status',
+      audioType: 'Audio file type',
     },
     btn: 'Search',
     empty: 'Empty',

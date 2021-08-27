@@ -25,13 +25,7 @@ const SearchTagGroup = ({ tagTypes, onRemoveItem }: Props) => {
     <Fragment>
       {tagTypes.map((tag: TagType) => {
         if (!tag.name) return null;
-        return (
-          <SearchTag
-            key={`searchtag_${tag.type}`}
-            onRemoveItem={onRemoveItem}
-            tag={tag}
-          />
-        );
+        return <SearchTag key={`searchtag_${tag.type}`} onRemoveItem={onRemoveItem} tag={tag} />;
       })}
     </Fragment>
   );

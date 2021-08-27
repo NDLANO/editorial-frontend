@@ -13,10 +13,13 @@ import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
+import { getTagName } from '../../../../util/formHelper';
 import ObjectSelector from '../../../../components/ObjectSelector';
+import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses, SearchParams } from './SearchForm';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { MinimalTagType } from './SearchTag';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -40,6 +43,7 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
     const { searchObject } = props;
 
     this.handleSearch = this.handleSearch.bind(this);
+    this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
 
@@ -79,6 +83,13 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
     search({ ...this.state.search, page: 1 });
   }
 
+  removeTagItem(tag: MinimalTagType) {
+    this.setState(
+      prevState => ({ search: { ...prevState.search, [tag.type]: '' } }),
+      this.handleSearch,
+    );
+  }
+
   emptySearch(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.persist();
     this.setState({ search: { query: '', language: '' } }, () => this.handleSearch(evt));
@@ -86,6 +97,20 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
 
   render() {
     const { t } = this.props;
+    const { search } = this.state;
+
+    const tagTypes = [
+      {
+        type: 'query',
+        id: search.query,
+        name: search.query,
+      },
+      {
+        type: 'language',
+        id: search.language,
+        name: getTagName(search.language, getResourceLanguages(t)),
+      },
+    ];
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
@@ -126,6 +151,9 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
             submit>
             {t('searchForm.btn')}
           </Button>
+        </div>
+        <div {...searchFormClasses('tagline')}>
+          <SearchTagGroup onRemoveItem={this.removeTagItem} tagTypes={tagTypes} />
         </div>
       </form>
     );

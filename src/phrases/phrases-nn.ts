@@ -217,6 +217,7 @@ const phrases = {
       users: 'Bruker',
       resourceTypes: 'Innhaldstype',
       status: 'Status',
+      audioType: 'Lydfiltype',
     },
     btn: 'Søk',
     empty: 'Tøm',

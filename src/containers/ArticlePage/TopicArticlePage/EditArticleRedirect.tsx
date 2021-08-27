@@ -7,20 +7,28 @@
  */
 
 import React, { useState, useContext, useEffect } from 'react';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
+import { Action, ActionFunction1 } from 'redux-actions';
 import EditTopicArticle from './EditTopicArticle';
 import { LocaleContext } from '../../App/App';
 import { fetchDraft } from '../../../modules/draft/draftApi';
+import { License } from '../../../interfaces';
+import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
-interface Props {
-  match: {
-    url: string;
-    params: {
-      articleId: string;
-    };
-  };
+interface Props extends RouteComponentProps<{ articleId: string }> {
+  isNewlyCreated: boolean;
+  licenses: License[];
+  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
+  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
 }
-const EditArticleRedirect = ({ match, ...rest }: Props) => {
+const EditArticleRedirect = ({
+  match,
+  licenses,
+  createMessage,
+  applicationError,
+  isNewlyCreated,
+}: Props) => {
   const locale = useContext(LocaleContext);
   const { articleId } = match.params;
   const [supportedLanguage, setSupportedLanguage] = useState<string>();
@@ -39,9 +47,12 @@ const EditArticleRedirect = ({ match, ...rest }: Props) => {
         path={`${match.url}/:selectedLanguage`}
         render={props => (
           <EditTopicArticle
+            licenses={licenses}
+            createMessage={createMessage}
+            applicationError={applicationError}
             articleId={articleId}
             selectedLanguage={props.match.params.selectedLanguage}
-            {...rest}
+            isNewlyCreated={isNewlyCreated}
           />
         )}
       />
@@ -52,4 +63,4 @@ const EditArticleRedirect = ({ match, ...rest }: Props) => {
   );
 };
 
-export default EditArticleRedirect;
+export default withRouter(EditArticleRedirect);

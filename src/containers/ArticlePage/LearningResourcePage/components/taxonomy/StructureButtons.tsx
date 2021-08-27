@@ -9,11 +9,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
+
+import { ResourceWithTopicConnection } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 const buttonAdditionStyle = css`
   opacity: 0;
@@ -66,7 +68,22 @@ const StyledButtonWrapper = styled.div`
   }
 `;
 
-const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic, t }) => {
+interface Props {
+  isSubject?: boolean;
+  id?: string;
+  closeModal: () => void;
+  activeTopics: ResourceWithTopicConnection[];
+  addTopic: (id: string | undefined, closeModal: () => void) => void;
+}
+
+const StructureButtons = ({
+  isSubject,
+  id,
+  closeModal,
+  activeTopics,
+  addTopic,
+  t,
+}: Props & tType) => {
   if (isSubject) {
     return null;
   }

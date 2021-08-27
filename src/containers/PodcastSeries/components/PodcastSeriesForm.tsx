@@ -207,7 +207,7 @@ const PodcastSeriesForm = ({
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
                 submit={!inModal}
-                onClick={(evt: Event) => {
+                onClick={evt => {
                   evt.preventDefault();
                   submitForm();
                 }}

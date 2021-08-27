@@ -14,7 +14,6 @@ import PropTypes from 'prop-types';
 import { connect, ConnectedProps } from 'react-redux';
 import Helmet from 'react-helmet';
 import loadable from '@loadable/component';
-// @ts-ignore
 import { Content, PageContainer } from '@ndla/ui';
 import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import { injectT, tType } from '@ndla/i18n';

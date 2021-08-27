@@ -21,6 +21,7 @@ import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
 import {
+  ParentTopicWithRelevanceAndConnections,
   ResourceWithTopicConnection,
   SubjectType,
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
@@ -114,7 +115,7 @@ const TopicConnections = ({
     setOpenedPaths(paths);
   };
 
-  const addTopic = async (id: string, closeModal: () => void) => {
+  const addTopic = async (id: string | undefined, closeModal: () => void) => {
     const topicToAdd = allTopics.find(taxonomyTopic => taxonomyTopic.id === id);
 
     const topicConnections = await fetchTopicConnections(topicToAdd!.id);
@@ -187,7 +188,6 @@ const TopicConnections = ({
                   id: string;
                 }) => (
                   <StructureButtons
-                    isOpen={isOpen}
                     id={id}
                     isSubject={isSubject}
                     closeModal={closeModal}

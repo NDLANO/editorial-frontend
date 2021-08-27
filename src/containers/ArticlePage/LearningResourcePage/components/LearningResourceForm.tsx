@@ -8,9 +8,10 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { injectT, tType } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -32,16 +33,35 @@ import { toEditArticle } from '../../../../util/routeHelpers';
 import { nullOrUndefined } from '../../../../util/articleUtil';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import { useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
+import { ArticleFormikType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
+import {
+  DraftApiType,
+  DraftStatus,
+  DraftStatusTypes,
+  UpdatedDraftApiType,
+} from '../../../../modules/draft/draftApiInterfaces';
+import {
+  ArticleType,
+  Author,
+  AvailabilityType,
+  ConvertedDraftType,
+  License,
+  LocaleType,
+  RelatedContent,
+  SlateArticle,
+} from '../../../../interfaces';
+import { ApiConceptType } from '../../../../modules/concept/conceptApiInterfaces';
+import { NewReduxMessage } from '../../../Messages/messagesSelectors';
+import { ReduxMessageError } from '../../../Messages/messagesSelectors';
 
-export const getInitialValues = (article = {}) => {
+export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
   const metaImageId = parseImageUrl(article.metaImage);
   return {
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     articleType: 'standard',
-    content: learningResourceContentToEditorValue(article.content),
+    content: learningResourceContentToEditorValue(article?.content ?? '', true),
     creators: parseCopyrightContributors(article, 'creators'),
     id: article.id,
     introduction: plainTextToEditorValue(article.introduction, true),
@@ -56,7 +76,7 @@ export const getInitialValues = (article = {}) => {
     published: article.published,
     revision: article.revision,
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
-    status: article.status || {},
+    status: article.status,
     supportedLanguages: article.supportedLanguages || [],
     tags: article.tags || [],
     slatetitle: plainTextToEditorValue(article.title, true),
@@ -69,7 +89,11 @@ export const getInitialValues = (article = {}) => {
   };
 };
 
-const getPublishedDate = (values, initialValues, preview = false) => {
+const getPublishedDate = (
+  values: ArticleFormikType,
+  initialValues: ArticleFormikType,
+  preview: boolean = false,
+) => {
   if (isEmpty(values.published)) {
     return undefined;
   }
@@ -84,18 +108,42 @@ const getPublishedDate = (values, initialValues, preview = false) => {
   return undefined;
 };
 
-const getArticleFromSlate = ({ values, licenses, initialValues, preview = false }) => {
+const isRelatedContent = (object: DraftApiType | RelatedContent): object is RelatedContent => {
+  return (object as DraftApiType).id === undefined;
+};
+
+export const convertDraftOrRelated = (
+  relatedContents: (DraftApiType | RelatedContent)[],
+): RelatedContent[] => {
+  return relatedContents.map(r => {
+    if (isRelatedContent(r)) return r;
+    else return r.id;
+  });
+};
+
+const getArticleFromSlate = ({
+  values,
+  licenses,
+  initialValues,
+  preview = false,
+}: {
+  values: ArticleFormikType;
+  licenses: License[];
+  initialValues: ArticleFormikType;
+  preview?: boolean;
+}): UpdatedDraftApiType => {
   const content = learningResourceContentToHTML(values.content);
   const emptyContent = values.id ? '' : undefined;
 
   const metaImage = values?.metaImageId
     ? {
         id: values.metaImageId,
-        alt: values.metaImageAlt,
+        alt: values.metaImageAlt ?? '',
       }
     : nullOrUndefined(values?.metaImageId);
 
-  const article = {
+  return {
+    revision: 0,
     articleType: 'standard',
     content: content && content.length > 0 ? content : emptyContent,
     copyright: {
@@ -111,20 +159,51 @@ const getArticleFromSlate = ({ values, licenses, initialValues, preview = false 
     metaImage,
     metaDescription: editorValueToPlainText(values.metaDescription),
     notes: values.notes || [],
-    published: getPublishedDate(values, initialValues, preview),
-    supportedLanguages: values.supportedLanguages,
+    published: getPublishedDate(values, initialValues, preview) ?? '',
     tags: values.tags,
     title: editorValueToPlainText(values.slatetitle),
-    grepCodes: values.grepCodes,
-    conceptIds: values.conceptIds,
+    grepCodes: values.grepCodes ?? [],
+    conceptIds: values.conceptIds?.map(c => c.id) ?? [],
     availability: values.availability,
-    relatedContent: values.relatedContent,
+    relatedContent: convertDraftOrRelated(values.relatedContent),
   };
-
-  return article;
 };
 
-const LearningResourceForm = props => {
+interface Props extends RouteComponentProps {
+  userAccess?: string;
+  createMessage: (message: NewReduxMessage) => void;
+  applicationError: (error: ReduxMessageError) => void;
+  article: Partial<ConvertedDraftType>;
+  translating: boolean;
+  translateToNN: () => void;
+  licenses: License[];
+  articleStatus?: DraftStatus;
+  isNewlyCreated: boolean;
+  articleChanged: boolean;
+  updateArticle: (updatedArticle: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  updateArticleAndStatus: (input: {
+    updatedArticle: UpdatedDraftApiType;
+    newStatus: DraftStatusTypes;
+    dirty: boolean;
+  }) => Promise<ConvertedDraftType>;
+}
+
+const LearningResourceForm = ({
+  applicationError,
+  article,
+  articleStatus,
+  createMessage,
+  isNewlyCreated = false,
+  licenses,
+  t,
+  translateToNN,
+  translating,
+  updateArticle,
+  updateArticleAndStatus,
+  articleChanged,
+  history,
+  userAccess,
+}: Props & tType) => {
   const {
     savedToServer,
     formikRef,
@@ -134,11 +213,23 @@ const LearningResourceForm = props => {
     fetchStatusStateMachine,
     validateDraft,
     fetchSearchTags,
-  } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
-  const { articleChanged, userAccess, createMessage, history } = props;
+  } = useArticleFormHooks({
+    getInitialValues,
+    article,
+    t,
+    createMessage,
+    articleStatus,
+    updateArticle,
+    applicationError,
+    updateArticleAndStatus,
+    licenses,
+    getArticleFromSlate,
+    isNewlyCreated,
+  });
+
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
-  const FormikChild = formik => {
+  const FormikChild = (formik: FormikProps<ArticleFormikType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting } = formik;
     const formIsDirty = isFormikFormDirty({
@@ -148,13 +239,16 @@ const LearningResourceForm = props => {
       changed: articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
-    const getArticle = preview => getArticleFromSlate({ values, initialValues, licenses, preview });
+    const getArticle = () =>
+      getArticleFromSlate({ values, initialValues, licenses, preview: false });
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage
           values={values}
           content={article}
-          editUrl={lang => toEditArticle(values.id, values.articleType, lang)}
+          editUrl={(lang: LocaleType) =>
+            values.id && toEditArticle(values.id, values.articleType, lang)
+          }
           getEntity={getArticle}
           formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
@@ -162,7 +256,6 @@ const LearningResourceForm = props => {
           setTranslateOnContinue={setTranslateOnContinue}
           type="standard"
           history={history}
-          {...rest}
         />
         {translating ? (
           <Spinner withWrapper />
@@ -177,10 +270,7 @@ const LearningResourceForm = props => {
             fetchSearchTags={fetchSearchTags}
             userAccess={userAccess}
             createMessage={createMessage}
-            history={history}
-            handleSubmit={() => {
-              handleSubmit(values, formik);
-            }}
+            handleSubmit={handleSubmit}
           />
         )}
         <EditorFooter
@@ -188,8 +278,8 @@ const LearningResourceForm = props => {
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
-          onSaveClick={saveAsNewVersion => {
-            setSaveAsNewVersion(saveAsNewVersion);
+          onSaveClick={(saveAsNewVersion?: boolean) => {
+            setSaveAsNewVersion(saveAsNewVersion ?? false);
             handleSubmit(values, formik);
           }}
           entityStatus={article.status}
@@ -197,7 +287,9 @@ const LearningResourceForm = props => {
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          {...rest}
+          createMessage={createMessage}
+          isConcept={false}
+          hideSecondaryButton={false}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}
@@ -210,16 +302,6 @@ const LearningResourceForm = props => {
     );
   };
 
-  const {
-    t,
-    article,
-    updateArticle,
-    translating,
-    translateToNN,
-    licenses,
-    isNewlyCreated,
-    ...rest
-  } = props;
   return (
     <Formik
       enableReinitialize={translating}
@@ -234,32 +316,32 @@ const LearningResourceForm = props => {
   );
 };
 
-LearningResourceForm.propTypes = {
-  licenses: LicensesArrayOf,
-  revision: PropTypes.number,
-  updateArticle: PropTypes.func.isRequired,
-  createMessage: PropTypes.func.isRequired,
-  articleStatus: PropTypes.shape({
-    current: PropTypes.string,
-    other: PropTypes.arrayOf(PropTypes.string),
-  }),
-  articleChanged: PropTypes.bool,
-  updateArticleAndStatus: PropTypes.func,
-  taxonomy: PropTypes.shape({
-    resourceTypes: PropTypes.array,
-    filter: PropTypes.array,
-    topics: PropTypes.array,
-    loading: PropTypes.bool,
-  }),
-  userAccess: PropTypes.string,
-  article: ArticleShape,
-  applicationError: PropTypes.func.isRequired,
-  translating: PropTypes.bool,
-  translateToNN: PropTypes.func,
-  isNewlyCreated: PropTypes.bool,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
+// TODO: anything missing? LearningResourceForm.propTypes = {
+//   licenses: LicensesArrayOf,
+//   revision: PropTypes.number,
+//   updateArticle: PropTypes.func.isRequired,
+//   createMessage: PropTypes.func.isRequired,
+//   articleStatus: PropTypes.shape({
+//     current: PropTypes.string,
+//     other: PropTypes.arrayOf(PropTypes.string),
+//   }),
+//   articleChanged: PropTypes.bool,
+//   updateArticleAndStatus: PropTypes.func,
+//   taxonomy: PropTypes.shape({
+//     resourceTypes: PropTypes.array,
+//     filter: PropTypes.array,
+//     topics: PropTypes.array,
+//     loading: PropTypes.bool,
+//   }),
+//   userAccess: PropTypes.string,
+//   article: ArticleShape,
+//   applicationError: PropTypes.func.isRequired,
+//   translating: PropTypes.bool,
+//   translateToNN: PropTypes.func,
+//   isNewlyCreated: PropTypes.bool,
+//   history: PropTypes.shape({
+//     push: PropTypes.func.isRequired,
+//   }).isRequired,
+// };
 
-export default injectT(LearningResourceForm);
+export default withRouter(injectT(LearningResourceForm));

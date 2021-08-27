@@ -7,18 +7,17 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { compose } from 'redux';
-import { connect as formikConnect } from 'formik';
+import { FormikContextType, FormikHelpers } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
+import { Value } from 'slate';
 import FormikField, { classes as formikFieldClasses } from '../../../../components/FormikField';
 import RichBlockTextEditor from '../../../../components/SlateEditor/RichBlockTextEditor';
-import LearningResourceFootnotes from './LearningResourceFootnotes';
+import LearningResourceFootnotes, { FootnoteType } from './LearningResourceFootnotes';
 import { schema } from '../../../../components/SlateEditor/editorSchema';
 import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
 import {
@@ -57,10 +56,11 @@ import {
 import createTablePlugin from '../../../../components/SlateEditor/plugins/table';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import { IngressField, TitleField } from '../../../FormikForm';
-import { ArticleShape } from '../../../../shapes';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
 import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
+import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
+import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 
 const byLineStyle = css`
   display: flex;
@@ -75,9 +75,9 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-const findFootnotes = content =>
+const findFootnotes = (content: Value[]): FootnoteType[] =>
   content
-    .reduce((all, value) => [...all, ...findNodesByType(value.document, footnoteType)], [])
+    .reduce((all: Value[], value) => [...all, ...findNodesByType(value.document, footnoteType)], [])
     .filter(footnote => footnote.data.size > 0)
     .map(footnoteNode => footnoteNode.data.toJS());
 
@@ -88,8 +88,26 @@ const actionsToShowInAreas = {
   bodybox: actions,
   summary: actions,
 };
-class LearningResourceContent extends Component {
-  constructor(props) {
+
+type Props = {
+  locale: LocaleType;
+  article: Partial<ConvertedDraftType>;
+  userAccess?: string;
+  handleBlur: Function; // TODO:
+  values: ArticleFormikType;
+  handleSubmit: (
+    values: ArticleFormikType,
+    formikHelpers: FormikHelpers<ArticleFormikType>,
+  ) => Promise<void>;
+} & tType & { formik: FormikContextType<ArticleFormikType> };
+
+interface State {
+  preview: boolean;
+}
+
+class LearningResourceContent extends Component<Props, State> {
+  plugins: any[] = [];
+  constructor(props: Props) {
     super(props);
     const {
       article: { language },
@@ -99,7 +117,7 @@ class LearningResourceContent extends Component {
     };
     this.plugins = [
       footnotePlugin(),
-      createEmbedPlugin(language, props.locale),
+      createEmbedPlugin(language ?? 'nb', props.locale),
       createBodyBoxPlugin(),
       createAsidePlugin(),
       createDetailsPlugin(),
@@ -130,13 +148,20 @@ class LearningResourceContent extends Component {
     ];
   }
 
-  componentDidUpdate({ article: { id: prevId, language: prevLanguage } }) {
+  componentDidUpdate(prevProps: Props & tType) {
+    const {
+      article: { id: prevId, language: prevLanguage },
+    } = prevProps;
+
     const {
       article: { id, language },
+      locale,
     } = this.props;
+    if (!language) return;
+
     if (prevLanguage !== language || prevId !== id) {
       this.plugins = [
-        createEmbedPlugin(language),
+        createEmbedPlugin(language, locale),
         conceptPlugin(language),
         blockPickerPlugin({
           articleLanguage: language,
@@ -159,7 +184,7 @@ class LearningResourceContent extends Component {
     return (
       <Fragment>
         <TitleField
-          handleSubmit={handleSubmit}
+          handleSubmit={() => handleSubmit(this.props.values, this.props.formik)}
           onBlur={(event, editor, next) => {
             next();
             // this is a hack since formik onBlur-handler interferes with slates
@@ -200,7 +225,7 @@ class LearningResourceContent extends Component {
         <IngressField
           preview={this.state.preview}
           handleSubmit={handleSubmit}
-          onBlur={(event, editor, next) => {
+          onBlur={(event: Event, editor: unknown, next: () => void) => {
             next();
             // this is a hack since formik onBlur-handler interferes with slates
             // related to: https://github.com/ianstormtaylor/slate/issues/2434
@@ -218,7 +243,7 @@ class LearningResourceContent extends Component {
               <FieldHeader title={t('form.content.label')}>
                 {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
                   <EditMarkupLink
-                    to={toEditMarkup(id, language)}
+                    to={toEditMarkup(id, language ?? '')}
                     title={t('editMarkup.linkTitle')}
                   />
                 )}
@@ -236,7 +261,7 @@ class LearningResourceContent extends Component {
                 value={value}
                 name={name}
                 onChange={onChange}
-                onBlur={(event, editor, next) => {
+                onBlur={(event: Event, editor: unknown, next: () => void) => {
                   next();
                   // this is a hack since formik onBlur-handler interferes with slates
                   // related to: https://github.com/ianstormtaylor/slate/issues/2434
@@ -254,18 +279,4 @@ class LearningResourceContent extends Component {
   }
 }
 
-LearningResourceContent.propTypes = {
-  locale: PropTypes.string.isRequired,
-  userAccess: PropTypes.string,
-  handleBlur: PropTypes.func,
-  values: PropTypes.shape({
-    id: PropTypes.number,
-    language: PropTypes.string,
-    creators: PropTypes.array,
-    published: PropTypes.string,
-  }),
-  article: ArticleShape,
-  handleSubmit: PropTypes.func.isRequired,
-};
-
-export default compose(injectT, formikConnect)(LearningResourceContent);
+export default injectT(LearningResourceContent);

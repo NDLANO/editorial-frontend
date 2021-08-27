@@ -30,14 +30,28 @@ interface Props {
   creators: Creators;
   allowEdit?: boolean;
   published?: string;
+  onChange: (date: string) => void;
+  name: string;
 }
 
-const LastUpdatedLine = ({ creators, published, allowEdit = false, t, ...rest }: Props & tType) => (
+const LastUpdatedLine = ({
+  creators,
+  published,
+  onChange,
+  allowEdit = false,
+  t,
+  name,
+  ...rest
+}: Props & tType) => (
   <div css={infoCss}>
     {creators.map(creator => creator.name).join(', ')}
     {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
     {published &&
-      (allowEdit ? <DateEdit {...rest} published={published} /> : formatDate(published))}
+      (allowEdit ? (
+        <DateEdit {...rest} name={name} onChange={onChange} published={published} />
+      ) : (
+        formatDate(published)
+      ))}
   </div>
 );
 

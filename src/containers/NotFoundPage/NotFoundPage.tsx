@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-// @ts-ignore
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { injectT, tType } from '@ndla/i18n';
 

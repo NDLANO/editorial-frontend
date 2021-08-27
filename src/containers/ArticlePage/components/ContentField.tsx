@@ -18,12 +18,11 @@ import { AsyncDropdown } from '../../../components/Dropdown';
 import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
+import { ArticleFormikType } from '../../FormikForm/articleFormHooks';
 
 interface Props {
   locale: string;
-  values: {
-    relatedContent: ConvertedRelatedContent[];
-  };
+  values: ArticleFormikType;
   field: FormikProperties['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];

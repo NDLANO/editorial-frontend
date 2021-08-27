@@ -6,7 +6,7 @@ export type Input = {
   topicPath: string;
   structure: PathArray;
   allTopics: PathArray;
-  title: string;
+  title?: string;
 };
 
 export type PathArray = Array<TaxonomyElement>;

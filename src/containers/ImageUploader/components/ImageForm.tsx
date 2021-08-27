@@ -196,10 +196,12 @@ class ImageForm extends Component<Props & tType, State> {
       | 'title';
 
     const initialValues = getInitialValues(image);
+    const initialErrors = validateFormik(initialValues, imageRules, t);
 
     return (
       <Formik
         initialValues={initialValues}
+        initialErrors={initialErrors}
         onSubmit={this.handleSubmit}
         validateOnMount
         enableReinitialize
@@ -267,7 +269,7 @@ class ImageForm extends Component<Props & tType, State> {
                   showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                   formIsDirty={formIsDirty}
                   submit={!inModal}
-                  onClick={(evt: Event) => {
+                  onClick={evt => {
                     if (inModal) {
                       evt.preventDefault();
                       submitForm();

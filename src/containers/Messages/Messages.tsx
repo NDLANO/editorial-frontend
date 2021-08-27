@@ -95,7 +95,7 @@ export const Messages = ({ dispatch, messages }: MessagesProps) => {
     setTimeout(() => dispatch(clearMessage(item.id)), item.timeToLive);
   };
 
-  messages.filter(m => m.timeToLive > 0).forEach(item => timeoutMessage(item));
+  messages.filter(m => (m.timeToLive ?? 1) > 0).forEach(item => timeoutMessage(item));
 
   return (
     <StyledMessageAlertOverlay appearance={isHidden ? 'hidden' : ''}>

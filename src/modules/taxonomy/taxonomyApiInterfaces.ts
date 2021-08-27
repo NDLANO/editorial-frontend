@@ -55,7 +55,7 @@ export interface ResourceWithParentTopics extends Resource {
   parentTopics: ParentTopic[];
 }
 
-export interface ParentTopic {
+export interface ParentTopic extends TaxonomyElement {
   id: string;
   name: string;
   contentUri: string;

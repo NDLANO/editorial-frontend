@@ -26,15 +26,16 @@ import {
   ResourceWithTopicConnection,
   SubjectType,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { LocaleType } from '../../../../interfaces';
 
 interface Props {
   structure: SubjectType[];
   activeTopics: ResourceWithTopicConnection[];
   allowMultipleSubjectsOpen?: boolean;
   stageTaxonomyChanges: ({ path }: { path: string }) => void;
-  getSubjectTopics: (subjectId: string, locale: string) => Promise<void>;
+  getSubjectTopics: (subjectId: string, locale: LocaleType) => Promise<void>;
   retriveBreadCrumbs: (path: string) => PathArray;
-  locale: string;
+  locale: LocaleType;
 }
 
 const StyledTitleModal = styled('h1')`
@@ -179,18 +180,6 @@ const TopicArticleConnections = ({
       </Modal>
     </>
   );
-};
-
-TopicArticleConnections.propTypes = {
-  isOpened: PropTypes.bool,
-  structure: PropTypes.arrayOf<SubjectType>(StructureShape).isRequired,
-  activeTopics: PropTypes.arrayOf<ResourceWithTopicConnection>(TopicShape).isRequired,
-  retriveBreadcrumbs: PropTypes.func,
-  setPrimaryConnection: PropTypes.func,
-  allowMultipleSubjectsOpen: PropTypes.bool,
-  stageTaxonomyChanges: PropTypes.func.isRequired,
-  getSubjectTopics: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default injectT(TopicArticleConnections);

@@ -11,10 +11,10 @@ import { injectT, tType } from '@ndla/i18n';
 import { FieldProps, FormikValues } from 'formik';
 import FormikField from '../../components/FormikField';
 import GrepCodesFieldContent from './GrepCodesFieldContent';
-import { ArticleType } from '../../interfaces';
+import { ArticleType, ConvertedDraftType } from '../../interfaces';
 
 interface Props {
-  article: ArticleType;
+  article: Partial<ConvertedDraftType>;
 }
 
 const GrepCodesField = ({ t, article }: Props & tType) => {
@@ -22,7 +22,11 @@ const GrepCodesField = ({ t, article }: Props & tType) => {
     <Fragment>
       <FormikField name="grepCodes" label={t('form.grepCodes.label')}>
         {({ field, form }: FieldProps<string[], FormikValues>) => (
-          <GrepCodesFieldContent articleGrepCodes={article.grepCodes} field={field} form={form} />
+          <GrepCodesFieldContent
+            articleGrepCodes={article?.grepCodes ?? []}
+            field={field}
+            form={form}
+          />
         )}
       </FormikField>
     </Fragment>

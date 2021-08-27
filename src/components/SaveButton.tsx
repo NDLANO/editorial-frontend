@@ -64,7 +64,7 @@ interface Props {
   formIsDirty: boolean;
   large?: boolean;
   disabled?: boolean;
-  onClick: (evt: Event) => void;
+  onClick: (evt: React.MouseEvent<HTMLButtonElement>) => void;
   clippedButton?: boolean;
   submit?: boolean;
 }

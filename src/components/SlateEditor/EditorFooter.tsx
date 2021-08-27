@@ -15,23 +15,24 @@ import { Launch } from '@ndla/icons/common';
 import { useFormikContext } from 'formik';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
-import { Article, PossibleStatuses } from './editorTypes';
-import { CreateMessageType } from '../../interfaces';
+import { PossibleStatuses } from './editorTypes';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 import { ConceptType, FormValues } from '../../modules/concept/conceptApiInterfaces';
+import { NewReduxMessage } from '../../containers/Messages/messagesSelectors';
+import { DraftStatus, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface Props {
   formIsDirty: boolean;
   savedToServer: boolean;
-  getEntity: () => Article | ConceptType;
-  entityStatus: { current: string };
-  createMessage?: (o: CreateMessageType) => void;
+  getEntity: () => UpdatedDraftApiType | ConceptType;
+  entityStatus?: DraftStatus;
+  createMessage: (message: NewReduxMessage) => void;
   showSimpleFooter: boolean;
-  onSaveClick: VoidFunction;
+  onSaveClick: (saveAsNewVersion?: boolean) => void;
   fetchStatusStateMachine: () => Promise<PossibleStatuses>;
-  validateEntity: (id: number, updatedEntity: Article | ConceptType) => void;
+  validateEntity?: (id: number, updatedEntity: UpdatedDraftApiType) => Promise<{ id: number }>;
   isArticle?: boolean;
   isConcept: boolean;
   hideSecondaryButton: boolean;
@@ -98,18 +99,26 @@ function EditorFooter<T extends FormValues>({
     />
   );
 
-  const catchError = (error: any, createMessage: (o: CreateMessageType) => void) => {
+  const catchError = (error: any, createMessage: (message: NewReduxMessage) => void) => {
     if (error?.json?.messages) {
       createMessage(formatErrorMessage(error));
     } else {
       createMessage(error);
     }
   };
+
+  const isDraftApiType = (t: UpdatedDraftApiType | ConceptType): t is UpdatedDraftApiType => {
+    const casted = t as ConceptType;
+    return casted.parsedVisualElement !== undefined;
+  };
+
   const onValidateClick = async () => {
     const { id, revision } = values;
-    const updatedEntity = { ...getEntity(), revision };
+    const entity = getEntity();
+    if (!isDraftApiType(entity)) return;
+    const updatedEntity = { ...entity, revision: revision ?? entity.revision };
     try {
-      await validateEntity(id, updatedEntity);
+      await validateEntity?.(id, updatedEntity);
       if (createMessage) {
         createMessage({
           translationKey: 'form.validationOk',
@@ -132,8 +141,8 @@ function EditorFooter<T extends FormValues>({
   }
 
   const getStatuses = () =>
-    Array.isArray(possibleStatuses[entityStatus.current])
-      ? possibleStatuses[entityStatus.current].map((status: string) => ({
+    entityStatus && Array.isArray(possibleStatuses[entityStatus.current])
+      ? possibleStatuses[entityStatus?.current].map((status: string) => ({
           name: t(`form.status.actions.${status}`),
           id: status,
           active: status === entityStatus.current,
@@ -179,7 +188,7 @@ function EditorFooter<T extends FormValues>({
           options={getStatuses()}
           messages={{
             label: '',
-            changeStatus: t(`form.status.${entityStatus.current.toLowerCase()}`),
+            changeStatus: t(`form.status.${entityStatus?.current.toLowerCase()}`),
             back: t('editorFooter.back'),
             inputHeader: t('editorFooter.inputHeader'),
             inputHelperText: t('editorFooter.inputHelperText'),

@@ -34,6 +34,7 @@ interface State {
     query: string;
     language: string;
     license: string;
+    modelReleased: string;
     page?: string;
   };
   licenses: {
@@ -58,6 +59,7 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
         query: searchObject.query || '',
         language: searchObject.language || '',
         license: searchObject.license || '',
+        modelReleased: searchObject['model-released'] || '',
       },
       licenses: [],
     };
@@ -75,6 +77,7 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
           query: searchObject.query || '',
           language: searchObject.language || '',
           license: searchObject.license || '',
+          modelReleased: searchObject['model-released'] || '',
         },
       });
     }
@@ -102,8 +105,11 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
     if (evt) {
       evt.preventDefault();
     }
+    const {
+      search: { query, language, license, modelReleased },
+    } = this.state;
     const { search } = this.props;
-    search({ ...this.state.search, page: 1 });
+    search({ query, language, license, 'model-released': modelReleased, page: 1 });
   }
 
   removeTagItem(tag: MinimalTagType) {
@@ -115,7 +121,7 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
 
   emptySearch(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.persist();
-    this.setState({ search: { query: '', language: '', license: '' } }, () =>
+    this.setState({ search: { query: '', language: '', license: '', modelReleased: '' } }, () =>
       this.handleSearch(evt),
     );
   }
@@ -123,6 +129,21 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
   render() {
     const { t } = this.props;
     const { search, licenses } = this.state;
+
+    const modelReleasedOptions = [
+      {
+        id: 'yes',
+        name: t('searchForm.modelReleased.yes'),
+      },
+      {
+        id: 'no',
+        name: t('searchForm.modelReleased.no'),
+      },
+      {
+        id: 'not-applicable',
+        name: t('searchForm.modelReleased.notApplicable'),
+      },
+    ];
 
     const tagTypes = [
       {
@@ -140,28 +161,21 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
         id: search.license,
         name: getTagName(search.license, licenses),
       },
+      {
+        type: 'modelReleased',
+        id: search.modelReleased,
+        name: getTagName(search.modelReleased, modelReleasedOptions),
+      },
     ];
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
-        <div {...searchFormClasses('field', '25-width')}>
+        <div {...searchFormClasses('field', '100-width')}>
           <input
             name="query"
             placeholder={t('searchForm.types.imageQuery')}
             value={search.query}
             onChange={this.onFieldChange}
-          />
-        </div>
-        <div {...searchFormClasses('field', '25-width')}>
-          <ObjectSelector
-            name="language"
-            value={search.language}
-            options={getResourceLanguages(t)}
-            idKey="id"
-            labelKey="name"
-            emptyField
-            onChange={this.onFieldChange}
-            placeholder={t('searchForm.types.language')}
           />
         </div>
         <div {...searchFormClasses('field', '25-width')}>
@@ -174,6 +188,30 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
             emptyField
             onChange={this.onFieldChange}
             placeholder={t('searchForm.types.license')}
+          />
+        </div>
+        <div {...searchFormClasses('field', '25-width')}>
+          <ObjectSelector
+            name="modelReleased"
+            value={search.modelReleased}
+            options={modelReleasedOptions}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={this.onFieldChange}
+            placeholder={t('searchForm.types.modelReleased')}
+          />
+        </div>
+        <div {...searchFormClasses('field', '25-width')}>
+          <ObjectSelector
+            name="language"
+            value={search.language}
+            options={getResourceLanguages(t)}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={this.onFieldChange}
+            placeholder={t('searchForm.types.language')}
           />
         </div>
         <div {...searchFormClasses('field', '25-width')}>

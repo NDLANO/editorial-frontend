@@ -208,6 +208,7 @@ const phrases = {
       status: 'Select status',
       audio: 'Select audio file type',
       license: 'Select license',
+      modelReleased: 'Select model released',
     },
     tagType: {
       query: 'Query',
@@ -218,6 +219,7 @@ const phrases = {
       status: 'Status',
       audioType: 'Audio file type',
       license: 'License',
+      modelReleased: 'Model released',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -232,6 +234,11 @@ const phrases = {
     audioType: {
       standard: 'Audio',
       podcast: 'Podcast',
+    },
+    modelReleased: {
+      yes: 'Yes',
+      no: 'No',
+      notApplicable: 'Not applicable',
     },
     order: 'Rekkefølge',
     asc: 'Ascending',

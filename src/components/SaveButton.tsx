@@ -61,7 +61,7 @@ interface Props {
   isSaving?: boolean;
   showSaved?: boolean;
   defaultText?: string;
-  formIsDirty: boolean;
+  formIsDirty?: boolean;
   large?: boolean;
   disabled?: boolean;
   onClick: (evt: Event) => void;
@@ -73,7 +73,7 @@ const SaveButton = ({
   isSaving,
   showSaved,
   defaultText,
-  formIsDirty,
+  formIsDirty = true,
   large,
   disabled,
   onClick,
@@ -106,10 +106,6 @@ const SaveButton = ({
       </Button>
     </>
   );
-};
-
-SaveButton.defaultProps = {
-  formIsDirty: true,
 };
 
 export default SaveButton;

@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.emotion-174 {
+.emotion-186 {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.emotion-27 {
+.emotion-29 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -137,7 +137,7 @@ exports[`matches snapshot 1`] = `
   cursor: not-allowed;
 }
 
-.emotion-17 {
+.emotion-18 {
   position: relative;
 }
 
@@ -249,7 +249,7 @@ exports[`matches snapshot 1`] = `
   font-size: 0.8rem;
 }
 
-.emotion-23 {
+.emotion-25 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -279,54 +279,57 @@ exports[`matches snapshot 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  margin-left: 13px;
-  line-height: 1;
 }
 
-.emotion-23:hover,
-.emotion-23:focus {
+.emotion-25:hover,
+.emotion-25:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-23[disabled] {
+.emotion-25[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-23:focus {
+.emotion-25:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-23:hover,
-.emotion-23:active,
-.emotion-23:disabled,
-.emotion-23:focus {
+.emotion-25:hover,
+.emotion-25:active,
+.emotion-25:disabled,
+.emotion-25:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-23:focus {
+.emotion-25:focus {
   outline-width: medium;
-}
-
-.emotion-22 {
-  width: 24px;
-  height: 24px;
-  opacity: 0.6;
 }
 
 .emotion-6 {
   margin-left: 6.5px;
 }
 
+.emotion-24 {
+  margin-left: 13px;
+  line-height: 1;
+}
+
+.emotion-23 {
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+}
+
 <ul
-  class="c-topic-resource__list emotion-174 emotion-175"
+  class="c-topic-resource__list emotion-186 emotion-187"
 >
   <div
     class="c-dnd-list__drop-zone"
@@ -336,7 +339,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
+        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -391,7 +394,7 @@ exports[`matches snapshot 1`] = `
           GREP
         </button>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -408,7 +411,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-16"
+              class="emotion-16 emotion-17"
             >
               <label
                 class="emotion-14 emotion-15"
@@ -426,7 +429,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -443,11 +446,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-23 emotion-8"
+              class="emotion-24 emotion-25 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-22"
+                class="c-icon c-topic-resource__deleteIcon emotion-23"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -480,7 +483,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
+        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -541,7 +544,7 @@ exports[`matches snapshot 1`] = `
           GREP
         </button>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -558,7 +561,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-16"
+              class="emotion-16 emotion-17"
             >
               <label
                 class="emotion-14 emotion-15"
@@ -576,7 +579,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -593,11 +596,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-23 emotion-8"
+              class="emotion-24 emotion-25 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-22"
+                class="c-icon c-topic-resource__deleteIcon emotion-23"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -630,7 +633,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
+        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -691,7 +694,7 @@ exports[`matches snapshot 1`] = `
           GREP
         </button>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -708,7 +711,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-16"
+              class="emotion-16 emotion-17"
             >
               <label
                 class="emotion-14 emotion-15"
@@ -726,7 +729,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -743,11 +746,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-23 emotion-8"
+              class="emotion-24 emotion-25 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-22"
+                class="c-icon c-topic-resource__deleteIcon emotion-23"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -780,7 +783,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
+        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -841,7 +844,7 @@ exports[`matches snapshot 1`] = `
           GREP
         </button>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -858,7 +861,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-16"
+              class="emotion-16 emotion-17"
             >
               <label
                 class="emotion-14 emotion-15"
@@ -876,7 +879,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -893,11 +896,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-23 emotion-8"
+              class="emotion-24 emotion-25 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-22"
+                class="c-icon c-topic-resource__deleteIcon emotion-23"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -930,7 +933,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
+        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -991,7 +994,7 @@ exports[`matches snapshot 1`] = `
           GREP
         </button>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -1008,7 +1011,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-16"
+              class="emotion-16 emotion-17"
             >
               <label
                 class="emotion-14 emotion-15"
@@ -1026,7 +1029,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -1043,11 +1046,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-23 emotion-8"
+              class="emotion-24 emotion-25 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-22"
+                class="c-icon c-topic-resource__deleteIcon emotion-23"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -1080,7 +1083,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-27 emotion-28"
+        class="c-topic-resource__text o-flag o-flag--top emotion-29 emotion-30"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -1141,7 +1144,7 @@ exports[`matches snapshot 1`] = `
           GREP
         </button>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -1158,7 +1161,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-16"
+              class="emotion-16 emotion-17"
             >
               <label
                 class="emotion-14 emotion-15"
@@ -1176,7 +1179,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class=" emotion-17 emotion-18"
+          class=" emotion-18 emotion-19"
         >
           <div
             class="emotion-10 emotion-11"
@@ -1193,11 +1196,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-23 emotion-8"
+              class="emotion-24 emotion-25 emotion-8"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-22"
+                class="c-icon c-topic-resource__deleteIcon emotion-23"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"

@@ -11,12 +11,17 @@ import PropTypes from 'prop-types';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
-import { tagClasses } from '../../../../components/Tag';
+import BEMHelper from 'react-bem-helper';
 
 export type MinimalTagType = {
   name: string;
   type: string;
 };
+
+export const tagClasses = new BEMHelper({
+  name: 'tag',
+  prefix: 'c-',
+});
 
 interface Props {
   tag: MinimalTagType;

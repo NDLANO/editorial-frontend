@@ -44,7 +44,7 @@ interface Props {
   embed: Embed;
   figureClass: any;
   language: string;
-  onRemoveClick: Function;
+  onRemoveClick: (event: React.MouseEvent) => void;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
 }
 

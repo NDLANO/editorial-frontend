@@ -34,6 +34,7 @@ import {
   MultiSearchApiQuery,
 } from '../../../modules/search/searchApiInterfaces';
 import AlertModal from '../../../components/AlertModal';
+import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -66,12 +67,10 @@ interface Props {
   existingResourceIds: string[];
 }
 
-interface ContentType {
-  id: number;
-  metaDescription?: string;
-  title?: string;
-  imageUrl?: string;
-}
+type ContentType = Pick<ArticleSearchSummaryApiType, 'title' | 'metaDescription' | 'id'> & {
+  metaUrl?: string;
+  paths?: string[];
+};
 
 interface SelectedType {
   id: string;
@@ -89,7 +88,7 @@ const AddResourceModal = ({
   onClose,
   type,
   resourceTypes,
-  allowPaste,
+  allowPaste = false,
   topicId,
   refreshResources,
   existingResourceIds,
@@ -211,18 +210,23 @@ const AddResourceModal = ({
     const article = await getArticle(articleId);
     setContent({
       id: article.id,
-      metaDescription: article.metaDescription.metaDescription,
-      title: article.title.title,
-      imageUrl: article?.metaImage?.url,
+      metaDescription: article.metaDescription,
+      title: article.title,
+      metaUrl: article.metaImage?.url,
     });
   };
 
   const learningpathToState = (learningpath: SelectedType) => {
     setContent({
-      id: Number(learningpath.id),
-      metaDescription: learningpath.description,
-      title: learningpath.title,
-      imageUrl: learningpath.coverPhotoUrl,
+      id: parseInt(learningpath.id),
+      // We do not know the language of the description or the title. Thus, they should not be used
+      // further down the component tree. They are only present to appease TypeScript.
+      metaDescription: {
+        metaDescription: learningpath.description ?? '',
+        language: 'unknown',
+      },
+      title: { title: learningpath.title ?? '', language: 'unknown' },
+      metaUrl: learningpath.coverPhotoUrl,
     });
   };
 
@@ -338,10 +342,6 @@ const AddResourceModal = ({
       </StyledContent>
     </TaxonomyLightbox>
   );
-};
-
-AddResourceModal.defaultProps = {
-  allowPaste: false,
 };
 
 export default AddResourceModal;

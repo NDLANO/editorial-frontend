@@ -25,7 +25,7 @@ interface Props {
   embed: Embed;
   language: string;
   locale: LocaleType;
-  onRemoveClick: Function;
+  onRemoveClick: (event: React.MouseEvent) => void;
 }
 
 const SlatePodcast = ({ attributes, embed, language, locale, onRemoveClick }: Props) => {

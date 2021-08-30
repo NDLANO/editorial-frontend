@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Home } from '@ndla/icons/common';
 import { Link } from 'react-router-dom';
 import RoundIcon from '../../../../components/RoundIcon';
@@ -23,7 +23,8 @@ interface Props {
   locale: string;
 }
 
-const EditSubjectpageOption = ({ t, id, locale }: Props & tType) => {
+const EditSubjectpageOption = ({ id, locale }: Props) => {
+  const { t } = useTranslation();
   const [subject, setSubject] = useState<SubjectType>();
 
   useEffect(() => {
@@ -55,4 +56,4 @@ const EditSubjectpageOption = ({ t, id, locale }: Props & tType) => {
   );
 };
 
-export default injectT(EditSubjectpageOption);
+export default EditSubjectpageOption;

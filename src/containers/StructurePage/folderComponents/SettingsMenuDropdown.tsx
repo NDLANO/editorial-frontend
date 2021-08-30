@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, animations, shadows } from '@ndla/core';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
@@ -50,7 +50,6 @@ interface Props {
 
 const SettingsMenuDropdown = ({
   onClose,
-  t,
   id,
   setShowAlertModal,
   metadata,
@@ -68,7 +67,8 @@ const SettingsMenuDropdown = ({
   showAllOptions,
   structure,
   parent,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const settingsMenuType = id.includes('subject') ? 'subject' : 'topic';
   return (
     <StyledDivWrapper>
@@ -129,4 +129,4 @@ export const StyledDivWrapper = styled('div')`
   }
 `;
 
-export default injectT(SettingsMenuDropdown);
+export default SettingsMenuDropdown;

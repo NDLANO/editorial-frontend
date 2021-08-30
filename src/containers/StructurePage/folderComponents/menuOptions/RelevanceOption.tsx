@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
 import ToggleSwitch from '../../../../components/ToggleSwitch';
@@ -18,7 +18,8 @@ interface Props {
   onChange: (id: string) => void;
 }
 
-const RelevanceOption = ({ relevanceId, onChange, t }: Props & tType) => {
+const RelevanceOption = ({ relevanceId, onChange }: Props) => {
+  const { t } = useTranslation();
   const [isOn, setIsOn] = useState((relevanceId ?? RESOURCE_FILTER_CORE) === RESOURCE_FILTER_CORE);
 
   return (
@@ -44,4 +45,4 @@ const StyledToggleSwitch = styled('div')`
   margin-left: 10px;
 `;
 
-export default injectT(RelevanceOption);
+export default RelevanceOption;

@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -47,10 +47,10 @@ const ToggleVisibility = ({
   metadata,
   refreshTopics,
   setResourcesUpdated,
-  t,
   toggleEditMode,
-}: Props & tType) => {
-  const [visible, setVisible] = useState<boolean | undefined>(metadata?.visible);
+}: Props) => {
+  const { t } = useTranslation();
+  const [visible, setVisible] = useState(metadata?.visible);
 
   const toggleVisibility = async () => {
     switch (menuType) {
@@ -114,4 +114,4 @@ const ToggleVisibility = ({
   );
 };
 
-export default injectT(ToggleVisibility);
+export default ToggleVisibility;

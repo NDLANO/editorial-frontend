@@ -7,8 +7,8 @@
  */
 
 import React, { memo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
-import { injectT, tType } from '@ndla/i18n';
 import { useEffect } from 'react';
 import RoundIcon from '../../../../components/RoundIcon';
 import {
@@ -40,14 +40,14 @@ const AddExistingToTopic = ({
   locale,
   path,
   toggleEditMode,
-  t,
   onClose,
   editMode,
   structure,
   numberOfSubtopics = 0,
   refreshTopics,
   id,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [topics, setTopics] = useState<(Topic & { description?: string })[]>([]);
 
   useEffect(() => {
@@ -107,6 +107,7 @@ const AddExistingToTopic = ({
       onClose={onClose}
       onSubmit={onAddExistingSubTopic}
       icon={<Plus />}
+      showPagination
     />
   ) : (
     <MenuItemButton stripped onClick={toggleEditModeFunc}>
@@ -116,4 +117,4 @@ const AddExistingToTopic = ({
   );
 };
 
-export default memo(injectT(AddExistingToTopic));
+export default memo(AddExistingToTopic);

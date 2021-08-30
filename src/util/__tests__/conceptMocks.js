@@ -23,7 +23,7 @@ export const apiConcept = {
   articles: [],
   visualElement: {
     visualElement:
-      '<embed data-resource="image" data-resource_id="1234" data-size="fullbredde" data-align="" data-alt="Test data alt" data-caption="">',
+      '<embed data-resource="image" data-resource_id="1234" data-size="full" data-align="" data-alt="Test data alt" data-caption="">',
     language: 'nb',
   },
 };

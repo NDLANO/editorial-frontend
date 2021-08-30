@@ -7,7 +7,7 @@
  */
 
 import React, { memo, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
@@ -38,6 +38,8 @@ const DropdownWrapper = styled.div`
   width: 90%;
 `;
 
+const PAGE_SIZE = 10;
+
 interface Props {
   icon: React.ReactNode;
   onSubmit: (selected: Topic & { description?: string }) => Promise<void>;
@@ -46,6 +48,7 @@ interface Props {
   placeholder: string;
   filter?: string;
   smallIcon?: boolean;
+  showPagination?: boolean;
 }
 
 type StatusType = 'initial' | 'loading' | 'success' | 'error';
@@ -58,9 +61,13 @@ const MenuItemDropdown = ({
   placeholder,
   smallIcon,
   icon,
-  t,
-}: Props & tType) => {
+  showPagination,
+}: Props) => {
+  const { t } = useTranslation();
   const [status, setStatus] = useState<StatusType>('initial');
+  const [page, setPage] = useState(1);
+
+  const handlePageChange = (page: { page: number }) => setPage(page.page);
 
   const getResultItems = () => {
     const options = {
@@ -94,30 +101,40 @@ const MenuItemDropdown = ({
     }
   };
 
-  const items = getResultItems();
+  const allItems = getResultItems();
   return (
     <>
       <div css={menuItemStyle}>
         <RoundIcon open small smallIcon={smallIcon} icon={icon} />
         <Downshift itemToString={item => itemToString(item, 'name')} onChange={handleSubmit}>
-          {({ getInputProps, getRootProps, ...downshiftProps }) => (
-            <DropdownWrapper {...getRootProps()}>
-              <Input
-                {...getInputProps({ placeholder })}
-                data-testid="inlineDropdownInput"
-                white
-                css={dropdownInputStyle}
-                iconRight={status === 'loading' ? <Spinner size="normal" margin="0" /> : <Search />}
-              />
-              <DropdownMenu
-                items={items ? items.search(downshiftProps.inputValue!) : []}
-                idField="id"
-                labelField="name"
-                {...downshiftProps}
-                positionAbsolute
-              />
-            </DropdownWrapper>
-          )}
+          {({ getInputProps, getRootProps, ...downshiftProps }) => {
+            const items = allItems ? allItems.search(downshiftProps.inputValue!) : [];
+            return (
+              <DropdownWrapper {...getRootProps()}>
+                <Input
+                  {...getInputProps({ placeholder })}
+                  data-testid="inlineDropdownInput"
+                  white
+                  css={dropdownInputStyle}
+                  iconRight={
+                    status === 'loading' ? <Spinner size="normal" margin="0" /> : <Search />
+                  }
+                />
+                <DropdownMenu
+                  items={items.slice((page - 1) * PAGE_SIZE)}
+                  idField="id"
+                  labelField="name"
+                  {...downshiftProps}
+                  positionAbsolute
+                  maxRender={PAGE_SIZE}
+                  totalCount={items.length}
+                  page={showPagination && page}
+                  handlePageChange={handlePageChange}
+                  wide={showPagination}
+                />
+              </DropdownWrapper>
+            );
+          }}
         </Downshift>
       </div>
       {status === 'error' && (
@@ -129,4 +146,4 @@ const MenuItemDropdown = ({
   );
 };
 
-export default memo(injectT(MenuItemDropdown));
+export default memo(MenuItemDropdown);

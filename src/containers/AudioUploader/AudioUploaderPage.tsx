@@ -12,7 +12,7 @@ import { connect, ConnectedProps } from 'react-redux';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
@@ -39,7 +39,7 @@ type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 interface BaseProps {}
 
-type Props = BaseProps & RouteComponentProps & PropsFromRedux & tType;
+type Props = BaseProps & RouteComponentProps & PropsFromRedux & WithTranslation;
 
 interface State {
   previousLocation: string;
@@ -111,4 +111,4 @@ class AudioUploaderPage extends Component<Props, State> {
   };
 }
 
-export default reduxConnector(injectT(AudioUploaderPage));
+export default reduxConnector(withTranslation()(AudioUploaderPage));

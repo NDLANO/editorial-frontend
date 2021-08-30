@@ -7,17 +7,17 @@
  *
  */
 
-import React, { useContext, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import React, { useContext, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Taxonomy } from '@ndla/icons/editor';
+//@ts-ignore
 import { Structure } from '@ndla/editor';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import { useEffect } from 'react';
-import { useRef } from 'react';
 import { useLayoutEffect } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import handleError from '../../util/handleError';
@@ -34,7 +34,7 @@ import {
   updateTopicSubtopic,
   updateSubjectTopic,
 } from '../../modules/taxonomy';
-import { groupTopics, getCurrentTopic } from '../../util/taxonomyHelpers';
+import { groupTopics, getCurrentTopic, getSubtopics } from '../../util/taxonomyHelpers';
 import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
@@ -60,7 +60,8 @@ interface RouteProps {
   location: { pathname: string };
 }
 
-export const StructureContainer = ({ match, location, history, t }: Props & tType) => {
+export const StructureContainer = ({ match, location, history }: Props) => {
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const userAccess = useContext(UserAccessContext);
   const [editStructureHidden, setEditStructureHidden] = useState(false);
@@ -101,12 +102,12 @@ export const StructureContainer = ({ match, location, history, t }: Props & tTyp
         return;
       }
       if (location.pathname !== prevRouteParams.current!.location.pathname) {
+        prevRouteParams.current = { params, location };
         const currentSub = subjects.find(sub => sub.id === params.subject);
         if (currentSub) {
           await getSubjectTopics(params.subject!, locale);
         }
       }
-      prevRouteParams.current = { params, location };
     })();
   });
 
@@ -191,7 +192,9 @@ export const StructureContainer = ({ match, location, history, t }: Props & tTyp
       params,
       allTopics: topics,
     });
-    const localTopics = (currentTopic?.subtopics || currentSubject!.topics)!;
+    const localTopics = (currentTopic?.id
+      ? getSubtopics(currentTopic.id, topics)
+      : currentSubject?.topics)!;
     const currentRank = localTopics[source.index].rank;
     const destinationRank = topics[destination.index].rank;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
@@ -335,4 +338,4 @@ export const StructureContainer = ({ match, location, history, t }: Props & tTyp
   );
 };
 
-export default withRouter(injectT(StructureContainer));
+export default withRouter(StructureContainer);

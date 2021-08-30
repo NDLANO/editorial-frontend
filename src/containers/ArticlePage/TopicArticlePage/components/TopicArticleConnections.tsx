@@ -9,11 +9,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+//@ts-ignore
 import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Switch } from '@ndla/switch';
 import { fetchUserData } from '../../../../modules/draft/draftApi';
@@ -55,8 +56,8 @@ const TopicArticleConnections = ({
   getSubjectTopics,
   retrieveBreadCrumbs,
   locale,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
@@ -193,4 +194,4 @@ TopicArticleConnections.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default injectT(TopicArticleConnections);
+export default TopicArticleConnections;

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 import RoundIcon from '../../../../components/RoundIcon';
 import {
@@ -41,8 +41,8 @@ const EditCustomFields = ({
   saveSubjectItems,
   saveSubjectTopicItems,
   type,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   return (
     <div>
       <MenuItemButton
@@ -68,4 +68,4 @@ const EditCustomFields = ({
   );
 };
 
-export default injectT(EditCustomFields);
+export default EditCustomFields;

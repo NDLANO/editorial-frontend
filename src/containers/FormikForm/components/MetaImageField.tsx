@@ -6,15 +6,15 @@
  *
  */
 
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import React, { Fragment, SyntheticEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
-import { formClasses } from '../';
+import { formClasses } from '..';
 import MetaInformation from '../../../components/MetaInformation';
 import FormikField from '../../../components/FormikField';
+import { ImageType } from '../../../interfaces';
 
 const metaImageButtonStyle = css`
   display: block;
@@ -39,13 +39,28 @@ const metaImageDeleteButtonStyle = css`
   }
 `;
 
-const MetaImageField = ({ image, onImageSelectOpen, onImageRemove, showRemoveButton, t }) => {
+interface Props {
+  image: ImageType;
+  onImageSelectOpen: () => void;
+  onImageRemove: () => void;
+  showRemoveButton: boolean;
+  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+}
+
+const MetaImageField = ({
+  image,
+  onImageSelectOpen,
+  onImageRemove,
+  showRemoveButton,
+  onImageLoad,
+}: Props) => {
+  const { t } = useTranslation();
   const copyright =
     image.copyright && image.copyright.creators
       ? image.copyright.creators.map(creator => creator.name).join(', ')
       : undefined;
   const title = convertFieldWithFallback(image, 'title', '');
-  const alt = convertFieldWithFallback(image, 'alttext', '');
+  const alt = convertFieldWithFallback<'alttext'>(image, 'alttext', '');
   const imageAction = (
     <>
       <Button css={metaImageButtonStyle} onClick={onImageSelectOpen}>
@@ -65,7 +80,7 @@ const MetaImageField = ({ image, onImageSelectOpen, onImageRemove, showRemoveBut
   return (
     <Fragment>
       <div {...formClasses('meta-image')}>
-        <img src={image.imageUrl} alt={alt} />
+        <img src={image.imageUrl} alt={alt} onLoad={onImageLoad} />
         <MetaInformation
           title={title}
           copyright={copyright}
@@ -84,14 +99,4 @@ const MetaImageField = ({ image, onImageSelectOpen, onImageRemove, showRemoveBut
   );
 };
 
-MetaImageField.propTypes = {
-  image: PropTypes.shape({
-    copyright: PropTypes.object,
-    imageUrl: PropTypes.string,
-  }),
-  onImageSelectOpen: PropTypes.func.isRequired,
-  onImageRemove: PropTypes.func,
-  showRemoveButton: PropTypes.bool,
-};
-
-export default injectT(MetaImageField);
+export default MetaImageField;

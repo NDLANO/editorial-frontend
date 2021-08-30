@@ -9,8 +9,8 @@
 import React, { useState } from 'react';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { css } from '@emotion/core';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
@@ -56,7 +56,7 @@ interface BaseProps {
   parent: string;
 }
 
-type Props = BaseProps & tType & RouteComponentProps;
+type Props = BaseProps & RouteComponentProps;
 
 const FolderItem = ({
   name,
@@ -64,7 +64,6 @@ const FolderItem = ({
   id,
   jumpToResources,
   isMainActive,
-  t,
   userAccess,
   metadata,
   locale,
@@ -78,6 +77,7 @@ const FolderItem = ({
   structure,
 }: Props) => {
   const type = id?.includes('subject') ? 'subject' : 'topic';
+  const { t } = useTranslation();
   const showJumpToResources = isMainActive && type === 'topic';
 
   const [showAlertModal, setShowAlertModal] = useState(false);
@@ -130,4 +130,4 @@ const FolderItem = ({
   );
 };
 
-export default withRouter(injectT(FolderItem));
+export default withRouter(FolderItem);

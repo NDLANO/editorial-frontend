@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
@@ -23,14 +23,8 @@ interface Props {
   form: FormikHelpers<FormikValues>;
 }
 
-const SlideshowEditor = ({
-  t,
-  onUpdateSlideshow,
-  allMovies,
-  loading,
-  field,
-  form,
-}: Props & tType) => {
+const SlideshowEditor = ({ onUpdateSlideshow, allMovies, loading, field, form }: Props) => {
+  const { t } = useTranslation();
   if (loading) {
     return <Spinner />;
   }
@@ -72,4 +66,4 @@ const SlideshowEditor = ({
   );
 };
 
-export default injectT(SlideshowEditor);
+export default SlideshowEditor;

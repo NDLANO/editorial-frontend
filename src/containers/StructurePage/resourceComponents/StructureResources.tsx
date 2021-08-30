@@ -7,7 +7,7 @@
  */
 
 import React, { memo, useRef } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { useLayoutEffect } from 'react';
@@ -65,8 +65,8 @@ const StructureResources = ({
   setResourcesUpdated,
   saveSubjectTopicItems,
   grouped,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [resourceTypes, setResourceTypes] = useState<(ResourceType & { disabled?: boolean })[]>([]);
   const [topicResources, setTopicResources] = useState<TopicResource[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -232,4 +232,4 @@ const StructureResources = ({
   );
 };
 
-export default memo(injectT(StructureResources));
+export default memo(StructureResources);

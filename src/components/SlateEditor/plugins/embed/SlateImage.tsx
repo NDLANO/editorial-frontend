@@ -6,11 +6,10 @@
  *
  */
 
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css } from '@emotion/core';
 import React, { useState } from 'react';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
@@ -38,7 +37,6 @@ interface Props {
 }
 
 const SlateImage = ({
-  t,
   active,
   attributes,
   embed,
@@ -48,7 +46,8 @@ const SlateImage = ({
   onRemoveClick,
   saveEmbedUpdates,
   visualElement,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
 
@@ -114,4 +113,4 @@ const SlateImage = ({
   );
 };
 
-export default injectT(SlateImage);
+export default SlateImage;

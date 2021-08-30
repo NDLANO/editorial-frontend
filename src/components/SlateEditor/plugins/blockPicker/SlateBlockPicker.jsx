@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
 import { defaultBlocks, checkSelectionForType } from '../../utils';
@@ -233,4 +233,4 @@ SlateBlockPicker.propTypes = {
   actionsToShowInAreas: PropTypes.shape({}), //dynamic keys...,
 };
 
-export default injectT(SlateBlockPicker);
+export default withTranslation()(SlateBlockPicker);

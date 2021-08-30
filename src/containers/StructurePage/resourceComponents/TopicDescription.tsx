@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { SubjectTopic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
+import { updateRelevanceId } from '../../../util/taxonomyHelpers';
 
 interface Props {
   topicDescription?: string;
@@ -23,8 +24,8 @@ const TopicDescription = ({
   currentTopic,
   status,
   resourceRef,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [displayTopicDescription, setDisplayTopicDescription] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -43,23 +44,26 @@ const TopicDescription = ({
         header={t('searchForm.articleType.topicArticle')}
         hidden={!displayTopicDescription}
         handleToggle={toggleDisplayTopicDescription}>
-        {topicDescription && (
-          <Resource
-            resource={{
-              ...currentTopic,
-              name: topicDescription,
-              status,
-              topicId: currentTopic.id,
-              paths: [],
-              resourceTypes: [],
-            }}
-            locale={locale}
-            connectionId={currentTopic.connectionId}
-            relevanceId={currentTopic.relevanceId}
-            primary={currentTopic.isPrimary}
-            rank={currentTopic.rank}
-          />
-        )}
+        <>
+          {topicDescription && (
+            <Resource
+              resource={{
+                ...currentTopic,
+                name: topicDescription,
+                status,
+                topicId: currentTopic.id,
+                paths: [],
+                resourceTypes: [],
+              }}
+              locale={locale}
+              updateRelevanceId={updateRelevanceId}
+              connectionId={currentTopic.connectionId}
+              relevanceId={currentTopic.relevanceId}
+              primary={currentTopic.isPrimary}
+              rank={currentTopic.rank}
+            />
+          )}
+        </>
       </Accordion>
       {showAddModal && (
         <AddArticleModal
@@ -73,4 +77,4 @@ const TopicDescription = ({
   );
 };
 
-export default injectT(TopicDescription);
+export default TopicDescription;

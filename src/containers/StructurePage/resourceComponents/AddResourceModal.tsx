@@ -6,10 +6,9 @@
  *
  */
 import React, { useState } from 'react';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
-import { tType } from '@ndla/i18n';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
@@ -29,8 +28,12 @@ import {
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
-import { LearningPathSearchSummary } from '../../../modules/learningpath/learningpathApiInterfaces';
-import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
+import { LearningPathSearchResult } from '../../../modules/learningpath/learningpathApiInterfaces';
+import {
+  GroupSearchResult,
+  MultiSearchApiQuery,
+} from '../../../modules/search/searchApiInterfaces';
+import AlertModal from '../../../components/AlertModal';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -60,6 +63,7 @@ interface Props {
   allowPaste?: boolean;
   topicId: string;
   refreshResources: () => void;
+  existingResourceIds: string[];
 }
 
 interface ContentType {
@@ -79,7 +83,7 @@ interface SelectedType {
   coverPhotoUrl?: string;
 }
 
-type SummaryTypes = LearningPathSearchSummary | GroupSearchSummary;
+type ResultTypes = LearningPathSearchResult | GroupSearchResult;
 
 const AddResourceModal = ({
   onClose,
@@ -88,8 +92,9 @@ const AddResourceModal = ({
   allowPaste,
   topicId,
   refreshResources,
-  t,
-}: Props & tType) => {
+  existingResourceIds,
+}: Props) => {
+  const { t } = useTranslation();
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [selected, setSelected] = useState<SelectedType | null>(null);
   const [content, setContent] = useState<ContentType | null>(null);
@@ -156,47 +161,50 @@ const AddResourceModal = ({
     }
   };
 
-  const onInputSearch = async (input: string, type: string): Promise<SummaryTypes[]> => {
+  const onInputSearch = async (
+    query: MultiSearchApiQuery,
+    type: string,
+  ): Promise<ResultTypes | undefined> => {
     try {
       if (type === RESOURCE_TYPE_LEARNING_PATH) {
-        const lps = await searchLearningpath(input);
+        const lps = await searchLearningpath(query);
 
-        return lps.map(lp => ({
-          ...lp,
-          metaDescription: lp.description.description,
-        }));
+        return {
+          ...lps,
+          results: lps?.results.map(lp => ({
+            ...lp,
+            metaDescription: lp.description.description,
+          })),
+        };
       } else {
-        return await searchGroups(input, type);
+        return await searchGroups(query, type);
       }
     } catch (err) {
       handleError(err);
       setError(err.message);
-      return [];
+      return undefined;
     }
   };
 
-  const searchLearningpath = async (input: string): Promise<LearningPathSearchSummary[]> => {
-    const query = input
-      ? {
-          query: input,
-          pageSize: 10,
-          language: 'nb',
-          fallback: true,
-          verificationStatus: 'CREATED_BY_NDLA',
-        }
-      : {
-          pageSize: 10,
-          language: 'nb',
-          fallback: true,
-          verificationStatus: 'CREATED_BY_NDLA',
-        };
-    const res = await learningpathSearch(query);
-    return res.results || [];
+  const searchLearningpath = async (
+    query: MultiSearchApiQuery,
+  ): Promise<LearningPathSearchResult> => {
+    const searchBody = {
+      ...query,
+      pageSize: 10,
+      language: 'nb',
+      fallback: true,
+      verificationStatus: 'CREATED_BY_NDLA',
+    };
+    return learningpathSearch(searchBody);
   };
 
-  const searchGroups = async (input: string, type: string) => {
-    const res = await groupSearch(input, type);
-    return res?.pop()?.results || [];
+  const searchGroups = async (query: MultiSearchApiQuery, type: string) => {
+    const res = await groupSearch({
+      ...query,
+      'resource-types': type,
+    });
+    return res?.pop();
   };
 
   const articleToState = async (articleId: number) => {
@@ -231,6 +239,13 @@ const AddResourceModal = ({
           return;
         }
 
+        if (existingResourceIds.includes(resourceId)) {
+          setError(t('taxonomy.resource.addResourceConflict'));
+          setLoading(false);
+          setNoSelection();
+          return;
+        }
+
         await createTopicResource({
           resourceId,
           topicid: topicId,
@@ -242,7 +257,7 @@ const AddResourceModal = ({
       } catch (e) {
         handleError(e);
         setLoading(false);
-        setError(e.message);
+        setError(e.messages);
       }
     }
   };
@@ -292,7 +307,6 @@ const AddResourceModal = ({
             placeholder={t('taxonomy.urlPlaceholder')}
           />
         )}
-        {error && <span className="c-errorMessage">{error}</span>}
 
         {!pastedUrl && selectedType && (
           <>
@@ -303,13 +317,24 @@ const AddResourceModal = ({
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
               label="label"
-              apiAction={(input: string) => onInputSearch(input, selectedType)}
+              apiAction={(query: MultiSearchApiQuery) => onInputSearch(query, selectedType)}
               onChange={onSelect}
               startOpen
+              showPagination
             />
           </>
         )}
         {selected?.id && content?.id && <ArticlePreview article={content} />}
+        {error && (
+          <AlertModal
+            show={!!error}
+            text={error}
+            onCancel={() => {
+              setError(null);
+            }}
+            severity={'danger'}
+          />
+        )}
       </StyledContent>
     </TaxonomyLightbox>
   );
@@ -319,4 +344,4 @@ AddResourceModal.defaultProps = {
   allowPaste: false,
 };
 
-export default injectT(AddResourceModal);
+export default AddResourceModal;

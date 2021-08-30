@@ -6,10 +6,9 @@
  *
  */
 
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css } from '@emotion/core';
 import React, { useEffect, Fragment } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
 import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
@@ -45,13 +44,13 @@ const EditAudio = ({
   onExit,
   onRemoveClick,
   type,
-  t,
   language,
   locale,
   speech,
   audio,
   changes,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
   const { submitted } = useSlateContext();
@@ -134,4 +133,4 @@ const EditAudio = ({
   );
 };
 
-export default injectT(EditAudio);
+export default EditAudio;

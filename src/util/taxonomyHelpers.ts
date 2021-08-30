@@ -13,6 +13,7 @@ import {
   SubjectTopic,
   TaxonomyElement,
 } from '../modules/taxonomy/taxonomyApiInterfaces';
+import { updateTopicResource, updateTopicSubtopic, updateSubjectTopic } from '../modules/taxonomy';
 
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 
@@ -190,6 +191,10 @@ const getCurrentTopic = ({
   }
 };
 
+const getSubtopics = (topicId: string, allTopics: SubjectTopic[]) => {
+  return allTopics.filter(t => t.parent === topicId);
+};
+
 const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {
   if (resourceTypes.length === 0) {
     return '';
@@ -208,6 +213,27 @@ const pathToUrnArray = (path: string) =>
     .splice(1)
     .map(url => `urn:${url}`);
 
+const updateRelevanceId = (
+  connectionId: string,
+  body: {
+    relevanceId?: string;
+    primary?: boolean;
+    rank?: number;
+  },
+): Promise<void> => {
+  const [, connectionType] = connectionId.split(':');
+  switch (connectionType) {
+    case 'topic-resource':
+      return updateTopicResource(connectionId, body);
+    case 'topic-subtopic':
+      return updateTopicSubtopic(connectionId, body);
+    case 'subject-topic':
+      return updateSubjectTopic(connectionId, body);
+    default:
+      return new Promise(() => {});
+  }
+};
+
 export {
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
@@ -217,7 +243,9 @@ export {
   groupSortResourceTypesFromTopicResources,
   groupTopics,
   getCurrentTopic,
+  getSubtopics,
   sortByName,
   selectedResourceTypeValue,
   pathToUrnArray,
+  updateRelevanceId,
 };

@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
 import AddTopicResourceButton from './AddTopicResourceButton';
@@ -41,11 +41,11 @@ interface Props {
 const ResourceGroup = ({
   resourceType,
   topicResource,
-  t,
   params,
   refreshResources,
   locale,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -74,13 +74,15 @@ const ResourceGroup = ({
         appearance={ButtonAppearance.RESOURCEGROUP}
         header={resourceType.name}
         hidden={topicResource?.resources ? displayResource : true}>
-        {topicResource?.resources && (
-          <ResourceItems
-            resources={topicResource.resources}
-            refreshResources={refreshResources}
-            locale={locale}
-          />
-        )}
+        <>
+          {topicResource?.resources && (
+            <ResourceItems
+              resources={topicResource.resources}
+              refreshResources={refreshResources}
+              locale={locale}
+            />
+          )}
+        </>
       </Accordion>
       {showAddModal && (
         <AddResourceModal
@@ -89,10 +91,11 @@ const ResourceGroup = ({
           topicId={topicId}
           refreshResources={refreshResources}
           onClose={toggleAddModal}
+          existingResourceIds={topicResource?.resources?.map(r => r.id) ?? []}
         />
       )}
     </>
   );
 };
 
-export default injectT(ResourceGroup);
+export default ResourceGroup;

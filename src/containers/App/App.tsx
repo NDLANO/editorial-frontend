@@ -17,7 +17,7 @@ import loadable from '@loadable/component';
 // @ts-ignore
 import { Content, PageContainer } from '@ndla/ui';
 import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import Navigation from '../Masthead/components/Navigation';
 import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
@@ -27,7 +27,6 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import Zendesk from './Zendesk';
 import { LocaleType, ReduxState } from '../../interfaces';
 import { LOCALE_VALUES } from '../../constants';
-import H5PPage from '../H5PPage/H5PPage';
 const Login = loadable(() => import('../Login/Login'));
 const Logout = loadable(() => import('../Logout/Logout'));
 const PrivateRoute = loadable(() => import('../PrivateRoute/PrivateRoute'));
@@ -44,6 +43,7 @@ const PreviewDraftPage = loadable(() => import('../PreviewDraftPage/PreviewDraft
 const NdlaFilm = loadable(() => import('../NdlaFilm/NdlaFilm'));
 const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
 const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
+const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 
 export const FirstLoadContext = React.createContext(true);
 export const LocaleContext = React.createContext<LocaleType>('nb');
@@ -67,7 +67,7 @@ const mapStateToProps = (state: ReduxState) => ({
 const reduxConnector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-type ActualProps = Props & RouteComponentProps & PropsFromRedux & tType;
+type ActualProps = Props & RouteComponentProps & PropsFromRedux & WithTranslation;
 
 class App extends React.Component<ActualProps, InternalState> {
   constructor(props: ActualProps) {
@@ -95,13 +95,13 @@ class App extends React.Component<ActualProps, InternalState> {
   };
 
   render() {
-    const { authenticated, dispatch, locale, messages, t, userName, userAccess } = this.props;
+    const { authenticated, dispatch, messages, t, userName, userAccess } = this.props;
 
     return (
       <ErrorBoundary>
         <UserAccessContext.Provider value={userAccess}>
           <AuthenticatedContext.Provider value={authenticated}>
-            <LocaleContext.Provider value={locale}>
+            <LocaleContext.Provider value={this.props.i18n.language as LocaleType}>
               <FirstLoadContext.Provider value={this.state.firstLoad}>
                 <PageContainer background>
                   <Zendesk authenticated={authenticated} />
@@ -148,4 +148,4 @@ class App extends React.Component<ActualProps, InternalState> {
   };
 }
 
-export default reduxConnector(withRouter(injectT(App)));
+export default reduxConnector(withRouter(withTranslation()(App)));

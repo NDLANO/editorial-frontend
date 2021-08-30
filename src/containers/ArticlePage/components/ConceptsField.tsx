@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -14,7 +14,7 @@ import { AsyncDropdown } from '../../../components/Dropdown';
 import { ContentResultType, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
-import { ApiConceptType } from '../../../modules/concept/conceptApiInterfaces';
+import { ApiConceptType, ConceptQuery } from '../../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   locale: string;
@@ -27,7 +27,8 @@ interface Props {
   };
 }
 
-const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
+const ConceptsField = ({ locale, values, field, form }: Props) => {
+  const { t } = useTranslation();
   const [concepts, setConcepts] = useState<ApiConceptType[]>(values.conceptIds);
   const onAddConceptToList = async (concept: ContentResultType) => {
     try {
@@ -57,9 +58,9 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
     });
   };
 
-  const searchForConcepts = async (inp: string) => {
+  const searchForConcepts = async (query: ConceptQuery) => {
     return searchConcepts({
-      query: inp,
+      ...query,
       language: locale,
     });
   };
@@ -87,9 +88,10 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
         multiSelect
         disableSelected
         clearInputField
+        showPagination
       />
     </>
   );
 };
 
-export default injectT(ConceptsField);
+export default ConceptsField;

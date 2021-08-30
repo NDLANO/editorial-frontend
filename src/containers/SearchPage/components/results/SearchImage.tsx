@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
 import { colors } from '@ndla/core';
 import { toEditImage } from '../../../../util/routeHelpers';
@@ -23,7 +23,8 @@ interface Props {
   licenses: [License];
 }
 
-const SearchImage = ({ image, locale, licenses, t }: Props & tType) => {
+const SearchImage = ({ image, locale, licenses }: Props) => {
+  const { t } = useTranslation();
   const license = licenses && licenses.find(l => image.license === l.license);
   return (
     <div {...searchClasses('result')}>
@@ -60,4 +61,4 @@ SearchImage.propTypes = {
   licenses: LicensesArrayOf,
 };
 
-export default injectT(SearchImage);
+export default SearchImage;

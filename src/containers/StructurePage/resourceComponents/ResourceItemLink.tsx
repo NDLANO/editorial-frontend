@@ -9,13 +9,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
+import { colors, mq, breakpoints } from '@ndla/core';
 import { classes } from './ResourceGroup';
 import { toEditArticle, toLearningpathFull } from '../../../util/routeHelpers';
 
 const StyledH1 = styled.h1<{ isVisible?: boolean }>`
   font-style: ${props => !props.isVisible && 'italic'};
   color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
+  text-transform: none;
+  letter-spacing: 0;
+  margin: 0;
+  display: inline;
+  font-size: 18px;
+  font-size: 1rem;
+  line-height: 1.44444;
+  font-weight: 500;
+  ${mq.range({ from: breakpoints.desktop })} {
+    font-size: 20px;
+    font-size: 1.11111rem;
+    line-height: 1.3;
+  }
 `;
 
 interface Props {

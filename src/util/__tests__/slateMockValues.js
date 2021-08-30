@@ -13,7 +13,7 @@ export const valueWithTwoImageEmbeds = {
             data: {
               resource: 'image',
               resource_id: '3',
-              size: 'fullbredde',
+              size: 'full',
               align: '',
               alt: 'Mann med maske ved datamaskin. Foto.',
               caption: '',
@@ -46,7 +46,7 @@ export const valueWithTwoImageEmbeds = {
             data: {
               resource: 'image',
               resource_id: '42159',
-              size: 'fullbredde',
+              size: 'full',
               align: '',
               alt: '',
               caption: 'Guinness is good for you',

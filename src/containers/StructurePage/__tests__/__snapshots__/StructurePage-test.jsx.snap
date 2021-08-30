@@ -202,7 +202,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   padding: 0;
 }
 
+<<<<<<< HEAD
 .emotion-167 {
+=======
+.emotion-169 {
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
   -webkit-animation-duration: 200ms;
   animation-duration: 200ms;
   -webkit-animation-name: fadeInTop;
@@ -421,7 +425,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #f1f5f8;
 }
 
+<<<<<<< HEAD
 .emotion-170 {
+=======
+.emotion-172 {
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -433,7 +441,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
+<<<<<<< HEAD
 .emotion-165 {
+=======
+.emotion-167 {
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -448,7 +460,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #ceddea;
 }
 
+<<<<<<< HEAD
 .emotion-165:hover {
+=======
+.emotion-167:hover {
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
   background: #ceddea;
 }
 
@@ -561,7 +577,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   color: #f8f8f8;
 }
 
+<<<<<<< HEAD
 .emotion-163 {
+=======
+.emotion-165 {
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -589,56 +609,90 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background-color: transparent;
   border: 2px solid #20588f;
   box-shadow: none;
-  margin: 3px 6.5px 3px auto;
-  font-size: 14;
-  font-size: 0.7777777777777778rem;
-  line-height: 1.1;
 }
 
+<<<<<<< HEAD
 .emotion-163:hover,
 .emotion-163:focus {
+=======
+.emotion-165:hover,
+.emotion-165:focus {
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
+<<<<<<< HEAD
 .emotion-163[disabled] {
+=======
+.emotion-165[disabled] {
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
+<<<<<<< HEAD
 .emotion-163:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
 .emotion-163:hover,
 .emotion-163:focus {
+=======
+.emotion-165:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-165:hover,
+.emotion-165:focus {
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
+<<<<<<< HEAD
 .emotion-163:disabled {
+=======
+.emotion-165:disabled {
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
+<<<<<<< HEAD
 .emotion-163:hover,
 .emotion-163:focus {
+=======
+.emotion-165:hover,
+.emotion-165:focus {
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
+<<<<<<< HEAD
 .emotion-163:disabled {
+=======
+.emotion-165:disabled {
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
+}
+
+.emotion-164 {
+  margin: 3px 6.5px 3px auto;
+  font-size: 14;
+  font-size: 0.7777777777777778rem;
+  line-height: 1.1;
 }
 
 <div
@@ -721,7 +775,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="emotion-10 emotion-11"
         >
           <div
+<<<<<<< HEAD
             class="emotion-167"
+=======
+            class="emotion-169"
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
           >
             <li
               class="emotion-12 emotion-13"
@@ -1371,7 +1429,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="emotion-10 emotion-11"
               >
                 <div
+<<<<<<< HEAD
                   class="emotion-167"
+=======
+                  class="emotion-169"
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
                 >
                   <li
                     class="emotion-12 emotion-13"
@@ -1461,7 +1523,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       class="emotion-10 emotion-11"
                     >
                       <div
+<<<<<<< HEAD
                         class="emotion-167"
+=======
+                        class="emotion-169"
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
                       >
                         <li
                           class="emotion-12 emotion-13"
@@ -1486,10 +1552,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                           />
                         </li>
                         <li
+<<<<<<< HEAD
                           class="emotion-170 emotion-13"
                         >
                           <div
                             class="emotion-165 emotion-9"
+=======
+                          class="emotion-172 emotion-13"
+                        >
+                          <div
+                            class="emotion-167 emotion-9"
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
                           >
                             <button
                               class="emotion-120 emotion-7"
@@ -1541,7 +1614,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                                 </button>
                               </div>
                               <button
+<<<<<<< HEAD
                                 class="emotion-163 emotion-3"
+=======
+                                class="emotion-164 emotion-165 emotion-3"
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
                                 type="button"
                               >
                                 Hopp til ressurser
@@ -1552,7 +1629,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             class="emotion-10 emotion-11"
                           >
                             <div
+<<<<<<< HEAD
                               class="emotion-167"
+=======
+                              class="emotion-169"
+>>>>>>> a5700cb9283e5c4728def97196f482bccf6a3779
                             />
                           </ul>
                         </li>

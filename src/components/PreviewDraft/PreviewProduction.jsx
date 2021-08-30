@@ -8,12 +8,13 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import PreviewDraft from './PreviewDraft';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 
 const PreviewProduction = props => {
-  const { firstEntity, secondEntity, label, previewLanguage, contentType, t } = props;
+  const { t } = useTranslation();
+  const { firstEntity, secondEntity, label, previewLanguage, contentType } = props;
   return (
     <Fragment>
       <StyledPreviewTwoArticles>
@@ -60,4 +61,4 @@ PreviewProduction.propTypes = {
   previewLanguage: PropTypes.string.isRequired,
 };
 
-export default injectT(PreviewProduction);
+export default PreviewProduction;

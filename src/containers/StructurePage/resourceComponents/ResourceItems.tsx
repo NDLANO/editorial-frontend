@@ -7,7 +7,8 @@
  */
 
 import React, { memo, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import Resource from './Resource';
 import {
   deleteTopicResource,
@@ -22,13 +23,24 @@ import Spinner from '../../../components/Spinner';
 import { TopicResource } from './StructureResources';
 import { classes } from './ResourceGroup';
 
+const StyledResourceItems = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`;
+
+const StyledErrorMessage = styled.div`
+  text-align: center;
+`;
+
 interface Props {
   resources: TopicResource[];
   refreshResources: () => Promise<void>;
   locale: string;
 }
 
-const ResourceItems = ({ refreshResources, resources, locale, t }: Props & tType) => {
+const ResourceItems = ({ refreshResources, resources, locale }: Props) => {
+  const { t } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -96,7 +108,7 @@ const ResourceItems = ({ refreshResources, resources, locale, t }: Props & tType
         updateTopicSubtopic(connectionId, body);
         break;
       case 'subject-topic':
-        updateSubjectTopic(connectionId, { ...body, rank: body.rank });
+        updateSubjectTopic(connectionId, { ...body, rank: body.rank! });
         break;
       default:
         return;
@@ -107,7 +119,7 @@ const ResourceItems = ({ refreshResources, resources, locale, t }: Props & tType
     return <Spinner />;
   }
   return (
-    <ul {...classes('list')}>
+    <StyledResourceItems {...classes('list')}>
       <MakeDndList onDragEnd={onDragEnd} dragHandle>
         {resources.map(resource => (
           <Resource
@@ -121,9 +133,9 @@ const ResourceItems = ({ refreshResources, resources, locale, t }: Props & tType
         ))}
       </MakeDndList>
       {error && (
-        <div data-testid="inlineEditErrorMessage" {...classes('errorMessage')}>
+        <StyledErrorMessage data-testid="inlineEditErrorMessage" {...classes('errorMessage')}>
           {error}
-        </div>
+        </StyledErrorMessage>
       )}
       <AlertModal
         show={!!deleteId}
@@ -140,8 +152,8 @@ const ResourceItems = ({ refreshResources, resources, locale, t }: Props & tType
         ]}
         onCancel={() => toggleDelete('')}
       />
-    </ul>
+    </StyledResourceItems>
   );
 };
 
-export default memo(injectT(ResourceItems));
+export default memo(ResourceItems);

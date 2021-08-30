@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
 import { getLocale } from '../../modules/locale/locale';
@@ -126,4 +126,4 @@ const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
 };
 
-export default injectT(connect(mapStateToProps, mapDispatchToProps)(AgreementPage));
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AgreementPage));

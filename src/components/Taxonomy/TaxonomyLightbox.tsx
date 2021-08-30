@@ -9,7 +9,7 @@
 import React from 'react';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
@@ -22,33 +22,37 @@ interface Props {
   loading?: boolean;
   title: string;
   onSelect?: () => void;
+  wide?: boolean;
 }
 
-const TaxonomyLightbox = ({ children, title, onSelect, t, loading, onClose }: Props & tType) => (
-  <StyledLightboxWrapper>
-    <Overlay onExit={onClose} />
-    <StyledContentWrapper>
-      <StyledHeader>
-        {title}
-        <Button css={closeButtonStyle} stripped onClick={onClose}>
-          <Cross css={crossStyle} />
-        </Button>
-      </StyledHeader>
-      <StyledContent>
-        {children}
-        {onSelect && (
-          <Button
-            data-testid="taxonomyLightboxButton"
-            stripped
-            css={selectButtonStyle}
-            onClick={onSelect}>
-            {loading ? <Spinner appearance="small" /> : t('form.save')}
+const TaxonomyLightbox = ({ children, title, onSelect, loading, onClose, wide = false }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <StyledLightboxWrapper>
+      <Overlay onExit={onClose} />
+      <StyledContentWrapper wide={wide}>
+        <StyledHeader>
+          {title}
+          <Button css={closeButtonStyle} stripped onClick={onClose}>
+            <Cross css={crossStyle} />
           </Button>
-        )}
-      </StyledContent>
-    </StyledContentWrapper>
-  </StyledLightboxWrapper>
-);
+        </StyledHeader>
+        <StyledContent>
+          {children}
+          {onSelect && (
+            <Button
+              data-testid="taxonomyLightboxButton"
+              stripped
+              css={selectButtonStyle}
+              onClick={onSelect}>
+              {loading ? <Spinner appearance="small" /> : t('form.save')}
+            </Button>
+          )}
+        </StyledContent>
+      </StyledContentWrapper>
+    </StyledLightboxWrapper>
+  );
+};
 
 const closeButtonStyle = css`
   height: 50px;
@@ -64,10 +68,11 @@ const crossStyle = css`
 const selectButtonStyle = css`
   &,
   &:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: ${spacing.normal};
-  padding: 3px ${spacing.large};
+    border-radius: 5px;
+    background-color: white;
+    margin-top: ${spacing.normal};
+    padding: 3px ${spacing.large};
+  }
 `;
 
 const StyledLightboxWrapper = styled.div`
@@ -82,10 +87,10 @@ const StyledLightboxWrapper = styled.div`
   justify-content: center;
 `;
 
-const StyledContentWrapper = styled.div`
+const StyledContentWrapper = styled.div<{ wide: boolean }>`
   background-color: ${colors.brand.greyLightest};
   box-shadow: 0 0 2px 0 rgba(115, 115, 115, 0.5);
-  width: 600px;
+  width: ${props => (props.wide ? '900px' : '620px')};
   border-radius: 5px;
   position: absolute;
   top: 5%;
@@ -114,4 +119,4 @@ const StyledContent = styled.div`
   align-items: flex-end;
 `;
 
-export default injectT(TaxonomyLightbox);
+export default TaxonomyLightbox;

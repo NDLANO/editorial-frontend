@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
-import { injectT, tType } from '@ndla/i18n';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import RoundIcon from '../../../../components/RoundIcon';
@@ -43,9 +43,9 @@ const AddExistingToSubjectTopic = ({
   refreshTopics,
   toggleEditMode,
   onClose,
-  t,
   editMode,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [topics, setTopics] = useState<(Topic & { description?: string })[]>([]);
 
   useEffect(() => {
@@ -103,6 +103,7 @@ const AddExistingToSubjectTopic = ({
         onClose={onClose}
         onSubmit={onAddExistingTopic}
         icon={<Plus />}
+        showPagination
       />
     );
   }
@@ -117,4 +118,4 @@ const AddExistingToSubjectTopic = ({
   );
 };
 
-export default injectT(AddExistingToSubjectTopic);
+export default AddExistingToSubjectTopic;

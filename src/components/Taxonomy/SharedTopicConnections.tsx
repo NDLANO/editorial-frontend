@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import {
   StyledConnections,
   StyledDuplicateConnectionLabel,
@@ -22,7 +22,8 @@ interface Props {
   retrieveBreadCrumbs: (path: string) => PathArray;
 }
 
-export const SharedTopicConnections = ({ topic, retrieveBreadCrumbs, type, t }: Props & tType) => {
+export const SharedTopicConnections = ({ topic, retrieveBreadCrumbs, type }: Props) => {
+  const { t } = useTranslation();
   if (!topic.paths || topic.paths.length === 0) {
     return null;
   }
@@ -45,4 +46,4 @@ export const SharedTopicConnections = ({ topic, retrieveBreadCrumbs, type, t }: 
   );
 };
 
-export default injectT(SharedTopicConnections);
+export default SharedTopicConnections;

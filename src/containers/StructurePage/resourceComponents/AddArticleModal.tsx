@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { updateTopic } from '../../../modules/taxonomy';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
@@ -29,13 +29,8 @@ interface Props {
   currentTopic: SubjectTopic;
 }
 
-const AddArticleModal = ({
-  locale,
-  toggleAddModal,
-  refreshTopics,
-  currentTopic,
-  t,
-}: Props & tType) => {
+const AddArticleModal = ({ locale, toggleAddModal, refreshTopics, currentTopic }: Props) => {
+  const { t } = useTranslation();
   const onArticleSearch = async (input: string) => {
     try {
       const results = await searchRelatedArticles(input, locale as LocaleType, 'topic-article');
@@ -77,4 +72,4 @@ const AddArticleModal = ({
   );
 };
 
-export default injectT(AddArticleModal);
+export default AddArticleModal;

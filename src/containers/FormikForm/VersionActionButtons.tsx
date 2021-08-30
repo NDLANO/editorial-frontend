@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { Eye, Restore } from '@ndla/icons/editor';
 import { StyledAccordionsPanelIconButton } from '@ndla/accordion';
@@ -23,8 +23,8 @@ const VersionActionButtons = ({
   getArticle,
   resetVersion,
   version,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   // we only show preview and reset for current versions if they are the ONLY version
   // ie. that they were published before versions were introduced
   if (current && !showFromArticleApi) return null;
@@ -59,4 +59,4 @@ const VersionActionButtons = ({
   );
 };
 
-export default injectT(VersionActionButtons);
+export default VersionActionButtons;

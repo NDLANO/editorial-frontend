@@ -7,11 +7,12 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import StructureContainer from './StructureContainer';
 
-const StructurePage = ({ t }: tType) => {
+const StructurePage = () => {
+  const { t } = useTranslation();
   return (
     <>
       <HelmetWithTracker title={t('htmlTitles.structurePage')} />
@@ -20,4 +21,4 @@ const StructurePage = ({ t }: tType) => {
   );
 };
 
-export default injectT(StructurePage);
+export default StructurePage;

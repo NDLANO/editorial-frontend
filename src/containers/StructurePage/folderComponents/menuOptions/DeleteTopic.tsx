@@ -7,7 +7,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
@@ -44,7 +44,7 @@ interface BaseProps {
   locale: string;
 }
 
-type Props = BaseProps & tType;
+type Props = BaseProps & WithTranslation;
 
 class DeleteTopic extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -125,7 +125,6 @@ class DeleteTopic extends PureComponent<Props, State> {
             },
             {
               text: t('alertModal.delete'),
-              'data-testid': 'confirmDelete',
               onClick: this.onDeleteTopic,
             },
           ]}
@@ -143,4 +142,4 @@ class DeleteTopic extends PureComponent<Props, State> {
   }
 }
 
-export default injectT(DeleteTopic);
+export default withTranslation()(DeleteTopic);

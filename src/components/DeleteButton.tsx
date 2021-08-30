@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { css } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/core';
 import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
 import DeleteForeverButton from './DeleteForeverButton';
@@ -25,7 +25,17 @@ const deleteButtonStyle = css`
   }
 `;
 
-export const DeleteButton = ({ children, style, ...rest }) => (
+interface Props {
+  style?: string | SerializedStyles;
+  children?: React.ReactNode;
+  stripped?: boolean;
+  onMouseDown?: (event: MouseEvent) => void;
+  'data-cy'?: string;
+  onClick?: (event: Event) => void;
+  title?: string;
+}
+
+export const DeleteButton = ({ children, style, ...rest }: Props) => (
   <DeleteForeverButton
     data-cy="close-related-button"
     stripped

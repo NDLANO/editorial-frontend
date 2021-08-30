@@ -103,7 +103,7 @@ class SearchConceptForm extends Component<Props & WithTranslation, State> {
     }
   }
 
-  onFieldChange = (evt: React.FormEvent<HTMLInputElement>) => {
+  onFieldChange = (evt: React.FormEvent<HTMLSelectElement> | React.FormEvent<HTMLInputElement>) => {
     const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),

@@ -42,7 +42,7 @@ interface Props {
   stopTime: string;
   setStartTime: (startTime: string) => void;
   setStopTime: (stopTime: string) => void;
-  toggleEditModus: Function;
+  toggleEditModus: () => void;
 }
 
 const EditVideo = ({

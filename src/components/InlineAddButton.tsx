@@ -7,14 +7,13 @@
  */
 
 import React, { Fragment, PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { Done } from '@ndla/icons/editor';
 import { Plus } from '@ndla/icons/action';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import handleError from '../util/handleError';
 import Spinner from './Spinner';
 
@@ -70,8 +69,18 @@ const saveButtonStyle = css`
   }
 `;
 
-export class InlineAddButton extends PureComponent {
-  constructor(props) {
+interface State {
+  status: string;
+  inputValue: string;
+}
+
+interface Props {
+  title: string;
+  action: Function;
+}
+
+export class InlineAddButton extends PureComponent<Props & WithTranslation, State> {
+  constructor(props: Props & WithTranslation) {
     super(props);
     this.state = {
       status: 'initial',
@@ -82,14 +91,14 @@ export class InlineAddButton extends PureComponent {
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  async handleClick(e) {
+  async handleClick(e: React.KeyboardEvent<HTMLInputElement>) {
     e.stopPropagation();
 
     this.setState(
       prevState => {
         return prevState.inputValue.trim() === ''
           ? { inputValue: '', status: 'initial' }
-          : { status: 'loading' };
+          : { status: 'loading', inputValue: prevState.inputValue };
       },
       async () => {
         const { inputValue, status } = this.state;
@@ -109,12 +118,12 @@ export class InlineAddButton extends PureComponent {
     );
   }
 
-  handleInputChange(e) {
+  handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.stopPropagation();
     this.setState({ inputValue: e.target.value });
   }
 
-  handleKeyPress(e) {
+  handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Escape') {
       this.setState({ status: 'initial' });
     }
@@ -166,10 +175,5 @@ export class InlineAddButton extends PureComponent {
     );
   }
 }
-
-InlineAddButton.propTypes = {
-  title: PropTypes.string.isRequired,
-  action: PropTypes.func,
-};
 
 export default withTranslation()(InlineAddButton);

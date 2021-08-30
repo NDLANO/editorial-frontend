@@ -30,7 +30,6 @@ const StyledTitleDiv = styled.div`
 interface Props {
   onImageSelect: (image: ImageType) => void;
   locale: string;
-  isSavingImage?: boolean;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
   searchImages: (queryObject: ImageSearchQuery) => void;

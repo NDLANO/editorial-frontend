@@ -95,7 +95,7 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
     });
   }
 
-  onFieldChange(evt: React.FormEvent<HTMLInputElement>) {
+  onFieldChange(evt: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLSelectElement>) {
     const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),

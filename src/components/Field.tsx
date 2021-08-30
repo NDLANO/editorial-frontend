@@ -15,18 +15,22 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const Field = ({ children, className, noBorder, title, right }) => (
+const Field = ({ children, className, noBorder = false, title = false, right = false }: Props) => (
   <div {...classes('', { 'no-border': noBorder, right, title }, className)}>{children}</div>
 );
+
+interface Props {
+  className?: string;
+  children: React.ReactNode;
+  noBorder?: boolean;
+  right?: boolean;
+  title?: boolean;
+}
 
 Field.propTypes = {
   noBorder: PropTypes.bool,
   right: PropTypes.bool,
   title: PropTypes.bool,
-};
-
-Field.defaultProps = {
-  noBorder: false,
 };
 
 export default Field;

@@ -89,7 +89,7 @@ const VersionHistoryLightBox = ({
   }, [contentUri, t]);
 
   return (
-    <Lightbox onClose={onClose} display width="800px" apparance="modal" severity="info">
+    <Lightbox onClose={onClose} display width="800px" appearance="modal" severity="info">
       <StyledResourceLinkContainer>
         {contentType && (
           <StyledBadge>

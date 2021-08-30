@@ -44,7 +44,6 @@ const AllResourcesGroup = ({
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState<boolean>(true);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
-  console.log(topicResources);
 
   const toggleDisplayResource = () => {
     setDisplayResource(prev => !prev);

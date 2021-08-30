@@ -49,8 +49,7 @@ export interface SearchState extends Record<string, string | boolean | undefined
   includeOtherStatuses: boolean;
   query: string;
   users: string;
-  // This field is called `lang` instead of `language` to NOT match with tag in `SearchTagGroup.tsx`
-  lang?: string;
+  language?: string;
 }
 
 export interface User {
@@ -126,7 +125,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
 
   handleSearch() {
     const {
-      search: { resourceTypes, status, includeOtherStatuses, subjects, query, users, lang },
+      search: { resourceTypes, status, includeOtherStatuses, subjects, query, users, language },
     } = this.state;
     const { search } = this.props;
 
@@ -140,7 +139,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
       subjects,
       query,
       users,
-      language: lang,
+      language,
       fallback: false,
       page: 1,
     });
@@ -213,7 +212,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
         options: users.sort(this.sortByProperty('name')),
       },
       {
-        name: 'lang',
+        name: 'language',
         label: 'language',
         width: 25,
         options: getResourceLanguages(t),

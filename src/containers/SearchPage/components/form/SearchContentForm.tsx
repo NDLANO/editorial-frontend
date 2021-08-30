@@ -50,7 +50,7 @@ export interface SearchState extends Record<string, string | boolean | undefined
   query: string;
   users: string;
   // This field is called `lang` instead of `language` to NOT match with tag in `SearchTagGroup.tsx`
-  lang?: string;
+  lang: string;
 }
 
 export interface User {
@@ -69,7 +69,7 @@ interface State {
 class SearchContentForm extends Component<Props & WithTranslation, State> {
   constructor(props: Props & WithTranslation) {
     super(props);
-    const { searchObject } = props;
+    const { searchObject, locale } = props;
     this.state = {
       dropDown: {
         resourceTypes: [],
@@ -82,6 +82,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
         includeOtherStatuses: searchObject['include-other-statuses'] || false,
         query: searchObject.query || '',
         users: searchObject.users || '',
+        lang: searchObject.language || locale,
       },
     };
     this.getExternalData = this.getExternalData.bind(this);
@@ -141,7 +142,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
       query,
       users,
       language: lang,
-      fallback: false,
+      fallback: true,
       page: 1,
     });
   }
@@ -191,7 +192,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
       {
         name: 'subjects',
         label: 'subjects',
-        width: 25,
+        width: 50,
         options: subjects.sort(this.sortByProperty('name')),
       },
       {
@@ -211,12 +212,6 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
         label: 'users',
         width: 25,
         options: users.sort(this.sortByProperty('name')),
-      },
-      {
-        name: 'lang',
-        label: 'language',
-        width: 25,
-        options: getResourceLanguages(t),
       },
     ];
 

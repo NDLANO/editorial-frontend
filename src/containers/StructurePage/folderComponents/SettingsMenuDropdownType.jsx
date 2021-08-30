@@ -9,16 +9,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AddExistingToTopic from './menuOptions/AddExistingToTopic';
-import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
-import ChangeSubjectName from './menuOptions/ChangeSubjectName';
-import CopyResources from './menuOptions/CopyResources';
-import DeleteTopic from './menuOptions/DeleteTopic';
-import EditGrepCodes from './menuOptions/EditGrepCodes';
-import PublishTopic from './menuOptions/PublishTopic';
-import ToggleVisibility from './menuOptions/ToggleVisibility';
-import EditSubjectpageOption from './menuOptions/EditSubjectpageOption';
-import EditCustomFields from './menuOptions/EditCustomFields';
+import {
+  AddExistingToTopic,
+  AddExistingToSubjectTopic,
+  ChangeSubjectName,
+  CopyResources,
+  DeleteTopic,
+  DeleteSubjectOption,
+  EditGrepCodes,
+  PublishTopic,
+  ToggleVisibility,
+  EditSubjectpageOption,
+  EditCustomFields,
+} from './menuOptions';
 
 const SettingsMenuDropdownType = ({
   settingsMenuType,
@@ -38,6 +41,7 @@ const SettingsMenuDropdownType = ({
               <ToggleVisibility {...rest} menuType={settingsMenuType} />
               <EditGrepCodes {...rest} menuType={settingsMenuType} />
               <EditSubjectpageOption {...rest} />
+              <DeleteSubjectOption {...rest} />
             </>
           )}
         </>

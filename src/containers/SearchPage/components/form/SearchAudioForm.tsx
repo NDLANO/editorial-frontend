@@ -19,6 +19,7 @@ import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses, SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { MinimalTagType } from './SearchTag';
 
 interface Props extends RouteComponentProps {
@@ -32,10 +33,15 @@ export interface SearchState {
   query: string;
   language: string;
   audioType: string;
+  license: string;
 }
 
 interface State {
   search: SearchState;
+  licenses: {
+    id: string;
+    name: string;
+  }[];
 }
 
 class SearchAudioForm extends Component<Props & WithTranslation, State> {
@@ -48,14 +54,21 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
     this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
+    this.getLicenses = this.getLicenses.bind(this);
 
     this.state = {
       search: {
         query: searchObject.query || '',
         language: searchObject.language || '',
         audioType: searchObject['audio-type'] || '',
+        license: searchObject.license || '',
       },
+      licenses: [],
     };
+  }
+
+  componentDidMount() {
+    this.getLicenses();
   }
 
   componentDidUpdate(prevProps: Props & WithTranslation) {
@@ -66,9 +79,20 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
           query: searchObject.query || '',
           language: searchObject.language || '',
           audioType: searchObject['audio-type'] || '',
+          license: searchObject.license || '',
         },
       });
     }
+  }
+
+  async getLicenses() {
+    const licenses = await fetchLicenses();
+    this.setState({
+      licenses: licenses.map(license => ({
+        id: license.license,
+        name: license.license,
+      })),
+    });
   }
 
   onFieldChange(evt: React.FormEvent<HTMLInputElement>) {
@@ -84,10 +108,10 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
       evt.preventDefault();
     }
     const {
-      search: { query, language, audioType },
+      search: { query, language, audioType, license },
     } = this.state;
     const { search } = this.props;
-    search({ query, language, 'audio-type': audioType, page: 1 });
+    search({ query, language, 'audio-type': audioType, license, page: 1 });
   }
 
   removeTagItem(tag: MinimalTagType) {
@@ -99,14 +123,14 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
 
   emptySearch(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.persist();
-    this.setState({ search: { query: '', language: '', audioType: '' } }, () =>
+    this.setState({ search: { query: '', language: '', audioType: '', license: '' } }, () =>
       this.handleSearch(evt),
     );
   }
 
   render() {
     const { t } = this.props;
-    const { search } = this.state;
+    const { search, licenses } = this.state;
 
     const getAudioTypes = () => [
       { id: 'standard', name: t('searchForm.audioType.standard') },
@@ -129,11 +153,16 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
         id: search.audioType,
         name: getTagName(search.audioType, getAudioTypes()),
       },
+      {
+        type: 'license',
+        id: search.license,
+        name: getTagName(search.license, licenses),
+      },
     ];
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
-        <div {...searchFormClasses('field', '25-width')}>
+        <div {...searchFormClasses('field', '50-width')}>
           <input
             name="query"
             placeholder={t('searchForm.types.audioQuery')}
@@ -141,7 +170,7 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
             onChange={this.onFieldChange}
           />
         </div>
-        <div {...searchFormClasses('field', '25-width')}>
+        <div {...searchFormClasses('field', '50-width')}>
           <ObjectSelector
             name="audioType"
             value={search.audioType}
@@ -151,6 +180,18 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
             emptyField
             onChange={this.onFieldChange}
             placeholder={t('searchForm.types.audio')}
+          />
+        </div>
+        <div {...searchFormClasses('field', '50-width')}>
+          <ObjectSelector
+            name="license"
+            value={search.license}
+            options={licenses}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={this.onFieldChange}
+            placeholder={t('searchForm.types.license')}
           />
         </div>
         <div {...searchFormClasses('field', '25-width')}>

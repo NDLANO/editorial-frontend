@@ -208,6 +208,7 @@ const phrases = {
       resourceTypes: 'Velg innholdstype',
       status: 'Velg status',
       audio: 'Velg lydfiltype',
+      license: 'Velg lisens',
     },
     tagType: {
       query: 'Innhold',
@@ -217,6 +218,7 @@ const phrases = {
       resourceTypes: 'Innholdstype',
       status: 'Status',
       audioType: 'Lydfiltype',
+      license: 'Lisens',
     },
     btn: 'Søk',
     empty: 'Tøm',

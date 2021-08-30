@@ -42,6 +42,7 @@ export interface SearchParams {
   users?: string;
   sort?: string;
   type?: string;
+  license?: string;
 }
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
@@ -63,6 +64,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     users: queryStringObject.users,
     sort: queryStringObject.sort,
     type: queryStringObject.type,
+    license: queryStringObject.license,
   };
 };
 

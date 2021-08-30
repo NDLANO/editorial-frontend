@@ -207,6 +207,7 @@ const phrases = {
       resourceTypes: 'Select resource type',
       status: 'Select status',
       audio: 'Select audio file type',
+      license: 'Select license',
     },
     tagType: {
       query: 'Query',
@@ -216,6 +217,7 @@ const phrases = {
       resourceTypes: 'Resource type',
       status: 'Status',
       audioType: 'Audio file type',
+      license: 'License',
     },
     btn: 'Search',
     empty: 'Empty',

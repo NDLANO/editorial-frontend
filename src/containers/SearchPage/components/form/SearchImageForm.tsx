@@ -14,6 +14,7 @@ import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
+import { getLicensesWithTranslations } from '../../../../util/licenseHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses, SearchParams } from './SearchForm';
@@ -85,10 +86,11 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
 
   async getLicenses() {
     const licenses = await fetchLicenses();
+    const licensesWithTranslations = getLicensesWithTranslations(licenses, this.props.locale);
     this.setState({
-      licenses: licenses.map(license => ({
+      licenses: licensesWithTranslations.map(license => ({
         id: license.license,
-        name: license.description,
+        name: license.title,
       })),
     });
   }

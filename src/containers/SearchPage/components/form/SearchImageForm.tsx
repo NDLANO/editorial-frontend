@@ -88,7 +88,7 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
     this.setState({
       licenses: licenses.map(license => ({
         id: license.license,
-        name: license.license,
+        name: license.description,
       })),
     });
   }

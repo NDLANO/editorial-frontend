@@ -32,7 +32,7 @@ const emptySearchState: SearchState = {
   status: '',
   includeOtherStatuses: false,
   users: '',
-  lang: '',
+  language: '',
 };
 
 interface Props extends RouteComponentProps {
@@ -49,8 +49,7 @@ export interface SearchState extends Record<string, string | boolean | undefined
   includeOtherStatuses: boolean;
   query: string;
   users: string;
-  // This field is called `lang` instead of `language` to NOT match with tag in `SearchTagGroup.tsx`
-  lang: string;
+  language?: string;
 }
 
 export interface User {
@@ -69,7 +68,7 @@ interface State {
 class SearchContentForm extends Component<Props & WithTranslation, State> {
   constructor(props: Props & WithTranslation) {
     super(props);
-    const { searchObject, locale } = props;
+    const { searchObject } = props;
     this.state = {
       dropDown: {
         resourceTypes: [],
@@ -82,7 +81,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
         includeOtherStatuses: searchObject['include-other-statuses'] || false,
         query: searchObject.query || '',
         users: searchObject.users || '',
-        lang: searchObject.language || locale,
+        language: searchObject.language || '',
       },
     };
     this.getExternalData = this.getExternalData.bind(this);
@@ -127,7 +126,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
 
   handleSearch() {
     const {
-      search: { resourceTypes, status, includeOtherStatuses, subjects, query, users, lang },
+      search: { resourceTypes, status, includeOtherStatuses, subjects, query, users, language },
     } = this.state;
     const { search } = this.props;
 
@@ -141,8 +140,8 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
       subjects,
       query,
       users,
-      language: lang,
-      fallback: true,
+      language,
+      fallback: false,
       page: 1,
     });
   }
@@ -192,7 +191,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
       {
         name: 'subjects',
         label: 'subjects',
-        width: 50,
+        width: 25,
         options: subjects.sort(this.sortByProperty('name')),
       },
       {
@@ -212,6 +211,12 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
         label: 'users',
         width: 25,
         options: users.sort(this.sortByProperty('name')),
+      },
+      {
+        name: 'language',
+        label: 'language',
+        width: 25,
+        options: getResourceLanguages(t),
       },
     ];
 

@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { Copyright, Publicdomain } from '@ndla/icons/licenses';
 import ImageEditorButton from './ImageEditorButton';
@@ -22,7 +22,8 @@ interface Props {
   show: boolean;
 }
 
-const ShowBylineButton = ({ currentSize, onFieldChange, t, show }: Props & tType) => {
+const ShowBylineButton = ({ currentSize, onFieldChange, show }: Props) => {
+  const { t } = useTranslation();
   const bylineTag = '-hide-byline';
   const hideByline = currentSize.endsWith(bylineTag);
 
@@ -47,4 +48,4 @@ const ShowBylineButton = ({ currentSize, onFieldChange, t, show }: Props & tType
   );
 };
 
-export default injectT(ShowBylineButton);
+export default ShowBylineButton;

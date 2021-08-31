@@ -6,15 +6,14 @@
  *
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { spacing } from '@ndla/core';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { getLocaleUrls } from '../../../util/localeHelpers';
 import { LocaleType } from '../../../interfaces';
-import { LocaleContext } from '../App';
 
 const StyledFooterWrapper = styled.div`
   margin-top: ${spacing.large};
@@ -25,21 +24,21 @@ interface Props extends RouteComponentProps {
   showLocaleSelector?: boolean;
 }
 
-const FooterWrapper = ({ location, showLocaleSelector, t }: Props & tType) => {
-  const locale: LocaleType = useContext(LocaleContext);
+const FooterWrapper = ({ location, showLocaleSelector }: Props) => {
+  const { t, i18n } = useTranslation();
   const languageSelector = showLocaleSelector ? (
     <LanguageSelector
       center
       outline
       alwaysVisible
-      options={getLocaleUrls(locale, location)}
-      currentLanguage={locale}
+      options={getLocaleUrls(i18n.language, location)}
+      currentLanguage={i18n.language}
     />
   ) : null;
 
   return (
     <StyledFooterWrapper>
-      <Footer lang={locale} languageSelector={languageSelector}>
+      <Footer lang={i18n.language as LocaleType} languageSelector={languageSelector}>
         <FooterText>
           <EditorName title={t('footer.footerEditiorInChief')} name="Sigurd Trageton" />
           {t('footer.footerInfo')}
@@ -49,4 +48,4 @@ const FooterWrapper = ({ location, showLocaleSelector, t }: Props & tType) => {
   );
 };
 
-export default withRouter(injectT(FooterWrapper));
+export default withRouter(FooterWrapper);

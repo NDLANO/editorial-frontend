@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Notion from '@ndla/notion';
 import PropTypes from 'prop-types';
 import { TYPE } from '.';
@@ -26,7 +26,8 @@ const getConceptDataAttributes = ({ id, title: { title } }) => ({
 });
 
 const EditSlateConcept = props => {
-  const { t, children, node, locale, editor, attributes } = props;
+  const { t } = useTranslation();
+  const { children, node, locale, editor, attributes } = props;
   const nodeText = node.text.trim();
 
   const [showConcept, setShowConcept] = useState(false);
@@ -134,4 +135,4 @@ EditSlateConcept.propTypes = {
   }),
 };
 
-export default injectT(EditSlateConcept);
+export default EditSlateConcept;

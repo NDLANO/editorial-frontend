@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
@@ -69,14 +69,8 @@ const StyledButtonWrapper = styled.div`
   }
 `;
 
-const StructureFunctionButtons = ({
-  isSubject,
-  isOpen,
-  id,
-  activeTopics,
-  addTopic,
-  t,
-}: Props & tType) => {
+const StructureFunctionButtons = ({ isSubject, isOpen, id, activeTopics, addTopic }: Props) => {
+  const { t } = useTranslation();
   if (isSubject) {
     if (!isOpen) {
       return null;
@@ -115,4 +109,4 @@ StructureFunctionButtons.propTypes = {
   addTopic: PropTypes.func.isRequired,
 };
 
-export default injectT(StructureFunctionButtons);
+export default StructureFunctionButtons;

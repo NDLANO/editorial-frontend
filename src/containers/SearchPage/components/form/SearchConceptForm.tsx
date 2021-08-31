@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import PropTypes from 'prop-types';
@@ -55,8 +55,8 @@ const emptySearchState: SearchState = {
   users: '',
 };
 
-class SearchConceptForm extends Component<Props & tType, State> {
-  constructor(props: Props & tType) {
+class SearchConceptForm extends Component<Props & WithTranslation, State> {
+  constructor(props: Props & WithTranslation) {
     super(props);
     const { searchObject } = props;
     this.state = {
@@ -86,7 +86,7 @@ class SearchConceptForm extends Component<Props & tType, State> {
     this.setState({ users: users });
   }
 
-  componentDidUpdate(prevProps: Props & tType) {
+  componentDidUpdate(prevProps: Props & WithTranslation) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({
@@ -102,7 +102,7 @@ class SearchConceptForm extends Component<Props & tType, State> {
     }
   }
 
-  onFieldChange = (evt: React.FormEvent<HTMLInputElement>) => {
+  onFieldChange = (evt: React.FormEvent<HTMLSelectElement> | React.FormEvent<HTMLInputElement>) => {
     const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),
@@ -256,4 +256,4 @@ class SearchConceptForm extends Component<Props & tType, State> {
   };
 }
 
-export default injectT(SearchConceptForm);
+export default withTranslation()(SearchConceptForm);

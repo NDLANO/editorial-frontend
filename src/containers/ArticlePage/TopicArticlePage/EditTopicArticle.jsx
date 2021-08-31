@@ -9,14 +9,15 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import TopicArticleForm from './components/TopicArticleForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 
-const EditTopicArticle = ({ articleId, selectedLanguage, t, isNewlyCreated, ...rest }) => {
+const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated, ...rest }) => {
+  const { t } = useTranslation();
   const { loading, article, setArticle, articleChanged, ...articleHooks } = useFetchArticleData(
     articleId,
     selectedLanguage,
@@ -60,4 +61,4 @@ EditTopicArticle.propTypes = {
   isNewlyCreated: PropTypes.bool,
 };
 
-export default injectT(withRouter(EditTopicArticle));
+export default withRouter(EditTopicArticle);

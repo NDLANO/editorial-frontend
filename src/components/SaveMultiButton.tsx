@@ -1,9 +1,9 @@
 import React from 'react';
 import { MultiButton } from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
+import { useTranslation } from 'react-i18next';
 import { saveButtonAppearances } from './SaveButton';
 
 const StyledSpan = styled('span')`
@@ -27,8 +27,8 @@ const checkStyle = css`
 interface Props {
   isSaving: boolean;
   showSaved: boolean;
-  formIsDirty: boolean;
-  large: boolean;
+  formIsDirty?: boolean;
+  large?: boolean;
   disabled: boolean;
   onClick: (saveAsNew: boolean) => void;
   clippedButton?: boolean;
@@ -38,19 +38,19 @@ interface Props {
 const SaveMultiButton = ({
   isSaving,
   showSaved,
-  t,
-  formIsDirty,
+  formIsDirty = true,
   large,
   disabled,
   onClick,
   hideSecondaryButton,
   ...rest
-}: Props & tType) => {
+}: Props) => {
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';
     return 'save';
   };
+  const { t } = useTranslation();
   const modifier = getModifier();
   const disabledButton = isSaving || !formIsDirty || disabled;
 
@@ -90,8 +90,4 @@ const SaveMultiButton = ({
   );
 };
 
-SaveMultiButton.defaultProps = {
-  formIsDirty: true,
-};
-
-export default injectT(SaveMultiButton);
+export default SaveMultiButton;

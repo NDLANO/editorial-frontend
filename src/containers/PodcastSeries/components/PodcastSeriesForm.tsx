@@ -7,18 +7,17 @@
 
 import React, { useState, ReactNode, useRef } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Value } from 'slate';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeHelpers';
 import {
-  PodcastFormValues,
   NewPodcastSeries,
   FlattenedPodcastSeries,
   AudioApiType,
@@ -31,7 +30,7 @@ import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
 import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
 
-const podcastRules = {
+const podcastRules: RulesType<PodcastSeriesFormikType> = {
   title: {
     required: true,
   },
@@ -40,7 +39,7 @@ const podcastRules = {
   },
   metaImageAlt: {
     required: true,
-    onlyValidateIf: (values: PodcastFormValues) => !!values.coverPhotoId,
+    onlyValidateIf: (values: PodcastSeriesFormikType) => !!values.coverPhotoId,
   },
 };
 
@@ -90,13 +89,8 @@ interface Props {
   revision?: number;
 }
 
-const PodcastSeriesForm = ({
-  t,
-  podcastSeries,
-  inModal,
-  isNewlyCreated,
-  onUpdate,
-}: Props & tType) => {
+const PodcastSeriesForm = ({ podcastSeries, inModal, isNewlyCreated, onUpdate }: Props) => {
+  const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
 
@@ -136,7 +130,7 @@ const PodcastSeriesForm = ({
   const validateMetaImage = ([width, height]: [
     number,
     number,
-  ]): FormikErrors<PodcastFormValues> => {
+  ]): FormikErrors<PodcastSeriesFormikType> => {
     if (width !== height) {
       return { coverPhotoId: t('validation.podcastImageShape') };
     } else if (width < ITUNES_STANDARD_MINIMUM_WIDTH || width > ITUNES_STANDARD_MAXIMUM_WIDTH) {
@@ -227,4 +221,4 @@ const PodcastSeriesForm = ({
   );
 };
 
-export default injectT(PodcastSeriesForm);
+export default PodcastSeriesForm;

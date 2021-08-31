@@ -7,11 +7,10 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 
-export const StyledButton = styled.button`
+export const StyledButton = styled.button<{ color?: keyof typeof colors.support }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,17 +56,21 @@ export const StyledButton = styled.button`
   }
 `;
 
-export const IconButton = ({ children, ...rest }) => (
+interface Props {
+  as?: React.ReactNode;
+  to?: string;
+  target?: string;
+  title?: string;
+  tabIndex?: number;
+  onClick?: (event: React.MouseEvent) => void;
+  type?: 'button' | 'reset' | 'submit';
+  children: React.ReactNode;
+  color?: 'red' | 'green';
+  tag?: string | React.ReactNode;
+}
+
+export const IconButton = ({ children, tag = 'button', ...rest }: Props) => (
   <StyledButton {...rest}>{children}</StyledButton>
 );
-
-IconButton.propTypes = {
-  color: PropTypes.oneOf(['red', 'green']),
-  tag: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-};
-
-IconButton.defaultProps = {
-  tag: 'button',
-};
 
 export default IconButton;

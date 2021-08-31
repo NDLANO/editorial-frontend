@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 
@@ -30,13 +30,8 @@ interface Props {
   initialUrl?: string;
 }
 
-const ContentLink = ({
-  t,
-  onAddLink,
-  onClose,
-  initialTitle = '',
-  initialUrl = '',
-}: Props & tType) => {
+const ContentLink = ({ onAddLink, onClose, initialTitle = '', initialUrl = '' }: Props) => {
+  const { t } = useTranslation();
   const [title, setTitle] = useState(initialTitle);
   const [url, setUrl] = useState(initialUrl);
   const [showError, setShowError] = useState(false);
@@ -88,4 +83,4 @@ const ContentLink = ({
   );
 };
 
-export default injectT(ContentLink);
+export default ContentLink;

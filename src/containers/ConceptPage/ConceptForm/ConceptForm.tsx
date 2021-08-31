@@ -6,13 +6,13 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
@@ -71,15 +71,19 @@ const ConceptForm = ({
   updateConceptAndStatus,
   onUpdate,
   applicationError,
-  t,
-}: Props & tType) => {
+}: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setSavedToServer(false);
   }, [concept]);
   const initialValues = transformApiConceptToFormValues(concept, subjects);
+  const initialErrors = useMemo(() => validateFormik(initialValues, conceptFormRules, t), [
+    initialValues,
+    t,
+  ]);
 
   const handleSubmit = async (
     values: ConceptFormValues,
@@ -118,6 +122,7 @@ const ConceptForm = ({
   return (
     <Formik
       initialValues={initialValues}
+      initialErrors={initialErrors}
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
@@ -196,4 +201,4 @@ const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
 };
 
-export default compose(injectT, withRouter, connect(undefined, mapDispatchToProps))(ConceptForm);
+export default compose(withRouter, connect(undefined, mapDispatchToProps))(ConceptForm);

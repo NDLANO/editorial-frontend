@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { connect } from 'react-redux';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersion } from '../../modules/draft/draftApi';
@@ -188,4 +188,7 @@ const mapDispatchToProps = {
   createMessage: (message = {}) => messageActions.addMessage(message),
 };
 
-export default connect(undefined, mapDispatchToProps)(withRouter(injectT(DeleteLanguageVersion)));
+export default connect(
+  undefined,
+  mapDispatchToProps,
+)(withRouter(withTranslation()(DeleteLanguageVersion)));

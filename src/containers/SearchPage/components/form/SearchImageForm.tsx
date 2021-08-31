@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
@@ -34,14 +34,14 @@ interface State {
   };
 }
 
-const getModelReleasedValues = (t: tType['t']) => [
+const getModelReleasedValues = (t: WithTranslation['t']) => [
   { id: 'yes', name: t('imageSearch.modelReleased.yes') },
   { id: 'not-applicable', name: t('imageSearch.modelReleased.not-applicable') },
   { id: 'no', name: t('imageSearch.modelReleased.no') },
 ];
 
-class SearchImageForm extends Component<Props & tType, State> {
-  constructor(props: Props & tType) {
+class SearchImageForm extends Component<Props & WithTranslation, State> {
+  constructor(props: Props & WithTranslation) {
     super(props);
 
     const { searchObject } = props;
@@ -59,7 +59,7 @@ class SearchImageForm extends Component<Props & tType, State> {
     };
   }
 
-  componentDidUpdate(prevProps: Props & tType) {
+  componentDidUpdate(prevProps: Props & WithTranslation) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({
@@ -72,7 +72,7 @@ class SearchImageForm extends Component<Props & tType, State> {
     }
   }
 
-  onFieldChange(evt: React.FormEvent<HTMLInputElement>) {
+  onFieldChange(evt: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLSelectElement>) {
     const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),
@@ -170,4 +170,4 @@ class SearchImageForm extends Component<Props & tType, State> {
   };
 }
 
-export default injectT(SearchImageForm);
+export default withTranslation()(SearchImageForm);

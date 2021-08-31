@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -15,7 +15,6 @@ import { Switch } from '@ndla/switch';
 
 import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
-import { TranslateType } from '../../../../interfaces';
 import MenuItemButton from './MenuItemButton';
 
 enum MenuType {
@@ -32,7 +31,6 @@ interface Props {
   metadata: { grepCodes: string[]; visible: boolean };
   refreshTopics: Function;
   setResourcesUpdated: Function;
-  t: TranslateType;
   toggleEditMode: Function;
 }
 
@@ -53,9 +51,9 @@ const ToggleVisibility = ({
   metadata,
   refreshTopics,
   setResourcesUpdated,
-  t,
   toggleEditMode,
 }: Props) => {
+  const { t } = useTranslation();
   const [visible, setVisible] = useState(metadata?.visible);
 
   const toggleVisibility = async () => {
@@ -120,4 +118,4 @@ const ToggleVisibility = ({
   );
 };
 
-export default injectT(ToggleVisibility);
+export default ToggleVisibility;

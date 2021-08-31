@@ -8,11 +8,11 @@
 
 import React, { useState, useEffect, Fragment } from 'react';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { fetchLicenses } from '../modules/draft/draftApi';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
 import {
@@ -30,7 +30,6 @@ const StyledTitleDiv = styled.div`
 interface Props {
   onImageSelect: (image: ImageType) => void;
   locale: string;
-  isSavingImage?: boolean;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
   searchImages: (queryObject: ImageSearchQuery) => void;
@@ -48,8 +47,8 @@ const ImageSearchAndUploader = ({
   fetchImage,
   searchImages,
   onError,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [licenses, setLicenses] = useState<License[]>();
   useEffect(() => {
@@ -112,4 +111,4 @@ const ImageSearchAndUploader = ({
   );
 };
 
-export default injectT(ImageSearchAndUploader);
+export default ImageSearchAndUploader;

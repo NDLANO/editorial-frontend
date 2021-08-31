@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import RoundIcon from '../../../../components/RoundIcon';
 import { addTopic, addTopicToTopic } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
@@ -75,4 +75,4 @@ AddTopic.propTypes = {
   numberOfSubtopics: PropTypes.number,
 };
 
-export default injectT(AddTopic);
+export default withTranslation()(AddTopic);

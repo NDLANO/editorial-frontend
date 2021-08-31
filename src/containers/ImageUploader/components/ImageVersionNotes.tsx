@@ -7,7 +7,6 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { injectT } from '@ndla/i18n';
 import { VersionHistory } from '@ndla/editor';
 import { ImagePropType } from './ImageForm';
 import { EditorNote } from '../../../modules/image/imageApiInterfaces';
@@ -36,7 +35,7 @@ const ImageVersionNotes = ({ image }: Props) => {
         ...note,
         author: getUser(note.updatedBy, users),
         date: formatDate(note.timestamp),
-        id: idx.toString(),
+        id: idx,
       })),
     [users],
   );
@@ -63,4 +62,4 @@ const ImageVersionNotes = ({ image }: Props) => {
   return <VersionHistory notes={cleanedNotes} />;
 };
 
-export default injectT(ImageVersionNotes);
+export default ImageVersionNotes;

@@ -6,13 +6,13 @@
  */
 
 import React, { Component, ReactNode } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty, parseCopyrightContributors } from '../../../util/formHelper';
-import validateFormik from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import {
@@ -32,7 +32,7 @@ import { Author, Copyright } from '../../../interfaces';
 import ImageVersionNotes from './ImageVersionNotes';
 import Spinner from '../../../components/Spinner';
 
-const imageRules = {
+const imageRules: RulesType<ImageFormikType> = {
   title: {
     required: true,
   },
@@ -62,7 +62,7 @@ const imageRules = {
   },
 };
 
-interface ImageFormikType {
+export interface ImageFormikType {
   id?: number;
   language?: string;
   supportedLanguages?: string[];
@@ -144,7 +144,7 @@ interface State {
   savedToServer: boolean;
 }
 
-class ImageForm extends Component<Props & tType, State> {
+class ImageForm extends Component<Props & WithTranslation, State> {
   state = {
     savedToServer: false,
   };
@@ -301,9 +301,7 @@ class ImageForm extends Component<Props & tType, State> {
                       evt.preventDefault();
                       submitForm();
                     }
-                  }}>
-                  {t('form.save')} - {inModal}
-                </SaveButton>
+                  }}></SaveButton>
               </Field>
               <AlertModalWrapper
                 isSubmitting={isSubmitting}
@@ -319,4 +317,4 @@ class ImageForm extends Component<Props & tType, State> {
   }
 }
 
-export default injectT(ImageForm);
+export default withTranslation()(ImageForm);

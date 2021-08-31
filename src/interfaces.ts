@@ -21,15 +21,6 @@ export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
-export interface TranslateType {
-  (
-    key: string,
-    values?: {
-      [key: string]: string | number;
-    },
-  ): string;
-}
-
 export interface Author {
   name: string;
   type: string;
@@ -300,26 +291,26 @@ export interface SubjectpageEditType extends SubjectpageType {
   mobileBanner?: number;
   elementId?: string;
   title?: string;
-  visualElement?: VisualElement;
+  visualElementObject?: VisualElement;
 }
 
 export interface NdlaFilmType {
   name: string;
 }
 
+export interface NdlaFilmVisualElement {
+  alt: string;
+  url: string;
+  type: string;
+}
+
 export interface NdlaFilmApiType extends NdlaFilmType {
-  about: [
-    {
-      description: string;
-      language: string;
-      title: string;
-      visualElement: {
-        alt: string;
-        id: string;
-        type: string;
-      };
-    },
-  ];
+  about: {
+    description: string;
+    language: string;
+    title: string;
+    visualElement: NdlaFilmVisualElement;
+  }[];
   themes: NdlaFilmThemesApiType[];
   slideShow: string[];
 }
@@ -346,14 +337,13 @@ export interface NdlaFilmThemesApiType {
 }
 export interface NdlaFilmThemesEditType {
   movies: ContentResultType[];
-  name: [
-    {
-      name: string;
-      language: string;
-    },
-  ];
+  name: {
+    name: string;
+    language: string;
+  }[];
 }
 
+export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface VisualElement {
   resource: string;
   resource_id: string;

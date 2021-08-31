@@ -7,7 +7,7 @@
  */
 
 import React, { Fragment, SyntheticEvent } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
@@ -53,13 +53,13 @@ const MetaImageField = ({
   onImageRemove,
   showRemoveButton,
   onImageLoad,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const copyright =
     image.copyright && image.copyright.creators
       ? image.copyright.creators.map(creator => creator.name).join(', ')
       : undefined;
-  const title = convertFieldWithFallback(image, 'title', '');
+  const title = convertFieldWithFallback<'title'>(image, 'title', '');
   const alt = convertFieldWithFallback<'alttext'>(image, 'alttext', '');
   const imageAction = (
     <>
@@ -99,4 +99,4 @@ const MetaImageField = ({
   );
 };
 
-export default injectT(MetaImageField);
+export default MetaImageField;

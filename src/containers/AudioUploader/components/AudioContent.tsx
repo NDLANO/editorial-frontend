@@ -7,7 +7,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { connect, FormikContextType } from 'formik';
 import BEMHelper from 'react-bem-helper';
 import { UploadDropZone } from '@ndla/forms';
@@ -57,7 +57,8 @@ const getPlayerObject = (
   return undefined;
 };
 
-const AudioContent = ({ t, formik }: Props & tType) => {
+const AudioContent = ({ formik }: Props) => {
+  const { t } = useTranslation();
   const { values, setFieldValue, submitForm, handleBlur } = formik;
   const playerObject = getPlayerObject(values);
 
@@ -115,4 +116,4 @@ const AudioContent = ({ t, formik }: Props & tType) => {
   );
 };
 
-export default injectT(connect<BaseProps & tType, AudioFormikType>(AudioContent));
+export default connect<BaseProps, AudioFormikType>(AudioContent);

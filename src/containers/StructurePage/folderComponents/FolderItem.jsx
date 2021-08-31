@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { string, bool, arrayOf, shape, func } from 'prop-types';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import { css } from '@emotion/core';
 import BEMHelper from 'react-bem-helper';
@@ -35,11 +35,11 @@ const FolderItem = ({
   id,
   jumpToResources,
   isMainActive,
-  t,
   userAccess,
   metadata,
   ...rest
 }) => {
+  const { t } = useTranslation();
   const type = id.includes('subject') ? 'subject' : 'topic';
   const showJumpToResources = isMainActive && type === 'topic';
 
@@ -99,4 +99,4 @@ FolderItem.propTypes = {
   }),
 };
 
-export default withRouter(injectT(FolderItem));
+export default withRouter(FolderItem);

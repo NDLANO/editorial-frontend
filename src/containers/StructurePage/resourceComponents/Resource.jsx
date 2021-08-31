@@ -8,24 +8,24 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
+import { colors, spacing, breakpoints } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
 import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
+import GrepCodesModal from '../../GrepCodes/GrepCodesModal';
 import RemoveButton from '../../../components/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-
-import { StructureShape, ResourceShape } from '../../../shapes';
+import { ResourceShape } from '../../../shapes';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -37,9 +37,39 @@ const statusButtonStyle = css`
   margin-right: ${spacing.xsmall};
 `;
 
+const grepButtonStyle = css`
+  margin-left: ${spacing.xsmall};
+`;
+
+const StyledResourceIcon = styled.div`
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  width: 42px;
+  box-sizing: content-box;
+  padding-right: ${spacing.small};
+
+  @media (min-width: ${breakpoints.tablet}) {
+    padding-right: ${spacing.normal};
+  }
+`;
+
+const StyledResourceBody = styled.div`
+  flex: 1 1 auto;
+  justify-content: space-between;
+  text-align: left;
+`;
+
+const StyledText = styled.div`
+  display: flex;
+  padding: 10px;
+  margin-bottom: 6.5px;
+  box-shadow: none;
+  align-items: center;
+`;
+
 const Resource = ({
   resource,
-  structure,
   onDelete,
   connectionId,
   dragHandleProps,
@@ -48,9 +78,10 @@ const Resource = ({
   updateRelevanceId,
   primary,
   rank,
-  t,
 }) => {
+  const { t } = useTranslation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
+  const [showGrepCodes, setShowGrepCodes] = useState(false);
 
   const contentType = resource.resourceTypes
     ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
@@ -59,13 +90,15 @@ const Resource = ({
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
   return (
-    <div data-testid={`resource-type-${contentType}`} {...classes('text o-flag o-flag--top')}>
+    <StyledText
+      data-testid={`resource-type-${contentType}`}
+      {...classes('text o-flag o-flag--top')}>
       {contentType && (
-        <div key="img" {...classes('icon o-flag__img')} {...dragHandleProps}>
+        <StyledResourceIcon key="img" {...classes('icon o-flag__img')} {...dragHandleProps}>
           <ContentTypeBadge background type={iconType} />
-        </div>
+        </StyledResourceIcon>
       )}
-      <div key="body" {...classes('body o-flag__body')}>
+      <StyledResourceBody key="body" {...classes('body o-flag__body')}>
         <ResourceItemLink
           contentType={contentType}
           contentUri={resource.contentUri}
@@ -73,7 +106,7 @@ const Resource = ({
           name={resource.name}
           isVisible={resource.metadata?.visible}
         />
-      </div>
+      </StyledResourceBody>
       {resource.status?.current && (
         <Button
           lighter
@@ -88,6 +121,9 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
+      <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
+        GREP
+      </Button>
       <RelevanceOption
         relevanceId={relevanceId}
         onChange={relevanceIdUpdate =>
@@ -110,7 +146,14 @@ const Resource = ({
           locale={locale}
         />
       )}
-    </div>
+      {showGrepCodes && (
+        <GrepCodesModal
+          onClose={() => setShowGrepCodes(false)}
+          contentUri={resource.contentUri}
+          locale={locale}
+        />
+      )}
+    </StyledText>
   );
 };
 
@@ -126,7 +169,6 @@ Resource.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
-  structure: PropTypes.arrayOf(StructureShape),
   connectionId: PropTypes.string,
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,
@@ -142,4 +184,4 @@ Resource.propTypes = {
   rank: PropTypes.number,
 };
 
-export default injectT(Resource);
+export default Resource;

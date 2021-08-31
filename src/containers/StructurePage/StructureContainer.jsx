@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import { withRouter } from 'react-router-dom';
 import { Taxonomy, Star } from '@ndla/icons/editor';
@@ -286,8 +286,10 @@ export class StructureContainer extends React.PureComponent {
       params,
       allTopics: this.state.topics,
     });
-    const topics = getSubtopics(currentTopic.id, this.state.topics) || currentSubject.topics;
-    const currentRank = topics[source.index].rank;
+    const topics = currentTopic.id
+      ? getSubtopics(currentTopic.id, this.state.topics)
+      : currentSubject.topics;
+    const currentRank = topics[source.index]?.rank;
     const destinationRank = topics[destination.index].rank;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
     if (currentRank === destinationRank) return;
@@ -460,4 +462,4 @@ StructureContainer.propTypes = {
   userAccess: PropTypes.string,
 };
 
-export default withRouter(injectT(StructureContainer));
+export default withRouter(withTranslation()(StructureContainer));

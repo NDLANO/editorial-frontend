@@ -7,7 +7,7 @@
  */
 
 import React, { Fragment } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
@@ -26,7 +26,8 @@ interface Props {
   inModal: boolean;
 }
 
-const ConceptMetaData = ({ subjects, fetchTags, inModal, t }: Props & tType) => {
+const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
+  const { t } = useTranslation();
   const { values } = useFormikContext<ConceptFormValues>();
 
   const conceptSubjects = subjects.filter(
@@ -80,4 +81,4 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal, t }: Props & tType) => 
   );
 };
 
-export default injectT(ConceptMetaData);
+export default ConceptMetaData;

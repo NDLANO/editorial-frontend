@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import { spacing, spacingUnit } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
@@ -42,7 +42,8 @@ interface Props {
   id: number;
 }
 
-const SlateConceptPreview = ({ concept, handleRemove, id, t }: Props & tType) => {
+const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
+  const { t } = useTranslation();
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);
@@ -135,4 +136,4 @@ const SlateConceptPreview = ({ concept, handleRemove, id, t }: Props & tType) =>
   );
 };
 
-export default injectT(SlateConceptPreview);
+export default SlateConceptPreview;

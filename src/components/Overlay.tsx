@@ -7,11 +7,10 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { css } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/core';
 import { animations } from '@ndla/core';
-const appearances = {
+const appearances: Record<string, SerializedStyles> = {
   zIndex: css`
     z-index: 1;
   `,
@@ -30,14 +29,14 @@ const appearances = {
   `,
 };
 
-const getAllAppearances = modifiers => {
+const getAllAppearances = (modifiers: string | string[]) => {
   if (Array.isArray(modifiers)) {
     return modifiers.map(modifier => appearances[modifier]);
   }
   return appearances[modifiers];
 };
 
-const StyledOverlay = styled.div`
+const StyledOverlay = styled.div<{ modifiers: string | string[] }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -49,20 +48,16 @@ const StyledOverlay = styled.div`
   ${p => getAllAppearances(p.modifiers)}
 `;
 
-const Overlay = ({ onExit, modifiers }) =>
+interface Props {
+  onExit?: (event: React.MouseEvent) => void;
+  modifiers?: string | string[];
+}
+
+const Overlay = ({ onExit, modifiers = '' }: Props) =>
   onExit ? (
     <StyledOverlay onClick={onExit} modifiers={modifiers} aria-hidden="true" />
   ) : (
     <StyledOverlay modifiers={modifiers} />
   );
-
-Overlay.propTypes = {
-  onExit: PropTypes.func,
-  modifiers: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-};
-
-Overlay.defaultProps = {
-  modifiers: '',
-};
 
 export default Overlay;

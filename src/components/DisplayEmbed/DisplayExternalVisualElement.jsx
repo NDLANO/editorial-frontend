@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import Types from 'slate-prop-types';
 import './helpers/h5pResizer';
 import { Input } from '@ndla/forms';
@@ -189,4 +189,4 @@ DisplayExternalVisualElement.propTypes = {
   language: PropTypes.string,
 };
 
-export default injectT(DisplayExternalVisualElement);
+export default withTranslation()(DisplayExternalVisualElement);

@@ -12,9 +12,17 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 
-const RoundIcon = ({ icon, ...rest }) => <StyledRoundIcon {...rest}>{icon}</StyledRoundIcon>;
+interface Props {
+  icon?: React.ReactNode;
+  open?: boolean;
+  small?: boolean;
+  smallIcon?: boolean;
+  margin?: boolean;
+}
 
-const StyledRoundIcon = styled.div`
+const RoundIcon = ({ icon, ...rest }: Props) => <StyledRoundIcon {...rest}>{icon}</StyledRoundIcon>;
+
+const StyledRoundIcon = styled.div<Omit<Props, 'icon'>>`
   display: flex;
   align-items: center;
   justify-content: center;

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import handleError from '../util/handleError';
 
 interface Props {
@@ -18,8 +18,8 @@ interface State {
   error: Error | undefined;
 }
 
-class ErrorBoundary extends React.PureComponent<Props & tType, State> {
-  constructor(props: Props & tType) {
+class ErrorBoundary extends React.PureComponent<Props & WithTranslation, State> {
+  constructor(props: Props & WithTranslation) {
     super(props);
     this.state = { error: undefined };
   }
@@ -43,4 +43,4 @@ class ErrorBoundary extends React.PureComponent<Props & tType, State> {
   }
 }
 
-export default injectT(ErrorBoundary);
+export default withTranslation()(ErrorBoundary);

@@ -1161,6 +1161,7 @@ const phrases = {
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
         explanationSubject: 'Explanation Subject',
+        oldSubjectId: 'Old ID for redirecting',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
       },

@@ -54,7 +54,6 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
     this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
-    this.getLicenses = this.getLicenses.bind(this);
 
     this.state = {
       search: {

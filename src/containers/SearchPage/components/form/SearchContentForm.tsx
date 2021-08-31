@@ -32,7 +32,7 @@ const emptySearchState: SearchState = {
   status: '',
   includeOtherStatuses: false,
   users: '',
-  lang: '',
+  language: '',
 };
 
 interface Props extends RouteComponentProps {
@@ -81,6 +81,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
         includeOtherStatuses: searchObject['include-other-statuses'] || false,
         query: searchObject.query || '',
         users: searchObject.users || '',
+        language: searchObject.language || '',
       },
     };
     this.getExternalData = this.getExternalData.bind(this);

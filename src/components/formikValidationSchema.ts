@@ -7,7 +7,7 @@
  */
 
 import get from 'lodash/fp/get';
-import { tType } from '@ndla/i18n';
+import { TFunction } from 'i18next';
 import {
   isUrl,
   isEmpty,
@@ -49,7 +49,7 @@ export type RulesType<FormikValuesType> = Record<string, RuleObject<FormikValues
 const validateFormik = <FormikValuesType>(
   values: FormikValuesType,
   rules: RulesType<FormikValuesType>,
-  t: tType['t'],
+  t: TFunction,
   formType: string | undefined = undefined,
 ) => {
   const errors: Record<string, string> = {};
@@ -128,6 +128,7 @@ const validateFormik = <FormikValuesType>(
             label,
             labelLowerCase: label.toLowerCase(),
             minItems: ruleMinItems,
+            count: ruleMinItems,
           }),
         );
       }

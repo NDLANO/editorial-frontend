@@ -9,7 +9,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Done } from '@ndla/icons/editor';
 import { Spinner } from '@ndla/editor';
 import { colors } from '@ndla/core';
@@ -59,7 +59,8 @@ interface Props {
 type LocalResource = Pick<Resource, 'contentUri' | 'name'>;
 type LocalTopic = Pick<Topic, 'contentUri' | 'name'>;
 
-const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => {
+const PublishTopic = ({ locale, id, setResourcesUpdated }: Props) => {
+  const { t } = useTranslation();
   const [showDisplay, setShowDisplay] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [publishedCount, setPublishedCount] = useState(0);
@@ -168,4 +169,4 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
   );
 };
 
-export default injectT(PublishTopic);
+export default PublishTopic;

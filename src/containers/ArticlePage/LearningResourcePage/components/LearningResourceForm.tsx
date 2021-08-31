@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
 import {
@@ -195,7 +195,6 @@ const LearningResourceForm = ({
   createMessage,
   isNewlyCreated = false,
   licenses,
-  t,
   translateToNN,
   translating,
   updateArticle,
@@ -203,7 +202,8 @@ const LearningResourceForm = ({
   articleChanged,
   history,
   userAccess,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const {
     savedToServer,
     formikRef,
@@ -344,4 +344,4 @@ const LearningResourceForm = ({
 //   }).isRequired,
 // };
 
-export default withRouter(injectT(LearningResourceForm));
+export default withRouter(LearningResourceForm);

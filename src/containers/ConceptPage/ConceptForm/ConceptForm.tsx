@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
@@ -75,9 +75,10 @@ const ConceptForm = ({
   applicationError,
   createMessage,
   t,
-}: Props & tType) => {
+}: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setSavedToServer(false);
@@ -206,4 +207,4 @@ const mapDispatchToProps = {
   createMessage: (message: NewReduxMessage) => messageActions.addMessage(message),
 };
 
-export default compose(injectT, withRouter, connect(undefined, mapDispatchToProps))(ConceptForm);
+export default compose(withRouter, connect(undefined, mapDispatchToProps))(ConceptForm);

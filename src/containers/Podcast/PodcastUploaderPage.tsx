@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { RouteComponentProps, Route, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
 import { fetchLicenses } from '../../modules/draft/draftApi';
 import { License } from '../../interfaces';
@@ -23,12 +23,8 @@ interface Props {
   location: RouteComponentProps['location'];
 }
 
-const PodcastUploderPage = ({
-  match,
-  history,
-  location,
-  t,
-}: RouteComponentProps & Props & tType) => {
+const PodcastUploderPage = ({ match, history, location }: RouteComponentProps & Props) => {
+  const { t } = useTranslation();
   const [licenses, setLicenses] = useState<License[]>([]);
   const [previousLocation, setPreviousLocation] = useState('');
   const [isNewlyCreated, setNewlyCreated] = useState(false);
@@ -74,4 +70,4 @@ const PodcastUploderPage = ({
   );
 };
 
-export default injectT(PodcastUploderPage);
+export default PodcastUploderPage;

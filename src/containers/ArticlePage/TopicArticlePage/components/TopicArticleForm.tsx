@@ -8,6 +8,8 @@
 
 import React, { useState } from 'react';
 import { injectT, tType } from '@ndla/i18n';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -211,6 +213,8 @@ const TopicArticleForm = (props: Props & tType) => {
     getArticleFromSlate,
     isNewlyCreated,
   });
+
+  const { t } = useTranslation();
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
   const FormikChild = (formik: FormikProps<ArticleFormikType>) => {
@@ -325,4 +329,4 @@ const TopicArticleForm = (props: Props & tType) => {
 //   }),
 // };
 
-export default withRouter(injectT(TopicArticleForm));
+export default withRouter(TopicArticleForm);

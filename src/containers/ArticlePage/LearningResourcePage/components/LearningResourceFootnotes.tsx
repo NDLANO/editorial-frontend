@@ -9,7 +9,7 @@
 import React from 'react';
 import BEMHelper from 'react-bem-helper';
 import { uuid } from '@ndla/util';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation, WithTranslation } from 'react-i18next';
 
 const classes = new BEMHelper({
   name: 'footnotes',
@@ -31,7 +31,8 @@ interface FootnoteProps {
   id: string;
 }
 
-const Footnote = ({ footnote, id, t }: FootnoteProps & tType) => {
+const Footnote = ({ footnote, id }: FootnoteProps) => {
+  const { t } = useTranslation();
   const authors = footnote.authors.join(' ');
   const editonLabel = t('learningResourceForm.fields.footnotes.edition');
   const publisherLabel = t('learningResourceForm.fields.footnotes.publisher');
@@ -47,12 +48,12 @@ interface LearningResourceFootnotesProps {
   footnotes: FootnoteType[];
 }
 
-const LearningResourceFootnotes = ({ footnotes, t }: LearningResourceFootnotesProps & tType) => {
+const LearningResourceFootnotes = ({ footnotes }: LearningResourceFootnotesProps) => {
   if (footnotes.length > 0) {
     return (
       <ol {...classes()}>
         {footnotes.map((footnote, i) => (
-          <Footnote key={uuid()} id={`${i + 1}`} t={t} footnote={footnote} />
+          <Footnote key={uuid()} id={`${i + 1}`} footnote={footnote} />
         ))}
       </ol>
     );
@@ -60,4 +61,4 @@ const LearningResourceFootnotes = ({ footnotes, t }: LearningResourceFootnotesPr
   return null;
 };
 
-export default injectT(LearningResourceFootnotes);
+export default LearningResourceFootnotes;

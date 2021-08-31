@@ -7,7 +7,7 @@
  */
 
 import { createSelector } from 'reselect';
-import { ReduxState } from '../../interfaces';
+import { MessageSeverity, ReduxState } from '../../interfaces';
 
 export interface ReduxMessage {
   id: string;
@@ -16,7 +16,7 @@ export interface ReduxMessage {
   translationObject?: {
     message?: string;
   };
-  severity?: string;
+  severity?: MessageSeverity;
   action?: string;
   timeToLive?: number;
   statusCode?: number;

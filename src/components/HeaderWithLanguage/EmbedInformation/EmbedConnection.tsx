@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { SubjectMaterial } from '@ndla/icons/contentType';
 import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
@@ -41,16 +41,26 @@ const searchObjects = (embedId: number, embedType: embedType) => ({
   'page-size': 50,
 });
 
-const EmbedConnection = ({ t, id, type }: Props & tType) => {
+const EmbedConnection = ({ id, type }: Props) => {
+  const { t } = useTranslation();
   const [articles, setArticles] = useState<MultiSearchSummary[]>();
   const [concepts, setConcepts] = useState<SearchConceptType[]>();
 
   useEffect(() => {
+    let shouldUpdateState = true;
     if (id) {
-      searchArticles(searchObjects(id, type)).then(result => setArticles(result.results));
+      searchArticles(searchObjects(id, type)).then(result => {
+        if (shouldUpdateState) setArticles(result.results);
+      });
       type === 'image' &&
-        searchConcepts(searchObjects(id, type)).then(result => setConcepts(result.results));
+        searchConcepts(searchObjects(id, type)).then(result => {
+          if (shouldUpdateState) setConcepts(result.results);
+        });
     }
+
+    return () => {
+      shouldUpdateState = false;
+    };
   }, [id, type]);
 
   if (!articles?.length && !concepts?.length) {
@@ -92,8 +102,7 @@ const EmbedConnection = ({ t, id, type }: Props & tType) => {
                 resource: t(`form.embedConnections.type.${type}`),
               })}{' '}
               <em>
-                ({t('form.embedConnections.articles', { articles: articles ? articles.length : 0 })}
-                )
+                ({t('form.embedConnections.articles', { count: articles ? articles.length : 0 })})
               </em>
             </p>
             <ElementList
@@ -113,7 +122,7 @@ const EmbedConnection = ({ t, id, type }: Props & tType) => {
                   <em>
                     (
                     {t('form.embedConnections.concepts', {
-                      concepts: concepts ? concepts.length : 0,
+                      count: concepts ? concepts.length : 0,
                     })}
                     )
                   </em>
@@ -131,4 +140,4 @@ const EmbedConnection = ({ t, id, type }: Props & tType) => {
   );
 };
 
-export default injectT(EmbedConnection);
+export default EmbedConnection;

@@ -7,7 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { FormikContextType, FormikHelpers } from 'formik';
@@ -99,7 +99,7 @@ type Props = {
     values: ArticleFormikType,
     formikHelpers: FormikHelpers<ArticleFormikType>,
   ) => Promise<void>;
-} & tType & { formik: FormikContextType<ArticleFormikType> };
+} & WithTranslation & { formik: FormikContextType<ArticleFormikType> };
 
 interface State {
   preview: boolean;
@@ -148,7 +148,7 @@ class LearningResourceContent extends Component<Props, State> {
     ];
   }
 
-  componentDidUpdate(prevProps: Props & tType) {
+  componentDidUpdate(prevProps: Props) {
     const {
       article: { id: prevId, language: prevLanguage },
     } = prevProps;
@@ -279,4 +279,4 @@ class LearningResourceContent extends Component<Props, State> {
   }
 }
 
-export default injectT(LearningResourceContent);
+export default withTranslation(LearningResourceContent);

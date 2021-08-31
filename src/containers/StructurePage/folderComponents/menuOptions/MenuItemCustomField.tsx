@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { Plus } from '@ndla/icons/action';
@@ -20,6 +20,7 @@ import CustomFieldComponent from './CustomFieldComponent';
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
 } from '../../../../constants';
 import { filterWrapper } from '../styles';
@@ -27,6 +28,7 @@ import { updateSubjectMetadata } from '../../../../modules/taxonomy/subjects';
 import { updateTopicMetadata } from '../../../../modules/taxonomy/topics';
 import ToggleExplanationSubject from './ToggleExplanationSubject';
 import TaxonomyMetadataLanguageSelector from './TaxonomyMetadataLanguageSelector';
+import ConstantMetaField from './ConstantMetaField';
 
 interface Props extends TaxonomyElement {
   subjectId: string;
@@ -46,8 +48,8 @@ const MenuItemCustomField = ({
   saveSubjectItems,
   type,
   updateLocalTopics,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [isOpen, setOpen] = useState<boolean>(false);
   const [customFields, setCustomFields] = useState<TaxonomyMetadata['customFields']>(
     metadata.customFields,
@@ -71,6 +73,7 @@ const MenuItemCustomField = ({
   const filteredSubjectFields = [
     TAXONOMY_CUSTOM_FIELD_LANGUAGE,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
   ];
   const [filteredTopicFields] = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
 
@@ -93,6 +96,13 @@ const MenuItemCustomField = ({
             customFields={metadata.customFields}
             updateFields={setCustomFields}
           />
+          <ConstantMetaField
+            keyPlaceholder={t('taxonomy.metadata.customFields.oldSubjectId')}
+            valuePlaceholder={'urn:subject:***'}
+            fieldKey={TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID}
+            onSubmit={setCustomFields}
+            initialVal={metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID]}
+          />
         </>
       ) : (
         <GroupTopicResources
@@ -108,7 +118,6 @@ const MenuItemCustomField = ({
           <CustomFieldComponent
             key={`unique-${key}`}
             onSubmit={setCustomFields}
-            onClose={() => {}}
             initialKey={key}
             initialVal={value}
           />
@@ -134,4 +143,4 @@ const MenuItemCustomField = ({
   );
 };
 
-export default injectT(MenuItemCustomField);
+export default MenuItemCustomField;

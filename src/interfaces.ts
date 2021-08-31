@@ -24,15 +24,6 @@ export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
-export interface TranslateType {
-  (
-    key: string,
-    values?: {
-      [key: string]: string | number;
-    },
-  ): string;
-}
-
 export interface Author {
   name: string;
   type: string;
@@ -353,6 +344,7 @@ export interface NdlaFilmThemesEditType {
   }[];
 }
 
+export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface VisualElement {
   resource: string;
   resource_id: string;

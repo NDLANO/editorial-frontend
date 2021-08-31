@@ -7,7 +7,7 @@
 
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikHelpers } from 'formik';
 import PropTypes from 'prop-types';
@@ -17,6 +17,7 @@ import {
   editorValueToPlainText,
 } from '../../../util/articleContentConverter';
 import Field from '../../../components/Field';
+import Spinner from '../../../components/Spinner';
 import SaveButton from '../../../components/SaveButton';
 import {
   DEFAULT_LICENSE,
@@ -131,16 +132,18 @@ interface BaseProps extends PropsFromRedux {
   audioLanguage: string;
   revision?: number;
   isNewlyCreated?: boolean;
+  translating?: boolean;
+  translateToNN?: () => void;
 }
 
 interface State {
   savedToServer: boolean;
 }
 
-type Props = BaseProps & tType;
+type Props = BaseProps & WithTranslation;
 
 class AudioForm extends Component<Props, State> {
-  constructor(props: Props & tType) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       savedToServer: false,
@@ -187,7 +190,7 @@ class AudioForm extends Component<Props, State> {
   };
 
   render() {
-    const { t, licenses, audio, isNewlyCreated } = this.props;
+    const { t, licenses, audio, isNewlyCreated, translating, translateToNN } = this.props;
     const { savedToServer } = this.state;
 
     const initialValues = getInitialValues(audio);
@@ -224,37 +227,42 @@ class AudioForm extends Component<Props, State> {
                   if (values.id) return toEditAudio(values.id, lang);
                   else return toCreateAudioFile();
                 }}
+                translateToNN={translateToNN}
               />
-              <Accordions>
-                <AccordionSection
-                  id="audio-upload-content"
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  title={t('form.contentSection')}
-                  hasError={hasError(['title', 'audioFile'])}
-                  startOpen>
-                  <AudioContent classes={formClasses} />
-                </AccordionSection>
-                <AccordionSection
-                  id="podcast-upload-podcastmanus"
-                  title={t('podcastForm.fields.manuscript')}
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={[].some(field => field in errors)}>
-                  <AudioManuscript classes={formClasses} />
-                </AccordionSection>
-                <AccordionSection
-                  id="audio-upload-metadataSection"
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  title={t('form.metadataSection')}
-                  hasError={hasError([
-                    'tags',
-                    'creators',
-                    'rightsholders',
-                    'processors',
-                    'license',
-                  ])}>
-                  <AudioMetaData classes={formClasses} licenses={licenses} />
-                </AccordionSection>
-              </Accordions>
+              {translating ? (
+                <Spinner withWrapper />
+              ) : (
+                <Accordions>
+                  <AccordionSection
+                    id="audio-upload-content"
+                    className="u-4/6@desktop u-push-1/6@desktop"
+                    title={t('form.contentSection')}
+                    hasError={hasError(['title', 'audioFile'])}
+                    startOpen>
+                    <AudioContent classes={formClasses} />
+                  </AccordionSection>
+                  <AccordionSection
+                    id="podcast-upload-podcastmanus"
+                    title={t('podcastForm.fields.manuscript')}
+                    className="u-4/6@desktop u-push-1/6@desktop"
+                    hasError={[].some(field => field in errors)}>
+                    <AudioManuscript classes={formClasses} />
+                  </AccordionSection>
+                  <AccordionSection
+                    id="audio-upload-metadataSection"
+                    className="u-4/6@desktop u-push-1/6@desktop"
+                    title={t('form.metadataSection')}
+                    hasError={hasError([
+                      'tags',
+                      'creators',
+                      'rightsholders',
+                      'processors',
+                      'license',
+                    ])}>
+                    <AudioMetaData classes={formClasses} licenses={licenses} />
+                  </AccordionSection>
+                </Accordions>
+              )}
 
               <Field right>
                 <AbortButton outline disabled={isSubmitting}>
@@ -297,7 +305,9 @@ class AudioForm extends Component<Props, State> {
     applicationError: PropTypes.func.isRequired,
     audioLanguage: PropTypes.string.isRequired,
     isNewlyCreated: PropTypes.bool,
+    translating: PropTypes.bool,
+    translateToNN: PropTypes.func.isRequired,
   };
 }
 
-export default reduxConnector(injectT(AudioForm));
+export default reduxConnector(withTranslation()(AudioForm));

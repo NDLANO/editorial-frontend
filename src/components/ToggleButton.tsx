@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<{ active: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,11 +38,17 @@ const StyledButton = styled.button`
   }
 `;
 
-export const ToggleButton = ({ children, ...rest }) => (
+export const ToggleButton = ({ children, ...rest }: Props) => (
   <StyledButton type="button" {...rest}>
     {children}
   </StyledButton>
 );
+
+interface Props {
+  active: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
+}
 
 ToggleButton.propTypes = {
   active: PropTypes.bool.isRequired,

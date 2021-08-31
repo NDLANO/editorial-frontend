@@ -7,7 +7,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import formatDate from '../../util/formatDate';
@@ -39,21 +39,23 @@ const LastUpdatedLine = ({
   published,
   onChange,
   allowEdit = false,
-  t,
   name,
   ...rest
-}: Props & tType) => (
-  <div css={infoCss}>
-    {creators.map(creator => creator.name).join(', ')}
-    {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
-    {published &&
-      (allowEdit ? (
-        <DateEdit {...rest} name={name} onChange={onChange} published={published} />
-      ) : (
-        formatDate(published)
-      ))}
-  </div>
-);
+}: Props) => {
+  const { t } = useTranslation();
+  return (
+    <div css={infoCss}>
+      {creators.map(creator => creator.name).join(', ')}
+      {published ? ` - ${t('topicArticleForm.info.lastUpdated')}` : ''}
+      {published &&
+        (allowEdit ? (
+          <DateEdit {...rest} name={name} onChange={onChange} published={published} />
+        ) : (
+          formatDate(published)
+        ))}
+    </div>
+  );
+};
 
 LastUpdatedLine.propTypes = {
   creators: PropTypes.arrayOf(
@@ -66,4 +68,4 @@ LastUpdatedLine.propTypes = {
   allowEdit: PropTypes.bool,
 };
 
-export default injectT(LastUpdatedLine);
+export default LastUpdatedLine;

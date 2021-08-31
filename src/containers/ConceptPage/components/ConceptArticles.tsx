@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -17,7 +17,8 @@ import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import { ArticleType, ContentResultType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 
-const ConceptArticles = ({ t }: tType) => {
+const ConceptArticles = () => {
+  const { t } = useTranslation();
   const {
     values: { articles, language },
     setFieldValue,
@@ -74,4 +75,4 @@ const ConceptArticles = ({ t }: tType) => {
   );
 };
 
-export default injectT(ConceptArticles);
+export default ConceptArticles;

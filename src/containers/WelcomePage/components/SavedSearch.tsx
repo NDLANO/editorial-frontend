@@ -11,7 +11,7 @@ import BEMHelper from 'react-bem-helper';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
@@ -32,7 +32,8 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) => {
+const SavedSearch = ({ deleteSearch, locale, search, index }: Props) => {
+  const { t } = useTranslation();
   const [subjectName, setSubjectName] = useState('');
   const [resourceTypeName, setResourceTypeName] = useState('');
   const [userName, setUserName] = useState('');
@@ -104,4 +105,4 @@ const SavedSearch = ({ deleteSearch, locale, search, index, t }: Props & tType) 
   );
 };
 
-export default injectT(SavedSearch);
+export default SavedSearch;

@@ -8,7 +8,7 @@
 
 import { css } from '@emotion/core';
 import React, { useEffect, Fragment } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
 import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
@@ -29,10 +29,10 @@ interface Props {
   embed: Embed;
   language: string;
   locale: LocaleType;
-  onAudioFigureInputChange: Function;
-  onChange: Function;
-  onExit: Function;
-  onRemoveClick: Function;
+  onAudioFigureInputChange: (event: React.FormEvent<HTMLSelectElement>) => void;
+  onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
+  onExit: (event: React.MouseEvent) => void;
+  onRemoveClick: (event: React.MouseEvent) => void;
   speech: boolean;
   type: string;
 }
@@ -44,13 +44,13 @@ const EditAudio = ({
   onExit,
   onRemoveClick,
   type,
-  t,
   language,
   locale,
   speech,
   audio,
   changes,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
   const { submitted } = useSlateContext();
@@ -89,7 +89,7 @@ const EditAudio = ({
             embedElement = embedEl;
           }}>
           <ObjectSelector
-            onClick={(evt: MouseEvent) => evt.stopPropagation()}
+            onClick={(evt: React.MouseEvent) => evt.stopPropagation()}
             onChange={onChange}
             onBlur={onChange}
             key="type"
@@ -133,4 +133,4 @@ const EditAudio = ({
   );
 };
 
-export default injectT(EditAudio);
+export default EditAudio;

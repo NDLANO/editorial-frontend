@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { Formik, Form } from 'formik';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Field from '../../../Field';
 import { FootnoteShape } from '../../../../shapes';
@@ -103,4 +103,4 @@ FootnoteForm.propTypes = {
   onRemove: PropTypes.func.isRequired,
 };
 
-export default injectT(FootnoteForm);
+export default withTranslation()(FootnoteForm);

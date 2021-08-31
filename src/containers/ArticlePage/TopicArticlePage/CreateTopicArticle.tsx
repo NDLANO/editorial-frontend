@@ -6,11 +6,11 @@
  */
 
 import React, { useContext, Fragment } from 'react';
-import { injectT, tType } from '@ndla/i18n';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Action, ActionFunction1 } from 'redux-actions';
+import { useTranslation } from 'react-i18next';
 import { LocaleContext } from '../../App/App';
 import TopicArticleForm from './components/TopicArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
@@ -29,12 +29,12 @@ interface Props extends RouteComponentProps {
 
 const CreateTopicArticle = ({
   history,
-  t,
   licenses,
   userAccess,
   applicationError,
   createMessage,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const { createArticle } = useFetchArticleData(undefined, locale);
 
@@ -66,4 +66,4 @@ const CreateTopicArticle = ({
   );
 };
 
-export default withRouter(injectT(CreateTopicArticle));
+export default withRouter(CreateTopicArticle);

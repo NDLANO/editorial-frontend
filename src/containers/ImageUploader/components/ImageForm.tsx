@@ -6,7 +6,7 @@
  */
 
 import React, { Component, ReactNode } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import Field from '../../../components/Field';
@@ -23,8 +23,14 @@ import {
 } from '../../FormikForm';
 import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
-import { NewImageMetadata, UpdatedImageMetadata } from '../../../modules/image/imageApiInterfaces';
+import {
+  EditorNote,
+  NewImageMetadata,
+  UpdatedImageMetadata,
+} from '../../../modules/image/imageApiInterfaces';
 import { Author, Copyright } from '../../../interfaces';
+import ImageVersionNotes from './ImageVersionNotes';
+import Spinner from '../../../components/Spinner';
 
 const imageRules: RulesType<ImageFormikType> = {
   title: {
@@ -70,6 +76,7 @@ export interface ImageFormikType {
   rightsholders?: Author[];
   origin?: string;
   license?: string;
+  modelReleased?: string;
 }
 
 export const getInitialValues = (image: ImagePropType = {}): ImageFormikType => {
@@ -87,6 +94,7 @@ export const getInitialValues = (image: ImagePropType = {}): ImageFormikType => 
     rightsholders: parseCopyrightContributors(image, 'rightsholders'),
     origin: image?.copyright?.origin || '',
     license: image?.copyright?.license?.license,
+    modelReleased: image?.modelRelease,
   };
 };
 
@@ -97,7 +105,7 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-interface ImagePropType {
+export interface ImagePropType {
   alttext?: string;
   caption?: string;
   contentType?: string;
@@ -110,6 +118,8 @@ interface ImagePropType {
   supportedLanguages?: string[];
   tags?: string[];
   title?: string;
+  modelRelease?: string;
+  editorNotes?: EditorNote[];
 }
 
 type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
@@ -127,13 +137,14 @@ interface Props {
   isNewlyCreated?: boolean;
   closeModal?: () => void;
   isSaving?: boolean;
+  isLoading?: boolean;
 }
 
 interface State {
   savedToServer: boolean;
 }
 
-class ImageForm extends Component<Props & tType, State> {
+class ImageForm extends Component<Props & WithTranslation, State> {
   state = {
     savedToServer: false,
   };
@@ -154,7 +165,8 @@ class ImageForm extends Component<Props & tType, State> {
       values.creators === undefined ||
       values.processors === undefined ||
       values.rightsholders === undefined ||
-      values.imageFile === undefined
+      values.imageFile === undefined ||
+      values.modelReleased === undefined
     ) {
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });
@@ -176,13 +188,23 @@ class ImageForm extends Component<Props & tType, State> {
         processors: values.processors,
         rightsholders: values.rightsholders,
       },
+      modelReleased: values.modelReleased,
     };
     await onUpdate(imageMetaData, values.imageFile);
     this.setState({ savedToServer: true });
   };
 
   render() {
-    const { t, image, licenses, inModal, closeModal, isNewlyCreated, isSaving } = this.props;
+    const {
+      t,
+      image,
+      licenses,
+      inModal,
+      closeModal,
+      isNewlyCreated,
+      isSaving,
+      isLoading,
+    } = this.props;
     const { savedToServer } = this.state;
     type ErrorFields =
       | 'alttext'
@@ -197,6 +219,8 @@ class ImageForm extends Component<Props & tType, State> {
 
     const initialValues = getInitialValues(image);
     const initialErrors = validateFormik(initialValues, imageRules, t);
+
+    if (isLoading) return <Spinner withWrapper />;
 
     return (
       <Formik
@@ -252,8 +276,13 @@ class ImageForm extends Component<Props & tType, State> {
                     imageTags={values.tags}
                   />
                 </AccordionSection>
+                <AccordionSection
+                  id="image-upload-version-history"
+                  title={t('form.workflowSection')} // TODO: Maybe think about changing this if we don't do notes.
+                  className="u-4/6@desktop u-push-1/6@desktop">
+                  <ImageVersionNotes image={image} />
+                </AccordionSection>
               </Accordions>
-
               <Field right>
                 {inModal ? (
                   <ActionButton outline onClick={closeModal}>
@@ -274,9 +303,7 @@ class ImageForm extends Component<Props & tType, State> {
                       evt.preventDefault();
                       submitForm();
                     }
-                  }}>
-                  {t('form.save')} - {inModal}
-                </SaveButton>
+                  }}></SaveButton>
               </Field>
               <AlertModalWrapper
                 isSubmitting={isSubmitting}
@@ -292,4 +319,4 @@ class ImageForm extends Component<Props & tType, State> {
   }
 }
 
-export default injectT(ImageForm);
+export default withTranslation()(ImageForm);

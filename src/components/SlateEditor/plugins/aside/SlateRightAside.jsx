@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import BEMHelper from 'react-bem-helper';
 import { colors } from '@ndla/core';
 import { ChevronLeft } from '@ndla/icons/common';
@@ -34,7 +34,8 @@ const moveContentButtonStyle = css`
 `;
 
 const SlateRightAside = props => {
-  const { children, onRemoveClick, onMoveContent, t, attributes } = props;
+  const { t } = useTranslation();
+  const { children, onRemoveClick, onMoveContent, attributes } = props;
 
   return (
     <aside {...classes('right-aside', '', 'c-aside expanded')} {...attributes}>
@@ -67,4 +68,4 @@ SlateRightAside.propTypes = {
   onMoveContent: PropTypes.func.isRequired,
 };
 
-export default injectT(SlateRightAside);
+export default SlateRightAside;

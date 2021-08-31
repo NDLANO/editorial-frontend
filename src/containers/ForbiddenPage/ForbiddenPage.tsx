@@ -8,14 +8,17 @@
 
 import { OneColumn } from '@ndla/ui';
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
-const Forbidden = ({ t }: tType) => (
-  <OneColumn>
-    <div>
-      <h2>403 - {t('forbiddenPage.description')}</h2>
-    </div>
-  </OneColumn>
-);
+const Forbidden = () => {
+  const { t } = useTranslation();
+  return (
+    <OneColumn>
+      <div>
+        <h2>403 - {t('forbiddenPage.description')}</h2>
+      </div>
+    </OneColumn>
+  );
+};
 
-export default injectT(Forbidden);
+export default Forbidden;

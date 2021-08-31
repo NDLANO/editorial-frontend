@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Plus } from '@ndla/icons/action';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import RoundIcon from '../../../../components/RoundIcon';
 import {
   addSubjectTopic,
@@ -93,6 +93,7 @@ class AddExistingToSubjectTopic extends React.PureComponent {
           onClose={onClose}
           onSubmit={this.onAddExistingTopic}
           icon={<Plus />}
+          showPagination
         />
       );
     }
@@ -120,4 +121,4 @@ AddExistingToSubjectTopic.propTypes = {
   structure: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default injectT(AddExistingToSubjectTopic);
+export default withTranslation()(AddExistingToSubjectTopic);

@@ -6,35 +6,47 @@
  *
  */
 
-import React, { useState, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import EditImage from '../containers/ImageUploader/EditImage';
+import {
+  ImageApiType,
+  ImageSearchQuery,
+  ImageSearchResult,
+} from '../modules/image/imageApiInterfaces';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
 `;
 
-const ImageSearchAndUploader = props => {
+interface Props {
+  onImageSelect: (image: ImageApiType) => void;
+  locale: string;
+  isSavingImage: boolean;
+  closeModal: () => void;
+  onError: Function;
+  searchImages: (query: ImageSearchQuery) => Promise<ImageSearchResult>;
+  fetchImage: (id: string) => Promise<ImageApiType>;
+}
+
+const ImageSearchAndUploader = ({
+  onImageSelect,
+  locale,
+  isSavingImage,
+  closeModal,
+  onError,
+  searchImages,
+  fetchImage,
+}: Props) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const { t } = useTranslation();
 
-  const {
-    isSavingImage,
-    onImageSelect,
-    closeModal,
-    locale,
-    fetchImage,
-    searchImages,
-    onError,
-    t,
-  } = props;
-
-  const searchImagesWithParameters = (query, page) => {
+  const searchImagesWithParameters = (query: string, page: number) => {
     return searchImages({ query, page, 'page-size': 16 });
   };
 
@@ -55,7 +67,7 @@ const ImageSearchAndUploader = props => {
               useImageTitle={t('imageSearch.useImage')}
               onImageSelect={onImageSelect}
               noResults={
-                <Fragment>
+                <>
                   <StyledTitleDiv>{t('imageSearch.noResultsText')}</StyledTitleDiv>
                   <Button
                     submit
@@ -65,7 +77,7 @@ const ImageSearchAndUploader = props => {
                     }}>
                     {t('imageSearch.noResultsButtonText')}
                   </Button>
-                </Fragment>
+                </>
               }
               onError={onError}
             />
@@ -74,13 +86,7 @@ const ImageSearchAndUploader = props => {
         {
           title: t('form.visualElement.imageUpload'),
           content: (
-            <EditImage
-              isSaving={isSavingImage}
-              showSaved={false}
-              inModal
-              editingArticle
-              closeModal={closeModal}
-            />
+            <EditImage isSaving={isSavingImage} inModal editingArticle closeModal={closeModal} />
           ),
         },
       ]}
@@ -88,14 +94,4 @@ const ImageSearchAndUploader = props => {
   );
 };
 
-ImageSearchAndUploader.propTypes = {
-  onImageSelect: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
-  isSavingImage: PropTypes.bool,
-  closeModal: PropTypes.func,
-  onError: PropTypes.func.isRequired,
-  searchImages: PropTypes.func.isRequired,
-  fetchImage: PropTypes.func.isRequired,
-};
-
-export default injectT(ImageSearchAndUploader);
+export default ImageSearchAndUploader;

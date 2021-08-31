@@ -8,7 +8,7 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 import { ArticleType } from '../../interfaces';
 import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
@@ -45,9 +45,9 @@ const PreviewLanguage = ({
   contentType,
   onChangePreviewLanguage,
   previewLanguage,
-  t,
   getEntityPreview,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   return (
     <StyledPreview>
       <StyledPreviewTwoArticles>
@@ -84,4 +84,4 @@ const PreviewLanguage = ({
   );
 };
 
-export default injectT(PreviewLanguage);
+export default PreviewLanguage;

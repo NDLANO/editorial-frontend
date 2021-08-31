@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import { injectT, tType } from '@ndla/i18n';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -32,7 +34,6 @@ interface Props extends RouteComponentProps {
 }
 
 const LearningResourcePanels = ({
-  t,
   userAccess,
   fetchSearchTags,
   article,
@@ -44,7 +45,8 @@ const LearningResourcePanels = ({
   history,
   formIsDirty,
   handleSubmit,
-}: Props & tType) => {
+}: Props ) => {
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const formikContext = useFormikContext<ArticleFormikType>();
   const { values, setValues, errors, handleBlur } = formikContext;
@@ -106,7 +108,7 @@ const LearningResourcePanels = ({
         title={t('form.name.grepCodes')}
         className={'u-6/6'}
         hasError={!!errors.grepCodes}>
-        <GrepCodesField article={article} />
+        <GrepCodesField grepCodes={article.grepCodes} />
       </AccordionSection>
       {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
         <AccordionSection
@@ -139,4 +141,4 @@ const LearningResourcePanels = ({
   );
 };
 
-export default withRouter(injectT(LearningResourcePanels));
+export default withRouter(LearningResourcePanels);

@@ -6,7 +6,7 @@
  */
 import { withRouter } from 'react-router';
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
 import { LocaleType, SubjectpageEditType } from '../../interfaces';
@@ -20,13 +20,8 @@ interface Props extends RouteComponentProps {
   elementName: string;
 }
 
-const CreateSubjectpage = ({
-  t,
-  selectedLanguage,
-  history,
-  elementId,
-  elementName,
-}: Props & tType) => {
+const CreateSubjectpage = ({ selectedLanguage, history, elementId, elementName }: Props) => {
+  const { t } = useTranslation();
   const { createSubjectpage } = useFetchSubjectpageData(elementId, selectedLanguage, undefined);
 
   const createSubjectpageAndPushRoute = async (createdSubjectpage: SubjectpageEditType) => {
@@ -52,4 +47,4 @@ const CreateSubjectpage = ({
   );
 };
 
-export default withRouter(injectT(CreateSubjectpage));
+export default withRouter(CreateSubjectpage);

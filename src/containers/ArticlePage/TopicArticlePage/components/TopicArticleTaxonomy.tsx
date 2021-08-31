@@ -7,7 +7,8 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
@@ -287,10 +288,11 @@ class TopicArticleTaxonomy extends Component<Props, State> {
             url: '/Oops.gif',
             altText: t('errorMessage.title'),
           }}
-          // @ts-ignore -- TODO: What here
           messages={{
             title: t('errorMessage.title'),
             description: t('errorMessage.taxonomy'),
+            back: t('errorMessage.back'),
+            goToFrontPage: t('errorMessage.goToFrontPage'),
           }}
         />
       );
@@ -342,4 +344,4 @@ class TopicArticleTaxonomy extends Component<Props, State> {
   }
 }
 
-export default injectT(TopicArticleTaxonomy);
+export default withTranslation()(TopicArticleTaxonomy);

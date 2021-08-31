@@ -8,7 +8,7 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
@@ -526,4 +526,4 @@ class LearningResourceTaxonomy extends Component<Props, State> {
   }
 }
 
-export default injectT(LearningResourceTaxonomy);
+export default withTranslation()(LearningResourceTaxonomy);

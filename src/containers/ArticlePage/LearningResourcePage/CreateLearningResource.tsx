@@ -7,9 +7,9 @@
 
 import React, { Fragment, useContext } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT, tType } from '@ndla/i18n';
 import { RouteComponentProps } from 'react-router-dom';
 import { Action, ActionFunction1 } from 'redux-actions';
+import { useTranslation } from 'react-i18next';
 import { LocaleContext } from '../../App/App';
 import LearningResourceForm from './components/LearningResourceForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
@@ -27,14 +27,14 @@ interface Props extends RouteComponentProps {
 }
 
 const CreateLearningResource = ({
-  t,
   history,
   licenses,
   applicationError,
   createMessage,
   userAccess,
-}: Props & tType) => {
+}: Props) => {
   const locale = useContext(LocaleContext);
+  const { t } = useTranslation();
   const { createArticle } = useFetchArticleData(undefined, locale);
 
   const createArticleAndPushRoute = async (createdArticle: UpdatedDraftApiType) => {
@@ -64,4 +64,4 @@ const CreateLearningResource = ({
   );
 };
 
-export default injectT(CreateLearningResource);
+export default CreateLearningResource;

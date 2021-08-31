@@ -9,8 +9,8 @@ import React, { Fragment } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { Action, ActionFunction1 } from 'redux-actions';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT, tType } from '@ndla/i18n';
 import { RouteComponentProps } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import TopicArticleForm from './components/TopicArticleForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
@@ -32,13 +32,12 @@ interface Props extends RouteComponentProps {
 const EditTopicArticle = ({
   articleId,
   selectedLanguage,
-  t,
   isNewlyCreated,
   userAccess,
   createMessage,
   applicationError,
   licenses,
-}: Props & tType) => {
+}: Props) => {
   const {
     loading,
     article,
@@ -48,6 +47,7 @@ const EditTopicArticle = ({
     createArticle,
     updateArticleAndStatus,
   } = useFetchArticleData(articleId, selectedLanguage);
+  const { t } = useTranslation();
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
     'title',
@@ -91,4 +91,4 @@ const EditTopicArticle = ({
 //   isNewlyCreated: PropTypes.bool,
 // };
 
-export default withRouter(injectT(EditTopicArticle));
+export default withRouter(EditTopicArticle);

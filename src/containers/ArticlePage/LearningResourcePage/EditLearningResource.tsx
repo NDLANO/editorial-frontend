@@ -9,15 +9,14 @@
 import React, { Fragment } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT, tType } from '@ndla/i18n';
 import { RouteComponentProps } from 'react-router-dom';
+import { Action, ActionFunction1 } from 'redux-actions';
 import LearningResourceForm from './components/LearningResourceForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { License, LocaleType } from '../../../interfaces';
-import { Action, ActionFunction1 } from 'redux-actions';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
@@ -37,7 +36,8 @@ const EditLearningResource = ({
   licenses,
   applicationError,
   createMessage,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const {
     loading,
     article,

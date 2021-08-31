@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -30,7 +31,6 @@ interface Props extends RouteComponentProps {
 }
 
 const TopicArticleAccordionPanels = ({
-  t,
   userAccess,
   fetchSearchTags,
   handleSubmit,
@@ -42,7 +42,8 @@ const TopicArticleAccordionPanels = ({
   createMessage,
   getInitialValues,
   getArticle,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation()
   const locale = useContext(LocaleContext);
   const formikContext = useFormikContext<ArticleFormikType>();
   const { values, handleBlur, errors, setValues } = formikContext;
@@ -102,7 +103,7 @@ const TopicArticleAccordionPanels = ({
         title={t('form.name.grepCodes')}
         className={'u-6/6'}
         hasError={!!errors.grepCodes}>
-        <GrepCodesField article={article} />
+        <GrepCodesField grepCodes={article.grepCodes} />
       </AccordionSection>
       {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
         <AccordionSection
@@ -148,4 +149,4 @@ const TopicArticleAccordionPanels = ({
 //   getInitialValues: PropTypes.func,
 // };
 
-export default withRouter(injectT(TopicArticleAccordionPanels));
+export default withRouter(TopicArticleAccordionPanels);

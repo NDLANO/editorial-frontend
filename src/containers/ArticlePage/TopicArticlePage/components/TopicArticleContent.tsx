@@ -8,8 +8,8 @@
 
 import React, { Fragment, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
 import { FieldHeader } from '@ndla/forms';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'formik';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
@@ -85,9 +85,9 @@ interface Props {
   handleSubmit: () => Promise<void>;
 }
 
-const TopicArticleContent = (props: Props & tType) => {
+const TopicArticleContent = (props: Props) => {
+  const { t } = useTranslation();
   const {
-    t,
     userAccess,
     values: { id, language, creators, published },
     handleBlur,
@@ -193,4 +193,4 @@ const TopicArticleContent = (props: Props & tType) => {
 //   handleSubmit: PropTypes.func,
 // };
 
-export default injectT(connect(TopicArticleContent));
+export default connect(TopicArticleContent);

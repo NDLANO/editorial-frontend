@@ -21,7 +21,17 @@ const StyledStrong = styled.strong`
   display: block;
 `;
 
-const MetaInformation = ({ title, copyright, translations, action }) => (
+interface Props {
+  title?: string;
+  copyright?: string;
+  translations: {
+    title: string;
+    copyright: string;
+  };
+  action: React.ReactNode;
+}
+
+const MetaInformation = ({ title, copyright, translations, action }: Props) => (
   <StyleMetaInformation>
     <StyledStrong>{title ? translations.title : ''}</StyledStrong>
     <span>{title}</span>

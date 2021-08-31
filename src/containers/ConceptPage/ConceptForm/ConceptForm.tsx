@@ -38,7 +38,7 @@ import {
 import { License, SearchResult } from '../../../interfaces';
 import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { NewReduxMessage } from '../../../containers/Messages/messagesSelectors';
+import { NewReduxMessage } from '../../Messages/messagesSelectors';
 
 interface Props {
   applicationError: (err: string) => void;
@@ -74,7 +74,6 @@ const ConceptForm = ({
   onUpdate,
   applicationError,
   createMessage,
-  t,
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const [translateOnContinue, setTranslateOnContinue] = useState(false);

@@ -41,6 +41,7 @@ import {
 } from '../../interfaces';
 import { ApiConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { convertDraftOrRelated } from '../ArticlePage/LearningResourcePage/components/LearningResourceForm';
+import { WithTranslation } from 'react-i18next';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -91,7 +92,7 @@ export interface ArticleFormikType {
 interface HooksInputObject {
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
   article: Partial<ConvertedDraftType>;
-  t: tType['t'];
+  t: WithTranslation['t'];
   createMessage: (message: NewReduxMessage) => void;
   applicationError: (error: ReduxMessageError) => void;
   articleStatus?: DraftStatus;

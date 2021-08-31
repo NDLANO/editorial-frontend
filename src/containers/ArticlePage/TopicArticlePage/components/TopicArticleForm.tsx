@@ -173,9 +173,8 @@ interface Props extends RouteComponentProps {
   isNewlyCreated: boolean;
 }
 
-const TopicArticleForm = (props: Props & tType) => {
+const TopicArticleForm = (props: Props) => {
   const {
-    t,
     article,
     updateArticle,
     updateArticleAndStatus,
@@ -190,6 +189,8 @@ const TopicArticleForm = (props: Props & tType) => {
     history,
     userAccess,
   } = props;
+
+  const { t } = useTranslation();
 
   const {
     savedToServer,
@@ -214,7 +215,6 @@ const TopicArticleForm = (props: Props & tType) => {
     isNewlyCreated,
   });
 
-  const { t } = useTranslation();
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
   const FormikChild = (formik: FormikProps<ArticleFormikType>) => {

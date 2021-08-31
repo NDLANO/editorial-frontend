@@ -13,17 +13,20 @@ import { getIdFromUrn } from '../../util/taxonomyHelpers';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
 import Spinner from '../../components/Spinner';
 import GrepCodesForm from './GrepCodesForm';
+import { LocaleType } from '../../interfaces';
 
 interface Props {
   contentUri: string;
   onClose: () => void;
-  locale: string;
+  locale: LocaleType;
 }
 
 const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
   const { t } = useTranslation();
+  const articleId = getIdFromUrn(contentUri);
+
   const { loading, article, articleChanged, ...articleHooks } = useFetchArticleData(
-    getIdFromUrn(contentUri),
+    articleId?.toString(),
     locale,
   );
 

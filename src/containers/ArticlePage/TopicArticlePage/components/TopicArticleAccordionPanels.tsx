@@ -43,7 +43,7 @@ const TopicArticleAccordionPanels = ({
   getInitialValues,
   getArticle,
 }: Props) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const formikContext = useFormikContext<ArticleFormikType>();
   const { values, handleBlur, errors, setValues } = formikContext;
@@ -103,7 +103,7 @@ const TopicArticleAccordionPanels = ({
         title={t('form.name.grepCodes')}
         className={'u-6/6'}
         hasError={!!errors.grepCodes}>
-        <GrepCodesField grepCodes={article.grepCodes} />
+        <GrepCodesField grepCodes={article.grepCodes ?? []} />
       </AccordionSection>
       {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
         <AccordionSection

@@ -39,7 +39,7 @@ interface ParamsType {
   articleId: string;
 }
 
-type Props = BaseProps & RouteComponentProps<ParamsType> & PropsFromRedux & tType;
+type Props = BaseProps & RouteComponentProps<ParamsType> & PropsFromRedux;
 
 const LearningResourcePage = ({
   fetchLicenses,

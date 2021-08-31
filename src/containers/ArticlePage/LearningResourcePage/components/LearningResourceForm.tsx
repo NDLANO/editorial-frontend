@@ -61,7 +61,7 @@ export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): Art
   return {
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     articleType: 'standard',
-    content: learningResourceContentToEditorValue(article?.content ?? '', true),
+    content: learningResourceContentToEditorValue(article?.content ?? ''),
     creators: parseCopyrightContributors(article, 'creators'),
     id: article.id,
     introduction: plainTextToEditorValue(article.introduction, true),

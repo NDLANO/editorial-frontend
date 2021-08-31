@@ -279,4 +279,4 @@ class LearningResourceContent extends Component<Props, State> {
   }
 }
 
-export default withTranslation(LearningResourceContent);
+export default withTranslation()(LearningResourceContent);

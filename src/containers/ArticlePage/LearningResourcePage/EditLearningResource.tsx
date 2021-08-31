@@ -11,6 +11,7 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
 import { Action, ActionFunction1 } from 'redux-actions';
+import { useTranslation } from 'react-i18next';
 import LearningResourceForm from './components/LearningResourceForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
@@ -31,7 +32,6 @@ interface Props extends RouteComponentProps {
 const EditLearningResource = ({
   selectedLanguage,
   articleId,
-  t,
   isNewlyCreated,
   licenses,
   applicationError,
@@ -82,4 +82,4 @@ const EditLearningResource = ({
   );
 };
 
-export default withRouter(injectT(EditLearningResource));
+export default withRouter(EditLearningResource);

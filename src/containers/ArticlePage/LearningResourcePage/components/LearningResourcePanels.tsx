@@ -45,7 +45,7 @@ const LearningResourcePanels = ({
   history,
   formIsDirty,
   handleSubmit,
-}: Props ) => {
+}: Props) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const formikContext = useFormikContext<ArticleFormikType>();
@@ -108,7 +108,7 @@ const LearningResourcePanels = ({
         title={t('form.name.grepCodes')}
         className={'u-6/6'}
         hasError={!!errors.grepCodes}>
-        <GrepCodesField grepCodes={article.grepCodes} />
+        <GrepCodesField grepCodes={article.grepCodes ?? []} />
       </AccordionSection>
       {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
         <AccordionSection

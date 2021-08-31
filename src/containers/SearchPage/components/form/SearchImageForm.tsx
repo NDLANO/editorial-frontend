@@ -138,21 +138,6 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
     const { t } = this.props;
     const { search, licenses } = this.state;
 
-    const modelReleasedOptions = [
-      {
-        id: 'yes',
-        name: t('searchForm.modelReleased.yes'),
-      },
-      {
-        id: 'no',
-        name: t('searchForm.modelReleased.no'),
-      },
-      {
-        id: 'not-applicable',
-        name: t('searchForm.modelReleased.notApplicable'),
-      },
-    ];
-
     const tagTypes = [
       {
         type: 'query',
@@ -172,7 +157,7 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
       {
         type: 'modelReleased',
         id: search.modelReleased,
-        name: getTagName(search.modelReleased, modelReleasedOptions),
+        name: getTagName(search.modelReleased, getModelReleasedValues(t)),
       },
     ];
 
@@ -201,18 +186,6 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
         <div {...searchFormClasses('field', '25-width')}>
           <ObjectSelector
             name="modelReleased"
-            value={search.modelReleased}
-            options={modelReleasedOptions}
-            idKey="id"
-            labelKey="name"
-            emptyField
-            onChange={this.onFieldChange}
-            placeholder={t('searchForm.types.modelReleased')}
-          />
-        </div>
-        <div {...searchFormClasses('field', '25-width')}>
-          <ObjectSelector
-            name="model-released"
             value={search.modelReleased}
             options={getModelReleasedValues(t)}
             idKey="id"

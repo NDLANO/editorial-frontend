@@ -211,7 +211,6 @@ const phrases = {
       status: 'Velg status',
       audio: 'Velg lydfiltype',
       license: 'Velg lisens',
-      modelReleased: 'Velg modelklarert',
     },
     tagType: {
       query: 'Innhald',
@@ -222,7 +221,7 @@ const phrases = {
       status: 'Status',
       audioType: 'Lydfiltype',
       license: 'Lisens',
-      modelReleased: 'Modelklarert',
+      modelReleased: 'Modelklarering',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -237,11 +236,6 @@ const phrases = {
     audioType: {
       standard: 'Lydfil',
       podcast: 'Podkast',
-    },
-    modelReleased: {
-      yes: 'Ja',
-      no: 'Nei',
-      notApplicable: 'Ikkje aktuelt',
     },
     order: 'Rekkefølge',
     asc: 'Stigende',

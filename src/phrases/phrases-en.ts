@@ -203,6 +203,7 @@ const phrases = {
       imageQuery: 'Search for images',
       language: 'Select language',
       users: 'Select editor',
+      modelReleased: 'Select model released',
       subjects: 'Select subject',
       resourceTypes: 'Select resource type',
       status: 'Select status',

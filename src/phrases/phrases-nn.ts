@@ -205,6 +205,7 @@ const phrases = {
       imageQuery: 'Søk på bilder',
       language: 'Velg språk',
       users: 'Velg bruker',
+      modelReleased: 'Velg modelklarering',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innhaldstype',
       status: 'Velg status',

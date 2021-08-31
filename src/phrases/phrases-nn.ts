@@ -205,6 +205,7 @@ const phrases = {
       imageQuery: 'Søk på bilder',
       language: 'Velg språk',
       users: 'Velg bruker',
+      modelReleased: 'Velg modelklarering',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innhaldstype',
       status: 'Velg status',
@@ -283,6 +284,11 @@ const phrases = {
     noTitle: 'Ingen tittel',
     noResultsText: 'Fann ingen bilder på søk. Ønskjer du å laste opp eit nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
+    modelReleased: {
+      yes: 'Modelklarert',
+      no: 'Ikkje modelklarert',
+      'not-applicable': 'Gjeld ikkje',
+    },
   },
   videoSearch: {
     searchPlaceholder: 'Søk i videoar',
@@ -661,6 +667,13 @@ const phrases = {
       student: 'Elevar',
       label: 'Tilgjengelighet',
       description: 'Kven er artikkelen meint for:',
+    },
+    modelReleased: {
+      label: 'Modelklarert',
+      yes: 'Ja',
+      no: 'Nei',
+      'not-applicable': 'Gjeld ikkje',
+      description: 'Om bildet er modelklarert eller ikkje:',
     },
     markdown: {
       button: 'Klikk for å se markdown',
@@ -1192,6 +1205,7 @@ const phrases = {
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
         explanationSubject: 'Forklaringsfag',
+        oldSubjectId: 'ID for vidaresending',
         resourceGroupPlaceholder: 'Gruppering av ressursar',
         RGTooltip: 'Vis ressursar Gruppert eller Ugruppert',
       },

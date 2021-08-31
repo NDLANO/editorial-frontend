@@ -44,6 +44,12 @@ interface State {
   }[];
 }
 
+const getModelReleasedValues = (t: WithTranslation['t']) => [
+  { id: 'yes', name: t('imageSearch.modelReleased.yes') },
+  { id: 'not-applicable', name: t('imageSearch.modelReleased.not-applicable') },
+  { id: 'no', name: t('imageSearch.modelReleased.no') },
+];
+
 class SearchImageForm extends Component<Props & WithTranslation, State> {
   constructor(props: Props & WithTranslation) {
     super(props);
@@ -197,6 +203,18 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
             name="modelReleased"
             value={search.modelReleased}
             options={modelReleasedOptions}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={this.onFieldChange}
+            placeholder={t('searchForm.types.modelReleased')}
+          />
+        </div>
+        <div {...searchFormClasses('field', '25-width')}>
+          <ObjectSelector
+            name="model-released"
+            value={search.modelReleased}
+            options={getModelReleasedValues(t)}
             idKey="id"
             labelKey="name"
             emptyField

@@ -54,6 +54,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     'include-other-statuses': queryStringObject['include-other-statuses'] === 'true',
     'resource-types': queryStringObject['resource-types'],
     'audio-type': queryStringObject['audio-type'],
+    'model-released': queryStringObject['model-released'],
     fallback: queryStringObject.fallback === 'true',
     language: queryStringObject.language,
     page: queryStringObject.page ? parseInt(queryStringObject.page, 10) : undefined,
@@ -66,7 +67,6 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     sort: queryStringObject.sort,
     type: queryStringObject.type,
     license: queryStringObject.license,
-    'model-released': queryStringObject['model-released'],
   };
 };
 

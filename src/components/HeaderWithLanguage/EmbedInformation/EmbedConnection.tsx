@@ -47,11 +47,20 @@ const EmbedConnection = ({ id, type }: Props) => {
   const [concepts, setConcepts] = useState<SearchConceptType[]>();
 
   useEffect(() => {
+    let shouldUpdateState = true;
     if (id) {
-      searchArticles(searchObjects(id, type)).then(result => setArticles(result.results));
+      searchArticles(searchObjects(id, type)).then(result => {
+        if (shouldUpdateState) setArticles(result.results);
+      });
       type === 'image' &&
-        searchConcepts(searchObjects(id, type)).then(result => setConcepts(result.results));
+        searchConcepts(searchObjects(id, type)).then(result => {
+          if (shouldUpdateState) setConcepts(result.results);
+        });
     }
+
+    return () => {
+      shouldUpdateState = false;
+    };
   }, [id, type]);
 
   if (!articles?.length && !concepts?.length) {

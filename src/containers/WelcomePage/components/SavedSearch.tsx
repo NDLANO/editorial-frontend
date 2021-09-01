@@ -18,7 +18,8 @@ import Tooltip from '@ndla/tooltip';
 import IconButton from '../../../components/IconButton';
 import { fetchSubject, fetchResourceType } from '../../../modules/taxonomy';
 import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
-import { transformQuery } from '../../../util/searchHelpers';
+import { getSearchFunctionFromType, transformQuery } from '../../../util/searchHelpers';
+import handleError from '../../../util/handleError';
 
 interface Props {
   deleteSearch: Function;
@@ -37,8 +38,18 @@ const SavedSearch = ({ deleteSearch, locale, search, index }: Props) => {
   const [subjectName, setSubjectName] = useState('');
   const [resourceTypeName, setResourceTypeName] = useState('');
   const [userName, setUserName] = useState('');
+  const [searchResults, setSearchResults] = useState<number | undefined>(undefined);
+  const [searchUrl, searchParams] = search.split('?');
 
-  const searchObject = transformQuery(queryString.parse(search));
+  const searchObject = transformQuery(queryString.parse(searchParams));
+  searchObject['type'] = searchUrl.replace('/search/', '');
+  const localizedSearch =
+    searchObject['type'] === 'content'
+      ? search.replace(`language=${searchObject['language']}`, `language=${locale}`)
+      : search;
+  if (searchObject['type'] === 'content' && searchObject['language']) {
+    searchObject['language'] = locale;
+  }
   const subject = searchObject['subjects'] || '';
   const resourceType = searchObject['resource-types'] || '';
   const userId = searchObject['users'] || '';
@@ -67,24 +78,39 @@ const SavedSearch = ({ deleteSearch, locale, search, index }: Props) => {
     }
   }, [subject, resourceType, userId, locale]);
 
-  const linkText = (search: string) => {
+  useEffect(() => {
+    (async () => {
+      try {
+        const searchFunction = getSearchFunctionFromType(searchObject['type']);
+        const res = await searchFunction(searchObject);
+        setSearchResults(res.totalCount);
+      } catch (e) {
+        handleError(e);
+      }
+    })();
+  }, [searchObject]);
+
+  const linkText = (searchObject: Record<string, string>) => {
     const query = searchObject.query || undefined;
     const status = searchObject.status || searchObject['draft-status'] || undefined;
     const contextType = searchObject['context-types'] || undefined;
+    const language = searchObject['language'] || undefined;
+    const type = searchObject['type'] || undefined;
+    const audioType = searchObject['audio-type'] || undefined;
 
     const results = [];
+    results.push(type && t(`searchTypes.${type}`));
     results.push(query);
+    results.push(language && t(`language.${language}`));
+    results.push(audioType);
     results.push(status && t(`form.status.${status.toLowerCase()}`));
     results.push(subject && subjectName);
     results.push(resourceType && resourceTypeName);
     results.push(contextType && t(`contextTypes.topic`));
     results.push(userName);
-
-    return results
-      .filter(function(e) {
-        return e;
-      })
-      .join(' + ');
+    const resultHitsString = searchResults !== undefined ? ` (${searchResults})` : '';
+    const joinedResults = results.filter(e => e).join(' + ');
+    return `${joinedResults}${resultHitsString}`;
   };
 
   return (
@@ -98,8 +124,8 @@ const SavedSearch = ({ deleteSearch, locale, search, index }: Props) => {
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      <Link {...classes('link')} to={search}>
-        {linkText(search)}
+      <Link {...classes('link')} to={localizedSearch}>
+        {linkText(searchObject)}
       </Link>
     </div>
   );

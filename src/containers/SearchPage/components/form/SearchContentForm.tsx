@@ -14,6 +14,7 @@ import Button from '@ndla/button';
 import { RouteComponentProps } from 'react-router-dom';
 import { fetchResourceTypes } from '../../../../modules/taxonomy';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
+import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
@@ -69,7 +70,7 @@ interface State {
 class SearchContentForm extends Component<Props & WithTranslation, State> {
   constructor(props: Props & WithTranslation) {
     super(props);
-    const { searchObject, locale } = props;
+    const { searchObject } = props;
     this.state = {
       dropDown: {
         resourceTypes: [],
@@ -82,7 +83,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
         includeOtherStatuses: searchObject['include-other-statuses'] || false,
         query: searchObject.query || '',
         users: searchObject.users || '',
-        language: searchObject.language || locale,
+        language: searchObject.language || '',
       },
     };
     this.getExternalData = this.getExternalData.bind(this);
@@ -142,7 +143,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
       query,
       users,
       language,
-      fallback: true,
+      fallback: false,
       page: 1,
     });
   }
@@ -193,7 +194,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
       {
         name: 'subjects',
         label: 'subjects',
-        width: 50,
+        width: 25,
         options: subjects.sort(this.sortByProperty('name')),
       },
       {
@@ -213,6 +214,12 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
         label: 'users',
         width: 25,
         options: users.sort(this.sortByProperty('name')),
+      },
+      {
+        name: 'language',
+        label: 'language',
+        width: 25,
+        options: getResourceLanguages(t),
       },
     ];
 

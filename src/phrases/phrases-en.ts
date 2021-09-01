@@ -321,6 +321,13 @@ const phrases = {
     noTitle: 'No title',
     noContent: 'No content',
   },
+  searchTypes: {
+    content: 'Content',
+    audio: 'Audio',
+    image: 'Image',
+    concept: 'Concepts',
+    'podcast-series': 'Series',
+  },
   noEmbedMessage: {
     deleteOnSave: 'Element of type {{type}} will be deleted on save.',
   },

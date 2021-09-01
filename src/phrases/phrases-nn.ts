@@ -324,6 +324,13 @@ const phrases = {
     noTitle: 'Ingen tittel',
     noContent: 'Ingen innhald',
   },
+  searchTypes: {
+    content: 'Innhald',
+    audio: 'Lyd',
+    image: 'Bilde',
+    concept: 'Forklaring',
+    'podcast-series': 'Serie',
+  },
   noEmbedMessage: {
     deleteOnSave: 'Element av type {{type}} vil bli fjerna ved lagring.',
   },

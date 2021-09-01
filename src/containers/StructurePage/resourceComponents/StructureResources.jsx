@@ -13,13 +13,17 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import ResourceGroup from './ResourceGroup';
 import AllResourcesGroup from './AllResourcesGroup';
-import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
+import {
+  groupSortResourceTypesFromTopicResources,
+  getIdFromUrn,
+} from '../../../util/taxonomyHelpers';
 import { fetchAllResourceTypes, fetchTopicResources, fetchTopic } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
+import { getArticle } from '../../../modules/article/articleApi';
 
 import { StructureShape } from '../../../shapes';
 import GroupTopicResources from '../folderComponents/GroupTopicResources';
@@ -121,11 +125,19 @@ export class StructureResources extends React.PureComponent {
         const initialTopicResources = await fetchTopicResources(topicId, locale, undefined);
         const allTopicResources = await Promise.all(
           initialTopicResources.map(async r => {
-            const breadCrumbs = await this.getCrumbsFromPath(r);
+            const [breadCrumbs, article] = await Promise.all([
+              this.getCrumbsFromPath(r),
+              getArticle(getIdFromUrn(r.contentUri)),
+            ]);
             if (r.resourceTypes.length > 0) {
-              return { ...r, breadCrumbs };
+              return { ...r, breadCrumbs, grepCodes: article.grepCodes };
             } else {
-              return { ...r, resourceTypes: [{ id: 'missing' }], breadCrumbs };
+              return {
+                ...r,
+                resourceTypes: [{ id: 'missing' }],
+                breadCrumbs,
+                grepCodes: article.grepCodes,
+              };
             }
           }),
         );

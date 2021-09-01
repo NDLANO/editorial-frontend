@@ -122,7 +122,7 @@ const Resource = ({
         </Tooltip>
       )}
       <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
-        GREP
+        {`GREP (${resource.grepCodes?.length || 0})`}
       </Button>
       <RelevanceOption
         relevanceId={relevanceId}

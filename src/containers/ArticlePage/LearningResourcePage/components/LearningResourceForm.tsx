@@ -205,6 +205,7 @@ const LearningResourceForm = ({
     savedToServer,
     formikRef,
     initialValues,
+    initialErrors,
     setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
@@ -303,6 +304,7 @@ const LearningResourceForm = ({
     <Formik
       enableReinitialize={translating}
       initialValues={initialValues}
+      initialErrors={initialErrors}
       innerRef={formikRef}
       validateOnBlur={false}
       validateOnMount

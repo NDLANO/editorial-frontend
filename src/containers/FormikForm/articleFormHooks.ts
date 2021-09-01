@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { FormikHelpers } from 'formik';
 import { Value } from 'slate';
@@ -21,7 +21,7 @@ import {
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
-import { isFormikFormDirty } from '../../util/formHelper';
+import { isFormikFormDirty, learningResourceRules } from '../../util/formHelper';
 import { NewReduxMessage, ReduxMessageError } from '../Messages/messagesSelectors';
 import {
   DraftApiType,
@@ -38,6 +38,7 @@ import {
   VisualElement,
 } from '../../interfaces';
 import { ApiConceptType } from '../../modules/concept/conceptApiInterfaces';
+import validateFormik from '../../components/formikValidationSchema';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -126,6 +127,10 @@ export function useArticleFormHooks({
   const [savedToServer, setSavedToServer] = useState(false);
   const [saveAsNewVersion, setSaveAsNewVersion] = useState(isNewlyCreated);
   const initialValues = getInitialValues(article);
+  const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [
+    initialValues,
+    t,
+  ]);
 
   useEffect(() => {
     setSavedToServer(false);
@@ -190,9 +195,14 @@ export function useArticleFormHooks({
         });
       }
 
-      if (article.articleType === 'topic-article' && article.title !== newArticle.title) {
+      if (
+        article.articleType === 'topic-article' &&
+        article.title !== newArticle.title &&
+        article.id &&
+        article.language
+      ) {
         // update topic name in taxonomy
-        const topics = await queryTopics(article.id!.toString(), article.language!); // TODO: No assertions
+        const topics = await queryTopics(article.id.toString(), article.language);
         topics.forEach(topic =>
           updateTopic({
             ...topic,
@@ -232,6 +242,7 @@ export function useArticleFormHooks({
     savedToServer,
     formikRef,
     initialValues,
+    initialErrors,
     setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,

@@ -193,6 +193,7 @@ const TopicArticleForm = (props: Props) => {
     savedToServer,
     formikRef,
     initialValues,
+    initialErrors,
     setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
@@ -295,6 +296,7 @@ const TopicArticleForm = (props: Props) => {
       enableReinitialize={translating}
       validateOnMount
       initialValues={initialValues}
+      initialErrors={initialErrors}
       validateOnChange={false}
       innerRef={formikRef}
       onSubmit={handleSubmit}

@@ -229,26 +229,11 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
         id: search.query,
         name: search.query,
       },
-      {
-        type: 'users',
-        id: search.users,
-        name: getTagName(search.users, users),
-      },
-      {
-        type: 'subjects',
-        id: search.subjects,
-        name: getTagName(search.subjects, subjects),
-      },
-      {
-        type: 'resourceTypes',
-        id: search.resourceTypes,
-        name: getTagName(search.resourceTypes, resourceTypes),
-      },
-      {
-        type: 'status',
-        id: search.status,
-        name: getTagName(search.status, this.getDraftStatuses()),
-      },
+      ...selectFields.map(field => ({
+        type: field.label,
+        id: `${search[field.label]}`,
+        name: getTagName(search[field.label], field.options),
+      })),
     ];
 
     return (

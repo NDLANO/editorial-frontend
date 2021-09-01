@@ -101,16 +101,25 @@ export const transformArticleFromApiVersion = async (
   const metaImage = convertMetaImage(article.metaImage);
   const conceptIds = await fetchConceptList(article.conceptIds);
   const relatedContent = await fetchArticleList(article.relatedContent);
+  const title = convertFieldWithFallback<'title'>(article, 'title', '');
+  const introduction = convertFieldWithFallback<'introduction'>(article, 'introduction', '');
+  const content = convertFieldWithFallback<'content'>(article, 'content', '');
+  const tags = convertFieldWithFallback<'tags', string[]>(article, 'tags', []);
+  const metaDescription = convertFieldWithFallback<'metaDescription'>(
+    article,
+    'metaDescription',
+    '',
+  );
 
   return {
     ...article,
-    title: convertFieldWithFallback<'title'>(article, 'title', ''),
-    introduction: convertFieldWithFallback<'introduction'>(article, 'introduction', ''),
+    title,
+    introduction,
     visualElement,
-    content: convertFieldWithFallback<'content'>(article, 'content', ''),
-    metaDescription: convertFieldWithFallback<'metaDescription'>(article, 'metaDescription', ''),
+    content,
+    metaDescription,
     metaImage,
-    tags: convertFieldWithFallback<'tags', string[]>(article, 'tags', []),
+    tags,
     conceptIds,
     relatedContent,
     language: locale,

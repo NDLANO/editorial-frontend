@@ -126,14 +126,11 @@ const LearningResourcePanels = ({
           className={'u-6/6'}
           hasError={!!errors.notes}>
           <VersionAndNotesPanel
-            values={values}
-            formIsDirty={formIsDirty}
-            setValues={setValues}
-            getArticle={getArticle}
             article={article}
             getInitialValues={getInitialValues}
+            setValues={setValues}
             createMessage={createMessage}
-            history={history}
+            getArticle={getArticle}
           />
         </AccordionSection>
       )}

@@ -108,18 +108,6 @@ interface HooksInputObject {
   isNewlyCreated: boolean;
 }
 
-// function convertedDraftTypeToUpdatedDraftApiType(
-//   converted: ConvertedDraftType,
-// ): UpdatedDraftApiType {
-//   return {
-//     ...converted,
-//     notes: [],
-//     relatedContent: convertDraftOrRelated(converted.relatedContent),
-//     conceptIds: converted.conceptIds.map(c => c.id),
-//     status: undefined,
-//   };
-// }
-
 export function useArticleFormHooks({
   getInitialValues,
   article,

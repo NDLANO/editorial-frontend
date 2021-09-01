@@ -46,28 +46,37 @@ import { ReduxMessageError } from '../../../Messages/messagesSelectors';
 
 export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
   const metaImageId = parseImageUrl(article.metaImage);
+  const slatetitle = plainTextToEditorValue(article.title, true);
+  const introduction = plainTextToEditorValue(article.introduction, true);
+  const content = learningResourceContentToEditorValue(article?.content ?? '');
+  const creators = parseCopyrightContributors(article, 'creators');
+  const processors = parseCopyrightContributors(article, 'processors');
+  const rightsholders = parseCopyrightContributors(article, 'rightsholders');
+  const license = article.copyright?.license?.license || DEFAULT_LICENSE.license;
+  const metaDescription = plainTextToEditorValue(article.metaDescription, true);
+
   return {
-    agreementId: article.copyright ? article.copyright.agreementId : undefined,
+    agreementId: article.copyright?.agreementId,
     articleType: 'standard',
-    content: learningResourceContentToEditorValue(article?.content ?? ''),
-    creators: parseCopyrightContributors(article, 'creators'),
+    content,
+    creators,
     id: article.id,
-    introduction: plainTextToEditorValue(article.introduction, true),
+    introduction,
     language: article.language,
-    license: article.copyright?.license?.license || DEFAULT_LICENSE.license,
-    metaDescription: plainTextToEditorValue(article.metaDescription, true),
+    license,
+    metaDescription,
     metaImageAlt: article.metaImage?.alt || '',
     metaImageId,
     notes: [],
     origin: article.copyright?.origin,
-    processors: parseCopyrightContributors(article, 'processors'),
+    processors,
     published: article.published,
     revision: article.revision,
-    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
+    rightsholders,
     status: article.status,
     supportedLanguages: article.supportedLanguages || [],
     tags: article.tags || [],
-    slatetitle: plainTextToEditorValue(article.title, true),
+    slatetitle,
     updatePublished: false,
     updated: article.updated,
     grepCodes: article.grepCodes || [],

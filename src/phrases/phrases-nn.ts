@@ -788,6 +788,9 @@ const phrases = {
         choose: 'Velg forklaring',
       },
       link: {
+        name: 'Navn',
+        domains: 'Url',
+        validDomains: 'Gyldige domener',
         goTo: 'Gå til',
         insert: 'Sett inn lenke',
         update: 'Oppdater lenke',

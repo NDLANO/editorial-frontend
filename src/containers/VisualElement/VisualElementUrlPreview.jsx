@@ -15,7 +15,11 @@ import { FieldHeader, FieldSection, Input, FieldSplitter, FieldRemoveButton } fr
 import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import { InformationOutline } from '@ndla/icons/common';
+import { css } from '@emotion/react';
 
+import UrlAllowList from './UrlAllowList';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import {
   isValidURL,
@@ -226,6 +230,30 @@ class VisualElementUrlPreview extends Component {
             onClick={() => this.handleSaveUrl(url)}>
             {isChangedUrl ? t('form.content.link.insert') : t('form.content.link.update')}
           </Button>
+          <Modal
+            backgroundColor="white"
+            activateButton={
+              <Button>
+                <InformationOutline
+                  css={css`
+                    margin-right: 5px;
+                  `}
+                />
+                {t('form.content.link.validDomains')}
+              </Button>
+            }>
+            {onClose => (
+              <>
+                <ModalHeader>
+                  <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
+                </ModalHeader>
+                <ModalBody>
+                  <h1>{t('form.content.link.validDomains')}</h1>
+                  <UrlAllowList allowList={EXTERNAL_WHITELIST_PROVIDERS} />
+                </ModalBody>
+              </>
+            )}
+          </Modal>
         </StyledButtonWrapper>
         {showPreview && (
           <StyledPreviewWrapper>

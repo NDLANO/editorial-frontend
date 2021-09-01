@@ -16,7 +16,7 @@ import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 
 interface Props extends RouteComponentProps {
-  userAccess?: string;
+  userAccess: string | undefined;
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: () => Promise<void>;
   article: Partial<ConvertedDraftType>;

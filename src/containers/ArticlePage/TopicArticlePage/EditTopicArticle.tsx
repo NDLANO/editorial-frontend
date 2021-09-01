@@ -26,7 +26,7 @@ interface Props extends RouteComponentProps {
   licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
-  userAccess?: string;
+  userAccess: string | undefined;
 }
 
 const EditTopicArticle = ({

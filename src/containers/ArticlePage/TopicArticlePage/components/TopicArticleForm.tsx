@@ -163,7 +163,7 @@ interface Props extends RouteComponentProps {
     newStatus: DraftStatusTypes;
     dirty: boolean;
   }) => Promise<ConvertedDraftType>;
-  userAccess?: string;
+  userAccess: string | undefined;
   translating: boolean;
   translateToNN: Function;
   licenses: License[];

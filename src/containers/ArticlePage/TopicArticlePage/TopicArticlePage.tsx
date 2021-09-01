@@ -36,7 +36,6 @@ type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 const TopicArticlePage = ({
   match,
-  history,
   licenses,
   fetchLicenses,
   applicationError,
@@ -51,19 +50,27 @@ const TopicArticlePage = ({
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const articleFormProps = { applicationError, licenses, createMessage, userAccess };
-
   return (
     <OneColumn>
       <Switch>
         <Route
           path={`${match.url}/new`}
-          render={() => <CreateTopicArticle {...articleFormProps} />}
+          render={() => (
+            <CreateTopicArticle
+              applicationError={applicationError}
+              licenses={licenses}
+              createMessage={createMessage}
+              userAccess={userAccess}
+            />
+          )}
         />
         <Route path={`${match.url}/:articleId/edit/`}>
           <EditArticleRedirect
             isNewlyCreated={previousLocation === '/subject-matter/topic-article/new'}
-            {...articleFormProps}
+            applicationError={applicationError}
+            licenses={licenses}
+            createMessage={createMessage}
+            userAccess={userAccess}
           />
         </Route>
         <Route component={NotFoundPage} />

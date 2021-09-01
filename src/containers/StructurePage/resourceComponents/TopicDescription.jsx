@@ -41,6 +41,7 @@ class TopicDescription extends Component {
       status,
       t,
       resourceRef,
+      grepCodes,
     } = this.props;
 
     const { displayTopicDescription, showAddModal } = this.state;
@@ -54,7 +55,7 @@ class TopicDescription extends Component {
           handleToggle={this.toggleDisplayTopicDescription}>
           {topicDescription && (
             <Resource
-              resource={{ ...currentTopic, name: topicDescription, status }}
+              resource={{ ...currentTopic, name: topicDescription, grepCodes, status }}
               contentType="topic-article"
               locale={locale}
               contentUri={currentTopic.contentUri}
@@ -105,6 +106,7 @@ TopicDescription.propTypes = {
     other: PropTypes.arrayOf(PropTypes.string),
   }),
   resourceRef: PropTypes.object,
+  grepCodes: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default withTranslation()(TopicDescription);

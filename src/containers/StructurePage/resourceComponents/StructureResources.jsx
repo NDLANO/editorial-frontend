@@ -23,7 +23,6 @@ import TopicDescription from './TopicDescription';
 import Spinner from '../../../components/Spinner';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import { getArticle } from '../../../modules/article/articleApi';
 
 import { StructureShape } from '../../../shapes';
 import GroupTopicResources from '../folderComponents/GroupTopicResources';
@@ -92,7 +91,10 @@ export class StructureResources extends React.PureComponent {
   async getArticle(contentUri, locale) {
     try {
       const article = await fetchDraft(contentUri.replace('urn:article:', ''), locale);
-      this.setState({ topicDescription: article.title && article.title.title });
+      this.setState({
+        topicDescription: article.title && article.title.title,
+        topicGrepCodes: article.grepCodes,
+      });
     } catch (error) {
       handleError(error);
     }
@@ -127,7 +129,7 @@ export class StructureResources extends React.PureComponent {
           initialTopicResources.map(async r => {
             const [breadCrumbs, article] = await Promise.all([
               this.getCrumbsFromPath(r),
-              getArticle(getIdFromUrn(r.contentUri)),
+              fetchDraft(getIdFromUrn(r.contentUri), locale),
             ]);
             if (r.resourceTypes.length > 0) {
               return { ...r, breadCrumbs, grepCodes: article.grepCodes };
@@ -226,7 +228,14 @@ export class StructureResources extends React.PureComponent {
       saveSubjectTopicItems,
       grouped,
     } = this.props;
-    const { topicDescription, resourceTypes, topicResources, topicStatus, loading } = this.state;
+    const {
+      topicDescription,
+      resourceTypes,
+      topicResources,
+      topicStatus,
+      topicGrepCodes,
+      loading,
+    } = this.state;
     if (loading) {
       return <Spinner />;
     }
@@ -256,6 +265,7 @@ export class StructureResources extends React.PureComponent {
           refreshTopics={refreshTopics}
           currentTopic={currentTopic}
           status={topicStatus}
+          grepCodes={topicGrepCodes}
         />
         {grouped === 'ungrouped' && (
           <AllResourcesGroup

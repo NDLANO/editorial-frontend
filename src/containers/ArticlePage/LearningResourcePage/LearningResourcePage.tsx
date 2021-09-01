@@ -9,7 +9,6 @@ import React, { useEffect } from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
-import { tType } from '@ndla/i18n';
 import { actions as licenseActions, getAllLicenses } from '../../../modules/license/license';
 import EditResourceRedirect from './EditResourceRedirect';
 import CreateLearningResource from './CreateLearningResource';
@@ -58,14 +57,21 @@ const LearningResourcePage = ({
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const resourceFormProps = { applicationError, licenses, createMessage, userAccess };
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <OneColumn>
         <Switch>
           <Route
             path={`${match.url}/new`}
-            render={routeProps => <CreateLearningResource {...routeProps} {...resourceFormProps} />}
+            render={routeProps => (
+              <CreateLearningResource
+                {...routeProps}
+                applicationError={applicationError}
+                licenses={licenses}
+                createMessage={createMessage}
+                userAccess={userAccess}
+              />
+            )}
           />
           <Route path={`${match.url}/:articleId/edit/`}>
             {(params: RouteComponentProps<ParamsType>) => {
@@ -75,7 +81,10 @@ const LearningResourcePage = ({
                   history={history}
                   location={location}
                   isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
-                  {...resourceFormProps}
+                  applicationError={applicationError}
+                  licenses={licenses}
+                  createMessage={createMessage}
+                  userAccess={userAccess}
                 />
               );
             }}

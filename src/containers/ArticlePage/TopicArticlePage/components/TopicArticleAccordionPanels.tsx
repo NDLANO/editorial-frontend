@@ -1,6 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
@@ -11,10 +9,9 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE, DRAFT_ADMIN_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
-import { ArticleShape, LicensesArrayOf } from '../../../../shapes';
 import { LocaleContext } from '../../../App/App';
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
-import { ArticleType, ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
+import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
 import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
@@ -134,19 +131,5 @@ const TopicArticleAccordionPanels = ({
     </Accordions>
   );
 };
-
-// TODO: TopicArticleAccordionPanels.propTypes = {
-//   userAccess: PropTypes.string,
-//   fetchSearchTags: PropTypes.func.isRequired,
-//   handleSubmit: PropTypes.func,
-//   article: ArticleShape,
-//   formIsDirty: PropTypes.bool,
-//   updateNotes: PropTypes.func,
-//   licenses: LicensesArrayOf,
-//   history: PropTypes.object,
-//   createMessage: PropTypes.func,
-//   getArticle: PropTypes.func,
-//   getInitialValues: PropTypes.func,
-// };
 
 export default withRouter(TopicArticleAccordionPanels);

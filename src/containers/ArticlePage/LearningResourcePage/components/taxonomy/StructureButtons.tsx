@@ -76,13 +76,7 @@ interface Props {
   addTopic: (id: string | undefined, closeModal: () => void) => void;
 }
 
-const StructureButtons = ({
-  isSubject,
-  id,
-  closeModal,
-  activeTopics,
-  addTopic,
-}: Props) => {
+const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }: Props) => {
   const { t } = useTranslation();
   if (isSubject) {
     return null;

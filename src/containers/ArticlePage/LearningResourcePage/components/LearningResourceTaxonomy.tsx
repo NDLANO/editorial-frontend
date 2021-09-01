@@ -7,7 +7,6 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
@@ -37,19 +36,16 @@ import {
   RESOURCE_FILTER_CORE,
   RESOURCE_TYPE_LEARNING_PATH,
 } from '../../../../constants';
-import { ArticleShape } from '../../../../shapes';
 import { FormikFieldHelp } from '../../../../components/FormikField';
 import {
   TaxonomyMetadata,
   Topic,
   ResourceType,
   ResourceResourceType,
-  TopicConnections as TopicConnectionsType,
-  ParentTopicWithRelevanceAndConnections,
   SubjectType,
   ParentTopic,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { ArticleType, ConvertedDraftType, LocaleType } from '../../../../interfaces';
+import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -64,18 +60,6 @@ interface FullResource {
   resourceTypes: ResourceResourceType[];
   topics: ParentTopic[];
   metadata?: TaxonomyMetadata;
-}
-
-interface FullTopic {
-  path: string;
-  isPrimary: boolean;
-  contentUri: string;
-  name: string;
-  connectionId: string;
-  id: string;
-  relevanceId: string;
-  topicConnections: TopicConnectionsType[];
-  primary: boolean;
 }
 
 type Props = {
@@ -238,7 +222,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         });
       } else {
         // resource does not exist in taxonomy
-        this.setState(prevState => ({
+        this.setState(() => ({
           status: 'initial',
           resourceTaxonomy: {
             ...emptyTaxonomy,
@@ -504,6 +488,8 @@ class LearningResourceTaxonomy extends Component<Props, State> {
           setRelevance={this.setRelevance}
           stageTaxonomyChanges={this.stageTaxonomyChanges}
           getSubjectTopics={this.getSubjectTopics}
+          allowMultipleSubjectsOpen={false}
+          onChangeShowFavorites={() => {}}
         />
         {showWarning && (
           <FormikFieldHelp error>{t('errorMessage.unsavedTaxonomy')}</FormikFieldHelp>

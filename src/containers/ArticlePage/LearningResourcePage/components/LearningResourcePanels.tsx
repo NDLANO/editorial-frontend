@@ -1,6 +1,4 @@
 import React, { useContext } from 'react';
-import { injectT, tType } from '@ndla/i18n';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -12,7 +10,7 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import { ArticleType, ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
+import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
@@ -51,6 +49,8 @@ const LearningResourcePanels = ({
   const formikContext = useFormikContext<ArticleFormikType>();
   const { values, setValues, errors, handleBlur } = formikContext;
 
+  const showTaxonomySection = !!values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE);
+
   return (
     <Accordions>
       <AccordionSection
@@ -69,7 +69,7 @@ const LearningResourcePanels = ({
           locale={locale}
         />
       </AccordionSection>
-      {values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {showTaxonomySection && (
         <AccordionSection
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}

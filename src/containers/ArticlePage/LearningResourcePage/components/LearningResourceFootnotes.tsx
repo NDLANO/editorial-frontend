@@ -9,7 +9,7 @@
 import React from 'react';
 import BEMHelper from 'react-bem-helper';
 import { uuid } from '@ndla/util';
-import { useTranslation, WithTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 const classes = new BEMHelper({
   name: 'footnotes',

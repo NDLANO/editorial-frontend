@@ -22,7 +22,6 @@ import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
 import {
-  ParentTopicWithRelevanceAndConnections,
   ResourceWithTopicConnection,
   SubjectType,
 } from '../../modules/taxonomy/taxonomyApiInterfaces';

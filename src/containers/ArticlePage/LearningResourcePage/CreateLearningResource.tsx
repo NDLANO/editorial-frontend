@@ -14,7 +14,7 @@ import { LocaleContext } from '../../App/App';
 import LearningResourceForm from './components/LearningResourceForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
-import { NewDraftApiType, UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
+import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { License } from '../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 import { transformArticleFromApiVersion } from '../../../util/articleUtil';

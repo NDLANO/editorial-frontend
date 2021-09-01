@@ -8,10 +8,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { tType } from '@ndla/i18n';
 import { FormikHelpers } from 'formik';
 import { Value } from 'slate';
 
+import { WithTranslation } from 'react-i18next';
 import {
   deleteFile,
   fetchStatusStateMachine,
@@ -22,12 +22,11 @@ import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
-import { NewReduxMessage, ReduxMessageError } from '../../containers/Messages/messagesSelectors';
+import { NewReduxMessage, ReduxMessageError } from '../Messages/messagesSelectors';
 import {
   DraftApiType,
   DraftStatus,
   DraftStatusTypes,
-  NewDraftApiType,
   UpdatedDraftApiType,
 } from '../../modules/draft/draftApiInterfaces';
 import {
@@ -36,12 +35,9 @@ import {
   ConvertedDraftType,
   License,
   RelatedContent,
-  SlateArticle,
   VisualElement,
 } from '../../interfaces';
 import { ApiConceptType } from '../../modules/concept/conceptApiInterfaces';
-import { convertDraftOrRelated } from '../ArticlePage/LearningResourcePage/components/LearningResourceForm';
-import { WithTranslation } from 'react-i18next';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');

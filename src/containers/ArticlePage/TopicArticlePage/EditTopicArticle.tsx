@@ -44,7 +44,6 @@ const EditTopicArticle = ({
     setArticle,
     articleChanged,
     updateArticle,
-    createArticle,
     updateArticleAndStatus,
   } = useFetchArticleData(articleId, selectedLanguage);
   const { t } = useTranslation();
@@ -83,12 +82,5 @@ const EditTopicArticle = ({
     </Fragment>
   );
 };
-
-// EditTopicArticle.propTypes = {
-//   articleId: PropTypes.string.isRequired,
-//   selectedLanguage: PropTypes.string.isRequired,
-//   createMessage: PropTypes.func.isRequired,
-//   isNewlyCreated: PropTypes.bool,
-// };
 
 export default withRouter(EditTopicArticle);

@@ -7,7 +7,6 @@
  */
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -18,7 +17,6 @@ import {
   editorValueToPlainText,
   plainTextToEditorValue,
 } from '../../../../util/articleContentConverter';
-import { LicensesArrayOf, ArticleShape } from '../../../../shapes';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import validateFormik from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
@@ -42,17 +40,7 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import {
-  ArticleType,
-  Author,
-  AvailabilityType,
-  ConvertedDraftType,
-  License,
-  LocaleType,
-  RelatedContent,
-  SlateArticle,
-} from '../../../../interfaces';
-import { ApiConceptType } from '../../../../modules/concept/conceptApiInterfaces';
+import { ConvertedDraftType, License, LocaleType, RelatedContent } from '../../../../interfaces';
 import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { ReduxMessageError } from '../../../Messages/messagesSelectors';
 
@@ -170,7 +158,7 @@ const getArticleFromSlate = ({
 };
 
 interface Props extends RouteComponentProps {
-  userAccess?: string;
+  userAccess: string | undefined;
   createMessage: (message: NewReduxMessage) => void;
   applicationError: (error: ReduxMessageError) => void;
   article: Partial<ConvertedDraftType>;
@@ -315,33 +303,5 @@ const LearningResourceForm = ({
     </Formik>
   );
 };
-
-// TODO: anything missing? LearningResourceForm.propTypes = {
-//   licenses: LicensesArrayOf,
-//   revision: PropTypes.number,
-//   updateArticle: PropTypes.func.isRequired,
-//   createMessage: PropTypes.func.isRequired,
-//   articleStatus: PropTypes.shape({
-//     current: PropTypes.string,
-//     other: PropTypes.arrayOf(PropTypes.string),
-//   }),
-//   articleChanged: PropTypes.bool,
-//   updateArticleAndStatus: PropTypes.func,
-//   taxonomy: PropTypes.shape({
-//     resourceTypes: PropTypes.array,
-//     filter: PropTypes.array,
-//     topics: PropTypes.array,
-//     loading: PropTypes.bool,
-//   }),
-//   userAccess: PropTypes.string,
-//   article: ArticleShape,
-//   applicationError: PropTypes.func.isRequired,
-//   translating: PropTypes.bool,
-//   translateToNN: PropTypes.func,
-//   isNewlyCreated: PropTypes.bool,
-//   history: PropTypes.shape({
-//     push: PropTypes.func.isRequired,
-//   }).isRequired,
-// };
 
 export default withRouter(LearningResourceForm);

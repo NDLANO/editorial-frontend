@@ -10,11 +10,7 @@ import defined from 'defined';
 import formatDate from './formatDate';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
 import * as articleStatuses from './constants/ArticleStatus';
-import {
-  DraftApiType,
-  DraftStatus,
-  UpdatedDraftApiType,
-} from '../modules/draft/draftApiInterfaces';
+import { DraftApiType, DraftStatus } from '../modules/draft/draftApiInterfaces';
 import { ArticleType, ConvertedDraftType, LocaleType, RelatedContent } from '../interfaces';
 import { ApiConceptType } from '../modules/concept/conceptApiInterfaces';
 import { ArticleTaxonomy } from '../containers/FormikForm/formikDraftHooks';
@@ -25,7 +21,7 @@ export const isDraftPublished = (status?: DraftStatus) =>
   (status?.other && status.other.includes(articleStatuses.PUBLISHED)) ||
   status?.current === articleStatuses.PUBLISHED;
 
-// TODO: Disse typene er nok feil så fiks dem
+// TODO: Currently only used from javascript files. Fix `any` type when caller(s) get types.
 export const transformArticleToApiVersion = (article: any): DraftApiType => ({
   ...article,
   title: { title: article.title, language: article.language },

@@ -7,7 +7,6 @@
  */
 
 import React, { Fragment, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import { FieldHeader } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'formik';
@@ -42,8 +41,7 @@ import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
 import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
 import textTransformPlugin from '../../../../components/SlateEditor/plugins/textTransform';
-import { LocaleType } from '../../../../interfaces';
-import { ArticleFormikType } from '../../../../containers/FormikForm/articleFormHooks';
+import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 
 const byLineStyle = css`
   display: flex;
@@ -94,7 +92,6 @@ const TopicArticleContent = (props: Props) => {
     handleSubmit,
   } = props;
   const [preview, setPreview] = useState(false);
-  if (!language) return null;
   const plugins = useMemo(() => {
     return createPlugins(language);
   }, [language]);
@@ -150,7 +147,7 @@ const TopicArticleContent = (props: Props) => {
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <Fragment>
             <FieldHeader title={t('form.content.label')}>
-              {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
+              {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && language && (
                 <EditMarkupLink to={toEditMarkup(id, language)} title={t('editMarkup.linkTitle')} />
               )}
             </FieldHeader>
@@ -180,17 +177,5 @@ const TopicArticleContent = (props: Props) => {
     </Fragment>
   );
 };
-
-// TopicArticleContent.propTypes = {
-//   userAccess: PropTypes.string,
-//   handleBlur: PropTypes.func,
-//   values: PropTypes.shape({
-//     id: PropTypes.number,
-//     language: PropTypes.string,
-//     creators: PropTypes.array,
-//     published: PropTypes.string,
-//   }),
-//   handleSubmit: PropTypes.func,
-// };
 
 export default connect(TopicArticleContent);

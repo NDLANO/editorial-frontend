@@ -8,12 +8,10 @@
 
 import { useState, useEffect } from 'react';
 import * as draftApi from '../../modules/draft/draftApi';
-import { fetchConcept } from '../../modules/concept/conceptApi';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
-import { queryResources, queryTopics } from '../../modules/taxonomy/resources';
-import { ConvertedDraftType, LocaleType, RelatedContent } from '../../interfaces';
+import { queryResources, queryTopics } from '../../modules/taxonomy';
+import { ConvertedDraftType, LocaleType } from '../../interfaces';
 import {
-  DraftApiType,
   DraftStatusTypes,
   NewDraftApiType,
   UpdatedDraftApiType,
@@ -56,7 +54,6 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
   const updateArticle = async (
     updatedArticle: UpdatedDraftApiType,
   ): Promise<ConvertedDraftType> => {
-    console.log('Update', updatedArticle); // TODO: remove
     const savedArticle = await draftApi.updateDraft(updatedArticle);
     const taxonomy = !!articleId ? await fetchTaxonomy(articleId, locale) : undefined;
     const updated = await transformArticleFromApiVersion({ taxonomy, ...savedArticle }, locale);

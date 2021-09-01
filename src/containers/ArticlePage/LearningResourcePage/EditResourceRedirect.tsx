@@ -24,6 +24,7 @@ interface Props extends RouteComponentProps<ParamsType> {
   licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
+  userAccess: string | undefined;
 }
 const EditResourceRedirect = ({
   match,
@@ -31,6 +32,7 @@ const EditResourceRedirect = ({
   applicationError,
   createMessage,
   isNewlyCreated,
+  userAccess,
 }: Props) => {
   const locale = useContext(LocaleContext);
   const { articleId } = match.params;
@@ -56,6 +58,7 @@ const EditResourceRedirect = ({
             licenses={licenses}
             createMessage={createMessage}
             applicationError={applicationError}
+            userAccess={userAccess}
           />
         )}
       />

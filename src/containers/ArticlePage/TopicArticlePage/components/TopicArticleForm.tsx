@@ -7,8 +7,6 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
@@ -42,7 +40,6 @@ import { ConvertedDraftType, License, LocaleType } from '../../../../interfaces'
 import {
   DraftStatus,
   DraftStatusTypes,
-  NewDraftApiType,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
@@ -306,27 +303,5 @@ const TopicArticleForm = (props: Props) => {
     </Formik>
   );
 };
-
-// TODO: TopicArticleForm.propTypes = {
-//   revision: PropTypes.number,
-//   updateArticle: PropTypes.func.isRequired,
-//   createMessage: PropTypes.func.isRequired,
-//   applicationError: PropTypes.func.isRequired,
-//   articleStatus: PropTypes.shape({
-//     current: PropTypes.string,
-//     other: PropTypes.arrayOf(PropTypes.string),
-//   }),
-//   articleChanged: PropTypes.bool,
-//   updateArticleAndStatus: PropTypes.func,
-//   userAccess: PropTypes.string,
-//   licenses: LicensesArrayOf,
-//   article: ArticleShape,
-//   translating: PropTypes.bool,
-//   translateToNN: PropTypes.func,
-//   isNewlyCreated: PropTypes.bool,
-//   history: PropTypes.shape({
-//     push: PropTypes.func.isRequired,
-//   }),
-// };
 
 export default withRouter(TopicArticleForm);

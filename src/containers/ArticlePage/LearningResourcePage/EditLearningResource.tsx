@@ -27,6 +27,7 @@ interface Props extends RouteComponentProps {
   licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
+  userAccess: string | undefined;
 }
 
 const EditLearningResource = ({
@@ -36,6 +37,7 @@ const EditLearningResource = ({
   licenses,
   applicationError,
   createMessage,
+  userAccess,
 }: Props) => {
   const { t } = useTranslation();
   const {
@@ -45,7 +47,6 @@ const EditLearningResource = ({
     articleChanged,
     updateArticle,
     updateArticleAndStatus,
-    createArticle,
   } = useFetchArticleData(articleId, selectedLanguage);
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
@@ -77,6 +78,7 @@ const EditLearningResource = ({
         updateArticleAndStatus={updateArticleAndStatus}
         applicationError={applicationError}
         createMessage={createMessage}
+        userAccess={userAccess}
       />
     </Fragment>
   );

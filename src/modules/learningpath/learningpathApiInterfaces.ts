@@ -59,6 +59,7 @@ export interface LearningPathSearchSummary {
 
 export interface SearchBody {
   query?: string;
+  page?: number;
   pageSize?: number;
   language?: string;
   fallback?: boolean;

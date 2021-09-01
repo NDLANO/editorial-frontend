@@ -19,13 +19,13 @@ import Tooltip from '@ndla/tooltip';
 
 import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
+import GrepCodesModal from '../../GrepCodes/GrepCodesModal';
 import RemoveButton from '../../../components/RemoveButton';
 import ResourceItemLink from './ResourceItemLink';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-
-import { StructureShape, ResourceShape } from '../../../shapes';
+import { ResourceShape } from '../../../shapes';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -35,6 +35,10 @@ const StyledCheckIcon = styled(Check)`
 
 const statusButtonStyle = css`
   margin-right: ${spacing.xsmall};
+`;
+
+const grepButtonStyle = css`
+  margin-left: ${spacing.xsmall};
 `;
 
 const StyledResourceIcon = styled.div`
@@ -66,7 +70,6 @@ const StyledText = styled.div`
 
 const Resource = ({
   resource,
-  structure,
   onDelete,
   connectionId,
   dragHandleProps,
@@ -78,6 +81,7 @@ const Resource = ({
 }) => {
   const { t } = useTranslation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
+  const [showGrepCodes, setShowGrepCodes] = useState(false);
 
   const contentType = resource.resourceTypes
     ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
@@ -117,6 +121,9 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
+      <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
+        GREP
+      </Button>
       <RelevanceOption
         relevanceId={relevanceId}
         onChange={relevanceIdUpdate =>
@@ -139,6 +146,13 @@ const Resource = ({
           locale={locale}
         />
       )}
+      {showGrepCodes && (
+        <GrepCodesModal
+          onClose={() => setShowGrepCodes(false)}
+          contentUri={resource.contentUri}
+          locale={locale}
+        />
+      )}
     </StyledText>
   );
 };
@@ -155,7 +169,6 @@ Resource.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
   }),
-  structure: PropTypes.arrayOf(StructureShape),
   connectionId: PropTypes.string,
   resourceId: PropTypes.string,
   dragHandleProps: PropTypes.object,

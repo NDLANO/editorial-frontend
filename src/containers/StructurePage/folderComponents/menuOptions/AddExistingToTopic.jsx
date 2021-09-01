@@ -92,6 +92,7 @@ class AddExistingToTopic extends React.PureComponent {
         onClose={onClose}
         onSubmit={this.onAddExistingSubTopic}
         icon={<Plus />}
+        showPagination
       />
     ) : (
       <MenuItemButton stripped onClick={this.toggleEditMode}>

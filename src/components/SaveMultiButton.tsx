@@ -27,8 +27,8 @@ const checkStyle = css`
 interface Props {
   isSaving: boolean;
   showSaved: boolean;
-  formIsDirty: boolean;
-  large: boolean;
+  formIsDirty?: boolean;
+  large?: boolean;
   disabled: boolean;
   onClick: (saveAsNew: boolean) => void;
   clippedButton?: boolean;
@@ -38,7 +38,7 @@ interface Props {
 const SaveMultiButton = ({
   isSaving,
   showSaved,
-  formIsDirty,
+  formIsDirty = true,
   large,
   disabled,
   onClick,
@@ -88,10 +88,6 @@ const SaveMultiButton = ({
       </Wrapper>
     </>
   );
-};
-
-SaveMultiButton.defaultProps = {
-  formIsDirty: true,
 };
 
 export default SaveMultiButton;

@@ -343,6 +343,7 @@ export interface NdlaFilmThemesEditType {
   }[];
 }
 
+export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface VisualElement {
   resource: string;
   resource_id: string;

@@ -44,7 +44,7 @@ interface Props extends RouteComponentProps {
 
 export interface SearchState extends Record<string, string | boolean | undefined> {
   subjects: string;
-  resourceTypes?: string;
+  resourceTypes: string;
   status: string;
   includeOtherStatuses: boolean;
   query: string;
@@ -97,7 +97,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
     this.getExternalData();
   }
 
-  onFieldChange(evt: FormEvent<HTMLInputElement>) {
+  onFieldChange(evt: FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>) {
     const { name, value } = evt.currentTarget;
     this.setState(prevState => {
       const includeOtherStatuses =
@@ -240,7 +240,9 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
                 name={selectField.name}
                 options={selectField.options}
                 idKey="id"
-                value={this.state.search[selectField.name]}
+                // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
+                // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
+                value={this.state.search[selectField.name] as string}
                 labelKey="name"
                 emptyField
                 placeholder={t(`searchForm.types.${selectField.label}`)}

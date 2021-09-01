@@ -44,7 +44,6 @@ interface Props {
     id: string;
     name: string;
   };
-  structure: {}[];
 }
 
 const AllResourcesGroup = ({
@@ -54,7 +53,6 @@ const AllResourcesGroup = ({
   refreshResources,
   locale,
   currentSubject,
-  structure,
 }: Props) => {
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState<boolean>(true);
@@ -92,7 +90,6 @@ const AllResourcesGroup = ({
           refreshResources={refreshResources}
           locale={locale}
           currentSubject={currentSubject}
-          structure={structure}
         />
       </Accordion>
       {showAddModal && (

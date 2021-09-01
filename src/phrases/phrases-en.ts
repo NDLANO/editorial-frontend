@@ -203,6 +203,7 @@ const phrases = {
       imageQuery: 'Search for images',
       language: 'Select language',
       users: 'Select editor',
+      modelReleased: 'Select model released',
       subjects: 'Select subject',
       resourceTypes: 'Select resource type',
       status: 'Select status',
@@ -264,6 +265,11 @@ const phrases = {
     },
   },
   imageSearch: {
+    modelReleased: {
+      yes: 'Model released',
+      no: 'Not model released',
+      'not-applicable': 'Not applicable',
+    },
     placeholder: 'Search images',
     buttonTitle: 'Search',
     useImage: 'Use image',
@@ -628,6 +634,13 @@ const phrases = {
       student: 'Students',
       label: 'Availability',
       description: 'Who the article is intended for:',
+    },
+    modelReleased: {
+      label: 'Model released',
+      yes: 'Yes',
+      no: 'No',
+      'not-applicable': 'Not applicable',
+      description: 'Whether the image is model released or not:',
     },
     markdown: {
       button: 'Click to view markdown',
@@ -1160,7 +1173,8 @@ const phrases = {
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
-        explanationSubject: 'Explanation subject',
+        explanationSubject: 'Explanation Subject',
+        oldSubjectId: 'Old ID for redirecting',
         subjectCategory: 'Subject category',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',

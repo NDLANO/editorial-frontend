@@ -14,7 +14,7 @@ import { AsyncDropdown } from '../../../components/Dropdown';
 import { ContentResultType, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
-import { ApiConceptType } from '../../../modules/concept/conceptApiInterfaces';
+import { ApiConceptType, ConceptQuery } from '../../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   locale: string;
@@ -58,9 +58,9 @@ const ConceptsField = ({ locale, values, field, form }: Props) => {
     });
   };
 
-  const searchForConcepts = async (inp: string) => {
+  const searchForConcepts = async (query: ConceptQuery) => {
     return searchConcepts({
-      query: inp,
+      ...query,
       language: locale,
     });
   };
@@ -88,6 +88,7 @@ const ConceptsField = ({ locale, values, field, form }: Props) => {
         multiSelect
         disableSelected
         clearInputField
+        showPagination
       />
     </>
   );

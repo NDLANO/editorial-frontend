@@ -29,10 +29,10 @@ interface Props {
   embed: Embed;
   language: string;
   locale: LocaleType;
-  onAudioFigureInputChange: Function;
-  onChange: Function;
-  onExit: Function;
-  onRemoveClick: Function;
+  onAudioFigureInputChange: (event: React.FormEvent<HTMLSelectElement>) => void;
+  onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
+  onExit: (event: React.MouseEvent) => void;
+  onRemoveClick: (event: React.MouseEvent) => void;
   speech: boolean;
   type: string;
 }
@@ -89,7 +89,7 @@ const EditAudio = ({
             embedElement = embedEl;
           }}>
           <ObjectSelector
-            onClick={(evt: MouseEvent) => evt.stopPropagation()}
+            onClick={(evt: React.MouseEvent) => evt.stopPropagation()}
             onChange={onChange}
             onBlur={onChange}
             key="type"

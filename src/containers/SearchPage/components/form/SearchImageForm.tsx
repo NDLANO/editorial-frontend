@@ -163,7 +163,7 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
-        <div {...searchFormClasses('field', '100-width')}>
+        <div {...searchFormClasses('field', '50-width')}>
           <input
             name="query"
             placeholder={t('searchForm.types.imageQuery')}
@@ -171,7 +171,7 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
             onChange={this.onFieldChange}
           />
         </div>
-        <div {...searchFormClasses('field', '25-width')}>
+        <div {...searchFormClasses('field', '50-width')}>
           <ObjectSelector
             name="license"
             value={search.license}
@@ -183,7 +183,7 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
             placeholder={t('searchForm.types.license')}
           />
         </div>
-        <div {...searchFormClasses('field', '25-width')}>
+        <div {...searchFormClasses('field', '50-width')}>
           <ObjectSelector
             name="modelReleased"
             value={search.modelReleased}

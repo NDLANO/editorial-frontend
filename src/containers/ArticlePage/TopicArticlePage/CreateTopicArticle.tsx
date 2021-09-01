@@ -17,7 +17,7 @@ import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, License } from '../../../interfaces';
-import { transformArticleFromApiVersion } from '../../../util/articleUtil';
+import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
@@ -41,8 +41,7 @@ const CreateTopicArticle = ({
   const createArticleAndPushRoute = async (
     createdArticle: UpdatedDraftApiType,
   ): Promise<ConvertedDraftType> => {
-    // @ts-ignore TODO:
-    const savedArticle = await createArticle(createdArticle);
+    const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
     history.push(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
     return await transformArticleFromApiVersion(savedArticle, locale);
   };

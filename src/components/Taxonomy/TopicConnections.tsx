@@ -21,11 +21,9 @@ import { fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
-import {
-  ResourceWithTopicConnection,
-  SubjectType,
-} from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../util/retriveBreadCrumbs';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -39,7 +37,7 @@ const ModalTitleRow = styled.div`
 
 interface Props {
   structure: SubjectType[];
-  activeTopics: ResourceWithTopicConnection[];
+  activeTopics: StagedTopic[];
   allTopics: {
     contentUri: string;
     id: string;

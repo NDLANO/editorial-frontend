@@ -79,7 +79,7 @@ const createPlugins = (language?: string) => {
 interface Props {
   userAccess?: string;
   values: ArticleFormikType;
-  handleBlur: Function; // TODO:
+  handleBlur: (evt: { target: { name: string } }) => void;
   handleSubmit: () => Promise<void>;
 }
 

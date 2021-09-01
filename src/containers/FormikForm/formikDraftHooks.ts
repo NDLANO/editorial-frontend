@@ -72,15 +72,13 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
     newStatus: DraftStatusTypes;
     dirty: boolean;
   }): Promise<ConvertedDraftType> => {
-    // TODO: let newArticle = updatedArticle;
     if (dirty) {
-      // TODO: Figure out if this conversion is needed? what is this
-      // const conceptIds = updatedArticle.conceptIds.map(concept => concept.id);
-      // const relatedContent = updatedArticle.relatedContent.map(rc => (rc.id ? rc.id : rc));
       await draftApi.updateDraft(updatedArticle);
     }
 
-    const statusChangedDraft = await draftApi.updateStatusDraft(updatedArticle.id!, newStatus); // TODO: No assertion pls
+    if (!updatedArticle.id) throw new Error('Article without id gotten when updating status');
+
+    const statusChangedDraft = await draftApi.updateStatusDraft(updatedArticle.id, newStatus);
     const updated = await transformArticleFromApiVersion(statusChangedDraft, locale);
 
     setArticle(updated);

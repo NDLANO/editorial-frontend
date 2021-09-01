@@ -6,11 +6,15 @@
  *
  */
 
-import defined from 'defined';
 import formatDate from './formatDate';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
 import * as articleStatuses from './constants/ArticleStatus';
-import { DraftApiType, DraftStatus } from '../modules/draft/draftApiInterfaces';
+import {
+  DraftApiType,
+  DraftStatus,
+  NewDraftApiType,
+  UpdatedDraftApiType,
+} from '../modules/draft/draftApiInterfaces';
 import { ArticleType, ConvertedDraftType, LocaleType, RelatedContent } from '../interfaces';
 import { ApiConceptType } from '../modules/concept/conceptApiInterfaces';
 import { ArticleTaxonomy } from '../containers/FormikForm/formikDraftHooks';
@@ -73,14 +77,28 @@ const fetchArticleList = async (
   );
 };
 
+const convertMetaImage = (metaImage?: {
+  url: string;
+  alt: string;
+  language: string;
+}): { id: string; alt: string } | null | undefined => {
+  if (!metaImage) return null;
+
+  const idFromUrl = metaImage.url.split('/').pop();
+  if (!idFromUrl) return undefined;
+
+  return {
+    id: idFromUrl,
+    alt: metaImage.alt,
+  };
+};
+
 export const transformArticleFromApiVersion = async (
   article: DraftApiType & { taxonomy?: ArticleTaxonomy },
   locale: LocaleType,
 ): Promise<ConvertedDraftType> => {
   const visualElement = convertFieldWithFallback<'visualElement'>(article, 'visualElement', '');
-  const metaImage = undefined; // TODO: article.metaImage;
-  // TODO: const footnotes = article.content && article.content.footNotes ? article.content.footNotes : undefined;
-
+  const metaImage = convertMetaImage(article.metaImage);
   const conceptIds = await fetchConceptList(article.conceptIds);
   const relatedContent = await fetchArticleList(article.relatedContent);
 
@@ -100,14 +118,12 @@ export const transformArticleFromApiVersion = async (
 };
 
 export const transformArticle = (article: ArticleType) => {
-  // @ts-ignore TODO: figure out if this part is actually used (`metaData` doesn't exist on `ArticleType`).
-  const footNotes = defined(article.metaData.footnotes, []);
   return {
     ...article,
     created: formatDate(article.created),
     updated: formatDate(article.updated),
     published: formatDate(article.published),
-    footNotes,
+    footNotes: article.metaData?.footnotes ?? [],
     requiredLibraries: article.requiredLibraries
       ? article.requiredLibraries.map(lib => {
           if (lib.url.startsWith('http://')) {
@@ -119,6 +135,26 @@ export const transformArticle = (article: ArticleType) => {
           return lib;
         })
       : [],
+  };
+};
+
+export const convertUpdateToNewDraft = (article: UpdatedDraftApiType): NewDraftApiType => {
+  if (!article.language || !article.title || !article.articleType) {
+    // This should probably never happen, but will satisfy typescript
+    throw new Error('Error when converting `UpdatedDraftApiType` to `NewDraftApiType`');
+  }
+
+  return {
+    ...article,
+    language: article.language,
+    title: article.title,
+    metaImage: article.metaImage ?? undefined,
+    articleType: article.articleType,
+    notes: article.notes ?? [],
+    editorLabels: article.editorLabels ?? [],
+    grepCodes: article.grepCodes ?? [],
+    conceptIds: article.conceptIds ?? [],
+    relatedContent: article.relatedContent ?? [],
   };
 };
 

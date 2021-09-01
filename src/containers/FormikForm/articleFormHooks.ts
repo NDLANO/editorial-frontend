@@ -70,7 +70,7 @@ export interface ArticleFormikType {
   license?: string;
   metaImageAlt?: string;
   metaImageId?: string;
-  notes?: string[]; // TODO: Check type
+  notes?: string[];
   origin?: string;
   published?: string;
   revision?: number;

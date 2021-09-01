@@ -21,13 +21,13 @@ import Breadcrumb from './Breadcrumb';
 import RelevanceOption from '../../containers/StructurePage/folderComponents/menuOptions/RelevanceOption';
 import RemoveButton from '../RemoveButton';
 import { PathArray } from '../../util/retriveBreadCrumbs';
-import { ResourceWithTopicConnection } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 interface Props {
   retriveBreadCrumbs: (path: string) => PathArray;
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (id: string) => void;
-  topic: ResourceWithTopicConnection;
+  topic: StagedTopic;
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
 }

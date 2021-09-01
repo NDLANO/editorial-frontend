@@ -21,15 +21,13 @@ import { HowToHelper } from '../../../../components/HowTo';
 import StructureFunctionButtons from './StructureFunctionButtons';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
 import { PathArray } from '../../../../util/retriveBreadCrumbs';
-import {
-  ResourceWithTopicConnection,
-  SubjectType,
-} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../../interfaces';
+import { StagedTopic } from './TopicArticleTaxonomy';
 
 interface Props {
   structure: SubjectType[];
-  activeTopics: ResourceWithTopicConnection[];
+  activeTopics: StagedTopic[];
   allowMultipleSubjectsOpen?: boolean;
   stageTaxonomyChanges: ({ path }: { path: string }) => void;
   getSubjectTopics: (subjectId: string, locale: LocaleType) => Promise<void>;

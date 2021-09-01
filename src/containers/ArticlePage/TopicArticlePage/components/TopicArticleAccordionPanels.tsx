@@ -13,6 +13,7 @@ import { LocaleContext } from '../../../App/App';
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
 import { NewReduxMessage } from '../../../Messages/messagesSelectors';
+import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 
 interface Props extends RouteComponentProps {
   userAccess?: string;
@@ -20,8 +21,8 @@ interface Props extends RouteComponentProps {
   handleSubmit: () => Promise<void>;
   article: Partial<ConvertedDraftType>;
   formIsDirty: boolean;
-  updateNotes: Function; // TODO:
-  getArticle: Function; // TODO:
+  updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  getArticle: () => UpdatedDraftApiType;
   licenses: License[];
   createMessage: (message: NewReduxMessage) => void;
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;

@@ -278,7 +278,7 @@ class ImageForm extends Component<Props & WithTranslation, State> {
                 </AccordionSection>
                 <AccordionSection
                   id="image-upload-version-history"
-                  title={t('form.workflowSection')} // TODO: Maybe think about changing this if we don't do notes.
+                  title={t('form.workflowSection')}
                   className="u-4/6@desktop u-push-1/6@desktop">
                   <ImageVersionNotes image={image} />
                 </AccordionSection>

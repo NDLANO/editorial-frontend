@@ -15,7 +15,7 @@ import { Check } from '@ndla/icons/editor';
 import { colors, spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 
-import { ResourceWithTopicConnection } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { StagedTopic } from '../../../TopicArticlePage/components/TopicArticleTaxonomy';
 
 const buttonAdditionStyle = css`
   opacity: 0;
@@ -72,7 +72,7 @@ interface Props {
   isSubject?: boolean;
   id?: string;
   closeModal: () => void;
-  activeTopics: ResourceWithTopicConnection[];
+  activeTopics: StagedTopic[];
   addTopic: (id: string | undefined, closeModal: () => void) => void;
 }
 

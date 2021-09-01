@@ -13,11 +13,11 @@ import {
   StyledDuplicateConnectionLabel,
 } from '../../style/LearningResourceTaxonomyStyles';
 import Breadcrumb from './Breadcrumb';
-import { ResourceWithTopicConnection } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../util/retriveBreadCrumbs';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 interface Props {
-  topic: ResourceWithTopicConnection;
+  topic: StagedTopic;
   type?: string;
   retriveBreadCrumbs: (path: string) => PathArray;
 }

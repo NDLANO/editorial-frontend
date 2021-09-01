@@ -93,7 +93,7 @@ type Props = {
   locale: LocaleType;
   article: Partial<ConvertedDraftType>;
   userAccess?: string;
-  handleBlur: Function; // TODO:
+  handleBlur: (evt: { target: { name: string } }) => void;
   values: ArticleFormikType;
   handleSubmit: (
     values: ArticleFormikType,

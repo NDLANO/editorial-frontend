@@ -35,7 +35,10 @@ import {
   ResourceType,
   SubjectTopic,
   SubjectType,
+  TaxonomyElement,
+  TaxonomyMetadata,
   Topic,
+  TopicConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 type Props = {
@@ -50,11 +53,16 @@ interface StructureSubject extends SubjectType {
   topics?: SubjectTopic[];
 }
 
-interface StagedTopic {
+export interface StagedTopic extends TaxonomyElement {
   id: string;
   name: string;
   path: string;
   paths?: string[];
+  topicConnections?: TopicConnections[];
+  primary?: boolean;
+  relevanceId?: string;
+  isPrimary?: boolean;
+  metadata: TaxonomyMetadata;
 }
 
 interface State {
@@ -150,15 +158,18 @@ class TopicArticleTaxonomy extends Component<Props, State> {
   };
 
   stageTaxonomyChanges = ({ path }: { path: string }) => {
-    const {
-      article: { title },
-    } = this.props;
     if (path) {
-      const newTopic = {
+      const newTopic: StagedTopic = {
         id: 'staged',
-        name: title,
+        name: this.props.article.title,
         path: `${path}/staged`,
+        metadata: {
+          grepCodes: [],
+          visible: true,
+          customFields: {},
+        },
       };
+
       this.setState(prevState => ({
         isDirty: true,
         stagedTopicChanges: [...prevState.stagedTopicChanges, newTopic],
@@ -184,14 +195,13 @@ class TopicArticleTaxonomy extends Component<Props, State> {
 
   handleSubmit = async (evt: React.MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    const { stagedTopicChanges } = this.state;
     const {
       updateNotes,
       article: { id: articleId, language, revision },
     } = this.props;
     this.setState({ status: 'loading' });
 
-    const stagedNewTopics = stagedTopicChanges.filter(topic => topic.id === 'staged');
+    const stagedNewTopics = this.state.stagedTopicChanges.filter(topic => topic.id === 'staged');
     try {
       if (stagedNewTopics.length > 0) {
         await this.addNewTopic(stagedNewTopics);
@@ -238,6 +248,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       name: topic.name,
       contentUri: `urn:article:${articleId}`,
     });
+
     const paths = pathToUrnArray(topic.path);
     const newTopicId = newTopicPath.split('/').pop() ?? '';
 
@@ -259,6 +270,11 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       name: topic.name,
       id: newTopicId,
       path: topic.path.replace('staged', newTopicId.replace('urn:', '')),
+      metadata: {
+        grepCodes: [],
+        visible: true,
+        customFields: {},
+      },
     };
   };
 
@@ -312,9 +328,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       <Fragment>
         <TopicArticleConnections
           structure={structure}
-          taxonomyTopics={allTopics}
-          // @ts-ignore // TODO: Fix
-          activeTopics={stagedTopicChanges}
+          activeTopics={this.state.stagedTopicChanges}
           retriveBreadCrumbs={topicPath =>
             retriveBreadCrumbs({ topicPath, allTopics, structure, title })
           }

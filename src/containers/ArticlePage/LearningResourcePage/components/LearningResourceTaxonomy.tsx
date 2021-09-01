@@ -46,6 +46,8 @@ import {
   ParentTopic,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
+import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import { StagedTopic } from '../../TopicArticlePage/components/TopicArticleTaxonomy';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -58,13 +60,13 @@ const emptyTaxonomy = {
 interface FullResource {
   name: string;
   resourceTypes: ResourceResourceType[];
-  topics: ParentTopic[];
+  topics: (ParentTopic & { paths?: string[] })[];
   metadata?: TaxonomyMetadata;
 }
 
 type Props = {
   article: Partial<ConvertedDraftType>;
-  updateNotes: Function; // TODO:
+  updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   locale: LocaleType;
   setIsOpen?: (open: boolean) => void;
   userAccess?: string;
@@ -84,7 +86,7 @@ interface State {
   };
   taxonomyChanges: {
     resourceTypes: Partial<ResourceResourceType>[];
-    topics: (ParentTopic & { paths?: string[] })[];
+    topics: StagedTopic[];
     metadata?: TaxonomyMetadata;
   };
 
@@ -303,7 +305,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         await updateTaxonomy(reassignedResourceId, resourceTaxonomy, taxonomyChanges);
         updateNotes({
           id,
-          revision,
+          revision: revision ?? 0,
           language,
           notes: ['Oppdatert taksonomi.'],
         });
@@ -480,7 +482,6 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         <TopicConnections
           structure={structure}
           allTopics={allTopics}
-          // @ts-ignore TODO:
           activeTopics={topics}
           retriveBreadCrumbs={topicPath => retriveBreadCrumbs({ topicPath, allTopics, structure })}
           removeConnection={this.removeConnection}

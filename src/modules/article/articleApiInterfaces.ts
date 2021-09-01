@@ -7,6 +7,7 @@
  */
 
 import { ArticleType, Author, AvailabilityType } from '../../interfaces';
+import { FootnoteType } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
 
 export interface ArticleSearchResult {
   totalCount: number;
@@ -50,6 +51,7 @@ export interface ArticleSearchSummaryApiType {
 export interface ArticleConverterApiType extends ArticleType {
   availability: AvailabilityType;
   metaData: {
+    footnotes?: FootnoteType[];
     images: {
       title: string;
       altText: string;

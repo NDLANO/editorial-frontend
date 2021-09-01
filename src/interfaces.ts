@@ -19,6 +19,11 @@ import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
 import { ApiConceptType } from './modules/concept/conceptApiInterfaces';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
 import { DraftStatus } from './modules/draft/draftApiInterfaces';
+import { FootnoteType } from './containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
+
+// Helper types
+export type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+export type PartialWithRequired<T, K extends keyof T> = Pick<T, K> & Partial<Omit<T, K>>;
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
@@ -172,6 +177,9 @@ export interface ArticleType {
   conceptIds: number[];
   relatedContent: RelatedContent[];
   availability?: AvailabilityType;
+  metaData?: {
+    footnotes?: FootnoteType[];
+  };
 }
 
 export interface RelatedContentLink {

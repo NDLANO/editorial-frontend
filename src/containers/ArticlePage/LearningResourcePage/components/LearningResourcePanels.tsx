@@ -27,7 +27,7 @@ interface Props extends RouteComponentProps {
   createMessage: (message: NewReduxMessage) => void;
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
   licenses: License[];
-  updateNotes: Function; // TODO:
+  updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
 }
 

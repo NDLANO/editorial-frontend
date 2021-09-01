@@ -57,7 +57,7 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
     const savedArticle = await draftApi.updateDraft(updatedArticle);
     const taxonomy = !!articleId ? await fetchTaxonomy(articleId, locale) : undefined;
     const updated = await transformArticleFromApiVersion({ taxonomy, ...savedArticle }, locale);
-    articleId && updateUserData(articleId);
+    await updateUserData(savedArticle.id);
     setArticle(updated);
     setArticleChanged(false);
     return updated;
@@ -80,6 +80,7 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
 
     const statusChangedDraft = await draftApi.updateStatusDraft(updatedArticle.id, newStatus);
     const updated = await transformArticleFromApiVersion(statusChangedDraft, locale);
+    await updateUserData(statusChangedDraft.id);
 
     setArticle(updated);
     setArticleChanged(false);
@@ -90,7 +91,7 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
     const savedArticle = await draftApi.createDraft(createdArticle);
     setArticle(await transformArticleFromApiVersion(savedArticle, locale));
     setArticleChanged(false);
-    updateUserData(savedArticle.id);
+    await updateUserData(savedArticle.id);
     return savedArticle;
   };
 

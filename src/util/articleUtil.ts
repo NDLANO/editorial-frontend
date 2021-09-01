@@ -67,7 +67,7 @@ const fetchArticleList = async (
   articleIds: (RelatedContent | number)[],
 ): Promise<(RelatedContent | DraftApiType)[]> => {
   return Promise.all(
-    articleIds.map(async element => {
+    (articleIds || []).map(async element => {
       if (typeof element === 'number') {
         return fetchDraft(element);
       } else {

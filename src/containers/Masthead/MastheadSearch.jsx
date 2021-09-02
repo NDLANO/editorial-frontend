@@ -48,8 +48,6 @@ class MastheadSearch extends Component {
           page: 1,
           sort: '-lastUpdated',
           'page-size': 10,
-          language: locale,
-          fallback: true,
         },
         type,
       ),

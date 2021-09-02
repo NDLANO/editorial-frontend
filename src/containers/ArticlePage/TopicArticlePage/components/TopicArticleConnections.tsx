@@ -69,6 +69,7 @@ const TopicArticleConnections = ({
     const result = await fetchUserData();
     const favoriteSubjects = result.favoriteSubjects || [];
     setFavoriteSubjectIds(favoriteSubjects);
+    setShowFavorites(favoriteSubjects.length > 0);
   };
 
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) => {

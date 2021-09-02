@@ -13,10 +13,15 @@ import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
+import { getTagName } from '../../../../util/formHelper';
+import { getLicensesWithTranslations } from '../../../../util/licenseHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
+import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses, SearchParams } from './SearchForm';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { fetchLicenses } from '../../../../modules/draft/draftApi';
+import { MinimalTagType } from './SearchTag';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -29,9 +34,21 @@ interface State {
   search: {
     query: string;
     language: string;
+    license: string;
+    modelReleased: string;
     page?: string;
   };
+  licenses: {
+    id: string;
+    name: string;
+  }[];
 }
+
+const getModelReleasedValues = (t: WithTranslation['t']) => [
+  { id: 'yes', name: t('imageSearch.modelReleased.yes') },
+  { id: 'not-applicable', name: t('imageSearch.modelReleased.not-applicable') },
+  { id: 'no', name: t('imageSearch.modelReleased.no') },
+];
 
 class SearchImageForm extends Component<Props & WithTranslation, State> {
   constructor(props: Props & WithTranslation) {
@@ -40,6 +57,7 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
     const { searchObject } = props;
 
     this.handleSearch = this.handleSearch.bind(this);
+    this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
 
@@ -47,8 +65,15 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
       search: {
         query: searchObject.query || '',
         language: searchObject.language || '',
+        license: searchObject.license || '',
+        modelReleased: searchObject['model-released'] || '',
       },
+      licenses: [],
     };
+  }
+
+  componentDidMount() {
+    this.getLicenses();
   }
 
   componentDidUpdate(prevProps: Props & WithTranslation) {
@@ -58,12 +83,25 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
         search: {
           query: searchObject.query || '',
           language: searchObject.language || '',
+          license: searchObject.license || '',
+          modelReleased: searchObject['model-released'] || '',
         },
       });
     }
   }
 
-  onFieldChange(evt: React.FormEvent<HTMLInputElement>) {
+  async getLicenses() {
+    const licenses = await fetchLicenses();
+    const licensesWithTranslations = getLicensesWithTranslations(licenses, this.props.locale);
+    this.setState({
+      licenses: licensesWithTranslations.map(license => ({
+        id: license.license,
+        name: license.title,
+      })),
+    });
+  }
+
+  onFieldChange(evt: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLSelectElement>) {
     const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),
@@ -75,17 +113,53 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
     if (evt) {
       evt.preventDefault();
     }
+    const {
+      search: { query, language, license, modelReleased },
+    } = this.state;
     const { search } = this.props;
-    search({ ...this.state.search, page: 1 });
+    search({ query, language, license, 'model-released': modelReleased, page: 1 });
+  }
+
+  removeTagItem(tag: MinimalTagType) {
+    this.setState(
+      prevState => ({ search: { ...prevState.search, [tag.type]: '' } }),
+      this.handleSearch,
+    );
   }
 
   emptySearch(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.persist();
-    this.setState({ search: { query: '', language: '' } }, () => this.handleSearch(evt));
+    this.setState({ search: { query: '', language: '', license: '', modelReleased: '' } }, () =>
+      this.handleSearch(evt),
+    );
   }
 
   render() {
     const { t } = this.props;
+    const { search, licenses } = this.state;
+
+    const tagTypes = [
+      {
+        type: 'query',
+        id: search.query,
+        name: search.query,
+      },
+      {
+        type: 'language',
+        id: search.language,
+        name: getTagName(search.language, getResourceLanguages(t)),
+      },
+      {
+        type: 'license',
+        id: search.license,
+        name: getTagName(search.license, licenses),
+      },
+      {
+        type: 'modelReleased',
+        id: search.modelReleased,
+        name: getTagName(search.modelReleased, getModelReleasedValues(t)),
+      },
+    ];
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
@@ -93,14 +167,38 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
           <input
             name="query"
             placeholder={t('searchForm.types.imageQuery')}
-            value={this.state.search.query}
+            value={search.query}
             onChange={this.onFieldChange}
+          />
+        </div>
+        <div {...searchFormClasses('field', '50-width')}>
+          <ObjectSelector
+            name="license"
+            value={search.license}
+            options={licenses}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={this.onFieldChange}
+            placeholder={t('searchForm.types.license')}
+          />
+        </div>
+        <div {...searchFormClasses('field', '50-width')}>
+          <ObjectSelector
+            name="modelReleased"
+            value={search.modelReleased}
+            options={getModelReleasedValues(t)}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={this.onFieldChange}
+            placeholder={t('searchForm.types.modelReleased')}
           />
         </div>
         <div {...searchFormClasses('field', '25-width')}>
           <ObjectSelector
             name="language"
-            value={this.state.search.language}
+            value={search.language}
             options={getResourceLanguages(t)}
             idKey="id"
             labelKey="name"
@@ -126,6 +224,9 @@ class SearchImageForm extends Component<Props & WithTranslation, State> {
             submit>
             {t('searchForm.btn')}
           </Button>
+        </div>
+        <div {...searchFormClasses('tagline')}>
+          <SearchTagGroup onRemoveItem={this.removeTagItem} tagTypes={tagTypes} />
         </div>
       </form>
     );

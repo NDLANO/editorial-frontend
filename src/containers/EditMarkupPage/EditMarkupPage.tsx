@@ -18,7 +18,7 @@ import { Spinner } from '@ndla/editor';
 import { RouteComponentProps } from 'react-router';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import { Row, HelpMessage, PreviewDraftLightbox } from '../../components';
+import { Row, PreviewDraftLightbox } from '../../components';
 
 import { HistoryShape } from '../../shapes';
 import {
@@ -32,6 +32,7 @@ import { toEditMarkup } from '../../util/routeHelpers';
 import { AlertModalWrapper, formClasses } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
+import HelpMessage from '../../components/HelpMessage';
 
 declare global {
   interface Window {

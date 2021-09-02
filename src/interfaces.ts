@@ -29,6 +29,13 @@ export type EditMode =
   | 'toggleMetadataVisibility'
   | 'editGrepCodes'
   | 'addExistingTopic';
+export interface SearchResultBase<T> {
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  language: string;
+  results: T[];
+}
 
 export interface Author {
   name: string;
@@ -352,6 +359,7 @@ export interface NdlaFilmThemesEditType {
   }[];
 }
 
+export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface VisualElement {
   resource: string;
   resource_id: string;

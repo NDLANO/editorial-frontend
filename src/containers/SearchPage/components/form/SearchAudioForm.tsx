@@ -13,10 +13,15 @@ import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
+import { getTagName } from '../../../../util/formHelper';
+import { getLicensesWithTranslations } from '../../../../util/licenseHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
+import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses, SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { fetchLicenses } from '../../../../modules/draft/draftApi';
+import { MinimalTagType } from './SearchTag';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -28,11 +33,16 @@ interface Props extends RouteComponentProps {
 export interface SearchState {
   query: string;
   language: string;
-  'audio-type': string;
+  audioType: string;
+  license: string;
 }
 
 interface State {
   search: SearchState;
+  licenses: {
+    id: string;
+    name: string;
+  }[];
 }
 
 class SearchAudioForm extends Component<Props & WithTranslation, State> {
@@ -42,6 +52,7 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
     const { searchObject } = props;
 
     this.handleSearch = this.handleSearch.bind(this);
+    this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
 
@@ -49,9 +60,15 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
       search: {
         query: searchObject.query || '',
         language: searchObject.language || '',
-        'audio-type': searchObject['audio-type'] || '',
+        audioType: searchObject['audio-type'] || '',
+        license: searchObject.license || '',
       },
+      licenses: [],
     };
+  }
+
+  componentDidMount() {
+    this.getLicenses();
   }
 
   componentDidUpdate(prevProps: Props & WithTranslation) {
@@ -61,13 +78,25 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
         search: {
           query: searchObject.query || '',
           language: searchObject.language || '',
-          'audio-type': searchObject['audio-type'] || '',
+          audioType: searchObject['audio-type'] || '',
+          license: searchObject.license || '',
         },
       });
     }
   }
 
-  onFieldChange(evt: React.FormEvent<HTMLInputElement>) {
+  async getLicenses() {
+    const licenses = await fetchLicenses();
+    const licensesWithTranslations = getLicensesWithTranslations(licenses, this.props.locale);
+    this.setState({
+      licenses: licensesWithTranslations.map(license => ({
+        id: license.license,
+        name: license.title,
+      })),
+    });
+  }
+
+  onFieldChange(evt: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLSelectElement>) {
     const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),
@@ -79,39 +108,73 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
     if (evt) {
       evt.preventDefault();
     }
+    const {
+      search: { query, language, audioType, license },
+    } = this.state;
     const { search } = this.props;
-    search({ ...this.state.search, page: 1 });
+    search({ query, language, 'audio-type': audioType, license, page: 1 });
+  }
+
+  removeTagItem(tag: MinimalTagType) {
+    this.setState(
+      prevState => ({ search: { ...prevState.search, [tag.type]: '' } }),
+      this.handleSearch,
+    );
   }
 
   emptySearch(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.persist();
-    this.setState({ search: { query: '', language: '', 'audio-type': '' } }, () =>
+    this.setState({ search: { query: '', language: '', audioType: '', license: '' } }, () =>
       this.handleSearch(evt),
     );
   }
 
   render() {
     const { t } = this.props;
+    const { search, licenses } = this.state;
 
     const getAudioTypes = () => [
       { id: 'standard', name: t('searchForm.audioType.standard') },
       { id: 'podcast', name: t('searchForm.audioType.podcast') },
     ];
 
+    const tagTypes = [
+      {
+        type: 'query',
+        id: search.query,
+        name: search.query,
+      },
+      {
+        type: 'language',
+        id: search.language,
+        name: getTagName(search.language, getResourceLanguages(t)),
+      },
+      {
+        type: 'audioType',
+        id: search.audioType,
+        name: getTagName(search.audioType, getAudioTypes()),
+      },
+      {
+        type: 'license',
+        id: search.license,
+        name: getTagName(search.license, licenses),
+      },
+    ];
+
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
-        <div {...searchFormClasses('field', '25-width')}>
+        <div {...searchFormClasses('field', '50-width')}>
           <input
             name="query"
             placeholder={t('searchForm.types.audioQuery')}
-            value={this.state.search.query}
+            value={search.query}
             onChange={this.onFieldChange}
           />
         </div>
-        <div {...searchFormClasses('field', '25-width')}>
+        <div {...searchFormClasses('field', '50-width')}>
           <ObjectSelector
-            name="audio-type"
-            value={this.state.search['audio-type']}
+            name="audioType"
+            value={search.audioType}
             options={getAudioTypes()}
             idKey="id"
             labelKey="name"
@@ -120,10 +183,22 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
             placeholder={t('searchForm.types.audio')}
           />
         </div>
+        <div {...searchFormClasses('field', '50-width')}>
+          <ObjectSelector
+            name="license"
+            value={search.license}
+            options={licenses}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={this.onFieldChange}
+            placeholder={t('searchForm.types.license')}
+          />
+        </div>
         <div {...searchFormClasses('field', '25-width')}>
           <ObjectSelector
             name="language"
-            value={this.state.search.language}
+            value={search.language}
             options={getResourceLanguages(t)}
             idKey="id"
             labelKey="name"
@@ -149,6 +224,9 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
             submit>
             {t('searchForm.btn')}
           </Button>
+        </div>
+        <div {...searchFormClasses('tagline')}>
+          <SearchTagGroup onRemoveItem={this.removeTagItem} tagTypes={tagTypes} />
         </div>
       </form>
     );

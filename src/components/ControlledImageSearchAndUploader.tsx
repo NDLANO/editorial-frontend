@@ -30,7 +30,6 @@ const StyledTitleDiv = styled.div`
 interface Props {
   onImageSelect: (image: ImageType) => void;
   locale: string;
-  isSavingImage?: boolean;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
   searchImages: (queryObject: ImageSearchQuery) => void;
@@ -97,6 +96,7 @@ const ImageSearchAndUploader = ({
           title: t('form.visualElement.imageUpload'),
           content: licenses ? (
             <ImageForm
+              isLoading={image === undefined}
               image={image || { language: locale }}
               onUpdate={updateImage}
               closeModal={closeModal}

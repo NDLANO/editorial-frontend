@@ -183,3 +183,7 @@ export const parseImageUrl = metaImage => {
   const splittedUrl = metaImage.url.split('/');
   return splittedUrl[splittedUrl.length - 1];
 };
+
+export const getTagName = (id, data) => {
+  return data.find(entry => entry.id === id)?.name;
+};

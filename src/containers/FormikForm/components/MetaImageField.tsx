@@ -59,7 +59,7 @@ const MetaImageField = ({
     image.copyright && image.copyright.creators
       ? image.copyright.creators.map(creator => creator.name).join(', ')
       : undefined;
-  const title = convertFieldWithFallback(image, 'title', '');
+  const title = convertFieldWithFallback<'title'>(image, 'title', '');
   const alt = convertFieldWithFallback<'alttext'>(image, 'alttext', '');
   const imageAction = (
     <>

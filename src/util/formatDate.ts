@@ -8,16 +8,13 @@
 
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
-import isString from 'lodash/isString';
 
 const NORWEGIAN_FORMAT = 'dd.MM.yyyy';
 
-export default function formatDate(date) {
-  if (!date) {
-    return date;
-  }
+export default function formatDate(date: string | number): string {
+  if (!date) return '';
 
-  if (isString(date)) {
+  if (typeof date === 'string') {
     const parsedDate = parseISO(date);
     return format(parsedDate, NORWEGIAN_FORMAT);
   }

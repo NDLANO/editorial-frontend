@@ -9,11 +9,10 @@
 import React, { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { FieldHeader, FieldSection, Select } from '@ndla/forms';
 import { LocaleContext } from '../../App/App';
-
 import HowToHelper from '../../../components/HowTo/HowToHelper';
+import { getLicensesWithTranslations } from '../../../util/licenseHelpers';
 
 const LicenseField = props => {
   const {
@@ -29,12 +28,8 @@ const LicenseField = props => {
   } = props;
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
-  const licensesWithTranslations = licenses
-    .filter(license => license.license !== 'N/A' || enableLicenseNA)
-    .map(license => ({
-      ...license,
-      ...getLicenseByAbbreviation(license.license, locale),
-    }));
+  const licensesWithTranslations = getLicensesWithTranslations(licenses, locale, enableLicenseNA);
+
   return (
     <Fragment>
       <FieldHeader title={t('form.license.label')} width={width}>

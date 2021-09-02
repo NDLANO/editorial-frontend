@@ -6,6 +6,8 @@
  *
  */
 
+import { SearchResultBase } from '../../interfaces';
+
 /** Type used to indicate that the api takes a string with comma separated values to
  *  simulate an array: ie 'item1,item2,item3' */
 type CommaSeparatedList = string;
@@ -51,10 +53,7 @@ export interface MultiSearchApiQuery {
   'embed-resource'?: string;
 }
 
-interface SearchResultBase<T> {
-  totalCount: number;
-  page?: number;
-  pageSize: number;
+interface MultiSearchBase<T> extends SearchResultBase<T> {
   language: string;
   suggestions: {
     name: string;
@@ -74,7 +73,6 @@ interface SearchResultBase<T> {
     docCountErrorUpperBound: number;
     values: { value: string; count: number }[];
   }[];
-  results: T[];
 }
 
 export interface MultiSearchSummary {
@@ -127,4 +125,4 @@ export interface MultiSearchSummary {
   paths: string[];
 }
 
-export type MultiSearchResult = SearchResultBase<MultiSearchSummary>;
+export type MultiSearchResult = MultiSearchBase<MultiSearchSummary>;

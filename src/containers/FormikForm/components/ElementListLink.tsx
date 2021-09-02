@@ -8,7 +8,7 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import { spacing, colors, spacingUnit } from '@ndla/core';
+import { spacing, spacingUnit, colors } from '@ndla/core';
 import { Link } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';

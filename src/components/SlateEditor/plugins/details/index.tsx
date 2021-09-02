@@ -28,7 +28,6 @@ const KEY_BACKSPACE = 'Backspace';
 
 export interface DetailsElement {
   type: 'details';
-  isOpen: boolean;
   children: Descendant[];
 }
 

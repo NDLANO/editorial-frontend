@@ -13,10 +13,7 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import ResourceGroup from './ResourceGroup';
 import AllResourcesGroup from './AllResourcesGroup';
-import {
-  groupSortResourceTypesFromTopicResources,
-  getIdFromUrn,
-} from '../../../util/taxonomyHelpers';
+import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
 import { fetchAllResourceTypes, fetchTopicResources, fetchTopic } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
@@ -127,18 +124,14 @@ export class StructureResources extends React.PureComponent {
         const initialTopicResources = await fetchTopicResources(topicId, locale, undefined);
         const allTopicResources = await Promise.all(
           initialTopicResources.map(async r => {
-            const [breadCrumbs, article] = await Promise.all([
-              this.getCrumbsFromPath(r),
-              fetchDraft(getIdFromUrn(r.contentUri), locale),
-            ]);
+            const breadCrumbs = await this.getCrumbsFromPath(r);
             if (r.resourceTypes.length > 0) {
-              return { ...r, breadCrumbs, grepCodes: article.grepCodes };
+              return { ...r, breadCrumbs };
             } else {
               return {
                 ...r,
                 resourceTypes: [{ id: 'missing' }],
                 breadCrumbs,
-                grepCodes: article.grepCodes,
               };
             }
           }),
@@ -151,7 +144,7 @@ export class StructureResources extends React.PureComponent {
             }),
           );
         }
-        await this.getResourceStatuses(allTopicResources);
+        await this.getResourceStatusesAndGrepCodes(allTopicResources);
 
         this.setState({ topicResources: allTopicResources, loading: false });
       } catch (error) {
@@ -163,13 +156,14 @@ export class StructureResources extends React.PureComponent {
     }
   }
 
-  async getResourceStatuses(allTopicResources) {
+  async getResourceStatusesAndGrepCodes(allTopicResources) {
     const resourcePromises = allTopicResources.map(async resource => {
       if (resource.contentUri) {
         const [, resourceType, id] = resource.contentUri.split(':');
         if (resourceType === 'article') {
           const article = await fetchDraft(id, this.props.locale);
           resource.status = article.status;
+          resource.grepCodes = article.grepCodes;
           return article;
         } else if (resourceType === 'learningpath') {
           let learningpath;

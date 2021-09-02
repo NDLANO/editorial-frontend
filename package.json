@@ -201,7 +201,8 @@
     "slate-plain-serializer": "^0.7.11",
     "slate-prop-types": "^0.5.42",
     "slate-react": "^0.22.10",
-    "source-map-support": "^0.5.13"
+    "source-map-support": "^0.5.13",
+    "yup": "^0.32.9"
   },
   "repository": {
     "type": "git",

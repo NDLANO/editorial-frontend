@@ -121,9 +121,11 @@ const Resource = ({
           <StyledCheckIcon />
         </Tooltip>
       )}
-      <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
-        {`GREP (${resource.grepCodes?.length || 0})`}
-      </Button>
+      {contentType !== 'learning-path' && (
+        <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
+          {`GREP (${resource.grepCodes?.length || 0})`}
+        </Button>
+      )}
       <RelevanceOption
         relevanceId={relevanceId}
         onChange={relevanceIdUpdate =>

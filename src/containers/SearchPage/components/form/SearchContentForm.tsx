@@ -15,6 +15,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { fetchResourceTypes } from '../../../../modules/taxonomy';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
+import { getTagName } from '../../../../util/formHelper';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
 import ArticleStatuses from '../../../../util/constants/index';
@@ -24,6 +25,7 @@ import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { DRAFT_WRITE_SCOPE } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { FlattenedResourceType } from '../../../../interfaces';
+import { MinimalTagType } from './SearchTag';
 
 const emptySearchState: SearchState = {
   query: '',
@@ -42,14 +44,14 @@ interface Props extends RouteComponentProps {
   locale: string;
 }
 
-export interface SearchState extends Record<string, string | boolean | undefined> {
+export interface SearchState extends Record<string, string | boolean> {
   subjects: string;
   resourceTypes: string;
   status: string;
   includeOtherStatuses: boolean;
   query: string;
   users: string;
-  language?: string;
+  language: string;
 }
 
 export interface User {
@@ -146,7 +148,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
     });
   }
 
-  removeTagItem(tag: { name: string; type: string }) {
+  removeTagItem(tag: MinimalTagType) {
     this.setState(
       prevState => ({ search: { ...prevState.search, [tag.type]: '' } }),
       this.handleSearch,
@@ -184,6 +186,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
   render() {
     const {
       dropDown: { resourceTypes, users },
+      search,
     } = this.state;
     const { t, subjects } = this.props;
 
@@ -218,6 +221,19 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
         width: 25,
         options: getResourceLanguages(t),
       },
+    ];
+
+    const tagTypes = [
+      {
+        type: 'query',
+        id: search.query,
+        name: search.query,
+      },
+      ...selectFields.map(field => ({
+        type: field.label,
+        id: `${search[field.label]}`,
+        name: getTagName(search[field.label], field.options),
+      })),
     ];
 
     return (
@@ -274,15 +290,7 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
             </Button>
           </div>
           <div {...searchFormClasses('tagline')}>
-            <SearchTagGroup
-              onRemoveItem={this.removeTagItem}
-              languages={getResourceLanguages}
-              users={users}
-              subjects={subjects}
-              searchObject={this.state.search}
-              resourceTypes={resourceTypes}
-              status={this.getDraftStatuses()}
-            />
+            <SearchTagGroup onRemoveItem={this.removeTagItem} tagTypes={tagTypes} />
           </div>
         </form>
       </Fragment>

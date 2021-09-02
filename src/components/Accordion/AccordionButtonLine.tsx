@@ -59,7 +59,7 @@ const buttonLineStyle = (styledAppearance: ButtonAppearance) => css`
 interface Props {
   appearance: ButtonAppearance;
   children: ReactElement | ReactElement[];
-  addButton?: ReactElement;
+  addButton?: React.ReactNode;
   handleToggle: () => void;
 }
 

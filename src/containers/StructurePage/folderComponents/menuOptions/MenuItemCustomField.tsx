@@ -19,6 +19,7 @@ import {
 import CustomFieldComponent from './CustomFieldComponent';
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -29,15 +30,12 @@ import { updateTopicMetadata } from '../../../../modules/taxonomy/topics';
 import ToggleExplanationSubject from './ToggleExplanationSubject';
 import TaxonomyMetadataLanguageSelector from './TaxonomyMetadataLanguageSelector';
 import ConstantMetaField from './ConstantMetaField';
+import SubjectCategorySelector from './SubjectCategorySelector';
 
 interface Props extends TaxonomyElement {
   subjectId: string;
   saveSubjectItems: (subjectid: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  updateLocalTopics: (
-    subjectId: string,
-    topicId: string,
-    saveItems: Pick<TaxonomyElement, 'metadata'>,
-  ) => void;
+  updateLocalTopics: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
   type: 'topic' | 'subject';
 }
 
@@ -63,7 +61,7 @@ const MenuItemCustomField = ({
       );
     } else if (type === 'topic' && haveFieldsBeenUpdated) {
       updateTopicMetadata(id, { customFields }).then((res: TaxonomyMetadata) =>
-        updateLocalTopics(subjectId, id, {
+        updateLocalTopics(id, {
           metadata: { ...metadata, customFields: res.customFields },
         }),
       );
@@ -74,6 +72,7 @@ const MenuItemCustomField = ({
     TAXONOMY_CUSTOM_FIELD_LANGUAGE,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   ];
   const [filteredTopicFields] = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
 
@@ -89,6 +88,10 @@ const MenuItemCustomField = ({
       {type === 'subject' ? (
         <>
           <TaxonomyMetadataLanguageSelector
+            customFields={metadata.customFields}
+            updateCustomFields={setCustomFields}
+          />
+          <SubjectCategorySelector
             customFields={metadata.customFields}
             updateCustomFields={setCustomFields}
           />

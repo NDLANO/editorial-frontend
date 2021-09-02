@@ -97,6 +97,8 @@ const SavedSearch = ({ deleteSearch, locale, search, index }: Props) => {
     const language = searchObject['language'] || undefined;
     const type = searchObject['type'] || undefined;
     const audioType = searchObject['audio-type'] || undefined;
+    const license = searchObject['license'] || undefined;
+    const modelReleased = searchObject['model-released'] || undefined;
 
     const results = [];
     results.push(type && t(`searchTypes.${type}`));
@@ -108,6 +110,8 @@ const SavedSearch = ({ deleteSearch, locale, search, index }: Props) => {
     results.push(resourceType && resourceTypeName);
     results.push(contextType && t(`contextTypes.topic`));
     results.push(userName);
+    results.push(license);
+    results.push(modelReleased && t(`imageSearch.modelReleased.${modelReleased}`));
     const resultHitsString = searchResults !== undefined ? ` (${searchResults})` : '';
     const joinedResults = results.filter(e => e).join(' + ');
     return `${joinedResults}${resultHitsString}`;

@@ -6,21 +6,18 @@
  *
  */
 
-import React, { Fragment, useContext } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import StructureContainer from './StructureContainer';
-import { LocaleContext, UserAccessContext } from '../App/App';
 
 const StructurePage = () => {
   const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
-  const userAccess = useContext(UserAccessContext);
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker title={t('htmlTitles.structurePage')} />
-      <StructureContainer locale={locale} userAccess={userAccess} />
-    </Fragment>
+      <StructureContainer />
+    </>
   );
 };
 

@@ -209,6 +209,7 @@ const phrases = {
       resourceTypes: 'Velg innholdstype',
       status: 'Velg status',
       audio: 'Velg lydfiltype',
+      license: 'Velg lisens',
     },
     tagType: {
       query: 'Innhold',
@@ -217,6 +218,9 @@ const phrases = {
       users: 'Bruker',
       resourceTypes: 'Innholdstype',
       status: 'Status',
+      audioType: 'Lydfiltype',
+      license: 'Lisens',
+      modelReleased: 'Modelklarering',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -1075,8 +1079,7 @@ const phrases = {
     urlOrNumber: '{{label}} må inneholde en gyldig lenke eller artikkel-id.',
     dateBeforeInvalid: '{{label}} kan ikke være etter {{afterLabel}}.',
     dateAfterInvalid: '{{label}} kan ikke være før {{beforeLabel}}.',
-    minItems:
-      '{{label}} feltet må minst inneholde {minItems, plural, one{en/ett} other{# ulike}} {{labelLowerCase}}.',
+    minItems: '{{label}} feltet må minst inneholde en/ett {{labelLowerCase}}.',
     minItems_plural: '{{label}} feltet må minst inneholde {{minItems}} ulike {{labelLowerCase}}',
     noEmptyNote: 'En merknad kan ikke være tom',
     grepCodes:
@@ -1200,8 +1203,13 @@ const phrases = {
         languagePlaceholder: 'Visningsspråk ndla.no',
         explanationSubject: 'Forklaringsfag',
         oldSubjectId: 'ID for videresending',
+        subjectCategory: 'Fagkategori',
         resourceGroupPlaceholder: 'Gruppering av ressurser',
         RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
+      },
+      placeholders: {
+        category: 'Velg kategori',
+        language: 'Velg språkkode',
       },
     },
   },

@@ -10,6 +10,10 @@ interface Props {
 
 const UrlAllowList = ({ allowList }: Props) => {
   const { t } = useTranslation();
+
+  const filteredAllowList = allowList.filter(
+    e => !e.url.find(url => url.includes('test.ndla') || url.includes('staging.ndla')),
+  );
   return (
     <table className="c-table">
       <thead>
@@ -19,7 +23,7 @@ const UrlAllowList = ({ allowList }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {allowList
+        {filteredAllowList
           .sort((a, b) => a.name.localeCompare(b.name))
           .map(provider => (
             <tr>

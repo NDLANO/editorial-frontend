@@ -197,9 +197,11 @@ class VisualElementUrlPreview extends Component {
           <Modal
             backgroundColor="white"
             activateButton={
-              <Tooltip tooltip={t('form.content.link.validDomains')}>
-                <HelpIcon css={normalPaddingCSS} />
-              </Tooltip>
+              <div>
+                <Tooltip tooltip={t('form.content.link.validDomains')}>
+                  <HelpIcon css={normalPaddingCSS} />
+                </Tooltip>
+              </div>
             }>
             {onClose => (
               <>

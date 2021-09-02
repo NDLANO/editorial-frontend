@@ -615,7 +615,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             />
           </g>
         </svg>
-        injected
+        Rediger struktur
       </span>
       <div
         class="emotion-0 emotion-1"
@@ -628,7 +628,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         <label
           for="favorites"
         >
-          injected
+          Vis favoritter
         </label>
       </div>
       <svg
@@ -1993,7 +1993,6 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </li>
           </div>
         </ul>
-        <div />
       </div>
     </div>
   </div>

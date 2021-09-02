@@ -32,7 +32,7 @@ import {
   TaxonomyElement,
   Topic,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
+import retrieveBreadCrumbs from '../../../../util/retrieveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
@@ -46,9 +46,9 @@ interface Props {
   id: string;
   subjectId: string;
   structure: PathArray;
-  onClose: Function;
-  setResourcesUpdated: Function;
-  setShowAlertModal: Function;
+  onClose: () => void;
+  setResourcesUpdated: (updated: boolean) => void;
+  setShowAlertModal: (show: boolean) => void;
 }
 
 const iconCss = css`
@@ -87,7 +87,7 @@ const CopyResources = ({
 
   const getTopicBreadcrumb = (topic: Topic, topics: Topic[]) => {
     if (!topic.path) return undefined;
-    const breadCrumbs: PathArray = retriveBreadCrumbs({
+    const breadCrumbs: PathArray = retrieveBreadCrumbs({
       topicPath: topic.path,
       structure,
       allTopics: topics,

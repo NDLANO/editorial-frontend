@@ -24,7 +24,14 @@ const menuItemSaveButtonStyle = css`
   }
 `;
 
-const MenuItemSaveButton = ({ children, ...rest }) => {
+interface Props {
+  disabled?: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+  'data-testid'?: string;
+}
+
+const MenuItemSaveButton = ({ children, ...rest }: Props) => {
   return (
     <Button css={menuItemSaveButtonStyle} {...rest}>
       {children}

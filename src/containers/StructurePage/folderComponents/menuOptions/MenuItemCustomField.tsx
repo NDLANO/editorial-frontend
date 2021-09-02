@@ -35,11 +35,7 @@ import SubjectCategorySelector from './SubjectCategorySelector';
 interface Props extends TaxonomyElement {
   subjectId: string;
   saveSubjectItems: (subjectid: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  updateLocalTopics: (
-    subjectId: string,
-    topicId: string,
-    saveItems: Pick<TaxonomyElement, 'metadata'>,
-  ) => void;
+  updateLocalTopics: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
   type: 'topic' | 'subject';
 }
 
@@ -65,7 +61,7 @@ const MenuItemCustomField = ({
       );
     } else if (type === 'topic' && haveFieldsBeenUpdated) {
       updateTopicMetadata(id, { customFields }).then((res: TaxonomyMetadata) =>
-        updateLocalTopics(subjectId, id, {
+        updateLocalTopics(id, {
           metadata: { ...metadata, customFields: res.customFields },
         }),
       );

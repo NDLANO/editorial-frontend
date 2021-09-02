@@ -16,22 +16,18 @@ import { Switch } from '@ndla/switch';
 import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
-
-enum MenuType {
-  subject = 'subject',
-  topic = 'topic',
-}
+import { EditMode } from '../../../../interfaces';
 
 interface Props {
   editMode: string;
-  getAllSubjects: Function;
+  getAllSubjects: () => Promise<void>;
   id: string;
   name: string;
-  menuType: MenuType;
+  menuType: 'subject' | 'topic';
   metadata: { grepCodes: string[]; visible: boolean };
-  refreshTopics: Function;
-  setResourcesUpdated: Function;
-  toggleEditMode: Function;
+  refreshTopics: () => Promise<void>;
+  setResourcesUpdated: (updated: boolean) => void;
+  toggleEditMode: (mode: EditMode) => void;
 }
 
 export const DropDownWrapper = styled('div')`

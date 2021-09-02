@@ -14,6 +14,18 @@ import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemEditField from './MenuItemEditField';
 import { updateSubject } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
+import { EditMode } from '../../../../interfaces';
+
+interface Props {
+  toggleEditMode: (s: EditMode) => void;
+  onClose: () => void;
+  editMode: string;
+  name: string;
+  id: string;
+  contentUri?: string;
+  getAllSubjects: () => Promise<void>;
+  refreshTopics: () => void;
+}
 
 const ChangeSubjectName = ({
   toggleEditMode,
@@ -56,17 +68,6 @@ const ChangeSubjectName = ({
     </MenuItemButton>
   );
 };
-
-interface Props {
-  toggleEditMode: (s: string) => void;
-  onClose: () => void;
-  editMode: string;
-  name: string;
-  id: string;
-  contentUri?: string;
-  getAllSubjects: () => Promise<void>;
-  refreshTopics: () => void;
-}
 
 ChangeSubjectName.propTypes = {
   toggleEditMode: PropTypes.func.isRequired,

@@ -7,10 +7,10 @@
  */
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
+//@ts-ignore
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
 import { colors, spacing, breakpoints } from '@ndla/core';
@@ -25,7 +25,8 @@ import ResourceItemLink from './ResourceItemLink';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import { ResourceShape } from '../../../shapes';
+import { Resource as ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -37,6 +38,20 @@ const statusButtonStyle = css`
   margin-right: ${spacing.xsmall};
 `;
 
+interface Props {
+  resource: ResourceType & { status?: DraftStatus };
+  onDelete?: (connectionId: string) => void;
+  connectionId: string;
+  dragHandleProps?: object;
+  locale: string;
+  relevanceId?: string;
+  updateRelevanceId?: (
+    connectionId: string,
+    body: { primary?: boolean; rank?: number; relevanceId?: string },
+  ) => Promise<void>;
+  primary?: boolean;
+  rank?: number;
+}
 const grepButtonStyle = css`
   margin-left: ${spacing.xsmall};
 `;
@@ -72,20 +87,21 @@ const Resource = ({
   resource,
   onDelete,
   connectionId,
-  dragHandleProps,
+  dragHandleProps = {},
   locale,
   relevanceId,
   updateRelevanceId,
   primary,
   rank,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
 
-  const contentType = resource.resourceTypes
-    ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
-    : 'topic-article';
+  const contentType =
+    resource.resourceTypes.length > 0
+      ? getContentTypeFromResourceTypes(resource.resourceTypes).contentType
+      : 'topic-article';
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
@@ -127,7 +143,7 @@ const Resource = ({
       <RelevanceOption
         relevanceId={relevanceId}
         onChange={relevanceIdUpdate =>
-          updateRelevanceId(connectionId, {
+          updateRelevanceId?.(connectionId, {
             relevanceId: relevanceIdUpdate,
             primary,
             rank,
@@ -155,33 +171,6 @@ const Resource = ({
       )}
     </StyledText>
   );
-};
-
-Resource.defaultProps = {
-  dragHandleProps: {},
-};
-
-Resource.propTypes = {
-  resource: ResourceShape.isRequired,
-  onDelete: PropTypes.func,
-  currentTopic: PropTypes.shape({}),
-  currentSubject: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  }),
-  connectionId: PropTypes.string,
-  resourceId: PropTypes.string,
-  dragHandleProps: PropTypes.object,
-  locale: PropTypes.string.isRequired,
-  relevanceId: PropTypes.oneOf([
-    'urn:relevance:core',
-    'urn:relevance:supplementary',
-    null,
-    undefined,
-  ]),
-  updateRelevanceId: PropTypes.func,
-  primary: PropTypes.bool,
-  rank: PropTypes.number,
 };
 
 export default Resource;

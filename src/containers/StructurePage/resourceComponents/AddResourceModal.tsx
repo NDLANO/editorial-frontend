@@ -194,7 +194,6 @@ const AddResourceModal = ({
     const searchBody = {
       ...query,
       pageSize: 10,
-      language: 'nb',
       fallback: true,
       verificationStatus: 'CREATED_BY_NDLA',
     };
@@ -205,6 +204,7 @@ const AddResourceModal = ({
     const res = await groupSearch({
       ...query,
       'resource-types': type,
+      fallback: true,
       language: locale,
     });
     return res?.pop();

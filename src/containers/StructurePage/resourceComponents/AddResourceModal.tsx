@@ -56,7 +56,7 @@ const StyledContent = styled.div`
 
 interface Props {
   onClose: () => void;
-  resourceTypes: {
+  resourceTypes?: {
     id: string;
     name: string;
   }[];
@@ -317,7 +317,7 @@ const AddResourceModal = ({
         )}
 
         {!pastedUrl && selectedType && (
-          <React.Fragment>
+          <>
             {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
             <AsyncDropdown
               idField="id"
@@ -330,7 +330,7 @@ const AddResourceModal = ({
               startOpen
               showPagination
             />
-          </React.Fragment>
+          </>
         )}
         {selected?.id && content?.id && <ArticlePreview article={content} />}
         {error && (

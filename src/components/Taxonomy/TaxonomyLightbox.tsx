@@ -68,10 +68,11 @@ const crossStyle = css`
 const selectButtonStyle = css`
   &,
   &:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: ${spacing.normal};
-  padding: 3px ${spacing.large};
+    border-radius: 5px;
+    background-color: white;
+    margin-top: ${spacing.normal};
+    padding: 3px ${spacing.large};
+  }
 `;
 
 const StyledLightboxWrapper = styled.div`

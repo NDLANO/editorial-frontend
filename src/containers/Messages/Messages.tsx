@@ -45,13 +45,13 @@ const getActions = (message: ReduxMessage, dispatch: Dispatch, t: TFunction) => 
       },
       {
         text: t('alertModal.loginAgain'),
-        onClick: async (evt: Event) => {
+        onClick: (evt: Event) => {
           evt.preventDefault();
           const lastPath = `${window.location.pathname}${
             window.location.search ? window.location.search : ''
           }`;
           localStorage.setItem('lastPath', lastPath);
-          await createHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
+          createHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
           window.location.reload();
         },
       },

@@ -7,14 +7,13 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors, mq, breakpoints } from '@ndla/core';
 import { classes } from './ResourceGroup';
 import { toEditArticle, toLearningpathFull } from '../../../util/routeHelpers';
 
-const StyledH1 = styled.h1`
+const StyledH1 = styled.h1<{ isVisible?: boolean }>`
   font-style: ${props => !props.isVisible && 'italic'};
   color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
   text-transform: none;
@@ -32,13 +31,21 @@ const StyledH1 = styled.h1`
   }
 `;
 
-const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = true }) => {
+interface Props {
+  contentType?: string;
+  contentUri?: string;
+  locale: string;
+  name?: string;
+  isVisible?: boolean;
+}
+
+const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = true }: Props) => {
   const linkTo = contentUri && contentUri.split(':').pop();
 
   if (linkTo) {
     if (contentType === 'learning-path') {
       const linkProps = {
-        href: toLearningpathFull(linkTo, locale),
+        href: toLearningpathFull(parseInt(linkTo), locale),
         target: '_blank',
         rel: 'noopener noreferrer',
       };
@@ -49,7 +56,10 @@ const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = t
       );
     }
     return (
-      <Link to={toEditArticle(linkTo, contentType)} target="_blank" rel="noopener noreferrer">
+      <Link
+        to={toEditArticle(parseInt(linkTo), contentType!)}
+        target="_blank"
+        rel="noopener noreferrer">
         <StyledH1 isVisible={isVisible} {...classes('title')}>
           {name}
         </StyledH1>
@@ -61,14 +71,6 @@ const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = t
       {name}
     </StyledH1>
   );
-};
-
-ResourceItemLink.propTypes = {
-  contentType: PropTypes.string.isRequired,
-  contentUri: PropTypes.string,
-  locale: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  isVisible: PropTypes.bool,
 };
 
 export default ResourceItemLink;

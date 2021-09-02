@@ -15,7 +15,7 @@ import Spinner from '../../components/Spinner';
 import GrepCodesForm from './GrepCodesForm';
 
 interface Props {
-  contentUri: string;
+  contentUri?: string;
   onClose: () => void;
   locale: string;
 }

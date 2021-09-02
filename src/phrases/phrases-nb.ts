@@ -1079,8 +1079,7 @@ const phrases = {
     urlOrNumber: '{{label}} må inneholde en gyldig lenke eller artikkel-id.',
     dateBeforeInvalid: '{{label}} kan ikke være etter {{afterLabel}}.',
     dateAfterInvalid: '{{label}} kan ikke være før {{beforeLabel}}.',
-    minItems:
-      '{{label}} feltet må minst inneholde {minItems, plural, one{en/ett} other{# ulike}} {{labelLowerCase}}.',
+    minItems: '{{label}} feltet må minst inneholde en/ett {{labelLowerCase}}.',
     minItems_plural: '{{label}} feltet må minst inneholde {{minItems}} ulike {{labelLowerCase}}',
     noEmptyNote: 'En merknad kan ikke være tom',
     grepCodes:

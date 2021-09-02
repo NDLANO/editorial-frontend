@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
@@ -193,7 +193,6 @@ const TopicArticleForm = (props: Props) => {
     savedToServer,
     formikRef,
     initialValues,
-    initialErrors,
     setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
@@ -290,6 +289,11 @@ const TopicArticleForm = (props: Props) => {
       </Form>
     );
   };
+
+  const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [
+    initialValues,
+    t,
+  ]);
 
   return (
     <Formik

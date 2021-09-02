@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -205,7 +205,6 @@ const LearningResourceForm = ({
     savedToServer,
     formikRef,
     initialValues,
-    initialErrors,
     setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
@@ -299,6 +298,11 @@ const LearningResourceForm = ({
       </Form>
     );
   };
+
+  const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [
+    initialValues,
+    t,
+  ]);
 
   return (
     <Formik

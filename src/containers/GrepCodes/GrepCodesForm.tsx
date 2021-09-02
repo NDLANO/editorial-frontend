@@ -10,12 +10,17 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { useArticleFormHooks } from '../FormikForm/articleFormHooks';
+import { useTranslation } from 'react-i18next';
+import { connect, ConnectedProps } from 'react-redux';
+import { ArticleFormikType, useArticleFormHooks } from '../FormikForm/articleFormHooks';
 import GrepCodesField from '../FormikForm/GrepCodesField';
 import SaveMultiButton from '../../components/SaveMultiButton';
-import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
+import { DraftStatusTypes, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { isFormikFormDirty } from '../../util/formHelper';
-import { ConvertedDraftType } from '../../interfaces';
+import { ConvertedDraftType, License, ReduxState } from '../../interfaces';
+import * as messageActions from '../Messages/messagesActions';
+import { NewReduxMessage } from '../Messages/messagesSelectors';
+import { getAllLicenses } from '../../modules/license/license';
 
 const SaveButtonContainer = styled.div`
   display: flex;
@@ -23,8 +28,17 @@ const SaveButtonContainer = styled.div`
   margin-top: ${spacing.small};
 `;
 
-const getInitialValues = (article: ConvertedDraftType) => {
+const getInitialValues = (article: Partial<ConvertedDraftType>): ArticleFormikType => {
   return {
+    articleType: article.articleType ?? '',
+    conceptIds: article.conceptIds ?? [],
+    creators: article.copyright?.creators ?? [],
+    processors: article.copyright?.processors ?? [],
+    relatedContent: article.relatedContent ?? [],
+    rightsholders: article.copyright?.rightsholders ?? [],
+    supportedLanguages: article.supportedLanguages ?? [],
+    tags: article.tags ?? [],
+    updatePublished: false,
     id: article.id,
     revision: article.revision,
     notes: [],
@@ -32,8 +46,16 @@ const getInitialValues = (article: ConvertedDraftType) => {
   };
 };
 
-const getArticle = ({ values }: { values: DraftApiType }) => {
+const getArticle = ({
+  values,
+}: {
+  values: ArticleFormikType;
+  licenses: License[];
+  initialValues: ArticleFormikType;
+  preview: boolean;
+}): UpdatedDraftApiType => {
   return {
+    revision: 0,
     id: values.id,
     grepCodes: values.grepCodes,
   };
@@ -42,20 +64,51 @@ const getArticle = ({ values }: { values: DraftApiType }) => {
 interface Props {
   article: ConvertedDraftType;
   articleChanged: boolean;
+  updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  updateArticleAndStatus?: (input: {
+    updatedArticle: UpdatedDraftApiType;
+    newStatus: DraftStatusTypes;
+    dirty: boolean;
+  }) => Promise<ConvertedDraftType>;
 }
 
-const GrepCodesForm = ({ article, articleChanged, ...articleHooks }: Props) => {
+const mapDispatchToProps = {
+  createMessage: (message: NewReduxMessage) => messageActions.addMessage(message),
+  applicationError: messageActions.applicationError,
+};
+
+const mapStateToProps = (state: ReduxState) => ({
+  licenses: getAllLicenses(state),
+});
+
+const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
+
+const GrepCodesForm = ({
+  article,
+  articleChanged,
+  createMessage,
+  applicationError,
+  licenses,
+  updateArticle,
+  updateArticleAndStatus,
+}: Props & PropsFromRedux) => {
+  const { t } = useTranslation();
   const { savedToServer, handleSubmit } = useArticleFormHooks({
-    // @ts-ignore TODO:
     getInitialValues,
-    // @ts-ignore TODO:
-    getArticleFromSlate: getArticle,
     article,
-    ...articleHooks,
+    t,
+    createMessage,
+    articleStatus: article.status,
+    updateArticle,
+    updateArticleAndStatus,
+    applicationError,
+    licenses,
+    getArticleFromSlate: getArticle,
+    isNewlyCreated: false,
   });
 
   return (
-    // @ts-ignore TODO:
     <Formik initialValues={getInitialValues(article)} onSubmit={handleSubmit}>
       {({ submitForm, isSubmitting, errors, values, dirty }) => {
         const formIsDirty = isFormikFormDirty({
@@ -84,4 +137,4 @@ const GrepCodesForm = ({ article, articleChanged, ...articleHooks }: Props) => {
   );
 };
 
-export default GrepCodesForm;
+export default reduxConnector(GrepCodesForm);

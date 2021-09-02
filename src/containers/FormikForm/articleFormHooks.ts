@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { FormikHelpers } from 'formik';
 import { Value } from 'slate';
@@ -21,7 +21,7 @@ import {
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
-import { isFormikFormDirty, learningResourceRules } from '../../util/formHelper';
+import { isFormikFormDirty } from '../../util/formHelper';
 import { NewReduxMessage, ReduxMessageError } from '../Messages/messagesSelectors';
 import {
   DraftApiType,
@@ -38,7 +38,6 @@ import {
   VisualElement,
 } from '../../interfaces';
 import { ApiConceptType } from '../../modules/concept/conceptApiInterfaces';
-import validateFormik from '../../components/formikValidationSchema';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -127,10 +126,6 @@ export function useArticleFormHooks({
   const [savedToServer, setSavedToServer] = useState(false);
   const [saveAsNewVersion, setSaveAsNewVersion] = useState(isNewlyCreated);
   const initialValues = getInitialValues(article);
-  const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [
-    initialValues,
-    t,
-  ]);
 
   useEffect(() => {
     setSavedToServer(false);
@@ -145,11 +140,7 @@ export function useArticleFormHooks({
     values: ArticleFormikType,
     formikHelpers: FormikHelpers<ArticleFormikType>,
   ): Promise<void> => {
-    if (
-      values.revision === undefined ||
-      values.slatetitle === undefined ||
-      revision === undefined
-    ) {
+    if (revision === undefined) {
       formikHelpers.setSubmitting(false);
       return;
     }
@@ -242,7 +233,6 @@ export function useArticleFormHooks({
     savedToServer,
     formikRef,
     initialValues,
-    initialErrors,
     setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,

@@ -16,7 +16,7 @@ import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import * as messageActions from '../../Messages/messagesActions';
 import { usePreviousLocation } from '../../../util/routeHelpers';
 import { ReduxState } from '../../../interfaces';
-import { NewReduxMessage } from '../../../containers/Messages/messagesSelectors';
+import { NewReduxMessage } from '../../Messages/messagesSelectors';
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,

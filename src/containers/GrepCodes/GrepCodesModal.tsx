@@ -25,17 +25,25 @@ const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
   const { t } = useTranslation();
   const articleId = getIdFromUrn(contentUri);
 
-  const { loading, article, articleChanged, ...articleHooks } = useFetchArticleData(
-    articleId?.toString(),
-    locale,
-  );
+  const {
+    loading,
+    article,
+    articleChanged,
+    updateArticle,
+    updateArticleAndStatus,
+  } = useFetchArticleData(articleId?.toString(), locale);
 
   return (
     <TaxonomyLightbox title={t('form.name.grepCodes')} onClose={onClose} wide>
       {loading || !article || !article.id ? (
         <Spinner />
       ) : (
-        <GrepCodesForm article={article} articleChanged={articleChanged} {...articleHooks} />
+        <GrepCodesForm
+          article={article}
+          articleChanged={articleChanged}
+          updateArticle={updateArticle}
+          updateArticleAndStatus={updateArticleAndStatus}
+        />
       )}
     </TaxonomyLightbox>
   );

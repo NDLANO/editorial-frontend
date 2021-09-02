@@ -54,7 +54,6 @@ const getInfoFromNode = (element: CodeblockElement) => {
 const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   const { model } = getInfoFromNode(element);
   const [editMode, setEditMode] = useState<boolean>(!model.code && !model.title);
-  const [firstEdit, setFirstEdit] = useState<boolean>(element.isFirstEdit);
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -69,13 +68,14 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
       },
       isFirstEdit: false,
     };
-
+    ReactEditor.focus(editor);
     setEditMode(false);
-    setFirstEdit(false);
     const path = ReactEditor.findPath(editor, element);
     Transforms.setNodes(editor, properties, { at: path });
     if (Editor.hasPath(editor, Path.next(path))) {
-      Transforms.select(editor, Path.next(path));
+      setTimeout(() => {
+        Transforms.select(editor, Path.next(path));
+      }, 0);
     }
   };
 
@@ -88,13 +88,16 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   };
 
   const onExit = () => {
+    ReactEditor.focus(editor);
     setEditMode(false);
-    if (firstEdit) {
+    if (element.isFirstEdit) {
       handleUndo();
     }
     const path = ReactEditor.findPath(editor, element);
     if (Editor.hasPath(editor, Path.next(path))) {
-      Transforms.select(editor, Path.next(path));
+      setTimeout(() => {
+        Transforms.select(editor, Path.next(path));
+      }, 0);
     }
   };
 

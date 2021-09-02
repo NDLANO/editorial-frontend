@@ -120,12 +120,11 @@ const TopicArticleAccordionPanels = ({
           hasError={!!errors.notes}>
           <VersionAndNotesPanel
             article={article}
-            formIsDirty={formIsDirty}
-            setValues={setValues}
+            articleId={values.id}
+            createMessage={createMessage}
             getArticle={getArticle}
             getInitialValues={getInitialValues}
-            createMessage={createMessage}
-            history={history}
+            setValues={setValues}
           />
         </AccordionSection>
       )}

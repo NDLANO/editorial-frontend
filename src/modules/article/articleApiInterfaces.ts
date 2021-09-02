@@ -116,7 +116,7 @@ export interface ArticleApiType {
   supportedLanguages: string[];
   grepCodes: string[];
   conceptIds: number[];
-  availability: string;
+  availability: AvailabilityType;
 }
 
 interface Copyright {
@@ -129,7 +129,7 @@ interface Copyright {
   creators: Author[];
   processors: Author[];
   rightsholders: Author[];
-  agreementId?: string;
+  agreementId?: number;
   validFrom?: string;
   validTo?: string;
 }

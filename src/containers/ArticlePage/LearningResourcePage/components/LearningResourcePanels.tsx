@@ -127,10 +127,11 @@ const LearningResourcePanels = ({
           hasError={!!errors.notes}>
           <VersionAndNotesPanel
             article={article}
-            getInitialValues={getInitialValues}
-            setValues={setValues}
+            articleId={values.id}
             createMessage={createMessage}
             getArticle={getArticle}
+            getInitialValues={getInitialValues}
+            setValues={setValues}
           />
         </AccordionSection>
       )}

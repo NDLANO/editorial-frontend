@@ -15,7 +15,7 @@ import {
   NewDraftApiType,
   UpdatedDraftApiType,
 } from '../modules/draft/draftApiInterfaces';
-import { ArticleType, ConvertedDraftType, LocaleType, RelatedContent } from '../interfaces';
+import { ArticleType, ConvertedDraftType, RelatedContent } from '../interfaces';
 import { ApiConceptType } from '../modules/concept/conceptApiInterfaces';
 import { ArticleTaxonomy } from '../containers/FormikForm/formikDraftHooks';
 import { fetchConcept } from '../modules/concept/conceptApi';
@@ -95,7 +95,7 @@ const convertMetaImage = (metaImage?: {
 
 export const transformArticleFromApiVersion = async (
   article: DraftApiType & { taxonomy?: ArticleTaxonomy },
-  locale: LocaleType,
+  locale?: string,
 ): Promise<ConvertedDraftType> => {
   const visualElement = convertFieldWithFallback<'visualElement'>(article, 'visualElement', '');
   const metaImage = convertMetaImage(article.metaImage);

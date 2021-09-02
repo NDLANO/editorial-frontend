@@ -129,7 +129,7 @@ interface Props {
   image?: ImagePropType;
   licenses: {
     license: string;
-    description: string;
+    description?: string;
     url?: string;
   }[];
   onUpdate: OnCreateFunc | OnUpdateFunc;

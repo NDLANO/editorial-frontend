@@ -33,8 +33,8 @@ const StyledChevron = styled.div<{ isOpen: boolean }>`
   color: ${colors.brand.primary};
   font-size: 20px;
   cursor: pointer;
-  display: flex;
   user-select: none;
+  position: relative;
   &::before {
     user-select: none;
     content: '';
@@ -52,7 +52,7 @@ const StyledChevron = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const StyledSummary = styled.summary<{ isOpen: boolean }>`
+const StyledSummary = styled.summary`
   color: ${colors.brand.primary};
   font-size: 20px;
   cursor: inherit;
@@ -61,10 +61,6 @@ const StyledSummary = styled.summary<{ isOpen: boolean }>`
 `;
 
 const StyledRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
   &:focus button,
   :hover button {
     display: flex;
@@ -115,10 +111,8 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
   return (
     <StyledDetailsDiv className="c-bodybox" {...attributes} draggable>
       <StyledRow>
-        <StyledSummary isOpen={isOpen}>
-          <StyledChevron isOpen={isOpen} contentEditable={false} onClick={toggleOpen} />
-          {summaryNode}
-        </StyledSummary>
+        <StyledChevron isOpen={isOpen} contentEditable={false} onClick={toggleOpen} />
+        <StyledSummary>{summaryNode}</StyledSummary>
       </StyledRow>
       <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
       <MoveContentButton onMouseDown={onMoveContent} />

@@ -1186,8 +1186,13 @@ const phrases = {
         languagePlaceholder: 'Ndla.no interface language',
         explanationSubject: 'Explanation Subject',
         oldSubjectId: 'Old ID for redirecting',
+        subjectCategory: 'Subject category',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
+      },
+      placeholders: {
+        category: 'Choose category',
+        language: 'Choose language',
       },
     },
   },

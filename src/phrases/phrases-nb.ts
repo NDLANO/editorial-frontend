@@ -1204,8 +1204,13 @@ const phrases = {
         languagePlaceholder: 'Visningsspråk ndla.no',
         explanationSubject: 'Forklaringsfag',
         oldSubjectId: 'ID for videresending',
+        subjectCategory: 'Fagkategori',
         resourceGroupPlaceholder: 'Gruppering av ressurser',
         RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
+      },
+      placeholders: {
+        category: 'Velg kategori',
+        language: 'Velg språkkode',
       },
     },
   },

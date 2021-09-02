@@ -120,7 +120,7 @@ const ResourceItems = ({ refreshResources, resources, locale }: Props) => {
   }
   return (
     <StyledResourceItems {...classes('list')}>
-      <MakeDndList onDragEnd={onDragEnd} dragHandle>
+      <MakeDndList onDragEnd={onDragEnd} dragHandle disableDnd={false}>
         {resources.map(resource => (
           <Resource
             {...resource}

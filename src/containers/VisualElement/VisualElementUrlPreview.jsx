@@ -16,8 +16,7 @@ import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { InformationOutline } from '@ndla/icons/common';
-import { css } from '@emotion/react';
+import Tooltip from '@ndla/tooltip';
 
 import UrlAllowList from './UrlAllowList';
 import { fetchExternalOembed } from '../../util/apiHelpers';
@@ -29,6 +28,7 @@ import {
 } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import { fetchNrkMedia } from './visualElementApi';
+import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
 
 const filterWhiteListedURL = url => {
   const domain = urlDomain(url);
@@ -193,8 +193,29 @@ class VisualElementUrlPreview extends Component {
               ? t('form.content.link.newUrlResource')
               : t('form.content.link.changeUrlResource', { type })
           }
-          subTitle={this.getSubTitle()}
-        />
+          subTitle={this.getSubTitle()}>
+          <Modal
+            backgroundColor="white"
+            activateButton={
+              <Tooltip tooltip={t('form.content.link.validDomains')}>
+                <HelpIcon css={normalPaddingCSS} />
+              </Tooltip>
+            }>
+            {onClose => (
+              <>
+                <ModalHeader>
+                  <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
+                </ModalHeader>
+                <ModalBody>
+                  <h1>{t('form.content.link.validDomains')}</h1>
+                  <center>
+                    <UrlAllowList allowList={EXTERNAL_WHITELIST_PROVIDERS} />
+                  </center>
+                </ModalBody>
+              </>
+            )}
+          </Modal>
+        </FieldHeader>
         <FieldSection>
           <div>
             <FieldSplitter>
@@ -230,30 +251,6 @@ class VisualElementUrlPreview extends Component {
             onClick={() => this.handleSaveUrl(url)}>
             {isChangedUrl ? t('form.content.link.insert') : t('form.content.link.update')}
           </Button>
-          <Modal
-            backgroundColor="white"
-            activateButton={
-              <Button>
-                <InformationOutline
-                  css={css`
-                    margin-right: 5px;
-                  `}
-                />
-                {t('form.content.link.validDomains')}
-              </Button>
-            }>
-            {onClose => (
-              <>
-                <ModalHeader>
-                  <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-                </ModalHeader>
-                <ModalBody>
-                  <h1>{t('form.content.link.validDomains')}</h1>
-                  <UrlAllowList allowList={EXTERNAL_WHITELIST_PROVIDERS} />
-                </ModalBody>
-              </>
-            )}
-          </Modal>
         </StyledButtonWrapper>
         {showPreview && (
           <StyledPreviewWrapper>

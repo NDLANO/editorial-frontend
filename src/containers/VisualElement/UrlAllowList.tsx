@@ -10,17 +10,12 @@ interface Props {
   allowList: AllowListEntry[];
 }
 
-const removeTestDomains = (entry: AllowListEntry) => ({
-  ...entry,
-  url: entry.url.filter(url => !url.includes('test.ndla') && !url.includes('staging.ndla')),
-});
-
 const sortEntries = (a: AllowListEntry, b: AllowListEntry) => a.name.localeCompare(b.name);
 
 const UrlAllowList = ({ allowList }: Props) => {
   const { t } = useTranslation();
 
-  const filteredAllowList = allowList.map(removeTestDomains).sort(sortEntries);
+  const filteredAllowList = allowList.sort(sortEntries);
   return (
     <table className="c-table">
       <thead>

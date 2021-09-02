@@ -31,6 +31,15 @@ export const getNdlaApiUrl = (env: string): string => {
   }
 };
 
+export const ndlaBaseUrl = () => {
+  switch (ndlaEnvironment) {
+    case 'prod':
+      return 'ndla.no';
+    default:
+      return `${ndlaEnvironment}.ndla.no`;
+  }
+};
+
 const ndlaFrontendDomain = () => {
   switch (ndlaEnvironment) {
     case 'local':

@@ -37,7 +37,7 @@ const resourceTypeMock = [
 beforeEach(() => {
   nock('http://ndla-api')
     .get(
-      `/search-api/v1/search/group/?page=1&query=&resource-types=${encodeURIComponent(
+      `/search-api/v1/search/group/?fallback=true&language=nb&page=1&query=&resource-types=${encodeURIComponent(
         resourceType,
       )}`,
     )

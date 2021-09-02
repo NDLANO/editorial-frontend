@@ -33,8 +33,12 @@ const StyledChevron = styled.div<{ isOpen: boolean }>`
   color: ${colors.brand.primary};
   font-size: 20px;
   cursor: pointer;
+  display: flex;
   user-select: none;
   position: relative;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
   &::before {
     user-select: none;
     content: '';
@@ -43,11 +47,6 @@ const StyledChevron = styled.div<{ isOpen: boolean }>`
     border-style: solid;
     border-width: 0.35em 0 0.35em 0.45em;
     display: block;
-    height: 0;
-    width: 0;
-    left: -1em;
-    top: 0.4em;
-    position: relative;
     transform: ${p => p.isOpen && 'rotate(90deg)'};
   }
 `;
@@ -56,11 +55,13 @@ const StyledSummary = styled.summary`
   color: ${colors.brand.primary};
   font-size: 20px;
   cursor: inherit;
-  padding: ${spacing.normal};
-  display: flex;
+  padding: ${spacing.normal} ${spacing.small};
+  display: block;
 `;
 
 const StyledRow = styled.div`
+  display: flex;
+  flex-direction: row;
   &:focus button,
   :hover button {
     display: flex;
@@ -111,7 +112,9 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
   return (
     <StyledDetailsDiv className="c-bodybox" {...attributes} draggable>
       <StyledRow>
-        <StyledChevron isOpen={isOpen} contentEditable={false} onClick={toggleOpen} />
+        <div contentEditable={false}>
+          <StyledChevron isOpen={isOpen} onClick={toggleOpen} />
+        </div>
         <StyledSummary>{summaryNode}</StyledSummary>
       </StyledRow>
       <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>

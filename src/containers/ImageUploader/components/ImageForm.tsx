@@ -303,7 +303,8 @@ class ImageForm extends Component<Props & WithTranslation, State> {
                       evt.preventDefault();
                       submitForm();
                     }
-                  }}></SaveButton>
+                  }}
+                />
               </Field>
               <AlertModalWrapper
                 isSubmitting={isSubmitting}

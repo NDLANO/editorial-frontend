@@ -14,7 +14,6 @@ import MoveContentButton from '../../../MoveContentButton';
 import { TYPE_DETAILS } from '.';
 
 const StyledDetailsDiv = styled.div`
-  position: relative;
   margin: ${spacing.large} 0;
   border: 1px solid ${colors.brand.greyLight};
   overflow: hidden;
@@ -35,7 +34,6 @@ const StyledChevron = styled.div<{ isOpen: boolean }>`
   cursor: pointer;
   display: flex;
   user-select: none;
-  position: relative;
   justify-content: flex-end;
   align-items: center;
   height: 100%;

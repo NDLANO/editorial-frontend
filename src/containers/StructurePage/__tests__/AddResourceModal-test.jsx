@@ -56,6 +56,7 @@ const wrapper = props =>
           onClose={() => {}}
           refreshResources={() => {}}
           startOpen
+          locale="nb"
           {...props}
         />
       </MemoryRouter>

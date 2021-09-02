@@ -99,6 +99,7 @@ const AllResourcesGroup = ({
           refreshResources={refreshResources}
           onClose={() => setShowAddModal(false)}
           existingResourceIds={topicResources.flatMap(r => r.resources.map(x => x.id))}
+          locale={locale}
         />
       )}
     </React.Fragment>

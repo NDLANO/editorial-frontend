@@ -89,6 +89,7 @@ class ResourceGroup extends PureComponent {
             refreshResources={refreshResources}
             onClose={this.toggleAddModal}
             existingResourceIds={topicResource?.resources?.map(r => r.id) ?? []}
+            locale={locale}
           />
         )}
       </React.Fragment>

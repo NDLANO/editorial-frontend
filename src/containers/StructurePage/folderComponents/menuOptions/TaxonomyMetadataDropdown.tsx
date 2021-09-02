@@ -39,7 +39,6 @@ const TaxonomyMetadataDropdown = ({
   updateCustomFields,
   messages,
 }: Props) => {
-  // eslint-disable-next-line react/prop-types
   const selectedValue = customFields[field];
   return (
     <StyledMenuItemEditField>

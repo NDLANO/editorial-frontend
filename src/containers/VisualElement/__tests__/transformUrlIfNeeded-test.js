@@ -54,3 +54,23 @@ test('transformUrlIfNeeded does not crash without url', async () => {
 
   expect(url).toMatchSnapshot();
 });
+
+test('transformUrlIfNeeded returns kahoot embed url if correct kahoot url is used', async () => {
+  const url = await transformUrlIfNeeded(
+    'https://create.kahoot.it/share/random/ab095e8e-1234-1234-1234-a0386f1811b5',
+  );
+
+  expect(url).toMatchSnapshot();
+});
+
+test('transformUrlIfNeeded returns original if wrong kahoot url is used', async () => {
+  const url1 = await transformUrlIfNeeded(
+    'https://create.kahoot.it/share/random/ab095e8e-1234-1234-1234-a0386f1811b5/test',
+  );
+  const url2 = await transformUrlIfNeeded(
+    'https://create.kahoot.it/share/random/ab09e8e-1234-1234-1234-a0386f1811b',
+  );
+
+  expect(url1).toMatchSnapshot();
+  expect(url2).toMatchSnapshot();
+});

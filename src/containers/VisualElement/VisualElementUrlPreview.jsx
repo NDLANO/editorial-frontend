@@ -66,8 +66,8 @@ export const transformableDomains = [
     shouldTransform: (url, domains) => {
       const aTag = urlAsATag(url);
 
-      if (domains.includes(aTag.hostname)) {
-        return true;
+      if (!domains.includes(aTag.hostname)) {
+        return false;
       }
       const mediaId = queryString.parse(aTag.search).mediaId;
       if (mediaId) {
@@ -90,6 +90,28 @@ export const transformableDomains = [
       } catch {
         return url;
       }
+    },
+  },
+  {
+    domains: ['create.kahoot.it'],
+    shouldTransform: (url, domains) => {
+      const aTag = urlAsATag(url);
+
+      if (!domains.includes(aTag.hostname)) {
+        return false;
+      }
+      const kahootID = url.split('/').pop();
+      if (kahootID.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/)) {
+        return true;
+      }
+      return false;
+    },
+    transform: async url => {
+      const kahootID = url.split('/').pop();
+      if (kahootID.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/)) {
+        return `https://embed.kahoot.it/${kahootID}`;
+      }
+      return url;
     },
   },
 ];

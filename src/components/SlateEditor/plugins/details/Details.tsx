@@ -14,7 +14,6 @@ import MoveContentButton from '../../../MoveContentButton';
 import { TYPE_DETAILS } from '.';
 
 const StyledDetailsDiv = styled.div`
-  position: relative;
   margin: ${spacing.large} 0;
   border: 1px solid ${colors.brand.greyLight};
   overflow: hidden;
@@ -35,6 +34,9 @@ const StyledChevron = styled.div<{ isOpen: boolean }>`
   cursor: pointer;
   display: flex;
   user-select: none;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
   &::before {
     user-select: none;
     content: '';
@@ -43,28 +45,22 @@ const StyledChevron = styled.div<{ isOpen: boolean }>`
     border-style: solid;
     border-width: 0.35em 0 0.35em 0.45em;
     display: block;
-    height: 0;
-    width: 0;
-    left: -1em;
-    top: 0.4em;
-    position: relative;
     transform: ${p => p.isOpen && 'rotate(90deg)'};
   }
 `;
 
-const StyledSummary = styled.summary<{ isOpen: boolean }>`
+const StyledSummary = styled.summary`
+  flex-grow: 1;
   color: ${colors.brand.primary};
   font-size: 20px;
   cursor: inherit;
-  padding: ${spacing.normal};
-  display: flex;
+  padding: ${spacing.normal} ${spacing.small};
+  display: block;
 `;
 
 const StyledRow = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
-
   &:focus button,
   :hover button {
     display: flex;
@@ -115,10 +111,10 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
   return (
     <StyledDetailsDiv className="c-bodybox" {...attributes} draggable>
       <StyledRow>
-        <StyledSummary isOpen={isOpen}>
-          <StyledChevron isOpen={isOpen} contentEditable={false} onClick={toggleOpen} />
-          {summaryNode}
-        </StyledSummary>
+        <div contentEditable={false}>
+          <StyledChevron isOpen={isOpen} onClick={toggleOpen} />
+        </div>
+        <StyledSummary>{summaryNode}</StyledSummary>
       </StyledRow>
       <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
       <MoveContentButton onMouseDown={onMoveContent} />

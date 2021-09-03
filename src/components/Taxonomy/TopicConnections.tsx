@@ -25,7 +25,7 @@ import {
   ResourceWithTopicConnection,
   SubjectType,
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { PathArray } from '../../util/retriveBreadCrumbs';
+import { PathArray } from '../../util/retrieveBreadCrumbs';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -54,7 +54,7 @@ interface Props {
   stageTaxonomyChanges: (properties: any) => void;
   getSubjectTopics: (subjectId: string) => Promise<void>;
   setRelevance: (topicId: string, relevanceId: string) => void;
-  retriveBreadCrumbs: (topicPath: string) => PathArray;
+  retrieveBreadCrumbs: (topicPath: string) => PathArray;
 }
 
 const TopicConnections = ({
@@ -69,7 +69,7 @@ const TopicConnections = ({
   stageTaxonomyChanges,
   getSubjectTopics,
   setRelevance,
-  retriveBreadCrumbs,
+  retrieveBreadCrumbs,
 }: Props) => {
   const { t } = useTranslation();
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
@@ -143,7 +143,7 @@ const TopicConnections = ({
         setRelevance={setRelevance}
         removeConnection={removeConnection}
         setPrimaryConnection={setPrimaryConnection}
-        retriveBreadCrumbs={retriveBreadCrumbs}
+        retrieveBreadCrumbs={retrieveBreadCrumbs}
         type="topicarticle"
       />
       <Modal

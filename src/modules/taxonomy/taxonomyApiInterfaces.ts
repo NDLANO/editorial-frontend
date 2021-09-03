@@ -15,11 +15,12 @@ export interface TaxonomyMetadata {
 export interface SubjectTopic extends TaxonomyElement {
   contentUri: string;
   isPrimary: boolean;
-  relevanceId: string | null;
+  relevanceId?: string;
   parent: string;
   path: string;
   connectionId: string;
   subtopics?: SubjectTopic[];
+  rank: number;
 }
 
 export interface ResolvedUrl {
@@ -89,9 +90,10 @@ export interface TopicWithResourceConnection {
 }
 
 export interface TopicConnections {
+  isPrimary: boolean;
   connectionId: string;
   primary: boolean;
-  paths: string;
+  paths: string[];
   targetId: string;
   type: string;
 }
@@ -106,7 +108,7 @@ export interface ResourceResourceType {
 export interface ResourceType {
   id: string;
   name: string;
-  subtypes: {
+  subtypes?: {
     id: string;
     name: string;
   }[];

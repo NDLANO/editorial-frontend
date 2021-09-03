@@ -10,7 +10,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { spacing, colors, fonts, animations, spacingUnit } from '@ndla/core';
+import { spacing, spacingUnit, colors, fonts, animations } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
 import { resourceToLinkProps } from '../../../util/resourceHelpers';

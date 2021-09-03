@@ -96,6 +96,7 @@ const ImageSearchAndUploader = ({
           title: t('form.visualElement.imageUpload'),
           content: licenses ? (
             <ImageForm
+              isLoading={image === undefined}
               image={image || { language: locale }}
               onUpdate={updateImage}
               closeModal={closeModal}

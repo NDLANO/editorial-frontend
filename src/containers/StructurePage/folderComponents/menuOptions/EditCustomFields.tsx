@@ -10,20 +10,24 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 import RoundIcon from '../../../../components/RoundIcon';
-import { TaxonomyElement } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import {
+  SubjectTopic,
+  TaxonomyElement,
+  TaxonomyMetadata,
+} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import MenuItemButton from './MenuItemButton';
 import MenuItemCustomField from './MenuItemCustomField';
+import { EditMode } from '../../../../interfaces';
 
 interface Props extends TaxonomyElement {
   subjectId: string;
-  toggleEditMode: (state: string) => void;
+  toggleEditMode: (state: EditMode) => void;
   editMode: string;
-  saveSubjectItems: (subjectid: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  saveSubjectTopicItems: (
-    subjectId: string,
-    topicId: string,
-    saveItems: Pick<TaxonomyElement, 'metadata'>,
+  saveSubjectItems: (
+    subjectid: string,
+    saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
   ) => void;
+  saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
   type: 'topic' | 'subject';
 }
 

@@ -14,7 +14,7 @@ const classes = new BEMHelper({
 });
 
 interface Props {
-  children: React.ReactElement;
+  children: React.ReactElement[];
   disableDnd: boolean;
   onDragEnd: (result: DropResult, provided: ResponderProvided) => void;
   dragHandle: boolean;

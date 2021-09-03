@@ -45,7 +45,7 @@ const fetchSubjectTopics = (subject: string, language: string): Promise<SubjectT
   ).then(r => resolveJsonOrRejectWithError<SubjectTopic[]>(r));
 };
 
-const addSubject = (body: { contentUri: string; id?: string; name: string }): Promise<string> => {
+const addSubject = (body: { contentUri?: string; id?: string; name: string }): Promise<string> => {
   return fetchAuthorized(`${baseUrl}/subjects`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -70,7 +70,8 @@ const addSubjectTopic = (body: {
 const updateSubjectTopic = (
   connectionId: string,
   body: {
-    rank: number;
+    id?: string;
+    rank?: number;
     primary?: boolean;
     relevanceId?: string;
   },

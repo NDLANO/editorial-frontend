@@ -21,6 +21,22 @@ export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
+export type EditMode =
+  | 'changeSubjectName'
+  | 'deleteTopic'
+  | 'addExistingSubjectTopic'
+  | 'openCustomFields'
+  | 'toggleMetadataVisibility'
+  | 'editGrepCodes'
+  | 'addExistingTopic';
+export interface SearchResultBase<T> {
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  language: string;
+  results: T[];
+}
+
 export interface Author {
   name: string;
   type: string;

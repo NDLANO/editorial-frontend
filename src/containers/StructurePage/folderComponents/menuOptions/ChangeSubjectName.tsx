@@ -26,6 +26,7 @@ import {
 } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import { SubjectNameTranslation } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { EditMode } from '../../../../interfaces';
 import { Row } from '../../../../components';
 import SaveButton from '../../../../components/SaveButton';
 import FormikField from '../../../../components/FormikField';
@@ -61,7 +62,7 @@ interface FormikTranslationFormValues {
 }
 
 interface Props {
-  toggleEditMode: (s: string) => void;
+  toggleEditMode: (s: EditMode) => void;
   onClose: () => void;
   editMode: string;
   name: string;
@@ -93,12 +94,12 @@ const ChangeSubjectName = ({
       {editMode === 'changeSubjectName' && (
         <ChangeSubjectNameModal
           onClose={changed => {
-            toggleEditMode('');
+            toggleEditMode('changeSubjectName');
             if (changed) {
               getAllSubjects();
               refreshTopics();
+              // onClose();
             }
-            onClose();
           }}
           id={id}
         />

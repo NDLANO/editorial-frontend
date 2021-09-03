@@ -21,7 +21,7 @@ import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { HowToHelper } from '../../../../components/HowTo';
 import StructureFunctionButtons from './StructureFunctionButtons';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
-import { PathArray } from '../../../../util/retriveBreadCrumbs';
+import { PathArray } from '../../../../util/retrieveBreadCrumbs';
 import { TopicShape, StructureShape } from '../../../../shapes';
 import {
   ResourceWithTopicConnection,
@@ -34,7 +34,7 @@ interface Props {
   allowMultipleSubjectsOpen?: boolean;
   stageTaxonomyChanges: ({ path }: { path: string }) => void;
   getSubjectTopics: (subjectId: string, locale: string) => Promise<void>;
-  retriveBreadCrumbs: (path: string) => PathArray;
+  retrieveBreadCrumbs: (path: string) => PathArray;
   locale: string;
 }
 
@@ -54,7 +54,7 @@ const TopicArticleConnections = ({
   allowMultipleSubjectsOpen,
   stageTaxonomyChanges,
   getSubjectTopics,
-  retriveBreadCrumbs,
+  retrieveBreadCrumbs,
   locale,
 }: Props) => {
   const { t } = useTranslation();
@@ -69,6 +69,7 @@ const TopicArticleConnections = ({
     const result = await fetchUserData();
     const favoriteSubjects = result.favoriteSubjects || [];
     setFavoriteSubjectIds(favoriteSubjects);
+    setShowFavorites(favoriteSubjects.length > 0);
   };
 
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) => {
@@ -118,7 +119,7 @@ const TopicArticleConnections = ({
       <ActiveTopicConnections
         activeTopics={activeTopics}
         type="topic-article"
-        retriveBreadCrumbs={retriveBreadCrumbs}
+        retrieveBreadCrumbs={retrieveBreadCrumbs}
       />
       <Modal
         backgroundColor="white"
@@ -186,7 +187,7 @@ TopicArticleConnections.propTypes = {
   isOpened: PropTypes.bool,
   structure: PropTypes.arrayOf<SubjectType>(StructureShape).isRequired,
   activeTopics: PropTypes.arrayOf<ResourceWithTopicConnection>(TopicShape).isRequired,
-  retriveBreadcrumbs: PropTypes.func,
+  retrieveBreadCrumbs: PropTypes.func.isRequired,
   setPrimaryConnection: PropTypes.func,
   allowMultipleSubjectsOpen: PropTypes.bool,
   stageTaxonomyChanges: PropTypes.func.isRequired,

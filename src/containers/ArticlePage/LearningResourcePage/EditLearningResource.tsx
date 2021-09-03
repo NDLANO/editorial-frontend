@@ -76,7 +76,6 @@ const EditLearningResource = ({
         licenses={licenses}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
-        applicationError={applicationError}
         createMessage={createMessage}
         userAccess={userAccess}
       />

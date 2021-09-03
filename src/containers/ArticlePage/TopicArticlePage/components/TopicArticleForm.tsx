@@ -182,7 +182,6 @@ const TopicArticleForm = (props: Props) => {
     isNewlyCreated,
     createMessage,
     articleStatus,
-    applicationError,
     history,
     userAccess,
   } = props;
@@ -202,8 +201,6 @@ const TopicArticleForm = (props: Props) => {
     getInitialValues,
     article,
     t,
-    createMessage,
-    applicationError,
     articleStatus,
     updateArticle,
     updateArticleAndStatus,

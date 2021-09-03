@@ -169,7 +169,6 @@ const getArticleFromSlate = ({
 interface Props extends RouteComponentProps {
   userAccess: string | undefined;
   createMessage: (message: NewReduxMessage) => void;
-  applicationError: (error: ReduxMessageError) => void;
   article: Partial<ConvertedDraftType>;
   translating: boolean;
   translateToNN: () => void;
@@ -186,7 +185,6 @@ interface Props extends RouteComponentProps {
 }
 
 const LearningResourceForm = ({
-  applicationError,
   article,
   articleStatus,
   createMessage,
@@ -214,10 +212,8 @@ const LearningResourceForm = ({
     getInitialValues,
     article,
     t,
-    createMessage,
     articleStatus,
     updateArticle,
-    applicationError,
     updateArticleAndStatus,
     licenses,
     getArticleFromSlate,

@@ -37,6 +37,7 @@ import {
   RelatedContent,
   VisualElement,
 } from '../../interfaces';
+import * as messageActions from '../Messages/messagesActions';
 import { ApiConceptType } from '../../modules/concept/conceptApiInterfaces';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
@@ -89,8 +90,6 @@ interface HooksInputObject {
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
   article: Partial<ConvertedDraftType>;
   t: WithTranslation['t'];
-  createMessage: (message: NewReduxMessage) => void;
-  applicationError: (error: ReduxMessageError) => void;
   articleStatus?: DraftStatus;
   updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   updateArticleAndStatus?: (input: {
@@ -112,10 +111,8 @@ export function useArticleFormHooks({
   getInitialValues,
   article,
   t,
-  createMessage,
   articleStatus,
   updateArticle,
-  applicationError,
   updateArticleAndStatus,
   licenses,
   getArticleFromSlate,
@@ -210,14 +207,14 @@ export function useArticleFormHooks({
       formikHelpers.setFieldValue('notes', [], false);
     } catch (err) {
       if (err && err.status && err.status === 409) {
-        createMessage({
+        messageActions.addMessage({
           message: t('alertModal.needToRefresh'),
           timeToLive: 0,
         });
       } else if (err && err.json && err.json.messages) {
-        createMessage(formatErrorMessage(err));
+        messageActions.addMessage(formatErrorMessage(err));
       } else {
-        applicationError(err);
+        messageActions.applicationError(err);
       }
       if (statusChange) {
         // if validation failed we need to set status back so it won't be saved as new status on next save

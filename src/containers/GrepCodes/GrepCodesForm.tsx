@@ -72,23 +72,16 @@ interface Props {
   }) => Promise<ConvertedDraftType>;
 }
 
-const mapDispatchToProps = {
-  createMessage: (message: NewReduxMessage) => messageActions.addMessage(message),
-  applicationError: messageActions.applicationError,
-};
-
 const mapStateToProps = (state: ReduxState) => ({
   licenses: getAllLicenses(state),
 });
 
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+const reduxConnector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 const GrepCodesForm = ({
   article,
   articleChanged,
-  createMessage,
-  applicationError,
   licenses,
   updateArticle,
   updateArticleAndStatus,
@@ -98,11 +91,9 @@ const GrepCodesForm = ({
     getInitialValues,
     article,
     t,
-    createMessage,
     articleStatus: article.status,
     updateArticle,
     updateArticleAndStatus,
-    applicationError,
     licenses,
     getArticleFromSlate: getArticle,
     isNewlyCreated: false,

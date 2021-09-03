@@ -44,6 +44,7 @@ export interface Resource extends TaxonomyElement {
   rank: number;
   resourceTypes: ResourceResourceType[];
   topicId: string;
+  grepCodes: string[];
 }
 
 export interface TopicResourceType {

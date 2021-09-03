@@ -103,25 +103,29 @@ const HeaderStatusInformation = ({
 
   const splitter = !indentLeft && <StyledSplitter />;
 
+  const StatusIcons = (
+    <>
+      {splitter}
+      {conceptConnecions}
+      {learningpathConnections}
+      {splitter}
+      {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
+      {multipleTaxonomyIcon}
+      {imageConnections}
+    </>
+  );
+
   if (noStatus && isNewLanguage) {
     return (
       <StyledStatusWrapper>
-        {splitter}
-        {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
-        {multipleTaxonomyIcon}
-        {learningpathConnections}
-        {imageConnections}
+        {StatusIcons}
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
       </StyledStatusWrapper>
     );
   } else if (!noStatus) {
     return (
       <StyledStatusWrapper>
-        {type === 'concept' && conceptConnecions}
-        {splitter}
-        {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
-        {multipleTaxonomyIcon}
-        {learningpathConnections}
+        {StatusIcons}
         <StyledStatus>
           <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
           {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}

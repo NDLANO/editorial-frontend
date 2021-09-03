@@ -60,7 +60,7 @@ const StyledPreviewItem = styled('div')`
   width: 50%;
 `;
 
-const transformableDomains = [
+export const transformableDomains = [
   {
     domains: ['nrk.no', 'www.nrk.no'],
     shouldTransform: (url, domains) => {

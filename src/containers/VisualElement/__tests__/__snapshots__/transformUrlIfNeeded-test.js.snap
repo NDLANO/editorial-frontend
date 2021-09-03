@@ -4,6 +4,8 @@ exports[`transformUrlIfNeeded does not crash without url 1`] = `undefined`;
 
 exports[`transformUrlIfNeeded returns kahoot embed url if correct kahoot url is used 1`] = `"https://embed.kahoot.it/ab095e8e-1234-1234-1234-a0386f1811b5"`;
 
+exports[`transformUrlIfNeeded returns original if kahoot profile url is used 1`] = `"https://create.kahoot.it/profiles/random/ab095e8e-1234-1234-1234-a0386f1811b5"`;
+
 exports[`transformUrlIfNeeded returns original if wrong kahoot url is used 1`] = `"https://create.kahoot.it/share/random/ab095e8e-1234-1234-1234-a0386f1811b5/test"`;
 
 exports[`transformUrlIfNeeded returns original if wrong kahoot url is used 2`] = `"https://create.kahoot.it/share/random/ab09e8e-1234-1234-1234-a0386f1811b"`;

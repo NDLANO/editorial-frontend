@@ -48,6 +48,9 @@ const kahootTransformer: UrlTransformer = {
     if (!domains.includes(aTag.hostname)) {
       return false;
     }
+    if (!aTag.href.includes(domains[0] + '/share/')) {
+      return false;
+    }
     const kahootID = url.split('/').pop();
     if (kahootID?.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/)) {
       return true;

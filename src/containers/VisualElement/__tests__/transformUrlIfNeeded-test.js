@@ -74,3 +74,11 @@ test('transformUrlIfNeeded returns original if wrong kahoot url is used', async 
   expect(url1).toMatchSnapshot();
   expect(url2).toMatchSnapshot();
 });
+
+test('transformUrlIfNeeded returns original if kahoot profile url is used', async () => {
+  const url1 = await transformUrlIfNeeded(
+    'https://create.kahoot.it/profiles/random/ab095e8e-1234-1234-1234-a0386f1811b5',
+  );
+
+  expect(url1).toMatchSnapshot();
+});

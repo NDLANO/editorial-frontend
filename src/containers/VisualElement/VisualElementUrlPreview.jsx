@@ -56,9 +56,10 @@ const StyledPreviewItem = styled('div')`
   width: 50%;
 `;
 
+const nrkDomains = ['nrk.no', 'www.nrk.no'];
+
 export const transformUrlIfNeeded = async url => {
   const aTag = urlAsATag(url);
-  const nrkDomains = ['nrk.no', 'www.nrk.no'];
 
   if (!nrkDomains.includes(aTag.hostname)) {
     return url;
@@ -155,6 +156,7 @@ class VisualElementUrlPreview extends Component {
   }
 
   async handleChange(evt) {
+    this.setState({ url: evt.target.value });
     const url = await transformUrlIfNeeded(evt.target.value);
     const { selectedResourceUrl } = this.props;
     this.setState({

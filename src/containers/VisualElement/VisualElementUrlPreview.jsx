@@ -60,27 +60,39 @@ const StyledPreviewItem = styled('div')`
   width: 50%;
 `;
 
-export const transformUrlIfNeeded = async url => {
-  const aTag = urlAsATag(url);
-  const nrkDomains = ['nrk.no', 'www.nrk.no'];
+const transformableDomains = [
+  {
+    domains: ['nrk.no', 'www.nrk.no'],
+    shouldTransform: (url, domains) => {
+      const aTag = urlAsATag(url);
 
-  if (!nrkDomains.includes(aTag.hostname)) {
-    return url;
-  }
-  const mediaId = queryString.parse(aTag.search).mediaId;
-  if (!mediaId) {
-    return url;
-  }
-  try {
-    const nrkMedia = await fetchNrkMedia(mediaId);
-    if (nrkMedia.psId) {
-      return `https://static.nrk.no/ludo/latest/video-embed.html#id=${nrkMedia.psId}`;
-    }
-    return url;
-  } catch {
-    return url;
-  }
-};
+      if (domains.includes(aTag.hostname)) {
+        return true;
+      }
+      const mediaId = queryString.parse(aTag.search).mediaId;
+      if (mediaId) {
+        return true;
+      }
+      return false;
+    },
+    transform: async url => {
+      const aTag = urlAsATag(url);
+      const mediaId = queryString.parse(aTag.search).mediaId;
+      if (!mediaId) {
+        return url;
+      }
+      try {
+        const nrkMedia = await fetchNrkMedia(mediaId);
+        if (nrkMedia.psId) {
+          return `https://static.nrk.no/ludo/latest/video-embed.html#id=${nrkMedia.psId}`;
+        }
+        return url;
+      } catch {
+        return url;
+      }
+    },
+  },
+];
 
 class VisualElementUrlPreview extends Component {
   constructor(props) {
@@ -159,7 +171,14 @@ class VisualElementUrlPreview extends Component {
   }
 
   async handleChange(evt) {
-    const url = await transformUrlIfNeeded(evt.target.value);
+    let url = evt.target.value;
+    for (const rule of transformableDomains) {
+      if (rule.shouldTransform(url, rule.domains)) {
+        url = await rule.transform(url);
+        break;
+      }
+    }
+
     const { selectedResourceUrl } = this.props;
     this.setState({
       url,

@@ -90,9 +90,6 @@ describe('Subject editing', () => {
       .first()
       .click();
 
-    cy.get('[data-cy=settings-button-subject]')
-      .first()
-      .click();
     cy.get('button')
       .contains(phrases.metadata.changeVisibility)
       .click();

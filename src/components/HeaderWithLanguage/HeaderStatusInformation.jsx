@@ -99,7 +99,7 @@ const HeaderStatusInformation = ({
   const audioConnections = (type === 'audio' || type === 'podcast') && (
     <EmbedConnection id={id} type="audio" />
   );
-  const conceptConnecions = type === 'concept' && <EmbedConnection id={id} type="concept"/>
+  const conceptConnecions = type === 'concept' && <EmbedConnection id={id} type="concept" />;
 
   const splitter = !indentLeft && <StyledSplitter />;
 
@@ -117,7 +117,7 @@ const HeaderStatusInformation = ({
   } else if (!noStatus) {
     return (
       <StyledStatusWrapper>
-        {(type === 'concept') && conceptConnecions}
+        {type === 'concept' && conceptConnecions}
         {splitter}
         {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}

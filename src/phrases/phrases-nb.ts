@@ -275,6 +275,7 @@ const phrases = {
       yes: 'Modelklarert',
       no: 'Ikke modelklarert',
       'not-applicable': 'Gjelder ikke',
+      'not-set': 'Ikke valgt',
     },
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
@@ -674,6 +675,7 @@ const phrases = {
       yes: 'Ja',
       no: 'Nei',
       'not-applicable': 'Gjelder ikke',
+      'not-set': 'Ikke valgt',
       description: 'Om bildet er modelklarert eller ikke:',
     },
     markdown: {

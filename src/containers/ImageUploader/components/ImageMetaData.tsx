@@ -52,25 +52,29 @@ const ImageMetaData = ({ imageTags, licenses, imageLanguage }: Props) => {
       <FormikField label={t('form.origin.label')} name="origin" />
       <ContributorsField contributorTypes={contributorTypes} />
 
-      <FormikField name="modelReleased" label={t('form.modelReleased.label')}>
+      <FormikField
+        name="modelReleased"
+        label={t('form.modelReleased.label')}
+        description={t('form.modelReleased.description')}>
         {({ field }: { field: FieldInputProps<string> }) => {
-          const options = ['yes', 'not-applicable', 'no'];
-          const defaultValue = 'no';
+          const options = ['yes', 'not-applicable', 'no', 'not-set'];
+          const defaultValue = 'not-set';
           return (
-            <RadioButtonGroup
-              label={t('form.modelReleased.description')}
-              selected={field.value ?? defaultValue}
-              uniqeIds
-              options={options.map(value => ({ title: t(`form.modelReleased.${value}`), value }))}
-              onChange={(value: string) =>
-                field.onChange({
-                  target: {
-                    name: field.name,
-                    value: value,
-                  },
-                })
-              }
-            />
+            <>
+              <RadioButtonGroup
+                selected={field.value ?? defaultValue}
+                uniqeIds
+                options={options.map(value => ({ title: t(`form.modelReleased.${value}`), value }))}
+                onChange={(value: string) =>
+                  field.onChange({
+                    target: {
+                      name: field.name,
+                      value: value,
+                    },
+                  })
+                }
+              />
+            </>
           );
         }}
       </FormikField>

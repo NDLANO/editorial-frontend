@@ -5,10 +5,10 @@
  */
 
 import nock from 'nock';
-import { transformableDomains } from '../VisualElementUrlPreview';
+import { urlTransformers } from '../urlTransformers';
 
 const transformUrlIfNeeded = async url => {
-  for (const rule of transformableDomains) {
+  for (const rule of urlTransformers) {
     if (rule.shouldTransform(url, rule.domains)) {
       return await rule.transform(url);
     }

@@ -16,7 +16,7 @@ import GrepCodesForm from './GrepCodesForm';
 import { LocaleType } from '../../interfaces';
 
 interface Props {
-  contentUri: string;
+  contentUri?: string;
   onClose: () => void;
   locale: LocaleType;
 }

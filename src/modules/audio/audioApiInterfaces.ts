@@ -6,7 +6,7 @@
  *
  */
 
-import { Copyright } from '../../interfaces';
+import { Copyright, SearchResultBase } from '../../interfaces';
 import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
 
 type AudioType = 'standard' | 'podcast';
@@ -130,14 +130,6 @@ export interface SearchParams {
   page?: number;
   query?: string;
   sort?: string;
-}
-
-interface SearchResultBase<T> {
-  totalCount: number;
-  page: number;
-  pageSize: number;
-  language: string;
-  results: T[];
 }
 
 export interface PodcastSeriesApiType {

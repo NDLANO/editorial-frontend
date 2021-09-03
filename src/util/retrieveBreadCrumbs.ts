@@ -11,7 +11,7 @@ export type Input = {
 
 export type PathArray = Array<TaxonomyElement>;
 
-const retriveBreadCrumbs = ({ topicPath, structure, allTopics, title }: Input): PathArray => {
+const retrieveBreadCrumbs = ({ topicPath, structure, allTopics, title }: Input): PathArray => {
   try {
     const [subjectPath, ...topicPaths] = pathToUrnArray(topicPath);
 
@@ -47,4 +47,4 @@ const retriveBreadCrumbs = ({ topicPath, structure, allTopics, title }: Input): 
   }
 };
 
-export default retriveBreadCrumbs;
+export default retrieveBreadCrumbs;

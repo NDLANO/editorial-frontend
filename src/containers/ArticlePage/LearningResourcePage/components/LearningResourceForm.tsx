@@ -42,7 +42,6 @@ import {
 } from '../../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, License, LocaleType, RelatedContent } from '../../../../interfaces';
 import { NewReduxMessage } from '../../../Messages/messagesSelectors';
-import { ReduxMessageError } from '../../../Messages/messagesSelectors';
 
 export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
   const metaImageId = parseImageUrl(article.metaImage);

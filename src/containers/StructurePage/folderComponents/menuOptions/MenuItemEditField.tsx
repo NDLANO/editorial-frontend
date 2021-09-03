@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -24,16 +24,17 @@ const StyledMenuItemEditField = styled('div')`
 `;
 
 interface Props {
-  onSubmit: Function;
-  onClose: Function;
-  currentVal: string;
+  onSubmit: (input: string) => Promise<void>;
+  onClose: () => void;
+  currentVal?: string;
   icon?: React.ReactNode;
-  messages: {
+  messages?: {
     errorMessage?: string;
   };
   dataTestid?: string;
   placeholder?: string;
   autoFocus?: boolean;
+  initialValue?: string;
 }
 
 const MenuItemEditField = ({
@@ -47,7 +48,7 @@ const MenuItemEditField = ({
   autoFocus,
 }: Props) => {
   const [status, setStatus] = useState('initial');
-  const [input, setInput] = useState<string | undefined>(undefined);
+  const [input, setInput] = useState<string>(currentVal);
 
   const handleSubmit = async () => {
     setStatus('loading');
@@ -72,7 +73,7 @@ const MenuItemEditField = ({
 
   const value = input ?? currentVal;
   return (
-    <Fragment>
+    <>
       <StyledMenuItemEditField>
         <RoundIcon open small icon={icon} />
         <StyledMenuItemInputField
@@ -100,7 +101,7 @@ const MenuItemEditField = ({
           {messages.errorMessage}
         </StyledErrorMessage>
       )}
-    </Fragment>
+    </>
   );
 };
 

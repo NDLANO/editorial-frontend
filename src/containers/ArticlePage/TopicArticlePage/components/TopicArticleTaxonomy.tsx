@@ -24,7 +24,7 @@ import {
 } from '../../../../modules/taxonomy';
 import { sortByName, groupTopics, pathToUrnArray } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
-import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
+import retrieveBreadCrumbs from '../../../../util/retrieveBreadCrumbs';
 import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
@@ -320,10 +320,10 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     stagedTopicChanges.forEach(topic => {
       if (topic.paths) {
         topic.paths.forEach(path =>
-          breadCrumbs.push(retriveBreadCrumbs({ topicPath: path, allTopics, structure })),
+          breadCrumbs.push(retrieveBreadCrumbs({ topicPath: path, allTopics, structure })),
         );
       } else {
-        breadCrumbs.push(retriveBreadCrumbs({ topicPath: topic.path, allTopics, structure }));
+        breadCrumbs.push(retrieveBreadCrumbs({ topicPath: topic.path, allTopics, structure }));
       }
     });
 
@@ -332,8 +332,8 @@ class TopicArticleTaxonomy extends Component<Props, State> {
         <TopicArticleConnections
           structure={structure}
           activeTopics={this.state.stagedTopicChanges}
-          retriveBreadCrumbs={topicPath =>
-            retriveBreadCrumbs({ topicPath, allTopics, structure, title })
+          retrieveBreadCrumbs={topicPath =>
+            retrieveBreadCrumbs({ topicPath, allTopics, structure, title })
           }
           locale={locale}
           getSubjectTopics={this.getSubjectTopics}

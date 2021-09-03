@@ -14,36 +14,23 @@ describe('Search content', () => {
     setToken();
     cy.apiroute('GET', `${taxonomyApi}/resource-types/?language=nb`, 'resourceTypes');
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
-    cy.apiroute(
-      'GET',
-      '/search-api/v1/search/editorial/*',
-      'search',
-    );
-    cy.apiroute(
-       'GET',
-       '/draft-api/v1/drafts/licenses/',
-       'licenses',
-     );
-    cy.intercept(
-      'GET', 
-      '/get_editors*',
-      [{
-        "name": "Ed Test",
-        "app_metadata": {
-          "ndla_id": "PrcePFwCDOsb2_g0Kcb-maN0",
-        }
-      }]);
+    cy.apiroute('GET', '/search-api/v1/search/editorial/*', 'search');
+    cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
+    cy.intercept('GET', '/get_editors*', [
+      {
+        name: 'Ed Test',
+        app_metadata: {
+          ndla_id: 'PrcePFwCDOsb2_g0Kcb-maN0',
+        },
+      },
+    ]);
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.visit('/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance');
     cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@licenses', '@zendeskToken']);
   });
 
   it('Can use text input', () => {
-    cy.apiroute(
-      'GET',
-      '/search-api/v1/search/editorial/?*query=Test*',
-      'searchQuery',
-    );
+    cy.apiroute('GET', '/search-api/v1/search/editorial/?*query=Test*', 'searchQuery');
     cy.get('input[name="query"]')
       .type('Test')
       .blur();
@@ -54,11 +41,7 @@ describe('Search content', () => {
   });
 
   it('Can use status dropdown', () => {
-    cy.apiroute(
-      'GET',
-      '/search-api/v1/search/editorial/?draft-status=USER_TEST*',
-      'searchStatus',
-    );
+    cy.apiroute('GET', '/search-api/v1/search/editorial/?draft-status=USER_TEST*', 'searchStatus');
     cy.get('select[name="status"]')
       .select('Brukertest')
       .blur();
@@ -71,7 +54,7 @@ describe('Search content', () => {
   it('Status dropdown with HAS_PUBLISHED results in PUBLISHED with include-other-statuses', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?draft-status=PUBLISHED&fallback=true&include-other-statuses=true*',
+      '/search-api/v1/search/editorial/?draft-status=PUBLISHED&fallback=false&include-other-statuses=true*',
       'searchOther',
     );
     cy.get('select[name="status"]')

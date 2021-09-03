@@ -17,7 +17,15 @@ const menuItemStyle = css`
   margin: calc(${spacing.small} / 2);
 `;
 
-const MenuItemButton = ({ children, ...rest }) => {
+interface Props {
+  children: React.ReactNode;
+  stripped?: boolean;
+  'data-testid'?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+}
+
+const MenuItemButton = ({ children, ...rest }: Props) => {
   return (
     <Button css={menuItemStyle} {...rest}>
       {children}

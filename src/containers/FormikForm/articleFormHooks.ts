@@ -22,7 +22,6 @@ import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
-import { NewReduxMessage, ReduxMessageError } from '../Messages/messagesSelectors';
 import {
   DraftApiType,
   DraftStatus,

@@ -18,8 +18,6 @@ import SaveMultiButton from '../../components/SaveMultiButton';
 import { DraftStatusTypes, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { isFormikFormDirty } from '../../util/formHelper';
 import { ConvertedDraftType, License, ReduxState } from '../../interfaces';
-import * as messageActions from '../Messages/messagesActions';
-import { NewReduxMessage } from '../Messages/messagesSelectors';
 import { getAllLicenses } from '../../modules/license/license';
 
 const SaveButtonContainer = styled.div`

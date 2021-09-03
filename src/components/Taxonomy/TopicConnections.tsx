@@ -22,7 +22,7 @@ import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { PathArray } from '../../util/retriveBreadCrumbs';
+import { PathArray } from '../../util/retrieveBreadCrumbs';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 const StyledTitleModal = styled('h1')`
@@ -52,7 +52,7 @@ interface Props {
   stageTaxonomyChanges: (properties: any) => void;
   getSubjectTopics: (subjectId: string) => Promise<void>;
   setRelevance: (topicId: string, relevanceId: string) => void;
-  retriveBreadCrumbs: (topicPath: string) => PathArray;
+  retrieveBreadCrumbs: (topicPath: string) => PathArray;
 }
 
 const TopicConnections = ({
@@ -67,7 +67,7 @@ const TopicConnections = ({
   stageTaxonomyChanges,
   getSubjectTopics,
   setRelevance,
-  retriveBreadCrumbs,
+  retrieveBreadCrumbs,
 }: Props) => {
   const { t } = useTranslation();
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
@@ -141,7 +141,7 @@ const TopicConnections = ({
         setRelevance={setRelevance}
         removeConnection={removeConnection}
         setPrimaryConnection={setPrimaryConnection}
-        retriveBreadCrumbs={retriveBreadCrumbs}
+        retrieveBreadCrumbs={retrieveBreadCrumbs}
         type="topicarticle"
       />
       <Modal

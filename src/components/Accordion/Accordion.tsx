@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactElement } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
@@ -40,10 +40,10 @@ interface Props {
   disabled?: boolean;
   handleToggle: () => void;
   className?: string;
-  addButton?: ReactElement;
+  addButton?: React.ReactNode;
   appearance: ButtonAppearance;
-  toggleSwitch?: ReactElement;
-  children: ReactElement;
+  toggleSwitch?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Accordion = ({
@@ -86,7 +86,7 @@ const Accordion = ({
             {title}
           </Button>
           <>{toggleSwitch}</>
-          {addButton}
+          <>{addButton}</>
           <Button css={arrowButtonStyle} stripped onClick={handleToggle}>
             {arrow}
           </Button>
@@ -104,7 +104,7 @@ const Accordion = ({
           contentModifiers,
           appearance || inModal ? '' : 'u-4/6@desktop u-push-1/6@desktop',
         )}>
-        {rest.children}
+        <>{rest.children}</>
       </div>
     </div>
   );

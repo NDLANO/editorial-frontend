@@ -25,7 +25,7 @@ import {
 } from '../../../../modules/taxonomy';
 import { sortByName, groupTopics } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
-import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
+import retrieveBreadCrumbs from '../../../../util/retrieveBreadCrumbs';
 import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
 import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
@@ -155,7 +155,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       ];
 
       if (options.length > 1) {
-        const subType = selectedResource.subtypes.find(subtype => subtype.id === options[1]);
+        const subType = selectedResource.subtypes?.find(subtype => subtype.id === options[1]);
         if (subType)
           resourceTypes.push({
             id: subType.id,
@@ -456,10 +456,10 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     topics.forEach(topic => {
       if (topic.paths) {
         topic.paths.forEach(path =>
-          breadCrumbs.push(retriveBreadCrumbs({ topicPath: path, allTopics, structure })),
+          breadCrumbs.push(retrieveBreadCrumbs({ topicPath: path, allTopics, structure })),
         );
       } else {
-        breadCrumbs.push(retriveBreadCrumbs({ topicPath: topic.path, allTopics, structure }));
+        breadCrumbs.push(retrieveBreadCrumbs({ topicPath: topic.path, allTopics, structure }));
       }
     });
 
@@ -484,7 +484,9 @@ class LearningResourceTaxonomy extends Component<Props, State> {
           structure={structure}
           allTopics={allTopics}
           activeTopics={topics}
-          retriveBreadCrumbs={topicPath => retriveBreadCrumbs({ topicPath, allTopics, structure })}
+          retrieveBreadCrumbs={topicPath =>
+            retrieveBreadCrumbs({ topicPath, allTopics, structure })
+          }
           removeConnection={this.removeConnection}
           setPrimaryConnection={this.setPrimaryConnection}
           setRelevance={this.setRelevance}

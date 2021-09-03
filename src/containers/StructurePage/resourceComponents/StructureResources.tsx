@@ -71,6 +71,7 @@ const StructureResources = ({
   const [topicResources, setTopicResources] = useState<TopicResource[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [topicStatus, setTopicStatus] = useState<DraftStatus | undefined>(undefined);
+  const [topicGrepCodes, setTopicGrepCodes] = useState<string[]>([]);
   const prevCurrentTopic = useRef<SubjectTopic | null>(null);
 
   useEffect(() => {
@@ -134,8 +135,9 @@ const StructureResources = ({
             locale,
           );
           setTopicStatus(article.status);
+          setTopicGrepCodes(article.grepCodes);
         }
-        await getResourceStatuses(allTopicResources);
+        await getResourceStatusesAndGrepCodes(allTopicResources);
 
         setTopicResources(allTopicResources);
       } catch (error) {
@@ -147,13 +149,14 @@ const StructureResources = ({
     setLoading(false);
   };
 
-  const getResourceStatuses = async (allTopicResources: TopicResource[]) => {
+  const getResourceStatusesAndGrepCodes = async (allTopicResources: TopicResource[]) => {
     const resourcePromises = allTopicResources.map(async resource => {
       if (resource.contentUri) {
         const [, resourceType, id] = resource.contentUri.split(':');
         if (resourceType === 'article') {
           const article = await fetchDraft(parseInt(id), locale);
           resource.status = article.status;
+          resource.grepCodes = article.grepCodes;
           return article;
         } else if (resourceType === 'learningpath') {
           let learningpath;
@@ -201,6 +204,7 @@ const StructureResources = ({
         refreshTopics={refreshTopics}
         currentTopic={currentTopic}
         status={topicStatus}
+        grepCodes={topicGrepCodes}
       />
       {grouped === 'ungrouped' && (
         <AllResourcesGroup

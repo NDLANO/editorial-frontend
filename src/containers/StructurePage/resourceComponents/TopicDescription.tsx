@@ -15,6 +15,7 @@ interface Props {
   currentTopic: SubjectTopic;
   status?: DraftStatus;
   resourceRef: React.RefObject<HTMLDivElement>;
+  grepCodes: string[];
 }
 
 const TopicDescription = ({
@@ -24,6 +25,7 @@ const TopicDescription = ({
   currentTopic,
   status,
   resourceRef,
+  grepCodes,
 }: Props) => {
   const { t } = useTranslation();
   const [displayTopicDescription, setDisplayTopicDescription] = useState(true);
@@ -54,6 +56,7 @@ const TopicDescription = ({
                 topicId: currentTopic.id,
                 paths: [],
                 resourceTypes: [],
+                grepCodes,
               }}
               locale={locale}
               updateRelevanceId={updateRelevanceId}

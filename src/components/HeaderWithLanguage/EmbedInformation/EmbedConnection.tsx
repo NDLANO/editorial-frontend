@@ -22,7 +22,7 @@ import { SearchConceptType } from '../../../modules/concept/conceptApiInterfaces
 import ElementList from '../../../containers/FormikForm/components/ElementList';
 import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
-type embedType = 'image' | 'audio';
+type embedType = 'image' | 'audio' | 'concept';
 
 interface Props {
   id: number;

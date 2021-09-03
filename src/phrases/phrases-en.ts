@@ -1018,6 +1018,7 @@ const phrases = {
       type: {
         image: 'image',
         audio: 'audio file',
+        concept: 'concept',
       },
       sectionTitleArticle: 'Articles containing the {{resource}}',
       sectionTitleConcept: 'Concepts containing the {{resource}}',
@@ -1025,6 +1026,7 @@ const phrases = {
       info: {
         image: 'Uses of the image in articles and/or concepts',
         audio: 'Uses of the audio file in articles',
+        concept: 'Uses of the concept in articles',
       },
       notInUse: 'No uses of the {{resource}} in articles and/or concepts were found',
       articles: '1 article',

@@ -1031,6 +1031,7 @@ const phrases = {
       type: {
         image: 'bildet',
         audio: 'lydfilen',
+        concept: 'forklaringen',
       },
       sectionTitleArticle: 'Artikler som bruker {{resource}}',
       sectionTitleConcept: 'Forklaringer som bruker {{resource}}',
@@ -1038,6 +1039,7 @@ const phrases = {
       info: {
         image: 'Bruk av bildet i artikler og/eller forklaringer',
         audio: 'Bruk av lydfilen i artikler',
+        concept: 'Bruk av forklaringen i artikler',
       },
       notInUse: 'Fant ingen artikler eller forklaringer som bruker {{resource}}',
       articles: '{{count}} artikkel',

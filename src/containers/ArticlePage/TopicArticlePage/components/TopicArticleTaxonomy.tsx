@@ -30,7 +30,7 @@ import { ActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
 
 import { FormikFieldHelp } from '../../../../components/FormikField';
-import { LocaleType } from '../../../../interfaces';
+import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import {
   ResourceType,
   SubjectTopic,
@@ -40,12 +40,14 @@ import {
   Topic,
   TopicConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 
 type Props = {
-  article: any;
+  articleId: number;
+  article: Partial<ConvertedDraftType>;
   setIsOpen?: (open: boolean) => void;
   locale: LocaleType;
-  updateNotes: Function;
+  updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   userAccess?: string;
 } & WithTranslation;
 
@@ -119,11 +121,13 @@ class TopicArticleTaxonomy extends Component<Props, State> {
 
   fetchTaxonomy = async () => {
     const {
-      article: { language, id },
+      articleId,
+      article: { language },
     } = this.props;
+    if (!language) return;
     try {
       const [topics, allTopics, subjects, allResourceTypes] = await Promise.all([
-        queryTopics(id, language),
+        queryTopics(articleId.toString(), language),
         fetchTopics(language),
         fetchSubjects(language),
         fetchResourceTypes(language),
@@ -161,7 +165,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     if (path) {
       const newTopic: StagedTopic = {
         id: 'staged',
-        name: this.props.article.title,
+        name: this.props.article.title ?? '',
         path: `${path}/staged`,
         metadata: {
           grepCodes: [],
@@ -180,9 +184,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
   addNewTopic = async (stagedNewTopics: StagedTopic[]) => {
     const { stagedTopicChanges } = this.state;
     const existingTopics = stagedTopicChanges.filter(t => !stagedNewTopics.includes(t));
-    const {
-      article: { id: articleId },
-    } = this.props;
+    const { articleId } = this.props;
     const newTopics = await Promise.all(
       stagedNewTopics.map(topic => this.createAndPlaceTopic(topic, articleId)),
     );
@@ -206,9 +208,10 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       if (stagedNewTopics.length > 0) {
         await this.addNewTopic(stagedNewTopics);
       }
+
       updateNotes({
         id: articleId,
-        revision,
+        revision: revision ?? 0,
         language,
         notes: ['Oppdatert taksonomi.'],
       });

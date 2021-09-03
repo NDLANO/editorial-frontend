@@ -14,7 +14,7 @@ import { FormikContextType, FormikHelpers } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
-import { Value } from 'slate';
+import { Value, Plugin } from 'slate';
 import FormikField, { classes as formikFieldClasses } from '../../../../components/FormikField';
 import RichBlockTextEditor from '../../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes, { FootnoteType } from './LearningResourceFootnotes';
@@ -106,7 +106,7 @@ interface State {
 }
 
 class LearningResourceContent extends Component<Props, State> {
-  plugins: any[] = [];
+  plugins: Plugin[] = [];
   constructor(props: Props) {
     super(props);
     const {

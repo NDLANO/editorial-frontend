@@ -59,7 +59,6 @@ const CreateTopicArticle = ({
         applicationError={applicationError}
         createMessage={createMessage}
         articleChanged={false}
-        translateToNN={() => {}}
       />
     </Fragment>
   );

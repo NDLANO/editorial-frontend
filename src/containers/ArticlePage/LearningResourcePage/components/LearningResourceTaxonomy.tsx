@@ -43,11 +43,11 @@ import {
   ResourceType,
   ResourceResourceType,
   SubjectType,
-  ParentTopic,
+  SubjectTopic,
+  ParentTopicWithRelevanceAndConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
-import { StagedTopic } from '../../TopicArticlePage/components/TopicArticleTaxonomy';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -60,7 +60,7 @@ const emptyTaxonomy = {
 interface FullResource {
   name: string;
   resourceTypes: ResourceResourceType[];
-  topics: (ParentTopic & { paths?: string[] })[];
+  topics: ParentTopicWithRelevanceAndConnections[];
   metadata?: TaxonomyMetadata;
 }
 
@@ -72,21 +72,25 @@ type Props = {
   userAccess?: string;
 } & WithTranslation;
 
+interface LearningResourceSubjectType extends SubjectType {
+  topics?: SubjectTopic[];
+}
+
 interface State {
   resourceId: string;
-  structure: SubjectType[];
+  structure: LearningResourceSubjectType[];
   status: string;
   isDirty: boolean;
 
   resourceTaxonomy: {
     resourceTypes: ResourceResourceType[];
-    topics: ParentTopic[];
+    topics: ParentTopicWithRelevanceAndConnections[];
     name?: string;
     metadata?: TaxonomyMetadata;
   };
   taxonomyChanges: {
-    resourceTypes: Partial<ResourceResourceType>[];
-    topics: StagedTopic[];
+    resourceTypes: ResourceResourceType[];
+    topics: ParentTopicWithRelevanceAndConnections[];
     metadata?: TaxonomyMetadata;
   };
 
@@ -141,14 +145,12 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     );
 
     if (selectedResource) {
-      const resourceTypes: {
-        id?: string;
-        name?: string;
-        parentId?: string;
-      }[] = [
+      const resourceTypes: ResourceResourceType[] = [
         {
           name: selectedResource.name,
           id: selectedResource.id,
+          parentId: '',
+          connectionId: '',
         },
       ];
 
@@ -159,6 +161,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
             id: subType.id,
             name: subType.name,
             parentId: selectedResource.id,
+            connectionId: '',
           });
       }
 
@@ -167,14 +170,13 @@ class LearningResourceTaxonomy extends Component<Props, State> {
   };
 
   getSubjectTopics = async (subjectid: string) => {
-    if (this.state.structure.some((subject: any) => subject.id === subjectid && subject.topics)) {
+    if (this.state.structure.some(subject => subject.id === subjectid && subject.topics)) {
       return;
     }
     try {
-      this.updateSubject(subjectid, { loading: true });
       const allTopics = await fetchSubjectTopics(subjectid, this.props.locale);
       const groupedTopics = groupTopics(allTopics);
-      this.updateSubject(subjectid, { loading: false, topics: groupedTopics });
+      this.updateSubject(subjectid, { topics: groupedTopics });
     } catch (err) {
       handleError(err);
     }
@@ -301,7 +303,6 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         });
       }
       if (reassignedResourceId) {
-        // @ts-ignore TODO: denne må du fikse jonas
         await updateTaxonomy(reassignedResourceId, resourceTaxonomy, taxonomyChanges);
         updateNotes({
           id,
@@ -365,7 +366,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     };
   };
 
-  updateSubject = (subjectId: string, newSubject: any) => {
+  updateSubject = (subjectId: string, newSubject: Partial<LearningResourceSubjectType>) => {
     this.setState(prevState => ({
       structure: prevState.structure.map(subject =>
         subject.id === subjectId ? { ...subject, ...newSubject } : subject,

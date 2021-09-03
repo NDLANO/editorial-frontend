@@ -165,7 +165,7 @@ interface Props extends RouteComponentProps {
   }) => Promise<ConvertedDraftType>;
   userAccess: string | undefined;
   translating: boolean;
-  translateToNN: Function;
+  translateToNN?: Function;
   licenses: License[];
   isNewlyCreated: boolean;
 }

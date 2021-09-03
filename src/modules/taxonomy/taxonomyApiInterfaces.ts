@@ -63,6 +63,7 @@ export interface ParentTopic extends TaxonomyElement {
   primary: boolean;
   isPrimary: boolean;
   connectionId: string;
+  paths: string[];
 }
 
 export type ParentTopicWithRelevanceAndConnections = ParentTopic & {

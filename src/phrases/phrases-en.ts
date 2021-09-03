@@ -1127,7 +1127,7 @@ const phrases = {
       title: 'Change subject name',
       cancel: 'Cancel',
       add: 'Add',
-      noTranslations: 'No translations available!',
+      noTranslations: 'No translations available! Using default name as fallback.',
     },
     topicSettings: 'Topic settings',
     subjectSettings: 'Subject settings',

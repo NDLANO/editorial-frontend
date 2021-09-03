@@ -1139,7 +1139,8 @@ const phrases = {
       title: 'Endre fagnavn',
       cancel: 'Avbryt',
       add: 'Legg til',
-      noTranslations: 'Ingen oversettelser tilgjengelig!',
+      noTranslations:
+        'Ingen oversettelser tilgjengelig. Standardnavn vil tas i bruk inntil dette legges inn.',
     },
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',

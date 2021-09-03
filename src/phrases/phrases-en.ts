@@ -769,6 +769,9 @@ const phrases = {
         choose: 'Choose concept',
       },
       link: {
+        name: 'Name',
+        domains: 'Url',
+        validDomains: 'Valid domains',
         goTo: 'Go to',
         insert: 'Insert link',
         update: 'Update link',

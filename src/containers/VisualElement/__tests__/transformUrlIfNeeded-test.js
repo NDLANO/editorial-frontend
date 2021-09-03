@@ -5,7 +5,16 @@
  */
 
 import nock from 'nock';
-import { transformUrlIfNeeded } from '../VisualElementUrlPreview';
+import { transformableDomains } from '../VisualElementUrlPreview';
+
+const transformUrlIfNeeded = async url => {
+  for (const rule of transformableDomains) {
+    if (rule.shouldTransform(url, rule.domains)) {
+      return await rule.transform(url);
+    }
+  }
+  return url;
+};
 
 test('transformUrlIfNeeded returns static nrk url if correct nrk url is used', async () => {
   nock('http://nrk-api')

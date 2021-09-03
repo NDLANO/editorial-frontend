@@ -181,6 +181,7 @@ const TopicArticleForm = (props: Props) => {
     licenses,
     isNewlyCreated,
     createMessage,
+    applicationError,
     articleStatus,
     history,
     userAccess,
@@ -207,6 +208,8 @@ const TopicArticleForm = (props: Props) => {
     licenses,
     getArticleFromSlate,
     isNewlyCreated,
+    createMessage,
+    applicationError,
   });
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);

@@ -77,6 +77,7 @@ const EditLearningResource = ({
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
         createMessage={createMessage}
+        applicationError={applicationError}
         userAccess={userAccess}
       />
     </Fragment>

@@ -11,6 +11,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
+import { Action, ActionFunction1 } from 'redux-actions';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -41,7 +42,7 @@ import {
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, License, LocaleType, RelatedContent } from '../../../../interfaces';
-import { NewReduxMessage } from '../../../Messages/messagesSelectors';
+import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
 
 export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
   const metaImageId = parseImageUrl(article.metaImage);
@@ -167,7 +168,8 @@ const getArticleFromSlate = ({
 
 interface Props extends RouteComponentProps {
   userAccess: string | undefined;
-  createMessage: (message: NewReduxMessage) => void;
+  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
+  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   article: Partial<ConvertedDraftType>;
   translating: boolean;
   translateToNN: () => void;
@@ -187,6 +189,7 @@ const LearningResourceForm = ({
   article,
   articleStatus,
   createMessage,
+  applicationError,
   isNewlyCreated = false,
   licenses,
   translateToNN,
@@ -212,6 +215,8 @@ const LearningResourceForm = ({
     article,
     t,
     articleStatus,
+    createMessage,
+    applicationError,
     updateArticle,
     updateArticleAndStatus,
     licenses,

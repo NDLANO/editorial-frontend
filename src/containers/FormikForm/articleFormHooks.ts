@@ -12,6 +12,7 @@ import { FormikHelpers } from 'formik';
 import { Value } from 'slate';
 
 import { WithTranslation } from 'react-i18next';
+import { Action, ActionFunction1 } from 'redux-actions';
 import {
   deleteFile,
   fetchStatusStateMachine,
@@ -36,8 +37,8 @@ import {
   RelatedContent,
   VisualElement,
 } from '../../interfaces';
-import * as messageActions from '../Messages/messagesActions';
 import { ApiConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { NewReduxMessage, ReduxMessageError } from '../Messages/messagesSelectors';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -85,7 +86,7 @@ export interface ArticleFormikType {
   relatedContent: (DraftApiType | RelatedContent)[];
 }
 
-interface HooksInputObject {
+type HooksInputObject = {
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
   article: Partial<ConvertedDraftType>;
   t: WithTranslation['t'];
@@ -104,13 +105,17 @@ interface HooksInputObject {
     preview: boolean;
   }) => UpdatedDraftApiType;
   isNewlyCreated: boolean;
-}
+  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
+  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
+};
 
 export function useArticleFormHooks({
   getInitialValues,
   article,
   t,
   articleStatus,
+  createMessage,
+  applicationError,
   updateArticle,
   updateArticleAndStatus,
   licenses,
@@ -206,14 +211,14 @@ export function useArticleFormHooks({
       formikHelpers.setFieldValue('notes', [], false);
     } catch (err) {
       if (err && err.status && err.status === 409) {
-        messageActions.addMessage({
+        createMessage({
           message: t('alertModal.needToRefresh'),
           timeToLive: 0,
         });
       } else if (err && err.json && err.json.messages) {
-        messageActions.addMessage(formatErrorMessage(err));
+        createMessage(formatErrorMessage(err));
       } else {
-        messageActions.applicationError(err);
+        applicationError(err);
       }
       if (statusChange) {
         // if validation failed we need to set status back so it won't be saved as new status on next save

@@ -52,6 +52,7 @@ const CreateLearningResource = ({
         updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
         licenses={licenses}
         createMessage={createMessage}
+        applicationError={applicationError}
         userAccess={userAccess}
         translating={false}
         articleChanged={false}

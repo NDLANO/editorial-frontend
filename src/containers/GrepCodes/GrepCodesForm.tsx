@@ -19,6 +19,7 @@ import { DraftStatusTypes, UpdatedDraftApiType } from '../../modules/draft/draft
 import { isFormikFormDirty } from '../../util/formHelper';
 import { ConvertedDraftType, License, ReduxState } from '../../interfaces';
 import { getAllLicenses } from '../../modules/license/license';
+import * as messageActions from '../../containers/Messages/messagesActions';
 
 const SaveButtonContainer = styled.div`
   display: flex;
@@ -69,12 +70,16 @@ interface Props {
     dirty: boolean;
   }) => Promise<ConvertedDraftType>;
 }
+const mapDispatchToProps = {
+  createMessage: messageActions.addMessage,
+  applicationError: messageActions.applicationError,
+};
 
 const mapStateToProps = (state: ReduxState) => ({
   licenses: getAllLicenses(state),
 });
 
-const reduxConnector = connect(mapStateToProps);
+const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 const GrepCodesForm = ({
@@ -83,6 +88,8 @@ const GrepCodesForm = ({
   licenses,
   updateArticle,
   updateArticleAndStatus,
+  applicationError,
+  createMessage,
 }: Props & PropsFromRedux) => {
   const { t } = useTranslation();
   const { savedToServer, handleSubmit } = useArticleFormHooks({
@@ -95,6 +102,8 @@ const GrepCodesForm = ({
     licenses,
     getArticleFromSlate: getArticle,
     isNewlyCreated: false,
+    createMessage,
+    applicationError,
   });
 
   return (

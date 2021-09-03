@@ -50,6 +50,7 @@ const StyledChevron = styled.div<{ isOpen: boolean }>`
 `;
 
 const StyledSummary = styled.summary`
+  flex-grow: 1;
   color: ${colors.brand.primary};
   font-size: 20px;
   cursor: inherit;

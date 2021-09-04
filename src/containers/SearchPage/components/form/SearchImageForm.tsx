@@ -48,6 +48,7 @@ const getModelReleasedValues = (t: WithTranslation['t']) => [
   { id: 'yes', name: t('imageSearch.modelReleased.yes') },
   { id: 'not-applicable', name: t('imageSearch.modelReleased.not-applicable') },
   { id: 'no', name: t('imageSearch.modelReleased.no') },
+  { id: 'not-set', name: t('imageSearch.modelReleased.not-set') },
 ];
 
 class SearchImageForm extends Component<Props & WithTranslation, State> {

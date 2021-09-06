@@ -1118,6 +1118,9 @@ const phrases = {
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     changeName: {
+      loadError: 'Could not fetch translations',
+      updateError: 'Could not update translations',
+      defaultName: 'Default name',
       addNewTranslation: 'Add new translation',
       buttonTitle: 'Change name',
       language: 'Language',

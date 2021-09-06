@@ -38,6 +38,8 @@ import { supportedLanguages } from '../../../../i18n2';
 import { requiredField } from '../../../../util/yupValidators';
 import DeleteButton from '../../../../components/DeleteButton';
 import AddSubjectTranslation from './AddSubjectTranslation';
+import handleError from '../../../../util/handleError';
+import { StyledErrorMessage } from '../styles';
 
 const buttonStyle = css`
   flex-grow: 1;
@@ -123,15 +125,22 @@ const ChangeSubjectNameModal = ({
 }: ModalProps) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
+  const [updateError, setUpdateError] = useState('');
   const [translations, setTranslations] = useState<SubjectNameTranslation[]>([]);
 
   useEffect(() => {
     (async () => {
-      const translations = await fetchSubjectNameTranslations(id);
-      setTranslations(translations);
+      try {
+        const translations = await fetchSubjectNameTranslations(id);
+        setTranslations(translations);
+      } catch (e) {
+        handleError(e);
+        setLoadError(t('taxonomy.changeName.loadError'));
+      }
       setLoading(false);
     })();
-  }, [id]);
+  }, [id, t]);
 
   const toRecord = (
     translations: SubjectNameTranslation[],
@@ -151,7 +160,16 @@ const ChangeSubjectNameModal = ({
       updateSubjectNameTranslation(id, u.language, u.name),
     );
     const promises = [...deleteCalls, ...updateCalls];
-    await Promise.all(promises);
+    try {
+      await Promise.all(promises);
+    } catch (e) {
+      handleError(e);
+      setUpdateError(t('taxonomy.changeName.updateError'));
+      await getAllSubjects();
+      refreshTopics();
+      formik.setSubmitting(false);
+      return;
+    }
 
     if (promises.length > 0) {
       await getAllSubjects();
@@ -176,6 +194,10 @@ const ChangeSubjectNameModal = ({
 
   if (loading) {
     return <Spinner />;
+  }
+
+  if (loadError) {
+    return <StyledErrorMessage>{loadError}</StyledErrorMessage>;
   }
 
   return (
@@ -206,12 +228,13 @@ const ChangeSubjectNameModal = ({
                   dirty,
                 });
                 if (formIsDirty) {
+                  setUpdateError('');
                   setSaved(false);
                 }
                 return (
                   <Form {...formClasses()}>
                     <h1>{t('taxonomy.changeName.title')}</h1>
-                    <p>{`Nåværende standardnavn: ${name}`}</p>
+                    <p>{`${t('taxonomy.changeName.defaultName')}: ${name}`}</p>
                     {values.translations.length === 0 && (
                       <>{t('taxonomy.changeName.noTranslations')}</>
                     )}
@@ -264,6 +287,7 @@ const ChangeSubjectNameModal = ({
                         />
                       </Row>
                     </UIField>
+                    {updateError && <StyledErrorMessage>{updateError}</StyledErrorMessage>}
                   </Form>
                 );
               }}

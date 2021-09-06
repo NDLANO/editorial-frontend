@@ -1130,6 +1130,9 @@ const phrases = {
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     changeName: {
+      loadError: 'Klarte ikke hente oversettelser',
+      updateError: 'Klarte ikke oppdatere oversettelser',
+      defaultName: 'Standardnavn',
       addNewTranslation: 'Legg til ny oversettelse',
       buttonTitle: 'Endre navn',
       language: 'Språk',

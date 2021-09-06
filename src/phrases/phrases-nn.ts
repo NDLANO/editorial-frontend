@@ -1136,6 +1136,9 @@ const phrases = {
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     changeName: {
+      loadError: 'Klarte ikkje hente omsetjingar',
+      updateError: 'Klarte ikkje oppdatere omsetjingar',
+      defaultName: 'Standardnamn',
       addNewTranslation: 'Legg til ny omsetjing',
       buttonTitle: 'Endre namn',
       language: 'Språk',

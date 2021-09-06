@@ -79,9 +79,9 @@ const ChangeSubjectName = ({
   id,
   getAllSubjects,
   refreshTopics,
+  name,
 }: Props) => {
   const { t } = useTranslation();
-
   return (
     <>
       <MenuItemButton
@@ -93,13 +93,11 @@ const ChangeSubjectName = ({
       </MenuItemButton>
       {editMode === 'changeSubjectName' && (
         <ChangeSubjectNameModal
-          onClose={changed => {
+          name={name}
+          getAllSubjects={getAllSubjects}
+          refreshTopics={refreshTopics}
+          onClose={() => {
             toggleEditMode('changeSubjectName');
-            if (changed) {
-              getAllSubjects();
-              refreshTopics();
-              // onClose();
-            }
           }}
           id={id}
         />
@@ -109,15 +107,23 @@ const ChangeSubjectName = ({
 };
 
 interface ModalProps {
-  onClose: (changed: boolean) => void;
+  onClose: () => void;
+  refreshTopics: () => void;
+  getAllSubjects: () => Promise<void>;
   id: string;
+  name: string;
 }
 
-const ChangeSubjectNameModal = ({ onClose, id }: ModalProps) => {
+const ChangeSubjectNameModal = ({
+  onClose,
+  id,
+  name,
+  refreshTopics,
+  getAllSubjects,
+}: ModalProps) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [translations, setTranslations] = useState<SubjectNameTranslation[]>([]);
-  const [changed, setChanged] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -147,7 +153,10 @@ const ChangeSubjectNameModal = ({ onClose, id }: ModalProps) => {
     const promises = [...deleteCalls, ...updateCalls];
     await Promise.all(promises);
 
-    setChanged(promises.length > 0);
+    if (promises.length > 0) {
+      await getAllSubjects();
+      refreshTopics();
+    }
     setTranslations(formik.values.translations);
     formik.resetForm({ values: formik.values, isSubmitting: false });
     setSaved(true);
@@ -170,7 +179,7 @@ const ChangeSubjectNameModal = ({ onClose, id }: ModalProps) => {
   }
 
   return (
-    <Modal narrow controllable isOpen backgroundColor="white" onClose={() => onClose(changed)}>
+    <Modal narrow controllable isOpen backgroundColor="white" onClose={() => onClose()}>
       {(onCloseModal: () => void) => (
         <>
           <ModalHeader>
@@ -202,8 +211,9 @@ const ChangeSubjectNameModal = ({ onClose, id }: ModalProps) => {
                 return (
                   <Form {...formClasses()}>
                     <h1>{t('taxonomy.changeName.title')}</h1>
+                    <p>{`Nåværende standardnavn: ${name}`}</p>
                     {values.translations.length === 0 && (
-                      <div>{t('taxonomy.changeName.noTranslations')}</div>
+                      <>{t('taxonomy.changeName.noTranslations')}</>
                     )}
                     <FieldArray name="translations">
                       {({ push, remove }) => (
@@ -231,6 +241,7 @@ const ChangeSubjectNameModal = ({ onClose, id }: ModalProps) => {
                             </Row>
                           ))}
                           <AddSubjectTranslation
+                            defaultName={name}
                             onAddTranslation={push}
                             availableLanguages={availableLanguages}
                           />

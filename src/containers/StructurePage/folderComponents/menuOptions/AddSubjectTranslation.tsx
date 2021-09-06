@@ -17,7 +17,6 @@ import FormikField from '../../../../components/FormikField';
 import validateFormik from '../../../../components/formikValidationSchema';
 import { LocaleType } from '../../../../interfaces';
 import { SubjectNameTranslation } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { isFormikFormDirty } from '../../../../util/formHelper';
 
 const formikFieldStyle = css`
   margin-top: 0px;
@@ -26,6 +25,7 @@ const formikFieldStyle = css`
 interface AddSubjectTranslationProps {
   onAddTranslation: (translation: SubjectNameTranslation) => void;
   availableLanguages: LocaleType[];
+  defaultName: string;
 }
 
 interface FormValues {
@@ -36,6 +36,7 @@ interface FormValues {
 const AddSubjectTranslation = ({
   onAddTranslation,
   availableLanguages,
+  defaultName,
 }: AddSubjectTranslationProps) => {
   const { t } = useTranslation();
 
@@ -49,7 +50,7 @@ const AddSubjectTranslation = ({
     const newObj = { name: values.name!, language: values.language! };
     onAddTranslation(newObj);
     const next = availableLanguages.find(l => l !== values.language) ?? availableLanguages[0];
-    resetForm({ values: { language: next, name: '' } });
+    resetForm({ values: { language: next, name: defaultName } });
   };
 
   if (availableLanguages.length === 0) {
@@ -64,18 +65,13 @@ const AddSubjectTranslation = ({
 
   return (
     <Formik
-      initialValues={{ language: availableLanguages[0], name: '' }}
+      initialValues={{ language: availableLanguages[0], name: defaultName }}
       validate={values => validateFormik(values, rules, t, 'taxonomy.changeName')}
       validateOnBlur={false}
-      enableReinitialize={true}
+      enableReinitialize
       onSubmit={_ => {}}>
       {formik => {
-        const { values, dirty, isValid, initialValues } = formik;
-        const formIsDirty: boolean = isFormikFormDirty({
-          values,
-          initialValues,
-          dirty,
-        });
+        const { isValid } = formik;
         return (
           <Form
             css={css`
@@ -111,7 +107,7 @@ const AddSubjectTranslation = ({
                     <Button
                       data-testid="addSubjectNameTranslationButton"
                       onClick={() => handleAddTranslation(formik)}
-                      disabled={!isValid || !formIsDirty}>
+                      disabled={!isValid}>
                       {t('taxonomy.changeName.add')}
                     </Button>
                   </Row>

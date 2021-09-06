@@ -6,24 +6,38 @@
  *
  */
 
-import React, { Component } from 'react';
+import React from 'react';
+import { useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
 import VisualElementSearch from './VisualElementSearch';
 import VisualElementModalWrapper from './VisualElementModalWrapper';
 
-class VisualElementSelectField extends Component {
-  constructor(props) {
-    super(props);
-    this.handleVisualElementChange = this.handleVisualElementChange.bind(this);
-    this.onImageLightboxClose = this.onImageLightboxClose.bind(this);
-  }
+export const onSaveAsMetaImage = (image, formikContext) => {
+  const { setFieldValue } = formikContext;
 
-  onImageLightboxClose() {
-    this.props.resetSelectedResource();
+  if (setFieldValue && image) {
+    setTimeout(() => {
+      setFieldValue('metaImageAlt', image.alttext.alttext);
+      setFieldValue('metaImageId', parseInt(image.id));
+    }, 0);
   }
+};
 
-  handleVisualElementChange(visualElement) {
-    const { name, onChange, resetSelectedResource } = this.props;
+const VisualElementSelectField = ({
+  resetSelectedResource,
+  onChange,
+  name,
+  videoTypes,
+  articleLanguage,
+  selectedResource,
+}) => {
+  const formikContext = useFormikContext();
+
+  const onImageLightboxClose = () => {
+    resetSelectedResource();
+  };
+
+  const handleVisualElementChange = visualElement => {
     onChange({
       target: {
         name,
@@ -31,32 +45,28 @@ class VisualElementSelectField extends Component {
       },
     });
     resetSelectedResource();
-  }
+  };
 
-  render() {
-    const { selectedResource, videoTypes, articleLanguage } = this.props;
-    if (!selectedResource) {
-      return null;
-    }
-    return (
-      <VisualElementModalWrapper
-        resource={selectedResource}
-        isOpen
-        onClose={this.onImageLightboxClose}>
-        {setH5pFetchFail => (
-          <VisualElementSearch
-            selectedResource={selectedResource}
-            handleVisualElementChange={this.handleVisualElementChange}
-            closeModal={this.onImageLightboxClose}
-            videoTypes={videoTypes}
-            articleLanguage={articleLanguage}
-            setH5pFetchFail={setH5pFetchFail}
-          />
-        )}
-      </VisualElementModalWrapper>
-    );
+  if (!selectedResource) {
+    return null;
   }
-}
+  return (
+    <VisualElementModalWrapper resource={selectedResource} isOpen onClose={onImageLightboxClose}>
+      {setH5pFetchFail => (
+        <VisualElementSearch
+          selectedResource={selectedResource}
+          handleVisualElementChange={handleVisualElementChange}
+          closeModal={onImageLightboxClose}
+          videoTypes={videoTypes}
+          articleLanguage={articleLanguage}
+          setH5pFetchFail={setH5pFetchFail}
+          showMetaImageCheckbox={true}
+          onSaveAsMetaImage={image => onSaveAsMetaImage(image, formikContext)}
+        />
+      )}
+    </VisualElementModalWrapper>
+  );
+};
 
 VisualElementSelectField.propTypes = {
   onChange: PropTypes.func.isRequired,

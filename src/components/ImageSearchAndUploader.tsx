@@ -32,6 +32,8 @@ interface Props {
   onError: Function;
   searchImages: (query: ImageSearchQuery) => Promise<ImageSearchResult>;
   fetchImage: (id: string) => Promise<ImageApiType>;
+  showMetaImageCheckbox?: boolean;
+  onSaveAsMetaImage?: (image: ImageApiType) => void;
 }
 
 const ImageSearchAndUploader = ({
@@ -42,6 +44,8 @@ const ImageSearchAndUploader = ({
   onError,
   searchImages,
   fetchImage,
+  showMetaImageCheckbox,
+  onSaveAsMetaImage,
 }: Props) => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const { t } = useTranslation();
@@ -80,6 +84,8 @@ const ImageSearchAndUploader = ({
                 </>
               }
               onError={onError}
+              showMetaImageCheckbox={showMetaImageCheckbox}
+              onSaveAsMetaImage={onSaveAsMetaImage}
             />
           ),
         },

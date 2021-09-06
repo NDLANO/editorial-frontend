@@ -273,6 +273,7 @@ const phrases = {
       yes: 'Model released',
       no: 'Not model released',
       'not-applicable': 'Not applicable',
+      'not-set': 'Not set',
     },
     placeholder: 'Search images',
     buttonTitle: 'Search',
@@ -651,6 +652,7 @@ const phrases = {
       yes: 'Yes',
       no: 'No',
       'not-applicable': 'Not applicable',
+      'not-set': 'Not set',
       description: 'Whether the image is model released or not:',
     },
     markdown: {
@@ -769,6 +771,9 @@ const phrases = {
         choose: 'Choose concept',
       },
       link: {
+        name: 'Name',
+        domains: 'Url',
+        validDomains: 'Valid domains',
         goTo: 'Go to',
         insert: 'Insert link',
         update: 'Update link',

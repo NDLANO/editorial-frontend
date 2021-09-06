@@ -282,6 +282,7 @@ const phrases = {
       yes: 'Modelklarert',
       no: 'Ikkje modelklarert',
       'not-applicable': 'Gjeld ikkje',
+      'not-set': 'Ikkje valgt',
     },
   },
   videoSearch: {
@@ -674,6 +675,7 @@ const phrases = {
       yes: 'Ja',
       no: 'Nei',
       'not-applicable': 'Gjeld ikkje',
+      'not-set': 'Ikkje valgt',
       description: 'Om bildet er modelklarert eller ikkje:',
     },
     markdown: {
@@ -792,6 +794,9 @@ const phrases = {
         choose: 'Velg forklaring',
       },
       link: {
+        name: 'Namn',
+        domains: 'Url',
+        validDomains: 'Gyldige domener',
         goTo: 'Gå til',
         insert: 'Sett inn lenke',
         update: 'Oppdater lenke',

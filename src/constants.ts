@@ -6,6 +6,8 @@
  *
  */
 
+import { ndlaBaseUrl } from './config';
+
 export const NAVIGATION_HEADER_MARGIN = '71px';
 
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
@@ -83,11 +85,11 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'MolView', url: ['embed.molview.org'] },
   {
     name: 'NDLA Statisk',
-    url: ['statisk.ndla.no', 'statisk.test.ndla.no', 'statisk.staging.ndla.no'],
+    url: [`statisk.${ndlaBaseUrl()}`],
   },
   {
     name: 'NDLA Liste',
-    url: ['liste.ndla.no', 'liste.test.ndla.no', 'liste.staging.ndla.no'],
+    url: [`liste.${ndlaBaseUrl()}`],
     height: '398px',
   },
   { name: 'ebok', url: ['ebok.no'] },

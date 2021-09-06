@@ -4,8 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
@@ -15,6 +14,9 @@ import Tooltip from '@ndla/tooltip';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
+import { Learningpath } from '../../interfaces';
+import { MultiSearchSummary } from '../../modules/search/searchApiInterfaces';
+import { SearchConceptType } from '../../modules/concept/conceptApiInterfaces';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -29,19 +31,34 @@ const StyledStatusWrapper = styled.div`
   white-space: nowrap;
 `;
 
+interface Props {
+  noStatus: boolean;
+  statusText: string;
+  isNewLanguage: boolean;
+  published: boolean;
+  taxonomyPaths: string[];
+  indentLeft: boolean;
+  fontSize: number;
+  type: string;
+  id: number;
+}
+
 const HeaderStatusInformation = ({
   noStatus,
   statusText,
   isNewLanguage,
   published,
   taxonomyPaths,
-  noHelp,
   indentLeft,
   fontSize,
   type,
   id,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
+  const [learningpaths, setLearningpaths] = useState<Learningpath[]>([]);
+  const [articles, setArticles] = useState<MultiSearchSummary[]>([]);
+  const [concepts, setConcepts] = useState<SearchConceptType[]>([]);
+
   const StyledStatus = styled.p`
     ${fonts.sizes(fontSize || 18, 1.1)};
     font-weight: ${fonts.weight.semibold};
@@ -92,23 +109,38 @@ const HeaderStatusInformation = ({
   );
 
   const learningpathConnections = (type === 'standard' || type === 'topic-article') && (
-    <LearningpathConnection id={id} />
+    <LearningpathConnection
+      id={id}
+      learningpaths={learningpaths}
+      setLearningpaths={setLearningpaths}
+    />
   );
 
-  const imageConnections = type === 'image' && <EmbedConnection id={id} type="image" />;
-  const audioConnections = (type === 'audio' || type === 'podcast') && (
-    <EmbedConnection id={id} type="audio" />
+  const imageConnections = type === 'image' && (
+    <EmbedConnection
+      id={id}
+      type="image"
+      articles={articles}
+      setArticles={setArticles}
+      concepts={concepts}
+      setConcepts={setConcepts}
+    />
   );
-  const conceptConnecions = type === 'concept' && <EmbedConnection id={id} type="concept" />;
+  const audioConnections = (type === 'audio' || type === 'podcast') && (
+    <EmbedConnection id={id} type="audio" articles={articles} setArticles={setArticles} />
+  );
+  const conceptConnecions = type === 'concept' && (
+    <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
+  );
 
   const splitter = !indentLeft && <StyledSplitter />;
 
   const StatusIcons = (
     <>
-      {splitter}
+      {(type === 'standard' || type === 'topic-article') && splitter}
       {conceptConnecions}
       {learningpathConnections}
-      {splitter}
+      {learningpaths.length + articles.length > 0 && splitter}
       {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
       {multipleTaxonomyIcon}
       {imageConnections}
@@ -138,19 +170,6 @@ const HeaderStatusInformation = ({
     return <StyledStatusWrapper>{audioConnections}</StyledStatusWrapper>;
   }
   return null;
-};
-
-HeaderStatusInformation.propTypes = {
-  noStatus: PropTypes.bool,
-  statusText: PropTypes.string,
-  isNewLanguage: PropTypes.bool,
-  published: PropTypes.bool,
-  taxonomyPaths: PropTypes.arrayOf(PropTypes.string),
-  noHelp: PropTypes.bool,
-  indentLeft: PropTypes.bool,
-  fontSize: PropTypes.number,
-  type: PropTypes.string,
-  id: PropTypes.number,
 };
 
 export default HeaderStatusInformation;

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +21,8 @@ import { fetchLearningpathsWithArticle } from '../../modules/learningpath/learni
 
 interface Props {
   id: number;
+  learningpaths: Learningpath[];
+  setLearningpaths: (lps: Learningpath[]) => void;
 }
 
 const LearningpathIcon = styled(LearningPath)`
@@ -29,15 +31,14 @@ const LearningpathIcon = styled(LearningPath)`
   cursor: pointer;
 `;
 
-const LearningpathConnection = ({ id }: Props) => {
+const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) => {
   const { t } = useTranslation();
-  const [learningpaths, setLearningpaths] = useState<Learningpath[]>([]);
 
   useEffect(() => {
     if (id) {
       fetchLearningpathsWithArticle(id).then(setLearningpaths);
     }
-  }, [id]);
+  }, [id, setLearningpaths]);
 
   if (!learningpaths.length) {
     return null;

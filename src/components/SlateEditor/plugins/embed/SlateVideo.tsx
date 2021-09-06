@@ -11,6 +11,8 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Button from '@ndla/button';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
+//@ts-ignore
+import { parseMarkdown } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
@@ -155,7 +157,7 @@ const SlateVideo = ({
           </Figure>
           <Button stripped style={{ width: '100%' }} onClick={toggleEditModus}>
             <figcaption className="c-figure__caption">
-              <div className="c-figure__info">{tEmbed.caption}</div>
+              <div className="c-figure__info">{parseMarkdown(tEmbed.caption)}</div>
             </figcaption>
           </Button>
         </Fragment>

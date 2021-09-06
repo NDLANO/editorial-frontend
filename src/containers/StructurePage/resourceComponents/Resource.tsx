@@ -16,7 +16,6 @@ import Button from '@ndla/button';
 import { colors, spacing, breakpoints } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
-import SafeLink from '@ndla/safelink';
 
 import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
@@ -28,7 +27,6 @@ import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import { Resource as ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
-import config from '../../../config';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -85,10 +83,6 @@ const StyledText = styled.div`
   align-items: center;
 `;
 
-const StyledLink = styled(SafeLink)`
-  box-shadow: inset 0 0;
-`;
-
 const Resource = ({
   resource,
   onDelete,
@@ -139,11 +133,9 @@ const Resource = ({
         </Button>
       )}
       {(resource.status?.current === PUBLISHED || resource.status?.other?.includes(PUBLISHED)) && (
-        <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${resource.path}`}>
-          <Tooltip tooltip={t('form.workflow.published')}>
-            <StyledCheckIcon />
-          </Tooltip>
-        </StyledLink>
+        <Tooltip tooltip={t('form.workflow.published')}>
+          <StyledCheckIcon />
+        </Tooltip>
       )}
       {contentType !== 'learning-path' && (
         <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>

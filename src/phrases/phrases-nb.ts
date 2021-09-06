@@ -1143,7 +1143,7 @@ const phrases = {
       cancel: 'Avbryt',
       add: 'Legg til',
       noTranslations:
-        'Ingen oversettelser tilgjengelig. Standardnavn vil tas i bruk inntil dette legges inn.',
+        'Ingen oversettelser tilgjengelig. Standardnavn vil brukes inntil dette er lagt inn.',
     },
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',

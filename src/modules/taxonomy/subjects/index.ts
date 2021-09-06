@@ -13,7 +13,7 @@ import {
 } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
 import {
-  SubjectNameTranslation,
+  TaxNameTranslation,
   SubjectTopic,
   SubjectType,
   TaxonomyMetadata,
@@ -106,9 +106,9 @@ const updateSubjectMetadata = (
   }).then(r => resolveJsonOrRejectWithError<TaxonomyMetadata>(r));
 };
 
-const fetchSubjectNameTranslations = (subjectId: string): Promise<SubjectNameTranslation[]> => {
+const fetchSubjectNameTranslations = (subjectId: string): Promise<TaxNameTranslation[]> => {
   return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/translations`).then(r =>
-    resolveJsonOrRejectWithError<SubjectNameTranslation[]>(r),
+    resolveJsonOrRejectWithError<TaxNameTranslation[]>(r),
   );
 };
 

@@ -16,14 +16,14 @@ import { Row } from '../../../../components';
 import FormikField from '../../../../components/FormikField';
 import validateFormik from '../../../../components/formikValidationSchema';
 import { LocaleType } from '../../../../interfaces';
-import { SubjectNameTranslation } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { TaxNameTranslation } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 const formikFieldStyle = css`
   margin-top: 0px;
 `;
 
 interface AddSubjectTranslationProps {
-  onAddTranslation: (translation: SubjectNameTranslation) => void;
+  onAddTranslation: (translation: TaxNameTranslation) => void;
   availableLanguages: LocaleType[];
   defaultName: string;
 }

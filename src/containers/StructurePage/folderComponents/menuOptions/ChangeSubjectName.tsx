@@ -25,7 +25,7 @@ import {
   updateSubjectNameTranslation,
 } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
-import { SubjectNameTranslation } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { TaxNameTranslation } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { EditMode } from '../../../../interfaces';
 import { Row } from '../../../../components';
 import SaveButton from '../../../../components/SaveButton';
@@ -60,7 +60,7 @@ const formikFieldStyle = css`
 `;
 
 interface FormikTranslationFormValues {
-  translations: SubjectNameTranslation[];
+  translations: TaxNameTranslation[];
 }
 
 interface Props {
@@ -127,7 +127,7 @@ const ChangeSubjectNameModal = ({
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
   const [updateError, setUpdateError] = useState('');
-  const [translations, setTranslations] = useState<SubjectNameTranslation[]>([]);
+  const [translations, setTranslations] = useState<TaxNameTranslation[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -142,9 +142,7 @@ const ChangeSubjectNameModal = ({
     })();
   }, [id, t]);
 
-  const toRecord = (
-    translations: SubjectNameTranslation[],
-  ): Record<string, SubjectNameTranslation> =>
+  const toRecord = (translations: TaxNameTranslation[]): Record<string, TaxNameTranslation> =>
     translations.reduce((prev, curr) => ({ ...prev, [curr.language]: curr }), {});
 
   const onSubmit = async (formik: FormikProps<FormikTranslationFormValues>) => {

@@ -278,6 +278,7 @@ const phrases = {
     placeholder: 'Search images',
     buttonTitle: 'Search',
     useImage: 'Use image',
+    useAsMetaImageLabel: 'Set as meta image',
     noTitle: 'No title',
     noResultsText: 'No images found. Would you like to upload a new image?',
     noResultsButtonText: 'Upload image',

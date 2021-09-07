@@ -33,7 +33,7 @@ const AudioFormInfo = ({ values }: Props) => {
 
   return (
     <div>
-      {fileLanguage && language !== fileLanguage ? (
+      {fileLanguage && language !== fileLanguage && (
         <InfoWrapper>
           <IconWrapper>
             <InformationOutline />
@@ -44,13 +44,6 @@ const AudioFormInfo = ({ values }: Props) => {
                 ? t('language.' + fileLanguage)
                 : t('language.' + fileLanguage).toLowerCase(),
           })}
-        </InfoWrapper>
-      ) : (
-        <InfoWrapper>
-          <IconWrapper>
-            <InformationOutline />
-          </IconWrapper>
-          {t('form.audio.fileInfo')}
         </InfoWrapper>
       )}
     </div>

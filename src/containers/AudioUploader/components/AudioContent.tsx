@@ -10,9 +10,10 @@ import React, { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect, FormikContextType } from 'formik';
 import BEMHelper from 'react-bem-helper';
-import { UploadDropZone } from '@ndla/forms';
+import { UploadDropZone, FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { DeleteForever } from '@ndla/icons/editor';
 import IconButton from '../../../components/IconButton';
 import AudioPlayer from './AudioPlayer';
@@ -20,6 +21,7 @@ import FormikField from '../../../components/FormikField';
 import { AudioFormikType } from './AudioForm';
 import { TitleField } from '../../FormikForm';
 import AudioFormInfo from './AudioFormInfo';
+import { HelpIcon, normalPaddingCSS } from '../../../components/HowTo';
 
 interface BaseProps {
   classes: BEMHelper<BEMHelper.ReturnObject>;
@@ -78,9 +80,36 @@ const AudioContent = ({ formik }: Props) => {
       />
 
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
-        {() =>
-          playerObject ? (
-            <>
+        {() => (
+          <>
+            <FieldHeader title={t('form.audio.file')}>
+              <Modal
+                backgroundColor="white"
+                activateButton={
+                  <div>
+                    <Tooltip tooltip={t('form.audio.modal.label')}>
+                      <HelpIcon css={normalPaddingCSS} />
+                    </Tooltip>
+                  </div>
+                }>
+                {(onClose: () => void) => (
+                  <>
+                    <ModalHeader>
+                      <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
+                    </ModalHeader>
+                    <ModalBody>
+                      <h1>{t('form.audio.modal.header')}</h1>
+                      <ul>
+                        <li>{t('form.audio.info.multipleFiles')}</li>
+                        <li>{t('form.audio.info.changeFile')}</li>
+                        <li>{t('form.audio.info.newLanguage')}</li>
+                      </ul>
+                    </ModalBody>
+                  </>
+                )}
+              </Modal>
+            </FieldHeader>
+            {playerObject ? (
               <PlayerWrapper>
                 <AudioPlayer audio={playerObject} />
                 <StyledDeleteButtonContainer>
@@ -95,23 +124,23 @@ const AudioContent = ({ formik }: Props) => {
                   </Tooltip>
                 </StyledDeleteButtonContainer>
               </PlayerWrapper>
-            </>
-          ) : (
-            <UploadDropZone
-              name="audioFile"
-              allowedFiles={['audio/mp3', 'audio/mpeg']}
-              onAddedFiles={(files: FileList, evt: React.FormEvent<HTMLInputElement>) => {
-                const file = evt.currentTarget.files?.[0];
-                const filepath = file ? URL.createObjectURL(file) : undefined;
-                const newFile = file && filepath ? { file, filepath } : undefined;
-                setFieldValue('audioFile', { newFile });
-              }}
-              ariaLabel={t('form.audio.dragdrop.ariaLabel')}>
-              <strong>{t('form.audio.dragdrop.main')}</strong>
-              {t('form.audio.dragdrop.sub')}
-            </UploadDropZone>
-          )
-        }
+            ) : (
+              <UploadDropZone
+                name="audioFile"
+                allowedFiles={['audio/mp3', 'audio/mpeg']}
+                onAddedFiles={(files: FileList, evt: React.FormEvent<HTMLInputElement>) => {
+                  const file = evt.currentTarget.files?.[0];
+                  const filepath = file ? URL.createObjectURL(file) : undefined;
+                  const newFile = file && filepath ? { file, filepath } : undefined;
+                  setFieldValue('audioFile', { newFile });
+                }}
+                ariaLabel={t('form.audio.dragdrop.ariaLabel')}>
+                <strong>{t('form.audio.dragdrop.main')}</strong>
+                {t('form.audio.dragdrop.sub')}
+              </UploadDropZone>
+            )}
+          </>
+        )}
       </FormikField>
       {playerObject && <AudioFormInfo values={values} />}
     </Fragment>

@@ -19,6 +19,7 @@ import AudioPlayer from './AudioPlayer';
 import FormikField from '../../../components/FormikField';
 import { AudioFormikType } from './AudioForm';
 import { TitleField } from '../../FormikForm';
+import AudioFormInfo from './AudioFormInfo';
 
 interface BaseProps {
   classes: BEMHelper<BEMHelper.ReturnObject>;
@@ -112,6 +113,7 @@ const AudioContent = ({ formik }: Props) => {
           )
         }
       </FormikField>
+      {playerObject && <AudioFormInfo values={values} />}
     </Fragment>
   );
 };

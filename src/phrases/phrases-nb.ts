@@ -974,6 +974,8 @@ const phrases = {
         sub: 'eller trykk for å laste opp lydfil',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
+      copiedFrom: 'Lydfil er kopiert fra {{language}}.',
+      fileInfo: 'Du kan laste opp forskjellige filer for hver språkversjon.',
     },
     podcast: {
       remove: 'Ta bort podkast',

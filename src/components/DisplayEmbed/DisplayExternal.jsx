@@ -49,7 +49,6 @@ export class DisplayExternal extends Component {
 
   onEditEmbed(properties) {
     const { editor, element, embed } = this.props;
-    console.log(properties);
 
     if (properties.url !== embed.url || properties.path !== embed.path) {
       Transforms.setNodes(

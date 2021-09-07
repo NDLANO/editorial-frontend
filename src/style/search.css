@@ -203,3 +203,10 @@
     padding: var(--spacing--small) 0;
   }
 }
+
+.c-search__header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+}

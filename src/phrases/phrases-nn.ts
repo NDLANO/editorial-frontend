@@ -143,6 +143,10 @@ const phrases = {
       notes: 'Søketreff frå versjonslogg',
       previousVersionsNotes: 'Søketreff frå versjonslogg',
     },
+    save: {
+      alreadyExist: 'Søket er allereie lagra.',
+      other: 'Lagring feila.',
+    },
   },
   articleType: {
     'topic-article': 'Emne',
@@ -534,6 +538,7 @@ const phrases = {
     saveTax: 'Lagre taksonomi',
     choose: 'Velg',
     saving: 'Lagrer...',
+    saveSearch: 'Lagre søk',
     saved: 'Lagra ',
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',

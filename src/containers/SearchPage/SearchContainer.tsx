@@ -31,6 +31,7 @@ import { AudioSearchResult, SeriesSearchResult } from '../../modules/audio/audio
 import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
 import { SearchTypeValues } from '../../constants';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import SearchSaveButton from './SearchSaveButton';
 
 export const searchClasses = new BEMHelper({
   name: 'search',
@@ -144,10 +145,13 @@ class SearchContainer extends React.Component<Props, State> {
           <>
             <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
             <OneColumn>
-              <h2>
-                <Search className="c-icon--medium" />
-                {t(`searchPage.header.${type}`)}
-              </h2>
+              <div {...searchClasses('header')}>
+                <h2>
+                  <Search className="c-icon--medium" />
+                  {t(`searchPage.header.${type}`)}
+                </h2>
+                <SearchSaveButton />
+              </div>
               <SearchForm
                 type={type}
                 search={this.onQueryPush}

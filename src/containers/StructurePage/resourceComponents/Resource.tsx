@@ -111,6 +111,24 @@ const Resource = ({
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
+  const paths = [resource.path, ...resource.paths];
+  const structurePaths = window.location.pathname.replace('/structure/', '').split('/');
+  const subjectId = structurePaths[0].replace('urn:', '/');
+  const parent = (structurePaths[structurePaths.length - 2] ?? subjectId).replace('urn:', '');
+  const path = paths.find(p => {
+    const currentPaths = p.substr(1).split('/');
+    return p.startsWith(subjectId) && currentPaths[currentPaths.length - 2] === parent;
+  });
+
+  const PublishedWrapper = ({ children }: { children: React.ReactElement }) =>
+    !path ? (
+      children
+    ) : (
+      <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${path}`}>
+        {children}
+      </StyledLink>
+    );
+
   return (
     <StyledText
       data-testid={`resource-type-${contentType}`}
@@ -139,11 +157,11 @@ const Resource = ({
         </Button>
       )}
       {(resource.status?.current === PUBLISHED || resource.status?.other?.includes(PUBLISHED)) && (
-        <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${resource.path}`}>
+        <PublishedWrapper>
           <Tooltip tooltip={t('form.workflow.published')}>
             <StyledCheckIcon />
           </Tooltip>
-        </StyledLink>
+        </PublishedWrapper>
       )}
       {contentType !== 'learning-path' && (
         <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>

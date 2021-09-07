@@ -42,6 +42,7 @@ export interface Resource extends TaxonomyElement {
   path: string;
   paths: string[];
   rank: number;
+  parent?: string;
   resourceTypes: ResourceResourceType[];
   topicId: string;
   grepCodes: string[];

@@ -69,7 +69,7 @@ const ImageSearchAndUploader = ({
               searchPlaceholder={t('imageSearch.placeholder')}
               searchButtonTitle={t('imageSearch.buttonTitle')}
               useImageTitle={t('imageSearch.useImage')}
-              useAsMetaImageLabel={t('imageSearch.useAsMetaImageLabel')}
+              metaImageCheckboxLabel={t('imageSearch.metaImageCheckboxLabel')}
               onImageSelect={onImageSelect}
               noResults={
                 <>

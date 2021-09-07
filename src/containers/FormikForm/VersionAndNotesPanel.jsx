@@ -10,7 +10,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { spacing, colors } from '@ndla/core';
 import { css } from '@emotion/core';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Accordion, {
   AccordionWrapper,
   AccordionPanel,
@@ -25,7 +25,7 @@ import { ArticleShape } from '../../shapes';
 import handleError from '../../util/handleError';
 import AddNotesField from './AddNotesField';
 import formatDate from '../../util/formatDate';
-import { fetchAuth0Users } from '../../modules/auth0/auth0Api';
+import { fetchAuth0UsersFromUserIds } from '../../modules/auth0/auth0Api';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
 import VersionActionbuttons from './VersionActionButtons';
 import * as articleApi from '../../modules/article/articleApi';
@@ -41,34 +41,16 @@ const getUser = (userId, allUsers) => {
   return user.name || '';
 };
 
-const getUsersFromNotes = async (notes, setUsers) => {
-  const userIds = notes.map(note => note.user).filter(user => user !== 'System');
-  const uniqueUserIds = Array.from(new Set(userIds)).join(',');
-  const users = await fetchAuth0Users(uniqueUserIds);
-  const systemUser = { id: 'System', name: 'System' };
-  setUsers(
-    users && !users.error
-      ? [
-          ...users.map(user => ({
-            id: user.app_metadata.ndla_id,
-            name: user.name,
-          })),
-          systemUser,
-        ]
-      : [systemUser],
-  );
-};
-
 const VersionAndNotesPanel = ({
-  t,
   article,
   getInitialValues,
   setValues,
   createMessage,
   getArticle,
 }) => {
+  const { t } = useTranslation();
   const [versions, setVersions] = useState([]);
-  const [loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const getVersions = async () => {
@@ -88,7 +70,8 @@ const VersionAndNotesPanel = ({
   useEffect(() => {
     if (versions.length) {
       const notes = versions.reduce((acc, v) => [...acc, ...v.notes], []);
-      getUsersFromNotes(notes, setUsers);
+      const userIds = notes.map(note => note.user).filter(user => user !== 'System');
+      fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
   }, [versions]);
 
@@ -206,4 +189,4 @@ VersionAndNotesPanel.defaultProps = {
   article: {},
 };
 
-export default injectT(VersionAndNotesPanel);
+export default VersionAndNotesPanel;

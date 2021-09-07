@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
 import {
@@ -25,7 +25,7 @@ interface Props {
   topicId: string;
   subjectId: string;
   metadata: TaxonomyMetadata;
-  updateLocalTopics: (a: string, b: string, c: any) => void;
+  updateLocalTopics: (topicId: string, saveItems: { metadata: TaxonomyMetadata }) => void;
   hideIcon?: boolean;
 }
 
@@ -35,8 +35,8 @@ const GroupTopicResources = ({
   metadata,
   updateLocalTopics,
   hideIcon,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const updateMetadata = async () => {
     const customFields = {
       ...metadata.customFields,
@@ -45,7 +45,7 @@ const GroupTopicResources = ({
         : TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
     };
     const response = await updateTopicMetadata(topicId, { customFields });
-    updateLocalTopics(subjectId, topicId, {
+    updateLocalTopics(topicId, {
       metadata: { ...metadata, customFields: response.customFields },
     });
   };
@@ -78,4 +78,4 @@ const GroupTopicResources = ({
   );
 };
 
-export default injectT(GroupTopicResources);
+export default GroupTopicResources;

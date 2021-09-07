@@ -5,12 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-export interface LearningPathSearchResult {
-  totalCount: number;
-  page?: number;
-  pageSize: number;
-  results: LearningPathSearchSummary[];
-}
+
+import { SearchResultBase } from '../../interfaces';
+
+export type LearningPathSearchResult = SearchResultBase<LearningPathSearchSummary>;
 
 export interface LearningPathCopyright {
   license: {
@@ -59,6 +57,7 @@ export interface LearningPathSearchSummary {
 
 export interface SearchBody {
   query?: string;
+  page?: number;
   pageSize?: number;
   language?: string;
   fallback?: boolean;

@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 import Url from 'url-parse';
 import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { css } from '@emotion/core';
@@ -237,4 +237,4 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default withRouter(connect(mapStateToProps)(injectT(MastheadSearchForm)));
+export default withRouter(connect(mapStateToProps)(withTranslation()(MastheadSearchForm)));

@@ -8,12 +8,13 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+//@ts-ignore
 import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { fetchUserData } from '../../modules/draft/draftApi';
 import { fetchTopicConnections } from '../../modules/taxonomy';
@@ -24,7 +25,7 @@ import {
   ResourceWithTopicConnection,
   SubjectType,
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { PathArray } from '../../util/retriveBreadCrumbs';
+import { PathArray } from '../../util/retrieveBreadCrumbs';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -53,7 +54,7 @@ interface Props {
   stageTaxonomyChanges: (properties: any) => void;
   getSubjectTopics: (subjectId: string) => Promise<void>;
   setRelevance: (topicId: string, relevanceId: string) => void;
-  retriveBreadCrumbs: (topicPath: string) => PathArray;
+  retrieveBreadCrumbs: (topicPath: string) => PathArray;
 }
 
 const TopicConnections = ({
@@ -68,9 +69,9 @@ const TopicConnections = ({
   stageTaxonomyChanges,
   getSubjectTopics,
   setRelevance,
-  retriveBreadCrumbs,
-  t,
-}: Props & tType) => {
+  retrieveBreadCrumbs,
+}: Props) => {
+  const { t } = useTranslation();
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
@@ -83,6 +84,7 @@ const TopicConnections = ({
     const result = await fetchUserData();
     const favoriteSubjects = result.favoriteSubjects || [];
     setFavoriteSubjectIds(favoriteSubjects);
+    setShowFavorites(favoriteSubjects.length > 0);
   };
 
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) =>
@@ -142,7 +144,7 @@ const TopicConnections = ({
         setRelevance={setRelevance}
         removeConnection={removeConnection}
         setPrimaryConnection={setPrimaryConnection}
-        retriveBreadCrumbs={retriveBreadCrumbs}
+        retrieveBreadCrumbs={retrieveBreadCrumbs}
         type="topicarticle"
       />
       <Modal
@@ -204,4 +206,4 @@ const TopicConnections = ({
   );
 };
 
-export default injectT(TopicConnections);
+export default TopicConnections;

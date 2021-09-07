@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -14,7 +14,7 @@ import { FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { ApiConceptType, SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
+import { ApiConceptType, CoreApiConceptType } from '../../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   locale: string;
@@ -27,10 +27,11 @@ interface Props {
   };
 }
 
-const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
-  const [concepts, setConcepts] = useState<ApiConceptType[]>(values.conceptIds);
+const ConceptsField = ({ locale, values, field, form }: Props) => {
+  const { t } = useTranslation();
+  const [concepts, setConcepts] = useState<CoreApiConceptType[]>(values.conceptIds);
 
-  const onAddConceptToList = async (concept: ApiConceptType) => {
+  const onAddConceptToList = async (concept: CoreApiConceptType) => {
     try {
       const newConcept = await fetchConcept(concept.id, locale);
       const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
@@ -41,12 +42,12 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
     }
   };
 
-  const onUpdateElements = (conceptList: ApiConceptType[]) => {
+  const onUpdateElements = (conceptList: CoreApiConceptType[]) => {
     setConcepts(conceptList);
     updateFormik(field, conceptList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: ApiConceptType[]) => {
+  const updateFormik = (formikField: Props['field'], newData: CoreApiConceptType[]) => {
     form.setFieldTouched('conceptIds', true, false);
     formikField.onChange({
       target: {
@@ -56,9 +57,10 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
     });
   };
 
-  const searchForConcepts = async (inp: string) => {
+  const searchForConcepts = async (query: string, page?: number) => {
     return searchConcepts({
-      query: inp,
+      query,
+      page,
       language: locale,
     });
   };
@@ -74,7 +76,7 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown<SearchConceptType, ApiConceptType>
+      <AsyncDropdown
         selectedItems={concepts}
         idField="id"
         labelField="title"
@@ -85,9 +87,10 @@ const ConceptsField = ({ locale, t, values, field, form }: Props & tType) => {
         multiSelect
         disableSelected
         clearInputField
+        showPagination
       />
     </>
   );
 };
 
-export default injectT(ConceptsField);
+export default ConceptsField;

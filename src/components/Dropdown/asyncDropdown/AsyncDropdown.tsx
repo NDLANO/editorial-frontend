@@ -14,10 +14,11 @@ import { Search } from '@ndla/icons/common';
 import { Spinner } from '@ndla/editor';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import { itemToString } from '../../../util/downShiftHelpers';
+import { SearchResultBase } from '../../../interfaces';
 
-interface Props<SearchResult, ApiType> {
+interface Props<ApiType> {
   onChange: (value: ApiType) => Promise<void> | void;
-  apiAction: (query: string, page?: number) => Promise<SearchResultBase<SearchResult>>;
+  apiAction: (query: string, page?: number) => Promise<SearchResultBase<ApiType>>;
   placeholder?: string;
   labelField?: string;
   idField?: string;
@@ -25,11 +26,11 @@ interface Props<SearchResult, ApiType> {
   positionAbsolute?: boolean;
   startOpen?: boolean;
   multiSelect?: boolean;
-  selectedItems?: ApiType[];
+  selectedItems?: object[];
   disableSelected?: boolean;
   onCreate?: (inputValue: string) => void;
   children?: (value: {
-    selectedItems: ApiType[];
+    selectedItems: object[];
     value: string;
     removeItem?: (tag: string) => void;
     onBlur?: (event: Event) => void;
@@ -45,27 +46,24 @@ interface Props<SearchResult, ApiType> {
   removeItem?: (id: string) => void;
 }
 
-export interface ExtendedSearchResultType {
+interface ApiTypeValues {
   title?: { title: string; language: string } | string;
-  metaDescription?: string;
+  metaDescription?: { metaDescription: string; language: string } | string;
   metaImage?: {
     alt: string;
     url: string;
   };
 }
 
-interface SearchResultBase<SearchResult> {
-  totalCount: number;
-  page?: number;
-  pageSize?: number;
-  language?: string;
-  results: SearchResult[];
-}
+// interface SearchResultBase<SearchResult> {
+//   totalCount: number;
+//   page?: number;
+//   pageSize?: number;
+//   language?: string;
+//   results: SearchResult[];
+// }
 
-export const AsyncDropdown = <
-  SearchResult extends ExtendedSearchResultType,
-  ApiType extends { title?: { title: string; language: string } | string }
->({
+export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   children,
   placeholder = '',
   labelField,
@@ -86,8 +84,8 @@ export const AsyncDropdown = <
   onChange,
   onBlur,
   removeItem,
-}: Props<SearchResult, ApiType>) => {
-  const [items, setItems] = useState<SearchResult[]>([]);
+}: Props<ApiType>) => {
+  const [items, setItems] = useState<ApiType[]>([]);
   const [selectedItem, setSelectedItem] = useState<ApiType | null>(null);
   const [page, setPage] = useState<number>(1);
   const [inputValue, setInputValue] = useState<string>('');
@@ -108,10 +106,10 @@ export const AsyncDropdown = <
       setTotalCount(apiOutput.totalCount ?? 1);
       setItems(
         items
-          ? items.map((item: SearchResult) => ({
+          ? items.map((item: ApiType) => ({
               ...item,
               title: convertFieldWithFallback(item, 'title', ''),
-              description: convertFieldWithFallback(item, 'metaDescription', ''),
+              description: convertFieldWithFallback<'metaDescription'>(item, 'metaDescription', ''),
               image: item.metaImage && `${item.metaImage.url}?width=60`,
               alt: item.metaImage && item.metaImage.alt,
             }))

@@ -9,10 +9,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
 import { VersionHistory } from '@ndla/editor';
 //@ts-ignore
 import { ContentTypeBadge } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 
 import Lightbox from './Lightbox';
 import Spinner from './Spinner';
@@ -56,9 +56,9 @@ const VersionHistoryLightBox = ({
   name,
   isVisible,
   locale,
-  t,
-}: Props & tType) => {
+}: Props) => {
   const [notes, setNotes] = useState<VersionHistoryNotes[] | undefined>(undefined);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const cleanupNotes = (notes: Note[], users: Auth0UserData[]) =>
@@ -89,7 +89,7 @@ const VersionHistoryLightBox = ({
   }, [contentUri, t]);
 
   return (
-    <Lightbox onClose={onClose} display width="800px" apparance="modal" severity="info">
+    <Lightbox onClose={onClose} display width="800px" appearance="modal" severity="info">
       <StyledResourceLinkContainer>
         {contentType && (
           <StyledBadge>
@@ -112,4 +112,4 @@ const VersionHistoryLightBox = ({
   );
 };
 
-export default injectT(VersionHistoryLightBox);
+export default VersionHistoryLightBox;

@@ -7,7 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
@@ -38,10 +38,10 @@ const HeaderStatusInformation = ({
   noHelp,
   indentLeft,
   fontSize,
-  t,
   type,
   id,
 }) => {
+  const { t } = useTranslation();
   const StyledStatus = styled.p`
     ${fonts.sizes(fontSize || 18, 1.1)};
     font-weight: ${fonts.weight.semibold};
@@ -147,4 +147,4 @@ HeaderStatusInformation.propTypes = {
   id: PropTypes.number,
 };
 
-export default injectT(HeaderStatusInformation);
+export default HeaderStatusInformation;

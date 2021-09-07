@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
 import AddTopicResourceButton from './AddTopicResourceButton';
@@ -15,7 +15,9 @@ import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
 import { ButtonAppearance } from '../../../components/Accordion/types';
-import { Resource } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { TopicResource } from './StructureResources';
+import { StructureRouteParams } from '../StructureContainer';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -23,28 +25,13 @@ export const classes = new BEMHelper({
 });
 
 interface Props {
-  topicResources: {
-    resources: Resource[];
-    contentType: string;
-  }[];
-  resourceTypes: {
-    id: string;
-    name: string;
-    subtypes: [];
-    disabled: boolean;
-  }[];
-  params: {
-    topic: string;
-    subtopics: string;
-  };
-  refreshResources: () => void;
-  activeFilter: string;
+  topicResources: TopicResource[];
+  resourceTypes: (ResourceType & {
+    disabled?: boolean;
+  })[];
+  params: StructureRouteParams;
+  refreshResources: () => Promise<void>;
   locale: string;
-  currentSubject: {
-    id: string;
-    name: string;
-  };
-  structure: {}[];
 }
 
 const AllResourcesGroup = ({
@@ -53,10 +40,8 @@ const AllResourcesGroup = ({
   params,
   refreshResources,
   locale,
-  currentSubject,
-  structure,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState<boolean>(true);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
 
@@ -68,14 +53,14 @@ const AllResourcesGroup = ({
     setShowAddModal(prev => !prev);
   };
 
-  const topicId = params.subtopics?.split('/')?.pop() || params.topic;
+  const topicId = (params.subtopics?.split('/')?.pop() || params.topic)!;
 
   const newResourceTypeOptions = resourceTypes
     .filter(rt => rt.id !== 'missing')
     .map(rt => ({ id: rt.id, name: rt.name }));
 
   return (
-    <React.Fragment>
+    <>
       <Accordion
         addButton={
           <AddTopicResourceButton stripped onClick={toggleAddModal}>
@@ -91,8 +76,6 @@ const AllResourcesGroup = ({
           resources={topicResources}
           refreshResources={refreshResources}
           locale={locale}
-          currentSubject={currentSubject}
-          structure={structure}
         />
       </Accordion>
       {showAddModal && (
@@ -101,11 +84,12 @@ const AllResourcesGroup = ({
           topicId={topicId}
           refreshResources={refreshResources}
           onClose={() => setShowAddModal(false)}
-          existingResourceIds={topicResources.flatMap(r => r.resources.map(x => x.id))}
+          existingResourceIds={topicResources.map(r => r.id)}
+          locale={locale}
         />
       )}
-    </React.Fragment>
+    </>
   );
 };
 
-export default injectT(AllResourcesGroup);
+export default AllResourcesGroup;

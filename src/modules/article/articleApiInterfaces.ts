@@ -6,16 +6,9 @@
  *
  */
 
-import { ArticleType, Author, AvailabilityType } from '../../interfaces';
+import { ArticleType, Author, AvailabilityType, SearchResultBase } from '../../interfaces';
 
-export interface ArticleSearchResult {
-  totalCount: number;
-  page?: number;
-  pageSize: number;
-  language: string;
-  results: ArticleSearchSummaryApiType[];
-}
-
+export type ArticleSearchResult = SearchResultBase<ArticleSearchSummaryApiType>;
 export interface ArticleSearchSummaryApiType {
   id: number;
   title: {

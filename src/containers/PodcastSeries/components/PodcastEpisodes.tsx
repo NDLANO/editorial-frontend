@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -14,18 +14,18 @@ import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropd
 import handleError from '../../../util/handleError';
 
 import {
-  AudioApiType,
   AudioSearchResult,
   AudioSearchResultType,
 } from '../../../modules/audio/audioApiInterfaces';
 import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
 
-const PodcastEpisodes = ({ t }: tType) => {
+const PodcastEpisodes = () => {
+  const { t } = useTranslation();
   const { values, setFieldValue } = useFormikContext<PodcastSeriesFormikType>();
   const { episodes, language } = values;
 
-  const onAddEpisodeToList = async (audio: AudioApiType) => {
+  const onAddEpisodeToList = async (audio: AudioSearchResultType) => {
     try {
       const newAudio = await fetchAudio(audio.id, language);
       if (newAudio !== undefined) {
@@ -40,9 +40,10 @@ const PodcastEpisodes = ({ t }: tType) => {
     setFieldValue('episodes', eps);
   };
 
-  const searchForPodcasts = async (input: string): Promise<AudioSearchResult> => {
+  const searchForPodcasts = async (input: string, page?: number): Promise<AudioSearchResult> => {
     const searchResult = await searchAudio({
       query: input,
+      page,
       language: language,
       'audio-type': 'podcast',
     });
@@ -86,7 +87,7 @@ const PodcastEpisodes = ({ t }: tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown<AudioSearchResultType, AudioApiType>
+      <AsyncDropdown
         selectedItems={elements}
         idField="id"
         labelField="title"
@@ -102,4 +103,4 @@ const PodcastEpisodes = ({ t }: tType) => {
   );
 };
 
-export default injectT(PodcastEpisodes);
+export default PodcastEpisodes;

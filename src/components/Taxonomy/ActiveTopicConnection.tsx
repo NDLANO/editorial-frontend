@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Cross } from '@ndla/icons/action';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import {
   StyledConnections,
@@ -20,11 +20,11 @@ import SharedTopicConnections from './SharedTopicConnections';
 import Breadcrumb from './Breadcrumb';
 import RelevanceOption from '../../containers/StructurePage/folderComponents/menuOptions/RelevanceOption';
 import RemoveButton from '../RemoveButton';
-import { PathArray } from '../../util/retriveBreadCrumbs';
+import { PathArray } from '../../util/retrieveBreadCrumbs';
 import { ResourceWithTopicConnection } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
-  retriveBreadCrumbs: (path: string) => PathArray;
+  retrieveBreadCrumbs: (path: string) => PathArray;
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (id: string) => void;
   topic: ResourceWithTopicConnection;
@@ -38,15 +38,15 @@ const StyledFlexWrapper = styled.div`
 `;
 
 const ActiveTopicConnection = ({
-  retriveBreadCrumbs,
+  retrieveBreadCrumbs,
   removeConnection,
   setPrimaryConnection,
   setRelevance,
-  t,
   type,
   topic,
-}: Props & tType) => {
-  const breadcrumb = retriveBreadCrumbs(topic.path);
+}: Props) => {
+  const { t } = useTranslation();
+  const breadcrumb = retrieveBreadCrumbs(topic.path);
   if (!breadcrumb) {
     return (
       <StyledConnections error>
@@ -67,7 +67,11 @@ const ActiveTopicConnection = ({
         <StyledConnections>
           <Breadcrumb breadcrumb={breadcrumb} type={type} />
         </StyledConnections>
-        <SharedTopicConnections topic={topic} retriveBreadCrumbs={retriveBreadCrumbs} type={type} />
+        <SharedTopicConnections
+          topic={topic}
+          retrieveBreadCrumbs={retrieveBreadCrumbs}
+          type={type}
+        />
       </>
     );
   }
@@ -91,9 +95,9 @@ const ActiveTopicConnection = ({
           <RemoveButton onClick={() => removeConnection && removeConnection(topic.id)} />
         </StyledFlexWrapper>
       </StyledConnections>
-      <SharedTopicConnections topic={topic} retriveBreadCrumbs={retriveBreadCrumbs} />
+      <SharedTopicConnections topic={topic} retrieveBreadCrumbs={retrieveBreadCrumbs} />
     </>
   );
 };
 
-export default injectT(ActiveTopicConnection);
+export default ActiveTopicConnection;

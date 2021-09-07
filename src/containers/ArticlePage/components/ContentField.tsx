@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
@@ -31,14 +31,15 @@ interface Props {
   };
 }
 
-const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
+const ContentField = ({ locale, values, field, form }: Props) => {
+  const { t } = useTranslation();
   const [relatedContent, setRelatedContent] = useState<RelatedContentType[]>(values.relatedContent);
   const [showAddExternal, setShowAddExternal] = useState(false);
 
-  const onAddArticleToList = async (article: DraftApiType) => {
+  const onAddArticleToList = async (article: DraftSearchSummary) => {
     try {
       const newArticle = await fetchDraft(article.id, locale);
-      const temp = [...relatedContent, newArticle];
+      const temp: RelatedContentType[] = [...relatedContent, newArticle];
       if (newArticle) {
         setRelatedContent(temp);
         updateFormik(field, temp);
@@ -48,7 +49,7 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
     }
   };
 
-  const onUpdateElements = (relatedContent: DraftApiType[]) => {
+  const onUpdateElements = (relatedContent: RelatedContentType[]) => {
     setRelatedContent(relatedContent);
     updateFormik(field, relatedContent);
   };
@@ -63,9 +64,10 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
     });
   };
 
-  const searchForArticles = async (inp: string) => {
+  const searchForArticles = async (query: string, page?: number) => {
     return searchDrafts({
-      query: inp,
+      query,
+      page,
       language: locale,
     });
   };
@@ -76,9 +78,11 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
     updateFormik(field, temp);
   };
 
-  const isDraftApiType = (item: any): item is DraftApiType => {
-    return item.id !== undefined;
+  const isDraftApiType = (obj: any): obj is DraftApiType => {
+    return obj.id !== undefined;
   };
+
+  const selectedItems = relatedContent.filter(isDraftApiType);
 
   return (
     <>
@@ -91,8 +95,8 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown<DraftSearchSummary, DraftApiType>
-        selectedItems={relatedContent.filter(isDraftApiType)}
+      <AsyncDropdown
+        selectedItems={selectedItems}
         idField="id"
         labelField="title"
         placeholder={t('form.relatedContent.placeholder')}
@@ -102,6 +106,7 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
         multiSelect
         disableSelected
         clearInputField
+        showPagination
       />
       <StyledButtonWrapper>
         <Button onClick={() => setShowAddExternal(true)}>
@@ -119,4 +124,4 @@ const StyledButtonWrapper = styled.div`
   margin: ${spacing.small} 0;
 `;
 
-export default injectT(ContentField);
+export default ContentField;

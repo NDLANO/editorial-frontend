@@ -10,7 +10,7 @@ import { RouteComponentProps, Route, Switch, RouteProps } from 'react-router-dom
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
 import { usePreviousLocation } from '../../util/routeHelpers';
 const CreatePodcastSeries = loadable(() => import('./CreatePodcastSeries'));
@@ -26,12 +26,8 @@ interface BetterRouteProps extends RouteProps {
   render?: (props: RouteComponentProps<MatchParams>) => React.ReactNode;
 }
 
-const PodcastSeriesPage = ({
-  match,
-  history,
-  location,
-  t,
-}: RouteComponentProps<MatchParams> & tType) => {
+const PodcastSeriesPage = ({ match, history, location }: RouteComponentProps<MatchParams>) => {
+  const { t } = useTranslation();
   const previousLocation = usePreviousLocation();
 
   return (
@@ -58,4 +54,4 @@ const PodcastSeriesPage = ({
   );
 };
 
-export default injectT(PodcastSeriesPage);
+export default PodcastSeriesPage;

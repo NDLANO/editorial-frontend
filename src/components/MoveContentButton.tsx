@@ -9,10 +9,10 @@
 import React from 'react';
 import darken from 'polished/lib/color/darken';
 import { css } from '@emotion/core';
-import { injectT, tType } from '@ndla/i18n';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { ChevronLeft } from '@ndla/icons/common';
+import { useTranslation } from 'react-i18next';
 
 const moveContentButtonStyle = css`
   position: absolute;
@@ -30,7 +30,8 @@ interface Props {
   onMouseDown: () => void;
 }
 
-const MoveContentButton = ({ onMouseDown, t }: Props & tType) => {
+const MoveContentButton = ({ onMouseDown }: Props) => {
+  const { t } = useTranslation();
   return (
     <Button
       css={moveContentButtonStyle}
@@ -42,4 +43,4 @@ const MoveContentButton = ({ onMouseDown, t }: Props & tType) => {
   );
 };
 
-export default injectT(MoveContentButton);
+export default MoveContentButton;

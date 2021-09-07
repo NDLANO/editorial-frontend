@@ -6,7 +6,7 @@
  */
 import React from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FormikErrors } from 'formik';
 import { Editor } from 'slate';
 import SubjectpageAbout from './SubjectpageAbout';
@@ -25,13 +25,13 @@ interface Props {
 }
 
 const SubjectpageAccordionPanels = ({
-  t,
   editorsChoices,
   elementId,
   errors,
   handleSubmit,
   onBlur,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   return (
     <Accordions>
       <AccordionSection
@@ -69,4 +69,4 @@ const SubjectpageAccordionPanels = ({
   );
 };
 
-export default injectT(SubjectpageAccordionPanels);
+export default SubjectpageAccordionPanels;

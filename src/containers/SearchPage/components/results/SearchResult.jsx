@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { ContentResultShape, ImageResultShape, AudioResultShape } from '../../../../shapes';
 import SearchContent from './SearchContent';
 import SearchConcept from './SearchConcept';
@@ -16,16 +16,8 @@ import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 import SearchPodcastSeries from './SearchPodcastSeries';
 
-const SearchResult = ({
-  result,
-  locale,
-  type,
-  subjects,
-  t,
-  userAccess,
-  editingState,
-  licenses,
-}) => {
+const SearchResult = ({ result, locale, type, subjects, userAccess, editingState, licenses }) => {
+  const { t } = useTranslation();
   switch (type) {
     case 'content':
       return <SearchContent content={result} locale={locale} userAccess={userAccess} />;
@@ -60,4 +52,4 @@ SearchResult.propTypes = {
   licenses: PropTypes.array,
 };
 
-export default injectT(SearchResult);
+export default SearchResult;

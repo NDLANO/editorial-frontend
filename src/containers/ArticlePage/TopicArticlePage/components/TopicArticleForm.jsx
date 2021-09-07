@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
 import {
@@ -143,9 +143,9 @@ const TopicArticleForm = props => {
     fetchSearchTags,
   } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
+  const { t } = useTranslation();
 
   const {
-    t,
     article,
     updateArticle,
     articleChanged,
@@ -272,4 +272,4 @@ TopicArticleForm.propTypes = {
   }),
 };
 
-export default injectT(TopicArticleForm);
+export default TopicArticleForm;

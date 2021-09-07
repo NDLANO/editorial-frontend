@@ -31,6 +31,15 @@ export const getNdlaApiUrl = (env: string): string => {
   }
 };
 
+export const ndlaBaseUrl = () => {
+  switch (ndlaEnvironment) {
+    case 'prod':
+      return 'ndla.no';
+    default:
+      return `${ndlaEnvironment}.ndla.no`;
+  }
+};
+
 const ndlaFrontendDomain = () => {
   switch (ndlaEnvironment) {
     case 'local':
@@ -108,6 +117,8 @@ export const taxonomyApi = `/taxonomy/v1`;
 export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
 };
+
+export const getDefaultLanguage = () => getEnvironmentVariabel('NDLA_DEFAULT_LANGUAGE', 'nb');
 
 const usernamePasswordEnabled = () => {
   switch (ndlaEnvironment) {

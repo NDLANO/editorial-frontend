@@ -12,7 +12,7 @@ import { connect, ConnectedProps } from 'react-redux';
 // @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import loadable from '@loadable/component';
 import { getSaving } from '../../modules/image/image';
@@ -37,9 +37,10 @@ const mapStateToProps = (state: ReduxState) => ({
 const reduxConnector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-type Props = tType & RouteComponentProps<MatchParams> & PropsFromRedux;
+type Props = RouteComponentProps<MatchParams> & PropsFromRedux;
 
-const ImageUploaderPage = ({ match, t, location, ...rest }: Props) => {
+const ImageUploaderPage = ({ match, location, ...rest }: Props) => {
+  const { t } = useTranslation();
   const prevLoc = usePreviousLocation();
   return (
     <OneColumn>
@@ -69,4 +70,4 @@ ImageUploaderPage.propTypes = {
   imageLanguage: PropTypes.string,
 };
 
-export default reduxConnector(injectT(ImageUploaderPage));
+export default reduxConnector(ImageUploaderPage);

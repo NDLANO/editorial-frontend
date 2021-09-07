@@ -89,7 +89,7 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     </tbody>
   </table>
   <embed
-    data-size=\\"fullbredde\\"
+    data-size=\\"full\\"
     data-align=\\"\\"
     data-caption=\\"focalpoint\\"
     data-alt=\\"focalpoint\\"
@@ -99,7 +99,7 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     data-focal-x=\\"20.126776485788113\\"
     data-focal-y=\\"7.414585620197585\\"
   /><embed
-    data-size=\\"fullbredde\\"
+    data-size=\\"full\\"
     data-align=\\"\\"
     data-caption=\\"cropped\\"
     data-alt=\\"cropped\\"
@@ -134,7 +134,7 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     ligula cursus, nec scelerisque felis interdum.
   </p>
   <embed
-    data-size=\\"fullbredde\\"
+    data-size=\\"full\\"
     data-align=\\"left\\"
     data-caption=\\"left align\\"
     data-alt=\\"left align\\"
@@ -169,7 +169,7 @@ exports[`serializing article with many diffrent tags and embeds 1`] = `
     ullamcorper, malesuada volutpat nisi.
   </p>
   <embed
-    data-size=\\"fullbredde\\"
+    data-size=\\"full\\"
     data-align=\\"right\\"
     data-caption=\\"right align\\"
     data-alt=\\"right align\\"

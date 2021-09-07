@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import Types from 'slate-prop-types';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
@@ -87,6 +87,7 @@ export class DisplayExternal extends Component {
           this.setState({ error: true });
         }
       } catch (err) {
+        this.setState({ error: true });
         handleError(err);
       }
     } else {
@@ -212,4 +213,4 @@ DisplayExternal.propTypes = {
   language: PropTypes.string,
 };
 
-export default injectT(DisplayExternal);
+export default withTranslation()(DisplayExternal);

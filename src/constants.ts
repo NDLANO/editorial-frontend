@@ -6,6 +6,8 @@
  *
  */
 
+import { ndlaBaseUrl } from './config';
+
 export const NAVIGATION_HEADER_MARGIN = '71px';
 
 export const RESOURCE_TYPE_LEARNING_PATH = 'urn:resourcetype:learningPath';
@@ -18,6 +20,8 @@ export const RESOURCE_TYPE_CONCEPT = 'urn:resourcetype:concept'; // Not yet adde
 
 export const ITUNES_STANDARD_MINIMUM_WIDTH = 1400;
 export const ITUNES_STANDARD_MAXIMUM_WIDTH = 3000;
+
+export const STORED_LANGUAGE_KEY = 'language';
 
 export const REMEMBER_FAVOURITE_SUBJECTS = 'rememberFavouriteSubjects';
 // Relevances
@@ -44,6 +48,8 @@ export const TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES = 'topic-resources';
 export const TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE = 'grouped';
 export const TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE = 'ungrouped';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT = 'forklaringsfag';
+export const TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID = 'old-subject-id';
+export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 
 export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
 
@@ -79,11 +85,11 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'MolView', url: ['embed.molview.org'] },
   {
     name: 'NDLA Statisk',
-    url: ['statisk.ndla.no', 'statisk.test.ndla.no', 'statisk.staging.ndla.no'],
+    url: [`statisk.${ndlaBaseUrl()}`],
   },
   {
     name: 'NDLA Liste',
-    url: ['liste.ndla.no', 'liste.test.ndla.no', 'liste.staging.ndla.no'],
+    url: [`liste.${ndlaBaseUrl()}`],
     height: '398px',
   },
   { name: 'ebok', url: ['ebok.no'] },

@@ -10,7 +10,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { spacing, colors, fonts, animations } from '@ndla/core';
+import { spacing, spacingUnit, colors, fonts, animations } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
 import { resourceToLinkProps } from '../../../util/resourceHelpers';
@@ -154,7 +154,7 @@ export const StyledListItem = styled.li<StyledProps>`
 
 const StyledElementImage = styled.img`
   width: ${ELEMENT_HEIGHT * 1.33}px;
-  height: ${ELEMENT_HEIGHT - spacing.spacingUnit / 2}px;
+  height: ${ELEMENT_HEIGHT - spacingUnit / 2}px;
   object-fit: cover;
   margin-right: ${spacing.small};
 `;

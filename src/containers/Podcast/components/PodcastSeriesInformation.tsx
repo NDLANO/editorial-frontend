@@ -7,25 +7,22 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { isEmptyArray, useFormikContext } from 'formik';
 import { fetchSeries, searchSeries } from '../../../modules/audio/audioApi';
 import ElementList from '../../FormikForm/components/ElementList';
-import {
-  PodcastFormValues,
-  PodcastSeriesApiType,
-  SeriesSearchResult,
-  SeriesSearchSummary,
-} from '../../../modules/audio/audioApiInterfaces';
+import { PodcastFormValues, PodcastSeriesApiType } from '../../../modules/audio/audioApiInterfaces';
 import handleError from '../../../util/handleError';
 import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { SearchResultBase } from '../../../interfaces';
 
-type element = PodcastSeriesApiType &
+type element = Omit<PodcastSeriesApiType, 'revision'> &
   Pick<ArticleSearchSummaryApiType, 'metaImage' | 'articleType'>;
 
-const PodcastSeriesInformation = ({ t }: tType) => {
+const PodcastSeriesInformation = () => {
+  const { t } = useTranslation();
   const {
     values: { series, language },
     setFieldValue,
@@ -50,7 +47,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
     }
   }, [series, language]);
 
-  const onAddSeries = async (series: PodcastSeriesApiType) => {
+  const onAddSeries = async (series: element) => {
     try {
       const newSeries = await fetchSeries(series.id, language || 'nb');
       delete newSeries.episodes;
@@ -60,7 +57,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
     }
   };
 
-  const onUpdateSeries = (seriesValue: PodcastSeriesApiType) => {
+  const onUpdateSeries = (seriesValue: element) => {
     if (isEmptyArray(seriesValue)) {
       setFieldValue('series', null);
     } else {
@@ -68,7 +65,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
     }
   };
 
-  const searchForSeries = async (input: string): Promise<SeriesSearchResult> => {
+  const searchForSeries = async (input: string): Promise<SearchResultBase<element>> => {
     const searchResult = await searchSeries({
       query: input,
       language: language,
@@ -76,12 +73,15 @@ const PodcastSeriesInformation = ({ t }: tType) => {
     const results = searchResult.results.map(result => {
       return {
         ...result,
+        revision: 1,
         metaImage: {
           url: result.coverPhoto.url,
           alt: result.coverPhoto.altText,
         },
+        articleType: 'series',
       };
     });
+    //@ts-ignore
     return { ...searchResult, results };
   };
 
@@ -101,7 +101,7 @@ const PodcastSeriesInformation = ({ t }: tType) => {
       ) : (
         <p>{t('podcastForm.information.noSeries')}</p>
       )}
-      <AsyncDropdown<SeriesSearchSummary, PodcastSeriesApiType>
+      <AsyncDropdown
         selectedItems={element}
         idField="id"
         labelField="title"
@@ -117,4 +117,4 @@ const PodcastSeriesInformation = ({ t }: tType) => {
   );
 };
 
-export default injectT(PodcastSeriesInformation);
+export default PodcastSeriesInformation;

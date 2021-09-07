@@ -8,14 +8,17 @@
 
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import queryString from 'query-string';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input, FieldSplitter, FieldRemoveButton } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import Tooltip from '@ndla/tooltip';
 
+import UrlAllowList from './UrlAllowList';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import {
   isValidURL,
@@ -25,6 +28,7 @@ import {
 } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import { fetchNrkMedia } from './visualElementApi';
+import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
 
 const filterWhiteListedURL = url => {
   const domain = urlDomain(url);
@@ -56,27 +60,39 @@ const StyledPreviewItem = styled('div')`
   width: 50%;
 `;
 
-export const transformUrlIfNeeded = async url => {
-  const aTag = urlAsATag(url);
-  const nrkDomains = ['nrk.no', 'www.nrk.no'];
+export const transformableDomains = [
+  {
+    domains: ['nrk.no', 'www.nrk.no'],
+    shouldTransform: (url, domains) => {
+      const aTag = urlAsATag(url);
 
-  if (!nrkDomains.includes(aTag.hostname)) {
-    return url;
-  }
-  const mediaId = queryString.parse(aTag.search).mediaId;
-  if (!mediaId) {
-    return url;
-  }
-  try {
-    const nrkMedia = await fetchNrkMedia(mediaId);
-    if (nrkMedia.psId) {
-      return `https://static.nrk.no/ludo/latest/video-embed.html#id=${nrkMedia.psId}`;
-    }
-    return url;
-  } catch {
-    return url;
-  }
-};
+      if (domains.includes(aTag.hostname)) {
+        return true;
+      }
+      const mediaId = queryString.parse(aTag.search).mediaId;
+      if (mediaId) {
+        return true;
+      }
+      return false;
+    },
+    transform: async url => {
+      const aTag = urlAsATag(url);
+      const mediaId = queryString.parse(aTag.search).mediaId;
+      if (!mediaId) {
+        return url;
+      }
+      try {
+        const nrkMedia = await fetchNrkMedia(mediaId);
+        if (nrkMedia.psId) {
+          return `https://static.nrk.no/ludo/latest/video-embed.html#id=${nrkMedia.psId}`;
+        }
+        return url;
+      } catch {
+        return url;
+      }
+    },
+  },
+];
 
 class VisualElementUrlPreview extends Component {
   constructor(props) {
@@ -155,7 +171,14 @@ class VisualElementUrlPreview extends Component {
   }
 
   async handleChange(evt) {
-    const url = await transformUrlIfNeeded(evt.target.value);
+    let url = evt.target.value;
+    for (const rule of transformableDomains) {
+      if (rule.shouldTransform(url, rule.domains)) {
+        url = await rule.transform(url);
+        break;
+      }
+    }
+
     const { selectedResourceUrl } = this.props;
     this.setState({
       url,
@@ -189,8 +212,31 @@ class VisualElementUrlPreview extends Component {
               ? t('form.content.link.newUrlResource')
               : t('form.content.link.changeUrlResource', { type })
           }
-          subTitle={this.getSubTitle()}
-        />
+          subTitle={this.getSubTitle()}>
+          <Modal
+            backgroundColor="white"
+            activateButton={
+              <div>
+                <Tooltip tooltip={t('form.content.link.validDomains')}>
+                  <HelpIcon css={normalPaddingCSS} />
+                </Tooltip>
+              </div>
+            }>
+            {onClose => (
+              <>
+                <ModalHeader>
+                  <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
+                </ModalHeader>
+                <ModalBody>
+                  <h1>{t('form.content.link.validDomains')}</h1>
+                  <center>
+                    <UrlAllowList allowList={EXTERNAL_WHITELIST_PROVIDERS} />
+                  </center>
+                </ModalBody>
+              </>
+            )}
+          </Modal>
+        </FieldHeader>
         <FieldSection>
           <div>
             <FieldSplitter>
@@ -246,4 +292,4 @@ VisualElementUrlPreview.propTypes = {
   onUrlSave: PropTypes.func.isRequired,
 };
 
-export default injectT(VisualElementUrlPreview);
+export default withTranslation()(VisualElementUrlPreview);

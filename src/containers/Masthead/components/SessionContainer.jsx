@@ -12,7 +12,7 @@ import FocusTrapReact from 'focus-trap-react';
 import { css } from '@emotion/core';
 import { User } from '@ndla/icons/common';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import { Link, withRouter } from 'react-router-dom';
 import { toLogoutSession, toLogin } from '../../../util/routeHelpers';
@@ -115,4 +115,4 @@ SessionContainer.defaultProps = {
   userName: '',
 };
 
-export default withRouter(injectT(SessionContainer));
+export default withRouter(withTranslation()(SessionContainer));

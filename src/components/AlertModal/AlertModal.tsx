@@ -14,6 +14,7 @@ import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 import AlertModalFooter from './AlertModalFooter';
 import Lightbox from '../Lightbox';
+import { MessageSeverity } from '../../interfaces';
 
 const StyledAlertModal = styled('div')<{ severity: string }>`
   height: 100%;
@@ -44,9 +45,9 @@ interface Props {
   text: string;
   onCancel: () => void;
   component?: React.ReactElement[] | React.ReactElement;
-  actions?: { text: string; onClick: Function }[];
+  actions?: { text: string; onClick: (event: Event) => void; 'data-testid'?: string }[];
   show?: boolean;
-  severity?: string;
+  severity?: MessageSeverity;
 }
 
 const AlertModal = ({ text, onCancel, actions, component, show, severity = 'danger' }: Props) =>

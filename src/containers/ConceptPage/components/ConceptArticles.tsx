@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -17,13 +17,14 @@ import { ConceptFormValues } from '../conceptInterfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
-const ConceptArticles = ({ t }: tType) => {
+const ConceptArticles = () => {
+  const { t } = useTranslation();
   const {
     values: { articles, language },
     setFieldValue,
   } = useFormikContext<ConceptFormValues>();
 
-  const onAddArticleToList = async (article: ArticleType) => {
+  const onAddArticleToList = async (article: DraftSearchSummary) => {
     try {
       const newArticle = await fetchDraft(article.id);
       const temp = [...articles, newArticle];
@@ -57,7 +58,7 @@ const ConceptArticles = ({ t }: tType) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown<DraftSearchSummary, ArticleType>
+      <AsyncDropdown
         selectedItems={articles}
         idField="id"
         labelField="title"
@@ -73,4 +74,4 @@ const ConceptArticles = ({ t }: tType) => {
   );
 };
 
-export default injectT(ConceptArticles);
+export default ConceptArticles;

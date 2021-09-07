@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 import { InformationOutline } from '@ndla/icons/common';
-import { breakpoints } from '@ndla/util';
 import React from 'react';
-import { spacing, colors, fonts } from '@ndla/core';
+import { spacing, fonts } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { AudioFormikType } from './AudioForm';
 

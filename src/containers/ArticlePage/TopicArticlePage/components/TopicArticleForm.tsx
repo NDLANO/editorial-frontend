@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
@@ -98,58 +98,6 @@ const getPublishedDate = (
   return undefined;
 };
 
-// TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
-const getArticleFromSlate = ({
-  values,
-  initialValues,
-  licenses,
-  preview = false,
-}: {
-  values: ArticleFormikType;
-  licenses: License[];
-  initialValues: ArticleFormikType;
-  preview: boolean;
-}): UpdatedDraftApiType => {
-  const emptyField = values.id ? '' : undefined;
-  const visualElement = createEmbedTag(
-    isEmpty(values.visualElementObject) ? {} : values.visualElementObject,
-  );
-  const content = topicArticleContentToHTML(values.content);
-  const metaImage = values?.metaImageId
-    ? {
-        id: values.metaImageId,
-        alt: values.metaImageAlt ?? '',
-      }
-    : nullOrUndefined(values?.metaImageId);
-
-  return {
-    revision: 0,
-    articleType: 'topic-article',
-    content: content || emptyField,
-    copyright: {
-      license: licenses.find(license => license.license === values.license),
-      creators: values.creators,
-      processors: values.processors,
-      rightsholders: values.rightsholders,
-      agreementId: values.agreementId,
-    },
-    id: values.id,
-    introduction: editorValueToPlainText(values.introduction),
-    metaDescription: editorValueToPlainText(values.metaDescription),
-    language: values.language,
-    metaImage,
-    notes: values.notes || [],
-    published: getPublishedDate(values, initialValues, preview),
-    tags: values.tags,
-    title: editorValueToPlainText(values.slatetitle),
-    visualElement,
-    grepCodes: values.grepCodes ?? [],
-    conceptIds: values.conceptIds?.map(c => c.id) ?? [],
-    availability: values.availability,
-    relatedContent: convertDraftOrRelated(values.relatedContent),
-  };
-};
-
 interface Props extends RouteComponentProps {
   article: Partial<ConvertedDraftType>;
   revision?: number;
@@ -189,6 +137,59 @@ const TopicArticleForm = (props: Props) => {
 
   const { t } = useTranslation();
 
+  // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
+  const getArticleFromSlate = useCallback(
+    ({
+      values,
+      initialValues,
+      preview = false,
+    }: {
+      values: ArticleFormikType;
+      initialValues: ArticleFormikType;
+      preview: boolean;
+    }): UpdatedDraftApiType => {
+      const emptyField = values.id ? '' : undefined;
+      const visualElement = createEmbedTag(
+        isEmpty(values.visualElementObject) ? {} : values.visualElementObject,
+      );
+      const content = topicArticleContentToHTML(values.content);
+      const metaImage = values?.metaImageId
+        ? {
+            id: values.metaImageId,
+            alt: values.metaImageAlt ?? '',
+          }
+        : nullOrUndefined(values?.metaImageId);
+
+      return {
+        revision: 0,
+        articleType: 'topic-article',
+        content: content || emptyField,
+        copyright: {
+          license: licenses.find(license => license.license === values.license),
+          creators: values.creators,
+          processors: values.processors,
+          rightsholders: values.rightsholders,
+          agreementId: values.agreementId,
+        },
+        id: values.id,
+        introduction: editorValueToPlainText(values.introduction),
+        metaDescription: editorValueToPlainText(values.metaDescription),
+        language: values.language,
+        metaImage,
+        notes: values.notes || [],
+        published: getPublishedDate(values, initialValues, preview),
+        tags: values.tags,
+        title: editorValueToPlainText(values.slatetitle),
+        visualElement,
+        grepCodes: values.grepCodes ?? [],
+        conceptIds: values.conceptIds?.map(c => c.id) ?? [],
+        availability: values.availability,
+        relatedContent: convertDraftOrRelated(values.relatedContent),
+      };
+    },
+    [licenses],
+  );
+
   const {
     savedToServer,
     formikRef,
@@ -225,8 +226,7 @@ const TopicArticleForm = (props: Props) => {
       changed: articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
-    const getArticle = () =>
-      getArticleFromSlate({ values, initialValues, licenses, preview: false });
+    const getArticle = () => getArticleFromSlate({ values, initialValues, preview: false });
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage

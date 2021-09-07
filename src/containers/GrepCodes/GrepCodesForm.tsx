@@ -17,8 +17,7 @@ import GrepCodesField from '../FormikForm/GrepCodesField';
 import SaveMultiButton from '../../components/SaveMultiButton';
 import { DraftStatusTypes, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { isFormikFormDirty } from '../../util/formHelper';
-import { ConvertedDraftType, License, ReduxState } from '../../interfaces';
-import { getAllLicenses } from '../../modules/license/license';
+import { ConvertedDraftType } from '../../interfaces';
 import * as messageActions from '../../containers/Messages/messagesActions';
 
 const SaveButtonContainer = styled.div`
@@ -49,7 +48,6 @@ const getArticle = ({
   values,
 }: {
   values: ArticleFormikType;
-  licenses: License[];
   initialValues: ArticleFormikType;
   preview: boolean;
 }): UpdatedDraftApiType => {
@@ -75,17 +73,12 @@ const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
 };
 
-const mapStateToProps = (state: ReduxState) => ({
-  licenses: getAllLicenses(state),
-});
-
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+const reduxConnector = connect(undefined, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 const GrepCodesForm = ({
   article,
   articleChanged,
-  licenses,
   updateArticle,
   updateArticleAndStatus,
   applicationError,
@@ -99,7 +92,6 @@ const GrepCodesForm = ({
     articleStatus: article.status,
     updateArticle,
     updateArticleAndStatus,
-    licenses,
     getArticleFromSlate: getArticle,
     isNewlyCreated: false,
     createMessage,

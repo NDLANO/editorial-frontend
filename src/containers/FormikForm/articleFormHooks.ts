@@ -97,11 +97,10 @@ type HooksInputObject = {
     newStatus: DraftStatusTypes;
     dirty: boolean;
   }) => Promise<ConvertedDraftType>;
-  licenses: License[];
+  licenses?: License[];
   getArticleFromSlate: (input: {
     values: ArticleFormikType;
     initialValues: ArticleFormikType;
-    licenses: License[];
     preview: boolean;
   }) => UpdatedDraftApiType;
   isNewlyCreated: boolean;
@@ -118,7 +117,6 @@ export function useArticleFormHooks({
   applicationError,
   updateArticle,
   updateArticleAndStatus,
-  licenses,
   getArticleFromSlate,
   isNewlyCreated = false,
 }: HooksInputObject) {
@@ -153,7 +151,6 @@ export function useArticleFormHooks({
     const slateArticle = getArticleFromSlate({
       values,
       initialValues,
-      licenses,
       preview: false,
     });
 

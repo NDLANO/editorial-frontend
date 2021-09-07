@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
@@ -118,54 +118,6 @@ export const convertDraftOrRelated = (
   });
 };
 
-const getArticleFromSlate = ({
-  values,
-  licenses,
-  initialValues,
-  preview = false,
-}: {
-  values: ArticleFormikType;
-  licenses: License[];
-  initialValues: ArticleFormikType;
-  preview?: boolean;
-}): UpdatedDraftApiType => {
-  const content = learningResourceContentToHTML(values.content);
-  const emptyContent = values.id ? '' : undefined;
-
-  const metaImage = values?.metaImageId
-    ? {
-        id: values.metaImageId,
-        alt: values.metaImageAlt ?? '',
-      }
-    : nullOrUndefined(values?.metaImageId);
-
-  return {
-    revision: 0,
-    articleType: 'standard',
-    content: content && content.length > 0 ? content : emptyContent,
-    copyright: {
-      license: licenses.find(license => license.license === values.license),
-      origin: values.origin,
-      creators: values.creators,
-      processors: values.processors,
-      rightsholders: values.rightsholders,
-    },
-    id: values.id,
-    introduction: editorValueToPlainText(values.introduction),
-    language: values.language,
-    metaImage,
-    metaDescription: editorValueToPlainText(values.metaDescription),
-    notes: values.notes || [],
-    published: getPublishedDate(values, initialValues, preview) ?? '',
-    tags: values.tags,
-    title: editorValueToPlainText(values.slatetitle),
-    grepCodes: values.grepCodes ?? [],
-    conceptIds: values.conceptIds?.map(c => c.id) ?? [],
-    availability: values.availability,
-    relatedContent: convertDraftOrRelated(values.relatedContent),
-  };
-};
-
 interface Props extends RouteComponentProps {
   userAccess: string | undefined;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
@@ -201,6 +153,56 @@ const LearningResourceForm = ({
   userAccess,
 }: Props) => {
   const { t } = useTranslation();
+
+  const getArticleFromSlate = useCallback(
+    ({
+      values,
+      initialValues,
+      preview = false,
+    }: {
+      values: ArticleFormikType;
+      initialValues: ArticleFormikType;
+      preview?: boolean;
+    }): UpdatedDraftApiType => {
+      const content = learningResourceContentToHTML(values.content);
+      const emptyContent = values.id ? '' : undefined;
+
+      const metaImage = values?.metaImageId
+        ? {
+            id: values.metaImageId,
+            alt: values.metaImageAlt ?? '',
+          }
+        : nullOrUndefined(values?.metaImageId);
+
+      return {
+        revision: 0,
+        articleType: 'standard',
+        content: content && content.length > 0 ? content : emptyContent,
+        copyright: {
+          license: licenses.find(license => license.license === values.license),
+          origin: values.origin,
+          creators: values.creators,
+          processors: values.processors,
+          rightsholders: values.rightsholders,
+        },
+        id: values.id,
+        introduction: editorValueToPlainText(values.introduction),
+        language: values.language,
+        metaImage,
+        metaDescription: editorValueToPlainText(values.metaDescription),
+        notes: values.notes || [],
+        published: getPublishedDate(values, initialValues, preview) ?? '',
+        tags: values.tags,
+        title: editorValueToPlainText(values.slatetitle),
+        grepCodes: values.grepCodes ?? [],
+        conceptIds: values.conceptIds?.map(c => c.id) ?? [],
+        availability: values.availability,
+        relatedContent: convertDraftOrRelated(values.relatedContent),
+      };
+    },
+    [licenses],
+  );
+
   const {
     savedToServer,
     formikRef,
@@ -219,7 +221,6 @@ const LearningResourceForm = ({
     applicationError,
     updateArticle,
     updateArticleAndStatus,
-    licenses,
     getArticleFromSlate,
     isNewlyCreated,
   });
@@ -236,8 +237,7 @@ const LearningResourceForm = ({
       changed: articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
-    const getArticle = () =>
-      getArticleFromSlate({ values, initialValues, licenses, preview: false });
+    const getArticle = () => getArticleFromSlate({ values, initialValues, preview: false });
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage

@@ -13,15 +13,14 @@ import BEMHelper from 'react-bem-helper';
 import { UploadDropZone, FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
-import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { DeleteForever } from '@ndla/icons/editor';
 import IconButton from '../../../components/IconButton';
 import AudioPlayer from './AudioPlayer';
 import FormikField from '../../../components/FormikField';
 import { AudioFormikType } from './AudioForm';
 import { TitleField } from '../../FormikForm';
-import AudioFormInfo from './AudioFormInfo';
-import { HelpIcon, normalPaddingCSS } from '../../../components/HowTo';
+import AudioCopyInfo from './AudioCopyInfo';
+import AudioFileInfoModal from './AudioFileInfoModal';
 
 interface BaseProps {
   classes: BEMHelper<BEMHelper.ReturnObject>;
@@ -83,31 +82,7 @@ const AudioContent = ({ formik }: Props) => {
         {() => (
           <>
             <FieldHeader title={t('form.audio.file')}>
-              <Modal
-                backgroundColor="white"
-                activateButton={
-                  <div>
-                    <Tooltip tooltip={t('form.audio.modal.label')}>
-                      <HelpIcon css={normalPaddingCSS} />
-                    </Tooltip>
-                  </div>
-                }>
-                {(onClose: () => void) => (
-                  <>
-                    <ModalHeader>
-                      <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
-                    </ModalHeader>
-                    <ModalBody>
-                      <h1>{t('form.audio.modal.header')}</h1>
-                      <ul>
-                        <li>{t('form.audio.info.multipleFiles')}</li>
-                        <li>{t('form.audio.info.changeFile')}</li>
-                        <li>{t('form.audio.info.newLanguage')}</li>
-                      </ul>
-                    </ModalBody>
-                  </>
-                )}
-              </Modal>
+              <AudioFileInfoModal />
             </FieldHeader>
             {playerObject ? (
               <PlayerWrapper>
@@ -142,7 +117,7 @@ const AudioContent = ({ formik }: Props) => {
           </>
         )}
       </FormikField>
-      {playerObject && <AudioFormInfo values={values} />}
+      <AudioCopyInfo values={values} />
     </Fragment>
   );
 };

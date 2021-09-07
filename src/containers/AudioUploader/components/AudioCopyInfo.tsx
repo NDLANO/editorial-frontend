@@ -30,9 +30,12 @@ const AudioFormInfo = ({ values }: Props) => {
 
   const { t, i18n } = useTranslation();
 
+  if (!fileLanguage) {
+    return null;
+  }
   return (
     <div>
-      {fileLanguage && language !== fileLanguage && (
+      {language !== fileLanguage && (
         <InfoWrapper>
           <IconWrapper>
             <InformationOutline />

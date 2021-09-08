@@ -22,6 +22,7 @@ import AlertModal from '../../../components/AlertModal';
 import Spinner from '../../../components/Spinner';
 import { TopicResource } from './StructureResources';
 import { classes } from './ResourceGroup';
+import { LocaleType } from '../../../interfaces';
 
 const StyledResourceItems = styled.ul`
   list-style: none;
@@ -36,7 +37,7 @@ const StyledErrorMessage = styled.div`
 interface Props {
   resources: TopicResource[];
   refreshResources: () => Promise<void>;
-  locale: string;
+  locale: LocaleType;
 }
 
 const ResourceItems = ({ refreshResources, resources, locale }: Props) => {

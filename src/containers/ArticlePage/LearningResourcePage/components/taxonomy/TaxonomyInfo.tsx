@@ -30,7 +30,7 @@ const StyledId = styled.span`
 `;
 
 interface Props {
-  taxonomyElement: TaxonomyElement;
+  taxonomyElement: Omit<TaxonomyElement, 'metadata'> & Partial<Pick<TaxonomyElement, 'metadata'>>;
   updateMetadata: (visible: boolean) => void;
 }
 

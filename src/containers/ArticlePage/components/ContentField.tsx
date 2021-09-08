@@ -14,17 +14,16 @@ import Button from '@ndla/button';
 import { FormikHelpers, FormikValues } from 'formik';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
-import { FormikProperties, RelatedContentType } from '../../../interfaces';
+import { ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
+import { ArticleFormikType } from '../../FormikForm/articleFormHooks';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { DraftApiType, DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   locale: string;
-  values: {
-    relatedContent: RelatedContentType[];
-  };
+  values: ArticleFormikType;
   field: FormikProperties['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
@@ -33,13 +32,15 @@ interface Props {
 
 const ContentField = ({ locale, values, field, form }: Props) => {
   const { t } = useTranslation();
-  const [relatedContent, setRelatedContent] = useState<RelatedContentType[]>(values.relatedContent);
+  const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
+    values.relatedContent,
+  );
   const [showAddExternal, setShowAddExternal] = useState(false);
 
   const onAddArticleToList = async (article: DraftSearchSummary) => {
     try {
       const newArticle = await fetchDraft(article.id, locale);
-      const temp: RelatedContentType[] = [...relatedContent, newArticle];
+      const temp = [...relatedContent, newArticle];
       if (newArticle) {
         setRelatedContent(temp);
         updateFormik(field, temp);
@@ -49,12 +50,12 @@ const ContentField = ({ locale, values, field, form }: Props) => {
     }
   };
 
-  const onUpdateElements = (relatedContent: RelatedContentType[]) => {
+  const onUpdateElements = (relatedContent: ConvertedRelatedContent[]) => {
     setRelatedContent(relatedContent);
     updateFormik(field, relatedContent);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: RelatedContentType[]) => {
+  const updateFormik = (formikField: Props['field'], newData: ConvertedRelatedContent[]) => {
     form.setFieldTouched('relatedContent', true, false);
     formikField.onChange({
       target: {

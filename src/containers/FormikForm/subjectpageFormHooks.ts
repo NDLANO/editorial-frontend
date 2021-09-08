@@ -10,7 +10,7 @@ import { TFunction } from 'react-i18next';
 import { SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
 import * as messageActions from '../Messages/messagesActions';
 import { formatErrorMessage } from '../../util/apiHelpers';
-import { SubjectFormValues } from '../../containers/EditSubjectFrontpage/components/SubjectpageForm';
+import { SubjectFormValues } from '../EditSubjectFrontpage/components/SubjectpageForm';
 
 export function useSubjectpageFormHooks(
   getSubjectpageFromSlate: Function, // TODO fix type

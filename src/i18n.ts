@@ -6,7 +6,6 @@
  *
  */
 
-// @ts-ignore
 import { messagesNB, messagesEN, messagesNN } from '@ndla/ui';
 import nb from './phrases/phrases-nb';
 import nn from './phrases/phrases-nn';

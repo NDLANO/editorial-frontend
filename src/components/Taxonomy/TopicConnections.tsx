@@ -21,11 +21,9 @@ import { fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
-import {
-  ResourceWithTopicConnection,
-  SubjectType,
-} from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../util/retrieveBreadCrumbs';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -39,7 +37,7 @@ const ModalTitleRow = styled.div`
 
 interface Props {
   structure: SubjectType[];
-  activeTopics: ResourceWithTopicConnection[];
+  activeTopics: StagedTopic[];
   allTopics: {
     contentUri: string;
     id: string;
@@ -116,7 +114,7 @@ const TopicConnections = ({
     setOpenedPaths(paths);
   };
 
-  const addTopic = async (id: string, closeModal: () => void) => {
+  const addTopic = async (id: string | undefined, closeModal: () => void) => {
     const topicToAdd = allTopics.find(taxonomyTopic => taxonomyTopic.id === id);
 
     const topicConnections = await fetchTopicConnections(topicToAdd!.id);
@@ -189,7 +187,6 @@ const TopicConnections = ({
                   id: string;
                 }) => (
                   <StructureButtons
-                    isOpen={isOpen}
                     id={id}
                     isSubject={isSubject}
                     closeModal={closeModal}

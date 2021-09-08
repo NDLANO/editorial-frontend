@@ -9,7 +9,6 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import queryString from 'query-string';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input, FieldSplitter, FieldRemoveButton } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
@@ -20,15 +19,10 @@ import Tooltip from '@ndla/tooltip';
 
 import UrlAllowList from './UrlAllowList';
 import { fetchExternalOembed } from '../../util/apiHelpers';
-import {
-  isValidURL,
-  urlDomain,
-  urlAsATag,
-  getIframeSrcFromHtmlString,
-} from '../../util/htmlHelpers';
+import { isValidURL, urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
-import { fetchNrkMedia } from './visualElementApi';
 import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
+import { urlTransformers } from './urlTransformers';
 
 const filterWhiteListedURL = url => {
   const domain = urlDomain(url);
@@ -59,40 +53,6 @@ const StyledPreviewWrapper = styled('div')`
 const StyledPreviewItem = styled('div')`
   width: 50%;
 `;
-
-export const transformableDomains = [
-  {
-    domains: ['nrk.no', 'www.nrk.no'],
-    shouldTransform: (url, domains) => {
-      const aTag = urlAsATag(url);
-
-      if (domains.includes(aTag.hostname)) {
-        return true;
-      }
-      const mediaId = queryString.parse(aTag.search).mediaId;
-      if (mediaId) {
-        return true;
-      }
-      return false;
-    },
-    transform: async url => {
-      const aTag = urlAsATag(url);
-      const mediaId = queryString.parse(aTag.search).mediaId;
-      if (!mediaId) {
-        return url;
-      }
-      try {
-        const nrkMedia = await fetchNrkMedia(mediaId);
-        if (nrkMedia.psId) {
-          return `https://static.nrk.no/ludo/latest/video-embed.html#id=${nrkMedia.psId}`;
-        }
-        return url;
-      } catch {
-        return url;
-      }
-    },
-  },
-];
 
 class VisualElementUrlPreview extends Component {
   constructor(props) {
@@ -172,7 +132,7 @@ class VisualElementUrlPreview extends Component {
 
   async handleChange(evt) {
     let url = evt.target.value;
-    for (const rule of transformableDomains) {
+    for (const rule of urlTransformers) {
       if (rule.shouldTransform(url, rule.domains)) {
         url = await rule.transform(url);
         break;

@@ -32,6 +32,7 @@ import {
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftStatus, DraftStatusTypes } from '../../../modules/draft/draftApiInterfaces';
 import { StructureRouteParams } from '../StructureContainer';
+import { LocaleType } from '../../../interfaces';
 
 const StyledDiv = styled('div')`
   width: calc(${spacing.large} * 5);
@@ -44,7 +45,7 @@ export interface TopicResource extends ResourceWithTopicConnection {
 }
 
 interface Props {
-  locale: string;
+  locale: LocaleType;
   params: StructureRouteParams;
   currentTopic: SubjectTopic;
   refreshTopics: () => Promise<void>;

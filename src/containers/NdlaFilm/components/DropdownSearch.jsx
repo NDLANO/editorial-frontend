@@ -34,7 +34,7 @@ const DropdownSearch = ({
       ...result,
       title: result.title ? result.title.title : '',
     }));
-    return {...response, results};
+    return { ...response, results };
   };
 
   return (

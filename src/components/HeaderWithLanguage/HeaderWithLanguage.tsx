@@ -7,10 +7,9 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
 
@@ -21,11 +20,13 @@ export const StyledLanguageWrapper = styled.div`
   align-items: center;
 `;
 
-const getTaxonomyPathsFromTaxonomy = (taxonomy, articleId) => {
+const getTaxonomyPathsFromTaxonomy = (taxonomy: object, articleId: number) => {
   const taxonomyObjects = Object.values(taxonomy || {});
   const flattenedObjects = [].concat.apply([], taxonomyObjects);
+  //@ts-ignore
   const nestedTaxonomyPaths = flattenedObjects.map(rt => rt?.paths);
   const flattenedPaths = [].concat.apply([], nestedTaxonomyPaths);
+  //@ts-ignore
   return flattenedPaths.concat(`/article/${articleId}`);
 };
 
@@ -38,12 +39,13 @@ const HeaderWithLanguage = ({
   translateToNN,
   type,
   values,
+  formIsDirty = false,
   ...rest
-}) => {
+}: Props & tType) => {
   const { supportedLanguages, articleType } = values;
   const { id, title, status, language } = content;
 
-  const isNewLanguage = id && !supportedLanguages.includes(language);
+  const isNewLanguage = !!id && !supportedLanguages.includes(language);
   const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : '';
   const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
   const multiType = articleType ? articleType : type;
@@ -53,6 +55,7 @@ const HeaderWithLanguage = ({
 
   return (
     <header>
+      {/* @ts-ignore */}
       <HeaderInformation
         type={multiType}
         noStatus={noStatus}
@@ -70,10 +73,10 @@ const HeaderWithLanguage = ({
           noStatus={noStatus}
           isNewLanguage={isNewLanguage}
           type={multiType}
-          title={title}
           isSubmitting={isSubmitting}
           translateToNN={translateToNN}
           setTranslateOnContinue={setTranslateOnContinue}
+          formIsDirty={formIsDirty}
           {...rest}
         />
       </StyledLanguageWrapper>
@@ -81,38 +84,40 @@ const HeaderWithLanguage = ({
   );
 };
 
-HeaderWithLanguage.propTypes = {
-  content: PropTypes.shape({
-    current: PropTypes.object,
-    id: PropTypes.number,
-    language: PropTypes.string,
-    status: PropTypes.shape({
-      current: PropTypes.string,
-      other: PropTypes.arrayOf(PropTypes.string),
-    }),
-    title: PropTypes.string,
-    taxonomy: PropTypes.object,
-  }),
-  editUrl: PropTypes.func.isRequired,
-  getEntity: PropTypes.func,
-  isSubmitting: PropTypes.bool,
-  noStatus: PropTypes.bool,
-  setTranslateOnContinue: PropTypes.func,
-  type: PropTypes.oneOf([
-    'image',
-    'audio',
-    'iframe',
-    'topic-article',
-    'standard',
-    'concept',
-    'podcast',
-    'podcast-series',
-  ]),
-  translateToNN: PropTypes.func,
-  values: PropTypes.shape({
-    articleType: PropTypes.string,
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-  }),
-};
+interface Props {
+  content: {
+    current: object;
+    id: number;
+    language: string;
+    status: {
+      current: string;
+      other: string[];
+    };
+    title: string;
+    taxonomy: object;
+  };
+  editUrl: (url: string) => string;
+  getEntity: Function;
+  isSubmitting: boolean;
+  noStatus: boolean;
+  setTranslateOnContinue: (translateOnContinue: boolean) => void;
+  type:
+    | 'image'
+    | 'audio'
+    | 'iframe'
+    | 'topic-article'
+    | 'standard'
+    | 'concept'
+    | 'podcast'
+    | 'podcast-series';
+  translateToNN: () => void;
+  values: {
+    id?: number;
+    articleType: string;
+    language: string;
+    supportedLanguages: string[];
+  };
+  formIsDirty?: boolean;
+}
 
 export default injectT(HeaderWithLanguage);

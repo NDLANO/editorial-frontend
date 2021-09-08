@@ -7,19 +7,18 @@
  */
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import FocusTrapReact from 'focus-trap-react';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import { Plus } from '@ndla/icons/action';
-import StyledFilledButton from '../../components/StyledFilledButton';
-import StyledListButton from '../../components/StyledListButton';
-import Overlay from '../../components/Overlay';
-import { StyledDropdownOverlay } from '../../components/Dropdown';
+import StyledFilledButton from '../StyledFilledButton';
+import StyledListButton from '../StyledListButton';
+import Overlay from '../Overlay';
+import { StyledDropdownOverlay } from '../Dropdown';
 
 const StyledLink = StyledListButton.withComponent(Link);
 
-const LanguagePicker = ({ emptyLanguages, editUrl, t }) => {
+const LanguagePicker = ({ emptyLanguages, editUrl, t }: Props & tType) => {
   const [display, setDisplay] = useState(false);
   return (
     <div>
@@ -57,14 +56,12 @@ const LanguagePicker = ({ emptyLanguages, editUrl, t }) => {
   );
 };
 
-LanguagePicker.propTypes = {
-  emptyLanguages: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-  editUrl: PropTypes.func.isRequired,
-};
+interface Props {
+  emptyLanguages: {
+    key: string;
+    title: string;
+  }[];
+  editUrl: (url: string) => string;
+}
 
 export default injectT(LanguagePicker);

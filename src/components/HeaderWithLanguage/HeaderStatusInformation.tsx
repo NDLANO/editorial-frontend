@@ -5,9 +5,8 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import SafeLink from '@ndla/safelink';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
@@ -35,13 +34,12 @@ const HeaderStatusInformation = ({
   isNewLanguage,
   published,
   taxonomyPaths,
-  noHelp,
   indentLeft,
   fontSize,
   t,
   type,
   id,
-}) => {
+}: Props & tType) => {
   const StyledStatus = styled.p`
     ${fonts.sizes(fontSize || 18, 1.1)};
     font-weight: ${fonts.weight.semibold};
@@ -73,7 +71,7 @@ const HeaderStatusInformation = ({
     box-shadow: inset 0 0;
   `;
 
-  const multipleTaxonomyIcon = taxonomyPaths?.length > 2 && (
+  const multipleTaxonomyIcon = (taxonomyPaths?.length ?? 0) > 2 && (
     <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
       <StyledWarnIcon title={t('form.taxonomySection')} />
     </Tooltip>
@@ -106,7 +104,7 @@ const HeaderStatusInformation = ({
     return (
       <StyledStatusWrapper>
         {splitter}
-        {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
+        {published && ((taxonomyPaths?.length ?? -1) > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
         {learningpathConnections}
         {imageConnections}
@@ -117,7 +115,7 @@ const HeaderStatusInformation = ({
     return (
       <StyledStatusWrapper>
         {splitter}
-        {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
+        {published && ((taxonomyPaths?.length ?? -1) > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
         {learningpathConnections}
         <StyledStatus>
@@ -134,17 +132,16 @@ const HeaderStatusInformation = ({
   return null;
 };
 
-HeaderStatusInformation.propTypes = {
-  noStatus: PropTypes.bool,
-  statusText: PropTypes.string,
-  isNewLanguage: PropTypes.bool,
-  published: PropTypes.bool,
-  taxonomyPaths: PropTypes.arrayOf(PropTypes.string),
-  noHelp: PropTypes.bool,
-  indentLeft: PropTypes.bool,
-  fontSize: PropTypes.number,
-  type: PropTypes.string,
-  id: PropTypes.number,
-};
+interface Props {
+  noStatus: boolean;
+  statusText?: string;
+  isNewLanguage: boolean;
+  published?: boolean;
+  taxonomyPaths?: string[];
+  indentLeft?: boolean;
+  fontSize: number;
+  type: string;
+  id: number;
+}
 
 export default injectT(HeaderStatusInformation);

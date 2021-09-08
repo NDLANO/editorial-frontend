@@ -5,10 +5,9 @@
  */
 
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
@@ -19,20 +18,31 @@ import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 
-const PreviewLightBox = injectT(({ type, getEntity, articleType, supportedLanguages, t }) => {
+interface PreviewLightBoxProps {
+  type: string;
+  getEntity: Function;
+  articleType: string;
+  supportedLanguages?: string[];
+}
+
+const PreviewLightBox = ({
+  type,
+  getEntity,
+  articleType,
+  supportedLanguages = [],
+  t,
+}: PreviewLightBoxProps & tType) => {
   if (type === 'concept')
-    return (
-      supportedLanguages.length > 1 && (
-        <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
-      )
-    );
+    return supportedLanguages.length > 1 ? (
+      <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
+    ) : null;
   else if (type === 'standard' || type === 'topic-article')
     return (
       <PreviewDraftLightbox
         label={t(`articleType.${articleType}`)}
         typeOfPreview="previewLanguageArticle"
         getArticle={getEntity}>
-        {openPreview => (
+        {(openPreview: () => void) => (
           <StyledFilledButton type="button" onClick={openPreview}>
             <FileCompare />
             {t(`form.previewLanguageArticle.button`)}
@@ -40,7 +50,26 @@ const PreviewLightBox = injectT(({ type, getEntity, articleType, supportedLangua
         )}
       </PreviewDraftLightbox>
     );
-});
+  else return null;
+};
+
+interface Props {
+  editUrl: (url: string) => string;
+  formIsDirty: boolean;
+  getEntity: Function;
+  isNewLanguage: boolean;
+  isSubmitting: boolean;
+  noStatus: boolean;
+  setTranslateOnContinue: (translateOnContinue: boolean) => void;
+  translateToNN: () => void;
+  type: string;
+  values: {
+    articleType: string;
+    id?: number;
+    language: string;
+    supportedLanguages: string[];
+  };
+}
 
 const HeaderActions = ({
   editUrl,
@@ -54,8 +83,8 @@ const HeaderActions = ({
   type,
   translateToNN,
   values,
-}) => {
-  const { articleType, id, language, supportedLanguages } = values;
+}: Props & tType) => {
+  const { articleType, id, language, supportedLanguages = [] } = values;
 
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
@@ -89,15 +118,16 @@ const HeaderActions = ({
         )}
         <StyledSplitter />
         {!noStatus && getEntity && (
-          <Fragment>
+          <>
             <PreviewLightBox
               type={type}
               getEntity={getEntity}
               articleType={articleType}
               supportedLanguages={supportedLanguages}
+              t={t}
             />
             <StyledSplitter />
-          </Fragment>
+          </>
         )}
         <HeaderLanguagePicker emptyLanguages={emptyLanguages} editUrl={editUrl} />
         {translatableTypes.includes(type) &&
@@ -125,22 +155,22 @@ const HeaderActions = ({
   );
 };
 
-HeaderActions.propTypes = {
-  editUrl: PropTypes.func.isRequired,
-  formIsDirty: PropTypes.bool,
-  getEntity: PropTypes.func,
-  isNewLanguage: PropTypes.bool,
-  isSubmitting: PropTypes.bool,
-  noStatus: PropTypes.bool,
-  setTranslateOnContinue: PropTypes.func,
-  translateToNN: PropTypes.func,
-  type: PropTypes.string,
-  values: PropTypes.shape({
-    articleType: PropTypes.string,
-    id: PropTypes.number,
-    language: PropTypes.string,
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-  }),
-};
+// HeaderActions.propTypes = {
+//   editUrl: PropTypes.func.isRequired,
+//   formIsDirty: PropTypes.bool,
+//   getEntity: PropTypes.func,
+//   isNewLanguage: PropTypes.bool,
+//   isSubmitting: PropTypes.bool,
+//   noStatus: PropTypes.bool,
+//   setTranslateOnContinue: PropTypes.func,
+//   translateToNN: PropTypes.func,
+//   type: PropTypes.string,
+//   values: PropTypes.shape({
+//     articleType: PropTypes.string,
+//     id: PropTypes.number,
+//     language: PropTypes.string,
+//     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
+//   }),
+// };
 
 export default injectT(HeaderActions);

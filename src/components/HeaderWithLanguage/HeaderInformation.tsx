@@ -7,21 +7,25 @@
  */
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { injectT, tType } from '@ndla/i18n';
 import css from '@emotion/css';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
+// @ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
 import { Podcast } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
+import { RouteComponentProps } from 'react-router';
+import { connect, ConnectedProps } from 'react-redux';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as draftApi from '../../modules/draft/draftApi';
 import Spinner from '../Spinner';
 import handleError from '../../util/handleError';
+import { NewReduxMessage } from '../../containers/Messages/messagesSelectors';
+import * as messageActions from '../../containers/Messages/messagesActions';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -52,7 +56,10 @@ const StyledTitleHeaderWrapper = styled.div`
 
 const { contentTypes } = constants;
 
-export const types = {
+export const types: Record<
+  string,
+  { form: string; cssModifier: string; icon: React.ReactChild }
+> = {
   standard: {
     form: 'learningResourceForm',
     cssModifier: 'article',
@@ -110,7 +117,7 @@ const HeaderInformation = ({
   getEntity,
   history,
   taxonomyPaths,
-}) => {
+}: Props & PropsFromRedux & tType) => {
   const [loading, setLoading] = useState(false);
   const onSaveAsNew = async () => {
     try {
@@ -118,6 +125,7 @@ const HeaderInformation = ({
         createMessage({
           translationKey: 'form.mustSaveFirst',
           severity: 'danger',
+          timeToLive: 0,
         });
       } else {
         setLoading(true);
@@ -160,25 +168,31 @@ const HeaderInformation = ({
         taxonomyPaths={taxonomyPaths}
         type={type}
         id={id}
+        fontSize={10} // TODO: Consider changing
       />
     </StyledHeader>
   );
 };
 
-HeaderInformation.propTypes = {
-  noStatus: PropTypes.bool,
-  statusText: PropTypes.string,
-  published: PropTypes.bool,
-  type: PropTypes.string.isRequired,
-  editUrl: PropTypes.func,
-  getEntity: PropTypes.func,
-  isNewLanguage: PropTypes.bool,
-  title: PropTypes.string,
-  history: PropTypes.shape({ push: PropTypes.func }),
-  formIsDirty: PropTypes.bool,
-  createMessage: PropTypes.func,
-  taxonomyPaths: PropTypes.arrayOf(PropTypes.string),
-  id: PropTypes.number,
+interface Props extends RouteComponentProps {
+  noStatus: boolean;
+  statusText?: string;
+  published?: boolean;
+  type: string;
+  getEntity: Function;
+  isNewLanguage: boolean;
+  title: string;
+  formIsDirty?: boolean;
+  taxonomyPaths?: string[];
+  id: number;
+}
+
+const mapDispatchToProps = {
+  createMessage: (message: NewReduxMessage = { timeToLive: 0 }) =>
+    messageActions.addMessage(message),
 };
 
-export default injectT(HeaderInformation);
+const reduxConnector = connect(undefined, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
+
+export default reduxConnector(injectT(HeaderInformation));

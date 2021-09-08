@@ -23,7 +23,7 @@ const currentStyle = css`
     opacity: 0.6;
   }
 `;
-const StyledLanguagePill = styled.span`
+const StyledLanguagePill = styled.span<{ disabled: boolean; current: boolean }>`
   background: ${colors.brand.light};
   color: ${colors.brand.primary};
   box-shadow: none;
@@ -43,7 +43,7 @@ const StyledLanguagePill = styled.span`
   ${props => !props.current && currentStyle}
 `;
 
-const LanguagePill = ({ children, withComponent, isSubmitting, ...rest }) => {
+const LanguagePill = ({ children, withComponent, isSubmitting = false, ...rest }: Props) => {
   const StyledLanguagePillWithComponent =
     withComponent && !isSubmitting
       ? StyledLanguagePill.withComponent(withComponent)
@@ -54,6 +54,13 @@ const LanguagePill = ({ children, withComponent, isSubmitting, ...rest }) => {
     </StyledLanguagePillWithComponent>
   );
 };
+
+interface Props {
+  children: React.ReactNode[] | React.ReactNode;
+  withComponent?: keyof JSX.IntrinsicElements;
+  isSubmitting?: boolean;
+  current: boolean;
+}
 
 LanguagePill.propTypes = {
   withComponent: PropTypes.elementType,

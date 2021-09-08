@@ -9,7 +9,7 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { connect } from 'formik';
 import { FieldHeader, FieldSection } from '@ndla/forms';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -118,4 +118,4 @@ AgreementConnectionField.defaultProps = {
   width: 1,
 };
 
-export default connect(injectT(AgreementConnectionField));
+export default connect(withTranslation()(AgreementConnectionField));

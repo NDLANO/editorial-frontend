@@ -7,9 +7,9 @@
  */
 
 import React, { Fragment, useState, useEffect } from 'react';
-import { injectT, tType } from '@ndla/i18n';
 import { DropdownInput } from '@ndla/forms';
 import { FieldInputProps, FormikHelpers } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { AsyncDropdown } from '../index';
 import { SearchResult } from '../../../interfaces';
 
@@ -35,15 +35,8 @@ interface TagWithTitle {
   title: string;
 }
 
-const AsyncSearchTags = ({
-  t,
-  language,
-  initialTags,
-  field,
-  form,
-  fetchTags,
-  updateValue,
-}: Props & tType) => {
+const AsyncSearchTags = ({ language, initialTags, field, form, fetchTags, updateValue }: Props) => {
+  const { t } = useTranslation();
   const convertToTagsWithTitle = (tagsWithoutTitle: string[]) => {
     return tagsWithoutTitle.map(tag => ({ title: tag }));
   };
@@ -125,4 +118,4 @@ const AsyncSearchTags = ({
   );
 };
 
-export default injectT(AsyncSearchTags);
+export default AsyncSearchTags;

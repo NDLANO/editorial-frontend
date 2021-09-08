@@ -6,13 +6,7 @@
  *
  */
 
-import {
-  Copyright,
-  Status,
-  VisualElement,
-  ArticleType,
-  StrippedConceptType,
-} from '../../interfaces';
+import { Copyright, VisualElement, ArticleType, SearchResultBase } from '../../interfaces';
 
 export type LanguageFieldType<T> = T & {
   language: string;
@@ -25,6 +19,20 @@ export interface ConceptSubmitType extends StrippedConceptType {
   metaImageId: string;
   created?: string;
   parsedVisualElement: VisualElement;
+}
+
+export type ConceptStatusType =
+  | 'DRAFT'
+  | 'QUALITY_ASSURED'
+  | 'PUBLISHED'
+  | 'QUEUED_FOR_LANGUAGE'
+  | 'ARCHIVED'
+  | 'TRANSLATED'
+  | 'UNPUBLISHED';
+
+export interface ConceptStatus {
+  current: ConceptStatusType;
+  other: ConceptStatusType[];
 }
 
 export interface ConceptTagsSearchResult {
@@ -87,7 +95,7 @@ export interface CoreApiConceptType {
   id: number;
   title: LanguageFieldType<{ title: string }>;
   supportedLanguages: string[];
-  status: Status;
+  status: ConceptStatus;
   content?: LanguageFieldType<{ content: string }>;
   metaImage?: LanguageFieldType<{
     url: string;
@@ -114,10 +122,54 @@ export interface ApiConceptType extends CoreApiConceptType {
   visualElement?: LanguageFieldType<{ visualElement: string }>;
 }
 
-export interface ConceptSearchResult {
-  totalCount: number;
-  page?: number;
-  pageSize: number;
+export type ConceptSearchResult = SearchResultBase<SearchConceptType>;
+
+export interface StrippedConceptType {
+  id: number;
+  title?: string;
+  content?: string;
+  visualElement?: string;
   language: string;
-  results: SearchConceptType[];
+  copyright?: Copyright;
+  source?: string;
+  metaImage?: {
+    id?: string;
+    url?: string;
+    alt: string;
+    language?: string;
+  };
+  tags: string[];
+  subjectIds?: string[];
+  articleIds?: number[];
+}
+
+export interface ConceptType extends StrippedConceptType {
+  title: string;
+  content: string;
+  visualElement: string;
+  subjectIds: string[];
+  articleIds: number[];
+  lastUpdated?: string;
+  updatedBy: string[];
+  supportedLanguages: string[];
+  status: ConceptStatus;
+  created?: string;
+  updated: string;
+  metaImageId: string;
+  parsedVisualElement: VisualElement;
+}
+
+export type FormValues = {
+  id: number;
+  language: string;
+  revision?: number;
+  status: ConceptStatus;
+};
+
+export interface ConceptPreviewType extends ConceptType {
+  visualElementResources: VisualElement;
+}
+
+export interface ConceptFormType extends ConceptType {
+  articles: ArticleType[];
 }

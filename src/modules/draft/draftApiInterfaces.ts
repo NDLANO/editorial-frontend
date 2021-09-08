@@ -6,7 +6,7 @@
  *
  */
 
-import { Author, AvailabilityType, RelatedContent, Status, License } from '../../interfaces';
+import { Author, AvailabilityType, RelatedContent, License, Note } from '../../interfaces';
 
 export interface DraftStatusStateMachineType {
   QUALITY_ASSURED: string[];
@@ -84,6 +84,11 @@ export type DraftStatusTypes =
   | 'UNPUBLISHED'
   | 'ARCHIVED'
   | 'AWAITING_ARCHIVING';
+
+export interface DraftStatus {
+  current: DraftStatusTypes;
+  other: DraftStatusTypes[];
+}
 
 export interface DraftSearchQuery {
   query?: string;
@@ -173,7 +178,7 @@ export interface DraftApiType {
   id: number;
   oldNdlaUrl?: string;
   revision: number;
-  status: Status;
+  status: DraftStatus;
   title?: {
     title: string;
     language: string;
@@ -215,12 +220,7 @@ export interface DraftApiType {
   published: string;
   articleType: string;
   supportedLanguages: string[];
-  notes: {
-    note: string;
-    user: string;
-    status: Status;
-    timestamp: string;
-  }[];
+  notes: Note[];
   editorLabels: string[];
   grepCodes: string[];
   conceptIds: number[];
@@ -267,16 +267,16 @@ export interface NewDraftApiType {
   title: string;
   published?: string;
   content?: string;
-  tags: string[];
+  tags?: string[];
   introduction?: string;
   metaDescription?: string;
   metaImage?: {
-    url: string;
+    id: string;
     alt: string;
   };
   visualElement?: string;
   copyright?: Copyright;
-  requiredLibraries: {
+  requiredLibraries?: {
     mediaType: string;
     name: string;
     url: string;

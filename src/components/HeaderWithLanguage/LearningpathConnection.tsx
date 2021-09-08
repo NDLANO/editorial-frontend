@@ -6,10 +6,10 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { LearningPath } from '@ndla/icons/contentType';
 import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
@@ -21,6 +21,8 @@ import { fetchLearningpathsWithArticle } from '../../modules/learningpath/learni
 
 interface Props {
   id: number;
+  learningpaths: Learningpath[];
+  setLearningpaths: (lps: Learningpath[]) => void;
 }
 
 const LearningpathIcon = styled(LearningPath)`
@@ -29,14 +31,14 @@ const LearningpathIcon = styled(LearningPath)`
   cursor: pointer;
 `;
 
-const LearningpathConnection = ({ t, id }: Props & tType) => {
-  const [learningpaths, setLearningpaths] = useState<Learningpath[]>([]);
+const LearningpathConnection = ({ id, learningpaths, setLearningpaths }: Props) => {
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (id) {
       fetchLearningpathsWithArticle(id).then(setLearningpaths);
     }
-  }, [id]);
+  }, [id, setLearningpaths]);
 
   if (!learningpaths.length) {
     return null;
@@ -69,4 +71,4 @@ const LearningpathConnection = ({ t, id }: Props & tType) => {
   );
 };
 
-export default injectT(LearningpathConnection);
+export default LearningpathConnection;

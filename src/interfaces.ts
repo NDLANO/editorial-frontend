@@ -15,27 +15,30 @@ import { SearchTypeValues, LOCALE_VALUES } from './constants';
 import { ReduxSessionState } from './modules/session/session';
 import { ReduxMessageState } from './containers/Messages/messagesSelectors';
 import { ReduxLocaleState } from './modules/locale/locale';
+import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
+import { ApiConceptType } from './modules/concept/conceptApiInterfaces';
+import { DraftApiType } from './modules/draft/draftApiInterfaces';
+import { DraftStatus } from './modules/draft/draftApiInterfaces';
+import { FootnoteType } from './containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
-export type ConceptStatusType =
-  | 'DRAFT'
-  | 'QUALITY_ASSURED'
-  | 'PUBLISHED'
-  | 'QUEUED_FOR_LANGUAGE'
-  | 'ARCHIVED'
-  | 'TRANSLATED'
-  | 'UNPUBLISHED';
-
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
-export interface TranslateType {
-  (
-    key: string,
-    values?: {
-      [key: string]: string | number;
-    },
-  ): string;
+export type EditMode =
+  | 'changeSubjectName'
+  | 'deleteTopic'
+  | 'addExistingSubjectTopic'
+  | 'openCustomFields'
+  | 'toggleMetadataVisibility'
+  | 'editGrepCodes'
+  | 'addExistingTopic';
+export interface SearchResultBase<T> {
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  language: string;
+  results: T[];
 }
 
 export interface Author {
@@ -43,15 +46,13 @@ export interface Author {
   type: string;
 }
 
-export interface Status {
-  current: ConceptStatusType;
-  other: ConceptStatusType[];
-}
-
 export interface Note {
   note: string;
   user: string;
-  status: Status;
+  status: {
+    current: string;
+    other: string[];
+  };
   timestamp: string;
 }
 
@@ -70,17 +71,6 @@ export interface CodeBlockType {
   code: string;
   title: string;
   format: string;
-}
-
-export interface ResourceType {
-  id: string;
-  name: string;
-  resources?: Resource[];
-}
-
-export interface ResourceTranslation {
-  name: string;
-  language: string;
 }
 
 export interface ImageType {
@@ -104,12 +94,19 @@ export interface MetaImage {
   language: string;
 }
 
+export interface FlattenedResourceType {
+  id: string;
+  name: string;
+  typeId?: string;
+  typeName?: string;
+}
+
 export interface ContentResultType {
   articleType: string;
   contexts: [
     {
       learningResourceType: string;
-      resourceTypes: ResourceType[];
+      resourceTypes: { id: string; name: string; resources?: Resource[] }[];
     },
   ];
   id: number;
@@ -132,6 +129,17 @@ export interface ContentResultType {
       matches: string[];
     },
   ];
+}
+
+export interface Auth0UserData {
+  app_metadata: {
+    ndla_id: string;
+  };
+  name: string;
+}
+
+export interface ZendeskToken {
+  token: string;
 }
 
 export interface ArticleType {
@@ -175,11 +183,15 @@ export interface ArticleType {
       },
     ];
   };
-  status: Status;
+  status: DraftStatus;
   content: string;
   grepCodes: string[];
   conceptIds: number[];
   relatedContent: RelatedContent[];
+  availability?: AvailabilityType;
+  metaData?: {
+    footnotes?: FootnoteType[];
+  };
 }
 
 export interface RelatedContentLink {
@@ -189,47 +201,7 @@ export interface RelatedContentLink {
 
 export type RelatedContent = RelatedContentLink | number;
 
-export type ConvertedRelatedContent = RelatedContentLink | ArticleType;
-
-export interface TaxonomyMetadata {
-  grepCodes: string[];
-  visible: boolean;
-  customFields: Record<string, string>;
-}
-
-export interface TaxonomyElement {
-  id: string;
-  name: string;
-  metadata: TaxonomyMetadata;
-}
-
-export interface Topic extends TaxonomyElement {
-  contentUri: string;
-  path: string;
-  paths: string[];
-}
-
-export interface Resource extends TaxonomyElement {
-  connectionId: string;
-  contentUri?: string;
-  isPrimary: boolean;
-  path: string;
-  paths: string[];
-  rank: number;
-  resourceTypes: [
-    {
-      id: string;
-      name: string;
-    },
-  ];
-  topicId: string;
-}
-
-export interface ResourceWithTopicConnection extends Resource {
-  primary: boolean;
-  relevanceId: string;
-  status?: Status;
-}
+export type ConvertedRelatedContent = RelatedContent | DraftApiType;
 
 export interface Learningpath {
   copyright: {
@@ -295,14 +267,6 @@ export interface SearchResult {
   results: string[];
 }
 
-export interface SubjectType {
-  id: string;
-  contentUri: string;
-  name: string;
-  path: string;
-  metadata: TaxonomyMetadata;
-}
-
 export interface SubjectpageType {
   facebook?: string;
   filters?: string[];
@@ -348,26 +312,26 @@ export interface SubjectpageEditType extends SubjectpageType {
   mobileBanner?: number;
   elementId?: string;
   title?: string;
-  visualElement?: VisualElement;
+  visualElementObject?: VisualElement;
 }
 
 export interface NdlaFilmType {
   name: string;
 }
 
+export interface NdlaFilmVisualElement {
+  alt: string;
+  url: string;
+  type: string;
+}
+
 export interface NdlaFilmApiType extends NdlaFilmType {
-  about: [
-    {
-      description: string;
-      language: string;
-      title: string;
-      visualElement: {
-        alt: string;
-        id: string;
-        type: string;
-      };
-    },
-  ];
+  about: {
+    description: string;
+    language: string;
+    title: string;
+    visualElement: NdlaFilmVisualElement;
+  }[];
   themes: NdlaFilmThemesApiType[];
   slideShow: string[];
 }
@@ -394,14 +358,13 @@ export interface NdlaFilmThemesApiType {
 }
 export interface NdlaFilmThemesEditType {
   movies: ContentResultType[];
-  name: [
-    {
-      name: string;
-      language: string;
-    },
-  ];
+  name: {
+    name: string;
+    language: string;
+  }[];
 }
 
+export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface VisualElement {
   resource: string;
   resource_id: string;
@@ -505,60 +468,25 @@ export interface FormikProperties {
   form: FormikHelpers<FormikValues>;
 }
 
+export interface BrightcoveAccessToken {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+}
+
+export interface H5POembed {
+  height: number;
+  width: number;
+  html: string;
+  type: string;
+  version: string;
+  title: string;
+}
+
 export interface License {
   license: string;
-  description: string;
+  description?: string;
   url?: string;
-}
-
-export type FormValues = {
-  id: number;
-  language: string;
-  revision?: number;
-  status: Status;
-};
-
-export interface StrippedConceptType {
-  id: number;
-  title?: string;
-  content?: string;
-  visualElement?: string;
-  language: string;
-  copyright?: Copyright;
-  source?: string;
-  metaImage?: {
-    id?: string;
-    url?: string;
-    alt: string;
-    language?: string;
-  };
-  tags: string[];
-  subjectIds?: string[];
-  articleIds?: number[];
-}
-
-export interface ConceptType extends StrippedConceptType {
-  title: string;
-  content: string;
-  visualElement: string;
-  subjectIds: string[];
-  articleIds: number[];
-  lastUpdated?: string;
-  updatedBy: string[];
-  supportedLanguages: string[];
-  status: Status;
-  created?: string;
-  updated: string;
-  metaImageId: string;
-  parsedVisualElement: VisualElement;
-}
-
-export interface ConceptPreviewType extends ConceptType {
-  visualElementResources: VisualElement;
-}
-
-export interface ConceptFormType extends ConceptType {
-  articles: ArticleType[];
 }
 
 export interface ReduxState {
@@ -570,3 +498,58 @@ export interface ReduxState {
 }
 
 export type SearchType = typeof SearchTypeValues[number];
+
+export interface ConvertedDraftType {
+  language?: string;
+  title?: string;
+  introduction?: string;
+  visualElement?: string;
+  content?: string;
+  metaDescription?: string;
+  tags: string[];
+  conceptIds: ApiConceptType[];
+  relatedContent: (DraftApiType | RelatedContent)[];
+  id?: number;
+  oldNdlaUrl?: string | undefined;
+  revision: number;
+  status: DraftStatus;
+  copyright?: Copyright | undefined;
+  requiredLibraries: { mediaType: string; name: string; url: string }[];
+  metaImage?: { id: string; alt: string } | null;
+  created: string;
+  updated: string;
+  updatedBy: string;
+  published: string;
+  articleType: string;
+  supportedLanguages: string[];
+  notes: Note[];
+  editorLabels: string[];
+  grepCodes: string[];
+  availability: AvailabilityType;
+}
+
+export interface SlateArticle {
+  articleType: string;
+  content?: string;
+  copyright: {
+    license?: License;
+    origin?: string;
+    creators: Author[];
+    processors: Author[];
+    rightsholders: Author[];
+  };
+  id?: number;
+  introduction?: string;
+  language?: string;
+  metaImage?: { id: string; alt: string | undefined } | null;
+  metaDescription: string;
+  notes: string[];
+  published?: string;
+  supportedLanguages: string[];
+  tags: string[];
+  title?: string;
+  grepCodes: string[] | undefined;
+  conceptIds?: ApiConceptType[];
+  availability?: AvailabilityType;
+  relatedContent: (DraftApiType | RelatedContent)[];
+}

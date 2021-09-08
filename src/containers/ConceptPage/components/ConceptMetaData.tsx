@@ -7,17 +7,18 @@
  */
 
 import React, { Fragment } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import { MultiSelectDropdown } from '../../../components/Dropdown';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MetaImageSearch } from '../../FormikForm';
 
-import { SubjectType, SearchResult } from '../../../interfaces';
+import { SearchResult } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 import InlineImageSearch from './InlineImageSearch';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../constants';
+import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   subjects: SubjectType[];
@@ -25,7 +26,8 @@ interface Props {
   inModal: boolean;
 }
 
-const ConceptMetaData = ({ subjects, fetchTags, inModal, t }: Props & tType) => {
+const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
+  const { t } = useTranslation();
   const { values } = useFormikContext<ConceptFormValues>();
 
   const conceptSubjects = subjects.filter(
@@ -79,4 +81,4 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal, t }: Props & tType) => 
   );
 };
 
-export default injectT(ConceptMetaData);
+export default ConceptMetaData;

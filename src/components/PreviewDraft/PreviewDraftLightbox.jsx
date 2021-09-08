@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
@@ -211,7 +211,7 @@ class PreviewDraftLightbox extends React.Component {
   }
 }
 
-export default injectT(PreviewDraftLightbox);
+export default withTranslation()(PreviewDraftLightbox);
 
 PreviewDraftLightbox.propTypes = {
   children: PropTypes.func,

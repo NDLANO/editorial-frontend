@@ -6,7 +6,7 @@
  *
  */
 
-import { Copyright } from '../../interfaces';
+import { Copyright, SearchResultBase } from '../../interfaces';
 import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
 
 type AudioType = 'standard' | 'podcast';
@@ -78,6 +78,7 @@ export interface AudioApiType {
   audioType: AudioType;
   podcastMeta?: PodcastMeta;
   series?: PodcastSeriesApiType;
+  seriesId?: number;
 }
 
 export interface PodcastFormValues extends Omit<AudioFormikType, 'language'> {
@@ -88,6 +89,8 @@ export interface PodcastFormValues extends Omit<AudioFormikType, 'language'> {
   coverPhotoId?: string;
   metaImageAlt?: string;
   metaImageUrl?: string;
+  series: PodcastSeriesApiType | null;
+  seriesId?: number;
 }
 
 export interface AudioSearchResultType {
@@ -129,20 +132,12 @@ export interface SearchParams {
   sort?: string;
 }
 
-interface SearchResultBase<T> {
-  totalCount: number;
-  page: number;
-  pageSize: number;
-  language: string;
-  results: T[];
-}
-
 export interface PodcastSeriesApiType {
   id: number;
   revision: number;
   title: { title: string; language: string };
   description: { description: string; language: string };
-  coverPhoto: { id: string; altText: string };
+  coverPhoto: { id: string; altText: string; url: string };
   episodes?: AudioApiType[];
   supportedLanguages: string[];
 }

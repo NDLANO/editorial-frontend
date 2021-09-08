@@ -6,8 +6,6 @@
  *
  */
 
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
-
 const titleTemplate = '- Production system - NDLA';
 
 const phrases = {
@@ -42,7 +40,7 @@ const phrases = {
     title: 'Menu',
   },
   dropdown: {
-    numberHits: `Search returned {hits} hits`,
+    numberHits: `Search returned {{hits}} hits`,
     searching: 'Searching...',
     create: 'Create new',
     isSelectedItem: 'Added',
@@ -103,7 +101,7 @@ const phrases = {
     unknown: 'Unknown',
     de: 'German',
     empty: 'No languages left',
-    change: 'Change to {language} version',
+    change: 'Change to {{language}} version',
   },
   welcomePage: {
     addSearch: 'Add new search',
@@ -129,12 +127,12 @@ const phrases = {
     emptyButton: 'Empty',
     title: 'Title',
     language: 'Language',
-    contentNoHits: 'Your search - {query} - did not match any content.',
-    'podcast-seriesNoHits': 'Your search - {query} - did not match any content.',
-    conceptNoHits: 'Your search - {query} - did not match any concept.',
-    audioNoHits: 'Your search - {query} - did not match any audio files.',
-    imageNoHits: 'Your search - {query} - did not match any images.',
-    pageSize: '{pageSize} hits per page',
+    contentNoHits: 'Your search - {{query}} - did not match any content.',
+    'podcast-seriesNoHits': 'Your search - {{query}} - did not match any content.',
+    conceptNoHits: 'Your search - {{query}} - did not match any concept.',
+    audioNoHits: 'Your search - {{query}} - did not match any audio files.',
+    imageNoHits: 'Your search - {{query}} - did not match any images.',
+    pageSize: '{{pageSize}} hits per page',
     totalCount: 'Total results',
     highlights: {
       title: 'Search hits',
@@ -179,7 +177,6 @@ const phrases = {
     chooseSubject: 'Choose Subject',
     search: 'Search',
     login: 'Login',
-    logout: 'Logout [{name}]',
   },
   loginFailure: {
     errorMessage: 'Sorry. Login failed.',
@@ -191,7 +188,7 @@ const phrases = {
     description: 'Log in with',
   },
   logoutProviders: {
-    localLogout: 'Logg ut av prouctionsystem',
+    localLogout: 'Log out from production system',
     or: 'eller',
     federatedLogout: 'Log out of all providers',
     description: 'N.B. All providers include the identityprovider (Google or Facebook).',
@@ -206,10 +203,12 @@ const phrases = {
       imageQuery: 'Search for images',
       language: 'Select language',
       users: 'Select editor',
+      modelReleased: 'Select model released',
       subjects: 'Select subject',
       resourceTypes: 'Select resource type',
       status: 'Select status',
       audio: 'Select audio file type',
+      license: 'Select license',
     },
     tagType: {
       query: 'Query',
@@ -218,6 +217,9 @@ const phrases = {
       users: 'Editor',
       resourceTypes: 'Resource type',
       status: 'Status',
+      audioType: 'Audio file type',
+      license: 'License',
+      modelReleased: 'Model released',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -243,7 +245,7 @@ const phrases = {
       title: 'Title',
       lastUpdated: 'Last updated',
     },
-    resultError: 'Something went wrong with type: {type}',
+    resultError: 'Something went wrong with type: {{type}}',
   },
   subjectsPage: {
     subjects: 'Subjects',
@@ -267,6 +269,12 @@ const phrases = {
     },
   },
   imageSearch: {
+    modelReleased: {
+      yes: 'Model released',
+      no: 'Not model released',
+      'not-applicable': 'Not applicable',
+      'not-set': 'Not set',
+    },
     placeholder: 'Search images',
     buttonTitle: 'Search',
     useImage: 'Use image',
@@ -298,7 +306,7 @@ const phrases = {
   },
   displayOembed: {
     errorMessage: 'An error occurd when displaying oEmbed.',
-    notSupported: 'oEmbed of type {type} and provider {provider} is not supported.',
+    notSupported: 'oEmbed of type {{type}} and provider {{provider}} is not supported.',
   },
   audioSearch: {
     searchPlaceholder: 'Search in audio files',
@@ -314,8 +322,15 @@ const phrases = {
     noTitle: 'No title',
     noContent: 'No content',
   },
+  searchTypes: {
+    content: 'Content',
+    audio: 'Audio',
+    image: 'Image',
+    concept: 'Concepts',
+    'podcast-series': 'Series',
+  },
   noEmbedMessage: {
-    deleteOnSave: 'Element of type {type} will be deleted on save.',
+    deleteOnSave: 'Element of type {{type}} will be deleted on save.',
   },
   conceptpageForm: {
     articlesTitle: 'Related Articles',
@@ -401,6 +416,8 @@ const phrases = {
     },
     information: {
       partOfSeries: 'This podcast is a part of the series',
+      removeSeries: 'Remove Series',
+      noSeries: 'This podcast is not a part of any series',
     },
   },
   imageEditor: {
@@ -436,23 +453,23 @@ const phrases = {
     },
   },
   editorToolbar: {
-    bold: 'Bold\n({ctrl}+b)',
-    bulletedList: 'Bulleted list\n({ctrl}+l)',
-    code: 'Inline code\n({ctrl}+k)',
+    bold: 'Bold\n({{ctrl}}+b)',
+    bulletedList: 'Bulleted list\n({{ctrl}}+l)',
+    code: 'Inline code\n({{ctrl}}+k)',
     codeblock: 'Code',
-    concept: 'Concept\n({ctrl}+alt+c)',
-    footnote: 'Footnote\n({ctrl}+alt+f)',
+    concept: 'Concept\n({{ctrl}}+alt+c)',
+    footnote: 'Footnote\n({{ctrl}}+alt+f)',
     headingOne: 'Heading 1',
-    headingThree: 'Heading 3\n({ctrl}+3)',
-    headingTwo: 'Heading 2\n({ctrl}+2)',
-    italic: 'Italic\n({ctrl}+i)',
-    letterList: 'Letter list\n({ctrl}+alt+a)',
-    link: 'Link\n({ctrl}+alt+l)',
-    mathml: 'Math\n({ctrl}+m)',
-    numberedList: 'Numbered list\n({ctrl}+alt+1)',
-    quote: 'Quote\n({ctrl}+alt+b)',
-    sub: 'Subscript\n({ctrl}+alt+s)',
-    sup: 'Superscript\n({ctrl}+alt+h)',
+    headingThree: 'Heading 3\n({{ctrl}}+3)',
+    headingTwo: 'Heading 2\n({{ctrl}}+2)',
+    italic: 'Italic\n({{ctrl}}+i)',
+    letterList: 'Letter list\n({{ctrl}}+alt+a)',
+    link: 'Link\n({{ctrl}}+alt+l)',
+    mathml: 'Math\n({{ctrl}}+m)',
+    numberedList: 'Numbered list\n({{ctrl}}+alt+1)',
+    quote: 'Quote\n({{ctrl}}+alt+b)',
+    sub: 'Subscript\n({{ctrl}}+alt+s)',
+    sup: 'Superscript\n({{ctrl}}+alt+h)',
     twoColumnList: 'Two-column list',
     underlined: 'Underlined',
   },
@@ -545,7 +562,7 @@ const phrases = {
     },
     previewLanguageArticle: {
       button: 'Compare language versions',
-      title: 'Draft on {language}',
+      title: 'Draft on {{language}}',
     },
     previewNewWindow: 'Preview in a new window',
     contributor: {
@@ -606,8 +623,7 @@ const phrases = {
       create: 'Create variant',
       translate: 'Translate to Nynorsk',
     },
-    remainingCharacters:
-      'Max {maxLength, number} characters and you have {remaining, number} remaining.',
+    remainingCharacters: 'Max {{maxLength}} characters and you have {{remaining}} remaining.',
     title: {
       label: 'Title',
     },
@@ -631,6 +647,14 @@ const phrases = {
       label: 'Availability',
       description: 'Who the article is intended for:',
     },
+    modelReleased: {
+      label: 'Model released',
+      yes: 'Yes',
+      no: 'No',
+      'not-applicable': 'Not applicable',
+      'not-set': 'Not set',
+      description: 'Whether the image is model released or not:',
+    },
     markdown: {
       button: 'Click to view markdown',
       helpLabel: 'What is markdown?',
@@ -650,7 +674,7 @@ const phrases = {
       addConcept: 'Add existing concept',
       removeConcept: 'Remove concept',
       source: 'Source',
-      subjects: `Ony subjects with metadata field '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' will be displayed in the list.`,
+      subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
     },
     workflow: {
       title: 'Status',
@@ -728,25 +752,28 @@ const phrases = {
       label: 'Content',
       placeholder: 'Write here...',
       figure: {
-        notSupported: 'Media type {mediaType} is not supported.',
+        notSupported: 'Media type {{mediaType}} is not supported.',
         confirmDelete: 'Are you sure that you will delete this figure?',
       },
       relatedArticle: {
         placeholder: 'Search for title',
         urlPlaceholder: 'Url',
         titlePlaceholder: 'Title',
-        urlLocation: 'Webpage at {domain}',
+        urlLocation: 'Webpage at {{domain}}',
         invalidArticle: 'Invalid article',
         addExternal: 'Add external article',
         removeExternal: 'Delete external article',
         changeExternal: 'Edit external article',
-        searchExternal: 'Write the url and title of the external article',
+        searchExternal: 'Write the title and url of the external article',
       },
       concept: {
         remove: 'Remove concept',
         choose: 'Choose concept',
       },
       link: {
+        name: 'Name',
+        domains: 'Url',
+        validDomains: 'Valid domains',
         goTo: 'Go to',
         insert: 'Insert link',
         update: 'Update link',
@@ -762,9 +789,9 @@ const phrases = {
         preview: 'Preview link',
         unSupported: 'Content in link is not supported',
         newUrlResource: 'New resource',
-        changeUrlResource: 'Edit resource: {type}',
+        changeUrlResource: 'Edit resource: {{type}}',
         description:
-          'Links to ndla-resources are handled by the system and are displayed correct on {url}. Ndla-resources are shown with blue background and external links with yellow.',
+          'Links to ndla-resources are handled by the system and are displayed correct on {{url}}. Ndla-resources are shown with blue background and external links with yellow.',
       },
       footnote: {
         title: 'Title',
@@ -914,6 +941,9 @@ const phrases = {
         hms: 'h:m:s',
       },
       brightcove: 'Open in Brightcove',
+      toLinkedVideo: 'Switch to interpreted video',
+      fromLinkedVideo: 'Switch back to original video',
+      linkedVideoButton: 'IV',
     },
     audio: {
       file: 'Audio file',
@@ -940,8 +970,8 @@ const phrases = {
     },
     external: {
       title: 'external',
-      edit: 'Edit {type} element',
-      remove: 'Remove {type} element',
+      edit: 'Edit {{type}} element',
+      remove: 'Remove {{type}} element',
     },
     related: {
       title: 'Related content',
@@ -969,9 +999,15 @@ const phrases = {
       changeName: 'Change name',
       changeOrder: 'Change the order',
       removeFile: 'Remove file',
-      missingTitle: '[Missing filename]',
       missingFileTooltip:
         'This file does not seem to exist on the server. It might have been deleted from another article.',
+      missingFilename: 'File type is not supported',
+      dragdrop: {
+        main: 'Drag and drop',
+        sub: 'or click to upload file(s)',
+        ariaLabel: 'Drag and drop or click to upload file(s)',
+        noFilesAdded: 'No files are added',
+      },
       showPdf: 'Show expanded',
       showPdfTooltip: 'Show expanded PDF in article',
     },
@@ -987,17 +1023,21 @@ const phrases = {
       type: {
         image: 'image',
         audio: 'audio file',
+        concept: 'concept',
       },
-      sectionTitleArticle: 'Articles containing the {resource}',
-      sectionTitleConcept: 'Concepts containing the {resource}',
-      title: 'Uses of the {resource}',
+      sectionTitleArticle: 'Articles containing the {{resource}}',
+      sectionTitleConcept: 'Concepts containing the {{resource}}',
+      title: 'Uses of the {{resource}}',
       info: {
         image: 'Uses of the image in articles and/or concepts',
         audio: 'Uses of the audio file in articles',
+        concept: 'Uses of the concept in articles',
       },
-      notInUse: 'No uses of the {resource} in articles and/or concepts were found',
-      articles: '{articles, plural, one{1 article} other{# articles}}',
-      concepts: '{concepts, plural, one{1 concept} other{# concepts}}',
+      notInUse: 'No uses of the {{resource}} in articles and/or concepts were found',
+      articles: '1 article',
+      articles_plural: '{{count}} articles',
+      concepts: '1 concept',
+      concepts_plural: '{{count}} concepts',
     },
     relatedConcepts: {
       placeholder: 'Search for title',
@@ -1024,20 +1064,22 @@ const phrases = {
     },
   },
   validation: {
-    isRequired: '{label} is required.',
-    isNumeric: '{label} must contain digits.',
-    bothFields: 'One {labelLowerCase} must contain all fields.',
-    url: '{label} must contain a valid link.',
-    urlOrNumber: '{label} must contain a valid link or article-id.',
-    dateBeforeInvalid: '{label} can not be after {afterLabel}.',
-    dateAfterInvalid: '{label} can not be before {beforeLabel}.',
-    maxLength: '{label} must not have more than {maxLength, number} characters.',
-    minLength: '{length} must have at least {minLength, number} characters.',
-    minItems:
-      '{label} must have at least {minItems, plural, one{one} other{# unique}} {labelLowerCase}.',
+    isRequired: '{{label}} is required.',
+    isNumeric: '{{label}} must contain digits.',
+    bothFields: 'One {{labelLowerCase}} must contain all fields.',
+    url: '{{label}} must contain a valid link.',
+    urlOrNumber: '{{label}} must contain a valid link or article-id.',
+    dateBeforeInvalid: '{{label}} can not be after {{afterLabel}}.',
+    dateAfterInvalid: '{{label}} can not be before {{beforeLabel}}.',
+    maxLength: '{{label}} must not have more than {{maxLength}} characters.',
+    minLength: '{{length}} must have at least {{minLength}} characters.',
+    minItems: '{{label}} must have at least one {{labelLowerCase}}.',
+    minItems_plural: '{{label}} must have at least {{count}} unique {{labelLowerCase}}.',
     noEmptyNote: 'A note cannot be empty',
     grepCodes:
       'The code format is wrong. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
+    podcastImageShape: 'A meta image must have equal height and width.',
+    podcastImageSize: 'A meta image must be between 1400 and 3000 pixels wide.',
   },
   errorMessage: {
     title: 'Oops, something went wrong',
@@ -1050,7 +1092,7 @@ const phrases = {
     unsavedTaxonomy:
       'You have unsaved changes. Press cancel again if you are sure you want to continue.',
     auth0:
-      'Authentication error. Press cancel to take care of any changes you have made before logging in again. The following error message came from auth0: {message}',
+      'Authentication error. Press cancel to take care of any changes you have made before logging in again. The following error message came from auth0: {{message}}',
     statusCode: {
       409: 'This article has already been updated. Keep what you have changed and reload the page to save.',
     },
@@ -1118,6 +1160,7 @@ const phrases = {
         'Do you want to delete the resource from this folder? This will not affect the placement other places',
       copyError:
         'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
+      addResourceConflict: 'The resource you attempted to add already exists on the topic.',
     },
     resourceTypes: {
       title: 'Content type',
@@ -1148,8 +1191,15 @@ const phrases = {
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
+        explanationSubject: 'Explanation Subject',
+        oldSubjectId: 'Old ID for redirecting',
+        subjectCategory: 'Subject category',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
+      },
+      placeholders: {
+        category: 'Choose category',
+        language: 'Choose language',
       },
     },
   },
@@ -1167,9 +1217,9 @@ const phrases = {
       slideshowSubTitle: 'on frontpage',
       movieGroupHeader: 'Movies themes',
       addMovieToSlideshow: 'Add movie to slideshow',
-      addMovieToGroup: 'Add a movie to "{name}"',
+      addMovieToGroup: 'Add a movie to "{{name}}"',
       editMovieGroupName: 'Change the names on this movie group',
-      deleteMovieGroup: 'Delete "{name}"',
+      deleteMovieGroup: 'Delete "{{name}}"',
       moveMovieGroupUp: 'Move up',
       moveMovieGroupDown: 'Move down',
       changeOrder: 'Change order',
@@ -1178,7 +1228,6 @@ const phrases = {
       createThemeGroup: 'Create new movie group',
       saveNameChanges: 'Save changes',
       cancel: 'Cancel',
-      groupNamePlaceholder: 'Write name in {lang}',
       editGroupTitle: 'Change the name(s) in this movie group:',
       newGroupTitle: 'What shall we call the new movie group?',
       notFound: 'We can not find metadata for this movie...',

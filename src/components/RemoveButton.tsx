@@ -8,11 +8,11 @@
 
 import React from 'react';
 import { css } from '@emotion/core';
-import { injectT, tType } from '@ndla/i18n';
 import Button from '@ndla/button';
 import Tooltip from '@ndla/tooltip';
 import { RemoveCircle } from '@ndla/icons/action';
 import { spacing } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
 import { classes } from '../containers/StructurePage/resourceComponents/ResourceGroup';
 
 const deleteButtonStyle = css`
@@ -20,18 +20,25 @@ const deleteButtonStyle = css`
   line-height: 1;
 `;
 
+const removeCircleStyle = css`
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+`;
+
 interface Props {
   onClick: () => void;
 }
 
-const RemoveButton = ({ onClick, t }: Props & tType) => {
+const RemoveButton = ({ onClick }: Props) => {
+  const { t } = useTranslation();
   return (
     <Tooltip tooltip={t('taxonomy.removeResource')}>
       <Button css={deleteButtonStyle} onClick={onClick} stripped>
-        <RemoveCircle {...classes('deleteIcon')} />
+        <RemoveCircle {...classes('deleteIcon')} css={removeCircleStyle} />
       </Button>
     </Tooltip>
   );
 };
 
-export default injectT(RemoveButton);
+export default RemoveButton;

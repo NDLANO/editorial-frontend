@@ -7,19 +7,20 @@
  */
 
 import React, { Component } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import PropTypes from 'prop-types';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
+import { getTagName } from '../../../../util/formHelper';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses, SearchParams } from './SearchForm';
 import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
 import { fetchAuth0Editors } from '../../../../modules/auth0/auth0Api';
 import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
-import { SubjectType } from '../../../../interfaces';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { User } from './SearchContentForm';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { MinimalTagType } from './SearchTag';
@@ -55,8 +56,8 @@ const emptySearchState: SearchState = {
   users: '',
 };
 
-class SearchConceptForm extends Component<Props & tType, State> {
-  constructor(props: Props & tType) {
+class SearchConceptForm extends Component<Props & WithTranslation, State> {
+  constructor(props: Props & WithTranslation) {
     super(props);
     const { searchObject } = props;
     this.state = {
@@ -86,7 +87,7 @@ class SearchConceptForm extends Component<Props & tType, State> {
     this.setState({ users: users });
   }
 
-  componentDidUpdate(prevProps: Props & tType) {
+  componentDidUpdate(prevProps: Props & WithTranslation) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({
@@ -102,7 +103,7 @@ class SearchConceptForm extends Component<Props & tType, State> {
     }
   }
 
-  onFieldChange = (evt: React.FormEvent<HTMLInputElement>) => {
+  onFieldChange = (evt: React.FormEvent<HTMLSelectElement> | React.FormEvent<HTMLInputElement>) => {
     const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),
@@ -138,7 +139,7 @@ class SearchConceptForm extends Component<Props & tType, State> {
 
   async getUsers() {
     const editors = await fetchAuth0Editors(CONCEPT_WRITE_SCOPE);
-    return editors.map((u: { app_metadata: { ndla_id: string }; name: string }) => {
+    return editors.map(u => {
       return { id: `${u.app_metadata.ndla_id}`, name: u.name };
     });
   }
@@ -154,6 +155,34 @@ class SearchConceptForm extends Component<Props & tType, State> {
   render() {
     const { t, subjects } = this.props;
     const { search, users } = this.state;
+
+    const tagTypes = [
+      {
+        type: 'query',
+        id: search.query,
+        name: search.query,
+      },
+      {
+        type: 'language',
+        id: search.language,
+        name: getTagName(search.language, getResourceLanguages(t)),
+      },
+      {
+        type: 'users',
+        id: search.users,
+        name: getTagName(search.users, users),
+      },
+      {
+        type: 'subjects',
+        id: search.subjects,
+        name: getTagName(search.subjects, subjects),
+      },
+      {
+        type: 'status',
+        id: search.status,
+        name: getTagName(search.status, this.getConceptStatuses()),
+      },
+    ];
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
@@ -234,14 +263,7 @@ class SearchConceptForm extends Component<Props & tType, State> {
           </Button>
         </div>
         <div {...searchFormClasses('tagline')}>
-          <SearchTagGroup
-            onRemoveItem={this.removeTagItem}
-            languages={getResourceLanguages}
-            users={users}
-            subjects={subjects}
-            searchObject={this.state.search}
-            status={this.getConceptStatuses()}
-          />
+          <SearchTagGroup onRemoveItem={this.removeTagItem} tagTypes={tagTypes} />
         </div>
       </form>
     );
@@ -256,4 +278,4 @@ class SearchConceptForm extends Component<Props & tType, State> {
   };
 }
 
-export default injectT(SearchConceptForm);
+export default withTranslation()(SearchConceptForm);

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { connect, FormikContextType } from 'formik';
 import BEMHelper from 'react-bem-helper';
 
@@ -26,7 +26,8 @@ interface Props extends BaseProps {
 
 const plugins = [textTransformPlugin()];
 
-const AudioManuscript = ({ t, formik }: Props & tType) => {
+const AudioManuscript = ({ formik }: Props) => {
+  const { t } = useTranslation();
   const { submitForm, handleBlur } = formik;
 
   return (
@@ -52,4 +53,4 @@ const AudioManuscript = ({ t, formik }: Props & tType) => {
   );
 };
 
-export default injectT(connect<BaseProps & tType, AudioFormikType>(AudioManuscript));
+export default connect<BaseProps, AudioFormikType>(AudioManuscript);

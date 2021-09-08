@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Copy } from '@ndla/icons/action';
 
 import {
@@ -26,12 +26,13 @@ import { cloneDraft } from '../../../../modules/draft/draftApi';
 import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
 import {
   Resource,
+  ResourceResourceType,
   ResourceTranslation,
-  ResourceType,
+  SubjectTopic,
   TaxonomyElement,
   Topic,
-} from '../../../../interfaces';
-import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
+} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import retrieveBreadCrumbs from '../../../../util/retrieveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
@@ -45,9 +46,9 @@ interface Props {
   id: string;
   subjectId: string;
   structure: PathArray;
-  onClose: Function;
-  setResourcesUpdated: Function;
-  setShowAlertModal: Function;
+  onClose: () => void;
+  setResourcesUpdated: (updated: boolean) => void;
+  setShowAlertModal: (show: boolean) => void;
 }
 
 const iconCss = css`
@@ -56,7 +57,6 @@ const iconCss = css`
 `;
 
 const CopyResources = ({
-  t,
   id,
   locale,
   subjectId,
@@ -64,14 +64,15 @@ const CopyResources = ({
   onClose,
   setResourcesUpdated,
   setShowAlertModal,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [topics, setTopics] = useState<Topic[]>([]);
   const [showCopySearch, setShowCopySearch] = useState(false);
   const [showCloneSearch, setShowCloneSearch] = useState(false);
 
   useEffect(() => {
     Promise.all([fetchTopics(locale || 'nb'), fetchSubjectTopics(subjectId, locale)])
-      .then(([topics, subjectTopics]: Array<Topic[]>) => {
+      .then(([topics, subjectTopics]: [Topic[], SubjectTopic[]]) => {
         setTopics(
           topics
             .filter(topic => !subjectTopics.some(t => t.id === topic.id))
@@ -86,7 +87,7 @@ const CopyResources = ({
 
   const getTopicBreadcrumb = (topic: Topic, topics: Topic[]) => {
     if (!topic.path) return undefined;
-    const breadCrumbs: PathArray = retriveBreadCrumbs({
+    const breadCrumbs: PathArray = retrieveBreadCrumbs({
       topicPath: topic.path,
       structure,
       allTopics: topics,
@@ -109,7 +110,10 @@ const CopyResources = ({
     setResourcesUpdated(true);
   };
 
-  const cloneResourceResourceTypes = async (resourceTypes: ResourceType[], resourceId: String) => {
+  const cloneResourceResourceTypes = async (
+    resourceTypes: ResourceResourceType[],
+    resourceId: string,
+  ) => {
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
     for (let i = 0; i < resourceTypes.length; i++) {
@@ -122,7 +126,7 @@ const CopyResources = ({
 
   const cloneResourceTranslations = async (
     resourceTranslations: ResourceTranslation[],
-    resourceId: String,
+    resourceId: string,
   ) => {
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
@@ -134,11 +138,11 @@ const CopyResources = ({
   };
 
   const clonedResource = async (
-    newResourceBody: { contentUri?: String; name: String },
+    newResourceBody: { contentUri?: string; name: string },
     oldResource: Resource,
   ) => {
     const newResourcePath = await createResource(newResourceBody);
-    const newResourceUrn = newResourcePath.split('/').pop();
+    const newResourceUrn = newResourcePath.split('/').pop()!;
     cloneResourceResourceTypes(oldResource.resourceTypes, newResourceUrn);
     const resourceTranslations = await fetchResourceTranslations(oldResource.id);
     await cloneResourceTranslations(resourceTranslations, newResourceUrn);
@@ -147,16 +151,15 @@ const CopyResources = ({
 
   const cloneResource = async (resource: Resource) => {
     const resourceType = resource.contentUri?.split(':')[1];
-    const resourceId = getIdFromUrn(resource.contentUri);
-
-    if (resourceType === 'article') {
+    const resourceId = resource.contentUri ? getIdFromUrn(resource.contentUri!) : null;
+    if (resourceType === 'article' && resourceId) {
       const clonedArticle = await cloneDraft(resourceId, undefined, false);
       const newResourceBody = {
         contentUri: `urn:article:${clonedArticle.id}`,
         name: resource.name,
       };
       return await clonedResource(newResourceBody, resource);
-    } else if (resourceType === 'learningpath') {
+    } else if (resourceType === 'learningpath' && resourceId) {
       const newLearningpathBody = {
         title: resource.name,
         language: locale,
@@ -231,6 +234,7 @@ const CopyResources = ({
           onSubmit={copyResources}
           icon={<Copy />}
           smallIcon
+          showPagination
         />
       )}
       {!showCloneSearch ? (
@@ -251,10 +255,11 @@ const CopyResources = ({
           onSubmit={copyAndCloneResources}
           icon={<Copy />}
           smallIcon
+          showPagination
         />
       )}
     </>
   );
 };
 
-export default injectT(CopyResources);
+export default CopyResources;

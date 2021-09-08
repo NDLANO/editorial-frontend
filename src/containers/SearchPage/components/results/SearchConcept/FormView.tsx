@@ -8,18 +8,23 @@
 
 import React, { useState, useEffect } from 'react';
 import { RadioButtonGroup } from '@ndla/ui';
-import { tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import {
   fetchConcept,
   updateConcept,
   updateConceptStatus,
 } from '../../../../../modules/concept/conceptApi';
-import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
+import {
+  ConceptType,
+  SearchConceptType,
+} from '../../../../../modules/concept/conceptApiInterfaces';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
-import { SubjectType, License, ConceptType } from '../../../../../interfaces';
+import { License } from '../../../../../interfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
+import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { transformApiToCleanConcept } from '../../../../../modules/concept/conceptApiUtil';
 
 interface Props {
   concept: SearchConceptType;
@@ -29,14 +34,8 @@ interface Props {
   licenses: License[] | undefined;
 }
 
-const FormView = ({
-  concept,
-  cancel,
-  subjects,
-  updateLocalConcept,
-  licenses,
-  t,
-}: Props & tType) => {
+const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: Props) => {
+  const { t } = useTranslation();
   const languageOptions = concept.supportedLanguages.map(lan => ({
     title: t(`language.${lan}`),
     value: lan,
@@ -45,7 +44,9 @@ const FormView = ({
   const [fullConcept, setFullConcept] = useState<ConceptType | undefined>();
 
   useEffect(() => {
-    fetchConcept(concept.id, language).then((c: any) => setFullConcept(c));
+    fetchConcept(concept.id, language)
+      .then(c => transformApiToCleanConcept(c, language))
+      .then((c: ConceptType) => setFullConcept(c));
   }, [concept.id, language]);
 
   const [formValues, setFormValues] = useState<InlineFormConcept | undefined>();

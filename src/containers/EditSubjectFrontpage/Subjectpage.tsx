@@ -6,8 +6,7 @@
  */
 
 import React from 'react';
-import { Route, RouteComponentProps, StaticContext, Switch } from 'react-router';
-// @ts-ignore
+import { Route, RouteComponentProps, Switch } from 'react-router';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
 
@@ -21,7 +20,7 @@ interface Props extends RouteComponentProps {}
 
 type NewRouteProps = RouteComponentProps<
   { elementId: string; selectedLanguage: string },
-  StaticContext,
+  {},
   { elementName: string }
 >;
 

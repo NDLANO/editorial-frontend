@@ -8,9 +8,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { Search } from '@ndla/icons/common';
@@ -25,12 +24,13 @@ import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { fetchSubjects } from '../../modules/taxonomy';
 import { LocaleContext, UserAccessContext } from '../App/App';
-import { LocaleType, SearchType, SubjectType } from '../../interfaces';
+import { LocaleType, SearchType } from '../../interfaces';
 import { ImageSearchResult } from '../../modules/image/imageApiInterfaces';
 import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
 import { AudioSearchResult, SeriesSearchResult } from '../../modules/audio/audioApiInterfaces';
 import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
 import { SearchTypeValues } from '../../constants';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 export const searchClasses = new BEMHelper({
   name: 'search',
@@ -49,7 +49,7 @@ interface BaseProps {
   searchFunction: (query: SearchParams) => Promise<ResultType>;
 }
 
-type Props = BaseProps & tType & RouteComponentProps & { locale: LocaleType };
+type Props = BaseProps & WithTranslation & RouteComponentProps & { locale: LocaleType };
 
 interface State {
   subjects: SubjectType[];
@@ -190,4 +190,4 @@ class SearchContainer extends React.Component<Props, State> {
   };
 }
 
-export default withRouter(withLocale(injectT(SearchContainer)));
+export default withRouter(withLocale(withTranslation()(SearchContainer)));

@@ -10,9 +10,15 @@ import { FormikContextType } from 'formik';
 import isEmpty from 'lodash/fp/isEmpty';
 import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
 import { createEmbedTag } from '../../util/embedTagHelpers';
-import { NewConceptType, PatchConceptType } from '../../modules/concept/conceptApiInterfaces';
-import { SubjectType, License, ConceptType } from '../../interfaces';
+import {
+  ConceptType,
+  NewConceptType,
+  PatchConceptType,
+} from '../../modules/concept/conceptApiInterfaces';
+import { License } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { RulesType } from '../../components/formikValidationSchema';
 
 export const transformApiConceptToFormValues = (
   concept: ConceptFormType,
@@ -137,7 +143,7 @@ export const getConcept = (
   };
 };
 
-export const conceptFormRules = {
+export const conceptFormRules: RulesType<ConceptFormValues> = {
   slatetitle: {
     required: true,
   },

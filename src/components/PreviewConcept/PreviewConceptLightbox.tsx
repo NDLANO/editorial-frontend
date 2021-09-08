@@ -9,13 +9,12 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FooterLinkButton } from '@ndla/editor';
 import { FileCompare } from '@ndla/icons/action';
 import config from '../../config';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
-import { ConceptPreviewType } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
@@ -23,6 +22,8 @@ import StyledFilledButton from '../StyledFilledButton';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
+import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
+import { transformApiToCleanConcept } from '../../modules/concept/conceptApiUtil';
 
 interface Props {
   getConcept: Function;
@@ -44,7 +45,8 @@ const closeButtonStyle = css`
   margin-top: -15px;
 `;
 
-const PreviewConceptLightbox = ({ t, getConcept, typeOfPreview }: Props & tType) => {
+const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
+  const { t } = useTranslation();
   const [firstConcept, setFirstConcept] = useState<ConceptPreviewType | undefined>(undefined);
   const [secondConcept, setSecondConcept] = useState<ConceptPreviewType | undefined>(undefined);
   const [previewLanguage, setPreviewLanguage] = useState<string>('');
@@ -71,7 +73,9 @@ const PreviewConceptLightbox = ({ t, getConcept, typeOfPreview }: Props & tType)
 
   const onChangePreviewLanguage = async (language: string) => {
     const originalConcept = getConcept();
-    const secondConcept = await fetchConcept(originalConcept.id, language);
+    const secondConcept = await fetchConcept(originalConcept.id, language).then(concept =>
+      transformApiToCleanConcept(concept, language),
+    );
     const secondVisualElement =
       secondConcept.visualElement && (await getVisualElement(secondConcept.visualElement));
     setPreviewLanguage(language);
@@ -157,4 +161,4 @@ const PreviewConceptLightbox = ({ t, getConcept, typeOfPreview }: Props & tType)
   );
 };
 
-export default injectT(PreviewConceptLightbox);
+export default PreviewConceptLightbox;

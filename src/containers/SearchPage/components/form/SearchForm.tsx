@@ -17,7 +17,8 @@ import SearchAudioForm from './SearchAudioForm';
 import SearchPodcastSeriesForm from './SearchPodcastSeriesForm';
 import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
-import { SearchType, SubjectType } from '../../../../interfaces';
+import { SearchType } from '../../../../interfaces';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { SearchParamsShape } from '../../../../shapes';
 import { SearchTypeValues } from '../../../../constants';
 
@@ -41,6 +42,8 @@ export interface SearchParams {
   users?: string;
   sort?: string;
   type?: string;
+  license?: string;
+  'model-released'?: string;
 }
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
@@ -51,6 +54,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     'include-other-statuses': queryStringObject['include-other-statuses'] === 'true',
     'resource-types': queryStringObject['resource-types'],
     'audio-type': queryStringObject['audio-type'],
+    'model-released': queryStringObject['model-released'],
     fallback: queryStringObject.fallback === 'true',
     language: queryStringObject.language,
     page: queryStringObject.page ? parseInt(queryStringObject.page, 10) : undefined,
@@ -62,6 +66,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     users: queryStringObject.users,
     sort: queryStringObject.sort,
     type: queryStringObject.type,
+    license: queryStringObject.license,
   };
 };
 

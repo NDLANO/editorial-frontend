@@ -7,7 +7,7 @@
 import React, { Fragment } from 'react';
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
@@ -30,8 +30,8 @@ const PreviewLightBox = ({
   getEntity,
   articleType,
   supportedLanguages = [],
-  t,
-}: PreviewLightBoxProps & tType) => {
+}: PreviewLightBoxProps) => {
+  const { t } = useTranslation();
   if (type === 'concept')
     return supportedLanguages.length > 1 ? (
       <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
@@ -79,11 +79,11 @@ const HeaderActions = ({
   isSubmitting,
   noStatus,
   setTranslateOnContinue,
-  t,
   type,
   translateToNN,
   values,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const { articleType, id, language, supportedLanguages = [] } = values;
 
   const languages = [
@@ -98,7 +98,7 @@ const HeaderActions = ({
   const emptyLanguages = languages.filter(
     lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
-  const translatableTypes = ['concept', 'standard', 'topic-article', 'podcast'];
+  const translatableTypes = ['audio', 'concept', 'standard', 'topic-article', 'podcast'];
 
   if (id) {
     return (
@@ -124,7 +124,6 @@ const HeaderActions = ({
               getEntity={getEntity}
               articleType={articleType}
               supportedLanguages={supportedLanguages}
-              t={t}
             />
             <StyledSplitter />
           </>
@@ -155,22 +154,4 @@ const HeaderActions = ({
   );
 };
 
-// HeaderActions.propTypes = {
-//   editUrl: PropTypes.func.isRequired,
-//   formIsDirty: PropTypes.bool,
-//   getEntity: PropTypes.func,
-//   isNewLanguage: PropTypes.bool,
-//   isSubmitting: PropTypes.bool,
-//   noStatus: PropTypes.bool,
-//   setTranslateOnContinue: PropTypes.func,
-//   translateToNN: PropTypes.func,
-//   type: PropTypes.string,
-//   values: PropTypes.shape({
-//     articleType: PropTypes.string,
-//     id: PropTypes.number,
-//     language: PropTypes.string,
-//     supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-//   }),
-// };
-
-export default injectT(HeaderActions);
+export default HeaderActions;

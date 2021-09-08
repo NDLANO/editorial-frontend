@@ -9,14 +9,14 @@
 import React from 'react';
 import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnection from './ActiveTopicConnection';
-import { ResourceWithTopicConnection } from '../../interfaces';
-import { PathArray } from '../../util/retriveBreadCrumbs';
+import { PathArray } from '../../util/retrieveBreadCrumbs';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 interface Props {
-  retriveBreadCrumbs: (path: string) => PathArray;
+  retrieveBreadCrumbs: (path: string) => PathArray;
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (id: string) => void;
-  activeTopics: ResourceWithTopicConnection[];
+  activeTopics: StagedTopic[];
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
 }

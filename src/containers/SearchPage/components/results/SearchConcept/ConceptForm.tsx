@@ -11,15 +11,17 @@ import isEqual from 'lodash/fp/isEqual';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Select } from '@ndla/forms';
 import Button, { MultiButton } from '@ndla/button';
-import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
-import { SubjectType, License, ConceptStatusType } from '../../../../../interfaces';
+import { License } from '../../../../../interfaces';
 import { InputField, InputPair } from './SearchStyles';
+import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { ConceptStatusType } from '../../../../../modules/concept/conceptApiInterfaces';
+import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
 
 export interface InlineFormConcept {
   title: string;
@@ -69,8 +71,8 @@ const ConceptForm = ({
   licenses,
   allSubjects,
   cancel,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const formik = useFormik<InlineFormConcept>({
     initialValues,
     validate,
@@ -82,12 +84,7 @@ const ConceptForm = ({
   }, [initialValues]); // eslint-disable-line react-hooks/exhaustive-deps
   const hasChanges = !isEqual(initialValues, values);
 
-  const licensesWithTranslations = licenses
-    .filter(license => license.license !== 'N/A')
-    .map(license => ({
-      ...license,
-      ...getLicenseByAbbreviation(license.license, language),
-    }));
+  const licensesWithTranslations = getLicensesWithTranslations(licenses, language);
 
   return (
     <form>
@@ -204,4 +201,4 @@ const ConceptForm = ({
   );
 };
 
-export default injectT(ConceptForm);
+export default ConceptForm;

@@ -10,24 +10,24 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { spacing, spacingUnit } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
-import { ConceptType } from '../../../../interfaces';
 import IconButton from '../../../IconButton';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
 import config from '../../../../config';
+import { ConceptType } from '../../../../modules/concept/conceptApiInterfaces';
 
 const StyledFigureButtons = styled('span')`
   position: absolute;
   top: 0;
   z-index: 1;
-  right: -${spacing.spacingUnit * 1.5}px;
+  right: -${spacingUnit * 1.5}px;
   margin-right: 40px;
   margin-top: ${spacing.xsmall};
 
@@ -42,7 +42,8 @@ interface Props {
   id: number;
 }
 
-const SlateConceptPreview = ({ concept, handleRemove, id, t }: Props & tType) => {
+const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
+  const { t } = useTranslation();
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);
@@ -135,4 +136,4 @@ const SlateConceptPreview = ({ concept, handleRemove, id, t }: Props & tType) =>
   );
 };
 
-export default injectT(SlateConceptPreview);
+export default SlateConceptPreview;

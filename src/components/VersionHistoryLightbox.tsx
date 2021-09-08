@@ -9,10 +9,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
 import { VersionHistory } from '@ndla/editor';
 //@ts-ignore
 import { ContentTypeBadge } from '@ndla/ui';
+import { useTranslation } from 'react-i18next';
 
 import Lightbox from './Lightbox';
 import Spinner from './Spinner';
@@ -20,8 +20,8 @@ import ResourceItemLink from '../containers/StructurePage/resourceComponents/Res
 import { fetchDraftHistory } from '../modules/draft/draftApi';
 import { fetchAuth0Users } from '../modules/auth0/auth0Api';
 import formatDate from '../util/formatDate';
-import { Note } from '../interfaces';
 import { getIdFromUrn } from '../util/taxonomyHelpers';
+import { Note, Auth0UserData } from '../interfaces';
 
 const StyledResourceLinkContainer = styled.div`
   display: flex;
@@ -40,13 +40,6 @@ interface VersionHistoryNotes {
   status: string;
 }
 
-interface User {
-  app_metadata: {
-    ndla_id: string;
-  };
-  name: string;
-}
-
 interface Props {
   onClose: () => void;
   contentUri?: string;
@@ -63,12 +56,12 @@ const VersionHistoryLightBox = ({
   name,
   isVisible,
   locale,
-  t,
-}: Props & tType) => {
+}: Props) => {
   const [notes, setNotes] = useState<VersionHistoryNotes[] | undefined>(undefined);
+  const { t } = useTranslation();
 
   useEffect(() => {
-    const cleanupNotes = (notes: Note[], users: User[]) =>
+    const cleanupNotes = (notes: Note[], users: Auth0UserData[]) =>
       notes.map((note, index) => ({
         id: index,
         note: note.note,
@@ -89,7 +82,6 @@ const VersionHistoryLightBox = ({
         setNotes([]);
       }
     };
-
     const id = getIdFromUrn(contentUri);
     if (id) {
       fetchHistory(id);
@@ -97,7 +89,7 @@ const VersionHistoryLightBox = ({
   }, [contentUri, t]);
 
   return (
-    <Lightbox onClose={onClose} display width="800px" apparance="modal" severity="info">
+    <Lightbox onClose={onClose} display width="800px" appearance="modal" severity="info">
       <StyledResourceLinkContainer>
         {contentType && (
           <StyledBadge>
@@ -120,4 +112,4 @@ const VersionHistoryLightBox = ({
   );
 };
 
-export default injectT(VersionHistoryLightBox);
+export default VersionHistoryLightBox;

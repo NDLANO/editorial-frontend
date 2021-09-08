@@ -5,20 +5,19 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, ReactNode } from 'react';
-import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
-import { injectT, tType } from '@ndla/i18n';
+import React, { useState, ReactNode, useRef } from 'react';
+import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Value } from 'slate';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeHelpers';
 import {
-  PodcastFormValues,
   NewPodcastSeries,
   FlattenedPodcastSeries,
   AudioApiType,
@@ -29,8 +28,9 @@ import {
 } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
+import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
 
-const podcastRules = {
+const podcastRules: RulesType<PodcastSeriesFormikType> = {
   title: {
     required: true,
   },
@@ -39,7 +39,7 @@ const podcastRules = {
   },
   metaImageAlt: {
     required: true,
-    onlyValidateIf: (values: PodcastFormValues) => !!values.coverPhotoId,
+    onlyValidateIf: (values: PodcastSeriesFormikType) => !!values.coverPhotoId,
   },
 };
 
@@ -89,14 +89,10 @@ interface Props {
   revision?: number;
 }
 
-const PodcastSeriesForm = ({
-  t,
-  podcastSeries,
-  inModal,
-  isNewlyCreated,
-  onUpdate,
-}: Props & tType) => {
+const PodcastSeriesForm = ({ podcastSeries, inModal, isNewlyCreated, onUpdate }: Props) => {
+  const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
+  const size = useRef<[number, number] | undefined>(undefined);
 
   const handleSubmit = async (
     values: PodcastSeriesFormikType,
@@ -131,6 +127,18 @@ const PodcastSeriesForm = ({
     setSavedToServer(true);
   };
 
+  const validateMetaImage = ([width, height]: [
+    number,
+    number,
+  ]): FormikErrors<PodcastSeriesFormikType> => {
+    if (width !== height) {
+      return { coverPhotoId: t('validation.podcastImageShape') };
+    } else if (width < ITUNES_STANDARD_MINIMUM_WIDTH || width > ITUNES_STANDARD_MAXIMUM_WIDTH) {
+      return { coverPhotoId: t('validation.podcastImageSize') };
+    }
+    return {};
+  };
+
   const initialValues = getInitialValues(podcastSeries);
 
   return (
@@ -139,9 +147,13 @@ const PodcastSeriesForm = ({
       onSubmit={handleSubmit}
       validateOnMount
       enableReinitialize
-      validate={values => validateFormik(values, podcastRules, t)}>
+      validate={values => {
+        const errors = validateFormik(values, podcastRules, t);
+        const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
+        return { ...errors, ...metaImageErrors };
+      }}>
       {formikProps => {
-        const { values, dirty, isSubmitting, errors, submitForm } = formikProps;
+        const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -166,7 +178,12 @@ const PodcastSeriesForm = ({
                 title={t('form.podcastSeriesSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}>
-                <PodcastSeriesMetaData />
+                <PodcastSeriesMetaData
+                  onImageLoad={el => {
+                    size.current = [el.currentTarget.naturalWidth, el.currentTarget.naturalHeight];
+                    validateForm();
+                  }}
+                />
               </AccordionSection>
               <AccordionSection
                 id="podcast-series-podcastepisodes"
@@ -185,7 +202,7 @@ const PodcastSeriesForm = ({
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
                 submit={!inModal}
-                onClick={(evt: Event) => {
+                onClick={evt => {
                   evt.preventDefault();
                   submitForm();
                 }}
@@ -204,4 +221,4 @@ const PodcastSeriesForm = ({
   );
 };
 
-export default injectT(PodcastSeriesForm);
+export default PodcastSeriesForm;

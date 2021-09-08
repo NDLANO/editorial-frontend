@@ -8,23 +8,28 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
-import { tagClasses } from '../../../../components/Tag';
+import BEMHelper from 'react-bem-helper';
 
 export type MinimalTagType = {
-  name: string;
+  name?: string;
   type: string;
 };
+
+export const tagClasses = new BEMHelper({
+  name: 'tag',
+  prefix: 'c-',
+});
 
 interface Props {
   tag: MinimalTagType;
   onRemoveItem: (tag: MinimalTagType) => void;
 }
 
-class SearchTag extends Component<Props & tType> {
-  constructor(props: Props & tType) {
+class SearchTag extends Component<Props & WithTranslation> {
+  constructor(props: Props & WithTranslation) {
     super(props);
     this.onRemove = this.onRemove.bind(this);
   }
@@ -42,7 +47,7 @@ class SearchTag extends Component<Props & tType> {
     return (
       <dl className="c-tag c-tag--search">
         <dt {...tagClasses('label')}>{t(`searchForm.tagType.${tag.type}`)}:</dt>
-        <dd {...tagClasses('description')}>{tag.name}</dd>
+        <dd {...tagClasses('description')}>{tag.name || ''}</dd>
         <Button onClick={this.onRemove} stripped>
           <Cross className="c-icon--small" />
         </Button>
@@ -59,4 +64,4 @@ class SearchTag extends Component<Props & tType> {
   };
 }
 
-export default injectT(SearchTag);
+export default withTranslation()(SearchTag);

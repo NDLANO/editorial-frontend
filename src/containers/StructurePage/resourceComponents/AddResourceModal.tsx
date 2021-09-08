@@ -6,10 +6,9 @@
  *
  */
 import React, { useState } from 'react';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
-import { tType } from '@ndla/i18n';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
@@ -29,8 +28,13 @@ import {
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
-import { LearningPathSearchSummary } from '../../../modules/learningpath/learningpathApiInterfaces';
-import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
+import { LearningPathSearchResult } from '../../../modules/learningpath/learningpathApiInterfaces';
+import {
+  GroupSearchResult,
+  MultiSearchApiQuery,
+} from '../../../modules/search/searchApiInterfaces';
+import AlertModal from '../../../components/AlertModal';
+import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -52,7 +56,7 @@ const StyledContent = styled.div`
 
 interface Props {
   onClose: () => void;
-  resourceTypes: {
+  resourceTypes?: {
     id: string;
     name: string;
   }[];
@@ -60,14 +64,14 @@ interface Props {
   allowPaste?: boolean;
   topicId: string;
   refreshResources: () => void;
+  existingResourceIds: string[];
+  locale: string;
 }
 
-interface ContentType {
-  id: number;
-  metaDescription?: string;
-  title?: string;
-  imageUrl?: string;
-}
+type ContentType = Pick<ArticleSearchSummaryApiType, 'title' | 'metaDescription' | 'id'> & {
+  metaUrl?: string;
+  paths?: string[];
+};
 
 interface SelectedType {
   id: string;
@@ -79,17 +83,19 @@ interface SelectedType {
   coverPhotoUrl?: string;
 }
 
-type SummaryTypes = LearningPathSearchSummary | GroupSearchSummary;
+type ResultTypes = LearningPathSearchResult | GroupSearchResult;
 
 const AddResourceModal = ({
   onClose,
   type,
   resourceTypes,
-  allowPaste,
+  allowPaste = false,
   topicId,
   refreshResources,
-  t,
-}: Props & tType) => {
+  existingResourceIds,
+  locale,
+}: Props) => {
+  const { t } = useTranslation();
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
   const [selected, setSelected] = useState<SelectedType | null>(null);
   const [content, setContent] = useState<ContentType | null>(null);
@@ -134,7 +140,9 @@ const AddResourceModal = ({
           fetchResource(resourceId),
           fetchResourceResourceType(resourceId),
         ]);
-        articleToState(resource.contentUri.split(':').pop());
+        if (resource.contentUri) {
+          articleToState(parseInt(resource.contentUri.split(':').pop()!));
+        }
 
         const pastedType = resourceType.length > 0 && resourceType[0].id;
         const error = pastedType === selectedType ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
@@ -154,65 +162,75 @@ const AddResourceModal = ({
     }
   };
 
-  const onInputSearch = async (input: string, type: string): Promise<SummaryTypes[]> => {
+  const onInputSearch = async (
+    query: MultiSearchApiQuery,
+    type: string,
+    locale: string,
+  ): Promise<ResultTypes | undefined> => {
     try {
       if (type === RESOURCE_TYPE_LEARNING_PATH) {
-        const lps = await searchLearningpath(input);
+        const lps = await searchLearningpath({ ...query, language: locale });
 
-        return lps.map(lp => ({
-          ...lp,
-          metaDescription: lp.description.description,
-        }));
+        return {
+          ...lps,
+          results: lps?.results.map(lp => ({
+            ...lp,
+            metaDescription: lp.description.description,
+          })),
+        };
       } else {
-        return await searchGroups(input, type);
+        return await searchGroups(query, type, locale);
       }
     } catch (err) {
       handleError(err);
       setError(err.message);
-      return [];
+      return undefined;
     }
   };
 
-  const searchLearningpath = async (input: string): Promise<LearningPathSearchSummary[]> => {
-    const query = input
-      ? {
-          query: input,
-          pageSize: 10,
-          language: 'nb',
-          fallback: true,
-          verificationStatus: 'CREATED_BY_NDLA',
-        }
-      : {
-          pageSize: 10,
-          language: 'nb',
-          fallback: true,
-          verificationStatus: 'CREATED_BY_NDLA',
-        };
-    const res = await learningpathSearch(query);
-    return res.results || [];
+  const searchLearningpath = async (
+    query: MultiSearchApiQuery,
+  ): Promise<LearningPathSearchResult> => {
+    const searchBody = {
+      ...query,
+      pageSize: 10,
+      fallback: true,
+      verificationStatus: 'CREATED_BY_NDLA',
+    };
+    return learningpathSearch(searchBody);
   };
 
-  const searchGroups = async (input: string, type: string) => {
-    const res = await groupSearch(input, type);
-    return res?.pop()?.results || [];
+  const searchGroups = async (query: MultiSearchApiQuery, type: string, locale: string) => {
+    const res = await groupSearch({
+      ...query,
+      'resource-types': type,
+      fallback: true,
+      language: locale,
+    });
+    return res?.pop();
   };
 
   const articleToState = async (articleId: number) => {
     const article = await getArticle(articleId);
     setContent({
       id: article.id,
-      metaDescription: article.metaDescription.metaDescription,
-      title: article.title.title,
-      imageUrl: article?.metaImage?.url,
+      metaDescription: article.metaDescription,
+      title: article.title,
+      metaUrl: article.metaImage?.url,
     });
   };
 
   const learningpathToState = (learningpath: SelectedType) => {
     setContent({
-      id: Number(learningpath.id),
-      metaDescription: learningpath.description,
-      title: learningpath.title,
-      imageUrl: learningpath.coverPhotoUrl,
+      id: parseInt(learningpath.id),
+      // We do not know the language of the description or the title. Thus, they should not be used
+      // further down the component tree. They are only present to appease TypeScript.
+      metaDescription: {
+        metaDescription: learningpath.description ?? '',
+        language: 'unknown',
+      },
+      title: { title: learningpath.title ?? '', language: 'unknown' },
+      metaUrl: learningpath.coverPhotoUrl,
     });
   };
 
@@ -225,6 +243,17 @@ const AddResourceModal = ({
             ? await findResourceIdLearningPath(Number(selected.id))
             : getResourceIdFromPath(selected?.paths?.[0]);
 
+        if (!resourceId) {
+          return;
+        }
+
+        if (existingResourceIds.includes(resourceId)) {
+          setError(t('taxonomy.resource.addResourceConflict'));
+          setLoading(false);
+          setNoSelection();
+          return;
+        }
+
         await createTopicResource({
           resourceId,
           topicid: topicId,
@@ -236,7 +265,7 @@ const AddResourceModal = ({
       } catch (e) {
         handleError(e);
         setLoading(false);
-        setError(e.message);
+        setError(e.messages);
       }
     }
   };
@@ -286,10 +315,9 @@ const AddResourceModal = ({
             placeholder={t('taxonomy.urlPlaceholder')}
           />
         )}
-        {error && <span className="c-errorMessage">{error}</span>}
 
         {!pastedUrl && selectedType && (
-          <React.Fragment>
+          <>
             {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
             <AsyncDropdown
               idField="id"
@@ -297,20 +325,27 @@ const AddResourceModal = ({
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
               label="label"
-              apiAction={(input: string) => onInputSearch(input, selectedType)}
+              apiAction={(query: MultiSearchApiQuery) => onInputSearch(query, selectedType, locale)}
               onChange={onSelect}
               startOpen
+              showPagination
             />
-          </React.Fragment>
+          </>
         )}
         {selected?.id && content?.id && <ArticlePreview article={content} />}
+        {error && (
+          <AlertModal
+            show={!!error}
+            text={error}
+            onCancel={() => {
+              setError(null);
+            }}
+            severity={'danger'}
+          />
+        )}
       </StyledContent>
     </TaxonomyLightbox>
   );
 };
 
-AddResourceModal.defaultProps = {
-  allowPaste: false,
-};
-
-export default injectT(AddResourceModal);
+export default AddResourceModal;

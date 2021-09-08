@@ -36,7 +36,11 @@ const resourceTypeMock = [
 
 beforeEach(() => {
   nock('http://ndla-api')
-    .get(`/search-api/v1/search/group/?query=&resource-types=${resourceType}`)
+    .get(
+      `/search-api/v1/search/group/?fallback=true&language=nb&page=1&query=&resource-types=${encodeURIComponent(
+        resourceType,
+      )}`,
+    )
     .reply(200, resourcesByType);
 });
 
@@ -52,6 +56,7 @@ const wrapper = props =>
           onClose={() => {}}
           refreshResources={() => {}}
           startOpen
+          locale="nb"
           {...props}
         />
       </MemoryRouter>

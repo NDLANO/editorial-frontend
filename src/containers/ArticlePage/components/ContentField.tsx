@@ -6,35 +6,36 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import { FormikHelpers, FormikValues } from 'formik';
-import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
+import { ArticleFormikType } from '../../FormikForm/articleFormHooks';
+import { DraftSearchQuery } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   locale: string;
-  values: {
-    relatedContent: ConvertedRelatedContent[];
-  };
+  values: ArticleFormikType;
   field: FormikProperties['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
 }
 
-const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
+const ContentField = ({ locale, values, field, form }: Props) => {
+  const { t } = useTranslation();
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
     values.relatedContent,
   );
+  const [showAddExternal, setShowAddExternal] = useState(false);
 
   const onAddArticleToList = async (article: ContentResultType) => {
     try {
@@ -66,9 +67,9 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
     });
   };
 
-  const searchForArticles = async (inp: string) => {
+  const searchForArticles = async (query: DraftSearchQuery) => {
     return searchDrafts({
-      query: inp,
+      ...query,
       language: locale,
     });
   };
@@ -102,23 +103,16 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
         multiSelect
         disableSelected
         clearInputField
+        showPagination
       />
       <StyledButtonWrapper>
-        <Modal
-          backgroundColor="white"
-          activateButton={<Button>{t('form.relatedContent.addExternal')}</Button>}>
-          {(onClose: () => void) => (
-            <>
-              <ModalHeader>
-                <ModalCloseButton onClick={onClose} title={t('dialog.close')} />
-              </ModalHeader>
-              <ModalBody>
-                <ContentLink onAddLink={addExternalLink} onClose={onClose} />
-              </ModalBody>
-            </>
-          )}
-        </Modal>
+        <Button onClick={() => setShowAddExternal(true)}>
+          {t('form.relatedContent.addExternal')}
+        </Button>
       </StyledButtonWrapper>
+      {showAddExternal && (
+        <ContentLink onAddLink={addExternalLink} onClose={() => setShowAddExternal(false)} />
+      )}
     </>
   );
 };
@@ -127,4 +121,4 @@ const StyledButtonWrapper = styled.div`
   margin: ${spacing.small} 0;
 `;
 
-export default injectT(ContentField);
+export default ContentField;

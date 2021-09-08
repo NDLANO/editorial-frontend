@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import darken from 'polished/lib/color/darken';
@@ -20,7 +20,7 @@ import { search } from '../../../../modules/search/searchApi';
 import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../Overlay';
 import RelatedArticle from './RelatedArticle';
-import TaxonomyLightbox from '../../../Taxonomy/TaxonomyLightbox';
+import ContentLink from '../../../../containers/ArticlePage/components/ContentLink';
 import { Portal } from '../../../Portal';
 import DeleteButton from '../../../DeleteButton';
 import { ARTICLE_EXTERNAL } from '../../../../constants';
@@ -136,7 +136,6 @@ class EditRelated extends React.PureComponent {
       t,
       ...rest
     } = this.props;
-    const { title, url } = this.state;
 
     return (
       <div>
@@ -258,8 +257,8 @@ class EditRelated extends React.PureComponent {
               <DeleteButton stripped onClick={onRemoveClick} />
             </StyledBorderDiv>
             {this.state.showAddExternal && (
-              <TaxonomyLightbox
-                onSelect={() => {
+              <ContentLink
+                onAddLink={(title, url) => {
                   if (this.state.tempId) {
                     updateArticles(
                       articles.map(a =>
@@ -267,7 +266,6 @@ class EditRelated extends React.PureComponent {
                       ),
                     );
                     this.setState({
-                      showAddExternal: false,
                       tempId: undefined,
                       url: '',
                       title: '',
@@ -276,27 +274,17 @@ class EditRelated extends React.PureComponent {
                     insertExternal(url, title);
                   }
                 }}
-                title={t('form.content.relatedArticle.searchExternal')}
-                onClose={this.toggleAddExternal}>
-                <input
-                  type="text"
-                  id="url"
-                  data-testid="addExternalUrlInput"
-                  onChange={this.handleInputChange}
-                  onClick={e => e.stopPropagation()}
-                  value={url}
-                  placeholder={t('form.content.relatedArticle.urlPlaceholder')}
-                />
-                <input
-                  type="text"
-                  id="title"
-                  data-testid="addExternalTitleInput"
-                  value={title}
-                  onChange={this.handleInputChange}
-                  onClick={e => e.stopPropagation()}
-                  placeholder={t('form.content.relatedArticle.titlePlaceholder')}
-                />
-              </TaxonomyLightbox>
+                onClose={() => {
+                  this.setState({
+                    tempId: undefined,
+                    url: '',
+                    title: '',
+                  });
+                  this.toggleAddExternal();
+                }}
+                initialTitle={this.state.title}
+                initialUrl={this.state.url}
+              />
             )}
           </Portal>
         </div>
@@ -314,4 +302,4 @@ EditRelated.propTypes = {
   insertExternal: PropTypes.func,
 };
 
-export default injectT(EditRelated);
+export default withTranslation()(EditRelated);

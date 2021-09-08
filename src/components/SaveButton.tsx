@@ -8,11 +8,11 @@
 
 import React from 'react';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
 import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css, SerializedStyles } from '@emotion/core';
 import { colors, spacing, fonts } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
 
 interface AppearanceMap {
   [index: string]: SerializedStyles;
@@ -61,10 +61,10 @@ interface Props {
   isSaving?: boolean;
   showSaved?: boolean;
   defaultText?: string;
-  formIsDirty: boolean;
+  formIsDirty?: boolean;
   large?: boolean;
   disabled?: boolean;
-  onClick: (evt: Event) => void;
+  onClick: (evt: React.MouseEvent<HTMLButtonElement>) => void;
   clippedButton?: boolean;
   submit?: boolean;
 }
@@ -72,21 +72,21 @@ interface Props {
 const SaveButton = ({
   isSaving,
   showSaved,
-  t,
   defaultText,
-  formIsDirty,
+  formIsDirty = true,
   large,
   disabled,
   onClick,
   clippedButton,
   submit,
   ...rest
-}: Props & tType) => {
+}: Props) => {
   const getModifier = () => {
     if (isSaving) return 'saving';
     if (showSaved) return 'saved';
     return defaultText || 'save';
   };
+  const { t } = useTranslation();
   const modifier = getModifier();
   const disabledButton = isSaving || !formIsDirty || disabled;
 
@@ -108,8 +108,4 @@ const SaveButton = ({
   );
 };
 
-SaveButton.defaultProps = {
-  formIsDirty: true,
-};
-
-export default injectT(SaveButton);
+export default SaveButton;

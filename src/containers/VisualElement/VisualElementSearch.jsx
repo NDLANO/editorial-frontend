@@ -9,7 +9,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import { actions as tagActions, getAllTagsByLanguage } from '../../modules/tag/tag';
@@ -26,7 +26,7 @@ import config from '../../config';
 import * as visualElementApi from './visualElementApi';
 import * as imageApi from '../../modules/image/imageApi';
 import { getLocale } from '../../modules/locale/locale';
-import H5PElement from '../../components/H5PElement';
+import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import VisualElementUrlPreview from './VisualElementUrlPreview';
 import FileUploader from '../../components/FileUploader';
@@ -45,7 +45,7 @@ class VisualElementSearch extends Component {
       handleVisualElementChange({
         resource: selectedResource,
         resource_id: uploadedImage.id,
-        size: 'fullbredde',
+        size: 'full',
         align: '',
         alt: uploadedImage.alttext.alttext,
         caption: uploadedImage.caption.caption,
@@ -94,7 +94,7 @@ class VisualElementSearch extends Component {
               handleVisualElementChange({
                 resource: selectedResource,
                 resource_id: image.id,
-                size: 'fullbredde',
+                size: 'full',
                 align: '',
                 alt: convertFieldWithFallback(image, 'alttext', ''),
                 caption: convertFieldWithFallback(image, 'caption', ''),
@@ -286,4 +286,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectT(VisualElementSearch));
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(VisualElementSearch));

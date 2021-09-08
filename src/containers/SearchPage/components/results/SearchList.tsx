@@ -8,13 +8,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import SearchResult from './SearchResult';
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import Spinner from '../../../../components/Spinner';
 import { ResultType, searchClasses } from '../../SearchContainer';
 import { SearchParams } from '../form/SearchForm';
-import { License, LocaleType, SearchType, SubjectType } from '../../../../interfaces';
+import { License, LocaleType, SearchType } from '../../../../interfaces';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ImageSearchSummaryApiType } from '../../../../modules/image/imageApiInterfaces';
 import { SearchConceptType } from '../../../../modules/concept/conceptApiInterfaces';
 import {
@@ -44,12 +45,12 @@ const SearchList = ({
   results,
   searchObject,
   type,
-  t,
   searching,
   locale,
   subjects,
   userAccess,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const editingState = useState(false);
   const setEditing = editingState[1];
 
@@ -93,4 +94,4 @@ SearchList.defaultProps = {
   searching: true,
 };
 
-export default injectT(SearchList);
+export default SearchList;

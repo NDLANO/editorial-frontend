@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
 import { Editor } from 'slate';
 import FormikField from '../../../components/FormikField';
@@ -18,7 +18,8 @@ interface Props {
   onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
-const SubjectpageAbout = ({ t, handleSubmit, onBlur }: Props & tType) => {
+const SubjectpageAbout = ({ handleSubmit, onBlur }: Props) => {
+  const { t } = useTranslation();
   return (
     <>
       <FormikField name="title" noBorder title placeholder={t('form.name.title')} />
@@ -43,4 +44,4 @@ const SubjectpageAbout = ({ t, handleSubmit, onBlur }: Props & tType) => {
   );
 };
 
-export default injectT(SubjectpageAbout);
+export default SubjectpageAbout;

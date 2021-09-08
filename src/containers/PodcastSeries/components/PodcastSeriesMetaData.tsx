@@ -6,8 +6,8 @@
  *
  */
 
-import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import React, { SyntheticEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor } from 'slate';
 
 import { useFormikContext } from 'formik';
@@ -17,9 +17,12 @@ import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
 
-interface Props {}
+interface Props {
+  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+}
 
-const PodcastSeriesMetadata = ({ t }: Props & tType) => {
+const PodcastSeriesMetadata = ({ onImageLoad }: Props) => {
+  const { t } = useTranslation();
   const formikContext = useFormikContext<PodcastSeriesFormikType>();
   const { handleBlur, submitForm } = formikContext;
   const plugins = [textTransformPlugin()];
@@ -59,6 +62,7 @@ const PodcastSeriesMetadata = ({ t }: Props & tType) => {
       <FormikField name="coverPhotoId">
         {({ field, form }) => (
           <MetaImageSearch
+            onImageLoad={onImageLoad}
             metaImageId={field.value}
             setFieldTouched={form.setFieldTouched}
             showRemoveButton
@@ -70,4 +74,4 @@ const PodcastSeriesMetadata = ({ t }: Props & tType) => {
   );
 };
 
-export default injectT(PodcastSeriesMetadata);
+export default PodcastSeriesMetadata;

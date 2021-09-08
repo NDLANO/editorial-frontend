@@ -9,7 +9,7 @@ import React, { Fragment, useContext } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import loadable from '@loadable/component';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
@@ -30,9 +30,10 @@ import { SearchParams } from '../SearchPage/components/form/SearchForm';
 import Footer from './components/Footer';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
-interface Props extends RouteComponentProps, tType {}
+interface Props extends RouteComponentProps {}
 
-const SearchPage = ({ match, t }: Props) => {
+const SearchPage = ({ match }: Props) => {
+  const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const supportedTypes: {
     title: string;
@@ -45,10 +46,7 @@ const SearchPage = ({ match, t }: Props) => {
     {
       title: t('subNavigation.searchContent'),
       type: 'content',
-      url: toSearch(
-        { page: '1', sort: '-lastUpdated', 'page-size': 10, language: locale, fallback: true },
-        'content',
-      ),
+      url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'content'),
       icon: <SearchContent className="c-icon--large" />,
       path: `${match.url}/content`,
       searchFunction: searchContent,
@@ -108,6 +106,7 @@ const SearchPage = ({ match, t }: Props) => {
         {supportedTypes.map(type => {
           return (
             <PrivateRoute
+              locale={locale}
               key={type.type}
               path={type.path}
               component={SearchContainer}
@@ -127,4 +126,4 @@ SearchPage.propTypes = {
   ...RoutePropTypes,
 };
 
-export default injectT(withRouter(SearchPage));
+export default withRouter(SearchPage);

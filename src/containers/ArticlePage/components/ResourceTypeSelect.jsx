@@ -7,40 +7,45 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FieldHeader, Select } from '@ndla/forms';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { selectedResourceTypeValue } from '../../../util/taxonomyHelpers';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 const ResourceTypeSelect = ({
-  t,
   resourceTypes,
   availableResourceTypes,
   onChangeSelectedResource,
-}) => (
-  <Fragment>
-    <FieldHeader
-      title={t('taxonomy.resourceTypes.title')}
-      subTitle={t('taxonomy.resourceTypes.subTitle')}>
-      <HowToHelper pageId="TaxonomyContentTypes" tooltip={t('taxonomy.resourceTypes.helpLabel')} />
-    </FieldHeader>
-    <Select value={selectedResourceTypeValue(resourceTypes)} onChange={onChangeSelectedResource}>
-      <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
-      {availableResourceTypes.map(resourceType =>
-        resourceType.subtypes ? (
-          resourceType.subtypes.map(subtype => (
-            <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
-              {resourceType.name} - {subtype.name}
+}) => {
+  const { t } = useTranslation();
+  return (
+    <Fragment>
+      <FieldHeader
+        title={t('taxonomy.resourceTypes.title')}
+        subTitle={t('taxonomy.resourceTypes.subTitle')}>
+        <HowToHelper
+          pageId="TaxonomyContentTypes"
+          tooltip={t('taxonomy.resourceTypes.helpLabel')}
+        />
+      </FieldHeader>
+      <Select value={selectedResourceTypeValue(resourceTypes)} onChange={onChangeSelectedResource}>
+        <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
+        {availableResourceTypes.map(resourceType =>
+          resourceType.subtypes ? (
+            resourceType.subtypes.map(subtype => (
+              <option value={`${resourceType.id},${subtype.id}`} key={subtype.id}>
+                {resourceType.name} - {subtype.name}
+              </option>
+            ))
+          ) : (
+            <option key={resourceType.id} value={resourceType.id}>
+              {resourceType.name}
             </option>
-          ))
-        ) : (
-          <option key={resourceType.id} value={resourceType.id}>
-            {resourceType.name}
-          </option>
-        ),
-      )}
-    </Select>
-  </Fragment>
-);
+          ),
+        )}
+      </Select>
+    </Fragment>
+  );
+};
 
 ResourceTypeSelect.propTypes = {
   onChangeSelectedResource: PropTypes.func.isRequired,
@@ -65,4 +70,4 @@ ResourceTypeSelect.propTypes = {
   ).isRequired,
 };
 
-export default injectT(ResourceTypeSelect);
+export default ResourceTypeSelect;

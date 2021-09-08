@@ -6,10 +6,10 @@
  *
  */
 
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Done } from '@ndla/icons/editor';
 import { Spinner } from '@ndla/editor';
 import { colors } from '@ndla/core';
@@ -24,9 +24,10 @@ import {
 } from '../../../../modules/learningpath/learningpathApi';
 import { fetchTopic, fetchTopicResources } from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
-import { Resource, ArticleType, Learningpath } from '../../../../interfaces';
 import handleError from '../../../../util/handleError';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
+import { Resource, Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { Learningpath } from '../../../../interfaces';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -52,15 +53,19 @@ const iconStyle = css`
 interface Props {
   locale: string;
   id: string;
-  setResourcesUpdated: Function;
+  setResourcesUpdated: (updated: boolean) => void;
 }
 
-const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => {
+type LocalResource = Pick<Resource, 'contentUri' | 'name'>;
+type LocalTopic = Pick<Topic, 'contentUri' | 'name'>;
+
+const PublishTopic = ({ locale, id, setResourcesUpdated }: Props) => {
+  const { t } = useTranslation();
   const [showDisplay, setShowDisplay] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [publishedCount, setPublishedCount] = useState(0);
   const [articleCount, setArticleCount] = useState(1);
-  const [failedResources, setFailedResources] = useState<Resource[]>([]);
+  const [failedResources, setFailedResources] = useState<LocalResource[]>([]);
 
   useEffect(() => {
     setShowAlert(
@@ -73,14 +78,14 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
   const publishTopic = () => {
     if (!done) {
       fetchTopic(id, locale)
-        .then((resource: Resource) => publishResource(resource))
+        .then((topic: Topic) => publishResource(topic))
         .catch((e: Error) => handleError(e));
 
       fetchTopicResources(id)
         .then((resources: Resource[]) => {
           setArticleCount(resources.length + 1);
           setShowDisplay(true);
-          return resources.map(resource => publishResource(resource));
+          return resources.map((resource: Resource) => publishResource(resource));
         })
         .then((publishPromises: Promise<void>[]) => Promise.all(publishPromises))
         .then(() => setResourcesUpdated(true))
@@ -88,23 +93,20 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
     }
   };
 
-  const publishResource = async (resource: Resource): Promise<void> => {
+  const publishResource = async (resource: LocalResource | LocalTopic): Promise<void> => {
     if (resource.contentUri) {
       const [, resourceType, id] = resource.contentUri.split(':');
       const idNum = Number(id);
       if (resourceType === 'article') {
-        return (
-          fetchDraft(idNum)
-            // @ts-ignore TODO Mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
-            .then((article: ArticleType) => {
-              if (article.status.current !== PUBLISHED) {
-                return updateStatusDraft(idNum, PUBLISHED);
-              }
-              return Promise.resolve();
-            })
-            .then(() => setPublishedCount(prevState => prevState + 1))
-            .catch((e: Error) => handlePublishError(e, resource))
-        );
+        return fetchDraft(idNum)
+          .then(article => {
+            if (article.status.current !== PUBLISHED) {
+              return updateStatusDraft(idNum, PUBLISHED).then(_ => Promise.resolve());
+            }
+            return Promise.resolve();
+          })
+          .then(() => setPublishedCount(prevState => prevState + 1))
+          .catch((e: Error) => handlePublishError(e, resource));
       } else if (resourceType === 'learningpath') {
         return fetchLearningpath(idNum)
           .then((learningpath: Learningpath) => {
@@ -125,13 +127,13 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
     }
   };
 
-  const handlePublishError = (error: Error, resource: Resource) => {
+  const handlePublishError = (error: Error, resource: LocalResource) => {
     setFailedResources(failedResources => [...failedResources, resource]);
     handleError(error);
   };
 
   return (
-    <Fragment>
+    <>
       <MenuItemButton stripped onClick={publishTopic}>
         <RoundIcon small icon={<Done />} />
         {t('taxonomy.publish.button')}
@@ -160,8 +162,8 @@ const PublishTopic = ({ t, locale, id, setResourcesUpdated }: Props & tType) => 
           </LinkWrapper>
         ))}
       />
-    </Fragment>
+    </>
   );
 };
 
-export default injectT(PublishTopic);
+export default PublishTopic;

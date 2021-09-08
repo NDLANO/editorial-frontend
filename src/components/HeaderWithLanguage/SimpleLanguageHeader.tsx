@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Check } from '@ndla/icons/editor';
 import HeaderInformation from './HeaderInformation';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
@@ -27,7 +27,6 @@ interface Props {
 }
 
 const SimpleLanguageHeader = ({
-  t,
   articleType,
   editUrl,
   id,
@@ -35,7 +34,8 @@ const SimpleLanguageHeader = ({
   language,
   supportedLanguages,
   title,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const isNewLanguage = !!id && !supportedLanguages.includes(language);
 
   const languages = [
@@ -93,4 +93,4 @@ const SimpleLanguageHeader = ({
   );
 };
 
-export default injectT(SimpleLanguageHeader);
+export default SimpleLanguageHeader;

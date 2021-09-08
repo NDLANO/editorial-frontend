@@ -9,7 +9,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { fonts } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { ContentResultType } from '../../../../interfaces';
 
@@ -34,7 +34,8 @@ const StyledDiv = styled.div`
   display: inline-block;
 `;
 
-const SearchHighlight = ({ content, locale, t }: Props & tType) => {
+const SearchHighlight = ({ content, locale }: Props) => {
+  const { t } = useTranslation();
   if (content.highlights === undefined) {
     return null;
   }
@@ -69,4 +70,4 @@ const SearchHighlight = ({ content, locale, t }: Props & tType) => {
   ) : null;
 };
 
-export default injectT(SearchHighlight);
+export default SearchHighlight;

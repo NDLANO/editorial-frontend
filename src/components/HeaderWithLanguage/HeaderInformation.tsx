@@ -7,8 +7,8 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
-import css from '@emotion/css';
+import { useTranslation } from 'react-i18next';
+import { css } from '@emotion/react';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 // @ts-ignore
@@ -111,13 +111,13 @@ const HeaderInformation = ({
   published,
   isNewLanguage,
   title,
-  t,
   formIsDirty,
   createMessage,
   getEntity,
   history,
   taxonomyPaths,
-}: Props & PropsFromRedux & tType) => {
+}: Props & PropsFromRedux) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const onSaveAsNew = async () => {
     try {
@@ -195,4 +195,4 @@ const mapDispatchToProps = {
 const reduxConnector = connect(undefined, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-export default reduxConnector(injectT(HeaderInformation));
+export default reduxConnector(HeaderInformation);

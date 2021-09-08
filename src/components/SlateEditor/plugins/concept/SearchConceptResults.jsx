@@ -7,13 +7,13 @@
  */
 
 import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Concept } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 import Button from '@ndla/button';
-import css from '@emotion/css';
+import { css } from '@emotion/react';
 import { Check } from '@ndla/icons/lib/editor';
 import Tooltip from '@ndla/tooltip';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
@@ -58,7 +58,8 @@ const StyledCheckIcon = styled(Check)`
   fill: ${colors.support.green};
 `;
 
-const SearchConceptResults = ({ results, searchObject, addConcept, t, searching }) => {
+const SearchConceptResults = ({ results, searchObject, addConcept, searching }) => {
+  const { t } = useTranslation();
   return (
     <div>
       {searching && <Spinner appearance="absolute" />}
@@ -114,4 +115,4 @@ SearchConceptResults.defaultProps = {
   searching: true,
 };
 
-export default injectT(SearchConceptResults);
+export default SearchConceptResults;

@@ -8,12 +8,24 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemEditField from './MenuItemEditField';
 import { updateSubject } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
+import { EditMode } from '../../../../interfaces';
+
+interface Props {
+  toggleEditMode: (s: EditMode) => void;
+  onClose: () => void;
+  editMode: string;
+  name: string;
+  id: string;
+  contentUri?: string;
+  getAllSubjects: () => Promise<void>;
+  refreshTopics: () => void;
+}
 
 const ChangeSubjectName = ({
   toggleEditMode,
@@ -24,14 +36,14 @@ const ChangeSubjectName = ({
   contentUri,
   getAllSubjects,
   refreshTopics,
-  t,
-}: Props & tType) => {
-  const onChangeSubjectName = async (name: string) => {
+}: Props) => {
+  const { t } = useTranslation();
+
+  const onChangeSubjectName = async (name: string): Promise<void> => {
     if (name && name.trim() !== '') {
-      const ok = await updateSubject(id, name, contentUri);
-      getAllSubjects();
-      refreshTopics();
-      return ok;
+      return updateSubject(id, name, contentUri)
+        .then(() => getAllSubjects())
+        .then(() => refreshTopics());
     }
   };
   if (editMode === 'changeSubjectName') {
@@ -57,17 +69,6 @@ const ChangeSubjectName = ({
   );
 };
 
-interface Props {
-  toggleEditMode: (s: string) => void;
-  onClose: () => void;
-  editMode: string;
-  name: string;
-  id: string;
-  contentUri?: string;
-  getAllSubjects: () => Promise<void>;
-  refreshTopics: () => void;
-}
-
 ChangeSubjectName.propTypes = {
   toggleEditMode: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
@@ -79,4 +80,4 @@ ChangeSubjectName.propTypes = {
   refreshTopics: PropTypes.func.isRequired,
 };
 
-export default injectT(ChangeSubjectName);
+export default ChangeSubjectName;

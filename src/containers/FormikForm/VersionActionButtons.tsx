@@ -1,18 +1,23 @@
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { Eye, Restore } from '@ndla/icons/editor';
 import { StyledAccordionsPanelIconButton } from '@ndla/accordion';
 
 import { PreviewDraftLightbox } from '../../components';
-import { ArticleType } from '../../interfaces';
+import { ConvertedDraftType } from '../../interfaces';
+import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface Props {
   showFromArticleApi: boolean;
-  article: ArticleType;
-  getArticle: VoidFunction;
-  resetVersion: (version: ArticleType, language: string, showFromArticleApi: boolean) => void;
-  version: ArticleType;
+  article: Partial<ConvertedDraftType>;
+  getArticle: (preview: boolean) => UpdatedDraftApiType;
+  resetVersion: (
+    version: DraftApiType,
+    language: string | undefined,
+    showFromArticleApi: boolean,
+  ) => Promise<void>;
+  version: DraftApiType;
   current: boolean;
 }
 
@@ -23,8 +28,8 @@ const VersionActionButtons = ({
   getArticle,
   resetVersion,
   version,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   // we only show preview and reset for current versions if they are the ONLY version
   // ie. that they were published before versions were introduced
   if (current && !showFromArticleApi) return null;
@@ -59,4 +64,4 @@ const VersionActionButtons = ({
   );
 };
 
-export default injectT(VersionActionButtons);
+export default VersionActionButtons;

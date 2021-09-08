@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -15,25 +15,19 @@ import { Switch } from '@ndla/switch';
 
 import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
-import { TranslateType } from '../../../../interfaces';
 import MenuItemButton from './MenuItemButton';
-
-enum MenuType {
-  subject = 'subject',
-  topic = 'topic',
-}
+import { EditMode } from '../../../../interfaces';
 
 interface Props {
   editMode: string;
-  getAllSubjects: Function;
+  getAllSubjects: () => Promise<void>;
   id: string;
   name: string;
-  menuType: MenuType;
+  menuType: 'subject' | 'topic';
   metadata: { grepCodes: string[]; visible: boolean };
-  refreshTopics: Function;
-  setResourcesUpdated: Function;
-  t: TranslateType;
-  toggleEditMode: Function;
+  refreshTopics: () => Promise<void>;
+  setResourcesUpdated: (updated: boolean) => void;
+  toggleEditMode: (mode: EditMode) => void;
 }
 
 export const DropDownWrapper = styled('div')`
@@ -53,9 +47,9 @@ const ToggleVisibility = ({
   metadata,
   refreshTopics,
   setResourcesUpdated,
-  t,
   toggleEditMode,
 }: Props) => {
+  const { t } = useTranslation();
   const [visible, setVisible] = useState(metadata?.visible);
 
   const toggleVisibility = async () => {
@@ -120,4 +114,4 @@ const ToggleVisibility = ({
   );
 };
 
-export default injectT(ToggleVisibility);
+export default ToggleVisibility;

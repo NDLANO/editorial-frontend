@@ -8,9 +8,10 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
-import { ArticleType, ConceptType } from '../../interfaces';
+import { ArticleType } from '../../interfaces';
+import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
 
 export const StyledPreviewHeader = styled.div`
   min-height: 6rem;
@@ -44,9 +45,9 @@ const PreviewLanguage = ({
   contentType,
   onChangePreviewLanguage,
   previewLanguage,
-  t,
   getEntityPreview,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   return (
     <StyledPreview>
       <StyledPreviewTwoArticles>
@@ -83,4 +84,4 @@ const PreviewLanguage = ({
   );
 };
 
-export default injectT(PreviewLanguage);
+export default PreviewLanguage;

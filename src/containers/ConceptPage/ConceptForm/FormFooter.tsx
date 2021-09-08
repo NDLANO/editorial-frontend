@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { fetchStatusStateMachine } from '../../../modules/concept/conceptApi';
@@ -15,11 +15,13 @@ import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { AlertModalWrapper, formClasses, ActionButton } from '../../FormikForm';
-import { ConceptType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
+import { ConceptType } from '../../../modules/concept/conceptApiInterfaces';
+import { NewReduxMessage } from '../../../containers/Messages/messagesSelectors';
+import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
-  entityStatus: { current: string };
+  entityStatus?: DraftStatus;
   conceptChanged: boolean;
   inModal?: boolean;
   savedToServer: boolean;
@@ -28,6 +30,7 @@ interface Props {
   onClose: () => void;
   onContinue: () => void;
   getApiConcept: () => ConceptType;
+  createMessage: (message: NewReduxMessage) => void;
 }
 
 const FormFooter = ({
@@ -40,8 +43,9 @@ const FormFooter = ({
   onClose,
   onContinue,
   getApiConcept,
-  t,
-}: Props & tType) => {
+  createMessage,
+}: Props) => {
+  const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const { values, errors, initialValues, dirty, isSubmitting, submitForm } = formikContext;
   const formIsDirty = isFormikFormDirty({
@@ -70,12 +74,12 @@ const FormFooter = ({
             onClick={(evt: { preventDefault: () => void }) => {
               evt.preventDefault();
               submitForm();
-            }}>
-            {t('form.save')}
-          </SaveButton>
+            }}
+          />
         </Field>
       ) : (
         <EditorFooter
+          createMessage={createMessage}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getApiConcept}
@@ -86,7 +90,6 @@ const FormFooter = ({
           hideSecondaryButton
           isConcept
           isNewlyCreated={isNewlyCreated}
-          validateEntity={() => {}}
           hasErrors={isSubmitting || !formIsDirty || disableSave}
         />
       )}
@@ -103,4 +106,4 @@ const FormFooter = ({
   );
 };
 
-export default injectT(FormFooter);
+export default FormFooter;

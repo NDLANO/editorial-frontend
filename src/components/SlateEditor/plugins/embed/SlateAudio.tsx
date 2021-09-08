@@ -9,14 +9,14 @@
 import React, { useEffect, useState } from 'react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import { SlateAudio as Audio, Embed, FormikInputEvent, LocaleType } from '../../../../interfaces';
+import { SlateAudio as Audio, Embed, LocaleType } from '../../../../interfaces';
 
 interface Props {
   attributes?: {
@@ -27,12 +27,11 @@ interface Props {
   embed: Embed;
   language: string;
   locale: LocaleType;
-  onRemoveClick: Function;
-  onFigureInputChange: Function;
+  onRemoveClick: (event: React.MouseEvent) => void;
+  onFigureInputChange: (event: React.FormEvent<HTMLSelectElement>) => void;
 }
 
 const SlateAudio = ({
-  t,
   attributes,
   changes,
   embed,
@@ -40,7 +39,8 @@ const SlateAudio = ({
   locale,
   onRemoveClick,
   onFigureInputChange,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const speech = embed.type === 'minimal';
   const [editMode, setEditMode] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);
@@ -62,8 +62,8 @@ const SlateAudio = ({
     getAudio();
   }, [embed, language]);
 
-  const onAudioFigureInputChange = (e: FormikInputEvent) => {
-    const { value, name } = e.target;
+  const onAudioFigureInputChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    const { value, name } = e.currentTarget;
     setAudio({
       ...audio,
       [name]: value,
@@ -120,4 +120,4 @@ const SlateAudio = ({
   );
 };
 
-export default injectT(SlateAudio);
+export default SlateAudio;

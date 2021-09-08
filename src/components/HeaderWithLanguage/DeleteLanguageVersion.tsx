@@ -8,6 +8,7 @@
 
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -35,7 +36,6 @@ import AlertModal from '../AlertModal';
 import StyledFilledButton from '../StyledFilledButton';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { NewReduxMessage } from '../../containers/Messages/messagesSelectors';
-import { useTranslation } from 'react-i18next';
 
 const StyledWrapper = styled.div`
   flex-grow: 1;
@@ -112,6 +112,7 @@ const DeleteLanguageVersion = ({
             break;
         }
       } catch (error) {
+        //@ts-ignore
         createMessage(formatErrorMessage(error));
       }
     }

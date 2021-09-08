@@ -6,8 +6,6 @@
  *
  */
 
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../constants';
-
 const titleTemplate = '- Produksjonsystem - NDLA';
 
 const phrases = {
@@ -36,7 +34,7 @@ const phrases = {
     },
   },
   dropdown: {
-    numberHits: `Søket gav {hits} treff`,
+    numberHits: `Søket gav {{hits}} treff`,
     searching: 'Søker...',
     create: 'Opprett nytt',
     isSelectedItem: 'Lagt til',
@@ -104,7 +102,7 @@ const phrases = {
     unknown: 'Ukjent',
     de: 'Tysk',
     empty: 'Ingen fleire språk',
-    change: 'Bytt til {language} versjon',
+    change: 'Bytt til {{language}} versjon',
   },
   welcomePage: {
     addSearch: 'Legg til nytt søk',
@@ -130,12 +128,12 @@ const phrases = {
     emptyButton: 'Tøm',
     title: 'Tittel',
     language: 'Språk',
-    contentNoHits: 'Ingen innhald samsvarte med søket ditt på: {query}',
-    conceptNoHits: 'Ingen forklaringar samsvarte med søket ditt på: {query}',
-    'podcast-seriesNoHits': 'Ingen serier samsvarte med søket ditt på: {query}',
-    audioNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {query}',
-    imageNoHits: 'Ingen bilder samsvarte med søket ditt på: {query}',
-    pageSize: '{pageSize} treff per side',
+    contentNoHits: 'Ingen innhald samsvarte med søket ditt på: {{query}}',
+    conceptNoHits: 'Ingen forklaringar samsvarte med søket ditt på: {{query}}',
+    'podcast-seriesNoHits': 'Ingen serier samsvarte med søket ditt på: {{query}}',
+    audioNoHits: 'Ingen lydfiler samsvarte med søket ditt på: {{query}}',
+    imageNoHits: 'Ingen bilder samsvarte med søket ditt på: {{query}}',
+    pageSize: '{{pageSize}} treff per side',
     totalCount: 'Antall søketreff',
     highlights: {
       title: 'Søketreff',
@@ -181,7 +179,6 @@ const phrases = {
     chooseSubject: 'Velg fag',
     search: 'Søk',
     login: 'Logg inn',
-    logout: 'Logg ut [{name}]',
   },
   loginFailure: {
     errorMessage: 'Beklager. Innlogging feila.',
@@ -208,10 +205,12 @@ const phrases = {
       imageQuery: 'Søk på bilder',
       language: 'Velg språk',
       users: 'Velg bruker',
+      modelReleased: 'Velg modellklarering',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innhaldstype',
       status: 'Velg status',
       audio: 'Velg lydfiltype',
+      license: 'Velg lisens',
     },
     tagType: {
       query: 'Innhald',
@@ -220,6 +219,9 @@ const phrases = {
       users: 'Bruker',
       resourceTypes: 'Innhaldstype',
       status: 'Status',
+      audioType: 'Lydfiltype',
+      license: 'Lisens',
+      modelReleased: 'Modellklarering',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -245,7 +247,7 @@ const phrases = {
       title: 'Tittel',
       lastUpdated: 'Sist oppdatert',
     },
-    resultError: 'Noko gjekk feil med innlasting av type: {type}',
+    resultError: 'Noko gjekk feil med innlasting av type: {{type}}',
   },
   subjectsPage: {
     subjects: 'Fag',
@@ -276,6 +278,12 @@ const phrases = {
     noTitle: 'Ingen tittel',
     noResultsText: 'Fann ingen bilder på søk. Ønskjer du å laste opp eit nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
+    modelReleased: {
+      yes: 'Modellklarert',
+      no: 'Ikkje modellklarert',
+      'not-applicable': 'Ikkje relevant',
+      'not-set': 'Ikkje valgt',
+    },
   },
   videoSearch: {
     searchPlaceholder: 'Søk i videoar',
@@ -301,7 +309,7 @@ const phrases = {
   },
   displayOembed: {
     errorMessage: 'Ein feil oppsto ved visning av oEmbed-innhald.',
-    notSupported: 'oEmbed av type {type} og kjelde {provider} er ikkje støtta.',
+    notSupported: 'oEmbed av type {{type}} og kjelde {{provider}} er ikkje støtta.',
   },
   audioSearch: {
     searchPlaceholder: 'Søk i lydfiler',
@@ -317,8 +325,15 @@ const phrases = {
     noTitle: 'Ingen tittel',
     noContent: 'Ingen innhald',
   },
+  searchTypes: {
+    content: 'Innhald',
+    audio: 'Lyd',
+    image: 'Bilde',
+    concept: 'Forklaring',
+    'podcast-series': 'Serie',
+  },
   noEmbedMessage: {
-    deleteOnSave: 'Element av type {type} vil bli fjerna ved lagring.',
+    deleteOnSave: 'Element av type {{type}} vil bli fjerna ved lagring.',
   },
   conceptpageForm: {
     articlesTitle: 'Relaterte artiklar',
@@ -418,7 +433,9 @@ const phrases = {
       series: 'Serie',
     },
     information: {
-      partOfSeries: 'Denne podkasten er en del av serien',
+      partOfSeries: 'Denne podkasten er ein del av serien',
+      removeSeries: 'Fjern serie',
+      noSeries: 'Podkasten tilhøyrer ingen serie',
     },
   },
   imageEditor: {
@@ -455,23 +472,23 @@ const phrases = {
     },
   },
   editorToolbar: {
-    bold: 'Feit\n({ctrl}+b)',
-    bulletedList: 'Punktliste\n({ctrl}+l)',
-    code: 'Kode\n({ctrl}+k)',
+    bold: 'Feit\n({{ctrl}}+b)',
+    bulletedList: 'Punktliste\n({{ctrl}}+l)',
+    code: 'Kode\n({{ctrl}}+k)',
     codeblock: 'Kodeblokk',
-    concept: 'Forklaring\n({ctrl}+alt+c)',
-    footnote: 'Fotnote\n({ctrl}+alt+f)',
+    concept: 'Forklaring\n({{ctrl}}+alt+c)',
+    footnote: 'Fotnote\n({{ctrl}}+alt+f)',
     headingOne: 'Overskrift 1',
-    headingThree: 'Overskrift 3\n({ctrl}+3)',
-    headingTwo: 'Overskrift 2\n({ctrl}+2)',
-    italic: 'Kursiv\n({ctrl}+i)',
-    letterList: 'Bokstavliste\n({ctrl}+alt+a)',
-    link: 'Lenke\n({ctrl}+alt+l)',
-    mathml: 'Matte\n({ctrl}+m)',
-    numberedList: 'Nummerert liste\n({ctrl}+alt+1)',
-    quote: 'Sitat\n({ctrl}+alt+b)',
-    sub: 'Senka\n({ctrl}+alt+s)',
-    sup: 'Hevet\n({ctrl}+alt+h)',
+    headingThree: 'Overskrift 3\n({{ctrl}}+3)',
+    headingTwo: 'Overskrift 2\n({{ctrl}}+2)',
+    italic: 'Kursiv\n({{ctrl}}+i)',
+    letterList: 'Bokstavliste\n({{ctrl}}+alt+a)',
+    link: 'Lenke\n({{ctrl}}+alt+l)',
+    mathml: 'Matte\n({{ctrl}}+m)',
+    numberedList: 'Nummerert liste\n({{ctrl}}+alt+1)',
+    quote: 'Sitat\n({{ctrl}}+alt+b)',
+    sub: 'Senka\n({{ctrl}}+alt+s)',
+    sup: 'Hevet\n({{ctrl}}+alt+h)',
     twoColumnList: 'To-kolonners liste',
     underlined: 'Understreka',
   },
@@ -572,7 +589,7 @@ const phrases = {
     },
     previewLanguageArticle: {
       button: 'Samanlikn språkversjonar',
-      title: 'Utkast på {language}',
+      title: 'Utkast på {{language}}',
     },
     previewNewWindow: 'Forhåndsvis i nytt vindu',
     contributor: {
@@ -615,7 +632,7 @@ const phrases = {
     },
     updatePublished: 'Endre publisert dato',
     editImage: 'Endre bilde',
-    editOriginalImage: 'Rediger orginal bilde',
+    editOriginalImage: 'Rediger original bilde',
     editAudio: 'Endre lyd',
     editPodcast: 'Endre podkast',
     resetToProd: {
@@ -629,7 +646,7 @@ const phrases = {
       create: 'Legg til språk',
       translate: 'Oversett til nynorsk',
     },
-    remainingCharacters: 'Maks {maxLength, number} teikn og du har {remaining, number} igjen.',
+    remainingCharacters: 'Maks {{maxLength}} teikn og du har {{remaining}} igjen.',
     title: {
       label: 'Tittel',
     },
@@ -653,6 +670,14 @@ const phrases = {
       label: 'Tilgjengelighet',
       description: 'Kven er artikkelen meint for:',
     },
+    modelReleased: {
+      label: 'Modellklarert',
+      yes: 'Ja',
+      no: 'Nei',
+      'not-applicable': 'Ikkje relevant',
+      'not-set': 'Ikkje valgt',
+      description: 'Om bildet er modellklarert eller ikkje:',
+    },
     markdown: {
       button: 'Klikk for å se markdown',
       helpLabel: 'Kva er markdown?',
@@ -672,7 +697,7 @@ const phrases = {
       addConcept: 'Legg til eksisterande forklaring',
       removeConcept: 'Ta bort forklaring',
       source: 'Kjelde',
-      subjects: `Berre fag med metadatafelt '${TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT}=true' vil visast i lista.`,
+      subjects: 'Berre fag markert som forklaringsfag vil visast i lista.',
     },
     workflow: {
       title: 'Status',
@@ -750,25 +775,28 @@ const phrases = {
       label: 'Innhald',
       placeholder: 'Innhald',
       figure: {
-        notSupported: 'Mediatype {mediaType} er ikkje støtta.',
+        notSupported: 'Mediatype {{mediaType}} er ikkje støtta.',
         confirmDelete: 'Er du sikker på at du vil slette denne figuren?',
       },
       relatedArticle: {
         placeholder: 'Søk på tittel',
         urlPlaceholder: 'http://www.example.com',
-        urlLocation: 'Nettside hos {domain}',
+        urlLocation: 'Nettside hos {{domain}}',
         titlePlaceholder: 'Tittel',
         invalidArticle: 'Ugyldig artikkel',
         addExternal: 'Legg til ekstern artikkel',
         removeExternal: 'Slett ekstern artikkel',
         changeExternal: 'Endre ekstern artikkel',
-        searchExternal: 'Skriv inn url og tittel på ekstern artikkel',
+        searchExternal: 'Skriv inn tittel og url på ekstern artikkel',
       },
       concept: {
         remove: 'Fjern forklaring',
         choose: 'Velg forklaring',
       },
       link: {
+        name: 'Namn',
+        domains: 'Url',
+        validDomains: 'Gyldige domener',
         goTo: 'Gå til',
         insert: 'Sett inn lenke',
         update: 'Oppdater lenke',
@@ -784,9 +812,9 @@ const phrases = {
         preview: 'Forhåndsvis lenke',
         unSupported: 'Innhaldstypen i lenka er ikkje støtta',
         newUrlResource: 'Ny ressurs',
-        changeUrlResource: 'Rediger ressurs: {type}',
+        changeUrlResource: 'Rediger ressurs: {{type}}',
         description:
-          'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på {url}. Ndla-ressursar visast med blå bakgrunn og eksterne lenker med gul.',
+          'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på {{url}}. Ndla-ressursar visast med blå bakgrunn og eksterne lenker med gul.',
       },
       footnote: {
         title: 'Tittel',
@@ -819,7 +847,7 @@ const phrases = {
     },
     categories: {
       label: 'Liste og filter',
-      description: 'Format: liste:filter1:filter2',
+      description: 'Format: Liste:Filter1:Filter2',
       searchPlaceholder: 'Søk etter lister',
     },
     grepCodes: {
@@ -932,6 +960,9 @@ const phrases = {
         hms: 'h:m:s',
       },
       brightcove: 'Åpne i Brightcove',
+      toLinkedVideo: 'Bytt til synstolket versjon',
+      fromLinkedVideo: 'Bytt tilbake til original versjon',
+      linkedVideoButton: 'ST',
     },
     audio: {
       file: 'Lydfil',
@@ -958,8 +989,8 @@ const phrases = {
     },
     external: {
       title: 'eksternt',
-      edit: 'Rediger {type} element',
-      remove: 'Fjern {type} element',
+      edit: 'Rediger {{type}} element',
+      remove: 'Fjern {{type}} element',
     },
     related: {
       title: 'Relatert innhald',
@@ -987,9 +1018,15 @@ const phrases = {
       changeName: 'Endre namn',
       changeOrder: 'Endre rekkefølgje',
       removeFile: 'Ta bort fil',
-      missingTitle: '[Mangler filnamn]',
       missingFileTooltip:
         'Ser ikkje ut til å eksistere på serveren. Den kan ha blitt sletta frå ein annan artikkel.',
+      missingFilename: 'Filtypen støttes ikke',
+      dragdrop: {
+        main: 'Dra og slipp',
+        sub: 'eller trykk for å laste opp file(r)',
+        ariaLabel: 'Dra og slipp eller trykk for å laste opp file(r)',
+        noFilesAdded: 'Ingen filer er lagt til',
+      },
       showPdf: 'Vis ekspandert',
       showPdfTooltip: 'Vis ekspandert PDF i artikkel',
     },
@@ -1005,17 +1042,21 @@ const phrases = {
       type: {
         image: 'bildet',
         audio: 'lydfilen',
+        concept: 'forklaringa',
       },
-      sectionTitleArticle: 'Artiklar som bruker {resource}',
-      sectionTitleConcept: 'Forklaringar som bruker {resource}',
-      title: 'Bruk av {resource}',
+      sectionTitleArticle: 'Artiklar som bruker {{resource}}',
+      sectionTitleConcept: 'Forklaringar som bruker {{resource}}',
+      title: 'Bruk av {{resource}}',
       info: {
         image: 'Bruk av bildet i artiklar og/eller forklaringar',
         audio: 'Bruk av lydfilen i artikler',
+        concept: 'Bruk av forklaringa i artikler',
       },
-      notInUse: 'Fant ingen artikler eller forklaringar som bruker {resource}',
-      articles: '{articles, plural, one{1 artikkel} other{# artikler}}',
-      concepts: '{concepts, plural, one{1 forklaring} other{# forklaringar}}',
+      notInUse: 'Fant ingen artikler eller forklaringar som bruker {{resource}}',
+      articles: '1 artikkel',
+      articles_plural: '{{count}} artikler',
+      concepts: '1 forklaring',
+      concepts_plural: '{{count}} forklaringar',
     },
     relatedConcepts: {
       placeholder: 'Søk på tittel',
@@ -1042,20 +1083,22 @@ const phrases = {
     },
   },
   validation: {
-    isRequired: '{label} er påkrevd.',
-    bothFields: 'Ein {labelLowerCase} må inneholde alle felt.',
-    isNumeric: '{label} må inneholde tall.',
-    maxLength: '{label} kan ikkje ha meir enn {maxLength, number} teikn.',
-    minLength: '{label} må ha minst {minLength, number} teikn.',
-    url: '{label} må inneholde ei gyldig lenke.',
-    urlOrNumber: '{label} må inneholde ei gyldig lenke eller artikkel-id.',
-    dateBeforeInvalid: '{label} kan ikkje være etter {afterLabel}.',
-    dateAfterInvalid: '{label} kan ikkje være før {beforeLabel}.',
-    minItems:
-      '{label} feltet må minst inneholde {minItems, plural, one{ein/eitt} other{# ulike}} {labelLowerCase}.',
+    isRequired: '{{label}} er påkrevd.',
+    bothFields: 'Ein {{labelLowerCase}} må inneholde alle felt.',
+    isNumeric: '{{label}} må inneholde tall.',
+    maxLength: '{{label}} kan ikkje ha meir enn {{maxLength}} teikn.',
+    minLength: '{{label}} må ha minst {{minLength}} teikn.',
+    url: '{{label}} må inneholde ei gyldig lenke.',
+    urlOrNumber: '{{label}} må inneholde ei gyldig lenke eller artikkel-id.',
+    dateBeforeInvalid: '{{label}} kan ikkje være etter {{afterLabel}}.',
+    dateAfterInvalid: '{{label}} kan ikkje være før {{beforeLabel}}.',
+    minItems: '{{label}} feltet må minst inneholde ein/eitt {{labelLowerCase}}.',
+    minItems_plural: '{{label}} feltet må minst inneholde {{count}} ulike {{labelLowerCase}}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
+    podcastImageShape: 'Metabilde må være like høgt som det er breitt.',
+    podcastImageSize: 'Metabilde må være mellom 1400 og 3000 pikslar breitt.',
   },
   errorMessage: {
     title: 'Oops, noko gjekk gale',
@@ -1067,7 +1110,7 @@ const phrases = {
     taxonomy: 'Det var eit problem ved lasting av taksonomi',
     unsavedTaxonomy: 'Du har ulagra endringar. Trykk avbryt igjen viss du ønsker å fortsette.',
     auth0:
-      'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {message}',
+      'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {{message}}',
     statusCode: {
       409: 'Denne artikkelen har allerede blitt oppdatert. Ta vare på det du har endra og last sida på nytt for å kunne lagre.',
     },
@@ -1134,6 +1177,7 @@ const phrases = {
         'Vil du fjerne ressursen frå denne mappa? Dette vil ikkje påverke plasseringa andre steder',
       copyError:
         'Det oppstod ein feil ved kopiering av ressursar. Dobbeltsjekk dei kopierte ressursane og prøv å fikse manglar manuelt, eller slett dei kopierte ressursane og prøv å kopiere på nytt',
+      addResourceConflict: 'Ressursen du forsøkte å legge til finnes allerede på emnet.',
     },
     removeLink: 'Fjern lenke',
     resourceTypes: {
@@ -1168,8 +1212,15 @@ const phrases = {
         alterFields: 'Legg til/endra metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
+        explanationSubject: 'Forklaringsfag',
+        oldSubjectId: 'ID for vidaresending',
+        subjectCategory: 'Fagkategori',
         resourceGroupPlaceholder: 'Gruppering av ressursar',
         RGTooltip: 'Vis ressursar Gruppert eller Ugruppert',
+      },
+      placeholders: {
+        category: 'Velg kategori',
+        language: 'Velg språkkode',
       },
     },
   },
@@ -1187,9 +1238,9 @@ const phrases = {
       slideshowSubTitle: 'på forsida',
       movieGroupHeader: 'Filmgrupperinger',
       addMovieToSlideshow: 'Legg til film i slideshow',
-      addMovieToGroup: 'Legg til film i "{name}"',
+      addMovieToGroup: 'Legg til film i "{{name}}"',
       editMovieGroupName: 'Endre namna til filmgruppa',
-      deleteMovieGroup: 'Slett "{name}"',
+      deleteMovieGroup: 'Slett "{{name}}"',
       moveMovieGroupUp: 'Flytt opp',
       moveMovieGroupDown: 'Flytt ned',
       changeOrder: 'Endre rekkjefølgje',
@@ -1198,7 +1249,6 @@ const phrases = {
       createThemeGroup: 'Opprett gruppe',
       saveNameChanges: 'Lagre endringer',
       cancel: 'Avbryt',
-      groupNamePlaceholder: 'Skriv namn på {lang}',
       editGroupTitle: 'Endre namn(a) på filmgruppa:',
       newGroupTitle: 'Kva skal gruppa heite?',
       notFound: 'Vi finn ikkje metadata for denne filmen...',

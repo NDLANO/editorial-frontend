@@ -98,18 +98,22 @@ class EditImage extends Component<Props> {
       editingArticle,
       closeModal,
       isNewlyCreated,
+      licenses,
       ...rest
     } = this.props;
+
     return (
       <LocaleContext.Consumer>
         {locale => (
           <ImageForm
+            isLoading={imageData === undefined}
             image={imageData || { language: locale }}
             onUpdate={(image: UpdatedImageMetadata, file: string | Blob) => {
               updateImage({ image, file, history, editingArticle });
             }}
             closeModal={closeModal}
             isNewlyCreated={isNewlyCreated}
+            licenses={licenses}
             {...rest}
           />
         )}

@@ -9,10 +9,10 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Switch } from '@ndla/switch';
 import { FieldHeader } from '@ndla/forms';
-import { TaxonomyElement } from '../../../../../interfaces';
+import { TaxonomyElement } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 type StyledIdProps = {
   isVisible: boolean;
@@ -30,11 +30,12 @@ const StyledId = styled.span`
 `;
 
 interface Props {
-  taxonomyElement: TaxonomyElement;
+  taxonomyElement: Omit<TaxonomyElement, 'metadata'> & Partial<Pick<TaxonomyElement, 'metadata'>>;
   updateMetadata: (visible: boolean) => void;
 }
 
-const TaxonomyInfo = ({ taxonomyElement, updateMetadata, t }: Props & tType) => {
+const TaxonomyInfo = ({ taxonomyElement, updateMetadata }: Props) => {
+  const { t } = useTranslation();
   return (
     <>
       <FieldHeader title={t('taxonomy.info.title')} subTitle={t('taxonomy.info.subTitle')} />
@@ -53,4 +54,4 @@ const TaxonomyInfo = ({ taxonomyElement, updateMetadata, t }: Props & tType) => 
   );
 };
 
-export default injectT(TaxonomyInfo);
+export default TaxonomyInfo;

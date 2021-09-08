@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import FocusTrapReact from 'focus-trap-react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import StyledFilledButton from '../StyledFilledButton';
 import StyledListButton from '../StyledListButton';
@@ -18,7 +18,8 @@ import { StyledDropdownOverlay } from '../Dropdown';
 
 const StyledLink = StyledListButton.withComponent(Link);
 
-const LanguagePicker = ({ emptyLanguages, editUrl, t }: Props & tType) => {
+const LanguagePicker = ({ emptyLanguages, editUrl }: Props) => {
+  const { t } = useTranslation();
   const [display, setDisplay] = useState(false);
   return (
     <div>
@@ -64,4 +65,4 @@ interface Props {
   editUrl: (url: string) => string;
 }
 
-export default injectT(LanguagePicker);
+export default LanguagePicker;

@@ -5,10 +5,10 @@
  */
 
 import React from 'react';
-import { Check } from '@ndla/icons/editor';
-import { injectT, tType } from '@ndla/i18n';
-import Tooltip from '@ndla/tooltip';
+import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from 'react-router-dom';
+import { Check } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
 import HeaderLanguagePill from './HeaderLanguagePill';
 
 interface LinkWithReplaceProps {
@@ -26,8 +26,8 @@ const HeaderSupportedLanguages = ({
   isSubmitting,
   language,
   replace,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   return (
     <>
       {supportedLanguages.map(supportedLanguage =>
@@ -65,4 +65,4 @@ interface Props {
   replace?: boolean;
 }
 
-export default injectT(HeaderSupportedLanguages);
+export default HeaderSupportedLanguages;

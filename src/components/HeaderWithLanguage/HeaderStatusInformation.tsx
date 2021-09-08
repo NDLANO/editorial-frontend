@@ -4,9 +4,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
@@ -14,6 +14,9 @@ import Tooltip from '@ndla/tooltip';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
+import { Learningpath } from '../../interfaces';
+import { MultiSearchSummary } from '../../modules/search/searchApiInterfaces';
+import { SearchConceptType } from '../../modules/concept/conceptApiInterfaces';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -28,6 +31,18 @@ const StyledStatusWrapper = styled.div`
   white-space: nowrap;
 `;
 
+interface Props {
+  noStatus: boolean;
+  statusText: string;
+  isNewLanguage: boolean;
+  published: boolean;
+  taxonomyPaths: string[];
+  indentLeft: boolean;
+  fontSize: number;
+  type: string;
+  id: number;
+}
+
 const HeaderStatusInformation = ({
   noStatus,
   statusText,
@@ -36,10 +51,14 @@ const HeaderStatusInformation = ({
   taxonomyPaths,
   indentLeft,
   fontSize,
-  t,
   type,
   id,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
+  const [learningpaths, setLearningpaths] = useState<Learningpath[]>([]);
+  const [articles, setArticles] = useState<MultiSearchSummary[]>([]);
+  const [concepts, setConcepts] = useState<SearchConceptType[]>([]);
+
   const StyledStatus = styled.p`
     ${fonts.sizes(fontSize || 18, 1.1)};
     font-weight: ${fonts.weight.semibold};
@@ -71,7 +90,7 @@ const HeaderStatusInformation = ({
     box-shadow: inset 0 0;
   `;
 
-  const multipleTaxonomyIcon = (taxonomyPaths?.length ?? 0) > 2 && (
+  const multipleTaxonomyIcon = taxonomyPaths?.length > 2 && (
     <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
       <StyledWarnIcon title={t('form.taxonomySection')} />
     </Tooltip>
@@ -90,34 +109,55 @@ const HeaderStatusInformation = ({
   );
 
   const learningpathConnections = (type === 'standard' || type === 'topic-article') && (
-    <LearningpathConnection id={id} />
+    <LearningpathConnection
+      id={id}
+      learningpaths={learningpaths}
+      setLearningpaths={setLearningpaths}
+    />
   );
 
-  const imageConnections = type === 'image' && <EmbedConnection id={id} type="image" />;
+  const imageConnections = type === 'image' && (
+    <EmbedConnection
+      id={id}
+      type="image"
+      articles={articles}
+      setArticles={setArticles}
+      concepts={concepts}
+      setConcepts={setConcepts}
+    />
+  );
   const audioConnections = (type === 'audio' || type === 'podcast') && (
-    <EmbedConnection id={id} type="audio" />
+    <EmbedConnection id={id} type="audio" articles={articles} setArticles={setArticles} />
+  );
+  const conceptConnecions = type === 'concept' && (
+    <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
   );
 
   const splitter = !indentLeft && <StyledSplitter />;
 
+  const StatusIcons = (
+    <>
+      {(type === 'standard' || type === 'topic-article') && splitter}
+      {conceptConnecions}
+      {learningpathConnections}
+      {learningpaths.length + articles.length > 0 && splitter}
+      {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
+      {multipleTaxonomyIcon}
+      {imageConnections}
+    </>
+  );
+
   if (noStatus && isNewLanguage) {
     return (
       <StyledStatusWrapper>
-        {splitter}
-        {published && ((taxonomyPaths?.length ?? -1) > 0 ? publishedIconLink : publishedIcon)}
-        {multipleTaxonomyIcon}
-        {learningpathConnections}
-        {imageConnections}
+        {StatusIcons}
         <StyledStatus>{t('form.status.new_language')}</StyledStatus>
       </StyledStatusWrapper>
     );
   } else if (!noStatus) {
     return (
       <StyledStatusWrapper>
-        {splitter}
-        {published && ((taxonomyPaths?.length ?? -1) > 0 ? publishedIconLink : publishedIcon)}
-        {multipleTaxonomyIcon}
-        {learningpathConnections}
+        {StatusIcons}
         <StyledStatus>
           <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
           {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
@@ -132,16 +172,4 @@ const HeaderStatusInformation = ({
   return null;
 };
 
-interface Props {
-  noStatus: boolean;
-  statusText?: string;
-  isNewLanguage: boolean;
-  published?: boolean;
-  taxonomyPaths?: string[];
-  indentLeft?: boolean;
-  fontSize: number;
-  type: string;
-  id: number;
-}
-
-export default injectT(HeaderStatusInformation);
+export default HeaderStatusInformation;

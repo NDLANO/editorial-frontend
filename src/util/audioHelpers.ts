@@ -6,6 +6,7 @@
  *
  */
 
+import _ from 'lodash';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
 import {
   AudioApiType,
@@ -18,6 +19,10 @@ export const transformAudio = (
   audio: AudioApiType,
   language: string,
 ): FlattenedAudioApiType | undefined => {
+  if (_.isEmpty(audio)) {
+    return undefined;
+  }
+
   const audioLanguage =
     audio && audio.supportedLanguages && audio.supportedLanguages.includes(language)
       ? language
@@ -27,20 +32,22 @@ export const transformAudio = (
   const manuscript = convertFieldWithFallback<'manuscript'>(audio, 'manuscript', '', audioLanguage);
   const tags = convertFieldWithFallback<'tags', string[]>(audio, 'tags', [], audioLanguage);
 
-  return audio
-    ? {
-        ...audio,
-        title,
-        manuscript,
-        tags,
-      }
-    : undefined;
+  return {
+    ...audio,
+    title,
+    manuscript,
+    tags: Array.from(new Set(tags)),
+  };
 };
 
 export const transformSeries = (
   series: PodcastSeriesApiType,
   language: string,
-): FlattenedPodcastSeries => {
+): FlattenedPodcastSeries | undefined => {
+  if (_.isEmpty(series)) {
+    return undefined;
+  }
+
   const seriesLanguage = series.supportedLanguages.includes(language) ? language : undefined;
   const title = convertFieldWithFallback<'title'>(series, 'title', '', seriesLanguage);
   const description = convertFieldWithFallback<'description'>(

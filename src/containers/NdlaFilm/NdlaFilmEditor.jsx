@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { OneColumn } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { fetchFilmFrontpage } from '../../modules/frontpage/frontpageApi';
 import { searchResources } from '../../modules/search/searchApi';
@@ -165,4 +165,4 @@ NdlaFilmEditor.propTypes = {
   selectedLanguage: PropTypes.string,
 };
 
-export default injectT(NdlaFilmEditor);
+export default withTranslation()(NdlaFilmEditor);

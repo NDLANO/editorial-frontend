@@ -55,13 +55,13 @@ interface ApiTypeValues {
   };
 }
 
-// interface SearchResultBase<SearchResult> {
-//   totalCount: number;
-//   page?: number;
-//   pageSize?: number;
-//   language?: string;
-//   results: SearchResult[];
-// }
+interface ItemValues<ApiType> {
+  title?: { title: string; language: string } | string;
+  metaDescription?: { metaDescription: string; language: string } | string;
+  image?: string;
+  alt?: string;
+  originalItem: ApiType;
+}
 
 export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   children,
@@ -85,8 +85,8 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   onBlur,
   removeItem,
 }: Props<ApiType>) => {
-  const [items, setItems] = useState<ApiType[]>([]);
-  const [selectedItem, setSelectedItem] = useState<ApiType | null>(null);
+  const [items, setItems] = useState<ItemValues<ApiType>[]>([]);
+  const [selectedItem, setSelectedItem] = useState<ItemValues<ApiType> | null>(null);
   const [page, setPage] = useState<number>(1);
   const [inputValue, setInputValue] = useState<string>('');
   const [currentDebounce, setCurrentDebounce] = useState<{ cancel: Function }>();
@@ -102,19 +102,17 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
     async (query: string = '', page: number) => {
       setLoading(true);
       const apiOutput = await apiAction(query, showPagination ? page : undefined);
-      const items = (Array.isArray(apiOutput) ? apiOutput : apiOutput.results) || [];
+      // const apiItems = (Array.isArray(apiOutput) ? apiOutput : apiOutput.results) || [];
       setTotalCount(apiOutput.totalCount ?? 1);
-      setItems(
-        items
-          ? items.map((item: ApiType) => ({
-              ...item,
-              title: convertFieldWithFallback(item, 'title', ''),
-              description: convertFieldWithFallback<'metaDescription'>(item, 'metaDescription', ''),
-              image: item.metaImage && `${item.metaImage.url}?width=60`,
-              alt: item.metaImage && item.metaImage.alt,
-            }))
-          : [],
-      );
+      const transformedItems: ItemValues<ApiType>[] = apiOutput.results.map(item => ({
+        ...item,
+        title: convertFieldWithFallback<'title'>(item, 'title', ''),
+        description: convertFieldWithFallback<'metaDescription'>(item, 'metaDescription', ''),
+        image: item.metaImage && `${item.metaImage.url}?width=60`,
+        alt: item.metaImage?.alt,
+        originalItem: item,
+      }));
+      setItems(transformedItems);
       setLoading(false);
       setKeepOpen(keepOpen || !!query);
     },
@@ -138,10 +136,10 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
     setPage(page.page);
   };
 
-  const handleChange = (selectedItem: ApiType) => {
+  const handleChange = (selectedItem: ItemValues<ApiType>) => {
     setSelectedItem(selectedItem);
     setInputValue(labelField ? itemToString(selectedItem, labelField) : selectedItem.title);
-    onChange(selectedItem);
+    onChange(selectedItem.originalItem);
 
     if (children || clearInputField) {
       setInputValue('');

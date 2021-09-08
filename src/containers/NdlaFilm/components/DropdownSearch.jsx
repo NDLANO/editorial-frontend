@@ -30,10 +30,11 @@ const DropdownSearch = ({
       'context-types': contextTypes,
     };
     const response = await searchResources(query);
-    return response.results.map(result => ({
+    const results = response.results.map(result => ({
       ...result,
       title: result.title ? result.title.title : '',
     }));
+    return {...response, results};
   };
 
   return (

@@ -70,7 +70,7 @@ const AddArticleModal = ({ locale, toggleAddModal, refreshTopics, currentTopic }
           idField="id"
           labelField="title.title"
           placeholder={t('form.content.relatedArticle.placeholder')}
-          apiAction={(input, page) => onArticleSearch(input)}
+          apiAction={(input, _) => onArticleSearch(input)}
           onChange={onSelect}
           startOpen
         />

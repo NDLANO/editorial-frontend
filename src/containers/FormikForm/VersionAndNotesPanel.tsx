@@ -7,7 +7,6 @@
  */
 
 import React, { useEffect, useState, Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { spacing, colors } from '@ndla/core';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
@@ -21,42 +20,55 @@ import { VersionLogTag, VersionHistory } from '@ndla/editor';
 
 import FormikField from '../../components/FormikField';
 import * as draftApi from '../../modules/draft/draftApi';
-import { ArticleShape } from '../../shapes';
 import handleError from '../../util/handleError';
 import AddNotesField from './AddNotesField';
 import formatDate from '../../util/formatDate';
-import { fetchAuth0UsersFromUserIds } from '../../modules/auth0/auth0Api';
+import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/auth0Api';
 import { transformArticleFromApiVersion } from '../../util/articleUtil';
 import VersionActionbuttons from './VersionActionButtons';
 import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
+import { ConvertedDraftType, Note } from '../../interfaces';
+import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
+import { ArticleFormikType } from './articleFormHooks';
+import { NewReduxMessage } from '../Messages/messagesSelectors';
 
 const paddingPanelStyleInside = css`
   background: ${colors.brand.greyLightest};
   padding: 0 ${spacing.normal};
 `;
 
-const getUser = (userId, allUsers) => {
-  const user = allUsers.find(user => user.id === userId) || {};
-  return user.name || '';
+const getUser = (userId: string, allUsers: SimpleUserType[]) => {
+  const user = allUsers.find(user => user.id === userId);
+  return user?.name || '';
 };
 
+interface Props {
+  articleId: number;
+  article: Partial<ConvertedDraftType>;
+  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
+  setValues(values: ArticleFormikType, shouldValidate?: boolean): void;
+  createMessage: (message: NewReduxMessage) => void;
+  getArticle: (preview: boolean) => UpdatedDraftApiType;
+}
+
 const VersionAndNotesPanel = ({
+  articleId,
   article,
   getInitialValues,
   setValues,
   createMessage,
   getArticle,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
-  const [versions, setVersions] = useState([]);
+  const [versions, setVersions] = useState<DraftApiType[]>([]);
   const [loading, setLoading] = useState(false);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<SimpleUserType[]>([]);
   useEffect(() => {
     const getVersions = async () => {
       try {
         setLoading(true);
-        const versions = await draftApi.fetchDraftHistory(article.id, article.language);
+        const versions = await draftApi.fetchDraftHistory(articleId, article.language);
         setVersions(versions);
         setLoading(false);
       } catch (e) {
@@ -65,32 +77,44 @@ const VersionAndNotesPanel = ({
       }
     };
     getVersions();
-  }, [article]);
+  }, [articleId, article]);
 
   useEffect(() => {
     if (versions.length) {
-      const notes = versions.reduce((acc, v) => [...acc, ...v.notes], []);
+      const notes = versions.reduce((acc: Note[], v) => [...acc, ...v.notes], []);
       const userIds = notes.map(note => note.user).filter(user => user !== 'System');
       fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
   }, [versions]);
 
-  const cleanupNotes = notes =>
-    notes.map(note => ({
+  const cleanupNotes = (notes: Note[]) =>
+    notes.map((note, idx) => ({
       ...note,
+      id: idx,
       author: getUser(note.user, users),
       date: formatDate(note.timestamp),
       status: t(`form.status.${note.status.current.toLowerCase()}`),
     }));
 
-  const resetVersion = async (version, language, showFromArticleApi) => {
+  const resetVersion = async (
+    version: DraftApiType,
+    language: string | undefined,
+    showFromArticleApi: boolean,
+  ) => {
     try {
-      let article = version;
+      let newArticle: DraftApiType = version;
       if (showFromArticleApi) {
-        article = await articleApi.getArticle(article.id, article.language);
+        const articleApiArticle = await articleApi.getArticle(articleId, language);
+        newArticle = {
+          ...articleApiArticle,
+          notes: [],
+          editorLabels: [],
+          relatedContent: [],
+          status: { current: 'PUBLISHED', other: [] },
+        };
       }
       const newValues = getInitialValues(
-        transformArticleFromApiVersion({ ...article, status: version.status }, language),
+        await transformArticleFromApiVersion({ ...newArticle, status: version.status }, language),
       );
 
       setValues(newValues);
@@ -119,7 +143,13 @@ const VersionAndNotesPanel = ({
         )}
       </FormikField>
       <Accordion openIndexes={[0]} tiny>
-        {({ getPanelProps, getBarProps }) => (
+        {({
+          getPanelProps,
+          getBarProps,
+        }: {
+          getPanelProps: (index: number) => object;
+          getBarProps: (index: number) => object;
+        }) => (
           <AccordionWrapper>
             {versions.map((version, index) => {
               const {
@@ -165,28 +195,6 @@ const VersionAndNotesPanel = ({
       </Accordion>
     </>
   );
-};
-
-VersionAndNotesPanel.propTypes = {
-  articleStatus: PropTypes.shape({
-    current: PropTypes.string,
-    other: PropTypes.arrayOf(PropTypes.string),
-  }),
-  createMessage: PropTypes.func.isRequired,
-  getArticle: PropTypes.func.isRequired,
-  article: ArticleShape,
-  formIsDirty: PropTypes.bool,
-  history: PropTypes.object,
-  getInitialValues: PropTypes.func,
-  setValues: PropTypes.func,
-};
-
-VersionAndNotesPanel.defaultProps = {
-  articleStatus: {
-    current: '',
-    other: [],
-  },
-  article: {},
 };
 
 export default VersionAndNotesPanel;

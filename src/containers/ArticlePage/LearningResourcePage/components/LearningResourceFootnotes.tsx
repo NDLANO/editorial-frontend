@@ -7,18 +7,31 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { uuid } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
-import { FootnoteShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'footnotes',
   prefix: 'c-',
 });
 
-const Footnote = ({ footnote, id }) => {
+export interface FootnoteType {
+  title: string;
+  year: string;
+  resource: string;
+  authors: string[];
+  edition: string;
+  publisher: string;
+  type?: string;
+}
+
+interface FootnoteProps {
+  footnote: FootnoteType;
+  id: string;
+}
+
+const Footnote = ({ footnote, id }: FootnoteProps) => {
   const { t } = useTranslation();
   const authors = footnote.authors.join(' ');
   const editonLabel = t('learningResourceForm.fields.footnotes.edition');
@@ -31,28 +44,21 @@ const Footnote = ({ footnote, id }) => {
   );
 };
 
-Footnote.propTypes = {
-  id: PropTypes.string.isRequired,
-  footnote: FootnoteShape.isRequired,
-  editionTitle: PropTypes.string,
-  publisherTitle: PropTypes.string,
-};
+interface LearningResourceFootnotesProps {
+  footnotes: FootnoteType[];
+}
 
-const LearningResourceFootnotes = ({ footnotes, t }) => {
+const LearningResourceFootnotes = ({ footnotes }: LearningResourceFootnotesProps) => {
   if (footnotes.length > 0) {
     return (
       <ol {...classes()}>
         {footnotes.map((footnote, i) => (
-          <Footnote key={uuid()} id={`${i + 1}`} t={t} footnote={footnote} />
+          <Footnote key={uuid()} id={`${i + 1}`} footnote={footnote} />
         ))}
       </ol>
     );
   }
   return null;
-};
-
-LearningResourceFootnotes.propTypes = {
-  footnotes: PropTypes.arrayOf(FootnoteShape),
 };
 
 export default LearningResourceFootnotes;

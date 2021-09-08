@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { Search } from '@ndla/icons/common';

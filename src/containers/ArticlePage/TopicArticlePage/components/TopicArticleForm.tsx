@@ -6,11 +6,12 @@
  *
  */
 
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Action, ActionFunction1 } from 'redux-actions';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -18,7 +19,6 @@ import {
   plainTextToEditorValue,
 } from '../../../../util/articleContentConverter';
 import { parseEmbedTag, createEmbedTag } from '../../../../util/embedTagHelpers';
-import { LicensesArrayOf, ArticleShape } from '../../../../shapes';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
@@ -33,13 +33,21 @@ import validateFormik from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import { useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
+import { ArticleFormikType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
+import { ConvertedDraftType, License, LocaleType } from '../../../../interfaces';
+import {
+  DraftStatus,
+  DraftStatusTypes,
+  UpdatedDraftApiType,
+} from '../../../../modules/draft/draftApiInterfaces';
+import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
+import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
 
-export const getInitialValues = (article = {}) => {
+export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
   const visualElement = parseEmbedTag(article.visualElement);
-  const metaImageId = parseImageUrl(article.metaImage);
+  const metaImageId: string = parseImageUrl(article.metaImage);
   return {
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     articleType: 'topic-article',
@@ -57,13 +65,13 @@ export const getInitialValues = (article = {}) => {
     published: article.published,
     revision: article.revision,
     rightsholders: parseCopyrightContributors(article, 'rightsholders'),
-    status: article.status || {},
+    status: article.status,
     supportedLanguages: article.supportedLanguages || [],
     tags: article.tags || [],
     slatetitle: plainTextToEditorValue(article.title, true),
     updated: article.updated,
     updatePublished: false,
-    visualElementObject: visualElement || {},
+    visualElementObject: visualElement,
     grepCodes: article.grepCodes || [],
     conceptIds: article.conceptIds || [],
     availability: article.availability || 'everyone',
@@ -71,7 +79,11 @@ export const getInitialValues = (article = {}) => {
   };
 };
 
-const getPublishedDate = (values, initialValues, preview = false) => {
+const getPublishedDate = (
+  values: ArticleFormikType,
+  initialValues: ArticleFormikType,
+  preview: boolean = false,
+) => {
   if (isEmpty(values.published)) {
     return undefined;
   }
@@ -86,80 +98,124 @@ const getPublishedDate = (values, initialValues, preview = false) => {
   return undefined;
 };
 
-// TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
-const getArticleFromSlate = ({ values, initialValues, licenses, preview = false }) => {
-  const emptyField = values.id ? '' : undefined;
-  const visualElement = createEmbedTag(
-    isEmpty(values.visualElementObject) ? {} : values.visualElementObject,
-  );
-  const content = topicArticleContentToHTML(values.content);
-  const metaImage = values?.metaImageId
-    ? {
-        id: values.metaImageId,
-        alt: values.metaImageAlt,
-      }
-    : nullOrUndefined(values?.metaImageId);
+interface Props extends RouteComponentProps {
+  article: Partial<ConvertedDraftType>;
+  revision?: number;
+  updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
+  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
+  articleStatus?: DraftStatus;
+  articleChanged: boolean;
+  updateArticleAndStatus?: (input: {
+    updatedArticle: UpdatedDraftApiType;
+    newStatus: DraftStatusTypes;
+    dirty: boolean;
+  }) => Promise<ConvertedDraftType>;
+  userAccess: string | undefined;
+  translating: boolean;
+  translateToNN?: Function;
+  licenses: License[];
+  isNewlyCreated: boolean;
+}
 
-  const article = {
-    articleType: 'topic-article',
-    content: content || emptyField,
-    copyright: {
-      license: licenses.find(license => license.license === values.license),
-      creators: values.creators,
-      processors: values.processors,
-      rightsholders: values.rightsholders,
-      agreementId: values.agreementId,
-    },
-    id: values.id,
-    introduction: editorValueToPlainText(values.introduction),
-    metaDescription: editorValueToPlainText(values.metaDescription),
-    language: values.language,
-    metaImage,
-    notes: values.notes || [],
-    published: getPublishedDate(values, initialValues, preview),
-    supportedLanguages: values.supportedLanguages,
-    tags: values.tags,
-    title: editorValueToPlainText(values.slatetitle),
-    visualElement: visualElement,
-    grepCodes: values.grepCodes,
-    conceptIds: values.conceptIds,
-    availability: values.availability,
-    relatedContent: values.relatedContent,
-  };
-
-  return article;
-};
-
-const TopicArticleForm = props => {
-  const {
-    savedToServer,
-    formikRef,
-    initialValues,
-    setResetModal,
-    setSaveAsNewVersion,
-    handleSubmit,
-    fetchStatusStateMachine,
-    validateDraft,
-    fetchSearchTags,
-  } = useArticleFormHooks({ getInitialValues, getArticleFromSlate, ...props });
-  const [translateOnContinue, setTranslateOnContinue] = useState(false);
-  const { t } = useTranslation();
-
+const TopicArticleForm = (props: Props) => {
   const {
     article,
     updateArticle,
+    updateArticleAndStatus,
     articleChanged,
     translating,
     translateToNN,
     licenses,
     isNewlyCreated,
     createMessage,
+    applicationError,
+    articleStatus,
     history,
     userAccess,
-    ...rest
   } = props;
 
-  const FormikChild = formik => {
+  const { t } = useTranslation();
+
+  // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
+  const getArticleFromSlate = useCallback(
+    ({
+      values,
+      initialValues,
+      preview = false,
+    }: {
+      values: ArticleFormikType;
+      initialValues: ArticleFormikType;
+      preview: boolean;
+    }): UpdatedDraftApiType => {
+      const emptyField = values.id ? '' : undefined;
+      const visualElement = createEmbedTag(
+        isEmpty(values.visualElementObject) ? {} : values.visualElementObject,
+      );
+      const content = topicArticleContentToHTML(values.content);
+      const metaImage = values?.metaImageId
+        ? {
+            id: values.metaImageId,
+            alt: values.metaImageAlt ?? '',
+          }
+        : nullOrUndefined(values?.metaImageId);
+
+      return {
+        revision: 0,
+        articleType: 'topic-article',
+        content: content || emptyField,
+        copyright: {
+          license: licenses.find(license => license.license === values.license),
+          creators: values.creators,
+          processors: values.processors,
+          rightsholders: values.rightsholders,
+          agreementId: values.agreementId,
+        },
+        id: values.id,
+        introduction: editorValueToPlainText(values.introduction),
+        metaDescription: editorValueToPlainText(values.metaDescription),
+        language: values.language,
+        metaImage,
+        notes: values.notes || [],
+        published: getPublishedDate(values, initialValues, preview),
+        tags: values.tags,
+        title: editorValueToPlainText(values.slatetitle),
+        visualElement,
+        grepCodes: values.grepCodes ?? [],
+        conceptIds: values.conceptIds?.map(c => c.id) ?? [],
+        availability: values.availability,
+        relatedContent: convertDraftOrRelated(values.relatedContent),
+      };
+    },
+    [licenses],
+  );
+
+  const {
+    savedToServer,
+    formikRef,
+    initialValues,
+    setSaveAsNewVersion,
+    handleSubmit,
+    fetchStatusStateMachine,
+    validateDraft,
+    fetchSearchTags,
+  } = useArticleFormHooks({
+    getInitialValues,
+    article,
+    t,
+    articleStatus,
+    updateArticle,
+    updateArticleAndStatus,
+    licenses,
+    getArticleFromSlate,
+    isNewlyCreated,
+    createMessage,
+    applicationError,
+  });
+
+  const [translateOnContinue, setTranslateOnContinue] = useState(false);
+
+  const FormikChild = (formik: FormikProps<ArticleFormikType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting, setValues } = formik;
 
@@ -170,14 +226,16 @@ const TopicArticleForm = props => {
       changed: articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
-    const getArticle = () => getArticleFromSlate({ values, initialValues, licenses });
+    const getArticle = () => getArticleFromSlate({ values, initialValues, preview: false });
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage
           values={values}
           content={article}
           getEntity={getArticle}
-          editUrl={lang => toEditArticle(values.id, values.articleType, lang)}
+          editUrl={(lang: LocaleType) =>
+            values.id && toEditArticle(values.id, values.articleType, lang)
+          }
           formIsDirty={formIsDirty}
           getInitialValues={getInitialValues}
           setValues={setValues}
@@ -186,7 +244,6 @@ const TopicArticleForm = props => {
           setTranslateOnContinue={setTranslateOnContinue}
           type="topic-article"
           history={history}
-          {...rest}
         />
         {translating ? (
           <Spinner withWrapper />
@@ -199,10 +256,7 @@ const TopicArticleForm = props => {
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            handleSubmit={() => {
-              handleSubmit(values, formik);
-            }}
-            history={history}
+            handleSubmit={async () => handleSubmit(values, formik)}
             userAccess={userAccess}
             createMessage={createMessage}
           />
@@ -212,9 +266,8 @@ const TopicArticleForm = props => {
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
-          showReset={() => setResetModal(true)}
           onSaveClick={saveAsNewVersion => {
-            setSaveAsNewVersion(saveAsNewVersion);
+            setSaveAsNewVersion(saveAsNewVersion ?? false);
             handleSubmit(values, formik);
           }}
           entityStatus={article.status}
@@ -223,7 +276,8 @@ const TopicArticleForm = props => {
           isArticle
           isNewlyCreated={isNewlyCreated}
           createMessage={createMessage}
-          {...rest}
+          isConcept={false}
+          hideSecondaryButton={false}
         />
         <AlertModalWrapper
           isSubmitting={isSubmitting}
@@ -236,11 +290,17 @@ const TopicArticleForm = props => {
     );
   };
 
+  const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [
+    initialValues,
+    t,
+  ]);
+
   return (
     <Formik
       enableReinitialize={translating}
       validateOnMount
       initialValues={initialValues}
+      initialErrors={initialErrors}
       validateOnChange={false}
       innerRef={formikRef}
       onSubmit={handleSubmit}
@@ -250,26 +310,4 @@ const TopicArticleForm = props => {
   );
 };
 
-TopicArticleForm.propTypes = {
-  revision: PropTypes.number,
-  updateArticle: PropTypes.func.isRequired,
-  createMessage: PropTypes.func.isRequired,
-  applicationError: PropTypes.func.isRequired,
-  articleStatus: PropTypes.shape({
-    current: PropTypes.string,
-    other: PropTypes.arrayOf(PropTypes.string),
-  }),
-  articleChanged: PropTypes.bool,
-  updateArticleAndStatus: PropTypes.func,
-  userAccess: PropTypes.string,
-  licenses: LicensesArrayOf,
-  article: ArticleShape,
-  translating: PropTypes.bool,
-  translateToNN: PropTypes.func,
-  isNewlyCreated: PropTypes.bool,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }),
-};
-
-export default TopicArticleForm;
+export default withRouter(TopicArticleForm);

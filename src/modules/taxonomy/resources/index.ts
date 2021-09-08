@@ -83,11 +83,12 @@ export async function getResourceId({
   id,
   language,
 }: {
-  id: string;
+  id: string | number;
   language: string;
 }): Promise<string> {
   let resourceId = '';
-  const resource = await queryResources(id, language);
+  const strId = typeof id === 'number' ? id.toString() : id;
+  const resource = await queryResources(strId, language);
   if (resource.length > 0) {
     if (resource.length > 1)
       throw new Error('More than one resource with this articleId, unable to process taxonomy');

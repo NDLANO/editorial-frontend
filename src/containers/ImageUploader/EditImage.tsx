@@ -98,6 +98,7 @@ class EditImage extends Component<Props> {
       editingArticle,
       closeModal,
       isNewlyCreated,
+      licenses,
       ...rest
     } = this.props;
 
@@ -112,6 +113,7 @@ class EditImage extends Component<Props> {
             }}
             closeModal={closeModal}
             isNewlyCreated={isNewlyCreated}
+            licenses={licenses}
             {...rest}
           />
         )}

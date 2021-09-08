@@ -204,7 +204,7 @@ const phrases = {
       imageQuery: 'Søk på bilder',
       language: 'Velg språk',
       users: 'Velg bruker',
-      modelReleased: 'Velg modelklarering',
+      modelReleased: 'Velg modellklarering',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innholdstype',
       status: 'Velg status',
@@ -220,7 +220,7 @@ const phrases = {
       status: 'Status',
       audioType: 'Lydfiltype',
       license: 'Lisens',
-      modelReleased: 'Modelklarering',
+      modelReleased: 'Modellklarering',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -272,9 +272,9 @@ const phrases = {
   },
   imageSearch: {
     modelReleased: {
-      yes: 'Modelklarert',
-      no: 'Ikke modelklarert',
-      'not-applicable': 'Gjelder ikke',
+      yes: 'Modellklarert',
+      no: 'Ikke modellklarert',
+      'not-applicable': 'Ikke relevant',
       'not-set': 'Ikke valgt',
     },
     placeholder: 'Søk i bilder',
@@ -671,12 +671,12 @@ const phrases = {
       description: 'Hvem er artikkelen ment for:',
     },
     modelReleased: {
-      label: 'Modelklarert',
+      label: 'Modellklarert',
       yes: 'Ja',
       no: 'Nei',
-      'not-applicable': 'Gjelder ikke',
+      'not-applicable': 'Ikke relevant',
       'not-set': 'Ikke valgt',
-      description: 'Om bildet er modelklarert eller ikke:',
+      description: 'Om bildet er modellklarert eller ikke:',
     },
     markdown: {
       button: 'Klikk for å se markdown',
@@ -1036,6 +1036,7 @@ const phrases = {
       type: {
         image: 'bildet',
         audio: 'lydfilen',
+        concept: 'forklaringen',
       },
       sectionTitleArticle: 'Artikler som bruker {{resource}}',
       sectionTitleConcept: 'Forklaringer som bruker {{resource}}',
@@ -1043,6 +1044,7 @@ const phrases = {
       info: {
         image: 'Bruk av bildet i artikler og/eller forklaringer',
         audio: 'Bruk av lydfilen i artikler',
+        concept: 'Bruk av forklaringen i artikler',
       },
       notInUse: 'Fant ingen artikler eller forklaringer som bruker {{resource}}',
       articles: '{{count}} artikkel',

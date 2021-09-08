@@ -8,6 +8,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { FormikHelpers } from 'formik';
+import { Value } from 'slate';
+
+import { WithTranslation } from 'react-i18next';
+import { Action, ActionFunction1 } from 'redux-actions';
 import {
   deleteFile,
   fetchStatusStateMachine,
@@ -18,14 +23,31 @@ import { formatErrorMessage } from '../../util/apiHelpers';
 import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
+import {
+  DraftApiType,
+  DraftStatus,
+  DraftStatusTypes,
+  UpdatedDraftApiType,
+} from '../../modules/draft/draftApiInterfaces';
+import {
+  Author,
+  AvailabilityType,
+  ConvertedDraftType,
+  License,
+  RelatedContent,
+  VisualElement,
+} from '../../interfaces';
+import { ApiConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { NewReduxMessage, ReduxMessageError } from '../Messages/messagesSelectors';
 
-const getFilePathsFromHtml = htmlString => {
+const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
   const fileNodesArr = Array.from(parsed.querySelectorAll('embed[data-resource=file]'));
-  return fileNodesArr.map(e => e.getAttribute('data-path'));
+  const paths = fileNodesArr.map(e => e.getAttribute('data-path'));
+  return paths.filter((x): x is string => x !== null);
 };
 
-const deleteRemovedFiles = async (oldArticleContent, newArticleContent) => {
+const deleteRemovedFiles = async (oldArticleContent: string, newArticleContent: string) => {
   const oldFilePaths = getFilePathsFromHtml(oldArticleContent);
   const newFilePaths = getFilePathsFromHtml(newArticleContent);
 
@@ -33,21 +55,73 @@ const deleteRemovedFiles = async (oldArticleContent, newArticleContent) => {
   return Promise.all(pathsToDelete.map(path => deleteFile(path)));
 };
 
+export interface ArticleFormikType {
+  id?: number;
+  slatetitle?: Value;
+  content?: Value;
+  introduction?: Value;
+  metaDescription?: Value;
+  agreementId?: number;
+  articleType: string;
+  status?: DraftStatus;
+  creators: Author[];
+  processors: Author[];
+  rightsholders: Author[];
+  language?: string;
+  license?: string;
+  metaImageAlt?: string;
+  metaImageId?: string;
+  notes?: string[];
+  origin?: string;
+  published?: string;
+  revision?: number;
+  supportedLanguages: string[];
+  tags: string[];
+  updatePublished: boolean;
+  updated?: string;
+  visualElementObject?: VisualElement;
+  grepCodes?: string[];
+  conceptIds: ApiConceptType[];
+  availability?: AvailabilityType;
+  relatedContent: (DraftApiType | RelatedContent)[];
+}
+
+type HooksInputObject = {
+  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
+  article: Partial<ConvertedDraftType>;
+  t: WithTranslation['t'];
+  articleStatus?: DraftStatus;
+  updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  updateArticleAndStatus?: (input: {
+    updatedArticle: UpdatedDraftApiType;
+    newStatus: DraftStatusTypes;
+    dirty: boolean;
+  }) => Promise<ConvertedDraftType>;
+  licenses?: License[];
+  getArticleFromSlate: (input: {
+    values: ArticleFormikType;
+    initialValues: ArticleFormikType;
+    preview: boolean;
+  }) => UpdatedDraftApiType;
+  isNewlyCreated: boolean;
+  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
+  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
+};
+
 export function useArticleFormHooks({
   getInitialValues,
   article,
   t,
-  createMessage,
   articleStatus,
-  updateArticle,
+  createMessage,
   applicationError,
+  updateArticle,
   updateArticleAndStatus,
-  licenses,
   getArticleFromSlate,
   isNewlyCreated = false,
-}) {
+}: HooksInputObject) {
   const { id, revision, language } = article;
-  const formikRef = useRef(null);
+  const formikRef: any = useRef<any>(null); // TODO: Formik bruker any for denne ref'en men kanskje vi skulle gjort noe kulere?
   const [savedToServer, setSavedToServer] = useState(false);
   const [saveAsNewVersion, setSaveAsNewVersion] = useState(isNewlyCreated);
   const initialValues = getInitialValues(article);
@@ -57,11 +131,19 @@ export function useArticleFormHooks({
     if (formikRef.current) {
       // Instead of using enableReinitialize in Formik, we want to manually control when the
       // form is reset. We do it here when language, id or status is changed
-      formikRef.current.resetForm();
+      formikRef.current?.resetForm();
     }
   }, [language, id]);
 
-  const handleSubmit = async (values, formikHelpers) => {
+  const handleSubmit = async (
+    values: ArticleFormikType,
+    formikHelpers: FormikHelpers<ArticleFormikType>,
+  ): Promise<void> => {
+    if (revision === undefined) {
+      formikHelpers.setSubmitting(false);
+      return;
+    }
+
     formikHelpers.setSubmitting(true);
     const initialStatus = articleStatus ? articleStatus.current : undefined;
     const newStatus = values.status?.current;
@@ -69,15 +151,16 @@ export function useArticleFormHooks({
     const slateArticle = getArticleFromSlate({
       values,
       initialValues,
-      licenses,
+      preview: false,
     });
+
     const newArticle = saveAsNewVersion
       ? { ...slateArticle, createNewVersion: true }
       : slateArticle;
 
     let savedArticle = {};
     try {
-      if (statusChange) {
+      if (statusChange && newStatus && updateArticleAndStatus) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
         const skipSaving =
           newStatus === articleStatuses.UNPUBLISHED ||
@@ -101,9 +184,14 @@ export function useArticleFormHooks({
         });
       }
 
-      if (article.articleType === 'topic-article' && article.title !== newArticle.title) {
+      if (
+        article.articleType === 'topic-article' &&
+        article.title !== newArticle.title &&
+        article.id &&
+        article.language
+      ) {
         // update topic name in taxonomy
-        const topics = await queryTopics(article.id, article.language);
+        const topics = await queryTopics(article.id.toString(), article.language);
         topics.forEach(topic =>
           updateTopic({
             ...topic,
@@ -112,7 +200,7 @@ export function useArticleFormHooks({
         );
       }
 
-      await deleteRemovedFiles(article.content, newArticle.content);
+      await deleteRemovedFiles(article.content ?? '', newArticle.content ?? '');
 
       setSavedToServer(true);
       formikHelpers.resetForm({ values: getInitialValues(savedArticle) });

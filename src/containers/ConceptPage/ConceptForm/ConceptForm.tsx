@@ -38,9 +38,11 @@ import {
 import { License, SearchResult } from '../../../interfaces';
 import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { NewReduxMessage } from '../../Messages/messagesSelectors';
 
 interface Props {
   applicationError: (err: string) => void;
+  createMessage: (message: NewReduxMessage) => void;
   concept: ConceptFormType;
   conceptChanged: boolean;
   fetchConceptTags: (input: string, language: string) => Promise<SearchResult>;
@@ -71,6 +73,7 @@ const ConceptForm = ({
   updateConceptAndStatus,
   onUpdate,
   applicationError,
+  createMessage,
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
@@ -180,6 +183,7 @@ const ConceptForm = ({
               </AccordionSection>
             </Accordions>
             <FormFooter
+              createMessage={createMessage}
               entityStatus={concept.status}
               conceptChanged={conceptChanged}
               inModal={inModal}
@@ -199,6 +203,7 @@ const ConceptForm = ({
 
 const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
+  createMessage: (message: NewReduxMessage) => messageActions.addMessage(message),
 };
 
 export default compose(withRouter, connect(undefined, mapDispatchToProps))(ConceptForm);

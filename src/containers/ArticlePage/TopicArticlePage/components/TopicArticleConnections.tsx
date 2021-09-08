@@ -7,7 +7,6 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 //@ts-ignore
 import { Structure } from '@ndla/editor';
@@ -22,20 +21,18 @@ import { HowToHelper } from '../../../../components/HowTo';
 import StructureFunctionButtons from './StructureFunctionButtons';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
 import { PathArray } from '../../../../util/retrieveBreadCrumbs';
-import { TopicShape, StructureShape } from '../../../../shapes';
-import {
-  ResourceWithTopicConnection,
-  SubjectType,
-} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { LocaleType } from '../../../../interfaces';
+import { StagedTopic } from './TopicArticleTaxonomy';
 
 interface Props {
   structure: SubjectType[];
-  activeTopics: ResourceWithTopicConnection[];
+  activeTopics: StagedTopic[];
   allowMultipleSubjectsOpen?: boolean;
   stageTaxonomyChanges: ({ path }: { path: string }) => void;
-  getSubjectTopics: (subjectId: string, locale: string) => Promise<void>;
+  getSubjectTopics: (subjectId: string, locale: LocaleType) => Promise<void>;
   retrieveBreadCrumbs: (path: string) => PathArray;
-  locale: string;
+  locale: LocaleType;
 }
 
 const StyledTitleModal = styled('h1')`
@@ -181,18 +178,6 @@ const TopicArticleConnections = ({
       </Modal>
     </>
   );
-};
-
-TopicArticleConnections.propTypes = {
-  isOpened: PropTypes.bool,
-  structure: PropTypes.arrayOf<SubjectType>(StructureShape).isRequired,
-  activeTopics: PropTypes.arrayOf<ResourceWithTopicConnection>(TopicShape).isRequired,
-  retrieveBreadCrumbs: PropTypes.func.isRequired,
-  setPrimaryConnection: PropTypes.func,
-  allowMultipleSubjectsOpen: PropTypes.bool,
-  stageTaxonomyChanges: PropTypes.func.isRequired,
-  getSubjectTopics: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default TopicArticleConnections;

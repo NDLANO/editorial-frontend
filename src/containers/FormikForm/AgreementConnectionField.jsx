@@ -20,8 +20,7 @@ import FormikField from '../../components/FormikField';
 
 class AgreementConnectionField extends Component {
   static async searchAgreements(query) {
-    const response = await draftApi.fetchAgreements(query);
-    return response.results;
+    return await draftApi.fetchAgreements(query);
   }
 
   constructor(props) {

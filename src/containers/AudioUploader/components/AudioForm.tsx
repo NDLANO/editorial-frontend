@@ -183,7 +183,7 @@ class AudioForm extends Component<Props, State> {
       actions.setSubmitting(false);
       this.setState({ savedToServer: true });
     } catch (err) {
-      applicationError(err);
+      applicationError(err as any);
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });
     }
@@ -306,7 +306,7 @@ class AudioForm extends Component<Props, State> {
     audioLanguage: PropTypes.string.isRequired,
     isNewlyCreated: PropTypes.bool,
     translating: PropTypes.bool,
-    translateToNN: PropTypes.func.isRequired,
+    translateToNN: PropTypes.func,
   };
 }
 

@@ -4,7 +4,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, fonts, spacing } from '@ndla/core';
@@ -23,7 +22,7 @@ const currentStyle = css`
     opacity: 0.6;
   }
 `;
-const StyledLanguagePill = styled.span<{ disabled: boolean; current: boolean }>`
+const StyledLanguagePill = styled.span<{ disabled: boolean; current: any }>`
   background: ${colors.brand.light};
   color: ${colors.brand.primary};
   box-shadow: none;
@@ -43,28 +42,30 @@ const StyledLanguagePill = styled.span<{ disabled: boolean; current: boolean }>`
   ${props => !props.current && currentStyle}
 `;
 
-const LanguagePill = ({ children, withComponent, isSubmitting = false, ...rest }: Props) => {
+interface Props {
+  children: React.ReactNode[] | React.ReactNode;
+  withComponent?: React.ComponentType<any>;
+  isSubmitting?: boolean;
+  current?: boolean;
+  to?: string;
+}
+
+const LanguagePill = ({
+  children,
+  withComponent,
+  isSubmitting = false,
+  current,
+  ...rest
+}: Props) => {
   const StyledLanguagePillWithComponent =
     withComponent && !isSubmitting
       ? StyledLanguagePill.withComponent(withComponent)
       : StyledLanguagePill;
   return (
-    <StyledLanguagePillWithComponent disabled={isSubmitting} {...rest}>
+    <StyledLanguagePillWithComponent disabled={isSubmitting} current={current} {...rest}>
       {children}
     </StyledLanguagePillWithComponent>
   );
-};
-
-interface Props {
-  children: React.ReactNode[] | React.ReactNode;
-  withComponent?: keyof JSX.IntrinsicElements;
-  isSubmitting?: boolean;
-  current: boolean;
-}
-
-LanguagePill.propTypes = {
-  withComponent: PropTypes.elementType,
-  isSubmitting: PropTypes.bool,
 };
 
 export default LanguagePill;

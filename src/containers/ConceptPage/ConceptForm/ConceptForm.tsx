@@ -116,7 +116,7 @@ const ConceptForm = ({
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
     } catch (err) {
-      applicationError(err);
+      applicationError(err as any);
       formikHelpers.setSubmitting(false);
       setSavedToServer(false);
     }

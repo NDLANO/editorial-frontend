@@ -17,7 +17,7 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
 import { Podcast } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { connect, ConnectedProps } from 'react-redux';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
@@ -103,12 +103,25 @@ export const types: Record<
   },
 };
 
+interface Props extends RouteComponentProps {
+  noStatus: boolean;
+  statusText?: string;
+  published?: boolean;
+  type: string;
+  getEntity?: () => any;
+  isNewLanguage: boolean;
+  title?: string;
+  formIsDirty?: boolean;
+  taxonomyPaths?: string[];
+  id?: number;
+}
+
 const HeaderInformation = ({
   type,
   noStatus,
   id,
   statusText,
-  published,
+  published = false,
   isNewLanguage,
   title,
   formIsDirty,
@@ -120,6 +133,7 @@ const HeaderInformation = ({
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const onSaveAsNew = async () => {
+    if (!getEntity) return;
     try {
       if (formIsDirty) {
         createMessage({
@@ -168,24 +182,10 @@ const HeaderInformation = ({
         taxonomyPaths={taxonomyPaths}
         type={type}
         id={id}
-        fontSize={10} // TODO: Consider changing
       />
     </StyledHeader>
   );
 };
-
-interface Props extends RouteComponentProps {
-  noStatus: boolean;
-  statusText?: string;
-  published?: boolean;
-  type: string;
-  getEntity: Function;
-  isNewLanguage: boolean;
-  title: string;
-  formIsDirty?: boolean;
-  taxonomyPaths?: string[];
-  id: number;
-}
 
 const mapDispatchToProps = {
   createMessage: (message: NewReduxMessage = { timeToLive: 0 }) =>
@@ -195,4 +195,4 @@ const mapDispatchToProps = {
 const reduxConnector = connect(undefined, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-export default reduxConnector(HeaderInformation);
+export default reduxConnector(withRouter(HeaderInformation));

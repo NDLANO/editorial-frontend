@@ -15,7 +15,7 @@ const StyledLink = StyledFilledButton.withComponent(Link);
 interface Props {
   translateToNN: () => void;
   editUrl: (lang: string) => string;
-  setTranslateOnContinue: (translateOnContinue: boolean) => void;
+  setTranslateOnContinue?: (translateOnContinue: boolean) => void;
   formIsDirty: boolean;
 }
 
@@ -29,7 +29,7 @@ const TranslateNbToNn = ({
   return (
     <StyledLink
       to={editUrl('nn')}
-      onClick={() => (formIsDirty ? setTranslateOnContinue(true) : translateToNN())}>
+      onClick={() => (formIsDirty ? setTranslateOnContinue?.(true) : translateToNN())}>
       {t('form.variant.translate')}
     </StyledLink>
   );

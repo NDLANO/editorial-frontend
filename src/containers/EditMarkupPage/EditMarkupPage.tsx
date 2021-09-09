@@ -255,7 +255,7 @@ class EditMarkupPage extends Component<Props & WithTranslation, State> {
             supportedLanguages={draft?.supportedLanguages}
             language={language}
             editUrl={(lang: string) => toEditMarkup(draftId, lang)}
-            id={draftId}
+            id={parseInt(draftId)}
             isSubmitting={isSubmitting}
             replace={true}
           />

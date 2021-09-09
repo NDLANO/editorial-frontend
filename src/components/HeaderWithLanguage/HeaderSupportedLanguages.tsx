@@ -20,6 +20,15 @@ const LinkWithReplace = ({ to, ...rest }: LinkWithReplaceProps) => {
   return <Link to={{ pathname: to, state: history.location.state }} replace {...rest} />;
 };
 
+interface Props {
+  id: number;
+  language: string;
+  editUrl: (url: string) => string;
+  supportedLanguages?: string[];
+  isSubmitting?: boolean;
+  replace?: boolean;
+}
+
 const HeaderSupportedLanguages = ({
   supportedLanguages = [],
   editUrl,
@@ -44,7 +53,6 @@ const HeaderSupportedLanguages = ({
             })}>
             <HeaderLanguagePill
               to={editUrl(supportedLanguage)}
-              //@ts-ignore
               withComponent={replace ? LinkWithReplace : Link}
               isSubmitting={isSubmitting}>
               {t(`language.${supportedLanguage}`)}
@@ -55,14 +63,5 @@ const HeaderSupportedLanguages = ({
     </>
   );
 };
-
-interface Props {
-  id: number;
-  language: string;
-  editUrl: (url: string) => string;
-  supportedLanguages?: string[];
-  isSubmitting: boolean;
-  replace?: boolean;
-}
 
 export default HeaderSupportedLanguages;

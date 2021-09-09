@@ -59,6 +59,8 @@ const ImageSearchAndUploader = ({
     return searchImages({ query, page, 'page-size': 16 });
   };
 
+  const transformedImage = image ? { ...image, id: parseInt(image.id) } : undefined;
+
   return (
     <Tabs
       onSelect={setSelectedTabIndex}
@@ -97,7 +99,7 @@ const ImageSearchAndUploader = ({
           content: licenses ? (
             <ImageForm
               isLoading={image === undefined}
-              image={image || { language: locale }}
+              image={transformedImage ?? { language: locale }}
               onUpdate={updateImage}
               closeModal={closeModal}
               licenses={licenses}

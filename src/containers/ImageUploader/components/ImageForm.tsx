@@ -222,6 +222,9 @@ class ImageForm extends Component<Props & WithTranslation, State> {
 
     if (isLoading) return <Spinner withWrapper />;
 
+    const imageId = image?.id ? parseInt(`${image.id}`) : undefined;
+    const headerContent = image ? { ...image, id: imageId } : {};
+
     return (
       <Formik
         initialValues={initialValues}
@@ -244,7 +247,7 @@ class ImageForm extends Component<Props & WithTranslation, State> {
                 noStatus
                 values={values}
                 type="image"
-                content={image}
+                content={headerContent}
                 editUrl={(lang: string) => {
                   if (values.id) return toEditImage(values.id, lang);
                   else return toCreateImage();

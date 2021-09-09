@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 
 interface PreviewLightBoxProps {
   type: string;
-  getEntity: Function;
+  getEntity: () => any;
   articleType: string;
   supportedLanguages?: string[];
 }
@@ -54,17 +54,17 @@ const PreviewLightBox = ({
 };
 
 interface Props {
-  editUrl: (url: string) => string;
+  editUrl?: (url: string) => string;
   formIsDirty: boolean;
-  getEntity: Function;
+  getEntity?: () => any;
   isNewLanguage: boolean;
-  isSubmitting: boolean;
+  isSubmitting?: boolean;
   noStatus: boolean;
-  setTranslateOnContinue: (translateOnContinue: boolean) => void;
-  translateToNN: () => void;
+  setTranslateOnContinue?: (translateOnContinue: boolean) => void;
+  translateToNN?: () => void;
   type: string;
   values: {
-    articleType: string;
+    articleType?: string;
     id?: number;
     language: string;
     supportedLanguages: string[];
@@ -100,7 +100,7 @@ const HeaderActions = ({
   );
   const translatableTypes = ['audio', 'concept', 'standard', 'topic-article', 'podcast'];
 
-  if (id) {
+  if (id && editUrl) {
     return (
       <>
         <HeaderSupportedLanguages
@@ -117,7 +117,7 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
-        {!noStatus && getEntity && (
+        {!noStatus && getEntity && articleType && (
           <>
             <PreviewLightBox
               type={type}
@@ -131,8 +131,9 @@ const HeaderActions = ({
         <HeaderLanguagePicker emptyLanguages={emptyLanguages} editUrl={editUrl} />
         {translatableTypes.includes(type) &&
           language === 'nb' &&
+          !!translateToNN &&
           !supportedLanguages.includes('nn') && (
-            <Fragment>
+            <>
               <StyledSplitter />
               <TranslateNbToNn
                 translateToNN={translateToNN}
@@ -140,7 +141,7 @@ const HeaderActions = ({
                 formIsDirty={formIsDirty}
                 setTranslateOnContinue={setTranslateOnContinue}
               />
-            </Fragment>
+            </>
           )}
         <DeleteLanguageVersion values={values} type={type} />
       </>

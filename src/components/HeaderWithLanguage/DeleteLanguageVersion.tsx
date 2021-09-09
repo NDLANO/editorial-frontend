@@ -108,12 +108,11 @@ const DeleteLanguageVersion = ({
             break;
           default:
             await deleteLanguageVersion();
-            history.push(toEditArticle(id, articleType, otherSupportedLanguage));
+            history.push(toEditArticle(id, articleType!, otherSupportedLanguage));
             break;
         }
       } catch (error) {
-        //@ts-ignore
-        createMessage(formatErrorMessage(error));
+        createMessage(formatErrorMessage(error as any));
       }
     }
   };
@@ -161,7 +160,7 @@ interface Props extends RouteComponentProps {
     id?: number;
     language: string;
     supportedLanguages: string[];
-    articleType: string;
+    articleType?: string;
   };
   type: string;
 }

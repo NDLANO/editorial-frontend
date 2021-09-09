@@ -206,7 +206,8 @@ export function useArticleFormHooks({
       formikHelpers.resetForm({ values: getInitialValues(savedArticle) });
 
       formikHelpers.setFieldValue('notes', [], false);
-    } catch (err) {
+    } catch (e) {
+      const err = e as any;
       if (err && err.status && err.status === 409) {
         createMessage({
           message: t('alertModal.needToRefresh'),

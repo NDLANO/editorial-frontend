@@ -53,7 +53,6 @@ const SimpleLanguageHeader = ({
 
   return (
     <>
-      {/* @ts-ignore */}
       <HeaderInformation
         type={articleType}
         noStatus

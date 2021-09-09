@@ -36,7 +36,7 @@ import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import { ArticleFormikType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
-import { ConvertedDraftType, License, LocaleType } from '../../../../interfaces';
+import { ConvertedDraftType, License } from '../../../../interfaces';
 import {
   DraftStatus,
   DraftStatusTypes,
@@ -113,7 +113,7 @@ interface Props extends RouteComponentProps {
   }) => Promise<ConvertedDraftType>;
   userAccess: string | undefined;
   translating: boolean;
-  translateToNN?: Function;
+  translateToNN?: () => void;
   licenses: License[];
   isNewlyCreated: boolean;
 }
@@ -131,7 +131,6 @@ const TopicArticleForm = (props: Props) => {
     createMessage,
     applicationError,
     articleStatus,
-    history,
     userAccess,
   } = props;
 
@@ -217,7 +216,7 @@ const TopicArticleForm = (props: Props) => {
 
   const FormikChild = (formik: FormikProps<ArticleFormikType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
-    const { values, dirty, isSubmitting, setValues } = formik;
+    const { values, dirty, isSubmitting } = formik;
 
     const formIsDirty = isFormikFormDirty({
       values,
@@ -227,23 +226,21 @@ const TopicArticleForm = (props: Props) => {
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = () => getArticleFromSlate({ values, initialValues, preview: false });
+    const editUrl = values.id
+      ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
+      : undefined;
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage
           values={values}
           content={article}
           getEntity={getArticle}
-          editUrl={(lang: LocaleType) =>
-            values.id && toEditArticle(values.id, values.articleType, lang)
-          }
+          editUrl={editUrl}
           formIsDirty={formIsDirty}
-          getInitialValues={getInitialValues}
-          setValues={setValues}
           isSubmitting={isSubmitting}
           translateToNN={translateToNN}
           setTranslateOnContinue={setTranslateOnContinue}
           type="topic-article"
-          history={history}
         />
         {translating ? (
           <Spinner withWrapper />

@@ -20,20 +20,55 @@ export const StyledLanguageWrapper = styled.div`
   align-items: center;
 `;
 
-const getTaxonomyPathsFromTaxonomy = (taxonomy: object, articleId: number) => {
+interface Props {
+  content: {
+    current?: object;
+    id?: number;
+    language?: string;
+    status?: {
+      current: string;
+      other: string[];
+    };
+    title?: string;
+    taxonomy?: object;
+    supportedLanguages?: string[];
+  };
+  editUrl?: (url: string) => string;
+  getEntity?: () => any;
+  isSubmitting?: boolean;
+  noStatus?: boolean;
+  setTranslateOnContinue?: (translateOnContinue: boolean) => void;
+  type:
+    | 'image'
+    | 'audio'
+    | 'iframe'
+    | 'topic-article'
+    | 'standard'
+    | 'concept'
+    | 'podcast'
+    | 'podcast-series';
+  translateToNN?: () => void;
+  values: {
+    id?: number;
+    articleType?: string;
+    language?: string;
+    supportedLanguages?: string[];
+  };
+  formIsDirty?: boolean;
+}
+
+const getTaxonomyPathsFromTaxonomy = (taxonomy?: object, articleId?: number): string[] => {
   const taxonomyObjects = Object.values(taxonomy || {});
-  const flattenedObjects = [].concat.apply([], taxonomyObjects);
-  //@ts-ignore
+  const flattenedObjects: any[] = [].concat.apply([], taxonomyObjects);
   const nestedTaxonomyPaths = flattenedObjects.map(rt => rt?.paths);
-  const flattenedPaths = [].concat.apply([], nestedTaxonomyPaths);
-  //@ts-ignore
+  const flattenedPaths: string[] = [].concat.apply([], nestedTaxonomyPaths);
   return flattenedPaths.concat(`/article/${articleId}`);
 };
 
 const HeaderWithLanguage = ({
   content,
   isSubmitting,
-  noStatus,
+  noStatus = false,
   setTranslateOnContinue,
   translateToNN,
   type,
@@ -41,21 +76,25 @@ const HeaderWithLanguage = ({
   formIsDirty = false,
   ...rest
 }: Props) => {
-  const { t } = useTranslation();
-  const { supportedLanguages, articleType } = values;
-  const { id, title, status, language } = content;
+  const { t, i18n } = useTranslation();
+  const { articleType } = values;
+  const { id, title, status } = content;
+
+  const language = content.language ?? i18n.language;
+  const supportedLanguages = values.supportedLanguages ?? [language];
 
   const isNewLanguage = !!id && !supportedLanguages.includes(language);
   const statusText = status?.current ? t(`form.status.${status.current.toLowerCase()}`) : '';
   const published = status?.current === 'PUBLISHED' || status?.other?.includes('PUBLISHED');
-  const multiType = articleType ? articleType : type;
+  const multiType = articleType ?? type;
   const isArticle = multiType === 'standard' || multiType === 'topic-article';
 
   const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(content?.taxonomy, id) : [];
 
+  const safeValues = { ...values, language, supportedLanguages };
+
   return (
     <header>
-      {/* @ts-ignore */}
       <HeaderInformation
         type={multiType}
         noStatus={noStatus}
@@ -69,7 +108,7 @@ const HeaderWithLanguage = ({
       />
       <StyledLanguageWrapper>
         <HeaderActions
-          values={values}
+          values={safeValues}
           noStatus={noStatus}
           isNewLanguage={isNewLanguage}
           type={multiType}
@@ -83,41 +122,5 @@ const HeaderWithLanguage = ({
     </header>
   );
 };
-
-interface Props {
-  content: {
-    current: object;
-    id: number;
-    language: string;
-    status: {
-      current: string;
-      other: string[];
-    };
-    title: string;
-    taxonomy: object;
-  };
-  editUrl: (url: string) => string;
-  getEntity: Function;
-  isSubmitting: boolean;
-  noStatus: boolean;
-  setTranslateOnContinue: (translateOnContinue: boolean) => void;
-  type:
-    | 'image'
-    | 'audio'
-    | 'iframe'
-    | 'topic-article'
-    | 'standard'
-    | 'concept'
-    | 'podcast'
-    | 'podcast-series';
-  translateToNN: () => void;
-  values: {
-    id?: number;
-    articleType: string;
-    language: string;
-    supportedLanguages: string[];
-  };
-  formIsDirty?: boolean;
-}
 
 export default HeaderWithLanguage;

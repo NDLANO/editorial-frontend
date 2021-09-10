@@ -10,7 +10,7 @@ import React, { Component, Fragment } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { FormikContextType, FormikHelpers } from 'formik';
+import { FormikContextType } from 'formik';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
@@ -95,10 +95,7 @@ type Props = {
   userAccess?: string;
   handleBlur: (evt: { target: { name: string } }) => void;
   values: ArticleFormikType;
-  handleSubmit: (
-    values: ArticleFormikType,
-    formikHelpers: FormikHelpers<ArticleFormikType>,
-  ) => Promise<void>;
+  handleSubmit: () => Promise<void>;
 } & WithTranslation & { formik: FormikContextType<ArticleFormikType> };
 
 interface State {
@@ -184,7 +181,7 @@ class LearningResourceContent extends Component<Props, State> {
     return (
       <Fragment>
         <TitleField
-          handleSubmit={() => handleSubmit(this.props.values, this.props.formik)}
+          handleSubmit={handleSubmit}
           onBlur={(event, editor, next) => {
             next();
             // this is a hack since formik onBlur-handler interferes with slates

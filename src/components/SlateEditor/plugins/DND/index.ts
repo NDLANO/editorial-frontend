@@ -10,6 +10,7 @@ import { DragEventHandler } from 'react';
 import { Editor, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import onDrop from './onDrop';
+import { getTopNode } from './utils';
 
 const onDragOver = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
   event.preventDefault();
@@ -20,8 +21,9 @@ const onDragStart = (editor: Editor): DragEventHandler<HTMLDivElement> => event 
 
   const node = ReactEditor.toSlateNode(editor, event.target as globalThis.Node);
   const path = ReactEditor.findPath(editor, node);
-  if (Element.isElement(node)) {
-    event.dataTransfer.setData('application/slate-node-path', JSON.stringify(path));
+  const topNode = getTopNode(editor, path);
+  if (topNode && Element.isElement(topNode[0])) {
+    event.dataTransfer.setData('application/slate-node-path', JSON.stringify(topNode[1]));
   }
 };
 

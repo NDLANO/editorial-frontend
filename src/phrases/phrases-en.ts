@@ -142,6 +142,10 @@ const phrases = {
       notes: 'Search hits from version log',
       previousVersionsNotes: 'Search hits from version log',
     },
+    save: {
+      alreadyExist: 'Search has already been saved.',
+      other: 'Save failed.',
+    },
   },
   articleType: {
     'topic-article': 'Topic',
@@ -510,6 +514,7 @@ const phrases = {
     saveDraft: 'Save draft',
     saveTax: 'Save taxonomy',
     saving: 'Saving...',
+    saveSearch: 'Lagre søk',
     choose: 'Choose',
     saved: 'Saved ',
     feil: 'There are still errors.',
@@ -1023,6 +1028,7 @@ const phrases = {
       type: {
         image: 'image',
         audio: 'audio file',
+        concept: 'concept',
       },
       sectionTitleArticle: 'Articles containing the {{resource}}',
       sectionTitleConcept: 'Concepts containing the {{resource}}',
@@ -1030,6 +1036,7 @@ const phrases = {
       info: {
         image: 'Uses of the image in articles and/or concepts',
         audio: 'Uses of the audio file in articles',
+        concept: 'Uses of the concept in articles',
       },
       notInUse: 'No uses of the {{resource}} in articles and/or concepts were found',
       articles: '1 article',

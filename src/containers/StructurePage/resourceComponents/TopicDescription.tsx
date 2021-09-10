@@ -7,10 +7,11 @@ import { ButtonAppearance } from '../../../components/Accordion/types';
 import { SubjectTopic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 import { updateRelevanceId } from '../../../util/taxonomyHelpers';
+import { LocaleType } from '../../../interfaces';
 
 interface Props {
   topicDescription?: string;
-  locale: string;
+  locale: LocaleType;
   refreshTopics: () => Promise<void>;
   currentTopic: SubjectTopic;
   status?: DraftStatus;

@@ -20,6 +20,7 @@ import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TopicResource } from './StructureResources';
 import { StructureRouteParams } from '../StructureContainer';
+import { LocaleType } from '../../../interfaces';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -36,7 +37,7 @@ interface Props {
   };
   params: StructureRouteParams;
   refreshResources: () => Promise<void>;
-  locale: string;
+  locale: LocaleType;
 }
 const ResourceGroup = ({
   resourceType,

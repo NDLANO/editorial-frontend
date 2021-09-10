@@ -35,7 +35,7 @@ export const isNDLAFrontendUrl = (url: string) =>
   /^https:\/(.*).ndla.no\/(article|subjects|nb|nn|en)?\/?(node|\d*)(\/|\d*)/.test(url);
 
 export const isNDLAEdSearchUrl = (url: string) =>
-  /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no\/search\//.test(url);
+  /(https?:\/\/)?(www\.)?ed(.*)?\.ndla\.no(\/(en|nb|nn))?\/search\//.test(url);
 
 export const isBrightcoveUrl = (url: string) =>
   /https:\/\/players\.brightcove\.net\/[A-Za-z0-9]+\/[A-Za-z0-9]+_default\/index\.html\?videoId=[A-Za-z0-9]+/.test(

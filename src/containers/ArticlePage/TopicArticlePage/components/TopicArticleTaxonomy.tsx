@@ -7,8 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
@@ -30,12 +29,59 @@ import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
 
-import { ArticleShape } from '../../../../shapes';
 import { FormikFieldHelp } from '../../../../components/FormikField';
+import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
+import {
+  ResourceType,
+  SubjectTopic,
+  SubjectType,
+  TaxonomyElement,
+  TaxonomyMetadata,
+  Topic,
+  TopicConnections,
+} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 
-class TopicArticleTaxonomy extends Component {
-  constructor() {
-    super();
+type Props = {
+  articleId: number;
+  article: Partial<ConvertedDraftType>;
+  setIsOpen?: (open: boolean) => void;
+  locale: LocaleType;
+  updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  userAccess?: string;
+} & WithTranslation;
+
+interface StructureSubject extends SubjectType {
+  topics?: SubjectTopic[];
+}
+
+export interface StagedTopic extends TaxonomyElement {
+  id: string;
+  name: string;
+  path: string;
+  paths?: string[];
+  topicConnections?: TopicConnections[];
+  primary?: boolean;
+  relevanceId?: string;
+  isPrimary?: boolean;
+  metadata: TaxonomyMetadata;
+}
+
+interface State {
+  structure: StructureSubject[];
+  status: string;
+  isDirty: boolean;
+  stagedTopicChanges: StagedTopic[];
+  taxonomyChoices: {
+    allTopics: SubjectTopic[] | Topic[];
+    availableResourceTypes?: ResourceType[];
+  };
+  showWarning: boolean;
+}
+
+class TopicArticleTaxonomy extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
     this.state = {
       structure: [],
       status: 'loading',
@@ -52,22 +98,22 @@ class TopicArticleTaxonomy extends Component {
     this.fetchTaxonomy();
   }
 
-  componentDidUpdate({ article: { id: prevId } }, prevState) {
+  componentDidUpdate({ article: { id: prevId } }: Props, prevState: State) {
     // We need to refresh taxonomy for when an article URL has been pasted and a new article is showing
     if (prevId !== this.props.article.id) {
       this.fetchTaxonomy();
     }
   }
 
-  getSubjectTopics = async (subjectId, locale) => {
+  getSubjectTopics = async (subjectId: string, locale: LocaleType) => {
     if (this.state.structure.some(subject => subject.id === subjectId && subject.topics)) {
       return;
     }
     try {
-      this.updateSubject(subjectId, { loading: true });
+      this.updateSubject(subjectId);
       const allTopics = await fetchSubjectTopics(subjectId, locale);
       const groupedTopics = groupTopics(allTopics);
-      this.updateSubject(subjectId, { loading: false, topics: groupedTopics });
+      this.updateSubject(subjectId, { topics: groupedTopics });
     } catch (e) {
       handleError(e);
     }
@@ -75,11 +121,13 @@ class TopicArticleTaxonomy extends Component {
 
   fetchTaxonomy = async () => {
     const {
-      article: { language, id },
+      articleId,
+      article: { language },
     } = this.props;
+    if (!language) return;
     try {
       const [topics, allTopics, subjects, allResourceTypes] = await Promise.all([
-        queryTopics(id, language),
+        queryTopics(articleId.toString(), language),
         fetchTopics(language),
         fetchSubjects(language),
         fetchResourceTypes(language),
@@ -113,16 +161,19 @@ class TopicArticleTaxonomy extends Component {
     }
   };
 
-  stageTaxonomyChanges = ({ path }) => {
-    const {
-      article: { title },
-    } = this.props;
+  stageTaxonomyChanges = ({ path }: { path: string }) => {
     if (path) {
-      const newTopic = {
+      const newTopic: StagedTopic = {
         id: 'staged',
-        name: title,
+        name: this.props.article.title ?? '',
         path: `${path}/staged`,
+        metadata: {
+          grepCodes: [],
+          visible: true,
+          customFields: {},
+        },
       };
+
       this.setState(prevState => ({
         isDirty: true,
         stagedTopicChanges: [...prevState.stagedTopicChanges, newTopic],
@@ -130,14 +181,12 @@ class TopicArticleTaxonomy extends Component {
     }
   };
 
-  addNewTopic = async stagedNewTopics => {
-    const { stagedTopicChanges, structure } = this.state;
+  addNewTopic = async (stagedNewTopics: StagedTopic[]) => {
+    const { stagedTopicChanges } = this.state;
     const existingTopics = stagedTopicChanges.filter(t => !stagedNewTopics.includes(t));
-    const {
-      article: { id: articleId },
-    } = this.props;
+    const { articleId } = this.props;
     const newTopics = await Promise.all(
-      stagedNewTopics.map(topic => this.createAndPlaceTopic(topic, articleId, structure)),
+      stagedNewTopics.map(topic => this.createAndPlaceTopic(topic, articleId)),
     );
     this.setState({
       isDirty: false,
@@ -146,23 +195,23 @@ class TopicArticleTaxonomy extends Component {
     });
   };
 
-  handleSubmit = async evt => {
+  handleSubmit = async (evt: React.MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    const { stagedTopicChanges } = this.state;
     const {
       updateNotes,
       article: { id: articleId, language, revision },
     } = this.props;
     this.setState({ status: 'loading' });
 
-    const stagedNewTopics = stagedTopicChanges.filter(topic => topic.id === 'staged');
+    const stagedNewTopics = this.state.stagedTopicChanges.filter(topic => topic.id === 'staged');
     try {
       if (stagedNewTopics.length > 0) {
         await this.addNewTopic(stagedNewTopics);
       }
+
       updateNotes({
         id: articleId,
-        revision,
+        revision: revision ?? 0,
         language,
         notes: ['Oppdatert taksonomi.'],
       });
@@ -172,7 +221,7 @@ class TopicArticleTaxonomy extends Component {
     }
   };
 
-  updateSubject = (subjectid, newSubject) => {
+  updateSubject = (subjectid: string, newSubject?: Partial<StructureSubject>) => {
     this.setState(prevState => ({
       structure: prevState.structure.map(subject => {
         if (subject.id === subjectid) {
@@ -187,23 +236,25 @@ class TopicArticleTaxonomy extends Component {
     const { isDirty } = this.state;
     const { setIsOpen } = this.props;
     if (!isDirty) {
-      setIsOpen(false);
+      setIsOpen?.(false);
     } else {
       if (this.state.showWarning) {
-        setIsOpen(false);
+        setIsOpen?.(false);
       } else {
         this.setState({ showWarning: true });
       }
     }
   };
 
-  createAndPlaceTopic = async (topic, articleId, structure) => {
+  createAndPlaceTopic = async (topic: StagedTopic, articleId: number): Promise<StagedTopic> => {
     const newTopicPath = await addTopic({
       name: topic.name,
       contentUri: `urn:article:${articleId}`,
     });
+
     const paths = pathToUrnArray(topic.path);
-    const newTopicId = newTopicPath.split('/').pop();
+    const newTopicId = newTopicPath.split('/').pop() ?? '';
+
     if (paths.length > 2) {
       // we are placing it under a topic
       const parentTopicId = paths.slice(-2)[0];
@@ -222,6 +273,11 @@ class TopicArticleTaxonomy extends Component {
       name: topic.name,
       id: newTopicId,
       path: topic.path.replace('staged', newTopicId.replace('urn:', '')),
+      metadata: {
+        grepCodes: [],
+        visible: true,
+        customFields: {},
+      },
     };
   };
 
@@ -253,6 +309,8 @@ class TopicArticleTaxonomy extends Component {
           messages={{
             title: t('errorMessage.title'),
             description: t('errorMessage.taxonomy'),
+            back: t('errorMessage.back'),
+            goToFrontPage: t('errorMessage.goToFrontPage'),
           }}
         />
       );
@@ -273,8 +331,7 @@ class TopicArticleTaxonomy extends Component {
       <Fragment>
         <TopicArticleConnections
           structure={structure}
-          taxonomyTopics={allTopics}
-          activeTopics={stagedTopicChanges}
+          activeTopics={this.state.stagedTopicChanges}
           retrieveBreadCrumbs={topicPath =>
             retrieveBreadCrumbs({ topicPath, allTopics, structure, title })
           }
@@ -290,6 +347,7 @@ class TopicArticleTaxonomy extends Component {
             {t('form.abort')}
           </ActionButton>
           <SaveButton
+            formIsDirty={isDirty}
             isSaving={status === 'loading'}
             showSaved={status === 'success' && !isDirty}
             disabled={!isDirty}
@@ -301,13 +359,5 @@ class TopicArticleTaxonomy extends Component {
     );
   }
 }
-
-TopicArticleTaxonomy.propTypes = {
-  locale: PropTypes.string,
-  setIsOpen: PropTypes.func,
-  article: ArticleShape.isRequired,
-  updateNotes: PropTypes.func.isRequired,
-  userAccess: PropTypes.string,
-};
 
 export default withTranslation()(TopicArticleTaxonomy);

@@ -29,6 +29,7 @@ import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import { Resource as ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 import config from '../../../config';
+import { LocaleType } from '../../../interfaces';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -45,7 +46,7 @@ interface Props {
   onDelete?: (connectionId: string) => void;
   connectionId: string;
   dragHandleProps?: object;
-  locale: string;
+  locale: LocaleType;
   relevanceId?: string;
   updateRelevanceId?: (
     connectionId: string,

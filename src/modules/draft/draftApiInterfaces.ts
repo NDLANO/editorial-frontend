@@ -267,16 +267,16 @@ export interface NewDraftApiType {
   title: string;
   published?: string;
   content?: string;
-  tags: string[];
+  tags?: string[];
   introduction?: string;
   metaDescription?: string;
   metaImage?: {
-    url: string;
+    id: string;
     alt: string;
   };
   visualElement?: string;
   copyright?: Copyright;
-  requiredLibraries: {
+  requiredLibraries?: {
     mediaType: string;
     name: string;
     url: string;

@@ -50,7 +50,7 @@ async function updateTaxonomy(
   taxonomyChanges: {
     resourceTypes: ResourceResourceType[];
     topics: ParentTopicWithRelevanceAndConnections[];
-    metadata: TaxonomyMetadata;
+    metadata?: TaxonomyMetadata;
   },
 ): Promise<boolean> {
   try {
@@ -61,7 +61,7 @@ async function updateTaxonomy(
         resourceTaxonomy.resourceTypes,
       ),
 
-      updateResourceMetadata(resourceId, taxonomyChanges.metadata),
+      taxonomyChanges.metadata && updateResourceMetadata(resourceId, taxonomyChanges.metadata),
 
       createDeleteUpdateTopicResources(resourceId, taxonomyChanges.topics, resourceTaxonomy.topics),
     ]);

@@ -10,7 +10,7 @@ import { Author } from '../../interfaces';
 
 export interface ImageApiLicense {
   license: string;
-  description: string;
+  description?: string;
   url?: string;
 }
 

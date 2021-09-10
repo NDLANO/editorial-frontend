@@ -62,7 +62,12 @@ const ConceptContent = () => {
         }}
       />
       <ByLine>
-        <LastUpdatedLine creators={creators} published={updated} />
+        <LastUpdatedLine
+          name={'lastUpdated'}
+          onChange={() => {}}
+          creators={creators}
+          published={updated}
+        />
         <IconContainer>
           <Tooltip tooltip={t('form.markdown.button')}>
             <ToggleButton active={preview} onClick={() => setPreview(!preview)}>

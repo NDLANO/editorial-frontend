@@ -94,7 +94,7 @@ export const getInitialValues = (image: ImagePropType = {}): ImageFormikType => 
     rightsholders: parseCopyrightContributors(image, 'rightsholders'),
     origin: image?.copyright?.origin || '',
     license: image?.copyright?.license?.license,
-    modelReleased: image?.modelRelease,
+    modelReleased: image?.modelRelease ?? 'not-set',
   };
 };
 
@@ -129,7 +129,7 @@ interface Props {
   image?: ImagePropType;
   licenses: {
     license: string;
-    description: string;
+    description?: string;
     url?: string;
   }[];
   onUpdate: OnCreateFunc | OnUpdateFunc;
@@ -218,12 +218,14 @@ class ImageForm extends Component<Props & WithTranslation, State> {
       | 'title';
 
     const initialValues = getInitialValues(image);
+    const initialErrors = validateFormik(initialValues, imageRules, t);
 
     if (isLoading) return <Spinner withWrapper />;
 
     return (
       <Formik
         initialValues={initialValues}
+        initialErrors={initialErrors}
         onSubmit={this.handleSubmit}
         validateOnMount
         enableReinitialize
@@ -276,7 +278,7 @@ class ImageForm extends Component<Props & WithTranslation, State> {
                 </AccordionSection>
                 <AccordionSection
                   id="image-upload-version-history"
-                  title={t('form.workflowSection')} // TODO: Maybe think about changing this if we don't do notes.
+                  title={t('form.workflowSection')}
                   className="u-4/6@desktop u-push-1/6@desktop">
                   <ImageVersionNotes image={image} />
                 </AccordionSection>
@@ -296,12 +298,13 @@ class ImageForm extends Component<Props & WithTranslation, State> {
                   showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                   formIsDirty={formIsDirty}
                   submit={!inModal}
-                  onClick={(evt: Event) => {
+                  onClick={evt => {
                     if (inModal) {
                       evt.preventDefault();
                       submitForm();
                     }
-                  }}></SaveButton>
+                  }}
+                />
               </Field>
               <AlertModalWrapper
                 isSubmitting={isSubmitting}

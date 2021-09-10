@@ -7,23 +7,47 @@
  */
 
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { RouteComponentProps } from 'react-router-dom';
+import { Action, ActionFunction1 } from 'redux-actions';
 import { useTranslation } from 'react-i18next';
 import LearningResourceForm from './components/LearningResourceForm';
-import { LicensesArrayOf } from '../../../shapes';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
+import { License, LocaleType } from '../../../interfaces';
+import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
-const EditLearningResource = ({ selectedLanguage, articleId, isNewlyCreated, ...rest }) => {
+interface Props extends RouteComponentProps {
+  isNewlyCreated: boolean;
+  articleId: string;
+  selectedLanguage: LocaleType;
+  licenses: License[];
+  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
+  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
+  userAccess: string | undefined;
+}
+
+const EditLearningResource = ({
+  selectedLanguage,
+  articleId,
+  isNewlyCreated,
+  licenses,
+  applicationError,
+  createMessage,
+  userAccess,
+}: Props) => {
   const { t } = useTranslation();
-  const { loading, article, setArticle, articleChanged, ...articleHooks } = useFetchArticleData(
-    articleId,
-    selectedLanguage,
-  );
+  const {
+    loading,
+    article,
+    setArticle,
+    articleChanged,
+    updateArticle,
+    updateArticleAndStatus,
+  } = useFetchArticleData(articleId, selectedLanguage);
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
     'title',
@@ -44,24 +68,20 @@ const EditLearningResource = ({ selectedLanguage, articleId, isNewlyCreated, ...
       <HelmetWithTracker title={`${article.title} ${t('htmlTitles.titleTemplate')}`} />
       <LearningResourceForm
         article={article}
-        revision={article.revision}
         articleStatus={article.status}
         articleChanged={articleChanged}
         translating={translating}
         translateToNN={translateToNN}
         isNewlyCreated={isNewlyCreated}
-        {...rest}
-        {...articleHooks}
+        licenses={licenses}
+        updateArticle={updateArticle}
+        updateArticleAndStatus={updateArticleAndStatus}
+        createMessage={createMessage}
+        applicationError={applicationError}
+        userAccess={userAccess}
       />
     </Fragment>
   );
-};
-
-EditLearningResource.propTypes = {
-  articleId: PropTypes.string.isRequired,
-  licenses: LicensesArrayOf,
-  selectedLanguage: PropTypes.string.isRequired,
-  isNewlyCreated: PropTypes.bool,
 };
 
 export default withRouter(EditLearningResource);

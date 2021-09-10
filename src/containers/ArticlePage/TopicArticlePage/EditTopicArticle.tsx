@@ -6,22 +6,47 @@
  */
 
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
+import { Action, ActionFunction1 } from 'redux-actions';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { RouteComponentProps } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import TopicArticleForm from './components/TopicArticleForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
+import { License, LocaleType } from '../../../interfaces';
+import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
-const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated, ...rest }) => {
+interface Props extends RouteComponentProps {
+  articleId: string;
+  selectedLanguage: LocaleType;
+  isNewlyCreated: boolean;
+  licenses: License[];
+  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
+  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
+  userAccess: string | undefined;
+}
+
+const EditTopicArticle = ({
+  articleId,
+  selectedLanguage,
+  isNewlyCreated,
+  userAccess,
+  createMessage,
+  applicationError,
+  licenses,
+}: Props) => {
+  const {
+    loading,
+    article,
+    setArticle,
+    articleChanged,
+    updateArticle,
+    updateArticleAndStatus,
+  } = useFetchArticleData(articleId, selectedLanguage);
   const { t } = useTranslation();
-  const { loading, article, setArticle, articleChanged, ...articleHooks } = useFetchArticleData(
-    articleId,
-    selectedLanguage,
-  );
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
     'title',
@@ -47,18 +72,15 @@ const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated, ...rest
         translateToNN={translateToNN}
         translating={translating}
         isNewlyCreated={isNewlyCreated}
-        {...rest}
-        {...articleHooks}
+        userAccess={userAccess}
+        createMessage={createMessage}
+        applicationError={applicationError}
+        licenses={licenses}
+        updateArticle={updateArticle}
+        updateArticleAndStatus={updateArticleAndStatus}
       />
     </Fragment>
   );
-};
-
-EditTopicArticle.propTypes = {
-  articleId: PropTypes.string.isRequired,
-  selectedLanguage: PropTypes.string.isRequired,
-  createMessage: PropTypes.func.isRequired,
-  isNewlyCreated: PropTypes.bool,
 };
 
 export default withRouter(EditTopicArticle);

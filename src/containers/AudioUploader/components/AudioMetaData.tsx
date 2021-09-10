@@ -17,6 +17,7 @@ import { LicenseField, ContributorsField } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { License } from '../../../interfaces';
+import { AudioFormikType } from './AudioForm';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
@@ -28,7 +29,7 @@ interface Props {
 const AudioMetaData = (props: Props) => {
   const {
     values: { language, tags },
-  } = useFormikContext();
+  } = useFormikContext<AudioFormikType>();
   const { licenses } = props;
   const { t } = useTranslation();
   return (

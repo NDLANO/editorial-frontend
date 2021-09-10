@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { Search } from '@ndla/icons/common';
@@ -32,6 +31,7 @@ import { AudioSearchResult, SeriesSearchResult } from '../../modules/audio/audio
 import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
 import { SearchTypeValues } from '../../constants';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import SearchSaveButton from './SearchSaveButton';
 
 export const searchClasses = new BEMHelper({
   name: 'search',
@@ -82,23 +82,34 @@ class SearchContainer extends React.Component<Props, State> {
     this.onSortOrderChange = this.onSortOrderChange.bind(this);
     this.getExternalData = this.getExternalData.bind(this);
     this.onQueryPush = debounce(this.onQueryPush.bind(this), 300);
-    this.doInitialSearch = this.doInitialSearch.bind(this);
+    this.search = this.search.bind(this);
   }
 
-  doInitialSearch(): void {
+  search(): void {
     const { location, searchFunction } = this.props;
     if (location.search || this.props.type) {
       const searchObject = queryString.parse(location.search);
       this.setState({ isSearching: true });
-      searchFunction(searchObject).then((results: ResultType) => {
-        this.setState({ results, isSearching: false });
-      });
+      searchFunction(searchObject)
+        .then((results: ResultType) => {
+          this.setState({ results, isSearching: false });
+        })
+        .catch(() => {
+          this.setState({ isSearching: false });
+        });
     }
-    this.getExternalData();
   }
 
   componentDidMount() {
-    this.doInitialSearch();
+    this.search();
+    this.getExternalData();
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    const { location } = this.props;
+    if (prevProps.location.search !== location.search) {
+      this.search();
+    }
   }
 
   async getExternalData() {
@@ -107,7 +118,7 @@ class SearchContainer extends React.Component<Props, State> {
   }
 
   onQueryPush(newSearchObject: SearchParams) {
-    const { location, history, type, searchFunction } = this.props;
+    const { location, history, type } = this.props;
     const oldSearchObject = queryString.parse(location.search);
 
     const searchQuery = {
@@ -117,10 +128,6 @@ class SearchContainer extends React.Component<Props, State> {
 
     // Remove unused/empty query params
     Object.keys(searchQuery).forEach(key => searchQuery[key] === '' && delete searchQuery[key]);
-    this.setState({ isSearching: true });
-    searchFunction(searchQuery).then((results: ResultType) => {
-      this.setState({ results, isSearching: false });
-    });
 
     history.push(toSearch(searchQuery, type));
   }
@@ -145,10 +152,13 @@ class SearchContainer extends React.Component<Props, State> {
           <>
             <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
             <OneColumn>
-              <h2>
-                <Search className="c-icon--medium" />
-                {t(`searchPage.header.${type}`)}
-              </h2>
+              <div {...searchClasses('header')}>
+                <h2>
+                  <Search className="c-icon--medium" />
+                  {t(`searchPage.header.${type}`)}
+                </h2>
+                <SearchSaveButton />
+              </div>
               <SearchForm
                 type={type}
                 search={this.onQueryPush}

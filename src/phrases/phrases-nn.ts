@@ -989,6 +989,19 @@ const phrases = {
         sub: 'eller trykk for å laste opp lydfil',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
+      copiedFrom:
+        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten ved sida av lydfila for å fjerne den og laste opp ei ny fil.',
+      info: {
+        multipleFiles: 'Du kan laste opp forskjellige lydfilar for kvar språkversjon.',
+        changeFile:
+          'Fjerning og endring av ein språkversjon vil ikkje påverke dei andre språkversjonane.',
+        newLanguage:
+          'Ved oppretting av ny språkversjon vil ei lydfil fra ein eksisterande språkversjon foreslås.',
+      },
+      modal: {
+        header: 'Lydfiler',
+        label: 'Informasjon om lydfiler',
+      },
     },
     podcast: {
       remove: 'Ta bort podkast',

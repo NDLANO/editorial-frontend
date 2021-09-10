@@ -7,7 +7,6 @@
 
 import React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router';
-// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
 

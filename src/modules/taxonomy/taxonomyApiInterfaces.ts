@@ -57,7 +57,7 @@ export interface ResourceWithParentTopics extends Resource {
   parentTopics: ParentTopic[];
 }
 
-export interface ParentTopic {
+export interface ParentTopic extends TaxonomyElement {
   id: string;
   name: string;
   contentUri: string;
@@ -65,6 +65,7 @@ export interface ParentTopic {
   primary: boolean;
   isPrimary: boolean;
   connectionId: string;
+  paths: string[];
 }
 
 export type ParentTopicWithRelevanceAndConnections = ParentTopic & {

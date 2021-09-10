@@ -36,6 +36,7 @@ interface Props {
   fetchImage: (id: number) => Promise<ImageApiType>;
   image?: ImageType;
   updateImage: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
+  inModal?: boolean;
 }
 
 const ImageSearchAndUploader = ({
@@ -47,6 +48,7 @@ const ImageSearchAndUploader = ({
   fetchImage,
   searchImages,
   onError,
+  inModal = false,
 }: Props) => {
   const { t } = useTranslation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
@@ -96,7 +98,7 @@ const ImageSearchAndUploader = ({
           title: t('form.visualElement.imageUpload'),
           content: licenses ? (
             <ImageForm
-              isLoading={image === undefined}
+              inModal={inModal}
               image={image || { language: locale }}
               onUpdate={updateImage}
               closeModal={closeModal}

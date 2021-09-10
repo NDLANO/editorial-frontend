@@ -85,6 +85,7 @@ class VisualElementSearch extends Component {
       case 'image':
         return (
           <ImageSearchAndUploader
+            inModal={true}
             handleVisualElementChange={handleVisualElementChange}
             locale={locale}
             isSavingImage={isSavingImage}

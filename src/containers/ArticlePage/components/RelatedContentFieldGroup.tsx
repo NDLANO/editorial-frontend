@@ -7,17 +7,13 @@
  */
 
 import React, { Fragment } from 'react';
-import { ApiConceptType } from '../../../modules/concept/conceptApiInterfaces';
 import FormikField from '../../../components/FormikField';
-import { ConvertedRelatedContent } from '../../../interfaces';
 import ConceptsField from './ConceptsField';
 import ContentField from './ContentField';
+import { ArticleFormikType } from '../../FormikForm/articleFormHooks';
 
 interface Props {
-  values: {
-    conceptIds: ApiConceptType[];
-    relatedContent: ConvertedRelatedContent[];
-  };
+  values: ArticleFormikType;
   locale: string;
 }
 

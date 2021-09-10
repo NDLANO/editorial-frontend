@@ -30,6 +30,16 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
+export const updateUserMetadata = async (searches: string[]) => {
+  const userUpdatedMetadata = { savedSearches: searches };
+  updateUserData(userUpdatedMetadata);
+};
+
+export const getSavedSearchRelativeUrl = (inputValue: string) => {
+  const relativeUrl = inputValue.split('search')[1];
+  return '/search'.concat(relativeUrl);
+};
+
 const SaveSearchUrl = ({ locale }: Props) => {
   const { t } = useTranslation();
   const [isValidUrl, setIsValidUrl] = useState(true);
@@ -51,11 +61,6 @@ const SaveSearchUrl = ({ locale }: Props) => {
     }
   };
 
-  const updateUserMetadata = async (searches: string[]) => {
-    const userUpdatedMetadata = { savedSearches: searches };
-    updateUserData(userUpdatedMetadata);
-  };
-
   const getWarningText = () => {
     if (!isValidUrl) {
       if (inputFieldValue === '') {
@@ -70,11 +75,6 @@ const SaveSearchUrl = ({ locale }: Props) => {
 
   const handleBlur = () => {
     setIsValidUrl(isNDLAEdSearchUrl(inputFieldValue));
-  };
-
-  const getSavedSearchRelativeUrl = (inputValue: string) => {
-    const relativeUrl = inputValue.split('search')[1];
-    return '/search'.concat(relativeUrl);
   };
 
   const createSaveSearchUrl = (event: React.ChangeEvent<HTMLInputElement>) => {

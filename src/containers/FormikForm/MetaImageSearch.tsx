@@ -123,6 +123,7 @@ const MetaImageSearch = ({
             </ModalHeader>
             <ModalBody>
               <ImageSearchAndUploader
+                inModal={true}
                 onImageSelect={onImageSet}
                 locale={locale}
                 closeModal={onImageSelectClose}

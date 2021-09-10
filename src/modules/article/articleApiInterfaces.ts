@@ -7,6 +7,7 @@
  */
 
 import { ArticleType, Author, AvailabilityType } from '../../interfaces';
+import { FootnoteType } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
 
 export interface ArticleSearchResult {
   totalCount: number;
@@ -50,6 +51,7 @@ export interface ArticleSearchSummaryApiType {
 export interface ArticleConverterApiType extends ArticleType {
   availability: AvailabilityType;
   metaData: {
+    footnotes?: FootnoteType[];
     images: {
       title: string;
       altText: string;
@@ -114,7 +116,7 @@ export interface ArticleApiType {
   supportedLanguages: string[];
   grepCodes: string[];
   conceptIds: number[];
-  availability: string;
+  availability: AvailabilityType;
 }
 
 interface Copyright {
@@ -127,7 +129,7 @@ interface Copyright {
   creators: Author[];
   processors: Author[];
   rightsholders: Author[];
-  agreementId?: string;
+  agreementId?: number;
   validFrom?: string;
   validTo?: string;
 }

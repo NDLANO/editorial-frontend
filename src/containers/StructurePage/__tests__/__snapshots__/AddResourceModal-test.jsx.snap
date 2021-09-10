@@ -160,6 +160,105 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   background-color: white;
 }
 
+.emotion-11 {
+  margin-top: 6.5px;
+}
+
+.emotion-11:first-of-type {
+  margin-top: 0;
+}
+
+.emotion-9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-9 label {
+  width: 104px;
+  max-width: 104px;
+  padding: 20px 13px 13px 0;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 14;
+  font-size: 0.7777777777777778rem;
+  line-height: 1.1;
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  background: #f8f8f8;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  border: 1px solid #eff0f2;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  border-radius: 4px;
+  min-height: 52px;
+  padding-right: 13px;
+}
+
+.emotion-8 input,
+.emotion-8 textarea {
+  width: inherit;
+  font-weight: 400;
+  color: #444;
+  font-size: 18;
+  font-size: 1rem;
+  line-height: 1.3;
+  background: none;
+  border: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+
+.emotion-8 input:focus,
+.emotion-8 textarea:focus {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.emotion-8 input {
+  padding: 6.5px 13px;
+}
+
+.emotion-8 textarea {
+  padding: 0 13px;
+  height: 20px;
+  margin: 14px 0;
+  resize: none;
+}
+
+.emotion-8 .c-icon {
+  width: 24px;
+  height: 24px;
+}
+
 .emotion-32 {
   position: fixed;
   top: 0;
@@ -300,105 +399,6 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   width: 27px;
   height: 27px;
   margin-right: 13px;
-}
-
-.emotion-11 {
-  margin-top: 6.5px;
-}
-
-.emotion-11:first-of-type {
-  margin-top: 0;
-}
-
-.emotion-9 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.emotion-9 label {
-  width: 104px;
-  max-width: 104px;
-  padding: 20px 13px 13px 0;
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 14;
-  font-size: 0.7777777777777778rem;
-  line-height: 1.1;
-}
-
-.emotion-8 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  background: #f8f8f8;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-  border: 1px solid #eff0f2;
-  -webkit-transition: border-color 100ms ease;
-  transition: border-color 100ms ease;
-  border-radius: 4px;
-  min-height: 52px;
-  padding-right: 13px;
-}
-
-.emotion-8 input,
-.emotion-8 textarea {
-  width: inherit;
-  font-weight: 400;
-  color: #444;
-  font-size: 18;
-  font-size: 1rem;
-  line-height: 1.3;
-  background: none;
-  border: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
-.emotion-8 input:focus,
-.emotion-8 textarea:focus {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: none;
-}
-
-.emotion-8 input {
-  padding: 6.5px 13px;
-}
-
-.emotion-8 textarea {
-  padding: 0 13px;
-  height: 20px;
-  margin: 14px 0;
-  resize: none;
-}
-
-.emotion-8 .c-icon {
-  width: 24px;
-  height: 24px;
 }
 
 <div
@@ -750,39 +750,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   background-color: white;
 }
 
-.emotion-13 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.emotion-3 {
-  height: 50px;
-  width: 50px;
-}
-
-.emotion-2 {
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-}
-
-
-
-.emotion-96,
-.emotion-96:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
 .emotion-11 {
   margin-top: 6.5px;
 }
@@ -880,6 +847,18 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
 .emotion-8 .c-icon {
   width: 24px;
   height: 24px;
+}
+
+.emotion-13 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 20px 0;
 }
 
 .emotion-92 {
@@ -1022,6 +1001,27 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
 .emotion-83:hover {
   border-top: 3px solid #20588f;
   background-color: rgba(222,235,246,0.5);
+}
+
+.emotion-3 {
+  height: 50px;
+  width: 50px;
+}
+
+.emotion-2 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+
+
+.emotion-96,
+.emotion-96:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
 }
 
 <div
@@ -1553,39 +1553,6 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   background-color: white;
 }
 
-.emotion-13 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.emotion-3 {
-  height: 50px;
-  width: 50px;
-}
-
-.emotion-2 {
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-}
-
-
-
-.emotion-22,
-.emotion-22:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
 .emotion-11 {
   margin-top: 6.5px;
 }
@@ -1683,6 +1650,39 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
 .emotion-8 .c-icon {
   width: 24px;
   height: 24px;
+}
+
+.emotion-13 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.emotion-3 {
+  height: 50px;
+  width: 50px;
+}
+
+.emotion-2 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+
+
+.emotion-22,
+.emotion-22:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
 }
 
 <div

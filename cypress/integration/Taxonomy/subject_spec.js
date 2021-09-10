@@ -71,12 +71,7 @@ describe('Subject editing', () => {
       .first()
       .click();
     cy.wait('@newSubjectName');
-
-    cy.get('[data-testid=subjectName_nb]').type(' MER TEST');
-    cy.get('[data-testid=saveSubjectTranslationsButton]')
-      .first()
-      .click();
-    cy.wait('@newSubjectName');
+    cy.wait(1000);
 
     cy.get('[data-testid=subjectName_nb_delete]')
       .first()
@@ -85,6 +80,7 @@ describe('Subject editing', () => {
       .first()
       .click();
     cy.wait('@deleteSubjectTranslation');
+    cy.wait(1000);
 
     cy.get('[data-cy=close-modal-button]')
       .first()

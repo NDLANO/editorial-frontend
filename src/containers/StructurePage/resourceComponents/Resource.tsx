@@ -117,7 +117,8 @@ const Resource = ({
   const currentPath = structurePaths.map(p => p.replace('urn:', '')).join('/');
   const path = paths.find(p => {
     const pArr = p.split('/');
-    const pathWithoutResource = pArr.slice(0, pArr.length - 1).join('/');
+    const isResource = pArr[pArr.length - 1].startsWith('resource');
+    const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join('/');
     return pathWithoutResource === currentPath;
   });
 

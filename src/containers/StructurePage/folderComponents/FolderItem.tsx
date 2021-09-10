@@ -23,6 +23,8 @@ import {
   TaxonomyElement,
   TaxonomyMetadata,
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import Spinner from '../../../components/Spinner';
+import { Row } from '../../../components';
 
 export const classes = new BEMHelper({
   name: 'folder',
@@ -38,11 +40,12 @@ interface BaseProps {
   getAllSubjects: () => Promise<void>;
   refreshTopics: () => Promise<void>;
   structure: SubjectType[];
-  jumpToResources: () => void;
+  jumpToResources?: () => void;
   locale: string;
   name: string;
   pathToString: string;
   isMainActive?: boolean;
+  resourcesLoading?: boolean;
   id: string;
   userAccess?: string;
   metadata: TaxonomyMetadata;
@@ -67,6 +70,7 @@ const FolderItem = ({
   userAccess,
   metadata,
   locale,
+  resourcesLoading,
   getAllSubjects,
   refreshTopics,
   subjectId,
@@ -105,8 +109,16 @@ const FolderItem = ({
         />
       )}
       {showJumpToResources && (
-        <Button outline css={resourceButtonStyle} type="button" onClick={jumpToResources}>
-          {t('taxonomy.jumpToResources')}
+        <Button
+          outline
+          css={resourceButtonStyle}
+          type="button"
+          disabled={resourcesLoading}
+          onClick={jumpToResources}>
+          <Row>
+            {t('taxonomy.jumpToResources')}
+            {resourcesLoading && <Spinner appearance="small" />}
+          </Row>
         </Button>
       )}
       {

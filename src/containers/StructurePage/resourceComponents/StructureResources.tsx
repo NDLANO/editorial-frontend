@@ -50,6 +50,7 @@ interface Props {
   currentTopic: SubjectTopic;
   refreshTopics: () => Promise<void>;
   resourceRef: RefObject<HTMLDivElement>;
+  setResourcesLoading: (loading: boolean) => void;
   resourcesUpdated: boolean;
   setResourcesUpdated: (updated: boolean) => void;
   saveSubjectTopicItems: (topicId: string, saveItems: { metadata: TaxonomyMetadata }) => void;
@@ -65,6 +66,7 @@ const StructureResources = ({
   resourcesUpdated,
   setResourcesUpdated,
   saveSubjectTopicItems,
+  setResourcesLoading,
   grouped,
 }: Props) => {
   const { t } = useTranslation();
@@ -121,6 +123,7 @@ const StructureResources = ({
 
   const getTopicResources = async () => {
     const { id: topicId } = currentTopic;
+    setResourcesLoading(true);
     setLoading(true);
     if (topicId) {
       try {
@@ -142,12 +145,14 @@ const StructureResources = ({
 
         setTopicResources(allTopicResources);
       } catch (error) {
+        setTopicResources([]);
         handleError(error);
       }
     } else {
       setTopicResources([]);
     }
     setLoading(false);
+    setResourcesLoading(false);
   };
 
   const getResourceStatusesAndGrepCodes = async (allTopicResources: TopicResource[]) => {

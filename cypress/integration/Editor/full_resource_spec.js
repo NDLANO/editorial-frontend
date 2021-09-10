@@ -38,6 +38,7 @@ describe('Edit article with everything', () => {
       .should('be.disabled');
     cy.get('span[name=published] > button').click();
     cy.get('.flatpickr-day ')
+      .contains('15')
       .first()
       .click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')

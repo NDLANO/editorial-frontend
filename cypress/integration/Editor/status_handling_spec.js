@@ -16,11 +16,7 @@ describe('Status changes', () => {
   beforeEach(() => {
     setToken();
     editorRoutes(ARTICLE_ID);
-    cy.apiroute(
-      'PUT',
-      `**/draft-api/v1/drafts/${ARTICLE_ID}/status/PROPOSAL`,
-      `statusChangeToUtkast`,
-    );
+    cy.apiroute('PUT', `**/draft-api/v1/drafts/${ARTICLE_ID}/status/DRAFT`, `statusChangeToUtkast`);
     cy.apiroute(
       'PUT',
       `**/draft-api/v1/drafts/${ARTICLE_ID}/status/QUEUED_FOR_PUBLISHING`,
@@ -39,15 +35,15 @@ describe('Status changes', () => {
   it('Can change status corretly', () => {
     // change from published to proposal
     cy.get('[data-cy=footerStatus] button')
-      .contains('Publisert')
+      .contains('Publiseringsklar')
       .click();
     cy.get('footer li > button')
-      .contains('Utkast')
+      .contains('Kladd')
       .click();
     cy.apiwait(`@statusChangeToUtkast`);
 
     cy.get('[data-cy="learning-resource-title"]')
-      .click({force:true})
+      .click({ force: true })
       .type('Some change');
     cy.get('footer button')
       .contains('Utkast')

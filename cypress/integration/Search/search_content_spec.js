@@ -88,7 +88,7 @@ describe('Search content', () => {
       'searchSubject',
     );
     cy.get('select[name="subjects"]')
-      .select('Medieuttrykk og mediesamfunnet Vg2 og Vg3')
+      .select('Medieuttrykk og mediesamfunnet Vg2 og Vg3 +')
       .blur();
     cy.apiwait('@searchSubject');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);

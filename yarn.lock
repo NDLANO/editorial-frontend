@@ -2014,7 +2014,7 @@
     "@ndla/util" "^1.0.0"
     raven-js "^3.22.3"
 
-"@ndla/forms@^1.0.2", "@ndla/forms@^1.0.6":
+"@ndla/forms@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-1.0.6.tgz#9ee4477841ed98576adaa70021c021c6a0901321"
   integrity sha512-O0scCKdKgYqvzN2+0NSDs9n6GXZhVCz5W0LQd4s4fhSntw2z7m29bd8la5k+Hu9m3VuHcNhTyaq9AnshbOHQZA==
@@ -2031,7 +2031,7 @@
     "@ndla/util" "^1.0.0"
     lodash "^4.17.20"
 
-"@ndla/howto@^1.0.2":
+"@ndla/howto@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-1.0.6.tgz#73beeccf0a3a268310755295b882522a3a258d80"
   integrity sha512-nkrrv9VCssTThFdfJyhTgLtfg80B9QX73o85bXz9NNPUCT4KrgYt4fzyZnzGUuDLHRkJvSeohwAIwzb7Zhn4Kw==
@@ -2050,7 +2050,7 @@
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-1.0.0.tgz#72ab4ef441c528c5415cb1b04b2d03687a4c3113"
   integrity sha512-fZFvKaTND4pP8egkX6fKRn58HEjTvzkAVyow9lrP6wnmAa/BXQabdTPcZBXY9Zbf54QyYX1Xn1K+5reFdnBoCQ==
 
-"@ndla/image-search@^1.0.2":
+"@ndla/image-search@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@ndla/image-search/-/image-search-1.1.1.tgz#5049daee2e3e796c178d1a3c778c1da832ad8756"
   integrity sha512-5C/6Ur/NtV5I8h2fMb2hgRhb0Uj+3sqiOQwsRyyLFEqVV0Jml40eqqwTn5CKhzIm5QHTZt0Gz3KA6xXv1Ju8lQ==
@@ -2081,7 +2081,7 @@
     "@ndla/util" "^1.0.0"
     "@reach/dialog" "^0.2.9"
 
-"@ndla/notion@^1.0.1":
+"@ndla/notion@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-1.0.2.tgz#c9babbcad51d7747888f5dfff4b859208cbc2b14"
   integrity sha512-/j5vID/O3bvUOUfKPxu/+t+KqaraxL5cDZK16M3ZOxW+1ajeSaXNJG+yojddBGHPnh682jeZl5r2kGLsgsytuw==
@@ -2105,7 +2105,7 @@
   dependencies:
     "@ndla/icons" "^1.0.0"
 
-"@ndla/scripts@^0.7.7":
+"@ndla/scripts@^0.7.8":
   version "0.7.8"
   resolved "https://registry.yarnpkg.com/@ndla/scripts/-/scripts-0.7.8.tgz#3cc2c5443673988d1795a022cb86bc7a80434d03"
   integrity sha512-E25HbmtTupZLRdVx3xXwCxqUZ3UoaOUdiVz/4CnqSWiH8qUaHLuDTApB4o7ZWF+5nu+63CYestA2xZWQM9qcPA==
@@ -2147,7 +2147,7 @@
   dependencies:
     warning "^4.0.3"
 
-"@ndla/ui@^1.1.0", "@ndla/ui@^1.3.1":
+"@ndla/ui@^1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-1.3.1.tgz#1aafb8fc994e4f1962978bd8a621e008c1905d91"
   integrity sha512-mhZPoP/Rp2LG1xqbUnV8BvZSxgRW9sQ2Rq9Wl8vPiEdxn67lTHchjSPCMYQJZGF1QrKXKXP5JnnwBjKwVJxw+w==

@@ -143,6 +143,10 @@ const phrases = {
       notes: 'Søketreff fra versjonslogg',
       previousVersionsNotes: 'Søketreff fra versjonslogg',
     },
+    save: {
+      alreadyExist: 'Søket er allerede lagret.',
+      other: 'Søk feilet.',
+    },
   },
   articleType: {
     'topic-article': 'Emne',
@@ -529,6 +533,7 @@ const phrases = {
     saveTax: 'Lagre taksonomi',
     choose: 'Velg',
     saving: 'Lagrer...',
+    saveSearch: 'Lagre søk',
     saved: 'Lagret ',
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',

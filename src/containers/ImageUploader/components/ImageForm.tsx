@@ -94,7 +94,7 @@ export const getInitialValues = (image: ImagePropType = {}): ImageFormikType => 
     rightsholders: parseCopyrightContributors(image, 'rightsholders'),
     origin: image?.copyright?.origin || '',
     license: image?.copyright?.license?.license,
-    modelReleased: image?.modelRelease,
+    modelReleased: image?.modelRelease ?? 'not-set',
   };
 };
 

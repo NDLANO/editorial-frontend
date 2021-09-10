@@ -48,6 +48,7 @@ describe('Subject editing', () => {
     cy.intercept('PUT', `${taxonomyApi}/subjects/${selectSubject}/translations/nb`, []).as(
       'newSubjectName',
     );
+    cy.intercept('POST', `${taxonomyApi}/topics`, []).as('addNewTopic');
     cy.intercept('GET', `${taxonomyApi}/topics?language=nb`, 'allTopics').as('allTopics');
     cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}`, 'selectSubject');
     cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}/translations`, []).as(
@@ -70,7 +71,12 @@ describe('Subject editing', () => {
       .first()
       .click();
     cy.wait('@newSubjectName');
-    cy.wait(1000);
+
+    cy.get('[data-testid=subjectName_nb]').type(' MER TEST');
+    cy.get('[data-testid=saveSubjectTranslationsButton]')
+      .first()
+      .click();
+    cy.wait('@newSubjectName');
 
     cy.get('[data-testid=subjectName_nb_delete]')
       .first()

@@ -1,1 +1,43 @@
-{"totalCount":9,"page":1,"pageSize":10,"language":"","results":[{"id":1,"title":"Test avtale","license":"CC-BY-SA-4.0"},{"id":9,"title":"Testavtale","license":"CC-BY-SA-4.0"},{"id":5,"title":"sigrun test","license":"CC-BY-SA-4.0"},{"id":4,"title":"sigrun test","license":"CC-BY-SA-4.0"},{"id":3,"title":"sigrun test ","license":"CC-BY-SA-4.0"},{"id":2,"title":"sigrun test avtale","license":"CC-BY-SA-4.0"},{"id":7,"title":"sigruntest123","license":"CC-BY-SA-4.0"},{"id":6,"title":"teset124","license":"CC-BY-SA-4.0"},{"id":8,"title":"testetes","license":"CC-BY-SA-4.0"}]}
+{
+  "totalCount": 7,
+  "page": 1,
+  "pageSize": 10,
+  "language": "",
+  "results": [
+    {
+      "id": 3,
+      "title": "Avtale mellom Seb og Test person",
+      "license": "CC-BY-SA-4.0"
+    },
+    {
+      "id": 2,
+      "title": "Forslag til årsplan 1P",
+      "license": "CC-BY-SA-4.0"
+    },
+    {
+      "id": 4,
+      "title": "Test avtale",
+      "license": "CC-BY-SA-4.0"
+    },
+    {
+      "id": 7,
+      "title": "bv",
+      "license": "CC-BY-SA-4.0"
+    },
+    {
+      "id": 5,
+      "title": "christina",
+      "license": "CC-BY-SA-4.0"
+    },
+    {
+      "id": 1,
+      "title": "dd",
+      "license": "CC-BY-SA-4.0"
+    },
+    {
+      "id": 6,
+      "title": "ddeee",
+      "license": "CC-BY-SA-4.0"
+    }
+  ]
+}

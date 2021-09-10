@@ -113,12 +113,12 @@ const Resource = ({
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
   const paths = [resource.path, ...resource.paths];
-  const structurePaths = window.location.pathname.replace('/structure/', '').split('/');
-  const subjectId = structurePaths[0].replace('urn:', '/');
-  const parent = (structurePaths[structurePaths.length - 2] ?? subjectId).replace('urn:', '');
+  const structurePaths = window.location.pathname.replace('/structure', '').split('/');
+  const currentPath = structurePaths.map(p => p.replace('urn:', '')).join('/');
   const path = paths.find(p => {
-    const currentPaths = p.substr(1).split('/');
-    return p.startsWith(subjectId) && currentPaths[currentPaths.length - 2] === parent;
+    const pArr = p.split('/');
+    const pathWithoutResource = pArr.slice(0, pArr.length - 1).join('/');
+    return pathWithoutResource === currentPath;
   });
 
   const PublishedWrapper = ({ children }: { children: React.ReactElement }) =>

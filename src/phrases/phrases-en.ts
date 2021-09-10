@@ -965,7 +965,7 @@ const phrases = {
         ariaLabel: 'Drag and drop or click to upload image',
       },
       copiedFrom:
-        'Audio file will be copied from {{language}}. Click the bucket icon to remove it and upload a new file.',
+        'Audio file will be copied from {{language}}. Click the delete icon to remove it and upload a new file.',
       info: {
         multipleFiles: 'You can upload different audio files for each language version.',
         changeFile:

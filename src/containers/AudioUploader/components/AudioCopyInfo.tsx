@@ -32,27 +32,30 @@ const IconWrapper = styled.div`
 
 const AudioFormInfo = ({ values }: Props) => {
   const {
-    audioFile: { storedFile: { language: fileLanguage } = {} },
+    audioFile: { storedFile: { language: copiedLanguage } = {} },
     language,
   } = values;
 
   const { t, i18n } = useTranslation();
 
-  if (!fileLanguage) {
+  if (!copiedLanguage) {
     return null;
   }
+
+  const tCopiedLanguage =
+    i18n.language === 'en'
+      ? t('language.' + copiedLanguage)
+      : t('language.' + copiedLanguage).toLowerCase();
+
   return (
     <div>
-      {language !== fileLanguage && (
+      {language !== copiedLanguage && (
         <InfoWrapper>
           <IconWrapper>
             <InformationOutline />
           </IconWrapper>
           {t('form.audio.copiedFrom', {
-            language:
-              i18n.language === 'en'
-                ? t('language.' + fileLanguage)
-                : t('language.' + fileLanguage).toLowerCase(),
+            language: tCopiedLanguage,
           })}
         </InfoWrapper>
       )}

@@ -15,8 +15,7 @@ import { toEditPodcast } from '../../util/routeHelpers';
 import { License } from '../../interfaces';
 import PodcastForm from './components/PodcastForm';
 
-interface Props {
-  history: RouteComponentProps['history'];
+interface Props extends RouteComponentProps {
   licenses: License[];
 }
 
@@ -36,10 +35,10 @@ const CreatePodcast = ({ licenses, history }: Props) => {
 
   return (
     <PodcastForm
-      audio={{ language: locale }}
       licenses={licenses}
       onUpdate={onCreatePodcast}
       isNewlyCreated={false}
+      language={locale}
     />
   );
 };

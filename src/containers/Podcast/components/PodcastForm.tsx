@@ -6,7 +6,7 @@
  */
 
 import React, { useState, ReactNode, useRef, useCallback, useMemo } from 'react';
-import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
+import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
@@ -19,25 +19,19 @@ import validateFormik, { RulesType } from '../../../components/formikValidationS
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import Spinner from '../../../components/Spinner';
-import {
-  isFormikFormDirty,
-  parseCopyrightContributors,
-  DEFAULT_LICENSE,
-} from '../../../util/formHelper';
+import { isFormikFormDirty } from '../../../util/formHelper';
 import { toCreatePodcastFile, toEditPodcast } from '../../../util/routeHelpers';
 import {
   NewPodcastMetaInformation,
   PodcastFormValues,
   UpdatedPodcastMetaInformation,
-  FlattenedAudioApiType,
+  AudioApiType,
 } from '../../../modules/audio/audioApiInterfaces';
-import {
-  editorValueToPlainText,
-  plainTextToEditorValue,
-} from '../../../util/articleContentConverter';
+import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import { License } from '../../../interfaces';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
 import handleError from '../../../util/handleError';
+import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
 
 const podcastRules: RulesType<PodcastFormValues> = {
   title: {
@@ -78,31 +72,6 @@ const podcastRules: RulesType<PodcastFormValues> = {
   },
 };
 
-type PodcastPropType = Partial<FlattenedAudioApiType> & { language: string };
-
-export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => ({
-  id: audio.id,
-  revision: audio.revision,
-  language: audio.language,
-  supportedLanguages: audio.supportedLanguages || [],
-  title: plainTextToEditorValue(audio.title || '', true),
-  manuscript: plainTextToEditorValue(audio.manuscript || '', true),
-  audioFile: audio.audioFile ? { storedFile: audio.audioFile } : {},
-  filepath: '',
-  tags: audio.tags || [],
-  origin: audio?.copyright?.origin || '',
-  creators: parseCopyrightContributors(audio, 'creators'),
-  processors: parseCopyrightContributors(audio, 'processors'),
-  rightsholders: parseCopyrightContributors(audio, 'rightsholders'),
-  license: audio?.copyright?.license?.license || DEFAULT_LICENSE.license,
-  audioType: 'podcast',
-  introduction: plainTextToEditorValue(audio.podcastMeta?.introduction, true),
-  coverPhotoId: audio.podcastMeta?.coverPhoto.id,
-  metaImageAlt: audio.podcastMeta?.coverPhoto.altText, // coverPhotoAltText
-  series: audio.series ?? null,
-  seriesId: audio.series?.id,
-});
-
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
   if (inModal) {
     return <div {...formClasses()}>{children}</div>;
@@ -114,11 +83,11 @@ type OnCreateFunc = (newPodcast: NewPodcastMetaInformation, file?: string | Blob
 type OnUpdateFunc = (newPodcast: UpdatedPodcastMetaInformation, file?: string | Blob) => void;
 
 interface Props {
-  audio: PodcastPropType;
+  audio?: AudioApiType;
   podcastChanged?: boolean;
   inModal?: boolean;
   isNewlyCreated?: boolean;
-  formikProps?: FormikProps<PodcastPropType>;
+  language: string;
   licenses: License[];
   onUpdate: OnCreateFunc | OnUpdateFunc;
   revision?: number;
@@ -132,6 +101,7 @@ const PodcastForm = ({
   inModal,
   isNewlyCreated,
   licenses,
+  language,
   onUpdate,
   translating,
   translateToNN,
@@ -218,7 +188,7 @@ const PodcastForm = ({
     [t, validateMetaImage],
   );
 
-  const initialValues = getInitialValues(audio);
+  const initialValues = audioApiTypeToPodcastFormType(audio, language);
   const initialErrors = useMemo(() => validateFunction(initialValues), [
     initialValues,
     validateFunction,

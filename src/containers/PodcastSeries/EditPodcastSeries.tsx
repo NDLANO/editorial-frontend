@@ -8,9 +8,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
-import { transformSeries } from '../../util/audioHelpers';
 import Spinner from '../../components/Spinner';
-import { FlattenedPodcastSeries, NewPodcastSeries } from '../../modules/audio/audioApiInterfaces';
+import { NewPodcastSeries, PodcastSeriesApiType } from '../../modules/audio/audioApiInterfaces';
 import PodcastSeriesForm from './components/PodcastSeriesForm';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -22,13 +21,12 @@ interface Props {
 
 const EditPodcastSeries = ({ podcastSeriesId, podcastSeriesLanguage, isNewlyCreated }: Props) => {
   const locale: string = useContext(LocaleContext);
-  const [podcastSeries, setPodcastSeries] = useState<FlattenedPodcastSeries | undefined>(undefined);
+  const [podcastSeries, setPodcastSeries] = useState<PodcastSeriesApiType | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
   const onUpdate = async (newSeries: NewPodcastSeries): Promise<void> => {
     const updatedSeries = await audioApi.updateSeries(podcastSeriesId, newSeries);
-    const transformed = transformSeries(updatedSeries, podcastSeriesLanguage);
-    setPodcastSeries(transformed);
+    setPodcastSeries(updatedSeries);
   };
 
   useEffect(() => {
@@ -36,8 +34,7 @@ const EditPodcastSeries = ({ podcastSeriesId, podcastSeriesLanguage, isNewlyCrea
       if (podcastSeriesId) {
         setLoading(true);
         const apiSeries = await audioApi.fetchSeries(podcastSeriesId, podcastSeriesLanguage);
-        const transformed = transformSeries(apiSeries, podcastSeriesLanguage);
-        setPodcastSeries(transformed);
+        setPodcastSeries(apiSeries);
         setLoading(false);
       }
     };
@@ -56,7 +53,8 @@ const EditPodcastSeries = ({ podcastSeriesId, podcastSeriesLanguage, isNewlyCrea
 
   return (
     <PodcastSeriesForm
-      podcastSeries={{ ...podcastSeries, language }}
+      podcastSeries={podcastSeries}
+      language={language}
       onUpdate={onUpdate}
       isNewlyCreated={isNewlyCreated}
     />

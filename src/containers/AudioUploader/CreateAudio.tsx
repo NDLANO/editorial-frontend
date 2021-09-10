@@ -34,13 +34,7 @@ const CreateAudio = ({ history, licenses, locale, ...rest }: Props) => {
   };
 
   return (
-    <AudioForm
-      audio={{ language: locale }}
-      onUpdate={onCreateAudio}
-      audioLanguage={locale}
-      licenses={licenses}
-      {...rest}
-    />
+    <AudioForm onUpdate={onCreateAudio} audioLanguage={locale} licenses={licenses} {...rest} />
   );
 };
 

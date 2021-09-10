@@ -7,59 +7,82 @@
  */
 
 import _ from 'lodash';
+import { Value } from 'slate';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
 import {
   AudioApiType,
-  FlattenedAudioApiType,
-  FlattenedPodcastSeries,
+  PodcastFormValues,
   PodcastSeriesApiType,
 } from '../modules/audio/audioApiInterfaces';
+import { AudioFormikType } from '../containers/AudioUploader/components/AudioForm';
+import { plainTextToEditorValue } from '../util/articleContentConverter';
+import { DEFAULT_LICENSE } from '../util/formHelper';
+import { Copyright } from '../interfaces';
+import { PodcastSeriesFormikType } from '../containers/PodcastSeries/components/PodcastSeriesForm';
 
-export const transformAudio = (
-  audio: AudioApiType,
-  language: string,
-): FlattenedAudioApiType | undefined => {
-  if (_.isEmpty(audio)) {
-    return undefined;
+const convertNestedAudioProps = (audio: AudioApiType | undefined, language: string) => {
+  if (audio) {
+    const audioLanguage = audio.supportedLanguages.includes(language) ? language : undefined;
+    return {
+      title: convertFieldWithFallback<'title'>(audio, 'title', '', audioLanguage),
+      manuscript: convertFieldWithFallback<'manuscript'>(audio, 'manuscript', '', audioLanguage),
+      tags: convertFieldWithFallback<'tags', string[]>(audio, 'tags', [], audioLanguage),
+    };
   }
+  return { title: '', manuscript: '', tags: [] as string[] };
+};
 
-  const audioLanguage =
-    audio && audio.supportedLanguages && audio.supportedLanguages.includes(language)
-      ? language
-      : undefined;
+export const audioApiTypeToFormType = (
+  audio: AudioApiType | undefined,
+  language: string,
+): AudioFormikType => {
+  const { title, manuscript, tags } = convertNestedAudioProps(audio, language);
 
-  const title = convertFieldWithFallback<'title'>(audio, 'title', '', audioLanguage);
-  const manuscript = convertFieldWithFallback<'manuscript'>(audio, 'manuscript', '', audioLanguage);
-  const tags = convertFieldWithFallback<'tags', string[]>(audio, 'tags', [], audioLanguage);
+  const copyright: Copyright = audio?.copyright ?? {
+    creators: [],
+    processors: [],
+    rightsholders: [],
+  };
 
   return {
     ...audio,
-    title,
-    manuscript,
+    title: plainTextToEditorValue(title, true),
+    manuscript: plainTextToEditorValue(manuscript, true),
     tags: Array.from(new Set(tags)),
+    ...copyright,
+    origin: audio?.copyright.origin ?? '',
+    license: audio?.copyright?.license?.license || DEFAULT_LICENSE.license,
+    audioFile: audio?.audioFile ? { storedFile: audio.audioFile } : {},
+    language,
+    supportedLanguages: audio?.supportedLanguages ?? [language],
   };
 };
 
-export const transformSeries = (
-  series: PodcastSeriesApiType,
+export const audioApiTypeToPodcastFormType = (
+  audio: AudioApiType | undefined,
   language: string,
-): FlattenedPodcastSeries | undefined => {
-  if (_.isEmpty(series)) {
-    return undefined;
-  }
+): PodcastFormValues => {
+  return {
+    ...audioApiTypeToFormType(audio, language),
+    filepath: '',
+    series: audio?.series ?? null,
+  };
+};
 
-  const seriesLanguage = series.supportedLanguages.includes(language) ? language : undefined;
-  const title = convertFieldWithFallback<'title'>(series, 'title', '', seriesLanguage);
-  const description = convertFieldWithFallback<'description'>(
-    series,
-    'description',
-    '',
-    seriesLanguage,
-  );
-
+export const podcastSeriesTypeToFormType = (
+  series: PodcastSeriesApiType | undefined,
+  language: string,
+): PodcastSeriesFormikType => {
+  const title = series ? convertFieldWithFallback<'title'>(series, 'title', '', language) : '';
+  const description = series
+    ? convertFieldWithFallback<'description'>(series, 'description', '', language)
+    : '';
   return {
     ...series,
-    title,
-    description,
+    language,
+    title: plainTextToEditorValue(title, true) as Value,
+    description: plainTextToEditorValue(description, true) as Value,
+    episodes: series?.episodes ?? [],
+    supportedLanguages: series?.supportedLanguages ?? [language],
   };
 };

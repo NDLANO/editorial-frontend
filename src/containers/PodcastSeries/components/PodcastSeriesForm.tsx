@@ -19,16 +19,14 @@ import { isFormikFormDirty } from '../../../util/formHelper';
 import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeHelpers';
 import {
   NewPodcastSeries,
-  FlattenedPodcastSeries,
   AudioApiType,
+  PodcastSeriesApiType,
 } from '../../../modules/audio/audioApiInterfaces';
-import {
-  editorValueToPlainText,
-  plainTextToEditorValue,
-} from '../../../util/articleContentConverter';
+import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
 import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
+import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
 
 const podcastRules: RulesType<PodcastSeriesFormikType> = {
   title: {
@@ -43,8 +41,6 @@ const podcastRules: RulesType<PodcastSeriesFormikType> = {
   },
 };
 
-type PodcastSeriesPropType = Partial<FlattenedPodcastSeries> & { language: string };
-
 export interface PodcastSeriesFormikType {
   id?: number;
   revision?: number;
@@ -57,22 +53,6 @@ export interface PodcastSeriesFormikType {
   supportedLanguages: string[];
 }
 
-const getInitialValues = (podcastSeries: PodcastSeriesPropType): PodcastSeriesFormikType => {
-  const title: Value = plainTextToEditorValue(podcastSeries.title || '', true);
-  const description: Value = plainTextToEditorValue(podcastSeries.description || '', true);
-  return {
-    id: podcastSeries.id,
-    revision: podcastSeries.revision,
-    language: podcastSeries.language,
-    title,
-    description,
-    coverPhotoId: podcastSeries.coverPhoto?.id,
-    metaImageAlt: podcastSeries.coverPhoto?.altText,
-    episodes: podcastSeries.episodes ?? [],
-    supportedLanguages: podcastSeries.supportedLanguages ?? [],
-  };
-};
-
 const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
   if (inModal) {
     return <div {...formClasses()}>{children}</div>;
@@ -81,7 +61,8 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
 };
 
 interface Props {
-  podcastSeries: PodcastSeriesPropType;
+  podcastSeries?: PodcastSeriesApiType;
+  language: string;
   inModal?: boolean;
   isNewlyCreated: boolean;
   formikProps?: FormikProps<PodcastSeriesFormikType>;
@@ -89,7 +70,13 @@ interface Props {
   revision?: number;
 }
 
-const PodcastSeriesForm = ({ podcastSeries, inModal, isNewlyCreated, onUpdate }: Props) => {
+const PodcastSeriesForm = ({
+  podcastSeries,
+  inModal,
+  isNewlyCreated,
+  onUpdate,
+  language,
+}: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
@@ -139,7 +126,7 @@ const PodcastSeriesForm = ({ podcastSeries, inModal, isNewlyCreated, onUpdate }:
     return {};
   };
 
-  const initialValues = getInitialValues(podcastSeries);
+  const initialValues = podcastSeriesTypeToFormType(podcastSeries, language);
 
   return (
     <Formik

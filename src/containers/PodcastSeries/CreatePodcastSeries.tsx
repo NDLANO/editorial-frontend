@@ -25,13 +25,7 @@ const CreatePodcastSeries = ({ history }: Props) => {
     history.push(toEditPodcastSeries(createdSeries.id, newSeries.language));
   };
 
-  return (
-    <PodcastSeriesForm
-      podcastSeries={{ language: locale }}
-      onUpdate={onUpdate}
-      isNewlyCreated={false}
-    />
-  );
+  return <PodcastSeriesForm language={locale} onUpdate={onUpdate} isNewlyCreated={false} />;
 };
 
 export default CreatePodcastSeries;

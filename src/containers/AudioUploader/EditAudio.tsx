@@ -10,16 +10,12 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
-import { transformAudio } from '../../util/audioHelpers';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import Spinner from '../../components/Spinner';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import { License, LocaleType } from '../../interfaces';
-import {
-  FlattenedAudioApiType,
-  UpdatedAudioMetaInformation,
-} from '../../modules/audio/audioApiInterfaces';
+import { AudioApiType, UpdatedAudioMetaInformation } from '../../modules/audio/audioApiInterfaces';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
@@ -38,13 +34,26 @@ const EditAudio = ({
   licenses,
   ...rest
 }: Props) => {
-  const [audio, setAudio] = useState<FlattenedAudioApiType | undefined>(undefined);
+  const [audio, setAudio] = useState<AudioApiType | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const { translating, translateToNN } = useTranslateApi(
     audio,
-    (audio: FlattenedAudioApiType) => setAudio(audio),
+    (audio: AudioApiType) => setAudio(audio),
     ['id', 'manuscript', 'title'],
   );
+
+  useEffect(() => {
+    async function fetchAudio() {
+      if (audioId) {
+        setLoading(true);
+        const apiAudio = await audioApi.fetchAudio(audioId, audioLanguage);
+        setAudio(apiAudio);
+        setLoading(false);
+      }
+    }
+
+    fetchAudio();
+  }, [audioId, audioLanguage]);
 
   const onUpdate = async (
     newAudio: UpdatedAudioMetaInformation,
@@ -52,22 +61,8 @@ const EditAudio = ({
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
     const updatedAudio = await audioApi.updateAudio(audioId, formData);
-    const transformedAudio = transformAudio(updatedAudio, audioLanguage);
-    setAudio(transformedAudio);
+    setAudio(updatedAudio);
   };
-
-  useEffect(() => {
-    async function fetchAudio() {
-      if (audioId) {
-        setLoading(true);
-        const apiAudio = await audioApi.fetchAudio(audioId, audioLanguage);
-        setAudio(transformAudio(apiAudio, audioLanguage));
-        setLoading(false);
-      }
-    }
-
-    fetchAudio();
-  }, [audioId, audioLanguage]);
 
   if (loading) {
     return <Spinner withWrapper />;
@@ -84,10 +79,10 @@ const EditAudio = ({
   const language = audioLanguage || locale;
   return (
     <AudioForm
-      audio={{ ...audio, language }}
+      audio={audio}
       revision={audio && audio.revision}
       onUpdate={onUpdate}
-      audioLanguage={audioLanguage}
+      audioLanguage={language}
       isNewlyCreated={isNewlyCreated}
       licenses={licenses}
       translating={translating}

@@ -976,6 +976,7 @@ export const coreResourcesMock = [
     contentUri: 'urn:learningpath:89',
     path:
       '/subject:1a1136e1-09e3-4c35-bc1d-aa4fd11a1767/topic:533fa848-eb84-4889-b25b-b48c61e8b38a/topic:1:172361/topic:1:186069/resource:1:166022',
+    paths: [],
     connectionId: 'urn:topic-resource:d8180ec9-aeaa-4e08-9f10-852bf817b309',
     rank: 1,
   },
@@ -987,6 +988,7 @@ export const coreResourcesMock = [
     contentUri: 'urn:learningpath:78',
     path:
       '/subject:1a1136e1-09e3-4c35-bc1d-aa4fd11a1767/topic:533fa848-eb84-4889-b25b-b48c61e8b38a/topic:1:172361/topic:1:186069/resource:1:167859',
+    paths: [],
     connectionId: 'urn:topic-resource:7c45148f-9205-4200-92a6-cbf6c79a6936',
     rank: 2,
   },
@@ -997,6 +999,7 @@ export const coreResourcesMock = [
     resourceTypes: [{ id: 'urn:resourcetype:learningPath', name: 'Læringssti' }],
     contentUri: 'urn:learningpath:813',
     path: '/subject:1/topic:1:172361/topic:1:186069/resource:1:169735',
+    paths: [],
     connectionId: 'urn:topic-resource:f1a134d8-a4d1-4006-8eec-eb92f68ec324',
     rank: 3,
   },
@@ -1008,6 +1011,7 @@ export const coreResourcesMock = [
     contentUri: 'urn:learningpath:508',
     path:
       '/subject:1a1136e1-09e3-4c35-bc1d-aa4fd11a1767/topic:533fa848-eb84-4889-b25b-b48c61e8b38a/topic:1:172361/topic:1:186069/resource:1:178253',
+    paths: [],
     connectionId: 'urn:topic-resource:9474e88b-eba0-40f1-b95a-3afc3456c0b7',
     rank: 4,
   },
@@ -1019,6 +1023,7 @@ export const coreResourcesMock = [
     contentUri: 'urn:learningpath:401',
     path:
       '/subject:1a1136e1-09e3-4c35-bc1d-aa4fd11a1767/topic:533fa848-eb84-4889-b25b-b48c61e8b38a/topic:1:172361/topic:1:186069/resource:1:183249',
+    paths: [],
     connectionId: 'urn:topic-resource:8ce6bdc9-26e1-44a7-b9b4-ad51205e14b7',
     rank: 5,
   },
@@ -1032,6 +1037,7 @@ export const supplementaryResourcesMock = [
     resourceTypes: [{ id: 'urn:resourcetype:learningPath', name: 'Læringssti' }],
     contentUri: null,
     path: '/subject:1/topic:1:172416/topic:1:172600/resource:1:159742',
+    paths: [],
     connectionId: 'urn:topic-resource:c2246a82-dda0-4682-9b63-be78b8486a33',
     rank: 1,
   },

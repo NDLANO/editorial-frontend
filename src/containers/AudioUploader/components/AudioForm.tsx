@@ -125,6 +125,7 @@ const AudioForm = ({
   const [savedToServer, setSavedToServer] = useState(false);
   const prevAudioLanguage = useRef<string | null>(null);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!prevAudioLanguage.current) {
       prevAudioLanguage.current = audioLanguage;
@@ -189,7 +190,6 @@ const AudioForm = ({
         const hasError = (errFields: (keyof AudioFormikType)[]): boolean => {
           return errFields.some(field => !!errors[field]);
         };
-
         return (
           <FormWrapper>
             <HeaderWithLanguage
@@ -237,7 +237,6 @@ const AudioForm = ({
                 </AccordionSection>
               </Accordions>
             )}
-
             <Field right>
               <AbortButton outline disabled={isSubmitting}>
                 {t('form.abort')}
@@ -258,6 +257,11 @@ const AudioForm = ({
               formIsDirty={formIsDirty}
               severity="danger"
               text={t('alertModal.notSaved')}
+              showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+              onClick={(evt: Event) => {
+                evt.preventDefault();
+                submitForm();
+              }}
             />
           </FormWrapper>
         );

@@ -284,6 +284,7 @@ const phrases = {
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
+    metaImageCheckboxLabel: 'Sett som metabilde',
     noTitle: 'Ingen tittel',
     noResultsText: 'Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
@@ -979,6 +980,19 @@ const phrases = {
         sub: 'eller trykk for å laste opp lydfil',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
+      copiedFrom:
+        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten ved siden av lydfilen for å fjerne den og laste opp en ny fil.',
+      info: {
+        multipleFiles: 'Du kan laste opp forskjellige lydfiler for hver språkversjon.',
+        changeFile:
+          'Fjerning og endring av en språkversjon vil ikke påvirke de andre språkversjonene.',
+        newLanguage:
+          'Ved oppretting av ny språkversjon vil en lydfil fra en eksisterende språkversjon foreslås.',
+      },
+      modal: {
+        header: 'Lydfiler',
+        label: 'Informasjon om lydfiler',
+      },
     },
     podcast: {
       remove: 'Ta bort podkast',
@@ -1141,7 +1155,22 @@ const phrases = {
     resources: 'Ressurser',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
-    changeName: 'Endre navn',
+    changeName: {
+      loadError: 'Klarte ikke hente oversettelser',
+      updateError: 'Klarte ikke oppdatere oversettelser',
+      defaultName: 'Standardnavn',
+      addNewTranslation: 'Legg til ny oversettelse',
+      buttonTitle: 'Endre navn',
+      language: 'Språk',
+      name: 'Navn',
+      namePlaceholder: 'Fagnavn',
+      delete: 'Slett',
+      title: 'Endre fagnavn',
+      cancel: 'Avbryt',
+      add: 'Legg til',
+      noTranslations:
+        'Ingen oversettelser tilgjengelig. Standardnavn vil brukes inntil dette er lagt inn.',
+    },
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',

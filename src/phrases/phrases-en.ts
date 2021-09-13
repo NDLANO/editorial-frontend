@@ -282,6 +282,7 @@ const phrases = {
     placeholder: 'Search images',
     buttonTitle: 'Search',
     useImage: 'Use image',
+    metaImageCheckboxLabel: 'Set as meta image',
     noTitle: 'No title',
     noResultsText: 'No images found. Would you like to upload a new image?',
     noResultsButtonText: 'Upload image',
@@ -969,6 +970,19 @@ const phrases = {
         sub: 'or click to upload image',
         ariaLabel: 'Drag and drop or click to upload image',
       },
+      copiedFrom:
+        'Audio file will be copied from {{language}}. Click the delete icon to remove it and upload a new file.',
+      info: {
+        multipleFiles: 'You can upload different audio files for each language version.',
+        changeFile:
+          'Changes made to a language version will not alter the other language versions.',
+        newLanguage:
+          'When creating a new language version, an audio file from an existing language will be suggested.',
+      },
+      modal: {
+        header: 'Audio files',
+        label: 'Audio file information',
+      },
     },
     podcast: {
       remove: 'Remove podcast',
@@ -1129,7 +1143,21 @@ const phrases = {
     resources: 'Resources',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
-    changeName: 'Change name',
+    changeName: {
+      loadError: 'Could not fetch translations',
+      updateError: 'Could not update translations',
+      defaultName: 'Default name',
+      addNewTranslation: 'Add new translation',
+      buttonTitle: 'Change name',
+      language: 'Language',
+      name: 'Name',
+      namePlaceholder: 'Subject name',
+      delete: 'Delete',
+      title: 'Change subject name',
+      cancel: 'Cancel',
+      add: 'Add',
+      noTranslations: 'No translations available! Using default name as fallback.',
+    },
     topicSettings: 'Topic settings',
     subjectSettings: 'Subject settings',
     linkSettings: 'Link',

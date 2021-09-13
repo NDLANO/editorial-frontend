@@ -284,6 +284,7 @@ const phrases = {
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
+    metaImageCheckboxLabel: 'Sett som metabilde',
     noTitle: 'Ingen tittel',
     noResultsText: 'Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?',
     noResultsButtonText: 'Last opp bilde',

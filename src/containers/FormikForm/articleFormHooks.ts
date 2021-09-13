@@ -139,11 +139,6 @@ export function useArticleFormHooks({
     values: ArticleFormikType,
     formikHelpers: FormikHelpers<ArticleFormikType>,
   ): Promise<void> => {
-    if (revision === undefined) {
-      formikHelpers.setSubmitting(false);
-      return;
-    }
-
     formikHelpers.setSubmitting(true);
     const initialStatus = articleStatus ? articleStatus.current : undefined;
     const newStatus = values.status?.current;
@@ -172,7 +167,7 @@ export function useArticleFormHooks({
         savedArticle = await updateArticleAndStatus({
           updatedArticle: {
             ...newArticle,
-            revision,
+            revision: revision || newArticle.revision,
           },
           newStatus,
           dirty: !skipSaving,
@@ -180,7 +175,7 @@ export function useArticleFormHooks({
       } else {
         savedArticle = await updateArticle({
           ...newArticle,
-          revision,
+          revision: revision || newArticle.revision,
         });
       }
 

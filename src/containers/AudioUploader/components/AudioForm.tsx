@@ -264,7 +264,6 @@ class AudioForm extends Component<Props, State> {
                   </AccordionSection>
                 </Accordions>
               )}
-
               <Field right>
                 <AbortButton outline disabled={isSubmitting}>
                   {t('form.abort')}

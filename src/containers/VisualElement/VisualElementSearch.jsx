@@ -73,6 +73,8 @@ class VisualElementSearch extends Component {
       articleLanguage,
       videoTypes,
       locale,
+      showMetaImageCheckbox,
+      onSaveAsMetaImage,
       t,
     } = this.props;
     const fetchImage = id => visualElementApi.fetchImage(id, articleLanguage);
@@ -83,6 +85,7 @@ class VisualElementSearch extends Component {
       case 'image':
         return (
           <ImageSearchAndUploader
+            inModal={true}
             handleVisualElementChange={handleVisualElementChange}
             locale={locale}
             isSavingImage={isSavingImage}
@@ -101,6 +104,8 @@ class VisualElementSearch extends Component {
                 metaData: image,
               });
             }}
+            showMetaImageCheckbox={showMetaImageCheckbox}
+            onSaveAsMetaImage={onSaveAsMetaImage}
           />
         );
       case 'video': {
@@ -265,6 +270,8 @@ VisualElementSearch.propTypes = {
   clearUploadedImage: PropTypes.func.isRequired,
   closeModal: PropTypes.func,
   videoTypes: PropTypes.array,
+  showMetaImageCheckbox: PropTypes.bool,
+  onSaveAsMetaImage: PropTypes.func,
 };
 
 const mapDispatchToProps = {

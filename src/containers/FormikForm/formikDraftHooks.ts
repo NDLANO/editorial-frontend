@@ -95,8 +95,8 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
     return savedArticle;
   };
 
-  const updateUserData = async (articleId: number | string) => {
-    const stringId = typeof articleId === 'string' ? articleId : articleId.toString();
+  const updateUserData = async (articleId: number) => {
+    const stringId = articleId.toString();
     const result = await draftApi.fetchUserData();
     const latestEditedArticles = result.latestEditedArticles || [];
     let userUpdatedMetadata;
@@ -110,7 +110,9 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
         latestEditedArticles: latestEditedArticles,
       };
     } else {
-      const latestEditedFiltered = latestEditedArticles.filter(id => id !== articleId);
+      const latestEditedFiltered = latestEditedArticles.filter(id => {
+        return id !== stringId;
+      });
       latestEditedFiltered.splice(0, 0, stringId);
       userUpdatedMetadata = {
         latestEditedArticles: latestEditedFiltered,

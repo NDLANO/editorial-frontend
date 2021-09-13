@@ -70,6 +70,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
   const [resourcesUpdated, setResourcesUpdated] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   const [favoriteSubjects, setFavoriteSubjects] = useState<string[]>([]);
+  const [resourcesLoading, setResourcesLoading] = useState(false);
   const resourceSection = useRef<HTMLDivElement>(null);
   const prevRouteParams = useRef<RouteProps | undefined>(undefined);
 
@@ -89,7 +90,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
       if (subject) {
         getSubjectTopics(subject, locale);
       }
-      fetchFavoriteSubjects();
+      await fetchFavoriteSubjects();
       const shouldShowFavorites = window.localStorage.getItem(REMEMBER_FAVOURITE_SUBJECTS);
       setShowFavorites(shouldShowFavorites === 'true');
     })();
@@ -306,6 +307,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
                   getAllSubjects={getAllSubjects}
                   refreshTopics={refreshTopics}
                   structure={subjects}
+                  resourcesLoading={resourcesLoading}
                   jumpToResources={() =>
                     resourceSection && resourceSection.current?.scrollIntoView()
                   }
@@ -321,6 +323,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
         </Accordion>
         {topicId && currentTopic && (
           <StructureResources
+            setResourcesLoading={setResourcesLoading}
             locale={locale}
             params={params}
             resourceRef={resourceSection}

@@ -143,6 +143,10 @@ const phrases = {
       notes: 'Søketreff frå versjonslogg',
       previousVersionsNotes: 'Søketreff frå versjonslogg',
     },
+    save: {
+      alreadyExist: 'Søket er allereie lagra.',
+      other: 'Lagring feila.',
+    },
   },
   articleType: {
     'topic-article': 'Emne',
@@ -275,6 +279,7 @@ const phrases = {
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
+    metaImageCheckboxLabel: 'Sett som metabilde',
     noTitle: 'Ingen tittel',
     noResultsText: 'Fann ingen bilder på søk. Ønskjer du å laste opp eit nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
@@ -534,6 +539,7 @@ const phrases = {
     saveTax: 'Lagre taksonomi',
     choose: 'Velg',
     saving: 'Lagrer...',
+    saveSearch: 'Lagre søk',
     saved: 'Lagra ',
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',
@@ -982,6 +988,19 @@ const phrases = {
         main: 'Dra og slipp',
         sub: 'eller trykk for å laste opp lydfil',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
+      },
+      copiedFrom:
+        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten ved sida av lydfila for å fjerne den og laste opp ei ny fil.',
+      info: {
+        multipleFiles: 'Du kan laste opp forskjellige lydfilar for kvar språkversjon.',
+        changeFile:
+          'Fjerning og endring av ein språkversjon vil ikkje påverke dei andre språkversjonane.',
+        newLanguage:
+          'Ved oppretting av ny språkversjon vil ei lydfil fra ein eksisterande språkversjon foreslås.',
+      },
+      modal: {
+        header: 'Lydfiler',
+        label: 'Informasjon om lydfiler',
       },
     },
     podcast: {

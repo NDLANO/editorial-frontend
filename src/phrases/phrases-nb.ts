@@ -145,6 +145,7 @@ const phrases = {
     },
     save: {
       alreadyExist: 'Søket er allerede lagret.',
+      fetchFailed: 'Kunne ikke laste lagrede søk.',
       other: 'Søk feilet.',
     },
   },

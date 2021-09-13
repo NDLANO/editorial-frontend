@@ -144,6 +144,7 @@ const phrases = {
     },
     save: {
       alreadyExist: 'Search has already been saved.',
+      fetchFailed: 'Could not get load saved searches.',
       other: 'Save failed.',
     },
   },
@@ -515,7 +516,7 @@ const phrases = {
     saveDraft: 'Save draft',
     saveTax: 'Save taxonomy',
     saving: 'Saving...',
-    saveSearch: 'Lagre søk',
+    saveSearch: 'Save search',
     choose: 'Choose',
     saved: 'Saved ',
     feil: 'There are still errors.',

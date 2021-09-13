@@ -145,6 +145,7 @@ const phrases = {
     },
     save: {
       alreadyExist: 'Søket er allereie lagra.',
+      fetchFailed: 'Kunne ikkje laste lagra søk.',
       other: 'Lagring feila.',
     },
   },

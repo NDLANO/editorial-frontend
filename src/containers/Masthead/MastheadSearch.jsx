@@ -51,7 +51,7 @@ class MastheadSearch extends Component {
 
     const newParams = {
       ...oldParams,
-      query: searchQuery,
+      query: searchQuery || undefined,
       page: 1,
       sort: searchQuery.sort || '-lastUpdated',
       'page-size': searchQuery['page-size'] || 10,

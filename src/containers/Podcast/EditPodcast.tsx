@@ -14,10 +14,7 @@ import { toEditAudio } from '../../util/routeHelpers';
 import PodcastForm from './components/PodcastForm';
 import Spinner from '../../components/Spinner';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
-import {
-  UpdatedPodcastMetaInformation,
-  AudioApiType,
-} from '../../modules/audio/audioApiInterfaces';
+import { PodcastMetaInformationPut, AudioApiType } from '../../modules/audio/audioApiInterfaces';
 import { License } from '../../interfaces';
 
 interface Props {
@@ -43,7 +40,7 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
   );
 
   const onUpdate = async (
-    newPodcast: UpdatedPodcastMetaInformation,
+    newPodcast: PodcastMetaInformationPut,
     podcastFile: string | Blob | undefined,
   ) => {
     const formData = await createFormData(podcastFile, newPodcast);

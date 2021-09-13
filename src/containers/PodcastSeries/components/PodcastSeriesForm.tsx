@@ -18,7 +18,7 @@ import Field from '../../../components/Field';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeHelpers';
 import {
-  NewPodcastSeries,
+  PodcastSeriesPost,
   AudioApiType,
   PodcastSeriesApiType,
 } from '../../../modules/audio/audioApiInterfaces';
@@ -66,7 +66,7 @@ interface Props {
   inModal?: boolean;
   isNewlyCreated: boolean;
   formikProps?: FormikProps<PodcastSeriesFormikType>;
-  onUpdate: (newPodcastSeries: NewPodcastSeries) => void;
+  onUpdate: (newPodcastSeries: PodcastSeriesPost) => void;
   revision?: number;
 }
 
@@ -99,7 +99,7 @@ const PodcastSeriesForm = ({
     actions.setSubmitting(true);
     const title: string = editorValueToPlainText(values.title);
     const description: string = editorValueToPlainText(values.description);
-    const newPodcastSeries: NewPodcastSeries = {
+    const newPodcastSeries: PodcastSeriesPost = {
       id: values.id,
       revision: values.revision,
       title,

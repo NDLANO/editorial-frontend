@@ -9,7 +9,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
 import Spinner from '../../components/Spinner';
-import { NewPodcastSeries, PodcastSeriesApiType } from '../../modules/audio/audioApiInterfaces';
+import { PodcastSeriesApiType, PodcastSeriesPut } from '../../modules/audio/audioApiInterfaces';
 import PodcastSeriesForm from './components/PodcastSeriesForm';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -24,7 +24,7 @@ const EditPodcastSeries = ({ podcastSeriesId, podcastSeriesLanguage, isNewlyCrea
   const [podcastSeries, setPodcastSeries] = useState<PodcastSeriesApiType | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const onUpdate = async (newSeries: NewPodcastSeries): Promise<void> => {
+  const onUpdate = async (newSeries: PodcastSeriesPut): Promise<void> => {
     const updatedSeries = await audioApi.updateSeries(podcastSeriesId, newSeries);
     setPodcastSeries(updatedSeries);
   };

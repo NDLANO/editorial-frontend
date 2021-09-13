@@ -15,7 +15,7 @@ import { toEditPodcast } from '../../util/routeHelpers';
 import Spinner from '../../components/Spinner';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import { License, LocaleType } from '../../interfaces';
-import { AudioApiType, UpdatedAudioMetaInformation } from '../../modules/audio/audioApiInterfaces';
+import { AudioApiType, AudioMetaInformationPut } from '../../modules/audio/audioApiInterfaces';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
@@ -56,7 +56,7 @@ const EditAudio = ({
   }, [audioId, audioLanguage]);
 
   const onUpdate = async (
-    newAudio: UpdatedAudioMetaInformation,
+    newAudio: AudioMetaInformationPut,
     file: string | Blob | undefined,
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);

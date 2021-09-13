@@ -29,8 +29,8 @@ import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { Author, FormikFormBaseType, License } from '../../../interfaces';
 import {
   AudioApiType,
-  NewAudioMetaInformation,
-  UpdatedAudioMetaInformation,
+  AudioMetaInformationPost,
+  AudioMetaInformationPut,
 } from '../../../modules/audio/audioApiInterfaces';
 import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
@@ -94,8 +94,8 @@ const mapDispatchToProps = {
 const reduxConnector = connect(undefined, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-type OnCreateFunc = (audio: NewAudioMetaInformation, file?: string | Blob) => void;
-type OnUpdateFunc = (audio: UpdatedAudioMetaInformation, file?: string | Blob) => void;
+type OnCreateFunc = (audio: AudioMetaInformationPost, file?: string | Blob) => void;
+type OnUpdateFunc = (audio: AudioMetaInformationPut, file?: string | Blob) => void;
 
 interface BaseProps {
   licenses: License[];

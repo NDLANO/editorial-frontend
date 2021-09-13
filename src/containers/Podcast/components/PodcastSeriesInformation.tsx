@@ -16,7 +16,7 @@ import {
   PodcastFormValues,
   PodcastSeriesApiType,
   SeriesSearchResult,
-  SeriesSearchSummary,
+  SeriesSearchResultType,
 } from '../../../modules/audio/audioApiInterfaces';
 import { AsyncDropdown } from '../../../components/Dropdown';
 import handleError from '../../../util/handleError';
@@ -51,7 +51,7 @@ const PodcastSeriesInformation = () => {
     }
   }, [series, language]);
 
-  const onAddSeries = async (series: SeriesSearchSummary) => {
+  const onAddSeries = async (series: SeriesSearchResultType) => {
     try {
       const newSeries = await fetchSeries(series.id, language || 'nb');
       delete newSeries.episodes;
@@ -111,7 +111,7 @@ const PodcastSeriesInformation = () => {
         label="label"
         apiAction={searchForSeries}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(series: SeriesSearchSummary) => onAddSeries(series)}
+        onChange={(series: SeriesSearchResultType) => onAddSeries(series)}
         multiSelect
         disableSelected
         clearInputField

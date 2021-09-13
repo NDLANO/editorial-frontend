@@ -18,7 +18,7 @@ export interface AudioFile {
   language: string;
 }
 
-export interface NewPodcastMeta {
+export interface PodcastMetaPost {
   introduction: string;
   coverPhotoId: string;
   coverPhotoAltText: string;
@@ -34,7 +34,7 @@ export interface PodcastMeta {
   language: string;
 }
 
-export interface NewAudioMetaInformation {
+export interface AudioMetaInformationPost {
   id?: number; // Only used by frontend, ignored by backend
   title: string;
   manuscript: string;
@@ -42,18 +42,18 @@ export interface NewAudioMetaInformation {
   copyright: Copyright;
   tags: string[];
   audioType: string;
-  podcastMeta?: NewPodcastMeta;
+  podcastMeta?: PodcastMetaPost;
 }
 
-export interface UpdatedAudioMetaInformation extends NewAudioMetaInformation {
+export interface AudioMetaInformationPut extends AudioMetaInformationPost {
   revision?: number;
 }
 
-export interface NewPodcastMetaInformation extends NewAudioMetaInformation {
-  podcastMeta: NewPodcastMeta;
+export interface PodcastMetaInformationPost extends AudioMetaInformationPost {
+  podcastMeta: PodcastMetaPost;
 }
 
-export interface UpdatedPodcastMetaInformation extends NewPodcastMetaInformation {
+export interface PodcastMetaInformationPut extends PodcastMetaInformationPost {
   revision?: number;
 }
 
@@ -115,7 +115,7 @@ export interface AudioSearchResultType {
   };
 }
 
-export interface SearchParams {
+export interface AudioSearchParams {
   'audio-type'?: string;
   'page-size'?: number;
   language?: string;
@@ -134,7 +134,7 @@ export interface PodcastSeriesApiType {
   supportedLanguages: string[];
 }
 
-export interface NewPodcastSeries {
+export interface PodcastSeriesPost {
   id?: number;
   title: string;
   description: string;
@@ -145,6 +145,8 @@ export interface NewPodcastSeries {
   language: string;
 }
 
+export type PodcastSeriesPut = PodcastSeriesPost;
+
 export interface SeriesSearchParams {
   query?: string;
   page?: number;
@@ -152,7 +154,7 @@ export interface SeriesSearchParams {
   language?: string;
 }
 
-export interface SeriesSearchSummary {
+export interface SeriesSearchResultType {
   id: number;
   title: {
     title: string;
@@ -172,5 +174,5 @@ export interface SeriesSearchSummary {
 }
 
 export type AudioSearchResult = SearchResultBase<AudioSearchResultType>;
-export type SeriesSearchResult = SearchResultBase<SeriesSearchSummary>;
+export type SeriesSearchResult = SearchResultBase<SeriesSearchResultType>;
 export type TagSearchResult = SearchResultBase<string>;

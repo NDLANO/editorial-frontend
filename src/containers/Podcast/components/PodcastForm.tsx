@@ -22,9 +22,9 @@ import Spinner from '../../../components/Spinner';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toCreatePodcastFile, toEditPodcast } from '../../../util/routeHelpers';
 import {
-  NewPodcastMetaInformation,
+  PodcastMetaInformationPost,
   PodcastFormValues,
-  UpdatedPodcastMetaInformation,
+  PodcastMetaInformationPut,
   AudioApiType,
 } from '../../../modules/audio/audioApiInterfaces';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
@@ -79,8 +79,8 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-type OnCreateFunc = (newPodcast: NewPodcastMetaInformation, file?: string | Blob) => void;
-type OnUpdateFunc = (newPodcast: UpdatedPodcastMetaInformation, file?: string | Blob) => void;
+type OnCreateFunc = (newPodcast: PodcastMetaInformationPost, file?: string | Blob) => void;
+type OnUpdateFunc = (newPodcast: PodcastMetaInformationPut, file?: string | Blob) => void;
 
 interface Props {
   audio?: AudioApiType;

@@ -280,7 +280,6 @@ AudioForm.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   revision: PropTypes.number,
   audio: AudioShape,
-  applicationError: PropTypes.func.isRequired,
   audioLanguage: PropTypes.string.isRequired,
   isNewlyCreated: PropTypes.bool,
   translating: PropTypes.bool,

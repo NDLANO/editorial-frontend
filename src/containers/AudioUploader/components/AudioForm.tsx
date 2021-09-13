@@ -40,6 +40,7 @@ import {
   UpdatedAudioMetaInformation,
 } from '../../../modules/audio/audioApiInterfaces';
 import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
+import { ReduxMessageError } from '../../Messages/messagesSelectors';
 
 export interface AudioFormikType {
   id?: number;
@@ -183,7 +184,7 @@ class AudioForm extends Component<Props, State> {
       actions.setSubmitting(false);
       this.setState({ savedToServer: true });
     } catch (err) {
-      applicationError(err as any);
+      applicationError(err as ReduxMessageError);
       actions.setSubmitting(false);
       this.setState({ savedToServer: false });
     }

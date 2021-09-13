@@ -54,6 +54,7 @@ interface Props {
   ) => Promise<void>;
   primary?: boolean;
   rank?: number;
+  refreshResources?: () => Promise<void>;
 }
 const grepButtonStyle = css`
   margin-left: ${spacing.xsmall};
@@ -100,6 +101,7 @@ const Resource = ({
   updateRelevanceId,
   primary,
   rank,
+  refreshResources,
 }: Props) => {
   const { t } = useTranslation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
@@ -121,6 +123,13 @@ const Resource = ({
     const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join('/');
     return pathWithoutResource === currentPath;
   });
+
+  const onGrepModalClosed = async (changed: boolean) => {
+    setShowGrepCodes(false);
+    if (changed && refreshResources) {
+      await refreshResources();
+    }
+  };
 
   const PublishedWrapper = ({ children }: { children: React.ReactElement }) =>
     !path ? (
@@ -194,7 +203,7 @@ const Resource = ({
       )}
       {showGrepCodes && (
         <GrepCodesModal
-          onClose={() => setShowGrepCodes(false)}
+          onClose={onGrepModalClosed}
           contentUri={resource.contentUri}
           locale={locale}
         />

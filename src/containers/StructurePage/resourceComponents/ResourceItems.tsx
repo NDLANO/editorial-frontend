@@ -130,6 +130,7 @@ const ResourceItems = ({ refreshResources, resources, locale }: Props) => {
             onDelete={toggleDelete}
             locale={locale}
             updateRelevanceId={updateRelevanceId}
+            refreshResources={refreshResources}
           />
         ))}
       </MakeDndList>

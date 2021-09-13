@@ -6,7 +6,6 @@
  *
  */
 
-import _ from 'lodash';
 import { Value } from 'slate';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
 import {

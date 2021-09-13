@@ -98,6 +98,17 @@ class SearchContentForm extends Component<Props & WithTranslation, State> {
     this.getExternalData();
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.searchObject.query !== this.props.searchObject.query) {
+      this.setState({
+        search: {
+          ...this.state.search,
+          query: this.props.searchObject.query || '',
+        },
+      });
+    }
+  }
+
   onFieldChange(evt: FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>) {
     const { name, value } = evt.currentTarget;
     this.setState(prevState => {

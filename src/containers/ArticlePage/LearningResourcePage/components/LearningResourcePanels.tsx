@@ -63,7 +63,7 @@ const LearningResourcePanels = ({
         <LearningResourceContent
           formik={formikContext}
           userAccess={userAccess}
-          handleSubmit={handleSubmit}
+          handleSubmit={() => handleSubmit(values, formikContext)}
           handleBlur={handleBlur}
           values={values}
           article={article}

@@ -3,7 +3,6 @@ import nb from './phrases/phrases-nb';
 import nn from './phrases/phrases-nn';
 import en from './phrases/phrases-en';
 import { STORED_LANGUAGE_KEY } from './constants';
-
 import { LocaleType } from './interfaces';
 
 export const supportedLanguages: LocaleType[] = ['nb', 'nn', 'en'];

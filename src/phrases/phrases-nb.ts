@@ -536,6 +536,7 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saveSearch: 'Lagre søk',
+    alreadySaved: 'Lagret',
     saved: 'Lagret ',
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',

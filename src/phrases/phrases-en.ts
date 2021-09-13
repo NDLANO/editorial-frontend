@@ -517,6 +517,7 @@ const phrases = {
     saveTax: 'Save taxonomy',
     saving: 'Saving...',
     saveSearch: 'Save search',
+    alreadySaved: 'Saved',
     choose: 'Choose',
     saved: 'Saved ',
     feil: 'There are still errors.',

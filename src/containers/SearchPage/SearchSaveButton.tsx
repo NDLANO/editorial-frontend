@@ -110,7 +110,7 @@ const SearchSaveButton = () => {
       <SaveButton
         isSaving={loading}
         showSaved={success}
-        defaultText={isSaved ? 'saved' : 'saveSearch'}
+        defaultText={isSaved ? 'alreadySaved' : 'saveSearch'}
         onClick={saveSearch}
         disabled={isSaved || success}
       />

@@ -61,7 +61,7 @@ const ImageSearchAndUploader = ({
     return searchImages({ query, page, 'page-size': 16 });
   };
 
-  const transformedImage = image ? { ...image, id: parseInt(image.id) } : undefined;
+  const transformedImage = image ? { ...image, id: parseInt(image.id) } : { language: locale };
 
   return (
     <Tabs

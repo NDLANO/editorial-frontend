@@ -110,7 +110,7 @@ export interface ImagePropType {
   caption?: string;
   contentType?: string;
   copyright?: Copyright;
-  id?: number | string;
+  id?: number;
   imageUrl?: string;
   language?: string;
   metaUrl?: string;
@@ -222,9 +222,6 @@ class ImageForm extends Component<Props & WithTranslation, State> {
 
     if (isLoading) return <Spinner withWrapper />;
 
-    const imageId = image?.id ? parseInt(`${image.id}`) : undefined;
-    const headerContent = image ? { ...image, id: imageId } : {};
-
     return (
       <Formik
         initialValues={initialValues}
@@ -247,7 +244,7 @@ class ImageForm extends Component<Props & WithTranslation, State> {
                 noStatus
                 values={values}
                 type="image"
-                content={headerContent}
+                content={image ?? {}}
                 editUrl={(lang: string) => {
                   if (values.id) return toEditImage(values.id, lang);
                   else return toCreateImage();

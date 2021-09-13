@@ -143,6 +143,10 @@ const phrases = {
       notes: 'Søketreff frå versjonslogg',
       previousVersionsNotes: 'Søketreff frå versjonslogg',
     },
+    save: {
+      alreadyExist: 'Søket er allereie lagra.',
+      other: 'Lagring feila.',
+    },
   },
   articleType: {
     'topic-article': 'Emne',
@@ -205,7 +209,7 @@ const phrases = {
       imageQuery: 'Søk på bilder',
       language: 'Velg språk',
       users: 'Velg bruker',
-      modelReleased: 'Velg modelklarering',
+      modelReleased: 'Velg modellklarering',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innhaldstype',
       status: 'Velg status',
@@ -221,7 +225,7 @@ const phrases = {
       status: 'Status',
       audioType: 'Lydfiltype',
       license: 'Lisens',
-      modelReleased: 'Modelklarering',
+      modelReleased: 'Modellklarering',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -279,9 +283,9 @@ const phrases = {
     noResultsText: 'Fann ingen bilder på søk. Ønskjer du å laste opp eit nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
     modelReleased: {
-      yes: 'Modelklarert',
-      no: 'Ikkje modelklarert',
-      'not-applicable': 'Gjeld ikkje',
+      yes: 'Modellklarert',
+      no: 'Ikkje modellklarert',
+      'not-applicable': 'Ikkje relevant',
       'not-set': 'Ikkje valgt',
     },
   },
@@ -534,6 +538,7 @@ const phrases = {
     saveTax: 'Lagre taksonomi',
     choose: 'Velg',
     saving: 'Lagrer...',
+    saveSearch: 'Lagre søk',
     saved: 'Lagra ',
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',
@@ -671,12 +676,12 @@ const phrases = {
       description: 'Kven er artikkelen meint for:',
     },
     modelReleased: {
-      label: 'Modelklarert',
+      label: 'Modellklarert',
       yes: 'Ja',
       no: 'Nei',
-      'not-applicable': 'Gjeld ikkje',
+      'not-applicable': 'Ikkje relevant',
       'not-set': 'Ikkje valgt',
-      description: 'Om bildet er modelklarert eller ikkje:',
+      description: 'Om bildet er modellklarert eller ikkje:',
     },
     markdown: {
       button: 'Klikk for å se markdown',
@@ -983,6 +988,19 @@ const phrases = {
         sub: 'eller trykk for å laste opp lydfil',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
+      copiedFrom:
+        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten ved sida av lydfila for å fjerne den og laste opp ei ny fil.',
+      info: {
+        multipleFiles: 'Du kan laste opp forskjellige lydfilar for kvar språkversjon.',
+        changeFile:
+          'Fjerning og endring av ein språkversjon vil ikkje påverke dei andre språkversjonane.',
+        newLanguage:
+          'Ved oppretting av ny språkversjon vil ei lydfil fra ein eksisterande språkversjon foreslås.',
+      },
+      modal: {
+        header: 'Lydfiler',
+        label: 'Informasjon om lydfiler',
+      },
     },
     podcast: {
       remove: 'Ta bort podkast',
@@ -1042,6 +1060,7 @@ const phrases = {
       type: {
         image: 'bildet',
         audio: 'lydfilen',
+        concept: 'forklaringa',
       },
       sectionTitleArticle: 'Artiklar som bruker {{resource}}',
       sectionTitleConcept: 'Forklaringar som bruker {{resource}}',
@@ -1049,6 +1068,7 @@ const phrases = {
       info: {
         image: 'Bruk av bildet i artiklar og/eller forklaringar',
         audio: 'Bruk av lydfilen i artikler',
+        concept: 'Bruk av forklaringa i artikler',
       },
       notInUse: 'Fant ingen artikler eller forklaringar som bruker {{resource}}',
       articles: '1 artikkel',

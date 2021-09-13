@@ -10,7 +10,7 @@ import React, { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { connect, FormikContextType } from 'formik';
 import BEMHelper from 'react-bem-helper';
-import { UploadDropZone } from '@ndla/forms';
+import { UploadDropZone, FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -19,6 +19,8 @@ import AudioPlayer from './AudioPlayer';
 import FormikField from '../../../components/FormikField';
 import { AudioFormikType } from './AudioForm';
 import { TitleField } from '../../FormikForm';
+import AudioCopyInfo from './AudioCopyInfo';
+import AudioFileInfoModal from './AudioFileInfoModal';
 
 interface BaseProps {
   classes: BEMHelper<BEMHelper.ReturnObject>;
@@ -77,9 +79,12 @@ const AudioContent = ({ formik }: Props) => {
       />
 
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
-        {() =>
-          playerObject ? (
-            <>
+        {() => (
+          <>
+            <FieldHeader title={t('form.audio.file')}>
+              <AudioFileInfoModal />
+            </FieldHeader>
+            {playerObject ? (
               <PlayerWrapper>
                 <AudioPlayer audio={playerObject} />
                 <StyledDeleteButtonContainer>
@@ -94,24 +99,25 @@ const AudioContent = ({ formik }: Props) => {
                   </Tooltip>
                 </StyledDeleteButtonContainer>
               </PlayerWrapper>
-            </>
-          ) : (
-            <UploadDropZone
-              name="audioFile"
-              allowedFiles={['audio/mp3', 'audio/mpeg']}
-              onAddedFiles={(files: FileList, evt: React.FormEvent<HTMLInputElement>) => {
-                const file = evt.currentTarget.files?.[0];
-                const filepath = file ? URL.createObjectURL(file) : undefined;
-                const newFile = file && filepath ? { file, filepath } : undefined;
-                setFieldValue('audioFile', { newFile });
-              }}
-              ariaLabel={t('form.audio.dragdrop.ariaLabel')}>
-              <strong>{t('form.audio.dragdrop.main')}</strong>
-              {t('form.audio.dragdrop.sub')}
-            </UploadDropZone>
-          )
-        }
+            ) : (
+              <UploadDropZone
+                name="audioFile"
+                allowedFiles={['audio/mp3', 'audio/mpeg']}
+                onAddedFiles={(files: FileList, evt: React.FormEvent<HTMLInputElement>) => {
+                  const file = evt.currentTarget.files?.[0];
+                  const filepath = file ? URL.createObjectURL(file) : undefined;
+                  const newFile = file && filepath ? { file, filepath } : undefined;
+                  setFieldValue('audioFile', { newFile });
+                }}
+                ariaLabel={t('form.audio.dragdrop.ariaLabel')}>
+                <strong>{t('form.audio.dragdrop.main')}</strong>
+                {t('form.audio.dragdrop.sub')}
+              </UploadDropZone>
+            )}
+          </>
+        )}
       </FormikField>
+      <AudioCopyInfo values={values} />
     </Fragment>
   );
 };

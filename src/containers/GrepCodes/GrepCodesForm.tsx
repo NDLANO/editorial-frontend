@@ -10,11 +10,15 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { useArticleFormHooks } from '../FormikForm/articleFormHooks';
+import { useTranslation } from 'react-i18next';
+import { connect, ConnectedProps } from 'react-redux';
+import { ArticleFormikType, useArticleFormHooks } from '../FormikForm/articleFormHooks';
 import GrepCodesField from '../FormikForm/GrepCodesField';
 import SaveMultiButton from '../../components/SaveMultiButton';
-import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
+import { DraftStatusTypes, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { isFormikFormDirty } from '../../util/formHelper';
+import { ConvertedDraftType } from '../../interfaces';
+import * as messageActions from '../../containers/Messages/messagesActions';
 
 const SaveButtonContainer = styled.div`
   display: flex;
@@ -22,8 +26,17 @@ const SaveButtonContainer = styled.div`
   margin-top: ${spacing.small};
 `;
 
-const getInitialValues = (article: DraftApiType) => {
+const getInitialValues = (article: Partial<ConvertedDraftType>): ArticleFormikType => {
   return {
+    articleType: article.articleType ?? '',
+    conceptIds: article.conceptIds ?? [],
+    creators: article.copyright?.creators ?? [],
+    processors: article.copyright?.processors ?? [],
+    relatedContent: article.relatedContent ?? [],
+    rightsholders: article.copyright?.rightsholders ?? [],
+    supportedLanguages: article.supportedLanguages ?? [],
+    tags: article.tags ?? [],
+    updatePublished: false,
     id: article.id,
     revision: article.revision,
     notes: [],
@@ -31,24 +44,58 @@ const getInitialValues = (article: DraftApiType) => {
   };
 };
 
-const getArticle = ({ values }: { values: DraftApiType }) => {
+const getArticle = ({
+  values,
+}: {
+  values: ArticleFormikType;
+  initialValues: ArticleFormikType;
+  preview: boolean;
+}): UpdatedDraftApiType => {
   return {
+    revision: 0,
     id: values.id,
     grepCodes: values.grepCodes,
   };
 };
 
 interface Props {
-  article: DraftApiType;
+  article: ConvertedDraftType;
   articleChanged: boolean;
+  updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  updateArticleAndStatus?: (input: {
+    updatedArticle: UpdatedDraftApiType;
+    newStatus: DraftStatusTypes;
+    dirty: boolean;
+  }) => Promise<ConvertedDraftType>;
 }
+const mapDispatchToProps = {
+  createMessage: messageActions.addMessage,
+  applicationError: messageActions.applicationError,
+};
 
-const GrepCodesForm = ({ article, articleChanged, ...articleHooks }: Props) => {
+const reduxConnector = connect(undefined, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
+
+const GrepCodesForm = ({
+  article,
+  articleChanged,
+  updateArticle,
+  updateArticleAndStatus,
+  applicationError,
+  createMessage,
+}: Props & PropsFromRedux) => {
+  const { t } = useTranslation();
   const { savedToServer, handleSubmit } = useArticleFormHooks({
     getInitialValues,
-    getArticleFromSlate: getArticle,
     article,
-    ...articleHooks,
+    t,
+    articleStatus: article.status,
+    updateArticle,
+    updateArticleAndStatus,
+    getArticleFromSlate: getArticle,
+    isNewlyCreated: false,
+    createMessage,
+    applicationError,
   });
 
   return (
@@ -80,4 +127,4 @@ const GrepCodesForm = ({ article, articleChanged, ...articleHooks }: Props) => {
   );
 };
 
-export default GrepCodesForm;
+export default reduxConnector(GrepCodesForm);

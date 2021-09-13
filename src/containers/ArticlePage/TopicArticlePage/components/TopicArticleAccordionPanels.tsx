@@ -1,16 +1,32 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import TopicArticleContent from './TopicArticleContent';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE, DRAFT_ADMIN_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
-import { ArticleShape, LicensesArrayOf } from '../../../../shapes';
 import { LocaleContext } from '../../../App/App';
+import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
+import { NewReduxMessage } from '../../../Messages/messagesSelectors';
+import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+
+interface Props extends RouteComponentProps {
+  userAccess: string | undefined;
+  fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
+  handleSubmit: () => Promise<void>;
+  article: Partial<ConvertedDraftType>;
+  formIsDirty: boolean;
+  updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  getArticle: () => UpdatedDraftApiType;
+  licenses: License[];
+  createMessage: (message: NewReduxMessage) => void;
+  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
+}
 
 const TopicArticleAccordionPanels = ({
   userAccess,
@@ -24,10 +40,10 @@ const TopicArticleAccordionPanels = ({
   createMessage,
   getInitialValues,
   getArticle,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
-  const formikContext = useFormikContext();
+  const formikContext = useFormikContext<ArticleFormikType>();
   const { values, handleBlur, errors, setValues } = formikContext;
   return (
     <Accordions>
@@ -36,7 +52,12 @@ const TopicArticleAccordionPanels = ({
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={
-          !!(errors.slatetitle || errors.introduction || errors.content || errors.visualElement)
+          !!(
+            errors.slatetitle ||
+            errors.introduction ||
+            errors.content ||
+            errors.visualElementObject
+          )
         }
         startOpen>
         <TopicArticleContent
@@ -51,7 +72,12 @@ const TopicArticleAccordionPanels = ({
           id={'topic-article-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}>
-          <TopicArticleTaxonomy article={article} locale={locale} updateNotes={updateNotes} />
+          <TopicArticleTaxonomy
+            articleId={values.id}
+            article={article}
+            locale={locale}
+            updateNotes={updateNotes}
+          />
         </AccordionSection>
       )}
       <AccordionSection
@@ -80,7 +106,7 @@ const TopicArticleAccordionPanels = ({
         title={t('form.name.grepCodes')}
         className={'u-6/6'}
         hasError={!!errors.grepCodes}>
-        <GrepCodesField grepCodes={article.grepCodes} />
+        <GrepCodesField grepCodes={article.grepCodes ?? []} />
       </AccordionSection>
       {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
         <AccordionSection
@@ -99,12 +125,11 @@ const TopicArticleAccordionPanels = ({
           hasError={!!errors.notes}>
           <VersionAndNotesPanel
             article={article}
-            formIsDirty={formIsDirty}
-            setValues={setValues}
+            articleId={values.id}
+            createMessage={createMessage}
             getArticle={getArticle}
             getInitialValues={getInitialValues}
-            createMessage={createMessage}
-            history={history}
+            setValues={setValues}
           />
         </AccordionSection>
       )}
@@ -112,18 +137,4 @@ const TopicArticleAccordionPanels = ({
   );
 };
 
-TopicArticleAccordionPanels.propTypes = {
-  userAccess: PropTypes.string,
-  fetchSearchTags: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func,
-  article: ArticleShape,
-  formIsDirty: PropTypes.bool,
-  updateNotes: PropTypes.func,
-  licenses: LicensesArrayOf,
-  history: PropTypes.object,
-  createMessage: PropTypes.func,
-  getArticle: PropTypes.func,
-  getInitialValues: PropTypes.func,
-};
-
-export default TopicArticleAccordionPanels;
+export default withRouter(TopicArticleAccordionPanels);

@@ -18,7 +18,7 @@ export interface ReduxMessage {
   };
   severity?: MessageSeverity;
   action?: string;
-  timeToLive: number;
+  timeToLive?: number;
   statusCode?: number;
   type?: string;
 }

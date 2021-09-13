@@ -16,6 +16,7 @@ import Button from '@ndla/button';
 import { colors, spacing, breakpoints } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
+import SafeLink from '@ndla/safelink';
 
 import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
@@ -27,6 +28,8 @@ import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import { Resource as ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
+import config from '../../../config';
+import { LocaleType } from '../../../interfaces';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -43,7 +46,7 @@ interface Props {
   onDelete?: (connectionId: string) => void;
   connectionId: string;
   dragHandleProps?: object;
-  locale: string;
+  locale: LocaleType;
   relevanceId?: string;
   updateRelevanceId?: (
     connectionId: string,
@@ -83,6 +86,10 @@ const StyledText = styled.div`
   align-items: center;
 `;
 
+const StyledLink = styled(SafeLink)`
+  box-shadow: inset 0 0;
+`;
+
 const Resource = ({
   resource,
   onDelete,
@@ -104,6 +111,25 @@ const Resource = ({
       : 'topic-article';
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
+
+  const paths = [resource.path, ...resource.paths];
+  const structurePaths = window.location.pathname.replace('/structure', '').split('/');
+  const currentPath = structurePaths.map(p => p.replace('urn:', '')).join('/');
+  const path = paths.find(p => {
+    const pArr = p.split('/');
+    const isResource = pArr[pArr.length - 1].startsWith('resource');
+    const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join('/');
+    return pathWithoutResource === currentPath;
+  });
+
+  const PublishedWrapper = ({ children }: { children: React.ReactElement }) =>
+    !path ? (
+      children
+    ) : (
+      <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${path}`}>
+        {children}
+      </StyledLink>
+    );
 
   return (
     <StyledText
@@ -133,9 +159,11 @@ const Resource = ({
         </Button>
       )}
       {(resource.status?.current === PUBLISHED || resource.status?.other?.includes(PUBLISHED)) && (
-        <Tooltip tooltip={t('form.workflow.published')}>
-          <StyledCheckIcon />
-        </Tooltip>
+        <PublishedWrapper>
+          <Tooltip tooltip={t('form.workflow.published')}>
+            <StyledCheckIcon />
+          </Tooltip>
+        </PublishedWrapper>
       )}
       {contentType !== 'learning-path' && (
         <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>

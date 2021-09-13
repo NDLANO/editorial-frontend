@@ -7,9 +7,8 @@
  */
 
 import React, { Fragment, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'formik';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
@@ -19,7 +18,7 @@ import headingPlugin from '../../../../components/SlateEditor/plugins/heading';
 import createNoEmbedsPlugin from '../../../../components/SlateEditor/plugins/noEmbed';
 import VisualElementField from '../../../FormikForm/components/VisualElementField';
 import { schema } from '../../../../components/SlateEditor/editorSchema';
-import LastUpdatedLine from './../../../../components/LastUpdatedLine/LastUpdatedLine';
+import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
 import ToggleButton from '../../../../components/ToggleButton';
 import HowToHelper from '../../../../components/HowTo/HowToHelper';
 import {
@@ -42,6 +41,7 @@ import { DRAFT_HTML_SCOPE } from '../../../../constants';
 import { toEditMarkup } from '../../../../util/routeHelpers';
 import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
 import textTransformPlugin from '../../../../components/SlateEditor/plugins/textTransform';
+import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 
 const byLineStyle = css`
   display: flex;
@@ -56,7 +56,7 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-const createPlugins = language => {
+const createPlugins = (language?: string) => {
   return [
     createNoEmbedsPlugin(),
     createLinkPlugin(language),
@@ -76,7 +76,14 @@ const createPlugins = language => {
   ];
 };
 
-const TopicArticleContent = props => {
+interface Props {
+  userAccess?: string;
+  values: ArticleFormikType;
+  handleBlur: (evt: { target: { name: string } }) => void;
+  handleSubmit: () => Promise<void>;
+}
+
+const TopicArticleContent = (props: Props) => {
   const { t } = useTranslation();
   const {
     userAccess,
@@ -127,7 +134,7 @@ const TopicArticleContent = props => {
       <IngressField
         preview={preview}
         handleSubmit={handleSubmit}
-        onBlur={(event, editor, next) => {
+        onBlur={(event: Event, editor: unknown, next: () => void) => {
           next();
           // this is a hack since formik onBlur-handler interferes with slates
           // related to: https://github.com/ianstormtaylor/slate/issues/2434
@@ -140,7 +147,7 @@ const TopicArticleContent = props => {
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <Fragment>
             <FieldHeader title={t('form.content.label')}>
-              {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
+              {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && language && (
                 <EditMarkupLink to={toEditMarkup(id, language)} title={t('editMarkup.linkTitle')} />
               )}
             </FieldHeader>
@@ -156,7 +163,7 @@ const TopicArticleContent = props => {
               schema={schema}
               handleSubmit={handleSubmit}
               onChange={onChange}
-              onBlur={(event, editor, next) => {
+              onBlur={(event: Event, editor: unknown, next: () => void) => {
                 next();
                 // this is a hack since formik onBlur-handler interferes with slates
                 // related to: https://github.com/ianstormtaylor/slate/issues/2434
@@ -169,18 +176,6 @@ const TopicArticleContent = props => {
       </FormikField>
     </Fragment>
   );
-};
-
-TopicArticleContent.propTypes = {
-  userAccess: PropTypes.string,
-  handleBlur: PropTypes.func,
-  values: PropTypes.shape({
-    id: PropTypes.number,
-    language: PropTypes.string,
-    creators: PropTypes.array,
-    published: PropTypes.string,
-  }),
-  handleSubmit: PropTypes.func,
 };
 
 export default connect(TopicArticleContent);

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { useFormikContext } from 'formik';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { FormikHelpers, useFormikContext } from 'formik';
 import { LocaleContext } from '../../../App/App';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { TAXONOMY_WRITE_SCOPE, DRAFT_ADMIN_SCOPE } from '../../../../constants';
@@ -10,7 +10,26 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import { ArticleShape, LicensesArrayOf } from '../../../../shapes';
+import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
+import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { NewReduxMessage } from '../../../Messages/messagesSelectors';
+import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+
+interface Props extends RouteComponentProps {
+  userAccess?: string;
+  fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
+  handleSubmit: (
+    values: ArticleFormikType,
+    formikHelpers: FormikHelpers<ArticleFormikType>,
+  ) => Promise<void>;
+  article: Partial<ConvertedDraftType>;
+  formIsDirty: boolean;
+  createMessage: (message: NewReduxMessage) => void;
+  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
+  licenses: License[];
+  updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  getArticle: (preview: boolean) => UpdatedDraftApiType;
+}
 
 const LearningResourcePanels = ({
   userAccess,
@@ -24,11 +43,13 @@ const LearningResourcePanels = ({
   history,
   formIsDirty,
   handleSubmit,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
-  const formikContext = useFormikContext();
+  const formikContext = useFormikContext<ArticleFormikType>();
   const { values, setValues, errors, handleBlur } = formikContext;
+
+  const showTaxonomySection = !!values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE);
 
   return (
     <Accordions>
@@ -39,15 +60,16 @@ const LearningResourcePanels = ({
         hasError={!!(errors.slatetitle || errors.introduction || errors.content)}
         startOpen>
         <LearningResourceContent
+          formik={formikContext}
           userAccess={userAccess}
-          handleSubmit={handleSubmit}
+          handleSubmit={() => handleSubmit(values, formikContext)}
           handleBlur={handleBlur}
           values={values}
           article={article}
           locale={locale}
         />
       </AccordionSection>
-      {values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {showTaxonomySection && (
         <AccordionSection
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
@@ -86,7 +108,7 @@ const LearningResourcePanels = ({
         title={t('form.name.grepCodes')}
         className={'u-6/6'}
         hasError={!!errors.grepCodes}>
-        <GrepCodesField grepCodes={article.grepCodes} />
+        <GrepCodesField grepCodes={article.grepCodes ?? []} />
       </AccordionSection>
       {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
         <AccordionSection
@@ -104,14 +126,12 @@ const LearningResourcePanels = ({
           className={'u-6/6'}
           hasError={!!errors.notes}>
           <VersionAndNotesPanel
-            values={values}
-            formIsDirty={formIsDirty}
-            setValues={setValues}
-            getArticle={getArticle}
             article={article}
-            getInitialValues={getInitialValues}
+            articleId={values.id}
             createMessage={createMessage}
-            history={history}
+            getArticle={getArticle}
+            getInitialValues={getInitialValues}
+            setValues={setValues}
           />
         </AccordionSection>
       )}
@@ -119,18 +139,4 @@ const LearningResourcePanels = ({
   );
 };
 
-LearningResourcePanels.propTypes = {
-  userAccess: PropTypes.string,
-  fetchSearchTags: PropTypes.func.isRequired,
-  article: ArticleShape.isRequired,
-  updateNotes: PropTypes.func,
-  licenses: LicensesArrayOf,
-  getArticle: PropTypes.func,
-  getInitialValues: PropTypes.func,
-  createMessage: PropTypes.func,
-  history: PropTypes.object,
-  formIsDirty: PropTypes.bool,
-  handleSubmit: PropTypes.func.isRequired,
-};
-
-export default LearningResourcePanels;
+export default withRouter(LearningResourcePanels);

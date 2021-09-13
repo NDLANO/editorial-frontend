@@ -17,9 +17,11 @@ import Field from '../../../components/Field';
 import { AlertModalWrapper, formClasses, ActionButton } from '../../FormikForm';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { ConceptType } from '../../../modules/concept/conceptApiInterfaces';
+import { NewReduxMessage } from '../../../containers/Messages/messagesSelectors';
+import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
-  entityStatus: { current: string };
+  entityStatus?: DraftStatus;
   conceptChanged: boolean;
   inModal?: boolean;
   savedToServer: boolean;
@@ -28,6 +30,7 @@ interface Props {
   onClose: () => void;
   onContinue: () => void;
   getApiConcept: () => ConceptType;
+  createMessage: (message: NewReduxMessage) => void;
 }
 
 const FormFooter = ({
@@ -40,6 +43,7 @@ const FormFooter = ({
   onClose,
   onContinue,
   getApiConcept,
+  createMessage,
 }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -75,6 +79,7 @@ const FormFooter = ({
         </Field>
       ) : (
         <EditorFooter
+          createMessage={createMessage}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getApiConcept}
@@ -85,7 +90,6 @@ const FormFooter = ({
           hideSecondaryButton
           isConcept
           isNewlyCreated={isNewlyCreated}
-          validateEntity={() => {}}
           hasErrors={isSubmitting || !formIsDirty || disableSave}
         />
       )}

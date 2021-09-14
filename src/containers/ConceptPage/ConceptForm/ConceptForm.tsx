@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
+import { Action, ActionFunction1 } from 'redux-actions';
 import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
@@ -38,10 +39,10 @@ import {
 import { License, SearchResult } from '../../../interfaces';
 import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { NewReduxMessage } from '../../Messages/messagesSelectors';
+import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props {
-  applicationError: (err: string) => void;
+  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => void;
   concept: ConceptFormType;
   conceptChanged: boolean;
@@ -116,7 +117,7 @@ const ConceptForm = ({
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
     } catch (err) {
-      applicationError(err);
+      applicationError(err as ReduxMessageError);
       formikHelpers.setSubmitting(false);
       setSavedToServer(false);
     }

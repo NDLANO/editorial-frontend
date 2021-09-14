@@ -20,7 +20,7 @@ import { Learningpath } from '../../interfaces';
 import { fetchLearningpathsWithArticle } from '../../modules/learningpath/learningpathApi';
 
 interface Props {
-  id: number;
+  id?: number;
   learningpaths: Learningpath[];
   setLearningpaths: (lps: Learningpath[]) => void;
 }

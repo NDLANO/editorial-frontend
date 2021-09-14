@@ -110,7 +110,7 @@ export interface ImagePropType {
   caption?: string;
   contentType?: string;
   copyright?: Copyright;
-  id?: number | string;
+  id?: number;
   imageUrl?: string;
   language?: string;
   metaUrl?: string;
@@ -244,7 +244,7 @@ class ImageForm extends Component<Props & WithTranslation, State> {
                 noStatus
                 values={values}
                 type="image"
-                content={image}
+                content={image ?? {}}
                 editUrl={(lang: string) => {
                   if (values.id) return toEditImage(values.id, lang);
                   else return toCreateImage();

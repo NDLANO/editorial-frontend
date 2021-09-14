@@ -975,11 +975,10 @@ const phrases = {
       copiedFrom:
         'Audio file will be copied from {{language}}. Click the delete icon to remove it and upload a new file.',
       info: {
-        multipleFiles: 'You can upload different audio files for each language version.',
-        changeFile:
-          'Changes made to a language version will not alter the other language versions.',
+        multipleFiles: 'You can upload different audio files for each language.',
+        changeFile: 'Changes made to a language will not alter the other languages.',
         newLanguage:
-          'When creating a new language version, an audio file from an existing language will be suggested.',
+          'When adding a new language, an audio file from an existing language will be suggested.',
       },
       modal: {
         header: 'Audio files',

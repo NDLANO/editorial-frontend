@@ -45,13 +45,13 @@ const getActions = (message: ReduxMessage, dispatch: Dispatch, t: TFunction) => 
       },
       {
         text: t('alertModal.loginAgain'),
-        onClick: async (evt: Event) => {
+        onClick: (evt: Event) => {
           evt.preventDefault();
           const lastPath = `${window.location.pathname}${
             window.location.search ? window.location.search : ''
           }`;
           localStorage.setItem('lastPath', lastPath);
-          await createHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
+          createHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
           window.location.reload();
         },
       },
@@ -96,7 +96,7 @@ export const Messages = ({ dispatch, messages }: MessagesProps) => {
     setTimeout(() => dispatch(clearMessage(item.id)), item.timeToLive);
   };
 
-  messages.filter(m => m.timeToLive > 0).forEach(item => timeoutMessage(item));
+  messages.filter(m => (m.timeToLive ?? 1) > 0).forEach(item => timeoutMessage(item));
 
   return (
     <StyledMessageAlertOverlay appearance={isHidden ? 'hidden' : ''}>

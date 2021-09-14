@@ -5,14 +5,19 @@ import { Eye, Restore } from '@ndla/icons/editor';
 import { StyledAccordionsPanelIconButton } from '@ndla/accordion';
 
 import { PreviewDraftLightbox } from '../../components';
-import { ArticleType } from '../../interfaces';
+import { ConvertedDraftType } from '../../interfaces';
+import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface Props {
   showFromArticleApi: boolean;
-  article: ArticleType;
-  getArticle: VoidFunction;
-  resetVersion: (version: ArticleType, language: string, showFromArticleApi: boolean) => void;
-  version: ArticleType;
+  article: Partial<ConvertedDraftType>;
+  getArticle: (preview: boolean) => UpdatedDraftApiType;
+  resetVersion: (
+    version: DraftApiType,
+    language: string | undefined,
+    showFromArticleApi: boolean,
+  ) => Promise<void>;
+  version: DraftApiType;
   current: boolean;
 }
 

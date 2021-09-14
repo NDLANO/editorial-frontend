@@ -101,6 +101,7 @@ const addTopicToTopic = (body: {
 const updateTopicSubtopic = (
   connectionId: string,
   body: {
+    id?: string;
     primary?: boolean;
     rank?: number;
     relevanceId?: string;

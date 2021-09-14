@@ -56,7 +56,7 @@ const StyledContent = styled.div`
 
 interface Props {
   onClose: () => void;
-  resourceTypes: {
+  resourceTypes?: {
     id: string;
     name: string;
   }[];
@@ -65,6 +65,7 @@ interface Props {
   topicId: string;
   refreshResources: () => void;
   existingResourceIds: string[];
+  locale: string;
 }
 
 type ContentType = Pick<ArticleSearchSummaryApiType, 'title' | 'metaDescription' | 'id'> & {
@@ -92,6 +93,7 @@ const AddResourceModal = ({
   topicId,
   refreshResources,
   existingResourceIds,
+  locale,
 }: Props) => {
   const { t } = useTranslation();
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
@@ -163,10 +165,11 @@ const AddResourceModal = ({
   const onInputSearch = async (
     query: MultiSearchApiQuery,
     type: string,
+    locale: string,
   ): Promise<ResultTypes | undefined> => {
     try {
       if (type === RESOURCE_TYPE_LEARNING_PATH) {
-        const lps = await searchLearningpath(query);
+        const lps = await searchLearningpath({ ...query, language: locale });
 
         return {
           ...lps,
@@ -176,7 +179,7 @@ const AddResourceModal = ({
           })),
         };
       } else {
-        return await searchGroups(query, type);
+        return await searchGroups(query, type, locale);
       }
     } catch (err) {
       handleError(err);
@@ -191,17 +194,18 @@ const AddResourceModal = ({
     const searchBody = {
       ...query,
       pageSize: 10,
-      language: 'nb',
       fallback: true,
       verificationStatus: 'CREATED_BY_NDLA',
     };
     return learningpathSearch(searchBody);
   };
 
-  const searchGroups = async (query: MultiSearchApiQuery, type: string) => {
+  const searchGroups = async (query: MultiSearchApiQuery, type: string, locale: string) => {
     const res = await groupSearch({
       ...query,
       'resource-types': type,
+      fallback: true,
+      language: locale,
     });
     return res?.pop();
   };
@@ -313,7 +317,7 @@ const AddResourceModal = ({
         )}
 
         {!pastedUrl && selectedType && (
-          <React.Fragment>
+          <>
             {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
             <AsyncDropdown
               idField="id"
@@ -321,12 +325,12 @@ const AddResourceModal = ({
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
               label="label"
-              apiAction={(query: MultiSearchApiQuery) => onInputSearch(query, selectedType)}
+              apiAction={(query: MultiSearchApiQuery) => onInputSearch(query, selectedType, locale)}
               onChange={onSelect}
               startOpen
               showPagination
             />
-          </React.Fragment>
+          </>
         )}
         {selected?.id && content?.id && <ArticlePreview article={content} />}
         {error && (

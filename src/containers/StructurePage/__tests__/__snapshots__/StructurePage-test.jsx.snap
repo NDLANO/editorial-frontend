@@ -27,7 +27,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: none;
 }
 
-.emotion-165 {
+.emotion-167 {
   margin: 3px 6.5px 3px auto;
   font-size: 14;
   font-size: 0.7777777777777778rem;
@@ -211,7 +211,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   padding: 0;
 }
 
-.emotion-170 {
+.emotion-172 {
   -webkit-animation-duration: 200ms;
   animation-duration: 200ms;
   -webkit-animation-name: fadeInTop;
@@ -430,7 +430,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #f1f5f8;
 }
 
-.emotion-173 {
+.emotion-175 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -442,7 +442,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-168 {
+.emotion-170 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -457,7 +457,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #ceddea;
 }
 
-.emotion-168:hover {
+.emotion-170:hover {
   background: #ceddea;
 }
 
@@ -506,7 +506,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   color: #f8f8f8;
 }
 
-.emotion-166 {
+.emotion-168 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -536,50 +536,56 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   box-shadow: none;
 }
 
-.emotion-166:hover,
-.emotion-166:focus {
+.emotion-168:hover,
+.emotion-168:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-166[disabled] {
+.emotion-168[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-166:focus {
+.emotion-168:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-166:hover,
-.emotion-166:focus {
+.emotion-168:hover,
+.emotion-168:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-166:disabled {
+.emotion-168:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
-.emotion-166:hover,
-.emotion-166:focus {
+.emotion-168:hover,
+.emotion-168:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-166:disabled {
+.emotion-168:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
+}
+
+.emotion-165 {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 26px;
 }
 
 <div
@@ -615,7 +621,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             />
           </g>
         </svg>
-        injected
+        Rediger struktur
       </span>
       <div
         class="emotion-0 emotion-1"
@@ -628,7 +634,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         <label
           for="favorites"
         >
-          injected
+          Vis favoritter
         </label>
       </div>
       <svg
@@ -662,7 +668,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
           class="emotion-11 emotion-12"
         >
           <div
-            class="emotion-170"
+            class="emotion-172"
           >
             <li
               class="emotion-13 emotion-14"
@@ -1312,7 +1318,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 class="emotion-11 emotion-12"
               >
                 <div
-                  class="emotion-170"
+                  class="emotion-172"
                 >
                   <li
                     class="emotion-13 emotion-14"
@@ -1402,7 +1408,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       class="emotion-11 emotion-12"
                     >
                       <div
-                        class="emotion-170"
+                        class="emotion-172"
                       >
                         <li
                           class="emotion-13 emotion-14"
@@ -1427,10 +1433,10 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                           />
                         </li>
                         <li
-                          class="emotion-173 emotion-14"
+                          class="emotion-175 emotion-14"
                         >
                           <div
-                            class="emotion-168 emotion-10"
+                            class="emotion-170 emotion-10"
                           >
                             <button
                               class="emotion-121 emotion-8"
@@ -1482,10 +1488,15 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                                 </button>
                               </div>
                               <button
-                                class="emotion-165 emotion-166 emotion-4"
+                                class="emotion-167 emotion-168 emotion-4"
                                 type="button"
                               >
-                                Hopp til ressurser
+                                <div
+                                  class="emotion-165 emotion-166"
+                                  spacing="normal"
+                                >
+                                  Hopp til ressurser
+                                </div>
                               </button>
                             </div>
                           </div>
@@ -1493,7 +1504,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             class="emotion-11 emotion-12"
                           >
                             <div
-                              class="emotion-170"
+                              class="emotion-172"
                             />
                           </ul>
                         </li>
@@ -1993,7 +2004,6 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
             </li>
           </div>
         </ul>
-        <div />
       </div>
     </div>
   </div>

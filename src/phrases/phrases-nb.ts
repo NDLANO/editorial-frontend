@@ -143,6 +143,11 @@ const phrases = {
       notes: 'Søketreff fra versjonslogg',
       previousVersionsNotes: 'Søketreff fra versjonslogg',
     },
+    save: {
+      alreadyExist: 'Søket er allerede lagret.',
+      fetchFailed: 'Kunne ikke laste lagrede søk.',
+      other: 'Søk feilet.',
+    },
   },
   articleType: {
     'topic-article': 'Emne',
@@ -204,10 +209,12 @@ const phrases = {
       imageQuery: 'Søk på bilder',
       language: 'Velg språk',
       users: 'Velg bruker',
+      modelReleased: 'Velg modellklarering',
       subjects: 'Velg fag',
       resourceTypes: 'Velg innholdstype',
       status: 'Velg status',
       audio: 'Velg lydfiltype',
+      license: 'Velg lisens',
     },
     tagType: {
       query: 'Innhold',
@@ -216,6 +223,9 @@ const phrases = {
       users: 'Bruker',
       resourceTypes: 'Innholdstype',
       status: 'Status',
+      audioType: 'Lydfiltype',
+      license: 'Lisens',
+      modelReleased: 'Modellklarering',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -266,9 +276,16 @@ const phrases = {
     },
   },
   imageSearch: {
+    modelReleased: {
+      yes: 'Modellklarert',
+      no: 'Ikke modellklarert',
+      'not-applicable': 'Ikke relevant',
+      'not-set': 'Ikke valgt',
+    },
     placeholder: 'Søk i bilder',
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
+    metaImageCheckboxLabel: 'Sett som metabilde',
     noTitle: 'Ingen tittel',
     noResultsText: 'Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
@@ -312,6 +329,13 @@ const phrases = {
     noResults: 'Ingen resultater funnet',
     noTitle: 'Ingen tittel',
     noContent: 'Ingen innhold',
+  },
+  searchTypes: {
+    content: 'Innhold',
+    audio: 'Lyd',
+    image: 'Bilde',
+    concept: 'Forklaring',
+    'podcast-series': 'Serie',
   },
   noEmbedMessage: {
     deleteOnSave: 'Element av type {{type}} vil bli fjernet ved lagring.',
@@ -511,6 +535,8 @@ const phrases = {
     saveTax: 'Lagre taksonomi',
     choose: 'Velg',
     saving: 'Lagrer...',
+    saveSearch: 'Lagre søk',
+    alreadySaved: 'Lagret',
     saved: 'Lagret ',
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',
@@ -652,6 +678,14 @@ const phrases = {
       label: 'Tilgjengelighet',
       description: 'Hvem er artikkelen ment for:',
     },
+    modelReleased: {
+      label: 'Modellklarert',
+      yes: 'Ja',
+      no: 'Nei',
+      'not-applicable': 'Ikke relevant',
+      'not-set': 'Ikke valgt',
+      description: 'Om bildet er modellklarert eller ikke:',
+    },
     markdown: {
       button: 'Klikk for å se markdown',
       helpLabel: 'Hva er markdown?',
@@ -759,6 +793,9 @@ const phrases = {
         choose: 'Velg forklaring',
       },
       link: {
+        name: 'Navn',
+        domains: 'Url',
+        validDomains: 'Gyldige domener',
         goTo: 'Gå til',
         insert: 'Sett inn lenke',
         update: 'Oppdater lenke',
@@ -945,6 +982,19 @@ const phrases = {
         sub: 'eller trykk for å laste opp lydfil',
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
+      copiedFrom:
+        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten ved siden av lydfilen for å fjerne den og laste opp en ny fil.',
+      info: {
+        multipleFiles: 'Du kan laste opp forskjellige lydfiler for hver språkversjon.',
+        changeFile:
+          'Fjerning og endring av en språkversjon vil ikke påvirke de andre språkversjonene.',
+        newLanguage:
+          'Ved oppretting av ny språkversjon vil en lydfil fra en eksisterende språkversjon foreslås.',
+      },
+      modal: {
+        header: 'Lydfiler',
+        label: 'Informasjon om lydfiler',
+      },
     },
     podcast: {
       remove: 'Ta bort podkast',
@@ -1007,6 +1057,7 @@ const phrases = {
       type: {
         image: 'bildet',
         audio: 'lydfilen',
+        concept: 'forklaringen',
       },
       sectionTitleArticle: 'Artikler som bruker {{resource}}',
       sectionTitleConcept: 'Forklaringer som bruker {{resource}}',
@@ -1014,6 +1065,7 @@ const phrases = {
       info: {
         image: 'Bruk av bildet i artikler og/eller forklaringer',
         audio: 'Bruk av lydfilen i artikler',
+        concept: 'Bruk av forklaringen i artikler',
       },
       notInUse: 'Fant ingen artikler eller forklaringer som bruker {{resource}}',
       articles: '{{count}} artikkel',
@@ -1055,8 +1107,7 @@ const phrases = {
     urlOrNumber: '{{label}} må inneholde en gyldig lenke eller artikkel-id.',
     dateBeforeInvalid: '{{label}} kan ikke være etter {{afterLabel}}.',
     dateAfterInvalid: '{{label}} kan ikke være før {{beforeLabel}}.',
-    minItems:
-      '{{label}} feltet må minst inneholde {minItems, plural, one{en/ett} other{# ulike}} {{labelLowerCase}}.',
+    minItems: '{{label}} feltet må minst inneholde en/ett {{labelLowerCase}}.',
     minItems_plural: '{{label}} feltet må minst inneholde {{minItems}} ulike {{labelLowerCase}}',
     noEmptyNote: 'En merknad kan ikke være tom',
     grepCodes:
@@ -1107,7 +1158,22 @@ const phrases = {
     resources: 'Ressurser',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
-    changeName: 'Endre navn',
+    changeName: {
+      loadError: 'Klarte ikke hente oversettelser',
+      updateError: 'Klarte ikke oppdatere oversettelser',
+      defaultName: 'Standardnavn',
+      addNewTranslation: 'Legg til ny oversettelse',
+      buttonTitle: 'Endre navn',
+      language: 'Språk',
+      name: 'Navn',
+      namePlaceholder: 'Fagnavn',
+      delete: 'Slett',
+      title: 'Endre fagnavn',
+      cancel: 'Avbryt',
+      add: 'Legg til',
+      noTranslations:
+        'Ingen oversettelser tilgjengelig. Standardnavn vil brukes inntil dette er lagt inn.',
+    },
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
@@ -1180,8 +1246,14 @@ const phrases = {
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
         explanationSubject: 'Forklaringsfag',
+        oldSubjectId: 'ID for videresending',
+        subjectCategory: 'Fagkategori',
         resourceGroupPlaceholder: 'Gruppering av ressurser',
         RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
+      },
+      placeholders: {
+        category: 'Velg kategori',
+        language: 'Velg språkkode',
       },
     },
   },

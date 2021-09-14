@@ -47,7 +47,13 @@ const SearchPage = ({ match }: Props) => {
       title: t('subNavigation.searchContent'),
       type: 'content',
       url: toSearch(
-        { page: '1', sort: '-lastUpdated', 'page-size': 10, language: locale, fallback: true },
+        {
+          page: '1',
+          sort: '-lastUpdated',
+          'page-size': 10,
+          fallback: false,
+          'include-other-statuses': false,
+        },
         'content',
       ),
       icon: <SearchContent className="c-icon--large" />,

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
@@ -22,11 +22,15 @@ import { SearchConceptType } from '../../../modules/concept/conceptApiInterfaces
 import ElementList from '../../../containers/FormikForm/components/ElementList';
 import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
-type embedType = 'image' | 'audio';
+type embedType = 'image' | 'audio' | 'concept';
 
 interface Props {
   id: number;
   type: embedType;
+  articles: MultiSearchSummary[];
+  setArticles: (articles: MultiSearchSummary[]) => void;
+  concepts?: SearchConceptType[];
+  setConcepts?: (concepts: SearchConceptType[]) => void;
 }
 
 const ImageInformationIcon = styled(SubjectMaterial)`
@@ -41,18 +45,25 @@ const searchObjects = (embedId: number, embedType: embedType) => ({
   'page-size': 50,
 });
 
-const EmbedConnection = ({ id, type }: Props) => {
+const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcepts }: Props) => {
   const { t } = useTranslation();
-  const [articles, setArticles] = useState<MultiSearchSummary[]>();
-  const [concepts, setConcepts] = useState<SearchConceptType[]>();
 
   useEffect(() => {
+    let shouldUpdateState = true;
     if (id) {
-      searchArticles(searchObjects(id, type)).then(result => setArticles(result.results));
+      searchArticles(searchObjects(id, type)).then(result => {
+        if (shouldUpdateState) setArticles(result.results);
+      });
       type === 'image' &&
-        searchConcepts(searchObjects(id, type)).then(result => setConcepts(result.results));
+        searchConcepts(searchObjects(id, type)).then(result => {
+          if (shouldUpdateState) setConcepts?.(result.results);
+        });
     }
-  }, [id, type]);
+
+    return () => {
+      shouldUpdateState = false;
+    };
+  }, [id, type, setArticles, setConcepts]);
 
   if (!articles?.length && !concepts?.length) {
     return (

@@ -6,7 +6,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

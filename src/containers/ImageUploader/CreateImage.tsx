@@ -47,6 +47,7 @@ const CreateImage = ({ history, isNewlyCreated, showSaved }: Props) => {
     <ImageForm
       image={{ language: locale }}
       inModal={false}
+      isLoading={false}
       isNewlyCreated={isNewlyCreated}
       licenses={draftLicensesToImageLicenses(licenses)}
       onUpdate={onCreateImage}

@@ -87,6 +87,7 @@ export class DisplayExternal extends Component {
           this.setState({ error: true });
         }
       } catch (err) {
+        this.setState({ error: true });
         handleError(err);
       }
     } else {

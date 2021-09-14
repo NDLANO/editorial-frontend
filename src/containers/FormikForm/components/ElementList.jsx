@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { spacing, shadows } from '@ndla/core';
+import { spacing, spacingUnit, shadows } from '@ndla/core';
 import { ContentResultShape } from '../../../shapes';
 import { LocaleContext } from '../../App/App';
 import ElementListItem from './ElementListItem';
@@ -24,8 +24,7 @@ const StyledWrapper = styled.div`
 const StyledList = styled.ul`
   overflow: visible;
   margin: 0 0
-    ${props =>
-      props.draggingIndex === -1 ? 0 : `${ELEMENT_HEIGHT + spacing.spacingUnit * 0.75}px`};
+    ${props => (props.draggingIndex === -1 ? 0 : `${ELEMENT_HEIGHT + spacingUnit * 0.75}px`)};
   padding: 0;
   position: relative;
   list-style: none;

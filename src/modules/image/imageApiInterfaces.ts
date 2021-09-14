@@ -10,7 +10,7 @@ import { Author } from '../../interfaces';
 
 export interface ImageApiLicense {
   license: string;
-  description: string;
+  description?: string;
   url?: string;
 }
 
@@ -23,6 +23,12 @@ interface Copyright {
   agreementId?: number;
   validFrom?: string;
   validTo?: string;
+}
+
+export interface EditorNote {
+  timestamp: string;
+  updatedBy: string;
+  note: string;
 }
 
 export interface ImageApiType {
@@ -49,6 +55,8 @@ export interface ImageApiType {
     language: string;
   };
   supportedLanguages: string[];
+  modelRelease: string;
+  editorNotes?: EditorNote[];
 }
 
 export interface NewImageMetadata {
@@ -59,6 +67,7 @@ export interface NewImageMetadata {
   language: string;
   tags: string[];
   title: string;
+  modelReleased: string;
 }
 
 export interface UpdatedImageMetadata {
@@ -69,6 +78,7 @@ export interface UpdatedImageMetadata {
   language: string;
   tags?: string[];
   title?: string;
+  modelReleased?: string;
 }
 
 interface SearchResultBase<T> {

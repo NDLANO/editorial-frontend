@@ -74,7 +74,7 @@ const validateFormik = <FormikValuesType>(
       if (rules[ruleKey].dateBefore) {
         const beforeDate = value;
         const afterKey = rules[ruleKey].afterKey;
-        const afterDate = get(afterKey, values);
+        const afterDate = get(afterKey!, values);
         if (!validDateRange(beforeDate, afterDate)) {
           errors[ruleKey] = appendError(
             errors[ruleKey],
@@ -87,7 +87,7 @@ const validateFormik = <FormikValuesType>(
       }
       if (rules[ruleKey].dateAfter) {
         const beforeKey = rules[ruleKey].beforeKey;
-        const beforeDate = get(beforeKey, values);
+        const beforeDate = get(beforeKey!, values);
         const afterDate = value;
         if (!validDateRange(beforeDate, afterDate)) {
           errors[ruleKey] = appendError(

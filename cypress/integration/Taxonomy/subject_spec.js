@@ -23,7 +23,10 @@ describe('Subject editing', () => {
       'allSubjectTopics',
     );
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
-    cy.intercept('GET', '/draft-api/v1/user-data', {"userId":"user_id","latestEditedArticles":["400","800"]});
+    cy.intercept('GET', '/draft-api/v1/user-data', {
+      userId: 'user_id',
+      latestEditedArticles: ['400', '800'],
+    });
 
     cy.visit(`/structure/${selectSubject}`);
     cy.apiwait(['@allSubjects', '@allSubjectTopics']);
@@ -42,12 +45,20 @@ describe('Subject editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.intercept('PUT', `${taxonomyApi}/subjects/${selectSubject}`, []).as('newSubjectName');
+    cy.intercept('PUT', `${taxonomyApi}/subjects/${selectSubject}/translations/nb`, []).as(
+      'newSubjectName',
+    );
     cy.intercept('POST', `${taxonomyApi}/topics`, []).as('addNewTopic');
     cy.intercept('GET', `${taxonomyApi}/topics?language=nb`, 'allTopics').as('allTopics');
     cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}`, 'selectSubject');
+    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}/translations`, []).as(
+      'subjectTranslations',
+    );
     cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}/topics*`, 'allSubjectTopics');
     cy.intercept('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
+    cy.intercept('DELETE', `${taxonomyApi}/subjects/${selectSubject}/translations/nb`, []).as(
+      'deleteSubjectTranslation',
+    );
     cy.apiroute('PUT', `${taxonomyApi}/subjects/${selectSubject}/metadata`, 'invisibleMetadata');
 
     cy.get('[data-cy=settings-button-subject]')
@@ -55,16 +66,30 @@ describe('Subject editing', () => {
       .click();
     cy.wait('@allTopics');
     cy.get('[data-testid=changeSubjectNameButton]').click();
-    cy.get('[data-testid=inlineEditInput]').type('TEST{enter}');
-    cy.wait('@newSubjectName');
-
-    cy.get('[data-cy=settings-button-subject]')
+    cy.get('[data-testid=addSubjectNameTranslation]').type('TEST{enter}');
+    cy.get('[data-testid=saveSubjectTranslationsButton]')
       .first()
       .click();
+    cy.wait('@newSubjectName');
+    cy.wait(1000);
+
+    cy.get('[data-testid=subjectName_nb_delete]')
+      .first()
+      .click();
+    cy.get('[data-testid=saveSubjectTranslationsButton]')
+      .first()
+      .click();
+    cy.wait('@deleteSubjectTranslation');
+    cy.wait(1000);
+
+    cy.get('[data-cy=close-modal-button]')
+      .first()
+      .click();
+
     cy.get('button')
       .contains(phrases.metadata.changeVisibility)
       .click();
-    cy.get('input[id="visible"]').click({force: true});
+    cy.get('input[id="visible"]').click({ force: true });
     cy.wait('@invisibleMetadata');
   });
 });

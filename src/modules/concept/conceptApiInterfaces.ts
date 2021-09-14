@@ -6,7 +6,7 @@
  *
  */
 
-import { Copyright, VisualElement, ArticleType } from '../../interfaces';
+import { Copyright, VisualElement, ArticleType, SearchResultBase } from '../../interfaces';
 
 export type LanguageFieldType<T> = T & {
   language: string;
@@ -122,13 +122,7 @@ export interface ApiConceptType extends CoreApiConceptType {
   visualElement?: LanguageFieldType<{ visualElement: string }>;
 }
 
-export interface ConceptSearchResult {
-  totalCount: number;
-  page?: number;
-  pageSize: number;
-  language: string;
-  results: SearchConceptType[];
-}
+export type ConceptSearchResult = SearchResultBase<SearchConceptType>;
 
 export interface StrippedConceptType {
   id: number;

@@ -16,10 +16,30 @@ import { ReduxSessionState } from './modules/session/session';
 import { ReduxMessageState } from './containers/Messages/messagesSelectors';
 import { ReduxLocaleState } from './modules/locale/locale';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
+import { ApiConceptType } from './modules/concept/conceptApiInterfaces';
+import { DraftApiType } from './modules/draft/draftApiInterfaces';
+import { DraftStatus } from './modules/draft/draftApiInterfaces';
+import { FootnoteType } from './containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
+
+export type EditMode =
+  | 'changeSubjectName'
+  | 'deleteTopic'
+  | 'addExistingSubjectTopic'
+  | 'openCustomFields'
+  | 'toggleMetadataVisibility'
+  | 'editGrepCodes'
+  | 'addExistingTopic';
+export interface SearchResultBase<T> {
+  totalCount: number;
+  page: number;
+  pageSize: number;
+  language: string;
+  results: T[];
+}
 
 export interface Author {
   name: string;
@@ -163,14 +183,15 @@ export interface ArticleType {
       },
     ];
   };
-  status: {
-    current: string;
-    other: string[];
-  };
+  status: DraftStatus;
   content: string;
   grepCodes: string[];
   conceptIds: number[];
   relatedContent: RelatedContent[];
+  availability?: AvailabilityType;
+  metaData?: {
+    footnotes?: FootnoteType[];
+  };
 }
 
 export interface RelatedContentLink {
@@ -180,7 +201,7 @@ export interface RelatedContentLink {
 
 export type RelatedContent = RelatedContentLink | number;
 
-export type ConvertedRelatedContent = RelatedContentLink | ArticleType;
+export type ConvertedRelatedContent = RelatedContent | DraftApiType;
 
 export interface Learningpath {
   copyright: {
@@ -464,7 +485,7 @@ export interface H5POembed {
 
 export interface License {
   license: string;
-  description: string;
+  description?: string;
   url?: string;
 }
 
@@ -477,3 +498,58 @@ export interface ReduxState {
 }
 
 export type SearchType = typeof SearchTypeValues[number];
+
+export interface ConvertedDraftType {
+  language?: string;
+  title?: string;
+  introduction?: string;
+  visualElement?: string;
+  content?: string;
+  metaDescription?: string;
+  tags: string[];
+  conceptIds: ApiConceptType[];
+  relatedContent: (DraftApiType | RelatedContent)[];
+  id?: number;
+  oldNdlaUrl?: string | undefined;
+  revision: number;
+  status: DraftStatus;
+  copyright?: Copyright | undefined;
+  requiredLibraries: { mediaType: string; name: string; url: string }[];
+  metaImage?: { id: string; alt: string } | null;
+  created: string;
+  updated: string;
+  updatedBy: string;
+  published: string;
+  articleType: string;
+  supportedLanguages: string[];
+  notes: Note[];
+  editorLabels: string[];
+  grepCodes: string[];
+  availability: AvailabilityType;
+}
+
+export interface SlateArticle {
+  articleType: string;
+  content?: string;
+  copyright: {
+    license?: License;
+    origin?: string;
+    creators: Author[];
+    processors: Author[];
+    rightsholders: Author[];
+  };
+  id?: number;
+  introduction?: string;
+  language?: string;
+  metaImage?: { id: string; alt: string | undefined } | null;
+  metaDescription: string;
+  notes: string[];
+  published?: string;
+  supportedLanguages: string[];
+  tags: string[];
+  title?: string;
+  grepCodes: string[] | undefined;
+  conceptIds?: ApiConceptType[];
+  availability?: AvailabilityType;
+  relatedContent: (DraftApiType | RelatedContent)[];
+}

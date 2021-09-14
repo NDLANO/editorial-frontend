@@ -36,7 +36,7 @@ export const transformAudio = (
     ...audio,
     title,
     manuscript,
-    tags,
+    tags: Array.from(new Set(tags)),
   };
 };
 

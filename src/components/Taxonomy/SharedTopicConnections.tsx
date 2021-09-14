@@ -13,16 +13,16 @@ import {
   StyledDuplicateConnectionLabel,
 } from '../../style/LearningResourceTaxonomyStyles';
 import Breadcrumb from './Breadcrumb';
-import { ResourceWithTopicConnection } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { PathArray } from '../../util/retriveBreadCrumbs';
+import { PathArray } from '../../util/retrieveBreadCrumbs';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 interface Props {
-  topic: ResourceWithTopicConnection;
+  topic: StagedTopic;
   type?: string;
-  retriveBreadCrumbs: (path: string) => PathArray;
+  retrieveBreadCrumbs: (path: string) => PathArray;
 }
 
-export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, type }: Props) => {
+export const SharedTopicConnections = ({ topic, retrieveBreadCrumbs, type }: Props) => {
   const { t } = useTranslation();
   if (!topic.paths || topic.paths.length === 0) {
     return null;
@@ -38,7 +38,7 @@ export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, type }: Prop
               <StyledDuplicateConnectionLabel>
                 {t('form.topics.sharedTopic')}
               </StyledDuplicateConnectionLabel>
-              <Breadcrumb breadcrumb={retriveBreadCrumbs(path)} type={type} />
+              <Breadcrumb breadcrumb={retrieveBreadCrumbs(path)} type={type} />
             </StyledConnections>
           );
         })}

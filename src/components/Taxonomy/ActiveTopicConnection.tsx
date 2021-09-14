@@ -20,14 +20,14 @@ import SharedTopicConnections from './SharedTopicConnections';
 import Breadcrumb from './Breadcrumb';
 import RelevanceOption from '../../containers/StructurePage/folderComponents/menuOptions/RelevanceOption';
 import RemoveButton from '../RemoveButton';
-import { PathArray } from '../../util/retriveBreadCrumbs';
-import { ResourceWithTopicConnection } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { PathArray } from '../../util/retrieveBreadCrumbs';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 interface Props {
-  retriveBreadCrumbs: (path: string) => PathArray;
+  retrieveBreadCrumbs: (path: string) => PathArray;
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (id: string) => void;
-  topic: ResourceWithTopicConnection;
+  topic: StagedTopic;
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
 }
@@ -38,7 +38,7 @@ const StyledFlexWrapper = styled.div`
 `;
 
 const ActiveTopicConnection = ({
-  retriveBreadCrumbs,
+  retrieveBreadCrumbs,
   removeConnection,
   setPrimaryConnection,
   setRelevance,
@@ -46,7 +46,7 @@ const ActiveTopicConnection = ({
   topic,
 }: Props) => {
   const { t } = useTranslation();
-  const breadcrumb = retriveBreadCrumbs(topic.path);
+  const breadcrumb = retrieveBreadCrumbs(topic.path);
   if (!breadcrumb) {
     return (
       <StyledConnections error>
@@ -67,7 +67,11 @@ const ActiveTopicConnection = ({
         <StyledConnections>
           <Breadcrumb breadcrumb={breadcrumb} type={type} />
         </StyledConnections>
-        <SharedTopicConnections topic={topic} retriveBreadCrumbs={retriveBreadCrumbs} type={type} />
+        <SharedTopicConnections
+          topic={topic}
+          retrieveBreadCrumbs={retrieveBreadCrumbs}
+          type={type}
+        />
       </>
     );
   }
@@ -91,7 +95,7 @@ const ActiveTopicConnection = ({
           <RemoveButton onClick={() => removeConnection && removeConnection(topic.id)} />
         </StyledFlexWrapper>
       </StyledConnections>
-      <SharedTopicConnections topic={topic} retriveBreadCrumbs={retriveBreadCrumbs} />
+      <SharedTopicConnections topic={topic} retrieveBreadCrumbs={retrieveBreadCrumbs} />
     </>
   );
 };

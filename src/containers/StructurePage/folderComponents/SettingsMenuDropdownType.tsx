@@ -220,6 +220,7 @@ const SettingsMenuDropdownType = ({
         </>
       );
     default:
+      return null;
   }
 };
 

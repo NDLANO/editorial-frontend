@@ -7,16 +7,20 @@
  */
 
 import React from 'react';
-import AddExistingToTopic from './menuOptions/AddExistingToTopic';
-import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
-import ChangeSubjectName from './menuOptions/ChangeSubjectName';
-import CopyResources from './menuOptions/CopyResources';
-import DeleteTopic from './menuOptions/DeleteTopic';
-import EditGrepCodes from './menuOptions/EditGrepCodes';
-import PublishTopic from './menuOptions/PublishTopic';
-import ToggleVisibility from './menuOptions/ToggleVisibility';
-import EditSubjectpageOption from './menuOptions/EditSubjectpageOption';
-import EditCustomFields from './menuOptions/EditCustomFields';
+
+import {
+  AddExistingToTopic,
+  AddExistingToSubjectTopic,
+  ChangeSubjectName,
+  CopyResources,
+  DeleteTopic,
+  DeleteSubjectOption,
+  EditGrepCodes,
+  PublishTopic,
+  ToggleVisibility,
+  EditSubjectpageOption,
+  EditCustomFields,
+} from './menuOptions';
 import {
   SubjectTopic,
   TaxonomyElement,
@@ -134,6 +138,13 @@ const SettingsMenuDropdownType = ({
                 getAllSubjects={getAllSubjects}
               />
               <EditSubjectpageOption id={id} locale={locale} />
+              <DeleteSubjectOption
+                id={id}
+                locale={locale}
+                editMode={editMode}
+                toggleEditMode={toggleEditMode}
+                getAllSubjects={getAllSubjects}
+              />
             </>
           )}
         </>

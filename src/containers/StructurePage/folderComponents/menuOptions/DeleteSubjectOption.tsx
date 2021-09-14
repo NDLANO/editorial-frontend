@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020-present, NDLA.
+ * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -54,7 +54,7 @@ const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode, getAllSubje
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      setError('Du kan bare slette ubrukte fag');
+      setError(`${t('taxonomy.errorMessage')}: ${err.message}`);
 
       handleError(err);
     }

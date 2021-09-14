@@ -157,7 +157,15 @@ const SlateVideo = ({
           </Figure>
           <Button stripped style={{ width: '100%' }} onClick={toggleEditModus}>
             <figcaption className="c-figure__caption">
-              <div className="c-figure__info">{parseMarkdown(tEmbed.caption)}</div>
+              <div
+                className="c-figure__info"
+                css={css`
+                  p {
+                    margin: 0;
+                  }
+                `}>
+                {parseMarkdown(tEmbed.caption)}
+              </div>
             </figcaption>
           </Button>
         </Fragment>

@@ -106,7 +106,15 @@ const SlateImage = ({
               }
             />
             <figcaption className="c-figure__caption">
-              <div className="c-figure__info">{parseMarkdown(embed.caption)}</div>
+              <div
+                className="c-figure__info"
+                css={css`
+                  p {
+                    margin: 0;
+                  }
+                `}>
+                {parseMarkdown(embed.caption)}
+              </div>
             </figcaption>
           </figure>
         </Button>

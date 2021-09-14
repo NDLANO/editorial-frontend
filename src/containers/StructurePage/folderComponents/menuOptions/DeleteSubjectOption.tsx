@@ -86,7 +86,7 @@ const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode, getAllSubje
           },
         ]}
         onCancel={() => toggleEditMode('deleteSubject')}
-        text={t('taxonomy.confirmDeleteTopic')}
+        text={t('taxonomy.confirmDeleteSubject')}
       />
 
       {loading && <Spinner appearance="absolute" />}

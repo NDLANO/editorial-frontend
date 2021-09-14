@@ -979,6 +979,7 @@ const phrases = {
         changeFile: 'Changes made to a language will not alter the other languages.',
         newLanguage:
           'When adding a new language, an audio file from an existing language will be suggested.',
+        deleteFiles: 'Audio files will only be deleted when not used in any language.',
       },
       modal: {
         header: 'Audio files',

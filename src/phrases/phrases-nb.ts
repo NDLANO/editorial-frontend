@@ -989,6 +989,7 @@ const phrases = {
         changeFile: 'Fjerning og endring av et språk vil ikke påvirke de andre språkene.',
         newLanguage:
           'Ved oppretting av nytt språk vil en lydfil fra et eksisterende språk foreslås.',
+        deleteFiles: 'En lydfil slettes kun når den ikke lenger er brukt i et språk.',
       },
       modal: {
         header: 'Lydfiler',

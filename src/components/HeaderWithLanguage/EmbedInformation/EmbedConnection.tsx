@@ -25,7 +25,7 @@ import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces'
 type embedType = 'image' | 'audio' | 'concept';
 
 interface Props {
-  id: number;
+  id?: number;
   type: embedType;
   articles: MultiSearchSummary[];
   setArticles: (articles: MultiSearchSummary[]) => void;

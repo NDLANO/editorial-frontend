@@ -63,6 +63,9 @@ export const audioApiTypeToPodcastFormType = (
 ): PodcastFormValues => {
   return {
     ...audioApiTypeToFormType(audio, language),
+    introduction: plainTextToEditorValue(audio?.podcastMeta?.introduction, true),
+    coverPhotoId: audio?.podcastMeta?.coverPhoto.id,
+    metaImageAlt: audio?.podcastMeta?.coverPhoto.altText,
     filepath: '',
     series: audio?.series ?? null,
   };
@@ -79,6 +82,8 @@ export const podcastSeriesTypeToFormType = (
   return {
     ...series,
     language,
+    coverPhotoId: series?.coverPhoto.id,
+    metaImageAlt: series?.coverPhoto.altText,
     title: plainTextToEditorValue(title, true) as Value,
     description: plainTextToEditorValue(description, true) as Value,
     episodes: series?.episodes ?? [],

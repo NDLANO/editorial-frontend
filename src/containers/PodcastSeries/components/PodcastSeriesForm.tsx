@@ -146,13 +146,15 @@ const PodcastSeriesForm = ({
           initialValues,
           dirty,
         });
+
+        const content = { ...podcastSeries, title: podcastSeries?.title.title ?? '', language };
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
               noStatus
               values={values}
               type="podcast-series"
-              content={podcastSeries}
+              content={content}
               editUrl={(lang: string) => {
                 if (values.id) return toEditPodcastSeries(values.id, lang);
                 else toCreatePodcastSeries();

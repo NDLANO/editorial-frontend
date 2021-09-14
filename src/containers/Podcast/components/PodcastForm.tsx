@@ -210,13 +210,14 @@ const PodcastForm = ({
           dirty,
           changed: podcastChanged,
         });
+        const content = { ...audio, title: audio?.title.title ?? '', language };
         return (
           <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
               noStatus
               values={values}
               type="podcast"
-              content={audio}
+              content={content}
               editUrl={(lang: string) => {
                 if (values.id) return toEditPodcast(values.id, lang);
                 else toCreatePodcastFile();

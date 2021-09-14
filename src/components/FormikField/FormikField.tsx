@@ -6,6 +6,7 @@
  *
  */
 
+import { get } from 'lodash/fp';
 import React, { ReactElement, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -104,9 +105,9 @@ const FormikField = ({
           value={isSlateValue ? values[name].document.text : values[name]}
         />
       )}
-      {showError && errors[name] && (
-        <FormikFieldHelp error={!!errors[name]}>
-          <StyledErrorPreLine>{errors[name]}</StyledErrorPreLine>
+      {showError && get(name, errors) && (
+        <FormikFieldHelp error={!!get(name, errors)}>
+          <StyledErrorPreLine>{get(name, errors)}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
     </div>

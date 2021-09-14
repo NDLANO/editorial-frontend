@@ -98,7 +98,7 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
   const updateUserData = async (articleId: number) => {
     const stringId = articleId.toString();
     const result = await draftApi.fetchUserData();
-    const latestEditedArticles = result.latestEditedArticles || [];
+    const latestEditedArticles = Array.from(new Set(result.latestEditedArticles || []));
     let userUpdatedMetadata;
 
     if (!latestEditedArticles.includes(stringId)) {
@@ -113,7 +113,7 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
       const latestEditedFiltered = latestEditedArticles.filter(id => {
         return id !== stringId;
       });
-      latestEditedFiltered.splice(0, 0, stringId);
+      latestEditedFiltered.unshift(stringId);
       userUpdatedMetadata = {
         latestEditedArticles: latestEditedFiltered,
       };

@@ -1,3 +1,5 @@
+import { LocaleType } from '../../interfaces';
+
 export interface TaxonomyElement {
   id: string;
   name: string;
@@ -58,6 +60,10 @@ export interface ResourceWithParentTopics extends Resource {
   parentTopics: ParentTopic[];
 }
 
+export interface TaxNameTranslation {
+  name: string;
+  language: LocaleType;
+}
 export interface ParentTopic extends TaxonomyElement {
   id: string;
   name: string;

@@ -8,13 +8,15 @@ import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from './MenuItemEditField';
 
+import { EditMode } from '../../../../interfaces';
+
 type Props = {
   id: string;
   numberOfSubtopics: number;
   refreshTopics: () => void;
   onClose: () => void;
   editMode: string;
-  toggleEditMode: (mode: string) => void;
+  toggleEditMode: (mode: EditMode) => void;
 };
 const AddTopic = ({
   id,

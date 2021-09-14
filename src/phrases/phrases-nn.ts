@@ -1155,7 +1155,7 @@ const phrases = {
   taxonomy: {
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',
-    deleteSubject: 'Slett fagforside',
+    deleteSubject: 'Slett fag',
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterande emne hit',
     newSubject: 'Nytt fag',

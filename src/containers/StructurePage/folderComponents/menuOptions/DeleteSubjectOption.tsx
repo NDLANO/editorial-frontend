@@ -20,11 +20,13 @@ import '../../../../style/link.css';
 import { StyledErrorMessage } from '../styles';
 import { SubjectTopic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
+import { EditMode } from '../../../../interfaces';
+
 interface Props {
   id: string;
   locale: string;
   editMode: string;
-  toggleEditMode: (mode: string) => void;
+  toggleEditMode: (mode: EditMode) => void;
   getAllSubjects: () => Promise<void>;
 }
 

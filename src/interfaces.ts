@@ -33,7 +33,8 @@ export type EditMode =
   | 'toggleMetadataVisibility'
   | 'editGrepCodes'
   | 'addExistingTopic'
-  | 'addTopic';
+  | 'addTopic'
+  | 'deleteSubject';
 export interface SearchResultBase<T> {
   totalCount: number;
   page: number;

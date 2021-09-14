@@ -15,7 +15,7 @@ import Spinner from '../../../../components/Spinner';
 import Overlay from '../../../../components/Overlay';
 import handleError from '../../../../util/handleError';
 import MenuItemButton from './MenuItemButton';
-import { fetchSubjectTopics } from '../../../../modules/taxonomy';
+import { fetchSubjectTopics, deleteSubject } from '../../../../modules/taxonomy';
 import '../../../../style/link.css';
 import { StyledErrorMessage } from '../styles';
 import { SubjectTopic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
@@ -25,9 +25,10 @@ interface Props {
   locale: string;
   editMode: string;
   toggleEditMode: (mode: string) => void;
+  getAllSubjects: () => Promise<void>;
 }
 
-const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode }: Props) => {
+const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode, getAllSubjects }: Props) => {
   const { t } = useTranslation();
   const [subjectTopics, setSubjectTopics] = useState<SubjectTopic[] | undefined>();
   const [loading, setLoading] = useState(false);
@@ -43,18 +44,13 @@ const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode }: Props) =>
     fetchSubject();
   }, [id, locale]);
 
-  const setSubjectArchived = id => {};
-
   const onDeleteSubject = async () => {
     toggleEditMode('deleteTopic');
     setLoading(true);
     setError('');
     try {
-      await deleteSubjectConnection(connectionId);
-
-      await setSubjectArchived(id);
       await deleteSubject(id);
-      refreshSubjects();
+      getAllSubjects();
       setLoading(false);
     } catch (err) {
       setLoading(false);

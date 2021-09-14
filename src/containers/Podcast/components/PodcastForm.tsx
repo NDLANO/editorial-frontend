@@ -219,8 +219,7 @@ const PodcastForm = ({
               type="podcast"
               content={content}
               editUrl={(lang: string) => {
-                if (values.id) return toEditPodcast(values.id, lang);
-                else toCreatePodcastFile();
+                return values.id ? toEditPodcast(values.id, lang) : toCreatePodcastFile();
               }}
               translateToNN={translateToNN}
             />

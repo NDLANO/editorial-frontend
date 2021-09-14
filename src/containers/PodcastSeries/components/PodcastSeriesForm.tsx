@@ -157,7 +157,7 @@ const PodcastSeriesForm = ({
               content={content}
               editUrl={(lang: string) => {
                 if (values.id) return toEditPodcastSeries(values.id, lang);
-                else toCreatePodcastSeries();
+                else return toCreatePodcastSeries();
               }}
             />
             <Accordions>

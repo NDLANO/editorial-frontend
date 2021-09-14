@@ -34,6 +34,7 @@ import {
 } from '../../../modules/audio/audioApiInterfaces';
 import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
+import { ReduxMessageError } from '../../Messages/messagesSelectors';
 
 export interface AudioFormikType extends FormikFormBaseType {
   id?: number;
@@ -161,8 +162,7 @@ const AudioForm = ({
       actions.setSubmitting(false);
       setSavedToServer(true);
     } catch (err) {
-      //@ts-ignore
-      applicationError(err);
+      applicationError(err as ReduxMessageError);
       actions.setSubmitting(false);
       setSavedToServer(false);
     }

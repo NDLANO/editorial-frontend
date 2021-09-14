@@ -20,7 +20,7 @@ interface Props {
   articleType: string;
   editUrl: (lang: string) => string;
   id: number;
-  isSubmitting: Boolean;
+  isSubmitting: boolean;
   language: string;
   supportedLanguages: string[];
   title: string;
@@ -36,7 +36,7 @@ const SimpleLanguageHeader = ({
   title,
 }: Props) => {
   const { t } = useTranslation();
-  const isNewLanguage = id && !supportedLanguages.includes(language);
+  const isNewLanguage = !!id && !supportedLanguages.includes(language);
 
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
@@ -53,7 +53,13 @@ const SimpleLanguageHeader = ({
 
   return (
     <>
-      <HeaderInformation type={articleType} noStatus title={title} isNewLanguage={isNewLanguage} />
+      <HeaderInformation
+        type={articleType}
+        noStatus
+        title={title}
+        isNewLanguage={isNewLanguage}
+        id={id}
+      />
       <StyledLanguageWrapper>
         {id ? (
           <>

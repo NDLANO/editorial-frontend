@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
@@ -19,7 +19,7 @@ import {
 } from '../WelcomePage/components/SaveSearchUrl';
 import SaveButton from '../../components/SaveButton';
 
-type Error = 'alreadyExist' | 'other' | '';
+type Error = 'alreadyExist' | 'other' | 'fetchFailed' | '';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -39,6 +39,7 @@ const SearchSaveButton = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<Error>('');
   const [loading, setLoading] = useState(false);
+  const [savedSearches, setSavedSearches] = useState<string[] | undefined>(undefined);
 
   const fetchSavedSearch = async () => {
     const token = getAccessToken();
@@ -46,16 +47,27 @@ const SearchSaveButton = () => {
 
     if (isValid(token) && isAccessTokenPersonal) {
       const result = await fetchUserData();
-      return result.savedSearches || [];
+      return result.savedSearches;
     }
-    throw Error();
   };
 
-  const handleSuccess = () => {
+  useEffect(() => {
+    fetchSavedSearch().then(res => {
+      setSavedSearches(res);
+    });
+  }, []);
+
+  useEffect(() => {
+    setError('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window.location.search]);
+
+  const handleSuccess = (newSearchList: string[]) => {
     setSuccess(true);
     setLoading(false);
     setTimeout(() => {
       setSuccess(false);
+      setSavedSearches(newSearchList);
     }, 2500);
   };
 
@@ -66,14 +78,21 @@ const SearchSaveButton = () => {
   };
 
   const saveSearch = async () => {
+    setError('');
     setLoading(true);
     const oldSearchList = await fetchSavedSearch();
     const newSearch = window.location.pathname + window.location.search;
 
+    if (!oldSearchList) {
+      handleFailure('fetchFailed');
+      return;
+    }
+
+    const newSearchList = [...oldSearchList, getSavedSearchRelativeUrl(newSearch)];
     if (!oldSearchList.find(s => s === getSavedSearchRelativeUrl(newSearch))) {
-      updateUserMetadata([...oldSearchList, getSavedSearchRelativeUrl(newSearch)])
+      updateUserMetadata(newSearchList)
         .then(() => {
-          handleSuccess();
+          handleSuccess(newSearchList);
         })
         .catch(() => {
           handleFailure('other');
@@ -83,13 +102,17 @@ const SearchSaveButton = () => {
     }
   };
 
+  const currentSearch = window.location.pathname + window.location.search;
+  const isSaved = savedSearches?.includes(getSavedSearchRelativeUrl(currentSearch));
+
   return (
     <StyledWrapper>
       <SaveButton
         isSaving={loading}
         showSaved={success}
-        defaultText={'saveSearch'}
+        defaultText={isSaved ? 'alreadySaved' : 'saveSearch'}
         onClick={saveSearch}
+        disabled={isSaved || success}
       />
       {error && (
         <WarningText>

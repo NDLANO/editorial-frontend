@@ -33,14 +33,14 @@ const StyledStatusWrapper = styled.div`
 
 interface Props {
   noStatus: boolean;
-  statusText: string;
+  statusText?: string;
   isNewLanguage: boolean;
   published: boolean;
-  taxonomyPaths: string[];
-  indentLeft: boolean;
-  fontSize: number;
+  taxonomyPaths?: string[];
+  indentLeft?: boolean;
+  fontSize?: number;
   type: string;
-  id: number;
+  id?: number;
 }
 
 const HeaderStatusInformation = ({
@@ -49,7 +49,7 @@ const HeaderStatusInformation = ({
   isNewLanguage,
   published,
   taxonomyPaths,
-  indentLeft,
+  indentLeft = false,
   fontSize,
   type,
   id,
@@ -63,13 +63,14 @@ const HeaderStatusInformation = ({
     ${fonts.sizes(fontSize || 18, 1.1)};
     font-weight: ${fonts.weight.semibold};
     text-transform: uppercase;
-    margin: 0 ${fontSize <= 12 ? spacing.xsmall : spacing.small} 0 ${indentLeft ? 0 : spacing.small};
+    margin: 0 ${fontSize && fontSize <= 12 ? spacing.xsmall : spacing.small} 0
+      ${indentLeft ? 0 : spacing.small};
   `;
 
   const StyledSmallText = styled.small`
-    color: ${fontSize <= 12 ? '#000' : colors.text.light};
+    color: ${fontSize && fontSize <= 12 ? '#000' : colors.text.light};
     padding-right: ${spacing.xsmall};
-    ${fonts.sizes(fontSize - 1 || 14, 1.1)};
+    ${fonts.sizes((fontSize && fontSize - 1) || 14, 1.1)};
     font-weight: ${fonts.weight.light};
     text-transform: uppercase;
   `;
@@ -90,7 +91,7 @@ const HeaderStatusInformation = ({
     box-shadow: inset 0 0;
   `;
 
-  const multipleTaxonomyIcon = taxonomyPaths?.length > 2 && (
+  const multipleTaxonomyIcon = taxonomyPaths && taxonomyPaths?.length > 2 && (
     <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
       <StyledWarnIcon title={t('form.taxonomySection')} />
     </Tooltip>
@@ -141,7 +142,8 @@ const HeaderStatusInformation = ({
       {conceptConnecions}
       {learningpathConnections}
       {learningpaths.length + articles.length > 0 && splitter}
-      {published && (taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
+      {published &&
+        (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
       {multipleTaxonomyIcon}
       {imageConnections}
     </>

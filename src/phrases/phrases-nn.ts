@@ -145,6 +145,7 @@ const phrases = {
     },
     save: {
       alreadyExist: 'Søket er allereie lagra.',
+      fetchFailed: 'Kunne ikkje laste lagra søk.',
       other: 'Lagring feila.',
     },
   },
@@ -540,6 +541,7 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saveSearch: 'Lagre søk',
+    alreadySaved: 'Lagra',
     saved: 'Lagra ',
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',

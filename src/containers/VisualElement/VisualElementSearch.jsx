@@ -124,7 +124,7 @@ class VisualElementSearch extends Component {
           <Fragment>
             <h2>{titles(t, selectedResource)[selectedResource]}</h2>
             <VideoSearch
-              enabledSources={videoTypes || ['Brightcove', 'YouTube']}
+              enabledSources={videoTypes || ['Brightcove']}
               searchVideos={(query, type) => visualElementApi.searchVideos(query, type)}
               locale={locale}
               translations={videoTranslations}

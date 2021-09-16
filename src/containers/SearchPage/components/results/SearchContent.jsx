@@ -98,7 +98,7 @@ const SearchContent = ({ content, locale, userAccess }) => {
         <img src={imageUrl} alt={alt} />
       </div>
       <div {...searchClasses('content')}>
-        <div {...searchClasses('header')}>
+        <div {...searchClasses('heading')}>
           <FlexBoxWrapper>
             {ContentType}
             <h2 {...searchClasses('title')}>

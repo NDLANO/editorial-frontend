@@ -75,11 +75,13 @@ const isDraftApiType = (article: DraftApiType | UpdatedDraftApiType): article is
 const toApiVersion = (
   article: DraftApiType | UpdatedDraftApiType,
 ): DraftApiType & { language?: string } => {
-  return isDraftApiType(article) ? article : transformArticleToApiVersion(article);
+  return isDraftApiType(article)
+    ? article
+    : { ...transformArticleToApiVersion(article), language: article.language };
 };
 
 interface Props {
-  children?: Function;
+  children?: (openPreview: () => Promise<void>) => React.ReactElement;
   getArticle: (preview: boolean) => UpdatedDraftApiType | DraftApiType;
   label: string;
   typeOfPreview: TypeOfPreview;
@@ -114,9 +116,7 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
     const article = toApiVersion(getArticle(true));
 
     const secondArticleLanguage =
-      (article.supportedLanguages &&
-        article.supportedLanguages.find((l: string) => l !== article.language)) ||
-      article.language;
+      article.supportedLanguages?.find(l => l !== article.language) ?? article.language;
 
     const types: PartialRecord<TypeOfPreview, () => Promise<ArticleConverterApiType>> = {
       previewLanguageArticle: () => previewLanguageArticle(secondArticleLanguage!),
@@ -126,7 +126,7 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
     setLoading(true);
     const firstArticle = await articleApi.getPreviewArticle(article, article.language!);
 
-    const secondArticle = types[typeOfPreview] ? await types[typeOfPreview]!() : undefined;
+    const secondArticle = await types[typeOfPreview]?.();
     setFirstArticle(firstArticle);
     setSecondArticle(secondArticle);
     setShowPreview(true);

@@ -50,6 +50,12 @@ const StyledLine = styled.hr`
   }
 `;
 
+const isConceptType = (
+  entity: () => ConceptType | UpdatedDraftApiType,
+): entity is () => ConceptType => {
+  return (entity() as ConceptType).parsedVisualElement !== undefined;
+};
+
 function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
@@ -165,11 +171,8 @@ function EditorFooter<T extends FormValues>({
     <Footer>
       <>
         <div data-cy="footerPreviewAndValidate">
-          {values.id && isConcept && (
-            <PreviewConceptLightbox
-              getConcept={getEntity as () => ConceptType}
-              typeOfPreview={'preview'}
-            />
+          {values.id && isConcept && isConceptType(getEntity) && (
+            <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
           )}
           {values.id && isArticle && (
             <FooterLinkButton

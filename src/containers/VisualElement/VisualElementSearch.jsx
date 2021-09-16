@@ -161,6 +161,7 @@ class VisualElementSearch extends Component {
             onSelect={h5p =>
               handleVisualElementChange({
                 resource: 'h5p',
+                path: h5p.path,
                 title: h5p.title,
                 metaData: {},
               })

@@ -49,16 +49,23 @@ export class DisplayExternal extends Component {
   onEditEmbed(properties) {
     const { editor, node, embed } = this.props;
 
-    if (properties.url !== embed.url || properties.path !== embed.path) {
+    if (embed.url) {
       editor.setNodeByKey(node.key, {
         data: {
-          ...embed,
           ...properties,
+          url: embed.url,
+          path: embed.path,
         },
       });
       this.iframe.src = embed.url;
-      this.closeEditEmbed();
+    } else {
+      editor.setNodeByKey(node.key, {
+        data: {
+          ...properties,
+        },
+      });
     }
+    this.closeEditEmbed();
   }
 
   async getPropsFromEmbed() {

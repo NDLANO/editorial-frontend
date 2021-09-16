@@ -12,15 +12,19 @@ import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { FooterLinkButton } from '@ndla/editor';
 import { FileCompare } from '@ndla/icons/action';
+import config from '../../config';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
+import { fetchImage } from '../../modules/image/imageApi';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
 import StyledFilledButton from '../StyledFilledButton';
+import { parseEmbedTag } from '../../util/embedTagHelpers';
+import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
 import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { transformApiToCleanConcept } from '../../modules/concept/conceptApiUtil';
-import { TypeOfPreview } from '../../interfaces';
+import { TypeOfPreview, VisualElement } from '../../interfaces';
 
 interface Props {
   getConcept: () => ConceptType;
@@ -58,7 +62,8 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
 
   const openPreview = async () => {
     const concept = getConcept();
-    setFirstConcept(concept);
+    const parsed = await getVisualElement(concept.visualElement);
+    setFirstConcept(parsed ? { ...concept, parsedVisualElement: parsed } : concept);
     const secondConceptLanguage = concept.supportedLanguages?.find(l => l !== concept.language);
     onChangePreviewLanguage(secondConceptLanguage ?? concept.language);
     setShowPreview(true);
@@ -69,8 +74,43 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
     const secondConcept = await fetchConcept(originalConcept.id, language).then(concept =>
       transformApiToCleanConcept(concept, language),
     );
+    const parsed = await getVisualElement(secondConcept.visualElement);
     setPreviewLanguage(language);
-    setSecondConcept(secondConcept);
+    setSecondConcept(parsed ? { ...secondConcept, parsedVisualElement: parsed } : secondConcept);
+  };
+
+  const getVisualElement = async (
+    visualElementEmbed: string,
+  ): Promise<VisualElement | undefined> => {
+    const embedTag = parseEmbedTag(visualElementEmbed);
+    switch (embedTag?.resource) {
+      case 'image':
+        const image = await fetchImage(parseInt(embedTag.resource_id));
+        return {
+          ...embedTag,
+          url: image.imageUrl,
+        };
+      case 'video':
+      case 'brightcove':
+        return {
+          ...embedTag,
+          url: `https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${embedTag?.videoid}`,
+        };
+      case 'external':
+        return {
+          ...embedTag,
+          url: embedTag?.url?.includes('youtube')
+            ? getYoutubeEmbedUrl(embedTag?.url)
+            : embedTag?.url,
+        };
+      case 'h5p':
+        return {
+          ...embedTag,
+          url: embedTag?.url ? embedTag.url : `${config.h5pApiUrl}${embedTag?.path}`,
+        };
+      default:
+        return undefined;
+    }
   };
 
   if (!showPreview || !firstConcept || !secondConcept) {

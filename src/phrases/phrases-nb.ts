@@ -1149,6 +1149,7 @@ const phrases = {
   taxonomy: {
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',
+    deleteSubject: 'Slett fag',
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterende emne hit',
     newSubject: 'Nytt fag',
@@ -1176,6 +1177,7 @@ const phrases = {
     addTopic: 'Legg til nytt emne',
     errorMessage: 'En feil oppsto',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
+    confirmDeleteSubject: 'Er du sikker på at du vil slette faget?',
     linkSettings: 'Link',
     setPrimary: 'Sett til primærkobling',
     addResource: 'Legg til ressurs',

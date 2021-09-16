@@ -1137,6 +1137,7 @@ const phrases = {
   taxonomy: {
     editStructure: 'Edit structure',
     editSubjectpage: 'Edit subjectpage',
+    deleteSubject: 'Delete subject',
     addSubject: 'Add new subject',
     addExistingTopic: 'Move existing topic here',
     newSubject: 'New Subject',
@@ -1169,6 +1170,7 @@ const phrases = {
     searchResource: 'Search for resource',
     searchArticle: 'Search for topic article',
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',
+    confirmDeleteSubject: 'Are you sure you want to delete this subject?',
     or: 'Eller',
     urlPlaceholder: 'Lim inn lenke fra ndla.no',
     wrongType: 'Note! This is a different resource type: ',

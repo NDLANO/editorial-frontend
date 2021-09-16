@@ -7,16 +7,20 @@
  */
 
 import React from 'react';
-import AddExistingToTopic from './menuOptions/AddExistingToTopic';
-import AddExistingToSubjectTopic from './menuOptions/AddExistingToSubjectTopic';
-import ChangeSubjectName from './menuOptions/ChangeSubjectName';
-import CopyResources from './menuOptions/CopyResources';
-import DeleteTopic from './menuOptions/DeleteTopic';
-import EditGrepCodes from './menuOptions/EditGrepCodes';
-import PublishTopic from './menuOptions/PublishTopic';
-import ToggleVisibility from './menuOptions/ToggleVisibility';
-import EditSubjectpageOption from './menuOptions/EditSubjectpageOption';
-import EditCustomFields from './menuOptions/EditCustomFields';
+
+import {
+  AddExistingToTopic,
+  AddExistingToSubjectTopic,
+  ChangeSubjectName,
+  CopyResources,
+  DeleteTopic,
+  DeleteSubjectOption,
+  EditGrepCodes,
+  PublishTopic,
+  ToggleVisibility,
+  EditSubjectpageOption,
+  EditCustomFields,
+} from './menuOptions';
 import {
   SubjectTopic,
   TaxonomyElement,
@@ -77,7 +81,7 @@ const SettingsMenuDropdownType = ({
 }: Props) => {
   switch (settingsMenuType) {
     case 'subject':
-      return (
+      return showAllOptions ? (
         <>
           <ChangeSubjectName
             toggleEditMode={toggleEditMode}
@@ -89,55 +93,58 @@ const SettingsMenuDropdownType = ({
             getAllSubjects={getAllSubjects}
             refreshTopics={refreshTopics}
           />
-          {showAllOptions && (
-            <>
-              <EditCustomFields
-                type={settingsMenuType}
-                toggleEditMode={toggleEditMode}
-                editMode={editMode}
-                saveSubjectItems={saveSubjectItems}
-                saveSubjectTopicItems={saveSubjectTopicItems}
-                subjectId={subjectId}
-                id={id}
-                name={name}
-                metadata={metadata}
-              />
-              <AddExistingToSubjectTopic
-                path={path}
-                onClose={onClose}
-                editMode={editMode}
-                toggleEditMode={toggleEditMode}
-                locale={locale}
-                id={id}
-                refreshTopics={refreshTopics}
-                structure={structure}
-              />
-              <ToggleVisibility
-                menuType={settingsMenuType}
-                editMode={editMode}
-                getAllSubjects={getAllSubjects}
-                id={id}
-                name={name}
-                metadata={metadata}
-                refreshTopics={refreshTopics}
-                setResourcesUpdated={setResourcesUpdated}
-                toggleEditMode={toggleEditMode}
-              />
-              <EditGrepCodes
-                menuType={settingsMenuType}
-                editMode={editMode}
-                id={id}
-                name={name}
-                metadata={metadata}
-                refreshTopics={refreshTopics}
-                toggleEditMode={toggleEditMode}
-                getAllSubjects={getAllSubjects}
-              />
-              <EditSubjectpageOption id={id} locale={locale} />
-            </>
-          )}
+          <EditCustomFields
+            type={settingsMenuType}
+            toggleEditMode={toggleEditMode}
+            editMode={editMode}
+            saveSubjectItems={saveSubjectItems}
+            saveSubjectTopicItems={saveSubjectTopicItems}
+            subjectId={subjectId}
+            id={id}
+            name={name}
+            metadata={metadata}
+          />
+          <AddExistingToSubjectTopic
+            path={path}
+            onClose={onClose}
+            editMode={editMode}
+            toggleEditMode={toggleEditMode}
+            locale={locale}
+            id={id}
+            refreshTopics={refreshTopics}
+            structure={structure}
+          />
+          <ToggleVisibility
+            menuType={settingsMenuType}
+            editMode={editMode}
+            getAllSubjects={getAllSubjects}
+            id={id}
+            name={name}
+            metadata={metadata}
+            refreshTopics={refreshTopics}
+            setResourcesUpdated={setResourcesUpdated}
+            toggleEditMode={toggleEditMode}
+          />
+          <EditGrepCodes
+            menuType={settingsMenuType}
+            editMode={editMode}
+            id={id}
+            name={name}
+            metadata={metadata}
+            refreshTopics={refreshTopics}
+            toggleEditMode={toggleEditMode}
+            getAllSubjects={getAllSubjects}
+          />
+          <EditSubjectpageOption id={id} locale={locale} />
+          <DeleteSubjectOption
+            id={id}
+            locale={locale}
+            editMode={editMode}
+            toggleEditMode={toggleEditMode}
+            getAllSubjects={getAllSubjects}
+          />
         </>
-      );
+      ) : null;
     case 'topic':
       return (
         <>

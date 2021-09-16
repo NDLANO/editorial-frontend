@@ -983,17 +983,17 @@ const phrases = {
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
       copiedFrom:
-        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten ved siden av lydfilen for å fjerne den og laste opp en ny fil.',
+        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å fjerne den og laste opp en ny fil.',
       info: {
-        multipleFiles: 'Du kan laste opp forskjellige lydfiler for hver språkversjon.',
-        changeFile:
-          'Fjerning og endring av en språkversjon vil ikke påvirke de andre språkversjonene.',
+        multipleFiles: 'Du kan laste opp forskjellig lydfiler for hvert språk.',
+        changeFile: 'Fjerning og endring av et språk vil ikke påvirke de andre språkene.',
         newLanguage:
-          'Ved oppretting av ny språkversjon vil en lydfil fra en eksisterende språkversjon foreslås.',
+          'Ved oppretting av nytt språk vil en lydfil fra et eksisterende språk foreslås.',
+        deleteFiles: 'En lydfil slettes kun når den ikke lenger er brukt i et språk.',
       },
       modal: {
         header: 'Lydfiler',
-        label: 'Informasjon om lydfiler',
+        label: 'Informasjon om lyd',
       },
     },
     podcast: {

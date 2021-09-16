@@ -37,6 +37,7 @@ const AudioFileInfoModal = () => {
               <li>{t('form.audio.info.multipleFiles')}</li>
               <li>{t('form.audio.info.changeFile')}</li>
               <li>{t('form.audio.info.newLanguage')}</li>
+              <li>{t('form.audio.info.deleteFiles')}</li>
             </ul>
           </ModalBody>
         </>

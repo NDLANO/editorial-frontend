@@ -166,10 +166,6 @@ export type FormValues = {
   status: ConceptStatus;
 };
 
-export interface ConceptPreviewType extends ConceptType {
-  visualElementResources: VisualElement;
-}
-
 export interface ConceptFormType extends ConceptType {
   articles: ArticleType[];
 }

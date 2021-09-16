@@ -12,19 +12,15 @@ import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { FooterLinkButton } from '@ndla/editor';
 import { FileCompare } from '@ndla/icons/action';
-import config from '../../config';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
-import { fetchImage } from '../../modules/image/imageApi';
 import { Portal } from '../Portal';
 import PreviewLightboxContent from '../PreviewDraft/PreviewLightboxContent';
 import StyledFilledButton from '../StyledFilledButton';
-import { parseEmbedTag } from '../../util/embedTagHelpers';
-import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
-import { ConceptPreviewType, ConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { transformApiToCleanConcept } from '../../modules/concept/conceptApiUtil';
-import { TypeOfPreview } from '../PreviewDraft/PreviewDraftLightbox';
+import { TypeOfPreview } from '../../interfaces';
 
 interface Props {
   getConcept: () => ConceptType;
@@ -48,8 +44,8 @@ const closeButtonStyle = css`
 
 const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
   const { t } = useTranslation();
-  const [firstConcept, setFirstConcept] = useState<ConceptPreviewType | undefined>(undefined);
-  const [secondConcept, setSecondConcept] = useState<ConceptPreviewType | undefined>(undefined);
+  const [firstConcept, setFirstConcept] = useState<ConceptType | undefined>(undefined);
+  const [secondConcept, setSecondConcept] = useState<ConceptType | undefined>(undefined);
   const [previewLanguage, setPreviewLanguage] = useState<string>('');
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
@@ -62,13 +58,9 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
 
   const openPreview = async () => {
     const concept = getConcept();
-    const firstVisualElement =
-      concept.visualElement && (await getVisualElement(concept.visualElement));
-    setFirstConcept({ ...concept, visualElementResources: firstVisualElement });
-    const secondConceptLanguage =
-      concept.supportedLanguages &&
-      concept.supportedLanguages.find((l: string) => l !== concept.language);
-    onChangePreviewLanguage(secondConceptLanguage ? secondConceptLanguage : concept.language);
+    setFirstConcept(concept);
+    const secondConceptLanguage = concept.supportedLanguages?.find(l => l !== concept.language);
+    onChangePreviewLanguage(secondConceptLanguage ?? concept.language);
     setShowPreview(true);
   };
 
@@ -77,45 +69,8 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
     const secondConcept = await fetchConcept(originalConcept.id, language).then(concept =>
       transformApiToCleanConcept(concept, language),
     );
-    const secondVisualElement =
-      secondConcept.visualElement && (await getVisualElement(secondConcept.visualElement));
     setPreviewLanguage(language);
-    setSecondConcept({
-      ...secondConcept,
-      visualElementResources: secondVisualElement,
-    });
-  };
-
-  const getVisualElement = async (visualElementEmbed: string) => {
-    const embedTag = parseEmbedTag(visualElementEmbed);
-    switch (embedTag?.resource) {
-      case 'image':
-        const image = await fetchImage(parseInt(embedTag.resource_id));
-        return {
-          ...embedTag,
-          url: image.imageUrl,
-        };
-      case 'video':
-      case 'brightcove':
-        return {
-          ...embedTag,
-          url: `https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${embedTag?.videoid}`,
-        };
-      case 'external':
-        return {
-          ...embedTag,
-          url: embedTag?.url?.includes('youtube')
-            ? getYoutubeEmbedUrl(embedTag?.url)
-            : embedTag?.url,
-        };
-      case 'h5p':
-        return {
-          ...embedTag,
-          url: embedTag?.url ? embedTag.url : `${config.h5pApiUrl}${embedTag?.path}`,
-        };
-      default:
-        return undefined;
-    }
+    setSecondConcept(secondConcept);
   };
 
   if (!showPreview || !firstConcept || !secondConcept) {
@@ -155,7 +110,7 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
           typeOfPreview={typeOfPreview}
           contentType="concept"
           label=""
-          getEntityPreview={concept => <PreviewConcept concept={concept as ConceptPreviewType} />}
+          getEntityPreview={concept => <PreviewConcept concept={concept as ConceptType} />}
         />
       </Lightbox>
     </Portal>

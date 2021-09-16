@@ -203,6 +203,12 @@ export interface RelatedContentLink {
   url: string;
 }
 
+export type TypeOfPreview =
+  | 'preview'
+  | 'previewLanguageArticle'
+  | 'previewVersion'
+  | 'previewProductionArticle';
+
 export type RelatedContent = RelatedContentLink | number;
 
 export type ConvertedRelatedContent = RelatedContent | DraftApiType;

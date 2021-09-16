@@ -10,12 +10,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Spinner from '../Spinner';
-import { TypeOfPreview } from './PreviewDraftLightbox';
 import PreviewProduction from './PreviewProduction';
 import PreviewLanguage from './PreviewLanguage';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
-import { ConceptPreviewType, ConceptType } from '../../modules/concept/conceptApiInterfaces';
-import { ArticleType } from '../../interfaces';
+import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { ArticleType, TypeOfPreview } from '../../interfaces';
 
 interface StyledProps {
   contentType?: string;
@@ -29,8 +28,8 @@ const StyledPreviewSingleArticle = styled.div<StyledProps>`
 `;
 
 interface Props {
-  firstEntity: ArticleConverterApiType | ConceptPreviewType;
-  secondEntity: ArticleConverterApiType | ConceptPreviewType;
+  firstEntity: ArticleConverterApiType | ConceptType;
+  secondEntity: ArticleConverterApiType | ConceptType;
   loading?: boolean;
   typeOfPreview: TypeOfPreview;
   label: string;
@@ -45,7 +44,7 @@ interface Props {
 }
 
 const isArticleArray = (
-  entities: (ArticleConverterApiType | ConceptPreviewType)[],
+  entities: (ArticleConverterApiType | ConceptType)[],
 ): entities is ArticleConverterApiType[] => {
   return entities.every(e => (e as ArticleConverterApiType).agreementId !== undefined);
 };

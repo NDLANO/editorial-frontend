@@ -23,18 +23,12 @@ import { Portal } from '../Portal';
 import PreviewDraft from './PreviewDraft';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
-import { ArticleType, PartialRecord } from '../../interfaces';
+import { ArticleType, PartialRecord, TypeOfPreview } from '../../interfaces';
 
 const twoArticlesCloseButtonStyle = css`
   position: absolute;
   right: 20px;
 `;
-
-export type TypeOfPreview =
-  | 'preview'
-  | 'previewLanguageArticle'
-  | 'previewVersion'
-  | 'previewProductionArticle';
 
 interface StyledProps {
   typeOfPreview: TypeOfPreview;

@@ -23,7 +23,7 @@ import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 interface PreviewLightBoxProps {
   type: string;
   getEntity: () => ConceptType | UpdatedDraftApiType;
-  articleType: string;
+  articleType?: string;
   supportedLanguages?: string[];
 }
 
@@ -46,14 +46,12 @@ const PreviewLightBox = ({
   supportedLanguages = [],
 }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
-  if (type === 'concept' && isConceptReturnType(getEntity)) {
-    return supportedLanguages.length > 1 ? (
-      <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
-    ) : null;
+  if (type === 'concept' && isConceptReturnType(getEntity) && supportedLanguages.length > 1) {
+    return <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />;
   } else if (isDraftReturnType(getEntity) && (type === 'standard' || type === 'topic-article')) {
     return (
       <PreviewDraftLightbox
-        label={t(`articleType.${articleType}`)}
+        label={t(`articleType.${articleType!}`)}
         typeOfPreview="previewLanguageArticle"
         getArticle={_ => getEntity()}>
         {(openPreview: () => void) => (
@@ -113,7 +111,6 @@ const HeaderActions = ({
     lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
   const translatableTypes = ['audio', 'concept', 'standard', 'topic-article', 'podcast'];
-
   if (id && editUrl) {
     return (
       <>
@@ -131,11 +128,11 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
-        {!noStatus && getEntity && articleType && (
+        {!noStatus && getEntity && (
           <>
             <PreviewLightBox
               type={type}
-              getEntity={getEntity}
+              getEntity={getEntity!}
               articleType={articleType}
               supportedLanguages={supportedLanguages}
             />

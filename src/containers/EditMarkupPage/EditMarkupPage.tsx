@@ -290,9 +290,10 @@ class EditMarkupPage extends Component<Props & WithTranslation, State> {
               typeOfPreview="preview"
               getArticle={() => {
                 const content = standardizeContent(draft?.content?.content ?? '');
+                const update = updateContentInDraft(draft, content)!;
                 return {
-                  ...updateContentInDraft(draft, content),
-                  tags: [],
+                  ...update,
+                  tags: { tags: [], language },
                   language,
                 };
               }}

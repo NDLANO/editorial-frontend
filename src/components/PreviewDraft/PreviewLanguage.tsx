@@ -24,18 +24,16 @@ const StyledPreview = styled.div`
 
 interface Props {
   label: string;
-  contentType: string;
+  contentType?: string;
   firstEntity: ArticleType | ConceptType;
   secondEntity: ArticleType | ConceptType;
   previewLanguage: string;
-
-  onChangePreviewLanguage(language: string): void;
-
-  getEntityPreview(
+  onChangePreviewLanguage: (language: string) => void;
+  getEntityPreview: (
     entity: ArticleType | ConceptType,
-    label?: string,
+    label: string,
     contentType?: string,
-  ): Element;
+  ) => React.ReactNode;
 }
 
 const PreviewLanguage = ({
@@ -71,7 +69,7 @@ const PreviewLanguage = ({
             className="u-4/6@desktop u-push-1/6@desktop"
             onChange={evt => onChangePreviewLanguage(evt.target.value)}
             value={previewLanguage}>
-            {firstEntity.supportedLanguages.map(language => (
+            {secondEntity.supportedLanguages.map(language => (
               <option key={language} value={language}>
                 {t(`language.${language}`)}
               </option>

@@ -26,7 +26,9 @@ export const isDraftPublished = (status?: DraftStatus) =>
   status?.current === articleStatuses.PUBLISHED;
 
 // TODO: Currently only used from javascript files. Fix `any` type when caller(s) get types.
-export const transformArticleToApiVersion = (article: any): DraftApiType => ({
+export const transformArticleToApiVersion = (
+  article: any,
+): DraftApiType & { language: string } => ({
   ...article,
   title: { title: article.title, language: article.language },
   introduction: { introduction: article.introduction },

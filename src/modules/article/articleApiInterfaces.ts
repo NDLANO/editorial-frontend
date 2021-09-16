@@ -48,11 +48,15 @@ export interface ArticleSearchSummaryApiType {
   grepCodes: string[];
 }
 
+// missing:
+// copyright prop: object
+// editorLabels: array of something
 export interface ArticleConverterApiType extends ArticleType {
   availability: AvailabilityType;
+  copyright: Pick<Copyright, 'creators' | 'license' | 'processors' | 'rightsholders'>;
   metaData: {
     footnotes?: FootnoteType[];
-    images: {
+    images?: {
       title: string;
       altText: string;
       copyright: Copyright;

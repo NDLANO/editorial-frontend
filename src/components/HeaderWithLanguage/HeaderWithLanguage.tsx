@@ -12,6 +12,8 @@ import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
+import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 export const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
@@ -38,7 +40,7 @@ interface Props {
     supportedLanguages?: string[];
   };
   editUrl?: (url: string) => string;
-  getEntity?: () => any;
+  getEntity?: () => ConceptType | UpdatedDraftApiType;
   isSubmitting?: boolean;
   noStatus?: boolean;
   setTranslateOnContinue?: (translateOnContinue: boolean) => void;

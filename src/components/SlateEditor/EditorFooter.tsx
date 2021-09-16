@@ -166,7 +166,10 @@ function EditorFooter<T extends FormValues>({
       <>
         <div data-cy="footerPreviewAndValidate">
           {values.id && isConcept && (
-            <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
+            <PreviewConceptLightbox
+              getConcept={getEntity as () => ConceptType}
+              typeOfPreview={'preview'}
+            />
           )}
           {values.id && isArticle && (
             <FooterLinkButton

@@ -22,12 +22,13 @@ import StyledFilledButton from '../StyledFilledButton';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
-import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptPreviewType, ConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { transformApiToCleanConcept } from '../../modules/concept/conceptApiUtil';
+import { TypeOfPreview } from '../PreviewDraft/PreviewDraftLightbox';
 
 interface Props {
-  getConcept: Function;
-  typeOfPreview: string;
+  getConcept: () => ConceptType;
+  typeOfPreview: TypeOfPreview;
 }
 
 const lightboxContentStyle = () => css`
@@ -154,7 +155,7 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
           typeOfPreview={typeOfPreview}
           contentType="concept"
           label=""
-          getEntityPreview={(concept: ConceptPreviewType) => <PreviewConcept concept={concept} />}
+          getEntityPreview={concept => <PreviewConcept concept={concept as ConceptPreviewType} />}
         />
       </Lightbox>
     </Portal>

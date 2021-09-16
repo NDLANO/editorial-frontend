@@ -19,6 +19,7 @@ import {
   ArticleSearchSummaryApiType,
 } from './articleApiInterfaces';
 import { LocaleType } from '../../interfaces';
+import { DraftApiType } from '../draft/draftApiInterfaces';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
 
@@ -56,7 +57,10 @@ export const getArticleFromArticleConverter = (
     resolveJsonOrRejectWithError<ArticleConverterApiType>(r),
   );
 
-export const getPreviewArticle = async (article: number, locale: string) => {
+export const getPreviewArticle = async (
+  article: DraftApiType,
+  locale: string,
+): Promise<ArticleConverterApiType> => {
   const response = await fetchAuthorized(
     `${articleConverterUrl}/json/${locale}/transform-article?draftConcept=true&previewH5p=true`,
     {
@@ -67,5 +71,5 @@ export const getPreviewArticle = async (article: number, locale: string) => {
       body: JSON.stringify({ article }),
     },
   );
-  return resolveJsonOrRejectWithError(response);
+  return resolveJsonOrRejectWithError<ArticleConverterApiType>(response);
 };

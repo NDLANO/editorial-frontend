@@ -17,13 +17,27 @@ import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
+import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface PreviewLightBoxProps {
   type: string;
-  getEntity: () => any;
+  getEntity: () => ConceptType | UpdatedDraftApiType;
   articleType: string;
   supportedLanguages?: string[];
 }
+
+const isConceptReturnType = (
+  getEntity: () => ConceptType | UpdatedDraftApiType,
+): getEntity is () => ConceptType => {
+  return (getEntity() as ConceptType).parsedVisualElement !== undefined;
+};
+
+const isDraftReturnType = (
+  getEntity: () => ConceptType | UpdatedDraftApiType,
+): getEntity is () => UpdatedDraftApiType => {
+  return (getEntity() as UpdatedDraftApiType).revision !== undefined;
+};
 
 const PreviewLightBox = ({
   type,
@@ -32,16 +46,16 @@ const PreviewLightBox = ({
   supportedLanguages = [],
 }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
-  if (type === 'concept')
+  if (type === 'concept' && isConceptReturnType(getEntity)) {
     return supportedLanguages.length > 1 ? (
       <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
     ) : null;
-  else if (type === 'standard' || type === 'topic-article')
+  } else if (isDraftReturnType(getEntity) && (type === 'standard' || type === 'topic-article')) {
     return (
       <PreviewDraftLightbox
         label={t(`articleType.${articleType}`)}
         typeOfPreview="previewLanguageArticle"
-        getArticle={getEntity}>
+        getArticle={_ => getEntity()}>
         {(openPreview: () => void) => (
           <StyledFilledButton type="button" onClick={openPreview}>
             <FileCompare />
@@ -50,13 +64,13 @@ const PreviewLightBox = ({
         )}
       </PreviewDraftLightbox>
     );
-  else return null;
+  } else return null;
 };
 
 interface Props {
   editUrl?: (url: string) => string;
   formIsDirty: boolean;
-  getEntity?: () => any;
+  getEntity?: () => ConceptType | UpdatedDraftApiType;
   isNewLanguage: boolean;
   isSubmitting?: boolean;
   noStatus: boolean;

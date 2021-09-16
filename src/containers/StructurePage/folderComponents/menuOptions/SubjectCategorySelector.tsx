@@ -22,16 +22,8 @@ const SubjectCategorySelector = ({ customFields, updateCustomFields }: Props) =>
   const { subjectCategories } = constants;
   const options = [
     {
-      key: subjectCategories.COMMON_SUBJECTS,
-      value: t(`subjectCategories.${subjectCategories.COMMON_SUBJECTS}`),
-    },
-    {
-      key: subjectCategories.PROGRAMME_SUBJECTS,
-      value: t(`subjectCategories.${subjectCategories.PROGRAMME_SUBJECTS}`),
-    },
-    {
-      key: subjectCategories.SPECIALIZED_SUBJECTS,
-      value: t(`subjectCategories.${subjectCategories.SPECIALIZED_SUBJECTS}`),
+      key: subjectCategories.ACTIVE_SUBJECTS,
+      value: t(`subjectCategories.${subjectCategories.ACTIVE_SUBJECTS}`),
     },
     {
       key: subjectCategories.ARCHIVE_SUBJECTS,

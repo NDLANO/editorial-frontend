@@ -43,6 +43,7 @@ const SearchContent = ({ content, locale, userAccess }) => {
   const { t } = useTranslation();
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
+  const imageUrl = url ? `${url}?width=200` : '/placeholder.png';
   let resourceType = {};
   if (
     contexts &&
@@ -94,7 +95,7 @@ const SearchContent = ({ content, locale, userAccess }) => {
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
-        <img src={url || '/placeholder.png'} alt={alt} />
+        <img src={imageUrl} alt={alt} />
       </div>
       <div {...searchClasses('content')}>
         <div {...searchClasses('header')}>

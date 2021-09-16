@@ -52,9 +52,11 @@ export class DisplayExternal extends Component {
     if (properties.url !== embed.url || properties.path !== embed.path) {
       editor.setNodeByKey(node.key, {
         data: {
+          ...embed,
           ...properties,
         },
       });
+      this.iframe.src = embed.url;
       this.closeEditEmbed();
     }
   }

@@ -108,8 +108,7 @@ function EditorFooter<T extends FormValues>({
   };
 
   const isDraftApiType = (t: UpdatedDraftApiType | ConceptType): t is UpdatedDraftApiType => {
-    const casted = t as ConceptType;
-    return casted.parsedVisualElement !== undefined;
+    return (t as UpdatedDraftApiType).revision !== undefined;
   };
 
   const onValidateClick = async () => {

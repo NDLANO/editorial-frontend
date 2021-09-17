@@ -10,6 +10,8 @@ import { css } from '@emotion/core';
 import React, { useState } from 'react';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
+//@ts-ignore
+import { parseMarkdown } from '@ndla/util';
 import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
@@ -104,7 +106,15 @@ const SlateImage = ({
               }
             />
             <figcaption className="c-figure__caption">
-              <div className="c-figure__info">{embed.caption}</div>
+              <div
+                className="c-figure__info"
+                css={css`
+                  p {
+                    margin: 0;
+                  }
+                `}>
+                {parseMarkdown(embed.caption)}
+              </div>
             </figcaption>
           </figure>
         </Button>

@@ -18,6 +18,7 @@ import {
   deleteLanguageVersionAudio,
   deleteLanguageVersionSeries,
 } from '../../modules/audio/audioApi';
+import { deleteLanguageVersion as deleteLanguageVersionDraft } from '../../modules/draft/draftApi';
 import * as messageActions from '../../containers/Messages/messagesActions';
 import {
   toCreateAudioFile,
@@ -107,7 +108,7 @@ const DeleteLanguageVersion = ({
             );
             break;
           default:
-            await deleteLanguageVersion();
+            await deleteLanguageVersionDraft(id, language);
             history.push(toEditArticle(id, articleType!, otherSupportedLanguage));
             break;
         }
@@ -166,8 +167,7 @@ interface Props extends RouteComponentProps {
 }
 
 const mapDispatchToProps = {
-  createMessage: (message: NewReduxMessage = { timeToLive: 0 }) =>
-    messageActions.addMessage(message),
+  createMessage: (message: NewReduxMessage = {}) => messageActions.addMessage(message),
 };
 
 const reduxConnector = connect(undefined, mapDispatchToProps);

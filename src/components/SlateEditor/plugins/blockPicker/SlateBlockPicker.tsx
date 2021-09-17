@@ -68,16 +68,22 @@ const SlateBlockPicker = (props: Props & tType) => {
     setVisualElementSelect({ isOpen: false, visualElementType: '' });
   };
 
-  const onInsertBlock = (block: Element) => {
+  const onInsertBlock = (block: Element, selectBlock?: boolean) => {
     const { editor } = props;
 
     setTimeout(() => {
-      if (selectedParagraphPath) {
-        Transforms.select(editor, selectedParagraphPath);
-        ReactEditor.focus(editor);
-      }
-      Transforms.insertNodes(editor, block, {
-        at: selectedParagraphPath,
+      Editor.withoutNormalizing(editor, () => {
+        if (selectedParagraphPath) {
+          Transforms.select(editor, selectedParagraphPath);
+          ReactEditor.focus(editor);
+        }
+        Transforms.insertNodes(editor, block, {
+          at: selectedParagraphPath,
+        });
+        if (selectBlock && selectedParagraphPath) {
+          const targetPath = Editor.start(editor, selectedParagraphPath);
+          Transforms.select(editor, targetPath);
+        }
       });
     }, 0);
     setIsOpen(false);
@@ -87,36 +93,19 @@ const SlateBlockPicker = (props: Props & tType) => {
   const onElementAdd = (data: ActionData) => {
     switch (data.type) {
       case 'bodybox': {
-        onInsertBlock(defaultBodyboxBlock());
+        onInsertBlock(defaultBodyboxBlock(), true);
         break;
       }
       case 'details': {
-        onInsertBlock(defaultDetailsBlock());
+        onInsertBlock(defaultDetailsBlock(), true);
         break;
       }
       case 'table': {
-        const { editor } = props;
-
-        setTimeout(() => {
-          if (selectedParagraphPath) {
-            Transforms.select(editor, selectedParagraphPath);
-            ReactEditor.focus(editor);
-            Transforms.insertNodes(editor, defaultTableBlock(2, 2), {
-              at: selectedParagraphPath,
-            });
-            // Cursor is always placed after table. Move it four characters back to place it in first cell
-            Transforms.move(editor, {
-              distance: 4,
-              reverse: true,
-            });
-          }
-        }, 0);
-        setIsOpen(false);
-        setSelectedParagraphPath(undefined);
+        onInsertBlock(defaultTableBlock(2, 2), true);
         break;
       }
       case 'aside': {
-        onInsertBlock(defaultAsideBlock(data.object));
+        onInsertBlock(defaultAsideBlock(data.object), true);
         break;
       }
       case 'file':

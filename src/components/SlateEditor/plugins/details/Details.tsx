@@ -20,6 +20,7 @@ const StyledDetailsDiv = styled.div`
   > *:last-child {
     margin-bottom: 0;
   }
+  position: relative;
 `;
 
 const StyledContent = styled.div<{ isOpen: boolean }>`

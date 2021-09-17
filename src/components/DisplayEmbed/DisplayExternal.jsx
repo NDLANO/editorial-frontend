@@ -53,7 +53,7 @@ export class DisplayExternal extends Component {
     if (properties.url !== embed.url || properties.path !== embed.path) {
       Transforms.setNodes(
         editor,
-        { data: this.state.files },
+        { data: { ...properties } },
         { at: ReactEditor.findPath(editor, element) },
       );
       this.closeEditEmbed();

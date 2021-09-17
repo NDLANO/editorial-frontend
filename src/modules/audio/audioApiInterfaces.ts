@@ -37,11 +37,11 @@ export interface PodcastMeta {
 export interface AudioMetaInformationPost {
   id?: number; // Only used by frontend, ignored by backend
   title: string;
-  manuscript: string;
+  manuscript?: string;
   language: string;
   copyright: Copyright;
   tags: string[];
-  audioType: string;
+  audioType?: string;
   podcastMeta?: PodcastMetaPost;
 }
 
@@ -64,7 +64,7 @@ export interface AudioApiType {
     title: string;
     language: string;
   };
-  manuscript: {
+  manuscript?: {
     manuscript: string;
     language: string;
   };
@@ -78,7 +78,9 @@ export interface AudioApiType {
   audioType: AudioType;
   podcastMeta?: PodcastMeta;
   series?: PodcastSeriesApiType;
-  seriesId?: number;
+  // seriesId?: number;
+  created: string;
+  updated: string;
 }
 
 export interface PodcastFormValues extends AudioFormikType {

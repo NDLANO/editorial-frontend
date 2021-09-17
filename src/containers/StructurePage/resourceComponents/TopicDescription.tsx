@@ -8,6 +8,7 @@ import { SubjectTopic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 import { updateRelevanceId } from '../../../util/taxonomyHelpers';
 import { LocaleType } from '../../../interfaces';
+import { TopicResource } from './StructureResources';
 
 interface Props {
   topicDescription?: string;
@@ -17,6 +18,7 @@ interface Props {
   status?: DraftStatus;
   resourceRef: React.RefObject<HTMLDivElement>;
   grepCodes: string[];
+  onUpdateResource: (updatedResource: TopicResource) => void;
 }
 
 const TopicDescription = ({
@@ -27,6 +29,7 @@ const TopicDescription = ({
   status,
   resourceRef,
   grepCodes,
+  onUpdateResource,
 }: Props) => {
   const { t } = useTranslation();
   const [displayTopicDescription, setDisplayTopicDescription] = useState(true);
@@ -50,6 +53,7 @@ const TopicDescription = ({
         <>
           {topicDescription && (
             <Resource
+              updateResource={onUpdateResource}
               resource={{
                 ...currentTopic,
                 name: topicDescription,

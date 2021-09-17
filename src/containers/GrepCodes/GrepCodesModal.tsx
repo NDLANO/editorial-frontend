@@ -18,14 +18,14 @@ import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface Props {
   contentUri?: string;
-  onClose: (updated: boolean) => void;
+  onClose: (newGrepCodes?: string[]) => void;
   locale: LocaleType;
 }
 
 const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
   const { t } = useTranslation();
   const articleId = getIdFromUrn(contentUri);
-  const [changed, setChanged] = useState(false);
+  const [newGrepCodes, setNewGrepCodes] = useState<string[] | undefined>(undefined);
 
   const {
     loading,
@@ -37,13 +37,12 @@ const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
 
   const onUpdateArticle = async (updated: UpdatedDraftApiType) => {
     const res = await updateArticle(updated);
-    const sameLength = res.grepCodes?.length === article?.grepCodes.length;
-    setChanged(!sameLength);
+    setNewGrepCodes(updated.grepCodes);
     return res;
   };
 
   return (
-    <TaxonomyLightbox title={t('form.name.grepCodes')} onClose={() => onClose(changed)} wide>
+    <TaxonomyLightbox title={t('form.name.grepCodes')} onClose={() => onClose(newGrepCodes)} wide>
       {loading || !article || !article.id ? (
         <Spinner />
       ) : (

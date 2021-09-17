@@ -38,6 +38,8 @@ interface Props {
   params: StructureRouteParams;
   refreshResources: () => Promise<void>;
   locale: LocaleType;
+  onUpdateResource: (resource: TopicResource) => void;
+  onDeleteResource: (resourceId: string) => void;
 }
 const ResourceGroup = ({
   resourceType,
@@ -45,6 +47,8 @@ const ResourceGroup = ({
   params,
   refreshResources,
   locale,
+  onUpdateResource,
+  onDeleteResource,
 }: Props) => {
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState(false);
@@ -78,6 +82,8 @@ const ResourceGroup = ({
         <>
           {topicResource?.resources && (
             <ResourceItems
+              onDeleteResource={onDeleteResource}
+              onUpdateResource={onUpdateResource}
               resources={topicResource.resources}
               refreshResources={refreshResources}
               locale={locale}

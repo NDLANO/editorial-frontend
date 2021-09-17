@@ -121,16 +121,22 @@ const StructureResources = ({
     }
   };
 
+  const onUpdateResource = (updatedRes: TopicResource) => {
+    const updated = topicResources.map(res => (res.id === updatedRes.id ? updatedRes : res));
+    setTopicResources(updated);
+  };
+
   const getTopicResources = async () => {
     const { id: topicId } = currentTopic;
     setResourcesLoading(true);
     setLoading(true);
     if (topicId) {
       try {
-        const initialTopicResources = await fetchTopicResources(topicId, locale, undefined);
-        // @ts-ignore The current resource type is not valid. It would require a name, a connectionId and a parentId.
+        const initialTopicResources = await fetchTopicResources(topicId, locale);
         const allTopicResources: TopicResource[] = initialTopicResources.map(r =>
-          r.resourceTypes.length > 0 ? r : { ...r, resourceTypes: [{ id: 'missing' }] },
+          r.resourceTypes.length > 0
+            ? r
+            : { ...r, resourceTypes: [{ id: 'missing', name: '', connectionId: '' }] },
         );
 
         if (currentTopic.contentUri) {
@@ -141,9 +147,9 @@ const StructureResources = ({
           setTopicStatus(article.status);
           setTopicGrepCodes(article.grepCodes);
         }
-        await getResourceStatusesAndGrepCodes(allTopicResources);
+        const modifiedResources = await getResourceStatusesAndGrepCodes(allTopicResources);
 
-        setTopicResources(allTopicResources);
+        setTopicResources(modifiedResources);
       } catch (error) {
         setTopicResources([]);
         handleError(error);
@@ -155,30 +161,26 @@ const StructureResources = ({
     setResourcesLoading(false);
   };
 
+  const onDeleteResource = (resourceId: string) => {
+    setTopicResources(topicResources.filter(r => r.connectionId !== resourceId));
+  };
+
   const getResourceStatusesAndGrepCodes = async (allTopicResources: TopicResource[]) => {
     const resourcePromises = allTopicResources.map(async resource => {
-      if (resource.contentUri) {
-        const [, resourceType, id] = resource.contentUri.split(':');
-        if (resourceType === 'article') {
-          const article = await fetchDraft(parseInt(id), locale);
-          resource.status = article.status;
-          resource.grepCodes = article.grepCodes;
-          return article;
-        } else if (resourceType === 'learningpath') {
-          let learningpath;
-          try {
-            learningpath = await fetchLearningpath(parseInt(id), locale);
-          } catch (e) {
-            learningpath = {};
-          }
-          if (learningpath.status) {
-            resource.status = { current: learningpath.status as DraftStatusTypes, other: [] };
-          }
-          return learningpath;
+      const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
+      if (resourceType === 'article') {
+        const article = await fetchDraft(parseInt(id), locale);
+        return { ...resource, status: article.status, grepCodes: article.grepCodes };
+      } else if (resourceType === 'learningpath') {
+        const learningpath = await fetchLearningpath(parseInt(id), locale);
+        if (learningpath.status) {
+          const status = { current: learningpath.status as DraftStatusTypes, other: [] };
+          return { ...resource, status };
         }
       }
+      return resource;
     });
-    await Promise.all(resourcePromises);
+    return await Promise.all(resourcePromises);
   };
 
   if (loading) {
@@ -204,6 +206,7 @@ const StructureResources = ({
         </StyledDiv>
       )}
       <TopicDescription
+        onUpdateResource={r => setTopicGrepCodes(r.grepCodes)}
         topicDescription={currentTopic.name}
         locale={locale}
         resourceRef={resourceRef}
@@ -214,9 +217,11 @@ const StructureResources = ({
       />
       {grouped === 'ungrouped' && (
         <AllResourcesGroup
+          onDeleteResource={onDeleteResource}
           key="ungrouped"
           params={params}
           topicResources={topicResources}
+          onUpdateResource={onUpdateResource}
           refreshResources={getTopicResources}
           locale={locale}
           resourceTypes={resourceTypes}
@@ -229,8 +234,10 @@ const StructureResources = ({
           );
           return (
             <ResourceGroup
+              onDeleteResource={onDeleteResource}
               key={resourceType.id}
               resourceType={resourceType}
+              onUpdateResource={onUpdateResource}
               topicResource={topicResource}
               params={params}
               refreshResources={getTopicResources}

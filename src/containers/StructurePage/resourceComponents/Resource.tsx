@@ -26,10 +26,9 @@ import ResourceItemLink from './ResourceItemLink';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import { Resource as ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 import config from '../../../config';
 import { LocaleType } from '../../../interfaces';
+import { TopicResource } from './StructureResources';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -42,8 +41,12 @@ const statusButtonStyle = css`
 `;
 
 interface Props {
-  resource: ResourceType & { status?: DraftStatus };
+  resource: Omit<TopicResource, 'primary' | 'relevanceId'> & {
+    primary?: boolean;
+    relevanceId?: string;
+  };
   onDelete?: (connectionId: string) => void;
+  updateResource?: (resource: TopicResource) => void;
   connectionId: string;
   dragHandleProps?: object;
   locale: LocaleType;
@@ -54,7 +57,6 @@ interface Props {
   ) => Promise<void>;
   primary?: boolean;
   rank?: number;
-  refreshResources?: () => Promise<void>;
 }
 const grepButtonStyle = css`
   margin-left: ${spacing.xsmall};
@@ -101,7 +103,7 @@ const Resource = ({
   updateRelevanceId,
   primary,
   rank,
-  refreshResources,
+  updateResource,
 }: Props) => {
   const { t } = useTranslation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
@@ -124,10 +126,15 @@ const Resource = ({
     return pathWithoutResource === currentPath;
   });
 
-  const onGrepModalClosed = async (changed: boolean) => {
+  const onGrepModalClosed = async (newGrepCodes?: string[]) => {
     setShowGrepCodes(false);
-    if (changed && refreshResources) {
-      await refreshResources();
+    if (newGrepCodes && updateResource) {
+      updateResource({
+        ...resource,
+        primary: resource.primary ?? primary!,
+        relevanceId: resource.relevanceId ?? relevanceId!,
+        grepCodes: newGrepCodes,
+      });
     }
   };
 

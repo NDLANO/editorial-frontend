@@ -71,12 +71,12 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
 
   const onChangePreviewLanguage = async (language: string) => {
     const originalConcept = getConcept();
-    const secondConcept = await fetchConcept(originalConcept.id, language).then(concept =>
+    const second = await fetchConcept(originalConcept.id, language).then(concept =>
       transformApiToCleanConcept(concept, language),
     );
-    const parsed = await getVisualElement(secondConcept.visualElement);
+    const parsed = await getVisualElement(second.visualElement);
     setPreviewLanguage(language);
-    setSecondConcept(parsed ? { ...secondConcept, parsedVisualElement: parsed } : secondConcept);
+    setSecondConcept(parsed ? { ...second, parsedVisualElement: parsed } : second);
   };
 
   const getVisualElement = async (

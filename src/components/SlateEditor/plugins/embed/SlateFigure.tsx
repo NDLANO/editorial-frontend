@@ -10,15 +10,15 @@ import React, { ReactNode, useState } from 'react';
 import { Editor, Transforms, Element, Path } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
 import SlateAudio from './SlateAudio';
 import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
-import { FormikInputEvent, LocaleType } from '../../../../interfaces';
 import { EmbedElement, TYPE_EMBED } from '.';
+import { LocaleType } from '../../../../interfaces';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',
@@ -40,21 +40,14 @@ interface ChangesProp {
   [x: string]: string;
 }
 
-const SlateFigure = ({
-  t,
-  attributes,
-  editor,
-  element,
-  language,
-  locale = 'nb',
-  children,
-}: Props & tType) => {
+const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', children }: Props) => {
   const embed = element.data;
+  const { t } = useTranslation();
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
 
-  const onFigureInputChange = (event: FormikInputEvent) => {
+  const onFigureInputChange = (event: React.FormEvent<HTMLSelectElement>) => {
     event.preventDefault();
-    const { value, name } = event.target;
+    const { value, name } = event.currentTarget;
     const change = { [name]: value };
 
     setChanges(change);
@@ -198,4 +191,4 @@ const SlateFigure = ({
   }
 };
 
-export default injectT(SlateFigure);
+export default SlateFigure;

@@ -7,7 +7,6 @@
 
 import React from 'react';
 import { match, Route, Switch } from 'react-router';
-// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import NdlaFilmEditor from './NdlaFilmEditor';
 import Footer from '../App/components/Footer';

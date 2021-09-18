@@ -154,44 +154,19 @@ export const learningResourceRules = {
   },
 };
 
-export const subjectpageRules = {
-  title: {
-    required: true,
+export const topicArticleRules = {
+  ...formikCommonArticleRules,
+  visualElementAlt: {
+    required: false,
+    onlyValidateIf: values =>
+      values.visualElementObject && values.visualElementObject.resource === 'image',
   },
-  description: {
-    required: true,
-    maxLength: 300,
-  },
-  visualElement: {
-    required: true,
-    test: values => {
-      const hasElement = values?.resource_id === '';
-      return hasElement ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
-    },
-  },
-  metaDescription: {
-    required: true,
-    maxLength: 300,
-  },
-  desktopBanner: {
-    required: true,
-  },
-};
-
-export const ndlaFilmRules = {
-  title: {
-    required: true,
-  },
-  description: {
-    required: true,
-    maxLength: 300,
-  },
-  visualElement: {
-    required: true,
-    test: values => {
-      const hasElement = values?.resource_id === '';
-      return hasElement ? { translationKey: 'subjectpageForm.missingVisualElement' } : undefined;
-    },
+  visualElementCaption: {
+    required: false,
+    onlyValidateIf: values =>
+      values.visualElementObject &&
+      (values.visualElementObject.resource === 'image' ||
+        values.visualElementObject.resource === 'brightcove'),
   },
 };
 
@@ -205,4 +180,8 @@ export const parseImageUrl = metaImage => {
 
   const splittedUrl = metaImage.url.split('/');
   return splittedUrl[splittedUrl.length - 1];
+};
+
+export const getTagName = (id, data) => {
+  return data.find(entry => entry.id === id)?.name;
 };

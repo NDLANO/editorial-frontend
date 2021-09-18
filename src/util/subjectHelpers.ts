@@ -1,8 +1,10 @@
 import { ArticleType, SubjectpageApiType, SubjectpageEditType, ImageEmbed } from '../interfaces';
+import { NewSubjectFrontPageData } from '../modules/frontpage/frontpageApiInterfaces';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
-export const getUrnFromId = (id: number) => `urn:frontpage:${id}`;
+export const getUrnFromId = (id?: number | string): string | undefined =>
+  id ? `urn:frontpage:${id}` : undefined;
 
 export const transformSubjectpageFromApiVersion = (
   subjectpage: SubjectpageApiType,
@@ -25,7 +27,7 @@ export const transformSubjectpageFromApiVersion = (
     name: subjectpage.name,
     description: subjectpage.about.description,
     title: subjectpage.about.title,
-    visualElement:
+    visualElementObject:
       subjectpage.about.visualElement?.type === 'image'
         ? {
             url: subjectpage.about.visualElement?.url,
@@ -54,11 +56,23 @@ export const transformSubjectpageFromApiVersion = (
 export const transformSubjectpageToApiVersion = (
   subjectpage: SubjectpageEditType,
   editorsChoices: string[],
-) => {
+): NewSubjectFrontPageData | null => {
   const id =
-    subjectpage.visualElement?.resource === 'image'
-      ? subjectpage.visualElement?.resource_id
-      : subjectpage.visualElement?.videoid;
+    subjectpage.visualElementObject?.resource === 'image'
+      ? subjectpage.visualElementObject?.resource_id
+      : subjectpage.visualElementObject?.videoid;
+
+  if (
+    subjectpage.layout === undefined ||
+    subjectpage.title === undefined ||
+    subjectpage.description === undefined ||
+    subjectpage.visualElementObject?.resource === undefined ||
+    subjectpage.metaDescription === undefined ||
+    id === undefined
+  ) {
+    return null;
+  }
+
   return {
     name: subjectpage.name,
     filters: subjectpage.filters,
@@ -75,12 +89,12 @@ export const transformSubjectpageToApiVersion = (
         description: subjectpage.description,
         language: subjectpage.language,
         visualElement: {
-          type: subjectpage.visualElement?.resource,
+          type: subjectpage.visualElementObject?.resource,
           id: id,
           alt:
-            subjectpage.visualElement?.resource === 'image'
-              ? subjectpage.visualElement?.alt
-              : subjectpage.visualElement?.caption,
+            subjectpage.visualElementObject?.resource === 'image'
+              ? subjectpage.visualElementObject?.alt
+              : subjectpage.visualElementObject?.caption,
         },
       },
     ],

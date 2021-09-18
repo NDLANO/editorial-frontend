@@ -63,7 +63,7 @@ const filmFrontPageAfterTransformation = {
   supportedLanguages: ['nb'],
   slideShow: [],
   title: 'Om film',
-  visualElement: {
+  visualElementObject: {
     alt: 'Et bilde Foto.',
     metaData: {
       id: '37',

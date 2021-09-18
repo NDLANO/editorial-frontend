@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
@@ -88,6 +88,7 @@ export class DisplayExternal extends Component {
           this.setState({ error: true });
         }
       } catch (err) {
+        this.setState({ error: true });
         handleError(err);
       }
     } else {
@@ -236,4 +237,4 @@ DisplayExternal.propTypes = {
   attributes: PropTypes.object.isRequired,
 };
 
-export default injectT(DisplayExternal);
+export default withTranslation()(DisplayExternal);

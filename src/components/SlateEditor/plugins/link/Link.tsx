@@ -10,8 +10,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Editor, Node } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 import config from '../../../../config';
@@ -76,9 +76,8 @@ export interface Model {
   checkbox: boolean;
 }
 
-const Link = (props: Props & tType) => {
+const Link = (props: Props) => {
   const {
-    t,
     attributes,
     editor: { onChange },
     editor,
@@ -89,6 +88,8 @@ const Link = (props: Props & tType) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [model, setModel] = useState<Model | undefined>();
   const [editMode, setEditMode] = useState(!hasHrefOrContentId(element));
+
+  const { t } = useTranslation();
 
   const getMenuPosition = () => {
     if (linkRef.current) {
@@ -159,4 +160,4 @@ const Link = (props: Props & tType) => {
   );
 };
 
-export default injectT(Link);
+export default Link;

@@ -7,7 +7,8 @@
  */
 
 import React, { useEffect } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
+import css from '@emotion/css';
 import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 // @ts-ignore
 import { FigureCaption, FigureLicenseDialog } from '@ndla/ui';
@@ -20,7 +21,8 @@ interface Props {
   speech: boolean;
 }
 
-const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
+const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
+  const { t } = useTranslation();
   const { copyright, podcastMeta } = audio;
 
   useEffect(() => {
@@ -44,7 +46,12 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
   };
 
   return (
-    <div>
+    <div
+      css={css`
+        p {
+          margin: 0 !important;
+        }
+      `}>
       <AudioPlayer
         src={audio.audioFile.url}
         title={audio.title}
@@ -78,4 +85,4 @@ const AudioPlayerMounter = ({ t, audio, locale, speech }: Props & tType) => {
   );
 };
 
-export default injectT(AudioPlayerMounter);
+export default AudioPlayerMounter;

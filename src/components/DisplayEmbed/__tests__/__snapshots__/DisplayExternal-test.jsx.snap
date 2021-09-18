@@ -205,11 +205,13 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   opacity: 1;
 }
 
+
+
 <div
-  className="c-figure emotion-15"
+  className="c-figure emotion-16"
 >
   <div
-    className="emotion-14"
+    className="emotion-14 emotion-15"
     contentEditable={false}
   >
     <div

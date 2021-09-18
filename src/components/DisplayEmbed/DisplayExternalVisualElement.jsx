@@ -9,8 +9,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import { injectT } from '@ndla/i18n';
-import './helpers/h5pResizer';
+import { withTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
 import handleError from '../../util/handleError';
 import { fetchExternalOembed } from '../../util/apiHelpers';
@@ -188,4 +187,4 @@ DisplayExternalVisualElement.propTypes = {
   language: PropTypes.string,
 };
 
-export default injectT(DisplayExternalVisualElement);
+export default withTranslation()(DisplayExternalVisualElement);

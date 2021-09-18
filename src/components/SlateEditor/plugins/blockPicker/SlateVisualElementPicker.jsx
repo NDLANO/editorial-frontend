@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useFormikContext } from 'formik';
 import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultEmbedBlock } from '../embed/utils';
 import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
+import { onSaveAsMetaImage } from '../../../../containers/VisualElement/VisualElementSelectField';
 
 const SlateVisualElementPicker = ({
   articleLanguage,
@@ -11,6 +13,8 @@ const SlateVisualElementPicker = ({
   onVisualElementClose,
   onInsertBlock,
 }) => {
+  const formikContext = useFormikContext();
+
   const onVisualElementAdd = (visualElement, type = 'embed') => {
     if (type === 'embed') {
       const blockToInsert = defaultEmbedBlock(visualElement);
@@ -30,6 +34,8 @@ const SlateVisualElementPicker = ({
           handleVisualElementChange={onVisualElementAdd}
           closeModal={onVisualElementClose}
           setH5pFetchFail={setH5pFetchFail}
+          showMetaImageCheckbox={true}
+          onSaveAsMetaImage={image => onSaveAsMetaImage(image, formikContext)}
         />
       )}
     </VisualElementModalWrapper>

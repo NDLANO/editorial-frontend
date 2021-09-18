@@ -12,11 +12,17 @@ import {
   fetchAuthorized,
 } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
-import { SubjectTopic, SubjectType, TaxonomyMetadata } from '../taxonomyApiInterfaces';
+import {
+  TaxNameTranslation,
+  SubjectTopic,
+  SubjectType,
+  TaxonomyMetadata,
+} from '../taxonomyApiInterfaces';
 import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
+import { LocaleType } from '../../../interfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
@@ -39,7 +45,7 @@ const fetchSubjectTopics = (subject: string, language: string): Promise<SubjectT
   ).then(r => resolveJsonOrRejectWithError<SubjectTopic[]>(r));
 };
 
-const addSubject = (body: { contentUri: string; id?: string; name: string }): Promise<string> => {
+const addSubject = (body: { contentUri?: string; id?: string; name: string }): Promise<string> => {
   return fetchAuthorized(`${baseUrl}/subjects`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -64,7 +70,8 @@ const addSubjectTopic = (body: {
 const updateSubjectTopic = (
   connectionId: string,
   body: {
-    rank: number;
+    id?: string;
+    rank?: number;
     primary?: boolean;
     relevanceId?: string;
   },
@@ -84,6 +91,13 @@ const updateSubject = (id: string, name?: string, contentUri?: string): Promise<
   }).then(resolveVoidOrRejectWithError);
 };
 
+const deleteSubject = (id: string): Promise<void> => {
+  return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+  }).then(resolveVoidOrRejectWithError);
+};
+
 const updateSubjectMetadata = (
   subjectId: string,
   body: {
@@ -99,6 +113,31 @@ const updateSubjectMetadata = (
   }).then(r => resolveJsonOrRejectWithError<TaxonomyMetadata>(r));
 };
 
+const fetchSubjectNameTranslations = (subjectId: string): Promise<TaxNameTranslation[]> => {
+  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/translations`).then(r =>
+    resolveJsonOrRejectWithError<TaxNameTranslation[]>(r),
+  );
+};
+
+const updateSubjectNameTranslation = (
+  subjectId: string,
+  language: LocaleType,
+  name: string,
+): Promise<void> => {
+  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/translations/${language}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ name }),
+  }).then(resolveVoidOrRejectWithError);
+};
+
+const deleteSubjectNameTranslation = (subjectId: string, language: LocaleType): Promise<void> => {
+  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/translations/${language}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+  }).then(resolveVoidOrRejectWithError);
+};
+
 export {
   fetchSubjects,
   fetchSubject,
@@ -108,4 +147,8 @@ export {
   updateSubjectTopic,
   updateSubjectMetadata,
   updateSubject,
+  deleteSubject,
+  fetchSubjectNameTranslations,
+  updateSubjectNameTranslation,
+  deleteSubjectNameTranslation,
 };

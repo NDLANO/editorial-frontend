@@ -1,0 +1,69 @@
+import queryString from 'query-string';
+import { fetchNrkMedia } from './visualElementApi';
+import { urlAsATag } from '../../util/htmlHelpers';
+
+export interface UrlTransformer {
+  domains: string[];
+  shouldTransform: (url: string, domains: string[]) => boolean;
+  transform: (url: string) => Promise<string>;
+}
+
+const nrkTransformer: UrlTransformer = {
+  domains: ['nrk.no', 'www.nrk.no'],
+  shouldTransform: (url, domains) => {
+    const aTag = urlAsATag(url);
+
+    if (!domains.includes(aTag.hostname)) {
+      return false;
+    }
+    const mediaId = queryString.parse(aTag.search).mediaId;
+    if (mediaId) {
+      return true;
+    }
+    return false;
+  },
+  transform: async url => {
+    const aTag = urlAsATag(url);
+    const mediaId = queryString.parse(aTag.search).mediaId;
+    if (!mediaId) {
+      return url;
+    }
+    try {
+      const nrkMedia = await fetchNrkMedia(mediaId);
+      if (nrkMedia.psId) {
+        return `https://static.nrk.no/ludo/latest/video-embed.html#id=${nrkMedia.psId}`;
+      }
+      return url;
+    } catch {
+      return url;
+    }
+  },
+};
+
+const kahootTransformer: UrlTransformer = {
+  domains: ['create.kahoot.it'],
+  shouldTransform: (url, domains) => {
+    const aTag = urlAsATag(url);
+
+    if (!domains.includes(aTag.hostname)) {
+      return false;
+    }
+    if (!aTag.href.includes(domains[0] + '/share/')) {
+      return false;
+    }
+    const kahootID = url.split('/').pop();
+    if (kahootID?.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/)) {
+      return true;
+    }
+    return false;
+  },
+  transform: async url => {
+    const kahootID = url.split('/').pop();
+    if (kahootID?.match(/\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/)) {
+      return `https://embed.kahoot.it/${kahootID}`;
+    }
+    return url;
+  },
+};
+
+export const urlTransformers: UrlTransformer[] = [nrkTransformer, kahootTransformer];

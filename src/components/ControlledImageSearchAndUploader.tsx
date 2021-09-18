@@ -8,14 +8,18 @@
 
 import React, { useState, useEffect, Fragment } from 'react';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import { fetchLicenses } from '../modules/draft/draftApi';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
-import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
+import {
+  ImageApiType,
+  ImageSearchQuery,
+  UpdatedImageMetadata,
+} from '../modules/image/imageApiInterfaces';
 import { ImageType, License } from '../interfaces';
 import EditorErrorMessage from './SlateEditor/EditorErrorMessage';
 
@@ -24,15 +28,15 @@ const StyledTitleDiv = styled.div`
 `;
 
 interface Props {
-  onImageSelect: () => void;
+  onImageSelect: (image: ImageType) => void;
   locale: string;
-  isSavingImage?: boolean;
   closeModal: () => void;
-  onError: () => void;
+  onError: (err: Error & Response) => void;
   searchImages: (queryObject: ImageSearchQuery) => void;
-  fetchImage: () => void;
-  image: ImageType;
-  updateImage: () => void;
+  fetchImage: (id: number) => Promise<ImageApiType>;
+  image?: ImageType;
+  updateImage: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
+  inModal?: boolean;
 }
 
 const ImageSearchAndUploader = ({
@@ -44,8 +48,9 @@ const ImageSearchAndUploader = ({
   fetchImage,
   searchImages,
   onError,
-  t,
-}: Props & tType) => {
+  inModal = false,
+}: Props) => {
+  const { t } = useTranslation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [licenses, setLicenses] = useState<License[]>();
   useEffect(() => {
@@ -55,6 +60,8 @@ const ImageSearchAndUploader = ({
   const searchImagesWithParameters = (query: string, page: number) => {
     return searchImages({ query, page, 'page-size': 16 });
   };
+
+  const transformedImage = image ? { ...image, id: parseInt(image.id) } : { language: locale };
 
   return (
     <Tabs
@@ -93,7 +100,8 @@ const ImageSearchAndUploader = ({
           title: t('form.visualElement.imageUpload'),
           content: licenses ? (
             <ImageForm
-              image={image || { language: locale }}
+              inModal={inModal}
+              image={transformedImage}
               onUpdate={updateImage}
               closeModal={closeModal}
               licenses={licenses}
@@ -107,4 +115,4 @@ const ImageSearchAndUploader = ({
   );
 };
 
-export default injectT(ImageSearchAndUploader);
+export default ImageSearchAndUploader;

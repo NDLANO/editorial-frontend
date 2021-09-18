@@ -8,15 +8,18 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
+import { getTagName } from '../../../../util/formHelper';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
+import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses, SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { MinimalTagType } from './SearchTag';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -34,13 +37,14 @@ interface State {
   search: SearchState;
 }
 
-class SearchAudioForm extends Component<Props & tType, State> {
-  constructor(props: Props & tType) {
+class SearchAudioForm extends Component<Props & WithTranslation, State> {
+  constructor(props: Props & WithTranslation) {
     super(props);
 
     const { searchObject } = props;
 
     this.handleSearch = this.handleSearch.bind(this);
+    this.removeTagItem = this.removeTagItem.bind(this);
     this.emptySearch = this.emptySearch.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
 
@@ -52,7 +56,7 @@ class SearchAudioForm extends Component<Props & tType, State> {
     };
   }
 
-  componentDidUpdate(prevProps: Props & tType) {
+  componentDidUpdate(prevProps: Props & WithTranslation) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({
@@ -64,7 +68,7 @@ class SearchAudioForm extends Component<Props & tType, State> {
     }
   }
 
-  onFieldChange(evt: React.FormEvent<HTMLInputElement>) {
+  onFieldChange(evt: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLSelectElement>) {
     const { value, name } = evt.currentTarget;
     this.setState(
       prevState => ({ search: { ...prevState.search, [name]: value } }),
@@ -78,6 +82,13 @@ class SearchAudioForm extends Component<Props & tType, State> {
     }
     const { search } = this.props;
     search({ ...this.state.search, page: 1 });
+  }
+
+  removeTagItem(tag: MinimalTagType) {
+    this.setState(
+      prevState => ({ search: { ...prevState.search, [tag.type]: '' } }),
+      this.handleSearch,
+    );
   }
 
   emptySearch(evt: React.MouseEvent<HTMLButtonElement>) {
@@ -95,6 +106,20 @@ class SearchAudioForm extends Component<Props & tType, State> {
 
   render() {
     const { t } = this.props;
+    const { search } = this.state;
+
+    const tagTypes = [
+      {
+        type: 'query',
+        id: search.query,
+        name: search.query,
+      },
+      {
+        type: 'language',
+        id: search.language,
+        name: getTagName(search.language, getResourceLanguages(t)),
+      },
+    ];
 
     return (
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
@@ -136,6 +161,9 @@ class SearchAudioForm extends Component<Props & tType, State> {
             {t('searchForm.btn')}
           </Button>
         </div>
+        <div {...searchFormClasses('tagline')}>
+          <SearchTagGroup onRemoveItem={this.removeTagItem} tagTypes={tagTypes} />
+        </div>
       </form>
     );
   }
@@ -157,4 +185,4 @@ class SearchAudioForm extends Component<Props & tType, State> {
   };
 }
 
-export default injectT(SearchAudioForm);
+export default withTranslation()(SearchAudioForm);

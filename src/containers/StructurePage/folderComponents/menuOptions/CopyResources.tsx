@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Copy } from '@ndla/icons/action';
 
 import {
@@ -32,7 +32,7 @@ import {
   TaxonomyElement,
   Topic,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import retriveBreadCrumbs from '../../../../util/retriveBreadCrumbs';
+import retrieveBreadCrumbs from '../../../../util/retrieveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
 import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
@@ -46,9 +46,9 @@ interface Props {
   id: string;
   subjectId: string;
   structure: PathArray;
-  onClose: Function;
-  setResourcesUpdated: Function;
-  setShowAlertModal: Function;
+  onClose: () => void;
+  setResourcesUpdated: (updated: boolean) => void;
+  setShowAlertModal: (show: boolean) => void;
 }
 
 const iconCss = css`
@@ -57,7 +57,6 @@ const iconCss = css`
 `;
 
 const CopyResources = ({
-  t,
   id,
   locale,
   subjectId,
@@ -65,7 +64,8 @@ const CopyResources = ({
   onClose,
   setResourcesUpdated,
   setShowAlertModal,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [topics, setTopics] = useState<Topic[]>([]);
   const [showCopySearch, setShowCopySearch] = useState(false);
   const [showCloneSearch, setShowCloneSearch] = useState(false);
@@ -87,7 +87,7 @@ const CopyResources = ({
 
   const getTopicBreadcrumb = (topic: Topic, topics: Topic[]) => {
     if (!topic.path) return undefined;
-    const breadCrumbs: PathArray = retriveBreadCrumbs({
+    const breadCrumbs: PathArray = retrieveBreadCrumbs({
       topicPath: topic.path,
       structure,
       allTopics: topics,
@@ -234,6 +234,7 @@ const CopyResources = ({
           onSubmit={copyResources}
           icon={<Copy />}
           smallIcon
+          showPagination
         />
       )}
       {!showCloneSearch ? (
@@ -254,10 +255,11 @@ const CopyResources = ({
           onSubmit={copyAndCloneResources}
           icon={<Copy />}
           smallIcon
+          showPagination
         />
       )}
     </>
   );
 };
 
-export default injectT(CopyResources);
+export default CopyResources;

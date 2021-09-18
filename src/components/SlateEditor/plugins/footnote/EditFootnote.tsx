@@ -8,8 +8,8 @@
 
 import React from 'react';
 import { Descendant, Editor, Transforms } from 'slate';
+import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';
-import { injectT, tType } from '@ndla/i18n';
 import FootnoteForm from './FootnoteForm';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
@@ -23,7 +23,9 @@ interface Props {
   node: Descendant;
 }
 
-const EditFootnote = (props: Props & tType) => {
+const EditFootnote = (props: Props) => {
+  const { t } = useTranslation();
+
   const onClose = () => {
     const { existingFootnote, closeDialog } = props;
     if (!existingFootnote.title) {
@@ -55,7 +57,7 @@ const EditFootnote = (props: Props & tType) => {
     closeDialog();
   };
 
-  const { t, existingFootnote } = props;
+  const { existingFootnote } = props;
   const isEdit = existingFootnote.title !== undefined;
 
   return (
@@ -76,4 +78,4 @@ const EditFootnote = (props: Props & tType) => {
   );
 };
 
-export default injectT(EditFootnote);
+export default EditFootnote;

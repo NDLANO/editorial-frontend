@@ -184,7 +184,7 @@ export const FootnoteShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
   resource: PropTypes.string.isRequired,
-  authors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  authors: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   edition: PropTypes.string.isRequired,
   publisher: PropTypes.string.isRequired,
   type: PropTypes.string,

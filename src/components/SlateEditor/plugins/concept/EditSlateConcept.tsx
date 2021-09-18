@@ -9,7 +9,7 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Dictionary } from 'lodash';
 import Notion from '@ndla/notion';
 import { ConceptElement, TYPE_CONCEPT } from '.';
@@ -37,9 +37,11 @@ interface Props {
   children: ReactNode;
 }
 
-const EditSlateConcept = (props: Props & tType) => {
-  const { t, children, element, locale, editor, attributes } = props;
+const EditSlateConcept = (props: Props) => {
+  const { children, element, locale, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
+
+  const { t } = useTranslation();
 
   const [showConcept, setShowConcept] = useState(false);
 
@@ -147,4 +149,4 @@ const EditSlateConcept = (props: Props & tType) => {
   );
 };
 
-export default injectT(EditSlateConcept);
+export default EditSlateConcept;

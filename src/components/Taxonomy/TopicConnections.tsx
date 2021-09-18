@@ -8,23 +8,22 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+//@ts-ignore
 import { Structure } from '@ndla/editor';
 import { FieldHeader } from '@ndla/forms';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { fetchUserData } from '../../modules/draft/draftApi';
 import { fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
-import {
-  ResourceWithTopicConnection,
-  SubjectType,
-} from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { PathArray } from '../../util/retriveBreadCrumbs';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { PathArray } from '../../util/retrieveBreadCrumbs';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -38,7 +37,7 @@ const ModalTitleRow = styled.div`
 
 interface Props {
   structure: SubjectType[];
-  activeTopics: ResourceWithTopicConnection[];
+  activeTopics: StagedTopic[];
   allTopics: {
     contentUri: string;
     id: string;
@@ -53,7 +52,7 @@ interface Props {
   stageTaxonomyChanges: (properties: any) => void;
   getSubjectTopics: (subjectId: string) => Promise<void>;
   setRelevance: (topicId: string, relevanceId: string) => void;
-  retriveBreadCrumbs: (topicPath: string) => PathArray;
+  retrieveBreadCrumbs: (topicPath: string) => PathArray;
 }
 
 const TopicConnections = ({
@@ -68,9 +67,9 @@ const TopicConnections = ({
   stageTaxonomyChanges,
   getSubjectTopics,
   setRelevance,
-  retriveBreadCrumbs,
-  t,
-}: Props & tType) => {
+  retrieveBreadCrumbs,
+}: Props) => {
+  const { t } = useTranslation();
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
@@ -83,6 +82,7 @@ const TopicConnections = ({
     const result = await fetchUserData();
     const favoriteSubjects = result.favoriteSubjects || [];
     setFavoriteSubjectIds(favoriteSubjects);
+    setShowFavorites(favoriteSubjects.length > 0);
   };
 
   const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) =>
@@ -114,7 +114,7 @@ const TopicConnections = ({
     setOpenedPaths(paths);
   };
 
-  const addTopic = async (id: string, closeModal: () => void) => {
+  const addTopic = async (id: string | undefined, closeModal: () => void) => {
     const topicToAdd = allTopics.find(taxonomyTopic => taxonomyTopic.id === id);
 
     const topicConnections = await fetchTopicConnections(topicToAdd!.id);
@@ -142,7 +142,7 @@ const TopicConnections = ({
         setRelevance={setRelevance}
         removeConnection={removeConnection}
         setPrimaryConnection={setPrimaryConnection}
-        retriveBreadCrumbs={retriveBreadCrumbs}
+        retrieveBreadCrumbs={retrieveBreadCrumbs}
         type="topicarticle"
       />
       <Modal
@@ -187,7 +187,6 @@ const TopicConnections = ({
                   id: string;
                 }) => (
                   <StructureButtons
-                    isOpen={isOpen}
                     id={id}
                     isSubject={isSubject}
                     closeModal={closeModal}
@@ -204,4 +203,4 @@ const TopicConnections = ({
   );
 };
 
-export default injectT(TopicConnections);
+export default TopicConnections;

@@ -10,7 +10,7 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder, LastUsed } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
@@ -38,7 +38,8 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-export const WelcomePage = ({ t }: tType) => {
+export const WelcomePage = () => {
+  const { t } = useTranslation();
   const [lastUsed, setLastUsed] = useState<string[]>([]);
   const locale: LocaleType = useContext(LocaleContext);
   const userAccess: string | undefined = useContext(UserAccessContext);
@@ -107,4 +108,4 @@ export const WelcomePage = ({ t }: tType) => {
   );
 };
 
-export default injectT(WelcomePage);
+export default WelcomePage;

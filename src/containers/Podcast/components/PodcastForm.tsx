@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, ReactNode } from 'react';
-import { Formik, Form, FormikProps, FormikHelpers } from 'formik';
-import { injectT, tType } from '@ndla/i18n';
+import React, { useState, ReactNode, useRef, useCallback, useMemo } from 'react';
+import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
@@ -15,7 +15,7 @@ import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import Spinner from '../../../components/Spinner';
@@ -37,8 +37,9 @@ import {
 } from '../../../util/articleContentConverter';
 import { License } from '../../../interfaces';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
+import handleError from '../../../util/handleError';
 
-const podcastRules = {
+const podcastRules: RulesType<PodcastFormValues> = {
   title: {
     required: true,
   },
@@ -86,7 +87,7 @@ export const getInitialValues = (audio: PodcastPropType): PodcastFormValues => (
   supportedLanguages: audio.supportedLanguages || [],
   title: plainTextToEditorValue(audio.title || ''),
   manuscript: plainTextToEditorValue(audio.manuscript || ''),
-  audioFile: { storedFile: audio.audioFile },
+  audioFile: audio.audioFile ? { storedFile: audio.audioFile } : {},
   filepath: '',
   tags: audio.tags || [],
   origin: audio?.copyright?.origin || '',
@@ -126,7 +127,6 @@ interface Props {
 }
 
 const PodcastForm = ({
-  t,
   audio,
   podcastChanged,
   inModal,
@@ -135,8 +135,10 @@ const PodcastForm = ({
   onUpdate,
   translating,
   translateToNN,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
+  const size = useRef<[number, number] | undefined>(undefined);
 
   const handleSubmit = async (
     values: PodcastFormValues,
@@ -186,22 +188,52 @@ const PodcastForm = ({
       },
       seriesId: values.series?.id,
     };
-
-    await onUpdate(podcastMetaData, values.audioFile.newFile?.file);
+    try {
+      await onUpdate(podcastMetaData, values.audioFile.newFile?.file);
+    } catch (e) {
+      handleError(e);
+    }
     setSavedToServer(true);
   };
 
+  const validateMetaImage = useCallback(
+    ([width, height]: [number, number]): FormikErrors<PodcastFormValues> => {
+      if (width !== height) {
+        return { coverPhotoId: t('validation.podcastImageShape') };
+      } else if (width < 1400 || width > 3000) {
+        return { coverPhotoId: t('validation.podcastImageSize') };
+      }
+      return {};
+    },
+    [t],
+  );
+
+  const validateFunction = useCallback(
+    (values: PodcastFormValues): FormikErrors<PodcastFormValues> => {
+      const errors = validateFormik(values, podcastRules, t);
+      const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
+      const resp = { ...errors, ...metaImageErrors };
+      return resp;
+    },
+    [t, validateMetaImage],
+  );
+
   const initialValues = getInitialValues(audio);
+  const initialErrors = useMemo(() => validateFunction(initialValues), [
+    initialValues,
+    validateFunction,
+  ]);
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
       validateOnMount
+      initialErrors={initialErrors}
       enableReinitialize
-      validate={values => validateFormik(values, podcastRules, t)}>
+      validate={validateFunction}>
       {formikProps => {
-        const { values, dirty, isSubmitting, errors, submitForm } = formikProps;
+        const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
         const formIsDirty = isFormikFormDirty({
           values,
           initialValues,
@@ -216,8 +248,7 @@ const PodcastForm = ({
               type="podcast"
               content={audio}
               editUrl={(lang: string) => {
-                if (values.id) return toEditPodcast(values.id, lang);
-                else toCreatePodcastFile();
+                return values.id ? toEditPodcast(values.id, lang) : toCreatePodcastFile();
               }}
               translateToNN={translateToNN}
             />
@@ -247,7 +278,15 @@ const PodcastForm = ({
                   hasError={['introduction', 'coverPhotoId', 'metaImageAlt'].some(
                     field => field in errors,
                   )}>
-                  <PodcastMetaData />
+                  <PodcastMetaData
+                    onImageLoad={el => {
+                      size.current = [
+                        el.currentTarget.naturalWidth,
+                        el.currentTarget.naturalHeight,
+                      ];
+                      validateForm();
+                    }}
+                  />
                   <PodcastSeriesInformation />
                 </AccordionSection>
 
@@ -272,7 +311,7 @@ const PodcastForm = ({
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                 formIsDirty={formIsDirty}
                 submit={!inModal}
-                onClick={(evt: Event) => {
+                onClick={evt => {
                   evt.preventDefault();
                   submitForm();
                 }}
@@ -291,4 +330,4 @@ const PodcastForm = ({
   );
 };
 
-export default injectT(PodcastForm);
+export default PodcastForm;

@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
@@ -20,7 +20,8 @@ interface FormikProps {
   form: FormikProperties['form'];
 }
 
-const SubjectpageMetadata = ({ t }: tType) => {
+const SubjectpageMetadata = () => {
+  const { t } = useTranslation();
   const plugins = [textTransformPlugin];
   return (
     <>
@@ -48,4 +49,4 @@ const SubjectpageMetadata = ({ t }: tType) => {
   );
 };
 
-export default injectT(SubjectpageMetadata);
+export default SubjectpageMetadata;

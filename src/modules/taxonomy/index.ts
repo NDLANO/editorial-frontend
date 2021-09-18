@@ -38,9 +38,13 @@ export {
   fetchSubjectTopics,
   addSubject,
   updateSubject,
+  deleteSubject,
   addSubjectTopic,
   updateSubjectTopic,
   updateSubjectMetadata,
+  fetchSubjectNameTranslations,
+  updateSubjectNameTranslation,
+  deleteSubjectNameTranslation,
 } from './subjects';
 
 export {

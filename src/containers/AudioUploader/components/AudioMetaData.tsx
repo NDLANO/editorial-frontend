@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import BEMHelper from 'react-bem-helper';
 import { FieldProps, useFormikContext } from 'formik';
 import { fetchSearchTags } from '../../../modules/audio/audioApi';
@@ -17,21 +17,21 @@ import { LicenseField, ContributorsField } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { License } from '../../../interfaces';
+import { AudioFormikType } from './AudioForm';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
-interface BaseProps {
+interface Props {
   classes: BEMHelper<BEMHelper.ReturnObject>;
   licenses: License[];
 }
 
-type Props = BaseProps & tType;
-
 const AudioMetaData = (props: Props) => {
   const {
     values: { language, tags },
-  } = useFormikContext();
-  const { t, licenses } = props;
+  } = useFormikContext<AudioFormikType>();
+  const { licenses } = props;
+  const { t } = useTranslation();
   return (
     <>
       <FormikField
@@ -69,4 +69,4 @@ AudioMetaData.propTypes = {
   ).isRequired,
 };
 
-export default injectT(AudioMetaData);
+export default AudioMetaData;

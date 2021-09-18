@@ -10,11 +10,12 @@ import React, { useContext, useState } from 'react';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import ImageSearch from '@ndla/image-search';
 import { FieldHeader } from '@ndla/forms';
 
+import { transformApiToCleanImage } from '../../../modules/image/imageApiUtil';
 import MetaImageField from '../../FormikForm/components/MetaImageField';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { fetchImage, searchImages, onError } from '../../../modules/image/imageApi';
@@ -30,7 +31,8 @@ interface Props {
   name: string;
 }
 
-const InlineImageSearch = ({ name, t }: Props & tType) => {
+const InlineImageSearch = ({ name }: Props) => {
+  const { t } = useTranslation();
   const { setFieldValue } = useFormikContext();
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);
   const locale: LocaleType = useContext(LocaleContext);
@@ -42,7 +44,7 @@ const InlineImageSearch = ({ name, t }: Props & tType) => {
   if (image) {
     return (
       <MetaImageField
-        image={image}
+        image={transformApiToCleanImage(image, locale)}
         onImageSelectOpen={() => {
           setFieldValue(name, undefined);
           setImage(undefined);
@@ -86,4 +88,4 @@ const InlineImageSearch = ({ name, t }: Props & tType) => {
   );
 };
 
-export default injectT(InlineImageSearch);
+export default InlineImageSearch;

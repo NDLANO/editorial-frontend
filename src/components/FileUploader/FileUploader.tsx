@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import { css } from '@emotion/core';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { UploadDropZone } from '@ndla/forms';
 import { uploadFile } from '../../modules/draft/draftApi';
@@ -24,7 +24,8 @@ interface Props {
   onFileSave: (files: UnsavedFile[]) => void;
 }
 
-const FileUploader = ({ onFileSave, t }: Props & tType) => {
+const FileUploader = ({ onFileSave }: Props) => {
+  const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>();
 
@@ -104,4 +105,4 @@ const allowedFiles = [
   '.f3d',
 ];
 
-export default injectT(FileUploader);
+export default FileUploader;

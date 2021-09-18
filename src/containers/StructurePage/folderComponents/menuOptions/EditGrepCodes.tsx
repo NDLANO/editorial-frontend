@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { Plus, Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -19,26 +19,22 @@ import RoundIcon from '../../../../components/RoundIcon';
 import { convertGrepCodesToObject } from '../../../FormikForm/GrepCodesFieldContent';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from '../menuOptions/MenuItemEditField';
+import { EditMode } from '../../../../interfaces';
 
 interface Props {
   editMode: string;
-  getAllSubjects: Function;
+  getAllSubjects: () => Promise<void>;
   id: string;
   name: string;
-  menuType: MenuType;
+  menuType: 'subject' | 'topic';
   metadata: { grepCodes: string[]; visible: boolean };
-  refreshTopics: Function;
-  toggleEditMode: Function;
+  refreshTopics: () => Promise<void>;
+  toggleEditMode: (mode: EditMode) => void;
 }
 
 interface GrepCode {
   code: string;
   title: string | undefined | null;
-}
-
-enum MenuType {
-  subject = 'subject',
-  topic = 'topic',
 }
 
 export const DropDownWrapper = styled('div')`
@@ -53,18 +49,9 @@ const StyledGrepItem = styled('div')`
   margin: calc(var(--spacing--small) / 2);
 `;
 
-const EditGrepCodes = ({
-  editMode,
-  getAllSubjects,
-  id,
-  name,
-  menuType,
-  metadata,
-  refreshTopics,
-  t,
-  toggleEditMode,
-}: Props & tType) => {
-  const [grepCodes, setGrepCodes] = useState(metadata?.grepCodes);
+const EditGrepCodes = ({ editMode, id, menuType, metadata, toggleEditMode }: Props) => {
+  const { t } = useTranslation();
+  const [grepCodes, setGrepCodes] = useState<string[]>(metadata?.grepCodes ?? []);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
   const [grepCodesWithName, setGrepCodesWithName] = useState<GrepCode[]>([]);
 
@@ -103,7 +90,7 @@ const EditGrepCodes = ({
     grepCodeDescriptionTitle();
   }, [editMode, grepCodes, addingNewGrepCode]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const addGrepCode = (grepCode: string) => {
+  const addGrepCode = async (grepCode: string) => {
     grepCodes.push(grepCode.toUpperCase());
     updateMetadata(grepCodes);
   };
@@ -168,4 +155,4 @@ const EditGrepCodes = ({
   );
 };
 
-export default injectT(EditGrepCodes);
+export default EditGrepCodes;

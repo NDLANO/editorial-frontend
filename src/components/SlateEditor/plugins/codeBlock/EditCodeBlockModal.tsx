@@ -8,7 +8,7 @@
 
 import React from 'react';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { CodeBlockEditor } from '@ndla/code';
 import AlertModal from '../../../AlertModal';
 import { CodeBlockType } from '../../../../interfaces';
@@ -29,43 +29,45 @@ const EditCodeBlockModal = ({
   handleSave,
   model,
   openDiscardModal,
-  t,
-}: Props & tType) => (
-  <Modal
-    narrow
-    controllable
-    isOpen
-    size="large"
-    backgroundColor="white"
-    onClose={handleExit}
-    minHeight="90vh">
-    {(onCloseModal: any) => (
-      <>
-        <ModalHeader>
-          <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
-        </ModalHeader>
-        <ModalBody>
-          <CodeBlockEditor content={model} onSave={handleSave} onAbort={handleExit} />
+}: Props) => {
+  const { t } = useTranslation();
+  return (
+    <Modal
+      narrow
+      controllable
+      isOpen
+      size="large"
+      backgroundColor="white"
+      onClose={handleExit}
+      minHeight="90vh">
+      {(onCloseModal: any) => (
+        <>
+          <ModalHeader>
+            <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
+          </ModalHeader>
+          <ModalBody>
+            <CodeBlockEditor content={model} onSave={handleSave} onAbort={handleExit} />
 
-          <AlertModal
-            show={openDiscardModal}
-            text={t('code.continue')}
-            actions={[
-              {
-                text: t('form.abort'),
-                onClick: handleCancelDiscard,
-              },
-              {
-                text: t('alertModal.continue'),
-                onClick: handleContinue,
-              },
-            ]}
-            onCancel={handleCancelDiscard}
-          />
-        </ModalBody>
-      </>
-    )}
-  </Modal>
-);
+            <AlertModal
+              show={openDiscardModal}
+              text={t('code.continue')}
+              actions={[
+                {
+                  text: t('form.abort'),
+                  onClick: handleCancelDiscard,
+                },
+                {
+                  text: t('alertModal.continue'),
+                  onClick: handleContinue,
+                },
+              ]}
+              onCancel={handleCancelDiscard}
+            />
+          </ModalBody>
+        </>
+      )}
+    </Modal>
+  );
+};
 
-export default injectT(EditCodeBlockModal);
+export default EditCodeBlockModal;

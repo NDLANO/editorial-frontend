@@ -7,7 +7,7 @@
  */
 
 import React, { Fragment, useState, useEffect } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FormPill } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import styled from '@emotion/styled';
@@ -47,7 +47,8 @@ export const convertGrepCodesToObject = async (grepCodes: string[]) => {
   );
 };
 
-const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tType) => {
+const GrepCodesFieldContent = ({ articleGrepCodes, field, form }: Props) => {
+  const { t } = useTranslation();
   const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
   const [failedGrepCodes, setFailedGrepCodes] = useState<string[]>([]);
 
@@ -163,4 +164,4 @@ const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tTy
   );
 };
 
-export default injectT(GrepCodesFieldContent);
+export default GrepCodesFieldContent;

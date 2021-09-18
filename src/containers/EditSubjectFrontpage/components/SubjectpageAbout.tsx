@@ -6,13 +6,14 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
 import FormikField from '../../../components/FormikField';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
-const SubjectpageAbout = ({ t }: tType) => {
+const SubjectpageAbout = () => {
+  const { t } = useTranslation();
   return (
     <>
       <FormikField name="title" noBorder title placeholder={t('form.name.title')} />
@@ -35,4 +36,4 @@ const SubjectpageAbout = ({ t }: tType) => {
   );
 };
 
-export default injectT(SubjectpageAbout);
+export default SubjectpageAbout;

@@ -1,0 +1,177 @@
+/*
+ * Copyright (c) 2019-present, NDLA.
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import React, { useState } from 'react';
+import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
+import SafeLink from '@ndla/safelink';
+import { colors, fonts, spacing } from '@ndla/core';
+import { Check, AlertCircle } from '@ndla/icons/editor';
+import Tooltip from '@ndla/tooltip';
+import config from '../../config';
+import LearningpathConnection from './LearningpathConnection';
+import EmbedConnection from './EmbedInformation/EmbedConnection';
+import { Learningpath } from '../../interfaces';
+import { MultiSearchSummary } from '../../modules/search/searchApiInterfaces';
+import { SearchConceptType } from '../../modules/concept/conceptApiInterfaces';
+
+export const StyledSplitter = styled.div`
+  width: 1px;
+  background: ${colors.brand.lighter};
+  height: ${spacing.normal};
+  margin: 0 ${spacing.xsmall};
+`;
+
+const StyledStatusWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+`;
+
+interface Props {
+  noStatus: boolean;
+  statusText?: string;
+  isNewLanguage: boolean;
+  published: boolean;
+  taxonomyPaths?: string[];
+  indentLeft?: boolean;
+  fontSize?: number;
+  type: string;
+  id?: number;
+}
+
+const HeaderStatusInformation = ({
+  noStatus,
+  statusText,
+  isNewLanguage,
+  published,
+  taxonomyPaths,
+  indentLeft = false,
+  fontSize,
+  type,
+  id,
+}: Props) => {
+  const { t } = useTranslation();
+  const [learningpaths, setLearningpaths] = useState<Learningpath[]>([]);
+  const [articles, setArticles] = useState<MultiSearchSummary[]>([]);
+  const [concepts, setConcepts] = useState<SearchConceptType[]>([]);
+
+  const StyledStatus = styled.p`
+    ${fonts.sizes(fontSize || 18, 1.1)};
+    font-weight: ${fonts.weight.semibold};
+    text-transform: uppercase;
+    margin: 0 ${fontSize && fontSize <= 12 ? spacing.xsmall : spacing.small} 0
+      ${indentLeft ? 0 : spacing.small};
+  `;
+
+  const StyledSmallText = styled.small`
+    color: ${fontSize && fontSize <= 12 ? '#000' : colors.text.light};
+    padding-right: ${spacing.xsmall};
+    ${fonts.sizes((fontSize && fontSize - 1) || 14, 1.1)};
+    font-weight: ${fonts.weight.light};
+    text-transform: uppercase;
+  `;
+
+  const StyledCheckIcon = styled(Check)`
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+    fill: ${colors.support.green};
+  `;
+
+  const StyledWarnIcon = styled(AlertCircle)`
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+    fill: ${colors.support.yellow};
+  `;
+
+  const StyledLink = styled(SafeLink)`
+    box-shadow: inset 0 0;
+  `;
+
+  const multipleTaxonomyIcon = taxonomyPaths && taxonomyPaths?.length > 2 && (
+    <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
+      <StyledWarnIcon title={t('form.taxonomySection')} />
+    </Tooltip>
+  );
+
+  const publishedIcon = (
+    <Tooltip tooltip={t('form.workflow.published')}>
+      <StyledCheckIcon title={t('form.status.published')} />
+    </Tooltip>
+  );
+
+  const publishedIconLink = (
+    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${taxonomyPaths?.[0]}`}>
+      {publishedIcon}
+    </StyledLink>
+  );
+
+  const learningpathConnections = (type === 'standard' || type === 'topic-article') && (
+    <LearningpathConnection
+      id={id}
+      learningpaths={learningpaths}
+      setLearningpaths={setLearningpaths}
+    />
+  );
+
+  const imageConnections = type === 'image' && (
+    <EmbedConnection
+      id={id}
+      type="image"
+      articles={articles}
+      setArticles={setArticles}
+      concepts={concepts}
+      setConcepts={setConcepts}
+    />
+  );
+  const audioConnections = (type === 'audio' || type === 'podcast') && (
+    <EmbedConnection id={id} type="audio" articles={articles} setArticles={setArticles} />
+  );
+  const conceptConnecions = type === 'concept' && (
+    <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
+  );
+
+  const splitter = !indentLeft && <StyledSplitter />;
+
+  const StatusIcons = (
+    <>
+      {(type === 'standard' || type === 'topic-article') && splitter}
+      {conceptConnecions}
+      {learningpathConnections}
+      {learningpaths.length + articles.length > 0 && splitter}
+      {published &&
+        (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
+      {multipleTaxonomyIcon}
+      {imageConnections}
+    </>
+  );
+
+  if (noStatus && isNewLanguage) {
+    return (
+      <StyledStatusWrapper>
+        {StatusIcons}
+        <StyledStatus>{t('form.status.new_language')}</StyledStatus>
+      </StyledStatusWrapper>
+    );
+  } else if (!noStatus) {
+    return (
+      <StyledStatusWrapper>
+        {StatusIcons}
+        <StyledStatus>
+          <StyledSmallText>{t('form.workflow.statusLabel')}:</StyledSmallText>
+          {isNewLanguage ? t('form.status.new_language') : statusText || t('form.status.new')}
+        </StyledStatus>
+      </StyledStatusWrapper>
+    );
+  } else if (type === 'image') {
+    return <StyledStatusWrapper>{imageConnections}</StyledStatusWrapper>;
+  } else if (type === 'audio' || type === 'podcast') {
+    return <StyledStatusWrapper>{audioConnections}</StyledStatusWrapper>;
+  }
+  return null;
+};
+
+export default HeaderStatusInformation;

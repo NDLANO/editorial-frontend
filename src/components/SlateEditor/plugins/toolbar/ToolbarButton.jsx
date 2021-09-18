@@ -8,8 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
 import {
   Bold,
   Code,
@@ -99,8 +99,8 @@ const toolbarButtonStyle = isActive => css`
     background: ${colors.brand.lightest};
   }
 `;
-
-const ToolbarButton = ({ isActive, type, kind, handleOnClick, t }) => {
+const ToolbarButton = ({ isActive, type, kind, handleOnClick }) => {
+  const { t } = useTranslation();
   const onMouseDown = e => handleOnClick(e, kind, type);
   return (
     <button
@@ -121,4 +121,4 @@ ToolbarButton.propTypes = {
   handleOnClick: PropTypes.func.isRequired,
 };
 
-export default injectT(ToolbarButton);
+export default ToolbarButton;

@@ -4,20 +4,22 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
+import { Value } from 'slate';
 import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../../interfaces';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Field from '../../../components/Field';
-import { isFormikFormDirty, ndlaFilmRules } from '../../../util/formHelper';
-import validateFormik from '../../../components/formikValidationSchema';
+import { isFormikFormDirty } from '../../../util/formHelper';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import { AlertModalWrapper, formClasses } from '../../FormikForm/index';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
+import { ConvertedNdlaFilmVisualElement } from '../../../util/ndlaFilmHelpers';
 
 interface Props {
   filmFrontpage: NdlaFilmApiType;
@@ -26,11 +28,41 @@ interface Props {
   allMovies: ContentResultType[];
   loading: boolean;
   slideshowMovies: ContentResultType[];
-  themes: NdlaFilmThemesEditType;
+  themes: NdlaFilmThemesEditType[];
 }
 
+export interface NdlaFilmFormikType {
+  articleType: string;
+  name: string;
+  title?: string;
+  description: Value;
+  visualElementObject?: ConvertedNdlaFilmVisualElement;
+  language: string;
+  supportedLanguages: string[];
+  slideShow: ContentResultType[];
+  themes: NdlaFilmThemesEditType[];
+}
+
+const ndlaFilmRules: RulesType<NdlaFilmFormikType> = {
+  title: {
+    required: true,
+  },
+  description: {
+    required: true,
+    maxLength: 300,
+  },
+  visualElementObject: {
+    required: true,
+    test: (values: NdlaFilmFormikType) => {
+      const badVisualElementId = values.visualElementObject?.resource_id === '';
+      return badVisualElementId
+        ? { translationKey: 'subjectpageForm.missingVisualElement' }
+        : undefined;
+    },
+  },
+};
+
 const NdlaFilmForm = ({
-  t,
   filmFrontpage,
   updateFilmFrontpage,
   selectedLanguage,
@@ -38,7 +70,8 @@ const NdlaFilmForm = ({
   allMovies,
   slideshowMovies,
   themes,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const { savedToServer, handleSubmit, initialValues } = useNdlaFilmFormHooks(
     t,
     filmFrontpage,
@@ -107,4 +140,4 @@ const NdlaFilmForm = ({
   );
 };
 
-export default injectT(NdlaFilmForm);
+export default NdlaFilmForm;

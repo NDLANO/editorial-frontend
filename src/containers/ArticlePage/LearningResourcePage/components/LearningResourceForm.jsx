@@ -8,9 +8,9 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form } from 'formik';
+import { useTranslation } from 'react-i18next';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -138,6 +138,8 @@ const LearningResourceForm = props => {
   const { articleChanged, userAccess, createMessage, history } = props;
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
+  const { t } = useTranslation();
+
   const FormikChild = formik => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting } = formik;
@@ -211,7 +213,6 @@ const LearningResourceForm = props => {
   };
 
   const {
-    t,
     article,
     updateArticle,
     translating,
@@ -262,4 +263,4 @@ LearningResourceForm.propTypes = {
   }).isRequired,
 };
 
-export default injectT(LearningResourceForm);
+export default LearningResourceForm;

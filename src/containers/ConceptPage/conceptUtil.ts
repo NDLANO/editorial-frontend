@@ -18,6 +18,7 @@ import { ConceptType, PatchConceptType } from '../../modules/concept/conceptApiI
 import { License } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { RulesType } from '../../components/formikValidationSchema';
 
 export const transformApiConceptToFormValues = (
   concept: ConceptFormType,
@@ -117,8 +118,8 @@ export const getConcept = (
   };
 };
 
-export const conceptFormRules = {
-  title: {
+export const conceptFormRules: RulesType<ConceptFormValues> = {
+  slatetitle: {
     required: true,
   },
   conceptContent: {

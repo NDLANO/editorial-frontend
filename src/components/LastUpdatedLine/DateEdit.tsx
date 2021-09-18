@@ -23,10 +23,12 @@ const iconCss = css`
 
 interface Props {
   published: string;
+  onChange: (date: string) => void;
+  name: string;
 }
 
-const DateEdit = ({ published, ...rest }: Props) => (
-  <DateTimeWrapper {...rest} publishTime={published}>
+const DateEdit = ({ published, onChange, name, ...rest }: Props) => (
+  <DateTimeWrapper {...rest} name={name} onChange={onChange} publishTime={published}>
     <Button link css={buttonCss}>
       {formatDate(published)} <Pencil css={iconCss} />
     </Button>

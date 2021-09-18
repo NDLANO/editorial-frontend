@@ -44,12 +44,12 @@ describe('Search audios', () => {
       '**/audio-api/v1/audio/?audio-type=podcast*',
       'searchAudioType',
     );
-    cy.get('select[name="audio-type"]')
+    cy.get('select[name="audioType"]')
       .select('Podkast')
       .blur();
     cy.apiwait('@searchAudioType');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
-    cy.get('select[name="audio-type"]').select('Velg lydfiltype');
+    cy.get('select[name="audioType"]').select('Velg lydfiltype');
     cy.apiwait('@searchAudios');
   });
 

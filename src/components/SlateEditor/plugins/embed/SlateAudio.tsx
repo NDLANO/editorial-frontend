@@ -10,19 +10,14 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import {
-  SlateAudio as Audio,
-  FormikInputEvent,
-  LocaleType,
-  AudioEmbed,
-} from '../../../../interfaces';
+import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -30,15 +25,14 @@ interface Props {
   embed: AudioEmbed;
   language: string;
   locale: LocaleType;
-  onRemoveClick: Function;
-  onFigureInputChange: Function;
+  onRemoveClick: (event: React.MouseEvent) => void;
+  onFigureInputChange: (event: React.FormEvent<HTMLSelectElement>) => void;
   active: boolean;
   isSelectedForCopy: boolean;
   children: ReactNode;
 }
 
 const SlateAudio = ({
-  t,
   attributes,
   changes,
   embed,
@@ -49,7 +43,8 @@ const SlateAudio = ({
   active,
   isSelectedForCopy,
   children,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const speech = embed.type === 'minimal';
   const [editMode, setEditMode] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);
@@ -72,8 +67,8 @@ const SlateAudio = ({
     getAudio();
   }, [embed, language]);
 
-  const onAudioFigureInputChange = (e: FormikInputEvent) => {
-    const { value, name } = e.target;
+  const onAudioFigureInputChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    const { value, name } = e.currentTarget;
     setAudio({
       ...audio,
       [name]: value,
@@ -137,4 +132,4 @@ const SlateAudio = ({
   );
 };
 
-export default injectT(SlateAudio);
+export default SlateAudio;

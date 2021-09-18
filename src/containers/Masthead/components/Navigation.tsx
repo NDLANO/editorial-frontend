@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import BEMHelper from 'react-bem-helper';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 // @ts-ignore
 import { Logo } from '@ndla/ui';
@@ -69,7 +69,8 @@ interface Props {
   userName?: string;
 }
 
-const Navigation = ({ authenticated, userName, t }: Props & tType) => {
+const Navigation = ({ authenticated, userName }: Props) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(false);
 
   const toggleOpen = () => {
@@ -116,4 +117,4 @@ const Navigation = ({ authenticated, userName, t }: Props & tType) => {
   );
 };
 
-export default injectT(Navigation);
+export default Navigation;

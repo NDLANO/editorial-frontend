@@ -10,7 +10,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import RichTextEditor from './RichTextEditor';
 import StyledFormContainer from './common/StyledFormContainer';
@@ -108,4 +108,4 @@ RichBlockTextEditor.propTypes = {
   setFieldValue: PropTypes.func.isRequired,
 };
 
-export default injectT(RichBlockTextEditor);
+export default withTranslation()(RichBlockTextEditor);

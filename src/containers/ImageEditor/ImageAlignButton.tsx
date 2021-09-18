@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { AlignLeft, AlignCenter, AlignRight } from '@ndla/icons/editor';
 import ImageEditorButton from './ImageEditorButton';
@@ -23,7 +23,8 @@ interface Props {
   onFieldChange: (evt: MouseEvent, field: string, value: string) => void;
 }
 
-const ImageAlignButton = ({ currentAlign, alignType, onFieldChange, t }: Props & tType) => {
+const ImageAlignButton = ({ currentAlign, alignType, onFieldChange }: Props) => {
+  const { t } = useTranslation();
   const onChange = (evt: MouseEvent) => {
     onFieldChange(evt, 'align', alignType);
   };
@@ -41,4 +42,4 @@ const ImageAlignButton = ({ currentAlign, alignType, onFieldChange, t }: Props &
   );
 };
 
-export default injectT(ImageAlignButton);
+export default ImageAlignButton;

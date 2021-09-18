@@ -6,17 +6,23 @@
  *
  */
 
-import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import React, { SyntheticEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 import { MetaImageSearch } from '../../FormikForm';
 
+interface Props {
+  onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
+}
+
 const plugins = [textTransformPlugin];
 
-const PodcastMetaData = ({ t }: tType) => {
+const PodcastMetaData = ({ onImageLoad }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <FormikField
@@ -34,19 +40,21 @@ const PodcastMetaData = ({ t }: tType) => {
           />
         )}
       </FormikField>
-
       <FormikField name="coverPhotoId">
-        {({ field, form }) => (
-          <MetaImageSearch
-            metaImageId={field.value}
-            setFieldTouched={form.setFieldTouched}
-            showRemoveButton
-            {...field}
-          />
-        )}
+        {({ field, form }) => {
+          return (
+            <MetaImageSearch
+              metaImageId={field.value}
+              setFieldTouched={form.setFieldTouched}
+              showRemoveButton
+              onImageLoad={onImageLoad}
+              {...field}
+            />
+          );
+        }}
       </FormikField>
     </>
   );
 };
 
-export default injectT(PodcastMetaData);
+export default PodcastMetaData;

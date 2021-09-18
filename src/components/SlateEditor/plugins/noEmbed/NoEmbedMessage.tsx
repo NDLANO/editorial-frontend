@@ -8,8 +8,8 @@
 
 import React from 'react';
 import { Node } from 'slate';
+import { useTranslation } from 'react-i18next';
 import { RenderElementProps } from 'slate-react';
-import { injectT, tType } from '@ndla/i18n';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import { EmbedElement } from '../embed';
 
@@ -18,7 +18,9 @@ interface Props {
   element: EmbedElement;
 }
 
-const NoEmbedMessage = ({ t, attributes, element }: Props & tType) => {
+const NoEmbedMessage = ({ attributes, element }: Props) => {
+  const { t } = useTranslation();
+
   const text = Node.string(element);
   const embed = element.data;
   const msg = text.length > 0 ? text : t('noEmbedMessage.deleteOnSave', { type: embed.resource });
@@ -26,4 +28,4 @@ const NoEmbedMessage = ({ t, attributes, element }: Props & tType) => {
   return <EditorErrorMessage attributes={attributes} msg={msg} />;
 };
 
-export default injectT(NoEmbedMessage);
+export default NoEmbedMessage;

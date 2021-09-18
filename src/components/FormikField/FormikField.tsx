@@ -7,8 +7,9 @@
  */
 
 import React, { ReactElement } from 'react';
+import { get } from 'lodash/fp';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import {
   Field,
   connect,
@@ -58,11 +59,12 @@ const FormikField = ({
   right = false,
   description,
   obligatory,
-  showError,
-  t,
+  showError = true,
   formik: { values, handleBlur, errors },
   ...rest
-}: Props & tType & { formik: FormikContextType<FormikValues> }) => {
+}: Props & { formik: FormikContextType<FormikValues> }) => {
+  const { t } = useTranslation();
+
   const isSlateValue = Node.isNodeList(values[name]);
   const fieldActions: FieldAttributes<any> = !isSlateValue
     ? {
@@ -97,9 +99,9 @@ const FormikField = ({
           value={isSlateValue ? Node.string(values[name][0]) : values[name]}
         />
       )}
-      {showError && errors[name] && (
-        <FormikFieldHelp error={!!errors[name]}>
-          <StyledErrorPreLine>{errors[name]}</StyledErrorPreLine>
+      {showError && get(name, errors) && (
+        <FormikFieldHelp error={!!get(name, errors)}>
+          <StyledErrorPreLine>{get(name, errors)}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
     </div>
@@ -127,4 +129,4 @@ FormikField.defaultProps = {
   showMaxLength: false,
 };
 
-export default injectT(connect<Props & tType, any>(FormikField));
+export default connect<Props, any>(FormikField);

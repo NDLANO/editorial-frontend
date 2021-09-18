@@ -1,15 +1,86 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.emotion-0 {
-  color: #20588f;
+.emotion-168 {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.emotion-10 {
+.emotion-26 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 10px;
+  margin-bottom: 6.5px;
+  box-shadow: none;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  text-align: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 42px;
+  box-sizing: content-box;
+  padding-right: 13px;
+}
+
+@media (min-width:37.5625em) {
+  .emotion-0 {
+    padding-right: 26px;
+  }
+}
+
+.emotion-4 {
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.emotion-2 {
+  color: #20588f;
+  text-transform: none;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  margin: 0;
+  display: inline;
+  font-size: 18px;
+  font-size: 1rem;
+  line-height: 1.44444;
+  font-weight: 500;
+}
+
+@media (min-width:61.3125em) {
+  .emotion-2 {
+    font-size: 20px;
+    font-size: 1.11111rem;
+    line-height: 1.3;
+  }
+}
+
+.emotion-15 {
   position: relative;
 }
 
-.emotion-3 {
+.emotion-7 {
   opacity: 0;
   position: absolute;
   z-index: 9999;
@@ -22,7 +93,7 @@ exports[`matches snapshot 1`] = `
   animation-duration: 300ms;
 }
 
-.emotion-2 {
+.emotion-6 {
   display: block;
   color: #fff;
   background: #20588f;
@@ -38,7 +109,7 @@ exports[`matches snapshot 1`] = `
   max-width: calc(100vw - #{26px});
 }
 
-.emotion-9 {
+.emotion-13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -54,18 +125,18 @@ exports[`matches snapshot 1`] = `
   margin-left: 10px;
 }
 
-.emotion-7 {
+.emotion-11 {
   position: relative;
   display: inline-block;
   width: 37px;
   height: 22px;
 }
 
-.emotion-7 input {
+.emotion-11 input {
   display: none;
 }
 
-.emotion-7 > input:checked + .emotion-6::before {
+.emotion-11 > input:checked + .emotion-10::before {
   -webkit-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
@@ -75,7 +146,7 @@ exports[`matches snapshot 1`] = `
   border: 0.91px solid #446b92;
 }
 
-.emotion-5 {
+.emotion-9 {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -90,7 +161,7 @@ exports[`matches snapshot 1`] = `
   border-radius: 10px;
 }
 
-.emotion-5::before {
+.emotion-9::before {
   position: absolute;
   content: 'T';
   left: -3px;
@@ -117,7 +188,7 @@ exports[`matches snapshot 1`] = `
   font-size: 0.8rem;
 }
 
-.emotion-15 {
+.emotion-22 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -147,44 +218,53 @@ exports[`matches snapshot 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
-  margin-left: 13px;
-  line-height: 1;
 }
 
-.emotion-15:hover,
-.emotion-15:focus {
+.emotion-22:hover,
+.emotion-22:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-15[disabled] {
+.emotion-22[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-15:focus {
+.emotion-22:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-15:hover,
-.emotion-15:active,
-.emotion-15:disabled,
-.emotion-15:focus {
+.emotion-22:hover,
+.emotion-22:active,
+.emotion-22:disabled,
+.emotion-22:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-15:focus {
+.emotion-22:focus {
   outline-width: medium;
 }
 
+.emotion-21 {
+  margin-left: 13px;
+  line-height: 1;
+}
+
+.emotion-20 {
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+}
+
 <ul
-  class="c-topic-resource__list"
+  class="c-topic-resource__list emotion-168 emotion-169"
 >
   <div
     class="c-dnd-list__drop-zone"
@@ -194,12 +274,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
+        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img"
+          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -234,22 +314,22 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body"
+          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-2 emotion-3"
           >
             Kontrast og balanse i grafisk design
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -260,10 +340,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-13 emotion-14"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-11 emotion-12"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -271,20 +351,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-9 emotion-10"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -295,11 +375,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-21 emotion-22 emotion-23"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon"
+                class="c-icon c-topic-resource__deleteIcon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -332,12 +412,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
+        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img"
+          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -372,10 +452,10 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body"
+          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/89/first-step"
@@ -387,13 +467,13 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -404,10 +484,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-13 emotion-14"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-11 emotion-12"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -415,20 +495,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-9 emotion-10"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -439,11 +519,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-21 emotion-22 emotion-23"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon"
+                class="c-icon c-topic-resource__deleteIcon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -476,12 +556,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
+        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img"
+          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -516,10 +596,10 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body"
+          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/78/first-step"
@@ -531,13 +611,13 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -548,10 +628,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-13 emotion-14"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-11 emotion-12"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -559,20 +639,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-9 emotion-10"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -583,11 +663,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-21 emotion-22 emotion-23"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon"
+                class="c-icon c-topic-resource__deleteIcon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -620,12 +700,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
+        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img"
+          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -660,10 +740,10 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body"
+          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/813/first-step"
@@ -675,13 +755,13 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -692,10 +772,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-13 emotion-14"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-11 emotion-12"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -703,20 +783,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-9 emotion-10"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -727,11 +807,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-21 emotion-22 emotion-23"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon"
+                class="c-icon c-topic-resource__deleteIcon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -764,12 +844,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
+        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img"
+          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -804,10 +884,10 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body"
+          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/508/first-step"
@@ -819,13 +899,13 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -836,10 +916,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-13 emotion-14"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-11 emotion-12"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -847,20 +927,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-9 emotion-10"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -871,11 +951,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-21 emotion-22 emotion-23"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon"
+                class="c-icon c-topic-resource__deleteIcon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -908,12 +988,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top"
+        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img"
+          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -948,10 +1028,10 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body"
+          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-0 emotion-1"
+            class="c-topic-resource__title emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/401/first-step"
@@ -963,13 +1043,13 @@ exports[`matches snapshot 1`] = `
           </h1>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Velg mellom Kjernestoff eller Tilleggsstoff
@@ -980,10 +1060,10 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <div
-              class="emotion-9"
+              class="emotion-13 emotion-14"
             >
               <label
-                class="emotion-7 emotion-8"
+                class="emotion-11 emotion-12"
                 data-testid="toggleRelevanceId"
               >
                 <input
@@ -991,20 +1071,20 @@ exports[`matches snapshot 1`] = `
                   type="checkbox"
                 />
                 <span
-                  class="emotion-5 emotion-6"
+                  class="emotion-9 emotion-10"
                 />
               </label>
             </div>
           </div>
         </div>
         <div
-          class=" emotion-10 emotion-11"
+          class=" emotion-15 emotion-16"
         >
           <div
-            class="emotion-3 emotion-4"
+            class="emotion-7 emotion-8"
           >
             <span
-              class="emotion-2"
+              class="emotion-6"
               role="tooltip"
             >
               Fjern ressurs fra emne
@@ -1015,11 +1095,11 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-15 emotion-16"
+              class="emotion-21 emotion-22 emotion-23"
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon"
+                class="c-icon c-topic-resource__deleteIcon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -1048,5 +1128,6 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
   </div>
+  
 </ul>
 `;

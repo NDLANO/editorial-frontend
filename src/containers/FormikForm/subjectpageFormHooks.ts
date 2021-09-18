@@ -6,17 +6,24 @@
  */
 import { FormikProps } from 'formik';
 import { useState } from 'react';
-import { SubjectpageEditType, TranslateType } from '../../interfaces';
+import { TFunction } from 'react-i18next';
 import { SubjectFormValues } from '../EditSubjectFrontpage/components/SubjectpageForm';
+import { SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
 import * as messageActions from '../Messages/messagesActions';
 import { formatErrorMessage } from '../../util/apiHelpers';
 
 export function useSubjectpageFormHooks(
   getSubjectpageFromSlate: Function, // TODO fix type
-  updateSubjectpage: Function, // TODO fix type
-  t: TranslateType,
+  t: TFunction,
+  updateSubjectpage: (
+    updatedSubjectpage: SubjectpageEditType,
+  ) => Promise<SubjectpageApiType | null>,
   subjectpage: SubjectpageEditType,
-  getInitialValues: Function, // TODO fix type
+  getInitialValues: (
+    subjectpage: SubjectpageEditType,
+    elementId: string,
+    selectedLanguage: string,
+  ) => SubjectFormValues,
   selectedLanguage: string,
   elementId: string,
 ) {
@@ -30,7 +37,7 @@ export function useSubjectpageFormHooks(
       await updateSubjectpage(newSubjectpage);
 
       Object.keys(formik.values).map(fieldName => formik.setFieldTouched(fieldName, true, true));
-      formik.resetForm(initialValues);
+      formik.resetForm({ values: initialValues });
       setSavedToServer(true);
     } catch (err) {
       if (err?.status === 409) {

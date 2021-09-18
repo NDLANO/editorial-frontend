@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT, tType } from '@ndla/i18n';
+import { TFunction, useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { css, SerializedStyles } from '@emotion/core';
 import { createBrowserHistory as createHistory } from 'history';
@@ -36,7 +36,7 @@ const StyledMessageAlertOverlay = styled('div')`
   ${(p: { appearance: 'hidden' | '' }) => appearances[p.appearance]};
 `;
 
-const getActions = (message: ReduxMessage, dispatch: Dispatch, t: tType['t']) => {
+const getActions = (message: ReduxMessage, dispatch: Dispatch, t: TFunction) => {
   if (message.type === 'auth0') {
     return [
       {
@@ -45,13 +45,13 @@ const getActions = (message: ReduxMessage, dispatch: Dispatch, t: tType['t']) =>
       },
       {
         text: t('alertModal.loginAgain'),
-        onClick: async (evt: Event) => {
+        onClick: (evt: Event) => {
           evt.preventDefault();
           const lastPath = `${window.location.pathname}${
             window.location.search ? window.location.search : ''
           }`;
           localStorage.setItem('lastPath', lastPath);
-          await createHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
+          createHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
           window.location.reload();
         },
       },
@@ -64,7 +64,8 @@ interface MessageProps {
   message: ReduxMessage;
   dispatch: Dispatch;
 }
-export const Message = injectT(({ message, dispatch, t }: MessageProps & tType) => {
+export const Message = ({ message, dispatch }: MessageProps) => {
+  const { t } = useTranslation();
   return (
     <AlertModal
       show
@@ -78,7 +79,7 @@ export const Message = injectT(({ message, dispatch, t }: MessageProps & tType) 
       severity={message.severity}
     />
   );
-});
+};
 
 Message.propTypes = {
   message: MessageShape.isRequired,
@@ -95,7 +96,7 @@ export const Messages = ({ dispatch, messages }: MessagesProps) => {
     setTimeout(() => dispatch(clearMessage(item.id)), item.timeToLive);
   };
 
-  messages.filter(m => m.timeToLive > 0).forEach(item => timeoutMessage(item));
+  messages.filter(m => (m.timeToLive ?? 1) > 0).forEach(item => timeoutMessage(item));
 
   return (
     <StyledMessageAlertOverlay appearance={isHidden ? 'hidden' : ''}>

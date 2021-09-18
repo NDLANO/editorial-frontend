@@ -9,7 +9,7 @@
 import React from 'react';
 import { Editor, Transforms, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Url from 'url-parse';
 import { isValidLocale } from '../../../../i18n';
 import { Portal } from '../../../Portal';
@@ -110,7 +110,9 @@ interface Props {
   element: LinkElement | ContentLinkElement;
 }
 
-const EditLink = (props: Props & tType) => {
+const EditLink = (props: Props) => {
+  const { t } = useTranslation();
+
   const onClose = () => {
     const { editor, model } = props;
     if (!model.href) {
@@ -171,7 +173,7 @@ const EditLink = (props: Props & tType) => {
     closeEditMode();
   };
 
-  const { t, model, element } = props;
+  const { model, element } = props;
   const isEdit = model && model.href !== undefined;
 
   return (
@@ -193,4 +195,4 @@ const EditLink = (props: Props & tType) => {
   );
 };
 
-export default injectT(EditLink);
+export default EditLink;

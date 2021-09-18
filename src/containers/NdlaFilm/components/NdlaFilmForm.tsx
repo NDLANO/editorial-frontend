@@ -7,7 +7,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
-import { Value } from 'slate';
+import { Descendant } from 'slate';
 import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../../interfaces';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
@@ -35,7 +35,7 @@ export interface NdlaFilmFormikType {
   articleType: string;
   name: string;
   title?: string;
-  description: Value;
+  description: Descendant[];
   visualElementObject?: ConvertedNdlaFilmVisualElement;
   language: string;
   supportedLanguages: string[];

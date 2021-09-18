@@ -194,7 +194,7 @@ const SlateVideo = ({
                     margin: 0;
                   }
                 `}>
-                {parseMarkdown(activeEmbed.caption)}
+                {parseMarkdown(activeEmbed.caption || '')}
               </div>
             </figcaption>
           </Button>

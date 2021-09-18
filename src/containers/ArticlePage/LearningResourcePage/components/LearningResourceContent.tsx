@@ -57,7 +57,7 @@ import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
-import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 
 const byLineStyle = css`
   display: flex;
@@ -131,9 +131,9 @@ type Props = {
   article: Partial<ConvertedDraftType>;
   userAccess?: string;
   handleBlur: (evt: { target: { name: string } }) => void;
-  values: ArticleFormikType;
+  values: LearningResourceFormikType;
   handleSubmit: () => Promise<void>;
-} & WithTranslation & { formik: FormikContextType<ArticleFormikType> };
+} & WithTranslation & { formik: FormikContextType<LearningResourceFormikType> };
 
 const LearningResourceContent = ({
   article: { language: articleLanguage },

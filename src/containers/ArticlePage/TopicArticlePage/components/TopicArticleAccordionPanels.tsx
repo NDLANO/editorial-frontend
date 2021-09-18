@@ -10,7 +10,7 @@ import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE, DRAFT_ADMIN_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import { LocaleContext } from '../../../App/App';
-import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
 import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
@@ -25,7 +25,7 @@ interface Props extends RouteComponentProps {
   getArticle: () => UpdatedDraftApiType;
   licenses: License[];
   createMessage: (message: NewReduxMessage) => void;
-  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
+  getInitialValues: (article: Partial<ConvertedDraftType>) => TopicArticleFormikType;
 }
 
 const TopicArticleAccordionPanels = ({
@@ -43,7 +43,7 @@ const TopicArticleAccordionPanels = ({
 }: Props) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
-  const formikContext = useFormikContext<ArticleFormikType>();
+  const formikContext = useFormikContext<TopicArticleFormikType>();
   const { values, handleBlur, errors, setValues } = formikContext;
   return (
     <Accordions>

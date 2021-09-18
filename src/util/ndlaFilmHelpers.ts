@@ -41,7 +41,7 @@ export const getInitialValues = (
     articleType: 'subjectpage',
     name: filmFrontpage.name,
     title: aboutInSelectedLanguage?.title,
-    description: plainTextToEditorValue(aboutInSelectedLanguage?.description),
+    description: plainTextToEditorValue(aboutInSelectedLanguage?.description || ''),
     visualElementObject: visualElement,
     language: language,
     supportedLanguages: supportedLanguages,

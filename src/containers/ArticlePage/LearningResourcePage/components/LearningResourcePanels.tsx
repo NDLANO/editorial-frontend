@@ -11,7 +11,7 @@ import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
 import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
-import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 
@@ -19,13 +19,13 @@ interface Props extends RouteComponentProps {
   userAccess?: string;
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: (
-    values: ArticleFormikType,
-    formikHelpers: FormikHelpers<ArticleFormikType>,
+    values: LearningResourceFormikType,
+    formikHelpers: FormikHelpers<LearningResourceFormikType>,
   ) => Promise<void>;
   article: Partial<ConvertedDraftType>;
   formIsDirty: boolean;
   createMessage: (message: NewReduxMessage) => void;
-  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
+  getInitialValues: (article: Partial<ConvertedDraftType>) => LearningResourceFormikType;
   licenses: License[];
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
@@ -46,7 +46,7 @@ const LearningResourcePanels = ({
 }: Props) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
-  const formikContext = useFormikContext<ArticleFormikType>();
+  const formikContext = useFormikContext<LearningResourceFormikType>();
   const { values, setValues, errors, handleBlur } = formikContext;
 
   const showTaxonomySection = !!values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE);
@@ -57,7 +57,7 @@ const LearningResourcePanels = ({
         id={'learning-resource-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
-        hasError={!!(errors.title || errors.introduction || errors.content)}
+        hasError={!!(errors.slatetitle || errors.introduction || errors.content)}
         startOpen>
         <LearningResourceContent
           formik={formikContext}

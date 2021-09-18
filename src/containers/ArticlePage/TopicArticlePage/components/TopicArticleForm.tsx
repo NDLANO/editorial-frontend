@@ -35,7 +35,11 @@ import validateFormik from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import { ArticleFormikType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
+import {
+  ArticleFormikType,
+  TopicArticleFormikType,
+  useArticleFormHooks,
+} from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
 import { ConvertedDraftType, License } from '../../../../interfaces';
@@ -47,7 +51,9 @@ import {
 import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
 import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
 
-export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
+export const getInitialValues = (
+  article: Partial<ConvertedDraftType> = {},
+): TopicArticleFormikType => {
   const metaImageId: string = parseImageUrl(article.metaImage);
   return {
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
@@ -146,8 +152,8 @@ const TopicArticleForm = (props: Props) => {
       initialValues,
       preview = false,
     }: {
-      values: ArticleFormikType;
-      initialValues: ArticleFormikType;
+      values: TopicArticleFormikType;
+      initialValues: TopicArticleFormikType;
       preview: boolean;
     }): UpdatedDraftApiType => {
       const emptyField = values.id ? '' : undefined;
@@ -215,7 +221,7 @@ const TopicArticleForm = (props: Props) => {
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
-  const FormikChild = (formik: FormikProps<ArticleFormikType>) => {
+  const FormikChild = (formik: FormikProps<TopicArticleFormikType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting } = formik;
 

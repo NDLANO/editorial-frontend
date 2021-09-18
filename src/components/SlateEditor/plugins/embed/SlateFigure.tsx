@@ -118,7 +118,6 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
             language={language}
             locale={locale}
             onRemoveClick={onRemoveClick}
-            active={isActive()}
             isSelectedForCopy={isSelected}>
             {children}
           </SlatePodcast>

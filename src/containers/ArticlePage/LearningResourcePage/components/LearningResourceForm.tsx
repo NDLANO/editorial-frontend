@@ -32,7 +32,10 @@ import { toEditArticle } from '../../../../util/routeHelpers';
 import { nullOrUndefined } from '../../../../util/articleUtil';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import { ArticleFormikType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
+import {
+  LearningResourceFormikType,
+  useArticleFormHooks,
+} from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
 import {
@@ -44,16 +47,18 @@ import {
 import { ConvertedDraftType, License, RelatedContent } from '../../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
 
-export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
+export const getInitialValues = (
+  article: Partial<ConvertedDraftType> = {},
+): LearningResourceFormikType => {
   const metaImageId = parseImageUrl(article.metaImage);
-  const slatetitle = plainTextToEditorValue(article.title, true);
-  const introduction = plainTextToEditorValue(article.introduction, true);
+  const slatetitle = plainTextToEditorValue(article.title || '');
+  const introduction = plainTextToEditorValue(article.introduction || '');
   const content = learningResourceContentToEditorValue(article?.content ?? '');
   const creators = parseCopyrightContributors(article, 'creators');
   const processors = parseCopyrightContributors(article, 'processors');
   const rightsholders = parseCopyrightContributors(article, 'rightsholders');
   const license = article.copyright?.license?.license || DEFAULT_LICENSE.license;
-  const metaDescription = plainTextToEditorValue(article.metaDescription, true);
+  const metaDescription = plainTextToEditorValue(article.metaDescription || '');
 
   return {
     agreementId: article.copyright?.agreementId,
@@ -87,8 +92,8 @@ export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): Art
 };
 
 const getPublishedDate = (
-  values: ArticleFormikType,
-  initialValues: ArticleFormikType,
+  values: LearningResourceFormikType,
+  initialValues: LearningResourceFormikType,
   preview: boolean = false,
 ) => {
   if (isEmpty(values.published)) {
@@ -160,8 +165,8 @@ const LearningResourceForm = ({
       initialValues,
       preview = false,
     }: {
-      values: ArticleFormikType;
-      initialValues: ArticleFormikType;
+      values: LearningResourceFormikType;
+      initialValues: LearningResourceFormikType;
       preview?: boolean;
     }): UpdatedDraftApiType => {
       const content = learningResourceContentToHTML(values.content);
@@ -227,7 +232,7 @@ const LearningResourceForm = ({
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
-  const FormikChild = (formik: FormikProps<ArticleFormikType>) => {
+  const FormikChild = (formik: FormikProps<LearningResourceFormikType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting } = formik;
     const formIsDirty = isFormikFormDirty({

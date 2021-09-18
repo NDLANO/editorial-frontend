@@ -40,7 +40,7 @@ import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
-import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
 
 const byLineStyle = css`
   display: flex;
@@ -89,7 +89,7 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
 
 interface Props {
   userAccess?: string;
-  values: ArticleFormikType;
+  values: TopicArticleFormikType;
   handleBlur: (evt: { target: { name: string } }) => void;
   handleSubmit: () => Promise<void>;
 }

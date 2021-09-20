@@ -179,22 +179,6 @@ export function useArticleFormHooks({
         });
       }
 
-      if (
-        article.articleType === 'topic-article' &&
-        article.title !== newArticle.title &&
-        article.id &&
-        article.language
-      ) {
-        // update topic name in taxonomy
-        const topics = await queryTopics(article.id.toString(), article.language);
-        topics.forEach(topic =>
-          updateTopic({
-            ...topic,
-            name: newArticle.title,
-          }),
-        );
-      }
-
       await deleteRemovedFiles(article.content ?? '', newArticle.content ?? '');
 
       setSavedToServer(true);

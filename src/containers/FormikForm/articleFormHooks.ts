@@ -20,7 +20,6 @@ import {
   fetchSearchTags,
 } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
-import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
 import {

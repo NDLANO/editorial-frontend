@@ -4,8 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
@@ -19,21 +18,31 @@ import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 
-const PreviewLightBox = ({ type, getEntity, articleType, supportedLanguages }) => {
+interface PreviewLightBoxProps {
+  type: string;
+  getEntity: () => any;
+  articleType: string;
+  supportedLanguages?: string[];
+}
+
+const PreviewLightBox = ({
+  type,
+  getEntity,
+  articleType,
+  supportedLanguages = [],
+}: PreviewLightBoxProps) => {
   const { t } = useTranslation();
   if (type === 'concept')
-    return (
-      supportedLanguages.length > 1 && (
-        <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
-      )
-    );
+    return supportedLanguages.length > 1 ? (
+      <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
+    ) : null;
   else if (type === 'standard' || type === 'topic-article')
     return (
       <PreviewDraftLightbox
         label={t(`articleType.${articleType}`)}
         typeOfPreview="previewLanguageArticle"
         getArticle={getEntity}>
-        {openPreview => (
+        {(openPreview: () => void) => (
           <StyledFilledButton type="button" onClick={openPreview}>
             <FileCompare />
             {t(`form.previewLanguageArticle.button`)}
@@ -41,7 +50,26 @@ const PreviewLightBox = ({ type, getEntity, articleType, supportedLanguages }) =
         )}
       </PreviewDraftLightbox>
     );
+  else return null;
 };
+
+interface Props {
+  editUrl?: (url: string) => string;
+  formIsDirty: boolean;
+  getEntity?: () => any;
+  isNewLanguage: boolean;
+  isSubmitting?: boolean;
+  noStatus: boolean;
+  setTranslateOnContinue?: (translateOnContinue: boolean) => void;
+  translateToNN?: () => void;
+  type: string;
+  values: {
+    articleType?: string;
+    id?: number;
+    language: string;
+    supportedLanguages: string[];
+  };
+}
 
 const HeaderActions = ({
   editUrl,
@@ -54,9 +82,9 @@ const HeaderActions = ({
   type,
   translateToNN,
   values,
-}) => {
+}: Props) => {
   const { t } = useTranslation();
-  const { articleType, id, language, supportedLanguages } = values;
+  const { articleType, id, language, supportedLanguages = [] } = values;
 
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
@@ -72,7 +100,7 @@ const HeaderActions = ({
   );
   const translatableTypes = ['audio', 'concept', 'standard', 'topic-article', 'podcast'];
 
-  if (id) {
+  if (id && editUrl) {
     return (
       <>
         <HeaderSupportedLanguages
@@ -89,8 +117,8 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
-        {!noStatus && getEntity && (
-          <Fragment>
+        {!noStatus && getEntity && articleType && (
+          <>
             <PreviewLightBox
               type={type}
               getEntity={getEntity}
@@ -98,13 +126,14 @@ const HeaderActions = ({
               supportedLanguages={supportedLanguages}
             />
             <StyledSplitter />
-          </Fragment>
+          </>
         )}
         <HeaderLanguagePicker emptyLanguages={emptyLanguages} editUrl={editUrl} />
         {translatableTypes.includes(type) &&
           language === 'nb' &&
+          !!translateToNN &&
           !supportedLanguages.includes('nn') && (
-            <Fragment>
+            <>
               <StyledSplitter />
               <TranslateNbToNn
                 translateToNN={translateToNN}
@@ -112,7 +141,7 @@ const HeaderActions = ({
                 formIsDirty={formIsDirty}
                 setTranslateOnContinue={setTranslateOnContinue}
               />
-            </Fragment>
+            </>
           )}
         <DeleteLanguageVersion values={values} type={type} />
       </>
@@ -124,24 +153,6 @@ const HeaderActions = ({
       {t(`language.${language}`)}
     </HeaderLanguagePill>
   );
-};
-
-HeaderActions.propTypes = {
-  editUrl: PropTypes.func.isRequired,
-  formIsDirty: PropTypes.bool,
-  getEntity: PropTypes.func,
-  isNewLanguage: PropTypes.bool,
-  isSubmitting: PropTypes.bool,
-  noStatus: PropTypes.bool,
-  setTranslateOnContinue: PropTypes.func,
-  translateToNN: PropTypes.func,
-  type: PropTypes.string,
-  values: PropTypes.shape({
-    articleType: PropTypes.string,
-    id: PropTypes.number,
-    language: PropTypes.string,
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-  }),
 };
 
 export default HeaderActions;

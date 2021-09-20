@@ -145,6 +145,7 @@ const phrases = {
     },
     save: {
       alreadyExist: 'Søket er allereie lagra.',
+      fetchFailed: 'Kunne ikkje laste lagra søk.',
       other: 'Lagring feila.',
     },
   },
@@ -540,6 +541,7 @@ const phrases = {
     choose: 'Velg',
     saving: 'Lagrer...',
     saveSearch: 'Lagre søk',
+    alreadySaved: 'Lagra',
     saved: 'Lagra ',
     feil: 'Det er fortsatt flere feil i skjemaet',
     copy: 'kopi',
@@ -990,13 +992,13 @@ const phrases = {
         ariaLabel: 'Dra og slipp eller trykk for å laste opp lydfil',
       },
       copiedFrom:
-        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten ved sida av lydfila for å fjerne den og laste opp ei ny fil.',
+        'Lydfil kopieres fra {{language}}. Trykk på søppelbøtten for å fjerne den og laste opp ei ny fil.',
       info: {
-        multipleFiles: 'Du kan laste opp forskjellige lydfilar for kvar språkversjon.',
-        changeFile:
-          'Fjerning og endring av ein språkversjon vil ikkje påverke dei andre språkversjonane.',
+        multipleFiles: 'Du kan laste opp forskjellige lydfilar for kvart språk.',
+        changeFile: 'Fjerning og endring av eit språk vil ikkje påverke dei andre språka.',
         newLanguage:
-          'Ved oppretting av ny språkversjon vil ei lydfil fra ein eksisterande språkversjon foreslås.',
+          'Ved oppretting av eit nytt språk vil ei lydfil fra eit eksisterande språk foreslås.',
+        deleteFiles: 'Ei lydfil slettes bare når den ikkje lenger brukes i eit språk.',
       },
       modal: {
         header: 'Lydfiler',
@@ -1153,6 +1155,7 @@ const phrases = {
   taxonomy: {
     editStructure: 'Rediger struktur',
     editSubjectpage: 'Rediger fagforside',
+    deleteSubject: 'Slett fag',
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterande emne hit',
     newSubject: 'Nytt fag',
@@ -1180,6 +1183,7 @@ const phrases = {
     addTopic: 'Legg til nytt emne',
     errorMessage: 'Ein feil oppsto',
     confirmDeleteTopic: 'Er du sikker på at du vil slette emnet?',
+    confirmDeleteSubject: 'Er du sikker på at du vil slette faget?',
     linkSettings: 'Link',
     setPrimary: 'Sett til primærkobling',
     addResource: 'Legg til ressurs',

@@ -144,6 +144,7 @@ const phrases = {
     },
     save: {
       alreadyExist: 'Search has already been saved.',
+      fetchFailed: 'Could not get load saved searches.',
       other: 'Save failed.',
     },
   },
@@ -515,7 +516,8 @@ const phrases = {
     saveDraft: 'Save draft',
     saveTax: 'Save taxonomy',
     saving: 'Saving...',
-    saveSearch: 'Lagre søk',
+    saveSearch: 'Save search',
+    alreadySaved: 'Saved',
     choose: 'Choose',
     saved: 'Saved ',
     feil: 'There are still errors.',
@@ -973,11 +975,11 @@ const phrases = {
       copiedFrom:
         'Audio file will be copied from {{language}}. Click the delete icon to remove it and upload a new file.',
       info: {
-        multipleFiles: 'You can upload different audio files for each language version.',
-        changeFile:
-          'Changes made to a language version will not alter the other language versions.',
+        multipleFiles: 'You can upload different audio files for each language.',
+        changeFile: 'Changes made to a language will not alter the other languages.',
         newLanguage:
-          'When creating a new language version, an audio file from an existing language will be suggested.',
+          'When adding a new language, an audio file from an existing language will be suggested.',
+        deleteFiles: 'Audio files will only be deleted when not used in any language.',
       },
       modal: {
         header: 'Audio files',
@@ -1135,6 +1137,7 @@ const phrases = {
   taxonomy: {
     editStructure: 'Edit structure',
     editSubjectpage: 'Edit subjectpage',
+    deleteSubject: 'Delete subject',
     addSubject: 'Add new subject',
     addExistingTopic: 'Move existing topic here',
     newSubject: 'New Subject',
@@ -1167,6 +1170,7 @@ const phrases = {
     searchResource: 'Search for resource',
     searchArticle: 'Search for topic article',
     confirmDeleteTopic: 'Are you sure you want to delete this topic?',
+    confirmDeleteSubject: 'Are you sure you want to delete this subject?',
     or: 'Eller',
     urlPlaceholder: 'Lim inn lenke fra ndla.no',
     wrongType: 'Note! This is a different resource type: ',

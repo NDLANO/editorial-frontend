@@ -32,7 +32,9 @@ export type EditMode =
   | 'openCustomFields'
   | 'toggleMetadataVisibility'
   | 'editGrepCodes'
-  | 'addExistingTopic';
+  | 'addExistingTopic'
+  | 'addTopic'
+  | 'deleteSubject';
 export interface SearchResultBase<T> {
   totalCount: number;
   page: number;

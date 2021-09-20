@@ -8,6 +8,7 @@
 
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import css from '@emotion/css';
 import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
 // @ts-ignore
 import { FigureCaption, FigureLicenseDialog } from '@ndla/ui';
@@ -45,7 +46,12 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
   };
 
   return (
-    <div>
+    <div
+      css={css`
+        p {
+          margin: 0 !important;
+        }
+      `}>
       <AudioPlayer
         src={audio.audioFile.url}
         title={audio.title}

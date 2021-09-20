@@ -33,7 +33,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState, licenses }) =>
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
         {metaImageSrc ? (
-          <img src={metaImageSrc} alt={metaImageAlt} />
+          <img src={`${metaImageSrc}?width=200`} alt={metaImageAlt} />
         ) : (
           <Concept className="c-icon--large" />
         )}

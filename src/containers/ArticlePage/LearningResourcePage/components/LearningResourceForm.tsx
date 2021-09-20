@@ -41,7 +41,7 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { ConvertedDraftType, License, LocaleType, RelatedContent } from '../../../../interfaces';
+import { ConvertedDraftType, License, RelatedContent } from '../../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
 
 export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
@@ -238,21 +238,21 @@ const LearningResourceForm = ({
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = () => getArticleFromSlate({ values, initialValues, preview: false });
+    const editUrl = values.id
+      ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
+      : undefined;
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage
           values={values}
           content={article}
-          editUrl={(lang: LocaleType) =>
-            values.id && toEditArticle(values.id, values.articleType, lang)
-          }
+          editUrl={editUrl}
           getEntity={getArticle}
           formIsDirty={formIsDirty}
           isSubmitting={isSubmitting}
           translateToNN={translateToNN}
           setTranslateOnContinue={setTranslateOnContinue}
           type="standard"
-          history={history}
         />
         {translating ? (
           <Spinner withWrapper />

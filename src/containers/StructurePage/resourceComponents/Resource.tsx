@@ -41,10 +41,7 @@ const statusButtonStyle = css`
 `;
 
 interface Props {
-  resource: Omit<TopicResource, 'primary' | 'relevanceId'> & {
-    primary?: boolean;
-    relevanceId?: string;
-  };
+  resource: TopicResource;
   onDelete?: (connectionId: string) => void;
   updateResource?: (resource: TopicResource) => void;
   connectionId: string;
@@ -131,8 +128,6 @@ const Resource = ({
     if (newGrepCodes && updateResource) {
       updateResource({
         ...resource,
-        primary: resource.primary ?? primary!,
-        relevanceId: resource.relevanceId ?? relevanceId!,
         grepCodes: newGrepCodes,
       });
     }

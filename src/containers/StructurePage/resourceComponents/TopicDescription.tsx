@@ -62,6 +62,8 @@ const TopicDescription = ({
                 paths: [],
                 resourceTypes: [],
                 grepCodes,
+                primary: currentTopic.isPrimary,
+                relevanceId: currentTopic.relevanceId!,
               }}
               locale={locale}
               updateRelevanceId={updateRelevanceId}

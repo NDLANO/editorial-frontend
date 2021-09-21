@@ -7,18 +7,23 @@
  */
 
 import { setToken } from '../../support';
-import editorRoutes from "./editorRoutes";
+import editorRoutes from './editorRoutes';
 
 const CONCEPT_ID = 1;
 
 describe('Language handling', () => {
   before(() => {
     setToken();
-    editorRoutes()
-    cy.apiroute('GET', `/taxonomy/v1/subjects?language=nb`, 'allSubjects');
+    editorRoutes();
+
+    cy.apiroute(
+      'GET',
+      `/taxonomy/v1/subjects?key=forklaringsfag&language=nb&value=true`,
+      'allConceptSubjects',
+    );
     cy.apiroute('GET', `**/concept-api/v1/drafts/${CONCEPT_ID}?*`, `concept-${CONCEPT_ID}`);
     cy.visit(`/concept/${CONCEPT_ID}/edit/nb`);
-    cy.apiwait(['@allSubjects', `@concept-${CONCEPT_ID}`])
+    cy.apiwait(['@allConceptSubjects', `@concept-${CONCEPT_ID}`]);
   });
 
   it('Can change language and fetch the new concept', () => {

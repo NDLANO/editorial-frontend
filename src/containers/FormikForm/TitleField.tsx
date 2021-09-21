@@ -33,7 +33,7 @@ const TitleField = ({ maxLength = 256, name = 'title', handleSubmit }: Props) =>
   const plugins = [textTransformPlugin, saveHotkeyPlugin(() => handleSubmitRef.current())];
   return (
     <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
-      {({ field }) => (
+      {({ field, form: { isSubmitting } }) => (
         <PlainTextEditor
           id={field.name}
           {...field}
@@ -41,6 +41,7 @@ const TitleField = ({ maxLength = 256, name = 'title', handleSubmit }: Props) =>
           placeholder={t('form.title.label')}
           cy="learning-resource-title"
           plugins={plugins}
+          submitted={isSubmitting}
           handleSubmit={handleSubmit}
         />
       )}

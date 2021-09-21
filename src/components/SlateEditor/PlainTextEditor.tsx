@@ -17,6 +17,7 @@ import withPlugins from './utils/withPlugins';
 interface Props {
   id: string;
   value: Descendant[];
+  submitted: boolean;
   onChange: FormikHandlers['handleChange'];
   className?: string;
   placeholder?: string;
@@ -24,7 +25,16 @@ interface Props {
   cy?: string;
 }
 
-const PlainTextEditor = ({ onChange, value, id, className, placeholder, plugins, cy }: Props) => {
+const PlainTextEditor = ({
+  onChange,
+  value,
+  submitted,
+  id,
+  className,
+  placeholder,
+  plugins,
+  cy,
+}: Props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
@@ -49,6 +59,7 @@ const PlainTextEditor = ({ onChange, value, id, className, placeholder, plugins,
         }}
         // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
         onKeyDown={editor.onKeyDown}
+        readOnly={submitted}
         className={className}
         placeholder={placeholder}
         data-cy={cy}

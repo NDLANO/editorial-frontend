@@ -55,7 +55,7 @@ const IngressField = ({
         name={name}
         showMaxLength
         maxLength={maxLength}>
-        {({ field }) =>
+        {({ field, form: { isSubmitting } }) =>
           preview ? (
             <div className="article_introduction">
               {parse(renderMarkdown(Plain.serialize(field.value), concept))}
@@ -68,6 +68,7 @@ const IngressField = ({
               className="article_introduction"
               cy="learning-resource-ingress"
               handleSubmit={handleSubmit}
+              submitted={isSubmitting}
               plugins={plugins}
             />
           )

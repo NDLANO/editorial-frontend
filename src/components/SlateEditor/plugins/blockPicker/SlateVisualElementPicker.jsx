@@ -14,6 +14,10 @@ const SlateVisualElementPicker = ({
   onInsertBlock,
 }) => {
   const formikContext = useFormikContext();
+  const { values } = formikContext;
+
+  const showMetaImageCheckbox =
+    values.metaImageAlt !== undefined && values.metaImageId !== undefined;
 
   const onVisualElementAdd = (visualElement, type = 'embed') => {
     if (type === 'embed') {
@@ -34,7 +38,7 @@ const SlateVisualElementPicker = ({
           handleVisualElementChange={onVisualElementAdd}
           closeModal={onVisualElementClose}
           setH5pFetchFail={setH5pFetchFail}
-          showMetaImageCheckbox={true}
+          showMetaImageCheckbox={showMetaImageCheckbox}
           onSaveAsMetaImage={image => onSaveAsMetaImage(image, formikContext)}
         />
       )}

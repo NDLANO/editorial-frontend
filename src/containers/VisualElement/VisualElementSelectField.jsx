@@ -17,7 +17,7 @@ export const onSaveAsMetaImage = (image, formikContext) => {
 
   if (setFieldValue && image) {
     setTimeout(() => {
-      setFieldValue('metaImageId', parseInt(image.id));
+      setFieldValue('metaImageId', image.id || '');
       setFieldValue('metaImageAlt', image.alttext?.alttext || '');
     }, 0);
   }

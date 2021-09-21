@@ -41,6 +41,7 @@ const StyledDiv = styled('div')`
 `;
 
 export interface TopicResource extends ResourceWithTopicConnection {
+  articleType?: string;
   status?: DraftStatus;
 }
 
@@ -170,7 +171,12 @@ const StructureResources = ({
       const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
       if (resourceType === 'article') {
         const article = await fetchDraft(parseInt(id), locale);
-        return { ...resource, status: article.status, grepCodes: article.grepCodes };
+        return {
+          ...resource,
+          articleType: article.articleType,
+          status: article.status,
+          grepCodes: article.grepCodes,
+        };
       } else if (resourceType === 'learningpath') {
         const learningpath = await fetchLearningpath(parseInt(id), locale);
         if (learningpath.status) {

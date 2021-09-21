@@ -15,7 +15,7 @@ import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
 import { colors, spacing, breakpoints } from '@ndla/core';
-import { Check } from '@ndla/icons/editor';
+import { AlertCircle, Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 
@@ -37,6 +37,12 @@ const StyledCheckIcon = styled(Check)`
   fill: ${colors.support.green};
 `;
 
+const StyledWarnIcon = styled(AlertCircle)`
+  height: 24px;
+  width: 24px;
+  fill: ${colors.support.red};
+`;
+
 const statusButtonStyle = css`
   margin-right: ${spacing.xsmall};
 `;
@@ -55,6 +61,7 @@ interface Props {
   ) => Promise<void>;
   primary?: boolean;
   rank?: number;
+  isWrongType?: boolean;
 }
 const grepButtonStyle = css`
   margin-left: ${spacing.xsmall};
@@ -102,6 +109,7 @@ const Resource = ({
   primary,
   rank,
   updateResource,
+  isWrongType,
 }: Props) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -143,6 +151,21 @@ const Resource = ({
       </StyledLink>
     );
 
+  const WrongTypeError = () => {
+    if (!isWrongType) return null;
+
+    const errorText = t('taxonomy.info.wrongArticleType', {
+      placedAs: t('articleType.standard'),
+      isType: t('articleType.topic-article'),
+    });
+
+    return (
+      <Tooltip tooltip={errorText}>
+        <StyledWarnIcon title={undefined} />
+      </Tooltip>
+    );
+  };
+
   return (
     <StyledText
       data-testid={`resource-type-${contentType}`}
@@ -170,6 +193,7 @@ const Resource = ({
           {t(`form.status.${resource.status.current.toLowerCase()}`)}
         </Button>
       )}
+      <WrongTypeError />
       {(resource.status?.current === PUBLISHED || resource.status?.other?.includes(PUBLISHED)) && (
         <PublishedWrapper>
           <Tooltip tooltip={t('form.workflow.published')}>

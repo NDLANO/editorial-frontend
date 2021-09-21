@@ -12,9 +12,9 @@ import styled from '@emotion/styled';
 import Resource from './Resource';
 import {
   deleteTopicResource,
+  updateSubjectTopic,
   updateTopicResource,
   updateTopicSubtopic,
-  updateSubjectTopic,
 } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
@@ -139,6 +139,7 @@ const ResourceItems = ({
             onDelete={toggleDelete}
             locale={locale}
             updateRelevanceId={updateRelevanceId}
+            isWrongType={resource.articleType === 'topic-article'}
           />
         ))}
       </MakeDndList>

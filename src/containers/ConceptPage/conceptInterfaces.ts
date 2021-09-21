@@ -24,7 +24,7 @@ export interface ConceptFormValues
   extends Omit<StrippedConceptType, 'visualElement' | 'title'>,
     FormValues {
   articles: ArticleType[];
-  title: Descendant[];
+  slatetitle: Descendant[];
   conceptContent: Descendant[];
   created?: string;
   creators: Author[];
@@ -39,6 +39,6 @@ export interface ConceptFormValues
   tags: string[];
   updateCreated: boolean;
   updated: string;
-  visualElement: Descendant[];
+  visualElementObject: Descendant[];
   agreementId?: number;
 }

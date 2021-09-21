@@ -55,6 +55,7 @@ export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
 ): TopicArticleFormikType => {
   const metaImageId: string = parseImageUrl(article.metaImage);
+
   return {
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     articleType: 'topic-article',

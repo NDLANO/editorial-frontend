@@ -87,7 +87,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false, change
 };
 
 export const formikCommonArticleRules = {
-  title: {
+  slatetitle: {
     required: true,
     maxLength: 256,
   },

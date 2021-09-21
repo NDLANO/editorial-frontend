@@ -528,6 +528,7 @@ const phrases = {
     },
     name: {
       title: 'Title',
+      slatetitle: 'Title',
       aboutTitle: 'Title',
       introduction: 'Ingress',
       creators: 'Creators',

@@ -12,7 +12,6 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Router, useHistory } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
-import { configureTracker } from '@ndla/tracker';
 import { createBrowserHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
 import config, { ConfigType, getDefaultLanguage } from './config';
@@ -57,12 +56,6 @@ window.errorReporter = ErrorReporter.getInstance({
 });
 
 const browserHistory = createBrowserHistory();
-
-configureTracker({
-  listen: browserHistory.listen,
-  gaTrackingId: config.gaTrackingId,
-  googleTagManagerId: config.googleTagManagerId,
-});
 
 const I18nWrapper = ({ basename }: { basename?: string }) => {
   const { i18n } = useTranslation();
@@ -116,7 +109,7 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
 
   return (
     <BrowserRouter basename={lang} key={lang}>
-      <App key={lang} />
+      <App key={lang} isClient={true} />
     </BrowserRouter>
   );
 };

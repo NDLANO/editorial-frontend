@@ -47,7 +47,7 @@ const SearchSaveButton = () => {
 
     if (isValid(token) && isAccessTokenPersonal) {
       const result = await fetchUserData();
-      return result.savedSearches;
+      return result.savedSearches || [];
     }
   };
 

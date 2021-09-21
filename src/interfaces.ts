@@ -20,6 +20,7 @@ import { ApiConceptType } from './modules/concept/conceptApiInterfaces';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
 import { DraftStatus } from './modules/draft/draftApiInterfaces';
 import { FootnoteType } from './containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
+import { ArticleTaxonomy } from './containers/FormikForm/formikDraftHooks';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
@@ -511,7 +512,7 @@ export interface ReduxState {
 
 export type SearchType = typeof SearchTypeValues[number];
 
-export interface ConvertedDraftType {
+export type ConvertedDraftType = {
   language?: string;
   title?: string;
   introduction?: string;
@@ -538,7 +539,7 @@ export interface ConvertedDraftType {
   editorLabels: string[];
   grepCodes: string[];
   availability: AvailabilityType;
-}
+} & { taxonomy?: Partial<ArticleTaxonomy> };
 
 export interface SlateArticle {
   articleType: string;

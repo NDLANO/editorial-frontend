@@ -41,6 +41,7 @@ import {
   TopicConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import TaxonomyConnectionErrors from 'containers/ArticlePage/components/TaxonomyConnectionErrors';
 
 type Props = {
   articleId: number;
@@ -124,6 +125,8 @@ class TopicArticleTaxonomy extends Component<Props, State> {
         queryTopics(articleId.toString(), language),
         fetchSubjects(language),
       ]);
+
+      const topics = this.props.article.taxonomy?.topics ?? [];
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
       const activeTopics = topics.filter(t => t.path);
@@ -279,7 +282,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
 
   render() {
     const { stagedTopicChanges, structure, status, isDirty, showWarning } = this.state;
-    const { t, locale } = this.props;
+    const { t, locale, article } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -303,6 +306,10 @@ class TopicArticleTaxonomy extends Component<Props, State> {
 
     return (
       <Fragment>
+        <TaxonomyConnectionErrors
+          articleType={article.articleType ?? 'topic-article'}
+          taxonomy={article.taxonomy}
+        />
         <TopicArticleConnections
           structure={structure}
           activeTopics={stagedTopicChanges}

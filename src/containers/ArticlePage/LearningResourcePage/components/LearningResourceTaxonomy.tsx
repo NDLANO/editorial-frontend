@@ -48,6 +48,7 @@ import {
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -436,6 +437,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       status,
       isDirty,
       showWarning,
+      resourceId,
     } = this.state;
     const filteredResourceTypes = taxonomyChoices.availableResourceTypes
       .filter(rt => !blacklistedResourceTypes.includes(rt.id))
@@ -444,7 +446,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         subtype: rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
       }));
 
-    const { userAccess, t } = this.props;
+    const { userAccess, t, article } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -473,22 +475,14 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       metadata: taxonomyChanges.metadata,
     };
 
-    const nonMainEntities = [...this.state.resources.slice(1), ...this.state.topics];
-
-    const anyTaxEntries = mainEntity || nonMainEntities.length > 0;
-
     return (
       <Fragment>
-        {userAccess?.includes(TAXONOMY_ADMIN_SCOPE) && anyTaxEntries && (
-          <TaxonomyInfo
-            mainTaxonomyElement={mainEntity}
-            nonMainTaxonomyElements={nonMainEntities.map(e => ({
-              id: e.id,
-              name: e.name,
-              metadata: e.metadata,
-            }))}
-            updateMetadata={this.updateMetadata}
-          />
+        <TaxonomyConnectionErrors
+          articleType={article.articleType ?? 'standard'}
+          taxonomy={article.taxonomy}
+        />
+        {userAccess?.includes(TAXONOMY_ADMIN_SCOPE) && resourceId && (
+          <TaxonomyInfo taxonomyElement={mainEntity} updateMetadata={this.updateMetadata} />
         )}
         <ResourceTypeSelect
           availableResourceTypes={filteredResourceTypes}

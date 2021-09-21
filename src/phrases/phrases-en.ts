@@ -1194,6 +1194,8 @@ const phrases = {
       subTitle: 'Id and visibility for the element',
       wrongArticleType:
         'The article is placed as "{{placedAs}}" in the taxonomy, but the article is of "{{isType}}" type.',
+      wrongConnections: 'Bad connections',
+      wrongConnectionsSubTitle: 'This article has bad connections, see the list below.',
     },
     resource: {
       confirmDelete:

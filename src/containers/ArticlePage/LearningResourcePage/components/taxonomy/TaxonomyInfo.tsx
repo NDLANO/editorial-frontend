@@ -39,70 +39,28 @@ const StyledId = styled.span`
 type LocalElement = Omit<TaxonomyElement, 'metadata'> & Partial<Pick<TaxonomyElement, 'metadata'>>;
 
 interface Props {
-  mainTaxonomyElement?: LocalElement;
-  nonMainTaxonomyElements: LocalElement[];
+  taxonomyElement?: LocalElement;
   updateMetadata: (visible: boolean) => void;
 }
 
-const ElementInfoDiv = ({
-  taxonomyElement,
-  updateMetadata,
-  isMain,
-}: {
-  taxonomyElement: LocalElement;
-  isMain: boolean;
-  updateMetadata: (visible: boolean) => void;
-}) => {
-  const { t } = useTranslation();
-  return (
-    <TaxonomyInfoDiv>
-      <StyledId isVisible={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}>
-        {!taxonomyElement.id.startsWith('urn:resource:') && (
-          <>
-            <StyledWarnIcon
-              title={t('taxonomy.info.wrongArticleType', {
-                placedAs: t('articleType.topic-article'),
-                isType: t('articleType.standard'),
-              })}
-            />
-            {' - '}
-          </>
-        )}
-        {taxonomyElement.id}
-      </StyledId>
-      <Switch
-        disabled={!isMain}
-        onChange={() => updateMetadata(!taxonomyElement.metadata?.visible)}
-        checked={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}
-        label=""
-        id={'visibility'}
-      />
-    </TaxonomyInfoDiv>
-  );
-};
-
-const TaxonomyInfo = ({ mainTaxonomyElement, nonMainTaxonomyElements, updateMetadata }: Props) => {
+const TaxonomyInfo = ({ taxonomyElement, updateMetadata }: Props) => {
   const { t } = useTranslation();
   return (
     <>
       <FieldHeader title={t('taxonomy.info.title')} subTitle={t('taxonomy.info.subTitle')} />
-      {mainTaxonomyElement && (
-        <ElementInfoDiv
-          taxonomyElement={mainTaxonomyElement}
-          isMain={true}
-          updateMetadata={updateMetadata}
-        />
-      )}
-      {nonMainTaxonomyElements.map(taxonomyElement => {
-        return (
-          <ElementInfoDiv
-            key={taxonomyElement.id}
-            taxonomyElement={taxonomyElement}
-            isMain={false}
-            updateMetadata={updateMetadata}
+      {taxonomyElement && (
+        <TaxonomyInfoDiv>
+          <StyledId isVisible={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}>
+            {taxonomyElement.id}
+          </StyledId>
+          <Switch
+            onChange={() => updateMetadata(!taxonomyElement.metadata?.visible)}
+            checked={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}
+            label=""
+            id={'visibility'}
           />
-        );
-      })}
+        </TaxonomyInfoDiv>
+      )}
     </>
   );
 };

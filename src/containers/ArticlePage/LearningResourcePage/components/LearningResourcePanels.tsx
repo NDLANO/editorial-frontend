@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { FormikHelpers, useFormikContext } from 'formik';
+import config from '../../../../config';
 import { LocaleContext } from '../../../App/App';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
-import { TAXONOMY_WRITE_SCOPE, DRAFT_ADMIN_SCOPE } from '../../../../constants';
+import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
@@ -105,13 +106,13 @@ const LearningResourcePanels = ({
         hasError={!!errors.grepCodes}>
         <GrepCodesField grepCodes={article.grepCodes ?? []} />
       </AccordionSection>
-      {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
+      {config.ndlaEnvironment === 'test' && (
         <AccordionSection
           id={'learning-resource-related'}
           title={t('form.name.relatedContent')}
           className={'u-6/6'}
           hasError={!!(errors.conceptIds || errors.relatedContent)}>
-          <RelatedContentFieldGroup values={values} locale={locale} />
+          <RelatedContentFieldGroup values={values} locale={locale} userAccess={userAccess} />
         </AccordionSection>
       )}
       {values.id && (

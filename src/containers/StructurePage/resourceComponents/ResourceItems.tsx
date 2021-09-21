@@ -36,11 +36,19 @@ const StyledErrorMessage = styled.div`
 
 interface Props {
   resources: TopicResource[];
+  onDeleteResource: (resourceId: string) => void;
   refreshResources: () => Promise<void>;
   locale: LocaleType;
+  onUpdateResource: (resource: TopicResource) => void;
 }
 
-const ResourceItems = ({ refreshResources, resources, locale }: Props) => {
+const ResourceItems = ({
+  refreshResources,
+  resources,
+  locale,
+  onUpdateResource,
+  onDeleteResource,
+}: Props) => {
   const { t } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -51,7 +59,7 @@ const ResourceItems = ({ refreshResources, resources, locale }: Props) => {
       setDeleteId('');
       setError('');
       await deleteTopicResource(deleteId);
-      refreshResources();
+      onDeleteResource(deleteId);
     } catch (e) {
       handleError(e);
       setError(`${t('taxonomy.errorMessage')}: ${e.message}`);
@@ -124,6 +132,7 @@ const ResourceItems = ({ refreshResources, resources, locale }: Props) => {
       <MakeDndList onDragEnd={onDragEnd} dragHandle disableDnd={false}>
         {resources.map(resource => (
           <Resource
+            updateResource={onUpdateResource}
             {...resource}
             resource={resource}
             key={resource.id}

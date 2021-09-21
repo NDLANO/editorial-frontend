@@ -6,8 +6,9 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import FormikField from '../../../components/FormikField';
+import { DRAFT_ADMIN_SCOPE } from '../../../constants';
 import ConceptsField from './ConceptsField';
 import ContentField from './ContentField';
 import { ArticleFormikType } from '../../FormikForm/articleFormHooks';
@@ -15,22 +16,25 @@ import { ArticleFormikType } from '../../FormikForm/articleFormHooks';
 interface Props {
   values: ArticleFormikType;
   locale: string;
+  userAccess?: string;
 }
 
-const RelatedContentFieldGroup = ({ locale, values }: Props) => {
+const RelatedContentFieldGroup = ({ locale, userAccess, values }: Props) => {
   return (
-    <Fragment>
+    <>
       <FormikField name={'conceptIds'}>
         {({ field, form }) => (
           <ConceptsField field={field} form={form} locale={locale} values={values} />
         )}
       </FormikField>
-      <FormikField name={'relatedContent'}>
-        {({ field, form }) => (
-          <ContentField field={field} form={form} locale={locale} values={values} />
-        )}
-      </FormikField>
-    </Fragment>
+      {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
+        <FormikField name={'relatedContent'}>
+          {({ field, form }) => (
+            <ContentField field={field} form={form} locale={locale} values={values} />
+          )}
+        </FormikField>
+      )}
+    </>
   );
 };
 

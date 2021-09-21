@@ -13,6 +13,7 @@ const SlateVisualElementPicker = ({
   onInsertBlock,
 }) => {
   const formikContext = useFormikContext();
+
   const { values } = formikContext;
 
   const showMetaImageCheckbox =

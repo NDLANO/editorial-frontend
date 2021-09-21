@@ -31,10 +31,11 @@ const SubjectpageMetadata = () => {
         showMaxLength
         label={t('form.metaDescription.label')}
         description={t('form.metaDescription.description')}>
-        {({ field }: FieldProps) => (
+        {({ field, form: { isSubmitting } }: FieldProps) => (
           <PlainTextEditor
             id={field.name}
             {...field}
+            submitted={isSubmitting}
             placeholder={t('form.metaDescription.label')}
             plugins={plugins}
           />

@@ -23,10 +23,11 @@ const SubjectpageAbout = () => {
         name="description"
         showMaxLength
         maxLength={300}>
-        {({ field }: FieldProps) => (
+        {({ field, form: { isSubmitting } }: FieldProps) => (
           <PlainTextEditor
             id={field.name}
             {...field}
+            submitted={isSubmitting}
             placeholder={t('subjectpageForm.description')}
           />
         )}

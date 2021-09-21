@@ -95,9 +95,8 @@ const SlateVideo = ({
   }, [(embed as BrightcoveEmbed).videoid]);
 
   useEffect(() => {
-    const { resource, url } = activeEmbed;
-    if (resource === 'brightcove') {
-      const { account, videoid, player = 'default' } = activeEmbed;
+    if (activeEmbed.resource === 'brightcove') {
+      const { account, videoid, player = 'default', url } = activeEmbed;
       if (url && isBrightcoveUrl(url)) {
         setSrc(url);
       } else {

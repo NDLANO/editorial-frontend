@@ -66,7 +66,7 @@ const IngressField = ({
               {...field}
               placeholder={placeholder || t('form.introduction.label')}
               className="article_introduction"
-              data-cy="learning-resource-ingress"
+              cy="learning-resource-ingress"
               handleSubmit={handleSubmit}
               plugins={plugins}
             />

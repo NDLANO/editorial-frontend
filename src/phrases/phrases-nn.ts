@@ -1210,6 +1210,8 @@ const phrases = {
     info: {
       title: 'Informasjon',
       subTitle: 'Id og synlighet for elementet',
+      wrongArticleType:
+        'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikelen er av typen "{{isType}}".',
     },
     resource: {
       confirmDelete:

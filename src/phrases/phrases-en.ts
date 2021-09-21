@@ -1192,6 +1192,8 @@ const phrases = {
     info: {
       title: 'Information',
       subTitle: 'Id and visibility for the element',
+      wrongArticleType:
+        'The article is placed as "{{placedAs}}" in the taxonomy, but the article is of "{{isType}}" type.',
     },
     resource: {
       confirmDelete:

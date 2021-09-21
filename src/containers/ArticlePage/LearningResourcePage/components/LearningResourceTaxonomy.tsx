@@ -21,6 +21,8 @@ import {
   fetchFullResource,
   createResource,
   getResourceId,
+  queryTopics,
+  queryResources,
 } from '../../../../modules/taxonomy';
 import { sortByName, groupTopics, getBreadcrumbFromPath } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
@@ -42,6 +44,7 @@ import {
   SubjectType,
   SubjectTopic,
   ParentTopicWithRelevanceAndConnections,
+  Resource,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
@@ -79,6 +82,9 @@ interface State {
   status: string;
   isDirty: boolean;
 
+  topics: Topic[];
+  resources: Resource[];
+
   resourceTaxonomy: {
     resourceTypes: ResourceResourceType[];
     topics: ParentTopicWithRelevanceAndConnections[];
@@ -103,6 +109,10 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     this.state = {
       resourceId: '',
       structure: [],
+
+      topics: [],
+      resources: [],
+
       status: 'loading',
       isDirty: false,
       resourceTaxonomy: {
@@ -208,13 +218,20 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     if (!language || !id) return;
 
     try {
-      const resourceId = await getResourceId({ id, language });
+      const resources = await queryResources(id.toString(), language);
+      const topics = await queryTopics(id.toString(), language);
 
-      if (resourceId) {
+      const resourceId = resources.length === 1 ? resources[0].id : null;
+
+      if (resources.length > 1) {
+        this.setState({ status: 'error' });
+      } else if (resourceId) {
         const fullResource = await this.fetchFullResource(resourceId, language);
 
         this.setState({
           resourceId,
+          topics,
+          resources,
           status: 'initial',
           resourceTaxonomy: fullResource,
           taxonomyChanges: fullResource,
@@ -223,6 +240,8 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         // resource does not exist in taxonomy
         this.setState(() => ({
           status: 'initial',
+          topics,
+          resources,
           resourceTaxonomy: {
             ...emptyTaxonomy,
           },
@@ -411,16 +430,14 @@ class LearningResourceTaxonomy extends Component<Props, State> {
 
   render() {
     const {
-      taxonomyChoices: { availableResourceTypes },
-      taxonomyChanges: { resourceTypes, topics, metadata },
-      resourceId,
-      resourceTaxonomy,
+      taxonomyChoices,
+      taxonomyChanges,
       structure,
       status,
       isDirty,
       showWarning,
     } = this.state;
-    const filteredResourceTypes = availableResourceTypes
+    const filteredResourceTypes = taxonomyChoices.availableResourceTypes
       .filter(rt => !blacklistedResourceTypes.includes(rt.id))
       .map(rt => ({
         ...rt,
@@ -449,26 +466,38 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       );
     }
 
+    const mainResource = this.state.resources?.[0];
+    const mainEntity = mainResource && {
+      id: mainResource.id,
+      name: mainResource.name,
+      metadata: taxonomyChanges.metadata,
+    };
+
+    const nonMainEntities = [...this.state.resources.slice(1), ...this.state.topics];
+
+    const anyTaxEntries = mainEntity || nonMainEntities.length > 0;
+
     return (
       <Fragment>
-        {userAccess?.includes(TAXONOMY_ADMIN_SCOPE) && resourceId && (
+        {userAccess?.includes(TAXONOMY_ADMIN_SCOPE) && anyTaxEntries && (
           <TaxonomyInfo
-            taxonomyElement={{
-              id: resourceId,
-              name: resourceTaxonomy.name ?? '',
-              metadata: metadata,
-            }}
+            mainTaxonomyElement={mainEntity}
+            nonMainTaxonomyElements={nonMainEntities.map(e => ({
+              id: e.id,
+              name: e.name,
+              metadata: e.metadata,
+            }))}
             updateMetadata={this.updateMetadata}
           />
         )}
         <ResourceTypeSelect
           availableResourceTypes={filteredResourceTypes}
-          resourceTypes={resourceTypes}
+          resourceTypes={taxonomyChanges.resourceTypes}
           onChangeSelectedResource={this.onChangeSelectedResource}
         />
         <TopicConnections
           structure={structure}
-          activeTopics={topics}
+          activeTopics={taxonomyChanges.topics}
           removeConnection={this.removeConnection}
           setPrimaryConnection={this.setPrimaryConnection}
           setRelevance={this.setRelevance}
@@ -487,7 +516,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
           <SaveButton
             isSaving={status === 'loading'}
             showSaved={status === 'success' && !isDirty}
-            disabled={!isDirty || !resourceTypes.length}
+            disabled={!isDirty || !taxonomyChanges.resourceTypes.length}
             onClick={this.handleSubmit}
             defaultText="saveTax"
             formIsDirty={isDirty}

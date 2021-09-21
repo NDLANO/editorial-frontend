@@ -56,7 +56,7 @@ const deleteRemovedFiles = async (oldArticleContent: string, newArticleContent: 
 
 export interface ArticleFormikType {
   id?: number;
-  slatetitle?: Descendant[];
+  title?: Descendant[];
   introduction?: Descendant[];
   metaDescription?: Descendant[];
   agreementId?: number;
@@ -77,7 +77,7 @@ export interface ArticleFormikType {
   tags: string[];
   updatePublished: boolean;
   updated?: string;
-  visualElementObject?: Descendant[];
+  visualElement?: Descendant[];
   grepCodes?: string[];
   conceptIds: ApiConceptType[];
   availability?: AvailabilityType;

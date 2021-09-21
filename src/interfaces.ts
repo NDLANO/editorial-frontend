@@ -314,7 +314,7 @@ export interface SubjectpageEditType extends SubjectpageType {
   mobileBanner?: number;
   elementId?: string;
   title?: string;
-  visualElementObject?: PartialVisualElement;
+  visualElement?: PartialVisualElement;
 }
 
 type PartialVisualElement =

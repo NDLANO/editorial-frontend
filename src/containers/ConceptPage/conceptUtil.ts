@@ -26,7 +26,7 @@ export const transformApiConceptToFormValues = (
 ): ConceptFormValues => {
   return {
     id: concept.id,
-    slatetitle: plainTextToEditorValue(concept.title || ''),
+    title: plainTextToEditorValue(concept.title || ''),
     language: concept.language,
     updated: concept.updated,
     updateCreated: false,
@@ -46,7 +46,7 @@ export const transformApiConceptToFormValues = (
     tags: concept.tags || [],
     articles: concept.articles || [],
     status: concept.status || {},
-    visualElementObject: embedTagToEditorValue(concept.visualElement),
+    visualElement: embedTagToEditorValue(concept.visualElement),
   };
 };
 
@@ -67,7 +67,7 @@ export const getPatchApiConcept = (
   licenses: License[],
 ): PatchConceptType => ({
   id: values.id,
-  title: editorValueToPlainText(values.slatetitle),
+  title: editorValueToPlainText(values.title),
   content: editorValueToPlainText(values.conceptContent),
   language: values.language,
   copyright: {
@@ -86,7 +86,7 @@ export const getPatchApiConcept = (
   subjectIds: values.subjects.map(subject => subject.id),
   tags: values.tags,
   articleIds: values.articles.map(a => a.id),
-  visualElement: editorValueToEmbedTag(values.visualElementObject),
+  visualElement: editorValueToEmbedTag(values.visualElement),
 });
 
 export const getConcept = (
@@ -96,7 +96,7 @@ export const getConcept = (
 ): ConceptType => {
   return {
     ...values,
-    title: editorValueToPlainText(values.slatetitle),
+    title: editorValueToPlainText(values.title),
     content: editorValueToPlainText(values.conceptContent),
     copyright: {
       license: licenses.find(license => license.license === values.license),
@@ -112,14 +112,14 @@ export const getConcept = (
       : undefined,
     subjectIds: values.subjects.map(subject => subject.id),
     articleIds: values.articles.map(a => a.id),
-    visualElement: editorValueToEmbedTag(values.visualElementObject),
+    visualElement: editorValueToEmbedTag(values.visualElement),
 
     updatedBy,
   };
 };
 
 export const conceptFormRules: RulesType<ConceptFormValues> = {
-  slatetitle: {
+  title: {
     required: true,
   },
   conceptContent: {

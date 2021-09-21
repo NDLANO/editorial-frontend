@@ -87,7 +87,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false, change
 };
 
 export const formikCommonArticleRules = {
-  slatetitle: {
+  title: {
     required: true,
     maxLength: 256,
   },
@@ -158,15 +158,13 @@ export const topicArticleRules = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
-    onlyValidateIf: values =>
-      values.visualElementObject && values.visualElementObject.resource === 'image',
+    onlyValidateIf: values => values.visualElement && values.visualElement.resource === 'image',
   },
   visualElementCaption: {
     required: false,
     onlyValidateIf: values =>
-      values.visualElementObject &&
-      (values.visualElementObject.resource === 'image' ||
-        values.visualElementObject.resource === 'brightcove'),
+      values.visualElement &&
+      (values.visualElement.resource === 'image' || values.visualElement.resource === 'brightcove'),
   },
 };
 

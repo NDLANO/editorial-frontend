@@ -31,7 +31,7 @@ const SubjectpageAbout = () => {
           />
         )}
       </FormikField>
-      <VisualElementField types={['image', 'video']} videoTypes={['Brightcove']} />
+      <VisualElementField types={['image', 'video']} />
     </>
   );
 };

@@ -57,7 +57,7 @@ const LearningResourcePanels = ({
         id={'learning-resource-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
-        hasError={!!(errors.slatetitle || errors.introduction || errors.content)}
+        hasError={!!(errors.title || errors.introduction || errors.content)}
         startOpen>
         <LearningResourceContent
           formik={formikContext}

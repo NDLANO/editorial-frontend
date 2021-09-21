@@ -51,7 +51,7 @@ export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
 ): LearningResourceFormikType => {
   const metaImageId = parseImageUrl(article.metaImage);
-  const slatetitle = plainTextToEditorValue(article.title || '');
+  const title = plainTextToEditorValue(article.title || '');
   const introduction = plainTextToEditorValue(article.introduction || '');
   const content = learningResourceContentToEditorValue(article?.content ?? '');
   const creators = parseCopyrightContributors(article, 'creators');
@@ -81,7 +81,7 @@ export const getInitialValues = (
     status: article.status,
     supportedLanguages: article.supportedLanguages || [],
     tags: article.tags || [],
-    slatetitle,
+    title,
     updatePublished: false,
     updated: article.updated,
     grepCodes: article.grepCodes || [],
@@ -198,7 +198,7 @@ const LearningResourceForm = ({
         notes: values.notes || [],
         published: getPublishedDate(values, initialValues, preview) ?? '',
         tags: values.tags,
-        title: editorValueToPlainText(values.slatetitle),
+        title: editorValueToPlainText(values.title),
         grepCodes: values.grepCodes ?? [],
         conceptIds: values.conceptIds?.map(c => c.id) ?? [],
         availability: values.availability,

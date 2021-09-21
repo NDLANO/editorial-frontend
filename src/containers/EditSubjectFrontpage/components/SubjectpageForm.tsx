@@ -45,7 +45,7 @@ interface Props {
 }
 export interface SubjectFormValues
   extends Omit<SubjectpageType, 'description' | 'metaDescription'> {
-  visualElementObject: Descendant[];
+  visualElement: Descendant[];
   articleType: string;
   description?: Descendant[];
   metaDescription?: Descendant[];
@@ -65,10 +65,10 @@ const subjectpageRules: RulesType<SubjectFormValues> = {
     required: true,
     maxLength: 300,
   },
-  visualElementObject: {
+  visualElement: {
     required: true,
     test: (values: SubjectFormValues) => {
-      const element = values?.visualElementObject[0];
+      const element = values?.visualElement[0];
       const data = Element.isElement(element) && element.type === TYPE_EMBED && element.data;
       const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
       return badVisualElementId
@@ -98,7 +98,7 @@ const getInitialValues = (
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElementObject: embedToEditorValue(subjectpage.visualElementObject),
+    visualElement: embedToEditorValue(subjectpage.visualElement),
     editorsChoices: subjectpage.editorsChoices || [],
     facebook: subjectpage.facebook || '',
     filters: subjectpage.filters || [],
@@ -121,7 +121,7 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
     supportedLanguages: values.supportedLanguages,
     description: values.description ? editorValueToPlainText(values.description) : '',
     title: values.title,
-    visualElementObject: editorValueToEmbed(values.visualElementObject),
+    visualElement: editorValueToEmbed(values.visualElement),
     language: values.language,
     mobileBanner: values.mobileBanner,
     desktopBanner: values.desktopBanner,

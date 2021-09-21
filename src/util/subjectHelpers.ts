@@ -27,7 +27,7 @@ export const transformSubjectpageFromApiVersion = (
     name: subjectpage.name,
     description: subjectpage.about.description,
     title: subjectpage.about.title,
-    visualElementObject:
+    visualElement:
       subjectpage.about.visualElement?.type === 'image'
         ? {
             url: subjectpage.about.visualElement?.url,
@@ -58,15 +58,15 @@ export const transformSubjectpageToApiVersion = (
   editorsChoices: string[],
 ): NewSubjectFrontPageData | null => {
   const id =
-    subjectpage.visualElementObject?.resource === 'image'
-      ? subjectpage.visualElementObject?.resource_id
-      : subjectpage.visualElementObject?.videoid;
+    subjectpage.visualElement?.resource === 'image'
+      ? subjectpage.visualElement?.resource_id
+      : subjectpage.visualElement?.videoid;
 
   if (
     subjectpage.layout === undefined ||
     subjectpage.title === undefined ||
     subjectpage.description === undefined ||
-    subjectpage.visualElementObject?.resource === undefined ||
+    subjectpage.visualElement?.resource === undefined ||
     subjectpage.metaDescription === undefined ||
     id === undefined
   ) {
@@ -89,12 +89,12 @@ export const transformSubjectpageToApiVersion = (
         description: subjectpage.description,
         language: subjectpage.language,
         visualElement: {
-          type: subjectpage.visualElementObject?.resource,
+          type: subjectpage.visualElement?.resource,
           id: id,
           alt:
-            subjectpage.visualElementObject?.resource === 'image'
-              ? subjectpage.visualElementObject?.alt
-              : subjectpage.visualElementObject?.caption,
+            subjectpage.visualElement?.resource === 'image'
+              ? subjectpage.visualElement?.alt
+              : subjectpage.visualElement?.caption,
         },
       },
     ],

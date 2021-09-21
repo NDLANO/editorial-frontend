@@ -22,7 +22,7 @@ interface Props {
   type?: string;
 }
 
-const TitleField = ({ maxLength = 256, name = 'slatetitle', handleSubmit }: Props) => {
+const TitleField = ({ maxLength = 256, name = 'title', handleSubmit }: Props) => {
   const { t } = useTranslation();
   const handleSubmitRef = React.useRef(handleSubmit);
 

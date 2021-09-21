@@ -51,14 +51,7 @@ const TopicArticleAccordionPanels = ({
         id={'topic-article-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
-        hasError={
-          !!(
-            errors.slatetitle ||
-            errors.introduction ||
-            errors.content ||
-            errors.visualElementObject
-          )
-        }
+        hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
         startOpen>
         <TopicArticleContent
           userAccess={userAccess}

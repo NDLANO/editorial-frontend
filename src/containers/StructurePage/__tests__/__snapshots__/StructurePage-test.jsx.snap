@@ -27,7 +27,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border: none;
 }
 
-.emotion-167 {
+.emotion-239 {
   margin: 3px 6.5px 3px auto;
   font-size: 14;
   font-size: 0.7777777777777778rem;
@@ -206,19 +206,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #184673;
 }
 
-.emotion-11 {
+.emotion-15 {
   margin: 0;
   padding: 0;
 }
 
-.emotion-172 {
+.emotion-244 {
   -webkit-animation-duration: 200ms;
   animation-duration: 200ms;
   -webkit-animation-name: fadeInTop;
   animation-name: fadeInTop;
 }
 
-.emotion-13 {
+.emotion-17 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -230,11 +230,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-13 > div > button {
+.emotion-17 > div > button {
   color: rgb(32,88,143,0.5);
 }
 
-.emotion-9 {
+.emotion-13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -248,7 +248,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-9:hover {
+.emotion-13:hover {
   background: #f1f5f8;
 }
 
@@ -311,7 +311,30 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate(0deg);
 }
 
-.emotion-117 {
+.emotion-11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-9 {
+  font-weight: 600;
+  background-color: #e8e3e3;
+  color: #444;
+  padding: 4.333333333333333px 6.5px;
+  border-radius: 32px;
+  margin-left: 13px;
+  font-size: font-size:12;
+  font-size: 0.6666666666666666rem;
+  line-height: 1;
+}
+
+.emotion-161 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -332,7 +355,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-117:before {
+.emotion-161:before {
   content: '';
   display: block;
   width: 0;
@@ -343,7 +366,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-right: 6.5px;
 }
 
-.emotion-117:before {
+.emotion-161:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -352,7 +375,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate(90deg);
 }
 
-.emotion-123 {
+.emotion-175 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -366,11 +389,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-123:hover {
+.emotion-175:hover {
   background: #f1f5f8;
 }
 
-.emotion-121 {
+.emotion-169 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -391,7 +414,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-121:before {
+.emotion-169:before {
   content: '';
   display: block;
   width: 8px;
@@ -403,7 +426,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-left: 7px;
 }
 
-.emotion-121:before {
+.emotion-169:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -412,7 +435,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate(deg);
 }
 
-.emotion-151 {
+.emotion-219 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -426,11 +449,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-151:hover {
+.emotion-219:hover {
   background: #f1f5f8;
 }
 
-.emotion-175 {
+.emotion-247 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -442,7 +465,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-170 {
+.emotion-242 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -457,11 +480,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #ceddea;
 }
 
-.emotion-170:hover {
+.emotion-242:hover {
   background: #ceddea;
 }
 
-.emotion-163 {
+.emotion-231 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -469,11 +492,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   display: flex;
 }
 
-.emotion-163 > button {
+.emotion-231 > button {
   outline: none;
 }
 
-.emotion-159 {
+.emotion-227 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -495,18 +518,18 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin: 0 calc(13px / 2);
 }
 
-.emotion-159 > svg {
+.emotion-227 > svg {
   height: 20px;
   width: 20px;
 }
 
-.emotion-159:hover,
-.emotion-159:focus {
+.emotion-227:hover,
+.emotion-227:focus {
   background-color: #4d4d4d;
   color: #f8f8f8;
 }
 
-.emotion-168 {
+.emotion-240 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -536,53 +559,53 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   box-shadow: none;
 }
 
-.emotion-168:hover,
-.emotion-168:focus {
+.emotion-240:hover,
+.emotion-240:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-168[disabled] {
+.emotion-240[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-168:focus {
+.emotion-240:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-168:hover,
-.emotion-168:focus {
+.emotion-240:hover,
+.emotion-240:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-168:disabled {
+.emotion-240:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
-.emotion-168:hover,
-.emotion-168:focus {
+.emotion-240:hover,
+.emotion-240:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-168:disabled {
+.emotion-240:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
-.emotion-165 {
+.emotion-237 {
   display: grid;
   grid-auto-flow: column;
   grid-gap: 26px;
@@ -665,16 +688,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         id="plumbContainer"
       >
         <ul
-          class="emotion-11 emotion-12"
+          class="emotion-15 emotion-16"
         >
           <div
-            class="emotion-172"
+            class="emotion-244"
           >
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -718,17 +741,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -772,17 +806,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -826,17 +871,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -880,17 +936,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -934,17 +1001,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -988,17 +1066,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1042,17 +1131,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1096,17 +1196,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1150,17 +1261,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1204,17 +1326,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1258,17 +1391,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1303,7 +1447,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-117 emotion-8"
+                  class="emotion-161 emotion-8"
                   id="urn:subject:1"
                   type="button"
                 >
@@ -1312,22 +1456,33 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
-              </div>
-              <ul
-                class="emotion-11 emotion-12"
-              >
-                <div
-                  class="emotion-172"
                 >
-                  <li
-                    class="emotion-13 emotion-14"
+                  <div
+                    class="emotion-11 emotion-12"
                   >
                     <div
-                      class="emotion-123 emotion-10"
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ul
+                class="emotion-15 emotion-16"
+              >
+                <div
+                  class="emotion-244"
+                >
+                  <li
+                    class="emotion-17 emotion-18"
+                  >
+                    <div
+                      class="emotion-175 emotion-14"
                     >
                       <button
-                        class="emotion-121 emotion-8"
+                        class="emotion-169 emotion-8"
                         id="urn:subject:1/urn:topic:1:186401"
                         type="button"
                       >
@@ -1336,17 +1491,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       <div
                         class="c-folder__wrapper"
                         data-cy="folderWrapper"
-                      />
+                      >
+                        <div
+                          class="emotion-11 emotion-12"
+                        >
+                          <div
+                            class="emotion-9 emotion-10"
+                            type="explanationSubject"
+                          >
+                            Forklaringsfag
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <ul
-                      class="emotion-11 emotion-12"
+                      class="emotion-15 emotion-16"
                     />
                   </li>
                   <li
-                    class="emotion-13 emotion-14"
+                    class="emotion-17 emotion-18"
                   >
                     <div
-                      class="emotion-123 emotion-10"
+                      class="emotion-175 emotion-14"
                     >
                       <button
                         class="emotion-7 emotion-8"
@@ -1358,17 +1524,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       <div
                         class="c-folder__wrapper"
                         data-cy="folderWrapper"
-                      />
+                      >
+                        <div
+                          class="emotion-11 emotion-12"
+                        >
+                          <div
+                            class="emotion-9 emotion-10"
+                            type="explanationSubject"
+                          >
+                            Forklaringsfag
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <ul
-                      class="emotion-11 emotion-12"
+                      class="emotion-15 emotion-16"
                     />
                   </li>
                   <li
-                    class="emotion-13 emotion-14"
+                    class="emotion-17 emotion-18"
                   >
                     <div
-                      class="emotion-123 emotion-10"
+                      class="emotion-175 emotion-14"
                     >
                       <button
                         class="emotion-7 emotion-8"
@@ -1380,20 +1557,31 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       <div
                         class="c-folder__wrapper"
                         data-cy="folderWrapper"
-                      />
+                      >
+                        <div
+                          class="emotion-11 emotion-12"
+                        >
+                          <div
+                            class="emotion-9 emotion-10"
+                            type="explanationSubject"
+                          >
+                            Forklaringsfag
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <ul
-                      class="emotion-11 emotion-12"
+                      class="emotion-15 emotion-16"
                     />
                   </li>
                   <li
-                    class="emotion-13 emotion-14"
+                    class="emotion-17 emotion-18"
                   >
                     <div
-                      class="emotion-123 emotion-10"
+                      class="emotion-175 emotion-14"
                     >
                       <button
-                        class="emotion-117 emotion-8"
+                        class="emotion-161 emotion-8"
                         id="urn:subject:1/urn:topic:1:186479"
                         type="button"
                       >
@@ -1402,22 +1590,33 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       <div
                         class="c-folder__wrapper"
                         data-cy="folderWrapper"
-                      />
-                    </div>
-                    <ul
-                      class="emotion-11 emotion-12"
-                    >
-                      <div
-                        class="emotion-172"
                       >
-                        <li
-                          class="emotion-13 emotion-14"
+                        <div
+                          class="emotion-11 emotion-12"
                         >
                           <div
-                            class="emotion-151 emotion-10"
+                            class="emotion-9 emotion-10"
+                            type="explanationSubject"
+                          >
+                            Forklaringsfag
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <ul
+                      class="emotion-15 emotion-16"
+                    >
+                      <div
+                        class="emotion-244"
+                      >
+                        <li
+                          class="emotion-17 emotion-18"
+                        >
+                          <div
+                            class="emotion-219 emotion-14"
                           >
                             <button
-                              class="emotion-121 emotion-8"
+                              class="emotion-169 emotion-8"
                               id="urn:topic:1:186479/urn:topic:1:186487"
                               type="button"
                             >
@@ -1426,20 +1625,31 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             <div
                               class="c-folder__wrapper"
                               data-cy="folderWrapper"
-                            />
+                            >
+                              <div
+                                class="emotion-11 emotion-12"
+                              >
+                                <div
+                                  class="emotion-9 emotion-10"
+                                  type="explanationSubject"
+                                >
+                                  Forklaringsfag
+                                </div>
+                              </div>
+                            </div>
                           </div>
                           <ul
-                            class="emotion-11 emotion-12"
+                            class="emotion-15 emotion-16"
                           />
                         </li>
                         <li
-                          class="emotion-175 emotion-14"
+                          class="emotion-247 emotion-18"
                         >
                           <div
-                            class="emotion-170 emotion-10"
+                            class="emotion-242 emotion-14"
                           >
                             <button
-                              class="emotion-121 emotion-8"
+                              class="emotion-169 emotion-8"
                               id="urn:topic:1:186479/urn:topic:1:172650"
                               type="button"
                             >
@@ -1450,7 +1660,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                               data-cy="folderWrapper"
                             >
                               <div
-                                class="emotion-163 emotion-164"
+                                class="emotion-231 emotion-232"
                               >
                                 <button
                                   class="emotion-3 emotion-4"
@@ -1458,7 +1668,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                                   type="button"
                                 >
                                   <div
-                                    class="emotion-159 emotion-160"
+                                    class="emotion-227 emotion-228"
                                   >
                                     <svg
                                       class="c-icon"
@@ -1487,12 +1697,22 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                                   </div>
                                 </button>
                               </div>
+                              <div
+                                class="emotion-11 emotion-12"
+                              >
+                                <div
+                                  class="emotion-9 emotion-10"
+                                  type="explanationSubject"
+                                >
+                                  Forklaringsfag
+                                </div>
+                              </div>
                               <button
-                                class="emotion-167 emotion-168 emotion-4"
+                                class="emotion-239 emotion-240 emotion-4"
                                 type="button"
                               >
                                 <div
-                                  class="emotion-165 emotion-166"
+                                  class="emotion-237 emotion-238"
                                   spacing="normal"
                                 >
                                   Hopp til ressurser
@@ -1501,21 +1721,21 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             </div>
                           </div>
                           <ul
-                            class="emotion-11 emotion-12"
+                            class="emotion-15 emotion-16"
                           >
                             <div
-                              class="emotion-172"
+                              class="emotion-244"
                             />
                           </ul>
                         </li>
                         <li
-                          class="emotion-13 emotion-14"
+                          class="emotion-17 emotion-18"
                         >
                           <div
-                            class="emotion-151 emotion-10"
+                            class="emotion-219 emotion-14"
                           >
                             <button
-                              class="emotion-121 emotion-8"
+                              class="emotion-169 emotion-8"
                               id="urn:topic:1:186479/urn:topic:1:185606"
                               type="button"
                             >
@@ -1524,20 +1744,31 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             <div
                               class="c-folder__wrapper"
                               data-cy="folderWrapper"
-                            />
+                            >
+                              <div
+                                class="emotion-11 emotion-12"
+                              >
+                                <div
+                                  class="emotion-9 emotion-10"
+                                  type="explanationSubject"
+                                >
+                                  Forklaringsfag
+                                </div>
+                              </div>
+                            </div>
                           </div>
                           <ul
-                            class="emotion-11 emotion-12"
+                            class="emotion-15 emotion-16"
                           />
                         </li>
                       </div>
                     </ul>
                   </li>
                   <li
-                    class="emotion-13 emotion-14"
+                    class="emotion-17 emotion-18"
                   >
                     <div
-                      class="emotion-123 emotion-10"
+                      class="emotion-175 emotion-14"
                     >
                       <button
                         class="emotion-7 emotion-8"
@@ -1549,17 +1780,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       <div
                         class="c-folder__wrapper"
                         data-cy="folderWrapper"
-                      />
+                      >
+                        <div
+                          class="emotion-11 emotion-12"
+                        >
+                          <div
+                            class="emotion-9 emotion-10"
+                            type="explanationSubject"
+                          >
+                            Forklaringsfag
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <ul
-                      class="emotion-11 emotion-12"
+                      class="emotion-15 emotion-16"
                     />
                   </li>
                   <li
-                    class="emotion-13 emotion-14"
+                    class="emotion-17 emotion-18"
                   >
                     <div
-                      class="emotion-123 emotion-10"
+                      class="emotion-175 emotion-14"
                     >
                       <button
                         class="emotion-7 emotion-8"
@@ -1571,17 +1813,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       <div
                         class="c-folder__wrapper"
                         data-cy="folderWrapper"
-                      />
+                      >
+                        <div
+                          class="emotion-11 emotion-12"
+                        >
+                          <div
+                            class="emotion-9 emotion-10"
+                            type="explanationSubject"
+                          >
+                            Forklaringsfag
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <ul
-                      class="emotion-11 emotion-12"
+                      class="emotion-15 emotion-16"
                     />
                   </li>
                   <li
-                    class="emotion-13 emotion-14"
+                    class="emotion-17 emotion-18"
                   >
                     <div
-                      class="emotion-123 emotion-10"
+                      class="emotion-175 emotion-14"
                     >
                       <button
                         class="emotion-7 emotion-8"
@@ -1593,17 +1846,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       <div
                         class="c-folder__wrapper"
                         data-cy="folderWrapper"
-                      />
+                      >
+                        <div
+                          class="emotion-11 emotion-12"
+                        >
+                          <div
+                            class="emotion-9 emotion-10"
+                            type="explanationSubject"
+                          >
+                            Forklaringsfag
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <ul
-                      class="emotion-11 emotion-12"
+                      class="emotion-15 emotion-16"
                     />
                   </li>
                   <li
-                    class="emotion-13 emotion-14"
+                    class="emotion-17 emotion-18"
                   >
                     <div
-                      class="emotion-123 emotion-10"
+                      class="emotion-175 emotion-14"
                     >
                       <button
                         class="emotion-7 emotion-8"
@@ -1615,20 +1879,31 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                       <div
                         class="c-folder__wrapper"
                         data-cy="folderWrapper"
-                      />
+                      >
+                        <div
+                          class="emotion-11 emotion-12"
+                        >
+                          <div
+                            class="emotion-9 emotion-10"
+                            type="explanationSubject"
+                          >
+                            Forklaringsfag
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <ul
-                      class="emotion-11 emotion-12"
+                      class="emotion-15 emotion-16"
                     />
                   </li>
                 </div>
               </ul>
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1672,17 +1947,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1726,17 +2012,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1780,17 +2077,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1834,17 +2142,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1888,17 +2207,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1942,17 +2272,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
             <li
-              class="emotion-13 emotion-14"
+              class="emotion-17 emotion-18"
             >
               <div
-                class="emotion-9 emotion-10"
+                class="emotion-13 emotion-14"
               >
                 <button
                   class="emotion-5 emotion-6"
@@ -1996,10 +2337,21 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                 <div
                   class="c-folder__wrapper"
                   data-cy="folderWrapper"
-                />
+                >
+                  <div
+                    class="emotion-11 emotion-12"
+                  >
+                    <div
+                      class="emotion-9 emotion-10"
+                      type="explanationSubject"
+                    >
+                      Forklaringsfag
+                    </div>
+                  </div>
+                </div>
               </div>
               <ul
-                class="emotion-11 emotion-12"
+                class="emotion-15 emotion-16"
               />
             </li>
           </div>

@@ -8,11 +8,10 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
+import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@ndla/switch';
 import { FieldHeader } from '@ndla/forms';
-import { AlertCircle } from '@ndla/icons/editor';
 import { TaxonomyElement } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 type StyledIdProps = {
@@ -23,12 +22,6 @@ const TaxonomyInfoDiv = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-`;
-
-const StyledWarnIcon = styled(AlertCircle)`
-  height: ${spacing.nsmall};
-  width: ${spacing.nsmall};
-  fill: ${colors.support.red};
 `;
 
 const StyledId = styled.span`

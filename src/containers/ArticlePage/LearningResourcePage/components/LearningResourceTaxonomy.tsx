@@ -21,7 +21,6 @@ import {
   fetchFullResource,
   createResource,
   getResourceId,
-  queryTopics,
   queryResources,
 } from '../../../../modules/taxonomy';
 import { sortByName, groupTopics, getBreadcrumbFromPath } from '../../../../util/taxonomyHelpers';
@@ -44,7 +43,6 @@ import {
   SubjectType,
   SubjectTopic,
   ParentTopicWithRelevanceAndConnections,
-  Resource,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
@@ -83,12 +81,10 @@ interface State {
   status: string;
   isDirty: boolean;
 
-  topics: Topic[];
-  resources: Resource[];
-
   resourceTaxonomy: {
     resourceTypes: ResourceResourceType[];
     topics: ParentTopicWithRelevanceAndConnections[];
+    id?: string;
     name?: string;
     metadata?: TaxonomyMetadata;
   };
@@ -110,9 +106,6 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     this.state = {
       resourceId: '',
       structure: [],
-
-      topics: [],
-      resources: [],
 
       status: 'loading',
       isDirty: false,
@@ -220,7 +213,6 @@ class LearningResourceTaxonomy extends Component<Props, State> {
 
     try {
       const resources = await queryResources(id.toString(), language);
-      const topics = await queryTopics(id.toString(), language);
 
       const resourceId = resources.length === 1 ? resources[0].id : null;
 
@@ -231,8 +223,6 @@ class LearningResourceTaxonomy extends Component<Props, State> {
 
         this.setState({
           resourceId,
-          topics,
-          resources,
           status: 'initial',
           resourceTaxonomy: fullResource,
           taxonomyChanges: fullResource,
@@ -241,8 +231,6 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         // resource does not exist in taxonomy
         this.setState(() => ({
           status: 'initial',
-          topics,
-          resources,
           resourceTaxonomy: {
             ...emptyTaxonomy,
           },
@@ -468,7 +456,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       );
     }
 
-    const mainResource = this.state.resources?.[0];
+    const mainResource = this.props.article.taxonomy?.resources?.[0];
     const mainEntity = mainResource && {
       id: mainResource.id,
       name: mainResource.name,

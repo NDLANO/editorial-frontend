@@ -6,8 +6,8 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
-import { spacing, fonts, colors } from '@ndla/core';
+import React, { useState } from 'react';
+import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { withRouter, RouteComponentProps } from 'react-router-dom';

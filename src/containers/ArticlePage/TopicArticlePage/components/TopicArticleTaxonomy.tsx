@@ -14,7 +14,6 @@ import Field from '../../../../components/Field';
 import {
   fetchSubjects,
   fetchSubjectTopics,
-  queryTopics,
   fetchTopicConnections,
   addTopicToTopic,
   addSubjectTopic,
@@ -41,7 +40,7 @@ import {
   TopicConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
-import TaxonomyConnectionErrors from 'containers/ArticlePage/components/TaxonomyConnectionErrors';
+import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 
 type Props = {
   articleId: number;
@@ -116,7 +115,6 @@ class TopicArticleTaxonomy extends Component<Props, State> {
 
   fetchTaxonomy = async () => {
     const {
-      articleId,
       article: { language },
     } = this.props;
     if (!language) return;

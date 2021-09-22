@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_YEAR } from '../../../../constants';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_GRADE } from '../../../../constants';
 import TaxonomyMetadataDropdown from './TaxonomyMetadataDropdown';
 
 interface Props {
@@ -16,20 +16,20 @@ interface Props {
   updateCustomFields: (newFields: Record<string, string>) => void;
 }
 
-const SubjectYearSelector = ({ customFields, updateCustomFields }: Props) => {
+const SubjectGradeSelector = ({ customFields, updateCustomFields }: Props) => {
   const { t } = useTranslation();
-  const years = [1, 2, 3];
-  const options = years.map(y => ({
-    key: `${y}`,
-    value: `${t('taxonomy.metadata.schoolYearPrefix')}${y}`,
+  const grades = [1, 2, 3];
+  const options = grades.map(grade => ({
+    key: `${grade}`,
+    value: `${t('taxonomy.metadata.gradePrefix')}${grade}`,
   }));
   const messages = {
-    selected: t('taxonomy.metadata.placeholders.year'),
-    title: t('taxonomy.metadata.customFields.level'),
+    selected: t('taxonomy.metadata.placeholders.grade'),
+    title: t('taxonomy.metadata.customFields.grade'),
   };
   return (
     <TaxonomyMetadataDropdown
-      field={TAXONOMY_CUSTOM_FIELD_SUBJECT_YEAR}
+      field={TAXONOMY_CUSTOM_FIELD_SUBJECT_GRADE}
       options={options}
       customFields={customFields}
       updateCustomFields={updateCustomFields}
@@ -38,4 +38,4 @@ const SubjectYearSelector = ({ customFields, updateCustomFields }: Props) => {
   );
 };
 
-export default SubjectYearSelector;
+export default SubjectGradeSelector;

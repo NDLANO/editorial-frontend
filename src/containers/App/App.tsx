@@ -15,7 +15,6 @@ import { connect, ConnectedProps } from 'react-redux';
 import Helmet from 'react-helmet';
 import loadable from '@loadable/component';
 import { Content, PageContainer } from '@ndla/ui';
-import { configureTracker } from '@ndla/tracker';
 import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import Navigation from '../Masthead/components/Navigation';
@@ -27,7 +26,6 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import Zendesk from './Zendesk';
 import { LocaleType, ReduxState } from '../../interfaces';
 import { LOCALE_VALUES } from '../../constants';
-import config from '../../config';
 const Login = loadable(() => import('../Login/Login'));
 const Logout = loadable(() => import('../Logout/Logout'));
 const PrivateRoute = loadable(() => import('../PrivateRoute/PrivateRoute'));
@@ -55,9 +53,7 @@ interface InternalState {
   firstLoad: boolean;
 }
 
-interface Props {
-  isClient?: boolean;
-}
+interface Props {}
 
 const mapStateToProps = (state: ReduxState) => ({
   locale: getLocale(state),
@@ -75,13 +71,6 @@ type ActualProps = Props & RouteComponentProps & PropsFromRedux & WithTranslatio
 class App extends React.Component<ActualProps, InternalState> {
   constructor(props: ActualProps) {
     super(props);
-    if (props.isClient) {
-      configureTracker({
-        listen: props.history.listen,
-        gaTrackingId: config.gaTrackingId,
-        googleTagManagerId: config.googleTagManagerId,
-      });
-    }
     this.state = {
       firstLoad: true,
     };

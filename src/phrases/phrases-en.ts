@@ -1233,10 +1233,13 @@ const phrases = {
         subjectCategory: 'Subject category',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
+        level: 'School year',
       },
+      schoolYearPrefix: 'Year ',
       placeholders: {
         category: 'Choose category',
         language: 'Choose language',
+        year: 'Choose year',
       },
     },
   },

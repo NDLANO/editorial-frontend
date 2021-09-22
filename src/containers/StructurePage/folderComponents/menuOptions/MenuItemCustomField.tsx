@@ -22,6 +22,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_YEAR,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
 } from '../../../../constants';
 import { filterWrapper } from '../styles';
@@ -31,6 +32,7 @@ import ToggleExplanationSubject from './ToggleExplanationSubject';
 import TaxonomyMetadataLanguageSelector from './TaxonomyMetadataLanguageSelector';
 import ConstantMetaField from './ConstantMetaField';
 import SubjectCategorySelector from './SubjectCategorySelector';
+import SubjectYearSelector from './SubjectYearSelector';
 
 interface Props extends TaxonomyElement {
   subjectId: string;
@@ -73,6 +75,7 @@ const MenuItemCustomField = ({
     TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_YEAR,
   ];
   const [filteredTopicFields] = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
 
@@ -82,6 +85,7 @@ const MenuItemCustomField = ({
       return !fieldsToFilter.includes(taxonomyMetadataField);
     });
   };
+  console.log(metadata.customFields);
 
   return (
     <div>
@@ -92,6 +96,10 @@ const MenuItemCustomField = ({
             updateCustomFields={setCustomFields}
           />
           <SubjectCategorySelector
+            customFields={metadata.customFields}
+            updateCustomFields={setCustomFields}
+          />
+          <SubjectYearSelector
             customFields={metadata.customFields}
             updateCustomFields={setCustomFields}
           />

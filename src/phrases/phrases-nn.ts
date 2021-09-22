@@ -1255,10 +1255,13 @@ const phrases = {
         subjectCategory: 'Fagkategori',
         resourceGroupPlaceholder: 'Gruppering av ressursar',
         RGTooltip: 'Vis ressursar Gruppert eller Ugruppert',
+        level: 'Skoleår',
       },
+      schoolYearPrefix: 'Vg',
       placeholders: {
         category: 'Velg kategori',
         language: 'Velg språkkode',
+        year: 'Velg år',
       },
     },
   },

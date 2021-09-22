@@ -1251,10 +1251,13 @@ const phrases = {
         subjectCategory: 'Fagkategori',
         resourceGroupPlaceholder: 'Gruppering av ressurser',
         RGTooltip: 'Vis ressurser Gruppert eller Ugruppert',
+        level: 'Skoleår',
       },
+      schoolYearPrefix: 'Vg',
       placeholders: {
         category: 'Velg kategori',
         language: 'Velg språkkode',
+        year: 'Velg år',
       },
     },
   },

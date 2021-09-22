@@ -25,6 +25,7 @@ import {
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import Spinner from '../../../components/Spinner';
 import { Row } from '../../../components';
+import ItemMetaData from './ItemMetadata';
 
 export const classes = new BEMHelper({
   name: 'folder',
@@ -108,6 +109,7 @@ const FolderItem = ({
           structure={structure}
         />
       )}
+      <ItemMetaData metadata={metadata} showMetadata={['explanationSubject', 'expired']} />
       {showJumpToResources && (
         <Button
           outline

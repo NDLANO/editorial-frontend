@@ -53,7 +53,7 @@ const ItemMetaData = ({ metadata, showMetadata }: Props) => {
       case 'explanationSubject':
         return !metadata?.visible;
       default:
-        return undefined;
+        return false;
     }
   };
 

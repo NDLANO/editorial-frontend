@@ -1256,7 +1256,6 @@ const phrases = {
         resourceGroupPlaceholder: 'Gruppering av ressursar',
         RGTooltip: 'Vis ressursar Gruppert eller Ugruppert',
       },
-      expired: 'Utgått',
       placeholders: {
         category: 'Velg kategori',
         language: 'Velg språkkode',

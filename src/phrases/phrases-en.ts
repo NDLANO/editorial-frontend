@@ -1234,7 +1234,6 @@ const phrases = {
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
       },
-      expired: 'Expired',
       placeholders: {
         category: 'Choose category',
         language: 'Choose language',

@@ -6,8 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
-import { spacing, fonts } from '@ndla/core';
+import React, { useEffect, useState } from 'react';
+import { spacing, fonts, colors } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -56,7 +56,7 @@ interface BaseProps {
     saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
   ) => void;
   saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  parent: string;
+  parent?: string;
 }
 
 type Props = BaseProps & RouteComponentProps;
@@ -88,7 +88,7 @@ const FolderItem = ({
 
   return (
     <div data-cy="folderWrapper" {...classes('wrapper')}>
-      {isMainActive && (
+      {isMainActive && parent && (
         <SettingsMenu
           id={id}
           name={name}

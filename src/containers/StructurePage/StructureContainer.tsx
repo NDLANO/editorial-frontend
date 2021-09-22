@@ -9,17 +9,17 @@
 
 import React, { useContext, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Taxonomy } from '@ndla/icons/editor';
-//@ts-ignore
+import { AlertCircle, Taxonomy } from '@ndla/icons/editor';
 import { Structure } from '@ndla/editor';
+import Tooltip from '@ndla/tooltip';
 import { Switch } from '@ndla/switch';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { useEffect } from 'react';
 import { useLayoutEffect } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
+import styled from '@emotion/styled';
 import handleError from '../../util/handleError';
 import StructureResources from './resourceComponents/StructureResources';
 import FolderItem from './folderComponents/FolderItem';
@@ -35,7 +35,7 @@ import {
   updateSubjectTopic,
 } from '../../modules/taxonomy';
 import { groupTopics, getCurrentTopic, getSubtopics } from '../../util/taxonomyHelpers';
-import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
+import { fetchDraft, fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
 import { ButtonAppearance } from '../../components/Accordion/types';
@@ -46,6 +46,50 @@ import {
   TaxonomyMetadata,
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleContext, UserAccessContext } from '../App/App';
+
+const StyledWarnIcon = styled(AlertCircle)`
+  height: ${spacing.nsmall};
+  width: ${spacing.nsmall};
+  fill: ${colors.support.red};
+`;
+
+const ErrorComponent = ({ contentUri, isSubject }: { contentUri?: string; isSubject: boolean }) => {
+  const { t } = useTranslation();
+  const wrongTooltip = t('taxonomy.info.wrongArticleType', {
+    placedAs: t(`articleType.topic-article`),
+    isType: t(`articleType.standard`),
+  });
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let shouldUpdateState = true;
+
+    const fetchAndSetError = async (contentUri: string) => {
+      const articleId = contentUri.split(':').pop();
+      if (articleId) {
+        const fetched = await fetchDraft(Number(articleId));
+        if (fetched.articleType !== 'topic-article') {
+          if (shouldUpdateState) setError(true);
+        }
+      }
+    };
+
+    if (isSubject || !contentUri) return;
+
+    fetchAndSetError(contentUri);
+    return () => {
+      shouldUpdateState = false;
+    };
+  }, [isSubject, contentUri]);
+
+  if (!error) return null;
+
+  return (
+    <Tooltip tooltip={wrongTooltip}>
+      <StyledWarnIcon title={wrongTooltip} />
+    </Tooltip>
+  );
+};
 
 interface Props extends RouteComponentProps<StructureRouteParams> {}
 
@@ -172,7 +216,8 @@ export const StructureContainer = ({ match, location, history }: Props) => {
     setEditStructureHidden(!editStructureHidden);
   };
 
-  const handleStructureToggle = ({ path }: { path: string }) => {
+  const handleStructureToggle = (input: { path: string }) => {
+    const { path } = input;
     const { url, params } = match;
     const { search } = location;
     const currentPath = url.replace('/structure/', '');
@@ -278,6 +323,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
               highlightMainActive
               toggleFavorite={toggleFavorite}
               favoriteSubjectIds={favoriteSubjects}
+              renderBeforeTitles={ErrorComponent}
               renderListItems={({
                 pathToString,
                 parent,

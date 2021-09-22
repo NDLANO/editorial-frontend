@@ -13,7 +13,7 @@ import { colors, spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
-import { Resource, TaxonomyElement, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: ${spacing.nsmall};

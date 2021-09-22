@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
 // @ts-ignore
+import { constants } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { colors, fonts, spacing } from '@ndla/core';
 import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
-export type ShowMetadataOptions = 'expired' | 'explanationSubject';
+export type ShowMetadataOptions = 'archive' | 'explanationSubject';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -19,16 +20,16 @@ interface Props {
 
 const translationPaths: Record<ShowMetadataOptions, string> = {
   explanationSubject: 'taxonomy.metadata.customFields.explanationSubject',
-  expired: 'taxonomy.metadata.expired',
+  archive: 'subjectCategories.archive',
 };
 
 const tagColors = {
   background: {
-    expired: colors.brand.greyLight,
+    archive: colors.brand.greyLight,
     explanationSubject: colors.brand.greyLight,
   },
   text: {
-    expired: colors.support.red,
+    archive: colors.support.red,
     explanationSubject: colors.text.primary,
   },
 };
@@ -39,19 +40,21 @@ const StyledTag = styled.div<{ type: ShowMetadataOptions }>`
   color: ${props => tagColors.text[props.type]};
   padding: ${spacing.xxsmall} ${spacing.xsmall};
   border-radius: 32px;
-  margin-left: ${spacing.small};
+  margin-left: ${spacing.xsmall};
   font-size: ${fonts.sizes(12, 1)};
 `;
 
 const ItemMetaData = ({ metadata, showMetadata }: Props) => {
   const { t } = useTranslation();
 
+  const { subjectCategories } = constants;
+
   const shouldShowMetadata = (type: ShowMetadataOptions) => {
     switch (type) {
-      case 'expired':
-        return !!metadata?.customFields?.forklaringsfag;
+      case 'archive':
+        return metadata?.customFields?.subjectCategory === subjectCategories.ARCHIVE_SUBJECTS;
       case 'explanationSubject':
-        return !metadata?.visible;
+        return metadata?.customFields?.forklaringsfag === 'true';
       default:
         return false;
     }

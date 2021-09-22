@@ -109,7 +109,7 @@ const FolderItem = ({
           structure={structure}
         />
       )}
-      <ItemMetaData metadata={metadata} showMetadata={['explanationSubject', 'expired']} />
+      <ItemMetaData metadata={metadata} showMetadata={['explanationSubject', 'archive']} />
       {showJumpToResources && (
         <Button
           outline

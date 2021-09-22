@@ -85,7 +85,6 @@ const MenuItemCustomField = ({
       return !fieldsToFilter.includes(taxonomyMetadataField);
     });
   };
-  console.log(metadata.customFields);
 
   return (
     <div>

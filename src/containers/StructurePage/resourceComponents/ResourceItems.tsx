@@ -139,7 +139,6 @@ const ResourceItems = ({
             onDelete={toggleDelete}
             locale={locale}
             updateRelevanceId={updateRelevanceId}
-            isWrongType={resource.articleType === 'topic-article'}
           />
         ))}
       </MakeDndList>

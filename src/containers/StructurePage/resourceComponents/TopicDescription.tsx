@@ -19,6 +19,7 @@ interface Props {
   resourceRef: React.RefObject<HTMLDivElement>;
   grepCodes: string[];
   onUpdateResource: (updatedResource: TopicResource) => void;
+  topicArticleType?: string;
 }
 
 const TopicDescription = ({
@@ -30,6 +31,7 @@ const TopicDescription = ({
   resourceRef,
   grepCodes,
   onUpdateResource,
+  topicArticleType,
 }: Props) => {
   const { t } = useTranslation();
   const [displayTopicDescription, setDisplayTopicDescription] = useState(true);
@@ -56,6 +58,7 @@ const TopicDescription = ({
               updateResource={onUpdateResource}
               resource={{
                 ...currentTopic,
+                articleType: topicArticleType,
                 name: topicDescription,
                 status,
                 topicId: currentTopic.id,

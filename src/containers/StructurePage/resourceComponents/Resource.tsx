@@ -61,7 +61,6 @@ interface Props {
   ) => Promise<void>;
   primary?: boolean;
   rank?: number;
-  isWrongType?: boolean;
 }
 const grepButtonStyle = css`
   margin-left: ${spacing.xsmall};
@@ -98,6 +97,12 @@ const StyledLink = styled(SafeLink)`
   box-shadow: inset 0 0;
 `;
 
+const getArticleTypeFromId = (id?: string) => {
+  if (id?.startsWith('urn:topic:')) return 'topic-article';
+  else if (id?.startsWith('urn:resource:')) return 'standard';
+  return undefined;
+};
+
 const Resource = ({
   resource,
   onDelete,
@@ -109,7 +114,6 @@ const Resource = ({
   primary,
   rank,
   updateResource,
-  isWrongType,
 }: Props) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -152,11 +156,15 @@ const Resource = ({
     );
 
   const WrongTypeError = () => {
-    if (!isWrongType) return null;
+    const isArticle = resource.contentUri?.startsWith('urn:article');
+    if (!isArticle) return null;
+
+    const expectedArticleType = getArticleTypeFromId(resource.id);
+    if (expectedArticleType === resource.articleType) return null;
 
     const errorText = t('taxonomy.info.wrongArticleType', {
-      placedAs: t('articleType.standard'),
-      isType: t('articleType.topic-article'),
+      placedAs: t(`articleType.${expectedArticleType}`),
+      isType: t(`articleType.${resource.articleType}`),
     });
 
     return (

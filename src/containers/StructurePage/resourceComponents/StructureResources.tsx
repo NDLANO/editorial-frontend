@@ -75,6 +75,7 @@ const StructureResources = ({
   const [topicResources, setTopicResources] = useState<TopicResource[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [topicStatus, setTopicStatus] = useState<DraftStatus | undefined>(undefined);
+  const [topicArticleType, setTopicArticleType] = useState<string | undefined>(undefined);
   const [topicGrepCodes, setTopicGrepCodes] = useState<string[]>([]);
   const prevCurrentTopic = useRef<SubjectTopic | null>(null);
 
@@ -146,6 +147,7 @@ const StructureResources = ({
             locale,
           );
           setTopicStatus(article.status);
+          setTopicArticleType(article.articleType);
           setTopicGrepCodes(article.grepCodes);
         }
         const modifiedResources = await getResourceStatusesAndGrepCodes(allTopicResources);
@@ -220,6 +222,7 @@ const StructureResources = ({
         currentTopic={currentTopic}
         status={topicStatus}
         grepCodes={topicGrepCodes}
+        topicArticleType={topicArticleType}
       />
       {grouped === 'ungrouped' && (
         <AllResourcesGroup

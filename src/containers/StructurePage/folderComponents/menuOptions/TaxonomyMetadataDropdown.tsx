@@ -25,6 +25,7 @@ interface Props {
   customFields: Record<string, string>;
   updateCustomFields: (newFields: Record<string, string>) => void;
   messages: Record<string, string>;
+  pills?: React.ReactNode;
 }
 
 const StyledSelect = styled('select')`
@@ -38,12 +39,14 @@ const TaxonomyMetadataDropdown = ({
   customFields,
   updateCustomFields,
   messages,
+  pills,
 }: Props) => {
   const selectedValue = customFields[field];
   return (
     <StyledMenuItemEditField>
       <RoundIcon open small />
       <StyledMenuItemInputField placeholder={messages['title']} disabled />
+      {pills}
       <StyledSelect
         {...searchClasses('filters-select')}
         onChange={e => {

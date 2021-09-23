@@ -49,7 +49,7 @@ interface Props {
     saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
   ) => void;
   saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  parent: string;
+  parent?: string;
   structure: PathArray;
 }
 

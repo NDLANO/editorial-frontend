@@ -38,7 +38,7 @@ interface State {
 interface BaseProps {
   editMode: string;
   toggleEditMode: (mode: EditMode) => void;
-  parent: string;
+  parent?: string;
   id: string;
   refreshTopics: () => Promise<void>;
   locale: string;
@@ -63,7 +63,7 @@ class DeleteTopic extends PureComponent<Props, State> {
     const { parent, toggleEditMode, refreshTopics, t, id, locale } = this.props;
     toggleEditMode('deleteTopic');
     this.setState({ loading: true, error: '' });
-    const subTopic = parent.includes('topic');
+    const subTopic = parent?.includes('topic');
     const [{ connectionId }] = await fetchTopicConnections(id);
     try {
       if (subTopic) {

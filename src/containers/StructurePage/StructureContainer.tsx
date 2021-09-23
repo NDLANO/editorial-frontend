@@ -284,6 +284,8 @@ export const StructureContainer = ({ match, location, history }: Props) => {
     setShowFavorites(!showFavorites);
   };
 
+  const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE) ?? false;
+
   return (
     <ErrorBoundary>
       <OneColumn>
@@ -297,8 +299,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
           }
           appearance={ButtonAppearance.TAXONOMY}
           addButton={
-            userAccess &&
-            userAccess.includes(TAXONOMY_ADMIN_SCOPE) && (
+            isTaxonomyAdmin && (
               <InlineAddButton title={t('taxonomy.addSubject')} action={addSubject} />
             )
           }
@@ -323,7 +324,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
               highlightMainActive
               toggleFavorite={toggleFavorite}
               favoriteSubjectIds={favoriteSubjects}
-              renderBeforeTitles={ErrorComponent}
+              renderBeforeTitles={isTaxonomyAdmin ? ErrorComponent : undefined}
               renderListItems={({
                 pathToString,
                 parent,

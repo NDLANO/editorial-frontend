@@ -93,6 +93,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     height: '398px',
   },
   { name: 'ebok', url: ['ebok.no'] },
+  { name: 'trinket', url: ['trinket.io'], height: '700px' },
 ];
 
 export const SearchTypeValues = [

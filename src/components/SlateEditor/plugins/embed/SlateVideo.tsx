@@ -164,7 +164,7 @@ const SlateVideo = ({
                     margin: 0;
                   }
                 `}>
-                {parseMarkdown(tEmbed.caption)}
+                {parseMarkdown(caption)}
               </div>
             </figcaption>
           </Button>

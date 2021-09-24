@@ -1097,6 +1097,8 @@ const phrases = {
     minItems: '{{label}} must have at least one {{labelLowerCase}}.',
     minItems_plural: '{{label}} must have at least {{count}} unique {{labelLowerCase}}.',
     noEmptyNote: 'A note cannot be empty',
+    maxSizeExceeded:
+      'The file you are trying to upload is too large. Max size: {{maxSize}}. File size: {{fileSize}}.',
     grepCodes:
       'The code format is wrong. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
     podcastImageShape: 'A meta image must have equal height and width.',

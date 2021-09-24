@@ -31,6 +31,7 @@ import {
 import { Author, Copyright } from '../../../interfaces';
 import ImageVersionNotes from './ImageVersionNotes';
 import Spinner from '../../../components/Spinner';
+import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 
 const imageRules: RulesType<ImageFormikType> = {
   title: {
@@ -56,6 +57,9 @@ const imageRules: RulesType<ImageFormikType> = {
   },
   imageFile: {
     required: true,
+  },
+  'imageFile.size': {
+    maxSize: MAX_IMAGE_UPLOAD_SIZE,
   },
   license: {
     required: true,

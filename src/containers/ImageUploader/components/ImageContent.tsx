@@ -79,6 +79,9 @@ const ImageContent = ({ formik }: Props) => {
         </StyledDeleteButtonContainer>
       )}
       {values.imageFile && <StyledImage src={values.filepath || values.imageFile} alt="" />}
+      <FormikField name="imageFile.size" showError={true}>
+        {_ => <></>}
+      </FormikField>
       <FormikField name="caption" showError={false}>
         {({ field }: FieldProps) => (
           <Input

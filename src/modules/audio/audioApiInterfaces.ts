@@ -99,7 +99,7 @@ export interface AudioSearchResultType {
   title: { title: string; language: string };
   audioType: AudioType;
   url: string;
-  supportedLanguages?: string[];
+  supportedLanguages: string[];
   license: string;
   podcastMeta?: PodcastMeta;
   series?: {

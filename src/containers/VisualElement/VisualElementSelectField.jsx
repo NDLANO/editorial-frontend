@@ -33,6 +33,11 @@ const VisualElementSelectField = ({
 }) => {
   const formikContext = useFormikContext();
 
+  const { values } = formikContext;
+
+  const showMetaImageCheckbox =
+    values.metaImageAlt !== undefined && values.metaImageId !== undefined;
+
   const onImageLightboxClose = () => {
     resetSelectedResource();
   };
@@ -60,7 +65,7 @@ const VisualElementSelectField = ({
           videoTypes={videoTypes}
           articleLanguage={articleLanguage}
           setH5pFetchFail={setH5pFetchFail}
-          showMetaImageCheckbox={true}
+          showMetaImageCheckbox={showMetaImageCheckbox}
           onSaveAsMetaImage={image => onSaveAsMetaImage(image, formikContext)}
         />
       )}

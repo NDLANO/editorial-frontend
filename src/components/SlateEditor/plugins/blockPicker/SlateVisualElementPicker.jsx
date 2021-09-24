@@ -19,6 +19,11 @@ const SlateVisualElementPicker = ({
   const showMetaImageCheckbox =
     values.metaImageAlt !== undefined && values.metaImageId !== undefined;
 
+  const { values } = formikContext;
+
+  const showMetaImageCheckbox =
+    values.metaImageAlt !== undefined && values.metaImageId !== undefined;
+
   const onVisualElementAdd = (visualElement, type = 'embed') => {
     if (type === 'embed') {
       const blockToInsert = defaultEmbedBlock(visualElement);

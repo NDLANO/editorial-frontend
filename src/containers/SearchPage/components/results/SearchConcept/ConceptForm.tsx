@@ -141,14 +141,12 @@ const ConceptForm = ({
       <InputField>
         <label htmlFor="subjects">{t('searchForm.tagType.subjects')}</label>
         <MultiSelectDropdown
-          id="subjects"
           name="subjects"
           labelField="name"
           value={values.subjects}
           onChange={handleChange}
           minSearchLength={1}
-          data={allSubjects}
-          onBlur={handleBlur}
+          initialData={allSubjects}
         />
         {errors.subjects ? (
           <StyledHelpMessage>

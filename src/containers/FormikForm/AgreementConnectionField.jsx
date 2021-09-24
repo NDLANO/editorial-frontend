@@ -14,14 +14,13 @@ import { connect } from 'formik';
 import { FieldHeader, FieldSection } from '@ndla/forms';
 import * as draftApi from '../../modules/draft/draftApi';
 import { toEditAgreement } from '../../util/routeHelpers';
-import { AsyncDropdown } from '../../components/Dropdown';
+import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import HowToHelper from '../../components/HowTo/HowToHelper';
 import FormikField from '../../components/FormikField';
 
 class AgreementConnectionField extends Component {
   static async searchAgreements(query) {
-    const response = await draftApi.fetchAgreements(query);
-    return response.results;
+    return await draftApi.fetchAgreements(query);
   }
 
   constructor(props) {

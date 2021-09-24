@@ -113,10 +113,9 @@ const Resource = ({
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
-  const paths = [resource.path, ...resource.paths];
   const structurePaths = window.location.pathname.replace('/structure', '').split('/');
   const currentPath = structurePaths.map(p => p.replace('urn:', '')).join('/');
-  const path = paths.find(p => {
+  const path = resource.paths.find(p => {
     const pArr = p.split('/');
     const isResource = pArr[pArr.length - 1].startsWith('resource');
     const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join('/');

@@ -55,7 +55,7 @@ export const getArticleFromArticleConverter = (
 
 export const getPreviewArticle = async (article: number, locale: string) => {
   const response = await fetchAuthorized(
-    `${articleConverterUrl}/json/${locale}/transform-article?draftConcept=true&previewH5p=true`,
+    `${articleConverterUrl}/json/${locale}/transform-article?draftConcept=true&previewH5p=true&showVisualElement=true`,
     {
       headers: {
         'Content-Type': 'application/json',

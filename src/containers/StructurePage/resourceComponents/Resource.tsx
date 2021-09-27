@@ -115,7 +115,7 @@ const Resource = ({
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
-  const structurePaths = history.location.pathname.replace('/structure', '').split('/');
+  const structurePaths: string[] = history.location.pathname.replace('/structure', '').split('/');
   const currentPath = structurePaths.map(p => p.replace('urn:', '')).join('/');
   const path = resource.paths.find(p => {
     const pArr = p.split('/');

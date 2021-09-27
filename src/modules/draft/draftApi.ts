@@ -154,7 +154,7 @@ export const createAgreement = async (agreement: NewAgreementApiType): Promise<A
 
 export const fetchGrepCodes = async (query: string): Promise<GrepCodesSearchResult> =>
   fetchAuthorized(`${baseUrl}/grep-codes/?query=${query}`).then(r =>
-    resolveJsonOrRejectWithError<GrepCodesSearchResult>(r),
+    resolveJsonOrRejectWithError<{ value: GrepCodesSearchResult }>(r).then(r => r.value),
   );
 
 export const fetchUserData = async (): Promise<UserDataApiType> =>

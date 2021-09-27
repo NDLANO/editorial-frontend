@@ -26,10 +26,9 @@ import ResourceItemLink from './ResourceItemLink';
 import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import { Resource as ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 import config from '../../../config';
 import { LocaleType } from '../../../interfaces';
+import { TopicResource } from './StructureResources';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -42,8 +41,9 @@ const statusButtonStyle = css`
 `;
 
 interface Props {
-  resource: ResourceType & { status?: DraftStatus };
+  resource: TopicResource;
   onDelete?: (connectionId: string) => void;
+  updateResource?: (resource: TopicResource) => void;
   connectionId: string;
   dragHandleProps?: object;
   locale: LocaleType;
@@ -100,6 +100,7 @@ const Resource = ({
   updateRelevanceId,
   primary,
   rank,
+  updateResource,
 }: Props) => {
   const { t } = useTranslation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
@@ -121,6 +122,16 @@ const Resource = ({
     const pathWithoutResource = pArr.slice(0, pArr.length - (isResource ? 1 : 0)).join('/');
     return pathWithoutResource === currentPath;
   });
+
+  const onGrepModalClosed = async (newGrepCodes?: string[]) => {
+    setShowGrepCodes(false);
+    if (newGrepCodes && updateResource) {
+      updateResource({
+        ...resource,
+        grepCodes: newGrepCodes,
+      });
+    }
+  };
 
   const PublishedWrapper = ({ children }: { children: React.ReactElement }) =>
     !path ? (
@@ -194,7 +205,7 @@ const Resource = ({
       )}
       {showGrepCodes && (
         <GrepCodesModal
-          onClose={() => setShowGrepCodes(false)}
+          onClose={onGrepModalClosed}
           contentUri={resource.contentUri}
           locale={locale}
         />

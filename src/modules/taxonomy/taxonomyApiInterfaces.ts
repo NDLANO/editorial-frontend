@@ -103,7 +103,7 @@ export interface TopicConnections {
 export interface ResourceResourceType {
   id: string;
   name: string;
-  parentId: string;
+  parentId?: string;
   connectionId: string;
 }
 

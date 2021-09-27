@@ -92,11 +92,11 @@ const doGrepCodeRequest = async (code: string) => {
   }
 };
 
-export const fetchGrepCodeTitle = async (grepCode: string): Promise<string | undefined | null> => {
+export const fetchGrepCodeTitle = async (grepCode: string): Promise<string | undefined> => {
   const res = await doGrepCodeRequest(grepCode);
   try {
     if (res?.status === 404) {
-      return null;
+      return undefined;
     }
     const jsonResponse = await resolveJsonOrRejectWithError<UdirCoreType>(res);
     const titlesObj = getTitlesObject(jsonResponse?.tittel);

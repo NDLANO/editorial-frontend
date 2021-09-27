@@ -31,8 +31,10 @@ interface Props {
     disabled?: boolean;
   })[];
   params: StructureRouteParams;
+  onDeleteResource: (resourceId: string) => void;
   refreshResources: () => Promise<void>;
   locale: LocaleType;
+  onUpdateResource: (resource: TopicResource) => void;
 }
 
 const AllResourcesGroup = ({
@@ -41,6 +43,8 @@ const AllResourcesGroup = ({
   params,
   refreshResources,
   locale,
+  onDeleteResource,
+  onUpdateResource,
 }: Props) => {
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState<boolean>(true);
@@ -74,6 +78,8 @@ const AllResourcesGroup = ({
         header={t('taxonomy.resources')}
         hidden={!displayResource}>
         <ResourceItems
+          onDeleteResource={onDeleteResource}
+          onUpdateResource={onUpdateResource}
           resources={topicResources}
           refreshResources={refreshResources}
           locale={locale}

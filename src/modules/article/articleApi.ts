@@ -16,7 +16,6 @@ import {
   ArticleApiType,
   ArticleConverterApiType,
   ArticleSearchResult,
-  ArticleSearchSummaryApiType,
 } from './articleApiInterfaces';
 import { LocaleType } from '../../interfaces';
 
@@ -31,12 +30,10 @@ export const searchRelatedArticles = async (
   input: string,
   locale: LocaleType,
   contentType: string,
-): Promise<ArticleSearchSummaryApiType[]> => {
+): Promise<ArticleSearchResult> => {
   await new Promise(resolve => setTimeout(resolve, 50));
   const query = `&type=articles&query=${input}${contentType ? `&content-type=${contentType}` : ''}`;
-  const response = await searchArticles(locale, query);
-
-  return response.results;
+  return await searchArticles(locale, query);
 };
 
 export const getArticle = (id: number, locale: string = 'nb'): Promise<ArticleApiType> =>
@@ -58,7 +55,7 @@ export const getArticleFromArticleConverter = (
 
 export const getPreviewArticle = async (article: number, locale: string) => {
   const response = await fetchAuthorized(
-    `${articleConverterUrl}/json/${locale}/transform-article?draftConcept=true&previewH5p=true`,
+    `${articleConverterUrl}/json/${locale}/transform-article?draftConcept=true&previewH5p=true&showVisualElement=true`,
     {
       headers: {
         'Content-Type': 'application/json',

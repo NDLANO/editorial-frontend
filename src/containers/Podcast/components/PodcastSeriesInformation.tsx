@@ -12,17 +12,13 @@ import { FieldHeader } from '@ndla/forms';
 import { isEmptyArray, useFormikContext } from 'formik';
 import { fetchSeries, searchSeries } from '../../../modules/audio/audioApi';
 import ElementList from '../../FormikForm/components/ElementList';
-import {
-  PodcastFormValues,
-  PodcastSeriesApiType,
-  SeriesSearchResult,
-  SeriesSearchResultType,
-} from '../../../modules/audio/audioApiInterfaces';
-import { AsyncDropdown } from '../../../components/Dropdown';
+import { PodcastFormValues, PodcastSeriesApiType } from '../../../modules/audio/audioApiInterfaces';
 import handleError from '../../../util/handleError';
 import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { SearchResultBase } from '../../../interfaces';
 
-type element = PodcastSeriesApiType &
+type element = Omit<PodcastSeriesApiType, 'revision'> &
   Pick<ArticleSearchSummaryApiType, 'metaImage' | 'articleType'>;
 
 const PodcastSeriesInformation = () => {
@@ -51,7 +47,7 @@ const PodcastSeriesInformation = () => {
     }
   }, [series, language]);
 
-  const onAddSeries = async (series: SeriesSearchResultType) => {
+  const onAddSeries = async (series: element) => {
     try {
       const newSeries = await fetchSeries(series.id, language || 'nb');
       delete newSeries.episodes;
@@ -61,7 +57,7 @@ const PodcastSeriesInformation = () => {
     }
   };
 
-  const onUpdateSeries = (seriesValue: PodcastSeriesApiType) => {
+  const onUpdateSeries = (seriesValue: element) => {
     if (isEmptyArray(seriesValue)) {
       setFieldValue('series', null);
     } else {
@@ -69,7 +65,7 @@ const PodcastSeriesInformation = () => {
     }
   };
 
-  const searchForSeries = async (input: string): Promise<SeriesSearchResult> => {
+  const searchForSeries = async (input: string): Promise<SearchResultBase<element>> => {
     const searchResult = await searchSeries({
       query: input,
       language: language,
@@ -77,12 +73,15 @@ const PodcastSeriesInformation = () => {
     const results = searchResult.results.map(result => {
       return {
         ...result,
+        revision: 1,
         metaImage: {
           url: result.coverPhoto.url,
           alt: result.coverPhoto.altText,
         },
+        articleType: 'series',
       };
     });
+    //@ts-ignore
     return { ...searchResult, results };
   };
 
@@ -105,13 +104,11 @@ const PodcastSeriesInformation = () => {
       <AsyncDropdown
         selectedItems={element}
         idField="id"
-        name="relatedSeriesSearch"
         labelField="title"
         placeholder={t('form.content.relatedArticle.placeholder')}
-        label="label"
         apiAction={searchForSeries}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(series: SeriesSearchResultType) => onAddSeries(series)}
+        onChange={onAddSeries}
         multiSelect
         disableSelected
         clearInputField

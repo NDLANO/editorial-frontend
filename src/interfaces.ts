@@ -43,9 +43,9 @@ export interface FormikFormBaseType {
 
 export interface SearchResultBase<T> {
   totalCount: number;
-  page: number;
+  page?: number;
   pageSize: number;
-  language: string;
+  language?: string;
   results: T[];
 }
 

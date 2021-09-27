@@ -8,6 +8,7 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 //@ts-ignore
@@ -103,6 +104,7 @@ const Resource = ({
   updateResource,
 }: Props) => {
   const { t } = useTranslation();
+  const history = useHistory();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
 
@@ -113,7 +115,7 @@ const Resource = ({
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
-  const structurePaths = window.location.pathname.replace('/structure', '').split('/');
+  const structurePaths = history.location.pathname.replace('/structure', '').split('/');
   const currentPath = structurePaths.map(p => p.replace('urn:', '')).join('/');
   const path = resource.paths.find(p => {
     const pArr = p.split('/');

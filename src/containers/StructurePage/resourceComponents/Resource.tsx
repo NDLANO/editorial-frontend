@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 //@ts-ignore

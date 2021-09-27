@@ -121,7 +121,7 @@
     "@ndla/editor": "^1.0.2",
     "@ndla/error-reporter": "^1.0.2",
     "@ndla/forms": "^1.0.11",
-    "@ndla/howto": "^1.0.11",
+    "@ndla/howto": "^1.1.0",
     "@ndla/icons": "^1.0.0",
     "@ndla/image-search": "^1.1.6",
     "@ndla/licenses": "^1.0.0",

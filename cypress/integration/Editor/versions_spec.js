@@ -17,22 +17,15 @@ describe('Workflow features', () => {
     editorRoutes(ARTICLE_ID);
 
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
-    cy.contains('Versjonslogg og merknader')
-      .click();
-    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`, `@articleHistory-${ARTICLE_ID}`, '@getNoteUsers']);
+    cy.contains('Versjonslogg og merknader').click();
+    cy.apiwait([
+      '@licenses',
+      `@draft-${ARTICLE_ID}`,
+      `@articleHistory-${ARTICLE_ID}`,
+      '@getNoteUsers',
+    ]);
   });
 
-  it('Can add notes and save', () => {
-    cy.get('[data-testid=addNote]').click();
-    cy.get('[data-testid=notesInput]')
-      .type('Test merknad')
-      .blur();
-    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
-      .first()
-      .click();
-    cy.apiwait('@patchUserData');
-  });
-  
   it('Open previews', () => {
     cy.apiroute('POST', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
     cy.apiroute('GET', `/article-converter/json/nb/*`, `converted-article-${ARTICLE_ID}`);
@@ -53,6 +46,24 @@ describe('Workflow features', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait([`@article-${ARTICLE_ID}`, `@updateDraft-${ARTICLE_ID}`, "@getUserData", `@articleHistory-${ARTICLE_ID}`, "@patchUserData", "@getNoteUsers"]);
+    cy.apiwait([
+      `@article-${ARTICLE_ID}`,
+      `@updateDraft-${ARTICLE_ID}`,
+      '@getUserData',
+      `@articleHistory-${ARTICLE_ID}`,
+      '@patchUserData',
+      '@getNoteUsers',
+    ]);
+  });
+
+  it('Can add notes and save', () => {
+    cy.get('[data-testid=addNote]').click();
+    cy.get('[data-testid=notesInput]')
+      .type('Test merknad')
+      .blur();
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
+      .first()
+      .click();
+    cy.apiwait('@patchUserData');
   });
 });

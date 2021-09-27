@@ -79,11 +79,8 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
     if (!updatedArticle.id) throw new Error('Article without id gotten when updating status');
 
     const statusChangedDraft = await draftApi.updateStatusDraft(updatedArticle.id, newStatus);
-    const updated = await draftApi
-      .fetchDraft(updatedArticle.id, locale)
-      .then(art =>
-        transformArticleFromApiVersion({ ...art, status: statusChangedDraft.status }, locale),
-      );
+    const article = await draftApi.fetchDraft(updatedArticle.id, locale);
+    const updated = await transformArticleFromApiVersion({ ...article , status: statusChangedDraft.status }, locale);
     await updateUserData(statusChangedDraft.id);
 
     setArticle(updated);

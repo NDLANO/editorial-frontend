@@ -670,7 +670,7 @@ const phrases = {
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
-      helpLabel: 'Information about visual elements',
+      helpLabel: 'Information about visual element',
       video: 'Video search',
       image: 'Image search',
       imageUpload: 'Upload image',

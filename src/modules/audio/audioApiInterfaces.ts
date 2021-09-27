@@ -43,6 +43,7 @@ export interface AudioMetaInformationPost {
   tags: string[];
   audioType?: string;
   podcastMeta?: PodcastMetaPost;
+  seriesId?: number;
 }
 
 export interface AudioMetaInformationPut extends AudioMetaInformationPost {
@@ -78,7 +79,6 @@ export interface AudioApiType {
   audioType: AudioType;
   podcastMeta?: PodcastMeta;
   series?: PodcastSeriesApiType;
-  // seriesId?: number;
   created: string;
   updated: string;
 }

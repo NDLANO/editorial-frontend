@@ -80,7 +80,10 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
 
     const statusChangedDraft = await draftApi.updateStatusDraft(updatedArticle.id, newStatus);
     const article = await draftApi.fetchDraft(updatedArticle.id, locale);
-    const updated = await transformArticleFromApiVersion({ ...article , status: statusChangedDraft.status }, locale);
+    const updated = await transformArticleFromApiVersion(
+      { ...article, status: statusChangedDraft.status },
+      locale,
+    );
     await updateUserData(statusChangedDraft.id);
 
     setArticle(updated);

@@ -69,7 +69,7 @@ class AddNotesField extends Component {
                 warningText={showError && note === '' ? labelWarningNote : ''}
                 container="div"
                 type="text"
-                focusOnMount
+                // focusOnMount
                 placeholder={placeholder}
                 value={note}
                 data-testid="notesInput"

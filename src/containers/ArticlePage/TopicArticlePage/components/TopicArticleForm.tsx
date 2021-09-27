@@ -170,6 +170,7 @@ const TopicArticleForm = (props: Props) => {
           rightsholders: values.rightsholders,
           agreementId: values.agreementId,
         },
+        supportedLanguages: values.supportedLanguages,
         id: values.id,
         introduction: editorValueToPlainText(values.introduction),
         metaDescription: editorValueToPlainText(values.metaDescription),

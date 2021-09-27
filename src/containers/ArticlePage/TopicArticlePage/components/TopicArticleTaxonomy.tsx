@@ -199,7 +199,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     evt.preventDefault();
     const {
       updateNotes,
-      article: { id: articleId, language, revision },
+      article: { id: articleId, language, revision, supportedLanguages },
     } = this.props;
     this.setState({ status: 'loading' });
 
@@ -214,6 +214,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
         revision: revision ?? 0,
         language,
         notes: ['Oppdatert taksonomi.'],
+        supportedLanguages: supportedLanguages ?? [],
       });
     } catch (err) {
       handleError(err);

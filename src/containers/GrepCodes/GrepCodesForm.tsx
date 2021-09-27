@@ -55,6 +55,7 @@ const getArticle = ({
     revision: 0,
     id: values.id,
     grepCodes: values.grepCodes,
+    supportedLanguages: [],
   };
 };
 

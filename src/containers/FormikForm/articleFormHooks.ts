@@ -18,7 +18,6 @@ import {
   fetchStatusStateMachine,
   validateDraft,
   fetchSearchTags,
-  fetchDraft,
 } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
@@ -39,7 +38,6 @@ import {
 } from '../../interfaces';
 import { ApiConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { NewReduxMessage, ReduxMessageError } from '../Messages/messagesSelectors';
-import { transformArticleFromApiVersion } from '../../util/articleUtil';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -180,20 +178,10 @@ export function useArticleFormHooks({
         });
       }
 
-      const updated = await fetchDraft(savedArticle.id!, values.language);
-      const converted = await transformArticleFromApiVersion(updated);
-
       await deleteRemovedFiles(article.content ?? '', newArticle.content ?? '');
 
       setSavedToServer(true);
-      formikHelpers.resetForm({
-        values: {
-          ...getInitialValues({
-            ...converted,
-            language: values.language,
-          }),
-        },
-      });
+      formikHelpers.resetForm({ values: getInitialValues(savedArticle) });
       formikHelpers.setFieldValue('notes', [], false);
     } catch (e) {
       const err = e as any;

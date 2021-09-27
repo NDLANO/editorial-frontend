@@ -40,7 +40,7 @@ const VisualElementField = ({ formik, isSubjectPage, types, videoTypes }) => {
         {({ field }) => (
           <div>
             <FieldHeader title={t('form.visualElement.title')}>
-              <HowToHelper pageId="VisualElement" tooltip={t('form.metaImage.helpLabel')} />
+              <HowToHelper pageId="VisualElement" tooltip={t('form.visualElement.helpLabel')} />
             </FieldHeader>
             <Fragment>
               <VisualElement

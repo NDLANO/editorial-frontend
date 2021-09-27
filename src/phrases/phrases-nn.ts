@@ -693,6 +693,7 @@ const phrases = {
     visualElement: {
       title: 'Legg til visuelt element',
       label: 'Visuelt element',
+      helpLabel: 'Informasjon om visuelt element',
       video: 'Videosøk',
       image: 'Bildesøk',
       imageUpload: 'Last opp bilde',

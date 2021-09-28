@@ -1976,6 +1976,15 @@
     "@ndla/icons" "^1.0.0"
     react-swipeable "^5.0.1"
 
+"@ndla/carousel@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@ndla/carousel/-/carousel-1.0.2.tgz#ae6689217447c38e049c975175a9e46a6fc80963"
+  integrity sha512-I13+WRp/O075xZbj9vm3FBA7byUfFsyyTMJFchXF7pkAcK6x9NiXPJu0BQTtSEYvKcO09szEsdD1Tpi6qq0QUw==
+  dependencies:
+    "@ndla/core" "^0.7.2"
+    "@ndla/icons" "^1.0.1"
+    react-swipeable "^5.0.1"
+
 "@ndla/code@^1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@ndla/code/-/code-1.0.4.tgz#bd196a2d0531d5f24ca48795fe3791d52769a082"
@@ -2149,6 +2158,13 @@
   dependencies:
     "@ndla/icons" "^1.0.0"
 
+"@ndla/safelink@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@ndla/safelink/-/safelink-1.0.1.tgz#16410eba33ca32024b4a0ef22822bb8e15055d13"
+  integrity sha512-H1AB6D94yUOr0vxeHDvXuo2AnCYNT2LbLou9wWCSbtFw2zj0hIFPa/MaeGX4qVzs5O9w/h9JfxtPUf/RKiDLKw==
+  dependencies:
+    "@ndla/icons" "^1.0.1"
+
 "@ndla/scripts@^0.7.8":
   version "0.7.8"
   resolved "https://registry.yarnpkg.com/@ndla/scripts/-/scripts-0.7.8.tgz#3cc2c5443673988d1795a022cb86bc7a80434d03"
@@ -2168,6 +2184,13 @@
   dependencies:
     "@ndla/core" "^0.7.0"
 
+"@ndla/switch@^0.0.32":
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/@ndla/switch/-/switch-0.0.32.tgz#9d0b0c26f9719c6c9606551ca22ee6881ee69f05"
+  integrity sha512-gF6l8WkUAC+R/69EMEILdu64YfaErXRMZnvCquYYXZyEWCOByJ2WU2y5vrsy4U46wC7Q5ARCyJoBq/n3MHyrPg==
+  dependencies:
+    "@ndla/core" "^0.7.2"
+
 "@ndla/tabs@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-1.0.2.tgz#90eafcaf891df1cc1ce5a5ce330560857bea3960"
@@ -2177,12 +2200,28 @@
     "@ndla/util" "^1.0.2"
     react-tabs "^3.0.0"
 
+"@ndla/tabs@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@ndla/tabs/-/tabs-1.0.4.tgz#cec959c725b53e8388e8ec9e789ddc052cd06dff"
+  integrity sha512-pjGigb96DKj1b6m2dU1fdj7+kVn4CFp7c4wXebj2beF+APACCNSWn8YtaymleVTE82YP9LVWXlRnlIztbGl0DQ==
+  dependencies:
+    "@ndla/core" "^0.7.2"
+    "@ndla/util" "^1.0.2"
+    react-tabs "^3.0.0"
+
 "@ndla/tooltip@^0.2.42":
   version "0.2.42"
   resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.42.tgz#9e8b12b13574b029d6dd075b23ea3b5dab8e3a85"
   integrity sha512-BglJm5dRbhkQsb5r1rmR8CiFcQuO3kIgCzYbPyMkbT2mU0YDE2ryY5afcMJKkuZHHCi5Xoh+DPHUubNiNNPXsg==
   dependencies:
     "@ndla/core" "^0.7.0"
+
+"@ndla/tooltip@^0.2.44":
+  version "0.2.44"
+  resolved "https://registry.yarnpkg.com/@ndla/tooltip/-/tooltip-0.2.44.tgz#f4658b5cd0c5af48b2c53528ee179a8ca79e24c2"
+  integrity sha512-ai0/xmx38EuBEe0wgnXz9DsHEAZoMnh8R8dVDSOOkFIKin6KUgrXOVXMwEakOGpxvdwWZPge4fzq/dUGPc6ukQ==
+  dependencies:
+    "@ndla/core" "^0.7.2"
 
 "@ndla/tracker@^0.4.5":
   version "0.4.5"
@@ -2207,6 +2246,48 @@
     "@ndla/switch" "^0.0.30"
     "@ndla/tabs" "^1.0.2"
     "@ndla/tooltip" "^0.2.42"
+    "@ndla/util" "^1.0.2"
+    "@reach/menu-button" "^0.12.1"
+    "@reach/slider" "^0.12.1"
+    "@types/hoist-non-react-statics" "^3.3.1"
+    "@types/react-syntax-highlighter" "^13.5.2"
+    classnames "2.2.6"
+    focus-trap "^4.0.2"
+    focus-trap-react "^6.0.0"
+    hoist-non-react-statics "^3.3.0"
+    html-react-parser "^0.10.3"
+    i18next-browser-languagedetector "^6.1.1"
+    intl-format-cache "^4.3.1"
+    intl-messageformat "5.4.3"
+    invariant "^2.2.3"
+    jump.js "^1.0.2"
+    lodash "^4.17.20"
+    react-bem-helper "1.4.1"
+    react-device-detect "^1.6.2"
+    react-facebook "^6.0.15"
+    react-prop-types "0.4.0"
+    react-sticky-el "^2.0.6"
+    react-swipeable "^5.0.1"
+    react-syntax-highlighter "^15.4.4"
+    react-transition-group "^2.5.3"
+    shave "^2.5.10"
+
+"@ndla/ui@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-2.1.4.tgz#e8b525cb89bcb1c2d4050f2e407060138e238dbf"
+  integrity sha512-4i8kriYCR2fBYK+2Stchy9Vvm1p8qhfEDnr38KPuiATSqEn5otxF8ogH9rdS/lp/S45pfGZPLuuKFmwTTGWEng==
+  dependencies:
+    "@ndla/button" "^1.0.2"
+    "@ndla/carousel" "^1.0.2"
+    "@ndla/core" "^0.7.2"
+    "@ndla/hooks" "^1.0.2"
+    "@ndla/icons" "^1.0.1"
+    "@ndla/licenses" "^1.0.2"
+    "@ndla/modal" "^1.1.4"
+    "@ndla/safelink" "^1.0.1"
+    "@ndla/switch" "^0.0.32"
+    "@ndla/tabs" "^1.0.4"
+    "@ndla/tooltip" "^0.2.44"
     "@ndla/util" "^1.0.2"
     "@reach/menu-button" "^0.12.1"
     "@reach/slider" "^0.12.1"

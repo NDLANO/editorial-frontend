@@ -190,6 +190,7 @@ const LearningResourceForm = ({
           processors: values.processors,
           rightsholders: values.rightsholders,
         },
+        supportedLanguages: values.supportedLanguages,
         id: values.id,
         introduction: editorValueToPlainText(values.introduction),
         language: values.language,

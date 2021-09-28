@@ -234,6 +234,7 @@ export interface UpdatedDraftApiType {
   id?: number; // Discarded by backend, used only by endpoint
   revision: number;
   language?: string;
+  supportedLanguages: string[];
   title?: string;
   status?: string;
   published?: string;

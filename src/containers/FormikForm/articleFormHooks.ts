@@ -157,7 +157,7 @@ export function useArticleFormHooks<
       ? { ...slateArticle, createNewVersion: true }
       : slateArticle;
 
-    let savedArticle = {};
+    let savedArticle: ConvertedDraftType;
     try {
       if (statusChange && newStatus && updateArticleAndStatus) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
@@ -187,7 +187,6 @@ export function useArticleFormHooks<
 
       setSavedToServer(true);
       formikHelpers.resetForm({ values: getInitialValues(savedArticle) });
-
       formikHelpers.setFieldValue('notes', [], false);
     } catch (e) {
       const err = e as any;

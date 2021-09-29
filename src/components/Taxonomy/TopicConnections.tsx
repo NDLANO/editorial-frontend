@@ -23,7 +23,7 @@ import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
-import { getBreadcrumbFromPath } from '../../util/taxonomyHelpers';
+import { getBreadcrumbFromPath } from '../../util/taxonomyHelpers';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};

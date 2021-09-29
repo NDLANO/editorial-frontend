@@ -63,10 +63,7 @@ const ActiveTopicConnection = ({
         <StyledConnections>
           <Breadcrumb breadcrumb={topic.breadcrumb} type={type} />
         </StyledConnections>
-        <SharedTopicConnections
-          topic={topic}
-          type={type}
-        />
+        <SharedTopicConnections topic={topic} type={type} />
       </>
     );
   }

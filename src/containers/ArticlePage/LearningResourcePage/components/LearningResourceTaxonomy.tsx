@@ -287,7 +287,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     let reassignedResourceId = resourceId;
     const {
       updateNotes,
-      article: { language, id, title, revision },
+      article: { language, id, title, revision, supportedLanguages },
     } = this.props;
     if (!language || !id) return;
     this.setState({ status: 'loading' });
@@ -309,6 +309,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
           revision: revision ?? 0,
           language,
           notes: ['Oppdatert taksonomi.'],
+          supportedLanguages: supportedLanguages ?? [],
         });
         this.setState({
           status: 'success',

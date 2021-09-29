@@ -30,6 +30,7 @@ const connectSrc = (() => {
     'https://widget-mediator.zopim.com',
     'wss://widget-mediator.zopim.com',
     'https://cors-anywhere.herokuapp.com',
+    'https://trinket.io',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -167,6 +168,7 @@ const frameSrc = (() => {
     'embed.ted.com',
     'reader.pubfront.com',
     'ebok.no',
+    'trinket.io',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

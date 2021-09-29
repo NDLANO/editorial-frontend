@@ -136,6 +136,7 @@ export type ConfigType = {
   checkArticleScript: boolean;
   logEnvironment: string | undefined;
   ndlaApiUrl: string | undefined;
+  ndlaBaseUrl: string;
   gaTrackingId: string;
   editorialFrontendDomain: string;
   googleTagManagerId: string | undefined;
@@ -175,6 +176,7 @@ const config: ConfigType = {
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
+  ndlaBaseUrl: ndlaBaseUrl(),
   ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),
   editorialFrontendDomain: getEnvironmentVariabel('EDITORIAL_DOMAIN', editorialFrontendDomain()),
   learningpathFrontendDomain: getEnvironmentVariabel(

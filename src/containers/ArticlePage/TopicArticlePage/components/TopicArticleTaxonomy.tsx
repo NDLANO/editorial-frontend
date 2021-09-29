@@ -60,6 +60,7 @@ export interface StagedTopic extends TaxonomyElement {
   name: string;
   path: string;
   paths?: string[];
+  breadcrumb?: TaxonomyElement[];
   topicConnections?: TopicConnections[];
   primary?: boolean;
   relevanceId?: string;

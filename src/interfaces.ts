@@ -16,7 +16,7 @@ import { ReduxSessionState } from './modules/session/session';
 import { ReduxMessageState } from './containers/Messages/messagesSelectors';
 import { ReduxLocaleState } from './modules/locale/locale';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
-import { ApiConceptType } from './modules/concept/conceptApiInterfaces';
+import { ConceptApiType } from './modules/concept/conceptApiInterfaces';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
 import { DraftStatus } from './modules/draft/draftApiInterfaces';
 import { FootnoteType } from './containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
@@ -509,7 +509,7 @@ export interface ConvertedDraftType {
   content?: string;
   metaDescription?: string;
   tags: string[];
-  conceptIds: ApiConceptType[];
+  conceptIds: ConceptApiType[];
   relatedContent: (DraftApiType | RelatedContent)[];
   id?: number;
   oldNdlaUrl?: string | undefined;
@@ -551,7 +551,7 @@ export interface SlateArticle {
   tags: string[];
   title?: string;
   grepCodes: string[] | undefined;
-  conceptIds?: ApiConceptType[];
+  conceptIds?: ConceptApiType[];
   availability?: AvailabilityType;
   relatedContent: (DraftApiType | RelatedContent)[];
 }

@@ -16,9 +16,9 @@ import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { AlertModalWrapper, formClasses, ActionButton } from '../../FormikForm';
 import { ConceptFormValues } from '../conceptInterfaces';
-import { ConceptType } from '../../../modules/concept/conceptApiInterfaces';
-import { NewReduxMessage } from '../../../containers/Messages/messagesSelectors';
+import { NewReduxMessage } from '../../Messages/messagesSelectors';
 import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
+import { ConceptApiType } from '../../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   entityStatus?: DraftStatus;
@@ -27,13 +27,13 @@ interface Props {
   savedToServer: boolean;
   isNewlyCreated: boolean;
   showSimpleFooter: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   onContinue: () => void;
-  getApiConcept: () => ConceptType;
+  getApiConcept: () => ConceptApiType;
   createMessage: (message: NewReduxMessage) => void;
 }
 
-const FormFooter = ({
+const ConceptFormFooter = ({
   entityStatus,
   conceptChanged,
   inModal,
@@ -48,6 +48,7 @@ const FormFooter = ({
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const { values, errors, initialValues, dirty, isSubmitting, submitForm } = formikContext;
+  console.log('initial', initialValues);
   const formIsDirty = isFormikFormDirty({
     values,
     initialValues,
@@ -106,4 +107,4 @@ const FormFooter = ({
   );
 };
 
-export default FormFooter;
+export default ConceptFormFooter;

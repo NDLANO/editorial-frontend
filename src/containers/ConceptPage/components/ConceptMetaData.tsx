@@ -12,17 +12,16 @@ import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MetaImageSearch } from '../../FormikForm';
-
-import { SearchResult } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 import InlineImageSearch from './InlineImageSearch';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../constants';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
+import { ConceptTagsSearchResult } from '../../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   subjects: SubjectType[];
-  fetchTags: (input: string, language: string) => Promise<SearchResult>;
+  fetchTags: (input: string, language: string) => Promise<ConceptTagsSearchResult>;
   inModal: boolean;
 }
 

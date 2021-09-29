@@ -17,13 +17,10 @@ import {
   ConceptQuery,
   NewConceptType,
   PatchConceptType,
-  ApiConceptType,
   ConceptStatusType,
-  ConceptType,
   ConceptSearchResult,
+  ConceptApiType,
 } from './conceptApiInterfaces';
-
-import { transformApiToCleanConcept } from './conceptApiUtil';
 
 const draftConceptUrl: string = apiResourceUrl('/concept-api/v1/drafts');
 
@@ -37,35 +34,31 @@ export const fetchSearchTags = async (
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchConcept = async (conceptId: number, locale: string): Promise<ApiConceptType> => {
+export const fetchConcept = async (conceptId: number, locale: string): Promise<ConceptApiType> => {
   return fetchAuthorized(
     `${draftConceptUrl}/${conceptId}?language=${locale}&fallback=true`,
-  ).then(r => resolveJsonOrRejectWithError<ApiConceptType>(r));
+  ).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));
 };
 
-export const addConcept = async (concept: NewConceptType): Promise<ConceptType> =>
+export const addConcept = async (concept: NewConceptType): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/`, {
     method: 'POST',
     body: JSON.stringify(concept),
-  })
-    .then(r => resolveJsonOrRejectWithError<ApiConceptType>(r))
-    .then((newConcept: ApiConceptType) => transformApiToCleanConcept(newConcept, concept.language));
+  }).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));
 
-export const updateConcept = async (concept: PatchConceptType): Promise<ConceptType> =>
+export const updateConcept = async (concept: PatchConceptType): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/${concept.id}`, {
     method: 'PATCH',
     body: JSON.stringify(concept),
-  })
-    .then(r => resolveJsonOrRejectWithError<ApiConceptType>(r))
-    .then((newConcept: ApiConceptType) => transformApiToCleanConcept(newConcept, concept.language));
+  }).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));
 
 export const deleteLanguageVersionConcept = async (
   conceptId: number,
   language: string,
-): Promise<ApiConceptType> =>
+): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/${conceptId}?language=${language}`, {
     method: 'DELETE',
-  }).then(r => resolveJsonOrRejectWithError<ApiConceptType>(r));
+  }).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));
 
 export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMachineType> =>
   fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then(r =>
@@ -75,10 +68,10 @@ export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMachi
 export const updateConceptStatus = async (
   id: number,
   status: ConceptStatusType,
-): Promise<ApiConceptType> =>
+): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/${id}/status/${status}`, {
     method: 'PUT',
-  }).then(r => resolveJsonOrRejectWithError<ApiConceptType>(r));
+  }).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));
 
 export const searchConcepts = async (query: ConceptQuery): Promise<ConceptSearchResult> =>
   fetchAuthorized(`${draftConceptUrl}/?${queryString.stringify(query)}`).then(r =>

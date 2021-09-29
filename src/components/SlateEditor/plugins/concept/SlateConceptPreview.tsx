@@ -21,7 +21,8 @@ import IconButton from '../../../IconButton';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
 import config from '../../../../config';
-import { ConceptType } from '../../../../modules/concept/conceptApiInterfaces';
+import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
+import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 
 const StyledFigureButtons = styled('span')`
   position: absolute;
@@ -37,7 +38,7 @@ const StyledFigureButtons = styled('span')`
 `;
 
 interface Props {
-  concept: ConceptType;
+  concept: ConceptApiType;
   handleRemove: () => void;
   id: number;
 }
@@ -52,7 +53,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
   markdown.inline.ruler.enable(['sub', 'sup']);
 
   const VisualElement = () => {
-    const visualElement = concept.parsedVisualElement;
+    const visualElement = parseEmbedTag(concept.visualElement?.visualElement) ?? {};
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
@@ -124,7 +125,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
         <Tooltip tooltip={t('form.concept.edit')} align="right">
           <IconButton
             as={Link}
-            to={`/concept/${id}/edit/${concept.language}`}
+            to={`/concept/${id}/edit/${concept.content.language}`}
             target="_blank"
             title={t('form.concept.edit')}
             tabIndex={-1}>

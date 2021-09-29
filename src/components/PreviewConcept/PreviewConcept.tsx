@@ -20,8 +20,9 @@ import {
 import { Remarkable } from 'remarkable';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
 import { fetchSubject } from '../../modules/taxonomy/subjects';
+import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
+import { VisualElement } from '../../interfaces';
 
 const StyledBody = styled.div`
   margin: 0 ${spacing.normal} ${spacing.small};
@@ -58,10 +59,11 @@ const TagWrapper = styled.div`
 `;
 
 interface Props {
-  concept: ConceptPreviewType;
+  concept: ConceptApiType;
+  visualElement: VisualElement;
 }
 
-const PreviewConcept = ({ concept }: Props) => {
+const PreviewConcept = ({ concept, visualElement }: Props) => {
   const { t } = useTranslation();
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const markdown = new Remarkable({ breaks: true });
@@ -76,7 +78,6 @@ const PreviewConcept = ({ concept }: Props) => {
   }, [concept]);
 
   const VisualElement = () => {
-    const visualElement = concept.visualElementResources;
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
@@ -116,7 +117,7 @@ const PreviewConcept = ({ concept }: Props) => {
         <TagWrapper>
           <div className="tags">
             <span>{t('form.categories.label')}:</span>
-            {concept.tags?.map(tag => (
+            {concept.tags?.tags.map(tag => (
               <span className="tag" key={`key-${tag}`}>
                 {tag}
               </span>

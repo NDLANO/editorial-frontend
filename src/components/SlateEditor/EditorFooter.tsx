@@ -19,14 +19,14 @@ import { PossibleStatuses } from './editorTypes';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
-import { ConceptType, FormValues } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptApiType, ConceptStatus } from '../../modules/concept/conceptApiInterfaces';
 import { NewReduxMessage } from '../../containers/Messages/messagesSelectors';
 import { DraftStatus, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface Props {
   formIsDirty: boolean;
   savedToServer: boolean;
-  getEntity: () => UpdatedDraftApiType | ConceptType;
+  getEntity: () => UpdatedDraftApiType | ConceptApiType;
   entityStatus?: DraftStatus;
   createMessage: (message: NewReduxMessage) => void;
   showSimpleFooter: boolean;
@@ -38,6 +38,13 @@ interface Props {
   hideSecondaryButton: boolean;
   isNewlyCreated: boolean;
   hasErrors?: boolean;
+}
+
+interface FormValues {
+  id: number;
+  language: string;
+  revision?: number;
+  status: ConceptStatus;
 }
 
 const StyledLine = styled.hr`
@@ -107,7 +114,7 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
-  const isDraftApiType = (t: UpdatedDraftApiType | ConceptType): t is UpdatedDraftApiType => {
+  const isDraftApiType = (t: UpdatedDraftApiType | ConceptApiType): t is UpdatedDraftApiType => {
     return (t as UpdatedDraftApiType).revision !== undefined;
   };
 
@@ -160,11 +167,15 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
+  const isConceptType = (func: () => any): func is () => ConceptApiType => {
+    return func().created !== undefined;
+  };
+
   return (
     <Footer>
       <>
         <div data-cy="footerPreviewAndValidate">
-          {values.id && isConcept && (
+          {values.id && isConcept && isConceptType(getEntity) && (
             <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
           )}
           {values.id && isArticle && (

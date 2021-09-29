@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 import { ArticleType } from '../../interfaces';
-import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 
 export const StyledPreviewHeader = styled.div`
   min-height: 6rem;
@@ -25,14 +25,14 @@ const StyledPreview = styled.div`
 interface Props {
   label: string;
   contentType: string;
-  firstEntity: ArticleType | ConceptType;
-  secondEntity: ArticleType | ConceptType;
+  firstEntity: ArticleType | ConceptApiType;
+  secondEntity: ArticleType | ConceptApiType;
   previewLanguage: string;
 
   onChangePreviewLanguage(language: string): void;
 
   getEntityPreview(
-    entity: ArticleType | ConceptType,
+    entity: ArticleType | ConceptApiType,
     label?: string,
     contentType?: string,
   ): Element;
@@ -54,7 +54,7 @@ const PreviewLanguage = ({
         <StyledPreviewHeader>
           <h2 className="u-4/6@desktop u-push-1/6@desktop">
             {t('form.previewLanguageArticle.title', {
-              language: t(`language.${firstEntity.language}`).toLowerCase(),
+              language: t(`language.${firstEntity.content}`).toLowerCase(),
             })}
           </h2>
         </StyledPreviewHeader>

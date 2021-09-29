@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
-import ConceptForm from './ConceptForm';
+import ConceptForm from './ConceptForm/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';

@@ -16,7 +16,7 @@ import {
   updateConceptStatus,
 } from '../../../../../modules/concept/conceptApi';
 import {
-  ConceptType,
+  ConceptApiType,
   SearchConceptType,
 } from '../../../../../modules/concept/conceptApiInterfaces';
 import { StyledConceptView } from './SearchStyles';
@@ -24,13 +24,12 @@ import ConceptForm, { InlineFormConcept } from './ConceptForm';
 import { License } from '../../../../../interfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { transformApiToCleanConcept } from '../../../../../modules/concept/conceptApiUtil';
 
 interface Props {
   concept: SearchConceptType;
   cancel: () => void;
   subjects: SubjectType[];
-  updateLocalConcept: (concept: ConceptType) => void;
+  updateLocalConcept: (concept: ConceptApiType) => void;
   licenses: License[] | undefined;
 }
 
@@ -41,12 +40,10 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: P
     value: lan,
   }));
   const [language, setLanguage] = useState<string>(concept.supportedLanguages[0]);
-  const [fullConcept, setFullConcept] = useState<ConceptType | undefined>();
+  const [fullConcept, setFullConcept] = useState<ConceptApiType | undefined>();
 
   useEffect(() => {
-    fetchConcept(concept.id, language)
-      .then(c => transformApiToCleanConcept(c, language))
-      .then((c: ConceptType) => setFullConcept(c));
+    fetchConcept(concept.id, language).then(c => setFullConcept(c));
   }, [concept.id, language]);
 
   const [formValues, setFormValues] = useState<InlineFormConcept | undefined>();
@@ -60,12 +57,12 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: P
       const subjectIds = concept.subjectIds;
       const author = fullConcept.copyright?.creators.find(cr => cr.type === 'Writer');
       setFormValues({
-        title: fullConcept.title,
+        title: fullConcept.title.title,
         author: author ? author.name : '',
         subjects: subjects.filter(s => subjectIds?.find(id => id === s.id)),
         license:
           licenses.find(l => l.license === fullConcept.copyright?.license?.license)?.license || '',
-        tags: fullConcept.tags || [],
+        tags: fullConcept.tags?.tags || [],
       });
     }
   }, [concept, fullConcept, licenses, subjects]);
@@ -109,7 +106,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: P
             const newConcept = {
               id: fullConcept.id,
               supportedLanguages: fullConcept.supportedLanguages,
-              content: fullConcept.content,
+              content: fullConcept.content.content,
               source: fullConcept.source,
               language: language,
               subjectIds: formConcept.subjects.map(s => s.id),
@@ -123,7 +120,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: P
                 processors: [],
               },
             };
-            updateConcept(newConcept).then((updatedConcept: ConceptType) => {
+            updateConcept(newConcept).then((updatedConcept: ConceptApiType) => {
               if (formConcept.newStatus) {
                 updateConceptStatus(updatedConcept.id, formConcept.newStatus);
               }

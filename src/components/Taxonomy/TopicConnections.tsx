@@ -17,13 +17,13 @@ import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { fetchUserData } from '../../modules/draft/draftApi';
-import { fetchTopicConnections } from '../../modules/taxonomy';
+import { fetchTopic, fetchTopicConnections } from '../../modules/taxonomy';
 import ActiveTopicConnections from './ActiveTopicConnections';
 import HowToHelper from '../HowTo/HowToHelper';
 import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/components/taxonomy/StructureButtons';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { PathArray } from '../../util/retrieveBreadCrumbs';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
+import { getBreadcrumbFromPath } from '../../util/taxonomyHelpers';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -38,12 +38,6 @@ const ModalTitleRow = styled.div`
 interface Props {
   structure: SubjectType[];
   activeTopics: StagedTopic[];
-  allTopics: {
-    contentUri: string;
-    id: string;
-    name: string;
-    path: string;
-  }[];
   onChangeShowFavorites: () => void;
   // showFavorites: boolean;
   removeConnection: (id: string) => void;
@@ -52,13 +46,11 @@ interface Props {
   stageTaxonomyChanges: (properties: any) => void;
   getSubjectTopics: (subjectId: string) => Promise<void>;
   setRelevance: (topicId: string, relevanceId: string) => void;
-  retrieveBreadCrumbs: (topicPath: string) => PathArray;
 }
 
 const TopicConnections = ({
   structure,
   activeTopics,
-  allTopics,
   onChangeShowFavorites,
   // showFavorites,
   removeConnection,
@@ -67,7 +59,6 @@ const TopicConnections = ({
   stageTaxonomyChanges,
   getSubjectTopics,
   setRelevance,
-  retrieveBreadCrumbs,
 }: Props) => {
   const { t } = useTranslation();
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
@@ -115,20 +106,22 @@ const TopicConnections = ({
   };
 
   const addTopic = async (id: string | undefined, closeModal: () => void) => {
-    const topicToAdd = allTopics.find(taxonomyTopic => taxonomyTopic.id === id);
-
-    const topicConnections = await fetchTopicConnections(topicToAdd!.id);
-
-    stageTaxonomyChanges({
-      topics: [
-        ...activeTopics,
-        {
-          ...topicToAdd,
-          topicConnections,
-          primary: activeTopics.length === 0,
-        },
-      ],
-    });
+    if (id) {
+      const topicToAdd = await fetchTopic(id);
+      const topicConnections = await fetchTopicConnections(topicToAdd.id);
+      const breadcrumb = await getBreadcrumbFromPath(topicToAdd.path);
+      stageTaxonomyChanges({
+        topics: [
+          ...activeTopics,
+          {
+            ...topicToAdd,
+            breadcrumb,
+            topicConnections,
+            primary: activeTopics.length === 0,
+          },
+        ],
+      });
+    }
     closeModal();
   };
 
@@ -142,7 +135,6 @@ const TopicConnections = ({
         setRelevance={setRelevance}
         removeConnection={removeConnection}
         setPrimaryConnection={setPrimaryConnection}
-        retrieveBreadCrumbs={retrieveBreadCrumbs}
         type="topicarticle"
       />
       <Modal

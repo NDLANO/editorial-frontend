@@ -66,7 +66,7 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
             id={figureLicenseDialogId}
             figureId={`figure-${audio.id}`}
             caption={audio.caption}
-            reuseLabel=""
+            reuseLabel={t('audio.reuse')}
             licenseRights={license.rights}
             authors={copyright.creators}
           />

@@ -50,7 +50,12 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
         label={t('form.subjects.label')}
         description={t('form.concept.subjects')}>
         {({ field }) => (
-          <MultiSelectDropdown labelField="name" minSearchLength={1} initialData={subjects} {...field} />
+          <MultiSelectDropdown
+            labelField="name"
+            minSearchLength={1}
+            initialData={subjects}
+            {...field}
+          />
         )}
       </FormikField>
       <FormikField

@@ -21,6 +21,7 @@ import { ArticleType } from '../../interfaces';
 import { ConceptFormType } from '../ConceptPage/conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { transformApiToCleanConcept } from '../../modules/concept/conceptApiUtil';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
 
 export function useFetchConceptData(conceptId: number, locale: string) {
   const [concept, setConcept] = useState<ConceptFormType>();
@@ -55,7 +56,10 @@ export function useFetchConceptData(conceptId: number, locale: string) {
 
   useEffect(() => {
     const fetchSubjects = async () => {
-      const fetchedSubjects = await taxonomyApi.fetchSubjects(locale);
+      const fetchedSubjects = await taxonomyApi.fetchSubjects(locale, {
+        key: TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+        value: 'true',
+      });
       setSubjects(fetchedSubjects);
     };
     fetchSubjects();

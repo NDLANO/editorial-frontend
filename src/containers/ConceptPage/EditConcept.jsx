@@ -56,6 +56,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, ..
         isNewlyCreated={isNewlyCreated}
         licenses={licenses}
         onUpdate={updateConcept}
+        language={selectedLanguage}
         subjects={subjects}
         translateToNN={translateToNN}
         translating={translating}

@@ -136,7 +136,7 @@ const ConceptForm = ({
         return (
           <FormWrapper inModal={inModal} {...formClasses()}>
             <HeaderWithLanguage
-              content={{ ...concept, title: concept?.title.title }}
+              content={{ ...concept, title: concept?.title.title, language }}
               editUrl={editUrl}
               getEntity={() => conceptFormTypeToApiType(values, licenses, concept?.updatedBy)}
               translateToNN={translateToNN}

@@ -68,9 +68,9 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
     const defaultLanguage = getDefaultLanguage();
     if ((!basename && !storedLanguage) || (!basename && storedLanguage === defaultLanguage)) {
       setBase('');
-      i18n.language = defaultLanguage;
+      i18n.changeLanguage(defaultLanguage);
     } else if (storedLanguage && isValidLocale(storedLanguage)) {
-      i18n.language = storedLanguage;
+      i18n.changeLanguage(storedLanguage);
       setBase(i18n.language);
     }
   }, [basename, i18n]);

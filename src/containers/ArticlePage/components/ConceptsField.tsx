@@ -10,11 +10,11 @@ import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
-import { AsyncDropdown } from '../../../components/Dropdown';
-import { ContentResultType, FormikProperties } from '../../../interfaces';
+import { FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
-import { ApiConceptType, ConceptQuery } from '../../../modules/concept/conceptApiInterfaces';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { ApiConceptType, CoreApiConceptType } from '../../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   locale: string;
@@ -29,26 +29,25 @@ interface Props {
 
 const ConceptsField = ({ locale, values, field, form }: Props) => {
   const { t } = useTranslation();
-  const [concepts, setConcepts] = useState<ApiConceptType[]>(values.conceptIds);
-  const onAddConceptToList = async (concept: ContentResultType) => {
+  const [concepts, setConcepts] = useState<CoreApiConceptType[]>(values.conceptIds);
+
+  const onAddConceptToList = async (concept: CoreApiConceptType) => {
     try {
       const newConcept = await fetchConcept(concept.id, locale);
       const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
-      if (newConcept) {
-        setConcepts(temp);
-        updateFormik(field, temp);
-      }
+      setConcepts(temp);
+      updateFormik(field, temp);
     } catch (e) {
       handleError(e);
     }
   };
 
-  const onUpdateElements = (conceptList: ApiConceptType[]) => {
+  const onUpdateElements = (conceptList: CoreApiConceptType[]) => {
     setConcepts(conceptList);
     updateFormik(field, conceptList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: ApiConceptType[]) => {
+  const updateFormik = (formikField: Props['field'], newData: CoreApiConceptType[]) => {
     form.setFieldTouched('conceptIds', true, false);
     formikField.onChange({
       target: {
@@ -58,9 +57,10 @@ const ConceptsField = ({ locale, values, field, form }: Props) => {
     });
   };
 
-  const searchForConcepts = async (query: ConceptQuery) => {
+  const searchForConcepts = async (query: string, page?: number) => {
     return searchConcepts({
-      ...query,
+      query,
+      page,
       language: locale,
     });
   };
@@ -79,12 +79,11 @@ const ConceptsField = ({ locale, values, field, form }: Props) => {
       <AsyncDropdown
         selectedItems={concepts}
         idField="id"
-        name="relatedConceptsSearch"
         labelField="title"
         placeholder={t('form.relatedConcepts.placeholder')}
         apiAction={searchForConcepts}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(concept: ContentResultType) => onAddConceptToList(concept)}
+        onChange={onAddConceptToList}
         multiSelect
         disableSelected
         clearInputField

@@ -15,12 +15,12 @@ import {
   ConceptStatusStateMachineType,
   ConceptTagsSearchResult,
   ConceptQuery,
-  ConceptSearchResult,
   NewConceptType,
   PatchConceptType,
   ApiConceptType,
   ConceptStatusType,
   ConceptType,
+  ConceptSearchResult,
 } from './conceptApiInterfaces';
 
 import { transformApiToCleanConcept } from './conceptApiUtil';

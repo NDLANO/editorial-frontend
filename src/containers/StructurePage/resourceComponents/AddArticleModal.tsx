@@ -3,12 +3,15 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { updateTopic } from '../../../modules/taxonomy';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
-import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchRelatedArticles } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
 import { SubjectTopic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../interfaces';
-import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
+import {
+  ArticleSearchResult,
+  ArticleSearchSummaryApiType,
+} from '../../../modules/article/articleApiInterfaces';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 
 const StyledContent = styled.div`
   width: 100%;
@@ -31,14 +34,20 @@ interface Props {
 
 const AddArticleModal = ({ locale, toggleAddModal, refreshTopics, currentTopic }: Props) => {
   const { t } = useTranslation();
-  const onArticleSearch = async (input: string) => {
+  const onArticleSearch = async (input: string): Promise<ArticleSearchResult> => {
     try {
       const results = await searchRelatedArticles(input, locale as LocaleType, 'topic-article');
       return results;
     } catch (err) {
       handleError(err);
     }
-    return [];
+    return {
+      pageSize: 10,
+      totalCount: 0,
+      page: 0,
+      language: '',
+      results: [],
+    };
   };
 
   const onSelect = async (article: ArticleSearchSummaryApiType) => {
@@ -59,11 +68,9 @@ const AddArticleModal = ({ locale, toggleAddModal, refreshTopics, currentTopic }
       <StyledContent>
         <AsyncDropdown
           idField="id"
-          name="resourceSearch"
           labelField="title.title"
           placeholder={t('form.content.relatedArticle.placeholder')}
-          label="label"
-          apiAction={onArticleSearch}
+          apiAction={(input, _) => onArticleSearch(input)}
           onChange={onSelect}
           startOpen
         />

@@ -19,18 +19,22 @@ interface Props {
   article: Pick<ArticleSearchSummaryApiType, 'title' | 'metaDescription'> & {
     metaUrl?: string;
   };
+  imageWidth?: number;
 }
 
-const ArticlePreview = ({ article }: Props) => (
-  <div data-testid="articlePreview" {...classes('')}>
-    <div {...classes('image')}>
-      <img src={article.metaUrl || '/placeholder.png'} alt="" />
+const ArticlePreview = ({ article, imageWidth = 200 }: Props) => {
+  const imageUrl = article.metaUrl ? `${article.metaUrl}?width=${imageWidth}` : undefined;
+  return (
+    <div data-testid="articlePreview" {...classes('')}>
+      <div {...classes('image')}>
+        <img src={imageUrl ?? '/placeholder.png'} alt="" />
+      </div>
+      <div {...classes('content')}>
+        <h1 {...classes('title')}>{article.title.title}</h1>
+        <p {...classes('description')}>{article.metaDescription?.metaDescription}</p>
+      </div>
     </div>
-    <div {...classes('content')}>
-      <h1 {...classes('title')}>{article.title.title}</h1>
-      <p {...classes('description')}>{article.metaDescription?.metaDescription}</p>
-    </div>
-  </div>
-);
+  );
+};
 
 export default ArticlePreview;

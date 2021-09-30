@@ -78,6 +78,7 @@ export interface ParentTopic extends TaxonomyElement {
 export type ParentTopicWithRelevanceAndConnections = ParentTopic & {
   topicConnections: TopicConnections[];
   relevanceId: string;
+  breadcrumb: TaxonomyElement[];
 };
 
 export interface ResourceTranslation {

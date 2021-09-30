@@ -12,7 +12,6 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Router, useHistory } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
-import { configureTracker } from '@ndla/tracker';
 import { createBrowserHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
 import config, { ConfigType, getDefaultLanguage } from './config';
@@ -20,7 +19,7 @@ import { isValidLocale } from './i18n';
 import configureStore from './configureStore';
 import { getSessionStateFromLocalStorage } from './modules/session/session';
 import App from './containers/App/App';
-import { initializeI18n } from './i18n2';
+import { initializeI18n, supportedLanguages } from './i18n2';
 import { STORED_LANGUAGE_KEY } from './constants';
 import Spinner from './components/Spinner';
 
@@ -38,9 +37,6 @@ const { initialState } = window;
 
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : undefined;
-if (basename && isValidLocale(basename)) {
-  window.localStorage.setItem(STORED_LANGUAGE_KEY, basename);
-}
 
 export const store = configureStore({
   ...initialState,
@@ -58,67 +54,57 @@ window.errorReporter = ErrorReporter.getInstance({
 
 const browserHistory = createBrowserHistory();
 
-configureTracker({
-  listen: browserHistory.listen,
-  gaTrackingId: config.gaTrackingId,
-  googleTagManagerId: config.googleTagManagerId,
-});
-
 const I18nWrapper = ({ basename }: { basename?: string }) => {
   const { i18n } = useTranslation();
-  const history = useHistory();
-  const [lang, setLang] = useState(basename);
-  const firstRender = useRef(true);
   const [loading, setLoading] = useState(true);
+  const [base, setBase] = useState('');
+  const firstRender = useRef(true);
 
   useEffect(() => {
     initializeI18n(i18n);
     i18n.loadLanguages(i18n.options.supportedLngs as string[]);
     i18n.loadResources(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
+    const defaultLanguage = getDefaultLanguage();
+    if ((!basename && !storedLanguage) || (!basename && storedLanguage === defaultLanguage)) {
+      setBase('');
+      i18n.changeLanguage(defaultLanguage);
+    } else if (storedLanguage && isValidLocale(storedLanguage)) {
+      i18n.changeLanguage(storedLanguage);
+      setBase(i18n.language);
+    }
+  }, [basename, i18n]);
 
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      const storedLang = window.localStorage.getItem(STORED_LANGUAGE_KEY);
-      if (
-        !basename &&
-        storedLang &&
-        isValidLocale(storedLang) &&
-        storedLang !== getDefaultLanguage()
-      ) {
-        setLang(storedLang);
-        if (!window.location.pathname.includes('/login/success')) {
-          history.replace(`/${storedLang}${window.location.pathname}`);
-        }
-      }
-
-      return;
+    if (!firstRender.current) {
+      setBase(i18n.language);
     }
-    changeBaseName(); // eslint-disable-next-line react-hooks/exhaustive-deps
+    firstRender.current = false;
   }, [i18n.language]);
-
-  const changeBaseName = () => {
-    const supportedLanguages: string[] = i18n.options.supportedLngs as string[]; // hard-coded as a string array in i18n2.ts.
-    const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
-    const paths = window.location.pathname.replace(regex, '').split('/');
-    const { search } = window.location;
-    const path = paths.slice().join('/');
-    const fullPath = path.startsWith('/') ? path : `/${path}`;
-    history.replace(`/${i18n.language}${fullPath}${search}`);
-    setLang(i18n.language);
-  };
 
   if (loading) {
     return <Spinner />;
   }
 
   return (
-    <BrowserRouter basename={lang} key={lang}>
-      <App key={lang} />
+    <BrowserRouter basename={base} key={base}>
+      <LocaleRedirector base={base} />
     </BrowserRouter>
   );
+};
+
+const LocaleRedirector = ({ base }: { base: string }) => {
+  const { i18n } = useTranslation();
+  const history = useHistory();
+  useEffect(() => {
+    const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
+    const path = window.location.pathname.replace(regex, '');
+    const fullPath = path.startsWith('/') ? path : `/${path}`;
+    if (!window.location.pathname.includes('/login/success')) {
+      history.replace(`${fullPath}${window.location.search}`);
+    }
+  }, [base, history]);
+  return <App key={i18n.language} isClient={true} />;
 };
 
 const renderApp = () => {

@@ -15,6 +15,7 @@ import { Article } from '@ndla/ui';
 import { ArticleType, LocaleType } from '../../interfaces';
 //@ts-ignore
 import { transformArticle } from '../../util/articleUtil';
+import '../DisplayEmbed/helpers/h5pResizer';
 
 interface Props {
   article: ArticleType;

@@ -13,8 +13,13 @@ import {
   SubjectTopic,
   TaxonomyElement,
 } from '../modules/taxonomy/taxonomyApiInterfaces';
-import { updateTopicResource, updateTopicSubtopic, updateSubjectTopic } from '../modules/taxonomy';
-
+import {
+  updateTopicResource,
+  updateTopicSubtopic,
+  updateSubjectTopic,
+  fetchTopic,
+  fetchSubject,
+} from '../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
@@ -234,6 +239,19 @@ const updateRelevanceId = (
   }
 };
 
+const getBreadcrumbFromPath = async (path: string): Promise<TaxonomyElement[]> => {
+  const [subjectPath, ...topicPaths] = pathToUrnArray(path);
+  const subjectAndTopics = await Promise.all([
+    fetchSubject(subjectPath),
+    ...topicPaths.map(id => fetchTopic(id)),
+  ]);
+  return subjectAndTopics.map(element => ({
+    id: element.id,
+    name: element.name,
+    metadata: element.metadata,
+  }));
+};
+
 export {
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
@@ -248,4 +266,5 @@ export {
   selectedResourceTypeValue,
   pathToUrnArray,
   updateRelevanceId,
+  getBreadcrumbFromPath,
 };

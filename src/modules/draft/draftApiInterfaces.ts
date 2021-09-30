@@ -6,7 +6,14 @@
  *
  */
 
-import { Author, AvailabilityType, RelatedContent, License, Note } from '../../interfaces';
+import {
+  Author,
+  AvailabilityType,
+  RelatedContent,
+  License,
+  Note,
+  SearchResultBase,
+} from '../../interfaces';
 
 export interface DraftStatusStateMachineType {
   QUALITY_ASSURED: string[];
@@ -104,12 +111,7 @@ export interface DraftSearchQuery {
   grepCodes?: string[];
 }
 
-export interface DraftSearchResult {
-  totalCount: number;
-  page?: number;
-  pageSize: number;
-  results: DraftSearchSummary[];
-}
+export type DraftSearchResult = SearchResultBase<DraftSearchSummary>;
 
 export interface DraftSearchSummary {
   id: number;
@@ -232,6 +234,7 @@ export interface UpdatedDraftApiType {
   id?: number; // Discarded by backend, used only by endpoint
   revision: number;
   language?: string;
+  supportedLanguages: string[];
   title?: string;
   status?: string;
   published?: string;

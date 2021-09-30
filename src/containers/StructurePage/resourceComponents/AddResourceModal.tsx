@@ -12,7 +12,6 @@ import styled from '@emotion/styled';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
-import { AsyncDropdown } from '../../../components/Dropdown';
 import { groupSearch } from '../../../modules/search/searchApi';
 import {
   createTopicResource,
@@ -28,13 +27,15 @@ import {
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
-import { LearningPathSearchResult } from '../../../modules/learningpath/learningpathApiInterfaces';
 import {
-  GroupSearchResult,
-  MultiSearchApiQuery,
-} from '../../../modules/search/searchApiInterfaces';
+  LearningPathSearchResult,
+  LearningPathSearchSummary,
+} from '../../../modules/learningpath/learningpathApiInterfaces';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { GroupSearchResult, GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
 import AlertModal from '../../../components/AlertModal';
 import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
+import { SearchResultBase } from '../../../interfaces';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -44,15 +45,21 @@ const StyledOrDivider = styled.div`
 
 const StyledContent = styled.div`
   width: 100%;
-
   > * {
     width: 100%;
   }
-
   & form {
     background-color: white;
   }
 `;
+
+const emptySearchResults: SearchResultBase<any> = {
+  totalCount: 0,
+  page: 0,
+  pageSize: 0,
+  language: '',
+  results: [],
+};
 
 interface Props {
   onClose: () => void;
@@ -73,17 +80,12 @@ type ContentType = Pick<ArticleSearchSummaryApiType, 'title' | 'metaDescription'
   paths?: string[];
 };
 
-interface SelectedType {
-  id: string;
+interface BaseSelectedType {
+  id?: number;
   paths?: string[];
-  title?: string;
-  url?: string;
-  metaUrl?: string;
-  description?: string;
-  coverPhotoUrl?: string;
 }
 
-type ResultTypes = LearningPathSearchResult | GroupSearchResult;
+type ResultTypes = LearningPathSearchResult | GroupSearchResult | BaseSelectedType;
 
 const AddResourceModal = ({
   onClose,
@@ -97,7 +99,7 @@ const AddResourceModal = ({
 }: Props) => {
   const { t } = useTranslation();
   const [selectedType, setSelectedType] = useState<string | undefined>(type);
-  const [selected, setSelected] = useState<SelectedType | null>(null);
+  const [selected, setSelected] = useState<ResultTypes | null>(null);
   const [content, setContent] = useState<ContentType | null>(null);
   const [pastedUrl, setPastedUrl] = useState('');
   const [error, setError] = useState<string | undefined | null>(undefined);
@@ -110,8 +112,20 @@ const AddResourceModal = ({
 
   const paste = allowPaste || selectedType !== RESOURCE_TYPE_LEARNING_PATH;
 
-  const onSelect = (selected: SelectedType) => {
-    if (selected) {
+  const isLearningPathSearchSummary = (obj: any): obj is LearningPathSearchSummary => {
+    return obj.metaUrl !== undefined;
+  };
+
+  const isGroupSearchSummary = (obj: any): obj is GroupSearchSummary => {
+    return obj.url !== undefined;
+  };
+
+  const hasId = (obj: any): obj is { id: number | string } => {
+    return obj && typeof obj.id !== undefined;
+  };
+
+  const onSelect = (selected: ResultTypes) => {
+    if (isGroupSearchSummary(selected)) {
       if (selected.url && !selected.url.includes('learningpaths')) {
         const articleId = Number(selected.url.split('/')?.pop());
 
@@ -121,13 +135,13 @@ const AddResourceModal = ({
 
         articleToState(Number(articleId));
       }
+    }
+    if (isLearningPathSearchSummary(selected)) {
       if (selected.metaUrl && selected.metaUrl.includes('learningpaths')) {
         learningpathToState(selected);
       }
-      setSelected(selected);
-    } else {
-      setNoSelection();
     }
+    setSelected(selected);
   };
 
   const onPaste = async (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -146,11 +160,12 @@ const AddResourceModal = ({
 
         const pastedType = resourceType.length > 0 && resourceType[0].id;
         const error = pastedType === selectedType ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
-        setSelected({ id: val, paths: [val] });
+        setSelected({ id: parseInt(val), paths: [val] });
         setPastedUrl(val);
         setError(error);
       } catch (error) {
         handleError(error);
+        //@ts-ignore
         setError(error.message);
       }
     } else if (!val) {
@@ -163,46 +178,49 @@ const AddResourceModal = ({
   };
 
   const onInputSearch = async (
-    query: MultiSearchApiQuery,
+    input: string,
     type: string,
     locale: string,
-  ): Promise<ResultTypes | undefined> => {
+    page?: number,
+  ): Promise<LearningPathSearchResult | GroupSearchResult> => {
     try {
       if (type === RESOURCE_TYPE_LEARNING_PATH) {
-        const lps = await searchLearningpath({ ...query, language: locale });
-
-        return {
-          ...lps,
-          results: lps?.results.map(lp => ({
-            ...lp,
-            metaDescription: lp.description.description,
-          })),
-        };
+        const res = await searchLearningpath(input, type, locale, page);
+        return res;
       } else {
-        return await searchGroups(query, type, locale);
+        const searchResult = await searchGroups(input, type, locale, page);
+        return searchResult ?? emptySearchResults;
       }
     } catch (err) {
       handleError(err);
+      //@ts-ignore
       setError(err.message);
-      return undefined;
+      return emptySearchResults;
     }
   };
 
   const searchLearningpath = async (
-    query: MultiSearchApiQuery,
+    input: string,
+    type: string,
+    locale: string,
+    page?: number,
   ): Promise<LearningPathSearchResult> => {
-    const searchBody = {
-      ...query,
+    const query = {
+      query: input,
       pageSize: 10,
+      language: locale,
+      page,
+      type,
       fallback: true,
       verificationStatus: 'CREATED_BY_NDLA',
     };
-    return learningpathSearch(searchBody);
+    return await learningpathSearch(query);
   };
 
-  const searchGroups = async (query: MultiSearchApiQuery, type: string, locale: string) => {
+  const searchGroups = async (query: string, type: string, locale: string, page?: number) => {
     const res = await groupSearch({
-      ...query,
+      query,
+      page,
       'resource-types': type,
       fallback: true,
       language: locale,
@@ -220,28 +238,33 @@ const AddResourceModal = ({
     });
   };
 
-  const learningpathToState = (learningpath: SelectedType) => {
+  const learningpathToState = ({
+    id,
+    description,
+    title,
+    coverPhotoUrl,
+  }: LearningPathSearchSummary) => {
     setContent({
-      id: parseInt(learningpath.id),
-      // We do not know the language of the description or the title. Thus, they should not be used
-      // further down the component tree. They are only present to appease TypeScript.
+      id,
       metaDescription: {
-        metaDescription: learningpath.description ?? '',
-        language: 'unknown',
+        ...description,
+        metaDescription: description.description,
       },
-      title: { title: learningpath.title ?? '', language: 'unknown' },
-      metaUrl: learningpath.coverPhotoUrl,
+      title,
+      metaUrl: coverPhotoUrl,
     });
   };
 
   const addSelected = async () => {
-    if (selected?.id) {
+    if (hasId(selected)) {
       try {
         setLoading(true);
-        const resourceId =
-          selectedType === RESOURCE_TYPE_LEARNING_PATH
-            ? await findResourceIdLearningPath(Number(selected.id))
-            : getResourceIdFromPath(selected?.paths?.[0]);
+        let resourceId: string | undefined;
+        if (selectedType === RESOURCE_TYPE_LEARNING_PATH && isLearningPathSearchSummary(selected)) {
+          resourceId = await findResourceIdLearningPath(Number(selected.id));
+        } else if (isGroupSearchSummary(selected)) {
+          getResourceIdFromPath(selected?.paths?.[0]);
+        }
 
         if (!resourceId) {
           return;
@@ -265,6 +288,7 @@ const AddResourceModal = ({
       } catch (e) {
         handleError(e);
         setLoading(false);
+        //@ts-ignore
         setError(e.messages);
       }
     }
@@ -286,6 +310,7 @@ const AddResourceModal = ({
     } catch (err) {
       handleError(err);
       setLoading(false);
+      //@ts-ignore
       setError(err.message);
     }
   };
@@ -319,20 +344,18 @@ const AddResourceModal = ({
         {!pastedUrl && selectedType && (
           <>
             {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
-            <AsyncDropdown
+            <AsyncDropdown<LearningPathSearchSummary | GroupSearchSummary>
               idField="id"
-              name="resourceSearch"
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}
-              label="label"
-              apiAction={(query: MultiSearchApiQuery) => onInputSearch(query, selectedType, locale)}
+              apiAction={(query, page) => onInputSearch(query, selectedType, locale, page)}
               onChange={onSelect}
               startOpen
               showPagination
             />
           </>
         )}
-        {selected?.id && content?.id && <ArticlePreview article={content} />}
+        {hasId(selected) && content?.id && <ArticlePreview article={content} />}
         {error && (
           <AlertModal
             show={!!error}

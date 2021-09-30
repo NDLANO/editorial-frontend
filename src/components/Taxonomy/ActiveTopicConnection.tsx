@@ -20,11 +20,9 @@ import SharedTopicConnections from './SharedTopicConnections';
 import Breadcrumb from './Breadcrumb';
 import RelevanceOption from '../../containers/StructurePage/folderComponents/menuOptions/RelevanceOption';
 import RemoveButton from '../RemoveButton';
-import { PathArray } from '../../util/retrieveBreadCrumbs';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 interface Props {
-  retrieveBreadCrumbs: (path: string) => PathArray;
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (id: string) => void;
   topic: StagedTopic;
@@ -38,7 +36,6 @@ const StyledFlexWrapper = styled.div`
 `;
 
 const ActiveTopicConnection = ({
-  retrieveBreadCrumbs,
   removeConnection,
   setPrimaryConnection,
   setRelevance,
@@ -46,8 +43,7 @@ const ActiveTopicConnection = ({
   topic,
 }: Props) => {
   const { t } = useTranslation();
-  const breadcrumb = retrieveBreadCrumbs(topic.path);
-  if (!breadcrumb) {
+  if (!topic.breadcrumb) {
     return (
       <StyledConnections error>
         <StyledErrorLabel>{t('taxonomy.topics.disconnectedTaxonomyWarning')}</StyledErrorLabel>
@@ -65,13 +61,9 @@ const ActiveTopicConnection = ({
     return (
       <>
         <StyledConnections>
-          <Breadcrumb breadcrumb={breadcrumb} type={type} />
+          <Breadcrumb breadcrumb={topic.breadcrumb} type={type} />
         </StyledConnections>
-        <SharedTopicConnections
-          topic={topic}
-          retrieveBreadCrumbs={retrieveBreadCrumbs}
-          type={type}
-        />
+        <SharedTopicConnections topic={topic} type={type} />
       </>
     );
   }
@@ -85,7 +77,7 @@ const ActiveTopicConnection = ({
             onClick={() => setPrimaryConnection && setPrimaryConnection(topic.id)}>
             {t('form.topics.primaryTopic')}
           </StyledPrimaryConnectionButton>
-          <Breadcrumb breadcrumb={breadcrumb} />
+          <Breadcrumb breadcrumb={topic.breadcrumb} />
         </StyledFlexWrapper>
         <StyledFlexWrapper>
           <RelevanceOption
@@ -95,7 +87,7 @@ const ActiveTopicConnection = ({
           <RemoveButton onClick={() => removeConnection && removeConnection(topic.id)} />
         </StyledFlexWrapper>
       </StyledConnections>
-      <SharedTopicConnections topic={topic} retrieveBreadCrumbs={retrieveBreadCrumbs} />
+      <SharedTopicConnections topic={topic} />
     </>
   );
 };

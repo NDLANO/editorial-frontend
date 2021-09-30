@@ -22,6 +22,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, ..
   const {
     concept,
     fetchSearchTags,
+    conceptArticles,
     fetchStatusStateMachine,
     loading,
     setConcept,
@@ -47,9 +48,10 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, ..
 
   return (
     <>
-      <HelmetWithTracker title={`${concept.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${concept.title.title} ${t('htmlTitles.titleTemplate')}`} />
       <ConceptForm
         concept={concept}
+        conceptArticles={conceptArticles}
         conceptChanged={conceptChanged}
         fetchConceptTags={fetchSearchTags}
         fetchStateStatuses={fetchStatusStateMachine}

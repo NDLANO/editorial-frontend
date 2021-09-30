@@ -18,7 +18,6 @@ import {
   addTopicToTopic,
   addSubjectTopic,
   addTopic,
-  queryTopics,
 } from '../../../../modules/taxonomy';
 import {
   sortByName,
@@ -116,17 +115,13 @@ class TopicArticleTaxonomy extends Component<Props, State> {
 
   fetchTaxonomy = async () => {
     const {
-      articleId,
       article: { language },
     } = this.props;
     if (!language) return;
     try {
-      const [topics, subjects] = await Promise.all([
-        queryTopics(articleId.toString(), language),
-        fetchSubjects(language),
-      ]);
+      const [subjects] = await Promise.all([fetchSubjects(language)]);
 
-      // TODO: const topics = this.props.article.taxonomy?.topics ?? [];
+      const topics = this.props.article.taxonomy?.topics ?? [];
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
       const activeTopics = topics.filter(t => t.path);

@@ -92,7 +92,8 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     url: [`liste.${config.ndlaBaseUrl}`],
     height: '398px',
   },
-  { name: 'ebok', url: ['ebok.no'] },
+  { name: 'Ebok', url: ['ebok.no'] },
+  { name: 'Trinket', url: ['trinket.io'], height: '700px' },
 ];
 
 export const SearchTypeValues = [

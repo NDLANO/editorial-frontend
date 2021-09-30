@@ -20,7 +20,6 @@ import { fetchUserData } from '../../../../modules/draft/draftApi';
 import { HowToHelper } from '../../../../components/HowTo';
 import StructureFunctionButtons from './StructureFunctionButtons';
 import ActiveTopicConnections from '../../../../components/Taxonomy/ActiveTopicConnections';
-import { PathArray } from '../../../../util/retrieveBreadCrumbs';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../../interfaces';
 import { StagedTopic } from './TopicArticleTaxonomy';
@@ -31,7 +30,6 @@ interface Props {
   allowMultipleSubjectsOpen?: boolean;
   stageTaxonomyChanges: ({ path }: { path: string }) => void;
   getSubjectTopics: (subjectId: string, locale: LocaleType) => Promise<void>;
-  retrieveBreadCrumbs: (path: string) => PathArray;
   locale: LocaleType;
 }
 
@@ -51,7 +49,6 @@ const TopicArticleConnections = ({
   allowMultipleSubjectsOpen,
   stageTaxonomyChanges,
   getSubjectTopics,
-  retrieveBreadCrumbs,
   locale,
 }: Props) => {
   const { t } = useTranslation();
@@ -113,11 +110,7 @@ const TopicArticleConnections = ({
         subTitle={t('taxonomy.topics.subTitleTopic')}>
         <HowToHelper pageId="TaxonomyTopicConnections" tooltip={t('taxonomy.topics.helpLabel')} />
       </FieldHeader>
-      <ActiveTopicConnections
-        activeTopics={activeTopics}
-        type="topic-article"
-        retrieveBreadCrumbs={retrieveBreadCrumbs}
-      />
+      <ActiveTopicConnections activeTopics={activeTopics} type="topic-article" />
       <Modal
         backgroundColor="white"
         animation="subtle"

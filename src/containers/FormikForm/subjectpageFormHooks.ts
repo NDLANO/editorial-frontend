@@ -37,7 +37,7 @@ export function useSubjectpageFormHooks(
       await updateSubjectpage(newSubjectpage);
 
       Object.keys(formik.values).map(fieldName => formik.setFieldTouched(fieldName, true, true));
-      formik.resetForm({ values: initialValues });
+      formik.resetForm();
       setSavedToServer(true);
     } catch (err) {
       if (err?.status === 409) {

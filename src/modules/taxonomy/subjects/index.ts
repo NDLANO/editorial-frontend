@@ -91,6 +91,13 @@ const updateSubject = (id: string, name?: string, contentUri?: string): Promise<
   }).then(resolveVoidOrRejectWithError);
 };
 
+const deleteSubject = (id: string): Promise<void> => {
+  return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+  }).then(resolveVoidOrRejectWithError);
+};
+
 const updateSubjectMetadata = (
   subjectId: string,
   body: {
@@ -140,6 +147,7 @@ export {
   updateSubjectTopic,
   updateSubjectMetadata,
   updateSubject,
+  deleteSubject,
   fetchSubjectNameTranslations,
   updateSubjectNameTranslation,
   deleteSubjectNameTranslation,

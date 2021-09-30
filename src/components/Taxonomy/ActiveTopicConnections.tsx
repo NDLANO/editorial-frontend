@@ -9,11 +9,9 @@
 import React from 'react';
 import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnection from './ActiveTopicConnection';
-import { PathArray } from '../../util/retrieveBreadCrumbs';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 interface Props {
-  retrieveBreadCrumbs: (path: string) => PathArray;
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (id: string) => void;
   activeTopics: StagedTopic[];

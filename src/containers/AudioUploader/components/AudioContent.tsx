@@ -81,7 +81,7 @@ const AudioContent = ({ formik }: Props) => {
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
         {() => (
           <>
-            <FieldHeader title={t('form.audio.file')}>
+            <FieldHeader title={t('form.audio.sound')}>
               <AudioFileInfoModal />
             </FieldHeader>
             {playerObject ? (

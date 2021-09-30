@@ -20,7 +20,6 @@ import {
   fetchSearchTags,
 } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
-import { queryTopics, updateTopic } from '../../modules/taxonomy';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
 import {
@@ -153,7 +152,7 @@ export function useArticleFormHooks({
       ? { ...slateArticle, createNewVersion: true }
       : slateArticle;
 
-    let savedArticle = {};
+    let savedArticle: ConvertedDraftType;
     try {
       if (statusChange && newStatus && updateArticleAndStatus) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
@@ -179,27 +178,10 @@ export function useArticleFormHooks({
         });
       }
 
-      if (
-        article.articleType === 'topic-article' &&
-        article.title !== newArticle.title &&
-        article.id &&
-        article.language
-      ) {
-        // update topic name in taxonomy
-        const topics = await queryTopics(article.id.toString(), article.language);
-        topics.forEach(topic =>
-          updateTopic({
-            ...topic,
-            name: newArticle.title,
-          }),
-        );
-      }
-
       await deleteRemovedFiles(article.content ?? '', newArticle.content ?? '');
 
       setSavedToServer(true);
       formikHelpers.resetForm({ values: getInitialValues(savedArticle) });
-
       formikHelpers.setFieldValue('notes', [], false);
     } catch (e) {
       const err = e as any;

@@ -17,7 +17,7 @@ export const onSaveAsMetaImage = (image, formikContext) => {
 
   if (setFieldValue && image) {
     setTimeout(() => {
-      setFieldValue('metaImageId', parseInt(image.id));
+      setFieldValue('metaImageId', image.id || '');
       setFieldValue('metaImageAlt', image.alttext?.alttext || '');
     }, 0);
   }
@@ -32,6 +32,11 @@ const VisualElementSelectField = ({
   selectedResource,
 }) => {
   const formikContext = useFormikContext();
+
+  const { values } = formikContext;
+
+  const showMetaImageCheckbox =
+    values.metaImageAlt !== undefined && values.metaImageId !== undefined;
 
   const onImageLightboxClose = () => {
     resetSelectedResource();
@@ -60,7 +65,7 @@ const VisualElementSelectField = ({
           videoTypes={videoTypes}
           articleLanguage={articleLanguage}
           setH5pFetchFail={setH5pFetchFail}
-          showMetaImageCheckbox={true}
+          showMetaImageCheckbox={showMetaImageCheckbox}
           onSaveAsMetaImage={image => onSaveAsMetaImage(image, formikContext)}
         />
       )}

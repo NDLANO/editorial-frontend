@@ -57,6 +57,11 @@ const TagWrapper = styled.div`
   }
 `;
 
+const VisualElementWrapper = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 interface Props {
   concept: ConceptType;
 }
@@ -104,7 +109,9 @@ const PreviewConcept = ({ concept }: Props) => {
       <NotionHeaderWithoutExitButton title={concept.title} />
       <StyledBody>
         <NotionDialogContent>
-          <VisualElement />
+          <VisualElementWrapper>
+            <VisualElement />
+          </VisualElementWrapper>
           <NotionDialogText>
             <span
               dangerouslySetInnerHTML={{

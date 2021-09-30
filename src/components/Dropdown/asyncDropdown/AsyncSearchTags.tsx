@@ -10,25 +10,16 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { DropdownInput } from '@ndla/forms';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { AsyncDropdown } from '../index';
-import { SearchResult } from '../../../interfaces';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { SearchResultBase } from '../../../interfaces';
 
 interface Props {
   language: string;
   initialTags: string[];
   field?: FieldInputProps<string[]>;
   form?: FormikHelpers<string[]>;
-  fetchTags: (input: string, language: string) => Promise<SearchResult>;
+  fetchTags: (input: string, language: string) => Promise<SearchResultBase<string>>;
   updateValue?: (value: string[]) => void;
-}
-
-interface AsyncDropdownProps {
-  selectedItems: TagWithTitle[];
-  value: string;
-  removeItem: (tag: string) => void;
-  onBlur: (event: Event) => void;
-  onChange: (event: Event) => void;
-  onKeyDown: (event: Event) => void;
 }
 
 interface TagWithTitle {
@@ -87,10 +78,8 @@ const AsyncSearchTags = ({ language, initialTags, field, form, fetchTags, update
     <Fragment>
       <AsyncDropdown
         idField="title"
-        name="TagSearch"
         labelField="title"
         placeholder={t('form.tags.searchPlaceholder')}
-        label="label"
         apiAction={searchForTags}
         onChange={addTag}
         selectedItems={convertToTagsWithTitle(tags)}
@@ -99,18 +88,18 @@ const AsyncSearchTags = ({ language, initialTags, field, form, fetchTags, update
         saveOnEnter
         onCreate={createNewTag}
         removeItem={removeTag}>
-        {(props: AsyncDropdownProps) => (
+        {({ selectedItems, value, removeItem, onBlur, onChange, onKeyDown }) => (
           <DropdownInput
             multiSelect
             idField={'title'}
             labelField={'title'}
-            values={props.selectedItems}
+            values={selectedItems}
             testid="multiselect"
-            value={props.value}
-            removeItem={props.removeItem}
-            onBlur={props.onBlur}
-            onChange={props.onChange}
-            onKeyDown={props.onKeyDown}
+            value={value}
+            removeItem={removeItem}
+            onBlur={onBlur}
+            onChange={onChange}
+            onKeyDown={onKeyDown}
           />
         )}
       </AsyncDropdown>

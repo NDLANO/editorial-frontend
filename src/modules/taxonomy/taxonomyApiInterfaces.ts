@@ -78,6 +78,7 @@ export interface ParentTopic extends TaxonomyElement {
 export type ParentTopicWithRelevanceAndConnections = ParentTopic & {
   topicConnections: TopicConnections[];
   relevanceId: string;
+  breadcrumb: TaxonomyElement[];
 };
 
 export interface ResourceTranslation {
@@ -103,7 +104,7 @@ export interface TopicConnections {
 export interface ResourceResourceType {
   id: string;
   name: string;
-  parentId: string;
+  parentId?: string;
   connectionId: string;
 }
 

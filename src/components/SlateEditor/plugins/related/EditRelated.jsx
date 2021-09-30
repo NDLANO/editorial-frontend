@@ -17,7 +17,7 @@ import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
 import { colors, spacing } from '@ndla/core';
 import { search } from '../../../../modules/search/searchApi';
-import AsyncDropdown from '../../../Dropdown/asyncDropdown/AsyncDropdown';
+import AsyncDropdown from '../../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import Overlay from '../../../Overlay';
 import RelatedArticle from './RelatedArticle';
 import ContentLink from '../../../../containers/ArticlePage/components/ContentLink';
@@ -117,10 +117,10 @@ class EditRelated extends React.PureComponent {
     }));
   }
 
-  async searchForArticles(query) {
+  async searchForArticles(query, page) {
     return search({
-      query: query.query,
-      page: query.page,
+      query,
+      page,
       'context-types': 'standard, topic-article',
     });
   }
@@ -239,7 +239,6 @@ class EditRelated extends React.PureComponent {
               <StyledArticle data-cy="styled-article-modal">
                 <AsyncDropdown
                   idField="id"
-                  name="relatedArticleSearch"
                   labelField="title"
                   placeholder={t('form.content.relatedArticle.placeholder')}
                   label="label"

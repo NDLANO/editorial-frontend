@@ -209,6 +209,7 @@ class EditMarkupPage extends Component<Props & WithTranslation, State> {
         content,
         revision: this.state.draft?.revision ?? -1,
         language,
+        supportedLanguages: this.state.draft?.supportedLanguages ?? [],
       });
       this.setState({ status: 'saved', draft });
     } catch (e) {

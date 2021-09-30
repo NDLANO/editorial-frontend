@@ -6,7 +6,7 @@
  *
  */
 
-import { ndlaBaseUrl } from './config';
+import config from './config';
 
 export const NAVIGATION_HEADER_MARGIN = '71px';
 
@@ -85,14 +85,15 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'MolView', url: ['embed.molview.org'] },
   {
     name: 'NDLA Statisk',
-    url: [`statisk.${ndlaBaseUrl()}`],
+    url: [`statisk.${config.ndlaBaseUrl}`],
   },
   {
     name: 'NDLA Liste',
-    url: [`liste.${ndlaBaseUrl()}`],
+    url: [`liste.${config.ndlaBaseUrl}`],
     height: '398px',
   },
-  { name: 'ebok', url: ['ebok.no'] },
+  { name: 'Ebok', url: ['ebok.no'] },
+  { name: 'Trinket', url: ['trinket.io'], height: '700px' },
 ];
 
 export const SearchTypeValues = [

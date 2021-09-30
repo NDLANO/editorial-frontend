@@ -13,7 +13,6 @@ import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
 import {
   fetchResourceTypes,
-  fetchTopics,
   fetchSubjects,
   fetchSubjectTopics,
   fetchTopicConnections,
@@ -23,9 +22,8 @@ import {
   createResource,
   getResourceId,
 } from '../../../../modules/taxonomy';
-import { sortByName, groupTopics } from '../../../../util/taxonomyHelpers';
+import { sortByName, groupTopics, getBreadcrumbFromPath } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
-import retrieveBreadCrumbs from '../../../../util/retrieveBreadCrumbs';
 import TopicConnections from '../../../../components/Taxonomy/TopicConnections';
 import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
@@ -39,7 +37,6 @@ import {
 import { FormikFieldHelp } from '../../../../components/FormikField';
 import {
   TaxonomyMetadata,
-  Topic,
   ResourceType,
   ResourceResourceType,
   SubjectType,
@@ -95,7 +92,6 @@ interface State {
   };
 
   taxonomyChoices: {
-    allTopics: Topic[];
     availableResourceTypes: ResourceType[];
   };
   showWarning: boolean;
@@ -116,7 +112,6 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         ...emptyTaxonomy,
       },
       taxonomyChoices: {
-        allTopics: [],
         availableResourceTypes: [],
       },
       showWarning: false,
@@ -248,9 +243,8 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     } = this.props;
     if (!language) return;
     try {
-      const [allResourceTypes, allTopics, subjects] = await Promise.all([
+      const [allResourceTypes, subjects] = await Promise.all([
         fetchResourceTypes(language),
-        fetchTopics(language),
         fetchSubjects(language),
       ]);
 
@@ -260,7 +254,6 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         this.setState({
           taxonomyChoices: {
             availableResourceTypes: allResourceTypes.filter(resourceType => resourceType.name),
-            allTopics: allTopics.filter(topic => topic.name),
           },
           structure: sortedSubjects,
         });
@@ -287,7 +280,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     let reassignedResourceId = resourceId;
     const {
       updateNotes,
-      article: { language, id, title, revision },
+      article: { language, id, title, revision, supportedLanguages },
     } = this.props;
     if (!language || !id) return;
     this.setState({ status: 'loading' });
@@ -309,6 +302,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
           revision: revision ?? 0,
           language,
           notes: ['Oppdatert taksonomi.'],
+          supportedLanguages: supportedLanguages ?? [],
         });
         this.setState({
           status: 'success',
@@ -348,20 +342,23 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     const topicResources = await Promise.all(
       sortedParents.map(topic => fetchTopicResources(topic.id)),
     );
-    const topicsWithConnectionsAndRelevanceId = sortedParents.map((topic, index) => {
+    const topicsWithConnectionsAndRelevanceId = sortedParents.map(async (topic, index) => {
       const foundRelevanceId = topicResources[index]?.find(resource => resource.id === resourceId)
         ?.relevanceId;
+      const breadcrumb = await getBreadcrumbFromPath(topic.path);
       return {
         topicConnections: topicConnections[index],
         relevanceId: foundRelevanceId ?? RESOURCE_FILTER_CORE,
+        breadcrumb,
         ...topic,
       };
     });
+    const topics = await Promise.all(topicsWithConnectionsAndRelevanceId);
 
     return {
       name,
       resourceTypes,
-      topics: topicsWithConnectionsAndRelevanceId,
+      topics,
       metadata,
     };
   };
@@ -414,7 +411,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
 
   render() {
     const {
-      taxonomyChoices: { availableResourceTypes, allTopics },
+      taxonomyChoices: { availableResourceTypes },
       taxonomyChanges: { resourceTypes, topics, metadata },
       resourceId,
       resourceTaxonomy,
@@ -452,17 +449,6 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       );
     }
 
-    const breadCrumbs = [];
-    topics.forEach(topic => {
-      if (topic.paths) {
-        topic.paths.forEach(path =>
-          breadCrumbs.push(retrieveBreadCrumbs({ topicPath: path, allTopics, structure })),
-        );
-      } else {
-        breadCrumbs.push(retrieveBreadCrumbs({ topicPath: topic.path, allTopics, structure }));
-      }
-    });
-
     return (
       <Fragment>
         {userAccess?.includes(TAXONOMY_ADMIN_SCOPE) && resourceId && (
@@ -482,11 +468,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         />
         <TopicConnections
           structure={structure}
-          allTopics={allTopics}
           activeTopics={topics}
-          retrieveBreadCrumbs={topicPath =>
-            retrieveBreadCrumbs({ topicPath, allTopics, structure })
-          }
           removeConnection={this.removeConnection}
           setPrimaryConnection={this.setPrimaryConnection}
           setRelevance={this.setRelevance}

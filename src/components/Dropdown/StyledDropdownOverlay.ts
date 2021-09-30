@@ -10,6 +10,10 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { spacing, shadows, misc } from '@ndla/core';
 
+interface Props {
+  withArrow: boolean;
+}
+
 export const StyledDropdownOverlay = styled.div`
   position: absolute;
   z-index: 9999;
@@ -19,7 +23,7 @@ export const StyledDropdownOverlay = styled.div`
   border-radius: ${misc.borderRadius};
   animation-duration: 400ms;
   animation-name: fadeInOverlay;
-  ${props =>
+  ${(props: Props) =>
     props.withArrow
       ? css`
           &:before {

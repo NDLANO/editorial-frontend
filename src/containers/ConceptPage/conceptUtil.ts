@@ -41,7 +41,7 @@ export const transformApiConceptToFormValues = (
     processors: concept.copyright?.processors || [],
     source: concept && concept.source ? concept.source : '',
     license: concept.copyright?.license?.license || '',
-    metaImageId: concept.metaImageId,
+    metaImageId: concept.metaImageId || '',
     metaImageAlt: concept.metaImage?.alt || '',
     tags: concept.tags || [],
     articles: concept.articles || [],

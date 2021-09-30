@@ -14,6 +14,7 @@ import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
 import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
+import { getTaxonomyPathsFromTaxonomy } from './util';
 
 export const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
@@ -22,8 +23,13 @@ export const StyledLanguageWrapper = styled.div`
   align-items: center;
 `;
 
-interface TaxonomyObject {
-  paths?: string;
+export interface TaxonomyObject {
+  topics?: PathObject[];
+  resources?: PathObject[];
+}
+
+interface PathObject {
+  paths?: string[];
 }
 
 interface Props {
@@ -62,11 +68,6 @@ interface Props {
   };
   formIsDirty?: boolean;
 }
-
-const getTaxonomyPathsFromTaxonomy = (taxonomy?: TaxonomyObject, articleId?: number): string[] => {
-  const flattenedPaths: string[] = Object.values(taxonomy ?? {}).flatMap(rt => rt?.paths);
-  return [...flattenedPaths, `/article/${articleId}`];
-};
 
 const HeaderWithLanguage = ({
   content,

@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import { getIdFromUrn } from '../../util/taxonomyHelpers';
@@ -14,16 +14,18 @@ import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
 import Spinner from '../../components/Spinner';
 import GrepCodesForm from './GrepCodesForm';
 import { LocaleType } from '../../interfaces';
+import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface Props {
   contentUri?: string;
-  onClose: () => void;
+  onClose: (newGrepCodes?: string[]) => void;
   locale: LocaleType;
 }
 
 const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
   const { t } = useTranslation();
   const articleId = getIdFromUrn(contentUri);
+  const [newGrepCodes, setNewGrepCodes] = useState<string[] | undefined>(undefined);
 
   const {
     loading,
@@ -33,15 +35,21 @@ const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
     updateArticleAndStatus,
   } = useFetchArticleData(articleId?.toString(), locale);
 
+  const onUpdateArticle = async (updated: UpdatedDraftApiType) => {
+    const res = await updateArticle(updated);
+    setNewGrepCodes(updated.grepCodes);
+    return res;
+  };
+
   return (
-    <TaxonomyLightbox title={t('form.name.grepCodes')} onClose={onClose} wide>
+    <TaxonomyLightbox title={t('form.name.grepCodes')} onClose={() => onClose(newGrepCodes)} wide>
       {loading || !article || !article.id ? (
         <Spinner />
       ) : (
         <GrepCodesForm
           article={article}
           articleChanged={articleChanged}
-          updateArticle={updateArticle}
+          updateArticle={onUpdateArticle}
           updateArticleAndStatus={updateArticleAndStatus}
         />
       )}

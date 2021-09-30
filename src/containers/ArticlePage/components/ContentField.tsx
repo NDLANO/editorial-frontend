@@ -14,12 +14,12 @@ import Button from '@ndla/button';
 import { FormikHelpers, FormikValues } from 'formik';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
-import { AsyncDropdown } from '../../../components/Dropdown';
-import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
+import { ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
 import { ArticleFormikType } from '../../FormikForm/articleFormHooks';
-import { DraftSearchQuery } from '../../../modules/draft/draftApiInterfaces';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { DraftApiType, DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   locale: string;
@@ -37,11 +37,9 @@ const ContentField = ({ locale, values, field, form }: Props) => {
   );
   const [showAddExternal, setShowAddExternal] = useState(false);
 
-  const onAddArticleToList = async (article: ContentResultType) => {
+  const onAddArticleToList = async (article: DraftSearchSummary) => {
     try {
-      // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
-      const newArticle = (await fetchDraft(article.id, locale)) as ArticleType;
-
+      const newArticle = await fetchDraft(article.id, locale);
       const temp = [...relatedContent, newArticle];
       if (newArticle) {
         setRelatedContent(temp);
@@ -67,9 +65,10 @@ const ContentField = ({ locale, values, field, form }: Props) => {
     });
   };
 
-  const searchForArticles = async (query: DraftSearchQuery) => {
+  const searchForArticles = async (query: string, page?: number) => {
     return searchDrafts({
-      ...query,
+      query,
+      page,
       language: locale,
     });
   };
@@ -79,6 +78,12 @@ const ContentField = ({ locale, values, field, form }: Props) => {
     setRelatedContent(temp);
     updateFormik(field, temp);
   };
+
+  const isDraftApiType = (obj: any): obj is DraftApiType => {
+    return obj.id !== undefined;
+  };
+
+  const selectedItems = relatedContent.filter(isDraftApiType);
 
   return (
     <>
@@ -92,14 +97,13 @@ const ContentField = ({ locale, values, field, form }: Props) => {
         onUpdateElements={onUpdateElements}
       />
       <AsyncDropdown
-        selectedItems={relatedContent.filter(e => typeof e !== 'number')}
+        selectedItems={selectedItems}
         idField="id"
-        name="relatedConceptsSearch"
         labelField="title"
         placeholder={t('form.relatedContent.placeholder')}
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(concept: ContentResultType) => onAddArticleToList(concept)}
+        onChange={onAddArticleToList}
         multiSelect
         disableSelected
         clearInputField

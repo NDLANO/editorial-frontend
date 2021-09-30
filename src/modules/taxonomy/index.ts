@@ -38,6 +38,7 @@ export {
   fetchSubjectTopics,
   addSubject,
   updateSubject,
+  deleteSubject,
   addSubjectTopic,
   updateSubjectTopic,
   updateSubjectMetadata,

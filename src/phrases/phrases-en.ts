@@ -1111,6 +1111,7 @@ const phrases = {
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
+    errorWhenFetchingTaxonomyArticle: 'There was a problem fetching the underlying article',
     unsavedTaxonomy:
       'You have unsaved changes. Press cancel again if you are sure you want to continue.',
     auth0:

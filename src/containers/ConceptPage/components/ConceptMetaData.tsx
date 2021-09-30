@@ -14,7 +14,6 @@ import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSea
 import { MetaImageSearch } from '../../FormikForm';
 import { ConceptFormValues } from '../conceptInterfaces';
 import InlineImageSearch from './InlineImageSearch';
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../constants';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
 import { ConceptTagsSearchResult } from '../../../modules/concept/conceptApiInterfaces';
@@ -28,10 +27,6 @@ interface Props {
 const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
   const { t } = useTranslation();
   const { values } = useFormikContext<ConceptFormValues>();
-
-  const conceptSubjects = subjects.filter(
-    s => s.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] !== undefined,
-  );
 
   return (
     <Fragment>
@@ -57,7 +52,7 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
           <MultiSelectDropdown
             labelField="name"
             minSearchLength={1}
-            initialData={conceptSubjects}
+            initialData={subjects}
             {...field}
           />
         )}

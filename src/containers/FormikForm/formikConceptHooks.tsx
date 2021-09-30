@@ -20,6 +20,7 @@ import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
   const [concept, setConcept] = useState<ConceptApiType>();
@@ -50,7 +51,10 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
 
   useEffect(() => {
     const fetchSubjects = async () => {
-      const fetchedSubjects = await taxonomyApi.fetchSubjects(locale);
+      const fetchedSubjects = await taxonomyApi.fetchSubjects(locale, {
+        key: TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+        value: 'true',
+      });
       setSubjects(fetchedSubjects);
     };
     fetchSubjects();

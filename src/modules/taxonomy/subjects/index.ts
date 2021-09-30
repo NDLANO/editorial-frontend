@@ -6,6 +6,7 @@
  *
  */
 
+import queryString from 'query-string';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -26,8 +27,17 @@ import { LocaleType } from '../../../interfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
-const fetchSubjects = (locale: string): Promise<SubjectType[]> => {
-  return fetchAuthorized(`${baseUrl}/subjects?language=${locale}`).then(r =>
+const fetchSubjects = (
+  locale: string,
+  metadataFilter?: { key: string; value?: string },
+): Promise<SubjectType[]> => {
+  const query = queryString.stringify({
+    language: locale,
+    key: metadataFilter?.key,
+    value: metadataFilter?.value,
+  });
+
+  return fetchAuthorized(`${baseUrl}/subjects?` + query).then(r =>
     resolveJsonOrRejectWithError<SubjectType[]>(r),
   );
 };

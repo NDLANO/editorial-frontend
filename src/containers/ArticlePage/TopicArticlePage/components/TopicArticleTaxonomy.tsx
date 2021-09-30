@@ -12,7 +12,6 @@ import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
 import {
-  fetchTopics,
   fetchSubjects,
   fetchSubjectTopics,
   queryTopics,
@@ -20,11 +19,14 @@ import {
   addTopicToTopic,
   addSubjectTopic,
   addTopic,
-  fetchResourceTypes,
 } from '../../../../modules/taxonomy';
-import { sortByName, groupTopics, pathToUrnArray } from '../../../../util/taxonomyHelpers';
+import {
+  sortByName,
+  groupTopics,
+  pathToUrnArray,
+  getBreadcrumbFromPath,
+} from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
-import retrieveBreadCrumbs from '../../../../util/retrieveBreadCrumbs';
 import SaveButton from '../../../../components/SaveButton';
 import { ActionButton } from '../../../FormikForm';
 import TopicArticleConnections from './TopicArticleConnections';
@@ -32,12 +34,10 @@ import TopicArticleConnections from './TopicArticleConnections';
 import { FormikFieldHelp } from '../../../../components/FormikField';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import {
-  ResourceType,
   SubjectTopic,
   SubjectType,
   TaxonomyElement,
   TaxonomyMetadata,
-  Topic,
   TopicConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
@@ -60,6 +60,7 @@ export interface StagedTopic extends TaxonomyElement {
   name: string;
   path: string;
   paths?: string[];
+  breadcrumb?: TaxonomyElement[];
   topicConnections?: TopicConnections[];
   primary?: boolean;
   relevanceId?: string;
@@ -72,10 +73,6 @@ interface State {
   status: string;
   isDirty: boolean;
   stagedTopicChanges: StagedTopic[];
-  taxonomyChoices: {
-    allTopics: SubjectTopic[] | Topic[];
-    availableResourceTypes?: ResourceType[];
-  };
   showWarning: boolean;
 }
 
@@ -87,9 +84,6 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       status: 'loading',
       isDirty: false,
       stagedTopicChanges: [],
-      taxonomyChoices: {
-        allTopics: [],
-      },
       showWarning: false,
     };
   }
@@ -126,11 +120,9 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     } = this.props;
     if (!language) return;
     try {
-      const [topics, allTopics, subjects, allResourceTypes] = await Promise.all([
+      const [topics, subjects] = await Promise.all([
         queryTopics(articleId.toString(), language),
-        fetchTopics(language),
         fetchSubjects(language),
-        fetchResourceTypes(language),
       ]);
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
@@ -141,19 +133,20 @@ class TopicArticleTaxonomy extends Component<Props, State> {
         sortedTopics.map(topic => fetchTopicConnections(topic.id)),
       );
 
-      const topicsWithConnections = sortedTopics.map((topic, index) => ({
-        topicConnections: topicConnections[index],
-        ...topic,
-      }));
+      const topicsWithConnections = sortedTopics.map(async (topic, index) => {
+        const breadcrumb = await getBreadcrumbFromPath(topic.path);
+        return {
+          topicConnections: topicConnections[index],
+          breadcrumb,
+          ...topic,
+        };
+      });
+      const stagedTopicChanges = await Promise.all(topicsWithConnections);
 
       this.setState({
         status: 'initial',
-        stagedTopicChanges: topicsWithConnections,
+        stagedTopicChanges,
         structure: sortedSubjects,
-        taxonomyChoices: {
-          availableResourceTypes: allResourceTypes.filter(resourceType => resourceType.name),
-          allTopics: allTopics.filter(topic => topic.name),
-        },
       });
     } catch (e) {
       handleError(e);
@@ -161,12 +154,14 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     }
   };
 
-  stageTaxonomyChanges = ({ path }: { path: string }) => {
+  stageTaxonomyChanges = async ({ path }: { path: string }) => {
     if (path) {
+      const breadcrumb = await getBreadcrumbFromPath(path);
       const newTopic: StagedTopic = {
         id: 'staged',
         name: this.props.article.title ?? '',
         path: `${path}/staged`,
+        breadcrumb,
         metadata: {
           grepCodes: [],
           visible: true,
@@ -283,19 +278,8 @@ class TopicArticleTaxonomy extends Component<Props, State> {
   };
 
   render() {
-    const {
-      taxonomyChoices: { allTopics },
-      stagedTopicChanges,
-      structure,
-      status,
-      isDirty,
-      showWarning,
-    } = this.state;
-    const {
-      t,
-      article: { title },
-      locale,
-    } = this.props;
+    const { stagedTopicChanges, structure, status, isDirty, showWarning } = this.state;
+    const { t, locale } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -317,25 +301,11 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       );
     }
 
-    const breadCrumbs = [];
-    stagedTopicChanges.forEach(topic => {
-      if (topic.paths) {
-        topic.paths.forEach(path =>
-          breadCrumbs.push(retrieveBreadCrumbs({ topicPath: path, allTopics, structure })),
-        );
-      } else {
-        breadCrumbs.push(retrieveBreadCrumbs({ topicPath: topic.path, allTopics, structure }));
-      }
-    });
-
     return (
       <Fragment>
         <TopicArticleConnections
           structure={structure}
-          activeTopics={this.state.stagedTopicChanges}
-          retrieveBreadCrumbs={topicPath =>
-            retrieveBreadCrumbs({ topicPath, allTopics, structure, title })
-          }
+          activeTopics={stagedTopicChanges}
           locale={locale}
           getSubjectTopics={this.getSubjectTopics}
           stageTaxonomyChanges={this.stageTaxonomyChanges}

@@ -234,7 +234,7 @@ class ImageForm extends Component<Props & WithTranslation, State> {
         validateOnMount
         enableReinitialize
         validate={values => validateFormik(values, imageRules, t)}>
-        {({ values, dirty, errors, isSubmitting, submitForm }) => {
+        {({ values, dirty, errors, isSubmitting, submitForm, isValid }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -299,6 +299,7 @@ class ImageForm extends Component<Props & WithTranslation, State> {
                 )}
                 <SaveButton
                   isSaving={isSubmitting || isSaving}
+                  disabled={!isValid}
                   showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                   formIsDirty={formIsDirty}
                   submit={!inModal}

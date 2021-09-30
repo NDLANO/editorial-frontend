@@ -49,7 +49,7 @@ const StructureErrorIcon = ({
           }
         } catch (e) {
           if (shouldUpdateState) {
-            if (typeof e.messages === 'string') setError(e.message);
+            if (typeof e.messages === 'string') setError(e.messages);
             else setError(t('errorMessage.errorWhenFetchingTaxonomyArticle'));
           }
         }
@@ -62,7 +62,7 @@ const StructureErrorIcon = ({
     return () => {
       shouldUpdateState = false;
     };
-  }, [isSubject, contentUri]);
+  }, [t, isSubject, contentUri]);
 
   if (!error) return null;
 

@@ -45,9 +45,20 @@ export const conceptApiTypeToFormType = (
 ): ConceptFormValues => {
   const { title, content, tags, visualElement } = convertNestedConceptProps(concept, language);
   const conceptSubjects = subjects.filter(s => concept?.subjectIds.find(id => id === s.id)) ?? [];
-  const spreadConcept = concept ?? {};
+  const spreadConcept: Partial<ConceptApiType> = concept ? { ...concept, content: undefined } : {};
+  if (spreadConcept.hasOwnProperty('content')) {
+    delete spreadConcept.content;
+  }
   return {
-    ...spreadConcept,
+    id: concept?.id,
+    revision: concept?.revision,
+    status: concept?.status,
+    visualElement: concept?.visualElement?.visualElement,
+    copyright: concept?.copyright,
+    metaImage: concept?.metaImage,
+    subjectIds: concept?.subjectIds,
+    articleIds: concept?.articleIds,
+    created: concept?.created,
     slatetitle: plainTextToEditorValue(title, true),
     language,
     subjects: conceptSubjects,
@@ -135,7 +146,6 @@ export const conceptFormTypeToApiType = (
   licenses: License[],
   updatedBy?: string[],
 ): ConceptApiType => {
-  console.log(values);
   return {
     ...values,
     id: values.id!,

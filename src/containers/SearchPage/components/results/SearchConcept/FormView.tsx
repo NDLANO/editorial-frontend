@@ -67,6 +67,50 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: P
     }
   }, [concept, fullConcept, licenses, subjects]);
 
+  const handleSubmit = async (formConcept: InlineFormConcept) => {
+    if (!fullConcept || !licenses) return;
+    const getCreators = (creators: { type: string; name: string }[], newAuthor: string) => {
+      const author = creators.find(cr => cr.type === 'Writer');
+      if (newAuthor !== '') {
+        if (author) {
+          return creators.map(cr => (cr === author ? { ...cr, name: newAuthor } : cr));
+        } else {
+          return creators.concat({
+            type: 'Writer',
+            name: newAuthor,
+          });
+        }
+      } else {
+        return creators.filter(cr => cr !== author);
+      }
+    };
+    const creators = getCreators(fullConcept.copyright?.creators || [], formConcept.author);
+
+    const newConcept = {
+      id: fullConcept.id,
+      supportedLanguages: fullConcept.supportedLanguages,
+      content: fullConcept.content.content,
+      source: fullConcept.source,
+      language: language,
+      subjectIds: formConcept.subjects.map(s => s.id),
+      tags: formConcept.tags,
+      title: formConcept.title,
+      copyright: {
+        ...fullConcept.copyright,
+        creators,
+        license: licenses.find(l => l.license === formConcept.license),
+        rightsholders: [],
+        processors: [],
+      },
+    };
+    const updatedConcept = await updateConcept(newConcept);
+    if (formConcept.newStatus) {
+      await updateConceptStatus(updatedConcept.id, formConcept.newStatus);
+    }
+    updateLocalConcept(updatedConcept);
+    cancel();
+  };
+
   return (
     <StyledConceptView border>
       <h2>{t('form.inlineEdit')}</h2>
@@ -85,49 +129,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: P
           initialValues={formValues}
           status={fullConcept.status.current}
           language={language}
-          onSubmit={(formConcept: InlineFormConcept) => {
-            const getCreators = (creators: { type: string; name: string }[], newAuthor: string) => {
-              const author = creators.find(cr => cr.type === 'Writer');
-              if (newAuthor !== '') {
-                if (author) {
-                  return creators.map(cr => (cr === author ? { ...cr, name: newAuthor } : cr));
-                } else {
-                  return creators.concat({
-                    type: 'Writer',
-                    name: newAuthor,
-                  });
-                }
-              } else {
-                return creators.filter(cr => cr !== author);
-              }
-            };
-            const creators = getCreators(fullConcept.copyright?.creators || [], formConcept.author);
-
-            const newConcept = {
-              id: fullConcept.id,
-              supportedLanguages: fullConcept.supportedLanguages,
-              content: fullConcept.content.content,
-              source: fullConcept.source,
-              language: language,
-              subjectIds: formConcept.subjects.map(s => s.id),
-              tags: formConcept.tags,
-              title: formConcept.title,
-              copyright: {
-                ...fullConcept.copyright,
-                creators,
-                license: licenses.find(l => l.license === formConcept.license),
-                rightsholders: [],
-                processors: [],
-              },
-            };
-            updateConcept(newConcept).then((updatedConcept: ConceptApiType) => {
-              if (formConcept.newStatus) {
-                updateConceptStatus(updatedConcept.id, formConcept.newStatus);
-              }
-              updateLocalConcept(updatedConcept);
-              cancel();
-            });
-          }}
+          onSubmit={handleSubmit}
           licenses={licenses}
           allSubjects={conceptSubjects}
           cancel={cancel}

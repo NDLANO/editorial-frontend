@@ -20,9 +20,6 @@ export interface ConceptFormValues {
     current: ConceptStatusType;
     other: ConceptStatusType[];
   };
-
-  title?: string;
-  content?: string;
   visualElement?: string;
   copyright?: Copyright;
   source?: string;

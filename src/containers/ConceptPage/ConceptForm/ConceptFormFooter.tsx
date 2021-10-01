@@ -48,7 +48,6 @@ const ConceptFormFooter = ({
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
   const { values, errors, initialValues, dirty, isSubmitting, submitForm } = formikContext;
-  console.log('initial', initialValues);
   const formIsDirty = isFormikFormDirty({
     values,
     initialValues,

@@ -23,6 +23,10 @@ import { FootnoteType } from './containers/ArticlePage/LearningResourcePage/comp
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
+export type PartialRecord<K extends keyof any, T> = {
+  [P in K]?: T;
+};
+
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
 export type EditMode =
@@ -200,6 +204,12 @@ export interface RelatedContentLink {
   title: string;
   url: string;
 }
+
+export type TypeOfPreview =
+  | 'preview'
+  | 'previewLanguageArticle'
+  | 'previewVersion'
+  | 'previewProductionArticle';
 
 export type RelatedContent = RelatedContentLink | number;
 

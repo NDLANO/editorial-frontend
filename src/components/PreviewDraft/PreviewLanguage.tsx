@@ -24,18 +24,16 @@ const StyledPreview = styled.div`
 
 interface Props {
   label: string;
-  contentType: string;
+  contentType?: string;
   firstEntity: ArticleType | ConceptType;
   secondEntity: ArticleType | ConceptType;
   previewLanguage: string;
-
-  onChangePreviewLanguage(language: string): void;
-
-  getEntityPreview(
+  onChangePreviewLanguage: (language: string) => void;
+  getEntityPreview: (
     entity: ArticleType | ConceptType,
-    label?: string,
+    label: string,
     contentType?: string,
-  ): Element;
+  ) => React.ReactNode;
 }
 
 const PreviewLanguage = ({

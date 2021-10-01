@@ -20,7 +20,7 @@ import '../DisplayEmbed/helpers/h5pResizer';
 interface Props {
   article: ArticleType;
   label: string;
-  language: LocaleType;
+  language: string;
   contentType?: string;
 }
 
@@ -56,7 +56,7 @@ class PreviewDraft extends Component<Props, {}> {
         children={undefined}
         icon={icon}
         id={formatted?.id.toString() ?? ''}
-        locale={language}
+        locale={language as LocaleType} // Sørsamisk er ikke en del av LocaleType nå.
         messages={{
           label,
         }}

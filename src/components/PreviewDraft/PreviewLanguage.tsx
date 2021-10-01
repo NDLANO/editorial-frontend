@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 import { ArticleType } from '../../interfaces';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
+import { createGuard } from '../../util/guards';
 
 export const StyledPreviewHeader = styled.div`
   min-height: 6rem;
@@ -38,9 +39,7 @@ interface Props {
   ) => React.ReactNode;
 }
 
-const isConceptApiType = (entity: ArticleType | ConceptApiType): entity is ConceptApiType => {
-  return (entity as ConceptApiType).content?.content !== undefined;
-};
+const isConceptApiType = createGuard<ConceptApiType>('articleIds');
 
 const PreviewLanguage = ({
   firstEntity,

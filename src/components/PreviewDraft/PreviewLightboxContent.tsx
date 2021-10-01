@@ -16,6 +16,7 @@ import { ArticleConverterApiType } from '../../modules/article/articleApiInterfa
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { ArticleType, TypeOfPreview } from '../../interfaces';
 import { ConceptPreviewType } from '../PreviewConcept/PreviewConceptLightbox';
+import { createArrayGuard } from '../../util/guards';
 
 interface StyledProps {
   contentType?: string;
@@ -44,11 +45,7 @@ interface Props {
   ) => React.ReactNode;
 }
 
-const isArticleArray = (
-  entities: (ArticleConverterApiType | ConceptApiType)[],
-): entities is ArticleConverterApiType[] => {
-  return entities.every(e => (e as ArticleConverterApiType).agreementId !== undefined);
-};
+const isArticleArray = createArrayGuard<ArticleConverterApiType>('agreementId');
 
 const PreviewLightboxContent = ({
   firstEntity,

@@ -22,6 +22,7 @@ import SaveMultiButton from '../SaveMultiButton';
 import { ConceptApiType, ConceptStatus } from '../../modules/concept/conceptApiInterfaces';
 import { NewReduxMessage } from '../../containers/Messages/messagesSelectors';
 import { DraftStatus, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
+import { createGuard, createReturnTypeGuard } from '../../util/guards';
 
 interface Props {
   formIsDirty: boolean;
@@ -114,9 +115,9 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
-  const isDraftApiType = (t: UpdatedDraftApiType | ConceptApiType): t is UpdatedDraftApiType => {
-    return (t as UpdatedDraftApiType).revision !== undefined;
-  };
+  const isDraftApiType = createGuard<UpdatedDraftApiType, ConceptApiType>('subjectIds', {
+    lacksProp: true,
+  });
 
   const onValidateClick = async () => {
     const { id, revision } = values;
@@ -167,11 +168,7 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
-  const isConceptType = (
-    func: () => UpdatedDraftApiType | ConceptApiType,
-  ): func is () => ConceptApiType => {
-    return (func() as ConceptApiType).subjectIds !== undefined;
-  };
+  const isConceptType = createReturnTypeGuard<ConceptApiType>('subjectIds');
 
   return (
     <Footer>

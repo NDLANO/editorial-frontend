@@ -19,25 +19,20 @@ import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
+import { createReturnTypeGuard } from '../../util/guards';
+
+type PreviewTypes = ConceptApiType | UpdatedDraftApiType;
 
 interface PreviewLightBoxProps {
   type: string;
-  getEntity: () => ConceptApiType | UpdatedDraftApiType;
+  getEntity: () => PreviewTypes;
   articleType?: string;
   supportedLanguages?: string[];
 }
 
-const isConceptReturnType = (
-  getEntity: () => ConceptApiType | UpdatedDraftApiType,
-): getEntity is () => ConceptApiType => {
-  return (getEntity() as ConceptApiType).subjectIds !== undefined;
-};
-
-const isDraftReturnType = (
-  getEntity: () => ConceptApiType | UpdatedDraftApiType,
-): getEntity is () => UpdatedDraftApiType => {
-  return !isConceptReturnType(getEntity);
-};
+const isConceptReturnType = createReturnTypeGuard<ConceptApiType>('articleIds');
+const isDraftReturnType = (value: () => PreviewTypes): value is () => UpdatedDraftApiType =>
+  !isConceptReturnType(value);
 
 const PreviewLightBox = ({
   type,
@@ -68,7 +63,7 @@ const PreviewLightBox = ({
 interface Props {
   editUrl?: (url: string) => string;
   formIsDirty: boolean;
-  getEntity?: () => ConceptApiType | UpdatedDraftApiType;
+  getEntity?: () => PreviewTypes;
   isNewLanguage: boolean;
   isSubmitting?: boolean;
   noStatus: boolean;

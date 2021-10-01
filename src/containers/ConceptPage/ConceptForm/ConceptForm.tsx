@@ -15,14 +15,13 @@ import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import * as messageActions from '../../Messages/messagesActions';
 import { formClasses } from '../../FormikForm';
 import {
-  getPatchApiConcept,
-  conceptFormRules,
   conceptApiTypeToFormType,
   conceptFormTypeToApiType,
+  getConceptPatchType,
 } from '../conceptUtil';
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
@@ -31,8 +30,8 @@ import {
   ConceptApiType,
   ConceptStatusType,
   ConceptTagsSearchResult,
-  NewConceptType,
-  PatchConceptType,
+  ConceptPostType,
+  ConceptPatchType,
 } from '../../../modules/concept/conceptApiInterfaces';
 import { License } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
@@ -51,15 +50,34 @@ interface Props {
   conceptArticles: DraftApiType[];
   onClose?: () => void;
   language: string;
-  onUpdate: (updateConcept: NewConceptType | PatchConceptType, revision?: number) => Promise<void>;
+  onUpdate: (updateConcept: ConceptPostType | ConceptPatchType, revision?: number) => Promise<void>;
   subjects: SubjectType[];
   translateToNN?: () => void;
   updateConceptAndStatus?: (
-    updatedConcept: PatchConceptType,
+    updatedConcept: ConceptPatchType,
     newStatus: ConceptStatusType,
     dirty: boolean,
   ) => Promise<void>;
 }
+
+const conceptFormRules: RulesType<ConceptFormValues> = {
+  slatetitle: {
+    required: true,
+  },
+  conceptContent: {
+    required: true,
+  },
+  creators: {
+    allObjectFieldsRequired: true,
+  },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: (values: ConceptFormValues) => !!values.metaImageId,
+  },
+  subjects: {
+    minItems: 1,
+  },
+};
 
 const ConceptForm = ({
   concept,
@@ -102,9 +120,13 @@ const ConceptForm = ({
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
         const fDirty = isFormikFormDirty({ values, initialValues, dirty: true });
         const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !fDirty;
-        await updateConceptAndStatus(getPatchApiConcept(values, licenses), newStatus!, !skipSaving);
+        await updateConceptAndStatus(
+          getConceptPatchType(values, licenses),
+          newStatus!,
+          !skipSaving,
+        );
       } else {
-        await onUpdate(getPatchApiConcept(values, licenses), revision!);
+        await onUpdate(getConceptPatchType(values, licenses), revision!);
       }
       formikHelpers.resetForm();
       formikHelpers.setSubmitting(false);

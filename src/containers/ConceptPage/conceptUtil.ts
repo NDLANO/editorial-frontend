@@ -5,20 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
-import { FormikContextType } from 'formik';
-import isEmpty from 'lodash/fp/isEmpty';
 import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
 import { createEmbedTag } from '../../util/embedTagHelpers';
 import {
   ConceptApiType,
-  NewConceptType,
-  PatchConceptType,
+  ConceptPostType,
+  ConceptPatchType,
 } from '../../modules/concept/conceptApiInterfaces';
 import { License } from '../../interfaces';
 import { ConceptFormValues } from './conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { RulesType } from '../../components/formikValidationSchema';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
@@ -59,6 +55,7 @@ export const conceptApiTypeToFormType = (
     subjectIds: concept?.subjectIds,
     articleIds: concept?.articleIds,
     created: concept?.created,
+    updated: concept?.updated,
     slatetitle: plainTextToEditorValue(title, true),
     language,
     subjects: conceptSubjects,
@@ -77,68 +74,33 @@ export const conceptApiTypeToFormType = (
   };
 };
 
-export const getCreatedDate = (values: ConceptFormValues, initialValues: ConceptFormValues) => {
-  if (isEmpty(values.created)) {
-    return undefined;
-  }
+const metaImageFromForm = (v: ConceptFormValues) =>
+  v.metaImageId ? { id: v.metaImageId, alt: v.metaImageAlt } : undefined;
 
-  const hasCreatedDateChanged = initialValues.created !== values.created;
-  if (hasCreatedDateChanged) {
-    return values.created;
-  }
-  return undefined;
-};
-
-export const getNewApiConcept = (
+export const getConceptPostType = (
   values: ConceptFormValues,
   licenses: License[],
-): NewConceptType => ({
+): ConceptPostType => ({
+  ...values,
   title: editorValueToPlainText(values.slatetitle),
   content: editorValueToPlainText(values.conceptContent),
-  language: values.language,
   copyright: {
     license: licenses.find(license => license.license === values.license),
-    creators: values.creators,
-    processors: values.processors,
-    rightsholders: values.rightsholders,
+    ...values.copyright!,
   },
-  metaImage: values.metaImageId
-    ? {
-        id: values.metaImageId,
-        alt: values.metaImageAlt,
-      }
-    : undefined,
-  source: values.source,
+  metaImage: metaImageFromForm(values),
   subjectIds: values.subjects.map(subject => subject.id),
-  tags: values.tags,
   articleIds: values.articles.map(a => a.id),
   visualElement: createEmbedTag(values.visualElementObject),
 });
-export const getPatchApiConcept = (
+
+export const getConceptPatchType = (
   values: ConceptFormValues,
   licenses: License[],
-): PatchConceptType => ({
+): ConceptPatchType => ({
+  ...getConceptPostType(values, licenses),
   id: values.id!,
-  title: editorValueToPlainText(values.slatetitle),
-  content: editorValueToPlainText(values.conceptContent),
-  language: values.language,
-  copyright: {
-    license: licenses.find(license => license.license === values.license),
-    creators: values.creators,
-    processors: values.processors,
-    rightsholders: values.rightsholders,
-  },
-  metaImage: values.metaImageId
-    ? {
-        id: values.metaImageId,
-        alt: values.metaImageAlt,
-      }
-    : null,
-  source: values.source,
-  subjectIds: values.subjects.map(subject => subject.id),
-  tags: values.tags,
-  articleIds: values.articles.map(a => a.id),
-  visualElement: createEmbedTag(values.visualElementObject),
+  metaImage: metaImageFromForm(values) ?? null,
 });
 
 export const conceptFormTypeToApiType = (
@@ -178,34 +140,3 @@ export const conceptFormTypeToApiType = (
     },
   };
 };
-
-export const conceptFormRules: RulesType<ConceptFormValues> = {
-  slatetitle: {
-    required: true,
-  },
-  conceptContent: {
-    required: true,
-  },
-  creators: {
-    allObjectFieldsRequired: true,
-  },
-  metaImageAlt: {
-    required: true,
-    onlyValidateIf: (values: ConceptFormValues) => !!values.metaImageId,
-  },
-  subjects: {
-    minItems: 1,
-  },
-};
-
-export function submitFormWithMessage<T>(
-  formikContext: FormikContextType<T>,
-  showMessage: () => void,
-) {
-  const { submitForm, isValid } = formikContext;
-  if (isValid) {
-    submitForm();
-  } else {
-    showMessage();
-  }
-}

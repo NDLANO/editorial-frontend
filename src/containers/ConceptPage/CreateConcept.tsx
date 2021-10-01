@@ -14,7 +14,7 @@ import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../util/routeHelpers';
 import { License } from '../../interfaces';
 import ConceptForm from './ConceptForm/ConceptForm';
-import { NewConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptPostType } from '../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   initialConcept?: {
@@ -42,7 +42,7 @@ const CreateConcept = ({
     locale,
   );
 
-  const createConceptAndPushRoute = async (createdConcept: NewConceptType) => {
+  const createConceptAndPushRoute = async (createdConcept: ConceptPostType) => {
     const savedConcept = await createConcept(createdConcept);
     if (inModal && addConceptInModal) {
       addConceptInModal(savedConcept);
@@ -56,7 +56,7 @@ const CreateConcept = ({
       <HelmetWithTracker title={t(`conceptform.title`)} />
       <ConceptForm
         language={locale}
-        onUpdate={concept => createConceptAndPushRoute(concept as NewConceptType)}
+        onUpdate={concept => createConceptAndPushRoute(concept as ConceptPostType)}
         fetchConceptTags={fetchSearchTags}
         licenses={licenses}
         inModal={inModal}

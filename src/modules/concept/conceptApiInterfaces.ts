@@ -68,11 +68,11 @@ interface UpdateConceptType {
   visualElement?: string;
 }
 
-export interface PatchConceptType extends UpdateConceptType {
+export interface ConceptPatchType extends UpdateConceptType {
   id: number;
 }
 
-export interface NewConceptType extends UpdateConceptType {
+export interface ConceptPostType extends UpdateConceptType {
   title: string;
 }
 export interface SearchConceptType {

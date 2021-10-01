@@ -15,8 +15,8 @@ import {
   ConceptStatusStateMachineType,
   ConceptTagsSearchResult,
   ConceptQuery,
-  NewConceptType,
-  PatchConceptType,
+  ConceptPostType,
+  ConceptPatchType,
   ConceptStatusType,
   ConceptSearchResult,
   ConceptApiType,
@@ -40,13 +40,13 @@ export const fetchConcept = async (conceptId: number, locale: string): Promise<C
   ).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));
 };
 
-export const addConcept = async (concept: NewConceptType): Promise<ConceptApiType> =>
+export const addConcept = async (concept: ConceptPostType): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/`, {
     method: 'POST',
     body: JSON.stringify(concept),
   }).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));
 
-export const updateConcept = async (concept: PatchConceptType): Promise<ConceptApiType> =>
+export const updateConcept = async (concept: ConceptPatchType): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/${concept.id}`, {
     method: 'PATCH',
     body: JSON.stringify(concept),

@@ -10,8 +10,8 @@ import { useState, useEffect } from 'react';
 import {
   ConceptApiType,
   ConceptStatusType,
-  NewConceptType,
-  PatchConceptType,
+  ConceptPostType,
+  ConceptPatchType,
 } from '../../modules/concept/conceptApiInterfaces';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
@@ -65,7 +65,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     return await Promise.all(promises);
   };
 
-  const updateConcept = async (updatedConcept: PatchConceptType): Promise<ConceptApiType> => {
+  const updateConcept = async (updatedConcept: ConceptPatchType): Promise<ConceptApiType> => {
     const savedConcept = await conceptApi.updateConcept(updatedConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     const formConcept = { ...savedConcept };
@@ -75,7 +75,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     return formConcept;
   };
 
-  const createConcept = async (createdConcept: NewConceptType) => {
+  const createConcept = async (createdConcept: ConceptPostType) => {
     const savedConcept = await conceptApi.addConcept(createdConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     const formConcept = { ...savedConcept };
@@ -86,7 +86,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   };
 
   const updateConceptAndStatus = async (
-    updatedConcept: PatchConceptType,
+    updatedConcept: ConceptPatchType,
     newStatus: ConceptStatusType,
     dirty: boolean,
   ) => {

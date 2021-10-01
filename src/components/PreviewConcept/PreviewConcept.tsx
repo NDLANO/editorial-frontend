@@ -65,7 +65,7 @@ const VisualElementWrapper = styled.div`
 
 interface Props {
   concept: ConceptApiType;
-  visualElement: VisualElement;
+  visualElement?: VisualElement;
 }
 
 const PreviewConcept = ({ concept, visualElement }: Props) => {
@@ -107,7 +107,7 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
 
   return (
     <>
-      <NotionHeaderWithoutExitButton title={concept.title} />
+      <NotionHeaderWithoutExitButton title={concept.title.title} />
       <StyledBody>
         <NotionDialogContent>
           <VisualElementWrapper>
@@ -116,21 +116,23 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
           <NotionDialogText>
             <span
               dangerouslySetInnerHTML={{
-                __html: markdown.render(concept.content),
+                __html: markdown.render(concept.content.content),
               }}
             />
           </NotionDialogText>
         </NotionDialogContent>
-        <TagWrapper>
-          <div className="tags">
-            <span>{t('form.categories.label')}:</span>
-            {concept.tags?.tags.map(tag => (
-              <span className="tag" key={`key-${tag}`}>
-                {tag}
-              </span>
-            ))}
-          </div>
-        </TagWrapper>
+        {(concept.tags?.tags.length ?? 0) > 0 && (
+          <TagWrapper>
+            <div className="tags">
+              <span>{t('form.categories.label')}:</span>
+              {concept?.tags?.tags?.map(tag => (
+                <span className="tag" key={`key-${tag}`}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </TagWrapper>
+        )}
         <NotionDialogTags
           tags={subjects
             .filter(subject => concept.subjectIds?.includes(subject.id))

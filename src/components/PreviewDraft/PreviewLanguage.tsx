@@ -24,19 +24,23 @@ const StyledPreview = styled.div`
 
 interface Props {
   label: string;
-  contentType: string;
+  contentType?: string;
   firstEntity: ArticleType | ConceptApiType;
   secondEntity: ArticleType | ConceptApiType;
   previewLanguage: string;
 
   onChangePreviewLanguage(language: string): void;
 
-  getEntityPreview(
+  getEntityPreview: (
     entity: ArticleType | ConceptApiType,
-    label?: string,
+    label: string,
     contentType?: string,
-  ): Element;
+  ) => React.ReactNode;
 }
+
+const isConceptApiType = (entity: ArticleType | ConceptApiType): entity is ConceptApiType => {
+  return (entity as ConceptApiType).content?.content !== undefined;
+};
 
 const PreviewLanguage = ({
   firstEntity,
@@ -48,13 +52,16 @@ const PreviewLanguage = ({
   getEntityPreview,
 }: Props) => {
   const { t } = useTranslation();
+  const language = isConceptApiType(firstEntity)
+    ? firstEntity.content.language
+    : firstEntity.language;
   return (
     <StyledPreview>
       <StyledPreviewTwoArticles>
         <StyledPreviewHeader>
           <h2 className="u-4/6@desktop u-push-1/6@desktop">
             {t('form.previewLanguageArticle.title', {
-              language: t(`language.${firstEntity.content}`).toLowerCase(),
+              language: t(`language.${language}`).toLowerCase(),
             })}
           </h2>
         </StyledPreviewHeader>

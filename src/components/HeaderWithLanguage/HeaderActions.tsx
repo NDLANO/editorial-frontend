@@ -17,13 +17,27 @@ import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
+import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
+import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface PreviewLightBoxProps {
   type: string;
-  getEntity: () => any;
-  articleType: string;
+  getEntity: () => ConceptApiType | UpdatedDraftApiType;
+  articleType?: string;
   supportedLanguages?: string[];
 }
+
+const isConceptReturnType = (
+  getEntity: () => ConceptApiType | UpdatedDraftApiType,
+): getEntity is () => ConceptApiType => {
+  return (getEntity() as ConceptApiType).subjectIds !== undefined;
+};
+
+const isDraftReturnType = (
+  getEntity: () => ConceptApiType | UpdatedDraftApiType,
+): getEntity is () => UpdatedDraftApiType => {
+  return !isConceptReturnType(getEntity);
+};
 
 const PreviewLightBox = ({
   type,
@@ -32,16 +46,14 @@ const PreviewLightBox = ({
   supportedLanguages = [],
 }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
-  if (type === 'concept')
-    return supportedLanguages.length > 1 ? (
-      <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />
-    ) : null;
-  else if (type === 'standard' || type === 'topic-article')
+  if (type === 'concept' && isConceptReturnType(getEntity) && supportedLanguages.length > 1) {
+    return <PreviewConceptLightbox typeOfPreview="previewLanguageArticle" getConcept={getEntity} />;
+  } else if (isDraftReturnType(getEntity) && (type === 'standard' || type === 'topic-article')) {
     return (
       <PreviewDraftLightbox
-        label={t(`articleType.${articleType}`)}
+        label={t(`articleType.${articleType!}`)}
         typeOfPreview="previewLanguageArticle"
-        getArticle={getEntity}>
+        getArticle={_ => getEntity()}>
         {(openPreview: () => void) => (
           <StyledFilledButton type="button" onClick={openPreview}>
             <FileCompare />
@@ -50,13 +62,13 @@ const PreviewLightBox = ({
         )}
       </PreviewDraftLightbox>
     );
-  else return null;
+  } else return null;
 };
 
 interface Props {
   editUrl?: (url: string) => string;
   formIsDirty: boolean;
-  getEntity?: () => any;
+  getEntity?: () => ConceptApiType | UpdatedDraftApiType;
   isNewLanguage: boolean;
   isSubmitting?: boolean;
   noStatus: boolean;
@@ -99,7 +111,6 @@ const HeaderActions = ({
     lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,
   );
   const translatableTypes = ['audio', 'concept', 'standard', 'topic-article', 'podcast'];
-
   if (id && editUrl) {
     return (
       <>
@@ -117,11 +128,11 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
-        {!noStatus && getEntity && articleType && (
+        {!noStatus && getEntity && (
           <>
             <PreviewLightBox
               type={type}
-              getEntity={getEntity}
+              getEntity={getEntity!}
               articleType={articleType}
               supportedLanguages={supportedLanguages}
             />

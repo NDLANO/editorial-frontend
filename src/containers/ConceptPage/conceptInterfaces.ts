@@ -45,6 +45,6 @@ export interface ConceptFormValues {
   subjects: SubjectType[];
   supportedLanguages: string[];
   updated?: string;
-  visualElementObject: VisualElement;
+  visualElementObject?: VisualElement;
   agreementId?: number;
 }

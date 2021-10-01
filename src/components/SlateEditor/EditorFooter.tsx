@@ -167,8 +167,10 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
-  const isConceptType = (func: () => any): func is () => ConceptApiType => {
-    return func().created !== undefined;
+  const isConceptType = (
+    func: () => UpdatedDraftApiType | ConceptApiType,
+  ): func is () => ConceptApiType => {
+    return (func() as ConceptApiType).subjectIds !== undefined;
   };
 
   return (

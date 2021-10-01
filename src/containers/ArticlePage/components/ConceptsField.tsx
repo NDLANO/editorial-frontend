@@ -16,12 +16,13 @@ import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptAp
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { ConceptApiType, SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
 
-type ApiOrSearchConcept = ConceptApiType | SearchConceptType;
-
+interface ConceptAPiTypeWithArticleType extends ConceptApiType {
+  articleType?: string;
+}
 interface Props {
   locale: string;
   values: {
-    conceptIds: ApiOrSearchConcept[];
+    conceptIds: ConceptAPiTypeWithArticleType[];
   };
   field: FormikProperties['field'];
   form: {
@@ -31,7 +32,7 @@ interface Props {
 
 const ConceptsField = ({ locale, values, field, form }: Props) => {
   const { t } = useTranslation();
-  const [concepts, setConcepts] = useState<ApiOrSearchConcept[]>(values.conceptIds);
+  const [concepts, setConcepts] = useState<ConceptAPiTypeWithArticleType[]>(values.conceptIds);
 
   const onAddConceptToList = async (concept: SearchConceptType) => {
     try {
@@ -44,12 +45,12 @@ const ConceptsField = ({ locale, values, field, form }: Props) => {
     }
   };
 
-  const onUpdateElements = (conceptList: ConceptApiType[]) => {
+  const onUpdateElements = (conceptList: ConceptAPiTypeWithArticleType[]) => {
     setConcepts(conceptList);
     updateFormik(field, conceptList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: ConceptApiType[]) => {
+  const updateFormik = (formikField: Props['field'], newData: ConceptAPiTypeWithArticleType[]) => {
     form.setFieldTouched('conceptIds', true, false);
     formikField.onChange({
       target: {
@@ -78,7 +79,7 @@ const ConceptsField = ({ locale, values, field, form }: Props) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown<ConceptApiType | SearchConceptType>
+      <AsyncDropdown<SearchConceptType>
         selectedItems={concepts}
         idField="id"
         labelField="title"

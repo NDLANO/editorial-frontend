@@ -150,12 +150,18 @@ export const conceptFormTypeToApiType = (
     ...values,
     id: values.id!,
     revision: values.revision!,
-    title: editorValueToPlainText(values.slatetitle),
-    content: editorValueToPlainText(values.conceptContent),
+    title: {
+      title: editorValueToPlainText(values.slatetitle),
+      language: values.language,
+    },
+    content: { content: editorValueToPlainText(values.conceptContent), language: values.language },
     metaImage: { url: '', alt: '', language: values.language },
     subjectIds: values.subjects.map(subject => subject.id),
     articleIds: values.articles?.map(a => a.id) ?? [],
-    visualElement: createEmbedTag(values.visualElementObject),
+    visualElement: {
+      visualElement: createEmbedTag(values.visualElementObject),
+      language: values.language,
+    },
     updatedBy,
     tags: {
       tags: values.tags,

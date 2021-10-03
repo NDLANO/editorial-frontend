@@ -214,7 +214,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     try {
       const resources = await queryResources(id.toString(), language);
 
-      const resourceId = resources.length === 1 ? resources[0].id : null;
+      const resourceId = resources.length === 1 && resources[0].id;
 
       if (resources.length > 1) {
         this.setState({ status: 'error' });

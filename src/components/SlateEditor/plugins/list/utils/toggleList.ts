@@ -57,6 +57,7 @@ export const toggleList = (editor: Editor, type: string) => {
     const nodes = [
       ...Editor.nodes(editor, {
         match: node => Element.isElement(node) && firstTextBlockElement.includes(node.type),
+        mode: 'lowest',
       }),
     ];
     Editor.withoutNormalizing(editor, () => {

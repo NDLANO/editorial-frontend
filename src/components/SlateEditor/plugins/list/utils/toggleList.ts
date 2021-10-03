@@ -60,7 +60,9 @@ export const toggleList = (editor: Editor, type: string) => {
         match: node => Element.isElement(node) && firstTextBlockElement.includes(node.type),
       }),
     ];
-    const targetPathLength = nodes.reduce<number>((shortestPath, [, path]) => {
+
+    // Find the highest level element that should be toggled.
+    const targetPathLevel = nodes.reduce<number>((shortestPath, [, path]) => {
       if (
         path.length < shortestPath &&
         !nodes.find(([, childPath]) => {
@@ -74,7 +76,7 @@ export const toggleList = (editor: Editor, type: string) => {
 
     Editor.withoutNormalizing(editor, () => {
       for (const [, path] of nodes) {
-        if (path.length !== targetPathLength) {
+        if (path.length !== targetPathLevel) {
           continue;
         }
         Transforms.wrapNodes(editor, defaultListItemBlock(), {

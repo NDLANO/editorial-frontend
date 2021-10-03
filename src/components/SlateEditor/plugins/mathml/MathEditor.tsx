@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Editor, Element, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';
@@ -45,7 +45,7 @@ const MathEditor = (props: Props & RenderElementProps) => {
   const selected = useSelected();
   const focused = useFocused();
 
-  const mathMLRef = useRef<HTMLSpanElement>(null);
+  const mathMLRef = props.attributes.ref;
 
   const getMenuPosition = () => {
     if (mathMLRef.current) {
@@ -158,28 +158,24 @@ const MathEditor = (props: Props & RenderElementProps) => {
   const { top, left } = getMenuPosition();
 
   return (
-    <Fragment>
-      <span
-        contentEditable={false}
-        role="button"
-        tabIndex={0}
-        onKeyPress={toggleMenu}
-        onClick={toggleMenu}
-        style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
-        {...attributes}
-        ref={mathMLRef}>
-        <MathML attributes={attributes} model={model} />
-        <Portal isOpened={showMenu}>
-          <BlockMenu
-            top={top}
-            left={left}
-            toggleMenu={toggleMenu}
-            handleRemove={handleRemove}
-            toggleEdit={toggleEdit}
-          />
-        </Portal>
-        {children}
-      </span>
+    <span
+      contentEditable={false}
+      role="button"
+      tabIndex={0}
+      onKeyPress={toggleMenu}
+      onClick={toggleMenu}
+      style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
+      {...attributes}>
+      <MathML attributes={attributes} model={model} />
+      <Portal isOpened={showMenu}>
+        <BlockMenu
+          top={top}
+          left={left}
+          toggleMenu={toggleMenu}
+          handleRemove={handleRemove}
+          toggleEdit={toggleEdit}
+        />
+      </Portal>
       {editMode && (
         <EditMath
           onExit={onExit}
@@ -189,7 +185,8 @@ const MathEditor = (props: Props & RenderElementProps) => {
           handleRemove={handleRemove}
         />
       )}
-    </Fragment>
+      {children}
+    </span>
   );
 };
 

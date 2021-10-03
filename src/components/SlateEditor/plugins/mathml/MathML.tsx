@@ -17,7 +17,7 @@ interface Props {
   };
 }
 
-const MathML = ({ model, attributes }: Props) => {
+const MathML = ({ model }: Props) => {
   const [reRender, setReRender] = useState(false);
 
   const mounted = useRef(false);
@@ -39,7 +39,7 @@ const MathML = ({ model, attributes }: Props) => {
   }
 
   return (
-    <span data-cy="math" contentEditable={false} {...attributes}>
+    <span data-cy="math" contentEditable={false}>
       {/* @ts-ignore math does not exist in JSX, but this hack works by setting innerHTML manually. */}
       <math
         xlmns={model.xlmns}

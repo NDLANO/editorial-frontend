@@ -119,7 +119,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     } = this.props;
     if (!language) return;
     try {
-      const [subjects] = await Promise.all([fetchSubjects(language)]);
+      const subjects = await fetchSubjects(language);
 
       const topics = this.props.article.taxonomy?.topics ?? [];
 

@@ -73,13 +73,13 @@ const TaxonomyConnectionErrors = ({ taxonomy, articleType }: Props) => {
       />
       {wrongConnections.map(taxonomyElement => {
         const visibility = taxonomyElement.metadata ? taxonomyElement.metadata.visible : true;
+        const errorElement = ` - ${taxonomyElement.id} (${taxonomyElement.name})`;
         return (
           <TaxonomyInfoDiv key={taxonomyElement.id}>
             <Tooltip tooltip={wrongTooltip}>
               <StyledId isVisible={visibility}>
                 <StyledWarnIcon title={wrongTooltip} />
-                {' - '}
-                {taxonomyElement.id} ({taxonomyElement.name})
+                {errorElement}
               </StyledId>
             </Tooltip>
           </TaxonomyInfoDiv>

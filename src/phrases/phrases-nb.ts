@@ -1207,7 +1207,7 @@ const phrases = {
       title: 'Informasjon',
       subTitle: 'Id og synlighet for elementet',
       wrongArticleType:
-        'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikelen er av typen "{{isType}}".',
+        'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
       wrongConnections: 'Feilkoblinger',
       wrongConnectionsSubTitle: 'Denne artikkelen har feilkoblinger, se listen under.',
     },

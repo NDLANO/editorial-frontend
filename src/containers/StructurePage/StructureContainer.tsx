@@ -239,7 +239,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
     setShowFavorites(!showFavorites);
   };
 
-  const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE) ?? false;
+  const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
 
   return (
     <ErrorBoundary>

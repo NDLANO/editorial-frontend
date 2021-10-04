@@ -55,7 +55,7 @@ const SlateBodybox = (props: Props & RenderElementProps) => {
   return (
     <StyledBodybox draggable className="c-bodybox" {...attributes}>
       {children}
-      <DeleteButton data-cy="remove-bodybox" stripped onMouseDown={onRemoveClick} />
+      <DeleteButton tabIndex="-1" data-cy="remove-bodybox" stripped onMouseDown={onRemoveClick} />
       <MoveContentButton onMouseDown={onMoveContent} />
     </StyledBodybox>
   );

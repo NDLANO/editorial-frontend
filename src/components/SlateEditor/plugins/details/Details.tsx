@@ -119,7 +119,7 @@ const Details = ({ children, editor, element, attributes }: Props & RenderElemen
       </StyledRow>
       <StyledContent isOpen={isOpen}>{contentNodes}</StyledContent>
       <MoveContentButton onMouseDown={onMoveContent} />
-      <DeleteButton data-cy="remove-details" stripped onMouseDown={onRemoveClick} />
+      <DeleteButton tabIndex="-1" data-cy="remove-details" stripped onMouseDown={onRemoveClick} />
     </StyledDetailsDiv>
   );
 };

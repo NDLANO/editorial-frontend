@@ -48,6 +48,7 @@ const SlateRightAside = props => {
         title={t('learningResourceForm.fields.rightAside.delete')}
         stripped
         onMouseDown={onRemoveClick}
+        tabIndex="-1"
       />
       <Button
         css={moveContentButtonStyle}

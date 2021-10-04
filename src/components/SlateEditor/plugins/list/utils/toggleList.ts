@@ -54,10 +54,31 @@ export const toggleList = (editor: Editor, type: string) => {
     // No list items are selected
   } else {
     // Wrap all regular text blocks. (paragraph, quote, blockquote)
-    Editor.withoutNormalizing(editor, () => {
-      for (const [, path] of Editor.nodes(editor, {
+
+    const nodes = [
+      ...Editor.nodes(editor, {
         match: node => Element.isElement(node) && firstTextBlockElement.includes(node.type),
-      })) {
+      }),
+    ];
+
+    // Find the highest level element that should be toggled.
+    const targetPathLevel = nodes.reduce<number>((shortestPath, [, path]) => {
+      if (
+        path.length < shortestPath &&
+        !nodes.find(([, childPath]) => {
+          return Path.isChild(childPath, path);
+        })
+      ) {
+        return path.length;
+      }
+      return shortestPath;
+    }, Infinity);
+
+    Editor.withoutNormalizing(editor, () => {
+      for (const [, path] of nodes) {
+        if (path.length !== targetPathLevel) {
+          continue;
+        }
         Transforms.wrapNodes(editor, defaultListItemBlock(), {
           at: path,
         });

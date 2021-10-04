@@ -7,8 +7,10 @@
  */
 
 import { DragEventHandler } from 'react';
-import { Editor, Element, Text } from 'slate';
+import { Editor, Element, Node, Text } from 'slate';
 import { ReactEditor } from 'slate-react';
+import { TYPE_HEADING } from '../heading';
+import { TYPE_SECTION } from '../section';
 import onDrop from './onDrop';
 import { getTopNode } from './utils';
 
@@ -27,4 +29,32 @@ const onDragStart = (editor: Editor): DragEventHandler<HTMLDivElement> => event 
   }
 };
 
-export { onDragOver, onDragStart, onDrop };
+const dndPlugin = (editor: Editor) => {
+  const { getFragment } = editor;
+  editor.getFragment = () => {
+    var selection = editor.selection;
+
+    if (selection) {
+      const fragment = Node.fragment(editor, selection);
+      const section = fragment[0];
+
+      if (Element.isElement(section) && section.type === TYPE_SECTION) {
+        const lowestCommonAncestor = [...Node.nodes(section)].find(([element]) => {
+          return Element.isElement(element) && element.children.length > 1;
+        })?.[0];
+        if (Element.isElement(lowestCommonAncestor)) {
+          if (lowestCommonAncestor.type === TYPE_HEADING) {
+            return [lowestCommonAncestor];
+          }
+          return lowestCommonAncestor.children;
+        }
+      }
+    }
+
+    return getFragment();
+  };
+
+  return editor;
+};
+
+export { onDragOver, onDragStart, onDrop, dndPlugin };

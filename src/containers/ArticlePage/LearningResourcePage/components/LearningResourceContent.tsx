@@ -58,6 +58,7 @@ import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
+import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 
 const byLineStyle = css`
   display: flex;
@@ -117,6 +118,7 @@ export const plugins = (
     mathmlPlugin,
     codeblockPlugin,
     blockPickerPlugin,
+    dndPlugin,
     // pasteHandler(),
     toolbarPlugin,
     textTransformPlugin,

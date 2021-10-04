@@ -11,7 +11,7 @@ import { Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { uuid } from '@ndla/util';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { css } from '@emotion/core';
@@ -228,4 +228,4 @@ const mapStateToProps = state => ({
   locale: getLocale(state),
 });
 
-export default compose(injectT, connect(mapStateToProps, null))(RelatedArticleBox);
+export default compose(connect(mapStateToProps, null))(withTranslation()(RelatedArticleBox));

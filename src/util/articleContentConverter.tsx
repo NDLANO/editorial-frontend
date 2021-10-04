@@ -237,7 +237,7 @@ export function topicArticleContentToEditorValue(html: string) {
   const document = new DOMParser().parseFromString(html, 'text/html');
   const nodes = deserialize(document.body.children[0]);
   const normalizedNodes = convertFromHTML(Node.isNodeList(nodes) ? nodes[0] : nodes);
-  return [normalizedNodes];
+  return normalizedNodes ? [normalizedNodes] : [];
 }
 
 export function topicArticleContentToHTML(value: Descendant[]) {
@@ -280,7 +280,7 @@ export function plainTextToEditorValue(text: string): Descendant[] {
   return Plain.deserialize(text);
 }
 
-export function editorValueToPlainText(editorValue: Descendant[]) {
+export function editorValueToPlainText(editorValue?: Descendant[]) {
   return editorValue ? Plain.serialize(editorValue) : '';
 }
 
@@ -293,12 +293,12 @@ export function embedTagToEditorValue(embedTag: string) {
   return embed ? embedToEditorValue(embed) : [defaultVisualElementPickerBlock()];
 }
 
-export function editorValueToEmbed(editorValue: Descendant[]) {
-  const embed = editorValue[0];
+export function editorValueToEmbed(editorValue?: Descendant[]) {
+  const embed = editorValue && editorValue[0];
   if (Element.isElement(embed) && embed.type === TYPE_EMBED) return embed?.data;
 }
 
-export function editorValueToEmbedTag(editorValue: Descendant[]) {
+export function editorValueToEmbedTag(editorValue?: Descendant[]) {
   const embed = editorValueToEmbed(editorValue);
   if (embed) {
     const embedTag = createEmbedTag(embed);

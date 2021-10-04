@@ -6,23 +6,25 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
-import { AsyncDropdown } from '../../../components/Dropdown';
 import handleError from '../../../util/handleError';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
-
-import { ArticleType, ContentResultType } from '../../../interfaces';
+import { ArticleType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
-const ConceptArticles = ({ t }: tType) => {
+const ConceptArticles = () => {
+  const { t } = useTranslation();
   const {
     values: { articles, language },
     setFieldValue,
   } = useFormikContext<ConceptFormValues>();
-  const onAddArticleToList = async (article: ContentResultType) => {
+
+  const onAddArticleToList = async (article: DraftSearchSummary) => {
     try {
       const newArticle = await fetchDraft(article.id);
       const temp = [...articles, newArticle];
@@ -59,13 +61,11 @@ const ConceptArticles = ({ t }: tType) => {
       <AsyncDropdown
         selectedItems={articles}
         idField="id"
-        name="relatedArticleSearch"
         labelField="title"
         placeholder={t('form.content.relatedArticle.placeholder')}
-        label="label"
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(article: ContentResultType) => onAddArticleToList(article)}
+        onChange={onAddArticleToList}
         multiSelect
         disableSelected
         clearInputField
@@ -74,4 +74,4 @@ const ConceptArticles = ({ t }: tType) => {
   );
 };
 
-export default injectT(ConceptArticles);
+export default ConceptArticles;

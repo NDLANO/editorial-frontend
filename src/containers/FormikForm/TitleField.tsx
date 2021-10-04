@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
@@ -22,18 +22,18 @@ interface Props {
   type?: string;
 }
 
-const TitleField = ({ t, maxLength = 256, name = 'title', handleSubmit }: Props & tType) => {
+const TitleField = ({ maxLength = 256, name = 'title', handleSubmit }: Props) => {
+  const { t } = useTranslation();
   const handleSubmitRef = React.useRef(handleSubmit);
 
   React.useEffect(() => {
     handleSubmitRef.current = handleSubmit;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
-
   const plugins = [textTransformPlugin, saveHotkeyPlugin(() => handleSubmitRef.current())];
   return (
     <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
-      {({ field }) => (
+      {({ field, form: { isSubmitting } }) => (
         <PlainTextEditor
           id={field.name}
           {...field}
@@ -41,10 +41,12 @@ const TitleField = ({ t, maxLength = 256, name = 'title', handleSubmit }: Props 
           placeholder={t('form.title.label')}
           cy="learning-resource-title"
           plugins={plugins}
+          submitted={isSubmitting}
+          handleSubmit={handleSubmit}
         />
       )}
     </FormikField>
   );
 };
 
-export default injectT(TitleField);
+export default TitleField;

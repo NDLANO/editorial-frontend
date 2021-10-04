@@ -7,8 +7,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { ContentResultShape } from '../../../shapes';
-import { AsyncDropdown } from '../../../components/Dropdown';
 import { searchResources } from '../../../modules/search/searchApi';
 
 const DropdownSearch = ({
@@ -30,10 +30,11 @@ const DropdownSearch = ({
       'context-types': contextTypes,
     };
     const response = await searchResources(query);
-    return response.results.map(result => ({
+    const results = response.results.map(result => ({
       ...result,
       title: result.title ? result.title.title : '',
     }));
+    return { ...response, results };
   };
 
   return (

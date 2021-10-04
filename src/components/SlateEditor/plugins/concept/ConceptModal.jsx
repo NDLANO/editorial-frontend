@@ -11,7 +11,7 @@ import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import Modal from '@ndla/modal/lib/Modal';
 import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import Button from '@ndla/button';
 import Tabs from '@ndla/tabs';
@@ -34,7 +34,6 @@ const ConceptModal = ({
   onClose,
   isOpen,
   subjects,
-  t,
   locale,
   handleRemove,
   selectedText,
@@ -47,6 +46,7 @@ const ConceptModal = ({
   createMessage,
   setConcept,
 }) => {
+  const { t } = useTranslation();
   const [searchObject, updateSearchObject] = useState({
     page: 1,
     sort: '-relevance',
@@ -216,4 +216,4 @@ const mapDispatchToProps = {
   createMessage: (message = {}) => messageActions.addMessage(message),
 };
 
-export default injectT(connect(_ => ({}), mapDispatchToProps)(ConceptModal));
+export default connect(_ => ({}), mapDispatchToProps)(ConceptModal);

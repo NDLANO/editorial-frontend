@@ -7,16 +7,16 @@
  */
 
 import React, { Fragment, useState, useEffect } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FormPill } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import styled from '@emotion/styled';
 import { fetchGrepCodes } from '../../modules/draft/draftApi';
 import { fetchGrepCodeTitle } from '../../modules/grep/grepApi';
-import { AsyncDropdown } from '../../components/Dropdown';
 import { isGrepCodeValid } from '../../util/articleUtil';
 import FormikFieldDescription from '../../components/FormikField/FormikFieldDescription';
 import { FormikFieldHelp } from '../../components/FormikField';
+import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
 
 interface Props {
   articleGrepCodes: string[];
@@ -32,7 +32,7 @@ const StyledErrorPreLine = styled.span`
 
 interface GrepCode {
   code: string;
-  title: string | undefined | null;
+  title?: string;
 }
 
 export const convertGrepCodesToObject = async (grepCodes: string[]) => {
@@ -47,16 +47,15 @@ export const convertGrepCodesToObject = async (grepCodes: string[]) => {
   );
 };
 
-const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tType) => {
+const GrepCodesFieldContent = ({ articleGrepCodes, field, form }: Props) => {
+  const { t } = useTranslation();
   const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
   const [failedGrepCodes, setFailedGrepCodes] = useState<string[]>([]);
 
   const searchForGrepCodes = async (inp: string) => {
-    if (inp) {
-      const result = await fetchGrepCodes(inp);
-      const convertedGrepCodes = await convertGrepCodesToObject(result.results);
-      return { ...result, results: convertedGrepCodes };
-    } else return [];
+    const result = await fetchGrepCodes(inp);
+    const convertedGrepCodes = await convertGrepCodesToObject(result.results);
+    return { ...result, results: convertedGrepCodes };
   };
 
   useEffect(() => {
@@ -95,9 +94,11 @@ const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tTy
   const createNewGrepCodes = async (input: string) => {
     setFailedGrepCodes([]);
     const newGrepCodes = input
-      .toUpperCase()
-      .split(',')
-      .map(grepCode => grepCode.trim());
+      ? input
+          .toUpperCase()
+          .split(',')
+          .map(grepCode => grepCode.trim())
+      : [];
     const newGrepCodeNames = await fetchGrepCodeTitles(newGrepCodes);
     const temp = [...grepCodes].concat(newGrepCodeNames);
     setGrepCodes(temp);
@@ -134,10 +135,8 @@ const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tTy
       )}
       <AsyncDropdown
         idField="title"
-        name="GrepCodesSearch"
         labelField="title"
         placeholder={t('form.grepCodes.placeholder')}
-        label="label"
         apiAction={searchForGrepCodes}
         onClick={(e: Event) => e.stopPropagation()}
         onChange={(c: GrepCode) => createNewGrepCodes(c.code)}
@@ -163,4 +162,4 @@ const GrepCodesFieldContent = ({ t, articleGrepCodes, field, form }: Props & tTy
   );
 };
 
-export default injectT(GrepCodesFieldContent);
+export default GrepCodesFieldContent;

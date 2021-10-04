@@ -7,22 +7,21 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import {
   StyledConnections,
   StyledDuplicateConnectionLabel,
 } from '../../style/LearningResourceTaxonomyStyles';
 import Breadcrumb from './Breadcrumb';
-import { ResourceWithTopicConnection } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { PathArray } from '../../util/retriveBreadCrumbs';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 interface Props {
-  topic: ResourceWithTopicConnection;
+  topic: StagedTopic;
   type?: string;
-  retriveBreadCrumbs: (path: string) => PathArray;
 }
 
-export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, type, t }: Props & tType) => {
+export const SharedTopicConnections = ({ topic, type }: Props) => {
+  const { t } = useTranslation();
   if (!topic.paths || topic.paths.length === 0) {
     return null;
   }
@@ -37,7 +36,7 @@ export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, type, t }: P
               <StyledDuplicateConnectionLabel>
                 {t('form.topics.sharedTopic')}
               </StyledDuplicateConnectionLabel>
-              <Breadcrumb breadcrumb={retriveBreadCrumbs(path)} type={type} />
+              <Breadcrumb breadcrumb={topic.breadcrumb || []} type={type} />
             </StyledConnections>
           );
         })}
@@ -45,4 +44,4 @@ export const SharedTopicConnections = ({ topic, retriveBreadCrumbs, type, t }: P
   );
 };
 
-export default injectT(SharedTopicConnections);
+export default SharedTopicConnections;

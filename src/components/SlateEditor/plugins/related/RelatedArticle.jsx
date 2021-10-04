@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { RelatedArticle as RelatedArticleUI } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { mapping as iconMapping } from '../../utils/relatedArticleMapping';
 import { urlDomain } from '../../../../util/htmlHelpers';
@@ -21,22 +21,25 @@ const resourceTypeProps = (item, numberInList) => {
   return iconMapping(numberInList).default;
 };
 
-const RelatedArticle = ({ item, t, numberInList }) => (
-  <RelatedArticleUI
-    {...resourceTypeProps(item, numberInList)}
-    title={convertFieldWithFallback(item, 'title', item.title)}
-    introduction={convertFieldWithFallback(item, 'metaDescription', item.description)}
-    to={item.url || toEditArticle(item.id, 'standard')}
-    target="_blank"
-    linkInfo={
-      item.id === 'external-learning-resources'
-        ? t('form.content.relatedArticle.urlLocation', {
-            domain: urlDomain(item.url),
-          })
-        : ''
-    }
-  />
-);
+const RelatedArticle = ({ item, numberInList }) => {
+  const { t } = useTranslation();
+  return (
+    <RelatedArticleUI
+      {...resourceTypeProps(item, numberInList)}
+      title={convertFieldWithFallback(item, 'title', item.title)}
+      introduction={convertFieldWithFallback(item, 'metaDescription', item.description)}
+      to={item.url || toEditArticle(item.id, 'standard')}
+      target="_blank"
+      linkInfo={
+        item.id === 'external-learning-resources'
+          ? t('form.content.relatedArticle.urlLocation', {
+              domain: urlDomain(item.url),
+            })
+          : ''
+      }
+    />
+  );
+};
 
 RelatedArticle.propTypes = {
   item: PropTypes.shape({
@@ -48,4 +51,4 @@ RelatedArticle.propTypes = {
   numberInList: PropTypes.number,
 };
 
-export default injectT(RelatedArticle);
+export default RelatedArticle;

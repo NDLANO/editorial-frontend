@@ -7,20 +7,33 @@
  */
 
 import React, { useState, useContext, useEffect } from 'react';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch, RouteComponentProps } from 'react-router-dom';
+import { Action, ActionFunction1 } from 'redux-actions';
 import EditLearningResource from './EditLearningResource';
 import { LocaleContext } from '../../App/App';
 import { fetchDraft } from '../../../modules/draft/draftApi';
+import { License } from '../../../interfaces';
+import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
-interface Props {
-  match: {
-    url: string;
-    params: {
-      articleId: string;
-    };
-  };
+interface ParamsType {
+  articleId: string;
 }
-const EditResourceRedirect = ({ match, ...rest }: Props) => {
+
+interface Props extends RouteComponentProps<ParamsType> {
+  isNewlyCreated: boolean;
+  licenses: License[];
+  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
+  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
+  userAccess: string | undefined;
+}
+const EditResourceRedirect = ({
+  match,
+  licenses,
+  applicationError,
+  createMessage,
+  isNewlyCreated,
+  userAccess,
+}: Props) => {
   const locale = useContext(LocaleContext);
   const { articleId } = match.params;
   const [supportedLanguage, setSupportedLanguage] = useState<string>();
@@ -41,7 +54,11 @@ const EditResourceRedirect = ({ match, ...rest }: Props) => {
           <EditLearningResource
             articleId={articleId}
             selectedLanguage={props.match.params.selectedLanguage}
-            {...rest}
+            isNewlyCreated={isNewlyCreated}
+            licenses={licenses}
+            createMessage={createMessage}
+            applicationError={applicationError}
+            userAccess={userAccess}
           />
         )}
       />

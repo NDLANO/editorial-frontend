@@ -15,6 +15,7 @@ import { toSearch } from '../../util/routeHelpers';
 import { HistoryShape, LocationShape } from '../../shapes';
 import { LocaleContext } from '../App/App';
 import { SearchTypeValues } from '../../constants';
+import { parseSearchParams } from '../SearchPage/components/form/SearchForm';
 
 class MastheadSearch extends Component {
   static getDerivedStateFromProps(props, state) {
@@ -41,19 +42,22 @@ class MastheadSearch extends Component {
       location.pathname.split('/').find(pathValue => SearchTypeValues.includes(pathValue)) ||
       'content';
 
-    history.push(
-      toSearch(
-        {
-          query: searchQuery,
-          page: 1,
-          sort: '-lastUpdated',
-          'page-size': 10,
-          language: locale,
-          fallback: true,
-        },
-        type,
-      ),
-    );
+    let oldParams;
+    if (type === 'content') {
+      oldParams = parseSearchParams(location.search);
+    } else {
+      oldParams = queryString.parse(location.search);
+    }
+
+    const newParams = {
+      ...oldParams,
+      query: searchQuery || undefined,
+      page: 1,
+      sort: searchQuery.sort || '-lastUpdated',
+      'page-size': searchQuery['page-size'] || 10,
+    };
+
+    history.push(toSearch(newParams, type));
 
     close();
   };

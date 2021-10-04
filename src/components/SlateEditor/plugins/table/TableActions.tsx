@@ -10,10 +10,10 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Editor, Path, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
 import { insertRow, removeRow, insertColumn, removeColumn, removeTable } from './utils';
 import { TableElement } from '.';
 
@@ -44,7 +44,9 @@ interface Props {
   element: TableElement;
 }
 
-const TableActions = ({ editor, t, element }: Props & tType) => {
+const TableActions = ({ editor, element }: Props) => {
+  const { t } = useTranslation();
+
   const handleOnClick = (e: Event, operation: string) => {
     e.preventDefault();
     const selectedPath = editor.selection?.anchor.path;
@@ -93,4 +95,4 @@ const TableActions = ({ editor, t, element }: Props & tType) => {
   );
 };
 
-export default injectT(TableActions);
+export default TableActions;

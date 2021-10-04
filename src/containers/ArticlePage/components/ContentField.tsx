@@ -6,41 +6,40 @@
  */
 
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import { FormikHelpers, FormikValues } from 'formik';
-import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
-import { AsyncDropdown } from '../../../components/Dropdown';
-import { ContentResultType, ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
+import { ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
+import { ArticleFormikType } from '../../FormikForm/articleFormHooks';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { DraftApiType, DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   locale: string;
-  values: {
-    relatedContent: ConvertedRelatedContent[];
-  };
+  values: ArticleFormikType;
   field: FormikProperties['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
 }
 
-const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
+const ContentField = ({ locale, values, field, form }: Props) => {
+  const { t } = useTranslation();
   const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
     values.relatedContent,
   );
+  const [showAddExternal, setShowAddExternal] = useState(false);
 
-  const onAddArticleToList = async (article: ContentResultType) => {
+  const onAddArticleToList = async (article: DraftSearchSummary) => {
     try {
-      // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
-      const newArticle = (await fetchDraft(article.id, locale)) as ArticleType;
-
+      const newArticle = await fetchDraft(article.id, locale);
       const temp = [...relatedContent, newArticle];
       if (newArticle) {
         setRelatedContent(temp);
@@ -66,9 +65,10 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
     });
   };
 
-  const searchForArticles = async (inp: string) => {
+  const searchForArticles = async (query: string, page?: number) => {
     return searchDrafts({
-      query: inp,
+      query,
+      page,
       language: locale,
     });
   };
@@ -78,6 +78,12 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
     setRelatedContent(temp);
     updateFormik(field, temp);
   };
+
+  const isDraftApiType = (obj: any): obj is DraftApiType => {
+    return obj.id !== undefined;
+  };
+
+  const selectedItems = relatedContent.filter(isDraftApiType);
 
   return (
     <>
@@ -91,34 +97,26 @@ const ContentField = ({ locale, t, values, field, form }: Props & tType) => {
         onUpdateElements={onUpdateElements}
       />
       <AsyncDropdown
-        selectedItems={relatedContent.filter(e => typeof e !== 'number')}
+        selectedItems={selectedItems}
         idField="id"
-        name="relatedConceptsSearch"
         labelField="title"
         placeholder={t('form.relatedContent.placeholder')}
         apiAction={searchForArticles}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(concept: ContentResultType) => onAddArticleToList(concept)}
+        onChange={onAddArticleToList}
         multiSelect
         disableSelected
         clearInputField
+        showPagination
       />
       <StyledButtonWrapper>
-        <Modal
-          backgroundColor="white"
-          activateButton={<Button>{t('form.relatedContent.addExternal')}</Button>}>
-          {(onClose: () => void) => (
-            <>
-              <ModalHeader>
-                <ModalCloseButton onClick={onClose} title={t('dialog.close')} />
-              </ModalHeader>
-              <ModalBody>
-                <ContentLink onAddLink={addExternalLink} onClose={onClose} />
-              </ModalBody>
-            </>
-          )}
-        </Modal>
+        <Button onClick={() => setShowAddExternal(true)}>
+          {t('form.relatedContent.addExternal')}
+        </Button>
       </StyledButtonWrapper>
+      {showAddExternal && (
+        <ContentLink onAddLink={addExternalLink} onClose={() => setShowAddExternal(false)} />
+      )}
     </>
   );
 };
@@ -127,4 +125,4 @@ const StyledButtonWrapper = styled.div`
   margin: ${spacing.small} 0;
 `;
 
-export default injectT(ContentField);
+export default ContentField;

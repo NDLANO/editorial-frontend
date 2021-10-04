@@ -6,7 +6,7 @@
  */
 
 import React, { Component } from 'react';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { Agreement } from '@ndla/icons/editor';
@@ -132,4 +132,4 @@ AgreementForm.propTypes = {
   onUpdate: PropTypes.func.isRequired,
 };
 
-export default injectT(AgreementForm);
+export default withTranslation()(AgreementForm);

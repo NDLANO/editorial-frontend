@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import queryString from 'query-string';
 import { searchClasses } from '../../SearchContainer';
 import { LocationShape } from '../../../../shapes';
@@ -99,4 +99,4 @@ SearchSort.defaultProps = {
   order: 'desc',
 };
 
-export default injectT(SearchSort);
+export default withTranslation()(SearchSort);

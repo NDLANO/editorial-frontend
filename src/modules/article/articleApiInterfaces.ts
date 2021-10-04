@@ -6,16 +6,10 @@
  *
  */
 
-import { ArticleType, Author, AvailabilityType } from '../../interfaces';
+import { ArticleType, Author, AvailabilityType, SearchResultBase } from '../../interfaces';
+import { FootnoteType } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
 
-export interface ArticleSearchResult {
-  totalCount: number;
-  page?: number;
-  pageSize: number;
-  language: string;
-  results: ArticleSearchSummaryApiType[];
-}
-
+export type ArticleSearchResult = SearchResultBase<ArticleSearchSummaryApiType>;
 export interface ArticleSearchSummaryApiType {
   id: number;
   title: {
@@ -50,6 +44,7 @@ export interface ArticleSearchSummaryApiType {
 export interface ArticleConverterApiType extends ArticleType {
   availability: AvailabilityType;
   metaData: {
+    footnotes?: FootnoteType[];
     images: {
       title: string;
       altText: string;
@@ -114,7 +109,7 @@ export interface ArticleApiType {
   supportedLanguages: string[];
   grepCodes: string[];
   conceptIds: number[];
-  availability: string;
+  availability: AvailabilityType;
 }
 
 interface Copyright {
@@ -127,7 +122,7 @@ interface Copyright {
   creators: Author[];
   processors: Author[];
   rightsholders: Author[];
-  agreementId?: string;
+  agreementId?: number;
   validFrom?: string;
   validTo?: string;
 }

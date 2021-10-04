@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { ErrorMessage, connect } from 'formik';
 import BEMHelper from 'react-bem-helper';
 import { FieldHeader } from '@ndla/forms';
@@ -28,7 +28,9 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-const VisualElementField = ({ t, formik, types, videoTypes }) => {
+const VisualElementField = ({ formik, types }) => {
+  const { t } = useTranslation();
+
   return (
     <Fragment>
       <FormikField name="visualElement">
@@ -62,9 +64,6 @@ const VisualElementField = ({ t, formik, types, videoTypes }) => {
 VisualElementField.propTypes = {
   formik: FormikShape,
   types: PropTypes.arrayOf(PropTypes.string),
-  videoTypes: PropTypes.array,
-  visualElementCaptionName: PropTypes.string,
-  getArticle: PropTypes.func,
 };
 
-export default injectT(connect(VisualElementField));
+export default connect(VisualElementField);

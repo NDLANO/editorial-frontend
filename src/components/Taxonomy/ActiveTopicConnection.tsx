@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Cross } from '@ndla/icons/action';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import {
   StyledConnections,
@@ -20,14 +20,12 @@ import SharedTopicConnections from './SharedTopicConnections';
 import Breadcrumb from './Breadcrumb';
 import RelevanceOption from '../../containers/StructurePage/folderComponents/menuOptions/RelevanceOption';
 import RemoveButton from '../RemoveButton';
-import { PathArray } from '../../util/retriveBreadCrumbs';
-import { ResourceWithTopicConnection } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 
 interface Props {
-  retriveBreadCrumbs: (path: string) => PathArray;
   removeConnection?: (id: string) => void;
   setPrimaryConnection?: (id: string) => void;
-  topic: ResourceWithTopicConnection;
+  topic: StagedTopic;
   type: string;
   setRelevance?: (topicId: string, relevanceId: string) => void;
 }
@@ -38,16 +36,14 @@ const StyledFlexWrapper = styled.div`
 `;
 
 const ActiveTopicConnection = ({
-  retriveBreadCrumbs,
   removeConnection,
   setPrimaryConnection,
   setRelevance,
-  t,
   type,
   topic,
-}: Props & tType) => {
-  const breadcrumb = retriveBreadCrumbs(topic.path);
-  if (!breadcrumb) {
+}: Props) => {
+  const { t } = useTranslation();
+  if (!topic.breadcrumb) {
     return (
       <StyledConnections error>
         <StyledErrorLabel>{t('taxonomy.topics.disconnectedTaxonomyWarning')}</StyledErrorLabel>
@@ -65,9 +61,9 @@ const ActiveTopicConnection = ({
     return (
       <>
         <StyledConnections>
-          <Breadcrumb breadcrumb={breadcrumb} type={type} />
+          <Breadcrumb breadcrumb={topic.breadcrumb} type={type} />
         </StyledConnections>
-        <SharedTopicConnections topic={topic} retriveBreadCrumbs={retriveBreadCrumbs} type={type} />
+        <SharedTopicConnections topic={topic} type={type} />
       </>
     );
   }
@@ -81,7 +77,7 @@ const ActiveTopicConnection = ({
             onClick={() => setPrimaryConnection && setPrimaryConnection(topic.id)}>
             {t('form.topics.primaryTopic')}
           </StyledPrimaryConnectionButton>
-          <Breadcrumb breadcrumb={breadcrumb} />
+          <Breadcrumb breadcrumb={topic.breadcrumb} />
         </StyledFlexWrapper>
         <StyledFlexWrapper>
           <RelevanceOption
@@ -91,9 +87,9 @@ const ActiveTopicConnection = ({
           <RemoveButton onClick={() => removeConnection && removeConnection(topic.id)} />
         </StyledFlexWrapper>
       </StyledConnections>
-      <SharedTopicConnections topic={topic} retriveBreadCrumbs={retriveBreadCrumbs} />
+      <SharedTopicConnections topic={topic} />
     </>
   );
 };
 
-export default injectT(ActiveTopicConnection);
+export default ActiveTopicConnection;

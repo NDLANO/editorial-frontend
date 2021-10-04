@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DeleteForever, Done } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';
@@ -17,7 +17,7 @@ import { TaxonomyMetadata } from '../../../../modules/taxonomy/taxonomyApiInterf
 
 interface Props {
   onSubmit: (prevState: any) => void;
-  onClose: () => void;
+  onClose?: () => void;
   initialKey?: string;
   initialVal?: string;
   dataTestid?: string;
@@ -47,7 +47,7 @@ const CustomFieldComponent = ({
       newPair[initialKey] = currentVal;
       onSubmit((prevState: TaxonomyMetadata['customFields']) => ({ ...prevState, ...newPair }));
     }
-    onClose();
+    onClose?.();
   };
 
   const handleDelete = () => {
@@ -61,7 +61,7 @@ const CustomFieldComponent = ({
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
-      onClose();
+      onClose?.();
     }
     if (e.key === 'Enter') {
       handleSubmit();
@@ -69,7 +69,7 @@ const CustomFieldComponent = ({
   };
 
   return (
-    <Fragment>
+    <>
       <StyledMenuItemEditField>
         <RoundIcon open small />
         <StyledMenuItemInputField
@@ -95,7 +95,7 @@ const CustomFieldComponent = ({
           <DeleteForever />
         </MenuItemSaveButton>
       </StyledMenuItemEditField>
-    </Fragment>
+    </>
   );
 };
 

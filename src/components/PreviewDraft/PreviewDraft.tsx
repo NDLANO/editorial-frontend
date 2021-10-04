@@ -15,6 +15,7 @@ import { Article } from '@ndla/ui';
 import { ArticleType, LocaleType } from '../../interfaces';
 //@ts-ignore
 import { transformArticle } from '../../util/articleUtil';
+import '../DisplayEmbed/helpers/h5pResizer';
 
 interface Props {
   article: ArticleType;
@@ -50,10 +51,11 @@ class PreviewDraft extends Component<Props, {}> {
 
     return (
       <Article
+        // @ts-ignore TODO: denne må kanskje fikses i frontend-packages? En draft kan vel være lisensløs?
         article={formatted}
         children={undefined}
         icon={icon}
-        id={formatted.id}
+        id={formatted?.id.toString() ?? ''}
         locale={language}
         messages={{
           label,

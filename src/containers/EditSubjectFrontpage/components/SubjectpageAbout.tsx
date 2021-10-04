@@ -6,13 +6,14 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
 import FormikField from '../../../components/FormikField';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
-const SubjectpageAbout = ({ t }: tType) => {
+const SubjectpageAbout = () => {
+  const { t } = useTranslation();
   return (
     <>
       <FormikField name="title" noBorder title placeholder={t('form.name.title')} />
@@ -22,17 +23,18 @@ const SubjectpageAbout = ({ t }: tType) => {
         name="description"
         showMaxLength
         maxLength={300}>
-        {({ field }: FieldProps) => (
+        {({ field, form: { isSubmitting } }: FieldProps) => (
           <PlainTextEditor
             id={field.name}
             {...field}
+            submitted={isSubmitting}
             placeholder={t('subjectpageForm.description')}
           />
         )}
       </FormikField>
-      <VisualElementField types={['image', 'video']} videoTypes={['Brightcove']} />
+      <VisualElementField types={['image', 'video']} />
     </>
   );
 };
 
-export default injectT(SubjectpageAbout);
+export default SubjectpageAbout;

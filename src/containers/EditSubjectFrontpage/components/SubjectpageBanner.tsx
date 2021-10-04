@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import React, { useState } from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import Button from '@ndla/button';
@@ -22,7 +22,8 @@ interface Props {
   title: string;
 }
 
-const SubjectpageBanner = ({ t, field, form, title }: Props & tType) => {
+const SubjectpageBanner = ({ field, form, title }: Props) => {
+  const { t } = useTranslation();
   const [showImageSelect, setShowImageSelect] = useState(false);
 
   const onImageChange = (image: ImageEmbed) => {
@@ -69,4 +70,4 @@ const SubjectpageBanner = ({ t, field, form, title }: Props & tType) => {
   );
 };
 
-export default injectT(SubjectpageBanner);
+export default SubjectpageBanner;

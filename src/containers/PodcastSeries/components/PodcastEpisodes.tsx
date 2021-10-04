@@ -6,11 +6,11 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
-import { AsyncDropdown } from '../../../components/Dropdown';
+import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import handleError from '../../../util/handleError';
 
 import {
@@ -20,9 +20,11 @@ import {
 import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
 
-const PodcastEpisodes = ({ t }: tType) => {
+const PodcastEpisodes = () => {
+  const { t } = useTranslation();
   const { values, setFieldValue } = useFormikContext<PodcastSeriesFormikType>();
   const { episodes, language } = values;
+
   const onAddEpisodeToList = async (audio: AudioSearchResultType) => {
     try {
       const newAudio = await fetchAudio(audio.id, language);
@@ -38,11 +40,10 @@ const PodcastEpisodes = ({ t }: tType) => {
     setFieldValue('episodes', eps);
   };
 
-  const searchForPodcasts = async (
-    input: string,
-  ): Promise<AudioSearchResult & { disabledText?: string; image?: string; alt?: string }> => {
+  const searchForPodcasts = async (input: string, page?: number): Promise<AudioSearchResult> => {
     const searchResult = await searchAudio({
       query: input,
+      page,
       language: language,
       'audio-type': 'podcast',
     });
@@ -89,13 +90,11 @@ const PodcastEpisodes = ({ t }: tType) => {
       <AsyncDropdown
         selectedItems={elements}
         idField="id"
-        name="relatedArticleSearch"
         labelField="title"
         placeholder={t('form.content.relatedArticle.placeholder')}
-        label="label"
         apiAction={searchForPodcasts}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(audio: AudioSearchResultType) => onAddEpisodeToList(audio)}
+        onChange={onAddEpisodeToList}
         multiSelect
         disableSelected
         clearInputField
@@ -104,4 +103,4 @@ const PodcastEpisodes = ({ t }: tType) => {
   );
 };
 
-export default injectT(PodcastEpisodes);
+export default PodcastEpisodes;

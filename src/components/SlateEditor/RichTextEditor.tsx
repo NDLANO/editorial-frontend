@@ -47,13 +47,11 @@ interface Props {
   submitted: boolean;
   language: string;
   actionsToShowInAreas: { [key: string]: string[] };
-  index: number;
-  removeSection: (index: number) => void;
-  children: JSX.Element;
+  index?: number;
+  removeSection?: (index: number) => void;
 }
 
 const RichTextEditor = ({
-  children,
   className,
   placeholder,
   plugins,
@@ -70,14 +68,16 @@ const RichTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
-  editor.removeSection = () => {
-    removeSection(index);
-  };
 
   const prevSubmitted = useRef(submitted);
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });
+    if (removeSection && index) {
+      editor.removeSection = () => {
+        removeSection(index);
+      };
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -129,7 +129,7 @@ const RichTextEditor = ({
             editor={editor}
             value={value}
             onChange={(val: Descendant[]) => {
-              onChange(val, index);
+              onChange(val, index ?? 0);
             }}>
             <SlateToolbar editor={editor} />
             <SlateBlockPicker
@@ -154,7 +154,6 @@ const RichTextEditor = ({
               {...classes('content', undefined, className)}
             />
           </Slate>
-          {children}
         </div>
       </SlateProvider>
     </article>

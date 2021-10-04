@@ -10,7 +10,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 
@@ -18,30 +18,26 @@ import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 
-interface BaseProps {
+interface Props {
   attributes: RenderElementProps['attributes'];
   embed: AudioEmbed;
   language: string;
   locale: LocaleType;
-  onRemoveClick: Function;
-  active: boolean;
+  onRemoveClick: (event: React.MouseEvent) => void;
   isSelectedForCopy: boolean;
   children: ReactNode;
 }
 
-type Props = BaseProps & tType;
-
 const SlatePodcast = ({
-  t,
   attributes,
   embed,
   language,
   locale,
   onRemoveClick,
-  active,
   isSelectedForCopy,
   children,
 }: Props) => {
+  const { t } = useTranslation();
   const [audio, setAudio] = useState<Audio>({} as Audio);
   const showCopyOutline = isSelectedForCopy;
 
@@ -87,4 +83,4 @@ const SlatePodcast = ({
   );
 };
 
-export default injectT(SlatePodcast);
+export default SlatePodcast;

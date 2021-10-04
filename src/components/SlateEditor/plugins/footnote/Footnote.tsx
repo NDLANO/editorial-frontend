@@ -9,7 +9,6 @@
 import React, { useState } from 'react';
 import { Editor } from 'slate';
 import { RenderElementProps, useFocused, useSelected } from 'slate-react';
-import { injectT } from '@ndla/i18n';
 import { colors } from '@ndla/core';
 import EditFootnote from './EditFootnote';
 import { FootnoteElement } from '.';
@@ -58,4 +57,4 @@ const Footnote = (props: Props) => {
   );
 };
 
-export default injectT(Footnote);
+export default Footnote;

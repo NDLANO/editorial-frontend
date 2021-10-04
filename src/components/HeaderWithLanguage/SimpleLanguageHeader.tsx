@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Check } from '@ndla/icons/editor';
 import HeaderInformation from './HeaderInformation';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
@@ -20,14 +20,13 @@ interface Props {
   articleType: string;
   editUrl: (lang: string) => string;
   id: number;
-  isSubmitting: Boolean;
+  isSubmitting: boolean;
   language: string;
   supportedLanguages: string[];
   title: string;
 }
 
 const SimpleLanguageHeader = ({
-  t,
   articleType,
   editUrl,
   id,
@@ -35,8 +34,9 @@ const SimpleLanguageHeader = ({
   language,
   supportedLanguages,
   title,
-}: Props & tType) => {
-  const isNewLanguage = id && !supportedLanguages.includes(language);
+}: Props) => {
+  const { t } = useTranslation();
+  const isNewLanguage = !!id && !supportedLanguages.includes(language);
 
   const languages = [
     { key: 'nn', title: t('language.nn'), include: true },
@@ -53,7 +53,13 @@ const SimpleLanguageHeader = ({
 
   return (
     <>
-      <HeaderInformation type={articleType} noStatus title={title} isNewLanguage={isNewLanguage} />
+      <HeaderInformation
+        type={articleType}
+        noStatus
+        title={title}
+        isNewLanguage={isNewLanguage}
+        id={id}
+      />
       <StyledLanguageWrapper>
         {id ? (
           <>
@@ -86,4 +92,4 @@ const SimpleLanguageHeader = ({
   );
 };
 
-export default injectT(SimpleLanguageHeader);
+export default SimpleLanguageHeader;

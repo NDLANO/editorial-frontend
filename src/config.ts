@@ -31,6 +31,15 @@ export const getNdlaApiUrl = (env: string): string => {
   }
 };
 
+export const ndlaBaseUrl = () => {
+  switch (ndlaEnvironment) {
+    case 'prod':
+      return 'ndla.no';
+    default:
+      return `${ndlaEnvironment}.ndla.no`;
+  }
+};
+
 const ndlaFrontendDomain = () => {
   switch (ndlaEnvironment) {
     case 'local':
@@ -109,6 +118,8 @@ export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
 };
 
+export const getDefaultLanguage = () => getEnvironmentVariabel('NDLA_DEFAULT_LANGUAGE', 'nb');
+
 const usernamePasswordEnabled = () => {
   switch (ndlaEnvironment) {
     case 'test':
@@ -125,6 +136,7 @@ export type ConfigType = {
   checkArticleScript: boolean;
   logEnvironment: string | undefined;
   ndlaApiUrl: string | undefined;
+  ndlaBaseUrl: string;
   gaTrackingId: string;
   editorialFrontendDomain: string;
   googleTagManagerId: string | undefined;
@@ -164,6 +176,7 @@ const config: ConfigType = {
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
+  ndlaBaseUrl: ndlaBaseUrl(),
   ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),
   editorialFrontendDomain: getEnvironmentVariabel('EDITORIAL_DOMAIN', editorialFrontendDomain()),
   learningpathFrontendDomain: getEnvironmentVariabel(

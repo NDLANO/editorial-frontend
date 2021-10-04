@@ -12,8 +12,9 @@ import { ReactEditor, RenderElementProps } from 'slate-react';
 import debounce from 'lodash/debounce';
 import { DebouncedFunc } from 'lodash';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { withTranslation, TFunction } from 'react-i18next';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
+// @ts-ignore
 import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';
@@ -32,7 +33,7 @@ const StyledSection = styled.section`
   }
 `;
 
-const formatFile = (file: File, t: tType['t']): File => ({
+const formatFile = (file: File, t: TFunction): File => ({
   ...file,
   formats: [
     { url: file.url, fileType: file.type, tooltip: `${t(`form.file.download`)} ${file.title}` },
@@ -67,6 +68,7 @@ interface Props {
   element: FileElement;
   locale?: string;
   children: ReactNode;
+  t: TFunction;
 }
 
 interface State {
@@ -76,8 +78,8 @@ interface State {
   currentDebounce?: DebouncedFunc<() => void>;
 }
 
-class FileList extends React.Component<Props & tType, State> {
-  constructor(props: Props & tType) {
+class FileList extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.checkForRemoteFiles.bind(this);
     const { element, t } = this.props;
@@ -248,4 +250,4 @@ class FileList extends React.Component<Props & tType, State> {
   }
 }
 
-export default injectT(FileList);
+export default withTranslation()(FileList);

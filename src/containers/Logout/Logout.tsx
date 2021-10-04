@@ -9,7 +9,7 @@ import React, { Fragment } from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import loadable from '@loadable/component';
 import LogoutProviders from './LogoutProviders';
@@ -19,20 +19,23 @@ const LogoutSession = loadable(() => import('./LogoutSession'));
 
 interface Props extends RouteComponentProps {}
 
-const Logout = ({ t, match }: Props & tType) => (
-  <Fragment>
-    <HelmetWithTracker title={t('htmlTitles.logoutPage')} />
-    <OneColumn cssModifier="clear">
-      <div className="u-2/3@desktop u-push-1/3@desktop">
-        <Switch>
-          <Route path={`${match.url}/federated`} component={LogoutFederated} />
-          <Route path={`${match.url}/session`} component={LogoutSession} />
-          <Route component={LogoutProviders} />
-        </Switch>
-      </div>
-    </OneColumn>
-    <Footer showLocaleSelector />
-  </Fragment>
-);
+const Logout = ({ match }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <Fragment>
+      <HelmetWithTracker title={t('htmlTitles.logoutPage')} />
+      <OneColumn cssModifier="clear">
+        <div className="u-2/3@desktop u-push-1/3@desktop">
+          <Switch>
+            <Route path={`${match.url}/federated`} component={LogoutFederated} />
+            <Route path={`${match.url}/session`} component={LogoutSession} />
+            <Route component={LogoutProviders} />
+          </Switch>
+        </div>
+      </OneColumn>
+      <Footer showLocaleSelector />
+    </Fragment>
+  );
+};
 
-export default injectT(Logout);
+export default Logout;

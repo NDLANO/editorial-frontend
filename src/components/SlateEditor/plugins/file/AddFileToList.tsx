@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Portal } from '../../../Portal';
 import FileUploader from '../../../FileUploader';
@@ -19,8 +19,12 @@ interface Props {
   onFileSave: (files: UnsavedFile[]) => void;
 }
 
-const AddFileToList = ({ showFileUploader, onClose, onFileSave, t }: Props & tType) =>
-  showFileUploader ? (
+const AddFileToList = ({ showFileUploader, onClose, onFileSave }: Props) => {
+  const { t } = useTranslation();
+  if (!showFileUploader) {
+    return null;
+  }
+  return (
     <Portal isOpened>
       <Modal
         controllable
@@ -40,6 +44,7 @@ const AddFileToList = ({ showFileUploader, onClose, onFileSave, t }: Props & tTy
         )}
       </Modal>
     </Portal>
-  ) : null;
+  );
+};
 
-export default injectT(AddFileToList);
+export default AddFileToList;

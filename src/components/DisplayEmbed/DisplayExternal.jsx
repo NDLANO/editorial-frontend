@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { injectT } from '@ndla/i18n';
+import { withTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
@@ -51,13 +51,28 @@ export class DisplayExternal extends Component {
     const { editor, element, embed } = this.props;
 
     if (properties.url !== embed.url || properties.path !== embed.path) {
-      Transforms.setNodes(
-        editor,
-        { data: { ...properties } },
-        { at: ReactEditor.findPath(editor, element) },
-      );
-      this.closeEditEmbed();
+      if (properties.resource === 'h5p') {
+        Transforms.setNodes(
+          editor,
+          {
+            data: {
+              ...properties,
+              url: embed.url,
+              path: embed.path,
+            },
+          },
+          { at: ReactEditor.findPath(editor, element) },
+        );
+        this.iframe.src = embed.url;
+      } else {
+        Transforms.setNodes(
+          editor,
+          { data: { ...properties } },
+          { at: ReactEditor.findPath(editor, element) },
+        );
+      }
     }
+    this.closeEditEmbed();
   }
 
   async getPropsFromEmbed() {
@@ -88,6 +103,7 @@ export class DisplayExternal extends Component {
           this.setState({ error: true });
         }
       } catch (err) {
+        this.setState({ error: true });
         handleError(err);
       }
     } else {
@@ -236,4 +252,4 @@ DisplayExternal.propTypes = {
   attributes: PropTypes.object.isRequired,
 };
 
-export default injectT(DisplayExternal);
+export default withTranslation()(DisplayExternal);

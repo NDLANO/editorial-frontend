@@ -63,8 +63,10 @@ exports[`it goes in and out of edit mode 1`] = `
 `;
 
 exports[`it goes in and out of edit mode 2`] = `
-.emotion-0 article > p {
-  font-family: Source Sans Pro !important;
+
+
+.emotion-0 article>p {
+  font-family: Source Sans Pro!important;
 }
 
 <div>

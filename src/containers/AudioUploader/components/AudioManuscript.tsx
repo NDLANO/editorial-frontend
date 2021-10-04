@@ -7,15 +7,19 @@
  */
 
 import React from 'react';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
+import { connect } from 'formik';
 
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
+import { AudioFormikType } from './AudioForm';
 
 const plugins = [textTransformPlugin];
 
-const AudioManuscript = ({ t }: tType) => {
+const AudioManuscript = () => {
+  const { t } = useTranslation();
+
   return (
     <FormikField label={t('podcastForm.fields.manuscript')} name="manuscript">
       {({ field }) => (
@@ -31,4 +35,4 @@ const AudioManuscript = ({ t }: tType) => {
   );
 };
 
-export default injectT(AudioManuscript);
+export default connect<{}, AudioFormikType>(AudioManuscript);

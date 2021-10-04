@@ -18,6 +18,7 @@ import { ConceptType, PatchConceptType } from '../../modules/concept/conceptApiI
 import { License } from '../../interfaces';
 import { ConceptFormValues, ConceptFormType } from './conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { RulesType } from '../../components/formikValidationSchema';
 
 export const transformApiConceptToFormValues = (
   concept: ConceptFormType,
@@ -40,7 +41,7 @@ export const transformApiConceptToFormValues = (
     processors: concept.copyright?.processors || [],
     source: concept && concept.source ? concept.source : '',
     license: concept.copyright?.license?.license || '',
-    metaImageId: concept.metaImageId,
+    metaImageId: concept.metaImageId || '',
     metaImageAlt: concept.metaImage?.alt || '',
     tags: concept.tags || [],
     articles: concept.articles || [],
@@ -117,7 +118,7 @@ export const getConcept = (
   };
 };
 
-export const conceptFormRules = {
+export const conceptFormRules: RulesType<ConceptFormValues> = {
   title: {
     required: true,
   },

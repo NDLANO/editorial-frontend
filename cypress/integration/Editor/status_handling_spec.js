@@ -45,6 +45,7 @@ describe('Status changes', () => {
       .contains('Utkast')
       .click();
     cy.apiwait(`@statusChangeToUtkast`);
+    cy.get('[data-cy=footerStatus] button').contains('Utkast');
 
     cy.get('[data-cy="learning-resource-title"]')
       .click({ force: true })

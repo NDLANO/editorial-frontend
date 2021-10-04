@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { ContentTypeBadge } from '@ndla/ui';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { ContentResultShape } from '../../../../shapes';
 import {
@@ -39,9 +39,11 @@ const ContentTypeWrapper = styled.div`
   margin-top: 10px;
 `;
 
-const SearchContent = ({ content, locale, t, userAccess }) => {
+const SearchContent = ({ content, locale, userAccess }) => {
+  const { t } = useTranslation();
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
+  const imageUrl = url ? `${url}?width=200` : '/placeholder.png';
   let resourceType = {};
   if (
     contexts &&
@@ -93,10 +95,10 @@ const SearchContent = ({ content, locale, t, userAccess }) => {
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
-        <img src={url || '/placeholder.png'} alt={alt} />
+        <img src={imageUrl} alt={alt} />
       </div>
       <div {...searchClasses('content')}>
-        <div {...searchClasses('header')}>
+        <div {...searchClasses('heading')}>
           <FlexBoxWrapper>
             {ContentType}
             <h2 {...searchClasses('title')}>
@@ -161,4 +163,4 @@ SearchContent.propTypes = {
   userAccess: PropTypes.string,
 };
 
-export default injectT(SearchContent);
+export default SearchContent;

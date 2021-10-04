@@ -9,7 +9,7 @@ import React, { Fragment, useContext } from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import loadable from '@loadable/component';
 import LoginProviders from './LoginProviders';
@@ -20,7 +20,8 @@ const LoginSuccess = loadable(() => import('./LoginSuccess'));
 
 interface Props extends RouteComponentProps {}
 
-export const Login = ({ t, match, location, history }: Props & tType) => {
+export const Login = ({ match, location, history }: Props) => {
+  const { t } = useTranslation();
   const authenticated = useContext(AuthenticatedContext);
   if (authenticated && location.hash === '' && match.url === '/login') {
     history.push('/');
@@ -44,4 +45,4 @@ export const Login = ({ t, match, location, history }: Props & tType) => {
   );
 };
 
-export default injectT(Login);
+export default Login;

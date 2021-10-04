@@ -13,9 +13,15 @@ import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
-import { injectT, tType } from '@ndla/i18n';
+//@ts-ignore
+import { parseMarkdown } from '@ndla/util';
+import { useTranslation } from 'react-i18next';
+import Tooltip from '@ndla/tooltip';
+import SafeLink from '@ndla/safelink';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
+import IconButton from '../../../IconButton';
+import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import {
   getYoutubeEmbedUrl,
   getStartTime,
@@ -39,15 +45,20 @@ interface Props {
   embed: BrightcoveEmbed | ExternalEmbed;
   figureClass: any;
   language: string;
-  onRemoveClick: Function;
+  onRemoveClick: (event: React.MouseEvent) => void;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   active: boolean;
   isSelectedForCopy: boolean;
   children: ReactNode;
 }
 
+const isBrightcove = (
+  embed: BrightcoveEmbed | ExternalEmbed | undefined,
+): embed is BrightcoveEmbed => {
+  return !!embed && 'videoid' in embed;
+};
+
 const SlateVideo = ({
-  t,
   attributes,
   embed,
   figureClass,
@@ -57,17 +68,35 @@ const SlateVideo = ({
   active,
   isSelectedForCopy,
   children,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [editMode, setEditMode] = useState(false);
+  const [activeEmbed, setActiveEmbed] = useState(embed);
+  const isOriginalEmbed =
+    isBrightcove(activeEmbed) && isBrightcove(embed) && activeEmbed.videoid === embed.videoid;
   const [src, setSrc] = useState('');
   const [startTime, setStartTime] = useState('');
   const [stopTime, setStopTime] = useState('');
-  const [caption, setCaption] = useState(embed.caption || '');
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
+  const [caption, setCaption] = useState(activeEmbed.caption || '');
+
+  const [linkedVideoId, setLinkedVideoId] = useState<string | undefined>();
+  useEffect(() => {
+    if (!isBrightcove(embed)) {
+      return;
+    }
+    const idWithoutTimestamp = embed.videoid?.split('&')[0];
+    visualElementApi
+      .fetchBrightcoveVideo(idWithoutTimestamp)
+      .then((v: { link?: { text: string } }) => {
+        setLinkedVideoId(v.link?.text);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [(embed as BrightcoveEmbed).videoid]);
 
   useEffect(() => {
-    if (embed.resource === 'brightcove') {
-      const { account, videoid, url, player = 'default' } = embed;
+    if (activeEmbed.resource === 'brightcove') {
+      const { account, videoid, player = 'default', url } = activeEmbed;
       if (url && isBrightcoveUrl(url)) {
         setSrc(url);
       } else {
@@ -83,10 +112,19 @@ const SlateVideo = ({
       setStartTime(getStartTime(url));
       setStopTime(getStopTime(url));
     }
-  }, [embed]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeEmbed]);
 
   const toggleEditModus = () => {
     setEditMode(!editMode);
+  };
+
+  const switchEmbedSource = () => {
+    if (!isBrightcove(embed)) {
+      return;
+    }
+    const newEmbed = isOriginalEmbed && linkedVideoId ? linkedVideoId : embed.videoid;
+    setActiveEmbed({ ...embed, videoid: newEmbed });
   };
 
   return (
@@ -94,13 +132,24 @@ const SlateVideo = ({
       <FigureButtons
         tooltip={t('form.video.remove')}
         onRemoveClick={onRemoveClick}
-        embed={embed}
+        embed={activeEmbed}
         figureType="video"
-        language={language}
-      />
+        language={language}>
+        <Tooltip
+          tooltip={
+            isOriginalEmbed ? t('form.video.toLinkedVideo') : t('form.video.fromLinkedVideo')
+          }
+          align="right">
+          {linkedVideoId && (
+            <IconButton as={SafeLink} onClick={switchEmbedSource}>
+              {t('form.video.linkedVideoButton')}
+            </IconButton>
+          )}
+        </Tooltip>
+      </FigureButtons>
       {editMode ? (
         <EditVideo
-          embed={embed}
+          embed={activeEmbed}
           toggleEditModus={toggleEditModus}
           figureClass={figureClass}
           src={src}
@@ -126,7 +175,7 @@ const SlateVideo = ({
               }
             }>
             <iframe
-              title={`Video: ${embed?.metaData?.name || ''}`}
+              title={`Video: ${activeEmbed?.metaData?.name || ''}`}
               frameBorder="0"
               src={src}
               allowFullScreen
@@ -135,7 +184,15 @@ const SlateVideo = ({
           </Figure>
           <Button stripped style={{ width: '100%' }} onClick={toggleEditModus}>
             <figcaption className="c-figure__caption">
-              <div className="c-figure__info">{embed.caption}</div>
+              <div
+                className="c-figure__info"
+                css={css`
+                  p {
+                    margin: 0;
+                  }
+                `}>
+                {parseMarkdown(activeEmbed.caption || '')}
+              </div>
             </figcaption>
           </Button>
         </div>
@@ -145,4 +202,4 @@ const SlateVideo = ({
   );
 };
 
-export default injectT(SlateVideo);
+export default SlateVideo;

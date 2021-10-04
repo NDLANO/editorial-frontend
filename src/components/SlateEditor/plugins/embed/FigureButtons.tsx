@@ -6,14 +6,14 @@
  *
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
-import { spacing } from '@ndla/core';
+import { spacing, spacingUnit } from '@ndla/core';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
 import { Link } from 'react-router-dom';
 import IconButton from '../../../IconButton';
@@ -24,11 +24,11 @@ const centerAdjustedStyle = css`
 `;
 
 const rightAdjustedStyle = css`
-  right: -${spacing.spacingUnit * 1.25}px;
+  right: -${spacingUnit * 1.25}px;
 `;
 
 const leftAdjustedStyle = css`
-  left: -${spacing.spacingUnit * 1.25}px;
+  left: -${spacingUnit * 1.25}px;
 `;
 
 interface StyledFigureButtonsProps {
@@ -59,11 +59,12 @@ interface Props {
   embed: Embed;
   figureType: string;
   language: string;
-  onEdit?: Function;
-  onRemoveClick: Function;
+  onEdit?: (event: React.MouseEvent) => void;
+  onRemoveClick: (event: React.MouseEvent) => void;
   providerName?: string;
   tooltip: string;
   withMargin?: boolean;
+  children?: ReactNode;
 }
 
 interface embedProps {
@@ -76,7 +77,6 @@ interface urlProps {
 }
 
 const FigureButtons = ({
-  t,
   embed,
   figureType,
   language,
@@ -85,7 +85,9 @@ const FigureButtons = ({
   providerName,
   tooltip,
   withMargin,
-}: Props & tType) => {
+  children,
+}: Props) => {
+  const { t } = useTranslation();
   const url: urlProps = {
     audio: {
       path: '/media/audio-upload',
@@ -142,19 +144,22 @@ const FigureButtons = ({
         </Tooltip>
       )}
       {figureType === 'video' && embed.resource === 'brightcove' && (
-        <Tooltip tooltip={t('form.video.brightcove')} align="right">
-          <IconButton
-            as={SafeLink}
-            to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid}`}
-            target="_blank"
-            title={t('form.video.brightcove')}
-            tabIndex={-1}>
-            <LinkIcon />
-          </IconButton>
-        </Tooltip>
+        <>
+          <Tooltip tooltip={t('form.video.brightcove')} align="right">
+            <IconButton
+              as={SafeLink}
+              to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid}`}
+              target="_blank"
+              title={t('form.video.brightcove')}
+              tabIndex={-1}>
+              <LinkIcon />
+            </IconButton>
+          </Tooltip>
+          {children}
+        </>
       )}
     </StyledFigureButtons>
   );
 };
 
-export default injectT(FigureButtons);
+export default FigureButtons;

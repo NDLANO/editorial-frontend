@@ -6,13 +6,14 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { injectT, tType } from '@ndla/i18n';
+import { Action, ActionFunction1 } from 'redux-actions';
+import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
@@ -38,9 +39,11 @@ import {
 import { License, SearchResult } from '../../../interfaces';
 import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props {
-  applicationError: (err: string) => void;
+  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
+  createMessage: (message: NewReduxMessage) => void;
   concept: ConceptFormType;
   conceptChanged: boolean;
   fetchConceptTags: (input: string, language: string) => Promise<SearchResult>;
@@ -71,15 +74,20 @@ const ConceptForm = ({
   updateConceptAndStatus,
   onUpdate,
   applicationError,
-  t,
-}: Props & tType) => {
+  createMessage,
+}: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setSavedToServer(false);
   }, [concept]);
   const initialValues = transformApiConceptToFormValues(concept, subjects);
+  const initialErrors = useMemo(() => validateFormik(initialValues, conceptFormRules, t), [
+    initialValues,
+    t,
+  ]);
 
   const handleSubmit = async (
     values: ConceptFormValues,
@@ -109,7 +117,7 @@ const ConceptForm = ({
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
     } catch (err) {
-      applicationError(err);
+      applicationError(err as ReduxMessageError);
       formikHelpers.setSubmitting(false);
       setSavedToServer(false);
     }
@@ -118,6 +126,7 @@ const ConceptForm = ({
   return (
     <Formik
       initialValues={initialValues}
+      initialErrors={initialErrors}
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
@@ -175,6 +184,7 @@ const ConceptForm = ({
               </AccordionSection>
             </Accordions>
             <FormFooter
+              createMessage={createMessage}
               entityStatus={concept.status}
               conceptChanged={conceptChanged}
               inModal={inModal}
@@ -194,6 +204,7 @@ const ConceptForm = ({
 
 const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
+  createMessage: (message: NewReduxMessage) => messageActions.addMessage(message),
 };
 
-export default compose(injectT, withRouter, connect(undefined, mapDispatchToProps))(ConceptForm);
+export default compose(withRouter, connect(undefined, mapDispatchToProps))(ConceptForm);

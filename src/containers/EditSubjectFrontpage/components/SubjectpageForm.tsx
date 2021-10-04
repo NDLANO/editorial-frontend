@@ -6,15 +6,21 @@
  */
 
 import React, { useState } from 'react';
-import { Descendant } from 'slate';
-import { injectT, tType } from '@ndla/i18n';
+import { Descendant, Element } from 'slate';
 import { Formik, Form, FormikProps } from 'formik';
-import { SubjectpageEditType, SubjectpageType, Embed, ArticleType } from '../../../interfaces';
+import { useTranslation } from 'react-i18next';
+import {
+  SubjectpageEditType,
+  SubjectpageType,
+  Embed,
+  ArticleType,
+  SubjectpageApiType,
+} from '../../../interfaces';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
-import validateFormik from '../../../components/formikValidationSchema';
-import { isFormikFormDirty, subjectpageRules } from '../../../util/formHelper';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
+import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
@@ -26,10 +32,13 @@ import {
   editorValueToEmbed,
 } from '../../../util/articleContentConverter';
 import SaveButton from '../../../components/SaveButton';
+import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
 
 interface Props {
   subjectpage: SubjectpageEditType;
-  updateSubjectpage: Function;
+  updateSubjectpage: (
+    updatedSubjectpage: SubjectpageEditType,
+  ) => Promise<SubjectpageApiType | null>;
   selectedLanguage: string;
   elementId: string;
   isNewlyCreated: boolean;
@@ -47,6 +56,34 @@ export interface SubjectFormValues
   elementId?: string;
   title: string;
 }
+
+const subjectpageRules: RulesType<SubjectFormValues> = {
+  title: {
+    required: true,
+  },
+  description: {
+    required: true,
+    maxLength: 300,
+  },
+  visualElement: {
+    required: true,
+    test: (values: SubjectFormValues) => {
+      const element = values?.visualElement[0];
+      const data = Element.isElement(element) && element.type === TYPE_EMBED && element.data;
+      const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
+      return badVisualElementId
+        ? { translationKey: 'subjectpageForm.missingVisualElement' }
+        : undefined;
+    },
+  },
+  metaDescription: {
+    required: true,
+    maxLength: 300,
+  },
+  desktopBanner: {
+    required: true,
+  },
+};
 
 const getInitialValues = (
   subjectpage: SubjectpageEditType,
@@ -104,13 +141,13 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
 };
 
 const SubjectpageForm = ({
-  t,
   elementId,
   subjectpage,
   selectedLanguage,
   updateSubjectpage,
   isNewlyCreated,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const { savedToServer, handleSubmit, initialValues } = useSubjectpageFormHooks(
     getSubjectpageFromSlate,
     updateSubjectpage,
@@ -123,11 +160,14 @@ const SubjectpageForm = ({
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
+  const initialErrors = validateFormik(initialValues, subjectpageRules, t);
+
   return (
     <Formik
       initialValues={initialValues}
+      initialErrors={initialErrors}
       onSubmit={() => {}}
-      validate={values => validateFormik(getSubjectpageFromSlate(values), subjectpageRules, t)}>
+      validate={values => validateFormik(values, subjectpageRules, t)}>
       {(formik: FormikProps<SubjectFormValues>) => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;
 
@@ -176,4 +216,4 @@ const SubjectpageForm = ({
   );
 };
 
-export default injectT(SubjectpageForm);
+export default SubjectpageForm;

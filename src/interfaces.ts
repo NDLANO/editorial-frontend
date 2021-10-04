@@ -16,18 +16,31 @@ import { ReduxSessionState } from './modules/session/session';
 import { ReduxMessageState } from './containers/Messages/messagesSelectors';
 import { ReduxLocaleState } from './modules/locale/locale';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
+import { ApiConceptType } from './modules/concept/conceptApiInterfaces';
+import { DraftApiType } from './modules/draft/draftApiInterfaces';
+import { DraftStatus } from './modules/draft/draftApiInterfaces';
+import { FootnoteType } from './containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
-export interface TranslateType {
-  (
-    key: string,
-    values?: {
-      [key: string]: string | number;
-    },
-  ): string;
+export type EditMode =
+  | 'changeSubjectName'
+  | 'deleteTopic'
+  | 'addExistingSubjectTopic'
+  | 'openCustomFields'
+  | 'toggleMetadataVisibility'
+  | 'editGrepCodes'
+  | 'addExistingTopic'
+  | 'addTopic'
+  | 'deleteSubject';
+export interface SearchResultBase<T> {
+  totalCount: number;
+  page?: number;
+  pageSize: number;
+  language?: string;
+  results: T[];
 }
 
 export interface Author {
@@ -172,14 +185,15 @@ export interface ArticleType {
       },
     ];
   };
-  status: {
-    current: string;
-    other: string[];
-  };
+  status: DraftStatus;
   content: string;
   grepCodes: string[];
   conceptIds: number[];
   relatedContent: RelatedContent[];
+  availability?: AvailabilityType;
+  metaData?: {
+    footnotes?: FootnoteType[];
+  };
 }
 
 export interface RelatedContentLink {
@@ -189,7 +203,7 @@ export interface RelatedContentLink {
 
 export type RelatedContent = RelatedContentLink | number;
 
-export type ConvertedRelatedContent = RelatedContentLink | ArticleType;
+export type ConvertedRelatedContent = RelatedContent | DraftApiType;
 
 export interface Learningpath {
   copyright: {
@@ -311,19 +325,19 @@ export interface NdlaFilmType {
   name: string;
 }
 
+export interface NdlaFilmVisualElement {
+  alt: string;
+  url: string;
+  type: string;
+}
+
 export interface NdlaFilmApiType extends NdlaFilmType {
-  about: [
-    {
-      description: string;
-      language: string;
-      title: string;
-      visualElement: {
-        alt: string;
-        id: string;
-        type: string;
-      };
-    },
-  ];
+  about: {
+    description: string;
+    language: string;
+    title: string;
+    visualElement: NdlaFilmVisualElement;
+  }[];
   themes: NdlaFilmThemesApiType[];
   slideShow: string[];
 }
@@ -350,12 +364,10 @@ export interface NdlaFilmThemesApiType {
 }
 export interface NdlaFilmThemesEditType {
   movies: ContentResultType[];
-  name: [
-    {
-      name: string;
-      language: string;
-    },
-  ];
+  name: {
+    name: string;
+    language: string;
+  }[];
 }
 
 export interface SlateEditor extends Editor {
@@ -364,9 +376,10 @@ export interface SlateEditor extends Editor {
     slateStore: Store;
   };
 }
-
+export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface ImageEmbed {
   resource: 'image';
+
   resource_id: string;
   size: string;
   align: string;
@@ -498,7 +511,7 @@ export interface H5POembed {
 
 export interface License {
   license: string;
-  description: string;
+  description?: string;
   url?: string;
 }
 
@@ -511,3 +524,58 @@ export interface ReduxState {
 }
 
 export type SearchType = typeof SearchTypeValues[number];
+
+export interface ConvertedDraftType {
+  language?: string;
+  title?: string;
+  introduction?: string;
+  visualElement?: string;
+  content?: string;
+  metaDescription?: string;
+  tags: string[];
+  conceptIds: ApiConceptType[];
+  relatedContent: (DraftApiType | RelatedContent)[];
+  id?: number;
+  oldNdlaUrl?: string | undefined;
+  revision: number;
+  status: DraftStatus;
+  copyright?: Copyright | undefined;
+  requiredLibraries: { mediaType: string; name: string; url: string }[];
+  metaImage?: { id: string; alt: string } | null;
+  created: string;
+  updated: string;
+  updatedBy: string;
+  published: string;
+  articleType: string;
+  supportedLanguages: string[];
+  notes: Note[];
+  editorLabels: string[];
+  grepCodes: string[];
+  availability: AvailabilityType;
+}
+
+export interface SlateArticle {
+  articleType: string;
+  content?: string;
+  copyright: {
+    license?: License;
+    origin?: string;
+    creators: Author[];
+    processors: Author[];
+    rightsholders: Author[];
+  };
+  id?: number;
+  introduction?: string;
+  language?: string;
+  metaImage?: { id: string; alt: string | undefined } | null;
+  metaDescription: string;
+  notes: string[];
+  published?: string;
+  supportedLanguages: string[];
+  tags: string[];
+  title?: string;
+  grepCodes: string[] | undefined;
+  conceptIds?: ApiConceptType[];
+  availability?: AvailabilityType;
+  relatedContent: (DraftApiType | RelatedContent)[];
+}

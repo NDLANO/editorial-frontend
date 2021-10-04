@@ -6,7 +6,6 @@ import he from 'he';
 
 import Button from '@ndla/button';
 import { DeleteForever } from '@ndla/icons/editor';
-import { injectT } from '@ndla/i18n';
 import { Codeblock } from '@ndla/code';
 
 import { CodeBlockType } from '../../../../interfaces';
@@ -130,4 +129,4 @@ const CodeBlock = ({ attributes, editor, element, children }: Props) => {
   );
 };
 
-export default injectT(CodeBlock);
+export default CodeBlock;

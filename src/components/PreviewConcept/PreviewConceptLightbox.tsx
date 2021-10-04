@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { FooterLinkButton } from '@ndla/editor';
 import { FileCompare } from '@ndla/icons/action';
 import config from '../../config';
@@ -45,7 +45,8 @@ const closeButtonStyle = css`
   margin-top: -15px;
 `;
 
-const PreviewConceptLightbox = ({ t, getConcept, typeOfPreview }: Props & tType) => {
+const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
+  const { t } = useTranslation();
   const [firstConcept, setFirstConcept] = useState<ConceptPreviewType | undefined>(undefined);
   const [secondConcept, setSecondConcept] = useState<ConceptPreviewType | undefined>(undefined);
   const [previewLanguage, setPreviewLanguage] = useState<string>('');
@@ -161,4 +162,4 @@ const PreviewConceptLightbox = ({ t, getConcept, typeOfPreview }: Props & tType)
   );
 };
 
-export default injectT(PreviewConceptLightbox);
+export default PreviewConceptLightbox;

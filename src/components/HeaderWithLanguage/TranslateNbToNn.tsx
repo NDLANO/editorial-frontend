@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import StyledFilledButton from '../../components/StyledFilledButton';
 
 const StyledLink = StyledFilledButton.withComponent(Link);
@@ -15,7 +15,7 @@ const StyledLink = StyledFilledButton.withComponent(Link);
 interface Props {
   translateToNN: () => void;
   editUrl: (lang: string) => string;
-  setTranslateOnContinue: (translateOnContinue: boolean) => void;
+  setTranslateOnContinue?: (translateOnContinue: boolean) => void;
   formIsDirty: boolean;
 }
 
@@ -24,15 +24,15 @@ const TranslateNbToNn = ({
   translateToNN,
   setTranslateOnContinue,
   editUrl,
-  t,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   return (
     <StyledLink
       to={editUrl('nn')}
-      onClick={() => (formIsDirty ? setTranslateOnContinue(true) : translateToNN())}>
+      onClick={() => (formIsDirty ? setTranslateOnContinue?.(true) : translateToNN())}>
       {t('form.variant.translate')}
     </StyledLink>
   );
 };
 
-export default injectT(TranslateNbToNn);
+export default TranslateNbToNn;

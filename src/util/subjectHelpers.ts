@@ -1,8 +1,10 @@
 import { ArticleType, SubjectpageApiType, SubjectpageEditType, ImageEmbed } from '../interfaces';
+import { NewSubjectFrontPageData } from '../modules/frontpage/frontpageApiInterfaces';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
-export const getUrnFromId = (id: number) => `urn:frontpage:${id}`;
+export const getUrnFromId = (id?: number | string): string | undefined =>
+  id ? `urn:frontpage:${id}` : undefined;
 
 export const transformSubjectpageFromApiVersion = (
   subjectpage: SubjectpageApiType,
@@ -54,11 +56,23 @@ export const transformSubjectpageFromApiVersion = (
 export const transformSubjectpageToApiVersion = (
   subjectpage: SubjectpageEditType,
   editorsChoices: string[],
-) => {
+): NewSubjectFrontPageData | null => {
   const id =
     subjectpage.visualElement?.resource === 'image'
       ? subjectpage.visualElement?.resource_id
       : subjectpage.visualElement?.videoid;
+
+  if (
+    subjectpage.layout === undefined ||
+    subjectpage.title === undefined ||
+    subjectpage.description === undefined ||
+    subjectpage.visualElement?.resource === undefined ||
+    subjectpage.metaDescription === undefined ||
+    id === undefined
+  ) {
+    return null;
+  }
+
   return {
     name: subjectpage.name,
     filters: subjectpage.filters,

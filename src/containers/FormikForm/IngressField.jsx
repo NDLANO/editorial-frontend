@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
 import parse from 'html-react-parser';
-import { injectT } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 
 import StyledFormContainer from '../../components/SlateEditor/common/StyledFormContainer';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
@@ -31,7 +31,6 @@ const renderMarkdown = (text, concept) => {
 };
 
 const IngressField = ({
-  t,
   name,
   maxLength,
   placeholder,
@@ -47,6 +46,7 @@ const IngressField = ({
   }, [handleSubmit]);
 
   const plugins = [textTransformPlugin, saveHotkeyPlugin(() => handleSubmitRef.current())];
+  const { t } = useTranslation();
   return (
     <StyledFormContainer>
       <FormikField
@@ -55,7 +55,7 @@ const IngressField = ({
         name={name}
         showMaxLength
         maxLength={maxLength}>
-        {({ field }) =>
+        {({ field, form: { isSubmitting } }) =>
           preview ? (
             <div className="article_introduction">
               {parse(renderMarkdown(Plain.serialize(field.value), concept))}
@@ -67,6 +67,8 @@ const IngressField = ({
               placeholder={placeholder || t('form.introduction.label')}
               className="article_introduction"
               cy="learning-resource-ingress"
+              handleSubmit={handleSubmit}
+              submitted={isSubmitting}
               plugins={plugins}
             />
           )
@@ -92,4 +94,4 @@ IngressField.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
-export default injectT(IngressField);
+export default IngressField;

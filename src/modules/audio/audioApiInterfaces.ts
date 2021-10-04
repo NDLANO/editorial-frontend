@@ -7,7 +7,7 @@
  */
 
 import { Descendant } from 'slate';
-import { Copyright } from '../../interfaces';
+import { Copyright, SearchResultBase } from '../../interfaces';
 import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
 
 type AudioType = 'standard' | 'podcast';
@@ -99,7 +99,7 @@ export interface AudioSearchResultType {
   title: { title: string; language: string };
   audioType: AudioType;
   url: string;
-  supportedLanguages?: string[];
+  supportedLanguages: string[];
   license: string;
   podcastMeta?: PodcastMeta;
   series?: {
@@ -131,14 +131,6 @@ export interface SearchParams {
   page?: number;
   query?: string;
   sort?: string;
-}
-
-interface SearchResultBase<T> {
-  totalCount: number;
-  page: number;
-  pageSize: number;
-  language: string;
-  results: T[];
 }
 
 export interface PodcastSeriesApiType {

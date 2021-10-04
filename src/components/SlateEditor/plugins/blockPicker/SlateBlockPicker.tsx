@@ -8,8 +8,9 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
+import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';
-import { injectT, tType } from '@ndla/i18n';
+// @ts-ignore
 import { SlateBlockMenu } from '@ndla/editor';
 import { Portal } from '../../../Portal';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
@@ -37,13 +38,15 @@ interface VisualElementSelect {
   visualElementType?: string;
 }
 
-const SlateBlockPicker = (props: Props & tType) => {
+const SlateBlockPicker = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [lastActiveSelection, setLastActiveSelection] = useState<Range>();
   const [selectedParagraphPath, setSelectedParagraphPath] = useState<Path>();
   const [visualElementSelect, setVisualElementSelect] = useState<VisualElementSelect>({
     isOpen: false,
   });
+
+  const { t } = useTranslation();
 
   const slateBlockRef = useRef<HTMLDivElement>(null);
   const slateBlockButtonRef = useRef<HTMLButtonElement>();
@@ -266,7 +269,7 @@ const SlateBlockPicker = (props: Props & tType) => {
     return actions;
   };
 
-  const { t, articleLanguage } = props;
+  const { articleLanguage } = props;
 
   return (
     <>
@@ -300,4 +303,4 @@ const SlateBlockPicker = (props: Props & tType) => {
   );
 };
 
-export default injectT(SlateBlockPicker);
+export default SlateBlockPicker;

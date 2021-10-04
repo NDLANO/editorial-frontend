@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
@@ -36,7 +36,8 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-const ConceptContent = ({ t }: tType) => {
+const ConceptContent = () => {
+  const { t } = useTranslation();
   const [preview, setPreview] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -50,7 +51,12 @@ const ConceptContent = ({ t }: tType) => {
     <>
       <TitleField handleSubmit={submitForm} />
       <ByLine>
-        <LastUpdatedLine creators={creators} published={updated} />
+        <LastUpdatedLine
+          name={'lastUpdated'}
+          onChange={() => {}}
+          creators={creators}
+          published={updated}
+        />
         <IconContainer>
           <Tooltip tooltip={t('form.markdown.button')}>
             <ToggleButton active={preview} onClick={() => setPreview(!preview)}>
@@ -75,4 +81,4 @@ const ConceptContent = ({ t }: tType) => {
   );
 };
 
-export default injectT(ConceptContent);
+export default ConceptContent;

@@ -11,7 +11,9 @@ import { css, jsx } from '@emotion/core';
 import React, { ReactNode, useState } from 'react';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
-import { injectT, tType } from '@ndla/i18n';
+import { useTranslation } from 'react-i18next';
+//@ts-ignore
+import { parseMarkdown } from '@ndla/util';
 import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
@@ -33,14 +35,13 @@ interface Props {
   figureClass?: { className: string };
   isSelectedForCopy?: boolean;
   language: string;
-  onRemoveClick: Function;
+  onRemoveClick: (event: React.MouseEvent) => void;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   visualElement: boolean;
   children: ReactNode;
 }
 
 const SlateImage = ({
-  t,
   active,
   attributes,
   embed,
@@ -51,7 +52,8 @@ const SlateImage = ({
   saveEmbedUpdates,
   visualElement,
   children,
-}: Props & tType) => {
+}: Props) => {
+  const { t } = useTranslation();
   const [editMode, setEditMode] = useState(false);
   const showCopyOutline = isSelectedForCopy && (!editMode || !active);
 
@@ -107,7 +109,15 @@ const SlateImage = ({
               `}
             />
             <figcaption className="c-figure__caption" contentEditable={false}>
-              <div className="c-figure__info">{embed.caption}</div>
+              <div
+                className="c-figure__info"
+                css={css`
+                  p {
+                    margin: 0;
+                  }
+                `}>
+                {parseMarkdown(embed.caption)}
+              </div>
             </figcaption>
           </figure>
         </Button>
@@ -117,4 +127,4 @@ const SlateImage = ({
   );
 };
 
-export default injectT(SlateImage);
+export default SlateImage;

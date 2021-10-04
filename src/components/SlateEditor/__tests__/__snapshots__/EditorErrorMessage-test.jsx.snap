@@ -102,6 +102,7 @@ exports[`EditorErrorMessage renders 1`] = `
     data-cy="close-related-button"
     disabled={false}
     onClick={[Function]}
+    tabIndex="-1"
     type="button"
   >
     <svg

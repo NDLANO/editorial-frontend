@@ -40,22 +40,14 @@ export const conceptApiTypeToFormType = (
   articles: DraftApiType[],
 ): ConceptFormValues => {
   const { title, content, tags, visualElement } = convertNestedConceptProps(concept, language);
-  const conceptSubjects = subjects.filter(s => concept?.subjectIds.find(id => id === s.id)) ?? [];
+  const conceptSubjects = subjects.filter(s => concept?.subjectIds?.find(id => id === s.id)) ?? [];
   const spreadConcept: Partial<ConceptApiType> = concept ? { ...concept, content: undefined } : {};
   if (spreadConcept.hasOwnProperty('content')) {
     delete spreadConcept.content;
   }
   return {
-    id: concept?.id,
-    revision: concept?.revision,
-    status: concept?.status,
+    ...spreadConcept,
     visualElement: concept?.visualElement?.visualElement,
-    copyright: concept?.copyright,
-    metaImage: concept?.metaImage,
-    subjectIds: concept?.subjectIds,
-    articleIds: concept?.articleIds,
-    created: concept?.created,
-    updated: concept?.updated,
     slatetitle: plainTextToEditorValue(title, true),
     language,
     subjects: conceptSubjects,
@@ -133,10 +125,8 @@ export const conceptFormTypeToApiType = (
     updated: values.updated!,
     status: values.status!,
     copyright: {
+      ...values,
       license: licenses.find(license => license.license === values.license),
-      creators: values.creators,
-      processors: values.processors,
-      rightsholders: values.rightsholders,
     },
   };
 };

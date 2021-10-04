@@ -1,4 +1,4 @@
-type TypeOfReturnType = 'string' | 'number' | 'object' | 'function' | 'undefined' | 'null';
+type TypeOfReturnType = 'string' | 'number' | 'object' | 'function' | 'undefined';
 
 interface GuardOptions {
   type?: TypeOfReturnType;

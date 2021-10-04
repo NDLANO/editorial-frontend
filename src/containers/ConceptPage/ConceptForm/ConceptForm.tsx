@@ -22,7 +22,7 @@ import {
   conceptApiTypeToFormType,
   conceptFormTypeToApiType,
   getConceptPatchType,
-} from '../conceptUtil';
+} from '../conceptTransformers';
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
 import FormWrapper from './FormWrapper';

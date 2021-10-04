@@ -23,6 +23,7 @@ import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
 import config from '../../../../config';
 import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
+import { VisualElement } from '../../../../interfaces';
 
 const StyledFigureButtons = styled('span')`
   position: absolute;
@@ -53,7 +54,8 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
   markdown.inline.ruler.enable(['sub', 'sup']);
 
   const VisualElement = () => {
-    const visualElement = parseEmbedTag(concept.visualElement?.visualElement) ?? {};
+    const visualElement: VisualElement = parseEmbedTag(concept.visualElement?.visualElement);
+    if (!visualElement) return null;
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
@@ -105,7 +107,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
         <NotionDialogText>
           <span
             dangerouslySetInnerHTML={{
-              __html: markdown.render(concept.content),
+              __html: markdown.render(concept.content.content),
             }}
           />
         </NotionDialogText>

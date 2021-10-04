@@ -154,13 +154,18 @@ const ConceptForm = ({
       validate={values => validateFormik(values, conceptFormRules, t)}>
       {formikProps => {
         const { values, errors }: FormikProps<ConceptFormValues> = formikProps;
+        const { id, revision, status, created, updated } = values;
+        const requirements = id && revision && status && created && updated;
+        const getEntity = requirements
+          ? () => conceptFormTypeToApiType(values, licenses, concept?.updatedBy)
+          : undefined;
         const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
         return (
           <FormWrapper inModal={inModal} {...formClasses()}>
             <HeaderWithLanguage
               content={{ ...concept, title: concept?.title.title, language }}
               editUrl={editUrl}
-              getEntity={() => conceptFormTypeToApiType(values, licenses, concept?.updatedBy)}
+              getEntity={getEntity}
               translateToNN={translateToNN}
               type="concept"
               setTranslateOnContinue={setTranslateOnContinue}
@@ -215,7 +220,7 @@ const ConceptForm = ({
               showSimpleFooter={!concept?.id}
               onClose={onClose}
               onContinue={translateOnContinue && translateToNN ? translateToNN : () => {}}
-              getApiConcept={() => conceptFormTypeToApiType(values, licenses, concept?.updatedBy)}
+              getApiConcept={getEntity}
             />
           </FormWrapper>
         );

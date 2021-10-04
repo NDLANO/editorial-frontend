@@ -27,7 +27,7 @@ import { createGuard, createReturnTypeGuard } from '../../util/guards';
 interface Props {
   formIsDirty: boolean;
   savedToServer: boolean;
-  getEntity: () => UpdatedDraftApiType | ConceptApiType;
+  getEntity?: () => UpdatedDraftApiType | ConceptApiType;
   entityStatus?: DraftStatus;
   createMessage: (message: NewReduxMessage) => void;
   showSimpleFooter: boolean;
@@ -121,6 +121,7 @@ function EditorFooter<T extends FormValues>({
 
   const onValidateClick = async () => {
     const { id, revision } = values;
+    if (!getEntity) return;
     const entity = getEntity();
     if (!isDraftApiType(entity)) return;
     const updatedEntity = { ...entity, revision: revision ?? entity.revision };
@@ -174,7 +175,7 @@ function EditorFooter<T extends FormValues>({
     <Footer>
       <>
         <div data-cy="footerPreviewAndValidate">
-          {values.id && isConcept && isConceptType(getEntity) && (
+          {values.id && isConcept && getEntity && isConceptType(getEntity) && (
             <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
           )}
           {values.id && isArticle && (
@@ -186,7 +187,7 @@ function EditorFooter<T extends FormValues>({
             </FooterLinkButton>
           )}
           <StyledLine />
-          {values.id && isArticle && (
+          {values.id && isArticle && getEntity && (
             <FooterLinkButton bold onClick={() => onValidateClick()}>
               {t('form.validate')}
             </FooterLinkButton>

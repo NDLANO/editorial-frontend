@@ -42,7 +42,7 @@ export interface ConceptQuery {
   query?: string;
   language?: string;
   page?: number;
-  pageSize?: number;
+  'page-size'?: number;
   ids?: string;
   sort?: string;
   fallback?: boolean;

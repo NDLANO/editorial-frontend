@@ -29,7 +29,7 @@ interface Props {
   showSimpleFooter: boolean;
   onClose?: () => void;
   onContinue: () => void;
-  getApiConcept: () => ConceptApiType;
+  getApiConcept?: () => ConceptApiType;
   createMessage: (message: NewReduxMessage) => void;
 }
 

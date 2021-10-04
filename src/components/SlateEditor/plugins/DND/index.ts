@@ -9,7 +9,9 @@
 import { DragEventHandler } from 'react';
 import { Editor, Element, Node, Text } from 'slate';
 import { ReactEditor } from 'slate-react';
+import { TYPE_QUOTE } from '../blockquote';
 import { TYPE_HEADING } from '../heading';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { TYPE_SECTION } from '../section';
 import onDrop from './onDrop';
 import { getTopNode } from './utils';
@@ -40,7 +42,11 @@ const dndPlugin = (editor: Editor) => {
 
       if (Element.isElement(section) && section.type === TYPE_SECTION) {
         const lowestCommonAncestor = [...Node.nodes(section)].find(([element]) => {
-          return Element.isElement(element) && element.children.length > 1;
+          return (
+            Element.isElement(element) &&
+            (element.children.length > 1 ||
+              [TYPE_HEADING, TYPE_PARAGRAPH, TYPE_QUOTE].includes(element.type))
+          );
         })?.[0];
         if (Element.isElement(lowestCommonAncestor)) {
           if (lowestCommonAncestor.type === TYPE_HEADING) {

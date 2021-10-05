@@ -7,6 +7,10 @@ import { getTopNode } from './utils';
 const onDrop = (editor: Editor): DragEventHandler<HTMLDivElement> => event => {
   const data = event.dataTransfer;
 
+  if (data.getData('application/x-slate-fragment')) {
+    // Prevent slate from merging current event with the previous by inserting an empty undo.
+    editor.history.undos.push([]);
+  }
   const originPath = JSON.parse(data.getData('application/slate-node-path') || '[]');
 
   if (Array.isArray(originPath) && originPath.length > 0) {

@@ -10,13 +10,13 @@ import { css } from '@emotion/core';
 import React, { useEffect, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
-import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
+import { AudioPlayer } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
 import Overlay from '../../../Overlay';
 import { Portal } from '../../../Portal';
 import { useSlateContext } from '../../SlateContext';
 import FigureButtons from './FigureButtons';
-import { SlateAudio, Embed, LocaleType } from '../../../../interfaces';
+import { SlateAudio, Embed } from '../../../../interfaces';
 
 const placeholderStyle = css`
   position: relative;
@@ -28,7 +28,6 @@ interface Props {
   changes: { [x: string]: string };
   embed: Embed;
   language: string;
-  locale: LocaleType;
   onAudioFigureInputChange: (event: React.FormEvent<HTMLSelectElement>) => void;
   onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
   onExit: (event: React.MouseEvent) => void;
@@ -45,7 +44,6 @@ const EditAudio = ({
   onRemoveClick,
   type,
   language,
-  locale,
   speech,
   audio,
   changes,
@@ -66,8 +64,7 @@ const EditAudio = ({
     embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;
     embedElement.style.left = `${placeholderRect.left}px`;
     embedElement.style.width = `${placeholderRect.width}px`;
-    initAudioPlayers(locale);
-  }, [embedElement, locale, placeholderElement]);
+  }, [embedElement, placeholderElement]);
 
   return (
     <Fragment>

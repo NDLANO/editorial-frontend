@@ -11,6 +11,7 @@ import { Editor, Element, Node, Text } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { TYPE_QUOTE } from '../blockquote';
 import { TYPE_HEADING } from '../heading';
+import { TYPE_LIST, TYPE_LIST_ITEM } from '../list';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { TYPE_SECTION } from '../section';
 import onDrop from './onDrop';
@@ -51,6 +52,17 @@ const dndPlugin = (editor: Editor) => {
         if (Element.isElement(lowestCommonAncestor)) {
           if (lowestCommonAncestor.type === TYPE_HEADING) {
             return [lowestCommonAncestor];
+          }
+          if (lowestCommonAncestor.type === TYPE_LIST) {
+            return [lowestCommonAncestor];
+          }
+          if (lowestCommonAncestor.type === TYPE_LIST_ITEM) {
+            const lowestCommonList = [...Node.nodes(section)].find(([element]) => {
+              return Element.isElement(element) && element.children.includes(lowestCommonAncestor);
+            })?.[0];
+            if (Element.isElement(lowestCommonList)) {
+              return [lowestCommonList];
+            }
           }
           return lowestCommonAncestor.children;
         }

@@ -81,7 +81,12 @@ class SlateFactAside extends React.Component {
         {...attributes}>
         <div className="c-factbox__content c-bodybox">
           <MoveContentButton onMouseDown={onMoveContent} />
-          <DeleteButton stripped onMouseDown={onRemoveClick} data-cy="remove-fact-aside" />
+          <DeleteButton
+            stripped
+            onMouseDown={onRemoveClick}
+            data-cy="remove-fact-aside"
+            tabIndex="-1"
+          />
           {children}
         </div>
         <Button

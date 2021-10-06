@@ -41,6 +41,7 @@ import { sectionPlugin } from '../../../../components/SlateEditor/plugins/sectio
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 
 const byLineStyle = css`
   display: flex;
@@ -80,6 +81,7 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
     conceptPlugin(language),
     mathmlPlugin,
     markPlugin,
+    dndPlugin,
     toolbarPlugin,
     textTransformPlugin,
     breakPlugin,

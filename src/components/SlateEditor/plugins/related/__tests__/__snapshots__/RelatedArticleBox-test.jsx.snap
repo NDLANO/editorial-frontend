@@ -16,6 +16,8 @@ exports[`it goes in and out of edit mode 1`] = `
 
 <div>
   <div
+    autocapitalize="false"
+    autocorrect="false"
     contenteditable="true"
     data-gramm="false"
     data-slate-editor="true"
@@ -71,6 +73,8 @@ exports[`it goes in and out of edit mode 2`] = `
 
 <div>
   <div
+    autocapitalize="false"
+    autocorrect="false"
     contenteditable="true"
     data-gramm="false"
     data-slate-editor="true"

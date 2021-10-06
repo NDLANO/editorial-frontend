@@ -288,7 +288,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
                 isMainActive,
               }: {
                 pathToString: string;
-                parent: string;
+                parent?: string;
                 subjectId: string;
                 id: string;
                 name: string;
@@ -298,7 +298,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
                 <FolderItem
                   id={id}
                   subjectId={subjectId}
-                  parent={parent}
+                  parent={parent || ''}
                   pathToString={pathToString}
                   key={id}
                   name={name}

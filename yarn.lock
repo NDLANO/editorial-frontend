@@ -1975,7 +1975,7 @@
     react-simple-code-editor "^0.11.0"
     react-syntax-highlighter "^15.4.4"
 
-"@ndla/core@^0.7.0", "@ndla/core@^0.7.2":
+"@ndla/core@^0.7.2":
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.7.2.tgz#6e12e76c9fb8081eb8fe73fffebe47d12749ef46"
   integrity sha512-awzRddqFoJZxTzDVlm7WxGTF4ee49xX3ijTQ897EOSRJ1bzUl0fRHs2tH/q/sKsD+V7+RenMPnUnFSuXIv1J2A==
@@ -1986,13 +1986,13 @@
     polished "^4.1.3"
     sass-mq "^5.0.1"
 
-"@ndla/editor@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-1.0.2.tgz#91895fc557a611b166f4ac40cfcebe83f6d45afa"
-  integrity sha512-VbhY5DKBSN/dZcJn6DKnWq36MX4Vsh4AiOULIrxuNZziQfhVPS+YQtQQlPRs99QiJLjkyfQIcCMLigZ8giJeAQ==
+"@ndla/editor@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-1.1.1.tgz#7e510c01098e8e0d15d741982babbc871b5380ef"
+  integrity sha512-Eh579FsKd+FncmNaSREzhgqGCjK4KnMYD4kGkycVBaifSp7qzp3mpT3xZlklWP3o2yKX0/NR4MDR7ZFoXKf9cQ==
   dependencies:
-    "@ndla/core" "^0.7.0"
-    "@ndla/icons" "^1.0.0"
+    "@ndla/core" "^0.7.2"
+    "@ndla/icons" "^1.0.1"
     "@types/react-beautiful-dnd" "^11.0.3"
     prismjs "^1.22.0"
     react-beautiful-dnd "^12.0.0"
@@ -2024,7 +2024,7 @@
     "@ndla/util" "^1.0.2"
     lodash "^4.17.20"
 
-"@ndla/howto@^1.0.11":
+"@ndla/howto@^1.1.0":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@ndla/howto/-/howto-1.1.1.tgz#5e151208c17bf778d653df88509948f2ab6b592b"
   integrity sha512-W/Qs4Yhd9p9tTSCZNzG79FMimgqEzP0BO7AUq4WkXvmbuIN23mHNqcSD6dgjJHWmpvB3e2Gy+Be9hUKbYB3TsA==
@@ -2853,9 +2853,9 @@
     "@types/react" "*"
 
 "@types/react@*":
-  version "17.0.24"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.24.tgz#7e1b3f78d0fc53782543f9bce6d949959a5880bd"
-  integrity sha512-eIpyco99gTH+FTI3J7Oi/OH8MZoFMJuztNRimDOJwH4iGIsKV2qkGnk4M9VzlaVWeEEWLWSQRy0FEA0Kz218cg==
+  version "17.0.25"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.25.tgz#8b88c226e54910762decc9de2aa36b4dc9240503"
+  integrity sha512-IXrzSOr3CVbEQgmjEdCWF57J7CVaJ7lL/n4penxHm8h0XIcr0AxqGucogh2zj3qRxgk4M4JImOP/MfomkPOhvQ==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"

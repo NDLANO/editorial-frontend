@@ -7,7 +7,6 @@
  */
 
 import queryString from 'query-string';
-import { useQuery, UseQueryOptions } from 'react-query';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 import {
   apiResourceUrl,
@@ -23,7 +22,6 @@ import {
   SeriesSearchResult,
   TagSearchResult,
 } from './audioApiInterfaces';
-import { SEARCH_AUDIO, SEARCH_SERIES } from '../../queryKeys';
 
 const baseUrl = apiResourceUrl('/audio-api/v1/audio');
 const seriesBaseUrl = apiResourceUrl('/audio-api/v1/series');
@@ -46,13 +44,6 @@ export const updateAudio = (id: number, formData: FormData): Promise<AudioApiTyp
     headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData,
   }).then(r => resolveJsonOrRejectWithError<AudioApiType>(r));
-
-export const useSearchAudio = (query: object, options?: UseQueryOptions<AudioSearchResult>) =>
-  useQuery<AudioSearchResult>(
-    [SEARCH_AUDIO, queryString.stringify(query)],
-    () => searchAudio(query),
-    options,
-  );
 
 export const searchAudio = (query: object): Promise<AudioSearchResult> =>
   fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(r =>
@@ -105,16 +96,6 @@ export const updateSeries = (
     method: 'PUT',
     body: JSON.stringify(newSeries),
   }).then(r => resolveJsonOrRejectWithError<PodcastSeriesApiType>(r));
-
-export const useSearchSeries = (
-  query: SeriesSearchParams,
-  options?: UseQueryOptions<SeriesSearchResult>,
-) =>
-  useQuery<SeriesSearchResult>(
-    [SEARCH_SERIES, queryString.stringify(query)],
-    () => searchSeries(query),
-    options,
-  );
 
 export const searchSeries = (query: SeriesSearchParams): Promise<SeriesSearchResult> => {
   return fetchAuthorized(`${seriesBaseUrl}/?${queryString.stringify(query)}`).then(r =>

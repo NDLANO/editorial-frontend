@@ -19,13 +19,13 @@ import { toSearch } from '../../util/routeHelpers';
 import { RoutePropTypes } from '../../shapes';
 import { LocaleContext } from './App';
 import SearchContainer, { ResultType } from '../SearchPage/SearchContainer';
-import { useSearchAudio, useSearchSeries } from '../../modules/audio/audioApi';
 import { SearchType } from '../../interfaces';
 import { SearchParams } from '../SearchPage/components/form/SearchForm';
 import Footer from './components/Footer';
 import { useSearch } from '../../modules/search/searchQueries';
 import { useSearchImages } from '../../modules/image/imageQueries';
 import { useSearchConcepts } from '../../modules/concept/conceptQueries';
+import { useSearchAudio, useSearchSeries } from '../../modules/audio/audioQueries';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 interface Props extends RouteComponentProps {}

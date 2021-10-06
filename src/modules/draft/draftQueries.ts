@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { License } from '../../interfaces';
 import { DRAFT, LICENSES, USER_DATA } from '../../queryKeys';
-import { fetchDraft, fetchUserData, updateUserData } from './draftApi';
+import { fetchDraft, fetchLicenses, fetchUserData, updateUserData } from './draftApi';
 import { UpdatedUserDataApiType, UserDataApiType } from './draftApiInterfaces';
 
 export const useDraft = (id: number, language?: string) => {
@@ -9,7 +9,7 @@ export const useDraft = (id: number, language?: string) => {
 };
 
 export const useLicenses = (options?: UseQueryOptions<License[]>) =>
-  useQuery<License[]>(LICENSES, options);
+  useQuery<License[]>(LICENSES, fetchLicenses, options);
 
 export const useUserData = (options?: UseQueryOptions<UserDataApiType>) =>
   useQuery<UserDataApiType>(USER_DATA, fetchUserData, options);

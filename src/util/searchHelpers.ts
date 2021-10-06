@@ -8,7 +8,7 @@
 
 import { UseQueryResult } from 'react-query';
 import { SearchResultBase, SearchType } from '../interfaces';
-import { useSearchAudio, useSearchSeries } from '../modules/audio/audioApi';
+import { useSearchAudio, useSearchSeries } from '../modules/audio/audioQueries';
 import { useSearchConcepts } from '../modules/concept/conceptQueries';
 import { useSearchImages } from '../modules/image/imageQueries';
 import { useSearch } from '../modules/search/searchQueries';

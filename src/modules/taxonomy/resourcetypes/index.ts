@@ -6,7 +6,6 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from 'react-query';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -19,7 +18,7 @@ import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
-import { RESOURCE_TYPE } from '../../../queryKeys';
+import { useResourceType } from './resourceTypesQueries';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
@@ -28,13 +27,6 @@ const fetchAllResourceTypes = (language: string): Promise<ResourceType[]> => {
     resolveJsonOrRejectWithError<ResourceType[]>(r),
   );
 };
-
-export const useResourceType = (
-  id: string,
-  locale: string,
-  options?: UseQueryOptions<ResourceType>,
-) =>
-  useQuery<ResourceType>([RESOURCE_TYPE, id, locale], () => fetchResourceType(id, locale), options);
 
 const fetchResourceType = (id: string, locale: string): Promise<ResourceType> => {
   return fetchAuthorized(`${baseUrl}/resource-types/${id}?language=${locale}`).then(r =>
@@ -97,4 +89,5 @@ export {
   fetchResourceType,
   createResourceResourceType,
   createDeleteResourceTypes,
+  useResourceType,
 };

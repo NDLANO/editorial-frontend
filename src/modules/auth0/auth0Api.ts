@@ -6,17 +6,8 @@
  *
  */
 
-import { useQuery, UseQueryOptions } from 'react-query';
 import { Auth0UserData, ZendeskToken } from '../../interfaces';
-import { AUTH0_USERS } from '../../queryKeys';
 import { resolveJsonOrRejectWithError, fetchAuthorized } from '../../util/apiHelpers';
-
-export const useAuth0Users = (uniqueUserIds: string, options: UseQueryOptions<Auth0UserData[]>) =>
-  useQuery<Auth0UserData[]>(
-    [AUTH0_USERS, uniqueUserIds],
-    () => fetchAuth0Users(uniqueUserIds),
-    options,
-  );
 
 export const fetchAuth0Users = (uniqueUserIds: string): Promise<Auth0UserData[]> =>
   fetchAuthorized(`/get_note_users?userIds=${uniqueUserIds}`).then(r =>

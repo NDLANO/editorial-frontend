@@ -67,6 +67,10 @@ const SearchContainer = ({ locale, searchHook, type, location, history }: Props)
   const { t } = useTranslation();
   const { data: subjectData } = useSubjects(locale);
   const { data: results, isLoading: isSearching } = searchHook(queryString.parse(location.search));
+  const nextPageSearch = queryString.parse(location.search);
+  const nextPage = (parseInt(nextPageSearch?.page ?? 1) + 1).toString();
+  // preload next page.
+  searchHook({ ...nextPageSearch, page: nextPage });
 
   const subjects = subjectData ?? [];
 

@@ -1,0 +1,40 @@
+import { LastUsed } from '@ndla/icons/editor';
+import React, { memo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { LocaleType } from '../../../interfaces';
+import { classes } from '../WelcomePage';
+import LastUsedContent from './LastUsedContent';
+
+interface Props {
+  lastUsed?: string[];
+  userAccess?: string;
+  locale: LocaleType;
+}
+
+const LastUsedItems = ({ lastUsed, locale, userAccess }: Props) => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <div {...classes('column-header')}>
+        <LastUsed className="c-icon--medium" />
+        <span>{t('welcomePage.lastUsed')}</span>
+      </div>
+      {lastUsed?.length ? (
+        lastUsed.map((result: string) => {
+          return (
+            <LastUsedContent
+              key={result}
+              articleId={parseInt(result)}
+              locale={locale}
+              userAccess={userAccess}
+            />
+          );
+        })
+      ) : (
+        <span>{t('welcomePage.emptyLastUsed')}</span>
+      )}
+    </div>
+  );
+};
+
+export default memo(LastUsedItems);

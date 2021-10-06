@@ -11,23 +11,21 @@ import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/ed
 import { List } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
+import { UseQueryResult } from 'react-query';
 import loadable from '@loadable/component';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import SubNavigation from '../Masthead/components/SubNavigation';
 import { toSearch } from '../../util/routeHelpers';
-
 import { RoutePropTypes } from '../../shapes';
 import { LocaleContext } from './App';
 import SearchContainer, { ResultType } from '../SearchPage/SearchContainer';
-
-import { search as searchContent } from '../../modules/search/searchApi';
-import { searchImages } from '../../modules/image/imageApi';
-import { searchSeries } from '../../modules/audio/audioApi';
-import { searchAudio } from '../../modules/audio/audioApi';
-import { searchConcepts } from '../../modules/concept/conceptApi';
+import { useSearchAudio, useSearchSeries } from '../../modules/audio/audioApi';
 import { SearchType } from '../../interfaces';
 import { SearchParams } from '../SearchPage/components/form/SearchForm';
 import Footer from './components/Footer';
+import { useSearch } from '../../modules/search/searchQueries';
+import { useSearchImages } from '../../modules/image/imageQueries';
+import { useSearchConcepts } from '../../modules/concept/conceptQueries';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 interface Props extends RouteComponentProps {}
@@ -41,7 +39,7 @@ const SearchPage = ({ match }: Props) => {
     url: string;
     icon: React.ReactElement;
     path: string;
-    searchFunction: (query: SearchParams) => Promise<ResultType>;
+    searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
   }[] = [
     {
       title: t('subNavigation.searchContent'),
@@ -58,7 +56,7 @@ const SearchPage = ({ match }: Props) => {
       ),
       icon: <SearchContent className="c-icon--large" />,
       path: `${match.url}/content`,
-      searchFunction: searchContent,
+      searchHook: useSearch,
     },
     {
       title: t('subNavigation.searchAudio'),
@@ -73,7 +71,7 @@ const SearchPage = ({ match }: Props) => {
       ),
       icon: <SquareAudio className="c-icon--large" />,
       path: `${match.url}/audio`,
-      searchFunction: searchAudio,
+      searchHook: useSearchAudio,
     },
     {
       title: t('subNavigation.searchImage'),
@@ -88,7 +86,7 @@ const SearchPage = ({ match }: Props) => {
       ),
       icon: <SearchMedia className="c-icon--large" />,
       path: `${match.url}/image`,
-      searchFunction: searchImages,
+      searchHook: useSearchImages,
     },
     {
       title: t('subNavigation.searchConcepts'),
@@ -96,7 +94,7 @@ const SearchPage = ({ match }: Props) => {
       url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'concept'),
       icon: <Concept className="c-icon--large" />,
       path: `${match.url}/concept`,
-      searchFunction: searchConcepts,
+      searchHook: useSearchConcepts,
     },
     {
       title: t('subNavigation.searchPodcastSeries'),
@@ -104,7 +102,7 @@ const SearchPage = ({ match }: Props) => {
       url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'podcast-series'),
       icon: <List className="c-icon--large" />,
       path: `${match.url}/podcast-series`,
-      searchFunction: searchSeries,
+      searchHook: useSearchSeries,
     },
   ];
 
@@ -120,7 +118,7 @@ const SearchPage = ({ match }: Props) => {
               path={type.path}
               component={SearchContainer}
               type={type.type}
-              searchFunction={type.searchFunction}
+              searchHook={type.searchHook}
             />
           );
         })}

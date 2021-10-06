@@ -11,6 +11,8 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Router, useHistory } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import ErrorReporter from '@ndla/error-reporter';
 import { createBrowserHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
@@ -107,16 +109,23 @@ const LocaleRedirector = ({ base }: { base: string }) => {
   return <App key={i18n.language} isClient={true} />;
 };
 
+const queryClient = new QueryClient();
+
 const renderApp = () => {
   render(
-    //@ts-ignore i18nInstance is not recognized as valid by I18nextProvider. It works, however.
-    <I18nextProvider i18n={i18nInstance}>
-      <Provider store={store}>
-        <Router history={browserHistory}>
-          <I18nWrapper basename={basename} />
-        </Router>
-      </Provider>
-    </I18nextProvider>,
+    <QueryClientProvider client={queryClient}>
+      <>
+        {/* @ts-ignore i18nInstance is not recognized as valid by I18nextProvider. It works, however. */}
+        <I18nextProvider i18n={i18nInstance}>
+          <Provider store={store}>
+            <Router history={browserHistory}>
+              <I18nWrapper basename={basename} />
+            </Router>
+          </Provider>
+        </I18nextProvider>
+        <ReactQueryDevtools />
+      </>
+    </QueryClientProvider>,
     document.getElementById('root'),
   );
 };

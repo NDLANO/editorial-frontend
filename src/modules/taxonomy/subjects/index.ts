@@ -7,6 +7,7 @@
  */
 
 import queryString from 'query-string';
+import { useQuery, UseQueryOptions } from 'react-query';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -24,8 +25,22 @@ import {
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
 import { LocaleType } from '../../../interfaces';
+import { SUBJECT, SUBJECTS } from '../../../queryKeys';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
+
+export const useSubjects = (
+  locale: string,
+  metadataFilter?: { key: string; value?: string },
+  options?: UseQueryOptions<SubjectType[]>,
+) => {
+  const query = queryString.stringify({
+    language: locale,
+    key: metadataFilter?.key,
+    value: metadataFilter?.value,
+  });
+  return useQuery<SubjectType[]>([SUBJECTS, query], options);
+};
 
 const fetchSubjects = (
   locale: string,
@@ -41,6 +56,9 @@ const fetchSubjects = (
     resolveJsonOrRejectWithError<SubjectType[]>(r),
   );
 };
+
+export const useSubject = (id: string, language?: string, options?: UseQueryOptions<SubjectType>) =>
+  useQuery<SubjectType>([SUBJECT, id, language], () => fetchSubject(id, language), options);
 
 const fetchSubject = (id: string, language?: string): Promise<SubjectType> => {
   const lng = language ? `?language=${language}` : '';

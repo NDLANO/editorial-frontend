@@ -35,7 +35,7 @@ const onDragStart = (editor: Editor): DragEventHandler<HTMLDivElement> => event 
 const dndPlugin = (editor: Editor) => {
   const { getFragment } = editor;
   editor.getFragment = () => {
-    var selection = editor.selection;
+    const selection = editor.selection;
 
     if (selection) {
       const fragment = Node.fragment(editor, selection);

@@ -15,7 +15,7 @@ import Pager from '@ndla/pager';
 import { Search } from '@ndla/icons/common';
 import debounce from 'lodash/debounce';
 import BEMHelper from 'react-bem-helper';
-import { RouteComponentProps, useHistory, useLocation, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
@@ -63,10 +63,8 @@ function withLocale<P>(
   return hoistNonReactStatics(WithLocale, WrappedComponent);
 }
 
-const SearchContainer = ({ locale, searchHook, type }: Props) => {
+const SearchContainer = ({ locale, searchHook, type, location, history }: Props) => {
   const { t } = useTranslation();
-  const location = useLocation();
-  const history = useHistory();
   const { data: subjectData } = useSubjects(locale);
   const { data: results, isLoading: isSearching } = searchHook(queryString.parse(location.search));
 

@@ -102,6 +102,7 @@ const allowedFiles = [
   '.xlsx',
   '.xml',
   '.f3d',
+  '.mp4',
 ];
 
 export default FileUploader;

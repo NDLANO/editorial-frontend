@@ -2,14 +2,19 @@ import { useMutation, useQuery, useQueryClient, UseQueryOptions } from 'react-qu
 import { License } from '../../interfaces';
 import { DRAFT, LICENSES, USER_DATA } from '../../queryKeys';
 import { fetchDraft, fetchLicenses, fetchUserData, updateUserData } from './draftApi';
-import { UpdatedUserDataApiType, UserDataApiType } from './draftApiInterfaces';
+import { DraftApiType, UpdatedUserDataApiType, UserDataApiType } from './draftApiInterfaces';
 
-export const useDraft = (id: number, language?: string) => {
-  return useQuery([DRAFT, id, language], () => fetchDraft(id, language));
+export const useDraft = (
+  id: number,
+  language?: string,
+  options?: UseQueryOptions<DraftApiType>,
+) => {
+  return useQuery<DraftApiType>([DRAFT, id, language], () => fetchDraft(id, language), options);
 };
 
-export const useLicenses = (options?: UseQueryOptions<License[]>) =>
-  useQuery<License[]>(LICENSES, fetchLicenses, options);
+export const useLicenses = <ReturnType>(
+  options?: UseQueryOptions<License[], unknown, ReturnType>,
+) => useQuery<License[], unknown, ReturnType>(LICENSES, fetchLicenses, options);
 
 export const useUserData = (options?: UseQueryOptions<UserDataApiType>) =>
   useQuery<UserDataApiType>(USER_DATA, fetchUserData, options);

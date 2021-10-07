@@ -49,8 +49,6 @@ const SearchPage = ({ match }: Props) => {
           page: '1',
           sort: '-lastUpdated',
           'page-size': 10,
-          fallback: false,
-          'include-other-statuses': false,
         },
         'content',
       ),

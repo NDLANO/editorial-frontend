@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
-import queryString from 'query-string';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { UseQueryResult } from 'react-query';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -66,19 +65,21 @@ function withLocale<P>(
 const SearchContainer = ({ locale, searchHook, type, location, history }: Props) => {
   const { t } = useTranslation();
   const { data: subjectData } = useSubjects(locale);
-  const { data: results, isLoading: isSearching } = searchHook(queryString.parse(location.search));
-  const nextPageSearch = queryString.parse(location.search);
-  const nextPage = (parseInt(nextPageSearch?.page ?? 1) + 1).toString();
+  const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
+  const { data: results, isLoading: isSearching } = searchHook(searchObject);
+  const nextPage = (searchObject?.page ?? 1) + 1;
   // preload next page.
-  searchHook({ ...nextPageSearch, page: nextPage });
+  searchHook({ ...searchObject, page: nextPage });
+
+  useEffect(() => {
+    setSearchObject(parseSearchParams(location.search));
+  }, [location.search]);
 
   const subjects = subjectData ?? [];
 
   const _onQueryPush = (newSearchObject: SearchParams) => {
-    const oldSearchObject = queryString.parse(location.search);
-
     const searchQuery = {
-      ...oldSearchObject,
+      ...searchObject,
       ...newSearchObject,
     };
 
@@ -87,6 +88,7 @@ const SearchContainer = ({ locale, searchHook, type, location, history }: Props)
       const validValue = currVal !== '' && currVal !== undefined;
       return validValue ? { ...prev, [currKey]: currVal } : prev;
     }, {});
+    setSearchObject(newQuery);
 
     history.push(toSearch(newQuery, type));
   };
@@ -100,8 +102,6 @@ const SearchContainer = ({ locale, searchHook, type, location, history }: Props)
   const lastPage = results?.totalCount
     ? Math.ceil(results?.totalCount / (results.pageSize ?? 1))
     : 1;
-
-  const searchObject = parseSearchParams(location.search);
 
   return (
     <UserAccessContext.Consumer>

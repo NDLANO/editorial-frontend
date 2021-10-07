@@ -6,36 +6,23 @@
  *
  */
 
-import React, { Component, FormEvent, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import React, { FormEvent, Fragment, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { RouteComponentProps } from 'react-router-dom';
-import { fetchResourceTypes } from '../../../../modules/taxonomy';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
 import ArticleStatuses from '../../../../util/constants/index';
-import { fetchAuth0Editors } from '../../../../modules/auth0/auth0Api';
 import { searchFormClasses, SearchParams } from './SearchForm';
-import { LocationShape, SearchParamsShape } from '../../../../shapes';
-import { DRAFT_WRITE_SCOPE } from '../../../../constants';
+import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { FlattenedResourceType } from '../../../../interfaces';
 import { MinimalTagType } from './SearchTag';
-
-const emptySearchState: SearchState = {
-  query: '',
-  subjects: '',
-  resourceTypes: '',
-  status: '',
-  includeOtherStatuses: false,
-  users: '',
-  language: '',
-};
+import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
+import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -44,277 +31,190 @@ interface Props extends RouteComponentProps {
   locale: string;
 }
 
-export interface SearchState extends Record<string, string | boolean> {
+export interface SearchState extends Record<string, string> {
   subjects: string;
   resourceTypes: string;
   status: string;
-  includeOtherStatuses: boolean;
   query: string;
   users: string;
   language: string;
 }
 
-export interface User {
-  id: string;
-  name: string;
+interface SelectFieldsType {
+  name: keyof SearchParams;
+  label: string;
+  width: number;
+  options: any;
 }
 
-interface State {
-  dropDown: {
-    resourceTypes: FlattenedResourceType[];
-    users: User[];
+const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
+  const { t } = useTranslation();
+  const [queryInput, setQueryInput] = useState(search.query ?? '');
+
+  const { data: users } = useAuth0Editors(CONCEPT_WRITE_SCOPE, {
+    select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+    placeholderData: [],
+  });
+
+  const { data: resourceTypes } = useAllResourceTypes(locale, {
+    select: resourceTypes => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
+    placeholderData: [],
+  });
+
+  const onInputChange = (evt: React.FormEvent<HTMLInputElement>) => {
+    setQueryInput(evt.currentTarget.value);
+    doSearch({ ...search, query: evt.currentTarget.value });
   };
-  search: SearchState;
-}
 
-class SearchContentForm extends Component<Props & WithTranslation, State> {
-  constructor(props: Props & WithTranslation) {
-    super(props);
-    const { searchObject } = props;
-    this.state = {
-      dropDown: {
-        resourceTypes: [],
-        users: [],
-      },
-      search: {
-        subjects: searchObject.subjects || '',
-        resourceTypes: searchObject['resource-types'] || '',
-        status: searchObject['draft-status'] || '',
-        includeOtherStatuses: searchObject['include-other-statuses'] || false,
-        query: searchObject.query || '',
-        users: searchObject.users || '',
-        language: searchObject.language || '',
-      },
-    };
-    this.getExternalData = this.getExternalData.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-    this.removeTagItem = this.removeTagItem.bind(this);
-    this.emptySearch = this.emptySearch.bind(this);
-    this.onFieldChange = this.onFieldChange.bind(this);
-    this.getDraftStatuses = this.getDraftStatuses.bind(this);
-  }
-
-  componentDidMount() {
-    this.getExternalData();
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.searchObject.query !== this.props.searchObject.query) {
-      this.setState({
-        search: {
-          ...this.state.search,
-          query: this.props.searchObject.query || '',
-        },
-      });
-    }
-  }
-
-  onFieldChange(evt: FormEvent<HTMLInputElement> | FormEvent<HTMLSelectElement>) {
+  const onFieldChange = (evt: FormEvent<HTMLSelectElement>) => {
     const { name, value } = evt.currentTarget;
-    this.setState(prevState => {
-      const includeOtherStatuses =
-        name === 'status' ? value === 'HAS_PUBLISHED' : prevState.search.includeOtherStatuses;
-      return {
-        search: {
-          ...prevState.search,
-          includeOtherStatuses,
-          [name]: value,
-        },
-      };
-    }, this.handleSearch);
-  }
+    const includeOtherStatuses =
+      name === 'status' ? value === 'HAS_PUBLISHED' : search['include-other-statuses'];
+    doSearch({ ...search, 'include-other-statuses': includeOtherStatuses, [name]: value });
+  };
 
-  async getExternalData(): Promise<void> {
-    const { locale } = this.props;
-    const { t } = this.props;
-    const [resourceTypes, users] = await Promise.all([fetchResourceTypes(locale), this.getUsers()]);
-    const flattenedResourceTypes = flattenResourceTypesAndAddContextTypes(resourceTypes, t);
-    this.setState({
-      dropDown: {
-        resourceTypes: flattenedResourceTypes,
-        users,
-      },
-    });
-  }
-
-  handleSearch() {
-    const {
-      search: { resourceTypes, status, includeOtherStatuses, subjects, query, users, language },
-    } = this.state;
-    const { search } = this.props;
-
+  const handleSearch = () => {
     // HAS_PUBLISHED isn't a status in the backend.
-    const newStatus = status === 'HAS_PUBLISHED' ? 'PUBLISHED' : status;
+    const newStatus = search.status === 'HAS_PUBLISHED' ? 'PUBLISHED' : search.status;
+    doSearch({ ...search, 'draft-status': newStatus, fallback: false, page: 1 });
+  };
 
-    search({
-      'resource-types': resourceTypes,
-      'draft-status': newStatus,
-      'include-other-statuses': includeOtherStatuses,
-      subjects,
-      query,
-      users,
-      language,
-      fallback: false,
-      page: 1,
+  const removeTagItem = (tag: MinimalTagType) => {
+    if (tag.type === 'query') setQueryInput('');
+    doSearch({ ...search, [tag.type]: '' });
+  };
+
+  const emptySearch = () => {
+    setQueryInput('');
+    doSearch({
+      query: '',
+      subjects: '',
+      'resource-types': '',
+      status: '',
+      users: '',
+      language: '',
     });
-  }
+  };
 
-  removeTagItem(tag: MinimalTagType) {
-    this.setState(
-      prevState => ({ search: { ...prevState.search, [tag.type]: '' } }),
-      this.handleSearch,
-    );
-  }
-
-  emptySearch() {
-    this.setState({ search: emptySearchState }, this.handleSearch);
-  }
-
-  getDraftStatuses(): { id: string; name: string }[] {
+  const getDraftStatuses = (): { id: string; name: string }[] => {
     return [
       ...Object.keys(ArticleStatuses.articleStatuses).map(s => {
-        return { id: s, name: this.props.t(`form.status.${s.toLowerCase()}`) };
+        return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
       }),
-      { id: 'HAS_PUBLISHED', name: this.props.t(`form.status.has_published`) },
+      { id: 'HAS_PUBLISHED', name: t(`form.status.has_published`) },
     ];
-  }
+  };
 
-  async getUsers() {
-    const editors = await fetchAuth0Editors(DRAFT_WRITE_SCOPE);
-    return editors.map(u => {
-      return { id: `"${u.app_metadata.ndla_id}"`, name: u.name };
-    });
-  }
-
-  sortByProperty(property: string) {
+  const sortByProperty = (property: string) => {
     type Sortable = { [key: string]: any };
+    return (a: Sortable, b: Sortable) => a[property]?.localeCompare(b[property]);
+  };
 
-    return function(a: Sortable, b: Sortable) {
-      return a[property]?.localeCompare(b[property]);
-    };
-  }
+  const selectFields: SelectFieldsType[] = [
+    {
+      name: 'subjects',
+      label: 'subjects',
+      width: 25,
+      options: subjects.sort(sortByProperty('name')),
+    },
+    {
+      name: 'resource-types',
+      label: 'resourceTypes',
+      width: 25,
+      options: resourceTypes!.sort(sortByProperty('name')),
+    },
+    {
+      name: 'status',
+      label: 'status',
+      width: 25,
+      options: getDraftStatuses().sort(sortByProperty('name')),
+    },
+    {
+      name: 'users',
+      label: 'users',
+      width: 25,
+      options: users!.sort(sortByProperty('name')),
+    },
+    {
+      name: 'language',
+      label: 'language',
+      width: 25,
+      options: getResourceLanguages(t),
+    },
+  ];
 
-  render() {
-    const {
-      dropDown: { resourceTypes, users },
-      search,
-    } = this.state;
-    const { t, subjects } = this.props;
+  const tagTypes = [
+    {
+      type: 'query',
+      id: search.query!,
+      name: search.query,
+    },
+    ...selectFields.map(field => ({
+      type: field.label,
+      id: `${search[field.name]}`,
+      name: getTagName(search[field.name], field.options),
+    })),
+  ];
 
-    const selectFields = [
-      {
-        name: 'subjects',
-        label: 'subjects',
-        width: 25,
-        options: subjects.sort(this.sortByProperty('name')),
-      },
-      {
-        name: 'resourceTypes',
-        label: 'resourceTypes',
-        width: 25,
-        options: resourceTypes.sort(this.sortByProperty('name')),
-      },
-      {
-        name: 'status',
-        label: 'status',
-        width: 25,
-        options: this.getDraftStatuses().sort(this.sortByProperty('name')),
-      },
-      {
-        name: 'users',
-        label: 'users',
-        width: 25,
-        options: users.sort(this.sortByProperty('name')),
-      },
-      {
-        name: 'language',
-        label: 'language',
-        width: 25,
-        options: getResourceLanguages(t),
-      },
-    ];
+  return (
+    <Fragment>
+      <form
+        onSubmit={evt => {
+          evt.preventDefault();
+          handleSearch();
+        }}
+        {...searchFormClasses()}>
+        <div {...searchFormClasses('field', '50-width')}>
+          <input
+            name="query"
+            value={queryInput}
+            placeholder={t('searchForm.types.contentQuery')}
+            onChange={onInputChange}
+          />
+        </div>
 
-    const tagTypes = [
-      {
-        type: 'query',
-        id: search.query,
-        name: search.query,
-      },
-      ...selectFields.map(field => ({
-        type: field.label,
-        id: `${search[field.label]}`,
-        name: getTagName(search[field.label], field.options),
-      })),
-    ];
-
-    return (
-      <Fragment>
-        <form
-          onSubmit={evt => {
-            evt.preventDefault();
-            this.handleSearch();
-          }}
-          {...searchFormClasses()}>
-          <div {...searchFormClasses('field', '50-width')}>
-            <input
-              name="query"
-              value={this.state.search.query}
-              placeholder={t('searchForm.types.contentQuery')}
-              onChange={this.onFieldChange}
+        {selectFields.map(selectField => (
+          <div
+            key={`searchfield_${selectField.name}`}
+            {...searchFormClasses('field', `${selectField.width}-width`)}>
+            <ObjectSelector
+              name={selectField.name}
+              options={selectField.options}
+              idKey="id"
+              // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
+              // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
+              value={search[selectField.name] as string}
+              labelKey="name"
+              emptyField
+              placeholder={t(`searchForm.types.${selectField.label}`)}
+              onChange={onFieldChange}
             />
           </div>
+        ))}
+        <div {...searchFormClasses('field', '25-width')}>
+          <Button
+            css={css`
+              margin-right: 1%;
+              width: 49%;
+            `}
+            onClick={emptySearch}
+            outline>
+            {t('searchForm.empty')}
+          </Button>
+          <Button
+            css={css`
+              width: 49%;
+            `}
+            submit>
+            {t('searchForm.btn')}
+          </Button>
+        </div>
+        <div {...searchFormClasses('tagline')}>
+          <SearchTagGroup onRemoveItem={removeTagItem} tagTypes={tagTypes} />
+        </div>
+      </form>
+    </Fragment>
+  );
+};
 
-          {selectFields.map(selectField => (
-            <div
-              key={`searchfield_${selectField.name}`}
-              {...searchFormClasses('field', `${selectField.width}-width`)}>
-              <ObjectSelector
-                name={selectField.name}
-                options={selectField.options}
-                idKey="id"
-                // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
-                // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
-                value={this.state.search[selectField.name] as string}
-                labelKey="name"
-                emptyField
-                placeholder={t(`searchForm.types.${selectField.label}`)}
-                onChange={this.onFieldChange}
-              />
-            </div>
-          ))}
-          <div {...searchFormClasses('field', '25-width')}>
-            <Button
-              css={css`
-                margin-right: 1%;
-                width: 49%;
-              `}
-              onClick={this.emptySearch}
-              outline>
-              {t('searchForm.empty')}
-            </Button>
-            <Button
-              css={css`
-                width: 49%;
-              `}
-              submit>
-              {t('searchForm.btn')}
-            </Button>
-          </div>
-          <div {...searchFormClasses('tagline')}>
-            <SearchTagGroup onRemoveItem={this.removeTagItem} tagTypes={tagTypes} />
-          </div>
-        </form>
-      </Fragment>
-    );
-  }
-
-  static propTypes = {
-    search: PropTypes.func.isRequired,
-    subjects: PropTypes.array.isRequired,
-    location: LocationShape,
-    searchObject: SearchParamsShape.isRequired,
-    locale: PropTypes.string.isRequired,
-  };
-}
-
-export default withTranslation()(SearchContentForm);
+export default SearchContentForm;

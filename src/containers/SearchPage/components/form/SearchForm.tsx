@@ -51,11 +51,14 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
   return {
     query: queryStringObject.query,
     'draft-status': queryStringObject['draft-status'],
-    'include-other-statuses': queryStringObject['include-other-statuses'] === 'true',
+    'include-other-statuses':
+      queryStringObject['include-other-statuses'] !== undefined
+        ? queryStringObject['include-other-statuses'] === 'true'
+        : undefined,
     'resource-types': queryStringObject['resource-types'],
     'audio-type': queryStringObject['audio-type'],
     'model-released': queryStringObject['model-released'],
-    fallback: queryStringObject.fallback === 'true',
+    fallback: queryStringObject.fallback ? queryStringObject.fallback === 'true' : undefined,
     language: queryStringObject.language,
     page: queryStringObject.page ? parseInt(queryStringObject.page, 10) : undefined,
     'page-size': queryStringObject['page-size']

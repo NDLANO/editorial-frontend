@@ -15,6 +15,7 @@ import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const TYPE_SECTION = 'section';
 const KEY_BACKSPACE = 'Backspace';
+const KEY_TAB = 'Tab';
 
 export interface SectionElement {
   type: 'section';
@@ -93,6 +94,8 @@ export const sectionPlugin = (editor: Editor) => {
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_BACKSPACE) {
       onBackspace(e, editor, nextOnKeyDown);
+    } else if (e.key === KEY_TAB) {
+      e.preventDefault();
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);
     }

@@ -69,14 +69,20 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const onFieldChange = (evt: FormEvent<HTMLSelectElement>) => {
     const { name, value } = evt.currentTarget;
     const includeOtherStatuses =
-      name === 'status' ? value === 'HAS_PUBLISHED' : search['include-other-statuses'];
-    doSearch({ ...search, 'include-other-statuses': includeOtherStatuses, [name]: value });
+      name === 'draft-status' ? value === 'HAS_PUBLISHED' : search['include-other-statuses'];
+    const status =
+      name === 'draft-status' ? (value === 'HAS_PUBLISHED' ? 'PUBLISHED' : value) : search.status;
+
+    const searchObj = { ...search, 'include-other-statuses': includeOtherStatuses, [name]: value };
+    doSearch(
+      name !== 'draft-status'
+        ? searchObj
+        : { ...searchObj, 'draft-status': status, fallback: false },
+    );
   };
 
   const handleSearch = () => {
-    // HAS_PUBLISHED isn't a status in the backend.
-    const newStatus = search.status === 'HAS_PUBLISHED' ? 'PUBLISHED' : search.status;
-    doSearch({ ...search, 'draft-status': newStatus, fallback: false, page: 1 });
+    doSearch({ ...search, fallback: false, page: 1 });
   };
 
   const removeTagItem = (tag: MinimalTagType) => {
@@ -124,7 +130,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       options: resourceTypes!.sort(sortByProperty('name')),
     },
     {
-      name: 'status',
+      name: 'draft-status',
       label: 'status',
       width: 25,
       options: getDraftStatuses().sort(sortByProperty('name')),

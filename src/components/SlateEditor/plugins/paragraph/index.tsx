@@ -124,11 +124,21 @@ export const paragraphPlugin = (editor: Editor) => {
 
     if (Element.isElement(node) && node.type === TYPE_PARAGRAPH && node.serializeAsText) {
       const [parentNode] = Editor.node(editor, Path.parent(path));
-
       if (Element.isElement(parentNode) && parentNode.type !== TYPE_LIST_ITEM) {
         return Transforms.unsetNodes(editor, 'serializeAsText', { at: path });
       }
     }
+
+    // Unwrap block element children
+    if (Element.isElement(node) && node.type === TYPE_PARAGRAPH) {
+      for (const [child, childPath] of Node.children(editor, path)) {
+        if (Element.isElement(child) && !editor.isInline(child)) {
+          Transforms.unwrapNodes(editor, { at: childPath });
+          return;
+        }
+      }
+    }
+
     normalizeNode(entry);
   };
 

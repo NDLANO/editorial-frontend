@@ -26,7 +26,6 @@ export interface LinkElement {
   children: Descendant[];
 }
 
-// TODO: change to data: {content-type, content-id, open-in}
 export interface ContentLinkElement {
   type: 'content-link';
   'content-type': string;
@@ -134,9 +133,11 @@ export const linkPlugin = (language: string) => (editor: Editor) => {
       if (node.type === 'content-link' || node.type === 'link') {
         for (const [index, child] of node.children.entries()) {
           if (!Text.isText(child)) {
-            Transforms.unwrapNodes(editor, { at: [...path, index] });
-            return;
+            return Transforms.unwrapNodes(editor, { at: [...path, index] });
           }
+        }
+        if (Node.string(node) === '') {
+          return Transforms.removeNodes(editor, { at: path });
         }
       }
       if (node.type === 'content-link') {

@@ -40,7 +40,9 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .last()
       .then($el => {
-        cy.get($el).type('{selectall}last line{selectall}');
+        cy.get($el)
+          .focus()
+          .type('{selectall}last line{selectall}');
         cy.get('[data-testid=toolbar-button-bold]').click();
         cy.get('[data-testid=toolbar-button-bold][data-active=true]').should('exist');
         cy.get('[data-testid=toolbar-button-italic]').click();
@@ -87,7 +89,9 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('a[href="http://www.vg.no"]')
       .should('have.prop', 'href')
       .and('equal', 'http://www.vg.no/');
-    cy.get('a[href="http://www.vg.no"]').type('{selectall}');
+    cy.get('a[href="http://www.vg.no"]')
+      .click()
+      .type('{selectall}');
   });
 
   it('All lists work properly', () => {

@@ -17,7 +17,7 @@ describe('Selecting text and using the toolbar', () => {
   });
 
   it('change the text styling', () => {
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true][contenteditable=true')
       .first()
       .focus()
       .wait(500)
@@ -40,7 +40,7 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .last()
       .then($el => {
-        cy.wrap($el).type('last line{selectall}');
+        cy.get($el).type('{selectall}last line{selectall}');
         cy.get('[data-testid=toolbar-button-bold]').click();
         cy.get('[data-testid=toolbar-button-bold][data-active=true]').should('exist');
         cy.get('[data-testid=toolbar-button-italic]').click();

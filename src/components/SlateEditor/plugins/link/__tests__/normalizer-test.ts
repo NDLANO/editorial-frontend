@@ -118,4 +118,57 @@ describe('link normalizer tests', () => {
     Editor.normalize(editor, { force: true });
     expect(editor.children).toEqual(expectedValue);
   });
+
+  test('Remove empty links', () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [
+              { text: '' },
+              {
+                type: TYPE_LINK,
+                href: 'test-url',
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
+              { text: '' },
+              {
+                type: TYPE_CONTENT_LINK,
+                'content-type': 'test',
+                'content-id': '123',
+                'open-in': 'test',
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
+              { text: '' },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: '' }],
+          },
+        ],
+      },
+    ];
+    editor.children = editorValue;
+    Editor.normalize(editor, { force: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
 });

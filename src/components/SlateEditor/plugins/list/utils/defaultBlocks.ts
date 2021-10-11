@@ -1,5 +1,5 @@
 import { jsx } from 'slate-hyperscript';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '../';
+import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 
 export const defaultListBlock = (listType: string) => {
   return jsx('element', { type: TYPE_LIST, listType, data: {} });

@@ -1,6 +1,6 @@
 import { Editor, Node, Element, Range, Transforms, Path } from 'slate';
 
-import { TYPE_LIST_ITEM } from '..';
+import { TYPE_LIST_ITEM } from '../types';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 

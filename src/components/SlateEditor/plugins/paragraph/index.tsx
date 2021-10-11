@@ -15,7 +15,7 @@ import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_BREAK } from '../break';
 import { getCurrentParagraph, TYPE_PARAGRAPH } from './utils';
 import containsVoid from '../../utils/containsVoid';
-import { TYPE_LIST_ITEM } from '../list';
+import { TYPE_LIST_ITEM } from '../list/types';
 
 const KEY_ENTER = 'Enter';
 

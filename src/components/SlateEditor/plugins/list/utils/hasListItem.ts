@@ -1,5 +1,5 @@
 import { Editor, Element } from 'slate';
-import { TYPE_LIST_ITEM } from '..';
+import { TYPE_LIST_ITEM } from '../types';
 import { getListItemType } from './getListItemType';
 import { isListItemPathSelected } from './isListItemSelected';
 

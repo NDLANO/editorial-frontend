@@ -1,6 +1,6 @@
 import { Editor, Element, Point, Range, Transforms } from 'slate';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
+import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
 
 const onBackspace = (

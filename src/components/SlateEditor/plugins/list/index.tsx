@@ -11,10 +11,11 @@ import { defaultListBlock } from './utils/defaultBlocks';
 import onTab from './handlers/onTab';
 import onBackspace from './handlers/onBackspace';
 import { TYPE_BREAK } from '../break';
-
-export const LIST_TYPES = ['numbered-list', 'bulleted-list', 'letter-list'];
-export const TYPE_LIST = 'list';
-export const TYPE_LIST_ITEM = 'list-item';
+import { TYPE_CONCEPT } from '../concept';
+import { TYPE_FOOTNOTE } from '../footnote';
+import { TYPE_CONTENT_LINK, TYPE_LINK } from '../link';
+import { TYPE_MATHML } from '../mathml';
+import { TYPE_LIST, TYPE_LIST_ITEM } from './types';
 
 const KEY_ENTER = 'Enter';
 const KEY_TAB = 'Tab';
@@ -35,15 +36,19 @@ export interface ListItemElement {
   moveDown?: boolean;
 }
 
+const inlines = [TYPE_CONCEPT, TYPE_FOOTNOTE, TYPE_LINK, TYPE_CONTENT_LINK, TYPE_MATHML];
+
 export const listSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     const tag = el.tagName.toLowerCase();
 
+    // Transform children into a new array with all subsequent text/inlines wrapped into a paragraph with serializeAsText
+    // Assures text/inlines in <li> will be parsed back to html without <p>-tag
     children = children.reduce((acc, cur) => {
       const lastElement = acc[acc.length - 1];
       if (!cur) {
         return acc;
-      } else if (Element.isElement(cur)) {
+      } else if (Element.isElement(cur) && !inlines.includes(cur.type)) {
         if (cur.type === TYPE_BREAK) {
           if (
             Element.isElement(lastElement) &&
@@ -60,7 +65,7 @@ export const listSerializer: SlateSerializer = {
           acc.push(cur);
         }
         return acc;
-      } else if (Text.isText(cur)) {
+      } else if (Text.isText(cur) || (Element.isElement(cur) && inlines.includes(cur.type))) {
         if (
           Element.isElement(lastElement) &&
           lastElement.type === TYPE_PARAGRAPH &&

@@ -78,6 +78,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'Tom Knudsen', url: ['www.tomknudsen.no', 'tomknudsen.no'] },
   { name: 'Phet', url: ['phet.colorado.edu'] },
   { name: 'Worldbank', url: ['worldbank.org', '*.worldbank.org'] },
+  { name: 'Concord', url: ['lab.concord.org'] },
   {
     name: 'Miljøstatus',
     url: ['www.miljostatus.no', 'miljostatus.no', 'miljoatlas.miljodirektoratet.no'],

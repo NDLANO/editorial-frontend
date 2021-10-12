@@ -13,7 +13,7 @@ import {
   learningResourceContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
+import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 
 const editor: Descendant[][] = [
   [

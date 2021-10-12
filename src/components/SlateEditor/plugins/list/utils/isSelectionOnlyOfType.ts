@@ -1,5 +1,5 @@
 import { Editor, Element } from 'slate';
-import { LIST_TYPES, TYPE_LIST, TYPE_LIST_ITEM } from '..';
+import { LIST_TYPES, TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 import { isListItemSelected } from './isListItemSelected';
 
 export const isSelectionOnlyOfType = (editor: Editor, type: string) => {

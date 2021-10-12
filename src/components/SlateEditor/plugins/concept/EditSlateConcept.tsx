@@ -6,11 +6,11 @@
  *
  */
 
-import React, { useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, ReactNode, useMemo } from 'react';
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
-import { Dictionary } from 'lodash';
+import { Dictionary, uniqueId } from 'lodash';
 import Notion from '@ndla/notion';
 import { ConceptElement, TYPE_CONCEPT } from '.';
 import ConceptModal from './ConceptModal';
@@ -40,6 +40,8 @@ interface Props {
 const EditSlateConcept = (props: Props) => {
   const { children, element, locale, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
+
+  const uuid = useMemo(() => uniqueId(), []);
 
   const { t } = useTranslation();
 
@@ -116,22 +118,20 @@ const EditSlateConcept = (props: Props) => {
   }, [element]);
 
   return (
-    <span>
+    <>
       <span {...attributes} onMouseDown={toggleConceptModal}>
-        {conceptId && concept ? (
-          <Notion
-            id={conceptId}
-            title={concept.title}
-            subTitle={t('conceptform.title')}
-            content={
-              <SlateConceptPreview concept={concept} handleRemove={handleRemove} id={conceptId} />
-            }
-            ariaLabel={t('notions.edit')}>
-            {children}
-          </Notion>
-        ) : (
-          children
-        )}
+        <Notion
+          id={uuid}
+          title={concept?.title}
+          subTitle={t('conceptform.title')}
+          content={
+            concept && (
+              <SlateConceptPreview concept={concept} handleRemove={handleRemove} id={uuid} />
+            )
+          }
+          ariaLabel={t('notions.edit')}>
+          {children}
+        </Notion>
       </span>
       <ConceptModal
         id={conceptId}
@@ -145,7 +145,7 @@ const EditSlateConcept = (props: Props) => {
         selectedText={nodeText}
         {...conceptHooks}
       />
-    </span>
+    </>
   );
 };
 

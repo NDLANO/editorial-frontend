@@ -11,7 +11,7 @@ import { Editor, Element, Node, Text } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { TYPE_QUOTE } from '../blockquote';
 import { TYPE_HEADING } from '../heading';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '../list';
+import { TYPE_LIST, TYPE_LIST_ITEM } from '../list/types';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { TYPE_SECTION } from '../section';
 import onDrop from './onDrop';

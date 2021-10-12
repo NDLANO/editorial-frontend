@@ -40,7 +40,7 @@ const StyledFigureButtons = styled('span')`
 interface Props {
   concept: ConceptType;
   handleRemove: () => void;
-  id: number;
+  id: number | string;
 }
 
 const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {

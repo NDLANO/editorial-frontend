@@ -21,9 +21,9 @@ import { defaultTableBlock } from '../table/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
-import { TYPE_LIST_ITEM } from '../list';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
+import { TYPE_LIST_ITEM } from '../list/types';
 
 interface Props {
   editor: Editor;

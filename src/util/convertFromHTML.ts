@@ -15,9 +15,8 @@
 
 import { Descendant, Element, Text, Node } from 'slate';
 import { jsx } from 'slate-hyperscript';
+import { inlines } from '../components/SlateEditor/helpers';
 import { ParagraphElement } from '../components/SlateEditor/plugins/paragraph';
-
-const inlines: Element['type'][] = ['link', 'content-link', 'footnote', 'mathml'];
 
 export function convertFromHTML(root: Descendant | null) {
   const wrapMixedChildren = (node: Descendant): Descendant => {

@@ -16,7 +16,7 @@ import { toggleMark } from '../mark/utils';
 import { handleClickInline, handleClickBlock } from './handleMenuClicks';
 import hasNodeWithProps from '../../utils/hasNodeWithProps';
 import { isMarkActive } from '../mark';
-import { LIST_TYPES as listTypes } from '../list';
+import { LIST_TYPES as listTypes } from '../list/types';
 import hasListItem from '../list/utils/hasListItem';
 
 const topicArticleElements: { [key: string]: string[] } = {

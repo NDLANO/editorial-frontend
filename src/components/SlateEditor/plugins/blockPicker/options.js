@@ -1,6 +1,6 @@
 import { TYPE_QUOTE } from '../blockquote';
 import { TYPE_HEADING } from '../heading';
-import { TYPE_LIST } from '../list';
+import { TYPE_LIST } from '../list/types';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { TYPE_TABLE } from '../table/utils';
 

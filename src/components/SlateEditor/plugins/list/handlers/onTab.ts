@@ -2,7 +2,7 @@ import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor } from 'slate-react';
 
 import hasNodeOfType from '../../../utils/hasNodeOfType';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
+import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 
 import { defaultListBlock } from '../utils/defaultBlocks';
 import getCurrentBlock from '../../../utils/getCurrentBlock';

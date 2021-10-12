@@ -1,5 +1,5 @@
 import { Editor, Element, Path } from 'slate';
-import { TYPE_LIST } from '..';
+import { TYPE_LIST } from '../types';
 
 export const getListItemType = (editor: Editor, path: Path) => {
   const [parentNode] = Editor.node(editor, Path.parent(path));

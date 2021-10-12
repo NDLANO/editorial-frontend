@@ -10,7 +10,7 @@ import { Editor } from 'slate';
 import { insertLink } from '../link/utils';
 import toggleBlock from '../../utils/toggleBlock';
 import { toggleHeading } from '../heading/utils';
-import { LIST_TYPES } from '../list';
+import { LIST_TYPES } from '../list/types';
 import { toggleList } from '../list/utils/toggleList';
 import { insertFootnote } from '../footnote/utils';
 import { insertMathml } from '../mathml/utils';

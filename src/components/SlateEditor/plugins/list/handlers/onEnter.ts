@@ -1,8 +1,9 @@
-import { Editor, Node, Element, Range, Transforms, Path } from 'slate';
+import { Editor, Node, Element, Range, Transforms, Path, Point } from 'slate';
 
-import { TYPE_LIST_ITEM } from '..';
+import { TYPE_LIST_ITEM } from '../types';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
-import { TYPE_PARAGRAPH } from '../../paragraph/utils';
+import { defaultParagraphBlock, TYPE_PARAGRAPH } from '../../paragraph/utils';
+import { defaultListItemBlock } from '../utils/defaultBlocks';
 
 const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (event.shiftKey && next) return next(event);
@@ -31,28 +32,48 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   // If selection is expanded, delete selected content first.
   // Selection should now be collapsed
   if (Range.isExpanded(editor.selection)) {
-    Editor.deleteForward(editor);
+    Editor.deleteFragment(editor);
   }
 
   // If list-item is empty, remove list item and jump out of list.
   if (Node.string(currentListItem) === '' && currentListItem.children.length === 1) {
     Editor.withoutNormalizing(editor, () => {
-      Transforms.unwrapNodes(editor, { at: currentListItemPath });
-      Transforms.liftNodes(editor, { at: currentListItemPath });
+      Transforms.unwrapNodes(editor, {
+        at: currentListItemPath,
+      });
+      Transforms.liftNodes(editor, {
+        at: currentListItemPath,
+      });
     });
     return;
   }
 
+  Transforms.unsetNodes(editor, 'serializeAsText', {
+    match: node => Element.isElement(node) && node.type === TYPE_PARAGRAPH,
+    mode: 'lowest',
+  });
+
+  // If at end of list-item, insert a new list item.
+  const nextPoint = Editor.after(editor, Range.end(editor.selection));
+  const listItemEnd = Editor.end(editor, currentListItemPath);
+  if (
+    (nextPoint && Point.equals(listItemEnd, nextPoint)) ||
+    Point.equals(listItemEnd, editor.selection.anchor)
+  ) {
+    const nextPath = Path.next(currentListItemPath);
+    Transforms.insertNodes(
+      editor,
+      { ...defaultListItemBlock(), children: [defaultParagraphBlock()] },
+      { at: nextPath },
+    );
+    Transforms.select(editor, Editor.start(editor, nextPath));
+    return;
+  }
+
   // Split current listItem at selection.
-  Editor.withoutNormalizing(editor, () => {
-    Transforms.unsetNodes(editor, 'serializeAsText', {
-      match: node => Element.isElement(node) && node.type === TYPE_PARAGRAPH,
-    });
-    Transforms.splitNodes(editor, {
-      always: true,
-      match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
-      mode: 'lowest',
-    });
+  Transforms.splitNodes(editor, {
+    match: node => Element.isElement(node) && node.type === TYPE_LIST_ITEM,
+    mode: 'lowest',
   });
 };
 

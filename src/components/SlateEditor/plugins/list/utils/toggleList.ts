@@ -1,6 +1,6 @@
 import { Editor, Transforms, Element, Range, Path } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { TYPE_LIST, TYPE_LIST_ITEM } from '..';
+import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 import { firstTextBlockElement } from '../../../utils/normalizationHelpers';
 import { defaultListBlock, defaultListItemBlock } from './defaultBlocks';
 import { isListItemSelected } from './isListItemSelected';

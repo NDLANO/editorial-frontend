@@ -17,15 +17,20 @@ describe('Selecting text and using the toolbar', () => {
   });
 
   it('change the text styling', () => {
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
+    cy.get('[data-cy=slate-editor] [data-slate-editor=true][contenteditable=true')
       .first()
       .focus()
       .wait(500)
-      .type('This is test content{leftarrow}{leftarrow}{selectall}');
+      .type('This is test content{leftarrow}{leftarrow}')
+      .contains('This is test content')
+      .type('{selectall}');
 
     cy.get('[data-testid=toolbar-button-bold]').click({ force: true });
+    cy.get('[data-testid=toolbar-button-bold][data-active=true]').should('exist');
     cy.get('[data-testid=toolbar-button-italic]').click({ force: true });
+    cy.get('[data-testid=toolbar-button-italic][data-active=true]').should('exist');
     cy.get('[data-testid=toolbar-button-quote]').click({ force: true });
+    cy.get('[data-testid=toolbar-button-quote][data-active=true]').should('exist');
     cy.get('span')
       .contains('This is test content')
       .type('{rightarrow}{enter}{enter}test new line{selectall}');
@@ -35,15 +40,24 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .last()
       .then($el => {
-        cy.wrap($el).type('last line{selectall}');
+        cy.get($el)
+          .focus()
+          .type('{selectall}last line{selectall}');
         cy.get('[data-testid=toolbar-button-bold]').click();
+        cy.get('[data-testid=toolbar-button-bold][data-active=true]').should('exist');
         cy.get('[data-testid=toolbar-button-italic]').click();
+        cy.get('[data-testid=toolbar-button-italic][data-active=true]').should('exist');
         cy.get('[data-testid=toolbar-button-code]').click();
+        cy.get('[data-testid=toolbar-button-code][data-active=true]').should('exist');
         cy.get('[data-testid=toolbar-button-sub]').click();
+        cy.get('[data-testid=toolbar-button-sub][data-active=true]').should('exist');
         cy.get('[data-testid=toolbar-button-sup]').click();
+        cy.get('[data-testid=toolbar-button-sup][data-active=true]').should('exist');
         cy.get('[data-testid=toolbar-button-heading-2]').click();
+        cy.get('[data-testid=toolbar-button-heading-2][data-active=true]').should('exist');
         cy.wrap($el).type('{selectall}new heading{selectall}');
         cy.get('[data-testid=toolbar-button-heading-3]').click();
+        cy.get('[data-testid=toolbar-button-heading-3][data-active=true]').should('exist');
         cy.wrap($el)
           .find('h3')
           .should('have.length', 1);
@@ -75,7 +89,9 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('a[href="http://www.vg.no"]')
       .should('have.prop', 'href')
       .and('equal', 'http://www.vg.no/');
-    cy.get('a[href="http://www.vg.no"]').type('{selectall}');
+    cy.get('a[href="http://www.vg.no"]')
+      .click()
+      .type('{selectall}');
   });
 
   it('All lists work properly', () => {
@@ -89,6 +105,7 @@ describe('Selecting text and using the toolbar', () => {
           .focus()
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-numbered-list]').click();
+        cy.get('[data-testid=toolbar-button-numbered-list][data-active=true]').should('exist');
         cy.get('ol > li').should('have.length', 1);
         cy.wrap($el).type('{rightarrow}{enter}Second item in list');
         cy.get('ol > li').should('have.length', 2);
@@ -97,12 +114,14 @@ describe('Selecting text and using the toolbar', () => {
           .wait(500)
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-bulleted-list]').click();
+        cy.get('[data-testid=toolbar-button-bulleted-list][data-active=true]').should('exist');
         cy.get('ul > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
           .wait(500)
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-letter-list]').click();
+        cy.get('[data-testid=toolbar-button-letter-list][data-active=true]').should('exist');
         cy.get('ol > li').should('have.length', 2);
         cy.wrap($el)
           .focus()

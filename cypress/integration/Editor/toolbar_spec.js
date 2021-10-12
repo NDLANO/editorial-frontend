@@ -35,7 +35,9 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .last()
       .then($el => {
-        cy.wrap($el).type('last line{selectall}');
+        cy.get($el)
+          .focus()
+          .type('{selectall}last line{selectall}');
         cy.get('[data-testid=toolbar-button-bold]').click();
         cy.get('[data-testid=toolbar-button-italic]').click();
         cy.get('[data-testid=toolbar-button-code]').click();

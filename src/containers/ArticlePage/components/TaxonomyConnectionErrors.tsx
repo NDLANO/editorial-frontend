@@ -13,7 +13,9 @@ import { colors, spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { toStructure } from '../../../util/routeHelpers';
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: ${spacing.nsmall};
@@ -27,10 +29,9 @@ const TaxonomyInfoDiv = styled.div`
   width: 100%;
 `;
 
-const StyledId = styled.span`
-  font-style: ${(props: { isVisible: boolean }) => !props.isVisible && 'italic'};
-  color: ${(props: { isVisible: boolean }) =>
-    !props.isVisible ? colors.brand.grey : colors.brand.primary};
+const StyledId = styled.span<{ isVisible: boolean }>`
+  font-style: ${props => !props.isVisible && 'italic'};
+  ${props => (!props.isVisible ? `color: ${colors.brand.grey}` : '')}
 `;
 
 interface Props {
@@ -74,13 +75,22 @@ const TaxonomyConnectionErrors = ({ taxonomy, articleType }: Props) => {
       {wrongConnections.map(taxonomyElement => {
         const visibility = taxonomyElement.metadata ? taxonomyElement.metadata.visible : true;
         const errorElement = ` - ${taxonomyElement.id} (${taxonomyElement.name})`;
+        const LinkWrapper = ({ children }: { children: React.ReactNode }) => {
+          if (!taxonomyElement.path) {
+            return <>{children}</>;
+          }
+          return <Link to={toStructure(taxonomyElement.path)}>{children}</Link>;
+        };
+
         return (
           <TaxonomyInfoDiv key={taxonomyElement.id}>
             <Tooltip tooltip={wrongTooltip}>
-              <StyledId isVisible={visibility}>
-                <StyledWarnIcon title={wrongTooltip} />
-                {errorElement}
-              </StyledId>
+              <LinkWrapper>
+                <StyledId isVisible={visibility}>
+                  <StyledWarnIcon title={wrongTooltip} />
+                  {errorElement}
+                </StyledId>
+              </LinkWrapper>
             </Tooltip>
           </TaxonomyInfoDiv>
         );

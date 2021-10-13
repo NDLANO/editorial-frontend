@@ -8,12 +8,14 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { AlertCircle } from '@ndla/icons/editor';
 import { colors, spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { InformationOutline } from '@ndla/icons/common';
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { toStructure } from '../../../util/routeHelpers';
 
@@ -41,6 +43,22 @@ interface Props {
     resources?: Resource[];
   };
 }
+
+const iconCSS = css`
+  color: ${colors.brand.tertiary};
+
+  &:hover,
+  &:focus {
+    color: ${colors.brand.primary};
+  }
+  width: ${spacing.normal};
+  height: ${spacing.normal};
+  padding: 0;
+`;
+
+export const HelpIcon = styled(InformationOutline)`
+  ${iconCSS}
+`;
 
 const getWrongConnections = ({ articleType, taxonomy }: Props): (Resource | Topic)[] => {
   if (articleType === 'standard') {
@@ -70,8 +88,11 @@ const TaxonomyConnectionErrors = ({ taxonomy, articleType }: Props) => {
     <>
       <FieldHeader
         title={t('taxonomy.info.wrongConnections')}
-        subTitle={t('taxonomy.info.wrongConnectionsSubTitle')}
-      />
+        subTitle={t('taxonomy.info.wrongConnectionsSubTitle')}>
+        <Tooltip tooltip={t('taxonomy.info.canBeFixedInDatabase')}>
+          <HelpIcon />
+        </Tooltip>
+      </FieldHeader>
       {wrongConnections.map(taxonomyElement => {
         const visibility = taxonomyElement.metadata ? taxonomyElement.metadata.visible : true;
         const errorElement = ` - ${taxonomyElement.id} (${taxonomyElement.name})`;

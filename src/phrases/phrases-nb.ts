@@ -1210,6 +1210,7 @@ const phrases = {
         'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
       wrongConnections: 'Feilkoblinger',
       wrongConnectionsSubTitle: 'Denne artikkelen har feilkoblinger, se listen under.',
+      canBeFixedInDatabase: 'Artikkeltypen kan endres i databasen for å fikse feilen.',
     },
     resource: {
       confirmDelete:

@@ -1197,6 +1197,7 @@ const phrases = {
         'The article is placed as "{{placedAs}}" in the taxonomy, but the article is of "{{isType}}" type.',
       wrongConnections: 'Bad connections',
       wrongConnectionsSubTitle: 'This article has bad connections, see the list below.',
+      canBeFixedInDatabase: 'The article type can be changed in the database to fix the error.',
     },
     resource: {
       confirmDelete:

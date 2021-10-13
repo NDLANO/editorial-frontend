@@ -7,12 +7,12 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { useTranslation, TFunction } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import css from '@emotion/css';
 import { AudioPlayer } from '@ndla/ui';
 // @ts-ignore
-import { FigureCaption, FigureLicenseDialog } from '@ndla/ui';
-import { getLicenseByAbbreviation, getGroupedContributorDescriptionList } from '@ndla/licenses';
+import { FigureCaption } from '@ndla/ui';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { SlateAudio, LocaleType } from '../../../../interfaces';
 import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
 import { fetchImage } from '../../../../modules/image/imageApi';

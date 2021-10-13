@@ -463,13 +463,17 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       metadata: taxonomyChanges.metadata,
     };
 
+    const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
+
     return (
       <Fragment>
-        <TaxonomyConnectionErrors
-          articleType={article.articleType ?? 'standard'}
-          taxonomy={article.taxonomy}
-        />
-        {userAccess?.includes(TAXONOMY_ADMIN_SCOPE) && resourceId && (
+        {isTaxonomyAdmin && (
+          <TaxonomyConnectionErrors
+            articleType={article.articleType ?? 'standard'}
+            taxonomy={article.taxonomy}
+          />
+        )}
+        {isTaxonomyAdmin && resourceId && (
           <TaxonomyInfo taxonomyElement={mainEntity} updateMetadata={this.updateMetadata} />
         )}
         <ResourceTypeSelect

@@ -41,6 +41,7 @@ import {
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
+import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 
 type Props = {
   articleId: number;
@@ -277,7 +278,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
 
   render() {
     const { stagedTopicChanges, structure, status, isDirty, showWarning } = this.state;
-    const { t, locale, article } = this.props;
+    const { t, locale, article, userAccess } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -299,12 +300,16 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       );
     }
 
+    const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
+
     return (
       <Fragment>
-        <TaxonomyConnectionErrors
-          articleType={article.articleType ?? 'topic-article'}
-          taxonomy={article.taxonomy}
-        />
+        {isTaxonomyAdmin && (
+          <TaxonomyConnectionErrors
+            articleType={article.articleType ?? 'topic-article'}
+            taxonomy={article.taxonomy}
+          />
+        )}
         <TopicArticleConnections
           structure={structure}
           activeTopics={stagedTopicChanges}

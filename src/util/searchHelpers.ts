@@ -6,12 +6,11 @@
  *
  */
 
-import { UseQueryResult } from 'react-query';
 import { SearchResultBase, SearchType } from '../interfaces';
-import { useSearchAudio, useSearchSeries } from '../modules/audio/audioQueries';
-import { useSearchConcepts } from '../modules/concept/conceptQueries';
-import { useSearchImages } from '../modules/image/imageQueries';
-import { useSearch } from '../modules/search/searchQueries';
+import { searchAudio, searchSeries } from '../modules/audio/audioApi';
+import { searchConcepts } from '../modules/concept/conceptApi';
+import { searchImages } from '../modules/image/imageApi';
+import { search } from '../modules/search/searchApi';
 
 export const transformQuery = ({ 'resource-types': resourceTypes, ...rest }: any) => {
   const query = { ...rest };
@@ -25,15 +24,16 @@ export const transformQuery = ({ 'resource-types': resourceTypes, ...rest }: any
   return query;
 };
 
-type SearchHookType = (query: any) => UseQueryResult<SearchResultBase<any>>;
+type SearchFunctionType = (query: any) => Promise<SearchResultBase<any>>;
 
-export const getSearchHookFromType = (type: SearchType): SearchHookType =>
-  searchTypeToHookMapping[type] ?? useSearch;
+export const getSearchFunctionFromType = (type: SearchType): SearchFunctionType => {
+  return searchTypeToFunctionMapping[type] ?? search;
+};
 
-const searchTypeToHookMapping: Record<SearchType, SearchHookType> = {
-  audio: useSearchAudio,
-  concept: useSearchConcepts,
-  image: useSearchImages,
-  'podcast-series': useSearchSeries,
-  content: useSearch,
+const searchTypeToFunctionMapping: Record<SearchType, SearchFunctionType> = {
+  audio: searchAudio,
+  concept: searchConcepts,
+  image: searchImages,
+  'podcast-series': searchSeries,
+  content: search,
 };

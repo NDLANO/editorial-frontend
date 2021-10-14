@@ -128,7 +128,6 @@ class SearchContainer extends React.Component<Props, State> {
 
     // Remove unused/empty query params
     Object.keys(searchQuery).forEach(key => searchQuery[key] === '' && delete searchQuery[key]);
-
     history.push(toSearch(searchQuery, type));
   }
 
@@ -182,12 +181,7 @@ class SearchContainer extends React.Component<Props, State> {
                 subjects={subjects}
                 userAccess={userAccess}
               />
-              <Pager
-                page={searchObject.page ?? 1}
-                lastPage={lastPage}
-                query={searchObject}
-                onClick={this.onQueryPush}
-              />
+              <Pager page={searchObject.page ?? 1} lastPage={lastPage} query={searchObject} />
             </OneColumn>
           </>
         )}

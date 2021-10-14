@@ -2083,10 +2083,10 @@
     "@ndla/licenses" "^1.0.2"
     "@ndla/modal" "^1.1.4"
 
-"@ndla/pager@^1.0.0":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-1.0.2.tgz#30e93bf95a72e795328032c4847f05235344be99"
-  integrity sha512-ppfFnwEpAUVtmMwacjGcVjvSybnsSOQV6wTzdUEn7Bc94jUwHpShouZfKRJm8JYf+xOTIwg+9p3XAPern+rbTA==
+"@ndla/pager@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@ndla/pager/-/pager-1.0.4.tgz#d2c5c9c6e15762a5fd1cb9543fd56b7a663f3aab"
+  integrity sha512-2csbwccejlofIKPMvyTcjFExxTYz9gbKhXQJC/4BLR/D97Kbk1QvUzpAjTkQwmiY5LX3JI8TrK0Sb1vmFubRcg==
   dependencies:
     "@ndla/core" "^0.7.2"
     "@ndla/safelink" "^1.0.1"

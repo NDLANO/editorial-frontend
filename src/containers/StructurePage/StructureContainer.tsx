@@ -9,11 +9,9 @@
 
 import React, { useContext, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-// @ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Taxonomy } from '@ndla/icons/editor';
-//@ts-ignore
 import { Structure } from '@ndla/editor';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
@@ -46,6 +44,7 @@ import {
   TaxonomyMetadata,
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleContext, UserAccessContext } from '../App/App';
+import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 
 interface Props extends RouteComponentProps<StructureRouteParams> {}
 
@@ -172,7 +171,8 @@ export const StructureContainer = ({ match, location, history }: Props) => {
     setEditStructureHidden(!editStructureHidden);
   };
 
-  const handleStructureToggle = ({ path }: { path: string }) => {
+  const handleStructureToggle = (input: { path: string }) => {
+    const { path } = input;
     const { url, params } = match;
     const { search } = location;
     const currentPath = url.replace('/structure/', '');
@@ -239,6 +239,8 @@ export const StructureContainer = ({ match, location, history }: Props) => {
     setShowFavorites(!showFavorites);
   };
 
+  const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
+
   return (
     <ErrorBoundary>
       <OneColumn>
@@ -252,8 +254,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
           }
           appearance={ButtonAppearance.TAXONOMY}
           addButton={
-            userAccess &&
-            userAccess.includes(TAXONOMY_ADMIN_SCOPE) && (
+            isTaxonomyAdmin && (
               <InlineAddButton title={t('taxonomy.addSubject')} action={addSubject} />
             )
           }
@@ -278,6 +279,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
               highlightMainActive
               toggleFavorite={toggleFavorite}
               favoriteSubjectIds={favoriteSubjects}
+              renderBeforeTitles={isTaxonomyAdmin ? StructureErrorIcon : undefined}
               renderListItems={({
                 pathToString,
                 parent,

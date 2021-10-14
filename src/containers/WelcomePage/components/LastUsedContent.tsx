@@ -6,16 +6,17 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import formatDate from '../../../util/formatDate';
 import { toEditArticle, toEditMarkup } from '../../../util/routeHelpers';
+import { fetchDraft } from '../../../modules/draft/draftApi';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
 import { classes } from '../WelcomePage';
-import { useDraft } from '../../../modules/draft/draftQueries';
+import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   articleId: number;
@@ -25,8 +26,17 @@ interface Props {
 
 const LastUsedContent = ({ articleId, locale, userAccess }: Props) => {
   const { t } = useTranslation();
+  const [article, setArticle] = useState<DraftApiType>();
 
-  const { data: article } = useDraft(articleId, locale);
+  useEffect(() => {
+    const fetchArticle = async (articleId: number, locale: string) => {
+      const article = await fetchDraft(articleId, locale);
+      setArticle(article);
+    };
+    if (articleId) {
+      fetchArticle(articleId, locale);
+    }
+  }, [articleId, locale]);
 
   return (
     <div {...classes('result')}>

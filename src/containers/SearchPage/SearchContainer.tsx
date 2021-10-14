@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { UseQueryResult } from 'react-query';
+import React from 'react';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
+import { withTranslation, WithTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
@@ -21,14 +22,16 @@ import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
 import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
+import { fetchSubjects } from '../../modules/taxonomy';
 import { LocaleContext, UserAccessContext } from '../App/App';
 import { LocaleType, SearchType } from '../../interfaces';
 import { ImageSearchResult } from '../../modules/image/imageApiInterfaces';
 import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
 import { AudioSearchResult, SeriesSearchResult } from '../../modules/audio/audioApiInterfaces';
 import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
+import { SearchTypeValues } from '../../constants';
+import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import SearchSaveButton from './SearchSaveButton';
-import { useSubjects } from '../../modules/taxonomy/subjects';
 
 export const searchClasses = new BEMHelper({
   name: 'search',
@@ -44,10 +47,16 @@ export type ResultType =
 
 interface BaseProps {
   type: SearchType;
-  searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
+  searchFunction: (query: SearchParams) => Promise<ResultType>;
 }
 
-type Props = BaseProps & RouteComponentProps & { locale: LocaleType };
+type Props = BaseProps & WithTranslation & RouteComponentProps & { locale: LocaleType };
+
+interface State {
+  subjects: SubjectType[];
+  results: ResultType | undefined;
+  isSearching: boolean;
+}
 
 function withLocale<P>(
   WrappedComponent: React.ComponentType<P & { locale: LocaleType }>,
@@ -62,94 +71,134 @@ function withLocale<P>(
   return hoistNonReactStatics(WithLocale, WrappedComponent);
 }
 
-const SearchContainer = ({ locale, searchHook, type, location, history }: Props) => {
-  const { t } = useTranslation();
-  const { data: subjectData } = useSubjects(locale);
-  const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
-  const { data: results, isLoading: isSearching } = searchHook(searchObject);
-  const nextPage = (searchObject?.page ?? 1) + 1;
-  // preload next page.
-  searchHook({ ...searchObject, page: nextPage });
+class SearchContainer extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      subjects: [],
+      results: undefined,
+      isSearching: true,
+    };
+    this.onSortOrderChange = this.onSortOrderChange.bind(this);
+    this.getExternalData = this.getExternalData.bind(this);
+    this.onQueryPush = debounce(this.onQueryPush.bind(this), 300);
+    this.search = this.search.bind(this);
+  }
 
-  useEffect(() => {
-    setSearchObject(parseSearchParams(location.search));
-  }, [location.search]);
+  search(): void {
+    const { location, searchFunction } = this.props;
+    if (location.search || this.props.type) {
+      const searchObject = queryString.parse(location.search);
+      this.setState({ isSearching: true });
+      searchFunction(searchObject)
+        .then((results: ResultType) => {
+          this.setState({ results, isSearching: false });
+        })
+        .catch(() => {
+          this.setState({ isSearching: false });
+        });
+    }
+  }
 
-  const subjects = subjectData ?? [];
+  componentDidMount() {
+    this.search();
+    this.getExternalData();
+  }
 
-  const _onQueryPush = (newSearchObject: SearchParams) => {
+  componentDidUpdate(prevProps: Props) {
+    const { location } = this.props;
+    if (prevProps.location.search !== location.search) {
+      this.search();
+    }
+  }
+
+  async getExternalData() {
+    const subjects = await fetchSubjects(this.props.locale);
+    this.setState({ subjects });
+  }
+
+  onQueryPush(newSearchObject: SearchParams) {
+    const { location, history, type } = this.props;
+    const oldSearchObject = queryString.parse(location.search);
+
     const searchQuery = {
-      ...searchObject,
+      ...oldSearchObject,
       ...newSearchObject,
     };
 
     // Remove unused/empty query params
-    const newQuery = Object.entries(searchQuery).reduce((prev, [currKey, currVal]) => {
-      const validValue = currVal !== '' && currVal !== undefined;
-      return validValue ? { ...prev, [currKey]: currVal } : prev;
-    }, {});
-    setSearchObject(newQuery);
+    Object.keys(searchQuery).forEach(key => searchQuery[key] === '' && delete searchQuery[key]);
 
-    history.push(toSearch(newQuery, type));
+    history.push(toSearch(searchQuery, type));
+  }
+
+  onSortOrderChange(sort: string): void {
+    this.onQueryPush({ sort, page: 1 });
+  }
+
+  render() {
+    const { t, type, locale, location } = this.props;
+    const { subjects, results, isSearching } = this.state;
+
+    const lastPage = results?.totalCount
+      ? Math.ceil(results?.totalCount / (results.pageSize ?? 1))
+      : 1;
+
+    const searchObject = parseSearchParams(location.search);
+
+    return (
+      <UserAccessContext.Consumer>
+        {userAccess => (
+          <>
+            <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
+            <OneColumn>
+              <div {...searchClasses('header')}>
+                <h2>
+                  <Search className="c-icon--medium" />
+                  {t(`searchPage.header.${type}`)}
+                </h2>
+                <SearchSaveButton />
+              </div>
+              <SearchForm
+                type={type}
+                search={this.onQueryPush}
+                searchObject={searchObject}
+                locale={locale}
+                subjects={subjects}
+              />
+              <SearchSort location={location} onSortOrderChange={this.onSortOrderChange} />
+              <SearchListOptions
+                type={type}
+                searchObject={searchObject}
+                totalCount={results?.totalCount}
+                search={this.onQueryPush}
+              />
+              <SearchList
+                searchObject={searchObject}
+                results={results?.results ?? []}
+                searching={isSearching}
+                type={type}
+                locale={locale}
+                subjects={subjects}
+                userAccess={userAccess}
+              />
+              <Pager
+                page={searchObject.page ?? 1}
+                lastPage={lastPage}
+                query={searchObject}
+                onClick={this.onQueryPush}
+              />
+            </OneColumn>
+          </>
+        )}
+      </UserAccessContext.Consumer>
+    );
+  }
+
+  static propTypes = {
+    type: PropTypes.oneOf(SearchTypeValues).isRequired,
+    searchFunction: PropTypes.func.isRequired,
   };
+}
 
-  const onQueryPush = debounce(_onQueryPush, 300);
-
-  const onSortOrderChange = (sort: string): void => {
-    onQueryPush({ sort, page: 1 });
-  };
-
-  const lastPage = results?.totalCount
-    ? Math.ceil(results?.totalCount / (results.pageSize ?? 1))
-    : 1;
-
-  return (
-    <UserAccessContext.Consumer>
-      {userAccess => (
-        <>
-          <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
-          <OneColumn>
-            <div {...searchClasses('header')}>
-              <h2>
-                <Search className="c-icon--medium" />
-                {t(`searchPage.header.${type}`)}
-              </h2>
-              <SearchSaveButton />
-            </div>
-            <SearchForm
-              type={type}
-              search={onQueryPush}
-              searchObject={searchObject}
-              locale={locale}
-              subjects={subjects}
-            />
-            <SearchSort location={location} onSortOrderChange={onSortOrderChange} />
-            <SearchListOptions
-              type={type}
-              searchObject={searchObject}
-              totalCount={results?.totalCount}
-              search={onQueryPush}
-            />
-            <SearchList
-              searchObject={searchObject}
-              results={results?.results ?? []}
-              searching={isSearching}
-              type={type}
-              locale={locale}
-              subjects={subjects}
-              userAccess={userAccess}
-            />
-            <Pager
-              page={searchObject.page ?? 1}
-              lastPage={lastPage}
-              query={searchObject}
-              onClick={onQueryPush}
-            />
-          </OneColumn>
-        </>
-      )}
-    </UserAccessContext.Consumer>
-  );
-};
-
-export default withRouter(withLocale(SearchContainer));
+export default withRouter(withLocale(withTranslation()(SearchContainer)));

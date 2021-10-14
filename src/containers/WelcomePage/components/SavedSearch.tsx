@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import BEMHelper from 'react-bem-helper';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
@@ -16,8 +16,10 @@ import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
 import IconButton from '../../../components/IconButton';
-import { transformQuery } from '../../../util/searchHelpers';
-import { useSavedSearchUrl } from './savedSearchHook';
+import { fetchSubject, fetchResourceType } from '../../../modules/taxonomy';
+import { fetchAuth0Users } from '../../../modules/auth0/auth0Api';
+import { getSearchFunctionFromType, transformQuery } from '../../../util/searchHelpers';
+import handleError from '../../../util/handleError';
 
 interface Props {
   deleteSearch: Function;
@@ -33,12 +35,13 @@ export const classes = new BEMHelper({
 
 const SavedSearch = ({ deleteSearch, locale, search, index }: Props) => {
   const { t } = useTranslation();
+  const [subjectName, setSubjectName] = useState('');
+  const [resourceTypeName, setResourceTypeName] = useState('');
+  const [userName, setUserName] = useState('');
+  const [searchResults, setSearchResults] = useState<number | undefined>(undefined);
   const [searchUrl, searchParams] = search.split('?');
 
   const searchObject = transformQuery(queryString.parse(searchParams));
-  const subject = searchObject['subjects'] || '';
-  const resourceType = searchObject['resource-types'] || '';
-
   searchObject['type'] = searchUrl.replace('/search/', '');
   const localizedSearch =
     searchObject['type'] === 'content'
@@ -47,7 +50,45 @@ const SavedSearch = ({ deleteSearch, locale, search, index }: Props) => {
   if (searchObject['type'] === 'content' && searchObject['language']) {
     searchObject['language'] = locale;
   }
-  const { data, loading } = useSavedSearchUrl(searchObject, locale);
+  const subject = searchObject['subjects'] || '';
+  const resourceType = searchObject['resource-types'] || '';
+  const userId = searchObject['users'] || '';
+
+  useEffect(() => {
+    const fetchSubjectName = async (id: string, locale: string) => {
+      const result = await fetchSubject(id, locale);
+      setSubjectName(result.name);
+    };
+    if (subject) {
+      fetchSubjectName(subject, locale);
+    }
+    const fetchResourceTypeName = async (id: string, locale: string) => {
+      const result = await fetchResourceType(id, locale);
+      setResourceTypeName(result.name);
+    };
+    if (resourceType) {
+      fetchResourceTypeName(resourceType, locale);
+    }
+    const fetchUser = async (userId: string) => {
+      const user = await fetchAuth0Users(userId);
+      setUserName(user?.[0].name);
+    };
+    if (userId) {
+      fetchUser(userId);
+    }
+  }, [subject, resourceType, userId, locale]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const searchFunction = getSearchFunctionFromType(searchObject['type']);
+        const res = await searchFunction(searchObject);
+        setSearchResults(res.totalCount);
+      } catch (e) {
+        handleError(e);
+      }
+    })();
+  }, [searchObject]);
 
   const linkText = (searchObject: Record<string, string>) => {
     const query = searchObject.query || undefined;
@@ -65,21 +106,16 @@ const SavedSearch = ({ deleteSearch, locale, search, index }: Props) => {
     results.push(language && t(`language.${language}`));
     results.push(audioType);
     results.push(status && t(`form.status.${status.toLowerCase()}`));
-    results.push(subject && data?.subject?.name);
-    results.push(resourceType && data?.resourceType?.name);
+    results.push(subject && subjectName);
+    results.push(resourceType && resourceTypeName);
     results.push(contextType && t(`contextTypes.topic`));
-    results.push(data?.user?.[0].name);
+    results.push(userName);
     results.push(license);
     results.push(modelReleased && t(`imageSearch.modelReleased.${modelReleased}`));
-    const resultHitsString =
-      data.searchResult !== undefined ? ` (${data.searchResult.totalCount})` : '';
+    const resultHitsString = searchResults !== undefined ? ` (${searchResults})` : '';
     const joinedResults = results.filter(e => e).join(' + ');
     return `${joinedResults}${resultHitsString}`;
   };
-
-  if (loading) {
-    return null;
-  }
 
   return (
     <div style={{ display: 'flex' }} key={index}>

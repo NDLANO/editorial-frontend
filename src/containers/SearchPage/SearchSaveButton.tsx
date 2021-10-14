@@ -10,11 +10,14 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
+import { fetchUserData } from '../../modules/draft/draftApi';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-import { getSavedSearchRelativeUrl } from '../WelcomePage/components/SaveSearchUrl';
+import {
+  updateUserMetadata,
+  getSavedSearchRelativeUrl,
+} from '../WelcomePage/components/SaveSearchUrl';
 import SaveButton from '../../components/SaveButton';
-import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
 
 type Error = 'alreadyExist' | 'other' | 'fetchFailed' | '';
 
@@ -36,22 +39,36 @@ const SearchSaveButton = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<Error>('');
   const [loading, setLoading] = useState(false);
-  const { data } = useUserData({
-    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
-  });
-  const { mutateAsync } = useUpdateUserDataMutation();
+  const [savedSearches, setSavedSearches] = useState<string[] | undefined>(undefined);
 
-  const savedSearches = data?.savedSearches ?? [];
+  const fetchSavedSearch = async () => {
+    const token = getAccessToken();
+    const isAccessTokenPersonal = getAccessTokenPersonal();
+
+    if (isValid(token) && isAccessTokenPersonal) {
+      const result = await fetchUserData();
+      return result.savedSearches || [];
+    }
+  };
+
+  useEffect(() => {
+    fetchSavedSearch().then(res => {
+      setSavedSearches(res);
+    });
+  }, []);
 
   useEffect(() => {
     setError('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [window.location.search]);
 
-  const handleSuccess = () => {
+  const handleSuccess = (newSearchList: string[]) => {
     setSuccess(true);
     setLoading(false);
-    setTimeout(() => setSuccess(false), 2500);
+    setTimeout(() => {
+      setSuccess(false);
+      setSavedSearches(newSearchList);
+    }, 2500);
   };
 
   const handleFailure = (type: Error) => {
@@ -63,7 +80,7 @@ const SearchSaveButton = () => {
   const saveSearch = async () => {
     setError('');
     setLoading(true);
-    const oldSearchList = data?.savedSearches;
+    const oldSearchList = await fetchSavedSearch();
     const newSearch = window.location.pathname + window.location.search;
 
     if (!oldSearchList) {
@@ -73,9 +90,13 @@ const SearchSaveButton = () => {
 
     const newSearchList = [...oldSearchList, getSavedSearchRelativeUrl(newSearch)];
     if (!oldSearchList.find(s => s === getSavedSearchRelativeUrl(newSearch))) {
-      mutateAsync({ savedSearches: newSearchList })
-        .then(() => handleSuccess())
-        .catch(() => handleFailure('other'));
+      updateUserMetadata(newSearchList)
+        .then(() => {
+          handleSuccess(newSearchList);
+        })
+        .catch(() => {
+          handleFailure('other');
+        });
     } else {
       handleFailure('alreadyExist');
     }

@@ -147,6 +147,7 @@ const StructureTopic = ({
               onDragEnd={res => onDragEnd(res, topic.subtopics!)}>
               {topic.subtopics.map(t => (
                 <StructureTopic
+                  allSubjects={allSubjects}
                   parentActive={isActive}
                   connectionId={t.connectionId}
                   id={t.id}

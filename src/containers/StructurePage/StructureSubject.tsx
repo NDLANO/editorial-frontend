@@ -144,11 +144,6 @@ const StyledStructureItem = styled.li<StyledStructureItemProps>`
     `};
 `;
 
-const StructureWrapper = styled.ul`
-  margin: 0;
-  padding: 0;
-`;
-
 const StructureSubject = ({
   favoriteSubjectIds,
   subject,
@@ -259,35 +254,33 @@ const StructureSubject = ({
         </span>
       )}
       {isOpen && topicsData && (
-        <StructureWrapper>
-          <Fade show={true} fadeType="fadeInTop">
-            <MakeDNDList
-              disableDND={!isActive || topicsData.length < 2}
-              dragHandle
-              onDragEnd={result => onDragEnd(result, topicsData)}>
-              {topicsData.map(topic => (
-                <StructureTopic
-                  allSubjects={allSubjects}
-                  connectionId={topic.connectionId}
-                  id={topic.id}
-                  onDragEnd={onDragEnd}
-                  subjectId={subject.id}
-                  path={subject.id}
-                  parent={subject.id}
-                  openedPaths={openedPaths}
-                  toggleOpen={toggleOpen}
-                  onTopicSelect={onTopicSelect}
-                  resourceSectionRef={resourceSectionRef}
-                  topicResourcesLoading={topicResourcesLoading}
-                  topic={topic}
-                  locale={locale}
-                  level={1}
-                  parentActive={isActive}
-                />
-              ))}
-            </MakeDNDList>
-          </Fade>
-        </StructureWrapper>
+        <Fade show={true} fadeType="fadeInTop">
+          <MakeDNDList
+            disableDND={!isActive || topicsData.length < 2}
+            dragHandle
+            onDragEnd={result => onDragEnd(result, topicsData)}>
+            {topicsData.map(topic => (
+              <StructureTopic
+                allSubjects={allSubjects}
+                connectionId={topic.connectionId}
+                id={topic.id}
+                onDragEnd={onDragEnd}
+                subjectId={subject.id}
+                path={subject.id}
+                parent={subject.id}
+                openedPaths={openedPaths}
+                toggleOpen={toggleOpen}
+                onTopicSelect={onTopicSelect}
+                resourceSectionRef={resourceSectionRef}
+                topicResourcesLoading={topicResourcesLoading}
+                topic={topic}
+                locale={locale}
+                level={1}
+                parentActive={isActive}
+              />
+            ))}
+          </MakeDNDList>
+        </Fade>
       )}
     </>
   );

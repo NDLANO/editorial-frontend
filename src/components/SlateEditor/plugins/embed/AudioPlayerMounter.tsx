@@ -51,6 +51,9 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
         p {
           margin: 0 !important;
         }
+        ul {
+          margin-top: 0;
+        }
       `}>
       <AudioPlayer
         src={audio.audioFile.url}
@@ -61,15 +64,13 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
         textVersion={audio?.manuscript}
       />
       {!speech && (
-        <>
-          <FigureCaption
-            id={figureLicenseDialogId}
-            figureId={`figure-${audio.id}`}
-            caption={audio.caption}
-            reuseLabel=""
-            licenseRights={license.rights}
-            authors={copyright.creators}
-          />
+        <FigureCaption
+          id={figureLicenseDialogId}
+          figureId={`figure-${audio.id}`}
+          caption={audio.caption}
+          reuseLabel={t('audio.reuse')}
+          licenseRights={license.rights}
+          authors={copyright.creators}>
           <FigureLicenseDialog
             id={figureLicenseDialogId}
             title={audio.title}
@@ -79,7 +80,7 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
             messages={messages}
             locale={locale}
           />
-        </>
+        </FigureCaption>
       )}
     </div>
   );

@@ -124,6 +124,15 @@ export function toPreviewDraft(draftId: number, language: string) {
   return `/preview/${draftId}/${language}`;
 }
 
+export function toStructure(path: string) {
+  const urnPath = path
+    .split('/')
+    .slice(1)
+    .map(part => `urn:${part}`)
+    .join('/');
+  return `/structure/${urnPath}`;
+}
+
 export function to404() {
   return '/404';
 }

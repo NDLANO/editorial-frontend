@@ -44,7 +44,7 @@ interface Props {
     subjectid: string,
     saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
   ) => void;
-  parent: string;
+  parent?: string;
   structure: PathArray;
 }
 

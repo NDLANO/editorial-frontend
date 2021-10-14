@@ -668,6 +668,7 @@ const phrases = {
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
+      helpLabel: 'Information about visual element',
       video: 'Video search',
       image: 'Image search',
       imageUpload: 'Upload image',
@@ -1108,6 +1109,7 @@ const phrases = {
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
+    errorWhenFetchingTaxonomyArticle: 'There was a problem fetching the underlying article',
     unsavedTaxonomy:
       'You have unsaved changes. Press cancel again if you are sure you want to continue.',
     auth0:
@@ -1189,6 +1191,11 @@ const phrases = {
     info: {
       title: 'Information',
       subTitle: 'Id and visibility for the element',
+      wrongArticleType:
+        'The article is placed as "{{placedAs}}" in the taxonomy, but the article is of "{{isType}}" type.',
+      wrongConnections: 'Bad connections',
+      wrongConnectionsSubTitle: 'This article has bad connections, see the list below.',
+      canBeFixedInDatabase: 'The article type can be changed in the database to fix the error.',
     },
     resource: {
       confirmDelete:

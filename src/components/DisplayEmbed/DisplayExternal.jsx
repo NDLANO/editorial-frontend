@@ -71,8 +71,8 @@ export class DisplayExternal extends Component {
           { at: ReactEditor.findPath(editor, element) },
         );
       }
+      this.closeEditEmbed();
     }
-    this.closeEditEmbed();
   }
 
   async getPropsFromEmbed() {

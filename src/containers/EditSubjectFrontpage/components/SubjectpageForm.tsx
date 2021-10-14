@@ -150,8 +150,8 @@ const SubjectpageForm = ({
   const { t } = useTranslation();
   const { savedToServer, handleSubmit, initialValues } = useSubjectpageFormHooks(
     getSubjectpageFromSlate,
-    updateSubjectpage,
     t,
+    updateSubjectpage,
     subjectpage,
     getInitialValues,
     selectedLanguage,

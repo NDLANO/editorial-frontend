@@ -155,6 +155,7 @@ export interface ConceptType extends StrippedConceptType {
   created?: string;
   updated: string;
   metaImageId: string;
+  parsedVisualElement: Embed;
 }
 
 export type FormValues = {
@@ -163,10 +164,6 @@ export type FormValues = {
   revision?: number;
   status: ConceptStatus;
 };
-
-export interface ConceptPreviewType extends ConceptType {
-  visualElementResources?: Embed;
-}
 
 export interface ConceptFormType extends ConceptType {
   articles: ArticleType[];

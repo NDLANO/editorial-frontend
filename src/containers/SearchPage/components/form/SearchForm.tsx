@@ -51,8 +51,10 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
   return {
     'audio-type': queryStringObject['audio-type'],
     'draft-status': queryStringObject['draft-status'],
-    fallback: queryStringObject.fallback === 'true',
-    'include-other-statuses': queryStringObject['include-other-statuses'] === 'true',
+    fallback: queryStringObject.fallback ? queryStringObject.fallback === 'true' : undefined,
+    'include-other-statuses': queryStringObject['include-other-statuses']
+      ? queryStringObject['include-other-statuses'] === 'true'
+      : undefined,
     language: queryStringObject.language,
     license: queryStringObject.license,
     'model-released': queryStringObject['model-released'],

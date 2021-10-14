@@ -3,6 +3,8 @@ import { DropResult } from 'react-beautiful-dnd';
 import { useQueryClient } from 'react-query';
 import { partition, sortBy } from 'lodash';
 import { colors, spacing, fonts } from '@ndla/core';
+//@ts-ignore
+import { Spinner } from '@ndla/ui';
 import { Star } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import css from '@emotion/css';
@@ -14,11 +16,10 @@ import {
 import StructureTopic from './StructureTopic';
 import { groupTopics } from '../../util/taxonomyHelpers';
 import FolderItem from './folderComponents/FolderItem';
-import Spinner from './Spinner';
 import MakeDNDList from './MakeDNDList';
 import { SUBJECT_TOPICS } from '../../queryKeys';
 import { useUpdateTopicSubTopic } from '../../modules/taxonomy/topics/topicQueries';
-import Fade from './structure/Fade';
+import Fade from './Fade';
 
 interface Props {
   subject: SubjectType;

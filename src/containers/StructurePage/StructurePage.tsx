@@ -9,7 +9,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-import StructureContainer from './NewStructureContainer';
+import StructureContainer from './StructureContainer';
 
 const StructurePage = () => {
   const { t } = useTranslation();

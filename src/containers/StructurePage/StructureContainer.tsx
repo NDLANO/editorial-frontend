@@ -1,5 +1,6 @@
 import { Taxonomy } from '@ndla/icons/editor';
-import { OneColumn } from '@ndla/ui';
+//@ts-ignore
+import { OneColumn, Spinner } from '@ndla/ui';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
@@ -16,7 +17,6 @@ import { LocaleContext, UserAccessContext } from '../App/App';
 import Footer from '../App/components/Footer';
 import { useSubjects } from '../../modules/taxonomy/subjects';
 import StructureSubject from './StructureSubject';
-import Spinner from './Spinner';
 import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import StructureResources from './resourceComponents/StructureResources';
 import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers';

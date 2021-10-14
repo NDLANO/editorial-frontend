@@ -1,13 +1,73 @@
 import React, { useEffect } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
-import { spacing, colors } from '@ndla/core';
+import { spacing, colors, fonts } from '@ndla/core';
 import styled from '@emotion/styled';
 import css from '@emotion/css';
 import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { ItemTitleButton } from './structure/ItemNameBar';
 import FolderItem from './folderComponents/FolderItem';
-import Fade from './structure/Fade';
 import MakeDndList from './MakeDNDList';
+import Fade from './Fade';
+
+interface ItemTitleButtonProps {
+  isVisible?: boolean;
+  hasSubtopics?: boolean;
+  lastItemClickable?: boolean;
+  isSubject?: boolean;
+  arrowDirection?: number;
+}
+
+const itemTitleArrow = css`
+  &:before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 9px solid ${colors.text.primary};
+    margin-right: ${spacing.xsmall};
+  }
+`;
+
+const itemTitleLinked = css`
+  &:before {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-bottom: 2px solid ${colors.brand.light};
+    border-left: 2px solid ${colors.brand.light};
+    border-bottom-left-radius: 2px;
+    margin-right: ${spacing.xsmall};
+    margin-left: 7px;
+  }
+`;
+
+const ItemTitleButton = styled.button<ItemTitleButtonProps>`
+  ${fonts.sizes(16, 1)};
+  font-weight: ${fonts.weight.semibold};
+  border: 0;
+  background: 0;
+  color: ${props => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
+  display: flex;
+  align-items: center;
+  text-align: left;
+  white-space: nowrap;
+  font-style: ${props => !props.isVisible && 'italic'};
+
+  ${props => props.hasSubtopics && itemTitleArrow};
+  ${props =>
+    props.lastItemClickable &&
+    css`
+      cursor: pointer;
+    `};
+  ${props => !props.hasSubtopics && !props.isSubject && itemTitleLinked};
+
+  &:before {
+    transition: transform 200ms ease;
+    transform: rotate(${props => props.hasSubtopics && props.arrowDirection}deg);
+  }
+`;
 
 interface StyledItemBarProps {
   level: number;

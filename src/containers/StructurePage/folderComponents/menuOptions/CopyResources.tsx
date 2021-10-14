@@ -10,6 +10,8 @@ import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import { Copy } from '@ndla/icons/action';
+//@ts-ignore
+import { Spinner } from '@ndla/ui';
 
 import {
   fetchTopicResources,
@@ -38,7 +40,6 @@ import handleError from '../../../../util/handleError';
 import { getIdFromUrn } from '../../../../util/taxonomyHelpers';
 import { useTopics } from '../../../../modules/taxonomy/topics/topicQueries';
 import { useSubjectTopics } from '../../../../modules/taxonomy/subjects/subjectsQueries';
-import Spinner from '../../Spinner';
 
 type PathArray = Array<TaxonomyElement>;
 

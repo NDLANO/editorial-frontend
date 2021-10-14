@@ -3,7 +3,7 @@ import { DropResult } from 'react-beautiful-dnd';
 import { spacing, colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import css from '@emotion/css';
-import { SubjectTopic } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { ItemTitleButton } from './structure/ItemNameBar';
 import FolderItem from './folderComponents/FolderItem';
 import Fade from './structure/Fade';
@@ -67,6 +67,7 @@ interface Props {
   onDragEnd: (result: DropResult, topics: SubjectTopic[]) => Promise<void>;
   connectionId: string;
   parentActive: boolean;
+  allSubjects: SubjectType[];
 }
 
 const StructureTopic = ({
@@ -83,6 +84,7 @@ const StructureTopic = ({
   subjectId,
   parentActive,
   onDragEnd,
+  allSubjects,
 }: Props) => {
   const fullPath = `${path}/${topic.id}`;
   const onTopicClick = () => {
@@ -129,7 +131,7 @@ const StructureTopic = ({
             name={topic.name}
             metadata={topic.metadata}
             isMainActive={isOpen}
-            structure={[]}
+            structure={allSubjects}
             resourcesLoading={topicResourcesLoading}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
             locale={locale}

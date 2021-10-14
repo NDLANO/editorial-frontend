@@ -30,6 +30,7 @@ interface Props {
   onTopicSelect: (topic: SubjectTopic) => void;
   topicResourcesLoading: boolean;
   resourceSectionRef: React.MutableRefObject<HTMLDivElement | null>;
+  allSubjects: SubjectType[];
 }
 
 const itemTitleArrow = css`
@@ -158,6 +159,7 @@ const StructureSubject = ({
   onTopicSelect,
   topicResourcesLoading,
   resourceSectionRef,
+  allSubjects,
 }: Props) => {
   const { data: topicsData, isLoading } = useSubjectTopics(subject.id, locale, {
     enabled: openedPaths[0] === subject.id,
@@ -243,7 +245,7 @@ const StructureSubject = ({
               name={subject.name}
               metadata={subject.metadata}
               isMainActive={isActive}
-              structure={[]}
+              structure={allSubjects}
               resourcesLoading={topicResourcesLoading}
               jumpToResources={resourceSectionRef?.current?.scrollIntoView}
               locale={locale}
@@ -265,6 +267,7 @@ const StructureSubject = ({
               onDragEnd={result => onDragEnd(result, topicsData)}>
               {topicsData.map(topic => (
                 <StructureTopic
+                  allSubjects={allSubjects}
                   connectionId={topic.connectionId}
                   id={topic.id}
                   onDragEnd={onDragEnd}

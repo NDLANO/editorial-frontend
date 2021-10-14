@@ -132,6 +132,7 @@ const StructureContainer = ({ location, match }: RouteComponentProps<StructureRo
               <StructureWrapper>
                 {subjects!.map(subject => (
                   <StructureSubject
+                    allSubjects={subjectData ?? []}
                     openedPaths={getPathsFromUrl(match.url)}
                     resourceSectionRef={resourceSection}
                     topicResourcesLoading={topicResourcesLoading}

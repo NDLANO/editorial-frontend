@@ -6,33 +6,28 @@
  *
  */
 
-import React, { memo, useRef } from 'react';
+import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
-import { useLayoutEffect } from 'react';
-import { useEffect } from 'react';
 import { RefObject } from 'react';
 import { useState } from 'react';
+import { TFunction } from 'i18next';
 import ResourceGroup from './ResourceGroup';
 import AllResourcesGroup from './AllResourcesGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
-import { fetchAllResourceTypes, fetchTopicResources } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
-import Spinner from '../../../components/Spinner';
-import { fetchDraft } from '../../../modules/draft/draftApi';
-import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
 import GroupTopicResources from '../folderComponents/GroupTopicResources';
 import {
   ResourceType,
   ResourceWithTopicConnection,
   SubjectTopic,
-  TaxonomyMetadata,
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftStatus, DraftStatusTypes } from '../../../modules/draft/draftApiInterfaces';
-import { StructureRouteParams } from '../StructureContainer';
+import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 import { LocaleType } from '../../../interfaces';
+import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
+import { useTopicResources } from '../../../modules/taxonomy/topics/topicQueries';
 
 const StyledDiv = styled('div')`
   width: calc(${spacing.large} * 5);
@@ -46,206 +41,105 @@ export interface TopicResource extends ResourceWithTopicConnection {
 
 interface Props {
   locale: LocaleType;
-  params: StructureRouteParams;
   currentTopic: SubjectTopic;
-  refreshTopics: () => Promise<void>;
   resourceRef: RefObject<HTMLDivElement>;
   setResourcesLoading: (loading: boolean) => void;
-  resourcesUpdated: boolean;
-  setResourcesUpdated: (updated: boolean) => void;
-  saveSubjectTopicItems: (topicId: string, saveItems: { metadata: TaxonomyMetadata }) => void;
+  updateCurrentTopic: (newCurrent: SubjectTopic) => void;
   grouped: string;
 }
 
+const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
+  id: 'missing',
+  name: t('taxonomy.missingResourceType'),
+  disabled: true,
+});
+
+const withMissing = (r: TopicResource) => ({
+  ...r,
+  resourceTypes: [{ id: 'missing', name: '', connectionId: '' }],
+});
+
 const StructureResources = ({
   locale,
-  params,
   currentTopic,
-  refreshTopics,
   resourceRef,
-  resourcesUpdated,
-  setResourcesUpdated,
-  saveSubjectTopicItems,
-  setResourcesLoading,
   grouped,
+  updateCurrentTopic,
 }: Props) => {
   const { t } = useTranslation();
-  const [resourceTypes, setResourceTypes] = useState<(ResourceType & { disabled?: boolean })[]>([]);
-  const [topicResources, setTopicResources] = useState<TopicResource[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [topicStatus, setTopicStatus] = useState<DraftStatus | undefined>(undefined);
   const [topicGrepCodes, setTopicGrepCodes] = useState<string[]>([]);
-  const prevCurrentTopic = useRef<SubjectTopic | null>(null);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        await getAllResourceTypes();
-        await getTopicResources();
-      } catch (error) {
-        handleError(error);
-      }
-      setLoading(false);
-    })();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const { data: topicResources } = useTopicResources<TopicResource[]>(
+    currentTopic.id,
+    locale,
+    undefined,
+    {
+      select: resources => resources.map(r => (r.resourceTypes.length > 0 ? r : withMissing(r))),
+      onError: e => handleError(e),
+      placeholderData: [],
+    },
+  );
 
-  useLayoutEffect(() => {
-    (async () => {
-      if (!prevCurrentTopic.current) {
-        return;
-      }
-      if (currentTopic.id !== prevCurrentTopic.current?.id || resourcesUpdated) {
-        await getTopicResources();
-      }
-      if (resourcesUpdated) {
-        setResourcesUpdated(false);
-      }
-    })();
-    prevCurrentTopic.current = currentTopic;
+  const { data: resourceTypes } = useAllResourceTypes(locale, {
+    select: resourceTypes => [...resourceTypes, getMissingResourceType(t)],
+    onError: e => handleError(e),
+    placeholderData: [],
   });
 
-  const getAllResourceTypes = async () => {
-    try {
-      const resourceTypes = await fetchAllResourceTypes(locale);
-      setResourceTypes([
-        ...resourceTypes,
-        {
-          id: 'missing',
-          name: t('taxonomy.missingResourceType'),
-          disabled: true,
-        },
-      ]);
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
-  const onUpdateResource = (updatedRes: TopicResource) => {
-    const updated = topicResources.map(res => (res.id === updatedRes.id ? updatedRes : res));
-    setTopicResources(updated);
-  };
-
-  const getTopicResources = async () => {
-    const { id: topicId } = currentTopic;
-    setResourcesLoading(true);
-    setLoading(true);
-    if (topicId) {
-      try {
-        const initialTopicResources = await fetchTopicResources(topicId, locale);
-        const allTopicResources: TopicResource[] = initialTopicResources.map(r =>
-          r.resourceTypes.length > 0
-            ? r
-            : { ...r, resourceTypes: [{ id: 'missing', name: '', connectionId: '' }] },
-        );
-
-        if (currentTopic.contentUri) {
-          const article = await fetchDraft(
-            parseInt(currentTopic.contentUri.replace('urn:article:', '')),
-            locale,
-          );
-          setTopicStatus(article.status);
-          setTopicGrepCodes(article.grepCodes);
-        }
-        const modifiedResources = await getResourceStatusesAndGrepCodes(allTopicResources);
-
-        setTopicResources(modifiedResources);
-      } catch (error) {
-        setTopicResources([]);
-        handleError(error);
-      }
-    } else {
-      setTopicResources([]);
-    }
-    setLoading(false);
-    setResourcesLoading(false);
-  };
-
-  const onDeleteResource = (resourceId: string) => {
-    setTopicResources(topicResources.filter(r => r.connectionId !== resourceId));
-  };
-
-  const getResourceStatusesAndGrepCodes = async (allTopicResources: TopicResource[]) => {
-    const resourcePromises = allTopicResources.map(async resource => {
-      const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
-      if (resourceType === 'article') {
-        const article = await fetchDraft(parseInt(id), locale);
-        return { ...resource, status: article.status, grepCodes: article.grepCodes };
-      } else if (resourceType === 'learningpath') {
-        const learningpath = await fetchLearningpath(parseInt(id), locale);
-        if (learningpath.status) {
-          const status = { current: learningpath.status as DraftStatusTypes, other: [] };
-          return { ...resource, status };
-        }
-      }
-      return resource;
-    });
-    return await Promise.all(resourcePromises);
-  };
-
-  if (loading) {
-    return <Spinner />;
-  }
-
   const groupedTopicResources = groupSortResourceTypesFromTopicResources(
-    resourceTypes,
-    topicResources,
+    resourceTypes ?? [],
+    topicResources!,
   );
 
   return (
-    <>
+    <div ref={resourceRef}>
       {currentTopic && currentTopic.id && (
         <StyledDiv>
           <GroupTopicResources
             topicId={currentTopic.id}
             subjectId={`urn:${currentTopic.path.split('/')[1]}`}
             metadata={currentTopic.metadata}
-            updateLocalTopics={saveSubjectTopicItems}
+            onChanged={partialMeta =>
+              updateCurrentTopic({
+                ...currentTopic,
+                metadata: { ...currentTopic.metadata, ...partialMeta },
+              })
+            }
             hideIcon
           />
         </StyledDiv>
       )}
       <TopicDescription
-        onUpdateResource={r => setTopicGrepCodes(r.grepCodes)}
-        topicDescription={currentTopic.name}
+        onUpdateResource={r => setTopicGrepCodes(r.grepCodes ?? [])}
         locale={locale}
-        resourceRef={resourceRef}
-        refreshTopics={refreshTopics}
         currentTopic={currentTopic}
-        status={topicStatus}
         grepCodes={topicGrepCodes}
       />
       {grouped === 'ungrouped' && (
         <AllResourcesGroup
-          onDeleteResource={onDeleteResource}
           key="ungrouped"
-          params={params}
-          topicResources={topicResources}
-          onUpdateResource={onUpdateResource}
-          refreshResources={getTopicResources}
+          topicResources={topicResources!}
           locale={locale}
-          resourceTypes={resourceTypes}
+          resourceTypes={resourceTypes!}
+          currentTopicId={currentTopic.id}
         />
       )}
       {grouped === 'grouped' &&
-        resourceTypes.map(resourceType => {
+        resourceTypes!.map(resourceType => {
           const topicResource = groupedTopicResources.find(
             resource => resource.id === resourceType.id,
           );
           return (
             <ResourceGroup
-              onDeleteResource={onDeleteResource}
               key={resourceType.id}
               resourceType={resourceType}
-              onUpdateResource={onUpdateResource}
               topicResource={topicResource}
-              params={params}
-              refreshResources={getTopicResources}
               locale={locale}
+              currentTopicId={currentTopic.id}
             />
           );
         })}
-    </>
+    </div>
   );
 };
 

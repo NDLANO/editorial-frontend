@@ -15,11 +15,7 @@ import { Settings } from '@ndla/icons/editor';
 import RoundIcon from '../../../components/RoundIcon';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 import CrossButton from '../../../components/CrossButton';
-import {
-  SubjectTopic,
-  TaxonomyElement,
-  TaxonomyMetadata,
-} from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../../util/retrieveBreadCrumbs';
 import { EditMode } from '../../../interfaces';
 
@@ -33,18 +29,10 @@ interface Props {
   metadata: TaxonomyMetadata;
   path: string;
   showAllOptions: boolean;
-  getAllSubjects: () => Promise<void>;
-  refreshTopics: () => Promise<void>;
   subjectId: string;
   editMode: string;
   toggleEditMode: (mode: EditMode) => void;
-  setResourcesUpdated: (updated: boolean) => void;
-  saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  saveSubjectItems: (
-    subjectid: string,
-    saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
-  ) => void;
-  parent: string;
+  parent?: string;
   structure: PathArray;
 }
 
@@ -53,16 +41,11 @@ const SettingsMenuDropdown = ({
   id,
   setShowAlertModal,
   metadata,
-  saveSubjectItems,
-  saveSubjectTopicItems,
-  getAllSubjects,
-  refreshTopics,
   subjectId,
   editMode,
   toggleEditMode,
   path,
   locale,
-  setResourcesUpdated,
   name,
   showAllOptions,
   structure,
@@ -88,16 +71,11 @@ const SettingsMenuDropdown = ({
         id={id}
         settingsMenuType={settingsMenuType}
         setShowAlertModal={setShowAlertModal}
-        saveSubjectItems={saveSubjectItems}
-        saveSubjectTopicItems={saveSubjectTopicItems}
-        getAllSubjects={getAllSubjects}
-        refreshTopics={refreshTopics}
         subjectId={subjectId}
         editMode={editMode}
         toggleEditMode={toggleEditMode}
         path={path}
         locale={locale}
-        setResourcesUpdated={setResourcesUpdated}
         name={name}
         showAllOptions={showAllOptions}
         structure={structure}

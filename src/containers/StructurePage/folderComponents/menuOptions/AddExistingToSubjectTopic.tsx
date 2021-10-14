@@ -8,13 +8,11 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import { Plus } from '@ndla/icons/action';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import RoundIcon from '../../../../components/RoundIcon';
 import {
   addSubjectTopic,
-  fetchTopics,
   fetchTopicConnections,
   deleteTopicConnection,
   deleteSubTopicConnection,
@@ -24,6 +22,8 @@ import MenuItemButton from './MenuItemButton';
 import retrieveBreadCrumbs, { PathArray } from '../../../../util/retrieveBreadCrumbs';
 import { Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { EditMode } from '../../../../interfaces';
+import { SUBJECT_TOPICS } from '../../../../queryKeys';
+import { useTopics } from '../../../../modules/taxonomy/topics/topicQueries';
 
 interface Props {
   path: string;
@@ -32,7 +32,6 @@ interface Props {
   toggleEditMode: (mode: EditMode) => void;
   locale: string;
   id: string;
-  refreshTopics: () => Promise<void>;
   structure: PathArray;
 }
 
@@ -40,24 +39,12 @@ const AddExistingToSubjectTopic = ({
   locale,
   structure,
   id,
-  refreshTopics,
   toggleEditMode,
   onClose,
   editMode,
 }: Props) => {
   const { t } = useTranslation();
-  const [topics, setTopics] = useState<(Topic & { description?: string })[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const localTopics = await fetchTopics(locale || 'nb');
-      setTopics(
-        localTopics
-          .filter(t => t.path)
-          .map(t => ({ ...t, description: getTopicBreadcrumb(t, localTopics) })),
-      );
-    })();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const qc = useQueryClient();
 
   const getTopicBreadcrumb = (topic: Topic, localTopics: Topic[]) => {
     if (!topic.path) return undefined;
@@ -69,6 +56,11 @@ const AddExistingToSubjectTopic = ({
     });
     return bc.map(crumb => crumb.name).join(' > ');
   };
+
+  const { data: topics } = useTopics(locale ?? 'nb', {
+    select: topics =>
+      topics.filter(t => !!t.path).map(t => ({ ...t, description: getTopicBreadcrumb(t, topics) })),
+  });
 
   const onAddExistingTopic = async (topic: { id: string }) => {
     const connections = await fetchTopicConnections(topic.id);
@@ -82,13 +74,8 @@ const AddExistingToSubjectTopic = ({
       }
     }
 
-    await Promise.all([
-      addSubjectTopic({
-        subjectid: id,
-        topicid: topic.id,
-      }),
-    ]);
-    refreshTopics();
+    await addSubjectTopic({ subjectid: id, topicid: topic.id });
+    qc.invalidateQueries([SUBJECT_TOPICS, id]);
   };
 
   const toggleEditModeFunc = () => {
@@ -98,7 +85,7 @@ const AddExistingToSubjectTopic = ({
   if (editMode === 'addExistingSubjectTopic') {
     return (
       <MenuItemDropdown
-        searchResult={topics}
+        searchResult={topics ?? []}
         placeholder={t('taxonomy.existingTopic')}
         onClose={onClose}
         onSubmit={onAddExistingTopic}

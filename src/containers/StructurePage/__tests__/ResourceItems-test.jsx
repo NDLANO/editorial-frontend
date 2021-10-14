@@ -9,6 +9,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import ResourceItems from '../resourceComponents/ResourceItems';
 import {
   supplementaryResourcesMock,
@@ -18,16 +19,20 @@ import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 afterEach(cleanup);
 
+const qc = new QueryClient();
+
 const wrapper = () =>
   render(
     <MemoryRouter>
       <IntlWrapper>
-        <ResourceItems
-          resources={[...supplementaryResourcesMock, ...coreResourcesMock]}
-          contentType="topic-article"
-          locale="nb"
-          refreshResources={() => {}}
-        />
+        <QueryClientProvider client={qc}>
+          <ResourceItems
+            resources={[...supplementaryResourcesMock, ...coreResourcesMock]}
+            contentType="topic-article"
+            locale="nb"
+            refreshResources={() => {}}
+          />
+        </QueryClientProvider>
       </IntlWrapper>
     </MemoryRouter>,
   );

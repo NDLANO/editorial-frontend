@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { FieldArray, Form, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
@@ -19,11 +20,6 @@ import { Pencil } from '@ndla/icons/action';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 
 import RoundIcon from '../../../../components/RoundIcon';
-import {
-  deleteSubjectNameTranslation,
-  fetchSubjectNameTranslations,
-  updateSubjectNameTranslation,
-} from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import { TaxNameTranslation } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { EditMode } from '../../../../interfaces';
@@ -40,6 +36,12 @@ import DeleteButton from '../../../../components/DeleteButton';
 import AddSubjectTranslation from './AddSubjectTranslation';
 import handleError from '../../../../util/handleError';
 import { StyledErrorMessage } from '../styles';
+import {
+  useDeleteSubjectNameTranslation,
+  useSubjectNameTranslations,
+  useUpdateSubjectNameTranslation,
+} from '../../../../modules/taxonomy/subjects/subjectsQueries';
+import { SUBJECT, SUBJECTS } from '../../../../queryKeys';
 
 const buttonStyle = css`
   flex-grow: 1;
@@ -70,19 +72,9 @@ interface Props {
   name: string;
   id: string;
   contentUri?: string;
-  getAllSubjects: () => Promise<void>;
-  refreshTopics: () => void;
 }
 
-const ChangeSubjectName = ({
-  toggleEditMode,
-  onClose,
-  editMode,
-  id,
-  getAllSubjects,
-  refreshTopics,
-  name,
-}: Props) => {
+const ChangeSubjectName = ({ toggleEditMode, onClose, editMode, id, name }: Props) => {
   const { t } = useTranslation();
   return (
     <>
@@ -96,8 +88,6 @@ const ChangeSubjectName = ({
       {editMode === 'changeSubjectName' && (
         <ChangeSubjectNameModal
           name={name}
-          getAllSubjects={getAllSubjects}
-          refreshTopics={refreshTopics}
           onClose={() => {
             toggleEditMode('changeSubjectName');
           }}
@@ -110,37 +100,25 @@ const ChangeSubjectName = ({
 
 interface ModalProps {
   onClose: () => void;
-  refreshTopics: () => void;
-  getAllSubjects: () => Promise<void>;
   id: string;
   name: string;
 }
 
-const ChangeSubjectNameModal = ({
-  onClose,
-  id,
-  name,
-  refreshTopics,
-  getAllSubjects,
-}: ModalProps) => {
+const ChangeSubjectNameModal = ({ onClose, id, name }: ModalProps) => {
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
   const [updateError, setUpdateError] = useState('');
-  const [translations, setTranslations] = useState<TaxNameTranslation[]>([]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const translations = await fetchSubjectNameTranslations(id);
-        setTranslations(translations);
-      } catch (e) {
-        handleError(e);
-        setLoadError(t('taxonomy.changeName.loadError'));
-      }
-      setLoading(false);
-    })();
-  }, [id, t]);
+  const { data: translations, isLoading: loading, refetch } = useSubjectNameTranslations(id, {
+    placeholderData: [],
+    onError: e => {
+      handleError(e);
+      setLoadError(t('taxonomy.changeName.loadError'));
+    },
+  });
+  const { mutateAsync: deleteSubjectNameTranslation } = useDeleteSubjectNameTranslation();
+  const { mutateAsync: updateSubjectNameTranslation } = useUpdateSubjectNameTranslation();
+  const qc = useQueryClient();
 
   const toRecord = (translations: TaxNameTranslation[]): Record<string, TaxNameTranslation> =>
     translations.reduce((prev, curr) => ({ ...prev, [curr.language]: curr }), {});
@@ -153,9 +131,11 @@ const ChangeSubjectNameModal = ({
     const deleted = Object.entries(initial).filter(([key]) => !newValues[key]);
     const toUpdate = Object.entries(newValues).filter(([key, value]) => value !== initial[key]);
 
-    const deleteCalls = deleted.map(([, d]) => deleteSubjectNameTranslation(id, d.language));
+    const deleteCalls = deleted.map(([, d]) =>
+      deleteSubjectNameTranslation({ subjectId: id, locale: d.language }),
+    );
     const updateCalls = toUpdate.map(([, u]) =>
-      updateSubjectNameTranslation(id, u.language, u.name),
+      updateSubjectNameTranslation({ subjectId: id, locale: u.language, name: u.name }),
     );
     const promises = [...deleteCalls, ...updateCalls];
     try {
@@ -163,22 +143,22 @@ const ChangeSubjectNameModal = ({
     } catch (e) {
       handleError(e);
       setUpdateError(t('taxonomy.changeName.updateError'));
-      await getAllSubjects();
-      refreshTopics();
+      qc.invalidateQueries(SUBJECTS);
+      qc.invalidateQueries([SUBJECT, id]);
       formik.setSubmitting(false);
       return;
     }
 
     if (promises.length > 0) {
-      await getAllSubjects();
-      refreshTopics();
+      qc.invalidateQueries(SUBJECTS);
+      qc.invalidateQueries([SUBJECT, id]);
     }
-    setTranslations(formik.values.translations);
+    await refetch();
     formik.resetForm({ values: formik.values, isSubmitting: false });
     setSaved(true);
   };
 
-  const initialValues = { translations: translations.slice() };
+  const initialValues = { translations: translations?.slice() ?? [] };
   const [saved, setSaved] = useState(false);
 
   const schema = yup.object().shape({

@@ -890,61 +890,6 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   border-top: 1px solid #f8f8f8;
 }
 
-.emotion-88 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin-top: 1em;
-}
-
-.emotion-82 {
-  display: inline;
-  background: transparent;
-  border: 0;
-  border-top: 3px solid #e6e6e6;
-  padding: 1em 1.45em;
-  margin: 1em 0.3em 0;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  box-shadow: none;
-  color: #20588f;
-  cursor: pointer;
-  border-top: 3px solid #20588f;
-  background-color: rgba(222,235,246,0.5);
-}
-
-.emotion-82:hover {
-  border-top: 3px solid #20588f;
-  background-color: rgba(222,235,246,0.5);
-}
-
-.emotion-83 {
-  display: inline;
-  background: transparent;
-  border: 0;
-  border-top: 3px solid #e6e6e6;
-  padding: 1em 1.45em;
-  margin: 1em 0.3em 0;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  box-shadow: none;
-  color: #20588f;
-  cursor: pointer;
-}
-
-.emotion-83:hover {
-  border-top: 3px solid #20588f;
-  background-color: rgba(222,235,246,0.5);
-}
-
 .emotion-24 {
   border: 0;
   border-bottom: 1px solid #f8f8f8;
@@ -1022,6 +967,61 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   background-color: white;
   margin-top: 26px;
   padding: 3px 52px;
+}
+
+.emotion-88 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.emotion-82 {
+  display: inline;
+  background: transparent;
+  border: 0;
+  border-top: 3px solid #e6e6e6;
+  padding: 1em 1.45em;
+  margin: 1em 0.3em 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-shadow: none;
+  color: #20588f;
+  cursor: pointer;
+  border-top: 3px solid #20588f;
+  background-color: rgba(222,235,246,0.5);
+}
+
+.emotion-82:hover {
+  border-top: 3px solid #20588f;
+  background-color: rgba(222,235,246,0.5);
+}
+
+.emotion-83 {
+  display: inline;
+  background: transparent;
+  border: 0;
+  border-top: 3px solid #e6e6e6;
+  padding: 1em 1.45em;
+  margin: 1em 0.3em 0;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-shadow: none;
+  color: #20588f;
+  cursor: pointer;
+}
+
+.emotion-83:hover {
+  border-top: 3px solid #20588f;
+  background-color: rgba(222,235,246,0.5);
 }
 
 <div

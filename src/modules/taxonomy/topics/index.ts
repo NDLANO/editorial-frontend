@@ -22,6 +22,7 @@ import {
   Topic,
   TopicConnections,
 } from '../taxonomyApiInterfaces';
+import { TopicSubtopicPutBody } from './topicInterfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
@@ -47,9 +48,10 @@ const fetchTopicResources = (
   const query = [];
   if (language) query.push(`language=${language}`);
   if (relevance) query.push(`relevance=${relevance}`);
-  return fetchAuthorized(
-    `${baseUrl}/topics/${topicUrn}/resources/${query.length ? `?${query.join('&')}` : ''}`,
-  ).then(r => resolveJsonOrRejectWithError<ResourceWithTopicConnection[]>(r));
+  const queryString = query.length > 0 ? `?${query.join('&')}` : '';
+  return fetchAuthorized(`${baseUrl}/topics/${topicUrn}/resources/${queryString}`).then(r =>
+    resolveJsonOrRejectWithError<ResourceWithTopicConnection[]>(r),
+  );
 };
 
 const addTopic = (body: { contentUri?: string; id?: string; name: string }): Promise<string> => {
@@ -98,15 +100,7 @@ const addTopicToTopic = (body: {
   }).then(resolveLocation);
 };
 
-const updateTopicSubtopic = (
-  connectionId: string,
-  body: {
-    id?: string;
-    primary?: boolean;
-    rank?: number;
-    relevanceId?: string;
-  },
-): Promise<void> => {
+const updateTopicSubtopic = (connectionId: string, body: TopicSubtopicPutBody): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topic-subtopics/${connectionId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },

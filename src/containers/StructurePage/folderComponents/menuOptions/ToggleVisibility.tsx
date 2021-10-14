@@ -6,27 +6,25 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Eye } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
 
-import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
 import { EditMode } from '../../../../interfaces';
+import { useUpdateSubjectMetadata } from '../../../../modules/taxonomy/subjects/subjectsQueries';
+import { useTopicMetadataUpdateMutation } from '../../../../modules/taxonomy/topics/topicQueries';
 
 interface Props {
   editMode: string;
-  getAllSubjects: () => Promise<void>;
   id: string;
   name: string;
   menuType: 'subject' | 'topic';
   metadata: { grepCodes: string[]; visible: boolean };
-  refreshTopics: () => Promise<void>;
-  setResourcesUpdated: (updated: boolean) => void;
   toggleEditMode: (mode: EditMode) => void;
 }
 
@@ -38,65 +36,31 @@ export const DropDownWrapper = styled('div')`
   padding: calc(${spacing.small} / 2);
 `;
 
-const ToggleVisibility = ({
-  editMode,
-  getAllSubjects,
-  id,
-  name,
-  menuType,
-  metadata,
-  refreshTopics,
-  setResourcesUpdated,
-  toggleEditMode,
-}: Props) => {
+const ToggleVisibility = ({ editMode, id, name, menuType, metadata, toggleEditMode }: Props) => {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(metadata?.visible);
+  const { mutateAsync: updateSubjectMetadata } = useUpdateSubjectMetadata();
+  const { mutateAsync: updateTopicMetadata } = useTopicMetadataUpdateMutation();
 
   const toggleVisibility = async () => {
-    switch (menuType) {
-      case 'subject': {
-        await updateSubjectMetadata(id, {
-          grepCodes: metadata.grepCodes,
-          visible: !visible,
-        });
-        setVisible(!visible);
-        getAllSubjects();
-        refreshTopics();
-        setResourcesUpdated(true);
-        break;
-      }
-
-      case 'topic': {
-        await updateTopicMetadata(id, {
-          grepCodes: metadata.grepCodes,
-          visible: !visible,
-        });
-        setVisible(!visible);
-        refreshTopics();
-        setResourcesUpdated(true);
-        break;
-      }
-
-      default:
-        return null;
-    }
+    const func = menuType === 'subject' ? updateSubjectMetadata : updateTopicMetadata;
+    await func({ id, metadata: { grepCodes: metadata.grepCodes, visible: !visible } });
+    setVisible(!visible);
   };
 
   const toggleEditModes = () => {
     toggleEditMode('toggleMetadataVisibility');
   };
 
-  useEffect(() => {}, [editMode]);
-
   const toggle = visible ? (
     <DropDownWrapper>
       {name} {t('metadata.visible')}
-      <Switch onChange={toggleVisibility} checked={metadata?.visible} label="" id={'visible'} />
+      <Switch onChange={toggleVisibility} checked={visible} label="" id={'visible'} />
     </DropDownWrapper>
   ) : (
     <DropDownWrapper>
       {name} {t('metadata.notVisible')}
-      <Switch onChange={toggleVisibility} checked={metadata?.visible} label="" id={'visible'} />
+      <Switch onChange={toggleVisibility} checked={visible} label="" id={'visible'} />
     </DropDownWrapper>
   );
 

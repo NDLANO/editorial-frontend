@@ -16,3 +16,15 @@ export const RESOURCE_TYPES = 'resourceTypes';
 
 export const SUBJECTS = 'subjects';
 export const SUBJECT = 'subject';
+export const SUBJECT_TOPICS = 'subjectTopics';
+export const SUBJECT_NAME_TRANSLATIONS = 'subjectNameTranslations';
+
+export const TOPIC_RESOURCES = 'topicResources';
+export const TOPIC_CONNECTIONS = 'topicConnections';
+
+export const TOPICS = 'topics';
+export const TOPIC = 'topic';
+
+export const GREP_CODE = 'grepCode';
+
+export const TOPIC_RESOURCE_STATUS_GREP_QUERY = 'topicResourcesWithStatusAndGrep';

@@ -21,30 +21,18 @@ import {
   EditSubjectpageOption,
   EditCustomFields,
 } from './menuOptions';
-import {
-  SubjectTopic,
-  TaxonomyElement,
-  TaxonomyMetadata,
-} from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../../util/retrieveBreadCrumbs';
 import { EditMode } from '../../../interfaces';
 
 interface Props {
   metadata: TaxonomyMetadata;
-  saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  saveSubjectItems: (
-    subjectid: string,
-    saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
-  ) => void;
-  getAllSubjects: () => Promise<void>;
   numberOfSubtopics?: number;
-  refreshTopics: () => Promise<void>;
   subjectId: string;
   editMode: string;
   toggleEditMode: (mode: EditMode) => void;
   path: string;
   locale: string;
-  setResourcesUpdated: (updated: boolean) => void;
   onClose: () => void;
   id: string;
   name: string;
@@ -53,22 +41,17 @@ interface Props {
   setShowAlertModal: (show: boolean) => void;
   contentUri?: string;
   structure: PathArray;
-  parent: string;
+  parent?: string;
 }
 
 const SettingsMenuDropdownType = ({
-  metadata,
-  saveSubjectTopicItems,
-  saveSubjectItems,
-  getAllSubjects,
-  numberOfSubtopics,
-  refreshTopics,
   subjectId,
+  metadata,
+  numberOfSubtopics,
   editMode,
   toggleEditMode,
   path,
   locale,
-  setResourcesUpdated,
   onClose,
   name,
   id,
@@ -90,15 +73,11 @@ const SettingsMenuDropdownType = ({
             name={name}
             id={id}
             contentUri={contentUri}
-            getAllSubjects={getAllSubjects}
-            refreshTopics={refreshTopics}
           />
           <EditCustomFields
             type={settingsMenuType}
             toggleEditMode={toggleEditMode}
             editMode={editMode}
-            saveSubjectItems={saveSubjectItems}
-            saveSubjectTopicItems={saveSubjectTopicItems}
             subjectId={subjectId}
             id={id}
             name={name}
@@ -111,18 +90,14 @@ const SettingsMenuDropdownType = ({
             toggleEditMode={toggleEditMode}
             locale={locale}
             id={id}
-            refreshTopics={refreshTopics}
             structure={structure}
           />
           <ToggleVisibility
             menuType={settingsMenuType}
             editMode={editMode}
-            getAllSubjects={getAllSubjects}
             id={id}
             name={name}
             metadata={metadata}
-            refreshTopics={refreshTopics}
-            setResourcesUpdated={setResourcesUpdated}
             toggleEditMode={toggleEditMode}
           />
           <EditGrepCodes
@@ -131,9 +106,7 @@ const SettingsMenuDropdownType = ({
             id={id}
             name={name}
             metadata={metadata}
-            refreshTopics={refreshTopics}
             toggleEditMode={toggleEditMode}
-            getAllSubjects={getAllSubjects}
           />
           <EditSubjectpageOption id={id} locale={locale} />
           <DeleteSubjectOption
@@ -141,24 +114,19 @@ const SettingsMenuDropdownType = ({
             locale={locale}
             editMode={editMode}
             toggleEditMode={toggleEditMode}
-            getAllSubjects={getAllSubjects}
           />
         </>
       ) : null;
     case 'topic':
       return (
         <>
-          {showAllOptions && (
-            <PublishTopic locale={locale} id={id} setResourcesUpdated={setResourcesUpdated} />
-          )}
-          {showAllOptions && (
+          {showAllOptions && <PublishTopic locale={locale} id={id} />}
+          {showAllOptions && parent && (
             <>
               <EditCustomFields
                 type={settingsMenuType}
                 toggleEditMode={toggleEditMode}
                 editMode={editMode}
-                saveSubjectItems={saveSubjectItems}
-                saveSubjectTopicItems={saveSubjectTopicItems}
                 subjectId={subjectId}
                 id={id}
                 name={name}
@@ -169,8 +137,8 @@ const SettingsMenuDropdownType = ({
                 toggleEditMode={toggleEditMode}
                 parent={parent}
                 id={id}
-                refreshTopics={refreshTopics}
                 locale={locale}
+                subjectId={subjectId}
               />
               <AddExistingToTopic
                 path={path}
@@ -179,19 +147,16 @@ const SettingsMenuDropdownType = ({
                 toggleEditMode={toggleEditMode}
                 locale={locale}
                 id={id}
+                subjectId={subjectId}
                 numberOfSubtopics={numberOfSubtopics}
                 structure={structure}
-                refreshTopics={refreshTopics}
               />
               <ToggleVisibility
                 menuType={settingsMenuType}
                 editMode={editMode}
-                getAllSubjects={getAllSubjects}
                 id={id}
                 name={name}
                 metadata={metadata}
-                refreshTopics={refreshTopics}
-                setResourcesUpdated={setResourcesUpdated}
                 toggleEditMode={toggleEditMode}
               />
               <EditGrepCodes
@@ -200,9 +165,7 @@ const SettingsMenuDropdownType = ({
                 id={id}
                 name={name}
                 metadata={metadata}
-                refreshTopics={refreshTopics}
                 toggleEditMode={toggleEditMode}
-                getAllSubjects={getAllSubjects}
               />
             </>
           )}
@@ -214,7 +177,6 @@ const SettingsMenuDropdownType = ({
               subjectId={subjectId}
               structure={structure}
               onClose={onClose}
-              setResourcesUpdated={setResourcesUpdated}
             />
           )}
         </>

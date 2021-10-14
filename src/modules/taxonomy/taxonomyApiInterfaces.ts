@@ -117,9 +117,10 @@ export interface ResourceType {
   }[];
 }
 
-export interface ResourceWithTopicConnection extends Resource {
+export interface ResourceWithTopicConnection extends Omit<Resource, 'grepCodes'> {
   primary: boolean;
   relevanceId: string;
+  grepCodes?: string[];
 }
 
 export interface TopicSubtopic {

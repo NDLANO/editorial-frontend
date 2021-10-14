@@ -25,6 +25,7 @@ import {
 } from '../../../util/resolveJsonOrRejectWithError';
 import { LocaleType } from '../../../interfaces';
 import { useSubject, useSubjects } from './subjectsQueries';
+import { SubjectTopicPostBody } from './subjectInterfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
@@ -64,13 +65,7 @@ const addSubject = (body: { contentUri?: string; id?: string; name: string }): P
   }).then(resolveLocation);
 };
 
-const addSubjectTopic = (body: {
-  primary?: boolean;
-  rank?: number;
-  relevanceId?: string;
-  subjectid: string;
-  topicid: string;
-}): Promise<string> => {
+const addSubjectTopic = (body: SubjectTopicPostBody): Promise<string> => {
   return fetchAuthorized(`${baseUrl}/subject-topics`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
@@ -17,14 +17,10 @@ import SettingsMenu from './SettingsMenu';
 
 import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 import AlertModal from '../../../components/AlertModal';
-import {
-  SubjectTopic,
-  SubjectType,
-  TaxonomyElement,
-  TaxonomyMetadata,
-} from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { SubjectType, TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import Spinner from '../../../components/Spinner';
 import { Row } from '../../../components';
+import { UserAccessContext } from '../../App/App';
 
 export const classes = new BEMHelper({
   name: 'folder',
@@ -37,8 +33,6 @@ const resourceButtonStyle = css`
 `;
 
 interface BaseProps {
-  getAllSubjects: () => Promise<void>;
-  refreshTopics: () => Promise<void>;
   structure: SubjectType[];
   jumpToResources?: () => void;
   locale: string;
@@ -47,16 +41,9 @@ interface BaseProps {
   isMainActive?: boolean;
   resourcesLoading?: boolean;
   id: string;
-  userAccess?: string;
   metadata: TaxonomyMetadata;
-  setResourcesUpdated: (updated: boolean) => void;
   subjectId: string;
-  saveSubjectItems: (
-    subjectid: string,
-    saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
-  ) => void;
-  saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  parent: string;
+  parent?: string;
 }
 
 type Props = BaseProps & RouteComponentProps;
@@ -67,22 +54,17 @@ const FolderItem = ({
   id,
   jumpToResources,
   isMainActive,
-  userAccess,
   metadata,
   locale,
   resourcesLoading,
-  getAllSubjects,
-  refreshTopics,
   subjectId,
-  setResourcesUpdated,
-  saveSubjectItems,
-  saveSubjectTopicItems,
   parent,
   structure,
 }: Props) => {
   const type = id?.includes('subject') ? 'subject' : 'topic';
   const { t } = useTranslation();
   const showJumpToResources = isMainActive && type === 'topic';
+  const userAccess = useContext(UserAccessContext);
 
   const [showAlertModal, setShowAlertModal] = useState(false);
 
@@ -98,12 +80,7 @@ const FolderItem = ({
           metadata={metadata}
           setShowAlertModal={setShowAlertModal}
           locale={locale}
-          getAllSubjects={getAllSubjects}
-          refreshTopics={refreshTopics}
           subjectId={subjectId}
-          setResourcesUpdated={setResourcesUpdated}
-          saveSubjectItems={saveSubjectItems}
-          saveSubjectTopicItems={saveSubjectTopicItems}
           parent={parent}
           structure={structure}
         />
@@ -114,10 +91,12 @@ const FolderItem = ({
           css={resourceButtonStyle}
           type="button"
           disabled={resourcesLoading}
-          onClick={jumpToResources}>
+          onClick={() => {
+            jumpToResources!();
+          }}>
           <Row>
             {t('taxonomy.jumpToResources')}
-            {resourcesLoading && <Spinner appearance="small" />}
+            {!!resourcesLoading && <Spinner appearance="small" />}
           </Row>
         </Button>
       )}

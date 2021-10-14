@@ -6,140 +6,127 @@
  *
  */
 
-import React, { PureComponent } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 import AlertModal from '../../../../components/AlertModal';
-import {
-  deleteSubTopicConnection,
-  deleteTopic,
-  deleteTopicConnection,
-  fetchTopic,
-  fetchTopicConnections,
-  queryTopics,
-} from '../../../../modules/taxonomy';
+import { fetchTopic, queryTopics } from '../../../../modules/taxonomy';
 import Spinner from '../../../../components/Spinner';
 import Overlay from '../../../../components/Overlay';
 import MenuItemButton from './MenuItemButton';
 import { StyledErrorMessage } from '../styles';
 import { updateStatusDraft } from '../../../../modules/draft/draftApi';
 import { ARCHIVED } from '../../../../util/constants/ArticleStatus';
-import { TopicConnections } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { EditMode } from '../../../../interfaces';
+import {
+  useDeleteSubTopicConnection,
+  useDeleteTopic,
+  useDeleteTopicConnection,
+  useTopicConnections,
+} from '../../../../modules/taxonomy/topics/topicQueries';
+import { SUBJECT_TOPICS, TOPIC_CONNECTIONS } from '../../../../queryKeys';
 
-interface State {
-  loading: boolean;
-  error: string;
-  connections?: TopicConnections[];
-}
-
-interface BaseProps {
+interface Props {
   editMode: string;
   toggleEditMode: (mode: EditMode) => void;
   parent: string;
   id: string;
-  refreshTopics: () => Promise<void>;
   locale: string;
+  subjectId: string;
 }
 
-type Props = BaseProps & WithTranslation;
+const DeleteTopic = ({ toggleEditMode, parent, id, locale, editMode, subjectId }: Props) => {
+  const { t } = useTranslation();
 
-class DeleteTopic extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { loading: false, error: '' };
-    this.onDeleteTopic = this.onDeleteTopic.bind(this);
-    this.toggleEditMode = this.toggleEditMode.bind(this);
-    this.setTopicArticleArchived = this.setTopicArticleArchived.bind(this);
-  }
+  const {
+    data: connections,
+    isLoading: topicConnectionsLoading,
+    error: connectionError,
+  } = useTopicConnections(id);
+  const {
+    mutateAsync: deleteSubTopicConnection,
+    isLoading: deleteSubTopicLoading,
+    error: deleteSubTopicError,
+  } = useDeleteSubTopicConnection();
+  const {
+    mutateAsync: deleteTopicConnection,
+    isLoading: deleteTopicsLoading,
+    error: deleteTopicsError,
+  } = useDeleteTopicConnection();
+  const { mutateAsync: deleteTopic } = useDeleteTopic();
 
-  componentDidMount() {
-    this.getConnections();
-  }
+  const loading = topicConnectionsLoading || deleteSubTopicLoading || deleteTopicsLoading;
+  const error = connectionError ?? deleteSubTopicError ?? deleteTopicsError;
 
-  async onDeleteTopic() {
-    const { parent, toggleEditMode, refreshTopics, t, id, locale } = this.props;
+  const qc = useQueryClient();
+
+  const onDeleteTopic = async () => {
     toggleEditMode('deleteTopic');
-    this.setState({ loading: true, error: '' });
     const subTopic = parent.includes('topic');
-    const [{ connectionId }] = await fetchTopicConnections(id);
+    const deleteConnectionFunc = subTopic ? deleteSubTopicConnection : deleteTopicConnection;
     try {
-      if (subTopic) {
-        await deleteSubTopicConnection(connectionId);
-      } else {
-        await deleteTopicConnection(connectionId);
-      }
-      await this.setTopicArticleArchived(id, locale);
-      await deleteTopic(id);
-      refreshTopics();
-      this.setState({ loading: false });
-    } catch (err) {
-      this.setState({
-        loading: false,
-        error: `${t('taxonomy.errorMessage')}: ${err.message}`,
+      await deleteConnectionFunc(connections![0].connectionId, {
+        onSettled: () => {
+          qc.invalidateQueries([SUBJECT_TOPICS, subjectId]);
+          qc.invalidateQueries([TOPIC_CONNECTIONS]);
+        },
       });
+      await setTopicArticleArchived(id, locale);
+      await deleteTopic(id);
+    } catch (err) {
       handleError(err);
     }
-  }
+  };
 
-  toggleEditMode() {
-    this.props.toggleEditMode('deleteTopic');
-  }
+  const toggleEditModes = () => {
+    toggleEditMode('deleteTopic');
+  };
 
-  async getConnections() {
-    const { id } = this.props;
-    const connections = await fetchTopicConnections(id);
-    this.setState(prevState => ({
-      ...prevState,
-      connections,
-    }));
-  }
-
-  async setTopicArticleArchived(topicId: string, locale: string) {
+  const setTopicArticleArchived = async (topicId: string, locale: string) => {
     let article = await fetchTopic(topicId, locale);
     let articleId = article.contentUri.split(':')[2];
     const topics = await queryTopics(articleId, locale);
     if (topics.length === 1) {
       await updateStatusDraft(parseInt(articleId), ARCHIVED);
     }
-  }
+  };
 
-  render() {
-    const { t, editMode } = this.props;
-    const { error, loading, connections } = this.state;
-    const isDisabled = connections && connections.length > 1;
-    return (
-      <>
-        <MenuItemButton stripped disabled={isDisabled} onClick={this.toggleEditMode}>
-          <RoundIcon small icon={<DeleteForever />} />
-          {t('alertModal.delete')}
-        </MenuItemButton>
-        <AlertModal
-          show={editMode === 'deleteTopic'}
-          actions={[
-            {
-              text: t('form.abort'),
-              onClick: this.toggleEditMode,
-            },
-            {
-              text: t('alertModal.delete'),
-              onClick: this.onDeleteTopic,
-            },
-          ]}
-          onCancel={this.toggleEditMode}
-          text={t('taxonomy.confirmDeleteTopic')}
-        />
+  const isDisabled = connections && connections.length > 1;
+  return (
+    <>
+      <MenuItemButton stripped disabled={isDisabled} onClick={toggleEditModes}>
+        <RoundIcon small icon={<DeleteForever />} />
+        {t('alertModal.delete')}
+      </MenuItemButton>
+      <AlertModal
+        show={editMode === 'deleteTopic'}
+        actions={[
+          {
+            text: t('form.abort'),
+            onClick: toggleEditModes,
+          },
+          {
+            text: t('alertModal.delete'),
+            onClick: onDeleteTopic,
+          },
+        ]}
+        onCancel={toggleEditModes}
+        text={t('taxonomy.confirmDeleteTopic')}
+      />
 
-        {loading && <Spinner appearance="absolute" />}
-        {loading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
-        {error && (
-          <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
-        )}
-      </>
-    );
-  }
-}
+      {loading && <Spinner appearance="absolute" />}
+      {loading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
+      {error && (
+        <StyledErrorMessage data-testid="inlineEditErrorMessage">
+          {/* @ts-ignore */}
+          {`${t('taxonomy.errorMessage')}: ${error.message}`}
+        </StyledErrorMessage>
+      )}
+    </>
+  );
+};
 
-export default withTranslation()(DeleteTopic);
+export default DeleteTopic;

@@ -6,60 +6,40 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import AlertModal from '../../../../components/AlertModal';
 import Spinner from '../../../../components/Spinner';
 import Overlay from '../../../../components/Overlay';
-import handleError from '../../../../util/handleError';
 import MenuItemButton from './MenuItemButton';
-import { fetchSubjectTopics, deleteSubject } from '../../../../modules/taxonomy';
 import '../../../../style/link.css';
 import { StyledErrorMessage } from '../styles';
-import { SubjectTopic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-
 import { EditMode } from '../../../../interfaces';
+import {
+  useDeleteSubjectMutation,
+  useSubjectTopics,
+} from '../../../../modules/taxonomy/subjects/subjectsQueries';
 
 interface Props {
   id: string;
   locale: string;
   editMode: string;
   toggleEditMode: (mode: EditMode) => void;
-  getAllSubjects: () => Promise<void>;
 }
 
-const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode, getAllSubjects }: Props) => {
+const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode }: Props) => {
   const { t } = useTranslation();
-  const [subjectTopics, setSubjectTopics] = useState<SubjectTopic[] | undefined>();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | undefined>(undefined);
+
+  const { data: subjectTopics } = useSubjectTopics(id, locale);
+  const { mutate: deleteSubject, isLoading: loading, error } = useDeleteSubjectMutation();
 
   const enabled = subjectTopics && subjectTopics.length === 0;
 
-  useEffect(() => {
-    const fetchSubject = async () => {
-      const fetchedSubjectTopics = await fetchSubjectTopics(id, locale);
-      setSubjectTopics(fetchedSubjectTopics);
-    };
-    fetchSubject();
-  }, [id, locale]);
-
   const onDeleteSubject = async () => {
     toggleEditMode('deleteTopic');
-    setLoading(true);
-    setError('');
-    try {
-      await deleteSubject(id);
-      getAllSubjects();
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      setError(`${t('taxonomy.errorMessage')}: ${err.message}`);
-
-      handleError(err);
-    }
+    deleteSubject(id);
   };
 
   return (
@@ -92,7 +72,10 @@ const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode, getAllSubje
       {loading && <Spinner appearance="absolute" />}
       {loading && <Overlay modifiers={['absolute', 'white-opacity', 'zIndex']} />}
       {error && (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
+        <StyledErrorMessage data-testid="inlineEditErrorMessage">
+          {/* @ts-ignore */}
+          {`${t('taxonomy.errorMessage')}: ${error.message}`}
+        </StyledErrorMessage>
       )}
     </>
   );

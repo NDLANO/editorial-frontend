@@ -14,7 +14,6 @@ import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { groupSearch } from '../../../modules/search/searchApi';
 import {
-  createTopicResource,
   fetchResource,
   fetchResourceResourceType,
   queryLearningPathResource,
@@ -36,6 +35,7 @@ import { GroupSearchResult, GroupSearchSummary } from '../../../modules/search/s
 import AlertModal from '../../../components/AlertModal';
 import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
 import { SearchResultBase } from '../../../interfaces';
+import { useCreateTopicResource } from '../../../modules/taxonomy/topicresouces/topicResourceQueries';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -104,6 +104,8 @@ const AddResourceModal = ({
   const [pastedUrl, setPastedUrl] = useState('');
   const [error, setError] = useState<string | undefined | null>(undefined);
   const [loading, setLoading] = useState(false);
+
+  const createTopicResource = useCreateTopicResource();
 
   const setNoSelection = () => {
     setSelected(null);
@@ -263,7 +265,7 @@ const AddResourceModal = ({
         if (selectedType === RESOURCE_TYPE_LEARNING_PATH && isLearningPathSearchSummary(selected)) {
           resourceId = await findResourceIdLearningPath(Number(selected.id));
         } else if (isGroupSearchSummary(selected)) {
-          getResourceIdFromPath(selected?.paths?.[0]);
+          resourceId = getResourceIdFromPath(selected?.paths?.[0]);
         }
 
         if (!resourceId) {
@@ -277,16 +279,14 @@ const AddResourceModal = ({
           return;
         }
 
-        await createTopicResource({
+        await createTopicResource.mutateAsync({
           resourceId,
           topicid: topicId,
         });
-        refreshResources();
         setLoading(false);
 
         onClose();
       } catch (e) {
-        handleError(e);
         setLoading(false);
         //@ts-ignore
         setError(e.messages);

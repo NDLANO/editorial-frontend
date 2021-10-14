@@ -19,7 +19,6 @@ import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TopicResource } from './StructureResources';
-import { StructureRouteParams } from '../StructureContainer';
 import { LocaleType } from '../../../interfaces';
 
 export const classes = new BEMHelper({
@@ -35,21 +34,10 @@ interface Props {
   resourceType: ResourceType & {
     disabled?: boolean;
   };
-  params: StructureRouteParams;
-  refreshResources: () => Promise<void>;
   locale: LocaleType;
-  onUpdateResource: (resource: TopicResource) => void;
-  onDeleteResource: (resourceId: string) => void;
+  currentTopicId: string;
 }
-const ResourceGroup = ({
-  resourceType,
-  topicResource,
-  params,
-  refreshResources,
-  locale,
-  onUpdateResource,
-  onDeleteResource,
-}: Props) => {
+const ResourceGroup = ({ resourceType, topicResource, locale, currentTopicId }: Props) => {
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -61,7 +49,6 @@ const ResourceGroup = ({
   const toggleAddModal = () => {
     setShowAddModal(!showAddModal);
   };
-  const topicId = (params.subtopics?.split('/')?.pop() || params.topic)!;
 
   return (
     <>
@@ -82,11 +69,9 @@ const ResourceGroup = ({
         <>
           {topicResource?.resources && (
             <ResourceItems
-              onDeleteResource={onDeleteResource}
-              onUpdateResource={onUpdateResource}
               resources={topicResource.resources}
-              refreshResources={refreshResources}
               locale={locale}
+              currentTopicId={currentTopicId}
             />
           )}
         </>
@@ -95,8 +80,8 @@ const ResourceGroup = ({
         <AddResourceModal
           type={resourceType.id}
           allowPaste={resourceType.id !== RESOURCE_TYPE_LEARNING_PATH}
-          topicId={topicId}
-          refreshResources={refreshResources}
+          topicId={currentTopicId}
+          refreshResources={async () => {}}
           onClose={toggleAddModal}
           existingResourceIds={topicResource?.resources?.map(r => r.id) ?? []}
           locale={locale}

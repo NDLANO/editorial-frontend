@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { Plus, Pencil } from '@ndla/icons/action';
@@ -14,27 +14,22 @@ import { DeleteForever } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
-import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/taxonomy';
 import RoundIcon from '../../../../components/RoundIcon';
-import { convertGrepCodesToObject } from '../../../FormikForm/GrepCodesFieldContent';
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from '../menuOptions/MenuItemEditField';
 import { EditMode } from '../../../../interfaces';
+import { useGrepCodes } from '../../../../modules/grep/grepQueries';
+import Spinner from '../../../../components/Spinner';
+import { useUpdateSubjectMetadata } from '../../../../modules/taxonomy/subjects/subjectsQueries';
+import { useTopicMetadataUpdateMutation } from '../../../../modules/taxonomy/topics/topicQueries';
 
 interface Props {
   editMode: string;
-  getAllSubjects: () => Promise<void>;
   id: string;
   name: string;
   menuType: 'subject' | 'topic';
   metadata: { grepCodes: string[]; visible: boolean };
-  refreshTopics: () => Promise<void>;
   toggleEditMode: (mode: EditMode) => void;
-}
-
-interface GrepCode {
-  code: string;
-  title: string | undefined | null;
 }
 
 export const DropDownWrapper = styled('div')`
@@ -53,66 +48,39 @@ const EditGrepCodes = ({ editMode, id, menuType, metadata, toggleEditMode }: Pro
   const { t } = useTranslation();
   const [grepCodes, setGrepCodes] = useState<string[]>(metadata?.grepCodes ?? []);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
-  const [grepCodesWithName, setGrepCodesWithName] = useState<GrepCode[]>([]);
+  const { mutateAsync: updateSubjectMetadata } = useUpdateSubjectMetadata();
+  const { mutateAsync: updateTopicMetadata } = useTopicMetadataUpdateMutation();
+  const grepCodesWithName = useGrepCodes(grepCodes);
 
   const updateMetadata = async (codes: string[]) => {
-    switch (menuType) {
-      case 'subject': {
-        await updateSubjectMetadata(id, {
-          grepCodes: codes,
-          visible: metadata.visible,
-        });
-        setGrepCodes(codes);
-        grepCodeDescriptionTitle();
-        break;
-      }
-
-      case 'topic': {
-        await updateTopicMetadata(id, {
-          grepCodes: codes,
-          visible: metadata.visible,
-        });
-        setGrepCodes(codes);
-        grepCodeDescriptionTitle();
-        break;
-      }
-
-      default:
-        return null;
-    }
+    const func = menuType === 'subject' ? updateSubjectMetadata : updateTopicMetadata;
+    await func({ id, metadata: { grepCodes: codes, visible: metadata.visible } });
+    setGrepCodes(codes);
   };
 
-  const toggleEditModes = () => {
-    toggleEditMode('editGrepCodes');
-  };
+  const toggleEditModes = () => toggleEditMode('editGrepCodes');
 
-  useEffect(() => {
-    grepCodeDescriptionTitle();
-  }, [editMode, grepCodes, addingNewGrepCode]); // eslint-disable-line react-hooks/exhaustive-deps
+  const addGrepCode = async (code: string) => updateMetadata([...grepCodes, code.toUpperCase()]);
 
-  const addGrepCode = async (grepCode: string) => {
-    grepCodes.push(grepCode.toUpperCase());
-    updateMetadata(grepCodes);
-  };
-
-  const deleteGrepCode = (position: number) => {
-    grepCodes.splice(position, 1);
-    updateMetadata(grepCodes);
-  };
-
-  const grepCodeDescriptionTitle = async () => {
-    const withName = await convertGrepCodesToObject(grepCodes);
-    setGrepCodesWithName(withName);
-  };
+  const deleteGrepCode = (code: string) => updateMetadata(grepCodes.filter(c => c !== code));
 
   const grepCodesList = (
     <DropDownWrapper>
       {grepCodesWithName?.length > 0 ? (
         grepCodesWithName.map((grepCode, index) => {
+          if (grepCode.isLoading) {
+            return <Spinner />;
+          }
+          if (!grepCode.data) {
+            return null;
+          }
           return (
             <StyledGrepItem key={index}>
-              {grepCode.title}
-              <Button stripped data-testid="deleteGrepCode" onClick={() => deleteGrepCode(index)}>
+              {grepCode.data.title}
+              <Button
+                stripped
+                data-testid="deleteGrepCode"
+                onClick={() => deleteGrepCode(grepCode.data.code)}>
                 <RoundIcon small icon={<DeleteForever />} />
               </Button>
             </StyledGrepItem>

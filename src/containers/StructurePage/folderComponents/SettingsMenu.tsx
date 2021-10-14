@@ -13,11 +13,7 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import Overlay from '../../../components/Overlay';
 import RoundIcon from '../../../components/RoundIcon';
-import {
-  SubjectTopic,
-  TaxonomyElement,
-  TaxonomyMetadata,
-} from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import SettingsMenuDropdown from './SettingsMenuDropdown';
 import { PathArray } from '../../../util/retrieveBreadCrumbs';
 import { EditMode } from '../../../interfaces';
@@ -40,16 +36,8 @@ interface Props {
   showAllOptions: boolean;
   metadata: TaxonomyMetadata;
   locale: string;
-  getAllSubjects: () => Promise<void>;
-  refreshTopics: () => Promise<void>;
   subjectId: string;
-  setResourcesUpdated: (updated: boolean) => void;
-  saveSubjectItems: (
-    subjectid: string,
-    saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
-  ) => void;
-  saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  parent: string;
+  parent?: string;
   structure: PathArray;
 }
 
@@ -62,12 +50,7 @@ const SettingsMenu = ({
   locale,
   metadata,
   showAllOptions,
-  getAllSubjects,
-  refreshTopics,
   subjectId,
-  setResourcesUpdated,
-  saveSubjectItems,
-  saveSubjectTopicItems,
   parent,
   structure,
 }: Props) => {
@@ -102,12 +85,7 @@ const SettingsMenu = ({
             metadata={metadata}
             path={path}
             showAllOptions={showAllOptions}
-            getAllSubjects={getAllSubjects}
-            refreshTopics={refreshTopics}
             subjectId={subjectId}
-            setResourcesUpdated={setResourcesUpdated}
-            saveSubjectItems={saveSubjectItems}
-            saveSubjectTopicItems={saveSubjectTopicItems}
             parent={parent}
             structure={structure}
           />

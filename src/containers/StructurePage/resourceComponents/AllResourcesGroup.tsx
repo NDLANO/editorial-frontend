@@ -17,7 +17,6 @@ import AddResourceModal from './AddResourceModal';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TopicResource } from './StructureResources';
-import { StructureRouteParams } from '../StructureContainer';
 import { LocaleType } from '../../../interfaces';
 
 export const classes = new BEMHelper({
@@ -26,26 +25,15 @@ export const classes = new BEMHelper({
 });
 
 interface Props {
+  currentTopicId: string;
   topicResources: TopicResource[];
   resourceTypes: (ResourceType & {
     disabled?: boolean;
   })[];
-  params: StructureRouteParams;
-  onDeleteResource: (resourceId: string) => void;
-  refreshResources: () => Promise<void>;
   locale: LocaleType;
-  onUpdateResource: (resource: TopicResource) => void;
 }
 
-const AllResourcesGroup = ({
-  resourceTypes,
-  topicResources,
-  params,
-  refreshResources,
-  locale,
-  onDeleteResource,
-  onUpdateResource,
-}: Props) => {
+const AllResourcesGroup = ({ resourceTypes, topicResources, locale, currentTopicId }: Props) => {
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState<boolean>(true);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
@@ -57,8 +45,6 @@ const AllResourcesGroup = ({
   const toggleAddModal = () => {
     setShowAddModal(prev => !prev);
   };
-
-  const topicId = (params.subtopics?.split('/')?.pop() || params.topic)!;
 
   const newResourceTypeOptions = resourceTypes
     .filter(rt => rt.id !== 'missing')
@@ -77,19 +63,13 @@ const AllResourcesGroup = ({
         appearance={ButtonAppearance.RESOURCEGROUP}
         header={t('taxonomy.resources')}
         hidden={!displayResource}>
-        <ResourceItems
-          onDeleteResource={onDeleteResource}
-          onUpdateResource={onUpdateResource}
-          resources={topicResources}
-          refreshResources={refreshResources}
-          locale={locale}
-        />
+        <ResourceItems resources={topicResources} locale={locale} currentTopicId={currentTopicId} />
       </Accordion>
       {showAddModal && (
         <AddResourceModal
           resourceTypes={newResourceTypeOptions}
-          topicId={topicId}
-          refreshResources={refreshResources}
+          topicId={currentTopicId}
+          refreshResources={() => {}}
           onClose={() => setShowAddModal(false)}
           existingResourceIds={topicResources.map(r => r.id)}
           locale={locale}

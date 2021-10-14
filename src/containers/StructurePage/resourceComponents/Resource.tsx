@@ -18,6 +18,7 @@ import { colors, spacing, breakpoints } from '@ndla/core';
 import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
+import { useQuery } from 'react-query';
 
 import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
@@ -30,6 +31,10 @@ import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
 import { LocaleType } from '../../../interfaces';
 import { TopicResource } from './StructureResources';
+import { fetchDraft } from '../../../modules/draft/draftApi';
+import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
+import { DraftStatusTypes } from '../../../modules/draft/draftApiInterfaces';
+import { TOPIC_RESOURCE_STATUS_GREP_QUERY } from '../../../queryKeys';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -92,7 +97,7 @@ const StyledLink = styled(SafeLink)`
 `;
 
 const Resource = ({
-  resource,
+  resource: initialResource,
   onDelete,
   connectionId,
   dragHandleProps = {},
@@ -107,6 +112,33 @@ const Resource = ({
   const history = useHistory();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
+
+  const getGrepCodesAndStatus = async (resource: TopicResource) => {
+    const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
+    if (resourceType === 'article') {
+      const article = await fetchDraft(parseInt(id), locale);
+      return { ...resource, status: article.status, grepCodes: article.grepCodes };
+    } else if (resourceType === 'learningpath') {
+      const learningpath = await fetchLearningpath(parseInt(id), locale);
+      if (learningpath.status) {
+        const status = { current: learningpath.status as DraftStatusTypes, other: [] };
+        return { ...resource, status };
+      }
+    }
+    return resource;
+  };
+
+  const { data: resourceData, isLoading, error } = useQuery(
+    [TOPIC_RESOURCE_STATUS_GREP_QUERY, initialResource.id],
+    () => getGrepCodesAndStatus(initialResource),
+    { retry: false, initialData: initialResource },
+  );
+
+  if (isLoading) {
+    return <div {...dragHandleProps} />;
+  }
+
+  const resource = error ? initialResource : resourceData!;
 
   const contentType =
     resource.resourceTypes.length > 0

@@ -6,14 +6,12 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import { Copy } from '@ndla/icons/action';
 
 import {
-  fetchTopics,
-  fetchSubjectTopics,
   fetchTopicResources,
   createTopicResource,
   fetchResource,
@@ -28,9 +26,9 @@ import {
   Resource,
   ResourceResourceType,
   ResourceTranslation,
-  SubjectTopic,
   TaxonomyElement,
   Topic,
+  ResourceWithTopicConnection,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import retrieveBreadCrumbs from '../../../../util/retrieveBreadCrumbs';
 import MenuItemDropdown from './MenuItemDropdown';
@@ -38,6 +36,9 @@ import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 import { getIdFromUrn } from '../../../../util/taxonomyHelpers';
+import { useTopics } from '../../../../modules/taxonomy/topics/topicQueries';
+import { useSubjectTopics } from '../../../../modules/taxonomy/subjects/subjectsQueries';
+import Spinner from '../../Spinner';
 
 type PathArray = Array<TaxonomyElement>;
 
@@ -47,7 +48,6 @@ interface Props {
   subjectId: string;
   structure: PathArray;
   onClose: () => void;
-  setResourcesUpdated: (updated: boolean) => void;
   setShowAlertModal: (show: boolean) => void;
 }
 
@@ -56,58 +56,63 @@ const iconCss = css`
   height: 8px;
 `;
 
-const CopyResources = ({
-  id,
-  locale,
-  subjectId,
-  structure,
-  onClose,
-  setResourcesUpdated,
-  setShowAlertModal,
-}: Props) => {
+const CopyResources = ({ id, locale, subjectId, structure, onClose, setShowAlertModal }: Props) => {
   const { t } = useTranslation();
-  const [topics, setTopics] = useState<Topic[]>([]);
   const [showCopySearch, setShowCopySearch] = useState(false);
   const [showCloneSearch, setShowCloneSearch] = useState(false);
 
-  useEffect(() => {
-    Promise.all([fetchTopics(locale || 'nb'), fetchSubjectTopics(subjectId, locale)])
-      .then(([topics, subjectTopics]: [Topic[], SubjectTopic[]]) => {
-        setTopics(
-          topics
-            .filter(topic => !subjectTopics.some(t => t.id === topic.id))
-            .map(topic => ({
-              ...topic,
-              description: getTopicBreadcrumb(topic, topics),
-            })),
-        );
-      })
-      .catch((e: Error) => handleError(e));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const { data: subjectTopics } = useSubjectTopics(subjectId, locale, {
+    enabled: showCopySearch || showCloneSearch,
+    onError: e => handleError(e),
+  });
 
-  const getTopicBreadcrumb = (topic: Topic, topics: Topic[]) => {
-    if (!topic.path) return undefined;
-    const breadCrumbs: PathArray = retrieveBreadCrumbs({
-      topicPath: topic.path,
-      structure,
-      allTopics: topics,
-      title: topic.name,
-    });
-    return breadCrumbs.map(crumb => crumb.name).join(' > ');
-  };
+  const { data: topics, isLoading: loading } = useTopics(locale ?? 'nb', {
+    enabled: !!subjectTopics && (showCopySearch || showCloneSearch),
+    onError: e => handleError(e),
+    placeholderData: [],
+    select: topics => {
+      const getTopicBreadcrumb = (topic: Topic, topics: Topic[]) => {
+        if (!topic.path) return undefined;
+        const breadCrumbs: PathArray = retrieveBreadCrumbs({
+          topicPath: topic.path,
+          structure,
+          allTopics: topics,
+          title: topic.name,
+        });
+        return breadCrumbs.map(crumb => crumb.name).join(' > ');
+      };
 
-  const addResourcesToTopic = async (resources: Resource[]) => {
+      const filteredTopics = topics.filter(topic => !subjectTopics?.some(t => t.id === topic.id));
+      return filteredTopics.map(t => ({ ...t, description: getTopicBreadcrumb(t, topics) }));
+    },
+  });
+
+  const addResourcesToTopic = async (resources: (Resource | ResourceWithTopicConnection)[]) => {
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
     for (let i = 0; i < resources.length; i++) {
-      await createTopicResource({
-        primary: resources[i].isPrimary,
-        rank: resources[i].rank,
-        resourceId: resources[i].id,
-        topicid: id,
-      });
+      try {
+        await createTopicResource({
+          primary: resources[i].isPrimary,
+          rank: resources[i].rank,
+          resourceId: resources[i].id,
+          topicid: id,
+        });
+      } catch (e) {
+        handleError(e);
+      }
     }
-    setResourcesUpdated(true);
+    // setResourcesUpdated(true);
+  };
+
+  const copyResources = async (topic: Topic) => {
+    try {
+      const resources = await fetchTopicResources(topic.id);
+      await addResourcesToTopic(resources);
+    } catch (e) {
+      setShowAlertModal(true);
+      handleError(e);
+    }
   };
 
   const cloneResourceResourceTypes = async (
@@ -139,7 +144,7 @@ const CopyResources = ({
 
   const clonedResource = async (
     newResourceBody: { contentUri?: string; name: string },
-    oldResource: Resource,
+    oldResource: ResourceWithTopicConnection,
   ) => {
     const newResourcePath = await createResource(newResourceBody);
     const newResourceUrn = newResourcePath.split('/').pop()!;
@@ -149,7 +154,7 @@ const CopyResources = ({
     return await fetchResource(newResourceUrn, locale);
   };
 
-  const cloneResource = async (resource: Resource) => {
+  const cloneResource = async (resource: ResourceWithTopicConnection) => {
     const resourceType = resource.contentUri?.split(':')[1];
     const resourceId = resource.contentUri ? getIdFromUrn(resource.contentUri!) : null;
     if (resourceType === 'article' && resourceId) {
@@ -182,7 +187,7 @@ const CopyResources = ({
     }
   };
 
-  const cloneResources = async (resources: Resource[]) => {
+  const cloneResources = async (resources: ResourceWithTopicConnection[]) => {
     const clonedResources = [];
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
@@ -193,19 +198,9 @@ const CopyResources = ({
     return clonedResources;
   };
 
-  const copyResources = async (topic: Topic) => {
-    try {
-      const resources: Resource[] = await fetchTopicResources(topic.id);
-      await addResourcesToTopic(resources);
-    } catch (e) {
-      setShowAlertModal(true);
-      handleError(e);
-    }
-  };
-
   const copyAndCloneResources = async (topic: Topic) => {
     try {
-      const resources: Resource[] = await fetchTopicResources(topic.id);
+      const resources = await fetchTopicResources(topic.id);
       const clonedResources = await cloneResources(resources);
       await addResourcesToTopic(clonedResources);
     } catch (e) {
@@ -213,6 +208,10 @@ const CopyResources = ({
       handleError(e);
     }
   };
+
+  if (loading && (showCopySearch || showCloneSearch)) {
+    return <Spinner />;
+  }
 
   return (
     <>
@@ -229,7 +228,7 @@ const CopyResources = ({
       ) : (
         <MenuItemDropdown
           placeholder={t('taxonomy.existingTopic')}
-          searchResult={topics}
+          searchResult={topics ?? []}
           onClose={onClose}
           onSubmit={copyResources}
           icon={<Copy />}
@@ -250,7 +249,7 @@ const CopyResources = ({
       ) : (
         <MenuItemDropdown
           placeholder={t('taxonomy.existingTopic')}
-          searchResult={topics}
+          searchResult={topics ?? []}
           onClose={onClose}
           onSubmit={copyAndCloneResources}
           icon={<Copy />}

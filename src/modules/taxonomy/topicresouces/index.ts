@@ -14,16 +14,11 @@ import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
+import { TopicResourcePostType } from './topicResourceInterfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
-const createTopicResource = (topicResource: {
-  resourceId: string;
-  topicid: string;
-  primary?: boolean;
-  rank?: number;
-  relevanceId?: string;
-}): Promise<string> => {
+const createTopicResource = (topicResource: TopicResourcePostType): Promise<string> => {
   return fetchAuthorized(`${baseUrl}/topic-resources`, {
     headers: {
       'Content-Type': 'application/json',

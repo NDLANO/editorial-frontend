@@ -6,17 +6,16 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Home } from '@ndla/icons/common';
 import { Link } from 'react-router-dom';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
 import { toEditSubjectpage, toCreateSubjectpage } from '../../../../util/routeHelpers';
-import { fetchSubject as apiFetchSubject } from '../../../../modules/taxonomy/subjects';
 import { getIdFromUrn } from '../../../../util/subjectHelpers';
 import '../../../../style/link.css';
-import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { useSubject } from '../../../../modules/taxonomy/subjects/subjectsQueries';
 
 interface Props {
   id: string;
@@ -25,15 +24,7 @@ interface Props {
 
 const EditSubjectpageOption = ({ id, locale }: Props) => {
   const { t } = useTranslation();
-  const [subject, setSubject] = useState<SubjectType>();
-
-  useEffect(() => {
-    const fetchSubject = async () => {
-      const fetchedSubject = await apiFetchSubject(id);
-      setSubject(fetchedSubject);
-    };
-    fetchSubject();
-  }, [id]);
+  const { data: subject } = useSubject(id, locale);
 
   const link = subject?.contentUri
     ? toEditSubjectpage(id, locale, getIdFromUrn(subject.contentUri))

@@ -10,6 +10,7 @@ import React from 'react';
 import nock from 'nock';
 import { render, fireEvent, cleanup, wait } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import AddResourceModal from '../resourceComponents/AddResourceModal';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 import { resourcesByType, articleMock } from '../../../util/__tests__/taxonomyMocks';
@@ -44,10 +45,13 @@ beforeEach(() => {
     .reply(200, resourcesByType);
 });
 
+const qc = new QueryClient();
+
 const wrapper = props =>
   render(
     <IntlWrapper>
       <MemoryRouter>
+        <QueryClientProvider client={qc}>
         <AddResourceModal
           topicId="topicId2"
           allowPaste
@@ -59,6 +63,7 @@ const wrapper = props =>
           locale="nb"
           {...props}
         />
+        </QueryClientProvider>
       </MemoryRouter>
     </IntlWrapper>,
   );

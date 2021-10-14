@@ -8,6 +8,7 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import { getIdFromUrn } from '../../util/taxonomyHelpers';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
@@ -15,6 +16,7 @@ import Spinner from '../../components/Spinner';
 import GrepCodesForm from './GrepCodesForm';
 import { LocaleType } from '../../interfaces';
 import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
+import { TOPIC_RESOURCE_STATUS_GREP_QUERY } from '../../queryKeys';
 
 interface Props {
   contentUri?: string;
@@ -26,6 +28,7 @@ const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
   const { t } = useTranslation();
   const articleId = getIdFromUrn(contentUri);
   const [newGrepCodes, setNewGrepCodes] = useState<string[] | undefined>(undefined);
+  const qc = useQueryClient();
 
   const {
     loading,
@@ -42,7 +45,13 @@ const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
   };
 
   return (
-    <TaxonomyLightbox title={t('form.name.grepCodes')} onClose={() => onClose(newGrepCodes)} wide>
+    <TaxonomyLightbox
+      title={t('form.name.grepCodes')}
+      onClose={() => {
+        qc.invalidateQueries([TOPIC_RESOURCE_STATUS_GREP_QUERY, contentUri]);
+        onClose(newGrepCodes);
+      }}
+      wide>
       {loading || !article || !article.id ? (
         <Spinner />
       ) : (

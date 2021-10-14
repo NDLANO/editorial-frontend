@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
 import {
@@ -19,24 +20,21 @@ import { StyledMenuItemEditField, StyledMenuItemInputField } from './styles';
 import RoundIcon from '../../../components/RoundIcon';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { updateTopicMetadata } from '../../../modules/taxonomy/topics';
+import { useTopicMetadataUpdateMutation } from '../../../modules/taxonomy/topics/topicQueries';
+import { SUBJECT_TOPICS } from '../../../queryKeys';
 
 interface Props {
   topicId: string;
   subjectId: string;
   metadata: TaxonomyMetadata;
-  updateLocalTopics: (topicId: string, saveItems: { metadata: TaxonomyMetadata }) => void;
   hideIcon?: boolean;
+  onChanged?: (newMeta: Partial<TaxonomyMetadata>) => void;
 }
 
-const GroupTopicResources = ({
-  topicId,
-  subjectId,
-  metadata,
-  updateLocalTopics,
-  hideIcon,
-}: Props) => {
+const GroupTopicResources = ({ topicId, subjectId, metadata, hideIcon, onChanged }: Props) => {
   const { t } = useTranslation();
+  const updateTopicMetadataMutation = useTopicMetadataUpdateMutation();
+  const qc = useQueryClient();
   const updateMetadata = async () => {
     const customFields = {
       ...metadata.customFields,
@@ -44,10 +42,17 @@ const GroupTopicResources = ({
         ? TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE
         : TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
     };
-    const response = await updateTopicMetadata(topicId, { customFields });
-    updateLocalTopics(topicId, {
-      metadata: { ...metadata, customFields: response.customFields },
-    });
+    updateTopicMetadataMutation.mutate(
+      { id: topicId, metadata: { customFields } },
+      {
+        onSettled: () => qc.invalidateQueries(SUBJECT_TOPICS),
+        onSuccess: () => onChanged?.({ customFields }),
+      },
+    );
+    // const response = await updateTopicMetadata(topicId, { customFields });
+    // updateLocalTopics(topicId, {
+    //   metadata: { ...metadata, customFields: response.customFields },
+    // });
   };
 
   // eslint-disable-next-line react/prop-types

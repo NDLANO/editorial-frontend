@@ -11,7 +11,8 @@ import React from 'react';
 import { render, wait, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { StructureContainer } from '../StructureContainer';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import NewStructureContainer from '../NewStructureContainer';
 import {
   subjectsMock,
   resourceTypesMock,
@@ -28,28 +29,32 @@ const store = {
   subscribe: jest.fn(),
 };
 
+const qc = new QueryClient();
+
 const wrapper = () =>
   render(
     <Provider store={store}>
       <MemoryRouter>
         <IntlWrapper>
-          <StructureContainer
-            t={() => 'injected'}
-            locale="nb"
-            match={{
-              url: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
-              params: {
-                subject: 'urn:subject:1',
-                topic1: 'urn:topic:1:186479',
-                topic2: 'urn:topic:1:172650',
-              },
-            }}
-            location={{
-              search: '',
-              pathname: 'test',
-              hash: '',
-            }}
-          />
+          <QueryClientProvider client={qc}>
+            <NewStructureContainer
+              t={() => 'injected'}
+              locale="nb"
+              match={{
+                url: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
+                params: {
+                  subject: 'urn:subject:1',
+                  topic1: 'urn:topic:1:186479',
+                  topic2: 'urn:topic:1:172650',
+                },
+              }}
+              location={{
+                search: '',
+                pathname: 'test',
+                hash: '',
+              }}
+            />
+          </QueryClientProvider>
         </IntlWrapper>
       </MemoryRouter>
     </Provider>,

@@ -7,7 +7,7 @@ import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInt
 import { ItemTitleButton } from './structure/ItemNameBar';
 import FolderItem from './folderComponents/FolderItem';
 import Fade from './structure/Fade';
-import MakeDndList from './structure/MakeDNDList';
+import MakeDndList from './MakeDNDList';
 
 interface StyledItemBarProps {
   level: number;

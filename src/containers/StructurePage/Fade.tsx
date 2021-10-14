@@ -19,7 +19,7 @@ const fadeOut = (
   return 'fadeOut';
 };
 
-const Fade: React.FC<Props> = ({ show = true, fadeType, children }) => {
+const Fade = ({ show = true, fadeType, children }: Props) => {
   const [shouldRender, setRender] = useState(show);
 
   useEffect(() => {

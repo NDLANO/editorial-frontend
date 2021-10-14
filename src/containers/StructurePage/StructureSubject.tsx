@@ -15,7 +15,7 @@ import StructureTopic from './StructureTopic';
 import { groupTopics } from '../../util/taxonomyHelpers';
 import FolderItem from './folderComponents/FolderItem';
 import Spinner from './Spinner';
-import MakeDNDList from './structure/MakeDNDList';
+import MakeDNDList from './MakeDNDList';
 import { SUBJECT_TOPICS } from '../../queryKeys';
 import { useUpdateTopicSubTopic } from '../../modules/taxonomy/topics/topicQueries';
 import Fade from './structure/Fade';

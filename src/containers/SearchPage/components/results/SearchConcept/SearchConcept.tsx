@@ -14,8 +14,19 @@ import { searchClasses } from '../../../SearchContainer';
 import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFallback';
 import ContentView from './ContentView';
 import FormView from './FormView';
+import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
+import { License, LocaleType } from '../../../../../interfaces';
+import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 
-const SearchConcept = ({ concept, locale, subjects, editingState, licenses }) => {
+interface Props {
+  concept: SearchConceptType;
+  locale: LocaleType;
+  subjects: SubjectType[];
+  editingState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+  licenses: License[];
+}
+
+const SearchConcept = ({ concept, locale, subjects, editingState, licenses }: Props) => {
   const { t } = useTranslation();
   const [editing, setEditing] = editingState;
   const [localConcept, setLocalConcept] = useState(concept);
@@ -25,8 +36,12 @@ const SearchConcept = ({ concept, locale, subjects, editingState, licenses }) =>
     setShowForm(true);
   };
   const { url: metaImageSrc, alt: metaImageAlt } = localConcept.metaImage || {};
-  const title = convertFieldWithFallback(localConcept, 'title', t('conceptSearch.noTitle'));
-  const content = convertFieldWithFallback(localConcept, 'content', t('conceptSearch.noContent'));
+  const title = convertFieldWithFallback(localConcept, 'title', t<string>('conceptSearch.noTitle'));
+  const content = convertFieldWithFallback(
+    localConcept,
+    'content',
+    t<string>('conceptSearch.noContent'),
+  );
   const breadcrumbs = subjects.filter(s => localConcept.subjectIds?.includes(s.id));
 
   return (
@@ -50,18 +65,12 @@ const SearchConcept = ({ concept, locale, subjects, editingState, licenses }) =>
             setLocalConcept({
               ...newConcept,
               lastUpdated: newConcept.updated,
-              title: {
-                title: newConcept.title,
-                language: newConcept.language,
-              },
-              content: {
-                content: newConcept.content,
-                language: newConcept.language,
-              },
+              title: newConcept.title,
+              content: newConcept.content,
+              updatedBy: newConcept.updatedBy!,
             });
           }}
           licenses={licenses}
-          t={t}
         />
       ) : (
         <ContentView

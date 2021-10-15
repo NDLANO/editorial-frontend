@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -22,6 +22,7 @@ import { fetchImage, searchImages, onError } from '../../../modules/image/imageA
 import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
 import { LocaleContext } from '../../App/App';
 import { LocaleType } from '../../../interfaces';
+import { ConceptFormValues } from '../conceptInterfaces';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
@@ -33,13 +34,23 @@ interface Props {
 
 const InlineImageSearch = ({ name }: Props) => {
   const { t } = useTranslation();
-  const { setFieldValue } = useFormikContext();
-  const [image, setImage] = useState<ImageApiType | undefined>(undefined);
+  const { setFieldValue, values } = useFormikContext<ConceptFormValues>();
+  const [image, setImage] = useState<ImageApiType | undefined>();
   const locale: LocaleType = useContext(LocaleContext);
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
   const searchImagesWithParameters = (query: string, page: number) => {
     return searchImages({ query, page, 'page-size': 16 });
   };
+
+  useEffect(() => {
+    (async () => {
+      if (values.metaImageId) {
+        const image = await fetchImageWithLocale(parseInt(values.metaImageId));
+        setImage(image);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (image) {
     return (

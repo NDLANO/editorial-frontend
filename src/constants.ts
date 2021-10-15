@@ -51,6 +51,8 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT = 'forklaringsfag';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID = 'old-subject-id';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 
+export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
+
 export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
 
 export const EXTERNAL_WHITELIST_PROVIDERS = [

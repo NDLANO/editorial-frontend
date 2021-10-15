@@ -12,7 +12,7 @@ import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
-import { NewAudioMetaInformation } from '../../modules/audio/audioApiInterfaces';
+import { AudioMetaInformationPost } from '../../modules/audio/audioApiInterfaces';
 import { License } from '../../interfaces';
 import { HistoryShape } from '../../shapes';
 
@@ -23,7 +23,7 @@ interface Props extends RouteComponentProps {
 
 const CreateAudio = ({ history, licenses, locale, ...rest }: Props) => {
   const onCreateAudio = async (
-    newAudio: NewAudioMetaInformation,
+    newAudio: AudioMetaInformationPost,
     file?: string | Blob,
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
@@ -34,13 +34,7 @@ const CreateAudio = ({ history, licenses, locale, ...rest }: Props) => {
   };
 
   return (
-    <AudioForm
-      audio={{ language: locale }}
-      onUpdate={onCreateAudio}
-      audioLanguage={locale}
-      licenses={licenses}
-      {...rest}
-    />
+    <AudioForm onUpdate={onCreateAudio} audioLanguage={locale} licenses={licenses} {...rest} />
   );
 };
 

@@ -84,6 +84,9 @@ const ImageContent = ({ formik }: Props) => {
           <StyledImage src={values.filepath || values.imageFile} alt="" />
         </SafeLink>
       )}
+      <FormikField name="imageFile.size" showError={true}>
+        {_ => <></>}
+      </FormikField>
       <FormikField name="caption" showError={false}>
         {({ field }: FieldProps) => (
           <Input

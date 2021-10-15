@@ -166,7 +166,7 @@ const StructureTopic = ({
     <StyledStructureItem
       connectionId={topic.connectionId}
       id={topic.id}
-      key={topic.id}
+      key={fullPath}
       greyedOut={!parentActive && !isActive}>
       <StyledItemBar level={level} highlight={isActive}>
         <ItemTitleButton
@@ -186,7 +186,7 @@ const StructureTopic = ({
             id={topic.id}
             parent={parent}
             subjectId={subjectId}
-            pathToString={''}
+            pathToString={fullPath}
             key={topic.id}
             name={topic.name}
             metadata={topic.metadata}
@@ -207,6 +207,7 @@ const StructureTopic = ({
               onDragEnd={res => onDragEnd(res, topic.subtopics!)}>
               {topic.subtopics.map(t => (
                 <StructureTopic
+                  key={`${fullPath}/${t.id}`}
                   allSubjects={allSubjects}
                   parentActive={isActive}
                   connectionId={t.connectionId}

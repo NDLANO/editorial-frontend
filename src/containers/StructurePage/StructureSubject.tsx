@@ -165,8 +165,8 @@ const StructureSubject = ({
   });
   const isActive = openedPaths[openedPaths.length - 1] === subject.id;
   const isOpen = openedPaths.includes(subject.id);
-
   const qc = useQueryClient();
+
   const onUpdateRank = async (id: string, newRank: number) => {
     await qc.cancelQueries([SUBJECT_TOPICS, subject.id, locale]);
     const prevData = qc.getQueryData<SubjectTopic[]>([SUBJECT_TOPICS, subject.id, locale]);
@@ -236,7 +236,7 @@ const StructureSubject = ({
             <FolderItem
               id={subject.id}
               subjectId={subject.id}
-              pathToString={''}
+              pathToString={subject.id.replace('urn:', '/')}
               key={subject.id}
               name={subject.name}
               metadata={subject.metadata}
@@ -268,6 +268,7 @@ const StructureSubject = ({
                 onDragEnd={onDragEnd}
                 subjectId={subject.id}
                 path={subject.id}
+                key={`${subject.id}/${topic.id}`}
                 parent={subject.id}
                 openedPaths={openedPaths}
                 toggleOpen={toggleOpen}

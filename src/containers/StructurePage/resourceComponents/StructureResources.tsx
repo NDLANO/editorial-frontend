@@ -20,6 +20,7 @@ import handleError from '../../../util/handleError';
 import TopicDescription from './TopicDescription';
 import GroupTopicResources from '../folderComponents/GroupTopicResources';
 import {
+  ResourceResourceType,
   ResourceType,
   ResourceWithTopicConnection,
   SubjectTopic,
@@ -54,10 +55,8 @@ const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boole
   disabled: true,
 });
 
-const withMissing = (r: TopicResource) => ({
-  ...r,
-  resourceTypes: [{ id: 'missing', name: '', connectionId: '' }],
-});
+const missingObject: ResourceResourceType = { id: 'missing', name: '', connectionId: '' };
+const withMissing = (r: TopicResource): TopicResource => ({ ...r, resourceTypes: [missingObject] });
 
 const StructureResources = ({
   locale,

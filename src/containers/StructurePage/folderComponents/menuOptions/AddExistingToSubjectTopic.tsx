@@ -42,6 +42,7 @@ const AddExistingToSubjectTopic = ({
   toggleEditMode,
   onClose,
   editMode,
+  path,
 }: Props) => {
   const { t } = useTranslation();
   const qc = useQueryClient();
@@ -59,7 +60,10 @@ const AddExistingToSubjectTopic = ({
 
   const { data: topics } = useTopics(locale ?? 'nb', {
     select: topics =>
-      topics.filter(t => !!t.path).map(t => ({ ...t, description: getTopicBreadcrumb(t, topics) })),
+      topics
+        .filter(t => !!t.path)
+        .filter(t => !t.paths.find(p => p.includes(path)))
+        .map(t => ({ ...t, description: getTopicBreadcrumb(t, topics) })),
   });
 
   const onAddExistingTopic = async (topic: { id: string }) => {

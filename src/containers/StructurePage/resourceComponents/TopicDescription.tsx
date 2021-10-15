@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
-import AddArticleModal from './AddArticleModal';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { SubjectTopic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { updateRelevanceId } from '../../../util/taxonomyHelpers';
@@ -19,11 +18,6 @@ interface Props {
 const TopicDescription = ({ locale, currentTopic, grepCodes, onUpdateResource }: Props) => {
   const { t } = useTranslation();
   const [displayTopicDescription, setDisplayTopicDescription] = useState(true);
-  const [showAddModal, setShowAddModal] = useState(false);
-
-  const toggleAddModal = () => {
-    setShowAddModal(!showAddModal);
-  };
 
   const toggleDisplayTopicDescription = () => {
     setDisplayTopicDescription(!displayTopicDescription);
@@ -59,14 +53,6 @@ const TopicDescription = ({ locale, currentTopic, grepCodes, onUpdateResource }:
           )}
         </>
       </Accordion>
-      {showAddModal && (
-        <AddArticleModal
-          toggleAddModal={toggleAddModal}
-          locale={locale}
-          refreshTopics={async () => {}}
-          currentTopic={currentTopic}
-        />
-      )}
     </>
   );
 };

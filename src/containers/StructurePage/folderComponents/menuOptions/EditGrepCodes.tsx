@@ -69,7 +69,7 @@ const EditGrepCodes = ({ editMode, id, menuType, metadata, toggleEditMode }: Pro
       {grepCodesWithName?.length > 0 ? (
         grepCodesWithName.map((grepCode, index) => {
           if (grepCode.isLoading) {
-            return <Spinner />;
+            return <Spinner key={index} />;
           }
           if (!grepCode.data) {
             return null;

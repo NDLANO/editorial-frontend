@@ -59,8 +59,9 @@ const TagWrapper = styled.div`
 `;
 
 const VisualElementWrapper = styled.div`
-  margin-left: auto;
-  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 interface Props {

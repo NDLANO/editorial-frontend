@@ -34,7 +34,7 @@ interface Props {
 }
 
 const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const languageOptions = concept.supportedLanguages.map(lan => ({
     title: t(`language.${lan}`),
     value: lan,
@@ -107,7 +107,9 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: P
     if (formConcept.newStatus) {
       await updateConceptStatus(updatedConcept.id, formConcept.newStatus);
     }
-    updateLocalConcept(updatedConcept);
+    if (language === i18n.language) {
+      updateLocalConcept(updatedConcept);
+    }
     cancel();
   };
 

@@ -15,7 +15,7 @@ import styled from '@emotion/styled';
 import { ContentTypeBadge } from '@ndla/ui';
 import Button from '@ndla/button';
 import { colors, spacing, breakpoints } from '@ndla/core';
-import { Check } from '@ndla/icons/editor';
+import { AlertCircle, Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 
@@ -35,6 +35,12 @@ const StyledCheckIcon = styled(Check)`
   height: 24px;
   width: 24px;
   fill: ${colors.support.green};
+`;
+
+const StyledWarnIcon = styled(AlertCircle)`
+  height: 24px;
+  width: 24px;
+  fill: ${colors.support.red};
 `;
 
 const statusButtonStyle = css`
@@ -91,6 +97,12 @@ const StyledLink = styled(SafeLink)`
   box-shadow: inset 0 0;
 `;
 
+const getArticleTypeFromId = (id?: string) => {
+  if (id?.startsWith('urn:topic:')) return 'topic-article';
+  else if (id?.startsWith('urn:resource:')) return 'standard';
+  return undefined;
+};
+
 const Resource = ({
   resource,
   onDelete,
@@ -143,6 +155,25 @@ const Resource = ({
       </StyledLink>
     );
 
+  const WrongTypeError = () => {
+    const isArticle = resource.contentUri?.startsWith('urn:article');
+    if (!isArticle) return null;
+
+    const expectedArticleType = getArticleTypeFromId(resource.id);
+    if (expectedArticleType === resource.articleType) return null;
+
+    const errorText = t('taxonomy.info.wrongArticleType', {
+      placedAs: t(`articleType.${expectedArticleType}`),
+      isType: t(`articleType.${resource.articleType}`),
+    });
+
+    return (
+      <Tooltip tooltip={errorText}>
+        <StyledWarnIcon title={undefined} />
+      </Tooltip>
+    );
+  };
+
   return (
     <StyledText
       data-testid={`resource-type-${contentType}`}
@@ -170,6 +201,7 @@ const Resource = ({
           {t(`form.status.${resource.status.current.toLowerCase()}`)}
         </Button>
       )}
+      <WrongTypeError />
       {(resource.status?.current === PUBLISHED || resource.status?.other?.includes(PUBLISHED)) && (
         <PublishedWrapper>
           <Tooltip tooltip={t('form.workflow.published')}>

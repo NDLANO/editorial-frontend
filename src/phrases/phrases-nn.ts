@@ -1115,6 +1115,8 @@ const phrases = {
     minItems: '{{label}} feltet må minst inneholde ein/eitt {{labelLowerCase}}.',
     minItems_plural: '{{label}} feltet må minst inneholde {{count}} ulike {{labelLowerCase}}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
+    maxSizeExceeded:
+      'Filen du forsøkar å laste opp er for stor. Maksstorleik: {{maxSize}} MB. Filstorleik: {{fileSize}} MB.',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
     podcastImageShape: 'Metabilde må være like høgt som det er breitt.',

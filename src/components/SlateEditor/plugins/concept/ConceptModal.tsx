@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 import Modal from '@ndla/modal/lib/Modal';
 import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
 import Button from '@ndla/button';
 import Tabs from '@ndla/tabs';
 import { Search } from '@ndla/icons/common';
@@ -23,14 +22,41 @@ import SearchForm from '../../../../containers/SearchPage/components/form/Search
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
-import ConceptForm from '../../../../containers/ConceptPage/ConceptForm';
+import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptForm';
 import { ConceptShape, SubjectShape } from '../../../../shapes';
-import * as messageActions from '../../../../containers/Messages/messagesActions';
+import {
+  ConceptApiType,
+  ConceptPatchType,
+  ConceptPostType,
+  ConceptQuery,
+  ConceptSearchResult,
+  ConceptTagsSearchResult,
+} from '../../../../modules/concept/conceptApiInterfaces';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { License } from '../../../../interfaces';
+import { createGuard } from '../../../../util/guards';
+import { DraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 
 const type = 'concept';
 
+interface Props {
+  addConcept: (concept: ConceptApiType) => void;
+  concept?: ConceptApiType;
+  createConcept: (createdConcept: ConceptPostType) => Promise<ConceptApiType>;
+  fetchSearchTags: (input: string, language: string) => Promise<ConceptTagsSearchResult>;
+  handleRemove: () => void;
+  isOpen: boolean;
+  onClose: () => void;
+  locale: string;
+  selectedText: string;
+  subjects: SubjectType[];
+  updateConcept: (updatedConcept: ConceptPatchType) => Promise<ConceptApiType>;
+  conceptArticles: DraftApiType[];
+}
+
+const isConceptPatchType = createGuard<ConceptPatchType>('id');
+
 const ConceptModal = ({
-  id,
   onClose,
   isOpen,
   subjects,
@@ -41,32 +67,29 @@ const ConceptModal = ({
   updateConcept,
   createConcept,
   concept,
-  fetchStatusStateMachine,
   fetchSearchTags,
-  createMessage,
-  setConcept,
-}) => {
+  conceptArticles,
+}: Props) => {
   const { t } = useTranslation();
-  const [searchObject, updateSearchObject] = useState({
+  const [searchObject, updateSearchObject] = useState<ConceptQuery>({
     page: 1,
     sort: '-relevance',
     'page-size': 10,
     language: locale,
     query: `${selectedText}`,
   });
-  const [licenses, setLicenses] = useState([]);
-  const [results, setConcepts] = useState({
+  const [licenses, setLicenses] = useState<License[]>([]);
+  const [results, setConcepts] = useState<ConceptSearchResult>({
     language: locale,
     page: 1,
     pageSize: 10,
     results: [],
     totalCount: 0,
-    query: { searchObject },
   });
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [searching, setSearching] = useState(false);
 
-  const updateSelectedTabIndex = index => {
+  const updateSelectedTabIndex = (index: number) => {
     //Added function because of hooks second argument warning.
     setSelectedTabIndex(index);
   };
@@ -79,9 +102,9 @@ const ConceptModal = ({
     if (licenses.length === 0) {
       getAllLicenses();
     }
-  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [concept?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const searchConcept = async searchParam => {
+  const searchConcept = async (searchParam: ConceptQuery) => {
     if (!searching) {
       setSearching(true);
       const concepts = await searchConcepts(searchParam);
@@ -91,17 +114,16 @@ const ConceptModal = ({
     }
   };
 
-  const onConceptUpsert = async upsertedConcept => {
-    const savedConcept = !id
-      ? await createConcept(upsertedConcept)
-      : await updateConcept(upsertedConcept);
+  const onConceptUpsert = async (upsertedConcept: ConceptPostType | ConceptPatchType) => {
+    const savedConcept = isConceptPatchType(upsertedConcept)
+      ? await updateConcept(upsertedConcept)
+      : await createConcept(upsertedConcept);
     addConcept(savedConcept);
   };
 
   useEffect(() => {
     searchConcept(searchObject);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <Portal isOpened>
       <Modal
@@ -117,7 +139,9 @@ const ConceptModal = ({
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
             <ModalBody>
-              {id && <Button onClick={handleRemove}>{t('form.content.concept.remove')}</Button>}
+              {concept?.id && (
+                <Button onClick={handleRemove}>{t('form.content.concept.remove')}</Button>
+              )}
               <Tabs
                 onSelect={updateSelectedTabIndex}
                 selectedIndex={selectedTabIndex}
@@ -135,7 +159,6 @@ const ConceptModal = ({
                           search={debounce(searchConcept, 400)}
                           searchObject={searchObject}
                           locale={locale}
-                          location={window.location}
                           subjects={subjects}
                         />
                         <SearchConceptResults
@@ -148,7 +171,7 @@ const ConceptModal = ({
                         />
                         <Pager
                           query={searchObject}
-                          page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
+                          page={searchObject.page ?? 1}
                           pathname=""
                           lastPage={Math.ceil(results.totalCount / results.pageSize)}
                           onClick={searchConcept}
@@ -166,21 +189,11 @@ const ConceptModal = ({
                         subjects={subjects}
                         licenses={licenses}
                         onUpdate={onConceptUpsert}
-                        locale={locale}
-                        fetchStateStatuses={fetchStatusStateMachine}
+                        language={locale}
                         fetchConceptTags={fetchSearchTags}
-                        concept={
-                          concept
-                            ? concept
-                            : {
-                                title: selectedText,
-                                language: locale,
-                                articles: [],
-                                subjectIds: [],
-                              }
-                        }
-                        createMessage={createMessage}
-                        setConcept={setConcept}
+                        concept={concept}
+                        conceptArticles={conceptArticles}
+                        initialTitle={selectedText}
                       />
                     ),
                   },
@@ -208,12 +221,6 @@ ConceptModal.propTypes = {
   selectedText: PropTypes.string,
   updateConcept: PropTypes.func.isRequired,
   subjects: PropTypes.arrayOf(SubjectShape).isRequired,
-  createMessage: PropTypes.func,
-  setConcept: PropTypes.func,
 };
 
-const mapDispatchToProps = {
-  createMessage: (message = {}) => messageActions.addMessage(message),
-};
-
-export default connect(_ => ({}), mapDispatchToProps)(ConceptModal);
+export default ConceptModal;

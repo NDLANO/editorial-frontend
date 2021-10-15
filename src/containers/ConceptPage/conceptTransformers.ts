@@ -38,9 +38,11 @@ export const conceptApiTypeToFormType = (
   language: string,
   subjects: SubjectType[],
   articles: DraftApiType[],
+  initialTitle = '',
 ): ConceptFormValues => {
   const { title, content, tags, visualElement } = convertNestedConceptProps(concept, language);
   const conceptSubjects = subjects.filter(s => concept?.subjectIds?.find(id => id === s.id)) ?? [];
+  const slateTitle = title === '' ? initialTitle : title;
   // Make sure to omit the content field from concept. It will crash Slate.
   return {
     id: concept?.id,
@@ -50,7 +52,7 @@ export const conceptApiTypeToFormType = (
     created: concept?.created,
     updated: concept?.updated,
     visualElement: concept?.visualElement?.visualElement,
-    slatetitle: plainTextToEditorValue(title, true),
+    slatetitle: plainTextToEditorValue(slateTitle, true),
     language,
     subjects: conceptSubjects,
     conceptContent: plainTextToEditorValue(content, true),

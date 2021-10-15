@@ -52,6 +52,7 @@ interface Props {
   language: string;
   onUpdate: (updateConcept: ConceptPostType | ConceptPatchType, revision?: number) => Promise<void>;
   subjects: SubjectType[];
+  initialTitle?: string;
   translateToNN?: () => void;
   updateConceptAndStatus?: (
     updatedConcept: ConceptPatchType,
@@ -95,6 +96,7 @@ const ConceptForm = ({
   applicationError,
   createMessage,
   conceptArticles,
+  initialTitle,
 }: Props & PropsFromRedux) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
@@ -138,7 +140,13 @@ const ConceptForm = ({
     }
   };
 
-  const initialValues = conceptApiTypeToFormType(concept, language, subjects, conceptArticles);
+  const initialValues = conceptApiTypeToFormType(
+    concept,
+    language,
+    subjects,
+    conceptArticles,
+    initialTitle,
+  );
   const initialErrors = useMemo(() => validateFormik(initialValues, conceptFormRules, t), [
     initialValues,
     t,

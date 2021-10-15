@@ -35,10 +35,6 @@ import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces'
 import { License } from '../../../../interfaces';
 import { createGuard } from '../../../../util/guards';
 import { DraftApiType } from '../../../../modules/draft/draftApiInterfaces';
-import {
-  conceptApiTypeToFormType,
-  conceptFormTypeToApiType,
-} from '../../../../containers/ConceptPage/conceptTransformers';
 
 const type = 'concept';
 
@@ -124,18 +120,6 @@ const ConceptModal = ({
     addConcept(savedConcept);
   };
 
-  // This function handles an edge case where you actually want a pre-filled title when creating concepts from the concept modal in the
-  // slate text selection menu. It does not occur anywhere else than here.
-  // As such, the solution is somewhat janky, but it allows for a more reasonable typing usage in the rest of the application.
-  const getConcept = (originalConcept: ConceptApiType | undefined): ConceptApiType => {
-    const formType = conceptApiTypeToFormType(originalConcept, locale, subjects, conceptArticles);
-    const apiType = conceptFormTypeToApiType(formType, licenses);
-    if (!originalConcept) {
-      return { ...apiType, title: { ...apiType.title, title: selectedText } };
-    }
-    return apiType;
-  };
-
   useEffect(() => {
     searchConcept(searchObject);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -206,8 +190,9 @@ const ConceptModal = ({
                         onUpdate={onConceptUpsert}
                         language={locale}
                         fetchConceptTags={fetchSearchTags}
-                        concept={getConcept(concept)}
+                        concept={concept}
                         conceptArticles={conceptArticles}
+                        initialTitle={selectedText}
                       />
                     ),
                   },

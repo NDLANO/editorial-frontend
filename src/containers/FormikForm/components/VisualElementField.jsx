@@ -16,6 +16,7 @@ import { FieldHeader } from '@ndla/forms';
 import VisualElement from '../../VisualElement/VisualElement';
 import FormikField, { FormikFieldHelp } from '../../../components/FormikField';
 import { FormikShape } from '../../../shapes';
+import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 export const visualElementClasses = new BEMHelper({
   name: 'visual-element',
@@ -36,7 +37,9 @@ const VisualElementField = ({ formik, types }) => {
       <FormikField name="visualElement">
         {({ field }) => (
           <div>
-            <FieldHeader title={t('form.visualElement.title')} />
+            <FieldHeader title={t('form.visualElement.title')}>
+              <HowToHelper pageId="VisualElement" tooltip={t('form.visualElement.helpLabel')} />
+            </FieldHeader>
             <Fragment>
               <VisualElement
                 label={t('form.visualElement.label')}

@@ -7,14 +7,27 @@
  */
 
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { ArticleType } from '../../interfaces';
 import PreviewDraft from './PreviewDraft';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 
-const PreviewProduction = props => {
+interface Props {
+  firstEntity: ArticleType;
+  secondEntity: ArticleType;
+  contentType?: string;
+  label: string;
+  previewLanguage: string;
+}
+
+const PreviewProduction = ({
+  firstEntity,
+  secondEntity,
+  label,
+  previewLanguage,
+  contentType,
+}: Props) => {
   const { t } = useTranslation();
-  const { firstEntity, secondEntity, label, previewLanguage, contentType } = props;
   return (
     <Fragment>
       <StyledPreviewTwoArticles>
@@ -41,24 +54,6 @@ const PreviewProduction = props => {
       </StyledPreviewTwoArticles>
     </Fragment>
   );
-};
-
-PreviewProduction.propTypes = {
-  firstEntity: PropTypes.shape({
-    id: PropTypes.number,
-    content: PropTypes.string,
-    title: PropTypes.string,
-    introduction: PropTypes.string,
-  }),
-  secondEntity: PropTypes.shape({
-    id: PropTypes.number,
-    content: PropTypes.string,
-    title: PropTypes.string,
-    introduction: PropTypes.string,
-  }),
-  contentType: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  previewLanguage: PropTypes.string.isRequired,
 };
 
 export default PreviewProduction;

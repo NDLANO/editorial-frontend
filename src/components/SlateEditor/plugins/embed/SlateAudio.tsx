@@ -90,7 +90,6 @@ const SlateAudio = ({
             changes={changes}
             embed={embed}
             language={language}
-            locale={locale}
             onExit={toggleEdit}
             onChange={onFigureInputChange}
             onAudioFigureInputChange={onAudioFigureInputChange}

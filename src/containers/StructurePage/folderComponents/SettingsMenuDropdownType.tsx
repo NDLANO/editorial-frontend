@@ -53,7 +53,7 @@ interface Props {
   setShowAlertModal: (show: boolean) => void;
   contentUri?: string;
   structure: PathArray;
-  parent: string;
+  parent?: string;
 }
 
 const SettingsMenuDropdownType = ({

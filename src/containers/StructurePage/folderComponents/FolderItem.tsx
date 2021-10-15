@@ -56,7 +56,7 @@ interface BaseProps {
     saveItems: { topics?: SubjectTopic[]; loading?: boolean; metadata?: TaxonomyMetadata },
   ) => void;
   saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
-  parent: string;
+  parent?: string;
 }
 
 type Props = BaseProps & RouteComponentProps;

@@ -22,12 +22,13 @@ import StyledFilledButton from '../StyledFilledButton';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
-import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { transformApiToCleanConcept } from '../../modules/concept/conceptApiUtil';
+import { Embed, TypeOfPreview } from '../../interfaces';
 
 interface Props {
-  getConcept: Function;
-  typeOfPreview: string;
+  getConcept: () => ConceptType;
+  typeOfPreview: TypeOfPreview;
 }
 
 const lightboxContentStyle = () => css`
@@ -47,8 +48,8 @@ const closeButtonStyle = css`
 
 const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
   const { t } = useTranslation();
-  const [firstConcept, setFirstConcept] = useState<ConceptPreviewType | undefined>(undefined);
-  const [secondConcept, setSecondConcept] = useState<ConceptPreviewType | undefined>(undefined);
+  const [firstConcept, setFirstConcept] = useState<ConceptType | undefined>(undefined);
+  const [secondConcept, setSecondConcept] = useState<ConceptType | undefined>(undefined);
   const [previewLanguage, setPreviewLanguage] = useState<string>('');
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
@@ -61,32 +62,24 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
 
   const openPreview = async () => {
     const concept = getConcept();
-    const firstVisualElement =
-      concept.visualElement && (await getVisualElement(concept.visualElement));
-    setFirstConcept({ ...concept, visualElementResources: firstVisualElement });
-    const secondConceptLanguage =
-      concept.supportedLanguages &&
-      concept.supportedLanguages.find((l: string) => l !== concept.language);
-    onChangePreviewLanguage(secondConceptLanguage ? secondConceptLanguage : concept.language);
+    const parsed = await getVisualElement(concept.visualElement);
+    setFirstConcept(parsed ? { ...concept, parsedVisualElement: parsed } : concept);
+    const secondConceptLanguage = concept.supportedLanguages?.find(l => l !== concept.language);
+    onChangePreviewLanguage(secondConceptLanguage ?? concept.language);
     setShowPreview(true);
   };
 
   const onChangePreviewLanguage = async (language: string) => {
     const originalConcept = getConcept();
-    const secondConcept = await fetchConcept(originalConcept.id, language).then(concept =>
+    const second = await fetchConcept(originalConcept.id, language).then(concept =>
       transformApiToCleanConcept(concept, language),
     );
-    const secondVisualElement = secondConcept.visualElement
-      ? await getVisualElement(secondConcept.visualElement)
-      : undefined;
+    const parsed = await getVisualElement(second.visualElement);
     setPreviewLanguage(language);
-    setSecondConcept({
-      ...secondConcept,
-      visualElementResources: secondVisualElement,
-    });
+    setSecondConcept(parsed ? { ...second, parsedVisualElement: parsed } : second);
   };
 
-  const getVisualElement = async (visualElementEmbed: string) => {
+  const getVisualElement = async (visualElementEmbed: string): Promise<Embed | undefined> => {
     const embedTag = parseEmbedTag(visualElementEmbed);
     switch (embedTag?.resource) {
       case 'image':
@@ -155,7 +148,7 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
           typeOfPreview={typeOfPreview}
           contentType="concept"
           label=""
-          getEntityPreview={(concept: ConceptPreviewType) => <PreviewConcept concept={concept} />}
+          getEntityPreview={concept => <PreviewConcept concept={concept as ConceptType} />}
         />
       </Lightbox>
     </Portal>

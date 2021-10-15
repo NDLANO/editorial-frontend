@@ -16,11 +16,11 @@ import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constan
 import { LocaleContext, UserAccessContext } from '../App/App';
 import Footer from '../App/components/Footer';
 import { useSubjects } from '../../modules/taxonomy/subjects';
-import StructureSubject from './StructureSubject';
 import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import StructureResources from './resourceComponents/StructureResources';
 import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers';
 import { useAddSubjectMutation } from '../../modules/taxonomy/subjects/subjectsQueries';
+import StructureRoot from './StructureRoot';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -131,7 +131,7 @@ const StructureContainer = ({ location, match }: RouteComponentProps<StructureRo
             ) : (
               <StructureWrapper>
                 {subjects!.map(subject => (
-                  <StructureSubject
+                  <StructureRoot
                     allSubjects={subjectData ?? []}
                     openedPaths={getPathsFromUrl(match.url)}
                     resourceSectionRef={resourceSection}

@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { spacing, colors, fonts } from '@ndla/core';
-import styled from '@emotion/styled';
+//@ts-ignore
+import { Spinner } from '@ndla/ui';
+import { Star } from '@ndla/icons/editor';
 import css from '@emotion/css';
-import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import styled from '@emotion/styled';
 import FolderItem from './folderComponents/FolderItem';
-import MakeDndList from './MakeDNDList';
 import Fade from './Fade';
+import MakeDndList from './MakeDNDList';
+import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface ItemTitleButtonProps {
   isVisible?: boolean;
@@ -76,7 +79,7 @@ interface StyledItemBarProps {
 
 const StyledItemBar = styled.div<StyledItemBarProps>`
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 0 ${spacing.small} 0 calc(${props => props.level} * 17px + ${spacing.small});
   height: 40px;
   border-bottom: 1px solid ${colors.brand.greyLighter};
@@ -111,14 +114,37 @@ const StructureWrapper = styled.ul`
   padding: 0;
 `;
 
+const StyledIcon = styled.button`
+  display: flex;
+  align-items: center;
+
+  border: 0;
+  background: transparent;
+
+  svg:hover {
+    fill: ${colors.favoriteColor};
+    cursor: pointer;
+  }
+`;
+
+interface RoundIconProps {
+  smallIcon: React.ReactNode;
+  clicked?: boolean;
+  type?: 'button' | 'reset' | 'submit';
+}
+
+const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & React.HTMLProps<HTMLButtonElement>) => (
+  <StyledIcon {...rest}>{smallIcon}</StyledIcon>
+);
+
 interface Props {
   id: string;
-  topic: SubjectTopic;
+  item: SubjectTopic | SubjectType;
   openedPaths: string[];
   toggleOpen: (topicId: string) => void;
   locale: string;
   level: number;
-  onTopicSelect: (topic: SubjectTopic) => void;
+  onTopicSelect: (topic?: SubjectTopic) => void;
   topicResourcesLoading: boolean;
   resourceSectionRef: React.MutableRefObject<HTMLDivElement | null>;
   path: string;
@@ -128,68 +154,92 @@ interface Props {
   connectionId: string;
   parentActive: boolean;
   allSubjects: SubjectType[];
+  isRoot?: boolean;
+  favoriteSubjectIds?: string[];
+  toggleFavorite?: () => void;
+  nodes?: SubjectTopic[];
+  isLoading?: boolean;
 }
 
-const StructureTopic = ({
-  topic,
+const StructureNode = ({
+  id,
+  item,
+  openedPaths,
+  toggleOpen,
   locale,
   level,
   onTopicSelect,
   path,
-  topicResourcesLoading,
-  resourceSectionRef,
-  openedPaths,
-  toggleOpen,
   parent,
   subjectId,
-  parentActive,
+  topicResourcesLoading,
+  resourceSectionRef,
   onDragEnd,
+  connectionId,
+  parentActive,
   allSubjects,
+  isRoot,
+  favoriteSubjectIds,
+  toggleFavorite,
+  isLoading,
+  nodes,
 }: Props) => {
-  const fullPath = `${path}/${topic.id}`;
-  const onTopicClick = () => {
-    toggleOpen(fullPath);
-    onTopicSelect(topic);
-  };
-  const isOpen = openedPaths.includes(fullPath);
-  const isActive = openedPaths[openedPaths.length - 1] === fullPath;
-  const hasSubtopics = topic.subtopics && topic.subtopics.length > 0;
+  const isOpen = openedPaths.includes(path);
+  const isActive = openedPaths[openedPaths.length - 1] === path;
+  const hasSubtopics = isRoot ? true : nodes && nodes.length > 0;
 
   useEffect(() => {
-    if (isActive) {
-      onTopicSelect(topic);
+    if (isActive && !isRoot) {
+      onTopicSelect(item);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const onTopicClick = (topic: SubjectTopic) => {
+    toggleOpen(path);
+    onTopicSelect(isRoot ? undefined : item);
+  };
+
   return (
     <StyledStructureItem
-      connectionId={topic.connectionId}
-      id={topic.id}
-      key={fullPath}
+      connectionId={item.connectionId}
+      id={item.id}
+      key={path}
       greyedOut={!parentActive && !isActive}>
       <StyledItemBar level={level} highlight={isActive}>
+        {favoriteSubjectIds && (
+          <RoundIcon
+            onClick={toggleFavorite}
+            smallIcon={
+              favoriteSubjectIds.includes(item.id) ? (
+                <Star color={colors.favoriteColor} />
+              ) : (
+                <Star color={colors.brand.greyDark} />
+              )
+            }
+          />
+        )}
         <ItemTitleButton
           type="button"
-          id={topic.id}
+          id={item.id}
           hasSubtopics={hasSubtopics}
           isSubject={false}
           lastItemClickable={true}
           arrowDirection={isOpen ? 90 : 0}
-          onClick={onTopicClick}
-          isVisible={topic.metadata?.visible}>
+          onClick={() => onTopicClick(item)}
+          isVisible={item.metadata?.visible}>
           {/* {renderBeforeTitle?.({ id: taxonomyId, title, contentUri, isSubject })} */}
-          {topic.name}
+          {item.name}
         </ItemTitleButton>
         {isActive && (
           <FolderItem
-            id={topic.id}
+            id={item.id}
             parent={parent}
             subjectId={subjectId}
-            pathToString={fullPath}
-            key={topic.id}
-            name={topic.name}
-            metadata={topic.metadata}
+            pathToString={path}
+            key={item.id}
+            name={item.name}
+            metadata={item.metadata}
             isMainActive={isOpen}
             structure={allSubjects}
             resourcesLoading={topicResourcesLoading}
@@ -197,29 +247,35 @@ const StructureTopic = ({
             locale={locale}
           />
         )}
+        {isLoading && (
+          <span>
+            <Spinner size="normal" margin="4px 26px" />
+          </span>
+        )}
       </StyledItemBar>
-      {hasSubtopics && isOpen && topic.subtopics && (
+      {hasSubtopics && isOpen && nodes && (
         <StructureWrapper>
           <Fade show={true} fadeType="fadeInTop">
             <MakeDndList
-              disableDND={!isActive || topic.subtopics.length < 2}
+              disableDND={!isActive || nodes.length < 2}
               dragHandle
-              onDragEnd={res => onDragEnd(res, topic.subtopics!)}>
-              {topic.subtopics.map(t => (
-                <StructureTopic
-                  key={`${fullPath}/${t.id}`}
+              onDragEnd={res => onDragEnd(res, nodes!)}>
+              {nodes.map(t => (
+                <StructureNode
+                  key={`${path}/${t.id}`}
                   allSubjects={allSubjects}
                   parentActive={isActive}
                   connectionId={t.connectionId}
                   id={t.id}
                   subjectId={subjectId}
-                  parent={topic.id}
-                  path={fullPath}
+                  parent={item.id}
+                  path={`${path}/${t.id}`}
                   openedPaths={openedPaths}
                   resourceSectionRef={resourceSectionRef}
                   topicResourcesLoading={topicResourcesLoading}
                   onTopicSelect={onTopicSelect}
-                  topic={t}
+                  item={t}
+                  nodes={t.subtopics}
                   toggleOpen={toggleOpen}
                   locale={locale}
                   level={level + 1}
@@ -234,4 +290,4 @@ const StructureTopic = ({
   );
 };
 
-export default StructureTopic;
+export default StructureNode;

@@ -40,6 +40,12 @@ export type EditMode =
   | 'addExistingTopic'
   | 'addTopic'
   | 'deleteSubject';
+
+export interface FormikFormBaseType {
+  language: string;
+  supportedLanguages: string[];
+}
+
 export interface SearchResultBase<T> {
   totalCount: number;
   page?: number;

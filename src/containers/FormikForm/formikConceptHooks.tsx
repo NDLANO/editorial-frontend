@@ -68,11 +68,10 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   const updateConcept = async (updatedConcept: ConceptPatchType): Promise<ConceptApiType> => {
     const savedConcept = await conceptApi.updateConcept(updatedConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
-    const formConcept = { ...savedConcept };
-    setConcept(formConcept);
+    setConcept(savedConcept);
     setConceptArticles(convertedArticles);
     setConceptChanged(false);
-    return formConcept;
+    return savedConcept;
   };
 
   const createConcept = async (createdConcept: ConceptPostType) => {

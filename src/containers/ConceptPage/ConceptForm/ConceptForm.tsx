@@ -118,8 +118,8 @@ const ConceptForm = ({
     try {
       if (statusChange && updateConceptAndStatus) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
-        const fDirty = isFormikFormDirty({ values, initialValues, dirty: true });
-        const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !fDirty;
+        const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
+        const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !formikDirty;
         await updateConceptAndStatus(
           getConceptPatchType(values, licenses),
           newStatus!,

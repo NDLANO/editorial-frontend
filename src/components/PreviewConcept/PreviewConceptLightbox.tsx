@@ -24,6 +24,8 @@ import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
 import { VisualElement, TypeOfPreview } from '../../interfaces';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
+import { createGuard } from '../../util/guards';
+import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 
 interface Props {
   getConcept: () => ConceptApiType;
@@ -55,6 +57,10 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
   const [secondConcept, setSecondConcept] = useState<ConceptPreviewType | undefined>(undefined);
   const [previewLanguage, setPreviewLanguage] = useState<string>('');
   const [showPreview, setShowPreview] = useState<boolean>(false);
+  const isConceptPreviewType = createGuard<ConceptPreviewType, ArticleConverterApiType>(
+    'availability',
+    { lacksProp: true },
+  );
 
   const onClosePreview = () => {
     setFirstConcept(undefined);
@@ -152,12 +158,16 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
           typeOfPreview={typeOfPreview}
           contentType="concept"
           label=""
-          getEntityPreview={concept => (
-            <PreviewConcept
-              concept={concept as ConceptPreviewType}
-              visualElement={(concept as ConceptPreviewType).parsedVisualElement}
-            />
-          )}
+          getEntityPreview={concept => {
+            if (isConceptPreviewType(concept)) {
+              return (
+                <PreviewConcept
+                  concept={concept as ConceptPreviewType}
+                  visualElement={(concept as ConceptPreviewType).parsedVisualElement}
+                />
+              );
+            }
+          }}
         />
       </Lightbox>
     </Portal>

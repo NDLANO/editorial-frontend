@@ -41,7 +41,8 @@ export const conceptApiTypeToFormType = (
 ): ConceptFormValues => {
   const { title, content, tags, visualElement } = convertNestedConceptProps(concept, language);
   const conceptSubjects = subjects.filter(s => concept?.subjectIds?.find(id => id === s.id)) ?? [];
-  const spreadConcept: Partial<ConceptApiType> = concept ? { ...concept, content: undefined } : {};
+  const spreadConcept: Partial<ConceptApiType> = concept ? { ...concept } : {};
+  // The content key has to be completely deleted. Otherwise, Slate will crash the site.
   if (spreadConcept.hasOwnProperty('content')) {
     delete spreadConcept.content;
   }
@@ -78,7 +79,9 @@ export const getConceptPostType = (
   content: editorValueToPlainText(values.conceptContent),
   copyright: {
     license: licenses.find(license => license.license === values.license),
-    ...values.copyright!,
+    creators: values.creators ?? [],
+    processors: values.processors ?? [],
+    rightsholders: values.rightsholders ?? [],
   },
   metaImage: metaImageFromForm(values),
   subjectIds: values.subjects.map(subject => subject.id),
@@ -101,32 +104,35 @@ export const conceptFormTypeToApiType = (
   updatedBy?: string[],
 ): ConceptApiType => {
   return {
-    ...values,
-    id: values.id!,
-    revision: values.revision!,
+    id: values.id ?? -1,
+    revision: values.revision ?? -1,
+    status: values.status ?? { current: 'DRAFT', other: [] },
+    visualElement: {
+      visualElement: createEmbedTag(values.visualElementObject),
+      language: values.language,
+    },
+    source: values.source,
+    tags: { tags: values.tags, language: values.language },
+    articleIds: values.articles.map(a => a.id),
     title: {
       title: editorValueToPlainText(values.slatetitle),
       language: values.language,
     },
     content: { content: editorValueToPlainText(values.conceptContent), language: values.language },
-    metaImage: { url: '', alt: '', language: values.language },
+    created: values.created ?? '',
+    updated: values.updated ?? '',
+    metaImage: {
+      url: values.metaImage?.url ?? '',
+      alt: values.metaImageAlt,
+      language: values.metaImage?.language ?? values.language,
+    },
     subjectIds: values.subjects.map(subject => subject.id),
-    articleIds: values.articles?.map(a => a.id) ?? [],
-    visualElement: {
-      visualElement: createEmbedTag(values.visualElementObject),
-      language: values.language,
-    },
+
     updatedBy,
-    tags: {
-      tags: values.tags,
-      language: values.language,
-    },
-    created: values.created!,
-    updated: values.updated!,
-    status: values.status!,
     copyright: {
       ...values,
       license: licenses.find(license => license.license === values.license),
     },
+    supportedLanguages: values.supportedLanguages,
   };
 };

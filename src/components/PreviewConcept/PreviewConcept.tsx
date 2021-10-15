@@ -122,7 +122,7 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
             />
           </NotionDialogText>
         </NotionDialogContent>
-        {(concept.tags?.tags.length ?? 0) > 0 && (
+        {concept.tags?.tags.length && (
           <TagWrapper>
             <div className="tags">
               <span>{t('form.categories.label')}:</span>

@@ -13,7 +13,6 @@ import Spinner from '../Spinner';
 import PreviewProduction from './PreviewProduction';
 import PreviewLanguage from './PreviewLanguage';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
-import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { ArticleType, TypeOfPreview } from '../../interfaces';
 import { ConceptPreviewType } from '../PreviewConcept/PreviewConceptLightbox';
 import { createArrayGuard } from '../../util/guards';
@@ -30,8 +29,8 @@ const StyledPreviewSingleArticle = styled.div<StyledProps>`
 `;
 
 interface Props {
-  firstEntity: ArticleConverterApiType | ConceptApiType;
-  secondEntity: ArticleConverterApiType | ConceptApiType;
+  firstEntity: ArticleConverterApiType | ConceptPreviewType;
+  secondEntity: ArticleConverterApiType | ConceptPreviewType;
   loading?: boolean;
   typeOfPreview: TypeOfPreview;
   label: string;

@@ -8,7 +8,7 @@
 
 import { Value } from 'slate';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { VisualElement, Author, Copyright } from '../../interfaces';
+import { VisualElement, Author } from '../../interfaces';
 import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 
@@ -21,7 +21,6 @@ export interface ConceptFormValues {
     other: ConceptStatusType[];
   };
   visualElement?: string;
-  copyright?: Copyright;
   source?: string;
   metaImage?: {
     id?: string;
@@ -30,8 +29,6 @@ export interface ConceptFormValues {
     language?: string;
   };
   tags: string[];
-  subjectIds?: string[];
-  articleIds?: number[];
   articles: DraftApiType[];
   slatetitle: Value;
   conceptContent: Value;
@@ -46,5 +43,4 @@ export interface ConceptFormValues {
   supportedLanguages: string[];
   updated?: string;
   visualElementObject?: VisualElement;
-  agreementId?: number;
 }

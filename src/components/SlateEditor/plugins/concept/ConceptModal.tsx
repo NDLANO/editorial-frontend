@@ -48,7 +48,6 @@ interface Props {
   createConcept: (createdConcept: ConceptPostType) => Promise<ConceptApiType>;
   fetchSearchTags: (input: string, language: string) => Promise<ConceptTagsSearchResult>;
   handleRemove: () => void;
-  id?: number;
   isOpen: boolean;
   onClose: () => void;
   locale: string;
@@ -61,7 +60,6 @@ interface Props {
 const isConceptPatchType = createGuard<ConceptPatchType>('id');
 
 const ConceptModal = ({
-  id,
   onClose,
   isOpen,
   subjects,
@@ -107,9 +105,9 @@ const ConceptModal = ({
     if (licenses.length === 0) {
       getAllLicenses();
     }
-  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [concept?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const searchConcept = async (searchParam: object) => {
+  const searchConcept = async (searchParam: ConceptQuery) => {
     if (!searching) {
       setSearching(true);
       const concepts = await searchConcepts(searchParam);
@@ -156,7 +154,9 @@ const ConceptModal = ({
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
             <ModalBody>
-              {id && <Button onClick={handleRemove}>{t('form.content.concept.remove')}</Button>}
+              {concept?.id && (
+                <Button onClick={handleRemove}>{t('form.content.concept.remove')}</Button>
+              )}
               <Tabs
                 onSelect={updateSelectedTabIndex}
                 selectedIndex={selectedTabIndex}

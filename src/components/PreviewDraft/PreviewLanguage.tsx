@@ -29,9 +29,7 @@ interface Props {
   firstEntity: ArticleType | ConceptApiType;
   secondEntity: ArticleType | ConceptApiType;
   previewLanguage: string;
-
   onChangePreviewLanguage(language: string): void;
-
   getEntityPreview: (
     entity: ArticleType | ConceptApiType,
     label: string,

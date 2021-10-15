@@ -23,7 +23,8 @@ import { Portal } from '../Portal';
 import PreviewDraft from './PreviewDraft';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
-import { ArticleType, PartialRecord, TypeOfPreview } from '../../interfaces';
+import { ArticleType, LocaleType, PartialRecord, TypeOfPreview } from '../../interfaces';
+import { createGuard } from '../../util/guards';
 
 const twoArticlesCloseButtonStyle = css`
   position: absolute;
@@ -68,8 +69,7 @@ const customSpinnerStyle = css`
   margin-right: ${spacing.xsmall};
 `;
 
-const isDraftApiType = (article: DraftApiType | UpdatedDraftApiType): article is DraftApiType =>
-  typeof article.title === 'object';
+const isDraftApiType = createGuard<DraftApiType>('title', { type: 'object' });
 
 // Transform article if title is a string. If not it's probably an api compatible article
 const toApiVersion = (
@@ -195,7 +195,7 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
                 article={article as ArticleType}
                 label={label}
                 contentType={contentType}
-                language={previewLanguage!}
+                language={previewLanguage! as LocaleType}
               />
             )}
           />

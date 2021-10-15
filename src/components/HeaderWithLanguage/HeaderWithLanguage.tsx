@@ -12,7 +12,7 @@ import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
-import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { getTaxonomyPathsFromTaxonomy } from './util';
 
@@ -46,7 +46,7 @@ interface Props {
     supportedLanguages?: string[];
   };
   editUrl?: (url: string) => string;
-  getEntity?: () => ConceptType | UpdatedDraftApiType;
+  getEntity?: () => ConceptApiType | UpdatedDraftApiType;
   isSubmitting?: boolean;
   noStatus?: boolean;
   setTranslateOnContinue?: (translateOnContinue: boolean) => void;

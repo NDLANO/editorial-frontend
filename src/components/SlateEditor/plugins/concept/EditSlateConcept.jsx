@@ -88,7 +88,7 @@ const EditSlateConcept = props => {
         {conceptId ? (
           <Notion
             id={conceptId}
-            title={concept.title}
+            title={concept.title.title}
             subTitle={t('conceptform.title')}
             content={
               <SlateConceptPreview

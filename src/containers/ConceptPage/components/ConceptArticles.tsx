@@ -12,10 +12,9 @@ import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import handleError from '../../../util/handleError';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
-import { ArticleType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
+import { DraftApiType, DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
 const ConceptArticles = () => {
   const { t } = useTranslation();
@@ -36,7 +35,7 @@ const ConceptArticles = () => {
     }
   };
 
-  const onUpdateElements = (articleList: ArticleType[]) => {
+  const onUpdateElements = (articleList: DraftApiType[]) => {
     setFieldValue('articles', articleList);
   };
 

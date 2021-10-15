@@ -122,7 +122,7 @@ const EditSlateConcept = (props: Props) => {
       <span {...attributes} onMouseDown={toggleConceptModal}>
         <Notion
           id={uuid}
-          title={concept?.title}
+          title={concept?.title.title}
           subTitle={t('conceptform.title')}
           content={
             concept && (

@@ -6,10 +6,10 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import css from '@emotion/css';
-import { AudioPlayer, initAudioPlayers } from '@ndla/ui';
+import { AudioPlayer } from '@ndla/ui';
 // @ts-ignore
 import { FigureCaption, FigureLicenseDialog } from '@ndla/ui';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
@@ -24,10 +24,6 @@ interface Props {
 const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
   const { t } = useTranslation();
   const { copyright, podcastMeta } = audio;
-
-  useEffect(() => {
-    initAudioPlayers(locale);
-  }, [locale]);
 
   const license = getLicenseByAbbreviation(copyright.license?.license || '', locale);
   const figureLicenseDialogId = `edit-audio-${audio.id}`;
@@ -66,7 +62,7 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
             id={figureLicenseDialogId}
             figureId={`figure-${audio.id}`}
             caption={audio.caption}
-            reuseLabel=""
+            reuseLabel={t('audio.reuse')}
             licenseRights={license.rights}
             authors={copyright.creators}
           />

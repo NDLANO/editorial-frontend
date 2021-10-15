@@ -20,8 +20,13 @@ import { ApiConceptType } from './modules/concept/conceptApiInterfaces';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
 import { DraftStatus } from './modules/draft/draftApiInterfaces';
 import { FootnoteType } from './containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
+import { ArticleTaxonomy } from './containers/FormikForm/formikDraftHooks';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
+
+export type PartialRecord<K extends keyof any, T> = {
+  [P in K]?: T;
+};
 
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
@@ -35,6 +40,12 @@ export type EditMode =
   | 'addExistingTopic'
   | 'addTopic'
   | 'deleteSubject';
+
+export interface FormikFormBaseType {
+  language: string;
+  supportedLanguages: string[];
+}
+
 export interface SearchResultBase<T> {
   totalCount: number;
   page?: number;
@@ -200,6 +211,12 @@ export interface RelatedContentLink {
   title: string;
   url: string;
 }
+
+export type TypeOfPreview =
+  | 'preview'
+  | 'previewLanguageArticle'
+  | 'previewVersion'
+  | 'previewProductionArticle';
 
 export type RelatedContent = RelatedContentLink | number;
 
@@ -501,7 +518,7 @@ export interface ReduxState {
 
 export type SearchType = typeof SearchTypeValues[number];
 
-export interface ConvertedDraftType {
+export type ConvertedDraftType = {
   language?: string;
   title?: string;
   introduction?: string;
@@ -528,7 +545,7 @@ export interface ConvertedDraftType {
   editorLabels: string[];
   grepCodes: string[];
   availability: AvailabilityType;
-}
+} & { taxonomy?: Partial<ArticleTaxonomy> };
 
 export interface SlateArticle {
   articleType: string;

@@ -11,6 +11,7 @@ import { connect, FieldProps, FormikContextType } from 'formik';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { UploadDropZone, Input } from '@ndla/forms';
+import SafeLink from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
 import { animations, spacing, colors } from '@ndla/core';
@@ -78,7 +79,11 @@ const ImageContent = ({ formik }: Props) => {
           </Tooltip>
         </StyledDeleteButtonContainer>
       )}
-      {values.imageFile && <StyledImage src={values.filepath || values.imageFile} alt="" />}
+      {values.imageFile && (
+        <SafeLink target="_blank" to={values.imageFile}>
+          <StyledImage src={values.filepath || values.imageFile} alt="" />
+        </SafeLink>
+      )}
       <FormikField name="imageFile.size" showError={true}>
         {_ => <></>}
       </FormikField>

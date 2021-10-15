@@ -20,7 +20,7 @@ import {
 import { Remarkable } from 'remarkable';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { ConceptPreviewType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { fetchSubject } from '../../modules/taxonomy/subjects';
 
 const StyledBody = styled.div`
@@ -58,12 +58,13 @@ const TagWrapper = styled.div`
 `;
 
 const VisualElementWrapper = styled.div`
-  margin-left: auto;
-  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 interface Props {
-  concept: ConceptPreviewType;
+  concept: ConceptType;
 }
 
 const PreviewConcept = ({ concept }: Props) => {
@@ -81,7 +82,7 @@ const PreviewConcept = ({ concept }: Props) => {
   }, [concept]);
 
   const VisualElement = () => {
-    const visualElement = concept.visualElementResources;
+    const visualElement = concept.parsedVisualElement;
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);

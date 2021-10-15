@@ -41,6 +41,7 @@ const StyledDiv = styled('div')`
 `;
 
 export interface TopicResource extends ResourceWithTopicConnection {
+  articleType?: string;
   status?: DraftStatus;
 }
 
@@ -74,6 +75,7 @@ const StructureResources = ({
   const [topicResources, setTopicResources] = useState<TopicResource[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [topicStatus, setTopicStatus] = useState<DraftStatus | undefined>(undefined);
+  const [topicArticleType, setTopicArticleType] = useState<string | undefined>(undefined);
   const [topicGrepCodes, setTopicGrepCodes] = useState<string[]>([]);
   const prevCurrentTopic = useRef<SubjectTopic | null>(null);
 
@@ -145,6 +147,7 @@ const StructureResources = ({
             locale,
           );
           setTopicStatus(article.status);
+          setTopicArticleType(article.articleType);
           setTopicGrepCodes(article.grepCodes);
         }
         const modifiedResources = await getResourceStatusesAndGrepCodes(allTopicResources);
@@ -170,7 +173,12 @@ const StructureResources = ({
       const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
       if (resourceType === 'article') {
         const article = await fetchDraft(parseInt(id), locale);
-        return { ...resource, status: article.status, grepCodes: article.grepCodes };
+        return {
+          ...resource,
+          articleType: article.articleType,
+          status: article.status,
+          grepCodes: article.grepCodes,
+        };
       } else if (resourceType === 'learningpath') {
         const learningpath = await fetchLearningpath(parseInt(id), locale);
         if (learningpath.status) {
@@ -214,6 +222,7 @@ const StructureResources = ({
         currentTopic={currentTopic}
         status={topicStatus}
         grepCodes={topicGrepCodes}
+        topicArticleType={topicArticleType}
       />
       {grouped === 'ungrouped' && (
         <AllResourcesGroup

@@ -138,7 +138,6 @@ class Filelist extends React.Component {
     const files = this.state.files;
     if (files.length === 1) {
       editor.removeNodeByKey(node.key);
-      this.setState({ files: [] }, this.updateFilesToEditor);
     } else {
       this.setState(prevState => {
         const newNodes = prevState.files.filter((_, i) => i !== indexToDelete);

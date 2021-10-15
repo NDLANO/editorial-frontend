@@ -49,24 +49,26 @@ export interface SearchParams {
 export const parseSearchParams = (locationSearch: string): SearchParams => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
   return {
-    query: queryStringObject.query,
-    'draft-status': queryStringObject['draft-status'],
-    'include-other-statuses': queryStringObject['include-other-statuses'] === 'true',
-    'resource-types': queryStringObject['resource-types'],
     'audio-type': queryStringObject['audio-type'],
-    'model-released': queryStringObject['model-released'],
-    fallback: queryStringObject.fallback === 'true',
+    'draft-status': queryStringObject['draft-status'],
+    fallback: queryStringObject.fallback ? queryStringObject.fallback === 'true' : undefined,
+    'include-other-statuses': queryStringObject['include-other-statuses']
+      ? queryStringObject['include-other-statuses'] === 'true'
+      : undefined,
     language: queryStringObject.language,
+    license: queryStringObject.license,
+    'model-released': queryStringObject['model-released'],
     page: queryStringObject.page ? parseInt(queryStringObject.page, 10) : undefined,
     'page-size': queryStringObject['page-size']
       ? parseInt(queryStringObject['page-size'], 10)
       : undefined,
+    query: queryStringObject.query,
+    'resource-types': queryStringObject['resource-types'],
+    sort: queryStringObject.sort,
     status: queryStringObject.status,
     subjects: queryStringObject.subjects,
-    users: queryStringObject.users,
-    sort: queryStringObject.sort,
     type: queryStringObject.type,
-    license: queryStringObject.license,
+    users: queryStringObject.users,
   };
 };
 

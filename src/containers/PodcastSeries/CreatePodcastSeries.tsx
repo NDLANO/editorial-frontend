@@ -9,7 +9,7 @@ import React, { useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
-import { NewPodcastSeries } from '../../modules/audio/audioApiInterfaces';
+import { PodcastSeriesPost } from '../../modules/audio/audioApiInterfaces';
 import { toEditPodcastSeries } from '../../util/routeHelpers';
 import PodcastSeriesForm from './components/PodcastSeriesForm';
 
@@ -20,18 +20,12 @@ interface Props {
 const CreatePodcastSeries = ({ history }: Props) => {
   const locale: string = useContext(LocaleContext);
 
-  const onUpdate = async (newSeries: NewPodcastSeries): Promise<void> => {
+  const onUpdate = async (newSeries: PodcastSeriesPost): Promise<void> => {
     const createdSeries = await audioApi.postSeries(newSeries);
     history.push(toEditPodcastSeries(createdSeries.id, newSeries.language));
   };
 
-  return (
-    <PodcastSeriesForm
-      podcastSeries={{ language: locale }}
-      onUpdate={onUpdate}
-      isNewlyCreated={false}
-    />
-  );
+  return <PodcastSeriesForm language={locale} onUpdate={onUpdate} isNewlyCreated={false} />;
 };
 
 export default CreatePodcastSeries;

@@ -109,6 +109,8 @@ const HeaderStatusInformation = ({
     </StyledLink>
   );
 
+  const splitter = !indentLeft && <StyledSplitter />;
+
   const learningpathConnections = (type === 'standard' || type === 'topic-article') && (
     <LearningpathConnection
       id={id}
@@ -133,15 +135,17 @@ const HeaderStatusInformation = ({
   const conceptConnecions = type === 'concept' && (
     <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
   );
-
-  const splitter = !indentLeft && <StyledSplitter />;
+  const articleConnections = (type === 'standard' || type === 'topic-article') && (
+    <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
+  );
 
   const StatusIcons = (
     <>
       {(type === 'standard' || type === 'topic-article') && splitter}
+      {articleConnections}
       {conceptConnecions}
       {learningpathConnections}
-      {learningpaths.length + articles.length > 0 && splitter}
+      {splitter}
       {published &&
         (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
       {multipleTaxonomyIcon}

@@ -6,7 +6,7 @@
  *
  */
 
-import { Copyright, ArticleType, SearchResultBase } from '../../interfaces';
+import { Copyright, ArticleType, SearchResultBase, Embed } from '../../interfaces';
 
 export type LanguageFieldType<T> = T & {
   language: string;
@@ -155,6 +155,7 @@ export interface ConceptType extends StrippedConceptType {
   created?: string;
   updated: string;
   metaImageId: string;
+  parsedVisualElement?: Embed;
 }
 
 export type FormValues = {

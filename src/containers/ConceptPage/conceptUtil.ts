@@ -113,7 +113,6 @@ export const getConcept = (
     subjectIds: values.subjects.map(subject => subject.id),
     articleIds: values.articles.map(a => a.id),
     visualElement: editorValueToEmbedTag(values.visualElement),
-
     updatedBy,
   };
 };

@@ -48,7 +48,7 @@ const SlateVisualElementPicker = ({
 
 SlateVisualElementPicker.propTypes = {
   articleLanguage: PropTypes.string.isRequired,
-  resource: PropTypes.string.isRequired,
+  resource: PropTypes.string,
   onVisualElementClose: PropTypes.func.isRequired,
   onInsertBlock: PropTypes.func.isRequired,
 };

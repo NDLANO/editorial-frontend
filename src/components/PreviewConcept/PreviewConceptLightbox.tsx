@@ -161,10 +161,7 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
           getEntityPreview={concept => {
             if (isConceptPreviewType(concept)) {
               return (
-                <PreviewConcept
-                  concept={concept as ConceptPreviewType}
-                  visualElement={(concept as ConceptPreviewType).parsedVisualElement}
-                />
+                <PreviewConcept concept={concept} visualElement={concept.parsedVisualElement} />
               );
             }
           }}

@@ -41,13 +41,14 @@ export const conceptApiTypeToFormType = (
 ): ConceptFormValues => {
   const { title, content, tags, visualElement } = convertNestedConceptProps(concept, language);
   const conceptSubjects = subjects.filter(s => concept?.subjectIds?.find(id => id === s.id)) ?? [];
-  const spreadConcept: Partial<ConceptApiType> = concept ? { ...concept } : {};
-  // The content key has to be completely deleted. Otherwise, Slate will crash the site.
-  if (spreadConcept.hasOwnProperty('content')) {
-    delete spreadConcept.content;
-  }
+  // Make sure to omit the content field from concept. It will crash Slate.
   return {
-    ...spreadConcept,
+    id: concept?.id,
+    revision: concept?.revision,
+    status: concept?.status,
+    metaImage: concept?.metaImage,
+    created: concept?.created,
+    updated: concept?.updated,
     visualElement: concept?.visualElement?.visualElement,
     slatetitle: plainTextToEditorValue(title, true),
     language,

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { spacing, colors, fonts } from '@ndla/core';
 //@ts-ignore
@@ -10,6 +10,14 @@ import FolderItem from './folderComponents/FolderItem';
 import Fade from './Fade';
 import MakeDndList from './MakeDNDList';
 import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { useDraft } from '../../modules/draft/draftQueries';
+
+export type RenderBeforeFunction = (input: {
+  id: string;
+  title: string;
+  isSubject: boolean;
+  contentUri?: string;
+}) => React.ReactNode;
 
 interface ItemTitleButtonProps {
   isVisible?: boolean;
@@ -159,6 +167,7 @@ interface Props {
   toggleFavorite?: () => void;
   nodes?: SubjectTopic[];
   isLoading?: boolean;
+  renderBeforeTitle?: RenderBeforeFunction;
 }
 
 const StructureNode = ({
@@ -183,10 +192,22 @@ const StructureNode = ({
   toggleFavorite,
   isLoading,
   nodes,
+  renderBeforeTitle,
 }: Props) => {
   const isOpen = openedPaths.includes(path);
   const isActive = openedPaths[openedPaths.length - 1] === path;
   const hasSubtopics = isRoot ? true : nodes && nodes.length > 0;
+  const [articleType, setArticleType] = useState('');
+
+  const resourceId = item?.contentUri?.split(':')[2];
+  // useDraft(parseInt(resourceId), locale, {
+  //   enabled: !!item.contentUri,
+  //   onSuccess: draft => setArticleType(draft.articleType),
+  // });
+
+  // if (articleType) {
+  //   console.log(articleType);
+  // }
 
   useEffect(() => {
     if (isActive && !isRoot) {
@@ -228,7 +249,12 @@ const StructureNode = ({
           arrowDirection={isOpen ? 90 : 0}
           onClick={() => onTopicClick(item)}
           isVisible={item.metadata?.visible}>
-          {/* {renderBeforeTitle?.({ id: taxonomyId, title, contentUri, isSubject })} */}
+          {renderBeforeTitle?.({
+            id,
+            title: item.name,
+            contentUri: item.contentUri,
+            isSubject: !!isRoot,
+          })}
           {item.name}
         </ItemTitleButton>
         {isActive && (
@@ -262,6 +288,7 @@ const StructureNode = ({
               onDragEnd={res => onDragEnd(res, nodes!)}>
               {nodes.map(t => (
                 <StructureNode
+                  renderBeforeTitle={renderBeforeTitle}
                   key={`${path}/${t.id}`}
                   allSubjects={allSubjects}
                   parentActive={isActive}

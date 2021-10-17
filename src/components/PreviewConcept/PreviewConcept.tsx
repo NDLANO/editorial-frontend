@@ -20,8 +20,9 @@ import {
 import { Remarkable } from 'remarkable';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { fetchSubject } from '../../modules/taxonomy/subjects';
+import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
+import { VisualElement } from '../../interfaces';
 
 const StyledBody = styled.div`
   margin: 0 ${spacing.normal} ${spacing.small};
@@ -58,15 +59,17 @@ const TagWrapper = styled.div`
 `;
 
 const VisualElementWrapper = styled.div`
-  margin-left: auto;
-  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 interface Props {
-  concept: ConceptType;
+  concept: ConceptApiType;
+  visualElement?: VisualElement;
 }
 
-const PreviewConcept = ({ concept }: Props) => {
+const PreviewConcept = ({ concept, visualElement }: Props) => {
   const { t } = useTranslation();
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const markdown = new Remarkable({ breaks: true });
@@ -81,7 +84,6 @@ const PreviewConcept = ({ concept }: Props) => {
   }, [concept]);
 
   const VisualElement = () => {
-    const visualElement = concept.parsedVisualElement;
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
@@ -106,7 +108,7 @@ const PreviewConcept = ({ concept }: Props) => {
 
   return (
     <>
-      <NotionHeaderWithoutExitButton title={concept.title} />
+      <NotionHeaderWithoutExitButton title={concept.title.title} />
       <StyledBody>
         <NotionDialogContent>
           <VisualElementWrapper>
@@ -115,21 +117,23 @@ const PreviewConcept = ({ concept }: Props) => {
           <NotionDialogText>
             <span
               dangerouslySetInnerHTML={{
-                __html: markdown.render(concept.content),
+                __html: markdown.render(concept.content.content),
               }}
             />
           </NotionDialogText>
         </NotionDialogContent>
-        <TagWrapper>
-          <div className="tags">
-            <span>{t('form.categories.label')}:</span>
-            {concept.tags?.map(tag => (
-              <span className="tag" key={`key-${tag}`}>
-                {tag}
-              </span>
-            ))}
-          </div>
-        </TagWrapper>
+        {concept.tags?.tags.length && (
+          <TagWrapper>
+            <div className="tags">
+              <span>{t('form.categories.label')}:</span>
+              {concept?.tags?.tags?.map(tag => (
+                <span className="tag" key={`key-${tag}`}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </TagWrapper>
+        )}
         <NotionDialogTags
           tags={subjects
             .filter(subject => concept.subjectIds?.includes(subject.id))

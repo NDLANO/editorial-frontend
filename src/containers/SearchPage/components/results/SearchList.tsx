@@ -20,14 +20,14 @@ import { ImageSearchSummaryApiType } from '../../../../modules/image/imageApiInt
 import { SearchConceptType } from '../../../../modules/concept/conceptApiInterfaces';
 import {
   AudioSearchResultType,
-  SeriesSearchSummary,
+  SeriesSearchResultType,
 } from '../../../../modules/audio/audioApiInterfaces';
 import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
 
 type ResultSummaryType =
   | ImageSearchSummaryApiType
   | SearchConceptType
-  | SeriesSearchSummary
+  | SeriesSearchResultType
   | AudioSearchResultType
   | MultiSearchSummary;
 

@@ -51,6 +51,8 @@ export const TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT = 'forklaringsfag';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID = 'old-subject-id';
 export const TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY = 'subjectCategory';
 
+export const MAX_IMAGE_UPLOAD_SIZE = 1024 * 1024 * 40; // 40MB.
+
 export const LOCALE_VALUES = ['nb', 'nn', 'en'] as const;
 
 export const EXTERNAL_WHITELIST_PROVIDERS = [
@@ -58,10 +60,11 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'YouTube', url: ['youtube.com', 'youtu.be'], height: '486px' },
   { name: 'NRK', url: ['static.nrk.no'], height: '398px' },
   { name: 'Vimeo', url: ['vimeo.com', 'vimeopro.com'], height: '486px' },
+  { name: 'MSDN', url: ['channel9.msdn.com'], height: '486px' },
   { name: 'Norgesfilm', url: ['ndla.filmiundervisning.no'] },
   { name: 'TED', url: ['ted.com', 'embed.ted.com'] },
   { name: 'TV2 Skole', url: ['www.tv2skole.no'], height: '431px' },
-  { name: 'Khan Academy', url: ['nb.khanacademy.org'], height: '486px' },
+  { name: 'Khan Academy', url: ['nb.khanacademy.org', 'www.khanacademy.org'], height: '486px' },
   { name: 'Prezi', url: ['prezi.com'] },
   { name: 'SlideShare', url: ['www.slideshare.net'], height: '500px' },
   { name: 'Scribd', url: ['scribd.com'] },
@@ -76,7 +79,8 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'IMDB', url: ['www.imdb.com', 'imdb.com'], height: '398px' },
   { name: 'Tom Knudsen', url: ['www.tomknudsen.no', 'tomknudsen.no'] },
   { name: 'Phet', url: ['phet.colorado.edu'] },
-  { name: 'Worldbank', url: ['worldbank.org', '*.worldbank.org'] },
+  { name: 'Worldbank', url: ['worldbank.org', 'data.worldbank.org', '*.worldbank.org'] },
+  { name: 'Concord', url: ['lab.concord.org'] },
   {
     name: 'Miljøstatus',
     url: ['www.miljostatus.no', 'miljostatus.no', 'miljoatlas.miljodirektoratet.no'],
@@ -93,6 +97,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     height: '398px',
   },
   { name: 'Ebok', url: ['ebok.no'] },
+  { name: 'VG', url: ['www.vg.no'] },
   { name: 'Trinket', url: ['trinket.io'], height: '700px' },
 ];
 

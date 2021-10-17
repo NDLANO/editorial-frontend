@@ -29,8 +29,10 @@ const StyledId = styled.span`
   color: ${(props: StyledIdProps) => (!props.isVisible ? colors.brand.grey : colors.brand.primary)};
 `;
 
+type LocalElement = Omit<TaxonomyElement, 'metadata'> & Partial<Pick<TaxonomyElement, 'metadata'>>;
+
 interface Props {
-  taxonomyElement: Omit<TaxonomyElement, 'metadata'> & Partial<Pick<TaxonomyElement, 'metadata'>>;
+  taxonomyElement?: LocalElement;
   updateMetadata: (visible: boolean) => void;
 }
 
@@ -39,17 +41,19 @@ const TaxonomyInfo = ({ taxonomyElement, updateMetadata }: Props) => {
   return (
     <>
       <FieldHeader title={t('taxonomy.info.title')} subTitle={t('taxonomy.info.subTitle')} />
-      <TaxonomyInfoDiv>
-        <StyledId isVisible={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}>
-          {taxonomyElement.id}
-        </StyledId>
-        <Switch
-          onChange={() => updateMetadata(!taxonomyElement.metadata?.visible)}
-          checked={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}
-          label=""
-          id={'visibility'}
-        />
-      </TaxonomyInfoDiv>
+      {taxonomyElement && (
+        <TaxonomyInfoDiv>
+          <StyledId isVisible={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}>
+            {taxonomyElement.id}
+          </StyledId>
+          <Switch
+            onChange={() => updateMetadata(!taxonomyElement.metadata?.visible)}
+            checked={taxonomyElement.metadata ? taxonomyElement.metadata.visible : true}
+            label=""
+            id={'visibility'}
+          />
+        </TaxonomyInfoDiv>
+      )}
     </>
   );
 };

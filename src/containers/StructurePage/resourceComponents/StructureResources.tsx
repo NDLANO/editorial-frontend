@@ -37,6 +37,7 @@ const StyledDiv = styled('div')`
 `;
 
 export interface TopicResource extends ResourceWithTopicConnection {
+  articleType?: string;
   status?: DraftStatus;
 }
 

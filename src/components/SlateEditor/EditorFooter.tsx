@@ -19,14 +19,15 @@ import { PossibleStatuses } from './editorTypes';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
-import { ConceptType, FormValues } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptApiType, ConceptStatus } from '../../modules/concept/conceptApiInterfaces';
 import { NewReduxMessage } from '../../containers/Messages/messagesSelectors';
 import { DraftStatus, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
+import { createGuard, createReturnTypeGuard } from '../../util/guards';
 
 interface Props {
   formIsDirty: boolean;
   savedToServer: boolean;
-  getEntity: () => UpdatedDraftApiType | ConceptType;
+  getEntity?: () => UpdatedDraftApiType | ConceptApiType;
   entityStatus?: DraftStatus;
   createMessage: (message: NewReduxMessage) => void;
   showSimpleFooter: boolean;
@@ -40,6 +41,13 @@ interface Props {
   hasErrors?: boolean;
 }
 
+interface FormValues {
+  id: number;
+  language: string;
+  revision?: number;
+  status: ConceptStatus;
+}
+
 const StyledLine = styled.hr`
   width: 1px;
   height: ${spacing.medium};
@@ -49,12 +57,6 @@ const StyledLine = styled.hr`
     content: none;
   }
 `;
-
-const isConceptType = (
-  entity: () => ConceptType | UpdatedDraftApiType,
-): entity is () => ConceptType => {
-  return (entity() as ConceptType).parsedVisualElement !== undefined;
-};
 
 function EditorFooter<T extends FormValues>({
   formIsDirty,
@@ -113,12 +115,13 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
-  const isDraftApiType = (t: UpdatedDraftApiType | ConceptType): t is UpdatedDraftApiType => {
-    return (t as UpdatedDraftApiType).revision !== undefined;
-  };
+  const isDraftApiType = createGuard<UpdatedDraftApiType, ConceptApiType>('subjectIds', {
+    lacksProp: true,
+  });
 
   const onValidateClick = async () => {
     const { id, revision } = values;
+    if (!getEntity) return;
     const entity = getEntity();
     if (!isDraftApiType(entity)) return;
     const updatedEntity = { ...entity, revision: revision ?? entity.revision };
@@ -166,11 +169,13 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
+  const isConceptType = createReturnTypeGuard<ConceptApiType>('subjectIds');
+
   return (
     <Footer>
       <>
         <div data-cy="footerPreviewAndValidate">
-          {values.id && isConcept && isConceptType(getEntity) && (
+          {values.id && isConcept && getEntity && isConceptType(getEntity) && (
             <PreviewConceptLightbox getConcept={getEntity} typeOfPreview={'preview'} />
           )}
           {values.id && isArticle && (
@@ -182,7 +187,7 @@ function EditorFooter<T extends FormValues>({
             </FooterLinkButton>
           )}
           <StyledLine />
-          {values.id && isArticle && (
+          {values.id && isArticle && getEntity && (
             <FooterLinkButton bold onClick={() => onValidateClick()}>
               {t('form.validate')}
             </FooterLinkButton>

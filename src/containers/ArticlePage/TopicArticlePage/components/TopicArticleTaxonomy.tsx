@@ -14,7 +14,6 @@ import Field from '../../../../components/Field';
 import {
   fetchSubjects,
   fetchSubjectTopics,
-  queryTopics,
   fetchTopicConnections,
   addTopicToTopic,
   addSubjectTopic,
@@ -41,6 +40,8 @@ import {
   TopicConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
+import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 
 type Props = {
   articleId: number;
@@ -115,15 +116,13 @@ class TopicArticleTaxonomy extends Component<Props, State> {
 
   fetchTaxonomy = async () => {
     const {
-      articleId,
       article: { language },
     } = this.props;
     if (!language) return;
     try {
-      const [topics, subjects] = await Promise.all([
-        queryTopics(articleId.toString(), language),
-        fetchSubjects(language),
-      ]);
+      const subjects = await fetchSubjects(language);
+
+      const topics = this.props.article.taxonomy?.topics ?? [];
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
       const activeTopics = topics.filter(t => t.path);
@@ -265,10 +264,13 @@ class TopicArticleTaxonomy extends Component<Props, State> {
         subjectid: paths[0],
       });
     }
+    const newPath = topic.path.replace('staged', newTopicId.replace('urn:', ''));
+    const breadcrumb = await getBreadcrumbFromPath(newPath);
     return {
       name: topic.name,
       id: newTopicId,
-      path: topic.path.replace('staged', newTopicId.replace('urn:', '')),
+      path: newPath,
+      breadcrumb,
       metadata: {
         grepCodes: [],
         visible: true,
@@ -279,7 +281,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
 
   render() {
     const { stagedTopicChanges, structure, status, isDirty, showWarning } = this.state;
-    const { t, locale } = this.props;
+    const { t, locale, article, userAccess } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -301,8 +303,16 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       );
     }
 
+    const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
+
     return (
       <Fragment>
+        {isTaxonomyAdmin && (
+          <TaxonomyConnectionErrors
+            articleType={article.articleType ?? 'topic-article'}
+            taxonomy={article.taxonomy}
+          />
+        )}
         <TopicArticleConnections
           structure={structure}
           activeTopics={stagedTopicChanges}

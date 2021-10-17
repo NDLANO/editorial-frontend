@@ -13,6 +13,7 @@ interface Props {
   currentTopic: SubjectTopic;
   grepCodes: string[];
   onUpdateResource: (updatedResource: TopicResource) => void;
+  topicArticleType?: string;
 }
 
 const TopicDescription = ({ locale, currentTopic, grepCodes, onUpdateResource }: Props) => {

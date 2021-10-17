@@ -19,7 +19,6 @@ import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { StyledHelpMessage } from '../../../components/FormikField/FormikFieldHelp';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
-import { submitFormWithMessage } from '../conceptUtil';
 
 import { ConceptFormValues } from '../conceptInterfaces';
 import LastUpdatedLine from '../../../components/LastUpdatedLine/LastUpdatedLine';
@@ -48,6 +47,15 @@ const ConceptContent = () => {
     submitForm,
     isValid,
   } = formikContext;
+
+  const handleSubmit = () => {
+    const { submitForm, isValid } = formikContext;
+    if (isValid) {
+      submitForm();
+    } else {
+      setShowWarning(true);
+    }
+  };
 
   return (
     <>
@@ -85,7 +93,7 @@ const ConceptContent = () => {
         placeholder={t('form.name.conceptContent')}
         preview={preview}
         concept
-        handleSubmit={() => submitFormWithMessage(formikContext, () => setShowWarning(true))}
+        handleSubmit={handleSubmit}
         onBlur={(event: Event, editor: unknown, next: () => void) => {
           next();
           // this is a hack since formik onBlur-handler interferes with slates

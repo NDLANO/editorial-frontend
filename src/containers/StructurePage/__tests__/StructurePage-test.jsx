@@ -72,6 +72,14 @@ beforeEach(() => {
 });
 
 test('fetches and renders a list of subjects and topics based on pathname', async () => {
+  const mockTopicArticle = articleId => {
+    nock('http://ndla-api')
+      .get(`/draft-api/v1/drafts/${articleId}`)
+      .reply(200, { articleType: 'topic-article' });
+  };
+
+  [8617, 8517, 8285, 3592, 8625, 8619, 8618, 3273, 8620].map(id => mockTopicArticle(id));
+
   nock('http://ndla-api')
     .persist()
     .get(`${taxonomyApi}/subjects/${subjectsMock[0].id}/topics?recursive=true&language=nb`)

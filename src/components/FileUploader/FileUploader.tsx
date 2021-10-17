@@ -6,13 +6,15 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { UploadDropZone } from '@ndla/forms';
 import { uploadFile } from '../../modules/draft/draftApi';
 import { createFormData } from '../../util/formDataHelper';
+import { DRAFT_ADMIN_SCOPE } from '../../constants';
+import { UserAccessContext } from '../../containers/App/App';
 import handleError from '../../util/handleError';
 
 const wrapperCSS = css`
@@ -24,6 +26,11 @@ interface Props {
 }
 
 const FileUploader = ({ onFileSave }: Props) => {
+  const userAccess = useContext(UserAccessContext);
+  const allowedFiles = allowedFiletypes;
+  if (userAccess?.includes(DRAFT_ADMIN_SCOPE)) {
+    allowedFiles.push(...adminAllowedFiletypes);
+  }
   const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -74,7 +81,7 @@ const FileUploader = ({ onFileSave }: Props) => {
   );
 };
 
-const allowedFiles = [
+const allowedFiletypes = [
   '.csv',
   '.doc',
   '.docx',
@@ -103,5 +110,7 @@ const allowedFiles = [
   '.xml',
   '.f3d',
 ];
+
+const adminAllowedFiletypes = ['.mp4'];
 
 export default FileUploader;

@@ -32,7 +32,7 @@ import { SUBJECT_TOPICS, TOPIC_CONNECTIONS } from '../../../../queryKeys';
 interface Props {
   editMode: string;
   toggleEditMode: (mode: EditMode) => void;
-  parent: string;
+  parent?: string;
   id: string;
   locale: string;
   subjectId: string;
@@ -65,7 +65,7 @@ const DeleteTopic = ({ toggleEditMode, parent, id, locale, editMode, subjectId }
 
   const onDeleteTopic = async () => {
     toggleEditMode('deleteTopic');
-    const subTopic = parent.includes('topic');
+    const subTopic = parent?.includes('topic');
     const deleteConnectionFunc = subTopic ? deleteSubTopicConnection : deleteTopicConnection;
     try {
       await deleteConnectionFunc(connections![0].connectionId, {

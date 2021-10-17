@@ -21,6 +21,7 @@ import StructureResources from './resourceComponents/StructureResources';
 import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers';
 import { useAddSubjectMutation } from '../../modules/taxonomy/subjects/subjectsQueries';
 import StructureRoot from './StructureRoot';
+import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -97,6 +98,8 @@ const StructureContainer = ({ location, match }: RouteComponentProps<StructureRo
     addSubjectMutation.mutate({ name });
   };
 
+  const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
+
   return (
     <ErrorBoundary>
       <OneColumn>
@@ -110,7 +113,7 @@ const StructureContainer = ({ location, match }: RouteComponentProps<StructureRo
           }
           appearance={ButtonAppearance.TAXONOMY}
           addButton={
-            userAccess?.includes(TAXONOMY_ADMIN_SCOPE) && (
+            isTaxonomyAdmin && (
               <InlineAddButton title={t('taxonomy.addSubject')} action={addSubject} />
             )
           }
@@ -132,6 +135,7 @@ const StructureContainer = ({ location, match }: RouteComponentProps<StructureRo
               <StructureWrapper>
                 {subjects!.map(subject => (
                   <StructureRoot
+                    renderBeforeTitle={isTaxonomyAdmin ? StructureErrorIcon : undefined}
                     allSubjects={subjectData ?? []}
                     openedPaths={getPathsFromUrl(match.url)}
                     resourceSectionRef={resourceSection}

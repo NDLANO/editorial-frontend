@@ -8,23 +8,23 @@
 
 import { useState, useEffect } from 'react';
 import {
+  ConceptApiType,
   ConceptStatusType,
-  NewConceptType,
-  PatchConceptType,
+  ConceptPostType,
+  ConceptPatchType,
 } from '../../modules/concept/conceptApiInterfaces';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags, fetchStatusStateMachine } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
-import { ArticleType } from '../../interfaces';
-import { ConceptFormType } from '../ConceptPage/conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { transformApiToCleanConcept } from '../../modules/concept/conceptApiUtil';
+import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
 
-export function useFetchConceptData(conceptId: number, locale: string) {
-  const [concept, setConcept] = useState<ConceptFormType>();
+export function useFetchConceptData(conceptId: number | undefined, locale: string) {
+  const [concept, setConcept] = useState<ConceptApiType>();
+  const [conceptArticles, setConceptArticles] = useState<DraftApiType[]>([]);
   const [conceptChanged, setConceptChanged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
@@ -34,15 +34,10 @@ export function useFetchConceptData(conceptId: number, locale: string) {
       try {
         if (conceptId) {
           setLoading(true);
-          const concept = await conceptApi
-            .fetchConcept(conceptId, locale)
-            .then(resolved => transformApiToCleanConcept(resolved, locale));
-
-          const convertedArticles = await fetchElementList(concept.articleIds);
-          setConcept({
-            ...concept,
-            articles: convertedArticles,
-          });
+          const concept = await conceptApi.fetchConcept(conceptId, locale);
+          const conceptArticles = await fetchElementList(concept.articleIds);
+          setConcept(concept);
+          setConceptArticles(conceptArticles);
           setConceptChanged(false);
           setLoading(false);
         }
@@ -65,55 +60,44 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     fetchSubjects();
   }, [locale]);
 
-  const fetchElementList = async (articleIds?: number[]): Promise<ArticleType[]> => {
-    if (!articleIds) {
-      return [];
-    }
-    return Promise.all(
-      articleIds
-        .filter(a => !!a)
-        .map(async elementId => {
-          // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
-          return (await fetchDraft(elementId)) as ArticleType;
-        }),
-    );
+  const fetchElementList = async (articleIds?: number[]): Promise<DraftApiType[]> => {
+    const promises = articleIds?.map(id => fetchDraft(id)) ?? [];
+    return await Promise.all(promises);
   };
 
-  const updateConcept = async (updatedConcept: PatchConceptType): Promise<ConceptFormType> => {
+  const updateConcept = async (updatedConcept: ConceptPatchType): Promise<ConceptApiType> => {
     const savedConcept = await conceptApi.updateConcept(updatedConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
-    const formConcept = { ...savedConcept, articles: convertedArticles };
-    setConcept(formConcept);
+    setConcept(savedConcept);
+    setConceptArticles(convertedArticles);
     setConceptChanged(false);
-    return formConcept;
+    return savedConcept;
   };
 
-  const createConcept = async (createdConcept: NewConceptType) => {
+  const createConcept = async (createdConcept: ConceptPostType) => {
     const savedConcept = await conceptApi.addConcept(createdConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
-    const formConcept = { ...savedConcept, articles: convertedArticles };
-    setConcept(formConcept);
+    setConcept(savedConcept);
+    setConceptArticles(convertedArticles);
     setConceptChanged(false);
-    return formConcept;
+    return savedConcept;
   };
 
   const updateConceptAndStatus = async (
-    updatedConcept: PatchConceptType,
+    updatedConcept: ConceptPatchType,
     newStatus: ConceptStatusType,
     dirty: boolean,
   ) => {
     const newConcept = dirty
       ? await conceptApi.updateConcept(updatedConcept)
-      : await conceptApi
-          .fetchConcept(updatedConcept.id, updatedConcept.language)
-          .then(resolved => transformApiToCleanConcept(resolved, locale));
+      : await conceptApi.fetchConcept(updatedConcept.id, updatedConcept.language);
     const convertedArticles = await fetchElementList(newConcept.articleIds);
     const conceptChangedStatus = await conceptApi.updateConceptStatus(updatedConcept.id, newStatus);
     setConcept({
       ...newConcept,
       status: conceptChangedStatus.status,
-      articles: convertedArticles,
     });
+    setConceptArticles(convertedArticles);
     setConceptChanged(false);
   };
 
@@ -123,12 +107,13 @@ export function useFetchConceptData(conceptId: number, locale: string) {
     fetchSearchTags,
     fetchStatusStateMachine,
     loading,
-    setConcept: (concept: ConceptFormType) => {
+    setConcept: (concept: ConceptApiType) => {
       setConcept(concept);
       setConceptChanged(true);
     },
     conceptChanged,
     subjects,
+    conceptArticles,
     updateConcept,
     updateConceptAndStatus,
   };

@@ -10,7 +10,7 @@ import {
 import { groupTopics } from '../../util/taxonomyHelpers';
 import { SUBJECT_TOPICS } from '../../queryKeys';
 import { useUpdateTopicSubTopic } from '../../modules/taxonomy/topics/topicQueries';
-import StructureNode from './StructureNode';
+import StructureNode, { RenderBeforeFunction } from './StructureNode';
 
 interface Props {
   subject: SubjectType;
@@ -23,6 +23,7 @@ interface Props {
   topicResourcesLoading: boolean;
   resourceSectionRef: React.MutableRefObject<HTMLDivElement | null>;
   allSubjects: SubjectType[];
+  renderBeforeTitle?: RenderBeforeFunction;
 }
 
 const StructureRoot = ({
@@ -36,6 +37,7 @@ const StructureRoot = ({
   topicResourcesLoading,
   resourceSectionRef,
   allSubjects,
+  renderBeforeTitle,
 }: Props) => {
   const { data: topicsData, isLoading } = useSubjectTopics(subject.id, locale, {
     enabled: openedPaths[0] === subject.id,
@@ -83,6 +85,7 @@ const StructureRoot = ({
   };
   return (
     <StructureNode
+      renderBeforeTitle={renderBeforeTitle}
       id={subject.id}
       item={subject}
       nodes={topicsData}

@@ -6,14 +6,16 @@
  *
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import css from '@emotion/css';
 import { AudioPlayer } from '@ndla/ui';
 // @ts-ignore
-import { FigureCaption, FigureLicenseDialog } from '@ndla/ui';
+import { FigureCaption } from '@ndla/ui';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { SlateAudio, LocaleType } from '../../../../interfaces';
+import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
+import { fetchImage } from '../../../../modules/image/imageApi';
 
 interface Props {
   audio: SlateAudio;
@@ -21,31 +23,56 @@ interface Props {
   speech: boolean;
 }
 
+const ImageLicense = ({ image, locale }: { locale: LocaleType; image: ImageApiType }) => {
+  const { t } = useTranslation();
+  const { copyright, id } = image;
+  const {
+    license: { license: licenseAbbreviation },
+  } = copyright;
+  const license = getLicenseByAbbreviation(licenseAbbreviation, locale);
+
+  return (
+    <>
+      <FigureCaption
+        figureId={`figure-${id}`}
+        id={`${id}`}
+        reuseLabel={t('image.reuse')}
+        licenseRights={license.rights}
+        authors={copyright.creators || copyright.rightsholders || copyright.processors}
+        locale={locale}></FigureCaption>
+    </>
+  );
+};
+
 const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
   const { t } = useTranslation();
   const { copyright, podcastMeta } = audio;
+  const [image, setImage] = useState<ImageApiType>();
 
   const license = getLicenseByAbbreviation(copyright.license?.license || '', locale);
   const figureLicenseDialogId = `edit-audio-${audio.id}`;
-
-  const messages = {
-    title: t('dialog.title'),
-    close: t('dialog.close'),
-    rulesForUse: t('dialog.audio.rulesForUse'),
-    learnAboutLicenses: t('dialog.learnAboutLicenses'),
-    source: t('dialog.source'),
-  };
 
   const podcastImg = podcastMeta?.coverPhoto && {
     url: `${podcastMeta.coverPhoto.url}?width=200&height=200`,
     alt: podcastMeta.coverPhoto.altText,
   };
 
+  useEffect(() => {
+    if (podcastMeta?.coverPhoto.id) {
+      fetchImage(parseInt(podcastMeta?.coverPhoto.id), locale).then(res => {
+        setImage(res);
+      });
+    }
+  }, [podcastMeta?.coverPhoto.id, locale]);
+
   return (
     <div
       css={css`
         p {
           margin: 0 !important;
+        }
+        ul {
+          margin-top: 0;
         }
       `}>
       <AudioPlayer
@@ -61,22 +88,13 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
           <FigureCaption
             id={figureLicenseDialogId}
             figureId={`figure-${audio.id}`}
-            caption={audio.caption}
             reuseLabel={t('audio.reuse')}
             licenseRights={license.rights}
             authors={copyright.creators}
           />
-          <FigureLicenseDialog
-            id={figureLicenseDialogId}
-            title={audio.title}
-            license={license}
-            authors={[]}
-            origin={origin}
-            messages={messages}
-            locale={locale}
-          />
         </>
       )}
+      {image && <ImageLicense image={image} locale={locale} />}
     </div>
   );
 };

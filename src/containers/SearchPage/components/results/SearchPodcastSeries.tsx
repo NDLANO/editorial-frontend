@@ -9,13 +9,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { SeriesSearchSummary } from '../../../../modules/audio/audioApiInterfaces';
+import { SeriesSearchResultType } from '../../../../modules/audio/audioApiInterfaces';
 import { toEditPodcastSeries } from '../../../../util/routeHelpers';
 import { SeriesResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 
 interface Props {
-  series: SeriesSearchSummary;
+  series: SeriesSearchResultType;
 }
 
 const SearchPodcastSeries = ({ series }: Props) => {

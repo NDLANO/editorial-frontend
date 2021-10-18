@@ -14,12 +14,15 @@ import { FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { ApiConceptType, CoreApiConceptType } from '../../../modules/concept/conceptApiInterfaces';
+import { ConceptApiType, SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
 
+interface ConceptAPiTypeWithArticleType extends ConceptApiType {
+  articleType?: string;
+}
 interface Props {
   locale: string;
   values: {
-    conceptIds: ApiConceptType[];
+    conceptIds: ConceptAPiTypeWithArticleType[];
   };
   field: FormikProperties['field'];
   form: {
@@ -29,9 +32,9 @@ interface Props {
 
 const ConceptsField = ({ locale, values, field, form }: Props) => {
   const { t } = useTranslation();
-  const [concepts, setConcepts] = useState<CoreApiConceptType[]>(values.conceptIds);
+  const [concepts, setConcepts] = useState<ConceptAPiTypeWithArticleType[]>(values.conceptIds);
 
-  const onAddConceptToList = async (concept: CoreApiConceptType) => {
+  const onAddConceptToList = async (concept: SearchConceptType) => {
     try {
       const newConcept = await fetchConcept(concept.id, locale);
       const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
@@ -42,12 +45,12 @@ const ConceptsField = ({ locale, values, field, form }: Props) => {
     }
   };
 
-  const onUpdateElements = (conceptList: CoreApiConceptType[]) => {
+  const onUpdateElements = (conceptList: ConceptAPiTypeWithArticleType[]) => {
     setConcepts(conceptList);
     updateFormik(field, conceptList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: CoreApiConceptType[]) => {
+  const updateFormik = (formikField: Props['field'], newData: ConceptAPiTypeWithArticleType[]) => {
     form.setFieldTouched('conceptIds', true, false);
     formikField.onChange({
       target: {
@@ -76,7 +79,7 @@ const ConceptsField = ({ locale, values, field, form }: Props) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown
+      <AsyncDropdown<SearchConceptType>
         selectedItems={concepts}
         idField="id"
         labelField="title"

@@ -17,7 +17,7 @@ import ConceptModal from './ConceptModal';
 import SlateConceptPreview from './SlateConceptPreview';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../utils/mergeLastUndos';
-import { ConceptFormType } from '../../../../containers/ConceptPage/conceptInterfaces';
+import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
   type: TYPE_CONCEPT,
@@ -70,7 +70,7 @@ const EditSlateConcept = (props: Props) => {
     }
   };
 
-  const addConcept = (addedConcept: ConceptFormType) => {
+  const addConcept = (addedConcept: ConceptApiType) => {
     toggleConceptModal();
     setTimeout(() => {
       handleSelectionChange(true);
@@ -122,7 +122,7 @@ const EditSlateConcept = (props: Props) => {
       <span {...attributes} onMouseDown={toggleConceptModal}>
         <Notion
           id={uuid}
-          title={concept?.title}
+          title={concept?.title.title}
           subTitle={t('conceptform.title')}
           content={
             concept && (

@@ -35,7 +35,7 @@ import {
   License,
   RelatedContent,
 } from '../../interfaces';
-import { ApiConceptType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { NewReduxMessage, ReduxMessageError } from '../Messages/messagesSelectors';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
@@ -78,7 +78,7 @@ export interface ArticleFormikType {
   updated?: string;
   visualElement?: Descendant[];
   grepCodes?: string[];
-  conceptIds: ApiConceptType[];
+  conceptIds: ConceptApiType[];
   availability?: AvailabilityType;
   relatedContent: (DraftApiType | RelatedContent)[];
 }

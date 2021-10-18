@@ -7,75 +7,97 @@
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { connect, ConnectedProps } from 'react-redux';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
-import { Action, ActionFunction1 } from 'redux-actions';
 import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import * as messageActions from '../../Messages/messagesActions';
 import { formClasses } from '../../FormikForm';
 import {
-  transformApiConceptToFormValues,
-  getPatchApiConcept,
-  getConcept,
-  conceptFormRules,
-} from '../conceptUtil';
+  conceptApiTypeToFormType,
+  conceptFormTypeToApiType,
+  getConceptPatchType,
+} from '../conceptTransformers';
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
 import FormWrapper from './FormWrapper';
-import FormFooter from './FormFooter';
 import {
+  ConceptApiType,
   ConceptStatusType,
-  NewConceptType,
-  PatchConceptType,
+  ConceptTagsSearchResult,
+  ConceptPostType,
+  ConceptPatchType,
 } from '../../../modules/concept/conceptApiInterfaces';
-import { License, SearchResult } from '../../../interfaces';
-import { ConceptFormType, ConceptFormValues } from '../conceptInterfaces';
+import { License } from '../../../interfaces';
+import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
+import ConceptFormFooter from './ConceptFormFooter';
+import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => void;
-  concept: ConceptFormType;
-  conceptChanged: boolean;
-  fetchConceptTags: (input: string, language: string) => Promise<SearchResult>;
+  concept?: ConceptApiType;
+  conceptChanged?: boolean;
+  fetchConceptTags: (input: string, language: string) => Promise<ConceptTagsSearchResult>;
   inModal: boolean;
-  isNewlyCreated: boolean;
+  isNewlyCreated?: boolean;
   licenses: License[];
-  onClose: () => void;
-  onUpdate: (updateConcept: NewConceptType | PatchConceptType, revision?: string) => void;
+  conceptArticles: DraftApiType[];
+  onClose?: () => void;
+  language: string;
+  onUpdate: (updateConcept: ConceptPostType | ConceptPatchType, revision?: number) => Promise<void>;
   subjects: SubjectType[];
-  translateToNN: () => void;
-  updateConceptAndStatus: (
-    updatedConcept: PatchConceptType,
+  initialTitle?: string;
+  translateToNN?: () => void;
+  updateConceptAndStatus?: (
+    updatedConcept: ConceptPatchType,
     newStatus: ConceptStatusType,
     dirty: boolean,
-  ) => void;
+  ) => Promise<void>;
 }
+
+const conceptFormRules: RulesType<ConceptFormValues> = {
+  title: {
+    required: true,
+  },
+  conceptContent: {
+    required: true,
+  },
+  creators: {
+    allObjectFieldsRequired: true,
+  },
+  metaImageAlt: {
+    required: true,
+    onlyValidateIf: (values: ConceptFormValues) => !!values.metaImageId,
+  },
+  subjects: {
+    minItems: 1,
+  },
+};
 
 const ConceptForm = ({
   concept,
   conceptChanged,
   fetchConceptTags,
   inModal,
-  isNewlyCreated,
+  isNewlyCreated = false,
   licenses,
   onClose,
   subjects,
   translateToNN,
+  language,
   updateConceptAndStatus,
   onUpdate,
   applicationError,
   createMessage,
-}: Props) => {
+  conceptArticles,
+  initialTitle,
+}: Props & PropsFromRedux) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
   const { t } = useTranslation();
@@ -83,35 +105,30 @@ const ConceptForm = ({
   useEffect(() => {
     setSavedToServer(false);
   }, [concept]);
-  const initialValues = transformApiConceptToFormValues(concept, subjects);
-  const initialErrors = useMemo(() => validateFormik(initialValues, conceptFormRules, t), [
-    initialValues,
-    t,
-  ]);
 
   const handleSubmit = async (
     values: ConceptFormValues,
     formikHelpers: FormikHelpers<ConceptFormValues>,
   ) => {
     formikHelpers.setSubmitting(true);
-    const { revision, status } = concept;
+    const revision = concept?.revision;
+    const status = concept?.status;
     const initialStatus = status?.current;
     const newStatus = values.status?.current;
     const statusChange = initialStatus !== newStatus;
 
     try {
-      if (statusChange) {
+      if (statusChange && updateConceptAndStatus) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
-        const skipSaving =
-          newStatus === articleStatuses.UNPUBLISHED ||
-          !isFormikFormDirty({
-            values,
-            initialValues,
-            dirty: true,
-          });
-        await updateConceptAndStatus(getPatchApiConcept(values, licenses), newStatus, !skipSaving);
+        const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
+        const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !formikDirty;
+        await updateConceptAndStatus(
+          getConceptPatchType(values, licenses),
+          newStatus!,
+          !skipSaving,
+        );
       } else {
-        await onUpdate(getPatchApiConcept(values, licenses), revision);
+        await onUpdate(getConceptPatchType(values, licenses), revision!);
       }
       formikHelpers.resetForm();
       formikHelpers.setSubmitting(false);
@@ -123,6 +140,18 @@ const ConceptForm = ({
     }
   };
 
+  const initialValues = conceptApiTypeToFormType(
+    concept,
+    language,
+    subjects,
+    conceptArticles,
+    initialTitle,
+  );
+  const initialErrors = useMemo(() => validateFormik(initialValues, conceptFormRules, t), [
+    initialValues,
+    t,
+  ]);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -133,12 +162,18 @@ const ConceptForm = ({
       validate={values => validateFormik(values, conceptFormRules, t)}>
       {formikProps => {
         const { values, errors }: FormikProps<ConceptFormValues> = formikProps;
+        const { id, revision, status, created, updated } = values;
+        const requirements = id && revision && status && created && updated;
+        const getEntity = requirements
+          ? () => conceptFormTypeToApiType(values, licenses, concept?.updatedBy)
+          : undefined;
+        const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
         return (
           <FormWrapper inModal={inModal} {...formClasses()}>
             <HeaderWithLanguage
-              content={concept}
-              editUrl={(lang: string) => toEditConcept(values.id, lang)}
-              getEntity={() => getConcept(values, licenses, concept.updatedBy)}
+              content={{ ...concept, title: concept?.title.title, language }}
+              editUrl={editUrl}
+              getEntity={getEntity}
               translateToNN={translateToNN}
               type="concept"
               setTranslateOnContinue={setTranslateOnContinue}
@@ -183,17 +218,17 @@ const ConceptForm = ({
                 <ConceptArticles />
               </AccordionSection>
             </Accordions>
-            <FormFooter
+            <ConceptFormFooter
               createMessage={createMessage}
-              entityStatus={concept.status}
-              conceptChanged={conceptChanged}
+              entityStatus={concept?.status}
+              conceptChanged={!!conceptChanged}
               inModal={inModal}
               savedToServer={savedToServer}
               isNewlyCreated={isNewlyCreated}
-              showSimpleFooter={!concept.id}
+              showSimpleFooter={!concept?.id}
               onClose={onClose}
-              onContinue={translateOnContinue ? translateToNN : () => {}}
-              getApiConcept={() => getConcept(values, licenses, concept.updatedBy)}
+              onContinue={translateOnContinue && translateToNN ? translateToNN : () => {}}
+              getApiConcept={getEntity}
             />
           </FormWrapper>
         );
@@ -207,4 +242,7 @@ const mapDispatchToProps = {
   createMessage: (message: NewReduxMessage) => messageActions.addMessage(message),
 };
 
-export default compose(withRouter, connect(undefined, mapDispatchToProps))(ConceptForm);
+const reduxConnector = connect(undefined, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
+
+export default reduxConnector(ConceptForm);

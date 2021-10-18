@@ -12,7 +12,7 @@ import { render, wait, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import NewStructureContainer from '../NewStructureContainer';
+import StructureContainer from '../StructureContainer';
 import {
   subjectsMock,
   resourceTypesMock,
@@ -37,7 +37,7 @@ const wrapper = () =>
       <MemoryRouter>
         <IntlWrapper>
           <QueryClientProvider client={qc}>
-            <NewStructureContainer
+            <StructureContainer
               t={() => 'injected'}
               locale="nb"
               match={{

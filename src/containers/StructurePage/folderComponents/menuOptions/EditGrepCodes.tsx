@@ -24,7 +24,7 @@ import { useUpdateSubjectMetadata } from '../../../../modules/taxonomy/subjects/
 import { useTopicMetadataUpdateMutation } from '../../../../modules/taxonomy/topics/topicQueries';
 
 interface Props {
-  editMode: string;
+  editMode: EditMode;
   id: string;
   name: string;
   menuType: 'subject' | 'topic';
@@ -50,7 +50,7 @@ const EditGrepCodes = ({ editMode, id, menuType, metadata, toggleEditMode }: Pro
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
   const { mutateAsync: updateSubjectMetadata } = useUpdateSubjectMetadata();
   const { mutateAsync: updateTopicMetadata } = useTopicMetadataUpdateMutation();
-  const grepCodesWithName = useGrepCodes(grepCodes);
+  const grepCodesWithName = useGrepCodes(grepCodes, editMode === 'editGrepCodes');
 
   const updateMetadata = async (codes: string[]) => {
     const func = menuType === 'subject' ? updateSubjectMetadata : updateTopicMetadata;

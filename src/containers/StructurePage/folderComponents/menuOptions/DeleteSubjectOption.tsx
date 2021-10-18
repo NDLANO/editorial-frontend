@@ -25,14 +25,16 @@ import {
 interface Props {
   id: string;
   locale: string;
-  editMode: string;
+  editMode: EditMode;
   toggleEditMode: (mode: EditMode) => void;
 }
 
 const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode }: Props) => {
   const { t } = useTranslation();
 
-  const { data: subjectTopics } = useSubjectTopics(id, locale);
+  const { data: subjectTopics } = useSubjectTopics(id, locale, {
+    enabled: editMode === 'deleteSubject',
+  });
   const { mutate: deleteSubject, isLoading: loading, error } = useDeleteSubjectMutation();
 
   const enabled = subjectTopics && subjectTopics.length === 0;

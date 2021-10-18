@@ -14,13 +14,14 @@ const grepToGrepCodeObject = (grepCode: string, grepCodeTitle: string | undefine
   title: grepCodeTitle ? `${grepCode} - ${grepCodeTitle}` : grepCode,
 });
 
-export const useGrepCodes = (grepCodes: string[]) => {
+export const useGrepCodes = (grepCodes: string[], enabled = true) => {
   return useQueriesTyped(
     grepCodes.map(grepCode => {
       return {
         queryKey: [GREP_CODE, grepCode],
         queryFn: () => fetchGrepCodeTitle(grepCode),
         select: (grepCodeTitle: any) => grepToGrepCodeObject(grepCode, grepCodeTitle as string),
+        enabled,
       };
     }),
   );

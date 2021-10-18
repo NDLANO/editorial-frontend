@@ -28,7 +28,7 @@ import { useTopics } from '../../../../modules/taxonomy/topics/topicQueries';
 interface Props {
   path: string;
   onClose: () => void;
-  editMode: string;
+  editMode: EditMode;
   toggleEditMode: (mode: EditMode) => void;
   locale: string;
   id: string;
@@ -59,6 +59,7 @@ const AddExistingToSubjectTopic = ({
   };
 
   const { data: topics } = useTopics(locale ?? 'nb', {
+    enabled: editMode === 'addExistingSubjectTopic',
     select: topics =>
       topics
         .filter(t => !!t.path)

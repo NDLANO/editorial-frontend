@@ -29,7 +29,7 @@ interface Props {
   subjectId: string;
   path: string;
   onClose: () => void;
-  editMode: string;
+  editMode: EditMode;
   toggleEditMode: (mode: EditMode) => void;
   locale: string;
   id: string;
@@ -63,6 +63,7 @@ const AddExistingToTopic = ({
   };
 
   const { data: topics } = useTopics(locale ?? 'nb', {
+    enabled: editMode === 'addExistingTopic',
     select: topics =>
       topics
         .filter(t => t.path)

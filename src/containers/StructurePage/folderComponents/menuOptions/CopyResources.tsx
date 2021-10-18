@@ -103,7 +103,6 @@ const CopyResources = ({ id, locale, subjectId, structure, onClose, setShowAlert
         handleError(e);
       }
     }
-    // setResourcesUpdated(true);
   };
 
   const copyResources = async (topic: Topic) => {

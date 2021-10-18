@@ -49,13 +49,8 @@ const GroupTopicResources = ({ topicId, subjectId, metadata, hideIcon, onChanged
         onSuccess: () => onChanged?.({ customFields }),
       },
     );
-    // const response = await updateTopicMetadata(topicId, { customFields });
-    // updateLocalTopics(topicId, {
-    //   metadata: { ...metadata, customFields: response.customFields },
-    // });
   };
 
-  // eslint-disable-next-line react/prop-types
   const topicResources = metadata.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
   const isGrouped =
     (topicResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) ===

@@ -8,7 +8,6 @@ import { Taxonomy } from '@ndla/icons/editor';
 //@ts-ignore
 import { OneColumn, Spinner } from '@ndla/ui';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
@@ -41,11 +40,14 @@ export interface StructureRouteParams {
   topic?: string;
 }
 
-const StructureContainer = ({ location, match }: RouteComponentProps<StructureRouteParams>) => {
+export const StructureContainer = ({
+  location,
+  match,
+  history,
+}: RouteComponentProps<StructureRouteParams>) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const userAccess = useContext(UserAccessContext);
-  const history = useHistory();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   const [currentTopic, setCurrentTopic] = useState<SubjectTopic | undefined>(undefined);

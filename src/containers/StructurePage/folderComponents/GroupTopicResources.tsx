@@ -51,7 +51,7 @@ const GroupTopicResources = ({ topicId, subjectId, metadata, hideIcon, onChanged
     );
   };
 
-  const topicResources = metadata.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
+  const topicResources = metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
   const isGrouped =
     (topicResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) ===
     TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE;

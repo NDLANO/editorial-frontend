@@ -103,7 +103,7 @@ const fetchSubjectTopicsWithArticleType = async (
   const subjectTopics = await fetchSubjectTopics(id, language);
   return await Promise.all(
     subjectTopics.map(async t => {
-      const articleId = t.contentUri.split(':').pop();
+      const articleId = t.contentUri?.split(':').pop();
       if (articleId) {
         try {
           const draft = await fetchDraft(parseInt(articleId));

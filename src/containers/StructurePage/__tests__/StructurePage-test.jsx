@@ -12,7 +12,7 @@ import { render, wait, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import StructureContainer from '../StructureContainer';
+import { StructureContainer } from '../StructureContainer';
 import {
   subjectsMock,
   resourceTypesMock,
@@ -74,11 +74,64 @@ beforeEach(() => {
 test('fetches and renders a list of subjects and topics based on pathname', async () => {
   const mockTopicArticle = articleId => {
     nock('http://ndla-api')
+      .persist()
       .get(`/draft-api/v1/drafts/${articleId}`)
       .reply(200, { articleType: 'topic-article' });
   };
 
-  [8617, 8517, 8285, 3592, 8625, 8619, 8618, 3273, 8620].map(id => mockTopicArticle(id));
+  [
+    8628,
+    3993,
+    8636,
+    3992,
+    8635,
+    3718,
+    8634,
+    8275,
+    3990,
+    3133,
+    8285,
+    8631,
+    3363,
+    3401,
+    3991,
+    3112,
+    8626,
+    8628,
+    8617,
+    8517,
+    8285,
+    3592,
+    8625,
+    8619,
+    8618,
+    3273,
+    8620,
+    3526,
+    8630,
+    8633,
+    8624,
+    3302,
+    8627,
+    8622,
+    8623,
+    8621,
+    8629,
+    3274,
+    8632,
+    3805,
+    8630,
+    8633,
+    8624,
+    3302,
+    8627,
+    8622,
+  ].map(id => mockTopicArticle(id));
+
+  nock('http://ndla-api')
+    .persist()
+    .get('/draft-api/v1/drafts/3592?language=nb&fallback=true')
+    .reply(200, { articleType: 'topic-article' });
 
   nock('http://ndla-api')
     .persist()
@@ -115,9 +168,9 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
     .persist()
     .get('/draft-api/v1/user-data')
     .reply(200, {});
-  const { container, getByText } = wrapper();
+  const { container, getAllByText } = wrapper();
 
-  await wait(() => getByText('Fortelleteknikker og virkemidler'));
+  await wait(() => getAllByText('Fortelleteknikker og virkemidler'));
   expect(container.firstChild).toMatchSnapshot();
 
   expect(nock.isDone());

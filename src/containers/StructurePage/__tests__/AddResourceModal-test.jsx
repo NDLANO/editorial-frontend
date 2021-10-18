@@ -52,17 +52,17 @@ const wrapper = props =>
     <IntlWrapper>
       <MemoryRouter>
         <QueryClientProvider client={qc}>
-        <AddResourceModal
-          topicId="topicId2"
-          allowPaste
-          t={() => 'injected'}
-          type={resourceType}
-          onClose={() => {}}
-          refreshResources={() => {}}
-          startOpen
-          locale="nb"
-          {...props}
-        />
+          <AddResourceModal
+            topicId="topicId2"
+            allowPaste
+            t={() => 'injected'}
+            type={resourceType}
+            onClose={() => {}}
+            refreshResources={() => {}}
+            startOpen
+            locale="nb"
+            {...props}
+          />
         </QueryClientProvider>
       </MemoryRouter>
     </IntlWrapper>,

@@ -29,7 +29,7 @@ interface Props {
   metadata: TaxonomyMetadata;
   numberOfSubtopics?: number;
   subjectId: string;
-  editMode: string;
+  editMode: EditMode;
   toggleEditMode: (mode: EditMode) => void;
   path: string;
   locale: string;

@@ -30,7 +30,7 @@ interface Props {
   path: string;
   showAllOptions: boolean;
   subjectId: string;
-  editMode: string;
+  editMode: EditMode;
   toggleEditMode: (mode: EditMode) => void;
   parent?: string;
   structure: PathArray;

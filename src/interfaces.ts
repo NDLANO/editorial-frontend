@@ -39,7 +39,8 @@ export type EditMode =
   | 'editGrepCodes'
   | 'addExistingTopic'
   | 'addTopic'
-  | 'deleteSubject';
+  | 'deleteSubject'
+  | '';
 
 export interface FormikFormBaseType {
   language: string;

@@ -55,7 +55,7 @@ const SettingsMenu = ({
   structure,
 }: Props) => {
   const [open, setOpen] = useState(false);
-  const [editMode, setEditMode] = useState('');
+  const [editMode, setEditMode] = useState<EditMode>('');
 
   const toggleEditMode = (mode: EditMode) => {
     setEditMode(prev => (mode === prev ? '' : mode));

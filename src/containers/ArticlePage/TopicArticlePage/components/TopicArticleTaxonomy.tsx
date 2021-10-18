@@ -264,10 +264,13 @@ class TopicArticleTaxonomy extends Component<Props, State> {
         subjectid: paths[0],
       });
     }
+    const newPath = topic.path.replace('staged', newTopicId.replace('urn:', ''));
+    const breadcrumb = await getBreadcrumbFromPath(newPath);
     return {
       name: topic.name,
       id: newTopicId,
-      path: topic.path.replace('staged', newTopicId.replace('urn:', '')),
+      path: newPath,
+      breadcrumb,
       metadata: {
         grepCodes: [],
         visible: true,

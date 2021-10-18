@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { spacing, colors, fonts } from '@ndla/core';
 //@ts-ignore
@@ -10,14 +10,13 @@ import FolderItem from './folderComponents/FolderItem';
 import Fade from './Fade';
 import MakeDndList from './MakeDNDList';
 import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { useDraft } from '../../modules/draft/draftQueries';
+import { createGuard } from '../../util/guards';
 
-export type RenderBeforeFunction = (input: {
-  id: string;
-  title: string;
-  isSubject: boolean;
-  contentUri?: string;
-}) => React.ReactNode;
+export type RenderBeforeFunction = (
+  input: SubjectTopic | SubjectType,
+  isRoot: boolean,
+  articleType?: string,
+) => React.ReactNode;
 
 interface ItemTitleButtonProps {
   isVisible?: boolean;
@@ -87,7 +86,6 @@ interface StyledItemBarProps {
 
 const StyledItemBar = styled.div<StyledItemBarProps>`
   display: flex;
-  /* justify-content: space-between; */
   padding: 0 ${spacing.small} 0 calc(${props => props.level} * 17px + ${spacing.small});
   height: 40px;
   border-bottom: 1px solid ${colors.brand.greyLighter};
@@ -145,9 +143,11 @@ const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & React.HTMLProps<HTML
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
 
+const isNode = createGuard<SubjectTopic>('connectionId');
+
 interface Props {
   id: string;
-  item: SubjectTopic | SubjectType;
+  item: (SubjectTopic & { articleType?: string }) | SubjectType;
   openedPaths: string[];
   toggleOpen: (topicId: string) => void;
   locale: string;
@@ -171,7 +171,6 @@ interface Props {
 }
 
 const StructureNode = ({
-  id,
   item,
   openedPaths,
   toggleOpen,
@@ -184,7 +183,6 @@ const StructureNode = ({
   topicResourcesLoading,
   resourceSectionRef,
   onDragEnd,
-  connectionId,
   parentActive,
   allSubjects,
   isRoot,
@@ -197,33 +195,24 @@ const StructureNode = ({
   const isOpen = openedPaths.includes(path);
   const isActive = openedPaths[openedPaths.length - 1] === path;
   const hasSubtopics = isRoot ? true : nodes && nodes.length > 0;
-  const [articleType, setArticleType] = useState('');
-
-  const resourceId = item?.contentUri?.split(':')[2];
-  // useDraft(parseInt(resourceId), locale, {
-  //   enabled: !!item.contentUri,
-  //   onSuccess: draft => setArticleType(draft.articleType),
-  // });
-
-  // if (articleType) {
-  //   console.log(articleType);
-  // }
+  const connectionId = isNode(item) ? item.connectionId : undefined;
+  const articleType = isNode(item) ? item.articleType : undefined;
 
   useEffect(() => {
-    if (isActive && !isRoot) {
+    if (isActive && isNode(item)) {
       onTopicSelect(item);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onTopicClick = (topic: SubjectTopic) => {
+  const onItemClick = () => {
     toggleOpen(path);
-    onTopicSelect(isRoot ? undefined : item);
+    onTopicSelect(isNode(item) ? item : undefined);
   };
 
   return (
     <StyledStructureItem
-      connectionId={item.connectionId}
+      connectionId={connectionId}
       id={item.id}
       key={path}
       greyedOut={!parentActive && !isActive}>
@@ -247,14 +236,9 @@ const StructureNode = ({
           isSubject={false}
           lastItemClickable={true}
           arrowDirection={isOpen ? 90 : 0}
-          onClick={() => onTopicClick(item)}
+          onClick={onItemClick}
           isVisible={item.metadata?.visible}>
-          {renderBeforeTitle?.({
-            id,
-            title: item.name,
-            contentUri: item.contentUri,
-            isSubject: !!isRoot,
-          })}
+          {renderBeforeTitle?.(item, !!isRoot, articleType)}
           {item.name}
         </ItemTitleButton>
         {isActive && (

@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2021-present, NDLA.
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import queryString from 'query-string';
 import {
   useMutation,
@@ -30,6 +36,7 @@ import handleError from '../../../util/handleError';
 import { LocaleType } from '../../../interfaces';
 import { SubjectTopicPutBody } from '../topics/topicInterfaces';
 import { SubjectTopicPostBody } from './subjectInterfaces';
+import { fetchDraft } from '../../draft/draftApi';
 
 export const useUpdateSubjectMetadata = () => {
   const qc = useQueryClient();
@@ -86,6 +93,41 @@ export const useSubjectTopics = (
     () => fetchSubjectTopics(id, language),
     options,
   );
+
+const fetchSubjectTopicsWithArticleType = async (
+  id: string,
+  language: string,
+): Promise<(SubjectTopic & {
+  articleType?: string;
+})[]> => {
+  const subjectTopics = await fetchSubjectTopics(id, language);
+  return await Promise.all(
+    subjectTopics.map(async t => {
+      const articleId = t.contentUri.split(':').pop();
+      if (articleId) {
+        try {
+          const draft = await fetchDraft(parseInt(articleId));
+          return { ...t, articleType: draft.articleType };
+        } catch (e) {
+          return t;
+        }
+      }
+      return t;
+    }),
+  );
+};
+
+export const useSubjectTopicsWithArticleType = (
+  id: string,
+  language: string,
+  options?: UseQueryOptions<(SubjectTopic & { articleType?: string })[]>,
+) => {
+  return useQuery<SubjectTopic[]>(
+    [SUBJECT_TOPICS, id, language],
+    () => fetchSubjectTopicsWithArticleType(id, language),
+    options,
+  );
+};
 
 export const useAddSubjectTopic = (
   options?: UseMutationOptions<string, unknown, SubjectTopicPostBody>,

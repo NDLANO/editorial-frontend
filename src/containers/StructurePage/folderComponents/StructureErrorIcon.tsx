@@ -6,14 +6,13 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AlertCircle } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
-import { fetchDraft } from '../../../modules/draft/draftApi';
-import { useDraft } from '../../../modules/draft/draftQueries';
+import { SubjectTopic, SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: ${spacing.nsmall};
@@ -21,67 +20,17 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.support.red};
 `;
 
-const StructureErrorIcon = ({
-  contentUri,
-  isSubject,
-}: {
-  contentUri?: string;
-  isSubject: boolean;
-}) => {
-  const { t, i18n } = useTranslation();
-  const [error, setError] = useState<string | undefined>(undefined);
-  const articleId = contentUri?.split(':').pop();
-  useDraft(parseInt(articleId!), i18n.language, {
-    enabled: !!articleId && !isSubject,
-    onSuccess: fetched => {
-      if (fetched.articleType !== 'topic-article') {
-        const wrongTooltip = t('taxonomy.info.wrongArticleType', {
-          placedAs: t(`articleType.topic-article`),
-          isType: t(`articleType.standard`),
-        });
-        setError(wrongTooltip);
-      }
-    },
-    onError: e => {
-      if (typeof e.messages === 'string') setError(e.messages);
-      else setError(t('errorMessage.errorWhenFetchingTaxonomyArticle'));
-    },
+const StructureErrorIcon = (
+  item: SubjectTopic | SubjectType,
+  isRoot: boolean,
+  articleType?: string,
+) => {
+  const { t } = useTranslation();
+  if (isRoot || articleType === 'topic-article') return null;
+  const error = t('taxonomy.info.wrongArticleType', {
+    placedAs: t(`articleType.topic-article`),
+    isType: t(`articleType.standard`),
   });
-
-  // useEffect(() => {
-  //   let shouldUpdateState = true;
-
-  //   const fetchAndSetError = async (contentUri: string) => {
-  //     const articleId = contentUri.split(':').pop();
-  //     if (articleId) {
-  //       try {
-  //         const fetched = await fetchDraft(Number(articleId));
-  //         if (fetched.articleType !== 'topic-article') {
-  //           if (shouldUpdateState) {
-  //             const wrongTooltip = t('taxonomy.info.wrongArticleType', {
-  //               placedAs: t(`articleType.topic-article`),
-  //               isType: t(`articleType.standard`),
-  //             });
-  //             setError(wrongTooltip);
-  //           }
-  //         }
-  //       } catch (e) {
-  //         if (shouldUpdateState) {
-  //           if (typeof e.messages === 'string') setError(e.messages);
-  //           else setError(t('errorMessage.errorWhenFetchingTaxonomyArticle'));
-  //         }
-  //       }
-  //     }
-  //   };
-  //   if (isSubject || !contentUri) return;
-
-  //   fetchAndSetError(contentUri);
-  //   return () => {
-  //     shouldUpdateState = false;
-  //   };
-  // }, [t, isSubject, contentUri]);
-
-  if (!error) return null;
 
   return (
     <Tooltip tooltip={error}>

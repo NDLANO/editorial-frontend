@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2021-present, NDLA.
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import { useQueries, UseQueryOptions, UseQueryResult } from 'react-query';
 
 // From https://blog.johnnyreilly.com/2021/01/03/strongly-typing-react-query-s-usequeries/

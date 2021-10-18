@@ -1,10 +1,16 @@
+/*
+ * Copyright (c) 2021-present, NDLA.
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import React from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { useQueryClient } from 'react-query';
 import { partition, sortBy } from 'lodash';
 import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import {
-  useSubjectTopics,
+  useSubjectTopicsWithArticleType,
   useUpdateSubjectTopic,
 } from '../../modules/taxonomy/subjects/subjectsQueries';
 import { groupTopics } from '../../util/taxonomyHelpers';
@@ -39,11 +45,9 @@ const StructureRoot = ({
   allSubjects,
   renderBeforeTitle,
 }: Props) => {
-  const { data: topicsData, isLoading } = useSubjectTopics(subject.id, locale, {
+  const { data: topicsData, isLoading } = useSubjectTopicsWithArticleType(subject.id, locale, {
     enabled: openedPaths[0] === subject.id,
-    select: allTopics => {
-      return groupTopics(allTopics);
-    },
+    select: allTopics => groupTopics(allTopics),
   });
   const qc = useQueryClient();
 

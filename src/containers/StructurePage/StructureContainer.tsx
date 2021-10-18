@@ -1,11 +1,18 @@
+/*
+ * Copyright (c) 2021-present, NDLA.
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import { Taxonomy } from '@ndla/icons/editor';
 //@ts-ignore
 import { OneColumn, Spinner } from '@ndla/ui';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps, useHistory, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import styled from '@emotion/styled';
 import Accordion from '../../components/Accordion';
 import ErrorBoundary from '../../components/ErrorBoundary';

@@ -127,7 +127,7 @@ const Resource = ({
 
   const getGrepCodesAndStatus = async (resource: TopicResource) => {
     const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
-    if (resourceType === 'article') {
+    if (id && resourceType === 'article') {
       const article = await fetchDraft(parseInt(id), locale);
       return {
         ...resource,
@@ -135,7 +135,7 @@ const Resource = ({
         grepCodes: article.grepCodes,
         articleType: article.articleType,
       };
-    } else if (resourceType === 'learningpath') {
+    } else if (id && resourceType === 'learningpath') {
       const learningpath = await fetchLearningpath(parseInt(id), locale);
       if (learningpath.status) {
         const status = { current: learningpath.status as DraftStatusTypes, other: [] };

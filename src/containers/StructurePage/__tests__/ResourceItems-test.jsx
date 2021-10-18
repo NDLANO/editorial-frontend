@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import nock from 'nock';
 import { render, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -38,6 +39,31 @@ const wrapper = () =>
   );
 
 test('matches snapshot', () => {
+  nock('http://ndla-api')
+  .persist()
+  .get('/learningpath-api/v2/learningpaths/401?language=nb&fallback=true')
+  .reply(200, {})
+
+  nock('http://ndla-api')
+  .persist()
+  .get('/learningpath-api/v2/learningpaths/508?language=nb&fallback=true')
+  .reply(200, {})
+
+  nock('http://ndla-api')
+  .persist()
+  .get('/learningpath-api/v2/learningpaths/813?language=nb&fallback=true')
+  .reply(200, {})
+
+  nock('http://ndla-api')
+  .persist()
+  .get('/learningpath-api/v2/learningpaths/78?language=nb&fallback=true')
+  .reply(200, {})
+
+  nock('http://ndla-api')
+  .persist()
+  .get('/learningpath-api/v2/learningpaths/89?language=nb&fallback=true')
+  .reply(200, {})
+
   const { container } = wrapper();
   expect(container.firstChild).toMatchSnapshot();
 });

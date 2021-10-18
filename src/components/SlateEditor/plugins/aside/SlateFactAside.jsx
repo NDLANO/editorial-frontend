@@ -90,6 +90,7 @@ class SlateFactAside extends React.Component {
           {children}
         </div>
         <Button
+          contentEditable={false}
           onMouseDown={this.toggleExpanded}
           className="c-factbox__button"
           css={factBoxButtonStyle}

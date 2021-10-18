@@ -51,6 +51,7 @@ const SlateRightAside = props => {
         tabIndex="-1"
       />
       <Button
+        contentEditable={false}
         css={moveContentButtonStyle}
         title={t('learningResourceForm.fields.rightAside.moveContent')}
         stripped

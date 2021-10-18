@@ -45,9 +45,6 @@ describe('Subject editing', () => {
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.intercept('PUT', `${taxonomyApi}/subjects/${selectSubject}/translations/nb`, []).as(
-      'newSubjectName',
-    );
     cy.intercept('POST', `${taxonomyApi}/topics`, []).as('addNewTopic');
     cy.intercept('GET', `${taxonomyApi}/topics?language=nb`, 'allTopics').as('allTopics');
     cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}`, 'selectSubject');
@@ -64,13 +61,29 @@ describe('Subject editing', () => {
     cy.get('[data-cy=settings-button-subject]')
       .first()
       .click();
-    cy.wait('@allTopics');
+    cy.intercept('PUT', `${taxonomyApi}/subjects/${selectSubject}/translations/nb`).as(
+      'newSubjectName',
+    );
     cy.get('[data-testid=changeSubjectNameButton]').click();
     cy.get('[data-testid=addSubjectNameTranslation]').type('TEST{enter}');
+    cy.intercept('GET', `${taxonomyApi}/subjects?language=nb`, 'updatedSubjects').as(
+      'updatedSubjects',
+    );
+    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}/translations`, [
+      { name: 'NDLA filmTEST', language: 'nb' },
+    ]).as('updatedTranslations');
+    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}`, 'updatedSelectSubject').as(
+      'updatedSelectSubject',
+    );
     cy.get('[data-testid=saveSubjectTranslationsButton]')
       .first()
       .click();
-    cy.wait('@newSubjectName');
+    cy.apiwait(
+      '@newSubjectName',
+      '@updatedSelectSubject',
+      '@updatedSubjects',
+      '@updatedTranslations',
+    );
     cy.wait(1000);
 
     cy.get('[data-testid=subjectName_nb_delete]')
@@ -79,7 +92,14 @@ describe('Subject editing', () => {
     cy.get('[data-testid=saveSubjectTranslationsButton]')
       .first()
       .click();
-    cy.wait('@deleteSubjectTranslation');
+    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}/translations`, []).as(
+      'translations',
+    );
+    cy.intercept('GET', `${taxonomyApi}/subjects/${selectSubject}`, 'selectSubject').as(
+      'selectSubject',
+    );
+    cy.intercept('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects').as('allSubjects');
+    cy.apiwait('@deleteSubjectTranslation', '@selectSubject', '@allSubjects', '@translations');
     cy.wait(1000);
 
     cy.get('[data-cy=close-modal-button]')

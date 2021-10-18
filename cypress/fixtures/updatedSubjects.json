@@ -1,0 +1,576 @@
+[
+  {
+    "id": "urn:subject:3",
+    "contentUri": "urn:frontpage:1",
+    "name": "Samfunnsfag YF Vg2",
+    "path": "/subject:3",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:6",
+    "contentUri": "urn:frontpage:4",
+    "name": "Brønnteknikk Vg2",
+    "path": "/subject:6",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:12",
+    "contentUri": "urn:frontpage:2",
+    "name": "Service og samferdsel Vg1 2019-20",
+    "path": "/subject:12",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:22",
+    "contentUri": "urn:frontpage:3",
+    "name": "Salg, service og sikkerhet Vg2",
+    "path": "/subject:22",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:2",
+    "contentUri": "urn:frontpage:6",
+    "name": "Kinesisk",
+    "path": "/subject:2",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:7",
+    "contentUri": "urn:frontpage:7",
+    "name": "Markedsføring og ledelse 1",
+    "path": "/subject:7",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:8",
+    "contentUri": "urn:frontpage:8",
+    "name": "Tysk",
+    "path": "/subject:8",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:9",
+    "contentUri": "urn:frontpage:5",
+    "name": "Historie Vg2 og Vg3",
+    "path": "/subject:9",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:14",
+    "contentUri": "urn:frontpage:13",
+    "name": "Medie- og informasjonskunnskap",
+    "path": "/subject:14",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:23",
+    "contentUri": "urn:frontpage:10",
+    "name": "Samfunnsfaglig engelsk",
+    "path": "/subject:23",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:27",
+    "contentUri": "urn:frontpage:9",
+    "name": "Internasjonal engelsk",
+    "path": "/subject:27",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:4",
+    "contentUri": "urn:frontpage:11",
+    "name": "Helsearbeiderfag Vg2",
+    "path": "/subject:4",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:24",
+    "contentUri": "urn:frontpage:12",
+    "name": "Helse- og oppvekstfag Vg1",
+    "path": "/subject:24",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:17",
+    "contentUri": "urn:frontpage:17",
+    "name": "Engelskspråklig litteratur og kultur",
+    "path": "/subject:17",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:25",
+    "contentUri": "urn:frontpage:16",
+    "name": "IKT-servicefag Vg2",
+    "path": "/subject:25",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:29",
+    "contentUri": "urn:frontpage:22",
+    "name": "Praktisk matematikk",
+    "path": "/subject:29",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:30",
+    "contentUri": "urn:frontpage:20",
+    "name": "Matematikk for yrkesfaglige programmer",
+    "path": "/subject:30",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:31",
+    "contentUri": "urn:frontpage:19",
+    "name": "Matematikk for samfunnsfag",
+    "path": "/subject:31",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:32",
+    "contentUri": "urn:frontpage:18",
+    "name": "Matematikk for realfag",
+    "path": "/subject:32",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:33",
+    "contentUri": "urn:frontpage:15",
+    "name": "1T - Matematikk fellesfag",
+    "path": "/subject:33",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:34",
+    "contentUri": "urn:frontpage:14",
+    "name": "1P - Matematikk fellesfag",
+    "path": "/subject:34",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:1",
+    "contentUri": "urn:frontpage:21",
+    "name": "Medieuttrykk og mediesamfunnet Vg2 og Vg3",
+    "path": "/subject:1",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:11",
+    "contentUri": "urn:frontpage:26",
+    "name": "Bygg- og anleggsteknikk",
+    "path": "/subject:11",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:13",
+    "contentUri": "urn:frontpage:28",
+    "name": "Naturbruk Vg1",
+    "path": "/subject:13",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:16",
+    "contentUri": "urn:frontpage:23",
+    "name": "Elektro og datateknologi Vg1",
+    "path": "/subject:16",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:18",
+    "contentUri": "urn:frontpage:27",
+    "name": "Kommunikasjon og kultur",
+    "path": "/subject:18",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:28",
+    "contentUri": "urn:frontpage:24",
+    "name": "Teknologi- og industrifag",
+    "path": "/subject:28",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:37",
+    "contentUri": "urn:frontpage:25",
+    "name": "Restaurant- og matfag Vg1",
+    "path": "/subject:37",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:21",
+    "contentUri": "urn:frontpage:30",
+    "name": "Naturfag Påbygg",
+    "path": "/subject:21",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:26",
+    "contentUri": "urn:frontpage:29",
+    "name": "Kroppsøving",
+    "path": "/subject:26",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:35",
+    "contentUri": "urn:frontpage:31",
+    "name": "Reiseliv",
+    "path": "/subject:35",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:36",
+    "contentUri": "urn:frontpage:32",
+    "name": "Transport og logistikk",
+    "path": "/subject:36",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:15",
+    "contentUri": "urn:frontpage:34",
+    "name": "Åarjelsaemien voestesgïeline BF jïh SR",
+    "path": "/subject:15",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:38",
+    "contentUri": null,
+    "name": "Design og håndverk Vg1 2019-2020",
+    "path": "/subject:38",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:39",
+    "contentUri": "urn:frontpage:36",
+    "name": "Engelsk",
+    "path": "/subject:39",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:40",
+    "contentUri": "urn:frontpage:35",
+    "name": "Barne- og ungdomsarbeiderfag Vg2",
+    "path": "/subject:40",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:19",
+    "contentUri": "urn:frontpage:37",
+    "name": "Norsk",
+    "path": "/subject:19",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:41",
+    "contentUri": "urn:frontpage:39",
+    "name": "Kokk- og servitørfag Vg2",
+    "path": "/subject:41",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:42",
+    "contentUri": "urn:frontpage:38",
+    "name": "Biologi",
+    "path": "/subject:42",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:43",
+    "contentUri": "urn:frontpage:41",
+    "name": "Sosiologi og sosialantropologi",
+    "path": "/subject:43",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:44",
+    "contentUri": "urn:frontpage:40",
+    "name": "Religion og etikk",
+    "path": "/subject:44",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:20",
+    "contentUri": null,
+    "name": "NDLA filmTEST",
+    "path": "/subject:20",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:f248e20c-3131-495e-a759-c71678430d5f",
+    "contentUri": "urn:frontpage:44",
+    "name": "Informasjonsteknologi og medieproduksjon Vg1",
+    "path": "/subject:f248e20c-3131-495e-a759-c71678430d5f",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7",
+    "contentUri": null,
+    "name": "Tverrfaglige temaer",
+    "path": "/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6",
+    "contentUri": "urn:frontpage:46",
+    "name": "Naturfag",
+    "path": "/subject:3d9454e8-460e-42c7-8f28-71663fbbf6e6",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:7509b507-548d-48e1-bef3-a06758e4820c",
+    "contentUri": "urn:frontpage:42",
+    "name": "Håndverk, design og produktutvikling Vg1",
+    "path": "/subject:7509b507-548d-48e1-bef3-a06758e4820c",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:d41a472f-5a93-4e46-b658-f1e681284901",
+    "contentUri": "urn:frontpage:43",
+    "name": "Frisør, blomster, interiør og eksponeringsdesign Vg1",
+    "path": "/subject:d41a472f-5a93-4e46-b658-f1e681284901",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4",
+    "contentUri": "urn:frontpage:45",
+    "name": "Mediesamfunnet og medieuttrykk Vg1",
+    "path": "/subject:b84357cc-93f8-4742-a06b-24596307e5d4",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d",
+    "contentUri": "urn:frontpage:50",
+    "name": "Salg, service og reiseliv Vg1",
+    "path": "/subject:fd43e0c7-9dd6-427d-9edb-2e4234d8db9d",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:10d8cd69-962f-484d-8059-bbfa4239485f",
+    "contentUri": null,
+    "name": "Matematikk 1P-Y",
+    "path": "/subject:10d8cd69-962f-484d-8059-bbfa4239485f",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6",
+    "contentUri": null,
+    "name": "Matematikk 1T-Y",
+    "path": "/subject:8f9d3c55-9e3a-4414-9322-7cc6c8e3aab6",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
+    "contentUri": "urn:frontpage:51",
+    "name": "Samfunnskunnskap",
+    "path": "/subject:5e750140-7d01-4b52-88ec-1daa007eeab3",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:80063181-61d8-4c52-9bbc-4313376175a2",
+    "contentUri": "urn:frontpage:48",
+    "name": "Norsk SF Vg1",
+    "path": "/subject:80063181-61d8-4c52-9bbc-4313376175a2",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09",
+    "contentUri": null,
+    "name": "Verktøykassa",
+    "path": "/subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3",
+    "contentUri": "urn:frontpage:49",
+    "name": "Saemiengïele mubpiengïeline, saemien 4",
+    "path": "/subject:3af98d1d-6aec-46c8-a5bc-c524cc48dcc3",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:1b46e3eb-d130-4a05-8bfc-7932c2a03c23",
+    "contentUri": "urn:frontpage:34",
+    "name": "Åarjelsaemien voestesgïeline BF jïh SR1",
+    "path": "/subject:1b46e3eb-d130-4a05-8bfc-7932c2a03c23",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4",
+    "contentUri": "urn:frontpage:52",
+    "name": "123-TESTFAG - Øv her!!",
+    "path": "/subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4",
+    "metadata": { "grepCodes": [], "visible": false, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:d7f82986-1cf1-4449-bcc2-7ee442784761",
+    "contentUri": null,
+    "name": "Brønnteknikk Vg2 - 2021",
+    "path": "/subject:d7f82986-1cf1-4449-bcc2-7ee442784761",
+    "metadata": { "grepCodes": [], "visible": false, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:6309cc71-56be-4c99-90bb-4600dccb2b15",
+    "contentUri": "urn:frontpage:35",
+    "name": "Barne- og ungdomsarbeiderfag Vg2 - 2021",
+    "path": "/subject:6309cc71-56be-4c99-90bb-4600dccb2b15",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:f665de3e-65dc-478e-b736-cb0af3d38ad4",
+    "contentUri": null,
+    "name": "Biologi - 2021",
+    "path": "/subject:f665de3e-65dc-478e-b736-cb0af3d38ad4",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:cccdda20-f034-4fc7-877a-f91d89c40178",
+    "contentUri": null,
+    "name": "Engelsk 1 - 2021",
+    "path": "/subject:cccdda20-f034-4fc7-877a-f91d89c40178",
+    "metadata": { "grepCodes": [], "visible": false, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089",
+    "contentUri": null,
+    "name": "Helsearbeiderfag Vg2 - 2021",
+    "path": "/subject:c6342c71-120c-4e9b-8aa3-556d5c7e3089",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:ada003d8-1ae7-4e19-982e-34bf7e8868de",
+    "contentUri": null,
+    "name": "Historie Vg2 - 2021",
+    "path": "/subject:ada003d8-1ae7-4e19-982e-34bf7e8868de",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:331f077e-04a3-4340-94d7-b6a463bab9e5",
+    "contentUri": null,
+    "name": "Informasjonsteknologi Vg2 - 2021",
+    "path": "/subject:331f077e-04a3-4340-94d7-b6a463bab9e5",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:e1265b4e-58bf-45ee-ba43-71a819f86517",
+    "contentUri": null,
+    "name": "Kokk- og servitørfag Vg2 - 2021",
+    "path": "/subject:e1265b4e-58bf-45ee-ba43-71a819f86517",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:22d73be5-840f-4811-b442-9cd10d0d7248",
+    "contentUri": null,
+    "name": "Kommunikasjon og kultur - 2021",
+    "path": "/subject:22d73be5-840f-4811-b442-9cd10d0d7248",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:be55024d-278b-4b55-97de-832ac6a514ea",
+    "contentUri": null,
+    "name": "Markedsføring og ledelse 1 - 2021",
+    "path": "/subject:be55024d-278b-4b55-97de-832ac6a514ea",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:dab41c7e-e8b1-4f28-8893-e360d849c270",
+    "contentUri": null,
+    "name": "Matematikk for realfag - 2021",
+    "path": "/subject:dab41c7e-e8b1-4f28-8893-e360d849c270",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:6ba15509-052e-42dc-83cb-b06c1774cc74",
+    "contentUri": null,
+    "name": "Matematikk for samfunnsfag - 2021",
+    "path": "/subject:6ba15509-052e-42dc-83cb-b06c1774cc74",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:d9ab39ca-b3e8-46c7-b71c-3488c2bc93b0",
+    "contentUri": null,
+    "name": "Skal slettes - Medieuttrykk og mediesamfunnet Vg1 og Vg2 - 2021",
+    "path": "/subject:d9ab39ca-b3e8-46c7-b71c-3488c2bc93b0",
+    "metadata": { "grepCodes": [], "visible": false, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:afab7d53-a092-4468-bb96-0b6e2fd14716",
+    "contentUri": null,
+    "name": "Skal slettes - Norsk Vg1 og Vg2 - 2021",
+    "path": "/subject:afab7d53-a092-4468-bb96-0b6e2fd14716",
+    "metadata": { "grepCodes": [], "visible": false, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866",
+    "contentUri": null,
+    "name": "Salg og reiseliv Vg2 - 2021",
+    "path": "/subject:30e47341-3f0e-4f5f-9d80-b99e9d62b866",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4",
+    "contentUri": null,
+    "name": "Service, sikkerhet og administrasjon Vg2 - 2021",
+    "path": "/subject:12214c29-3192-45e2-8ba1-21c7d10ef6e4",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:39ec57c0-d11c-42be-a17b-e73813597be0",
+    "contentUri": null,
+    "name": "Sosiologi og sosialantropologi - 2021",
+    "path": "/subject:39ec57c0-d11c-42be-a17b-e73813597be0",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:084d46ce-b8b2-4fe4-91f6-a19faf73c42f",
+    "contentUri": null,
+    "name": "Transport og logistikk - 2021",
+    "path": "/subject:084d46ce-b8b2-4fe4-91f6-a19faf73c42f",
+    "metadata": { "grepCodes": [], "visible": false, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:fdb6b622-7537-41df-9700-9d66532754f5",
+    "contentUri": null,
+    "name": "Åarjelsaemien voestesgïeline Vg1 og Vg2 - 2021",
+    "path": "/subject:fdb6b622-7537-41df-9700-9d66532754f5",
+    "metadata": { "grepCodes": [], "visible": false, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:9d6d7550-f6df-4157-aa21-1f161d18f771",
+    "contentUri": null,
+    "name": "Praktisk matematikk - 2021",
+    "path": "/subject:9d6d7550-f6df-4157-aa21-1f161d18f771",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:4e633ace-a9ad-4ad1-b065-fb91ca72151e",
+    "contentUri": null,
+    "name": "Kontor og administrasjon Vg2 - 2021",
+    "path": "/subject:4e633ace-a9ad-4ad1-b065-fb91ca72151e",
+    "metadata": { "grepCodes": [], "visible": false, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5",
+    "contentUri": null,
+    "name": "Medie- og informasjonskunnskap MIK1 - 2021",
+    "path": "/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:114139c1-0480-4b5d-add7-2b2edf6e2765",
+    "contentUri": null,
+    "name": "1T - Matematikk fellesfag - arkiv 2020",
+    "path": "/subject:114139c1-0480-4b5d-add7-2b2edf6e2765",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:a1af12e8-0911-4c9c-ad29-dc1a42065c45",
+    "contentUri": null,
+    "name": "Engelsk - arkiv 2020",
+    "path": "/subject:a1af12e8-0911-4c9c-ad29-dc1a42065c45",
+    "metadata": { "grepCodes": [], "visible": true, "customFields": {} }
+  },
+  {
+    "id": "urn:subject:18c20d84-85d6-4ac6-bfa4-5a694926394f",
+    "contentUri": null,
+    "name": "Slettes Vg3",
+    "path": "/subject:18c20d84-85d6-4ac6-bfa4-5a694926394f",
+    "metadata": { "grepCodes": [], "visible": false, "customFields": {} }
+  }
+]

@@ -13,6 +13,7 @@ import styled from '@emotion/styled';
 import { AlertCircle } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 import { SubjectTopic, SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: ${spacing.nsmall};
@@ -27,10 +28,17 @@ const StructureErrorIcon = (
 ) => {
   const { t } = useTranslation();
   if (isRoot || articleType === 'topic-article') return null;
-  const error = t('taxonomy.info.wrongArticleType', {
+
+  const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
+    id: getIdFromUrn(item.contentUri),
+  });
+
+  const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
     placedAs: t(`articleType.topic-article`),
     isType: t(`articleType.standard`),
   });
+
+  const error = !articleType ? missingArticleTypeError : wrongArticleTypeError;
 
   return (
     <Tooltip tooltip={error}>

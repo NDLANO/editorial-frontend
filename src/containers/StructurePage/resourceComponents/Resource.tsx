@@ -35,6 +35,7 @@ import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
 import { DraftStatusTypes } from '../../../modules/draft/draftApiInterfaces';
 import { TOPIC_RESOURCE_STATUS_GREP_QUERY } from '../../../queryKeys';
+import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -199,10 +200,16 @@ const Resource = ({
     const expectedArticleType = getArticleTypeFromId(resource.id);
     if (expectedArticleType === resource.articleType) return null;
 
-    const errorText = t('taxonomy.info.wrongArticleType', {
+    const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
+      id: getIdFromUrn(resource.contentUri),
+    });
+
+    const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
       placedAs: t(`articleType.${expectedArticleType}`),
       isType: t(`articleType.${resource.articleType}`),
     });
+
+    const errorText = resource.articleType ? wrongArticleTypeError : missingArticleTypeError;
 
     return (
       <Tooltip tooltip={errorText}>

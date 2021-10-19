@@ -25,7 +25,7 @@ import {
 import { deleteTopicResource, updateTopicResource } from '..';
 import { TopicResource } from '../../../containers/StructurePage/resourceComponents/StructureResources';
 import {
-  SUBJECT_TOPICS,
+  SUBJECT_TOPICS_WITH_ARTICLE_TYPE,
   TOPIC,
   TOPICS,
   TOPIC_CONNECTIONS,
@@ -111,6 +111,6 @@ export const useTopicMetadataUpdateMutation = () => {
     unknown,
     { id: string; metadata: Partial<TaxonomyMetadata> }
   >(data => updateTopicMetadata(data.id, data.metadata), {
-    onSettled: (_, __, data) => queryClient.invalidateQueries([SUBJECT_TOPICS]),
+    onSettled: (_, __, data) => queryClient.invalidateQueries([SUBJECT_TOPICS_WITH_ARTICLE_TYPE]),
   });
 };

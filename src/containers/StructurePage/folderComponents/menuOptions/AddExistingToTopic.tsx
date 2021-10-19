@@ -23,7 +23,7 @@ import retrieveBreadCrumbs, { PathArray } from '../../../../util/retrieveBreadCr
 import { Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { EditMode } from '../../../../interfaces';
 import { useTopics } from '../../../../modules/taxonomy/topics/topicQueries';
-import { SUBJECT_TOPICS } from '../../../../queryKeys';
+import { SUBJECT_TOPICS_WITH_ARTICLE_TYPE } from '../../../../queryKeys';
 
 interface Props {
   subjectId: string;
@@ -89,7 +89,7 @@ const AddExistingToTopic = ({
       primary: false,
       rank: numberOfSubtopics + 1,
     });
-    qc.invalidateQueries([SUBJECT_TOPICS, subjectId]);
+    qc.invalidateQueries([SUBJECT_TOPICS_WITH_ARTICLE_TYPE, subjectId]);
   };
 
   const toggleEditModeFunc = () => {

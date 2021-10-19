@@ -21,7 +21,7 @@ import RoundIcon from '../../../components/RoundIcon';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useTopicMetadataUpdateMutation } from '../../../modules/taxonomy/topics/topicQueries';
-import { SUBJECT_TOPICS } from '../../../queryKeys';
+import { SUBJECT_TOPICS_WITH_ARTICLE_TYPE } from '../../../queryKeys';
 
 interface Props {
   topicId: string;
@@ -45,7 +45,7 @@ const GroupTopicResources = ({ topicId, subjectId, metadata, hideIcon, onChanged
     updateTopicMetadataMutation.mutate(
       { id: topicId, metadata: { customFields } },
       {
-        onSettled: () => qc.invalidateQueries(SUBJECT_TOPICS),
+        onSettled: () => qc.invalidateQueries(SUBJECT_TOPICS_WITH_ARTICLE_TYPE),
         onSuccess: () => onChanged?.({ customFields }),
       },
     );

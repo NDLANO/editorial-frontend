@@ -27,7 +27,7 @@ import {
   useDeleteTopicConnection,
   useTopicConnections,
 } from '../../../../modules/taxonomy/topics/topicQueries';
-import { SUBJECT_TOPICS, TOPIC_CONNECTIONS } from '../../../../queryKeys';
+import { SUBJECT_TOPICS_WITH_ARTICLE_TYPE, TOPIC_CONNECTIONS } from '../../../../queryKeys';
 
 interface Props {
   editMode: string;
@@ -70,7 +70,7 @@ const DeleteTopic = ({ toggleEditMode, parent, id, locale, editMode, subjectId }
     try {
       await deleteConnectionFunc(connections![0].connectionId, {
         onSettled: () => {
-          qc.invalidateQueries([SUBJECT_TOPICS, subjectId]);
+          qc.invalidateQueries([SUBJECT_TOPICS_WITH_ARTICLE_TYPE, subjectId]);
           qc.invalidateQueries([TOPIC_CONNECTIONS]);
         },
       });

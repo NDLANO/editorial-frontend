@@ -14,7 +14,7 @@ import {
   useUpdateSubjectTopic,
 } from '../../modules/taxonomy/subjects/subjectsQueries';
 import { groupTopics } from '../../util/taxonomyHelpers';
-import { SUBJECT_TOPICS } from '../../queryKeys';
+import { SUBJECT_TOPICS_WITH_ARTICLE_TYPE } from '../../queryKeys';
 import { useUpdateTopicSubTopic } from '../../modules/taxonomy/topics/topicQueries';
 import StructureNode, { RenderBeforeFunction } from './StructureNode';
 
@@ -52,13 +52,17 @@ const StructureRoot = ({
   const qc = useQueryClient();
 
   const onUpdateRank = async (id: string, newRank: number) => {
-    await qc.cancelQueries([SUBJECT_TOPICS, subject.id, locale]);
-    const prevData = qc.getQueryData<SubjectTopic[]>([SUBJECT_TOPICS, subject.id, locale]);
+    await qc.cancelQueries([SUBJECT_TOPICS_WITH_ARTICLE_TYPE, subject.id, locale]);
+    const prevData = qc.getQueryData<SubjectTopic[]>([
+      SUBJECT_TOPICS_WITH_ARTICLE_TYPE,
+      subject.id,
+      locale,
+    ]);
     const [toUpdate, other] = partition(prevData, t => t.connectionId === id);
     const updatedTopic: SubjectTopic = { ...toUpdate[0], rank: newRank };
     const updated = other.map(t => (t.rank >= updatedTopic.rank ? { ...t, rank: t.rank + 1 } : t));
     const newArr = sortBy([...updated, updatedTopic], 'rank');
-    qc.setQueryData<SubjectTopic[]>([SUBJECT_TOPICS, subject.id, locale], newArr);
+    qc.setQueryData<SubjectTopic[]>([SUBJECT_TOPICS_WITH_ARTICLE_TYPE, subject.id, locale], newArr);
     return prevData;
   };
   const { mutateAsync: updateTopicSubtopic } = useUpdateTopicSubTopic({
@@ -84,7 +88,10 @@ const StructureRoot = ({
       : updateSubjectTopic;
     await updateFunc(
       { id: draggableId, body: { rank: newRank } },
-      { onSettled: () => qc.invalidateQueries([SUBJECT_TOPICS, subject.id, locale]) },
+      {
+        onSettled: () =>
+          qc.invalidateQueries([SUBJECT_TOPICS_WITH_ARTICLE_TYPE, subject.id, locale]),
+      },
     );
   };
   return (

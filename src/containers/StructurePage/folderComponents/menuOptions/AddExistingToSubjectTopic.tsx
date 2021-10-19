@@ -22,7 +22,7 @@ import MenuItemButton from './MenuItemButton';
 import retrieveBreadCrumbs, { PathArray } from '../../../../util/retrieveBreadCrumbs';
 import { Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { EditMode } from '../../../../interfaces';
-import { SUBJECT_TOPICS } from '../../../../queryKeys';
+import { SUBJECT_TOPICS_WITH_ARTICLE_TYPE } from '../../../../queryKeys';
 import { useTopics } from '../../../../modules/taxonomy/topics/topicQueries';
 
 interface Props {
@@ -80,7 +80,7 @@ const AddExistingToSubjectTopic = ({
     }
 
     await addSubjectTopic({ subjectid: id, topicid: topic.id });
-    qc.invalidateQueries([SUBJECT_TOPICS, id]);
+    qc.invalidateQueries([SUBJECT_TOPICS_WITH_ARTICLE_TYPE, id]);
   };
 
   const toggleEditModeFunc = () => {

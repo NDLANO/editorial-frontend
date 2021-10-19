@@ -29,7 +29,6 @@ import {
   SUBJECT,
   SUBJECTS,
   SUBJECT_NAME_TRANSLATIONS,
-  SUBJECT_TOPICS,
   SUBJECT_TOPICS_WITH_ARTICLE_TYPE,
 } from '../../../queryKeys';
 import {
@@ -95,7 +94,7 @@ export const useSubjectTopics = (
   options?: UseQueryOptions<SubjectTopic[]>,
 ) =>
   useQuery<SubjectTopic[]>(
-    [SUBJECT_TOPICS, id, language],
+    [SUBJECT_TOPICS_WITH_ARTICLE_TYPE, id, language],
     () => fetchSubjectTopics(id, language),
     options,
   );

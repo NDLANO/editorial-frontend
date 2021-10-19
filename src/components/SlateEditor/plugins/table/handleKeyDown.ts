@@ -138,8 +138,8 @@ const moveLeft = (
     const targetPath = [...tablePath, 0, 0];
     Transforms.insertNodes(editor, createIdenticalRow(row), { at: targetPath });
     Transforms.select(editor, {
-      anchor: Editor.point(editor, targetPath, { edge: 'start' }),
-      focus: Editor.point(editor, targetPath, { edge: 'start' }),
+      anchor: Editor.point(editor, targetPath, { edge: 'end' }),
+      focus: Editor.point(editor, targetPath, { edge: 'end' }),
     });
   }
 };
@@ -178,8 +178,8 @@ const moveRight = (
   if (Path.isDescendant(TableEndPoint.path, cellPath)) {
     Transforms.insertNodes(editor, createIdenticalRow(row), { at: nextRowPath });
     Transforms.select(editor, {
-      anchor: Editor.point(editor, tablePath, { edge: 'end' }),
-      focus: Editor.point(editor, tablePath, { edge: 'end' }),
+      anchor: Editor.point(editor, nextRowPath, { edge: 'start' }),
+      focus: Editor.point(editor, nextRowPath, { edge: 'start' }),
     });
   }
 };

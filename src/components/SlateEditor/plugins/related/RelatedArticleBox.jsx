@@ -15,6 +15,7 @@ import { withTranslation } from 'react-i18next';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { css } from '@emotion/core';
+import { isEqual } from 'lodash/fp';
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
@@ -60,10 +61,18 @@ export class RelatedArticleBox extends React.Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     // need to re-add eventhandler on button
     if (!this.state.editMode && this.state.articles.length > 2) {
       toggleRelatedArticles();
+    }
+    if (!isEqual(prevProps.element?.data?.nodes, this.props.element?.data?.nodes)) {
+      if (this.props.element?.data?.nodes) {
+        const articleNodes = this.props.element.data.nodes;
+        this.fetchArticles(articleNodes).then(articles =>
+          this.setState({ articles: articles.filter(a => !!a) }),
+        );
+      }
     }
   }
 
@@ -166,52 +175,50 @@ export class RelatedArticleBox extends React.Component {
     const { attributes, onRemoveClick, locale, t, children } = this.props;
     const { editMode, articles } = this.state;
 
-    if (editMode) {
-      return (
-        <EditRelated
-          onRemoveClick={onRemoveClick}
-          articles={articles}
-          locale={locale}
-          insertExternal={this.insertExternal}
-          onInsertBlock={this.onInsertBlock}
-          onExit={() => this.setState({ editMode: false })}
-          updateArticles={this.updateArticles}
-          {...attributes}
-        />
-      );
-    }
-
     return (
-      <div
-        role="button"
-        draggable
-        contentEditable={false}
-        tabIndex={0}
-        data-testid="relatedWrapper"
-        onClick={this.openEditMode}
-        onKeyPress={this.openEditMode}
-        css={css`
-          & article > p {
-            font-family: Source Sans Pro !important;
-          }
-        `}
-        {...attributes}>
-        <RelatedArticleList
-          messages={{
-            title: t('form.related.title'),
-            showMore: t('form.related.showMore'),
-            showLess: t('form.related.showLess'),
-          }}>
-          {articles.map((item, i) =>
-            !item.id ? (
-              t('form.content.relatedArticle.invalidArticle')
-            ) : (
-              <RelatedArticle key={uuid()} numberInList={i} item={item} />
-            ),
-          )}
-        </RelatedArticleList>
-        {children}
-      </div>
+      <>
+        {editMode && (
+          <EditRelated
+            onRemoveClick={onRemoveClick}
+            articles={articles}
+            locale={locale}
+            insertExternal={this.insertExternal}
+            onInsertBlock={this.onInsertBlock}
+            onExit={() => this.setState({ editMode: false })}
+            updateArticles={this.updateArticles}
+          />
+        )}
+        <div
+          role="button"
+          draggable
+          contentEditable={false}
+          tabIndex={0}
+          data-testid="relatedWrapper"
+          onClick={this.openEditMode}
+          onKeyPress={this.openEditMode}
+          css={css`
+            & article > p {
+              font-family: Source Sans Pro !important;
+            }
+          `}
+          {...attributes}>
+          <RelatedArticleList
+            messages={{
+              title: t('form.related.title'),
+              showMore: t('form.related.showMore'),
+              showLess: t('form.related.showLess'),
+            }}>
+            {articles.map((item, i) =>
+              !item.id ? (
+                t('form.content.relatedArticle.invalidArticle')
+              ) : (
+                <RelatedArticle key={uuid()} numberInList={i} item={item} />
+              ),
+            )}
+          </RelatedArticleList>
+          {children}
+        </div>
+      </>
     );
   }
 }

@@ -21,15 +21,21 @@ import AsyncDropdown from '../../../../components/Dropdown/asyncDropdown/AsyncDr
 import Overlay from '../../../Overlay';
 import RelatedArticle from './RelatedArticle';
 import ContentLink from '../../../../containers/ArticlePage/components/ContentLink';
-import { Portal } from '../../../Portal';
 import DeleteButton from '../../../DeleteButton';
 import { ARTICLE_EXTERNAL } from '../../../../constants';
+
+const StyledContainer = styled('div')`
+  position: absolute;
+  width: 100%;
+`;
 
 const StyledBorderDiv = styled('div')`
   position: relative;
   border: 2px solid ${colors.brand.tertiary};
   padding: ${spacing.large};
   padding-top: 0;
+  background-color: ${colors.white};
+  z-index: 1;
 `;
 
 const StyledListWrapper = styled('div')`
@@ -68,6 +74,10 @@ const StyledEditButton = styled(Button)`
   }
 `;
 
+const StyledDropZone = styled('div')`
+  flex: 1;
+`;
+
 class EditRelated extends React.PureComponent {
   constructor() {
     super();
@@ -80,30 +90,6 @@ class EditRelated extends React.PureComponent {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.toggleAddExternal = this.toggleAddExternal.bind(this);
     this.searchForArticles = this.searchForArticles.bind(this);
-  }
-
-  componentDidMount() {
-    const { placeholderEl, embedEl } = this;
-
-    const bodyRect = document.body.getBoundingClientRect();
-    const placeholderRect = placeholderEl.getBoundingClientRect();
-
-    // Placing embed within placeholder div on mount
-    embedEl.style.position = 'absolute';
-    embedEl.style.background = 'white';
-    embedEl.style.top = `${placeholderRect.top - bodyRect.top}px`;
-    embedEl.style.left = `${placeholderRect.left - 50}px`;
-    embedEl.style.width = `${placeholderRect.width + 100}px`;
-
-    const embedRect = embedEl.getBoundingClientRect();
-    placeholderEl.style.height = `${embedRect.height}px`;
-  }
-
-  componentDidUpdate() {
-    const { placeholderEl, embedEl } = this;
-
-    const embedRect = embedEl.getBoundingClientRect();
-    placeholderEl.style.height = `${embedRect.height + 120}px`;
   }
 
   handleInputChange(e) {
@@ -138,156 +124,143 @@ class EditRelated extends React.PureComponent {
     } = this.props;
 
     return (
-      <div>
+      <StyledContainer contentEditable={false}>
         <Overlay onExit={onExit} />
-        <div
-          ref={placeholderEl => {
-            this.placeholderEl = placeholderEl;
-          }}>
-          <Portal isOpened>
-            <StyledBorderDiv
-              ref={embedEl => {
-                this.embedEl = embedEl;
-              }}
-              {...rest}>
-              <h1 className="c-section-heading c-related-articles__component-title">
-                {t('form.related.title')}
-              </h1>
-              <p>{t('form.related.subtitle')}</p>
-              <StyledListWrapper>
-                <DragDropContext
-                  onDragEnd={a => {
-                    if (!a.destination) {
-                      return;
-                    }
-                    const toIndex = a.destination.index;
-                    const fromIndex = a.source.index;
-                    const newArticles = [...articles];
+        <StyledBorderDiv {...rest}>
+          <h1 className="c-section-heading c-related-articles__component-title">
+            {t('form.related.title')}
+          </h1>
+          <p>{t('form.related.subtitle')}</p>
+          <StyledListWrapper>
+            <DragDropContext
+              onDragEnd={a => {
+                if (!a.destination) {
+                  return;
+                }
+                const toIndex = a.destination.index;
+                const fromIndex = a.source.index;
+                const newArticles = [...articles];
 
-                    var element = newArticles[fromIndex];
-                    newArticles.splice(fromIndex, 1);
-                    newArticles.splice(toIndex, 0, element);
-                    updateArticles(newArticles);
-                  }}>
-                  <Droppable droppableId="relatedArticleDroppable">
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        className={snapshot.isDraggingOver ? 'drop-zone dragging' : 'drop-zone'}>
-                        {articles.map((article, index) => {
-                          if (!article) {
-                            return null;
-                          }
-                          const articleKey =
-                            article.id === ARTICLE_EXTERNAL ? article.tempId : article.id;
-                          return (
-                            <Draggable key={articleKey} draggableId={articleKey} index={index}>
-                              {(providedInner, snapshotInner) => (
-                                <div
-                                  className="drag-item"
-                                  ref={providedInner.innerRef}
-                                  {...providedInner.dragHandleProps}
-                                  {...providedInner.draggableProps}>
-                                  <StyledArticle
-                                    isDragging={snapshotInner.isDragging}
-                                    dragHandleProps={providedInner.dragHandleProps}
-                                    key={article.id}>
-                                    <RelatedArticle item={article} />
-                                    {article.id === ARTICLE_EXTERNAL && (
-                                      <StyledEditButton
-                                        stripped
-                                        onClick={() => {
-                                          this.setState({
-                                            tempId: article.tempId,
-                                            url: article.url,
-                                            title: article.title,
-                                          });
-                                          this.toggleAddExternal();
-                                        }}>
-                                        <Tooltip
-                                          tooltip={t('form.content.relatedArticle.changeExternal')}>
-                                          <Pencil />
-                                        </Tooltip>
-                                      </StyledEditButton>
-                                    )}
-                                    <DeleteButton
-                                      title={t('form.content.relatedArticle.removeExternal')}
-                                      stripped
-                                      onClick={e => {
-                                        e.stopPropagation();
+                var element = newArticles[fromIndex];
+                newArticles.splice(fromIndex, 1);
+                newArticles.splice(toIndex, 0, element);
+                updateArticles(newArticles);
+              }}>
+              <Droppable droppableId="relatedArticleDroppable">
+                {(provided, snapshot) => (
+                  <StyledDropZone
+                    ref={provided.innerRef}
+                    className={snapshot.isDraggingOver ? 'drop-zone dragging' : 'drop-zone'}>
+                    {articles.map((article, index) => {
+                      if (!article) {
+                        return null;
+                      }
+                      const articleKey =
+                        article.id === ARTICLE_EXTERNAL ? article.tempId : article.id;
+                      return (
+                        <Draggable key={articleKey} draggableId={articleKey} index={index}>
+                          {(providedInner, snapshotInner) => (
+                            <div
+                              className="drag-item"
+                              ref={providedInner.innerRef}
+                              {...providedInner.dragHandleProps}
+                              {...providedInner.draggableProps}>
+                              <StyledArticle
+                                isDragging={snapshotInner.isDragging}
+                                dragHandleProps={providedInner.dragHandleProps}
+                                key={article.id}>
+                                <RelatedArticle item={article} />
+                                {article.id === ARTICLE_EXTERNAL && (
+                                  <StyledEditButton
+                                    stripped
+                                    onClick={() => {
+                                      this.setState({
+                                        tempId: article.tempId,
+                                        url: article.url,
+                                        title: article.title,
+                                      });
+                                      this.toggleAddExternal();
+                                    }}>
+                                    <Tooltip
+                                      tooltip={t('form.content.relatedArticle.changeExternal')}>
+                                      <Pencil />
+                                    </Tooltip>
+                                  </StyledEditButton>
+                                )}
+                                <DeleteButton
+                                  title={t('form.content.relatedArticle.removeExternal')}
+                                  stripped
+                                  onClick={e => {
+                                    e.stopPropagation();
 
-                                        const newArticles = articles.filter(filterArticle =>
-                                          filterArticle.id === ARTICLE_EXTERNAL
-                                            ? filterArticle.tempId !== articleKey
-                                            : filterArticle.id !== articleKey,
-                                        );
-                                        updateArticles(newArticles);
-                                      }}
-                                    />
-                                  </StyledArticle>
-                                </div>
-                              )}
-                            </Draggable>
-                          );
-                        })}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </DragDropContext>
-              </StyledListWrapper>
-              <StyledArticle data-cy="styled-article-modal">
-                <AsyncDropdown
-                  idField="id"
-                  labelField="title"
-                  placeholder={t('form.content.relatedArticle.placeholder')}
-                  label="label"
-                  apiAction={this.searchForArticles}
-                  onClick={e => e.stopPropagation()}
-                  onChange={selected => selected && onInsertBlock(selected.id)}
-                  positionAbsolute
-                  showPagination
-                />
-                <StyledOr>{t('taxonomy.or')}</StyledOr>
-                <Button data-testid="showAddExternal" onClick={this.toggleAddExternal}>
-                  {t('form.content.relatedArticle.addExternal')}
-                </Button>
-              </StyledArticle>
-              <DeleteButton stripped onClick={onRemoveClick} />
-            </StyledBorderDiv>
-            {this.state.showAddExternal && (
-              <ContentLink
-                onAddLink={(title, url) => {
-                  if (this.state.tempId) {
-                    updateArticles(
-                      articles.map(a =>
-                        a.tempId === this.state.tempId ? { ...a, url, title } : a,
-                      ),
-                    );
-                    this.setState({
-                      tempId: undefined,
-                      url: '',
-                      title: '',
-                    });
-                  } else {
-                    insertExternal(url, title);
-                  }
-                }}
-                onClose={() => {
-                  this.setState({
-                    tempId: undefined,
-                    url: '',
-                    title: '',
-                  });
-                  this.toggleAddExternal();
-                }}
-                initialTitle={this.state.title}
-                initialUrl={this.state.url}
-              />
-            )}
-          </Portal>
-        </div>
-      </div>
+                                    const newArticles = articles.filter(filterArticle =>
+                                      filterArticle.id === ARTICLE_EXTERNAL
+                                        ? filterArticle.tempId !== articleKey
+                                        : filterArticle.id !== articleKey,
+                                    );
+                                    updateArticles(newArticles);
+                                  }}
+                                />
+                              </StyledArticle>
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </StyledDropZone>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </StyledListWrapper>
+          <StyledArticle data-cy="styled-article-modal">
+            <AsyncDropdown
+              idField="id"
+              labelField="title"
+              placeholder={t('form.content.relatedArticle.placeholder')}
+              label="label"
+              apiAction={this.searchForArticles}
+              onClick={e => e.stopPropagation()}
+              onChange={selected => selected && onInsertBlock(selected.id)}
+              positionAbsolute
+              showPagination
+            />
+            <StyledOr>{t('taxonomy.or')}</StyledOr>
+            <Button data-testid="showAddExternal" onClick={this.toggleAddExternal}>
+              {t('form.content.relatedArticle.addExternal')}
+            </Button>
+          </StyledArticle>
+          <DeleteButton stripped onClick={onRemoveClick} />
+        </StyledBorderDiv>
+        {this.state.showAddExternal && (
+          <ContentLink
+            onAddLink={(title, url) => {
+              if (this.state.tempId) {
+                updateArticles(
+                  articles.map(a => (a.tempId === this.state.tempId ? { ...a, url, title } : a)),
+                );
+                this.setState({
+                  tempId: undefined,
+                  url: '',
+                  title: '',
+                });
+              } else {
+                insertExternal(url, title);
+              }
+            }}
+            onClose={() => {
+              this.setState({
+                tempId: undefined,
+                url: '',
+                title: '',
+              });
+              this.toggleAddExternal();
+            }}
+            initialTitle={this.state.title}
+            initialUrl={this.state.url}
+          />
+        )}
+      </StyledContainer>
     );
   }
 }

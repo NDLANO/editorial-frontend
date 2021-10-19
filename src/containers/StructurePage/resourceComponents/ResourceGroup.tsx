@@ -81,7 +81,6 @@ const ResourceGroup = ({ resourceType, topicResource, locale, currentTopicId }: 
           type={resourceType.id}
           allowPaste={resourceType.id !== RESOURCE_TYPE_LEARNING_PATH}
           topicId={currentTopicId}
-          refreshResources={async () => {}}
           onClose={toggleAddModal}
           existingResourceIds={topicResource?.resources?.map(r => r.id) ?? []}
           locale={locale}

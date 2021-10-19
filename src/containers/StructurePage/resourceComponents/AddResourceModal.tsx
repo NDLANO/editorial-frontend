@@ -70,7 +70,6 @@ interface Props {
   type?: string;
   allowPaste?: boolean;
   topicId: string;
-  refreshResources: () => void;
   existingResourceIds: string[];
   locale: string;
 }
@@ -93,7 +92,6 @@ const AddResourceModal = ({
   resourceTypes,
   allowPaste = false,
   topicId,
-  refreshResources,
   existingResourceIds,
   locale,
 }: Props) => {

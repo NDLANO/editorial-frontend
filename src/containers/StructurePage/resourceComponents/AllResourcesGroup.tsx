@@ -69,7 +69,6 @@ const AllResourcesGroup = ({ resourceTypes, topicResources, locale, currentTopic
         <AddResourceModal
           resourceTypes={newResourceTypeOptions}
           topicId={currentTopicId}
-          refreshResources={() => {}}
           onClose={() => setShowAddModal(false)}
           existingResourceIds={topicResources.map(r => r.id)}
           locale={locale}

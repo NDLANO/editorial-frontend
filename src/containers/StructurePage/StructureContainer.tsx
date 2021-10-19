@@ -7,7 +7,7 @@
 import { Taxonomy } from '@ndla/icons/editor';
 //@ts-ignore
 import { OneColumn, Spinner } from '@ndla/ui';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
@@ -62,7 +62,7 @@ export const StructureContainer = ({
   const addSubjectMutation = useAddSubjectMutation();
   const updateUserDataMutation = useUpdateUserDataMutation();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const initialShowFavorites = window.localStorage.getItem(REMEMBER_FAVOURITE_SUBJECTS);
     setShowFavorites(initialShowFavorites === 'true');
   }, []);
@@ -137,7 +137,7 @@ export const StructureContainer = ({
             />
           }
           hidden={editStructureHidden}>
-          <>
+          <div id="plumbContainer">
             {userDataLoading || subjectsLoading ? (
               <Spinner />
             ) : (
@@ -160,7 +160,7 @@ export const StructureContainer = ({
                 ))}
               </StructureWrapper>
             )}
-          </>
+          </div>
         </Accordion>
         {currentTopic && (
           <StructureResources

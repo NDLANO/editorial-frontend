@@ -48,8 +48,12 @@ export const useDeleteSubTopicConnection = (
   return useMutation<void, unknown, string>(id => deleteSubTopicConnection(id), options);
 };
 
-export const useTopicConnections = (id: string) => {
-  return useQuery<TopicConnections[]>([TOPIC_CONNECTIONS, id], () => fetchTopicConnections(id));
+export const useTopicConnections = (id: string, options?: UseQueryOptions<TopicConnections[]>) => {
+  return useQuery<TopicConnections[]>(
+    [TOPIC_CONNECTIONS, id],
+    () => fetchTopicConnections(id),
+    options,
+  );
 };
 
 export const useTopics = (language?: string, options?: UseQueryOptions<Topic[]>) => {

@@ -1028,560 +1028,564 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     <div
       class="c-accordion__content c-accordion__content--visible c-accordion__content--taxonomy"
     >
-      <ul
-        class="emotion-127 emotion-203"
+      <div
+        id="plumbContainer"
       >
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:6"
+        <ul
+          class="emotion-127 emotion-203"
         >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:6"
-              type="button"
-            >
-              Brønnteknikk
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:11"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:11"
-              type="button"
-            >
-              Bygg- og anleggsteknikk
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:16"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:16"
-              type="button"
-            >
-              Elektrofag vg1
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:17"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:17"
-              type="button"
-            >
-              Engelskspråklig litteratur og kultur
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:9"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:9"
-              type="button"
-            >
-              Historie vg2 og vg3
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:2"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:2"
-              type="button"
-            >
-              Kinesisk
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:18"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:18"
-              type="button"
-            >
-              Kommunikasjon og kultur 1, 2, 3
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:7"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:7"
-              type="button"
-            >
-              Markedsføring og ledelse 1
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:10"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:10"
-              type="button"
-            >
-              Matematikk fellesfag
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
-              type="button"
-            >
-              Matte 101
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:14"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:14"
-              type="button"
-            >
-              Medie- og informasjonskunnskap
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:1"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-71 emotion-6"
-              id="urn:subject:1"
-              type="button"
-            >
-              Medieuttrykk og mediesamfunnet
-            </button>
-          </div>
-          <ul
-            class="emotion-127 emotion-128"
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:6"
           >
             <div
-              class="emotion-126"
+              class="emotion-7 emotion-8"
             >
-              <li
-                class="emotion-79 emotion-10"
-                id="urn:topic:1:186401"
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:6"
+                type="button"
               >
-                <div
-                  class="emotion-77 emotion-8"
-                >
-                  <button
-                    class="emotion-75 emotion-6"
-                    id="urn:topic:1:186401"
-                    type="button"
-                  >
-                    Brukertips og årsplaner
-                  </button>
-                </div>
-              </li>
-              <li
-                class="emotion-79 emotion-10"
-                id="urn:topic:1:172416"
+                Brønnteknikk
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:11"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:11"
+                type="button"
               >
-                <div
-                  class="emotion-77 emotion-8"
-                >
-                  <button
-                    class="emotion-5 emotion-6"
-                    id="urn:topic:1:172416"
-                    type="button"
-                  >
-                    Idéskaping og mediedesign
-                  </button>
-                </div>
-              </li>
-              <li
-                class="emotion-79 emotion-10"
-                id="urn:topic:1:186460"
+                Bygg- og anleggsteknikk
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:16"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:16"
+                type="button"
               >
-                <div
-                  class="emotion-77 emotion-8"
-                >
-                  <button
-                    class="emotion-5 emotion-6"
-                    id="urn:topic:1:186460"
-                    type="button"
-                  >
-                    Medieproduksjon
-                  </button>
-                </div>
-              </li>
-              <li
-                class="emotion-79 emotion-10"
-                id="urn:topic:1:186479"
+                Elektrofag vg1
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:17"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:17"
+                type="button"
               >
-                <div
-                  class="emotion-77 emotion-8"
-                >
-                  <button
-                    class="emotion-71 emotion-6"
-                    id="urn:topic:1:186479"
-                    type="button"
-                  >
-                    Mediekommunikasjon
-                  </button>
-                </div>
-                <ul
-                  class="emotion-127 emotion-128"
+                Engelskspråklig litteratur og kultur
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:9"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:9"
+                type="button"
+              >
+                Historie vg2 og vg3
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:2"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:2"
+                type="button"
+              >
+                Kinesisk
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:18"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:18"
+                type="button"
+              >
+                Kommunikasjon og kultur 1, 2, 3
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:7"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:7"
+                type="button"
+              >
+                Markedsføring og ledelse 1
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:10"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:10"
+                type="button"
+              >
+                Matematikk fellesfag
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
+                type="button"
+              >
+                Matte 101
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:14"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:14"
+                type="button"
+              >
+                Medie- og informasjonskunnskap
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:1"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-71 emotion-6"
+                id="urn:subject:1"
+                type="button"
+              >
+                Medieuttrykk og mediesamfunnet
+              </button>
+            </div>
+            <ul
+              class="emotion-127 emotion-128"
+            >
+              <div
+                class="emotion-126"
+              >
+                <li
+                  class="emotion-79 emotion-10"
+                  id="urn:topic:1:186401"
                 >
                   <div
-                    class="emotion-126"
+                    class="emotion-77 emotion-8"
                   >
-                    <li
-                      class="emotion-79 emotion-10"
-                      id="urn:topic:1:186487"
+                    <button
+                      class="emotion-75 emotion-6"
+                      id="urn:topic:1:186401"
+                      type="button"
                     >
-                      <div
-                        class="emotion-99 emotion-8"
-                      >
-                        <button
-                          class="emotion-75 emotion-6"
-                          id="urn:topic:1:186487"
-                          type="button"
-                        >
-                          Mediekommunikasjon
-                        </button>
-                      </div>
-                    </li>
-                    <li
-                      class="emotion-9 emotion-10"
-                      id="urn:topic:1:172650"
+                      Brukertips og årsplaner
+                    </button>
+                  </div>
+                </li>
+                <li
+                  class="emotion-79 emotion-10"
+                  id="urn:topic:1:172416"
+                >
+                  <div
+                    class="emotion-77 emotion-8"
+                  >
+                    <button
+                      class="emotion-5 emotion-6"
+                      id="urn:topic:1:172416"
+                      type="button"
                     >
-                      <div
-                        class="emotion-116 emotion-8"
+                      Idéskaping og mediedesign
+                    </button>
+                  </div>
+                </li>
+                <li
+                  class="emotion-79 emotion-10"
+                  id="urn:topic:1:186460"
+                >
+                  <div
+                    class="emotion-77 emotion-8"
+                  >
+                    <button
+                      class="emotion-5 emotion-6"
+                      id="urn:topic:1:186460"
+                      type="button"
+                    >
+                      Medieproduksjon
+                    </button>
+                  </div>
+                </li>
+                <li
+                  class="emotion-79 emotion-10"
+                  id="urn:topic:1:186479"
+                >
+                  <div
+                    class="emotion-77 emotion-8"
+                  >
+                    <button
+                      class="emotion-71 emotion-6"
+                      id="urn:topic:1:186479"
+                      type="button"
+                    >
+                      Mediekommunikasjon
+                    </button>
+                  </div>
+                  <ul
+                    class="emotion-127 emotion-128"
+                  >
+                    <div
+                      class="emotion-126"
+                    >
+                      <li
+                        class="emotion-79 emotion-10"
+                        id="urn:topic:1:186487"
                       >
-                        <button
-                          class="emotion-75 emotion-6"
-                          id="urn:topic:1:172650"
-                          type="button"
-                        >
-                          Fortelleteknikker og virkemidler
-                        </button>
                         <div
-                          class="c-folder__wrapper"
-                          data-cy="folderWrapper"
+                          class="emotion-99 emotion-8"
                         >
-                          <div
-                            class="emotion-109 emotion-110"
+                          <button
+                            class="emotion-75 emotion-6"
+                            id="urn:topic:1:186487"
+                            type="button"
                           >
+                            Mediekommunikasjon
+                          </button>
+                        </div>
+                      </li>
+                      <li
+                        class="emotion-9 emotion-10"
+                        id="urn:topic:1:172650"
+                      >
+                        <div
+                          class="emotion-116 emotion-8"
+                        >
+                          <button
+                            class="emotion-75 emotion-6"
+                            id="urn:topic:1:172650"
+                            type="button"
+                          >
+                            Fortelleteknikker og virkemidler
+                          </button>
+                          <div
+                            class="c-folder__wrapper"
+                            data-cy="folderWrapper"
+                          >
+                            <div
+                              class="emotion-109 emotion-110"
+                            >
+                              <button
+                                class="emotion-3 emotion-4"
+                                data-cy="settings-button-topic"
+                                type="button"
+                              >
+                                <div
+                                  class="emotion-105 emotion-106"
+                                >
+                                  <svg
+                                    class="c-icon"
+                                    data-license="Apache License 2.0"
+                                    data-source="Material Design"
+                                    fill="currentColor"
+                                    height="1em"
+                                    preserveAspectRatio="xMidYMid meet"
+                                    style="vertical-align: middle;"
+                                    viewBox="0 0 24 24"
+                                    width="1em"
+                                  >
+                                    <title>
+                                      Settings
+                                    </title>
+                                    <g>
+                                      <path
+                                        d="M0 0h24v24H0z"
+                                        fill="none"
+                                      />
+                                      <path
+                                        d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
+                                      />
+                                    </g>
+                                  </svg>
+                                </div>
+                              </button>
+                            </div>
                             <button
-                              class="emotion-3 emotion-4"
-                              data-cy="settings-button-topic"
+                              class="emotion-113 emotion-114 emotion-4"
                               type="button"
                             >
                               <div
-                                class="emotion-105 emotion-106"
+                                class="emotion-111 emotion-112"
+                                spacing="normal"
                               >
-                                <svg
-                                  class="c-icon"
-                                  data-license="Apache License 2.0"
-                                  data-source="Material Design"
-                                  fill="currentColor"
-                                  height="1em"
-                                  preserveAspectRatio="xMidYMid meet"
-                                  style="vertical-align: middle;"
-                                  viewBox="0 0 24 24"
-                                  width="1em"
-                                >
-                                  <title>
-                                    Settings
-                                  </title>
-                                  <g>
-                                    <path
-                                      d="M0 0h24v24H0z"
-                                      fill="none"
-                                    />
-                                    <path
-                                      d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"
-                                    />
-                                  </g>
-                                </svg>
+                                Hopp til ressurser
                               </div>
                             </button>
                           </div>
+                        </div>
+                      </li>
+                      <li
+                        class="emotion-79 emotion-10"
+                        id="urn:topic:1:185606"
+                      >
+                        <div
+                          class="emotion-99 emotion-8"
+                        >
                           <button
-                            class="emotion-113 emotion-114 emotion-4"
+                            class="emotion-75 emotion-6"
+                            id="urn:topic:1:185606"
                             type="button"
                           >
-                            <div
-                              class="emotion-111 emotion-112"
-                              spacing="normal"
-                            >
-                              Hopp til ressurser
-                            </div>
+                            Medieanalyse
                           </button>
                         </div>
-                      </div>
-                    </li>
-                    <li
-                      class="emotion-79 emotion-10"
-                      id="urn:topic:1:185606"
+                      </li>
+                    </div>
+                  </ul>
+                </li>
+                <li
+                  class="emotion-79 emotion-10"
+                  id="urn:topic:1:171906"
+                >
+                  <div
+                    class="emotion-77 emotion-8"
+                  >
+                    <button
+                      class="emotion-5 emotion-6"
+                      id="urn:topic:1:171906"
+                      type="button"
                     >
-                      <div
-                        class="emotion-99 emotion-8"
-                      >
-                        <button
-                          class="emotion-75 emotion-6"
-                          id="urn:topic:1:185606"
-                          type="button"
-                        >
-                          Medieanalyse
-                        </button>
-                      </div>
-                    </li>
+                      Mediebransjen – yrker, regelverk og retorikk
+                    </button>
                   </div>
-                </ul>
-              </li>
-              <li
-                class="emotion-79 emotion-10"
-                id="urn:topic:1:171906"
-              >
-                <div
-                  class="emotion-77 emotion-8"
+                </li>
+                <li
+                  class="emotion-79 emotion-10"
+                  id="urn:topic:1:172361"
                 >
-                  <button
-                    class="emotion-5 emotion-6"
-                    id="urn:topic:1:171906"
-                    type="button"
+                  <div
+                    class="emotion-77 emotion-8"
                   >
-                    Mediebransjen – yrker, regelverk og retorikk
-                  </button>
-                </div>
-              </li>
-              <li
-                class="emotion-79 emotion-10"
-                id="urn:topic:1:172361"
-              >
-                <div
-                  class="emotion-77 emotion-8"
+                    <button
+                      class="emotion-5 emotion-6"
+                      id="urn:topic:1:172361"
+                      type="button"
+                    >
+                      Individet og mediene
+                    </button>
+                  </div>
+                </li>
+                <li
+                  class="emotion-79 emotion-10"
+                  id="urn:topic:1:172362"
                 >
-                  <button
-                    class="emotion-5 emotion-6"
-                    id="urn:topic:1:172361"
-                    type="button"
+                  <div
+                    class="emotion-77 emotion-8"
                   >
-                    Individet og mediene
-                  </button>
-                </div>
-              </li>
-              <li
-                class="emotion-79 emotion-10"
-                id="urn:topic:1:172362"
-              >
-                <div
-                  class="emotion-77 emotion-8"
+                    <button
+                      class="emotion-5 emotion-6"
+                      id="urn:topic:1:172362"
+                      type="button"
+                    >
+                      Mediene i samfunnet
+                    </button>
+                  </div>
+                </li>
+                <li
+                  class="emotion-79 emotion-10"
+                  id="urn:topic:1:172568"
                 >
-                  <button
-                    class="emotion-5 emotion-6"
-                    id="urn:topic:1:172362"
-                    type="button"
+                  <div
+                    class="emotion-77 emotion-8"
                   >
-                    Mediene i samfunnet
-                  </button>
-                </div>
-              </li>
-              <li
-                class="emotion-79 emotion-10"
-                id="urn:topic:1:172568"
+                    <button
+                      class="emotion-5 emotion-6"
+                      id="urn:topic:1:172568"
+                      type="button"
+                    >
+                      Tverrfaglige arbeidsoppdrag
+                    </button>
+                  </div>
+                </li>
+              </div>
+            </ul>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:13"
+          >
+            <div
+              class="emotion-7 emotion-8"
+            >
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:13"
+                type="button"
               >
-                <div
-                  class="emotion-77 emotion-8"
-                >
-                  <button
-                    class="emotion-5 emotion-6"
-                    id="urn:topic:1:172568"
-                    type="button"
-                  >
-                    Tverrfaglige arbeidsoppdrag
-                  </button>
-                </div>
-              </li>
+                Naturbruk vg 1
+              </button>
             </div>
-          </ul>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:13"
-        >
-          <div
-            class="emotion-7 emotion-8"
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:3"
           >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:13"
-              type="button"
+            <div
+              class="emotion-7 emotion-8"
             >
-              Naturbruk vg 1
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:3"
-        >
-          <div
-            class="emotion-7 emotion-8"
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:3"
+                type="button"
+              >
+                Samfunnsfag
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:12"
           >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:3"
-              type="button"
+            <div
+              class="emotion-7 emotion-8"
             >
-              Samfunnsfag
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:12"
-        >
-          <div
-            class="emotion-7 emotion-8"
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:12"
+                type="button"
+              >
+                Service og samferdsel vg1
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:15"
           >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:12"
-              type="button"
+            <div
+              class="emotion-7 emotion-8"
             >
-              Service og samferdsel vg1
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:15"
-        >
-          <div
-            class="emotion-7 emotion-8"
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:15"
+                type="button"
+              >
+                Sørsamisk vg1 og vg2
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:5"
           >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:15"
-              type="button"
+            <div
+              class="emotion-7 emotion-8"
             >
-              Sørsamisk vg1 og vg2
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:5"
-        >
-          <div
-            class="emotion-7 emotion-8"
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:5"
+                type="button"
+              >
+                Testfag
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:8"
           >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:5"
-              type="button"
+            <div
+              class="emotion-7 emotion-8"
             >
-              Testfag
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:8"
-        >
-          <div
-            class="emotion-7 emotion-8"
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:8"
+                type="button"
+              >
+                Tysk
+              </button>
+            </div>
+          </li>
+          <li
+            class="emotion-9 emotion-10"
+            id="urn:subject:4"
           >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:8"
-              type="button"
+            <div
+              class="emotion-7 emotion-8"
             >
-              Tysk
-            </button>
-          </div>
-        </li>
-        <li
-          class="emotion-9 emotion-10"
-          id="urn:subject:4"
-        >
-          <div
-            class="emotion-7 emotion-8"
-          >
-            <button
-              class="emotion-5 emotion-6"
-              id="urn:subject:4"
-              type="button"
-            >
-              Vg 2 Helsearbeiderfag
-            </button>
-          </div>
-        </li>
-      </ul>
+              <button
+                class="emotion-5 emotion-6"
+                id="urn:subject:4"
+                type="button"
+              >
+                Vg 2 Helsearbeiderfag
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
   <div>

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { Plus } from '@ndla/icons/action';
@@ -16,13 +16,13 @@ import {
   fetchTopicConnections,
   deleteSubTopicConnection,
   deleteTopicConnection,
+  fetchTopics,
 } from '../../../../modules/taxonomy';
 import MenuItemButton from './MenuItemButton';
 import MenuItemDropdown from './MenuItemDropdown';
 import retrieveBreadCrumbs, { PathArray } from '../../../../util/retrieveBreadCrumbs';
 import { Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { EditMode } from '../../../../interfaces';
-import { useTopics } from '../../../../modules/taxonomy/topics/topicQueries';
 import { SUBJECT_TOPICS_WITH_ARTICLE_TYPE } from '../../../../queryKeys';
 
 interface Props {
@@ -51,6 +51,22 @@ const AddExistingToTopic = ({
   const { t } = useTranslation();
   const qc = useQueryClient();
 
+  const [topics, setTopics] = useState<(Topic & { description?: string })[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const topics = await fetchTopics(locale || 'nb');
+      const alteredTopics = topics
+        .filter(topic => topic.path)
+        .filter(topic => !topic.paths?.find(p => path.includes(p)))
+        .map(topic => ({
+          ...topic,
+          description: getTopicBreadcrumb(topic, topics),
+        }));
+      setTopics(alteredTopics);
+    })();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const getTopicBreadcrumb = (topic: Topic, topics: Topic[]) => {
     if (!topic.path) return undefined;
     const bc = retrieveBreadCrumbs({
@@ -61,15 +77,6 @@ const AddExistingToTopic = ({
     });
     return bc.map(crumb => crumb.name).join(' > ');
   };
-
-  const { data: topics } = useTopics(locale ?? 'nb', {
-    enabled: editMode === 'addExistingTopic',
-    select: topics =>
-      topics
-        .filter(t => t.path)
-        .filter(t => !t.paths?.find(p => path.includes(p)))
-        .map(topic => ({ ...topic, description: getTopicBreadcrumb(topic, topics) })),
-  });
 
   const onAddExistingSubTopic = async (topic: { id: string }) => {
     const connections = await fetchTopicConnections(topic.id);

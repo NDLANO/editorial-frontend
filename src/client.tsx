@@ -109,7 +109,13 @@ const LocaleRedirector = ({ base }: { base: string }) => {
   return <App key={i18n.language} isClient={true} />;
 };
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const renderApp = () => {
   render(

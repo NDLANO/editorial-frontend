@@ -30,7 +30,7 @@ import {
 import { SUBJECT_TOPICS_WITH_ARTICLE_TYPE, TOPIC_CONNECTIONS } from '../../../../queryKeys';
 
 interface Props {
-  editMode: string;
+  editMode: EditMode;
   toggleEditMode: (mode: EditMode) => void;
   parent?: string;
   id: string;
@@ -45,7 +45,7 @@ const DeleteTopic = ({ toggleEditMode, parent, id, locale, editMode, subjectId }
     data: connections,
     isLoading: topicConnectionsLoading,
     error: connectionError,
-  } = useTopicConnections(id);
+  } = useTopicConnections(id, { enabled: editMode === 'deleteTopic' });
   const {
     mutateAsync: deleteSubTopicConnection,
     isLoading: deleteSubTopicLoading,

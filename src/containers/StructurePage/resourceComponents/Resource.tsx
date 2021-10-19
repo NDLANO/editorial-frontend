@@ -18,7 +18,7 @@ import { colors, spacing, breakpoints } from '@ndla/core';
 import { AlertCircle, Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
@@ -125,6 +125,7 @@ const Resource = ({
   const history = useHistory();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
+  const qc = useQueryClient();
 
   const getGrepCodesAndStatus = async (resource: TopicResource) => {
     const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
@@ -176,12 +177,13 @@ const Resource = ({
 
   const onGrepModalClosed = async (newGrepCodes?: string[]) => {
     setShowGrepCodes(false);
-    if (newGrepCodes && updateResource) {
-      updateResource({
-        ...resource,
-        grepCodes: newGrepCodes,
-      });
-    }
+    qc.cancelQueries([TOPIC_RESOURCE_STATUS_GREP_QUERY, resource.id]);
+    const resourceWithNewGrep: TopicResource = { ...resource, grepCodes: newGrepCodes };
+    qc.setQueryData<TopicResource>(
+      [TOPIC_RESOURCE_STATUS_GREP_QUERY, resource.id],
+      resourceWithNewGrep,
+    );
+    await qc.invalidateQueries([TOPIC_RESOURCE_STATUS_GREP_QUERY, resource.id]);
   };
 
   const PublishedWrapper = ({ children }: { children: React.ReactElement }) =>

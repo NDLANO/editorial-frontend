@@ -19,7 +19,7 @@ import { StyledErrorMessage } from '../styles';
 import { EditMode } from '../../../../interfaces';
 import {
   useDeleteSubjectMutation,
-  useSubjectTopics,
+  useSubjectTopicsWithArticleType,
 } from '../../../../modules/taxonomy/subjects/subjectsQueries';
 
 interface Props {
@@ -32,7 +32,7 @@ interface Props {
 const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode }: Props) => {
   const { t } = useTranslation();
 
-  const { data: subjectTopics } = useSubjectTopics(id, locale, {
+  const { data: subjectTopics } = useSubjectTopicsWithArticleType(id, locale, {
     enabled: editMode === 'deleteSubject',
   });
   const { mutate: deleteSubject, isLoading: loading, error } = useDeleteSubjectMutation();

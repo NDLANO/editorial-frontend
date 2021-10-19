@@ -23,6 +23,7 @@ export const RESOURCE_TYPES = 'resourceTypes';
 export const SUBJECTS = 'subjects';
 export const SUBJECT = 'subject';
 export const SUBJECT_TOPICS = 'subjectTopics';
+export const SUBJECT_TOPICS_WITH_ARTICLE_TYPE = 'subjectTopicsWithArticleType';
 export const SUBJECT_NAME_TRANSLATIONS = 'subjectNameTranslations';
 
 export const TOPIC_RESOURCES = 'topicResources';

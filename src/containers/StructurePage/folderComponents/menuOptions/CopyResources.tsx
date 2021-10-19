@@ -39,7 +39,7 @@ import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 import { getIdFromUrn } from '../../../../util/taxonomyHelpers';
 import { useTopics } from '../../../../modules/taxonomy/topics/topicQueries';
-import { useSubjectTopics } from '../../../../modules/taxonomy/subjects/subjectsQueries';
+import { useSubjectTopicsWithArticleType } from '../../../../modules/taxonomy/subjects/subjectsQueries';
 
 type PathArray = Array<TaxonomyElement>;
 
@@ -62,7 +62,7 @@ const CopyResources = ({ id, locale, subjectId, structure, onClose, setShowAlert
   const [showCopySearch, setShowCopySearch] = useState(false);
   const [showCloneSearch, setShowCloneSearch] = useState(false);
 
-  const { data: subjectTopics } = useSubjectTopics(subjectId, locale, {
+  const { data: subjectTopics } = useSubjectTopicsWithArticleType(subjectId, locale, {
     enabled: showCopySearch || showCloneSearch,
     onError: e => handleError(e),
   });

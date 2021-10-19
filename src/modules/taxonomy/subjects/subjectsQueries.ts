@@ -25,7 +25,13 @@ import {
   updateSubjectNameTranslation,
   updateSubjectTopic,
 } from '.';
-import { SUBJECT, SUBJECTS, SUBJECT_NAME_TRANSLATIONS, SUBJECT_TOPICS } from '../../../queryKeys';
+import {
+  SUBJECT,
+  SUBJECTS,
+  SUBJECT_NAME_TRANSLATIONS,
+  SUBJECT_TOPICS,
+  SUBJECT_TOPICS_WITH_ARTICLE_TYPE,
+} from '../../../queryKeys';
 import {
   SubjectTopic,
   SubjectType,
@@ -123,7 +129,7 @@ export const useSubjectTopicsWithArticleType = (
   options?: UseQueryOptions<(SubjectTopic & { articleType?: string })[]>,
 ) => {
   return useQuery<SubjectTopic[]>(
-    [SUBJECT_TOPICS, id, language],
+    [SUBJECT_TOPICS_WITH_ARTICLE_TYPE, id, language],
     () => fetchSubjectTopicsWithArticleType(id, language),
     options,
   );

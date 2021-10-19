@@ -9,7 +9,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { useEffect, useMemo, useRef } from 'react';
-import { createEditor, Descendant, Editor, NodeEntry } from 'slate';
+import { createEditor, Descendant, Editor, NodeEntry, Transforms } from 'slate';
 import {
   Slate,
   Editable,
@@ -19,6 +19,7 @@ import {
   ReactEditor,
 } from 'slate-react';
 import { withHistory } from 'slate-history';
+import { isEqual } from 'lodash';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { SlatePlugin } from './interfaces';
@@ -85,8 +86,21 @@ const RichTextEditor = ({
     if (!submitted && prevSubmitted.current) {
       editor.history = { redos: [], undos: [] };
       Editor.normalize(editor, { force: true });
-    } else if (submitted && !prevSubmitted.current) {
-      ReactEditor.deselect(editor);
+      ReactEditor.focus(editor);
+      if (editor.lastSelection && ReactEditor.hasRange(editor, editor.lastSelection)) {
+        Transforms.select(editor, editor.lastSelection);
+      } else if (editor.lastSelectedBlock) {
+        const [target] = Editor.nodes(editor, {
+          at: Editor.range(editor, [0]),
+          match: node => {
+            return isEqual(node, editor.lastSelectedBlock);
+          },
+        });
+        if (target) {
+          Transforms.select(editor, target[1]);
+          Transforms.collapse(editor, { edge: 'end' });
+        }
+      }
     }
     prevSubmitted.current = submitted;
     // eslint-disable-next-line react-hooks/exhaustive-deps

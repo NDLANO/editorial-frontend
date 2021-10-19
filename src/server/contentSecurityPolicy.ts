@@ -9,6 +9,7 @@
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
+    'http://api-gateway.ndla-local',
     'https://*.ndla.no',
     'https://logs-01.loggly.com',
     'https://edge.api.brightcove.com',

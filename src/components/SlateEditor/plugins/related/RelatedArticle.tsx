@@ -8,7 +8,7 @@ import { urlDomain } from '../../../../util/htmlHelpers';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import { RelatedArticleType } from './RelatedArticleBox';
 
-const resourceTypeProps = (item: RelatedArticleType, numberInList: number) => {
+const resourceTypeProps = (item: RelatedArticleType, numberInList?: number) => {
   const resourceType =
     'resource' in item
       ? item.resource.length &&
@@ -25,7 +25,7 @@ const resourceTypeProps = (item: RelatedArticleType, numberInList: number) => {
 
 interface Props {
   item: RelatedArticleType;
-  numberInList: number;
+  numberInList?: number;
 }
 
 const RelatedArticle = ({ item, numberInList }: Props) => {
@@ -40,7 +40,7 @@ const RelatedArticle = ({ item, numberInList }: Props) => {
       to={'url' in item ? item.url : toEditArticle(item.id, 'standard')}
       target="_blank"
       linkInfo={
-        item.id === 'external-learning-resources'
+        'url' in item
           ? t('form.content.relatedArticle.urlLocation', {
               domain: urlDomain(item.url),
             })

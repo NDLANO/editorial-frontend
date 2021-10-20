@@ -47,9 +47,9 @@ interface ExternalArticle {
   description: string;
 }
 
-interface InternalArticle extends Omit<DraftApiType, 'title'> {
+interface InternalArticle extends Omit<DraftApiType, 'title' | 'id'> {
   resource: Resource[];
-  id: number;
+  id: string;
   title: string;
 }
 
@@ -58,7 +58,7 @@ export type RelatedArticleType = InternalArticle | ExternalArticle;
 const mapRelatedArticle = (article: DraftApiType, resource: Resource[]): InternalArticle => ({
   ...article,
   resource,
-  id: article.id,
+  id: article.id.toString(),
   title: convertFieldWithFallback(article as object, 'title', article.title?.title) || '',
 });
 
@@ -89,7 +89,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
   }, [editMode, articles]);
 
   const onInsertBlock = (newArticle: string) => {
-    if (!articles.find(it => 'id' in it && it.id === parseInt(newArticle, 10))) {
+    if (!articles.find(it => 'id' in it && it.id === newArticle)) {
       // get resource and add to state
       fetchArticle(newArticle).then(article => {
         if (article) {
@@ -177,8 +177,6 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     // await get description meta data
     const newArticles = [...articles, structureExternal(url, title)];
     setArticles(newArticles);
-
-    setEditMode(false);
     setNodeData(newArticles);
   };
 

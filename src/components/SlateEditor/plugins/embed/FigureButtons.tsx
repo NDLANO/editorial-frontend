@@ -143,7 +143,9 @@ const FigureButtons = ({
           <Tooltip tooltip={t('form.video.brightcove')} align="right">
             <IconButton
               as={SafeLink}
-              to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid}`}
+              to={`https://studio.brightcove.com/products/videocloud/media/videos/${
+                embed.videoid.split('&t=')[0]
+              }`}
               target="_blank"
               title={t('form.video.brightcove')}
               tabIndex={-1}>

@@ -98,7 +98,7 @@ export async function getResourceId({
 }
 
 export const queryResources = (
-  contentId: string,
+  contentId: string | number,
   language: string,
   contentType = 'article',
 ): Promise<Resource[]> => {

@@ -6,114 +6,125 @@
  *
  */
 
-import React from 'react';
-import { Transforms } from 'slate';
-import { ReactEditor } from 'slate-react';
-import PropTypes from 'prop-types';
+import React, { ReactNode, SyntheticEvent, useCallback, useEffect, useState } from 'react';
+import { Editor, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import { uuid } from '@ndla/util';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { css } from '@emotion/core';
-import { isEqual } from 'lodash/fp';
+import { compact } from 'lodash';
+// @ts-ignore
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { queryResources } from '../../../../modules/taxonomy';
 import { getLocale } from '../../../../modules/locale/locale';
-import { EditorShape, AttributesShape } from '../../../../shapes';
 import EditRelated from './EditRelated';
 import handleError from '../../../../util/handleError';
 import RelatedArticle from './RelatedArticle';
+import { RelatedElement } from '.';
+import { ReduxState } from '../../../../interfaces';
+import { DraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import { Resource } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ARTICLE_EXTERNAL } from '../../../../constants';
 
-const mapRelatedArticle = (article, resource) => ({
+interface Props {
+  attributes: RenderElementProps['attributes'];
+  editor: Editor;
+  element: RelatedElement;
+  locale?: string;
+  onRemoveClick: (e: Event) => void;
+  children: ReactNode;
+}
+interface ExternalArticle {
+  id: 'external-learning-resources';
+  tempId: string;
+  url: string;
+  title: string;
+  description: string;
+}
+
+interface InternalArticle {
+  resource: Resource[];
+  id: number;
+  title: string;
+}
+
+type RelatedArticles = InternalArticle | ExternalArticle;
+
+const mapRelatedArticle = (article: DraftApiType, resource: Resource[]): InternalArticle => ({
   ...article,
   resource,
-  id: `${article.id}`,
-  title: convertFieldWithFallback(article, 'title', article.title),
+  id: article.id,
+  title: convertFieldWithFallback(article as object, 'title', 'article.title') || '',
 });
 
-export class RelatedArticleBox extends React.Component {
-  constructor() {
-    super();
-    this.state = { articles: [], editMode: false };
-    this.fetchArticle = this.fetchArticle.bind(this);
-    this.updateArticles = this.updateArticles.bind(this);
-    this.insertExternal = this.insertExternal.bind(this);
-    this.onInsertBlock = this.onInsertBlock.bind(this);
-    this.openEditMode = this.openEditMode.bind(this);
-    this.setNodeData = this.setNodeData.bind(this);
-  }
+const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, children }: Props) => {
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
+  const [articles, setArticles] = useState<RelatedArticles[]>([]);
+  const [editMode, setEditMode] = useState(false);
 
-  componentDidMount() {
-    const {
-      element: { data },
-    } = this.props;
+  useEffect(() => {
+    const { data } = element;
     if (data && data.nodes) {
       const articleNodes = data.nodes;
-      this.fetchArticles(articleNodes).then(articles =>
-        this.setState({ articles: articles.filter(a => !!a) }),
-      );
+      fetchArticles(articleNodes).then(articles => setArticles(compact(articles)));
     } else {
-      this.setState({ editMode: true });
+      setEditMode(true);
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  componentDidUpdate(prevProps) {
+  useEffect(() => {
     // need to re-add eventhandler on button
-    if (!this.state.editMode && this.state.articles.length > 2) {
+    if (!editMode && articles.length > 2) {
       toggleRelatedArticles();
     }
-    if (!isEqual(prevProps.element?.data?.nodes, this.props.element?.data?.nodes)) {
-      if (this.props.element?.data?.nodes) {
-        const articleNodes = this.props.element.data.nodes;
-        this.fetchArticles(articleNodes).then(articles =>
-          this.setState({ articles: articles.filter(a => !!a) }),
-        );
-      }
-    }
-  }
+  }, [editMode, articles]);
 
-  onInsertBlock(newArticle) {
-    if (!this.state.articles.find(it => it.id === parseInt(newArticle, 10))) {
+  const onInsertBlock = (newArticle: string) => {
+    if (!articles.find(it => 'id' in it && it.id === parseInt(newArticle, 10))) {
       // get resource and add to state
-      this.fetchArticle(newArticle).then(article => {
+      fetchArticle(newArticle).then(article => {
         if (article) {
-          this.setState(oldState => ({
-            articles: [...oldState.articles, article],
-          }));
-          this.setNodeData();
+          const newArticles = [...articles, article];
+          setArticles(newArticles);
+          setNodeData(newArticles);
         }
       });
     }
-  }
+  };
 
-  setNodeData() {
-    const { editor, element } = this.props;
-    const { articles } = this.state;
+  const setNodeData = (newArticles: RelatedArticles[]) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.setNodes(
       editor,
       {
         data: {
-          nodes: articles.map(article =>
-            article.id === ARTICLE_EXTERNAL
-              ? {
-                  resource: 'related-content',
-                  url: article.url,
-                  title: article.title,
-                }
-              : { resource: 'related-content', 'article-id': article.id },
-          ),
+          nodes: newArticles.map(article => {
+            if ('url' in article) {
+              return {
+                resource: 'related-content',
+                url: article.url,
+                title: article.title,
+              };
+            } else {
+              return { resource: 'related-content', 'article-id': article.id.toString() };
+            }
+          }),
         },
       },
       { at: path, voids: true },
     );
-  }
+  };
 
-  structureExternal(url, title) {
+  const structureExternal = (url: string, title: string): ExternalArticle => {
     return {
       id: ARTICLE_EXTERNAL,
       tempId: uuid(),
@@ -121,118 +132,115 @@ export class RelatedArticleBox extends React.Component {
       title,
       description: '',
     };
-  }
+  };
 
-  async fetchArticle(id) {
-    try {
-      const { locale } = this.props;
-      const [article, resource] = await Promise.all([
-        fetchDraft(id, locale),
-        queryResources(id, locale),
-      ]);
-      if (article) {
-        return mapRelatedArticle(article, resource);
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  }
-  async fetchArticles(nodes) {
-    return Promise.all(
-      nodes.map(node => {
-        const articleId = node['article-id'];
-        if (articleId) {
-          return this.fetchArticle(articleId);
-        } else if (node.title) {
-          return this.structureExternal(node.url, node.title);
+  const fetchArticle = useCallback(
+    async (id: string) => {
+      try {
+        const [article, resource] = await Promise.all([
+          fetchDraft(parseInt(id), language),
+          queryResources(id, language),
+        ]);
+        if (article) {
+          return mapRelatedArticle(article, resource);
         }
-        return undefined;
-      }),
-    );
-  }
+      } catch (error) {
+        handleError(error);
+      }
+    },
+    [language],
+  );
 
-  async insertExternal(url, title) {
+  const fetchArticles = useCallback(
+    async (nodes: RelatedElement['data']['nodes']) => {
+      if (!nodes) {
+        return;
+      }
+      const articleList = nodes.map(node => {
+        if ('article-id' in node) {
+          return fetchArticle(node['article-id']);
+        } else {
+          return Promise.resolve(structureExternal(node.url, node.title));
+        }
+      });
+      return Promise.all<RelatedArticles | undefined>(articleList);
+    },
+    [fetchArticle],
+  );
+
+  useEffect(() => {
+    const articleNodes = element.data.nodes;
+    fetchArticles(articleNodes).then(articles => setArticles(compact(articles)));
+  }, [element.data.nodes, fetchArticles]);
+
+  const insertExternal = async (url: string, title: string) => {
     // await get description meta data
-    this.setState(
-      prevState => ({
-        articles: [...prevState.articles, this.structureExternal(url, title)],
-        editMode: false,
-      }),
-      this.setNodeData,
-    );
-  }
+    const newArticles = [...articles, structureExternal(url, title)];
+    setArticles(newArticles);
 
-  updateArticles(newArticles) {
-    this.setState({ articles: newArticles.filter(a => !!a) }, this.setNodeData);
-  }
+    setEditMode(false);
+    setNodeData(newArticles);
+  };
 
-  openEditMode(e) {
+  const updateArticles = (newArticles: RelatedArticles[]) => {
+    setArticles(newArticles.filter(a => !!a));
+    setNodeData(newArticles);
+  };
+
+  const openEditMode = (e: SyntheticEvent) => {
     e.stopPropagation();
-    this.setState({ editMode: true });
-  }
+    setEditMode(true);
+  };
 
-  render() {
-    const { attributes, onRemoveClick, locale, t, children } = this.props;
-    const { editMode, articles } = this.state;
-
-    return (
-      <>
-        {editMode && (
-          <EditRelated
-            onRemoveClick={onRemoveClick}
-            articles={articles}
-            locale={locale}
-            insertExternal={this.insertExternal}
-            onInsertBlock={this.onInsertBlock}
-            onExit={() => this.setState({ editMode: false })}
-            updateArticles={this.updateArticles}
-          />
-        )}
-        <div
-          role="button"
-          draggable
-          contentEditable={false}
-          tabIndex={0}
-          data-testid="relatedWrapper"
-          onClick={this.openEditMode}
-          onKeyPress={this.openEditMode}
-          css={css`
-            & article > p {
-              font-family: Source Sans Pro !important;
-            }
-          `}
-          {...attributes}>
-          <RelatedArticleList
-            messages={{
-              title: t('form.related.title'),
-              showMore: t('form.related.showMore'),
-              showLess: t('form.related.showLess'),
-            }}>
-            {articles.map((item, i) =>
-              !item.id ? (
-                t('form.content.relatedArticle.invalidArticle')
-              ) : (
-                <RelatedArticle key={uuid()} numberInList={i} item={item} />
-              ),
-            )}
-          </RelatedArticleList>
-          {children}
-        </div>
-      </>
-    );
-  }
-}
-
-RelatedArticleBox.propTypes = {
-  attributes: AttributesShape,
-  editor: EditorShape.isRequired,
-  element: PropTypes.any,
-  locale: PropTypes.string.isRequired,
-  onRemoveClick: PropTypes.func,
+  return (
+    <>
+      {editMode && (
+        <EditRelated
+          onRemoveClick={onRemoveClick}
+          articles={articles}
+          locale={language}
+          insertExternal={insertExternal}
+          onInsertBlock={onInsertBlock}
+          onExit={() => setEditMode(false)}
+          updateArticles={updateArticles}
+        />
+      )}
+      <div
+        role="button"
+        draggable
+        contentEditable={false}
+        tabIndex={0}
+        data-testid="relatedWrapper"
+        onClick={openEditMode}
+        onKeyPress={openEditMode}
+        css={css`
+          & article > p {
+            font-family: Source Sans Pro !important;
+          }
+        `}
+        {...attributes}>
+        <RelatedArticleList
+          messages={{
+            title: t('form.related.title'),
+            showMore: t('form.related.showMore'),
+            showLess: t('form.related.showLess'),
+          }}>
+          {articles.map((item, i) =>
+            !('id' in item) ? (
+              t('form.content.relatedArticle.invalidArticle')
+            ) : (
+              <RelatedArticle key={uuid()} numberInList={i} item={item} />
+            ),
+          )}
+        </RelatedArticleList>
+        {children}
+      </div>
+    </>
+  );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: ReduxState) => ({
   locale: getLocale(state),
 });
 
-export default compose(connect(mapStateToProps, null))(withTranslation()(RelatedArticleBox));
+export default compose(connect(mapStateToProps, null))(RelatedArticleBox);

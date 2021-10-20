@@ -47,19 +47,19 @@ interface ExternalArticle {
   description: string;
 }
 
-interface InternalArticle {
+interface InternalArticle extends Omit<DraftApiType, 'title'> {
   resource: Resource[];
   id: number;
   title: string;
 }
 
-type RelatedArticles = InternalArticle | ExternalArticle;
+export type RelatedArticleType = InternalArticle | ExternalArticle;
 
 const mapRelatedArticle = (article: DraftApiType, resource: Resource[]): InternalArticle => ({
   ...article,
   resource,
   id: article.id,
-  title: convertFieldWithFallback(article as object, 'title', 'article.title') || '',
+  title: convertFieldWithFallback(article as object, 'title', article.title?.title) || '',
 });
 
 const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, children }: Props) => {
@@ -67,7 +67,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     t,
     i18n: { language },
   } = useTranslation();
-  const [articles, setArticles] = useState<RelatedArticles[]>([]);
+  const [articles, setArticles] = useState<RelatedArticleType[]>([]);
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     }
   };
 
-  const setNodeData = (newArticles: RelatedArticles[]) => {
+  const setNodeData = (newArticles: RelatedArticleType[]) => {
     const path = ReactEditor.findPath(editor, element);
     Transforms.setNodes(
       editor,
@@ -163,7 +163,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
           return Promise.resolve(structureExternal(node.url, node.title));
         }
       });
-      return Promise.all<RelatedArticles | undefined>(articleList);
+      return Promise.all<RelatedArticleType | undefined>(articleList);
     },
     [fetchArticle],
   );
@@ -182,7 +182,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     setNodeData(newArticles);
   };
 
-  const updateArticles = (newArticles: RelatedArticles[]) => {
+  const updateArticles = (newArticles: RelatedArticleType[]) => {
     setArticles(newArticles.filter(a => !!a));
     setNodeData(newArticles);
   };

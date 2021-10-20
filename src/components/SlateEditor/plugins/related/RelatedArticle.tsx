@@ -1,34 +1,43 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// @ts-ignore
 import { RelatedArticle as RelatedArticleUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { mapping as iconMapping } from '../../utils/relatedArticleMapping';
 import { urlDomain } from '../../../../util/htmlHelpers';
 import { toEditArticle } from '../../../../util/routeHelpers';
+import { RelatedArticleType } from './RelatedArticleBox';
 
-const resourceTypeProps = (item, numberInList) => {
-  const resourceType = item.resource
-    ? item.resource.length &&
-      item.resource[0].resourceTypes &&
-      item.resource[0].resourceTypes.find(
-        resourceType => iconMapping(numberInList)[resourceType.id],
-      )
-    : { id: item.id }; // if no resource it is external article
+const resourceTypeProps = (item: RelatedArticleType, numberInList: number) => {
+  const resourceType =
+    'resource' in item
+      ? item.resource.length &&
+        item.resource[0].resourceTypes &&
+        item.resource[0].resourceTypes.find(
+          resourceType => iconMapping(numberInList)[resourceType.id],
+        )
+      : { id: item.id }; // if no resource it is external article
   if (resourceType) {
     return iconMapping(numberInList)[resourceType.id];
   }
   return iconMapping(numberInList).default;
 };
 
-const RelatedArticle = ({ item, numberInList }) => {
+interface Props {
+  item: RelatedArticleType;
+  numberInList: number;
+}
+
+const RelatedArticle = ({ item, numberInList }: Props) => {
   const { t } = useTranslation();
   return (
     <RelatedArticleUI
       {...resourceTypeProps(item, numberInList)}
       title={convertFieldWithFallback(item, 'title', item.title)}
-      introduction={convertFieldWithFallback(item, 'metaDescription', item.description)}
-      to={item.url || toEditArticle(item.id, 'standard')}
+      introduction={
+        'url' in item ? item.description : convertFieldWithFallback(item, 'metaDescription', '')
+      }
+      to={'url' in item ? item.url : toEditArticle(item.id, 'standard')}
       target="_blank"
       linkInfo={
         item.id === 'external-learning-resources'
@@ -39,16 +48,6 @@ const RelatedArticle = ({ item, numberInList }) => {
       }
     />
   );
-};
-
-RelatedArticle.propTypes = {
-  item: PropTypes.shape({
-    id: PropTypes.string,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    url: PropTypes.string,
-  }),
-  numberInList: PropTypes.number,
 };
 
 export default RelatedArticle;

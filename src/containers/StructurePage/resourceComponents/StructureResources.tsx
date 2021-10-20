@@ -83,12 +83,11 @@ const StructureResources = ({
   const { data: resourceTypes } = useAllResourceTypes(locale, {
     select: resourceTypes => [...resourceTypes, getMissingResourceType(t)],
     onError: e => handleError(e),
-    placeholderData: [],
   });
 
   const groupedTopicResources = groupSortResourceTypesFromTopicResources(
     resourceTypes ?? [],
-    topicResources!,
+    topicResources ?? [],
   );
 
   return (
@@ -118,14 +117,14 @@ const StructureResources = ({
       {grouped === 'ungrouped' && (
         <AllResourcesGroup
           key="ungrouped"
-          topicResources={topicResources!}
+          topicResources={topicResources ?? []}
           locale={locale}
-          resourceTypes={resourceTypes!}
+          resourceTypes={resourceTypes ?? []}
           currentTopicId={currentTopic.id}
         />
       )}
       {grouped === 'grouped' &&
-        resourceTypes!.map(resourceType => {
+        resourceTypes?.map(resourceType => {
           const topicResource = groupedTopicResources.find(
             resource => resource.id === resourceType.id,
           );

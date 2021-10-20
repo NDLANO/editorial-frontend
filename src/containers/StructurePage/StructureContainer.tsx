@@ -67,12 +67,12 @@ export const StructureContainer = ({
     setShowFavorites(initialShowFavorites === 'true');
   }, []);
 
-  const getFavoriteSubjects = (subjects: SubjectType[], favoriteSubjectIds: string[]) => {
+  const getFavoriteSubjects = (subjects: SubjectType[] = [], favoriteSubjectIds: string[] = []) => {
     return subjects.filter(e => favoriteSubjectIds.includes(e.id));
   };
 
   const subjects = showFavorites
-    ? getFavoriteSubjects(subjectData!, favoriteSubjects!)
+    ? getFavoriteSubjects(subjectData, favoriteSubjects)
     : subjectData!;
 
   const toggleFavorite = (subjectId: string) => {

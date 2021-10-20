@@ -39,7 +39,7 @@ import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 import { getIdFromUrn } from '../../../../util/taxonomyHelpers';
-import { TOPIC_RESOURCES, TOPIC_RESOURCE_STATUS_GREP_QUERY } from '../../../../queryKeys';
+import { TOPIC_RESOURCES } from '../../../../queryKeys';
 
 type PathArray = Array<TaxonomyElement>;
 
@@ -202,8 +202,11 @@ const CopyResources = ({ id, locale, subjectId, structure, onClose, setShowAlert
       const resources = await fetchTopicResources(topic.id);
       const clonedResources = await cloneResources(resources);
       await addResourcesToTopic(clonedResources);
-      await qc.invalidateQueries(TOPIC_RESOURCES);
-      await qc.invalidateQueries(TOPIC_RESOURCE_STATUS_GREP_QUERY);
+      // Taxonomy API takes a while to set resource types for cloned resources. If you don't delay
+      // query invalidation the cloned resources will be placed in the "missing" category until the
+      // query is refetched at a later point.
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      await qc.invalidateQueries([TOPIC_RESOURCES, id]);
     } catch (e) {
       setShowAlertModal(true);
       handleError(e);

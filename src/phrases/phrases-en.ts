@@ -96,7 +96,7 @@ const phrases = {
     en: 'English',
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
-    se: 'Sami',
+    se: 'Northern Sami',
     sma: 'Southern Sami',
     unknown: 'Unknown',
     de: 'German',

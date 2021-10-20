@@ -97,7 +97,7 @@ const phrases = {
     en: 'Engelsk',
     nb: 'Bokmål',
     nn: 'Nynorsk',
-    se: 'Samisk',
+    se: 'Nordsamisk',
     sma: 'Sørsamisk',
     unknown: 'Ukjent',
     de: 'Tysk',

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "System for producing content for NDLA",
   "scripts": {
-    "build": "cross-env NODE_OPTIONS='--max-old-space-size=2048' tsc -b && razzle build --noninteractive",
+    "build": "cross-env NODE_OPTIONS='--max-old-space-size=2048' ttsc -b && razzle build --noninteractive",
     "postbuild": "cp build/assets.json build/public/assets.json",
     "clean": "rimraf ./build",
     "check-all": "yarn lint && yarn test-ci",
@@ -12,7 +12,7 @@
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --ext .js,.jsx,.ts,.tsx --max-warnings=0 src",
     "format-check": "node prettier.js lint",
     "format": "node prettier.js write",
-    "start:tsc": "tsc -b -w --preserveWatchOutput",
+    "start:tsc": "ttsc -b -w --preserveWatchOutput",
     "start": "NODE_OPTIONS='--max-old-space-size=2048' concurrently \"yarn start:tsc\" \"razzle start --inspect --inspect-port 9230\"",
     "start-with-local-converter": "LOCAL_CONVERTER=true razzle start",
     "start-prod": "cross-env NODE_ENV=production node build/server | bunyan",
@@ -105,9 +105,12 @@
     "wait-on": "^3.3.0",
     "webpack": "^4.44.1",
     "webpack-dev-server": "^3.11.2",
-    "yargs": "^14.0.0"
+    "yargs": "^14.0.0",
+    "ttypescript": "^1.5.12"
   },
   "dependencies": {
+    "typescript-is": "^0.18.3",
+    "reflect-metadata": "^0.1.13",
     "@emotion/babel-preset-css-prop": "^11.2.0",
     "@emotion/core": "^10.0.35",
     "@emotion/react": "^11.1.5",

@@ -9,13 +9,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import { is } from 'typescript-is';
 import Spinner from '../Spinner';
 import PreviewProduction from './PreviewProduction';
 import PreviewLanguage from './PreviewLanguage';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 import { ArticleType, TypeOfPreview } from '../../interfaces';
 import { ConceptPreviewType } from '../PreviewConcept/PreviewConceptLightbox';
-import { createArrayGuard } from '../../util/guards';
 
 interface StyledProps {
   contentType?: string;
@@ -44,8 +44,6 @@ interface Props {
   ) => React.ReactNode;
 }
 
-const isArticleArray = createArrayGuard<ArticleConverterApiType>('availability');
-
 const PreviewLightboxContent = ({
   firstEntity,
   secondEntity,
@@ -57,7 +55,6 @@ const PreviewLightboxContent = ({
   previewLanguage,
   onChangePreviewLanguage,
 }: Props) => {
-  const entities = [firstEntity, secondEntity];
   if (loading) return <Spinner />;
   if (typeOfPreview === 'preview') {
     return (
@@ -67,15 +64,16 @@ const PreviewLightboxContent = ({
     );
   }
   if (
-    isArticleArray(entities) &&
+    is<ArticleConverterApiType>(firstEntity) &&
+    is<ArticleConverterApiType>(secondEntity) &&
     (typeOfPreview === 'previewVersion' || typeOfPreview === 'previewProductionArticle')
   ) {
     return (
       <PreviewProduction
-        firstEntity={entities[0]}
+        firstEntity={firstEntity}
         label={label}
         contentType={contentType}
-        secondEntity={entities[1]}
+        secondEntity={secondEntity}
         previewLanguage={previewLanguage}
       />
     );

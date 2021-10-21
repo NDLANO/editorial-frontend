@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "plugins": [
+      { "transform": "typescript-is/lib/transform-inline/transformer" }
+    ],
     "baseUrl": "src",
     "target": "es5",
     "esModuleInterop": true,

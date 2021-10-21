@@ -17,9 +17,9 @@ describe('Selecting text and using the toolbar', () => {
   });
 
   it('change the text styling', () => {
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true][contenteditable=true]')
+    cy.get('[data-cy=slate-editor] p[data-slate-node=element]')
+      .last()
       .first()
-      .focus()
       .wait(500)
       .type('This is test content{leftarrow}{leftarrow}')
       .contains('This is test content')

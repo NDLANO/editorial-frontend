@@ -17,10 +17,9 @@ describe('Selecting text and using the toolbar', () => {
   });
 
   it('change the text styling', () => {
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true][contenteditable=true]')
+    cy.get('[data-cy=slate-editor] p[data-slate-node=element]')
+      .last()
       .first()
-      .focus()
-      .wait(500)
       .type('This is test content{leftarrow}{leftarrow}')
       .contains('This is test content')
       .type('{selectall}');
@@ -69,7 +68,6 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .wait(500)
       .then($el => {
         cy.wrap($el)
           .type('This is a test link{leftarrow}{leftarrow}')
@@ -111,21 +109,18 @@ describe('Selecting text and using the toolbar', () => {
         cy.get('ol > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
-          .wait(500)
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-bulleted-list]').click();
         cy.get('[data-testid=toolbar-button-bulleted-list][data-active=true]').should('exist');
         cy.get('ul > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
-          .wait(500)
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-letter-list]').click();
         cy.get('[data-testid=toolbar-button-letter-list][data-active=true]').should('exist');
         cy.get('ol > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
-          .wait(500)
           .type('{selectall}');
       });
   });
@@ -134,13 +129,11 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .wait(500)
       .type('footnote')
       .blur();
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .wait(500)
       .type('{selectall}')
       .blur();
     cy.get('[data-testid=toolbar-button-footnote]').click({ force: true });
@@ -165,14 +158,12 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .wait(500)
       .type('{selectall}')
       .type('1+1')
       .blur();
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .wait(500)
       .type('{selectall}')
       .blur();
     cy.get('[data-testid=toolbar-button-mathml]').click({ force: true });

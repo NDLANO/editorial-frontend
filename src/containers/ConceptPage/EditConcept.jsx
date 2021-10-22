@@ -75,7 +75,6 @@ EditConcept.propTypes = {
   selectedLanguage: PropTypes.string.isRequired,
   licenses: LicensesArrayOf.isRequired,
   isNewlyCreated: PropTypes.bool,
-  createMessage: PropTypes.func.isRequired,
 };
 
 export default EditConcept;

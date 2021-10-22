@@ -70,7 +70,6 @@ interface Props {
   }) => Promise<ConvertedDraftType>;
 }
 const mapDispatchToProps = {
-  createMessage: messageActions.addMessage,
   applicationError: messageActions.applicationError,
 };
 
@@ -83,7 +82,6 @@ const GrepCodesForm = ({
   updateArticle,
   updateArticleAndStatus,
   applicationError,
-  createMessage,
 }: Props & PropsFromRedux) => {
   const { t } = useTranslation();
   const { savedToServer, handleSubmit } = useArticleFormHooks({
@@ -95,7 +93,6 @@ const GrepCodesForm = ({
     updateArticleAndStatus,
     getArticleFromSlate: getArticle,
     isNewlyCreated: false,
-    createMessage,
     applicationError,
   });
 

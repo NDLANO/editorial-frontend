@@ -13,7 +13,7 @@ import EditLearningResource from './EditLearningResource';
 import { LocaleContext } from '../../App/App';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { License } from '../../../interfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
+import { ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface ParamsType {
   articleId: string;
@@ -23,14 +23,12 @@ interface Props extends RouteComponentProps<ParamsType> {
   isNewlyCreated: boolean;
   licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   userAccess: string | undefined;
 }
 const EditResourceRedirect = ({
   match,
   licenses,
   applicationError,
-  createMessage,
   isNewlyCreated,
   userAccess,
 }: Props) => {
@@ -56,7 +54,6 @@ const EditResourceRedirect = ({
             selectedLanguage={props.match.params.selectedLanguage}
             isNewlyCreated={isNewlyCreated}
             licenses={licenses}
-            createMessage={createMessage}
             applicationError={applicationError}
             userAccess={userAccess}
           />

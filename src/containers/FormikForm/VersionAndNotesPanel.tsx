@@ -31,7 +31,7 @@ import Spinner from '../../components/Spinner';
 import { ConvertedDraftType, Note } from '../../interfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { ArticleFormikType } from './articleFormHooks';
-import { NewReduxMessage } from '../Messages/messagesSelectors';
+import { useMessages } from '../Messages/MessagesProvider';
 
 const paddingPanelStyleInside = css`
   background: ${colors.brand.greyLightest};
@@ -48,7 +48,6 @@ interface Props {
   article: Partial<ConvertedDraftType>;
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
   setValues(values: ArticleFormikType, shouldValidate?: boolean): void;
-  createMessage: (message: NewReduxMessage) => void;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
 }
 
@@ -57,13 +56,13 @@ const VersionAndNotesPanel = ({
   article,
   getInitialValues,
   setValues,
-  createMessage,
   getArticle,
 }: Props) => {
   const { t } = useTranslation();
   const [versions, setVersions] = useState<DraftApiType[]>([]);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<SimpleUserType[]>([]);
+  const { createMessage } = useMessages();
   useEffect(() => {
     const getVersions = async () => {
       try {

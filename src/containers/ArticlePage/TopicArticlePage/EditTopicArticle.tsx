@@ -17,7 +17,7 @@ import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { License, LocaleType } from '../../../interfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
+import { ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
   articleId: string;
@@ -25,7 +25,6 @@ interface Props extends RouteComponentProps {
   isNewlyCreated: boolean;
   licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   userAccess: string | undefined;
 }
 
@@ -34,7 +33,6 @@ const EditTopicArticle = ({
   selectedLanguage,
   isNewlyCreated,
   userAccess,
-  createMessage,
   applicationError,
   licenses,
 }: Props) => {
@@ -73,7 +71,6 @@ const EditTopicArticle = ({
         translating={translating}
         isNewlyCreated={isNewlyCreated}
         userAccess={userAccess}
-        createMessage={createMessage}
         applicationError={applicationError}
         licenses={licenses}
         updateArticle={updateArticle}

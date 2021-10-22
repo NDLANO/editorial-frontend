@@ -42,7 +42,7 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
+import { ReduxMessageError } from '../../../Messages/messagesSelectors';
 import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
 
 export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
@@ -103,7 +103,6 @@ interface Props extends RouteComponentProps {
   revision?: number;
   updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   articleStatus?: DraftStatus;
   articleChanged: boolean;
   updateArticleAndStatus?: (input: {
@@ -128,7 +127,6 @@ const TopicArticleForm = (props: Props) => {
     translateToNN,
     licenses,
     isNewlyCreated,
-    createMessage,
     applicationError,
     articleStatus,
     userAccess,
@@ -209,7 +207,6 @@ const TopicArticleForm = (props: Props) => {
     licenses,
     getArticleFromSlate,
     isNewlyCreated,
-    createMessage,
     applicationError,
   });
 
@@ -256,7 +253,6 @@ const TopicArticleForm = (props: Props) => {
             fetchSearchTags={fetchSearchTags}
             handleSubmit={async () => handleSubmit(values, formik)}
             userAccess={userAccess}
-            createMessage={createMessage}
           />
         )}
         <EditorFooter
@@ -273,7 +269,6 @@ const TopicArticleForm = (props: Props) => {
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          createMessage={createMessage}
           isConcept={false}
           hideSecondaryButton={false}
         />

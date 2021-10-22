@@ -37,7 +37,8 @@ import {
   VisualElement,
 } from '../../interfaces';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
-import { NewReduxMessage, ReduxMessageError } from '../Messages/messagesSelectors';
+import { ReduxMessageError } from '../Messages/messagesSelectors';
+import { useMessages } from '../Messages/MessagesProvider';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -104,7 +105,6 @@ type HooksInputObject = {
   }) => UpdatedDraftApiType;
   isNewlyCreated: boolean;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
 };
 
 export function useArticleFormHooks({
@@ -112,7 +112,6 @@ export function useArticleFormHooks({
   article,
   t,
   articleStatus,
-  createMessage,
   applicationError,
   updateArticle,
   updateArticleAndStatus,
@@ -121,6 +120,7 @@ export function useArticleFormHooks({
 }: HooksInputObject) {
   const { id, revision, language } = article;
   const formikRef: any = useRef<any>(null); // TODO: Formik bruker any for denne ref'en men kanskje vi skulle gjort noe kulere?
+  const { createMessage } = useMessages();
   const [savedToServer, setSavedToServer] = useState(false);
   const [saveAsNewVersion, setSaveAsNewVersion] = useState(isNewlyCreated);
   const initialValues = getInitialValues(article);

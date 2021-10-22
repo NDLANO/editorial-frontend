@@ -14,19 +14,17 @@ import EditTopicArticle from './EditTopicArticle';
 import { LocaleContext } from '../../App/App';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { License } from '../../../interfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
+import { ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps<{ articleId: string }> {
   isNewlyCreated: boolean;
   licenses: License[];
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   userAccess: string | undefined;
 }
 const EditArticleRedirect = ({
   match,
   licenses,
-  createMessage,
   applicationError,
   isNewlyCreated,
   userAccess,
@@ -50,7 +48,6 @@ const EditArticleRedirect = ({
         render={props => (
           <EditTopicArticle
             licenses={licenses}
-            createMessage={createMessage}
             applicationError={applicationError}
             articleId={articleId}
             selectedLanguage={props.match.params.selectedLanguage}

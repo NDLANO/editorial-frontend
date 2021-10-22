@@ -13,7 +13,6 @@ import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import { LocaleContext } from '../../../App/App';
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
-import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 
 interface Props extends RouteComponentProps {
@@ -25,7 +24,6 @@ interface Props extends RouteComponentProps {
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: () => UpdatedDraftApiType;
   licenses: License[];
-  createMessage: (message: NewReduxMessage) => void;
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
 }
 
@@ -38,7 +36,6 @@ const TopicArticleAccordionPanels = ({
   updateNotes,
   licenses,
   history,
-  createMessage,
   getInitialValues,
   getArticle,
 }: Props) => {
@@ -127,7 +124,6 @@ const TopicArticleAccordionPanels = ({
           <VersionAndNotesPanel
             article={article}
             articleId={values.id}
-            createMessage={createMessage}
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}

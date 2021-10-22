@@ -42,7 +42,7 @@ import {
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, License, RelatedContent } from '../../../../interfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
+import { ReduxMessageError } from '../../../Messages/messagesSelectors';
 
 export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
   const metaImageId = parseImageUrl(article.metaImage);
@@ -121,7 +121,6 @@ export const convertDraftOrRelated = (
 interface Props extends RouteComponentProps {
   userAccess: string | undefined;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   article: Partial<ConvertedDraftType>;
   translating: boolean;
   translateToNN: () => void;
@@ -140,7 +139,6 @@ interface Props extends RouteComponentProps {
 const LearningResourceForm = ({
   article,
   articleStatus,
-  createMessage,
   applicationError,
   isNewlyCreated = false,
   licenses,
@@ -218,7 +216,6 @@ const LearningResourceForm = ({
     article,
     t,
     articleStatus,
-    createMessage,
     applicationError,
     updateArticle,
     updateArticleAndStatus,
@@ -267,7 +264,6 @@ const LearningResourceForm = ({
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
             userAccess={userAccess}
-            createMessage={createMessage}
             handleSubmit={handleSubmit}
           />
         )}
@@ -285,7 +281,6 @@ const LearningResourceForm = ({
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          createMessage={createMessage}
           isConcept={false}
           hideSecondaryButton={false}
         />

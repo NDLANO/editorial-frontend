@@ -36,7 +36,7 @@ import {
 import { License } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
+import { ReduxMessageError } from '../../Messages/messagesSelectors';
 import ConceptFormFooter from './ConceptFormFooter';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 
@@ -94,7 +94,6 @@ const ConceptForm = ({
   updateConceptAndStatus,
   onUpdate,
   applicationError,
-  createMessage,
   conceptArticles,
   initialTitle,
 }: Props & PropsFromRedux) => {
@@ -219,7 +218,6 @@ const ConceptForm = ({
               </AccordionSection>
             </Accordions>
             <ConceptFormFooter
-              createMessage={createMessage}
               entityStatus={concept?.status}
               conceptChanged={!!conceptChanged}
               inModal={inModal}
@@ -239,7 +237,6 @@ const ConceptForm = ({
 
 const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
-  createMessage: (message: NewReduxMessage) => messageActions.addMessage(message),
 };
 
 const reduxConnector = connect(undefined, mapDispatchToProps);

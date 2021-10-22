@@ -16,23 +16,16 @@ import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { License } from '../../../interfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
+import { ReduxMessageError } from '../../Messages/messagesSelectors';
 import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
 
 interface Props extends RouteComponentProps {
   licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   userAccess?: string;
 }
 
-const CreateLearningResource = ({
-  history,
-  licenses,
-  applicationError,
-  createMessage,
-  userAccess,
-}: Props) => {
+const CreateLearningResource = ({ history, licenses, applicationError, userAccess }: Props) => {
   const locale = useContext(LocaleContext);
   const { t } = useTranslation();
   const { createArticle } = useFetchArticleData(undefined, locale);
@@ -51,7 +44,6 @@ const CreateLearningResource = ({
         updateArticle={createArticleAndPushRoute}
         updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
         licenses={licenses}
-        createMessage={createMessage}
         applicationError={applicationError}
         userAccess={userAccess}
         translating={false}

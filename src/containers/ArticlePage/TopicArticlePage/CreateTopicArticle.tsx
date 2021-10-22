@@ -18,22 +18,15 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, License } from '../../../interfaces';
 import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
-import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
+import { ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
   licenses: License[];
   userAccess?: string;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
 }
 
-const CreateTopicArticle = ({
-  history,
-  licenses,
-  userAccess,
-  applicationError,
-  createMessage,
-}: Props) => {
+const CreateTopicArticle = ({ history, licenses, userAccess, applicationError }: Props) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const { createArticle } = useFetchArticleData(undefined, locale);
@@ -57,7 +50,6 @@ const CreateTopicArticle = ({
         userAccess={userAccess}
         translating={false}
         applicationError={applicationError}
-        createMessage={createMessage}
         articleChanged={false}
       />
     </Fragment>

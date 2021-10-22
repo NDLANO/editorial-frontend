@@ -13,7 +13,6 @@ import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
 import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
-import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 
 interface Props extends RouteComponentProps {
@@ -25,7 +24,6 @@ interface Props extends RouteComponentProps {
   ) => Promise<void>;
   article: Partial<ConvertedDraftType>;
   formIsDirty: boolean;
-  createMessage: (message: NewReduxMessage) => void;
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
   licenses: License[];
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
@@ -40,7 +38,6 @@ const LearningResourcePanels = ({
   licenses,
   getArticle,
   getInitialValues,
-  createMessage,
   history,
   formIsDirty,
   handleSubmit,
@@ -129,7 +126,6 @@ const LearningResourcePanels = ({
           <VersionAndNotesPanel
             article={article}
             articleId={values.id}
-            createMessage={createMessage}
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}

@@ -16,11 +16,9 @@ import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import * as messageActions from '../../Messages/messagesActions';
 import { usePreviousLocation } from '../../../util/routeHelpers';
 import { ReduxState } from '../../../interfaces';
-import { NewReduxMessage } from '../../Messages/messagesSelectors';
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
-  createMessage: (message: NewReduxMessage) => messageActions.addMessage(message),
   applicationError: messageActions.applicationError,
 };
 
@@ -44,7 +42,6 @@ const LearningResourcePage = ({
   fetchLicenses,
   licenses,
   applicationError,
-  createMessage,
   userAccess,
   match,
   history,
@@ -68,7 +65,6 @@ const LearningResourcePage = ({
                 {...routeProps}
                 applicationError={applicationError}
                 licenses={licenses}
-                createMessage={createMessage}
                 userAccess={userAccess}
               />
             )}
@@ -83,7 +79,6 @@ const LearningResourcePage = ({
                   isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
                   applicationError={applicationError}
                   licenses={licenses}
-                  createMessage={createMessage}
                   userAccess={userAccess}
                 />
               );

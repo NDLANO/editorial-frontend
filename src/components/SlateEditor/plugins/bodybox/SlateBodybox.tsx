@@ -14,8 +14,9 @@ import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
 import { TYPE_BODYBOX } from '.';
 
-const StyledBodybox = styled('div')`
+const StyledBodybox = styled.div`
   position: relative;
+  overflow: visible;
 `;
 
 interface Props {

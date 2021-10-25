@@ -59,6 +59,8 @@ import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
+import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
+import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 
 const byLineStyle = css`
   display: flex;
@@ -95,11 +97,16 @@ export const plugins = (
   articleLanguage: string,
   locale: LocaleType,
   handleSubmitRef: RefObject<() => void>,
-) => {
+): SlatePlugin[] => {
   return [
     sectionPlugin,
     divPlugin,
-    paragraphPlugin,
+    paragraphPlugin(
+      articleLanguage,
+      options({
+        actionsToShowInAreas,
+      }),
+    ),
     footnotePlugin,
     embedPlugin(articleLanguage, locale),
     bodyboxPlugin,

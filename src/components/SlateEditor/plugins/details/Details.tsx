@@ -16,7 +16,7 @@ import { TYPE_DETAILS } from '.';
 const StyledDetailsDiv = styled.div`
   margin: ${spacing.large} 0;
   border: 1px solid ${colors.brand.greyLight};
-  overflow: hidden;
+  overflow: visible;
   > *:last-child {
     margin-bottom: 0;
   }

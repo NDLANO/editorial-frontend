@@ -27,17 +27,8 @@ import { toEditConcept } from '../../../../../util/routeHelpers';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { useLicenses } from '../../../../Licenses/LicensesProvider';
 
-const ContentView = ({
-  concept,
-  locale,
-  title,
-  content,
-  breadcrumbs,
-  setShowForm,
-  t,
-  editing,
-}) => {
-  const {licenses} = useLicenses();
+const ContentView = ({ concept, locale, title, content, breadcrumbs, setShowForm, t, editing }) => {
+  const { licenses } = useLicenses();
   const license = licenses && licenses.find(l => concept.license === l.license);
   const userAccess = useContext(UserAccessContext);
   const canEdit = userAccess.includes(CONCEPT_ADMIN_SCOPE);

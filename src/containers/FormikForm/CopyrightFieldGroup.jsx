@@ -27,11 +27,7 @@ const CopyrightFieldGroup = ({
       {disableAgreements || <AgreementConnectionField values={values} width={3 / 4} />}
       <FormikField name="license">
         {({ field }) => (
-          <LicenseField
-            disabled={disabled}
-            enableLicenseNA={enableLicenseNA}
-            {...field}
-          />
+          <LicenseField disabled={disabled} enableLicenseNA={enableLicenseNA} {...field} />
         )}
       </FormikField>
     </Fragment>

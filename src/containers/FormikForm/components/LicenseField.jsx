@@ -16,19 +16,10 @@ import { getLicensesWithTranslations } from '../../../util/licenseHelpers';
 import { useLicenses } from '../../Licenses/LicensesProvider';
 
 const LicenseField = props => {
-  const {
-    onChange,
-    onBlur,
-    name,
-    onFocus,
-    value,
-    disabled,
-    width,
-    enableLicenseNA,
-  } = props;
+  const { onChange, onBlur, name, onFocus, value, disabled, width, enableLicenseNA } = props;
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
-  const {licenses} = useLicenses();
+  const { licenses } = useLicenses();
   const licensesWithTranslations = getLicensesWithTranslations(licenses, locale, enableLicenseNA);
 
   return (

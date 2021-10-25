@@ -25,6 +25,7 @@ import {
 import formatDate from '../../../../../util/formatDate';
 import { toEditConcept } from '../../../../../util/routeHelpers';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
+import { useLicenses } from '../../../../Licenses/LicensesProvider';
 
 const ContentView = ({
   concept,
@@ -35,8 +36,8 @@ const ContentView = ({
   setShowForm,
   t,
   editing,
-  licenses,
 }) => {
+  const {licenses} = useLicenses();
   const license = licenses && licenses.find(l => concept.license === l.license);
   const userAccess = useContext(UserAccessContext);
   const canEdit = userAccess.includes(CONCEPT_ADMIN_SCOPE);
@@ -127,7 +128,6 @@ ContentView.propTypes = {
   breadcrumbs: PropTypes.array,
   setShowForm: PropTypes.func,
   editing: PropTypes.bool,
-  licenses: PropTypes.array,
 };
 
 export default ContentView;

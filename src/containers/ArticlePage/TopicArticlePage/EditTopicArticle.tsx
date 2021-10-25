@@ -16,14 +16,13 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
-import { License, LocaleType } from '../../../interfaces';
+import { LocaleType } from '../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
   articleId: string;
   selectedLanguage: LocaleType;
   isNewlyCreated: boolean;
-  licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   userAccess: string | undefined;
@@ -36,7 +35,6 @@ const EditTopicArticle = ({
   userAccess,
   createMessage,
   applicationError,
-  licenses,
 }: Props) => {
   const {
     loading,
@@ -75,7 +73,6 @@ const EditTopicArticle = ({
         userAccess={userAccess}
         createMessage={createMessage}
         applicationError={applicationError}
-        licenses={licenses}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
       />

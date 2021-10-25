@@ -14,14 +14,14 @@ import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
-import { getLicensesWithTranslations } from '../../../../util/licenseHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses, SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { MinimalTagType } from './SearchTag';
+import withLicenses from '../../../Licenses/withLicenses';
+import { LicenseFunctions } from '../../../Licenses/LicensesProvider';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -39,14 +39,10 @@ export interface SearchState {
 
 interface State {
   search: SearchState;
-  licenses: {
-    id: string;
-    name: string;
-  }[];
 }
 
-class SearchAudioForm extends Component<Props & WithTranslation, State> {
-  constructor(props: Props & WithTranslation) {
+class SearchAudioForm extends Component<Props & WithTranslation & LicenseFunctions, State> {
+  constructor(props: Props & WithTranslation & LicenseFunctions) {
     super(props);
 
     const { searchObject } = props;
@@ -63,12 +59,7 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
         audioType: searchObject['audio-type'] || '',
         license: searchObject.license || '',
       },
-      licenses: [],
     };
-  }
-
-  componentDidMount() {
-    this.getLicenses();
   }
 
   componentDidUpdate(prevProps: Props & WithTranslation) {
@@ -83,17 +74,6 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
         },
       });
     }
-  }
-
-  async getLicenses() {
-    const licenses = await fetchLicenses();
-    const licensesWithTranslations = getLicensesWithTranslations(licenses, this.props.locale);
-    this.setState({
-      licenses: licensesWithTranslations.map(license => ({
-        id: license.license,
-        name: license.title,
-      })),
-    });
   }
 
   onFieldChange(evt: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLSelectElement>) {
@@ -130,8 +110,12 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
   }
 
   render() {
-    const { t } = this.props;
-    const { search, licenses } = this.state;
+    const { t, getTranslatedLicenses } = this.props;
+    const { search } = this.state;
+    const translatedLicenses = getTranslatedLicenses(this.props.locale).map(lic => ({
+      id: lic.license,
+      name: lic.title,
+    }));
 
     const getAudioTypes = () => [
       { id: 'standard', name: t('searchForm.audioType.standard') },
@@ -157,7 +141,7 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
       {
         type: 'license',
         id: search.license,
-        name: getTagName(search.license, licenses),
+        name: getTagName(search.license, translatedLicenses),
       },
     ];
 
@@ -187,7 +171,7 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
           <ObjectSelector
             name="license"
             value={search.license}
-            options={licenses}
+            options={translatedLicenses}
             idKey="id"
             labelKey="name"
             emptyField
@@ -249,4 +233,4 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
   };
 }
 
-export default withTranslation()(SearchAudioForm);
+export default withTranslation()(withLicenses(SearchAudioForm));

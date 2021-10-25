@@ -41,8 +41,9 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { ConvertedDraftType, License, RelatedContent } from '../../../../interfaces';
+import { ConvertedDraftType, RelatedContent } from '../../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
+import { useLicenses } from '../../../Licenses/LicensesProvider';
 
 export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
   const metaImageId = parseImageUrl(article.metaImage);
@@ -125,7 +126,6 @@ interface Props extends RouteComponentProps {
   article: Partial<ConvertedDraftType>;
   translating: boolean;
   translateToNN: () => void;
-  licenses: License[];
   articleStatus?: DraftStatus;
   isNewlyCreated: boolean;
   articleChanged: boolean;
@@ -143,7 +143,6 @@ const LearningResourceForm = ({
   createMessage,
   applicationError,
   isNewlyCreated = false,
-  licenses,
   translateToNN,
   translating,
   updateArticle,
@@ -153,6 +152,8 @@ const LearningResourceForm = ({
   userAccess,
 }: Props) => {
   const { t } = useTranslation();
+
+  const { licenses } = useLicenses();
 
   const getArticleFromSlate = useCallback(
     ({
@@ -263,7 +264,6 @@ const LearningResourceForm = ({
             updateNotes={updateArticle}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
             userAccess={userAccess}

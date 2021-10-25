@@ -10,11 +10,10 @@ import React, { useState, useEffect } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { useTranslation } from 'react-i18next';
 import SearchResult from './SearchResult';
-import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import Spinner from '../../../../components/Spinner';
 import { ResultType, searchClasses } from '../../SearchContainer';
 import { SearchParams } from '../form/SearchForm';
-import { License, LocaleType, SearchType } from '../../../../interfaces';
+import { LocaleType, SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ImageSearchSummaryApiType } from '../../../../modules/image/imageApiInterfaces';
 import { SearchConceptType } from '../../../../modules/concept/conceptApiInterfaces';
@@ -53,11 +52,6 @@ const SearchList = ({
   const { t } = useTranslation();
   const editingState = useState(false);
   const setEditing = editingState[1];
-
-  const [licenses, setLicenses] = useState<License[]>();
-  useEffect(() => {
-    fetchLicenses().then(licenses => setLicenses(licenses));
-  }, []);
   useEffect(() => {
     setEditing(false);
   }, [results, setEditing]);
@@ -81,7 +75,6 @@ const SearchList = ({
               subjects={subjects}
               userAccess={userAccess}
               editingState={editingState}
-              licenses={licenses}
             />
           </CSSTransition>
         ))}

@@ -15,12 +15,10 @@ import LearningResourceForm from './components/LearningResourceForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { License } from '../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
 
 interface Props extends RouteComponentProps {
-  licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   userAccess?: string;
@@ -28,7 +26,6 @@ interface Props extends RouteComponentProps {
 
 const CreateLearningResource = ({
   history,
-  licenses,
   applicationError,
   createMessage,
   userAccess,
@@ -50,7 +47,6 @@ const CreateLearningResource = ({
         article={{ language: locale, grepCodes: [] }}
         updateArticle={createArticleAndPushRoute}
         updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
-        licenses={licenses}
         createMessage={createMessage}
         applicationError={applicationError}
         userAccess={userAccess}

@@ -11,22 +11,19 @@ import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField/FormikField';
 import CopyrightFieldGroup from '../../FormikForm/CopyrightFieldGroup';
 
-import { License } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 
 interface Props {
-  licenses: License[];
   disableAgreements: boolean;
   label: string;
 }
 
-const ConceptCopyright = ({ licenses, disableAgreements, label }: Props) => {
+const ConceptCopyright = ({ disableAgreements, label }: Props) => {
   const { values } = useFormikContext<ConceptFormValues>();
 
   return (
     <Fragment>
       <CopyrightFieldGroup
-        licenses={licenses}
         disableAgreements={disableAgreements}
         values={values}
         enableLicenseNA={true}

@@ -11,7 +11,6 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import * as messageActions from '../Messages/messagesActions';
 import { getLocale } from '../../modules/locale/locale';
 import Footer from '../App/components/Footer';
@@ -28,14 +27,7 @@ const ConceptPage = (props: Props) => {
   const [previousLocation, setPreviousLocation] = useState('');
   const prevProps = useRef<Props | undefined>(undefined);
 
-  const { licenses, fetchLicenses, match, location, ...rest } = props;
-
-  useEffect(() => {
-    if (!licenses.length) {
-      fetchLicenses();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { match, location, ...rest } = props;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -49,15 +41,11 @@ const ConceptPage = (props: Props) => {
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <OneColumn>
         <Switch>
-          <Route
-            path={`${match.url}/new`}
-            render={() => <CreateConcept licenses={licenses} {...rest} />}
-          />
+          <Route path={`${match.url}/new`} render={() => <CreateConcept {...rest} />} />
           <Route
             path={`${match.url}/:conceptId/edit/:selectedLanguage`}
             render={routeProps => (
               <EditConcept
-                licenses={licenses}
                 conceptId={routeProps.match.params.conceptId}
                 selectedLanguage={routeProps.match.params.selectedLanguage}
                 isNewlyCreated={previousLocation === '/concept/new'}
@@ -74,13 +62,11 @@ const ConceptPage = (props: Props) => {
 };
 
 const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
   applicationError: messageActions.applicationError,
 };
 
 const mapStateToProps = (state: ReduxState) => ({
   locale: getLocale(state),
-  licenses: getAllLicenses(state),
 });
 
 const reduxConnector = connect(mapStateToProps, mapDispatchToProps);

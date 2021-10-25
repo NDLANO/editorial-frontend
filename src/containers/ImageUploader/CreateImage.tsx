@@ -5,17 +5,15 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { LocaleContext } from '../App/App';
 import ImageForm from './components/ImageForm';
 import { createFormData } from '../../util/formDataHelper';
 import * as imageApi from '../../modules/image/imageApi';
 import { toEditImage } from '../../util/routeHelpers';
-import { License } from '../../interfaces';
 import { NewImageMetadata } from '../../modules/image/imageApiInterfaces';
-import { fetchLicenses } from '../../modules/draft/draftApi';
-import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
+import { useLicenses } from '../Licenses/LicensesProvider';
 
 interface Props extends RouteComponentProps {
   isNewlyCreated?: boolean;
@@ -24,16 +22,7 @@ interface Props extends RouteComponentProps {
 
 const CreateImage = ({ history, isNewlyCreated, showSaved }: Props) => {
   const locale: string = useContext(LocaleContext);
-  const [licenses, setLicenses] = useState<License[]>([]);
-
-  useEffect(() => {
-    getLicenses();
-  }, []);
-
-  const getLicenses = async () => {
-    const license = await fetchLicenses();
-    setLicenses(license);
-  };
+  const { imageLicenses } = useLicenses();
 
   const onCreateImage = async (imageMetadata: NewImageMetadata, image: string | Blob) => {
     const formData = await createFormData(image, imageMetadata);
@@ -49,7 +38,7 @@ const CreateImage = ({ history, isNewlyCreated, showSaved }: Props) => {
       inModal={false}
       isLoading={false}
       isNewlyCreated={isNewlyCreated}
-      licenses={draftLicensesToImageLicenses(licenses)}
+      licenses={imageLicenses}
       onUpdate={onCreateImage}
     />
   );

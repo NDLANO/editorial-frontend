@@ -16,24 +16,17 @@ import TopicArticleForm from './components/TopicArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { ConvertedDraftType, License } from '../../../interfaces';
+import { ConvertedDraftType } from '../../../interfaces';
 import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
-  licenses: License[];
   userAccess?: string;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
 }
 
-const CreateTopicArticle = ({
-  history,
-  licenses,
-  userAccess,
-  applicationError,
-  createMessage,
-}: Props) => {
+const CreateTopicArticle = ({ history, userAccess, applicationError, createMessage }: Props) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const { createArticle } = useFetchArticleData(undefined, locale);
@@ -53,7 +46,6 @@ const CreateTopicArticle = ({
         article={{ language: locale, grepCodes: [] }}
         updateArticle={createArticleAndPushRoute}
         isNewlyCreated={false}
-        licenses={licenses}
         userAccess={userAccess}
         translating={false}
         applicationError={applicationError}

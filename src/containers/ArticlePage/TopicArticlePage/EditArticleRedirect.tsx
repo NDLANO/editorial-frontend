@@ -13,19 +13,16 @@ import { Action, ActionFunction1 } from 'redux-actions';
 import EditTopicArticle from './EditTopicArticle';
 import { LocaleContext } from '../../App/App';
 import { fetchDraft } from '../../../modules/draft/draftApi';
-import { License } from '../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps<{ articleId: string }> {
   isNewlyCreated: boolean;
-  licenses: License[];
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   userAccess: string | undefined;
 }
 const EditArticleRedirect = ({
   match,
-  licenses,
   createMessage,
   applicationError,
   isNewlyCreated,
@@ -49,7 +46,6 @@ const EditArticleRedirect = ({
         path={`${match.url}/:selectedLanguage`}
         render={props => (
           <EditTopicArticle
-            licenses={licenses}
             createMessage={createMessage}
             applicationError={applicationError}
             articleId={articleId}

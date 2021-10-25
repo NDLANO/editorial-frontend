@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { LicenseField, DatePicker, ContributorsField } from '../../FormikForm';
 import FormikField, { classes as fieldsClasses } from '../../../components/FormikField';
@@ -8,7 +7,6 @@ import { LocaleContext } from '../../App/App';
 const contributorTypes = ['rightsholders', 'creators'];
 const AgreementFields = props => {
   const { t } = useTranslation();
-  const { licenses } = props;
   const locale = useContext(LocaleContext);
 
   return (
@@ -20,7 +18,7 @@ const AgreementFields = props => {
         placeholder={t('agreementForm.fields.title.placeholder')}
       />
       <ContributorsField contributorTypes={contributorTypes} />
-      <LicenseField licenses={licenses} />
+      <LicenseField />
       <FormikField label={t('agreementForm.fields.content.label')} name="content">
         {({ field }) => (
           <textarea
@@ -54,15 +52,6 @@ const AgreementFields = props => {
       </div>
     </div>
   );
-};
-
-AgreementFields.propTypes = {
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
 };
 
 export default AgreementFields;

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
@@ -14,20 +14,17 @@ import * as messageActions from '../../Messages/messagesActions';
 import EditArticleRedirect from './EditArticleRedirect';
 import CreateTopicArticle from './CreateTopicArticle';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
-import { actions as licenseActions, getAllLicenses } from '../../../modules/license/license';
 import { usePreviousLocation } from '../../../util/routeHelpers';
 import { ReduxState } from '../../../interfaces';
 
 interface Props extends RouteComponentProps<{ articleId: string }> {}
 
 const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
   createMessage: (message = {}) => messageActions.addMessage(message),
   applicationError: messageActions.applicationError,
 };
 
 const mapStateToProps = (state: ReduxState) => ({
-  licenses: getAllLicenses(state),
   userAccess: state.session.user.scope,
 });
 
@@ -36,19 +33,11 @@ type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 const TopicArticlePage = ({
   match,
-  licenses,
-  fetchLicenses,
   applicationError,
   createMessage,
   userAccess,
 }: Props & PropsFromRedux) => {
   const previousLocation = usePreviousLocation();
-
-  useEffect(() => {
-    if (!licenses.length) {
-      fetchLicenses();
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <OneColumn>
@@ -58,7 +47,6 @@ const TopicArticlePage = ({
           render={() => (
             <CreateTopicArticle
               applicationError={applicationError}
-              licenses={licenses}
               createMessage={createMessage}
               userAccess={userAccess}
             />
@@ -68,7 +56,6 @@ const TopicArticlePage = ({
           <EditArticleRedirect
             isNewlyCreated={previousLocation === '/subject-matter/topic-article/new'}
             applicationError={applicationError}
-            licenses={licenses}
             createMessage={createMessage}
             userAccess={userAccess}
           />

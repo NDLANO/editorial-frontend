@@ -16,7 +16,6 @@ import loadable from '@loadable/component';
 import { getLocale } from '../../modules/locale/locale';
 import * as api from '../../modules/draft/draftApi';
 import * as messageActions from '../Messages/messagesActions';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { toEditAgreement } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
 const EditAgreement = loadable(() => import('../../modules/locale/locale'));
@@ -28,11 +27,6 @@ class AgreementPage extends React.Component {
     super();
     this.state = { isSaving: false };
     this.upsertAgreement = this.upsertAgreement.bind(this);
-  }
-
-  componentDidMount() {
-    const { fetchLicenses } = this.props;
-    fetchLicenses();
   }
 
   async upsertAgreement(agreement) {
@@ -57,7 +51,7 @@ class AgreementPage extends React.Component {
   }
 
   render() {
-    const { locale, match, t, licenses } = this.props;
+    const { locale, match, t } = this.props;
     return (
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.agreementPage')} />
@@ -70,7 +64,6 @@ class AgreementPage extends React.Component {
                   locale={locale}
                   isSaving={this.state.isSaving}
                   upsertAgreement={this.upsertAgreement}
-                  licenses={licenses}
                 />
               )}
             />
@@ -83,7 +76,6 @@ class AgreementPage extends React.Component {
                   locale={locale}
                   isSaving={this.state.isSaving}
                   upsertAgreement={this.upsertAgreement}
-                  licenses={licenses}
                 />
               )}
             />
@@ -104,26 +96,17 @@ AgreementPage.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   locale: PropTypes.string.isRequired,
-  fetchLicenses: PropTypes.func.isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
   addMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   locale: getLocale(state),
-  licenses: getAllLicenses(state),
 });
 
 const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
   addMessage: messageActions.addMessage,
-  fetchLicenses: licenseActions.fetchLicenses,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AgreementPage));

@@ -13,15 +13,13 @@ import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
 import { AudioMetaInformationPost } from '../../modules/audio/audioApiInterfaces';
-import { License } from '../../interfaces';
 import { HistoryShape } from '../../shapes';
 
 interface Props extends RouteComponentProps {
-  licenses: License[];
   locale: string;
 }
 
-const CreateAudio = ({ history, licenses, locale, ...rest }: Props) => {
+const CreateAudio = ({ history, locale, ...rest }: Props) => {
   const onCreateAudio = async (
     newAudio: AudioMetaInformationPost,
     file?: string | Blob,
@@ -33,18 +31,10 @@ const CreateAudio = ({ history, licenses, locale, ...rest }: Props) => {
     }
   };
 
-  return (
-    <AudioForm onUpdate={onCreateAudio} audioLanguage={locale} licenses={licenses} {...rest} />
-  );
+  return <AudioForm onUpdate={onCreateAudio} audioLanguage={locale} {...rest} />;
 };
 
 CreateAudio.propTypes = {
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string.isRequired,
-      license: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
   history: HistoryShape,
   locale: PropTypes.string.isRequired,
 };

@@ -13,7 +13,6 @@ import { withTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import { actions as tagActions, getAllTagsByLanguage } from '../../modules/tag/tag';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import {
   getImage,
   getUploadedImage,
@@ -276,7 +275,6 @@ VisualElementSearch.propTypes = {
 
 const mapDispatchToProps = {
   fetchTags: tagActions.fetchTags,
-  fetchLicenses: licenseActions.fetchLicenses,
   clearUploadedImage: imageActions.clearUploadedImage,
 };
 
@@ -286,7 +284,6 @@ const mapStateToProps = state => {
   return {
     locale,
     tags: getAllTagsSelector(state),
-    licenses: getAllLicenses(state),
     isSavingImage: getSavingImage(state),
     showSaved: getShowSaved(state),
     uploadedImage: getUploadedImage(state),

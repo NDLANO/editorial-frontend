@@ -13,13 +13,13 @@ import { FieldHeader, FieldSection, Select } from '@ndla/forms';
 import { LocaleContext } from '../../App/App';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { getLicensesWithTranslations } from '../../../util/licenseHelpers';
+import { useLicenses } from '../../Licenses/LicensesProvider';
 
 const LicenseField = props => {
   const {
     onChange,
     onBlur,
     name,
-    licenses,
     onFocus,
     value,
     disabled,
@@ -28,6 +28,7 @@ const LicenseField = props => {
   } = props;
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
+  const {licenses} = useLicenses();
   const licensesWithTranslations = getLicensesWithTranslations(licenses, locale, enableLicenseNA);
 
   return (
@@ -60,12 +61,6 @@ const LicenseField = props => {
 LicenseField.propTypes = {
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
   disabled: PropTypes.bool,
   name: PropTypes.string,
   value: PropTypes.string,

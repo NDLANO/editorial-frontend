@@ -20,16 +20,15 @@ import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom
 import { withTranslation, WithTranslation } from 'react-i18next';
 import Navigation from '../Masthead/components/Navigation';
 import { getLocale } from '../../modules/locale/locale';
-import { getMessages } from '../Messages/messagesSelectors';
-import Messages from '../Messages/Messages';
 import ErrorBoundary from '../../components/ErrorBoundary';
 
 import Zendesk from './Zendesk';
 import { LocaleType, ReduxState } from '../../interfaces';
 import { LOCALE_VALUES } from '../../constants';
 import config from '../../config';
-import { MessagesProvider } from '../Messages/MessagesProvider';
-import { NewMessages } from '../Messages/NewMessages';
+import { MessagesProvider, useMessages } from '../Messages/MessagesProvider';
+import Messages from '../Messages/Messages';
+import { scheduleRenewal } from '../../util/authHelpers';
 const Login = loadable(() => import('../Login/Login'));
 const Logout = loadable(() => import('../Logout/Logout'));
 const PrivateRoute = loadable(() => import('../PrivateRoute/PrivateRoute'));
@@ -63,7 +62,6 @@ interface Props {
 
 const mapStateToProps = (state: ReduxState) => ({
   locale: getLocale(state),
-  messages: getMessages(state),
   authenticated: state.session.authenticated,
   userName: state.session.user.name,
   userAccess: state.session.user.scope,
@@ -107,7 +105,7 @@ class App extends React.Component<ActualProps, InternalState> {
   };
 
   render() {
-    const { authenticated, dispatch, messages, t, userName, userAccess } = this.props;
+    const { authenticated, t, userName, userAccess } = this.props;
 
     return (
       <ErrorBoundary>
@@ -116,39 +114,40 @@ class App extends React.Component<ActualProps, InternalState> {
             <LocaleContext.Provider value={this.props.i18n.language as LocaleType}>
               <FirstLoadContext.Provider value={this.state.firstLoad}>
                 <MessagesProvider>
-                  <PageContainer background>
-                    <Zendesk authenticated={authenticated} />
-                    <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
-                    <Content>
-                      <Navigation authenticated={authenticated} userName={userName} />
-                      <Switch>
-                        <Route path="/" exact component={WelcomePage} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/logout" component={Logout} />
-                        <PrivateRoute path="/subjectpage" component={Subjectpage} />
-                        <PrivateRoute path="/search" component={SearchPage} />
-                        <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
-                        <PrivateRoute
-                          path="/edit-markup/:draftId/:language"
-                          component={EditMarkupPage}
-                        />
-                        <PrivateRoute path="/concept" component={ConceptPage} />
-                        <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
-                        <PrivateRoute path="/media" component={MediaPage} />
-                        <PrivateRoute path="/agreement" component={AgreementPage} />
-                        <PrivateRoute path="/film" component={NdlaFilm} />
-                        <PrivateRoute path="/h5p" component={H5PPage} />
-                        <PrivateRoute
-                          path="/structure/:subject?/:topic?/:subtopics(.*)?"
-                          component={StructurePage}
-                        />
-                        <Route path="/forbidden" component={ForbiddenPage} />
-                        <Route component={NotFoundPage} />
-                      </Switch>
-                    </Content>
-                    <Messages dispatch={dispatch} messages={messages} />
-                    <NewMessages />
-                  </PageContainer>
+                  <AuthInitializer>
+                    <PageContainer background>
+                      <Zendesk authenticated={authenticated} />
+                      <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
+                      <Content>
+                        <Navigation authenticated={authenticated} userName={userName} />
+                        <Switch>
+                          <Route path="/" exact component={WelcomePage} />
+                          <Route path="/login" component={Login} />
+                          <Route path="/logout" component={Logout} />
+                          <PrivateRoute path="/subjectpage" component={Subjectpage} />
+                          <PrivateRoute path="/search" component={SearchPage} />
+                          <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
+                          <PrivateRoute
+                            path="/edit-markup/:draftId/:language"
+                            component={EditMarkupPage}
+                          />
+                          <PrivateRoute path="/concept" component={ConceptPage} />
+                          <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
+                          <PrivateRoute path="/media" component={MediaPage} />
+                          <PrivateRoute path="/agreement" component={AgreementPage} />
+                          <PrivateRoute path="/film" component={NdlaFilm} />
+                          <PrivateRoute path="/h5p" component={H5PPage} />
+                          <PrivateRoute
+                            path="/structure/:subject?/:topic?/:subtopics(.*)?"
+                            component={StructurePage}
+                          />
+                          <Route path="/forbidden" component={ForbiddenPage} />
+                          <Route component={NotFoundPage} />
+                        </Switch>
+                      </Content>
+                      <Messages />
+                    </PageContainer>
+                  </AuthInitializer>
                 </MessagesProvider>
               </FirstLoadContext.Provider>
             </LocaleContext.Provider>
@@ -162,5 +161,11 @@ class App extends React.Component<ActualProps, InternalState> {
     locale: PropTypes.oneOf(LOCALE_VALUES),
   };
 }
+
+const AuthInitializer = ({ children }: { children: React.ReactElement }) => {
+  const { createMessage } = useMessages();
+  scheduleRenewal(createMessage);
+  return children;
+};
 
 export default reduxConnector(withRouter(withTranslation()(App)));

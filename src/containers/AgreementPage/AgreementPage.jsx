@@ -15,9 +15,9 @@ import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
 import { getLocale } from '../../modules/locale/locale';
 import * as api from '../../modules/draft/draftApi';
-import * as messageActions from '../Messages/messagesActions';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { toEditAgreement } from '../../util/routeHelpers';
+import withMessages from '../Messages/withMessages';
 import Footer from '../App/components/Footer';
 const EditAgreement = loadable(() => import('../../modules/locale/locale'));
 const CreateAgreement = loadable(() => import('./CreateAgreement'));
@@ -36,7 +36,7 @@ class AgreementPage extends React.Component {
   }
 
   async upsertAgreement(agreement) {
-    const { history, applicationError, addMessage } = this.props;
+    const { history, applicationError, createMessage } = this.props;
     try {
       this.setState({ isSaving: true });
       if (agreement.id) {
@@ -46,7 +46,7 @@ class AgreementPage extends React.Component {
         history.push(toEditAgreement(newAgreement.id));
       }
       this.setState({ isSaving: false });
-      addMessage({
+      createMessage({
         translationKey: agreement.id ? 'form.savedOk' : 'form.createdOk',
         severity: 'success',
       });
@@ -111,7 +111,7 @@ AgreementPage.propTypes = {
       license: PropTypes.string,
     }),
   ).isRequired,
-  addMessage: PropTypes.func.isRequired,
+  createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
 };
 
@@ -121,9 +121,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  applicationError: messageActions.applicationError,
-  addMessage: messageActions.addMessage,
   fetchLicenses: licenseActions.fetchLicenses,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AgreementPage));
+export default withTranslation()(
+  withMessages(connect(mapStateToProps, mapDispatchToProps)(AgreementPage)),
+);

@@ -13,13 +13,11 @@ import { actions as licenseActions, getAllLicenses } from '../../../modules/lice
 import EditResourceRedirect from './EditResourceRedirect';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
-import * as messageActions from '../../Messages/messagesActions';
 import { usePreviousLocation } from '../../../util/routeHelpers';
 import { ReduxState } from '../../../interfaces';
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
-  applicationError: messageActions.applicationError,
 };
 
 const mapStateToProps = (state: ReduxState) => ({
@@ -41,7 +39,6 @@ type Props = BaseProps & RouteComponentProps<ParamsType> & PropsFromRedux;
 const LearningResourcePage = ({
   fetchLicenses,
   licenses,
-  applicationError,
   userAccess,
   match,
   history,
@@ -61,12 +58,7 @@ const LearningResourcePage = ({
           <Route
             path={`${match.url}/new`}
             render={routeProps => (
-              <CreateLearningResource
-                {...routeProps}
-                applicationError={applicationError}
-                licenses={licenses}
-                userAccess={userAccess}
-              />
+              <CreateLearningResource {...routeProps} licenses={licenses} userAccess={userAccess} />
             )}
           />
           <Route path={`${match.url}/:articleId/edit/`}>
@@ -77,7 +69,6 @@ const LearningResourcePage = ({
                   history={history}
                   location={location}
                   isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
-                  applicationError={applicationError}
                   licenses={licenses}
                   userAccess={userAccess}
                 />

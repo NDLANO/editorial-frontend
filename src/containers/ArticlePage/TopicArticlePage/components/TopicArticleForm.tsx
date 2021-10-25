@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -42,7 +41,6 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { ReduxMessageError } from '../../../Messages/messagesSelectors';
 import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
 
 export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
@@ -102,7 +100,6 @@ interface Props extends RouteComponentProps {
   article: Partial<ConvertedDraftType>;
   revision?: number;
   updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   articleStatus?: DraftStatus;
   articleChanged: boolean;
   updateArticleAndStatus?: (input: {
@@ -127,7 +124,6 @@ const TopicArticleForm = (props: Props) => {
     translateToNN,
     licenses,
     isNewlyCreated,
-    applicationError,
     articleStatus,
     userAccess,
   } = props;
@@ -207,7 +203,6 @@ const TopicArticleForm = (props: Props) => {
     licenses,
     getArticleFromSlate,
     isNewlyCreated,
-    applicationError,
   });
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);

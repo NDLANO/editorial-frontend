@@ -7,7 +7,6 @@
 
 import React, { Fragment } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -17,14 +16,12 @@ import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { License, LocaleType } from '../../../interfaces';
-import { ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
   articleId: string;
   selectedLanguage: LocaleType;
   isNewlyCreated: boolean;
   licenses: License[];
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   userAccess: string | undefined;
 }
 
@@ -33,7 +30,6 @@ const EditTopicArticle = ({
   selectedLanguage,
   isNewlyCreated,
   userAccess,
-  applicationError,
   licenses,
 }: Props) => {
   const {
@@ -71,7 +67,6 @@ const EditTopicArticle = ({
         translating={translating}
         isNewlyCreated={isNewlyCreated}
         userAccess={userAccess}
-        applicationError={applicationError}
         licenses={licenses}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}

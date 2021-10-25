@@ -21,7 +21,6 @@ import {
   actions as imageActions,
 } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
-import { getShowSaved } from '../Messages/messagesSelectors';
 import config from '../../config';
 import * as visualElementApi from './visualElementApi';
 import * as imageApi from '../../modules/image/imageApi';
@@ -288,7 +287,6 @@ const mapStateToProps = state => {
     tags: getAllTagsSelector(state),
     licenses: getAllLicenses(state),
     isSavingImage: getSavingImage(state),
-    showSaved: getShowSaved(state),
     uploadedImage: getUploadedImage(state),
   };
 };

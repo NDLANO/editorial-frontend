@@ -7,10 +7,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import AgreementForm from './components/AgreementForm';
 import * as api from '../../modules/draft/draftApi';
-import * as messageActions from '../Messages/messagesActions';
+import withMessages from '../Messages/withMessages';
 
 class EditAgreement extends Component {
   constructor(props) {
@@ -66,8 +65,5 @@ EditAgreement.propTypes = {
   isSaving: PropTypes.bool.isRequired,
   applicationError: PropTypes.func.isRequired,
 };
-const mapDispatchToProps = {
-  applicationError: messageActions.applicationError,
-};
 
-export default connect(undefined, mapDispatchToProps)(EditAgreement);
+export default withMessages(EditAgreement);

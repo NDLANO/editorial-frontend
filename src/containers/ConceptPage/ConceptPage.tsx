@@ -12,7 +12,6 @@ import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
-import * as messageActions from '../Messages/messagesActions';
 import { getLocale } from '../../modules/locale/locale';
 import Footer from '../App/components/Footer';
 import { ReduxState } from '../../interfaces';
@@ -75,7 +74,6 @@ const ConceptPage = (props: Props) => {
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
-  applicationError: messageActions.applicationError,
 };
 
 const mapStateToProps = (state: ReduxState) => ({

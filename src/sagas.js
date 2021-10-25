@@ -10,7 +10,6 @@ import imageSagas from './modules/image/imageSagas';
 import tagSagas from './modules/tag/tagSagas';
 import sessionSagas from './modules/session/sessionSagas';
 import licenseSagas from './modules/license/licenseSagas';
-import messagesSagas from './containers/Messages/messagesSagas';
 
 export default function* root() {
   yield all([
@@ -18,6 +17,5 @@ export default function* root() {
     ...tagSagas.map(s => spawn(s)),
     ...sessionSagas.map(s => spawn(s)),
     ...licenseSagas.map(s => spawn(s)),
-    ...messagesSagas.map(s => spawn(s)),
   ]);
 }

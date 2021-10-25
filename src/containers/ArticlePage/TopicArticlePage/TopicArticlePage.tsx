@@ -10,7 +10,6 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import { RouteComponentProps } from 'react-router-dom';
-import * as messageActions from '../../Messages/messagesActions';
 import EditArticleRedirect from './EditArticleRedirect';
 import CreateTopicArticle from './CreateTopicArticle';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
@@ -22,7 +21,6 @@ interface Props extends RouteComponentProps<{ articleId: string }> {}
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,
-  applicationError: messageActions.applicationError,
 };
 
 const mapStateToProps = (state: ReduxState) => ({
@@ -37,7 +35,6 @@ const TopicArticlePage = ({
   match,
   licenses,
   fetchLicenses,
-  applicationError,
   userAccess,
 }: Props & PropsFromRedux) => {
   const previousLocation = usePreviousLocation();
@@ -53,18 +50,11 @@ const TopicArticlePage = ({
       <Switch>
         <Route
           path={`${match.url}/new`}
-          render={() => (
-            <CreateTopicArticle
-              applicationError={applicationError}
-              licenses={licenses}
-              userAccess={userAccess}
-            />
-          )}
+          render={() => <CreateTopicArticle licenses={licenses} userAccess={userAccess} />}
         />
         <Route path={`${match.url}/:articleId/edit/`}>
           <EditArticleRedirect
             isNewlyCreated={previousLocation === '/subject-matter/topic-article/new'}
-            applicationError={applicationError}
             licenses={licenses}
             userAccess={userAccess}
           />

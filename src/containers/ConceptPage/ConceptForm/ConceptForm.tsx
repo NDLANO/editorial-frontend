@@ -7,7 +7,6 @@
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +15,6 @@ import { toEditConcept } from '../../../util/routeHelpers';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
-import * as messageActions from '../../Messages/messagesActions';
 import { formClasses } from '../../FormikForm';
 import {
   conceptApiTypeToFormType,
@@ -36,9 +34,9 @@ import {
 import { License } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { ReduxMessageError } from '../../Messages/messagesSelectors';
 import ConceptFormFooter from './ConceptFormFooter';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
+import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 
 interface Props {
   concept?: ConceptApiType;
@@ -93,13 +91,13 @@ const ConceptForm = ({
   language,
   updateConceptAndStatus,
   onUpdate,
-  applicationError,
   conceptArticles,
   initialTitle,
-}: Props & PropsFromRedux) => {
+}: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
   const { t } = useTranslation();
+  const { applicationError } = useMessages();
 
   useEffect(() => {
     setSavedToServer(false);
@@ -133,7 +131,7 @@ const ConceptForm = ({
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
     } catch (err) {
-      applicationError(err as ReduxMessageError);
+      applicationError(err as MessageError);
       formikHelpers.setSubmitting(false);
       setSavedToServer(false);
     }
@@ -235,11 +233,4 @@ const ConceptForm = ({
   );
 };
 
-const mapDispatchToProps = {
-  applicationError: messageActions.applicationError,
-};
-
-const reduxConnector = connect(undefined, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
-
-export default reduxConnector(ConceptForm);
+export default ConceptForm;

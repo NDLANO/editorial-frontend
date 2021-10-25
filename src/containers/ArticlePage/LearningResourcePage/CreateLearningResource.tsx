@@ -8,7 +8,6 @@
 import React, { Fragment, useContext } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import { useTranslation } from 'react-i18next';
 import { LocaleContext } from '../../App/App';
 import LearningResourceForm from './components/LearningResourceForm';
@@ -16,16 +15,14 @@ import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { License } from '../../../interfaces';
-import { ReduxMessageError } from '../../Messages/messagesSelectors';
 import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
 
 interface Props extends RouteComponentProps {
   licenses: License[];
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   userAccess?: string;
 }
 
-const CreateLearningResource = ({ history, licenses, applicationError, userAccess }: Props) => {
+const CreateLearningResource = ({ history, licenses, userAccess }: Props) => {
   const locale = useContext(LocaleContext);
   const { t } = useTranslation();
   const { createArticle } = useFetchArticleData(undefined, locale);
@@ -44,7 +41,6 @@ const CreateLearningResource = ({ history, licenses, applicationError, userAcces
         updateArticle={createArticleAndPushRoute}
         updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
         licenses={licenses}
-        applicationError={applicationError}
         userAccess={userAccess}
         translating={false}
         articleChanged={false}

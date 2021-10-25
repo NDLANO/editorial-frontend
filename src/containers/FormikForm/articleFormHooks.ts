@@ -12,7 +12,6 @@ import { FormikHelpers } from 'formik';
 import { Value } from 'slate';
 
 import { WithTranslation } from 'react-i18next';
-import { Action, ActionFunction1 } from 'redux-actions';
 import {
   deleteFile,
   fetchStatusStateMachine,
@@ -37,7 +36,6 @@ import {
   VisualElement,
 } from '../../interfaces';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
-import { ReduxMessageError } from '../Messages/messagesSelectors';
 import { useMessages } from '../Messages/MessagesProvider';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
@@ -104,7 +102,6 @@ type HooksInputObject = {
     preview: boolean;
   }) => UpdatedDraftApiType;
   isNewlyCreated: boolean;
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
 };
 
 export function useArticleFormHooks({
@@ -112,7 +109,6 @@ export function useArticleFormHooks({
   article,
   t,
   articleStatus,
-  applicationError,
   updateArticle,
   updateArticleAndStatus,
   getArticleFromSlate,
@@ -120,7 +116,7 @@ export function useArticleFormHooks({
 }: HooksInputObject) {
   const { id, revision, language } = article;
   const formikRef: any = useRef<any>(null); // TODO: Formik bruker any for denne ref'en men kanskje vi skulle gjort noe kulere?
-  const { createMessage } = useMessages();
+  const { createMessage, applicationError } = useMessages();
   const [savedToServer, setSavedToServer] = useState(false);
   const [saveAsNewVersion, setSaveAsNewVersion] = useState(isNewlyCreated);
   const initialValues = getInitialValues(article);

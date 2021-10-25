@@ -9,7 +9,6 @@ import React, { useContext, Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import { useTranslation } from 'react-i18next';
 import { LocaleContext } from '../../App/App';
 import TopicArticleForm from './components/TopicArticleForm';
@@ -18,15 +17,13 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, License } from '../../../interfaces';
 import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
-import { ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
   licenses: License[];
   userAccess?: string;
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
 }
 
-const CreateTopicArticle = ({ history, licenses, userAccess, applicationError }: Props) => {
+const CreateTopicArticle = ({ history, licenses, userAccess }: Props) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const { createArticle } = useFetchArticleData(undefined, locale);
@@ -49,7 +46,6 @@ const CreateTopicArticle = ({ history, licenses, userAccess, applicationError }:
         licenses={licenses}
         userAccess={userAccess}
         translating={false}
-        applicationError={applicationError}
         articleChanged={false}
       />
     </Fragment>

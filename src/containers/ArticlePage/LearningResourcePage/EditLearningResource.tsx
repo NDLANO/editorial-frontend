@@ -10,7 +10,6 @@ import React, { Fragment } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import { useTranslation } from 'react-i18next';
 import LearningResourceForm from './components/LearningResourceForm';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -18,14 +17,12 @@ import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { License, LocaleType } from '../../../interfaces';
-import { ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
   isNewlyCreated: boolean;
   articleId: string;
   selectedLanguage: LocaleType;
   licenses: License[];
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   userAccess: string | undefined;
 }
 
@@ -34,7 +31,6 @@ const EditLearningResource = ({
   articleId,
   isNewlyCreated,
   licenses,
-  applicationError,
   userAccess,
 }: Props) => {
   const { t } = useTranslation();
@@ -74,7 +70,6 @@ const EditLearningResource = ({
         licenses={licenses}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
-        applicationError={applicationError}
         userAccess={userAccess}
       />
     </Fragment>

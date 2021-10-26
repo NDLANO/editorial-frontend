@@ -7,7 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { FormikContextType } from 'formik';
@@ -97,7 +97,7 @@ type Props = {
   handleBlur: (evt: { target: { name: string } }) => void;
   values: ArticleFormikType;
   handleSubmit: () => Promise<void>;
-} & WithTranslation & { formik: FormikContextType<ArticleFormikType> } & SessionProps;
+} & CustomWithTranslation & { formik: FormikContextType<ArticleFormikType> } & SessionProps;
 
 interface State {
   preview: boolean;

@@ -6,12 +6,17 @@ import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils'
 import { ImageApiLicense } from '../../modules/image/imageApiInterfaces';
 
 const LicenseContext = createContext<
-  [License[], React.Dispatch<React.SetStateAction<License[]>>] | undefined
+  [LicenseState, React.Dispatch<React.SetStateAction<LicenseState>>] | undefined
 >(undefined);
 
 interface Props {
   children?: React.ReactNode;
-  initialValue?: License[];
+  initialValue?: LicenseState;
+}
+
+interface LicenseState {
+  licenses: License[];
+  isFetching: boolean;
 }
 
 export interface LicenseFunctions {
@@ -35,8 +40,13 @@ export interface LicenseFunctions {
   imageLicenses: ImageApiLicense[];
 }
 
-export const LicensesProvider = ({ children, initialValue = [] }: Props) => {
-  const licenseState = useState(initialValue);
+const initValue: LicenseState = {
+  licenses: [],
+  isFetching: false,
+};
+
+export const LicensesProvider = ({ children, initialValue = initValue }: Props) => {
+  const licenseState = useState<LicenseState>(initialValue);
   return <LicenseContext.Provider value={licenseState}>{children}</LicenseContext.Provider>;
 };
 
@@ -46,23 +56,26 @@ export const useLicenses = (): LicenseFunctions => {
   if (licenseContext === undefined) {
     throw new Error('useLicenses must be used within a LicensesProvider');
   }
-  const [licenses, setLicenses] = licenseContext;
+  const [licenseState, setLicenseState] = licenseContext;
 
   const refetch = useCallback(async () => {
     setLoading(true);
+    setLicenseState(s => ({ ...s, isFetching: true }));
     const fetchedLicenses = await fetchLicenses();
-    setLicenses(fetchedLicenses);
+    setLicenseState({ licenses: fetchedLicenses, isFetching: false });
     setLoading(false);
-  }, [setLicenses]);
+  }, [setLicenseState]);
 
   useEffect(() => {
     (async () => {
-      await refetch();
+      if (!licenseState.isFetching && licenseState.licenses.length < 1) {
+        await refetch();
+      }
     })();
-  }, [refetch]);
+  }, [licenseState.isFetching, licenseState.licenses.length, refetch]);
 
   const getTranslatedLicenses = (language: string, enableLicenseNA: boolean = false) =>
-    licenses
+    licenseState.licenses
       .filter(license => license.license !== 'N/A' || enableLicenseNA)
       .map(license => ({
         ...license,
@@ -70,10 +83,10 @@ export const useLicenses = (): LicenseFunctions => {
       }));
 
   return {
-    licenses,
+    licenses: licenseState.licenses,
     refetchLicenses: refetch,
     licensesLoading: loading,
     getTranslatedLicenses,
-    imageLicenses: draftLicensesToImageLicenses(licenses),
+    imageLicenses: draftLicensesToImageLicenses(licenseState.licenses),
   };
 };

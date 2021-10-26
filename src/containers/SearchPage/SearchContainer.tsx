@@ -32,8 +32,6 @@ import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
 import { SearchTypeValues } from '../../constants';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import SearchSaveButton from './SearchSaveButton';
-import { SessionProps } from '../Session/SessionProvider';
-import withSession from '../Session/withSession';
 
 export const searchClasses = new BEMHelper({
   name: 'search',
@@ -52,9 +50,7 @@ interface BaseProps {
   searchFunction: (query: SearchParams) => Promise<ResultType>;
 }
 
-type Props = BaseProps &
-  WithTranslation &
-  RouteComponentProps & { locale: LocaleType } & SessionProps;
+type Props = BaseProps & WithTranslation & RouteComponentProps & { locale: LocaleType };
 
 interface State {
   subjects: SubjectType[];
@@ -194,4 +190,4 @@ class SearchContainer extends React.Component<Props, State> {
   };
 }
 
-export default withRouter(withLocale(withTranslation()(withSession(SearchContainer))));
+export default withRouter(withLocale(withTranslation()(SearchContainer)));

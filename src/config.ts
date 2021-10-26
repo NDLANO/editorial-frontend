@@ -6,6 +6,8 @@
  *
  */
 
+import { LocaleType } from './interfaces';
+
 export function getEnvironmentVariabel(key: string, fallback: string): string;
 export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
 export function getEnvironmentVariabel(key: string, fallback?: string): string | undefined;
@@ -118,7 +120,8 @@ export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
 };
 
-export const getDefaultLanguage = () => getEnvironmentVariabel('NDLA_DEFAULT_LANGUAGE', 'nb');
+export const getDefaultLanguage = () =>
+  getEnvironmentVariabel('NDLA_DEFAULT_LANGUAGE', 'nb') as LocaleType;
 
 const usernamePasswordEnabled = () => {
   switch (ndlaEnvironment) {

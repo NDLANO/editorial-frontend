@@ -44,7 +44,7 @@ interface Props {
   ) => React.ReactNode;
 }
 
-const isArticleArray = createArrayGuard<ArticleConverterApiType>('agreementId');
+const isArticleArray = createArrayGuard<ArticleConverterApiType>('availability');
 
 const PreviewLightboxContent = ({
   firstEntity,

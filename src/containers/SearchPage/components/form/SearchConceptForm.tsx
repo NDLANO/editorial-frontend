@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import PropTypes from 'prop-types';
@@ -56,8 +56,8 @@ const emptySearchState: SearchState = {
   users: '',
 };
 
-class SearchConceptForm extends Component<Props & WithTranslation, State> {
-  constructor(props: Props & WithTranslation) {
+class SearchConceptForm extends Component<Props & CustomWithTranslation, State> {
+  constructor(props: Props & CustomWithTranslation) {
     super(props);
     const { searchObject } = props;
     this.state = {
@@ -87,7 +87,7 @@ class SearchConceptForm extends Component<Props & WithTranslation, State> {
     this.setState({ users: users });
   }
 
-  componentDidUpdate(prevProps: Props & WithTranslation) {
+  componentDidUpdate(prevProps: Props & CustomWithTranslation) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({

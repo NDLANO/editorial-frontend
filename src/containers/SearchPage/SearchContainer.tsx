@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
@@ -49,7 +49,7 @@ interface BaseProps {
   searchFunction: (query: SearchParams) => Promise<ResultType>;
 }
 
-type Props = BaseProps & WithTranslation & RouteComponentProps & { locale: LocaleType };
+type Props = BaseProps & CustomWithTranslation & RouteComponentProps & { locale: LocaleType };
 
 interface State {
   subjects: SubjectType[];

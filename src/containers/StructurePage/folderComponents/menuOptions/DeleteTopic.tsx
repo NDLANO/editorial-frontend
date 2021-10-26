@@ -7,7 +7,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
@@ -28,6 +28,7 @@ import { updateStatusDraft } from '../../../../modules/draft/draftApi';
 import { ARCHIVED } from '../../../../util/constants/ArticleStatus';
 import { TopicConnections } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { EditMode } from '../../../../interfaces';
+import { CustomWithTranslation } from '../../../../types/react-i18next';
 
 interface State {
   loading: boolean;
@@ -44,7 +45,7 @@ interface BaseProps {
   locale: string;
 }
 
-type Props = BaseProps & WithTranslation;
+type Props = BaseProps & CustomWithTranslation;
 
 class DeleteTopic extends PureComponent<Props, State> {
   constructor(props: Props) {

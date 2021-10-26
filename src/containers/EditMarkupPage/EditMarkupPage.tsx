@@ -8,7 +8,7 @@
 
 import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation, withTranslation, WithTranslation } from 'react-i18next';
+import { useTranslation, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -33,6 +33,7 @@ import { AlertModalWrapper, formClasses } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import HelpMessage from '../../components/HelpMessage';
+import { CustomWithTranslation } from '../../types/react-i18next';
 
 declare global {
   interface Window {
@@ -149,8 +150,8 @@ interface State {
   draft: DraftApiType | undefined;
 }
 
-class EditMarkupPage extends Component<Props & WithTranslation, State> {
-  constructor(props: Props & WithTranslation) {
+class EditMarkupPage extends Component<Props & CustomWithTranslation, State> {
+  constructor(props: Props & CustomWithTranslation) {
     super(props);
     this.state = {
       status: 'initial',

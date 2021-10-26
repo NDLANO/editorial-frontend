@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import PropTypes from 'prop-types';
@@ -24,6 +24,7 @@ import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces'
 import { User } from './SearchContentForm';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { MinimalTagType } from './SearchTag';
+import { CustomWithTranslation } from '../../../../types/react-i18next';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -56,8 +57,8 @@ const emptySearchState: SearchState = {
   users: '',
 };
 
-class SearchConceptForm extends Component<Props & WithTranslation, State> {
-  constructor(props: Props & WithTranslation) {
+class SearchConceptForm extends Component<Props & CustomWithTranslation, State> {
+  constructor(props: Props & CustomWithTranslation) {
     super(props);
     const { searchObject } = props;
     this.state = {
@@ -87,7 +88,7 @@ class SearchConceptForm extends Component<Props & WithTranslation, State> {
     this.setState({ users: users });
   }
 
-  componentDidUpdate(prevProps: Props & WithTranslation) {
+  componentDidUpdate(prevProps: Props & CustomWithTranslation) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({

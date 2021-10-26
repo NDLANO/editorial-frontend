@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
@@ -32,6 +32,7 @@ import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
 import { SearchTypeValues } from '../../constants';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import SearchSaveButton from './SearchSaveButton';
+import { CustomWithTranslation } from '../../types/react-i18next';
 
 export const searchClasses = new BEMHelper({
   name: 'search',
@@ -50,7 +51,7 @@ interface BaseProps {
   searchFunction: (query: SearchParams) => Promise<ResultType>;
 }
 
-type Props = BaseProps & WithTranslation & RouteComponentProps & { locale: LocaleType };
+type Props = BaseProps & CustomWithTranslation & RouteComponentProps & { locale: LocaleType };
 
 interface State {
   subjects: SubjectType[];

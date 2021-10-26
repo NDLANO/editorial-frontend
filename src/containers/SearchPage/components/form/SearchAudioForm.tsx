@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
@@ -22,6 +22,7 @@ import { searchFormClasses, SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { MinimalTagType } from './SearchTag';
+import { CustomWithTranslation } from '../../../../types/react-i18next';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -45,8 +46,8 @@ interface State {
   }[];
 }
 
-class SearchAudioForm extends Component<Props & WithTranslation, State> {
-  constructor(props: Props & WithTranslation) {
+class SearchAudioForm extends Component<Props & CustomWithTranslation, State> {
+  constructor(props: Props & CustomWithTranslation) {
     super(props);
 
     const { searchObject } = props;
@@ -71,7 +72,7 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
     this.getLicenses();
   }
 
-  componentDidUpdate(prevProps: Props & WithTranslation) {
+  componentDidUpdate(prevProps: Props & CustomWithTranslation) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({

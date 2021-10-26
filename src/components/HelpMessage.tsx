@@ -7,13 +7,14 @@
  */
 
 import React from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { HelpIcon } from './HowTo';
+import { CustomWithTranslation } from '../types/react-i18next';
 
 const iconCSS = css`
   width: ${spacing.normal};
@@ -25,7 +26,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const HelpMessage = ({ children, t }: Props & WithTranslation) => (
+const HelpMessage = ({ children, t }: Props & CustomWithTranslation) => (
   <Modal
     activateButton={
       <Button stripped tabIndex={-1}>

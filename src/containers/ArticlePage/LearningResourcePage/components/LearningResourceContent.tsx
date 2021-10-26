@@ -7,7 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { FormikContextType } from 'formik';
@@ -61,6 +61,7 @@ import { toEditMarkup } from '../../../../util/routeHelpers';
 import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { CustomWithTranslation } from '../../../../types/react-i18next';
 
 const byLineStyle = css`
   display: flex;
@@ -96,7 +97,7 @@ type Props = {
   handleBlur: (evt: { target: { name: string } }) => void;
   values: ArticleFormikType;
   handleSubmit: () => Promise<void>;
-} & WithTranslation & { formik: FormikContextType<ArticleFormikType> };
+} & CustomWithTranslation & { formik: FormikContextType<ArticleFormikType> };
 
 interface State {
   preview: boolean;

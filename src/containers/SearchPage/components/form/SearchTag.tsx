@@ -8,10 +8,11 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
+import { CustomWithTranslation } from '../../../../types/react-i18next';
 
 export type MinimalTagType = {
   name?: string;
@@ -28,8 +29,8 @@ interface Props {
   onRemoveItem: (tag: MinimalTagType) => void;
 }
 
-class SearchTag extends Component<Props & WithTranslation> {
-  constructor(props: Props & WithTranslation) {
+class SearchTag extends Component<Props & CustomWithTranslation> {
+  constructor(props: Props & CustomWithTranslation) {
     super(props);
     this.onRemove = this.onRemove.bind(this);
   }

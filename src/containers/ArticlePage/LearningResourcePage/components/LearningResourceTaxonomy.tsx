@@ -7,7 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
@@ -47,6 +47,7 @@ import {
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
+import { CustomWithTranslation } from '../../../../types/react-i18next';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -69,7 +70,7 @@ type Props = {
   locale: LocaleType;
   setIsOpen?: (open: boolean) => void;
   userAccess?: string;
-} & WithTranslation;
+} & CustomWithTranslation;
 
 interface LearningResourceSubjectType extends SubjectType {
   topics?: SubjectTopic[];

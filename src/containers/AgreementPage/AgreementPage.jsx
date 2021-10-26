@@ -18,7 +18,7 @@ import * as messageActions from '../Messages/messagesActions';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { toEditAgreement } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
-const EditAgreement = loadable(() => import('../../modules/locale/locale'));
+const EditAgreement = loadable(() => import('./EditAgreement'));
 const CreateAgreement = loadable(() => import('./CreateAgreement'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 

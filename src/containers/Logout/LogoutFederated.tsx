@@ -6,7 +6,6 @@
  */
 
 import { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useSession } from '../Session/SessionProvider';
 
 export const LogoutFederated = () => {
@@ -16,10 +15,6 @@ export const LogoutFederated = () => {
   }, []); //  eslint-disable-line
 
   return null;
-};
-
-LogoutFederated.propTypes = {
-  authenticated: PropTypes.func.isRequired,
 };
 
 export default LogoutFederated;

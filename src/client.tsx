@@ -21,10 +21,6 @@ import App from './containers/App/App';
 import { initializeI18n, supportedLanguages } from './i18n2';
 import { STORED_LANGUAGE_KEY } from './constants';
 import Spinner from './components/Spinner';
-import {
-  getSessionStateFromLocalStorage,
-  SessionProvider,
-} from './containers/Session/SessionProvider';
 
 declare global {
   interface Window {
@@ -90,9 +86,7 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
 
   return (
     <BrowserRouter basename={base} key={base}>
-      <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
-        <LocaleRedirector base={base} />
-      </SessionProvider>
+      <LocaleRedirector base={base} />
     </BrowserRouter>
   );
 };

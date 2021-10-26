@@ -20,7 +20,7 @@ env:
   NDLA_HOME: ${{ github.workspace }}/ndla
   NDLA_DEPLOY: ${{ github.workspace }}/ndla/deploy
   COMPONENT: ${{ github.event.repository.name }}
-  NODE_OPTIONS: "--max_old_space_size=4096"
+  NODE_OPTIONS: '--max_old_space_size=4096'
 jobs:
   release:
     name: 'Release and push to registry'
@@ -36,7 +36,7 @@ jobs:
           path: ndla/deploy
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: '3.9.x'
       - uses: olafurpg/setup-scala@v10
         with:
           java-version: adopt@1.11

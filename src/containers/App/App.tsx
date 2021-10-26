@@ -28,11 +28,7 @@ import Zendesk from './Zendesk';
 import { LocaleType, ReduxState } from '../../interfaces';
 import { LOCALE_VALUES } from '../../constants';
 import config from '../../config';
-import {
-  getSessionStateFromLocalStorage,
-  SessionProps,
-  SessionProvider,
-} from '../Session/SessionProvider';
+import { getSessionStateFromLocalStorage, SessionProvider } from '../Session/SessionProvider';
 const Login = loadable(() => import('../Login/Login'));
 const Logout = loadable(() => import('../Logout/Logout'));
 const PrivateRoute = loadable(() => import('../PrivateRoute/PrivateRoute'));
@@ -70,7 +66,7 @@ const mapStateToProps = (state: ReduxState) => ({
 const reduxConnector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-type ActualProps = Props & RouteComponentProps & PropsFromRedux & WithTranslation & SessionProps;
+type ActualProps = Props & RouteComponentProps & PropsFromRedux & WithTranslation;
 
 class App extends React.Component<ActualProps, InternalState> {
   constructor(props: ActualProps) {

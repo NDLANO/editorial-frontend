@@ -65,6 +65,7 @@ const SlateBlockPicker = ({
   const onVisualElementClose = () => {
     setVisualElementPickerOpen(false);
     setType('');
+    ReactEditor.focus(editor);
   };
 
   const onInsertBlock = (block: Element, selectBlock?: boolean) => {
@@ -145,8 +146,7 @@ const SlateBlockPicker = ({
           Node.string(node[0]).length === 0 &&
           node[0].children.length === 1 &&
           !illegalBlock &&
-          allowedPickAreas.includes(node[0].type) &&
-          ReactEditor.isFocused(editor)))
+          allowedPickAreas.includes(node[0].type)))
     );
   };
 
@@ -179,6 +179,7 @@ const SlateBlockPicker = ({
     return actions;
   };
 
+  console.log(shouldShowMenuPicker(), show, visualElementPickerOpen);
   if ((!shouldShowMenuPicker() || !show) && !visualElementPickerOpen) {
     return null;
   }

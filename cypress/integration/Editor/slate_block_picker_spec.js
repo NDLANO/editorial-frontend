@@ -18,13 +18,11 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   beforeEach(() => {
-    cy.get('[data-slate-node=element] > p').clear({ force: true });
+    cy.get('[data-slate-node=element] > p').clear();
     cy.get('[data-slate-node=element] > p')
       .first()
       .click();
-    cy.get('[data-cy=slate-block-picker]')
-      .click({ force: true })
-      .wait(100);
+    cy.get('[data-cy=slate-block-picker]').click();
     cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
   });
 

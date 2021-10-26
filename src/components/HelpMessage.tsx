@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
@@ -25,7 +25,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const HelpMessage = ({ children, t }: Props & WithTranslation) => (
+const HelpMessage = ({ children, t }: Props & CustomWithTranslation) => (
   <Modal
     activateButton={
       <Button stripped tabIndex={-1}>

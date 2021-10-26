@@ -13,7 +13,7 @@ import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { Done } from '@ndla/icons/editor';
 import { Plus } from '@ndla/icons/action';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import handleError from '../util/handleError';
 import Spinner from './Spinner';
 
@@ -79,8 +79,8 @@ interface Props {
   action: Function;
 }
 
-export class InlineAddButton extends PureComponent<Props & WithTranslation, State> {
-  constructor(props: Props & WithTranslation) {
+export class InlineAddButton extends PureComponent<Props & CustomWithTranslation, State> {
+  constructor(props: Props & CustomWithTranslation) {
     super(props);
     this.state = {
       status: 'initial',

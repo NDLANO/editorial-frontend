@@ -7,11 +7,11 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { TFunction } from 'i18next';
 
 import { FormikHelpers } from 'formik';
 import { Value } from 'slate';
 
-import { WithTranslation } from 'react-i18next';
 import { Action, ActionFunction1 } from 'redux-actions';
 import {
   deleteFile,
@@ -88,7 +88,7 @@ export interface ArticleFormikType {
 type HooksInputObject = {
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
   article: Partial<ConvertedDraftType>;
-  t: WithTranslation['t'];
+  t: TFunction;
   articleStatus?: DraftStatus;
   updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   updateArticleAndStatus?: (input: {

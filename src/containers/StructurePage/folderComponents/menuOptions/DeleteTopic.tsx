@@ -7,7 +7,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
@@ -44,7 +44,7 @@ interface BaseProps {
   locale: string;
 }
 
-type Props = BaseProps & WithTranslation;
+type Props = BaseProps & CustomWithTranslation;
 
 class DeleteTopic extends PureComponent<Props, State> {
   constructor(props: Props) {

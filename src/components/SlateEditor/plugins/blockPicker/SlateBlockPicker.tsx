@@ -179,7 +179,6 @@ const SlateBlockPicker = ({
     return actions;
   };
 
-  console.log(shouldShowMenuPicker(), show, visualElementPickerOpen);
   if ((!shouldShowMenuPicker() || !show) && !visualElementPickerOpen) {
     return null;
   }

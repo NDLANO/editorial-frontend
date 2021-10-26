@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
@@ -23,7 +23,6 @@ import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { MinimalTagType } from './SearchTag';
-import { CustomWithTranslation } from '../../../../types/react-i18next';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;

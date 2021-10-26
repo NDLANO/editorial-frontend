@@ -7,14 +7,13 @@
  */
 
 import React from 'react';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import Modal, { ModalCloseButton, ModalHeader, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { HelpIcon } from './HowTo';
-import { CustomWithTranslation } from '../types/react-i18next';
 
 const iconCSS = css`
   width: ${spacing.normal};

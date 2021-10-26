@@ -8,7 +8,7 @@
 
 import React, { Component, FormEvent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { RouteComponentProps } from 'react-router-dom';
@@ -26,7 +26,6 @@ import { DRAFT_WRITE_SCOPE } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { FlattenedResourceType } from '../../../../interfaces';
 import { MinimalTagType } from './SearchTag';
-import { CustomWithTranslation } from '../../../../types/react-i18next';
 
 const emptySearchState: SearchState = {
   query: '',

@@ -11,7 +11,7 @@ import { Route, Switch } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
@@ -20,7 +20,6 @@ import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { LocationShape, HistoryShape, LocaleShape } from '../../shapes';
 import { ReduxState } from '../../interfaces';
-import { CustomWithTranslation } from '../../types/react-i18next';
 
 const mapDispatchToProps = {
   fetchLicenses: licenseActions.fetchLicenses,

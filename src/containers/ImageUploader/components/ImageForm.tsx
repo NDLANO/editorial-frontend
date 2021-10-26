@@ -6,7 +6,7 @@
  */
 
 import React, { Component, ReactNode } from 'react';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import Field from '../../../components/Field';
@@ -32,7 +32,6 @@ import { Author, Copyright } from '../../../interfaces';
 import ImageVersionNotes from './ImageVersionNotes';
 import Spinner from '../../../components/Spinner';
 import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
-import { CustomWithTranslation } from '../../../types/react-i18next';
 
 const imageRules: RulesType<ImageFormikType> = {
   title: {

@@ -13,10 +13,9 @@ import Button from '@ndla/button';
 import { colors, spacing } from '@ndla/core';
 import { Done } from '@ndla/icons/editor';
 import { Plus } from '@ndla/icons/action';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import handleError from '../util/handleError';
 import Spinner from './Spinner';
-import { CustomWithTranslation } from '../types/react-i18next';
 
 const addButtonStyle = css`
   height: 50px;

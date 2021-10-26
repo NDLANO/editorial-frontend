@@ -7,8 +7,7 @@
  */
 
 import React from 'react';
-import { withTranslation } from 'react-i18next';
-import { CustomWithTranslation } from '../types/react-i18next';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import handleError from '../util/handleError';
 
 interface Props {
@@ -32,6 +31,7 @@ class ErrorBoundary extends React.PureComponent<Props & CustomWithTranslation, S
 
   render() {
     const { t, children } = this.props;
+
     const { error } = this.state;
     if (error)
       return (

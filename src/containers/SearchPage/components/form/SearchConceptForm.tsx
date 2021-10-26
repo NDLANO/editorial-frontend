@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import PropTypes from 'prop-types';
@@ -24,7 +24,6 @@ import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces'
 import { User } from './SearchContentForm';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { MinimalTagType } from './SearchTag';
-import { CustomWithTranslation } from '../../../../types/react-i18next';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;

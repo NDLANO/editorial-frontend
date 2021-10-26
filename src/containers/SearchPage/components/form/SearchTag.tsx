@@ -8,11 +8,10 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
-import { CustomWithTranslation } from '../../../../types/react-i18next';
 
 export type MinimalTagType = {
   name?: string;

@@ -7,7 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
@@ -42,7 +42,6 @@ import {
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
-import { CustomWithTranslation } from '../../../../types/react-i18next';
 
 type Props = {
   articleId: number;

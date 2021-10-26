@@ -8,7 +8,7 @@
 
 import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation, withTranslation } from 'react-i18next';
+import { useTranslation, withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -33,7 +33,6 @@ import { AlertModalWrapper, formClasses } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import HelpMessage from '../../components/HelpMessage';
-import { CustomWithTranslation } from '../../types/react-i18next';
 
 declare global {
   interface Window {

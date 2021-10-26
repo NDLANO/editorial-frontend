@@ -18,8 +18,8 @@ describe('Selecting text and using the toolbar', () => {
 
   it('change the text styling', () => {
     cy.get('[data-cy=slate-editor] p[data-slate-node=element]')
-      .last()
       .first()
+      .click()
       .type('This is test content{leftarrow}{leftarrow}')
       .contains('This is test content')
       .type('{selectall}');
@@ -87,7 +87,8 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('a[href="http://www.vg.no"]')
       .should('have.prop', 'href')
       .and('equal', 'http://www.vg.no/');
-    cy.get('a[href="http://www.vg.no"]')
+    cy.get('a[href="http://www.vg.no"][data-slate-node=element]')
+      .contains('This is a test link')
       .click()
       .type('{selectall}');
   });

@@ -25,6 +25,7 @@ import {
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import Spinner from '../../../components/Spinner';
 import { Row } from '../../../components';
+import { useSession } from '../../Session/SessionProvider';
 
 export const classes = new BEMHelper({
   name: 'folder',
@@ -47,7 +48,6 @@ interface BaseProps {
   isMainActive?: boolean;
   resourcesLoading?: boolean;
   id: string;
-  userAccess?: string;
   metadata: TaxonomyMetadata;
   setResourcesUpdated: (updated: boolean) => void;
   subjectId: string;
@@ -67,7 +67,6 @@ const FolderItem = ({
   id,
   jumpToResources,
   isMainActive,
-  userAccess,
   metadata,
   locale,
   resourcesLoading,
@@ -80,6 +79,7 @@ const FolderItem = ({
   parent,
   structure,
 }: Props) => {
+  const { userAccess } = useSession();
   const type = id?.includes('subject') ? 'subject' : 'topic';
   const { t } = useTranslation();
   const showJumpToResources = isMainActive && type === 'topic';

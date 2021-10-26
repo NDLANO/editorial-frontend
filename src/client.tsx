@@ -17,11 +17,14 @@ import { i18nInstance } from '@ndla/ui';
 import config, { ConfigType, getDefaultLanguage } from './config';
 import { isValidLocale } from './i18n';
 import configureStore from './configureStore';
-import { getSessionStateFromLocalStorage } from './modules/session/session';
 import App from './containers/App/App';
 import { initializeI18n, supportedLanguages } from './i18n2';
 import { STORED_LANGUAGE_KEY } from './constants';
 import Spinner from './components/Spinner';
+import {
+  getSessionStateFromLocalStorage,
+  SessionProvider,
+} from './containers/Session/SessionProvider';
 
 declare global {
   interface Window {
@@ -40,7 +43,6 @@ const basename = isValidLocale(paths[1]) ? `${paths[1]}` : undefined;
 
 export const store = configureStore({
   ...initialState,
-  session: getSessionStateFromLocalStorage(),
 });
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
@@ -88,7 +90,9 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
 
   return (
     <BrowserRouter basename={base} key={base}>
-      <LocaleRedirector base={base} />
+      <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
+        <LocaleRedirector base={base} />
+      </SessionProvider>
     </BrowserRouter>
   );
 };

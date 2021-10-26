@@ -28,7 +28,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: ReduxState) => ({
   licenses: getAllLicenses(state),
-  userAccess: state.session.user.scope,
 });
 
 const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
@@ -40,7 +39,6 @@ const TopicArticlePage = ({
   fetchLicenses,
   applicationError,
   createMessage,
-  userAccess,
 }: Props & PropsFromRedux) => {
   const previousLocation = usePreviousLocation();
 
@@ -60,7 +58,6 @@ const TopicArticlePage = ({
               applicationError={applicationError}
               licenses={licenses}
               createMessage={createMessage}
-              userAccess={userAccess}
             />
           )}
         />
@@ -70,7 +67,6 @@ const TopicArticlePage = ({
             applicationError={applicationError}
             licenses={licenses}
             createMessage={createMessage}
-            userAccess={userAccess}
           />
         </Route>
         <Route component={NotFoundPage} />

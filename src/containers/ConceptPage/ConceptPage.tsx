@@ -8,12 +8,12 @@
 
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import * as messageActions from '../Messages/messagesActions';
-import { getLocale } from '../../modules/locale/locale';
 import Footer from '../App/components/Footer';
 import { ReduxState } from '../../interfaces';
 const CreateConcept = loadable(() => import('./CreateConcept'));
@@ -27,8 +27,10 @@ type Props = BaseProps & RouteComponentProps & PropsFromRedux;
 const ConceptPage = (props: Props) => {
   const [previousLocation, setPreviousLocation] = useState('');
   const prevProps = useRef<Props | undefined>(undefined);
+  const { i18n } = useTranslation();
 
-  const { licenses, fetchLicenses, match, location, ...rest } = props;
+  const { licenses, fetchLicenses, match, location, ...propsRest } = props;
+  const rest = { locale: i18n.language, ...propsRest };
 
   useEffect(() => {
     if (!licenses.length) {
@@ -79,7 +81,6 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state: ReduxState) => ({
-  locale: getLocale(state),
   licenses: getAllLicenses(state),
 });
 

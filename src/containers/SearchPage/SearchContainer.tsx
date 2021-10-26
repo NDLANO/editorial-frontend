@@ -16,14 +16,13 @@ import { Search } from '@ndla/icons/common';
 import debounce from 'lodash/debounce';
 import BEMHelper from 'react-bem-helper';
 import { RouteComponentProps, withRouter } from 'react-router';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
 import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { fetchSubjects } from '../../modules/taxonomy';
-import { LocaleContext, UserAccessContext } from '../App/App';
+import { UserAccessContext } from '../App/App';
 import { LocaleType, SearchType } from '../../interfaces';
 import { ImageSearchResult } from '../../modules/image/imageApiInterfaces';
 import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
@@ -56,19 +55,6 @@ interface State {
   subjects: SubjectType[];
   results: ResultType | undefined;
   isSearching: boolean;
-}
-
-function withLocale<P>(
-  WrappedComponent: React.ComponentType<P & { locale: LocaleType }>,
-): React.ComponentType<P> {
-  const WithLocale = (props: P): React.ReactElement<P> => {
-    return (
-      <LocaleContext.Consumer>
-        {(locale: LocaleType) => <WrappedComponent {...{ ...props, locale }} />}
-      </LocaleContext.Consumer>
-    );
-  };
-  return hoistNonReactStatics(WithLocale, WrappedComponent);
 }
 
 class SearchContainer extends React.Component<Props, State> {
@@ -113,7 +99,7 @@ class SearchContainer extends React.Component<Props, State> {
   }
 
   async getExternalData() {
-    const subjects = await fetchSubjects(this.props.locale);
+    const subjects = await fetchSubjects(this.props.i18n.language);
     this.setState({ subjects });
   }
 
@@ -195,4 +181,4 @@ class SearchContainer extends React.Component<Props, State> {
   };
 }
 
-export default withRouter(withLocale(withTranslation()(SearchContainer)));
+export default withRouter(withTranslation()(SearchContainer));

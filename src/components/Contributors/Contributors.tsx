@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { contributorGroups, contributorTypes } from '@ndla/licenses';
 import Button from '@ndla/button';
@@ -15,7 +15,6 @@ import { fonts, colors } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import Contributor from './Contributor';
-import { LocaleContext } from '../../containers/App/App';
 import { ContributorType, ContributorFieldName } from './types';
 
 const StyledFormWarningText = styled.p`
@@ -53,8 +52,8 @@ const Contributors = ({
   width = 3 / 4,
   ...rest
 }: Props) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const onContributorChange = (newContributors: ContributorType[]) => {
     onChange({
       target: {

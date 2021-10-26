@@ -18,11 +18,10 @@ import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
 import { fetchUserData } from '../../modules/draft/draftApi';
-import { LocaleContext, UserAccessContext } from '../App/App';
+import { UserAccessContext } from '../App/App';
 
 import LastUsedContent from './components/LastUsedContent';
 import SaveSearchUrl from './components/SaveSearchUrl';
-import { LocaleType } from '../../interfaces';
 import Footer from '../App/components/Footer';
 
 const ContentWrapper = styled.div`
@@ -39,9 +38,9 @@ export const classes = new BEMHelper({
 });
 
 export const WelcomePage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [lastUsed, setLastUsed] = useState<string[]>([]);
-  const locale: LocaleType = useContext(LocaleContext);
+  const locale = i18n.language;
   const userAccess: string | undefined = useContext(UserAccessContext);
 
   const token = getAccessToken();

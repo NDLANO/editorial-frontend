@@ -14,7 +14,6 @@ import { ReduxLicenseState } from './modules/license/license';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 import { ReduxSessionState } from './modules/session/session';
 import { ReduxMessageState } from './containers/Messages/messagesSelectors';
-import { ReduxLocaleState } from './modules/locale/locale';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
 import { ConceptApiType } from './modules/concept/conceptApiInterfaces';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
@@ -513,7 +512,6 @@ export interface ReduxState {
   licenses: ReduxLicenseState;
   session: ReduxSessionState;
   messages: ReduxMessageState;
-  locale: ReduxLocaleState;
 }
 
 export type SearchType = typeof SearchTypeValues[number];

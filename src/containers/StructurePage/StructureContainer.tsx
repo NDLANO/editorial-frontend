@@ -43,7 +43,7 @@ import {
   TaxonomyElement,
   TaxonomyMetadata,
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { LocaleContext, UserAccessContext } from '../App/App';
+import { UserAccessContext } from '../App/App';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 
 interface Props extends RouteComponentProps<StructureRouteParams> {}
@@ -60,8 +60,8 @@ interface RouteProps {
 }
 
 export const StructureContainer = ({ match, location, history }: Props) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const userAccess = useContext(UserAccessContext);
   const [editStructureHidden, setEditStructureHidden] = useState(false);
   const [subjects, setSubjects] = useState<(SubjectType & { topics?: SubjectTopic[] })[]>([]);

@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { FormikHelpers, useFormikContext } from 'formik';
 import config from '../../../../config';
-import { LocaleContext } from '../../../App/App';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
@@ -45,8 +44,8 @@ const LearningResourcePanels = ({
   formIsDirty,
   handleSubmit,
 }: Props) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const formikContext = useFormikContext<ArticleFormikType>();
   const { values, setValues, errors, handleBlur } = formikContext;
 

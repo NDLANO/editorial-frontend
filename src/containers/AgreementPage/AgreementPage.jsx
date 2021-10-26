@@ -13,7 +13,6 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { withTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
-import { getLocale } from '../../modules/locale/locale';
 import * as api from '../../modules/draft/draftApi';
 import * as messageActions from '../Messages/messagesActions';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
@@ -57,7 +56,8 @@ class AgreementPage extends React.Component {
   }
 
   render() {
-    const { locale, match, t, licenses } = this.props;
+    const { i18n, match, t, licenses } = this.props;
+    const locale = i18n.language;
     return (
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.agreementPage')} />
@@ -103,7 +103,9 @@ AgreementPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  locale: PropTypes.string.isRequired,
+  i18n: PropTypes.shape({
+    language: PropTypes.string.isRequired,
+  }).isRequired,
   fetchLicenses: PropTypes.func.isRequired,
   licenses: PropTypes.arrayOf(
     PropTypes.shape({
@@ -116,7 +118,6 @@ AgreementPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  locale: getLocale(state),
   licenses: getAllLicenses(state),
 });
 

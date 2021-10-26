@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useContext, useEffect, useState } from 'react';
-import { LocaleContext } from '../App/App';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as audioApi from '../../modules/audio/audioApi';
 import Spinner from '../../components/Spinner';
 import { PodcastSeriesApiType, PodcastSeriesPut } from '../../modules/audio/audioApiInterfaces';
@@ -20,7 +20,8 @@ interface Props {
 }
 
 const EditPodcastSeries = ({ podcastSeriesId, podcastSeriesLanguage, isNewlyCreated }: Props) => {
-  const locale: string = useContext(LocaleContext);
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const [podcastSeries, setPodcastSeries] = useState<PodcastSeriesApiType | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 

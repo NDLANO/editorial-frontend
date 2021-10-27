@@ -129,17 +129,18 @@ const SlateVideo = ({
         embed={embed}
         figureType="video"
         language={language}>
-        <Tooltip
-          tooltip={
-            showLinkedVideo ? t('form.video.fromLinkedVideo') : t('form.video.toLinkedVideo')
-          }
-          align="right">
-          {linkedVideoId && (
+        {linkedVideoId && (
+          <Tooltip
+            tooltip={
+              showLinkedVideo ? t('form.video.fromLinkedVideo') : t('form.video.toLinkedVideo')
+            }
+            align="right">
+            (
             <IconButton as={SafeLink} onClick={switchEmbedSource}>
               {t('form.video.linkedVideoButton')}
             </IconButton>
-          )}
-        </Tooltip>
+          </Tooltip>
+        )}
       </FigureButtons>
       {editMode ? (
         <EditVideo

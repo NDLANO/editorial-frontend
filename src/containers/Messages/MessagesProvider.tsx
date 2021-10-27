@@ -3,7 +3,8 @@ import React, { createContext, useContext, useState } from 'react';
 import { MessageType } from './Messages';
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  initialValues?: MessageType[];
 }
 const MessagesContext = createContext<
   [MessageType[], React.Dispatch<React.SetStateAction<MessageType[]>>] | undefined
@@ -28,8 +29,8 @@ export interface MessageError extends Partial<Error> {
 
 export interface NewMessageType extends Omit<MessageType, 'id'> {}
 
-export const MessagesProvider = ({ children }: Props) => {
-  const messagesState = useState<MessageType[]>([]);
+export const MessagesProvider = ({ children, initialValues = [] }: Props) => {
+  const messagesState = useState<MessageType[]>(initialValues);
   return <MessagesContext.Provider value={messagesState}>{children}</MessagesContext.Provider>;
 };
 
@@ -60,7 +61,7 @@ export const useMessages = () => {
     setMessages(prevMessages => [...prevMessages, ...newMessages]);
   };
 
-  const clearMessage = (id: string) => setMessages(messages => messages.filter(m => m.id !== id));
+  const clearMessage = (id: string) => setMessages(prev => prev.filter(m => m.id !== id));
   const clearMessages = () => setMessages([]);
 
   return {

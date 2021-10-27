@@ -16,11 +16,11 @@ import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 import SearchPodcastSeries from './SearchPodcastSeries';
 
-const SearchResult = ({ result, locale, type, subjects, userAccess, editingState, licenses }) => {
+const SearchResult = ({ result, locale, type, subjects, editingState, licenses }) => {
   const { t } = useTranslation();
   switch (type) {
     case 'content':
-      return <SearchContent content={result} locale={locale} userAccess={userAccess} />;
+      return <SearchContent content={result} locale={locale} />;
     case 'concept':
       return (
         <SearchConcept
@@ -47,7 +47,6 @@ SearchResult.propTypes = {
   type: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   subjects: PropTypes.array,
-  userAccess: PropTypes.string,
   editingState: PropTypes.array,
   licenses: PropTypes.array,
 };

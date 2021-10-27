@@ -25,18 +25,12 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: ReduxState) => ({
   licenses: getAllLicenses(state),
-  userAccess: state.session.user.scope,
 });
 
 const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-const TopicArticlePage = ({
-  match,
-  licenses,
-  fetchLicenses,
-  userAccess,
-}: Props & PropsFromRedux) => {
+const TopicArticlePage = ({ match, licenses, fetchLicenses }: Props & PropsFromRedux) => {
   const previousLocation = usePreviousLocation();
 
   useEffect(() => {
@@ -50,13 +44,12 @@ const TopicArticlePage = ({
       <Switch>
         <Route
           path={`${match.url}/new`}
-          render={() => <CreateTopicArticle licenses={licenses} userAccess={userAccess} />}
+          render={() => <CreateTopicArticle licenses={licenses} />}
         />
         <Route path={`${match.url}/:articleId/edit/`}>
           <EditArticleRedirect
             isNewlyCreated={previousLocation === '/subject-matter/topic-article/new'}
             licenses={licenses}
-            userAccess={userAccess}
           />
         </Route>
         <Route component={NotFoundPage} />

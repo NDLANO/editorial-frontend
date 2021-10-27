@@ -42,6 +42,7 @@ import { toEditMarkup } from '../../../../util/routeHelpers';
 import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
 import textTransformPlugin from '../../../../components/SlateEditor/plugins/textTransform';
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { useSession } from '../../../Session/SessionProvider';
 
 const byLineStyle = css`
   display: flex;
@@ -77,7 +78,6 @@ const createPlugins = (language?: string) => {
 };
 
 interface Props {
-  userAccess?: string;
   values: ArticleFormikType;
   handleBlur: (evt: { target: { name: string } }) => void;
   handleSubmit: () => Promise<void>;
@@ -86,11 +86,11 @@ interface Props {
 const TopicArticleContent = (props: Props) => {
   const { t } = useTranslation();
   const {
-    userAccess,
     values: { id, language, creators, published },
     handleBlur,
     handleSubmit,
   } = props;
+  const { userAccess } = useSession();
   const [preview, setPreview] = useState(false);
   const plugins = useMemo(() => {
     return createPlugins(language);

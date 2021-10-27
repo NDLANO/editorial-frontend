@@ -22,7 +22,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: ReduxState) => ({
   licenses: getAllLicenses(state),
-  userAccess: state.session.user.scope,
 });
 
 const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
@@ -36,14 +35,7 @@ interface ParamsType {
 
 type Props = BaseProps & RouteComponentProps<ParamsType> & PropsFromRedux;
 
-const LearningResourcePage = ({
-  fetchLicenses,
-  licenses,
-  userAccess,
-  match,
-  history,
-  location,
-}: Props) => {
+const LearningResourcePage = ({ fetchLicenses, licenses, match, history, location }: Props) => {
   const previousLocation = usePreviousLocation();
   useEffect(() => {
     if (!licenses.length) {
@@ -57,9 +49,7 @@ const LearningResourcePage = ({
         <Switch>
           <Route
             path={`${match.url}/new`}
-            render={routeProps => (
-              <CreateLearningResource {...routeProps} licenses={licenses} userAccess={userAccess} />
-            )}
+            render={routeProps => <CreateLearningResource {...routeProps} licenses={licenses} />}
           />
           <Route path={`${match.url}/:articleId/edit/`}>
             {(params: RouteComponentProps<ParamsType>) => {
@@ -70,7 +60,6 @@ const LearningResourcePage = ({
                   location={location}
                   isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
                   licenses={licenses}
-                  userAccess={userAccess}
                 />
               );
             }}

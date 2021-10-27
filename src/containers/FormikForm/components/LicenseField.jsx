@@ -6,11 +6,10 @@
  *
  */
 
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader, FieldSection, Select } from '@ndla/forms';
-import { LocaleContext } from '../../App/App';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { getLicensesWithTranslations } from '../../../util/licenseHelpers';
 
@@ -26,8 +25,8 @@ const LicenseField = props => {
     width,
     enableLicenseNA,
   } = props;
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const licensesWithTranslations = getLicensesWithTranslations(licenses, locale, enableLicenseNA);
 
   return (

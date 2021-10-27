@@ -61,6 +61,8 @@ import { toEditMarkup } from '../../../../util/routeHelpers';
 import toolbarPlugin from '../../../../components/SlateEditor/plugins/SlateToolbar';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { SessionProps } from '../../../Session/SessionProvider';
+import withSession from '../../../Session/withSession';
 
 const byLineStyle = css`
   display: flex;
@@ -92,11 +94,10 @@ const actionsToShowInAreas = {
 type Props = {
   locale: LocaleType;
   article: Partial<ConvertedDraftType>;
-  userAccess?: string;
   handleBlur: (evt: { target: { name: string } }) => void;
   values: ArticleFormikType;
   handleSubmit: () => Promise<void>;
-} & CustomWithTranslation & { formik: FormikContextType<ArticleFormikType> };
+} & CustomWithTranslation & { formik: FormikContextType<ArticleFormikType> } & SessionProps;
 
 interface State {
   preview: boolean;
@@ -276,4 +277,4 @@ class LearningResourceContent extends Component<Props, State> {
   }
 }
 
-export default withTranslation()(LearningResourceContent);
+export default withTranslation()(withSession(LearningResourceContent));

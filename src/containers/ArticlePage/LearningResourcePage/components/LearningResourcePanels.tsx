@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { FormikHelpers, useFormikContext } from 'formik';
 import config from '../../../../config';
-import { LocaleContext } from '../../../App/App';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
@@ -14,9 +13,9 @@ import LearningResourceContent from './LearningResourceContent';
 import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import { useSession } from '../../../Session/SessionProvider';
 
 interface Props extends RouteComponentProps {
-  userAccess?: string;
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: (
     values: ArticleFormikType,
@@ -31,7 +30,6 @@ interface Props extends RouteComponentProps {
 }
 
 const LearningResourcePanels = ({
-  userAccess,
   fetchSearchTags,
   article,
   updateNotes,
@@ -42,8 +40,9 @@ const LearningResourcePanels = ({
   formIsDirty,
   handleSubmit,
 }: Props) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
+  const { t, i18n } = useTranslation();
+  const { userAccess } = useSession();
+  const locale = i18n.language;
   const formikContext = useFormikContext<ArticleFormikType>();
   const { values, setValues, errors, handleBlur } = formikContext;
 
@@ -59,7 +58,6 @@ const LearningResourcePanels = ({
         startOpen>
         <LearningResourceContent
           formik={formikContext}
-          userAccess={userAccess}
           handleSubmit={() => handleSubmit(values, formikContext)}
           handleBlur={handleBlur}
           values={values}
@@ -72,12 +70,7 @@ const LearningResourcePanels = ({
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}>
-          <LearningResourceTaxonomy
-            userAccess={userAccess}
-            article={article}
-            locale={locale}
-            updateNotes={updateNotes}
-          />
+          <LearningResourceTaxonomy article={article} locale={locale} updateNotes={updateNotes} />
         </AccordionSection>
       )}
       <AccordionSection
@@ -114,7 +107,7 @@ const LearningResourcePanels = ({
           title={t('form.name.relatedContent')}
           className={'u-6/6'}
           hasError={!!(errors.conceptIds || errors.relatedContent)}>
-          <RelatedContentFieldGroup values={values} locale={locale} userAccess={userAccess} />
+          <RelatedContentFieldGroup values={values} locale={locale} />
         </AccordionSection>
       )}
       {values.id && (

@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { LocaleContext } from '../App/App';
+import { useTranslation } from 'react-i18next';
 import ImageForm from './components/ImageForm';
 import { createFormData } from '../../util/formDataHelper';
 import * as imageApi from '../../modules/image/imageApi';
@@ -23,7 +23,8 @@ interface Props extends RouteComponentProps {
 }
 
 const CreateImage = ({ history, isNewlyCreated, showSaved }: Props) => {
-  const locale: string = useContext(LocaleContext);
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const [licenses, setLicenses] = useState<License[]>([]);
 
   useEffect(() => {

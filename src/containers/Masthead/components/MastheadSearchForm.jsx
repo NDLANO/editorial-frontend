@@ -14,7 +14,6 @@ import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
 import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { css } from '@emotion/core';
 import { isValidLocale } from '../../../i18n';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
@@ -24,7 +23,6 @@ import { fetchResource, fetchTopic } from '../../../modules/taxonomy';
 
 import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
-import { getLocale } from '../../../modules/locale/locale';
 
 const formCSS = css`
   display: flex;
@@ -154,9 +152,9 @@ export class MastheadSearchForm extends Component {
   }
 
   async handleTopicUrl(urlId) {
-    const { locale, history } = this.props;
+    const { i18n, history } = this.props;
     try {
-      const topicArticle = await fetchTopic(urlId, locale);
+      const topicArticle = await fetchTopic(urlId, i18n.language);
       const arr = topicArticle.contentUri.split(':');
       const id = arr[arr.length - 1];
       history.push(toEditArticle(id, 'topic-article'));
@@ -166,13 +164,13 @@ export class MastheadSearchForm extends Component {
   }
 
   async handleFrontendUrl(url) {
-    const { locale, history } = this.props;
+    const { i18n, history } = this.props;
     const { pathname } = new Url(url);
     const paths = pathname.split('/');
     const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
 
     try {
-      const newArticle = await resolveUrls(path, locale);
+      const newArticle = await resolveUrls(path, i18n.language);
       const splittedUri = newArticle.contentUri.split(':');
       const articleId = splittedUri[splittedUri.length - 1];
       history.push(toEditArticle(articleId, 'standard'));
@@ -221,11 +219,13 @@ export class MastheadSearchForm extends Component {
 }
 
 MastheadSearchForm.propTypes = {
-  locale: PropTypes.string.isRequired,
   query: PropTypes.string,
   onSearchQuerySubmit: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
+  }).isRequired,
+  i18n: PropTypes.shape({
+    language: PropTypes.string.isRequired,
   }).isRequired,
 };
 
@@ -233,8 +233,4 @@ MastheadSearchForm.defaultProps = {
   query: '',
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default withRouter(connect(mapStateToProps)(withTranslation()(MastheadSearchForm)));
+export default withRouter(withTranslation()(MastheadSearchForm));

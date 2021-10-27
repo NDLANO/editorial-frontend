@@ -117,7 +117,6 @@ export const convertDraftOrRelated = (
 };
 
 interface Props extends RouteComponentProps {
-  userAccess: string | undefined;
   article: Partial<ConvertedDraftType>;
   translating: boolean;
   translateToNN: () => void;
@@ -144,7 +143,6 @@ const LearningResourceForm = ({
   updateArticleAndStatus,
   articleChanged,
   history,
-  userAccess,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -258,7 +256,6 @@ const LearningResourceForm = ({
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            userAccess={userAccess}
             handleSubmit={handleSubmit}
           />
         )}

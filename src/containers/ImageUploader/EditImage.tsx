@@ -8,6 +8,7 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { RouteComponentProps } from 'react-router';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
@@ -15,7 +16,6 @@ import ImageForm from './components/ImageForm';
 import { actions, FlatReduxImage, getImage } from '../../modules/image/image';
 import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { License, ReduxState } from '../../interfaces';
-import { LocaleContext } from '../App/App';
 
 interface ImageType extends UpdatedImageMetadata {
   revision?: number;
@@ -66,7 +66,7 @@ const mapStateToProps = (state: ReduxState, props: BaseProps): ReduxProps => {
 const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-interface Props extends BaseProps, RouteComponentProps, PropsFromRedux {}
+interface Props extends BaseProps, RouteComponentProps, PropsFromRedux, WithTranslation {}
 
 class EditImage extends Component<Props> {
   componentDidMount() {
@@ -103,23 +103,19 @@ class EditImage extends Component<Props> {
     } = this.props;
 
     return (
-      <LocaleContext.Consumer>
-        {locale => (
-          <ImageForm
-            isLoading={false}
-            image={imageData || { language: locale }}
-            onUpdate={(image: UpdatedImageMetadata, file: string | Blob) => {
-              updateImage({ image, file, history, editingArticle });
-            }}
-            closeModal={closeModal}
-            isNewlyCreated={isNewlyCreated}
-            licenses={licenses}
-            {...rest}
-          />
-        )}
-      </LocaleContext.Consumer>
+      <ImageForm
+        isLoading={false}
+        image={imageData || { language: this.props.i18n.language }}
+        onUpdate={(image: UpdatedImageMetadata, file: string | Blob) => {
+          updateImage({ image, file, history, editingArticle });
+        }}
+        closeModal={closeModal}
+        isNewlyCreated={isNewlyCreated}
+        licenses={licenses}
+        {...rest}
+      />
     );
   }
 }
 
-export default reduxConnector(withRouter(EditImage));
+export default reduxConnector(withTranslation()(withRouter(EditImage)));

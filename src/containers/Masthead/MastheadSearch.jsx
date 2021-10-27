@@ -13,7 +13,6 @@ import { withRouter } from 'react-router-dom';
 import MastheadSearchForm from './components/MastheadSearchForm';
 import { toSearch } from '../../util/routeHelpers';
 import { HistoryShape, LocationShape } from '../../shapes';
-import { LocaleContext } from '../App/App';
 import { SearchTypeValues } from '../../constants';
 import { parseSearchParams } from '../SearchPage/components/form/SearchForm';
 
@@ -35,7 +34,7 @@ class MastheadSearch extends Component {
     };
   }
 
-  onSearchQuerySubmit = (searchQuery, locale) => {
+  onSearchQuerySubmit = searchQuery => {
     const { location, history, close } = this.props;
 
     const type =
@@ -64,14 +63,10 @@ class MastheadSearch extends Component {
 
   render() {
     return (
-      <LocaleContext.Consumer>
-        {locale => (
-          <MastheadSearchForm
-            query={this.state.query}
-            onSearchQuerySubmit={searchQuery => this.onSearchQuerySubmit(searchQuery, locale)}
-          />
-        )}
-      </LocaleContext.Consumer>
+      <MastheadSearchForm
+        query={this.state.query}
+        onSearchQuerySubmit={searchQuery => this.onSearchQuerySubmit(searchQuery)}
+      />
     );
   }
 }

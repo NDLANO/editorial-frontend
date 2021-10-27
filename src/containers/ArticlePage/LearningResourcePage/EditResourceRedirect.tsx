@@ -6,10 +6,10 @@
  *
  */
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Route, Redirect, Switch, RouteComponentProps } from 'react-router-dom';
 import EditLearningResource from './EditLearningResource';
-import { LocaleContext } from '../../App/App';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { License } from '../../../interfaces';
 
@@ -20,10 +20,10 @@ interface ParamsType {
 interface Props extends RouteComponentProps<ParamsType> {
   isNewlyCreated: boolean;
   licenses: License[];
-  userAccess: string | undefined;
 }
-const EditResourceRedirect = ({ match, licenses, isNewlyCreated, userAccess }: Props) => {
-  const locale = useContext(LocaleContext);
+const EditResourceRedirect = ({ match, licenses, isNewlyCreated }: Props) => {
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const { articleId } = match.params;
   const [supportedLanguage, setSupportedLanguage] = useState<string>();
 
@@ -45,7 +45,6 @@ const EditResourceRedirect = ({ match, licenses, isNewlyCreated, userAccess }: P
             selectedLanguage={props.match.params.selectedLanguage}
             isNewlyCreated={isNewlyCreated}
             licenses={licenses}
-            userAccess={userAccess}
           />
         )}
       />

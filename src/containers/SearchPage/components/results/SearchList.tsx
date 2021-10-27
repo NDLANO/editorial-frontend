@@ -38,18 +38,9 @@ interface Props {
   type: SearchType;
   locale: LocaleType;
   subjects: SubjectType[];
-  userAccess?: string;
 }
 
-const SearchList = ({
-  results,
-  searchObject,
-  type,
-  searching,
-  locale,
-  subjects,
-  userAccess,
-}: Props) => {
+const SearchList = ({ results, searchObject, type, searching, locale, subjects }: Props) => {
   const { t } = useTranslation();
   const editingState = useState(false);
   const setEditing = editingState[1];
@@ -79,7 +70,6 @@ const SearchList = ({
               type={type}
               locale={locale || result.title.language}
               subjects={subjects}
-              userAccess={userAccess}
               editingState={editingState}
               licenses={licenses}
             />

@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 import Flatpickr from 'flatpickr';
 import { Norwegian } from 'flatpickr/dist/l10n/no';
 import { english } from 'flatpickr/dist/l10n/default';
 import NyNorsk from './NyNorsk';
-import { getLocale } from '../../modules/locale/locale';
 
 const FORMAT_PATTERN = 'd/m/Y';
 
@@ -50,7 +49,8 @@ class DateTimeWrapper extends React.Component {
   }
 
   getOptions() {
-    const { time_24hr, enableTime, dateFormat, locale } = this.props;
+    const { time_24hr, enableTime, dateFormat, i18n } = this.props;
+    const locale = i18n.language;
 
     const options = {
       time_24hr,
@@ -91,7 +91,9 @@ DateTimeWrapper.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
-  locale: PropTypes.string.isRequired,
+  i18n: PropTypes.shape({
+    language: PropTypes.string.isRequired,
+  }).isRequired,
   className: PropTypes.string,
   name: PropTypes.string.isRequired,
   time_24hr: PropTypes.bool,
@@ -105,8 +107,4 @@ DateTimeWrapper.defaultProps = {
   dateFormat: FORMAT_PATTERN,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default connect(mapStateToProps)(DateTimeWrapper);
+export default withTranslation()(DateTimeWrapper);

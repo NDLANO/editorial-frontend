@@ -5,12 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useContext, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LocaleContext } from '../../App/App';
 import TopicArticleForm from './components/TopicArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -20,12 +19,11 @@ import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../.
 
 interface Props extends RouteComponentProps {
   licenses: License[];
-  userAccess?: string;
 }
 
-const CreateTopicArticle = ({ history, licenses, userAccess }: Props) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
+const CreateTopicArticle = ({ history, licenses }: Props) => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
 
   const createArticleAndPushRoute = async (
@@ -44,7 +42,6 @@ const CreateTopicArticle = ({ history, licenses, userAccess }: Props) => {
         updateArticle={createArticleAndPushRoute}
         isNewlyCreated={false}
         licenses={licenses}
-        userAccess={userAccess}
         translating={false}
         articleChanged={false}
       />

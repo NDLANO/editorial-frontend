@@ -22,16 +22,9 @@ interface Props extends RouteComponentProps {
   selectedLanguage: LocaleType;
   isNewlyCreated: boolean;
   licenses: License[];
-  userAccess: string | undefined;
 }
 
-const EditTopicArticle = ({
-  articleId,
-  selectedLanguage,
-  isNewlyCreated,
-  userAccess,
-  licenses,
-}: Props) => {
+const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated, licenses }: Props) => {
   const {
     loading,
     article,
@@ -66,7 +59,6 @@ const EditTopicArticle = ({
         translateToNN={translateToNN}
         translating={translating}
         isNewlyCreated={isNewlyCreated}
-        userAccess={userAccess}
         licenses={licenses}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}

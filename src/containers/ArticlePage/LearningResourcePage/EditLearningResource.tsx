@@ -23,16 +23,9 @@ interface Props extends RouteComponentProps {
   articleId: string;
   selectedLanguage: LocaleType;
   licenses: License[];
-  userAccess: string | undefined;
 }
 
-const EditLearningResource = ({
-  selectedLanguage,
-  articleId,
-  isNewlyCreated,
-  licenses,
-  userAccess,
-}: Props) => {
+const EditLearningResource = ({ selectedLanguage, articleId, isNewlyCreated, licenses }: Props) => {
   const { t } = useTranslation();
   const {
     loading,
@@ -70,7 +63,6 @@ const EditLearningResource = ({
         licenses={licenses}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
-        userAccess={userAccess}
       />
     </Fragment>
   );

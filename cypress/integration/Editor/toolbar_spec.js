@@ -18,6 +18,7 @@ describe('Selecting text and using the toolbar', () => {
 
   it('change the text styling', () => {
     cy.get('[data-slate-node=element] > p').should('be.visible');
+    cy.wait(500);
     cy.get('[data-slate-node=element] > p')
       .first()
       .click()

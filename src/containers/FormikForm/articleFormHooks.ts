@@ -7,10 +7,10 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { TFunction } from 'i18next';
 
 import { FormikHelpers } from 'formik';
 
-import { WithTranslation } from 'react-i18next';
 import { Action, ActionFunction1 } from 'redux-actions';
 import { Descendant } from 'slate';
 import {
@@ -94,7 +94,7 @@ export interface TopicArticleFormikType extends ArticleFormikType {
 type HooksInputObject<T> = {
   getInitialValues: (article: Partial<ConvertedDraftType>) => T;
   article: Partial<ConvertedDraftType>;
-  t: WithTranslation['t'];
+  t: TFunction;
   articleStatus?: DraftStatus;
   updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   updateArticleAndStatus?: (input: {

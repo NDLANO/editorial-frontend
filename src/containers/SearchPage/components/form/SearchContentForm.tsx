@@ -8,7 +8,7 @@
 
 import React, { Component, FormEvent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { RouteComponentProps } from 'react-router-dom';
@@ -67,8 +67,8 @@ interface State {
   search: SearchState;
 }
 
-class SearchContentForm extends Component<Props & WithTranslation, State> {
-  constructor(props: Props & WithTranslation) {
+class SearchContentForm extends Component<Props & CustomWithTranslation, State> {
+  constructor(props: Props & CustomWithTranslation) {
     super(props);
     const { searchObject } = props;
     this.state = {

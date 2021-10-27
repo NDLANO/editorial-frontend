@@ -14,12 +14,17 @@ describe('Selecting text and using the toolbar', () => {
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
+    cy.get('[cy="slate-block-picker-menu"]').should('not.exist');
   });
 
   it('change the text styling', () => {
-    cy.get('[data-cy=slate-editor] p[data-slate-node=element]')
-      .last()
+    cy.get('[data-slate-node=element] > p').clear();
+    cy.get('[data-slate-node=element] > p')
+      .should('be.visible')
       .first()
+      .click();
+    cy.get('[data-cy=slate-block-picker]').should('be.visible');
+    cy.get('[data-slate-node=element] > p')
       .type('This is test content{leftarrow}{leftarrow}')
       .contains('This is test content')
       .type('{selectall}');
@@ -75,7 +80,9 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el).type('{selectall}');
       });
 
-    cy.get('[data-testid=toolbar-button-link]').click({ force: true });
+    cy.get('[data-testid=toolbar-button-link]')
+      .should('be.visible')
+      .click();
     cy.get('button')
       .contains('Sett inn lenke')
       .click();
@@ -87,7 +94,8 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('a[href="http://www.vg.no"]')
       .should('have.prop', 'href')
       .and('equal', 'http://www.vg.no/');
-    cy.get('a[href="http://www.vg.no"]')
+    cy.get('a[href="http://www.vg.no"][data-slate-node=element]')
+      .contains('This is a test link')
       .click()
       .type('{selectall}');
   });

@@ -22,7 +22,6 @@ import SearchForm, { parseSearchParams, SearchParams } from './components/form/S
 import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { fetchSubjects } from '../../modules/taxonomy';
-import { UserAccessContext } from '../App/App';
 import { LocaleType, SearchType } from '../../interfaces';
 import { ImageSearchResult } from '../../modules/image/imageApiInterfaces';
 import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
@@ -132,46 +131,41 @@ class SearchContainer extends React.Component<Props, State> {
     const searchObject = parseSearchParams(location.search);
 
     return (
-      <UserAccessContext.Consumer>
-        {userAccess => (
-          <>
-            <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
-            <OneColumn>
-              <div {...searchClasses('header')}>
-                <h2>
-                  <Search className="c-icon--medium" />
-                  {t(`searchPage.header.${type}`)}
-                </h2>
-                <SearchSaveButton />
-              </div>
-              <SearchForm
-                type={type}
-                search={this.onQueryPush}
-                searchObject={searchObject}
-                locale={locale}
-                subjects={subjects}
-              />
-              <SearchSort location={location} onSortOrderChange={this.onSortOrderChange} />
-              <SearchListOptions
-                type={type}
-                searchObject={searchObject}
-                totalCount={results?.totalCount}
-                search={this.onQueryPush}
-              />
-              <SearchList
-                searchObject={searchObject}
-                results={results?.results ?? []}
-                searching={isSearching}
-                type={type}
-                locale={locale}
-                subjects={subjects}
-                userAccess={userAccess}
-              />
-              <Pager page={searchObject.page ?? 1} lastPage={lastPage} query={searchObject} />
-            </OneColumn>
-          </>
-        )}
-      </UserAccessContext.Consumer>
+      <>
+        <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
+        <OneColumn>
+          <div {...searchClasses('header')}>
+            <h2>
+              <Search className="c-icon--medium" />
+              {t(`searchPage.header.${type}`)}
+            </h2>
+            <SearchSaveButton />
+          </div>
+          <SearchForm
+            type={type}
+            search={this.onQueryPush}
+            searchObject={searchObject}
+            locale={locale}
+            subjects={subjects}
+          />
+          <SearchSort location={location} onSortOrderChange={this.onSortOrderChange} />
+          <SearchListOptions
+            type={type}
+            searchObject={searchObject}
+            totalCount={results?.totalCount}
+            search={this.onQueryPush}
+          />
+          <SearchList
+            searchObject={searchObject}
+            results={results?.results ?? []}
+            searching={isSearching}
+            type={type}
+            locale={locale}
+            subjects={subjects}
+          />
+          <Pager page={searchObject.page ?? 1} lastPage={lastPage} query={searchObject} />
+        </OneColumn>
+      </>
     );
   }
 

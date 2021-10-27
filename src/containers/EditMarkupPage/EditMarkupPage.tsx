@@ -26,7 +26,7 @@ import {
   learningResourceContentToHTML,
 } from '../../util/articleContentConverter';
 import { DRAFT_HTML_SCOPE } from '../../constants';
-import { getSessionStateFromLocalStorage } from '../../modules/session/session';
+import { getSessionStateFromLocalStorage } from '../Session/SessionProvider';
 import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
 import { toEditMarkup } from '../../util/routeHelpers';
 import { AlertModalWrapper, formClasses } from '../FormikForm';

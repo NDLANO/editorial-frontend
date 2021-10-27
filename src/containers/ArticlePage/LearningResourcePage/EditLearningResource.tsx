@@ -27,7 +27,6 @@ interface Props extends RouteComponentProps {
   licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
-  userAccess: string | undefined;
 }
 
 const EditLearningResource = ({
@@ -37,7 +36,6 @@ const EditLearningResource = ({
   licenses,
   applicationError,
   createMessage,
-  userAccess,
 }: Props) => {
   const { t } = useTranslation();
   const {
@@ -78,7 +76,6 @@ const EditLearningResource = ({
         updateArticleAndStatus={updateArticleAndStatus}
         createMessage={createMessage}
         applicationError={applicationError}
-        userAccess={userAccess}
       />
     </Fragment>
   );

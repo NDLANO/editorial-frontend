@@ -14,9 +14,9 @@ import { ConvertedDraftType, License, SearchResult } from '../../../../interface
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import { useSession } from '../../../Session/SessionProvider';
 
 interface Props extends RouteComponentProps {
-  userAccess?: string;
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: (
     values: ArticleFormikType,
@@ -32,7 +32,6 @@ interface Props extends RouteComponentProps {
 }
 
 const LearningResourcePanels = ({
-  userAccess,
   fetchSearchTags,
   article,
   updateNotes,
@@ -45,6 +44,7 @@ const LearningResourcePanels = ({
   handleSubmit,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const { userAccess } = useSession();
   const locale = i18n.language;
   const formikContext = useFormikContext<ArticleFormikType>();
   const { values, setValues, errors, handleBlur } = formikContext;
@@ -61,7 +61,6 @@ const LearningResourcePanels = ({
         startOpen>
         <LearningResourceContent
           formik={formikContext}
-          userAccess={userAccess}
           handleSubmit={() => handleSubmit(values, formikContext)}
           handleBlur={handleBlur}
           values={values}
@@ -74,12 +73,7 @@ const LearningResourcePanels = ({
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}>
-          <LearningResourceTaxonomy
-            userAccess={userAccess}
-            article={article}
-            locale={locale}
-            updateNotes={updateNotes}
-          />
+          <LearningResourceTaxonomy article={article} locale={locale} updateNotes={updateNotes} />
         </AccordionSection>
       )}
       <AccordionSection
@@ -116,7 +110,7 @@ const LearningResourcePanels = ({
           title={t('form.name.relatedContent')}
           className={'u-6/6'}
           hasError={!!(errors.conceptIds || errors.relatedContent)}>
-          <RelatedContentFieldGroup values={values} locale={locale} userAccess={userAccess} />
+          <RelatedContentFieldGroup values={values} locale={locale} />
         </AccordionSection>
       )}
       {values.id && (

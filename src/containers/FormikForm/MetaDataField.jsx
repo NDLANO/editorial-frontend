@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -16,13 +16,13 @@ import textTransformPlugin from '../../components/SlateEditor/plugins/textTransf
 import { MetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import AvailabilityField from './components/AvailabilityField';
-import { UserAccessContext } from '../App/App';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { ArticleShape } from '../../shapes';
+import { useSession } from '../Session/SessionProvider';
 
 const MetaDataField = ({ article, fetchSearchTags, handleSubmit, handleBlur }) => {
   const { t } = useTranslation();
-  const userAccess = useContext(UserAccessContext);
+  const { userAccess } = useSession();
   const plugins = [textTransformPlugin()];
 
   return (

@@ -47,6 +47,8 @@ import {
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
+import { SessionProps } from '../../../Session/SessionProvider';
+import withSession from '../../../Session/withSession';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -68,8 +70,8 @@ type Props = {
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   locale: LocaleType;
   setIsOpen?: (open: boolean) => void;
-  userAccess?: string;
-} & CustomWithTranslation;
+} & CustomWithTranslation &
+  SessionProps;
 
 interface LearningResourceSubjectType extends SubjectType {
   topics?: SubjectTopic[];
@@ -513,4 +515,4 @@ class LearningResourceTaxonomy extends Component<Props, State> {
   }
 }
 
-export default withTranslation()(LearningResourceTaxonomy);
+export default withTranslation()(withSession(LearningResourceTaxonomy));

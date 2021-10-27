@@ -22,18 +22,11 @@ import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelec
 
 interface Props extends RouteComponentProps {
   licenses: License[];
-  userAccess?: string;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
 }
 
-const CreateTopicArticle = ({
-  history,
-  licenses,
-  userAccess,
-  applicationError,
-  createMessage,
-}: Props) => {
+const CreateTopicArticle = ({ history, licenses, applicationError, createMessage }: Props) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
   const { createArticle } = useFetchArticleData(undefined, locale);
@@ -54,7 +47,6 @@ const CreateTopicArticle = ({
         updateArticle={createArticleAndPushRoute}
         isNewlyCreated={false}
         licenses={licenses}
-        userAccess={userAccess}
         translating={false}
         applicationError={applicationError}
         createMessage={createMessage}

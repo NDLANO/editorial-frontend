@@ -12,7 +12,6 @@ import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { ReduxImageState } from './modules/image/image';
 import { ReduxLicenseState } from './modules/license/license';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
-import { ReduxSessionState } from './modules/session/session';
 import { ReduxMessageState } from './containers/Messages/messagesSelectors';
 import { ReduxLocaleState } from './modules/locale/locale';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
@@ -511,7 +510,6 @@ export interface License {
 export interface ReduxState {
   images: ReduxImageState;
   licenses: ReduxLicenseState;
-  session: ReduxSessionState;
   messages: ReduxMessageState;
   locale: ReduxLocaleState;
 }

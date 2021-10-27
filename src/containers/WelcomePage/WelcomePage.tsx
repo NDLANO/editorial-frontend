@@ -18,7 +18,7 @@ import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
 import { fetchUserData } from '../../modules/draft/draftApi';
-import { LocaleContext, UserAccessContext } from '../App/App';
+import { LocaleContext } from '../App/App';
 
 import LastUsedContent from './components/LastUsedContent';
 import SaveSearchUrl from './components/SaveSearchUrl';
@@ -42,7 +42,6 @@ export const WelcomePage = () => {
   const { t } = useTranslation();
   const [lastUsed, setLastUsed] = useState<string[]>([]);
   const locale: LocaleType = useContext(LocaleContext);
-  const userAccess: string | undefined = useContext(UserAccessContext);
 
   const token = getAccessToken();
   const isAccessTokenPersonal = getAccessTokenPersonal();
@@ -81,12 +80,7 @@ export const WelcomePage = () => {
               {lastUsed.length ? (
                 lastUsed.map((result: string) => {
                   return (
-                    <LastUsedContent
-                      key={result}
-                      articleId={parseInt(result)}
-                      locale={locale}
-                      userAccess={userAccess}
-                    />
+                    <LastUsedContent key={result} articleId={parseInt(result)} locale={locale} />
                   );
                 })
               ) : (

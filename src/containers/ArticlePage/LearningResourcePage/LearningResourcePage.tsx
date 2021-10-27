@@ -26,7 +26,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: ReduxState) => ({
   licenses: getAllLicenses(state),
-  userAccess: state.session.user.scope,
 });
 
 const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
@@ -45,7 +44,6 @@ const LearningResourcePage = ({
   licenses,
   applicationError,
   createMessage,
-  userAccess,
   match,
   history,
   location,
@@ -69,7 +67,6 @@ const LearningResourcePage = ({
                 applicationError={applicationError}
                 licenses={licenses}
                 createMessage={createMessage}
-                userAccess={userAccess}
               />
             )}
           />
@@ -84,7 +81,6 @@ const LearningResourcePage = ({
                   applicationError={applicationError}
                   licenses={licenses}
                   createMessage={createMessage}
-                  userAccess={userAccess}
                 />
               );
             }}

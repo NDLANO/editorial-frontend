@@ -23,16 +23,9 @@ interface Props extends RouteComponentProps {
   licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
-  userAccess?: string;
 }
 
-const CreateLearningResource = ({
-  history,
-  licenses,
-  applicationError,
-  createMessage,
-  userAccess,
-}: Props) => {
+const CreateLearningResource = ({ history, licenses, applicationError, createMessage }: Props) => {
   const locale = useContext(LocaleContext);
   const { t } = useTranslation();
   const { createArticle } = useFetchArticleData(undefined, locale);
@@ -53,7 +46,6 @@ const CreateLearningResource = ({
         licenses={licenses}
         createMessage={createMessage}
         applicationError={applicationError}
-        userAccess={userAccess}
         translating={false}
         articleChanged={false}
         isNewlyCreated={false}

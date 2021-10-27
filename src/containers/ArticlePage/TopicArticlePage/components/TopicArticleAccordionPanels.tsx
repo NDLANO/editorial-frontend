@@ -15,9 +15,9 @@ import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
 import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import { useSession } from '../../../Session/SessionProvider';
 
 interface Props extends RouteComponentProps {
-  userAccess: string | undefined;
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: () => Promise<void>;
   article: Partial<ConvertedDraftType>;
@@ -30,7 +30,6 @@ interface Props extends RouteComponentProps {
 }
 
 const TopicArticleAccordionPanels = ({
-  userAccess,
   fetchSearchTags,
   handleSubmit,
   article,
@@ -44,6 +43,7 @@ const TopicArticleAccordionPanels = ({
 }: Props) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
+  const { userAccess } = useSession();
   const formikContext = useFormikContext<ArticleFormikType>();
   const { values, handleBlur, errors, setValues } = formikContext;
   return (
@@ -61,12 +61,7 @@ const TopicArticleAccordionPanels = ({
           )
         }
         startOpen>
-        <TopicArticleContent
-          userAccess={userAccess}
-          handleSubmit={handleSubmit}
-          handleBlur={handleBlur}
-          values={values}
-        />
+        <TopicArticleContent handleSubmit={handleSubmit} handleBlur={handleBlur} values={values} />
       </AccordionSection>
       {values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
         <AccordionSection
@@ -115,7 +110,7 @@ const TopicArticleAccordionPanels = ({
           title={t('form.name.relatedContent')}
           className={'u-6/6'}
           hasError={!!(errors.conceptIds || errors.relatedContent)}>
-          <RelatedContentFieldGroup values={values} locale={locale} userAccess={userAccess} />
+          <RelatedContentFieldGroup values={values} locale={locale} />
         </AccordionSection>
       )}
       {values.id && (

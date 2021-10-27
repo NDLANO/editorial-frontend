@@ -43,8 +43,9 @@ import {
   TaxonomyElement,
   TaxonomyMetadata,
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { LocaleContext, UserAccessContext } from '../App/App';
+import { LocaleContext } from '../App/App';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
+import { useSession } from '../Session/SessionProvider';
 
 interface Props extends RouteComponentProps<StructureRouteParams> {}
 
@@ -62,7 +63,7 @@ interface RouteProps {
 export const StructureContainer = ({ match, location, history }: Props) => {
   const { t } = useTranslation();
   const locale = useContext(LocaleContext);
-  const userAccess = useContext(UserAccessContext);
+  const { userAccess } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
   const [subjects, setSubjects] = useState<(SubjectType & { topics?: SubjectTopic[] })[]>([]);
   const [topics, setTopics] = useState<SubjectTopic[]>([]);
@@ -314,7 +315,6 @@ export const StructureContainer = ({ match, location, history }: Props) => {
                     resourceSection && resourceSection.current?.scrollIntoView()
                   }
                   locale={locale}
-                  userAccess={userAccess}
                   setResourcesUpdated={setResourcesUpdated}
                   saveSubjectItems={saveSubjectItems}
                   saveSubjectTopicItems={saveSubjectTopicItems}

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -14,7 +14,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import loadable from '@loadable/component';
 import LoginProviders from './LoginProviders';
 import Footer from '../App/components/Footer';
-import { AuthenticatedContext } from '../App/App';
+import { useSession } from '../Session/SessionProvider';
 const LoginFailure = loadable(() => import('./LoginFailure'));
 const LoginSuccess = loadable(() => import('./LoginSuccess'));
 
@@ -22,7 +22,7 @@ interface Props extends RouteComponentProps {}
 
 export const Login = ({ match, location, history }: Props) => {
   const { t } = useTranslation();
-  const authenticated = useContext(AuthenticatedContext);
+  const { authenticated } = useSession();
   if (authenticated && location.hash === '' && match.url === '/login') {
     history.push('/');
     return null;

@@ -124,7 +124,6 @@ export const convertDraftOrRelated = (
 };
 
 interface Props extends RouteComponentProps {
-  userAccess: string | undefined;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   article: Partial<ConvertedDraftType>;
@@ -155,7 +154,6 @@ const LearningResourceForm = ({
   updateArticleAndStatus,
   articleChanged,
   history,
-  userAccess,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -271,7 +269,6 @@ const LearningResourceForm = ({
             licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            userAccess={userAccess}
             createMessage={createMessage}
             handleSubmit={handleSubmit}
           />

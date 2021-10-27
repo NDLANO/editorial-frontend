@@ -12,14 +12,15 @@ import { DRAFT_ADMIN_SCOPE } from '../../../constants';
 import ConceptsField from './ConceptsField';
 import ContentField from './ContentField';
 import { ArticleFormikType } from '../../FormikForm/articleFormHooks';
+import { useSession } from '../../Session/SessionProvider';
 
 interface Props {
   values: ArticleFormikType;
   locale: string;
-  userAccess?: string;
 }
 
-const RelatedContentFieldGroup = ({ locale, userAccess, values }: Props) => {
+const RelatedContentFieldGroup = ({ locale, values }: Props) => {
+  const { userAccess } = useSession();
   return (
     <>
       <FormikField name={'conceptIds'}>

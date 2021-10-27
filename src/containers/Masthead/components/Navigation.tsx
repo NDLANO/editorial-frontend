@@ -64,12 +64,7 @@ const StyledWrapper = styled.div`
   margin-bottom: ${NAVIGATION_HEADER_MARGIN};
 `;
 
-interface Props {
-  authenticated: boolean;
-  userName?: string;
-}
-
-const Navigation = ({ authenticated, userName }: Props) => {
+const Navigation = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(false);
 
@@ -98,11 +93,7 @@ const Navigation = ({ authenticated, userName }: Props) => {
               <MastheadSearch close={closeMenu} />
             </div>
             <div>
-              <SessionContainer
-                userName={userName}
-                authenticated={authenticated}
-                close={closeMenu}
-              />
+              <SessionContainer close={closeMenu} />
               <StyledSplitter />
               <div css={logoCSS}>
                 <Logo to="/" label={t('logo.altText')} />

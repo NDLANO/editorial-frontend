@@ -61,6 +61,8 @@ import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
+import { SessionProps } from '../../../Session/SessionProvider';
+import withSession from '../../../Session/withSession';
 
 const byLineStyle = css`
   display: flex;
@@ -138,11 +140,12 @@ export const plugins = (
 type Props = {
   locale: LocaleType;
   article: Partial<ConvertedDraftType>;
-  userAccess?: string;
   handleBlur: (evt: { target: { name: string } }) => void;
   values: LearningResourceFormikType;
   handleSubmit: () => Promise<void>;
-} & CustomWithTranslation & { formik: FormikContextType<LearningResourceFormikType> };
+} & CustomWithTranslation & {
+    formik: FormikContextType<LearningResourceFormikType>;
+  } & SessionProps;
 
 const LearningResourceContent = ({
   article: { language: articleLanguage },
@@ -222,4 +225,4 @@ const LearningResourceContent = ({
   );
 };
 
-export default withTranslation()(LearningResourceContent);
+export default withTranslation()(withSession(LearningResourceContent));

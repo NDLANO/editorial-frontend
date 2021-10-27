@@ -121,7 +121,6 @@ interface Props extends RouteComponentProps {
     newStatus: DraftStatusTypes;
     dirty: boolean;
   }) => Promise<ConvertedDraftType>;
-  userAccess: string | undefined;
   translating: boolean;
   translateToNN?: () => void;
   licenses: License[];
@@ -141,7 +140,6 @@ const TopicArticleForm = (props: Props) => {
     createMessage,
     applicationError,
     articleStatus,
-    userAccess,
   } = props;
 
   const { t } = useTranslation();
@@ -263,7 +261,6 @@ const TopicArticleForm = (props: Props) => {
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
             handleSubmit={async () => handleSubmit(values, formik)}
-            userAccess={userAccess}
             createMessage={createMessage}
           />
         )}

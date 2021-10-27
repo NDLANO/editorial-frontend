@@ -42,6 +42,8 @@ import {
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
+import withSession from '../../../Session/withSession';
+import { SessionProps } from '../../../Session/SessionProvider';
 
 type Props = {
   articleId: number;
@@ -49,8 +51,8 @@ type Props = {
   setIsOpen?: (open: boolean) => void;
   locale: LocaleType;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
-  userAccess?: string;
-} & CustomWithTranslation;
+} & CustomWithTranslation &
+  SessionProps;
 
 interface StructureSubject extends SubjectType {
   topics?: SubjectTopic[];
@@ -341,4 +343,4 @@ class TopicArticleTaxonomy extends Component<Props, State> {
   }
 }
 
-export default withTranslation()(TopicArticleTaxonomy);
+export default withTranslation()(withSession(TopicArticleTaxonomy));

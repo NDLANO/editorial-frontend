@@ -14,9 +14,11 @@ describe('Selecting text and using the toolbar', () => {
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
+    cy.get('[cy="slate-block-picker-menu"]').should('not.exist');
   });
 
   it('change the text styling', () => {
+    cy.get('[data-slate-node=element] > p').clear();
     cy.get('[data-slate-node=element] > p')
       .should('be.visible')
       .first()

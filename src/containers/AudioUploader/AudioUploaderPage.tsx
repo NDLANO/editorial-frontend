@@ -11,7 +11,7 @@ import { Route, Switch } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { getLocale } from '../../modules/locale/locale';
@@ -38,7 +38,7 @@ type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 interface BaseProps {}
 
-type Props = BaseProps & RouteComponentProps & PropsFromRedux & WithTranslation;
+type Props = BaseProps & RouteComponentProps & PropsFromRedux & CustomWithTranslation;
 
 interface State {
   previousLocation: string;

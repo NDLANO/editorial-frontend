@@ -7,7 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
@@ -50,7 +50,7 @@ type Props = {
   locale: LocaleType;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   userAccess?: string;
-} & WithTranslation;
+} & CustomWithTranslation;
 
 interface StructureSubject extends SubjectType {
   topics?: SubjectTopic[];

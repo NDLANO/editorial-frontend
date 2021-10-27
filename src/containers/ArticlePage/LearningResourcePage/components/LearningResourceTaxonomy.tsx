@@ -7,7 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
@@ -69,7 +69,7 @@ type Props = {
   locale: LocaleType;
   setIsOpen?: (open: boolean) => void;
   userAccess?: string;
-} & WithTranslation;
+} & CustomWithTranslation;
 
 interface LearningResourceSubjectType extends SubjectType {
   topics?: SubjectTopic[];

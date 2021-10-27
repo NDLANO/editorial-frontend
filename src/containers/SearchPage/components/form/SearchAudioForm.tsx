@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
@@ -45,8 +45,8 @@ interface State {
   }[];
 }
 
-class SearchAudioForm extends Component<Props & WithTranslation, State> {
-  constructor(props: Props & WithTranslation) {
+class SearchAudioForm extends Component<Props & CustomWithTranslation, State> {
+  constructor(props: Props & CustomWithTranslation) {
     super(props);
 
     const { searchObject } = props;
@@ -71,7 +71,7 @@ class SearchAudioForm extends Component<Props & WithTranslation, State> {
     this.getLicenses();
   }
 
-  componentDidUpdate(prevProps: Props & WithTranslation) {
+  componentDidUpdate(prevProps: Props & CustomWithTranslation) {
     const { searchObject } = this.props;
     if (prevProps.searchObject?.query !== searchObject?.query) {
       this.setState({

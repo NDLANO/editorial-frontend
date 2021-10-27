@@ -11,21 +11,20 @@ import editorRoutes from './editorRoutes';
 import t from '../../../src/phrases/phrases-nb';
 
 describe('Table plugin', () => {
-  beforeEach(() => {
+  before(() => {
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
-  });
-
-  it('all table functions work', () => {
+    cy.get('[data-slate-node=element] > p').clear();
     cy.get('[data-slate-node=element] > p')
       .should('be.visible')
       .first()
       .click();
-    cy.get('[data-cy=slate-block-picker]')
-      .last()
-      .click({ force: true });
+    cy.get('[data-cy=slate-block-picker]').click();
+    cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
+  });
 
+  it('all table functions work', () => {
     cy.get('[data-cy=create-table]')
       .last()
       .click({ force: true });

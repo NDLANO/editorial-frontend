@@ -11,9 +11,7 @@ import { Store } from 'redux';
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { ReduxImageState } from './modules/image/image';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
-import { ReduxSessionState } from './modules/session/session';
 import { ReduxMessageState } from './containers/Messages/messagesSelectors';
-import { ReduxLocaleState } from './modules/locale/locale';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
 import { ConceptApiType } from './modules/concept/conceptApiInterfaces';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
@@ -509,9 +507,7 @@ export interface License {
 
 export interface ReduxState {
   images: ReduxImageState;
-  session: ReduxSessionState;
   messages: ReduxMessageState;
-  locale: ReduxLocaleState;
 }
 
 export type SearchType = typeof SearchTypeValues[number];

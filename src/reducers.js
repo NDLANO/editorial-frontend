@@ -8,18 +8,12 @@
 
 import { combineReducers } from 'redux';
 
-import locale from './modules/locale/locale';
 import messages from './containers/Messages/messagesReducer';
 import images from './modules/image/image';
-import tags from './modules/tag/tag';
-import session from './modules/session/session';
 
 const rootReducers = combineReducers({
-  locale,
   messages,
   images,
-  tags,
-  session,
 });
 
 export default rootReducers;

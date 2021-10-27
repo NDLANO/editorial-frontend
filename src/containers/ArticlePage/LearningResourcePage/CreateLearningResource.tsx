@@ -5,12 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
 import { Action, ActionFunction1 } from 'redux-actions';
 import { useTranslation } from 'react-i18next';
-import { LocaleContext } from '../../App/App';
 import LearningResourceForm from './components/LearningResourceForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -21,17 +20,11 @@ import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../.
 interface Props extends RouteComponentProps {
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
-  userAccess?: string;
 }
 
-const CreateLearningResource = ({
-  history,
-  applicationError,
-  createMessage,
-  userAccess,
-}: Props) => {
-  const locale = useContext(LocaleContext);
-  const { t } = useTranslation();
+const CreateLearningResource = ({ history, applicationError, createMessage }: Props) => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
 
   const createArticleAndPushRoute = async (createdArticle: UpdatedDraftApiType) => {
@@ -49,7 +42,6 @@ const CreateLearningResource = ({
         updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
         createMessage={createMessage}
         applicationError={applicationError}
-        userAccess={userAccess}
         translating={false}
         articleChanged={false}
         isNewlyCreated={false}

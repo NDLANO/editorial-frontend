@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { LocaleContext } from '../App/App';
+import { useTranslation } from 'react-i18next';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
@@ -23,7 +23,8 @@ interface Props {
 }
 
 const EditPodcast = ({ podcastId, podcastLanguage, isNewlyCreated }: Props) => {
-  const locale: string = useContext(LocaleContext);
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const [podcast, setPodcast] = useState<AudioApiType | undefined>(undefined);
   const [podcastChanged, setPodcastChanged] = useState(false);
   const setPodcastWithFlag = (podcast: AudioApiType | undefined, changed: boolean) => {

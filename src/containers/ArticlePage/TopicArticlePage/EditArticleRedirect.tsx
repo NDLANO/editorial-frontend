@@ -6,12 +6,12 @@
  *
  */
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { Action, ActionFunction1 } from 'redux-actions';
 import EditTopicArticle from './EditTopicArticle';
-import { LocaleContext } from '../../App/App';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
@@ -19,16 +19,10 @@ interface Props extends RouteComponentProps<{ articleId: string }> {
   isNewlyCreated: boolean;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  userAccess: string | undefined;
 }
-const EditArticleRedirect = ({
-  match,
-  createMessage,
-  applicationError,
-  isNewlyCreated,
-  userAccess,
-}: Props) => {
-  const locale = useContext(LocaleContext);
+const EditArticleRedirect = ({ match, createMessage, applicationError, isNewlyCreated }: Props) => {
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const { articleId } = match.params;
   const [supportedLanguage, setSupportedLanguage] = useState<string>();
 
@@ -51,7 +45,6 @@ const EditArticleRedirect = ({
             articleId={articleId}
             selectedLanguage={props.match.params.selectedLanguage}
             isNewlyCreated={isNewlyCreated}
-            userAccess={userAccess}
           />
         )}
       />

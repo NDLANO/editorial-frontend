@@ -15,7 +15,6 @@ import EditArticleRedirect from './EditArticleRedirect';
 import CreateTopicArticle from './CreateTopicArticle';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { usePreviousLocation } from '../../../util/routeHelpers';
-import { ReduxState } from '../../../interfaces';
 
 interface Props extends RouteComponentProps<{ articleId: string }> {}
 
@@ -24,19 +23,10 @@ const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
 };
 
-const mapStateToProps = (state: ReduxState) => ({
-  userAccess: state.session.user.scope,
-});
-
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+const reduxConnector = connect(undefined, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-const TopicArticlePage = ({
-  match,
-  applicationError,
-  createMessage,
-  userAccess,
-}: Props & PropsFromRedux) => {
+const TopicArticlePage = ({ match, applicationError, createMessage }: Props & PropsFromRedux) => {
   const previousLocation = usePreviousLocation();
 
   return (
@@ -45,11 +35,7 @@ const TopicArticlePage = ({
         <Route
           path={`${match.url}/new`}
           render={() => (
-            <CreateTopicArticle
-              applicationError={applicationError}
-              createMessage={createMessage}
-              userAccess={userAccess}
-            />
+            <CreateTopicArticle applicationError={applicationError} createMessage={createMessage} />
           )}
         />
         <Route path={`${match.url}/:articleId/edit/`}>
@@ -57,7 +43,6 @@ const TopicArticlePage = ({
             isNewlyCreated={previousLocation === '/subject-matter/topic-article/new'}
             applicationError={applicationError}
             createMessage={createMessage}
-            userAccess={userAccess}
           />
         </Route>
         <Route component={NotFoundPage} />

@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { LicenseField, DatePicker, ContributorsField } from '../../FormikForm';
 import FormikField, { classes as fieldsClasses } from '../../../components/FormikField';
-import { LocaleContext } from '../../App/App';
 
 const contributorTypes = ['rightsholders', 'creators'];
-const AgreementFields = props => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
+const AgreementFields = () => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
 
   return (
     <div>

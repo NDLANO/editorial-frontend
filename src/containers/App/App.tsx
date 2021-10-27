@@ -19,16 +19,16 @@ import { configureTracker } from '@ndla/tracker';
 import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import Navigation from '../Masthead/components/Navigation';
-import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
 import Messages from '../Messages/Messages';
 import ErrorBoundary from '../../components/ErrorBoundary';
 
 import Zendesk from './Zendesk';
-import { LocaleType, ReduxState } from '../../interfaces';
+import { ReduxState } from '../../interfaces';
 import { LOCALE_VALUES } from '../../constants';
 import config from '../../config';
 import { LicensesProvider } from '../Licenses/LicensesProvider';
+import { getSessionStateFromLocalStorage, SessionProvider } from '../Session/SessionProvider';
 const Login = loadable(() => import('../Login/Login'));
 const Logout = loadable(() => import('../Logout/Logout'));
 const PrivateRoute = loadable(() => import('../PrivateRoute/PrivateRoute'));
@@ -48,9 +48,6 @@ const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage')
 const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 
 export const FirstLoadContext = React.createContext(true);
-export const LocaleContext = React.createContext<LocaleType>('nb');
-export const UserAccessContext = React.createContext<string | undefined>(undefined);
-export const AuthenticatedContext = React.createContext<boolean>(false);
 
 interface InternalState {
   firstLoad: boolean;
@@ -61,11 +58,7 @@ interface Props {
 }
 
 const mapStateToProps = (state: ReduxState) => ({
-  locale: getLocale(state),
   messages: getMessages(state),
-  authenticated: state.session.authenticated,
-  userName: state.session.user.name,
-  userAccess: state.session.user.scope,
 });
 
 const reduxConnector = connect(mapStateToProps);
@@ -94,7 +87,7 @@ class App extends React.Component<ActualProps, InternalState> {
 
   getChildContext() {
     return {
-      locale: this.props.locale,
+      locale: this.props.i18n.language,
     };
   }
 
@@ -106,52 +99,48 @@ class App extends React.Component<ActualProps, InternalState> {
   };
 
   render() {
-    const { authenticated, dispatch, messages, t, userName, userAccess } = this.props;
+    const { dispatch, messages, t } = this.props;
 
     return (
       <ErrorBoundary>
-        <UserAccessContext.Provider value={userAccess}>
-          <AuthenticatedContext.Provider value={authenticated}>
-            <LocaleContext.Provider value={this.props.i18n.language as LocaleType}>
-              <FirstLoadContext.Provider value={this.state.firstLoad}>
-                <LicensesProvider>
-                  <PageContainer background>
-                    <Zendesk authenticated={authenticated} />
-                    <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
-                    <Content>
-                      <Navigation authenticated={authenticated} userName={userName} />
-                      <Switch>
-                        <Route path="/" exact component={WelcomePage} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/logout" component={Logout} />
-                        <PrivateRoute path="/subjectpage" component={Subjectpage} />
-                        <PrivateRoute path="/search" component={SearchPage} />
-                        <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
-                        <PrivateRoute
-                          path="/edit-markup/:draftId/:language"
-                          component={EditMarkupPage}
-                        />
-                        <PrivateRoute path="/concept" component={ConceptPage} />
-                        <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
-                        <PrivateRoute path="/media" component={MediaPage} />
-                        <PrivateRoute path="/agreement" component={AgreementPage} />
-                        <PrivateRoute path="/film" component={NdlaFilm} />
-                        <PrivateRoute path="/h5p" component={H5PPage} />
-                        <PrivateRoute
-                          path="/structure/:subject?/:topic?/:subtopics(.*)?"
-                          component={StructurePage}
-                        />
-                        <Route path="/forbidden" component={ForbiddenPage} />
-                        <Route component={NotFoundPage} />
-                      </Switch>
-                    </Content>
-                    <Messages dispatch={dispatch} messages={messages} />
-                  </PageContainer>
-                </LicensesProvider>
-              </FirstLoadContext.Provider>
-            </LocaleContext.Provider>
-          </AuthenticatedContext.Provider>
-        </UserAccessContext.Provider>
+        <FirstLoadContext.Provider value={this.state.firstLoad}>
+          <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
+            <LicensesProvider>
+              <PageContainer background>
+                <Zendesk />
+                <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
+                <Content>
+                  <Navigation />
+                  <Switch>
+                    <Route path="/" exact component={WelcomePage} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/logout" component={Logout} />
+                    <PrivateRoute path="/subjectpage" component={Subjectpage} />
+                    <PrivateRoute path="/search" component={SearchPage} />
+                    <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
+                    <PrivateRoute
+                      path="/edit-markup/:draftId/:language"
+                      component={EditMarkupPage}
+                    />
+                    <PrivateRoute path="/concept" component={ConceptPage} />
+                    <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
+                    <PrivateRoute path="/media" component={MediaPage} />
+                    <PrivateRoute path="/agreement" component={AgreementPage} />
+                    <PrivateRoute path="/film" component={NdlaFilm} />
+                    <PrivateRoute path="/h5p" component={H5PPage} />
+                    <PrivateRoute
+                      path="/structure/:subject?/:topic?/:subtopics(.*)?"
+                      component={StructurePage}
+                    />
+                    <Route path="/forbidden" component={ForbiddenPage} />
+                    <Route component={NotFoundPage} />
+                  </Switch>
+                </Content>
+                <Messages dispatch={dispatch} messages={messages} />
+              </PageContainer>
+            </LicensesProvider>
+          </SessionProvider>
+        </FirstLoadContext.Provider>
       </ErrorBoundary>
     );
   }

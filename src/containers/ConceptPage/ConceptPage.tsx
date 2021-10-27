@@ -8,13 +8,12 @@
 
 import React, { memo, useEffect, useRef, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
 import * as messageActions from '../Messages/messagesActions';
-import { getLocale } from '../../modules/locale/locale';
 import Footer from '../App/components/Footer';
-import { ReduxState } from '../../interfaces';
 const CreateConcept = loadable(() => import('./CreateConcept'));
 const EditConcept = loadable(() => import('./EditConcept'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
@@ -26,8 +25,10 @@ type Props = BaseProps & RouteComponentProps & PropsFromRedux;
 const ConceptPage = (props: Props) => {
   const [previousLocation, setPreviousLocation] = useState('');
   const prevProps = useRef<Props | undefined>(undefined);
+  const { i18n } = useTranslation();
 
-  const { match, location, ...rest } = props;
+  const { match, location, ...propsRest } = props;
+  const rest = { locale: i18n.language, ...propsRest };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -65,11 +66,7 @@ const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
 };
 
-const mapStateToProps = (state: ReduxState) => ({
-  locale: getLocale(state),
-});
-
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+const reduxConnector = connect(undefined, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-export default memo(connect(mapStateToProps, mapDispatchToProps)(ConceptPage));
+export default memo(reduxConnector(ConceptPage));

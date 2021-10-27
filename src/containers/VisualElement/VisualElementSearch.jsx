@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
-import { actions as tagActions, getAllTagsByLanguage } from '../../modules/tag/tag';
 import {
   getImage,
   getUploadedImage,
@@ -24,7 +23,6 @@ import { getShowSaved } from '../Messages/messagesSelectors';
 import config from '../../config';
 import * as visualElementApi from './visualElementApi';
 import * as imageApi from '../../modules/image/imageApi';
-import { getLocale } from '../../modules/locale/locale';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import VisualElementUrlPreview from './VisualElementUrlPreview';
@@ -71,11 +69,12 @@ class VisualElementSearch extends Component {
       closeModal,
       articleLanguage,
       videoTypes,
-      locale,
+      i18n,
       showMetaImageCheckbox,
       onSaveAsMetaImage,
       t,
     } = this.props;
+    const locale = i18n.language;
     const fetchImage = id => visualElementApi.fetchImage(id, articleLanguage);
     const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(provider => provider.name).filter(
       name => name === selectedResource,
@@ -254,7 +253,9 @@ VisualElementSearch.propTypes = {
   setH5pFetchFail: PropTypes.func,
   handleVisualElementChange: PropTypes.func.isRequired,
   articleLanguage: PropTypes.string.isRequired,
-  locale: PropTypes.string.isRequired,
+  i18n: PropTypes.shape({
+    language: PropTypes.string.isRequired,
+  }).isRequired,
   uploadedImage: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     alttext: PropTypes.shape({
@@ -274,16 +275,11 @@ VisualElementSearch.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchTags: tagActions.fetchTags,
   clearUploadedImage: imageActions.clearUploadedImage,
 };
 
 const mapStateToProps = state => {
-  const locale = getLocale(state);
-  const getAllTagsSelector = getAllTagsByLanguage(locale);
   return {
-    locale,
-    tags: getAllTagsSelector(state),
     isSavingImage: getSavingImage(state),
     showSaved: getShowSaved(state),
     uploadedImage: getUploadedImage(state),

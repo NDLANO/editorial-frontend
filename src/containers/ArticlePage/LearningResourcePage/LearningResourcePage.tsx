@@ -14,7 +14,6 @@ import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import * as messageActions from '../../Messages/messagesActions';
 import { usePreviousLocation } from '../../../util/routeHelpers';
-import { ReduxState } from '../../../interfaces';
 import { NewReduxMessage } from '../../Messages/messagesSelectors';
 
 const mapDispatchToProps = {
@@ -22,11 +21,7 @@ const mapDispatchToProps = {
   applicationError: messageActions.applicationError,
 };
 
-const mapStateToProps = (state: ReduxState) => ({
-  userAccess: state.session.user.scope,
-});
-
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+const reduxConnector = connect(undefined, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 interface BaseProps {}
@@ -40,7 +35,6 @@ type Props = BaseProps & RouteComponentProps<ParamsType> & PropsFromRedux;
 const LearningResourcePage = ({
   applicationError,
   createMessage,
-  userAccess,
   match,
   history,
   location,
@@ -58,7 +52,6 @@ const LearningResourcePage = ({
                 {...routeProps}
                 applicationError={applicationError}
                 createMessage={createMessage}
-                userAccess={userAccess}
               />
             )}
           />
@@ -72,7 +65,6 @@ const LearningResourcePage = ({
                   isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
                   applicationError={applicationError}
                   createMessage={createMessage}
-                  userAccess={userAccess}
                 />
               );
             }}

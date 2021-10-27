@@ -5,13 +5,12 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useContext, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { Action, ActionFunction1 } from 'redux-actions';
 import { useTranslation } from 'react-i18next';
-import { LocaleContext } from '../../App/App';
 import TopicArticleForm from './components/TopicArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -27,8 +26,8 @@ interface Props extends RouteComponentProps {
 }
 
 const CreateTopicArticle = ({ history, licenses, applicationError, createMessage }: Props) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
 
   const createArticleAndPushRoute = async (

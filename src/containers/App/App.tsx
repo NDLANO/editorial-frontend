@@ -19,13 +19,12 @@ import { configureTracker } from '@ndla/tracker';
 import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import Navigation from '../Masthead/components/Navigation';
-import { getLocale } from '../../modules/locale/locale';
 import { getMessages } from '../Messages/messagesSelectors';
 import Messages from '../Messages/Messages';
 import ErrorBoundary from '../../components/ErrorBoundary';
 
 import Zendesk from './Zendesk';
-import { LocaleType, ReduxState } from '../../interfaces';
+import { ReduxState } from '../../interfaces';
 import { LOCALE_VALUES } from '../../constants';
 import config from '../../config';
 import { getSessionStateFromLocalStorage, SessionProvider } from '../Session/SessionProvider';
@@ -48,7 +47,6 @@ const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage')
 const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 
 export const FirstLoadContext = React.createContext(true);
-export const LocaleContext = React.createContext<LocaleType>('nb');
 
 interface InternalState {
   firstLoad: boolean;
@@ -59,7 +57,6 @@ interface Props {
 }
 
 const mapStateToProps = (state: ReduxState) => ({
-  locale: getLocale(state),
   messages: getMessages(state),
 });
 
@@ -89,7 +86,7 @@ class App extends React.Component<ActualProps, InternalState> {
 
   getChildContext() {
     return {
-      locale: this.props.locale,
+      locale: this.props.i18n.language,
     };
   }
 
@@ -105,44 +102,39 @@ class App extends React.Component<ActualProps, InternalState> {
 
     return (
       <ErrorBoundary>
-        <LocaleContext.Provider value={this.props.i18n.language as LocaleType}>
-          <FirstLoadContext.Provider value={this.state.firstLoad}>
-            <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
-              <PageContainer background>
-                <Zendesk />
-                <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
-                <Content>
-                  <Navigation />
-                  <Switch>
-                    <Route path="/" exact component={WelcomePage} />
-                    <Route path="/login" component={Login} />
-                    <Route path="/logout" component={Logout} />
-                    <PrivateRoute path="/subjectpage" component={Subjectpage} />
-                    <PrivateRoute path="/search" component={SearchPage} />
-                    <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
-                    <PrivateRoute
-                      path="/edit-markup/:draftId/:language"
-                      component={EditMarkupPage}
-                    />
-                    <PrivateRoute path="/concept" component={ConceptPage} />
-                    <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
-                    <PrivateRoute path="/media" component={MediaPage} />
-                    <PrivateRoute path="/agreement" component={AgreementPage} />
-                    <PrivateRoute path="/film" component={NdlaFilm} />
-                    <PrivateRoute path="/h5p" component={H5PPage} />
-                    <PrivateRoute
-                      path="/structure/:subject?/:topic?/:subtopics(.*)?"
-                      component={StructurePage}
-                    />
-                    <Route path="/forbidden" component={ForbiddenPage} />
-                    <Route component={NotFoundPage} />
-                  </Switch>
-                </Content>
-                <Messages dispatch={dispatch} messages={messages} />
-              </PageContainer>
-            </SessionProvider>
-          </FirstLoadContext.Provider>
-        </LocaleContext.Provider>
+        <FirstLoadContext.Provider value={this.state.firstLoad}>
+          <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
+            <PageContainer background>
+              <Zendesk />
+              <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
+              <Content>
+                <Navigation />
+                <Switch>
+                  <Route path="/" exact component={WelcomePage} />
+                  <Route path="/login" component={Login} />
+                  <Route path="/logout" component={Logout} />
+                  <PrivateRoute path="/subjectpage" component={Subjectpage} />
+                  <PrivateRoute path="/search" component={SearchPage} />
+                  <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
+                  <PrivateRoute path="/edit-markup/:draftId/:language" component={EditMarkupPage} />
+                  <PrivateRoute path="/concept" component={ConceptPage} />
+                  <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
+                  <PrivateRoute path="/media" component={MediaPage} />
+                  <PrivateRoute path="/agreement" component={AgreementPage} />
+                  <PrivateRoute path="/film" component={NdlaFilm} />
+                  <PrivateRoute path="/h5p" component={H5PPage} />
+                  <PrivateRoute
+                    path="/structure/:subject?/:topic?/:subtopics(.*)?"
+                    component={StructurePage}
+                  />
+                  <Route path="/forbidden" component={ForbiddenPage} />
+                  <Route component={NotFoundPage} />
+                </Switch>
+              </Content>
+              <Messages dispatch={dispatch} messages={messages} />
+            </PageContainer>
+          </SessionProvider>
+        </FirstLoadContext.Provider>
       </ErrorBoundary>
     );
   }

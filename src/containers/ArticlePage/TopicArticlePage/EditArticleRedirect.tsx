@@ -6,12 +6,12 @@
  *
  */
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { Action, ActionFunction1 } from 'redux-actions';
 import EditTopicArticle from './EditTopicArticle';
-import { LocaleContext } from '../../App/App';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { License } from '../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
@@ -29,7 +29,8 @@ const EditArticleRedirect = ({
   applicationError,
   isNewlyCreated,
 }: Props) => {
-  const locale = useContext(LocaleContext);
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const { articleId } = match.params;
   const [supportedLanguage, setSupportedLanguage] = useState<string>();
 

@@ -6,11 +6,11 @@
  *
  */
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Redirect, Switch, RouteComponentProps } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Action, ActionFunction1 } from 'redux-actions';
 import EditLearningResource from './EditLearningResource';
-import { LocaleContext } from '../../App/App';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { License } from '../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
@@ -32,7 +32,8 @@ const EditResourceRedirect = ({
   createMessage,
   isNewlyCreated,
 }: Props) => {
-  const locale = useContext(LocaleContext);
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const { articleId } = match.params;
   const [supportedLanguage, setSupportedLanguage] = useState<string>();
 

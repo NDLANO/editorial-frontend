@@ -9,7 +9,7 @@
 import React from 'react';
 import nock from 'nock';
 import { render, fireEvent, cleanup, wait } from '@testing-library/react';
-import { RelatedArticleBox } from '../RelatedArticleBox';
+import RelatedArticleBox from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
 
 afterEach(cleanup);
@@ -17,12 +17,7 @@ afterEach(cleanup);
 const wrapper = () =>
   render(
     <IntlWrapper>
-      <RelatedArticleBox
-        t={() => 'injected'}
-        editor={{ setNodeByKey: () => {}, onChange: () => {} }}
-        locale="nb"
-        node={{}}
-      />
+      <RelatedArticleBox editor={{ setNodeByKey: () => {}, onChange: () => {} }} node={{}} />
     </IntlWrapper>,
   );
 

@@ -14,7 +14,6 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
-import { getLocale } from '../../modules/locale/locale';
 import CreateAudio from './CreateAudio';
 import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -26,9 +25,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state: ReduxState) => {
-  const locale = getLocale(state);
   return {
-    locale,
     licenses: getAllLicenses(state),
   };
 };
@@ -60,7 +57,8 @@ class AudioUploaderPage extends Component<Props, State> {
   }
 
   render() {
-    const { match, t, licenses, locale } = this.props;
+    const { match, t, licenses, i18n } = this.props;
+    const locale = i18n.language;
     return (
       <div>
         <OneColumn>

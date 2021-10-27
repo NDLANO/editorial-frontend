@@ -417,7 +417,6 @@ export interface BrightcoveEmbed {
   account: string;
   player: string;
   title: string;
-  url: string;
   metaData?: any;
 }
 

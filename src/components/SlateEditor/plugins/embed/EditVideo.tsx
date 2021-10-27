@@ -53,9 +53,7 @@ const EditVideo = ({
 }: Props) => {
   const [caption, setCaption] = useState(embed.caption || '');
   const [startTime, setStartTime] = useState(
-    embed.resource === 'brightcove'
-      ? getBrightCoveStartTime(embed.videoid)
-      : getStartTime(embed.url),
+    'videoid' in embed ? getBrightCoveStartTime(embed.videoid) : getStartTime(embed.url),
   );
   const [stopTime, setStopTime] = useState(
     embed.resource === 'external' ? getStopTime(embed.url) : '',
@@ -91,10 +89,6 @@ const EditVideo = ({
             videoid: addBrightCoveTimeStampVideoid(embed.videoid, startTime),
           }
         : {}),
-      url:
-        embed.resource === 'brightcove'
-          ? addBrightCovetimeStampSrc(src, startTime)
-          : addYoutubeTimeStamps(src, startTime, stopTime),
     });
     toggleEditModus();
   };

@@ -27,7 +27,6 @@ import {
   getBrightCoveStartTime,
   getYoutubeEmbedUrl,
 } from '../../../../util/videoUtil';
-import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
 import { ExternalEmbed, BrightcoveEmbed } from '../../../../interfaces';
 
 const videoStyle = css`
@@ -89,17 +88,14 @@ const SlateVideo = ({
 
   const getUrl = (getLinkedVideo: boolean) => {
     if (embed.resource === 'brightcove') {
-      const { account, videoid, player = 'default', url } = embed;
-      if (url && isBrightcoveUrl(url)) {
-        return url;
-      } else {
-        const startTime = getBrightCoveStartTime(videoid);
-        const id =
-          getLinkedVideo && linkedVideoId
-            ? addBrightCoveTimeStampVideoid(linkedVideoId, startTime)
-            : videoid;
-        return `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${id}`;
-      }
+      const { account, videoid, player = 'default' } = embed;
+
+      const startTime = getBrightCoveStartTime(videoid);
+      const id =
+        getLinkedVideo && linkedVideoId
+          ? addBrightCoveTimeStampVideoid(linkedVideoId, startTime)
+          : videoid;
+      return `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${id}`;
     } else if (embed.resource === 'external') {
       const { url } = embed;
       return url.includes('embed') ? url : getYoutubeEmbedUrl(url);
@@ -135,7 +131,6 @@ const SlateVideo = ({
               showLinkedVideo ? t('form.video.fromLinkedVideo') : t('form.video.toLinkedVideo')
             }
             align="right">
-            (
             <IconButton as={SafeLink} onClick={switchEmbedSource}>
               {t('form.video.linkedVideoButton')}
             </IconButton>
@@ -157,7 +152,7 @@ const SlateVideo = ({
             draggable
             style={{ paddingTop: '57%' }}
             {...figureClass}
-            id={'brightcove' === embed.resource ? embed.videoid || embed.url : embed.url}
+            id={'videoid' in embed ? embed.videoid : embed.url}
             resizeIframe
             css={
               showCopyOutline && {

@@ -17,7 +17,7 @@ import Tooltip from '@ndla/tooltip';
 
 import IconButton from '../../../components/IconButton';
 import { transformQuery } from '../../../util/searchHelpers';
-import { useSavedSearchUrl } from './savedSearchHook';
+import { useSavedSearchUrl } from '../hooks/savedSearchHook';
 
 interface Props {
   deleteSearch: Function;

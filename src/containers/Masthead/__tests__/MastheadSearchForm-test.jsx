@@ -22,14 +22,14 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
 
   const component = TestRenderer.create(
     <IntlWrapper>
-    <MastheadSearchForm
-      query=""
-      searching={false}
-      onSearchQuerySubmit={noop}
-      t={() => ''}
-      locale="nb"
-      history={historyMock}
-    />
+      <MastheadSearchForm
+        query=""
+        searching={false}
+        onSearchQuerySubmit={noop}
+        t={() => ''}
+        locale="nb"
+        history={historyMock}
+      />
     </IntlWrapper>,
   );
   const tree = component.toJSON();

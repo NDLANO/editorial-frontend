@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
-import ConceptForm from './ConceptForm';
+import ConceptForm from './ConceptForm/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { LicensesArrayOf } from '../../shapes';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
@@ -22,6 +22,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, ..
   const {
     concept,
     fetchSearchTags,
+    conceptArticles,
     fetchStatusStateMachine,
     loading,
     setConcept,
@@ -47,15 +48,17 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, ..
 
   return (
     <>
-      <HelmetWithTracker title={`${concept.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${concept.title.title} ${t('htmlTitles.titleTemplate')}`} />
       <ConceptForm
         concept={concept}
+        conceptArticles={conceptArticles}
         conceptChanged={conceptChanged}
         fetchConceptTags={fetchSearchTags}
         fetchStateStatuses={fetchStatusStateMachine}
         isNewlyCreated={isNewlyCreated}
         licenses={licenses}
         onUpdate={updateConcept}
+        language={selectedLanguage}
         subjects={subjects}
         translateToNN={translateToNN}
         translating={translating}

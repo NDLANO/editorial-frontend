@@ -15,14 +15,12 @@ import { Search } from '@ndla/icons/common';
 import debounce from 'lodash/debounce';
 import BEMHelper from 'react-bem-helper';
 import { RouteComponentProps, withRouter } from 'react-router';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
 import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
-import { LocaleContext, UserAccessContext } from '../App/App';
-import { LocaleType, SearchType } from '../../interfaces';
+import { SearchType } from '../../interfaces';
 import { ImageSearchResult } from '../../modules/image/imageApiInterfaces';
 import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
 import { AudioSearchResult, SeriesSearchResult } from '../../modules/audio/audioApiInterfaces';
@@ -47,23 +45,11 @@ interface BaseProps {
   searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
 }
 
-type Props = BaseProps & RouteComponentProps & { locale: LocaleType };
+type Props = BaseProps & RouteComponentProps;
 
-function withLocale<P>(
-  WrappedComponent: React.ComponentType<P & { locale: LocaleType }>,
-): React.ComponentType<P> {
-  const WithLocale = (props: P): React.ReactElement<P> => {
-    return (
-      <LocaleContext.Consumer>
-        {(locale: LocaleType) => <WrappedComponent {...{ ...props, locale }} />}
-      </LocaleContext.Consumer>
-    );
-  };
-  return hoistNonReactStatics(WithLocale, WrappedComponent);
-}
-
-const SearchContainer = ({ locale, searchHook, type, location, history }: Props) => {
-  const { t } = useTranslation();
+const SearchContainer = ({ searchHook, type, location, history }: Props) => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const { data: subjectData } = useSubjects(locale);
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
   const { data: results, isLoading: isSearching } = searchHook(searchObject);
@@ -104,52 +90,47 @@ const SearchContainer = ({ locale, searchHook, type, location, history }: Props)
     : 1;
 
   return (
-    <UserAccessContext.Consumer>
-      {userAccess => (
-        <>
-          <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
-          <OneColumn>
-            <div {...searchClasses('header')}>
-              <h2>
-                <Search className="c-icon--medium" />
-                {t(`searchPage.header.${type}`)}
-              </h2>
-              <SearchSaveButton />
-            </div>
-            <SearchForm
-              type={type}
-              search={onQueryPush}
-              searchObject={searchObject}
-              locale={locale}
-              subjects={subjects}
-            />
-            <SearchSort location={location} onSortOrderChange={onSortOrderChange} />
-            <SearchListOptions
-              type={type}
-              searchObject={searchObject}
-              totalCount={results?.totalCount}
-              search={onQueryPush}
-            />
-            <SearchList
-              searchObject={searchObject}
-              results={results?.results ?? []}
-              searching={isSearching}
-              type={type}
-              locale={locale}
-              subjects={subjects}
-              userAccess={userAccess}
-            />
-            <Pager
-              page={searchObject.page ?? 1}
-              lastPage={lastPage}
-              query={searchObject}
-              onClick={onQueryPush}
-            />
-          </OneColumn>
-        </>
-      )}
-    </UserAccessContext.Consumer>
+    <>
+      <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
+      <OneColumn>
+        <div {...searchClasses('header')}>
+          <h2>
+            <Search className="c-icon--medium" />
+            {t(`searchPage.header.${type}`)}
+          </h2>
+          <SearchSaveButton />
+        </div>
+        <SearchForm
+          type={type}
+          search={onQueryPush}
+          searchObject={searchObject}
+          locale={locale}
+          subjects={subjects}
+        />
+        <SearchSort location={location} onSortOrderChange={onSortOrderChange} />
+        <SearchListOptions
+          type={type}
+          searchObject={searchObject}
+          totalCount={results?.totalCount}
+          search={onQueryPush}
+        />
+        <SearchList
+          searchObject={searchObject}
+          results={results?.results ?? []}
+          searching={isSearching}
+          type={type}
+          locale={locale}
+          subjects={subjects}
+        />
+        <Pager
+          page={searchObject.page ?? 1}
+          lastPage={lastPage}
+          query={searchObject}
+          onClick={onQueryPush}
+        />
+      </OneColumn>
+    </>
   );
 };
 
-export default withRouter(withLocale(SearchContainer));
+export default withRouter(SearchContainer);

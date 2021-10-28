@@ -15,11 +15,10 @@ import LastUsedContent from './LastUsedContent';
 
 interface Props {
   lastUsed?: string[];
-  userAccess?: string;
   locale: LocaleType;
 }
 
-const LastUsedItems = ({ lastUsed, locale, userAccess }: Props) => {
+const LastUsedItems = ({ lastUsed, locale }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -29,14 +28,7 @@ const LastUsedItems = ({ lastUsed, locale, userAccess }: Props) => {
       </div>
       {lastUsed?.length ? (
         lastUsed.map((result: string) => {
-          return (
-            <LastUsedContent
-              key={result}
-              articleId={parseInt(result)}
-              locale={locale}
-              userAccess={userAccess}
-            />
-          );
+          return <LastUsedContent key={result} articleId={parseInt(result)} locale={locale} />;
         })
       ) : (
         <span>{t('welcomePage.emptyLastUsed')}</span>

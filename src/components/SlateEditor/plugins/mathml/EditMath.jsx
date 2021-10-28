@@ -7,10 +7,9 @@
  */
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import EditMathModal from './EditMathModal';
-import { getLocale } from '../../../../modules/locale/locale';
 
 const emptyMathTag = '<math xmlns="http://www.w3.org/1998/Math/MathML"/>';
 let mathEditor;
@@ -35,7 +34,8 @@ class EditMath extends Component {
     // force set state to trigger rerender.
     this.setState({});
     const { renderMathML } = this.state;
-    const { locale } = this.props;
+    const { i18n } = this.props;
+    const locale = i18n.language;
 
     const script = document.createElement('script');
     script.src = 'https://www.wiris.net/client/editor/editor';
@@ -103,7 +103,9 @@ class EditMath extends Component {
 }
 
 EditMath.propTypes = {
-  locale: PropTypes.string.isRequired,
+  i18n: PropTypes.shape({
+    language: PropTypes.string.isRequired,
+  }).isRequired,
   onExit: PropTypes.func,
   handleSave: PropTypes.func.isRequired,
   handleRemove: PropTypes.func.isRequired,
@@ -113,8 +115,4 @@ EditMath.propTypes = {
   }),
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default connect(mapStateToProps)(EditMath);
+export default withTranslation()(EditMath);

@@ -16,7 +16,7 @@ import {
   UpdatedDraftApiType,
 } from '../modules/draft/draftApiInterfaces';
 import { ArticleType, ConvertedDraftType, RelatedContent } from '../interfaces';
-import { ApiConceptType } from '../modules/concept/conceptApiInterfaces';
+import { ConceptApiType } from '../modules/concept/conceptApiInterfaces';
 import { ArticleTaxonomy } from '../containers/FormikForm/formikDraftHooks';
 import { fetchConcept } from '../modules/concept/conceptApi';
 import { fetchDraft } from '../modules/draft/draftApi';
@@ -47,7 +47,7 @@ export const transformArticleToApiVersion = (article: any): DraftApiType => ({
 
 const fetchConceptList = async (
   conceptIds: number[],
-): Promise<(ApiConceptType & { articleType: 'concept' })[]> => {
+): Promise<(ConceptApiType & { articleType: 'concept' })[]> => {
   const fetchedConcepts = Promise.all(
     conceptIds
       .filter(a => !!a)

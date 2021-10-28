@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
@@ -17,7 +17,6 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import SubNavigation from '../Masthead/components/SubNavigation';
 import { toSearch } from '../../util/routeHelpers';
 import { RoutePropTypes } from '../../shapes';
-import { LocaleContext } from './App';
 import SearchContainer, { ResultType } from '../SearchPage/SearchContainer';
 import { SearchType } from '../../interfaces';
 import { SearchParams } from '../SearchPage/components/form/SearchForm';
@@ -31,8 +30,8 @@ const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 interface Props extends RouteComponentProps {}
 
 const SearchPage = ({ match }: Props) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const supportedTypes: {
     title: string;
     type: SearchType;

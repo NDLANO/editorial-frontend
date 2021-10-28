@@ -5,26 +5,26 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
-import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
-import { NewPodcastMetaInformation } from '../../modules/audio/audioApiInterfaces';
+import { PodcastMetaInformationPost } from '../../modules/audio/audioApiInterfaces';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import { License } from '../../interfaces';
 import PodcastForm from './components/PodcastForm';
 
-interface Props {
-  history: RouteComponentProps['history'];
+interface Props extends RouteComponentProps {
   licenses: License[];
 }
 
 const CreatePodcast = ({ licenses, history }: Props) => {
-  const locale: string = useContext(LocaleContext);
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
 
   const onCreatePodcast = async (
-    newPodcast: NewPodcastMetaInformation,
+    newPodcast: PodcastMetaInformationPost,
     podcastFile: string | Blob | undefined,
   ) => {
     const formData = await createFormData(podcastFile, newPodcast);
@@ -36,10 +36,10 @@ const CreatePodcast = ({ licenses, history }: Props) => {
 
   return (
     <PodcastForm
-      audio={{ language: locale }}
       licenses={licenses}
       onUpdate={onCreatePodcast}
       isNewlyCreated={false}
+      language={locale}
     />
   );
 };

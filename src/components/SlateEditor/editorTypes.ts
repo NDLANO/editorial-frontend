@@ -52,7 +52,7 @@ export interface Article {
   supportedLanguages: Array<string>;
 }
 
-// Denne unionen er nødvendig for at FormFooter skal kunne bruke EditorFooter Når vi utvider til å bruke
+// Denne unionen er nødvendig for at ConceptFormFooter skal kunne bruke EditorFooter Når vi utvider til å bruke
 // ts flere steder EditorFooter brukes kan vi utvide denne unionen med en mer nøyaktig union av state machines.
 export type PossibleStatuses =
   | ConceptStatusStateMachineType

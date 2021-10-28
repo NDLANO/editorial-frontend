@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { useTranslation, WithTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
@@ -28,7 +28,7 @@ interface Props extends RouteComponentProps {
   locale: string;
 }
 
-const getModelReleasedValues = (t: WithTranslation['t']) => [
+const getModelReleasedValues = (t: TFunction) => [
   { id: 'yes', name: t('imageSearch.modelReleased.yes') },
   { id: 'not-applicable', name: t('imageSearch.modelReleased.not-applicable') },
   { id: 'no', name: t('imageSearch.modelReleased.no') },

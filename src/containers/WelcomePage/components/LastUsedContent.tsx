@@ -16,15 +16,16 @@ import { toEditArticle, toEditMarkup } from '../../../util/routeHelpers';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
 import { classes } from '../WelcomePage';
 import { useDraft } from '../../../modules/draft/draftQueries';
+import { useSession } from '../../Session/SessionProvider';
 
 interface Props {
   articleId: number;
   locale: string;
-  userAccess?: string;
 }
 
-const LastUsedContent = ({ articleId, locale, userAccess }: Props) => {
+const LastUsedContent = ({ articleId, locale }: Props) => {
   const { t } = useTranslation();
+  const { userAccess } = useSession();
 
   const { data: article } = useDraft(articleId, locale);
 

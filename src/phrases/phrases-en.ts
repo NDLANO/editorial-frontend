@@ -670,6 +670,7 @@ const phrases = {
     visualElement: {
       title: 'Add visual element',
       label: 'Visual element',
+      helpLabel: 'Information about visual element',
       video: 'Video search',
       image: 'Image search',
       imageUpload: 'Upload image',
@@ -1097,6 +1098,8 @@ const phrases = {
     minItems: '{{label}} must have at least one {{labelLowerCase}}.',
     minItems_plural: '{{label}} must have at least {{count}} unique {{labelLowerCase}}.',
     noEmptyNote: 'A note cannot be empty',
+    maxSizeExceeded:
+      'The file you are trying to upload is too large. Max size: {{maxSize}}. File size: {{fileSize}}.',
     grepCodes:
       'The code format is wrong. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
     podcastImageShape: 'A meta image must have equal height and width.',
@@ -1110,6 +1113,7 @@ const phrases = {
     invalidUrl: 'Invalid url',
     noArticleInProd: 'No article found in prod',
     taxonomy: 'There was a problem loading taxonomy',
+    errorWhenFetchingTaxonomyArticle: 'There was a problem fetching the underlying article',
     unsavedTaxonomy:
       'You have unsaved changes. Press cancel again if you are sure you want to continue.',
     auth0:
@@ -1191,6 +1195,11 @@ const phrases = {
     info: {
       title: 'Information',
       subTitle: 'Id and visibility for the element',
+      wrongArticleType:
+        'The article is placed as "{{placedAs}}" in the taxonomy, but the article is of "{{isType}}" type.',
+      wrongConnections: 'Bad connections',
+      wrongConnectionsSubTitle: 'This article has bad connections, see the list below.',
+      canBeFixedInDatabase: 'The article type can be changed in the database to fix the error.',
     },
     resource: {
       confirmDelete:

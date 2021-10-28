@@ -12,14 +12,13 @@ import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { ReduxImageState } from './modules/image/image';
 import { ReduxLicenseState } from './modules/license/license';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
-import { ReduxSessionState } from './modules/session/session';
 import { ReduxMessageState } from './containers/Messages/messagesSelectors';
-import { ReduxLocaleState } from './modules/locale/locale';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
-import { ApiConceptType } from './modules/concept/conceptApiInterfaces';
+import { ConceptApiType } from './modules/concept/conceptApiInterfaces';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
 import { DraftStatus } from './modules/draft/draftApiInterfaces';
 import { FootnoteType } from './containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
+import { ArticleTaxonomy } from './containers/FormikForm/formikDraftHooks';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
@@ -39,6 +38,12 @@ export type EditMode =
   | 'addExistingTopic'
   | 'addTopic'
   | 'deleteSubject';
+
+export interface FormikFormBaseType {
+  language: string;
+  supportedLanguages: string[];
+}
+
 export interface SearchResultBase<T> {
   totalCount: number;
   page?: number;
@@ -504,14 +509,12 @@ export interface License {
 export interface ReduxState {
   images: ReduxImageState;
   licenses: ReduxLicenseState;
-  session: ReduxSessionState;
   messages: ReduxMessageState;
-  locale: ReduxLocaleState;
 }
 
 export type SearchType = typeof SearchTypeValues[number];
 
-export interface ConvertedDraftType {
+export type ConvertedDraftType = {
   language?: string;
   title?: string;
   introduction?: string;
@@ -519,7 +522,7 @@ export interface ConvertedDraftType {
   content?: string;
   metaDescription?: string;
   tags: string[];
-  conceptIds: ApiConceptType[];
+  conceptIds: ConceptApiType[];
   relatedContent: (DraftApiType | RelatedContent)[];
   id?: number;
   oldNdlaUrl?: string | undefined;
@@ -538,7 +541,7 @@ export interface ConvertedDraftType {
   editorLabels: string[];
   grepCodes: string[];
   availability: AvailabilityType;
-}
+} & { taxonomy?: Partial<ArticleTaxonomy> };
 
 export interface SlateArticle {
   articleType: string;
@@ -561,7 +564,7 @@ export interface SlateArticle {
   tags: string[];
   title?: string;
   grepCodes: string[] | undefined;
-  conceptIds?: ApiConceptType[];
+  conceptIds?: ConceptApiType[];
   availability?: AvailabilityType;
   relatedContent: (DraftApiType | RelatedContent)[];
 }

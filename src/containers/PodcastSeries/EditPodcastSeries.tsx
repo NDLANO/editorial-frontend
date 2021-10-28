@@ -5,12 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useContext, useEffect, useState } from 'react';
-import { LocaleContext } from '../App/App';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as audioApi from '../../modules/audio/audioApi';
-import { transformSeries } from '../../util/audioHelpers';
 import Spinner from '../../components/Spinner';
-import { FlattenedPodcastSeries, NewPodcastSeries } from '../../modules/audio/audioApiInterfaces';
+import { PodcastSeriesApiType, PodcastSeriesPut } from '../../modules/audio/audioApiInterfaces';
 import PodcastSeriesForm from './components/PodcastSeriesForm';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -21,14 +20,14 @@ interface Props {
 }
 
 const EditPodcastSeries = ({ podcastSeriesId, podcastSeriesLanguage, isNewlyCreated }: Props) => {
-  const locale: string = useContext(LocaleContext);
-  const [podcastSeries, setPodcastSeries] = useState<FlattenedPodcastSeries | undefined>(undefined);
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
+  const [podcastSeries, setPodcastSeries] = useState<PodcastSeriesApiType | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const onUpdate = async (newSeries: NewPodcastSeries): Promise<void> => {
+  const onUpdate = async (newSeries: PodcastSeriesPut): Promise<void> => {
     const updatedSeries = await audioApi.updateSeries(podcastSeriesId, newSeries);
-    const transformed = transformSeries(updatedSeries, podcastSeriesLanguage);
-    setPodcastSeries(transformed);
+    setPodcastSeries(updatedSeries);
   };
 
   useEffect(() => {
@@ -36,8 +35,7 @@ const EditPodcastSeries = ({ podcastSeriesId, podcastSeriesLanguage, isNewlyCrea
       if (podcastSeriesId) {
         setLoading(true);
         const apiSeries = await audioApi.fetchSeries(podcastSeriesId, podcastSeriesLanguage);
-        const transformed = transformSeries(apiSeries, podcastSeriesLanguage);
-        setPodcastSeries(transformed);
+        setPodcastSeries(apiSeries);
         setLoading(false);
       }
     };
@@ -56,7 +54,8 @@ const EditPodcastSeries = ({ podcastSeriesId, podcastSeriesLanguage, isNewlyCrea
 
   return (
     <PodcastSeriesForm
-      podcastSeries={{ ...podcastSeries, language }}
+      podcastSeries={podcastSeries}
+      language={language}
       onUpdate={onUpdate}
       isNewlyCreated={isNewlyCreated}
     />

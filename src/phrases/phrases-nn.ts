@@ -693,6 +693,7 @@ const phrases = {
     visualElement: {
       title: 'Legg til visuelt element',
       label: 'Visuelt element',
+      helpLabel: 'Informasjon om visuelt element',
       video: 'Videosøk',
       image: 'Bildesøk',
       imageUpload: 'Last opp bilde',
@@ -1116,6 +1117,8 @@ const phrases = {
     minItems: '{{label}} feltet må minst inneholde ein/eitt {{labelLowerCase}}.',
     minItems_plural: '{{label}} feltet må minst inneholde {{count}} ulike {{labelLowerCase}}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
+    maxSizeExceeded:
+      'Filen du forsøkar å laste opp er for stor. Maksstorleik: {{maxSize}} MB. Filstorleik: {{fileSize}} MB.',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av eit eller fleire siffer. Eks. KE137, KM2255, TT2.',
     podcastImageShape: 'Metabilde må være like høgt som det er breitt.',
@@ -1129,6 +1132,8 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var eit problem ved lasting av taksonomi',
+    errorWhenFetchingTaxonomyArticle:
+      'Det var eit problem ved lasting av den underliggande artikkelen',
     unsavedTaxonomy: 'Du har ulagra endringar. Trykk avbryt igjen viss du ønsker å fortsette.',
     auth0:
       'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {{message}}',
@@ -1209,6 +1214,11 @@ const phrases = {
     info: {
       title: 'Informasjon',
       subTitle: 'Id og synlighet for elementet',
+      wrongArticleType:
+        'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
+      wrongConnections: 'Feilkoplingar',
+      wrongConnectionsSubTitle: 'Denne artikkelen har feilkoplingar, sjå lista under.',
+      canBeFixedInDatabase: 'Artikkeltypen kan endres i databasen for å fikse feilen.',
     },
     resource: {
       confirmDelete:

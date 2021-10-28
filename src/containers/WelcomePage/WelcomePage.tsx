@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useContext } from 'react';
+import React from 'react';
 import BEMHelper from 'react-bem-helper';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -17,10 +17,8 @@ import styled from '@emotion/styled';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-import { LocaleContext, UserAccessContext } from '../App/App';
 
 import SaveSearchUrl from './components/SaveSearchUrl';
-import { LocaleType } from '../../interfaces';
 import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
@@ -39,9 +37,8 @@ export const classes = new BEMHelper({
 });
 
 export const WelcomePage = () => {
-  const { t } = useTranslation();
-  const locale: LocaleType = useContext(LocaleContext);
-  const userAccess: string | undefined = useContext(UserAccessContext);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const { data } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
@@ -50,7 +47,7 @@ export const WelcomePage = () => {
   localStorage.setItem('lastPath', '');
 
   return (
-    <Fragment>
+    <>
       <ContentWrapper>
         <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
         <OneColumn>
@@ -62,7 +59,7 @@ export const WelcomePage = () => {
             <img {...classes('header-image')} src="/welcome-image.jpg" alt="illustration" />
           </div>
           <div {...classes('two-column')}>
-            <LastUsedItems locale={locale} userAccess={userAccess} lastUsed={lastUsed} />
+            <LastUsedItems locale={locale} lastUsed={lastUsed} />
             <div>
               <div {...classes('column-header')}>
                 <SearchFolder className="c-icon--medium" />
@@ -74,7 +71,7 @@ export const WelcomePage = () => {
         </OneColumn>
         <Footer showLocaleSelector />
       </ContentWrapper>
-    </Fragment>
+    </>
   );
 };
 

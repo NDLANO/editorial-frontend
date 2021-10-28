@@ -6,7 +6,7 @@
  */
 
 import React, { Component, ReactNode } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import Field from '../../../components/Field';
@@ -31,6 +31,7 @@ import {
 import { Author, Copyright } from '../../../interfaces';
 import ImageVersionNotes from './ImageVersionNotes';
 import Spinner from '../../../components/Spinner';
+import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 
 const imageRules: RulesType<ImageFormikType> = {
   title: {
@@ -56,6 +57,9 @@ const imageRules: RulesType<ImageFormikType> = {
   },
   imageFile: {
     required: true,
+  },
+  'imageFile.size': {
+    maxSize: MAX_IMAGE_UPLOAD_SIZE,
   },
   license: {
     required: true,
@@ -144,7 +148,7 @@ interface State {
   savedToServer: boolean;
 }
 
-class ImageForm extends Component<Props & WithTranslation, State> {
+class ImageForm extends Component<Props & CustomWithTranslation, State> {
   state = {
     savedToServer: false,
   };
@@ -230,7 +234,7 @@ class ImageForm extends Component<Props & WithTranslation, State> {
         validateOnMount
         enableReinitialize
         validate={values => validateFormik(values, imageRules, t)}>
-        {({ values, dirty, errors, isSubmitting, submitForm }) => {
+        {({ values, dirty, errors, isSubmitting, submitForm, isValid }) => {
           const formIsDirty = isFormikFormDirty({
             values,
             initialValues,
@@ -295,6 +299,7 @@ class ImageForm extends Component<Props & WithTranslation, State> {
                 )}
                 <SaveButton
                   isSaving={isSubmitting || isSaving}
+                  disabled={!isValid}
                   showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
                   formIsDirty={formIsDirty}
                   submit={!inModal}

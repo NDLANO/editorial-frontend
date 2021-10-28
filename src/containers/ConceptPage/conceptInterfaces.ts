@@ -8,20 +8,28 @@
 
 import { Value } from 'slate';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { VisualElement, Author, ArticleType } from '../../interfaces';
-import {
-  ConceptType,
-  FormValues,
-  StrippedConceptType,
-} from '../../modules/concept/conceptApiInterfaces';
+import { VisualElement, Author } from '../../interfaces';
+import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
+import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 
-export interface ConceptFormType extends ConceptType {
-  articles: ArticleType[];
-  revision?: string;
-}
-
-export interface ConceptFormValues extends StrippedConceptType, FormValues {
-  articles: ArticleType[];
+export interface ConceptFormValues {
+  id?: number;
+  language: string;
+  revision?: number;
+  status?: {
+    current: ConceptStatusType;
+    other: ConceptStatusType[];
+  };
+  visualElement?: string;
+  source?: string;
+  metaImage?: {
+    id?: string;
+    url?: string;
+    alt: string;
+    language?: string;
+  };
+  tags: string[];
+  articles: DraftApiType[];
   slatetitle: Value;
   conceptContent: Value;
   created?: string;
@@ -31,12 +39,8 @@ export interface ConceptFormValues extends StrippedConceptType, FormValues {
   metaImageId: string;
   processors: Author[];
   rightsholders: Author[];
-  source: string;
   subjects: SubjectType[];
   supportedLanguages: string[];
-  tags: string[];
-  updateCreated: boolean;
-  updated: string;
-  visualElementObject: VisualElement;
-  agreementId?: number;
+  updated?: string;
+  visualElementObject?: VisualElement;
 }

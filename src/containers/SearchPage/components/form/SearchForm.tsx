@@ -60,16 +60,16 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     'model-released': queryStringObject['model-released'],
     fallback: queryStringObject.fallback ? queryStringObject.fallback === 'true' : undefined,
     language: queryStringObject.language,
+    license: queryStringObject.license,
     page: queryStringObject.page ? parseInt(queryStringObject.page, 10) : undefined,
     'page-size': queryStringObject['page-size']
       ? parseInt(queryStringObject['page-size'], 10)
       : undefined,
+    sort: queryStringObject.sort,
     status: queryStringObject.status,
     subjects: queryStringObject.subjects,
-    users: queryStringObject.users,
-    sort: queryStringObject.sort,
     type: queryStringObject.type,
-    license: queryStringObject.license,
+    users: queryStringObject.users,
   };
 };
 

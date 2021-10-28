@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, fonts, spacing } from '@ndla/core';
+import { parse, stringify } from 'query-string';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
 import { getSavedSearchRelativeUrl } from '../WelcomePage/components/SaveSearchUrl';
@@ -30,6 +31,12 @@ const WarningText = styled.div`
   ${fonts.sizes(14, 1.1)};
   margin: ${spacing.xsmall} 0;
 `;
+
+const createSearchString = (location: Location) => {
+  const searchObject = parse(location.search);
+  searchObject.page && delete searchObject.page;
+  return location.pathname + '?' + stringify(searchObject);
+};
 
 const SearchSaveButton = () => {
   const { t } = useTranslation();
@@ -64,12 +71,13 @@ const SearchSaveButton = () => {
     setError('');
     setLoading(true);
     const oldSearchList = data?.savedSearches;
-    const newSearch = window.location.pathname + window.location.search;
 
     if (!oldSearchList) {
       handleFailure('fetchFailed');
       return;
     }
+
+    const newSearch = createSearchString(window.location);
 
     const newSearchList = [...oldSearchList, getSavedSearchRelativeUrl(newSearch)];
     if (!oldSearchList.find(s => s === getSavedSearchRelativeUrl(newSearch))) {
@@ -81,7 +89,7 @@ const SearchSaveButton = () => {
     }
   };
 
-  const currentSearch = window.location.pathname + window.location.search;
+  const currentSearch = createSearchString(window.location);
   const isSaved = savedSearches?.includes(getSavedSearchRelativeUrl(currentSearch));
 
   return (

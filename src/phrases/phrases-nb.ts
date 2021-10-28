@@ -693,6 +693,7 @@ const phrases = {
     visualElement: {
       title: 'Visuelt element',
       label: 'Visuelt element',
+      helpLabel: 'Informasjon om visuelt element',
       video: 'Videosøk',
       image: 'Bildesøk',
       imageUpload: 'Last opp bilde',
@@ -1110,6 +1111,8 @@ const phrases = {
     minItems: '{{label}} feltet må minst inneholde en/ett {{labelLowerCase}}.',
     minItems_plural: '{{label}} feltet må minst inneholde {{minItems}} ulike {{labelLowerCase}}',
     noEmptyNote: 'En merknad kan ikke være tom',
+    maxSizeExceeded:
+      'Filen du prøver å laste opp er for stor. Maksstørrelse: {{maxSize}}. Filstørrelse: {{fileSize}}.',
     grepCodes:
       'Koden er på feil format. Det korrekte formatet er K(E/M) eller TT fulgt av ett eller flere siffer. Eks. KE137, KM2255, TT2',
     podcastImageShape: 'Metabilde må være like høyt som det er bredt.',
@@ -1123,6 +1126,8 @@ const phrases = {
     invalidUrl: 'Ugyldig url',
     noArticleInProd: 'Ingen artikkel funnet i prod',
     taxonomy: 'Det var et problem ved lasting av taksonomi',
+    errorWhenFetchingTaxonomyArticle:
+      'Det var et problem ved lasting av den underliggende artikkelen',
     unsavedTaxonomy: 'Du har ulagrede endringer. Trykk avbryt igjen hvis du ønsker å fortsette.',
     auth0:
       'Autentiseringsfeil. Trykk avbryt for å ta vare på eventuelle endringer du har gjort før du logger inn på nytt. Følgende feilmelding kom fra auth0: {{message}}',
@@ -1203,6 +1208,11 @@ const phrases = {
     info: {
       title: 'Informasjon',
       subTitle: 'Id og synlighet for elementet',
+      wrongArticleType:
+        'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
+      wrongConnections: 'Feilkoblinger',
+      wrongConnectionsSubTitle: 'Denne artikkelen har feilkoblinger, se listen under.',
+      canBeFixedInDatabase: 'Artikkeltypen kan endres i databasen for å fikse feilen.',
     },
     resource: {
       confirmDelete:

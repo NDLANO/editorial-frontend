@@ -10,8 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { uuid } from '@ndla/util';
 import { withTranslation } from 'react-i18next';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import Types from 'slate-prop-types';
 import { css } from '@emotion/core';
 import { RelatedArticleList } from '@ndla/ui';
@@ -19,7 +17,6 @@ import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { queryResources } from '../../../../modules/taxonomy';
-import { getLocale } from '../../../../modules/locale/locale';
 import { EditorShape } from '../../../../shapes';
 import EditRelated from './EditRelated';
 import handleError from '../../../../util/handleError';
@@ -112,10 +109,10 @@ export class RelatedArticleBox extends React.Component {
 
   async fetchArticle(id) {
     try {
-      const { locale } = this.props;
+      const { i18n } = this.props;
       const [article, resource] = await Promise.all([
-        fetchDraft(id, locale),
-        queryResources(id, locale),
+        fetchDraft(id, i18n.language),
+        queryResources(id, i18n.language),
       ]);
       if (article) {
         return mapRelatedArticle(article, resource);
@@ -159,7 +156,8 @@ export class RelatedArticleBox extends React.Component {
   }
 
   render() {
-    const { attributes, onRemoveClick, locale, t } = this.props;
+    const { attributes, onRemoveClick, i18n, t } = this.props;
+    const locale = i18n.language;
     const { editMode, articles } = this.state;
 
     if (editMode) {
@@ -216,7 +214,9 @@ RelatedArticleBox.propTypes = {
   }),
   editor: EditorShape.isRequired,
   node: PropTypes.oneOfType([Types.node, PropTypes.shape({})]).isRequired,
-  locale: PropTypes.string.isRequired,
+  i18n: PropTypes.shape({
+    language: PropTypes.string.isRequired,
+  }).isRequired,
   onRemoveClick: PropTypes.func,
   embed: PropTypes.shape({
     resource: PropTypes.string,
@@ -225,8 +225,4 @@ RelatedArticleBox.propTypes = {
   }),
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-});
-
-export default compose(connect(mapStateToProps, null))(withTranslation()(RelatedArticleBox));
+export default withTranslation()(RelatedArticleBox);

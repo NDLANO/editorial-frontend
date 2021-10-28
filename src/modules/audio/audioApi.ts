@@ -15,12 +15,14 @@ import {
 } from '../../util/apiHelpers';
 import {
   AudioApiType,
+  AudioSearchParams,
   AudioSearchResult,
-  NewPodcastSeries,
+  PodcastSeriesPost,
   PodcastSeriesApiType,
   SeriesSearchParams,
   SeriesSearchResult,
   TagSearchResult,
+  PodcastSeriesPut,
 } from './audioApiInterfaces';
 
 const baseUrl = apiResourceUrl('/audio-api/v1/audio');
@@ -45,7 +47,7 @@ export const updateAudio = (id: number, formData: FormData): Promise<AudioApiTyp
     body: formData,
   }).then(r => resolveJsonOrRejectWithError<AudioApiType>(r));
 
-export const searchAudio = (query: object): Promise<AudioSearchResult> =>
+export const searchAudio = (query: AudioSearchParams): Promise<AudioSearchResult> =>
   fetchAuthorized(`${baseUrl}/?${queryString.stringify(query)}`).then(r =>
     resolveJsonOrRejectWithError<AudioSearchResult>(r),
   );
@@ -82,7 +84,7 @@ export const fetchSeries = (id: number, language: string): Promise<PodcastSeries
     resolveJsonOrRejectWithError<PodcastSeriesApiType>(r),
   );
 
-export const postSeries = (newSeries: NewPodcastSeries): Promise<PodcastSeriesApiType> =>
+export const postSeries = (newSeries: PodcastSeriesPost): Promise<PodcastSeriesApiType> =>
   fetchAuthorized(`${seriesBaseUrl}`, {
     method: 'POST',
     body: JSON.stringify(newSeries),
@@ -90,7 +92,7 @@ export const postSeries = (newSeries: NewPodcastSeries): Promise<PodcastSeriesAp
 
 export const updateSeries = (
   id: number,
-  newSeries: NewPodcastSeries,
+  newSeries: PodcastSeriesPut,
 ): Promise<PodcastSeriesApiType> =>
   fetchAuthorized(`${seriesBaseUrl}/${id}`, {
     method: 'PUT',

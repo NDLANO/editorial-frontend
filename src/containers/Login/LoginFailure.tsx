@@ -8,15 +8,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { ReduxState } from '../../interfaces';
+import { useSession } from '../Session/SessionProvider';
 
-interface Props {
-  userNotRegistered: boolean;
-}
-
-export const LoginFailure = ({ userNotRegistered }: Props) => {
+export const LoginFailure = () => {
   const { t } = useTranslation();
+  const { userNotRegistered } = useSession();
   return (
     <div>
       <h2>{t('loginFailure.errorMessage')}</h2>
@@ -28,8 +24,4 @@ export const LoginFailure = ({ userNotRegistered }: Props) => {
   );
 };
 
-const mapStateToProps = (state: ReduxState) => ({
-  userNotRegistered: state.session.userNotRegistered,
-});
-
-export default connect(mapStateToProps)(LoginFailure);
+export default LoginFailure;

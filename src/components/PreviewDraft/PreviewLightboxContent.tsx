@@ -13,8 +13,9 @@ import Spinner from '../Spinner';
 import PreviewProduction from './PreviewProduction';
 import PreviewLanguage from './PreviewLanguage';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
-import { ConceptType } from '../../modules/concept/conceptApiInterfaces';
 import { ArticleType, TypeOfPreview } from '../../interfaces';
+import { ConceptPreviewType } from '../PreviewConcept/PreviewConceptLightbox';
+import { createArrayGuard } from '../../util/guards';
 
 interface StyledProps {
   contentType?: string;
@@ -28,8 +29,8 @@ const StyledPreviewSingleArticle = styled.div<StyledProps>`
 `;
 
 interface Props {
-  firstEntity: ArticleConverterApiType | ConceptType;
-  secondEntity: ArticleConverterApiType | ConceptType;
+  firstEntity: ArticleConverterApiType | ConceptPreviewType;
+  secondEntity: ArticleConverterApiType | ConceptPreviewType;
   loading?: boolean;
   typeOfPreview: TypeOfPreview;
   label: string;
@@ -37,17 +38,13 @@ interface Props {
   previewLanguage: string;
   contentType?: string;
   getEntityPreview: (
-    entity: ArticleType | ConceptType,
+    entity: ArticleType | ConceptPreviewType,
     label: string,
     contentType?: string,
   ) => React.ReactNode;
 }
 
-const isArticleArray = (
-  entities: (ArticleConverterApiType | ConceptType)[],
-): entities is ArticleConverterApiType[] => {
-  return entities.every(e => (e as ArticleConverterApiType).agreementId !== undefined);
-};
+const isArticleArray = createArrayGuard<ArticleConverterApiType>('availability');
 
 const PreviewLightboxContent = ({
   firstEntity,

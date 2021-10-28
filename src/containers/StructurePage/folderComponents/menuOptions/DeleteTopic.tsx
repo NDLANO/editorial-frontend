@@ -7,7 +7,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
@@ -38,13 +38,13 @@ interface State {
 interface BaseProps {
   editMode: string;
   toggleEditMode: (mode: EditMode) => void;
-  parent: string;
+  parent?: string;
   id: string;
   refreshTopics: () => Promise<void>;
   locale: string;
 }
 
-type Props = BaseProps & WithTranslation;
+type Props = BaseProps & CustomWithTranslation;
 
 class DeleteTopic extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -63,7 +63,7 @@ class DeleteTopic extends PureComponent<Props, State> {
     const { parent, toggleEditMode, refreshTopics, t, id, locale } = this.props;
     toggleEditMode('deleteTopic');
     this.setState({ loading: true, error: '' });
-    const subTopic = parent.includes('topic');
+    const subTopic = parent?.includes('topic');
     const [{ connectionId }] = await fetchTopicConnections(id);
     try {
       if (subTopic) {

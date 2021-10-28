@@ -6,23 +6,20 @@
  *
  */
 
-import React, { FormEvent, Fragment, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
-import Button from '@ndla/button';
 import { RouteComponentProps } from 'react-router-dom';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
-import ObjectSelector from '../../../../components/ObjectSelector';
-import SearchTagGroup from './SearchTagGroup';
 import ArticleStatuses from '../../../../util/constants/index';
-import { searchFormClasses, SearchParams } from './SearchForm';
+import { SearchParams } from './SearchForm';
 import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { MinimalTagType } from './SearchTag';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
+import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -38,13 +35,6 @@ export interface SearchState extends Record<string, string> {
   query: string;
   users: string;
   language: string;
-}
-
-interface SelectFieldsType {
-  name: keyof SearchParams;
-  label: string;
-  width: number;
-  options: any;
 }
 
 const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
@@ -74,11 +64,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       name === 'draft-status' ? (value === 'HAS_PUBLISHED' ? 'PUBLISHED' : value) : search.status;
 
     const searchObj = { ...search, 'include-other-statuses': includeOtherStatuses, [name]: value };
-    doSearch(
-      name !== 'draft-status'
-        ? searchObj
-        : { ...searchObj, 'draft-status': status, fallback: false },
-    );
+    doSearch(name !== 'draft-status' ? searchObj : { ...searchObj, 'draft-status': status });
   };
 
   const handleSearch = () => {
@@ -116,110 +102,51 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     return (a: Sortable, b: Sortable) => a[property]?.localeCompare(b[property]);
   };
 
-  const selectFields: SelectFieldsType[] = [
+  const selectors: SearchFormSelector[] = [
     {
-      name: 'subjects',
-      label: 'subjects',
+      name: getTagName(search.subjects, subjects),
+      type: 'subjects',
       width: 25,
       options: subjects.sort(sortByProperty('name')),
     },
     {
-      name: 'resource-types',
-      label: 'resourceTypes',
+      name: getTagName(search['resource-types'], resourceTypes),
+      type: 'resource-types',
       width: 25,
       options: resourceTypes!.sort(sortByProperty('name')),
     },
     {
-      name: 'draft-status',
-      label: 'status',
+      name: getTagName(search['draft-status'], getDraftStatuses()),
+      type: 'draft-status',
       width: 25,
       options: getDraftStatuses().sort(sortByProperty('name')),
     },
     {
-      name: 'users',
-      label: 'users',
+      name: getTagName(search.users, users),
+      type: 'users',
       width: 25,
       options: users!.sort(sortByProperty('name')),
     },
     {
-      name: 'language',
-      label: 'language',
+      name: getTagName(search.language, getResourceLanguages(t)),
+      type: 'language',
       width: 25,
       options: getResourceLanguages(t),
     },
   ];
 
-  const tagTypes = [
-    {
-      type: 'query',
-      id: search.query!,
-      name: search.query,
-    },
-    ...selectFields.map(field => ({
-      type: field.label,
-      id: `${search[field.name]}`,
-      name: getTagName(search[field.name], field.options),
-    })),
-  ];
-
   return (
-    <Fragment>
-      <form
-        onSubmit={evt => {
-          evt.preventDefault();
-          handleSearch();
-        }}
-        {...searchFormClasses()}>
-        <div {...searchFormClasses('field', '50-width')}>
-          <input
-            name="query"
-            value={queryInput}
-            placeholder={t('searchForm.types.contentQuery')}
-            onChange={onInputChange}
-          />
-        </div>
-
-        {selectFields.map(selectField => (
-          <div
-            key={`searchfield_${selectField.name}`}
-            {...searchFormClasses('field', `${selectField.width}-width`)}>
-            <ObjectSelector
-              name={selectField.name}
-              options={selectField.options}
-              idKey="id"
-              // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
-              // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
-              value={search[selectField.name] as string}
-              labelKey="name"
-              emptyField
-              placeholder={t(`searchForm.types.${selectField.label}`)}
-              onChange={onFieldChange}
-            />
-          </div>
-        ))}
-        <div {...searchFormClasses('field', '25-width')}>
-          <Button
-            css={css`
-              margin-right: 1%;
-              width: 49%;
-            `}
-            onClick={emptySearch}
-            outline>
-            {t('searchForm.empty')}
-          </Button>
-          <Button
-            css={css`
-              width: 49%;
-            `}
-            submit>
-            {t('searchForm.btn')}
-          </Button>
-        </div>
-        <div {...searchFormClasses('tagline')}>
-          <SearchTagGroup onRemoveItem={removeTagItem} tagTypes={tagTypes} />
-        </div>
-      </form>
-    </Fragment>
+    <GenericSearchForm
+      type="content"
+      selectors={selectors}
+      query={queryInput}
+      onQueryChange={onInputChange}
+      onSubmit={handleSearch}
+      searchObject={search}
+      onFieldChange={onFieldChange}
+      emptySearch={emptySearch}
+      removeTag={removeTagItem}
+    />
   );
 };
 

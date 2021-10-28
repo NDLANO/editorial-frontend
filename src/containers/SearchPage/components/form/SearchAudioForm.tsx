@@ -8,18 +8,15 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '@ndla/button';
-import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { getLicensesWithTranslations } from '../../../../util/licenseHelpers';
-import ObjectSelector from '../../../../components/ObjectSelector';
-import SearchTagGroup from './SearchTagGroup';
-import { searchFormClasses, SearchParams } from './SearchForm';
+import { SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { MinimalTagType } from './SearchTag';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
+import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -88,97 +85,37 @@ const SearchAudioForm = ({
     { id: 'podcast', name: t('searchForm.audioType.podcast') },
   ];
 
-  const tagTypes = [
+  const selectors: SearchFormSelector[] = [
     {
-      type: 'query',
-      id: search.query!,
-      name: search.query,
-    },
-    {
-      type: 'language',
-      id: search.language!,
-      name: getTagName(search.language, getResourceLanguages(t)),
-    },
-    {
-      type: 'audioType',
-      id: search['audio-type']!,
+      type: 'audio-type',
       name: getTagName(search['audio-type'], getAudioTypes()),
+      options: getAudioTypes(),
     },
     {
       type: 'license',
-      id: search.license!,
       name: getTagName(search.license, licenses),
+      options: licenses ?? [],
+    },
+    {
+      type: 'language',
+      name: getTagName(search.language, getResourceLanguages(t)),
+      options: getResourceLanguages(t),
+      width: 25,
     },
   ];
 
   return (
-    <form onSubmit={handleSearch} {...searchFormClasses()}>
-      <div {...searchFormClasses('field', '50-width')}>
-        <input
-          name="query"
-          placeholder={t('searchForm.types.audioQuery')}
-          value={queryInput}
-          onChange={onInputChange}
-        />
-      </div>
-      <div {...searchFormClasses('field', '50-width')}>
-        <ObjectSelector
-          name="audio-type"
-          value={search['audio-type'] ?? ''}
-          options={getAudioTypes()}
-          idKey="id"
-          labelKey="name"
-          emptyField
-          onChange={onFieldChange}
-          placeholder={t('searchForm.types.audio')}
-        />
-      </div>
-      <div {...searchFormClasses('field', '50-width')}>
-        <ObjectSelector
-          name="license"
-          value={search.license ?? ''}
-          options={licenses!}
-          idKey="id"
-          labelKey="name"
-          emptyField
-          onChange={onFieldChange}
-          placeholder={t('searchForm.types.license')}
-        />
-      </div>
-      <div {...searchFormClasses('field', '25-width')}>
-        <ObjectSelector
-          name="language"
-          value={search.language ?? ''}
-          options={getResourceLanguages(t)}
-          idKey="id"
-          labelKey="name"
-          emptyField
-          onChange={onFieldChange}
-          placeholder={t('searchForm.types.language')}
-        />
-      </div>
-      <div {...searchFormClasses('field', '25-width')}>
-        <Button
-          css={css`
-            margin-right: 1%;
-            width: 49%;
-          `}
-          onClick={emptySearch}
-          outline>
-          {t('searchForm.empty')}
-        </Button>
-        <Button
-          css={css`
-            width: 49%;
-          `}
-          submit>
-          {t('searchForm.btn')}
-        </Button>
-      </div>
-      <div {...searchFormClasses('tagline')}>
-        <SearchTagGroup onRemoveItem={removeTagItem} tagTypes={tagTypes} />
-      </div>
-    </form>
+    <GenericSearchForm
+      type="audio"
+      selectors={selectors}
+      query={queryInput}
+      onQueryChange={onInputChange}
+      onSubmit={handleSearch}
+      searchObject={search}
+      onFieldChange={onFieldChange}
+      emptySearch={emptySearch}
+      removeTag={removeTagItem}
+    />
   );
 };
 

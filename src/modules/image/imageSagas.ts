@@ -10,7 +10,6 @@ import { take, call, put, select } from 'redux-saga/effects';
 import { RouteComponentProps } from 'react-router-dom';
 import { actions, getImageById, ImageApiTypeRedux } from './image';
 import * as api from './imageApi';
-import * as messageActions from '../../containers/Messages/messagesActions';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditImage } from '../../util/routeHelpers';
 import { ImageApiType, NewImageMetadata, UpdatedImageMetadata } from './imageApiInterfaces';
@@ -44,14 +43,12 @@ export function* updateImage(image: UpdatedImageMetadata, file: string | Blob) {
       const updatedImage: ImageApiType = yield call(api.patchImage, Number(image.id), formData);
       yield put(actions.setImage({ ...updatedImage, language: image.language }));
       yield put(actions.updateImageSuccess());
-      yield put(messageActions.showSaved());
     } else {
       yield put(actions.updateImageError());
     }
   } catch (error) {
     yield put(actions.updateImageError());
     // TODO: handle error
-    yield put(messageActions.applicationError(error));
   }
 }
 
@@ -70,14 +67,12 @@ export function* createImage(
         uploadedImage: createdImage,
       }),
     );
-    yield put(messageActions.showSaved());
     if (!editingArticle) {
       history.push(toEditImage(createdImage.id, image.language));
     }
   } catch (error) {
     yield put(actions.updateImageError());
     // TODO: handle error
-    yield put(messageActions.applicationError(error));
   }
 }
 

@@ -11,8 +11,7 @@ import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
-import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
-import { NewReduxMessage } from '../../../Messages/messagesSelectors';
+import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
 
@@ -23,8 +22,6 @@ interface Props extends RouteComponentProps {
   formIsDirty: boolean;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: () => UpdatedDraftApiType;
-  licenses: License[];
-  createMessage: (message: NewReduxMessage) => void;
   getInitialValues: (article: Partial<ConvertedDraftType>) => TopicArticleFormikType;
 }
 
@@ -34,9 +31,7 @@ const TopicArticleAccordionPanels = ({
   article,
   formIsDirty,
   updateNotes,
-  licenses,
   history,
-  createMessage,
   getInitialValues,
   getArticle,
 }: Props) => {
@@ -75,7 +70,7 @@ const TopicArticleAccordionPanels = ({
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }>
-        <CopyrightFieldGroup values={values} licenses={licenses} />
+        <CopyrightFieldGroup values={values} />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-metadata'}
@@ -109,7 +104,6 @@ const TopicArticleAccordionPanels = ({
           <VersionAndNotesPanel
             article={article}
             articleId={values.id}
-            createMessage={createMessage}
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}

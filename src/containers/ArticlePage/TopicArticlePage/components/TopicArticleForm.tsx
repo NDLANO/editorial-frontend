@@ -11,8 +11,6 @@ import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
-
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -42,14 +40,14 @@ import {
 } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
-import { ConvertedDraftType, License } from '../../../../interfaces';
+import { ConvertedDraftType } from '../../../../interfaces';
 import {
   DraftStatus,
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
 import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
+import { useLicenses } from '../../../Licenses/LicensesProvider';
 
 export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
@@ -112,8 +110,6 @@ interface Props extends RouteComponentProps {
   article: Partial<ConvertedDraftType>;
   revision?: number;
   updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   articleStatus?: DraftStatus;
   articleChanged: boolean;
   updateArticleAndStatus?: (input: {
@@ -123,7 +119,6 @@ interface Props extends RouteComponentProps {
   }) => Promise<ConvertedDraftType>;
   translating: boolean;
   translateToNN?: () => void;
-  licenses: License[];
   isNewlyCreated: boolean;
 }
 
@@ -135,12 +130,10 @@ const TopicArticleForm = (props: Props) => {
     articleChanged,
     translating,
     translateToNN,
-    licenses,
     isNewlyCreated,
-    createMessage,
-    applicationError,
     articleStatus,
   } = props;
+  const { licenses } = useLicenses();
 
   const { t } = useTranslation();
 
@@ -215,8 +208,6 @@ const TopicArticleForm = (props: Props) => {
     licenses,
     getArticleFromSlate,
     isNewlyCreated,
-    createMessage,
-    applicationError,
   });
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
@@ -257,11 +248,9 @@ const TopicArticleForm = (props: Props) => {
             article={article}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
             handleSubmit={async () => handleSubmit(values, formik)}
-            createMessage={createMessage}
           />
         )}
         <EditorFooter
@@ -278,7 +267,6 @@ const TopicArticleForm = (props: Props) => {
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          createMessage={createMessage}
           isConcept={false}
           hideSecondaryButton={false}
         />

@@ -10,9 +10,8 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
+import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
 import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
-import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
 
@@ -24,9 +23,7 @@ interface Props extends RouteComponentProps {
   ) => Promise<void>;
   article: Partial<ConvertedDraftType>;
   formIsDirty: boolean;
-  createMessage: (message: NewReduxMessage) => void;
   getInitialValues: (article: Partial<ConvertedDraftType>) => LearningResourceFormikType;
-  licenses: License[];
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
 }
@@ -35,10 +32,8 @@ const LearningResourcePanels = ({
   fetchSearchTags,
   article,
   updateNotes,
-  licenses,
   getArticle,
   getInitialValues,
-  createMessage,
   history,
   formIsDirty,
   handleSubmit,
@@ -83,7 +78,7 @@ const LearningResourcePanels = ({
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }>
-        <CopyrightFieldGroup values={values} licenses={licenses} />
+        <CopyrightFieldGroup values={values} />
       </AccordionSection>
       <AccordionSection
         id={'learning-resource-metadata'}
@@ -117,7 +112,6 @@ const LearningResourcePanels = ({
           <VersionAndNotesPanel
             article={article}
             articleId={values.id}
-            createMessage={createMessage}
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}

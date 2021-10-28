@@ -12,14 +12,11 @@ import * as audioApi from '../../modules/audio/audioApi';
 import { PodcastMetaInformationPost } from '../../modules/audio/audioApiInterfaces';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
-import { License } from '../../interfaces';
 import PodcastForm from './components/PodcastForm';
 
-interface Props extends RouteComponentProps {
-  licenses: License[];
-}
+interface Props extends RouteComponentProps {}
 
-const CreatePodcast = ({ licenses, history }: Props) => {
+const CreatePodcast = ({ history }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
 
@@ -34,14 +31,7 @@ const CreatePodcast = ({ licenses, history }: Props) => {
     }
   };
 
-  return (
-    <PodcastForm
-      licenses={licenses}
-      onUpdate={onCreatePodcast}
-      isNewlyCreated={false}
-      language={locale}
-    />
-  );
+  return <PodcastForm onUpdate={onCreatePodcast} isNewlyCreated={false} language={locale} />;
 };
 
 export default CreatePodcast;

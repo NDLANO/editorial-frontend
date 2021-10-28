@@ -15,16 +15,14 @@ import PodcastForm from './components/PodcastForm';
 import Spinner from '../../components/Spinner';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import { PodcastMetaInformationPut, AudioApiType } from '../../modules/audio/audioApiInterfaces';
-import { License } from '../../interfaces';
 
 interface Props {
-  licenses: License[];
   podcastId: number;
   podcastLanguage: string;
   isNewlyCreated: boolean;
 }
 
-const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: Props) => {
+const EditPodcast = ({ podcastId, podcastLanguage, isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const [podcast, setPodcast] = useState<AudioApiType | undefined>(undefined);
@@ -80,7 +78,6 @@ const EditPodcast = ({ licenses, podcastId, podcastLanguage, isNewlyCreated }: P
       audio={podcast}
       language={language}
       podcastChanged={podcastChanged}
-      licenses={licenses}
       onUpdate={onUpdate}
       isNewlyCreated={isNewlyCreated}
       translating={translating}

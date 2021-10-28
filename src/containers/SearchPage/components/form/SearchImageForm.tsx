@@ -61,10 +61,7 @@ const SearchImageForm = ({
     doSearch({ ...search, [name]: value });
   };
 
-  const handleSearch = (evt?: React.SyntheticEvent) => {
-    evt?.preventDefault();
-    doSearch({ ...search, page: 1 });
-  };
+  const handleSearch = () => doSearch({ ...search, page: 1 });
 
   const removeTagItem = (tag: MinimalTagType) => {
     if (tag.type === 'query') setQueryInput('');

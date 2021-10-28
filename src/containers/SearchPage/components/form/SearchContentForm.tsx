@@ -75,9 +75,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     doSearch(name !== 'draft-status' ? searchObj : { ...searchObj, 'draft-status': status });
   };
 
-  const handleSearch = () => {
-    doSearch({ ...search, fallback: false, page: 1 });
-  };
+  const handleSearch = () => doSearch({ ...search, fallback: false, page: 1 });
 
   const removeTagItem = (tag: MinimalTagType) => {
     if (tag.type === 'query') setQueryInput('');

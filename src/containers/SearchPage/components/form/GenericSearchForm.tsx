@@ -20,7 +20,7 @@ interface Props {
   query: string;
   searchObject: SearchParams;
   onQueryChange: (event: React.FormEvent<HTMLInputElement>) => void;
-  onSubmit: (evt?: React.SyntheticEvent) => void;
+  onSubmit: () => void;
   onFieldChange: (evt: React.FormEvent<HTMLSelectElement>) => void;
   emptySearch: (evt: React.MouseEvent<HTMLButtonElement>) => void;
   removeTag: (tag: MinimalTagType) => void;
@@ -40,7 +40,7 @@ const GenericSearchForm = ({
   const { t } = useTranslation();
   const tags = [{ type: 'query', name: query }, ...selectors];
   return (
-    <form onSubmit={onSubmit} {...searchFormClasses()}>
+    <form onSubmit={e => e.preventDefault()} {...searchFormClasses()}>
       <div {...searchFormClasses('field', '50-width')}>
         <input
           name="query"
@@ -78,10 +78,10 @@ const GenericSearchForm = ({
           {t('searchForm.empty')}
         </Button>
         <Button
+          onClick={onSubmit}
           css={css`
             width: 49%;
-          `}
-          submit>
+          `}>
           {t('searchForm.btn')}
         </Button>
       </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Launch } from '@ndla/icons/common';
@@ -8,6 +7,7 @@ import { colors, spacing, animations } from '@ndla/core';
 import { Camera, Concept, H5P, Taxonomy } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
 import { Audio, Podcast } from '@ndla/icons/common';
+//@ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import StyledListButton from '../../../components/StyledListButton';
 import config from '../../../config';
@@ -22,7 +22,11 @@ import {
   toEditNdlaFilm,
 } from '../../../util/routeHelpers';
 
-const OpenMenu = ({ close }) => {
+interface Props {
+  close: () => void;
+}
+
+const OpenMenu = ({ close }: Props) => {
   const { t } = useTranslation();
   const StyledLink = StyledListButton.withComponent(Link);
   const StyledHrefLink = StyledListButton.withComponent('a');
@@ -128,9 +132,5 @@ const StyledMenuContainer = styled.div`
     }
   }
 `;
-
-OpenMenu.propTypes = {
-  close: PropTypes.func,
-};
 
 export default OpenMenu;

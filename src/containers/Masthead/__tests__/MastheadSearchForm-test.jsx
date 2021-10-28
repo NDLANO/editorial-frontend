@@ -11,6 +11,7 @@ import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import { MastheadSearchForm } from '../components/MastheadSearchForm';
 import { taxonomyApi } from '../../../config';
+import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 const noop = () => {};
 
@@ -20,6 +21,7 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
   };
 
   const component = TestRenderer.create(
+    <IntlWrapper>
     <MastheadSearchForm
       query=""
       searching={false}
@@ -27,7 +29,8 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
       t={() => ''}
       locale="nb"
       history={historyMock}
-    />,
+    />
+    </IntlWrapper>,
   );
   const tree = component.toJSON();
   const e = {

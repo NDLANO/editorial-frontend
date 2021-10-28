@@ -7,17 +7,24 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import MastheadSearchForm from './components/MastheadSearchForm';
 import { toSearch } from '../../util/routeHelpers';
-import { HistoryShape, LocationShape } from '../../shapes';
 import { SearchTypeValues } from '../../constants';
 import { parseSearchParams } from '../SearchPage/components/form/SearchForm';
+import { SearchType } from '../../interfaces';
 
-class MastheadSearch extends Component {
-  static getDerivedStateFromProps(props, state) {
+interface Props extends RouteComponentProps {
+  close: () => void;
+}
+
+interface State {
+  query?: string;
+}
+
+class MastheadSearch extends Component<Props, State> {
+  static getDerivedStateFromProps(props: Props, state: State) {
     const { location } = props;
     const { query } = state;
     const propsQuery = queryString.parse(location.search).query;
@@ -27,19 +34,20 @@ class MastheadSearch extends Component {
     return null;
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       query: undefined,
     };
   }
 
-  onSearchQuerySubmit = searchQuery => {
+  onSearchQuerySubmit = (searchQuery: string) => {
     const { location, history, close } = this.props;
 
     const type =
-      location.pathname.split('/').find(pathValue => SearchTypeValues.includes(pathValue)) ||
-      'content';
+      location.pathname
+        .split('/')
+        .find(pathValue => SearchTypeValues.includes(pathValue as SearchType)) || 'content';
 
     let oldParams;
     if (type === 'content') {
@@ -52,8 +60,8 @@ class MastheadSearch extends Component {
       ...oldParams,
       query: searchQuery || undefined,
       page: 1,
-      sort: searchQuery.sort || '-lastUpdated',
-      'page-size': searchQuery['page-size'] || 10,
+      sort: '-lastUpdated',
+      'page-size': 10,
     };
 
     history.push(toSearch(newParams, type));
@@ -70,11 +78,5 @@ class MastheadSearch extends Component {
     );
   }
 }
-
-MastheadSearch.propTypes = {
-  location: LocationShape,
-  history: HistoryShape,
-  close: PropTypes.func,
-};
 
 export default withRouter(MastheadSearch);

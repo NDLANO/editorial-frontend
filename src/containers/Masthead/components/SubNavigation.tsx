@@ -1,15 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter, NavLink, RouteComponentProps } from 'react-router-dom';
 import { classes } from './Navigation';
-import { LocationShape } from '../../../shapes';
+import { SearchType } from '../../../interfaces';
+import { SearchParams } from '../../SearchPage/components/form/SearchForm';
+import { ResultType } from '../../SearchPage/SearchContainer';
+
+interface SubType {
+  title: string;
+  type: SearchType;
+  url: string;
+  icon: React.ReactElement;
+  path: string;
+  searchFunction: (query: SearchParams) => Promise<ResultType>;
+}
 
 const colorType = {
   media: 'brand-color',
   'subject-matter': 'article-color',
 };
 
-const isCurrentTab = (match, location, subtype) => {
+const isCurrentTab = (location: RouteComponentProps['location'], subtype: SubType) => {
   const locations = location && location.pathname ? location.pathname.split('/') : [];
   if (locations.length > 2 && locations[2] === subtype.type) {
     return true;
@@ -17,7 +27,7 @@ const isCurrentTab = (match, location, subtype) => {
   return false;
 };
 
-const SubNavigation = ({ subtypes, type, match, location }) => (
+const SubNavigation = ({ subtypes, type, match, location }: Props) => (
   <div {...classes('container', colorType[type])}>
     <div {...classes('items')}>
       {subtypes.map(subtype => (
@@ -25,7 +35,7 @@ const SubNavigation = ({ subtypes, type, match, location }) => (
           key={`typemenu_${subtype.type}`}
           id={subtype.type}
           to={subtype.url}
-          isActive={() => isCurrentTab(match, location, subtype)}
+          isActive={() => isCurrentTab(location, subtype)}
           {...classes('item')}
           activeClassName="c-navigation__item--active">
           {subtype.icon}
@@ -36,20 +46,9 @@ const SubNavigation = ({ subtypes, type, match, location }) => (
   </div>
 );
 
-SubNavigation.propTypes = {
-  subtypes: PropTypes.arrayOf(
-    PropTypes.shape({
-      url: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      icon: PropTypes.node.isRequired,
-    }),
-  ),
-  type: PropTypes.string.isRequired,
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }).isRequired,
-  location: LocationShape,
-};
+interface Props extends RouteComponentProps {
+  type: 'media';
+  subtypes: SubType[];
+}
 
 export default withRouter(SubNavigation);

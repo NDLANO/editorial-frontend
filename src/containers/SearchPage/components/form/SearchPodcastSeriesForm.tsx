@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
@@ -33,6 +33,13 @@ const SearchAudioForm = ({
 }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
+
+  useEffect(() => {
+    if (search.query !== queryInput) {
+      setQueryInput(search.query ?? '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search.query]);
 
   const onInputChange = (evt: React.FormEvent<HTMLInputElement>) => {
     setQueryInput(evt.currentTarget.value);

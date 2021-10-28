@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
@@ -50,6 +50,13 @@ const SearchImageForm = ({
       })),
     placeholderData: [],
   });
+
+  useEffect(() => {
+    if (search.query !== queryInput) {
+      setQueryInput(search.query ?? '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search.query]);
 
   const onInputChange = (evt: React.FormEvent<HTMLInputElement>) => {
     setQueryInput(evt.currentTarget.value);

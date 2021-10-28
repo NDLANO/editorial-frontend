@@ -46,11 +46,11 @@ const SearchAudioForm = ({
   });
 
   useEffect(() => {
-    if (search?.query !== '' && search?.query !== undefined && search?.query !== queryInput) {
-      setQueryInput(search?.query);
+    if (search.query !== queryInput) {
+      setQueryInput(search.query ?? '');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search, search?.query]);
+  }, [search.query]);
 
   const onInputChange = (evt: React.FormEvent<HTMLInputElement>) => {
     evt.preventDefault();

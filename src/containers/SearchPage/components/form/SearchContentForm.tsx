@@ -6,7 +6,7 @@
  *
  */
 
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { flattenResourceTypesAndAddContextTypes } from '../../../../util/taxonomyHelpers';
@@ -51,6 +51,13 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     select: resourceTypes => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
     placeholderData: [],
   });
+
+  useEffect(() => {
+    if (search.query !== queryInput) {
+      setQueryInput(search.query ?? '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search.query]);
 
   const onInputChange = (evt: React.FormEvent<HTMLInputElement>) => {
     setQueryInput(evt.currentTarget.value);

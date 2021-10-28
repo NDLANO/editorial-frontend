@@ -79,6 +79,7 @@ const SearchContainer = ({ searchHook, type, location, history }: Props) => {
     history.push(toSearch(newQuery, type));
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const onQueryPush = useMemo(() => debounce(_onQueryPush, 400), []);
 
   const onSortOrderChange = (sort: string): void => {

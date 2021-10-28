@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
@@ -43,6 +43,13 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     const { value, name } = evt.currentTarget;
     doSearch({ ...search, [name]: value });
   };
+
+  useEffect(() => {
+    if (search.query !== queryInput) {
+      setQueryInput(search.query ?? '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search.query]);
 
   const getConceptStatuses = () => {
     return Object.keys(conceptStatuses).map(s => {

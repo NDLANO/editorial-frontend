@@ -37,8 +37,7 @@ export const classes = new BEMHelper({
 });
 
 export const WelcomePage = () => {
-  const { t, i18n } = useTranslation();
-  const locale = i18n.language;
+  const { t } = useTranslation();
   const { data } = useUserData({
     enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
   });
@@ -47,31 +46,29 @@ export const WelcomePage = () => {
   localStorage.setItem('lastPath', '');
 
   return (
-    <>
-      <ContentWrapper>
-        <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-        <OneColumn>
-          <div {...classes('header')}>
-            {/* <a href="#guidelines" {...classes('header-link')}>
+    <ContentWrapper>
+      <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
+      <OneColumn>
+        <div {...classes('header')}>
+          {/* <a href="#guidelines" {...classes('header-link')}>
               {t('welcomePage.guidelines')}
               <RightArrow className="c-icon--large" />
             </a> */}
-            <img {...classes('header-image')} src="/welcome-image.jpg" alt="illustration" />
-          </div>
-          <div {...classes('two-column')}>
-            <LastUsedItems locale={locale} lastUsed={lastUsed} />
-            <div>
-              <div {...classes('column-header')}>
-                <SearchFolder className="c-icon--medium" />
-                <span>{t('welcomePage.savedSearch')}</span>
-              </div>
-              <SaveSearchUrl locale={locale} />
+          <img {...classes('header-image')} src="/welcome-image.jpg" alt="illustration" />
+        </div>
+        <div {...classes('two-column')}>
+          <LastUsedItems lastUsed={lastUsed} />
+          <div>
+            <div {...classes('column-header')}>
+              <SearchFolder className="c-icon--medium" />
+              <span>{t('welcomePage.savedSearch')}</span>
             </div>
+            <SaveSearchUrl />
           </div>
-        </OneColumn>
-        <Footer showLocaleSelector />
-      </ContentWrapper>
-    </>
+        </div>
+      </OneColumn>
+      <Footer showLocaleSelector />
+    </ContentWrapper>
   );
 };
 

@@ -79,6 +79,7 @@ const SearchContainer = ({ searchHook, type, location, history }: Props) => {
     history.push(toSearch(newQuery, type));
   };
 
+  // useMemo ensures that _onQueryPush remains the same.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onQueryPush = useMemo(() => debounce(_onQueryPush, 400), []);
 

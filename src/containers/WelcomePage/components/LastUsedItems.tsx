@@ -9,16 +9,14 @@
 import { LastUsed } from '@ndla/icons/editor';
 import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LocaleType } from '../../../interfaces';
 import { classes } from '../WelcomePage';
 import LastUsedContent from './LastUsedContent';
 
 interface Props {
   lastUsed?: string[];
-  locale: LocaleType;
 }
 
-const LastUsedItems = ({ lastUsed, locale }: Props) => {
+const LastUsedItems = ({ lastUsed }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -28,7 +26,7 @@ const LastUsedItems = ({ lastUsed, locale }: Props) => {
       </div>
       {lastUsed?.length ? (
         lastUsed.map((result: string) => {
-          return <LastUsedContent key={result} articleId={parseInt(result)} locale={locale} />;
+          return <LastUsedContent key={result} articleId={parseInt(result)} />;
         })
       ) : (
         <span>{t('welcomePage.emptyLastUsed')}</span>

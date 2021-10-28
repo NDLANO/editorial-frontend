@@ -20,11 +20,11 @@ import { useSession } from '../../Session/SessionProvider';
 
 interface Props {
   articleId: number;
-  locale: string;
 }
 
-const LastUsedContent = ({ articleId, locale }: Props) => {
-  const { t } = useTranslation();
+const LastUsedContent = ({ articleId }: Props) => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const { userAccess } = useSession();
 
   const { data: article } = useDraft(articleId, locale);

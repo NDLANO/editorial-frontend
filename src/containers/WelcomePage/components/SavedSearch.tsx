@@ -21,7 +21,6 @@ import { useSavedSearchUrl } from '../hooks/savedSearchHook';
 
 interface Props {
   deleteSearch: Function;
-  locale: string;
   search: string;
   index: number;
 }
@@ -31,8 +30,9 @@ export const classes = new BEMHelper({
   prefix: 'c-',
 });
 
-const SavedSearch = ({ deleteSearch, locale, search, index }: Props) => {
-  const { t } = useTranslation();
+const SavedSearch = ({ deleteSearch, search, index }: Props) => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   const [searchUrl, searchParams] = search.split('?');
 
   const searchObject = transformQuery(queryString.parse(searchParams));

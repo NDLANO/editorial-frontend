@@ -297,6 +297,7 @@ const phrases = {
     loadMoreVideos: 'Last fleire videoar',
     noResults: 'Ingen videoar funnet.',
     addVideo: 'Bruk video',
+    addVideo360: 'Bruk 360-versjon',
     previewVideo: 'Forhåndsvis',
     publishedDate: 'Publisert dato',
     duration: 'Varighet',

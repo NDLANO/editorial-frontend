@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { UseQueryResult } from 'react-query';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -79,7 +79,7 @@ const SearchContainer = ({ searchHook, type, location, history }: Props) => {
     history.push(toSearch(newQuery, type));
   };
 
-  const onQueryPush = debounce(_onQueryPush, 300);
+  const onQueryPush = useMemo(() => debounce(_onQueryPush, 400), []);
 
   const onSortOrderChange = (sort: string): void => {
     onQueryPush({ sort, page: 1 });

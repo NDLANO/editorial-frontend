@@ -412,6 +412,7 @@ export interface BrightcoveEmbed {
   resource: 'brightcove' | 'video';
   videoid: string;
   caption: string;
+  url?: string;
   account: string;
   player: string;
   title: string;

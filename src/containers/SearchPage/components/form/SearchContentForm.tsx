@@ -40,6 +40,7 @@ export interface SearchState extends Record<string, string> {
 const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
+  const [isHasPublished, setIsHasPublished] = useState(false);
 
   const { data: users } = useAuth0Editors(CONCEPT_WRITE_SCOPE, {
     select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
@@ -58,10 +59,17 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
 
   const onFieldChange = (evt: FormEvent<HTMLSelectElement>) => {
     const { name, value } = evt.currentTarget;
-    const includeOtherStatuses =
-      name === 'draft-status' ? value === 'HAS_PUBLISHED' : search['include-other-statuses'];
-    const status =
-      name === 'draft-status' ? (value === 'HAS_PUBLISHED' ? 'PUBLISHED' : value) : search.status;
+    let includeOtherStatuses: boolean | undefined;
+    let status: string | undefined;
+    if (name === 'draft-status') {
+      const isHasPublished = value === 'HAS_PUBLISHED';
+      includeOtherStatuses = isHasPublished;
+      setIsHasPublished(isHasPublished);
+      status = isHasPublished ? 'PUBLISHED' : value;
+    } else {
+      includeOtherStatuses = search['include-other-statuses'];
+      status = search.status;
+    }
 
     const searchObj = { ...search, 'include-other-statuses': includeOtherStatuses, [name]: value };
     doSearch(name !== 'draft-status' ? searchObj : { ...searchObj, 'draft-status': status });
@@ -73,10 +81,12 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
 
   const removeTagItem = (tag: MinimalTagType) => {
     if (tag.type === 'query') setQueryInput('');
+    if (tag.type === 'draft-status') setIsHasPublished(tag.name === 'HAS_PUBLISHED');
     doSearch({ ...search, [tag.type]: '' });
   };
 
   const emptySearch = () => {
+    setIsHasPublished(false);
     setQueryInput('');
     doSearch({
       query: '',
@@ -116,7 +126,10 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       options: resourceTypes!.sort(sortByProperty('name')),
     },
     {
-      name: getTagName(search['draft-status'], getDraftStatuses()),
+      name: getTagName(
+        isHasPublished ? 'HAS_PUBLISHED' : search['draft-status'],
+        getDraftStatuses(),
+      ),
       type: 'draft-status',
       width: 25,
       options: getDraftStatuses().sort(sortByProperty('name')),
@@ -142,7 +155,10 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       query={queryInput}
       onQueryChange={onInputChange}
       onSubmit={handleSearch}
-      searchObject={search}
+      searchObject={{
+        ...search,
+        'draft-status': isHasPublished ? 'HAS_PUBLISHED' : search['draft-status'],
+      }}
       onFieldChange={onFieldChange}
       emptySearch={emptySearch}
       removeTag={removeTagItem}

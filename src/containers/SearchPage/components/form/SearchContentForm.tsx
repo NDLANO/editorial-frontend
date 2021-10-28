@@ -79,7 +79,11 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     }
 
     const searchObj = { ...search, 'include-other-statuses': includeOtherStatuses, [name]: value };
-    doSearch(name !== 'draft-status' ? searchObj : { ...searchObj, 'draft-status': status });
+    doSearch(
+      name !== 'draft-status'
+        ? searchObj
+        : { ...searchObj, 'draft-status': status, fallback: false },
+    );
   };
 
   const handleSearch = () => doSearch({ ...search, fallback: false, page: 1 });

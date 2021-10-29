@@ -11,19 +11,19 @@ import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
 import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
-import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
 
 interface Props extends RouteComponentProps {
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: (
-    values: ArticleFormikType,
-    formikHelpers: FormikHelpers<ArticleFormikType>,
+    values: LearningResourceFormikType,
+    formikHelpers: FormikHelpers<LearningResourceFormikType>,
   ) => Promise<void>;
   article: Partial<ConvertedDraftType>;
   formIsDirty: boolean;
-  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
+  getInitialValues: (article: Partial<ConvertedDraftType>) => LearningResourceFormikType;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
 }
@@ -41,7 +41,7 @@ const LearningResourcePanels = ({
   const { t, i18n } = useTranslation();
   const { userAccess } = useSession();
   const locale = i18n.language;
-  const formikContext = useFormikContext<ArticleFormikType>();
+  const formikContext = useFormikContext<LearningResourceFormikType>();
   const { values, setValues, errors, handleBlur } = formikContext;
 
   const showTaxonomySection = !!values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE);
@@ -52,7 +52,7 @@ const LearningResourcePanels = ({
         id={'learning-resource-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
-        hasError={!!(errors.slatetitle || errors.introduction || errors.content)}
+        hasError={!!(errors.title || errors.introduction || errors.content)}
         startOpen>
         <LearningResourceContent
           formik={formikContext}
@@ -85,12 +85,7 @@ const LearningResourcePanels = ({
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
-        <MetaDataField
-          handleBlur={handleBlur}
-          fetchSearchTags={fetchSearchTags}
-          handleSubmit={handleSubmit}
-          article={article}
-        />
+        <MetaDataField fetchSearchTags={fetchSearchTags} article={article} />
       </AccordionSection>
       <AccordionSection
         id={'learning-resource-grepCodes'}

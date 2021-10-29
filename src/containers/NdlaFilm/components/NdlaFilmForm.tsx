@@ -7,7 +7,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
-import { Value } from 'slate';
+import { Descendant, Element } from 'slate';
 import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../../interfaces';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
@@ -19,7 +19,7 @@ import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleL
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
-import { ConvertedNdlaFilmVisualElement } from '../../../util/ndlaFilmHelpers';
+import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
 
 interface Props {
   filmFrontpage: NdlaFilmApiType;
@@ -35,8 +35,8 @@ export interface NdlaFilmFormikType {
   articleType: string;
   name: string;
   title?: string;
-  description: Value;
-  visualElementObject?: ConvertedNdlaFilmVisualElement;
+  description: Descendant[];
+  visualElement: Descendant[];
   language: string;
   supportedLanguages: string[];
   slideShow: ContentResultType[];
@@ -51,10 +51,12 @@ const ndlaFilmRules: RulesType<NdlaFilmFormikType> = {
     required: true,
     maxLength: 300,
   },
-  visualElementObject: {
+  visualElement: {
     required: true,
     test: (values: NdlaFilmFormikType) => {
-      const badVisualElementId = values.visualElementObject?.resource_id === '';
+      const element = values?.visualElement[0];
+      const data = Element.isElement(element) && element.type === TYPE_EMBED && element.data;
+      const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
       return badVisualElementId
         ? { translationKey: 'subjectpageForm.missingVisualElement' }
         : undefined;
@@ -91,7 +93,7 @@ const NdlaFilmForm = ({
       validate={values => validateFormik(values, ndlaFilmRules, t)}
       enableReinitialize={enableReinitialize}>
       {formik => {
-        const { values, dirty, isSubmitting, errors, isValid, handleBlur } = formik;
+        const { values, dirty, isSubmitting, errors, isValid } = formik;
         const formIsDirty: boolean = isFormikFormDirty({
           values,
           initialValues,
@@ -116,14 +118,6 @@ const NdlaFilmForm = ({
               allMovies={allMovies}
               loading={loading}
               selectedLanguage={selectedLanguage}
-              handleSubmit={() => handleSubmit(formik)}
-              onBlur={(event, editor, next) => {
-                next();
-                // this is a hack since formik onBlur-handler interferes with slates
-                // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                // formik handleBlur needs to be called for validation to work (and touched to be set)
-                setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
-              }}
             />
             <Field right>
               <SaveButton

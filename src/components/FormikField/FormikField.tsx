@@ -6,8 +6,8 @@
  *
  */
 
+import React, { ReactElement } from 'react';
 import { get } from 'lodash/fp';
-import React, { ReactElement, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import {
@@ -18,7 +18,7 @@ import {
   FormikValues,
   FieldProps,
 } from 'formik';
-import { Value } from 'slate';
+import { Node } from 'slate';
 import styled from '@emotion/styled';
 import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
@@ -64,24 +64,18 @@ const FormikField = ({
   ...rest
 }: Props & { formik: FormikContextType<FormikValues> }) => {
   const { t } = useTranslation();
-  const [focus, setFocus] = useState(false);
 
-  const isSlateValue = Value.isValue(values[name]);
+  const isSlateValue = Node.isNodeList(values[name]);
   const fieldActions: FieldAttributes<any> = !isSlateValue
     ? {
-        onFocus: () => {
-          setFocus(true);
-        },
         onBlur: (evt: Event) => {
           handleBlur(evt);
-          setFocus(false);
         },
       }
     : {};
-  const hasFocus = isSlateValue ? values[name].selection.isFocused : focus;
   return (
     <div {...classes('', { 'no-border': noBorder, right, title }, className)}>
-      <FormikFieldLabel hasFocus={hasFocus} label={label} name={name} noBorder={noBorder} />
+      <FormikFieldLabel label={label} name={name} noBorder={noBorder} />
       <FormikFieldDescription description={description} obligatory={obligatory} />
       <Field name={name} maxLength={maxLength} {...rest} {...fieldActions}>
         {children
@@ -102,7 +96,7 @@ const FormikField = ({
           getRemainingLabel={(maxLength, remaining) =>
             t('form.remainingCharacters', { maxLength, remaining })
           }
-          value={isSlateValue ? values[name].document.text : values[name]}
+          value={isSlateValue ? Node.string(values[name][0]) : values[name]}
         />
       )}
       {showError && get(name, errors) && (

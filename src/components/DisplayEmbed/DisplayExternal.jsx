@@ -8,8 +8,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Transforms } from 'slate';
+import { ReactEditor } from 'slate-react';
 import { withTranslation } from 'react-i18next';
-import Types from 'slate-prop-types';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
@@ -47,14 +48,29 @@ export class DisplayExternal extends Component {
   }
 
   onEditEmbed(properties) {
-    const { editor, node, embed } = this.props;
+    const { editor, element, embed } = this.props;
 
     if (properties.url !== embed.url || properties.path !== embed.path) {
-      editor.setNodeByKey(node.key, {
-        data: {
-          ...properties,
-        },
-      });
+      if (properties.resource === 'h5p') {
+        Transforms.setNodes(
+          editor,
+          {
+            data: {
+              ...properties,
+              url: embed.url,
+              path: embed.path,
+            },
+          },
+          { at: ReactEditor.findPath(editor, element) },
+        );
+        this.iframe.src = embed.url;
+      } else {
+        Transforms.setNodes(
+          editor,
+          { data: { ...properties } },
+          { at: ReactEditor.findPath(editor, element) },
+        );
+      }
       this.closeEditEmbed();
     }
   }
@@ -119,8 +135,18 @@ export class DisplayExternal extends Component {
   }
 
   render() {
-    const { onRemoveClick, embed, t, language } = this.props;
+    const {
+      onRemoveClick,
+      embed,
+      t,
+      language,
+      children,
+      isSelectedForCopy,
+      active,
+      attributes,
+    } = this.props;
     const { isEditMode, title, src, height, error, type, provider, domain } = this.state;
+    const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
 
     const errorHolder = () => (
       <EditorErrorMessage
@@ -157,7 +183,14 @@ export class DisplayExternal extends Component {
       return <div />;
     }
     return (
-      <div className="c-figure">
+      <div
+        className="c-figure"
+        css={
+          showCopyOutline && {
+            boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+          }
+        }
+        {...attributes}>
         <FigureButtons
           language={language}
           tooltip={t('form.external.remove', {
@@ -174,6 +207,7 @@ export class DisplayExternal extends Component {
           }
         />
         <iframe
+          contentEditable={false}
           ref={iframe => {
             this.iframe = iframe;
           }}
@@ -192,6 +226,7 @@ export class DisplayExternal extends Component {
           onClose={this.closeEditEmbed}
           allowedProvider={allowedProvider}
         />
+        {children}
       </div>
     );
   }
@@ -201,7 +236,7 @@ DisplayExternal.propTypes = {
   onRemoveClick: PropTypes.func,
   changeVisualElement: PropTypes.func,
   editor: EditorShape,
-  node: Types.node,
+  element: PropTypes.any,
   isIframe: PropTypes.bool,
   embed: PropTypes.shape({
     width: PropTypes.string,
@@ -211,6 +246,10 @@ DisplayExternal.propTypes = {
     resource: PropTypes.string,
   }),
   language: PropTypes.string,
+  children: PropTypes.any,
+  isSelectedForCopy: PropTypes.bool.isRequired,
+  active: PropTypes.bool.isRequired,
+  attributes: PropTypes.object.isRequired,
 };
 
 export default withTranslation()(DisplayExternal);

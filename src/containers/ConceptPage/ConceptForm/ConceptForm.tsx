@@ -59,7 +59,7 @@ interface Props {
 }
 
 const conceptFormRules: RulesType<ConceptFormValues> = {
-  slatetitle: {
+  title: {
     required: true,
   },
   conceptContent: {
@@ -180,7 +180,7 @@ const ConceptForm = ({
                 id="concept-content"
                 title={t('form.contentSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={!!(errors.slatetitle || errors.conceptContent)}
+                hasError={!!(errors.title || errors.conceptContent)}
                 startOpen>
                 <ConceptContent />
               </AccordionSection>

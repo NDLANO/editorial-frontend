@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikHelpers } from 'formik';
 import PropTypes from 'prop-types';
-import { Value } from 'slate';
+import { Descendant } from 'slate';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import Field from '../../../components/Field';
 import Spinner from '../../../components/Spinner';
@@ -38,8 +38,10 @@ import { useLicenses } from '../../Licenses/LicensesProvider';
 export interface AudioFormikType extends FormikFormBaseType {
   id?: number;
   revision?: number;
-  title: Value;
-  manuscript: Value;
+  language: string;
+  supportedLanguages: string[];
+  title: Descendant[];
+  manuscript: Descendant[];
   audioFile: {
     storedFile?: {
       url: string;
@@ -209,7 +211,7 @@ const AudioForm = ({
                   title={t('podcastForm.fields.manuscript')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={[].some(field => field in errors)}>
-                  <AudioManuscript classes={formClasses} />
+                  <AudioManuscript />
                 </AccordionSection>
                 <AccordionSection
                   id="audio-upload-metadataSection"

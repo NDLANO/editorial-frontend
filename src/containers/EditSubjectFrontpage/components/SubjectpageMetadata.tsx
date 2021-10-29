@@ -8,27 +8,21 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
-import { Editor } from 'slate';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
-import textTransformPlugin from '../../../components/SlateEditor/plugins/textTransform';
+import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 
-import { FormikProperties, VisualElement } from '../../../interfaces';
+import { FormikProperties, ImageEmbed } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';
 
 interface FormikProps {
-  field: FieldProps<VisualElement>['field'];
+  field: FieldProps<ImageEmbed>['field'];
   form: FormikProperties['form'];
 }
 
-interface Props {
-  handleSubmit: () => void;
-  onBlur: (event: Event, editor: Editor, next: Function) => void;
-}
-
-const SubjectpageMetadata = ({ handleSubmit, onBlur }: Props) => {
+const SubjectpageMetadata = () => {
   const { t } = useTranslation();
-  const plugins = [textTransformPlugin()];
+  const plugins = [textTransformPlugin];
   return (
     <>
       <FormikField
@@ -37,14 +31,13 @@ const SubjectpageMetadata = ({ handleSubmit, onBlur }: Props) => {
         showMaxLength
         label={t('form.metaDescription.label')}
         description={t('form.metaDescription.description')}>
-        {({ field }: FieldProps) => (
+        {({ field, form: { isSubmitting } }: FieldProps) => (
           <PlainTextEditor
             id={field.name}
             {...field}
+            submitted={isSubmitting}
             placeholder={t('form.metaDescription.label')}
-            handleSubmit={handleSubmit}
             plugins={plugins}
-            onBlur={onBlur}
           />
         )}
       </FormikField>

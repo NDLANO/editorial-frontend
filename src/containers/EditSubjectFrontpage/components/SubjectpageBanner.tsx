@@ -9,13 +9,13 @@ import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import Button from '@ndla/button';
-import { VisualElement } from '../../../interfaces';
+import { ImageEmbed } from '../../../interfaces';
 import VisualElementSearch from '../../VisualElement/VisualElementSearch';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
 import Lightbox from '../../../components/Lightbox';
 
 interface Props {
-  field: FieldProps<VisualElement>['field'];
+  field: FieldProps<ImageEmbed>['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
@@ -26,12 +26,12 @@ const SubjectpageBanner = ({ field, form, title }: Props) => {
   const { t } = useTranslation();
   const [showImageSelect, setShowImageSelect] = useState(false);
 
-  const onImageChange = (image: VisualElement) => {
+  const onImageChange = (image: ImageEmbed) => {
     updateFormik(image);
     onImageSelectClose();
   };
 
-  const updateFormik = (value: VisualElement | undefined) => {
+  const updateFormik = (value?: ImageEmbed) => {
     form.setFieldTouched(field.name, true, false);
     field.onChange({
       target: {

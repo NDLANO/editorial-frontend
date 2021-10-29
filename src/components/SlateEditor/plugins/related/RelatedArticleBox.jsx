@@ -7,17 +7,18 @@
  */
 
 import React from 'react';
+import { Transforms } from 'slate';
+import { ReactEditor } from 'slate-react';
 import PropTypes from 'prop-types';
 import { uuid } from '@ndla/util';
 import { withTranslation } from 'react-i18next';
-import Types from 'slate-prop-types';
 import { css } from '@emotion/core';
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { queryResources } from '../../../../modules/taxonomy';
-import { EditorShape } from '../../../../shapes';
+import { EditorShape, AttributesShape } from '../../../../shapes';
 import EditRelated from './EditRelated';
 import handleError from '../../../../util/handleError';
 import RelatedArticle from './RelatedArticle';
@@ -39,15 +40,15 @@ export class RelatedArticleBox extends React.Component {
     this.insertExternal = this.insertExternal.bind(this);
     this.onInsertBlock = this.onInsertBlock.bind(this);
     this.openEditMode = this.openEditMode.bind(this);
-    this.setNodeKey = this.setNodeKey.bind(this);
+    this.setNodeData = this.setNodeData.bind(this);
   }
 
   componentDidMount() {
     const {
-      node: { data },
+      element: { data },
     } = this.props;
-    if (data && data.get('nodes')) {
-      const articleNodes = data.get('nodes');
+    if (data && data.nodes) {
+      const articleNodes = data.nodes;
       this.fetchArticles(articleNodes).then(articles =>
         this.setState({ articles: articles.filter(a => !!a) }),
       );
@@ -71,30 +72,33 @@ export class RelatedArticleBox extends React.Component {
           this.setState(oldState => ({
             articles: [...oldState.articles, article],
           }));
-          this.setNodeKey();
+          this.setNodeData();
         }
       });
     }
   }
 
-  setNodeKey() {
-    const { editor, node } = this.props;
+  setNodeData() {
+    const { editor, element } = this.props;
     const { articles } = this.state;
-
-    editor.setNodeByKey(node.key, {
-      data: {
-        nodes: articles.map(
-          article =>
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.setNodes(
+      editor,
+      {
+        data: {
+          nodes: articles.map(article =>
             article.id === ARTICLE_EXTERNAL
               ? {
                   resource: 'related-content',
                   url: article.url,
                   title: article.title,
                 }
-              : { resource: 'related-content', ['article-id']: article.id }, // eslint-disable-line
-        ),
+              : { resource: 'related-content', 'article-id': article.id },
+          ),
+        },
       },
-    });
+      { at: path, voids: true },
+    );
   }
 
   structureExternal(url, title) {
@@ -142,12 +146,12 @@ export class RelatedArticleBox extends React.Component {
         articles: [...prevState.articles, this.structureExternal(url, title)],
         editMode: false,
       }),
-      this.setNodeKey,
+      this.setNodeData,
     );
   }
 
   updateArticles(newArticles) {
-    this.setState({ articles: newArticles.filter(a => !!a) }, this.setNodeKey);
+    this.setState({ articles: newArticles.filter(a => !!a) }, this.setNodeData);
   }
 
   openEditMode(e) {
@@ -156,7 +160,7 @@ export class RelatedArticleBox extends React.Component {
   }
 
   render() {
-    const { attributes, onRemoveClick, i18n, t } = this.props;
+    const { attributes, onRemoveClick, i18n, t, children } = this.props;
     const locale = i18n.language;
     const { editMode, articles } = this.state;
 
@@ -179,6 +183,7 @@ export class RelatedArticleBox extends React.Component {
       <div
         role="button"
         draggable
+        contentEditable={false}
         tabIndex={0}
         data-testid="relatedWrapper"
         onClick={this.openEditMode}
@@ -203,26 +208,21 @@ export class RelatedArticleBox extends React.Component {
             ),
           )}
         </RelatedArticleList>
+        {children}
       </div>
     );
   }
 }
 
 RelatedArticleBox.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
+  attributes: AttributesShape,
   editor: EditorShape.isRequired,
-  node: PropTypes.oneOfType([Types.node, PropTypes.shape({})]).isRequired,
+  element: PropTypes.any,
+  locale: PropTypes.string.isRequired,
   i18n: PropTypes.shape({
     language: PropTypes.string.isRequired,
   }).isRequired,
   onRemoveClick: PropTypes.func,
-  embed: PropTypes.shape({
-    resource: PropTypes.string,
-    'article-ids': PropTypes.string,
-    relatedArticle: PropTypes.string,
-  }),
 };
 
 export default withTranslation()(RelatedArticleBox);

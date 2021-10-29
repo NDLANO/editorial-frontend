@@ -10,7 +10,7 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
-import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
@@ -22,7 +22,7 @@ interface Props extends RouteComponentProps {
   formIsDirty: boolean;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: () => UpdatedDraftApiType;
-  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
+  getInitialValues: (article: Partial<ConvertedDraftType>) => TopicArticleFormikType;
 }
 
 const TopicArticleAccordionPanels = ({
@@ -38,7 +38,7 @@ const TopicArticleAccordionPanels = ({
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const { userAccess } = useSession();
-  const formikContext = useFormikContext<ArticleFormikType>();
+  const formikContext = useFormikContext<TopicArticleFormikType>();
   const { values, handleBlur, errors, setValues } = formikContext;
   return (
     <Accordions>
@@ -46,14 +46,7 @@ const TopicArticleAccordionPanels = ({
         id={'topic-article-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
-        hasError={
-          !!(
-            errors.slatetitle ||
-            errors.introduction ||
-            errors.content ||
-            errors.visualElementObject
-          )
-        }
+        hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
         startOpen>
         <TopicArticleContent handleSubmit={handleSubmit} handleBlur={handleBlur} values={values} />
       </AccordionSection>
@@ -84,12 +77,7 @@ const TopicArticleAccordionPanels = ({
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.tags)}>
-        <MetaDataField
-          article={article}
-          handleSubmit={handleSubmit}
-          handleBlur={handleBlur}
-          fetchSearchTags={fetchSearchTags}
-        />
+        <MetaDataField article={article} fetchSearchTags={fetchSearchTags} />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-grepCodes'}

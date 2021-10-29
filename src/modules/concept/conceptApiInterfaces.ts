@@ -6,7 +6,7 @@
  *
  */
 
-import { Copyright, SearchResultBase, MetaImage } from '../../interfaces';
+import { Copyright, SearchResultBase, Embed, MetaImage } from '../../interfaces';
 
 export type LanguageFieldType<T> = T & {
   language: string;
@@ -105,6 +105,7 @@ export interface ConceptApiType {
   supportedLanguages: string[];
   articleIds: number[];
   status: ConceptStatus;
+  parsedVisualElement?: Embed;
   visualElement?: {
     visualElement: string;
     language: string;

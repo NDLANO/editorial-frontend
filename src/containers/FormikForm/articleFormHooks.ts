@@ -10,8 +10,8 @@ import { useEffect, useRef, useState } from 'react';
 import { TFunction } from 'i18next';
 
 import { FormikHelpers } from 'formik';
-import { Value } from 'slate';
 
+import { Descendant } from 'slate';
 import {
   deleteFile,
   fetchStatusStateMachine,
@@ -33,7 +33,6 @@ import {
   ConvertedDraftType,
   License,
   RelatedContent,
-  VisualElement,
 } from '../../interfaces';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { useMessages } from '../Messages/MessagesProvider';
@@ -55,10 +54,9 @@ const deleteRemovedFiles = async (oldArticleContent: string, newArticleContent: 
 
 export interface ArticleFormikType {
   id?: number;
-  slatetitle?: Value;
-  content?: Value;
-  introduction?: Value;
-  metaDescription?: Value;
+  title?: Descendant[];
+  introduction?: Descendant[];
+  metaDescription?: Descendant[];
   agreementId?: number;
   articleType: string;
   status?: DraftStatus;
@@ -77,15 +75,23 @@ export interface ArticleFormikType {
   tags: string[];
   updatePublished: boolean;
   updated?: string;
-  visualElementObject?: VisualElement;
+  visualElement?: Descendant[];
   grepCodes?: string[];
   conceptIds: ConceptApiType[];
   availability?: AvailabilityType;
   relatedContent: (DraftApiType | RelatedContent)[];
 }
 
-type HooksInputObject = {
-  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
+export interface LearningResourceFormikType extends ArticleFormikType {
+  content: Descendant[][];
+}
+
+export interface TopicArticleFormikType extends ArticleFormikType {
+  content: Descendant[];
+}
+
+type HooksInputObject<T> = {
+  getInitialValues: (article: Partial<ConvertedDraftType>) => T;
   article: Partial<ConvertedDraftType>;
   t: TFunction;
   articleStatus?: DraftStatus;
@@ -97,14 +103,16 @@ type HooksInputObject = {
   }) => Promise<ConvertedDraftType>;
   licenses?: License[];
   getArticleFromSlate: (input: {
-    values: ArticleFormikType;
-    initialValues: ArticleFormikType;
+    values: T;
+    initialValues: T;
     preview: boolean;
   }) => UpdatedDraftApiType;
   isNewlyCreated: boolean;
 };
 
-export function useArticleFormHooks({
+export function useArticleFormHooks<
+  T extends LearningResourceFormikType | TopicArticleFormikType | ArticleFormikType
+>({
   getInitialValues,
   article,
   t,
@@ -113,7 +121,7 @@ export function useArticleFormHooks({
   updateArticleAndStatus,
   getArticleFromSlate,
   isNewlyCreated = false,
-}: HooksInputObject) {
+}: HooksInputObject<T>) {
   const { id, revision, language } = article;
   const formikRef: any = useRef<any>(null); // TODO: Formik bruker any for denne ref'en men kanskje vi skulle gjort noe kulere?
   const { createMessage, applicationError } = useMessages();
@@ -130,10 +138,7 @@ export function useArticleFormHooks({
     }
   }, [language, id]);
 
-  const handleSubmit = async (
-    values: ArticleFormikType,
-    formikHelpers: FormikHelpers<ArticleFormikType>,
-  ): Promise<void> => {
+  const handleSubmit = async (values: T, formikHelpers: FormikHelpers<T>): Promise<void> => {
     formikHelpers.setSubmitting(true);
     const initialStatus = articleStatus ? articleStatus.current : undefined;
     const newStatus = values.status?.current;

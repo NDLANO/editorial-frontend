@@ -16,7 +16,7 @@ import Overlay from '../../../Overlay';
 import { Portal } from '../../../Portal';
 import { useSlateContext } from '../../SlateContext';
 import FigureButtons from './FigureButtons';
-import { SlateAudio, Embed } from '../../../../interfaces';
+import { SlateAudio, AudioEmbed } from '../../../../interfaces';
 
 const placeholderStyle = css`
   position: relative;
@@ -26,7 +26,7 @@ const placeholderStyle = css`
 interface Props {
   audio: SlateAudio;
   changes: { [x: string]: string };
-  embed: Embed;
+  embed: AudioEmbed;
   language: string;
   onAudioFigureInputChange: (event: React.FormEvent<HTMLSelectElement>) => void;
   onChange: (event: React.FormEvent<HTMLSelectElement>) => void;

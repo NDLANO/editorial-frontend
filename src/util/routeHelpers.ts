@@ -16,7 +16,7 @@ export function toSearch(query: object, type = 'content') {
   return `/search/${type}`;
 }
 
-export function toEditArticle(articleId: number, articleType: string, locale?: string) {
+export function toEditArticle(articleId: number | string, articleType: string, locale?: string) {
   const url = articleTypes[articleType] || articleTypes.standard;
   const path = `/subject-matter/${url}/${articleId}/edit`;
   return locale ? `${path}/${locale}` : path;
@@ -150,7 +150,7 @@ export function getResourceIdFromPath(path?: string): string | undefined {
   return resource ? `urn:${resource[1]}` : '';
 }
 
-export function toLearningpathFull(id: number, locale: string) {
+export function toLearningpathFull(id: number | string, locale: string) {
   return `${config.learningpathFrontendDomain}/${locale}/learningpaths/${id}/first-step`;
 }
 

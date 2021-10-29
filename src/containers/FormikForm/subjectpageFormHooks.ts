@@ -7,9 +7,9 @@
 import { FormikProps } from 'formik';
 import { useState } from 'react';
 import { TFunction } from 'react-i18next';
+import { SubjectFormValues } from '../EditSubjectFrontpage/components/SubjectpageForm';
 import { SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
 import { formatErrorMessage } from '../../util/apiHelpers';
-import { SubjectFormValues } from '../EditSubjectFrontpage/components/SubjectpageForm';
 import { useMessages } from '../Messages/MessagesProvider';
 
 export function useSubjectpageFormHooks(

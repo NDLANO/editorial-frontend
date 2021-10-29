@@ -6,6 +6,8 @@
  *
  */
 
+import { Descendant, Element } from 'slate';
+import { jsx } from 'slate-hyperscript';
 import { editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
 import { LOCALE_VALUES } from '../constants';
 import {
@@ -18,6 +20,7 @@ import { NdlaFilmThemesEditType } from '../interfaces';
 import { NdlaFilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
 import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
 import { NewOrUpdatedFilmFrontPageData } from '../modules/frontpage/frontpageApiInterfaces';
+import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed';
 
 export const getInitialValues = (
   filmFrontpage: NdlaFilmApiType,
@@ -41,8 +44,8 @@ export const getInitialValues = (
     articleType: 'subjectpage',
     name: filmFrontpage.name,
     title: aboutInSelectedLanguage?.title,
-    description: plainTextToEditorValue(aboutInSelectedLanguage?.description),
-    visualElementObject: visualElement,
+    description: plainTextToEditorValue(aboutInSelectedLanguage?.description || ''),
+    visualElement: visualElement || [],
     language: language,
     supportedLanguages: supportedLanguages,
     slideShow: slideshowMovies,
@@ -50,49 +53,54 @@ export const getInitialValues = (
   };
 };
 
-export interface ConvertedNdlaFilmVisualElement {
-  account?: string;
-  alt?: string;
-  caption?: string;
-  metaData: { id: string };
-  player?: string;
-  resource: string;
-  resource_id: string;
-  url: string;
-  videoid?: string;
-}
-
-const convertVisualElement = (
-  visualElement: NdlaFilmVisualElement,
-): ConvertedNdlaFilmVisualElement => {
+const convertVisualElement = (visualElement: NdlaFilmVisualElement): Descendant[] => {
   const id = getVisualElementId(visualElement);
   if (visualElement.type !== 'brightcove') {
-    return {
-      url: visualElement.url,
-      resource: visualElement.type,
-      resource_id: id,
-      alt: visualElement.alt,
-      metaData: {
-        id: id,
-      },
-    };
+    return [
+      jsx(
+        'element',
+        {
+          type: TYPE_EMBED,
+          data: {
+            url: visualElement.url,
+            resource: visualElement.type,
+            resource_id: id,
+            alt: visualElement.alt,
+            metaData: {
+              id: id,
+            },
+          },
+        },
+        { text: '' },
+      ),
+    ];
   }
 
   const splittedUrl = visualElement.url.split('/');
   const account = splittedUrl[3];
   const player = splittedUrl[4].split('_')[0];
-  return {
-    url: visualElement.url,
-    resource: visualElement.type,
-    resource_id: id,
-    caption: visualElement.alt,
-    metaData: {
-      id: id,
-    },
-    videoid: id,
-    account: account,
-    player: player,
-  };
+
+  return [
+    jsx(
+      'element',
+      {
+        type: TYPE_EMBED,
+        data: {
+          url: visualElement.url,
+          resource: visualElement.type,
+          resource_id: id,
+          caption: visualElement.alt,
+          metaData: {
+            id: id,
+          },
+          videoid: id,
+          account: account,
+          player: player,
+        },
+      },
+      { text: '' },
+    ),
+  ];
 };
 
 const getVisualElementId = (visualElement: NdlaFilmVisualElement): string => {
@@ -107,15 +115,20 @@ export const getNdlaFilmFromSlate = (
   newFilmFrontpage: NdlaFilmFormikType,
   selectedLanguage: string,
 ): NewOrUpdatedFilmFrontPageData => {
+  const slateVisualElement = newFilmFrontpage.visualElement?.[0];
+  const data =
+    Element.isElement(slateVisualElement) && slateVisualElement.type === TYPE_EMBED
+      ? slateVisualElement.data
+      : undefined;
+
   const editedAbout = {
     description: editorValueToPlainText(newFilmFrontpage.description),
     language: selectedLanguage,
     title: newFilmFrontpage.title ?? '',
     visualElement: {
-      alt:
-        newFilmFrontpage.visualElementObject?.alt || newFilmFrontpage.visualElementObject?.caption,
-      id: newFilmFrontpage.visualElementObject?.metaData.id ?? '',
-      type: newFilmFrontpage.visualElementObject?.resource ?? '',
+      alt: (data && 'alt' in data && data.alt) || (data && 'caption' in data && data.caption) || '',
+      id: (data && 'metaData' in data && data.metaData.id) || '',
+      type: (data && 'resource' in data && data.resource) || '',
     },
   };
 

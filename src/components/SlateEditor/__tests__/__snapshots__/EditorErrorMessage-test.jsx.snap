@@ -95,12 +95,15 @@ exports[`EditorErrorMessage renders 1`] = `
 
 <div
   className="emotion-3 emotion-4"
+  contentEditable={false}
 >
   <button
     className="emotion-0 emotion-1 emotion-2"
+    contentEditable={false}
     data-cy="close-related-button"
     disabled={false}
     onClick={[Function]}
+    tabIndex="-1"
     type="button"
   >
     <svg

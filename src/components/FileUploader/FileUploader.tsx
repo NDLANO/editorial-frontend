@@ -15,6 +15,7 @@ import { uploadFile } from '../../modules/draft/draftApi';
 import { createFormData } from '../../util/formDataHelper';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import handleError from '../../util/handleError';
+import { UnsavedFile } from '../../interfaces';
 import { useSession } from '../../containers/Session/SessionProvider';
 
 const wrapperCSS = css`
@@ -22,7 +23,7 @@ const wrapperCSS = css`
 `;
 
 interface Props {
-  onFileSave: (files: { path: string; type: string; title: string }[]) => void;
+  onFileSave: (files: UnsavedFile[]) => void;
 }
 
 const FileUploader = ({ onFileSave }: Props) => {

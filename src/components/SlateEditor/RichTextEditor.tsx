@@ -9,7 +9,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { useEffect, useMemo, useRef } from 'react';
-import { createEditor, Descendant, Editor, NodeEntry, Transforms } from 'slate';
+import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from 'slate';
 import {
   Slate,
   Editable,
@@ -79,14 +79,26 @@ const RichTextEditor = ({
   useEffect(() => {
     if (!submitted && prevSubmitted.current) {
       // Editor will be normalized. Remove history
+      editor.children = value;
       editor.history = { redos: [], undos: [] };
       Editor.normalize(editor, { force: true });
       ReactEditor.focus(editor);
       // Try to select previous selection if it exists
-      if (editor.lastSelection && ReactEditor.hasRange(editor, editor.lastSelection)) {
-        Transforms.select(editor, editor.lastSelection);
+      if (editor.lastSelection) {
+        const edges = Range.edges(editor.lastSelection);
+        if (Editor.hasPath(editor, edges[0].path) && Editor.hasPath(editor, edges[1].path)) {
+          const start = Editor.start(editor, edges[0].path);
+          const end = Editor.end(editor, edges[1].path);
+
+          const existingRange = { anchor: start, focus: end };
+
+          if (Range.includes(existingRange, edges[0]) && Range.includes(existingRange, edges[1])) {
+            return Transforms.select(editor, editor.lastSelection);
+          }
+        }
         // Else: Try to find previous block element and select it.
-      } else if (editor.lastSelectedBlock) {
+      }
+      if (editor.lastSelectedBlock) {
         const [target] = Editor.nodes(editor, {
           at: Editor.range(editor, [0]),
           match: node => {

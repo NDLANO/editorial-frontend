@@ -13,22 +13,14 @@ import { RouteComponentProps } from 'react-router';
 import { Action, ActionFunction1 } from 'redux-actions';
 import EditTopicArticle from './EditTopicArticle';
 import { fetchDraft } from '../../../modules/draft/draftApi';
-import { License } from '../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps<{ articleId: string }> {
   isNewlyCreated: boolean;
-  licenses: License[];
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
 }
-const EditArticleRedirect = ({
-  match,
-  licenses,
-  createMessage,
-  applicationError,
-  isNewlyCreated,
-}: Props) => {
+const EditArticleRedirect = ({ match, createMessage, applicationError, isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const { articleId } = match.params;
@@ -48,7 +40,6 @@ const EditArticleRedirect = ({
         path={`${match.url}/:selectedLanguage`}
         render={props => (
           <EditTopicArticle
-            licenses={licenses}
             createMessage={createMessage}
             applicationError={applicationError}
             articleId={articleId}

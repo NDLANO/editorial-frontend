@@ -12,19 +12,11 @@ import { useTranslation } from 'react-i18next';
 import { FieldHeader, FieldSection, Select } from '@ndla/forms';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { getLicensesWithTranslations } from '../../../util/licenseHelpers';
+import { useLicenses } from '../../Licenses/LicensesProvider';
 
 const LicenseField = props => {
-  const {
-    onChange,
-    onBlur,
-    name,
-    licenses,
-    onFocus,
-    value,
-    disabled,
-    width,
-    enableLicenseNA,
-  } = props;
+  const { onChange, onBlur, name, onFocus, value, disabled, width, enableLicenseNA } = props;
+  const { licenses } = useLicenses();
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const licensesWithTranslations = getLicensesWithTranslations(licenses, locale, enableLicenseNA);
@@ -59,12 +51,6 @@ const LicenseField = props => {
 LicenseField.propTypes = {
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
   disabled: PropTypes.bool,
   name: PropTypes.string,
   value: PropTypes.string,

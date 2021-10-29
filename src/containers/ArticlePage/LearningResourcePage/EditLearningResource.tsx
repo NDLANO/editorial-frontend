@@ -17,14 +17,13 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
-import { License, LocaleType } from '../../../interfaces';
+import { LocaleType } from '../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
   isNewlyCreated: boolean;
   articleId: string;
   selectedLanguage: LocaleType;
-  licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
 }
@@ -33,7 +32,6 @@ const EditLearningResource = ({
   selectedLanguage,
   articleId,
   isNewlyCreated,
-  licenses,
   applicationError,
   createMessage,
 }: Props) => {
@@ -71,7 +69,6 @@ const EditLearningResource = ({
         translating={translating}
         translateToNN={translateToNN}
         isNewlyCreated={isNewlyCreated}
-        licenses={licenses}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
         createMessage={createMessage}

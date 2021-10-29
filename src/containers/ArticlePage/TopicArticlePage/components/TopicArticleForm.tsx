@@ -36,7 +36,7 @@ import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import { ArticleFormikType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
-import { ConvertedDraftType, License } from '../../../../interfaces';
+import { ConvertedDraftType } from '../../../../interfaces';
 import {
   DraftStatus,
   DraftStatusTypes,
@@ -44,6 +44,7 @@ import {
 } from '../../../../modules/draft/draftApiInterfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
 import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
+import { useLicenses } from '../../../Licenses/LicensesProvider';
 
 export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
   const visualElement = parseEmbedTag(article.visualElement);
@@ -113,7 +114,6 @@ interface Props extends RouteComponentProps {
   }) => Promise<ConvertedDraftType>;
   translating: boolean;
   translateToNN?: () => void;
-  licenses: License[];
   isNewlyCreated: boolean;
 }
 
@@ -125,12 +125,12 @@ const TopicArticleForm = (props: Props) => {
     articleChanged,
     translating,
     translateToNN,
-    licenses,
     isNewlyCreated,
     createMessage,
     applicationError,
     articleStatus,
   } = props;
+  const { licenses } = useLicenses();
 
   const { t } = useTranslation();
 
@@ -249,7 +249,6 @@ const TopicArticleForm = (props: Props) => {
             article={article}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
             handleSubmit={async () => handleSubmit(values, formik)}

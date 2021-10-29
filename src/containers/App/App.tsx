@@ -27,6 +27,7 @@ import Zendesk from './Zendesk';
 import { ReduxState } from '../../interfaces';
 import { LOCALE_VALUES } from '../../constants';
 import config from '../../config';
+import { LicensesProvider } from '../Licenses/LicensesProvider';
 import { getSessionStateFromLocalStorage, SessionProvider } from '../Session/SessionProvider';
 const Login = loadable(() => import('../Login/Login'));
 const Logout = loadable(() => import('../Logout/Logout'));
@@ -104,35 +105,40 @@ class App extends React.Component<ActualProps, InternalState> {
       <ErrorBoundary>
         <FirstLoadContext.Provider value={this.state.firstLoad}>
           <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
-            <PageContainer background>
-              <Zendesk />
-              <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
-              <Content>
-                <Navigation />
-                <Switch>
-                  <Route path="/" exact component={WelcomePage} />
-                  <Route path="/login" component={Login} />
-                  <Route path="/logout" component={Logout} />
-                  <PrivateRoute path="/subjectpage" component={Subjectpage} />
-                  <PrivateRoute path="/search" component={SearchPage} />
-                  <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
-                  <PrivateRoute path="/edit-markup/:draftId/:language" component={EditMarkupPage} />
-                  <PrivateRoute path="/concept" component={ConceptPage} />
-                  <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
-                  <PrivateRoute path="/media" component={MediaPage} />
-                  <PrivateRoute path="/agreement" component={AgreementPage} />
-                  <PrivateRoute path="/film" component={NdlaFilm} />
-                  <PrivateRoute path="/h5p" component={H5PPage} />
-                  <PrivateRoute
-                    path="/structure/:subject?/:topic?/:subtopics(.*)?"
-                    component={StructurePage}
-                  />
-                  <Route path="/forbidden" component={ForbiddenPage} />
-                  <Route component={NotFoundPage} />
-                </Switch>
-              </Content>
-              <Messages dispatch={dispatch} messages={messages} />
-            </PageContainer>
+            <LicensesProvider>
+              <PageContainer background>
+                <Zendesk />
+                <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
+                <Content>
+                  <Navigation />
+                  <Switch>
+                    <Route path="/" exact component={WelcomePage} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/logout" component={Logout} />
+                    <PrivateRoute path="/subjectpage" component={Subjectpage} />
+                    <PrivateRoute path="/search" component={SearchPage} />
+                    <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
+                    <PrivateRoute
+                      path="/edit-markup/:draftId/:language"
+                      component={EditMarkupPage}
+                    />
+                    <PrivateRoute path="/concept" component={ConceptPage} />
+                    <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
+                    <PrivateRoute path="/media" component={MediaPage} />
+                    <PrivateRoute path="/agreement" component={AgreementPage} />
+                    <PrivateRoute path="/film" component={NdlaFilm} />
+                    <PrivateRoute path="/h5p" component={H5PPage} />
+                    <PrivateRoute
+                      path="/structure/:subject?/:topic?/:subtopics(.*)?"
+                      component={StructurePage}
+                    />
+                    <Route path="/forbidden" component={ForbiddenPage} />
+                    <Route component={NotFoundPage} />
+                  </Switch>
+                </Content>
+                <Messages dispatch={dispatch} messages={messages} />
+              </PageContainer>
+            </LicensesProvider>
           </SessionProvider>
         </FirstLoadContext.Provider>
       </ErrorBoundary>

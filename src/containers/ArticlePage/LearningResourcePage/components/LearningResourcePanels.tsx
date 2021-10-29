@@ -10,7 +10,7 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
+import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
@@ -26,7 +26,6 @@ interface Props extends RouteComponentProps {
   formIsDirty: boolean;
   createMessage: (message: NewReduxMessage) => void;
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
-  licenses: License[];
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
 }
@@ -35,7 +34,6 @@ const LearningResourcePanels = ({
   fetchSearchTags,
   article,
   updateNotes,
-  licenses,
   getArticle,
   getInitialValues,
   createMessage,
@@ -83,7 +81,7 @@ const LearningResourcePanels = ({
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }>
-        <CopyrightFieldGroup values={values} licenses={licenses} />
+        <CopyrightFieldGroup values={values} />
       </AccordionSection>
       <AccordionSection
         id={'learning-resource-metadata'}

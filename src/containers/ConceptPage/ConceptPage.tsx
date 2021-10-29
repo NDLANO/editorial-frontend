@@ -12,10 +12,8 @@ import { useTranslation } from 'react-i18next';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import * as messageActions from '../Messages/messagesActions';
 import Footer from '../App/components/Footer';
-import { ReduxState } from '../../interfaces';
 const CreateConcept = loadable(() => import('./CreateConcept'));
 const EditConcept = loadable(() => import('./EditConcept'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
@@ -29,15 +27,8 @@ const ConceptPage = (props: Props) => {
   const prevProps = useRef<Props | undefined>(undefined);
   const { i18n } = useTranslation();
 
-  const { licenses, fetchLicenses, match, location, ...propsRest } = props;
+  const { match, location, ...propsRest } = props;
   const rest = { locale: i18n.language, ...propsRest };
-
-  useEffect(() => {
-    if (!licenses.length) {
-      fetchLicenses();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -51,15 +42,11 @@ const ConceptPage = (props: Props) => {
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <OneColumn>
         <Switch>
-          <Route
-            path={`${match.url}/new`}
-            render={() => <CreateConcept licenses={licenses} {...rest} />}
-          />
+          <Route path={`${match.url}/new`} render={() => <CreateConcept {...rest} />} />
           <Route
             path={`${match.url}/:conceptId/edit/:selectedLanguage`}
             render={routeProps => (
               <EditConcept
-                licenses={licenses}
                 conceptId={routeProps.match.params.conceptId}
                 selectedLanguage={routeProps.match.params.selectedLanguage}
                 isNewlyCreated={previousLocation === '/concept/new'}
@@ -76,15 +63,10 @@ const ConceptPage = (props: Props) => {
 };
 
 const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
   applicationError: messageActions.applicationError,
 };
 
-const mapStateToProps = (state: ReduxState) => ({
-  licenses: getAllLicenses(state),
-});
-
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+const reduxConnector = connect(undefined, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
-export default memo(connect(mapStateToProps, mapDispatchToProps)(ConceptPage));
+export default memo(reduxConnector(ConceptPage));

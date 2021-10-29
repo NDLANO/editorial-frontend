@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { Action, ActionFunction1 } from 'redux-actions';
 import EditLearningResource from './EditLearningResource';
 import { fetchDraft } from '../../../modules/draft/draftApi';
-import { License } from '../../../interfaces';
 import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface ParamsType {
@@ -21,13 +20,11 @@ interface ParamsType {
 
 interface Props extends RouteComponentProps<ParamsType> {
   isNewlyCreated: boolean;
-  licenses: License[];
   applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
   createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
 }
 const EditResourceRedirect = ({
   match,
-  licenses,
   applicationError,
   createMessage,
   isNewlyCreated,
@@ -54,7 +51,6 @@ const EditResourceRedirect = ({
             articleId={articleId}
             selectedLanguage={props.match.params.selectedLanguage}
             isNewlyCreated={isNewlyCreated}
-            licenses={licenses}
             createMessage={createMessage}
             applicationError={applicationError}
           />

@@ -5,30 +5,23 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
-import { actions as licenseActions, getAllLicenses } from '../../../modules/license/license';
 import EditResourceRedirect from './EditResourceRedirect';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import * as messageActions from '../../Messages/messagesActions';
 import { usePreviousLocation } from '../../../util/routeHelpers';
-import { ReduxState } from '../../../interfaces';
 import { NewReduxMessage } from '../../Messages/messagesSelectors';
 
 const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
   createMessage: (message: NewReduxMessage) => messageActions.addMessage(message),
   applicationError: messageActions.applicationError,
 };
 
-const mapStateToProps = (state: ReduxState) => ({
-  licenses: getAllLicenses(state),
-});
-
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
+const reduxConnector = connect(undefined, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 interface BaseProps {}
@@ -40,8 +33,6 @@ interface ParamsType {
 type Props = BaseProps & RouteComponentProps<ParamsType> & PropsFromRedux;
 
 const LearningResourcePage = ({
-  fetchLicenses,
-  licenses,
   applicationError,
   createMessage,
   match,
@@ -49,11 +40,6 @@ const LearningResourcePage = ({
   location,
 }: Props) => {
   const previousLocation = usePreviousLocation();
-  useEffect(() => {
-    if (!licenses.length) {
-      fetchLicenses();
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -65,7 +51,6 @@ const LearningResourcePage = ({
               <CreateLearningResource
                 {...routeProps}
                 applicationError={applicationError}
-                licenses={licenses}
                 createMessage={createMessage}
               />
             )}
@@ -79,7 +64,6 @@ const LearningResourcePage = ({
                   location={location}
                   isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
                   applicationError={applicationError}
-                  licenses={licenses}
                   createMessage={createMessage}
                 />
               );

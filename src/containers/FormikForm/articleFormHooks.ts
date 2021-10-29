@@ -7,11 +7,10 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { TFunction } from 'i18next';
 
 import { FormikHelpers } from 'formik';
 
-import { WithTranslation } from 'react-i18next';
-import { Action, ActionFunction1 } from 'redux-actions';
 import { Descendant } from 'slate';
 import {
   deleteFile,
@@ -36,7 +35,7 @@ import {
   RelatedContent,
 } from '../../interfaces';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
-import { NewReduxMessage, ReduxMessageError } from '../Messages/messagesSelectors';
+import { useMessages } from '../Messages/MessagesProvider';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -94,7 +93,7 @@ export interface TopicArticleFormikType extends ArticleFormikType {
 type HooksInputObject<T> = {
   getInitialValues: (article: Partial<ConvertedDraftType>) => T;
   article: Partial<ConvertedDraftType>;
-  t: WithTranslation['t'];
+  t: TFunction;
   articleStatus?: DraftStatus;
   updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   updateArticleAndStatus?: (input: {
@@ -109,8 +108,6 @@ type HooksInputObject<T> = {
     preview: boolean;
   }) => UpdatedDraftApiType;
   isNewlyCreated: boolean;
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
 };
 
 export function useArticleFormHooks<
@@ -120,8 +117,6 @@ export function useArticleFormHooks<
   article,
   t,
   articleStatus,
-  createMessage,
-  applicationError,
   updateArticle,
   updateArticleAndStatus,
   getArticleFromSlate,
@@ -129,6 +124,7 @@ export function useArticleFormHooks<
 }: HooksInputObject<T>) {
   const { id, revision, language } = article;
   const formikRef: any = useRef<any>(null); // TODO: Formik bruker any for denne ref'en men kanskje vi skulle gjort noe kulere?
+  const { createMessage, applicationError } = useMessages();
   const [savedToServer, setSavedToServer] = useState(false);
   const [saveAsNewVersion, setSaveAsNewVersion] = useState(isNewlyCreated);
   const initialValues = getInitialValues(article);

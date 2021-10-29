@@ -7,7 +7,7 @@
  *
  */
 
-import React, { useContext, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -43,8 +43,8 @@ import {
   TaxonomyElement,
   TaxonomyMetadata,
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { LocaleContext, UserAccessContext } from '../App/App';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
+import { useSession } from '../Session/SessionProvider';
 
 interface Props extends RouteComponentProps<StructureRouteParams> {}
 
@@ -60,9 +60,9 @@ interface RouteProps {
 }
 
 export const StructureContainer = ({ match, location, history }: Props) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
-  const userAccess = useContext(UserAccessContext);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+  const { userAccess } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
   const [subjects, setSubjects] = useState<(SubjectType & { topics?: SubjectTopic[] })[]>([]);
   const [topics, setTopics] = useState<SubjectTopic[]>([]);
@@ -314,7 +314,6 @@ export const StructureContainer = ({ match, location, history }: Props) => {
                     resourceSection && resourceSection.current?.scrollIntoView()
                   }
                   locale={locale}
-                  userAccess={userAccess}
                   setResourcesUpdated={setResourcesUpdated}
                   saveSubjectItems={saveSubjectItems}
                   saveSubjectTopicItems={saveSubjectTopicItems}

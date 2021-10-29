@@ -11,14 +11,12 @@ import { Formik, Form } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { connect, ConnectedProps } from 'react-redux';
 import { ArticleFormikType, useArticleFormHooks } from '../FormikForm/articleFormHooks';
 import GrepCodesField from '../FormikForm/GrepCodesField';
 import SaveMultiButton from '../../components/SaveMultiButton';
 import { DraftStatusTypes, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { isFormikFormDirty } from '../../util/formHelper';
 import { ConvertedDraftType } from '../../interfaces';
-import * as messageActions from '../../containers/Messages/messagesActions';
 
 const SaveButtonContainer = styled.div`
   display: flex;
@@ -69,22 +67,13 @@ interface Props {
     dirty: boolean;
   }) => Promise<ConvertedDraftType>;
 }
-const mapDispatchToProps = {
-  createMessage: messageActions.addMessage,
-  applicationError: messageActions.applicationError,
-};
-
-const reduxConnector = connect(undefined, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 const GrepCodesForm = ({
   article,
   articleChanged,
   updateArticle,
   updateArticleAndStatus,
-  applicationError,
-  createMessage,
-}: Props & PropsFromRedux) => {
+}: Props) => {
   const { t } = useTranslation();
   const { savedToServer, handleSubmit } = useArticleFormHooks({
     getInitialValues,
@@ -95,8 +84,6 @@ const GrepCodesForm = ({
     updateArticleAndStatus,
     getArticleFromSlate: getArticle,
     isNewlyCreated: false,
-    createMessage,
-    applicationError,
   });
 
   return (
@@ -128,4 +115,4 @@ const GrepCodesForm = ({
   );
 };
 
-export default reduxConnector(GrepCodesForm);
+export default GrepCodesForm;

@@ -17,11 +17,11 @@ import Button, { MultiButton } from '@ndla/button';
 import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
-import { License } from '../../../../../interfaces';
 import { InputField, InputPair } from './SearchStyles';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ConceptStatusType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
+import { useLicenses } from '../../../../Licenses/LicensesProvider';
 
 export interface InlineFormConcept {
   title: string;
@@ -41,7 +41,6 @@ interface Props {
   status: string;
   language: string;
   onSubmit: (c: InlineFormConcept) => void;
-  licenses: License[];
   allSubjects: SubjectType[];
   cancel: () => void;
 }
@@ -63,16 +62,9 @@ const validate = (values: InlineFormConcept): ErrorsType => {
   return errors;
 };
 
-const ConceptForm = ({
-  initialValues,
-  status,
-  language,
-  onSubmit,
-  licenses,
-  allSubjects,
-  cancel,
-}: Props) => {
+const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, cancel }: Props) => {
   const { t } = useTranslation();
+  const { licenses } = useLicenses();
   const formik = useFormik<InlineFormConcept>({
     initialValues,
     validate,

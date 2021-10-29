@@ -8,7 +8,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
@@ -16,14 +16,12 @@ import { Search } from '@ndla/icons/common';
 import debounce from 'lodash/debounce';
 import BEMHelper from 'react-bem-helper';
 import { RouteComponentProps, withRouter } from 'react-router';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
 import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { fetchSubjects } from '../../modules/taxonomy';
-import { LocaleContext, UserAccessContext } from '../App/App';
 import { LocaleType, SearchType } from '../../interfaces';
 import { ImageSearchResult } from '../../modules/image/imageApiInterfaces';
 import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
@@ -50,25 +48,12 @@ interface BaseProps {
   searchFunction: (query: SearchParams) => Promise<ResultType>;
 }
 
-type Props = BaseProps & WithTranslation & RouteComponentProps & { locale: LocaleType };
+type Props = BaseProps & CustomWithTranslation & RouteComponentProps & { locale: LocaleType };
 
 interface State {
   subjects: SubjectType[];
   results: ResultType | undefined;
   isSearching: boolean;
-}
-
-function withLocale<P>(
-  WrappedComponent: React.ComponentType<P & { locale: LocaleType }>,
-): React.ComponentType<P> {
-  const WithLocale = (props: P): React.ReactElement<P> => {
-    return (
-      <LocaleContext.Consumer>
-        {(locale: LocaleType) => <WrappedComponent {...{ ...props, locale }} />}
-      </LocaleContext.Consumer>
-    );
-  };
-  return hoistNonReactStatics(WithLocale, WrappedComponent);
 }
 
 class SearchContainer extends React.Component<Props, State> {
@@ -113,7 +98,7 @@ class SearchContainer extends React.Component<Props, State> {
   }
 
   async getExternalData() {
-    const subjects = await fetchSubjects(this.props.locale);
+    const subjects = await fetchSubjects(this.props.i18n.language);
     this.setState({ subjects });
   }
 
@@ -146,46 +131,41 @@ class SearchContainer extends React.Component<Props, State> {
     const searchObject = parseSearchParams(location.search);
 
     return (
-      <UserAccessContext.Consumer>
-        {userAccess => (
-          <>
-            <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
-            <OneColumn>
-              <div {...searchClasses('header')}>
-                <h2>
-                  <Search className="c-icon--medium" />
-                  {t(`searchPage.header.${type}`)}
-                </h2>
-                <SearchSaveButton />
-              </div>
-              <SearchForm
-                type={type}
-                search={this.onQueryPush}
-                searchObject={searchObject}
-                locale={locale}
-                subjects={subjects}
-              />
-              <SearchSort location={location} onSortOrderChange={this.onSortOrderChange} />
-              <SearchListOptions
-                type={type}
-                searchObject={searchObject}
-                totalCount={results?.totalCount}
-                search={this.onQueryPush}
-              />
-              <SearchList
-                searchObject={searchObject}
-                results={results?.results ?? []}
-                searching={isSearching}
-                type={type}
-                locale={locale}
-                subjects={subjects}
-                userAccess={userAccess}
-              />
-              <Pager page={searchObject.page ?? 1} lastPage={lastPage} query={searchObject} />
-            </OneColumn>
-          </>
-        )}
-      </UserAccessContext.Consumer>
+      <>
+        <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
+        <OneColumn>
+          <div {...searchClasses('header')}>
+            <h2>
+              <Search className="c-icon--medium" />
+              {t(`searchPage.header.${type}`)}
+            </h2>
+            <SearchSaveButton />
+          </div>
+          <SearchForm
+            type={type}
+            search={this.onQueryPush}
+            searchObject={searchObject}
+            locale={locale}
+            subjects={subjects}
+          />
+          <SearchSort location={location} onSortOrderChange={this.onSortOrderChange} />
+          <SearchListOptions
+            type={type}
+            searchObject={searchObject}
+            totalCount={results?.totalCount}
+            search={this.onQueryPush}
+          />
+          <SearchList
+            searchObject={searchObject}
+            results={results?.results ?? []}
+            searching={isSearching}
+            type={type}
+            locale={locale}
+            subjects={subjects}
+          />
+          <Pager page={searchObject.page ?? 1} lastPage={lastPage} query={searchObject} />
+        </OneColumn>
+      </>
     );
   }
 
@@ -195,4 +175,4 @@ class SearchContainer extends React.Component<Props, State> {
   };
 }
 
-export default withRouter(withLocale(withTranslation()(SearchContainer)));
+export default withRouter(withTranslation()(SearchContainer));

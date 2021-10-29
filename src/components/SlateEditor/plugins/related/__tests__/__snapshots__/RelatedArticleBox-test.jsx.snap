@@ -123,7 +123,7 @@ exports[`it goes in and out of edit mode 2`] = `
       <h1
         class="c-section-heading c-related-articles__component-title"
       >
-        injected
+        Relatert innhold
       </h1>
       <div
         class="c-related-articles__articles"

@@ -18,7 +18,9 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   beforeEach(() => {
-    cy.get('[data-slate-node=element] > p').clear();
+    cy.get('[data-slate-node=element] > p')
+      .should('be.visible')
+      .clear();
     cy.get('[data-slate-node=element] > p')
       .should('be.visible')
       .first()

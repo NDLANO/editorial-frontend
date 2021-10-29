@@ -8,34 +8,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
-import { connect, ConnectedProps } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import CreateAudio from './CreateAudio';
 import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { LocationShape, HistoryShape, LocaleShape } from '../../shapes';
-import { ReduxState } from '../../interfaces';
-
-const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
-};
-
-const mapStateToProps = (state: ReduxState) => {
-  return {
-    licenses: getAllLicenses(state),
-  };
-};
-
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 interface BaseProps {}
 
-type Props = BaseProps & RouteComponentProps & PropsFromRedux & CustomWithTranslation;
+type Props = BaseProps & RouteComponentProps & CustomWithTranslation;
 
 interface State {
   previousLocation: string;
@@ -46,10 +30,6 @@ class AudioUploaderPage extends Component<Props, State> {
     previousLocation: '',
   };
 
-  componentDidMount() {
-    this.props.fetchLicenses();
-  }
-
   componentDidUpdate(prevProps: Props) {
     if (this.props.location.pathname !== prevProps.location.pathname) {
       this.setState({ previousLocation: prevProps.location.pathname });
@@ -57,17 +37,14 @@ class AudioUploaderPage extends Component<Props, State> {
   }
 
   render() {
-    const { match, t, licenses, i18n } = this.props;
+    const { match, t, i18n } = this.props;
     const locale = i18n.language;
     return (
       <div>
         <OneColumn>
           <HelmetWithTracker title={t('htmlTitles.audioUploaderPage')} />
           <Switch>
-            <Route
-              path={`${match.url}/new`}
-              render={() => <CreateAudio licenses={licenses} locale={locale} />}
-            />
+            <Route path={`${match.url}/new`} render={() => <CreateAudio locale={locale} />} />
             <Route
               path={`${match.url}/:audioId/edit/:audioLanguage`}
               render={props => (
@@ -75,7 +52,6 @@ class AudioUploaderPage extends Component<Props, State> {
                   audioId={props.match.params.audioId}
                   audioLanguage={props.match.params.audioLanguage}
                   isNewlyCreated={this.state.previousLocation === '/media/audio-upload/new'}
-                  licenses={licenses}
                   locale={locale}
                 />
               )}
@@ -94,18 +70,10 @@ class AudioUploaderPage extends Component<Props, State> {
       isExact: PropTypes.bool.isRequired,
       path: PropTypes.string.isRequired,
     }).isRequired,
-
-    licenses: PropTypes.arrayOf(
-      PropTypes.shape({
-        description: PropTypes.string.isRequired,
-        license: PropTypes.string.isRequired,
-      }).isRequired,
-    ).isRequired,
-    fetchLicenses: PropTypes.func.isRequired,
     locale: LocaleShape.isRequired,
     history: HistoryShape,
     location: LocationShape,
   };
 }
 
-export default reduxConnector(withTranslation()(AudioUploaderPage));
+export default withTranslation()(AudioUploaderPage);

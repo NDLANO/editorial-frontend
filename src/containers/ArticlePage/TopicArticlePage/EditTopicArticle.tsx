@@ -15,16 +15,15 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
-import { License, LocaleType } from '../../../interfaces';
+import { LocaleType } from '../../../interfaces';
 
 interface Props extends RouteComponentProps {
   articleId: string;
   selectedLanguage: LocaleType;
   isNewlyCreated: boolean;
-  licenses: License[];
 }
 
-const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated, licenses }: Props) => {
+const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated }: Props) => {
   const {
     loading,
     article,
@@ -59,7 +58,6 @@ const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated, license
         translateToNN={translateToNN}
         translating={translating}
         isNewlyCreated={isNewlyCreated}
-        licenses={licenses}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
       />

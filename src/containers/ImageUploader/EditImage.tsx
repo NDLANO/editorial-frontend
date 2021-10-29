@@ -11,11 +11,12 @@ import { withRouter } from 'react-router-dom';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { RouteComponentProps } from 'react-router';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import ImageForm from './components/ImageForm';
 import { actions, FlatReduxImage, getImage } from '../../modules/image/image';
 import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
-import { License, ReduxState } from '../../interfaces';
+import { ReduxState } from '../../interfaces';
+import withLicenses from '../Licenses/withLicenses';
+import { LicenseFunctions } from '../Licenses/LicensesProvider';
 
 interface ImageType extends UpdatedImageMetadata {
   revision?: number;
@@ -23,7 +24,6 @@ interface ImageType extends UpdatedImageMetadata {
 }
 
 interface DispatchTypes {
-  fetchLicenses: () => void;
   fetchImage: (imageInfo: { id: string; language?: string }) => void;
   updateImage: (imageInfo: {
     image: ImageType;
@@ -34,7 +34,6 @@ interface DispatchTypes {
 }
 
 interface ReduxProps {
-  licenses: License[];
   image?: FlatReduxImage;
 }
 
@@ -49,7 +48,6 @@ interface BaseProps {
 }
 
 const mapDispatchToProps: DispatchTypes = {
-  fetchLicenses: licenseActions.fetchLicenses,
   fetchImage: actions.fetchImage,
   updateImage: actions.updateImage,
 };
@@ -58,7 +56,6 @@ const mapStateToProps = (state: ReduxState, props: BaseProps): ReduxProps => {
   const { imageId } = props;
   const getImageSelector = getImage(imageId!, true);
   return {
-    licenses: getAllLicenses(state),
     image: getImageSelector(state),
   };
 };
@@ -68,13 +65,12 @@ type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 interface Props extends BaseProps, RouteComponentProps, PropsFromRedux, WithTranslation {}
 
-class EditImage extends Component<Props> {
+class EditImage extends Component<Props & LicenseFunctions> {
   componentDidMount() {
-    const { imageId, fetchImage, imageLanguage, fetchLicenses } = this.props;
+    const { imageId, fetchImage, imageLanguage } = this.props;
     if (imageId) {
       fetchImage({ id: imageId, language: imageLanguage });
     }
-    fetchLicenses();
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -118,4 +114,4 @@ class EditImage extends Component<Props> {
   }
 }
 
-export default reduxConnector(withTranslation()(withRouter(EditImage)));
+export default reduxConnector(withTranslation()(withRouter(withLicenses(EditImage))));

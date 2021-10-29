@@ -24,7 +24,7 @@ import { toCreateAudioFile, toEditAudio } from '../../../util/routeHelpers';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { Author, FormikFormBaseType, License } from '../../../interfaces';
+import { Author, FormikFormBaseType } from '../../../interfaces';
 import {
   AudioApiType,
   AudioMetaInformationPost,
@@ -33,6 +33,7 @@ import {
 import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
+import { useLicenses } from '../../Licenses/LicensesProvider';
 
 export interface AudioFormikType extends FormikFormBaseType {
   id?: number;
@@ -90,7 +91,6 @@ type OnCreateFunc = (audio: AudioMetaInformationPost, file?: string | Blob) => v
 type OnUpdateFunc = (audio: AudioMetaInformationPut, file?: string | Blob) => void;
 
 interface Props {
-  licenses: License[];
   onUpdate: OnCreateFunc | OnUpdateFunc;
   audio?: AudioApiType;
   audioLanguage: string;
@@ -102,7 +102,6 @@ interface Props {
 
 const AudioForm = ({
   audioLanguage,
-  licenses,
   audio,
   isNewlyCreated,
   translating,
@@ -114,6 +113,7 @@ const AudioForm = ({
   const [savedToServer, setSavedToServer] = useState(false);
   const prevAudioLanguage = useRef<string | null>(null);
   const { applicationError } = useMessages();
+  const { licenses } = useLicenses();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -222,7 +222,7 @@ const AudioForm = ({
                     'processors',
                     'license',
                   ])}>
-                  <AudioMetaData classes={formClasses} licenses={licenses} />
+                  <AudioMetaData classes={formClasses} />
                 </AccordionSection>
               </Accordions>
             )}
@@ -260,12 +260,6 @@ const AudioForm = ({
 };
 
 AudioForm.propTypes = {
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string.isRequired,
-      license: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
   onUpdate: PropTypes.func.isRequired,
   revision: PropTypes.number,
   audio: AudioShape,

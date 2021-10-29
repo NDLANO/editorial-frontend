@@ -8,13 +8,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { withTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
 import * as api from '../../modules/draft/draftApi';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { toEditAgreement } from '../../util/routeHelpers';
 import withMessages from '../Messages/withMessages';
 import Footer from '../App/components/Footer';
@@ -27,11 +25,6 @@ class AgreementPage extends React.Component {
     super();
     this.state = { isSaving: false };
     this.upsertAgreement = this.upsertAgreement.bind(this);
-  }
-
-  componentDidMount() {
-    const { fetchLicenses } = this.props;
-    fetchLicenses();
   }
 
   async upsertAgreement(agreement) {
@@ -56,7 +49,7 @@ class AgreementPage extends React.Component {
   }
 
   render() {
-    const { i18n, match, t, licenses } = this.props;
+    const { i18n, match, t } = this.props;
     const locale = i18n.language;
     return (
       <Fragment>
@@ -70,7 +63,6 @@ class AgreementPage extends React.Component {
                   locale={locale}
                   isSaving={this.state.isSaving}
                   upsertAgreement={this.upsertAgreement}
-                  licenses={licenses}
                 />
               )}
             />
@@ -83,7 +75,6 @@ class AgreementPage extends React.Component {
                   locale={locale}
                   isSaving={this.state.isSaving}
                   upsertAgreement={this.upsertAgreement}
-                  licenses={licenses}
                 />
               )}
             />
@@ -106,25 +97,8 @@ AgreementPage.propTypes = {
   i18n: PropTypes.shape({
     language: PropTypes.string.isRequired,
   }).isRequired,
-  fetchLicenses: PropTypes.func.isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
   createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  licenses: getAllLicenses(state),
-});
-
-const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
-};
-
-export default withTranslation()(
-  withMessages(connect(mapStateToProps, mapDispatchToProps)(AgreementPage)),
-);
+export default withTranslation()(withMessages(AgreementPage));

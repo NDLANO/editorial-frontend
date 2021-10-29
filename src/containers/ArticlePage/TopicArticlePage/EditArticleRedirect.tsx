@@ -12,13 +12,11 @@ import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 import EditTopicArticle from './EditTopicArticle';
 import { fetchDraft } from '../../../modules/draft/draftApi';
-import { License } from '../../../interfaces';
 
 interface Props extends RouteComponentProps<{ articleId: string }> {
   isNewlyCreated: boolean;
-  licenses: License[];
 }
-const EditArticleRedirect = ({ match, licenses, isNewlyCreated }: Props) => {
+const EditArticleRedirect = ({ match, isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const { articleId } = match.params;
@@ -38,7 +36,6 @@ const EditArticleRedirect = ({ match, licenses, isNewlyCreated }: Props) => {
         path={`${match.url}/:selectedLanguage`}
         render={props => (
           <EditTopicArticle
-            licenses={licenses}
             articleId={articleId}
             selectedLanguage={props.match.params.selectedLanguage}
             isNewlyCreated={isNewlyCreated}

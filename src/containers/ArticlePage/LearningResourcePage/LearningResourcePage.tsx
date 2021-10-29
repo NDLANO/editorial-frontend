@@ -5,27 +5,13 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { connect, ConnectedProps } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
-import { actions as licenseActions, getAllLicenses } from '../../../modules/license/license';
 import EditResourceRedirect from './EditResourceRedirect';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { usePreviousLocation } from '../../../util/routeHelpers';
-import { ReduxState } from '../../../interfaces';
-
-const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
-};
-
-const mapStateToProps = (state: ReduxState) => ({
-  licenses: getAllLicenses(state),
-});
-
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 interface BaseProps {}
 
@@ -33,15 +19,10 @@ interface ParamsType {
   articleId: string;
 }
 
-type Props = BaseProps & RouteComponentProps<ParamsType> & PropsFromRedux;
+type Props = BaseProps & RouteComponentProps<ParamsType>;
 
-const LearningResourcePage = ({ fetchLicenses, licenses, match, history, location }: Props) => {
+const LearningResourcePage = ({ match, history, location }: Props) => {
   const previousLocation = usePreviousLocation();
-  useEffect(() => {
-    if (!licenses.length) {
-      fetchLicenses();
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -49,7 +30,7 @@ const LearningResourcePage = ({ fetchLicenses, licenses, match, history, locatio
         <Switch>
           <Route
             path={`${match.url}/new`}
-            render={routeProps => <CreateLearningResource {...routeProps} licenses={licenses} />}
+            render={routeProps => <CreateLearningResource {...routeProps} />}
           />
           <Route path={`${match.url}/:articleId/edit/`}>
             {(params: RouteComponentProps<ParamsType>) => {
@@ -59,7 +40,6 @@ const LearningResourcePage = ({ fetchLicenses, licenses, match, history, locatio
                   history={history}
                   location={location}
                   isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
-                  licenses={licenses}
                 />
               );
             }}
@@ -72,4 +52,4 @@ const LearningResourcePage = ({ fetchLicenses, licenses, match, history, locatio
   );
 };
 
-export default reduxConnector(LearningResourcePage);
+export default LearningResourcePage;

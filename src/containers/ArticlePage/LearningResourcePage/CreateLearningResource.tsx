@@ -13,14 +13,11 @@ import LearningResourceForm from './components/LearningResourceForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { License } from '../../../interfaces';
 import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
 
-interface Props extends RouteComponentProps {
-  licenses: License[];
-}
+interface Props extends RouteComponentProps {}
 
-const CreateLearningResource = ({ history, licenses }: Props) => {
+const CreateLearningResource = ({ history }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
@@ -38,7 +35,6 @@ const CreateLearningResource = ({ history, licenses }: Props) => {
         article={{ language: locale, grepCodes: [] }}
         updateArticle={createArticleAndPushRoute}
         updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
-        licenses={licenses}
         translating={false}
         articleChanged={false}
         isNewlyCreated={false}

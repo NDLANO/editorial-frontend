@@ -21,19 +21,18 @@ import {
 } from '../../../../../modules/concept/conceptApiInterfaces';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
-import { License } from '../../../../../interfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { useLicenses } from '../../../../Licenses/LicensesProvider';
 
 interface Props {
   concept: SearchConceptType;
   cancel: () => void;
   subjects: SubjectType[];
   updateLocalConcept: (concept: ConceptApiType) => void;
-  licenses: License[] | undefined;
 }
 
-const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: Props) => {
+const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
   const { t, i18n } = useTranslation();
   const languageOptions = concept.supportedLanguages.map(lan => ({
     title: t(`language.${lan}`),
@@ -41,6 +40,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: P
   }));
   const [language, setLanguage] = useState<string>(concept.supportedLanguages[0]);
   const [fullConcept, setFullConcept] = useState<ConceptApiType | undefined>();
+  const { licenses, licensesLoading } = useLicenses();
 
   useEffect(() => {
     fetchConcept(concept.id, language).then(c => setFullConcept(c));
@@ -53,7 +53,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: P
   );
 
   useEffect(() => {
-    if (fullConcept && licenses && subjects) {
+    if (fullConcept && !licensesLoading && subjects) {
       const subjectIds = concept.subjectIds;
       const author = fullConcept.copyright?.creators.find(cr => cr.type === 'Writer');
       setFormValues({
@@ -65,10 +65,10 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: P
         tags: fullConcept.tags?.tags || [],
       });
     }
-  }, [concept, fullConcept, licenses, subjects]);
+  }, [concept, fullConcept, licenses, licensesLoading, subjects]);
 
   const handleSubmit = async (formConcept: InlineFormConcept) => {
-    if (!fullConcept || !licenses) return;
+    if (!fullConcept || !licensesLoading) return;
     const getCreators = (creators: { type: string; name: string }[], newAuthor: string) => {
       const author = creators.find(cr => cr.type === 'Writer');
       if (newAuthor !== '') {
@@ -126,13 +126,12 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept, licenses }: P
         uniqeIds
       />
 
-      {fullConcept && licenses && formValues ? (
+      {fullConcept && !licensesLoading && formValues ? (
         <ConceptForm
           initialValues={formValues}
           status={fullConcept.status.current}
           language={language}
           onSubmit={handleSubmit}
-          licenses={licenses}
           allSubjects={conceptSubjects}
           cancel={cancel}
         />

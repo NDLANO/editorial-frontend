@@ -14,14 +14,12 @@ import TopicArticleForm from './components/TopicArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { ConvertedDraftType, License } from '../../../interfaces';
+import { ConvertedDraftType } from '../../../interfaces';
 import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
 
-interface Props extends RouteComponentProps {
-  licenses: License[];
-}
+interface Props extends RouteComponentProps {}
 
-const CreateTopicArticle = ({ history, licenses }: Props) => {
+const CreateTopicArticle = ({ history }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
@@ -41,7 +39,6 @@ const CreateTopicArticle = ({ history, licenses }: Props) => {
         article={{ language: locale, grepCodes: [] }}
         updateArticle={createArticleAndPushRoute}
         isNewlyCreated={false}
-        licenses={licenses}
         translating={false}
         articleChanged={false}
       />

@@ -10,7 +10,6 @@ import { Store } from 'redux';
 
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { ReduxImageState } from './modules/image/image';
-import { ReduxLicenseState } from './modules/license/license';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
 import { ConceptApiType } from './modules/concept/conceptApiInterfaces';
@@ -507,7 +506,6 @@ export interface License {
 
 export interface ReduxState {
   images: ReduxImageState;
-  licenses: ReduxLicenseState;
 }
 
 export type SearchType = typeof SearchTypeValues[number];

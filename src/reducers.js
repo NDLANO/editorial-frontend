@@ -9,11 +9,9 @@
 import { combineReducers } from 'redux';
 
 import images from './modules/image/image';
-import licenses from './modules/license/license';
 
 const rootReducers = combineReducers({
   images,
-  licenses,
 });
 
 export default rootReducers;

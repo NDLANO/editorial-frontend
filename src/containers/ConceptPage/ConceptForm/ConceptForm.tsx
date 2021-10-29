@@ -31,12 +31,12 @@ import {
   ConceptPostType,
   ConceptPatchType,
 } from '../../../modules/concept/conceptApiInterfaces';
-import { License } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
+import { useLicenses } from '../../Licenses/LicensesProvider';
 
 interface Props {
   concept?: ConceptApiType;
@@ -44,7 +44,6 @@ interface Props {
   fetchConceptTags: (input: string, language: string) => Promise<ConceptTagsSearchResult>;
   inModal: boolean;
   isNewlyCreated?: boolean;
-  licenses: License[];
   conceptArticles: DraftApiType[];
   onClose?: () => void;
   language: string;
@@ -84,7 +83,6 @@ const ConceptForm = ({
   fetchConceptTags,
   inModal,
   isNewlyCreated = false,
-  licenses,
   onClose,
   subjects,
   translateToNN,
@@ -98,6 +96,7 @@ const ConceptForm = ({
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
   const { t } = useTranslation();
   const { applicationError } = useMessages();
+  const { licenses } = useLicenses();
 
   useEffect(() => {
     setSavedToServer(false);
@@ -190,11 +189,7 @@ const ConceptForm = ({
                 title={t('form.copyrightSection')}
                 className="u-6/6"
                 hasError={!!(errors.creators || errors.license)}>
-                <ConceptCopyright
-                  licenses={licenses}
-                  disableAgreements
-                  label={t('form.concept.source')}
-                />
+                <ConceptCopyright disableAgreements label={t('form.concept.source')} />
               </AccordionSection>
               <AccordionSection
                 id="concept-metadataSection"

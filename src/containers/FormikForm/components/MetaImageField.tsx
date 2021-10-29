@@ -14,7 +14,7 @@ import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback
 import { formClasses } from '..';
 import MetaInformation from '../../../components/MetaInformation';
 import FormikField from '../../../components/FormikField';
-import { ImageType } from '../../../interfaces';
+import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
 
 const metaImageButtonStyle = css`
   display: block;
@@ -40,7 +40,7 @@ const metaImageDeleteButtonStyle = css`
 `;
 
 interface Props {
-  image: ImageType;
+  image: ImageApiType;
   onImageSelectOpen: () => void;
   onImageRemove: () => void;
   showRemoveButton: boolean;
@@ -55,10 +55,7 @@ const MetaImageField = ({
   onImageLoad,
 }: Props) => {
   const { t } = useTranslation();
-  const copyright =
-    image.copyright && image.copyright.creators
-      ? image.copyright.creators.map(creator => creator.name).join(', ')
-      : undefined;
+  const copyright = image.copyright.creators.map(creator => creator.name).join(', ');
   const title = convertFieldWithFallback<'title'>(image, 'title', '');
   const alt = convertFieldWithFallback<'alttext'>(image, 'alttext', '');
   const imageAction = (

@@ -9,7 +9,6 @@ import { Editor, Node } from 'slate';
 import { Store } from 'redux';
 
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
-import { ReduxImageState } from './modules/image/image';
 import { ReduxLicenseState } from './modules/license/license';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 import { ReduxSessionState } from './modules/session/session';
@@ -84,21 +83,6 @@ export interface CodeBlockType {
   code: string;
   title: string;
   format: string;
-}
-
-export interface ImageType {
-  id: string;
-  metaUrl: string;
-  title: string;
-  alttext: string;
-  imageUrl: string;
-  size: number;
-  contentType: string;
-  copyright: Copyright;
-  tags: string[];
-  caption: string;
-  supportedLanguages: string[];
-  language: string;
 }
 
 export interface MetaImage {
@@ -509,7 +493,6 @@ export interface License {
 }
 
 export interface ReduxState {
-  images: ReduxImageState;
   licenses: ReduxLicenseState;
   session: ReduxSessionState;
   messages: ReduxMessageState;

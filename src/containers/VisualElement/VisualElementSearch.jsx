@@ -14,14 +14,6 @@ import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import { actions as tagActions, getAllTagsByLanguage } from '../../modules/tag/tag';
 import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
-import {
-  getImage,
-  getUploadedImage,
-  getSaving as getSavingImage,
-  actions as imageActions,
-} from '../../modules/image/image';
-import { ImageShape } from '../../shapes';
-import { getShowSaved } from '../Messages/messagesSelectors';
 import config from '../../config';
 import * as visualElementApi from './visualElementApi';
 import * as imageApi from '../../modules/image/imageApi';
@@ -38,32 +30,9 @@ const titles = (t, resource = '') => ({
 });
 
 class VisualElementSearch extends Component {
-  componentDidUpdate() {
-    const { uploadedImage, selectedResource, handleVisualElementChange } = this.props;
-    if (uploadedImage) {
-      const image = getImage(uploadedImage.id, true);
-      handleVisualElementChange({
-        resource: selectedResource,
-        resource_id: uploadedImage.id,
-        size: 'full',
-        align: '',
-        alt: uploadedImage.alttext.alttext,
-        caption: uploadedImage.caption.caption,
-        metaData: image,
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    const { uploadedImage, clearUploadedImage } = this.props;
-    if (uploadedImage) {
-      clearUploadedImage();
-    }
-  }
 
   render() {
     const {
-      isSavingImage,
       selectedResource,
       selectedResourceUrl,
       selectedResourceType,
@@ -88,7 +57,6 @@ class VisualElementSearch extends Component {
             inModal={true}
             handleVisualElementChange={handleVisualElementChange}
             locale={locale}
-            isSavingImage={isSavingImage}
             closeModal={closeModal}
             fetchImage={fetchImage}
             searchImages={imageApi.searchImages}
@@ -256,18 +224,6 @@ VisualElementSearch.propTypes = {
   handleVisualElementChange: PropTypes.func.isRequired,
   articleLanguage: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  uploadedImage: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    alttext: PropTypes.shape({
-      alttext: PropTypes.string,
-    }),
-    caption: PropTypes.shape({
-      caption: PropTypes.string,
-    }),
-  }),
-  isSavingImage: PropTypes.bool,
-  image: ImageShape,
-  clearUploadedImage: PropTypes.func.isRequired,
   closeModal: PropTypes.func,
   videoTypes: PropTypes.array,
   showMetaImageCheckbox: PropTypes.bool,
@@ -277,7 +233,6 @@ VisualElementSearch.propTypes = {
 const mapDispatchToProps = {
   fetchTags: tagActions.fetchTags,
   fetchLicenses: licenseActions.fetchLicenses,
-  clearUploadedImage: imageActions.clearUploadedImage,
 };
 
 const mapStateToProps = state => {
@@ -287,9 +242,6 @@ const mapStateToProps = state => {
     locale,
     tags: getAllTagsSelector(state),
     licenses: getAllLicenses(state),
-    isSavingImage: getSavingImage(state),
-    showSaved: getShowSaved(state),
-    uploadedImage: getUploadedImage(state),
   };
 };
 

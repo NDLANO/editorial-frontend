@@ -17,6 +17,7 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { animations, spacing, colors } from '@ndla/core';
 import IconButton from '../../../components/IconButton';
 import FormikField from '../../../components/FormikField';
+import { ImageFormikType } from '../imageTransformers';
 
 const StyledImage = styled.img`
   margin: ${spacing.normal} 0;
@@ -34,7 +35,7 @@ const StyledDeleteButtonContainer = styled.div`
 `;
 
 interface Props {
-  formik: FormikContextType<any>;
+  formik: FormikContextType<ImageFormikType>;
 }
 
 const ImageContent = ({ formik }: Props) => {

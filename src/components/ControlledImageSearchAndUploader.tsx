@@ -20,7 +20,7 @@ import {
   ImageSearchQuery,
   UpdatedImageMetadata,
 } from '../modules/image/imageApiInterfaces';
-import { ImageType, License } from '../interfaces';
+import { License } from '../interfaces';
 import EditorErrorMessage from './SlateEditor/EditorErrorMessage';
 
 const StyledTitleDiv = styled.div`
@@ -28,13 +28,13 @@ const StyledTitleDiv = styled.div`
 `;
 
 interface Props {
-  onImageSelect: (image: ImageType) => void;
+  onImageSelect: (image: ImageApiType) => void;
   locale: string;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
   searchImages: (queryObject: ImageSearchQuery) => void;
   fetchImage: (id: number) => Promise<ImageApiType>;
-  image?: ImageType;
+  image?: ImageApiType;
   updateImage: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
   inModal?: boolean;
 }
@@ -60,8 +60,6 @@ const ImageSearchAndUploader = ({
   const searchImagesWithParameters = (query: string, page: number) => {
     return searchImages({ query, page, 'page-size': 16 });
   };
-
-  const transformedImage = image ? { ...image, id: parseInt(image.id) } : { language: locale };
 
   return (
     <Tabs
@@ -100,8 +98,9 @@ const ImageSearchAndUploader = ({
           title: t('form.visualElement.imageUpload'),
           content: licenses ? (
             <ImageForm
+              language={locale}
               inModal={inModal}
-              image={transformedImage}
+              image={image}
               onUpdate={updateImage}
               closeModal={closeModal}
               licenses={licenses}

@@ -91,7 +91,7 @@ const RichTextEditor = ({
       // Try to select previous selection if it exists
       if (editor.lastSelection && ReactEditor.hasRange(editor, editor.lastSelection)) {
         Transforms.select(editor, editor.lastSelection);
-      // Else: Try to find previous block element and select it.
+        // Else: Try to find previous block element and select it.
       } else if (editor.lastSelectedBlock) {
         const [target] = Editor.nodes(editor, {
           at: Editor.range(editor, [0]),

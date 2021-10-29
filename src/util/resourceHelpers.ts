@@ -83,7 +83,7 @@ export const resourceToLinkProps = (
   content: {
     id: number;
     supportedLanguages?: string[];
-    contexts: [{ learningResourceType: string }];
+    contexts: { learningResourceType: string }[];
   },
   contentType: string | undefined,
   locale: string,

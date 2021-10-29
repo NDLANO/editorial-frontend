@@ -13,10 +13,17 @@ import { Link } from 'react-router-dom';
 import { resourceToLinkProps } from '../../../../util/resourceHelpers';
 import { ContentResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
+import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
 
 const supported = ['en', 'nb', 'nn'];
 
-const SearchContentLanguage = ({ language, content, contentType }) => {
+interface Props {
+  content: MultiSearchSummary;
+  language: string;
+  contentType?: string;
+}
+
+const SearchContentLanguage = ({ language, content, contentType }: Props) => {
   const { t } = useTranslation();
   if (!supported.includes(language) || content.title.language === language) {
     return null;
@@ -29,7 +36,7 @@ const SearchContentLanguage = ({ language, content, contentType }) => {
         {t(`language.${language}`)}
       </a>
     ) : (
-      <Link {...searchClasses('link')} to={linkProps.to}>
+      <Link {...searchClasses('link')} to={linkProps.to ?? ''}>
         {t(`language.${language}`)}
       </Link>
     );

@@ -32,14 +32,14 @@ const StyledStatusWrapper = styled.div`
 `;
 
 interface Props {
-  noStatus: boolean;
+  noStatus?: boolean;
   statusText?: string;
-  isNewLanguage: boolean;
+  isNewLanguage?: boolean;
   published: boolean;
   taxonomyPaths?: string[];
   indentLeft?: boolean;
   fontSize?: number;
-  type: string;
+  type?: string;
   id?: number;
 }
 

@@ -9,6 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+//@ts-ignore
 import { ContentTypeBadge } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -26,6 +27,7 @@ import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/H
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import SearchHighlight from './SearchHighlight';
 import { useSession } from '../../../Session/SessionProvider';
+import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
 
 const FlexBoxWrapper = styled.div`
   display: flex;
@@ -40,31 +42,34 @@ const ContentTypeWrapper = styled.div`
   margin-top: 10px;
 `;
 
-const SearchContent = ({ content, locale }) => {
+interface Props {
+  content: MultiSearchSummary;
+  locale: string;
+}
+
+interface ContentType {
+  contentType: string;
+}
+
+const SearchContent = ({ content, locale }: Props) => {
   const { t } = useTranslation();
   const { userAccess } = useSession();
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
   const imageUrl = url ? `${url}?width=200` : '/placeholder.png';
-  let resourceType = {};
-  if (
-    contexts &&
-    contexts.length > 0 &&
-    contexts[0].resourceTypes &&
-    contexts[0].resourceTypes.length > 0
-  ) {
+  let resourceType: ContentType | undefined;
+  const cond = (contexts[0]?.resourceTypes?.length ?? 0) > 0;
+  if (cond) {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
-  } else {
-    if (isLearningpath(content.url)) {
-      resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH }]);
-    }
+  } else if (isLearningpath(content.url)) {
+    resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH, name: '' }]);
   }
 
-  const linkProps = resourceToLinkProps(content, resourceType.contentType, locale);
+  const linkProps = resourceToLinkProps(content, resourceType?.contentType, locale);
 
   const statusType = () => {
     const status = content.status?.current.toLowerCase();
-    const isLearningpath = resourceType.contentType === 'learning-path';
+    const isLearningpath = resourceType?.contentType === 'learning-path';
     return t(`form.status.${isLearningpath ? 'learningpath_statuses.' + status : status}`);
   };
   const EditMarkup = (
@@ -109,7 +114,7 @@ const SearchContent = ({ content, locale }) => {
                   {content.title.title}
                 </a>
               ) : (
-                <Link {...searchClasses('link-no-shadow')} to={linkProps.to}>
+                <Link {...searchClasses('link-no-shadow')} to={linkProps.to ?? ''}>
                   {content.title.title}
                 </Link>
               )}
@@ -118,11 +123,12 @@ const SearchContent = ({ content, locale }) => {
           </FlexBoxWrapper>
           {content.supportedLanguages.map(lang => (
             <SearchContentLanguage
+              //@ts-ignore
               style={{ display: 'flex' }}
               key={`${lang}_search_content`}
               language={lang}
               content={content}
-              contentType={resourceType.contentType}
+              contentType={resourceType?.contentType}
             />
           ))}
         </div>
@@ -147,9 +153,11 @@ const SearchContent = ({ content, locale }) => {
           <HeaderStatusInformation
             statusText={statusType()}
             published={
-              content.status?.current === 'PUBLISHED' || content.status?.other.includes('PUBLISHED')
+              !!(
+                content.status?.current === 'PUBLISHED' ||
+                content.status?.other.includes('PUBLISHED')
+              )
             }
-            noHelp
             indentLeft
             fontSize={10}
           />

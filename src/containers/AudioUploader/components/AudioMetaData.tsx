@@ -16,21 +16,18 @@ import { fetchSearchTags } from '../../../modules/audio/audioApi';
 import { LicenseField, ContributorsField } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-import { License } from '../../../interfaces';
 import { AudioFormikType } from './AudioForm';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 interface Props {
   classes: BEMHelper<BEMHelper.ReturnObject>;
-  licenses: License[];
 }
 
 const AudioMetaData = (props: Props) => {
   const {
     values: { language, tags },
   } = useFormikContext<AudioFormikType>();
-  const { licenses } = props;
   const { t } = useTranslation();
   return (
     <>
@@ -49,9 +46,7 @@ const AudioMetaData = (props: Props) => {
           />
         )}
       </FormikField>
-      <FormikField name="license">
-        {({ field }) => <LicenseField licenses={licenses} {...field} />}
-      </FormikField>
+      <FormikField name="license">{({ field }) => <LicenseField {...field} />}</FormikField>
       <FormikField label={t('form.origin.label')} name="origin" />
       <ContributorsField contributorTypes={contributorTypes} />
     </>
@@ -61,12 +56,6 @@ const AudioMetaData = (props: Props) => {
 AudioMetaData.propTypes = {
   classes: PropTypes.func.isRequired,
   values: PropTypes.object,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string.isRequired,
-      license: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
 };
 
 export default AudioMetaData;

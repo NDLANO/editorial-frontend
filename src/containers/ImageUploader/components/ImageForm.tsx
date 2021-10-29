@@ -6,7 +6,7 @@
  */
 
 import React, { Component, ReactNode } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import Field from '../../../components/Field';
@@ -148,7 +148,7 @@ interface State {
   savedToServer: boolean;
 }
 
-class ImageForm extends Component<Props & WithTranslation, State> {
+class ImageForm extends Component<Props & CustomWithTranslation, State> {
   state = {
     savedToServer: false,
   };

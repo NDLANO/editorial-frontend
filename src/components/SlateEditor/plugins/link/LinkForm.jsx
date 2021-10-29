@@ -19,6 +19,14 @@ import { LinkShape } from '../../../../shapes';
 import validateFormik from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';
 import { Checkbox } from '../../../../containers/FormikForm';
+import {
+  isNDLAArticleUrl,
+  isNDLAEdPathUrl,
+  isNDLALearningPathUrl,
+  isNDLATaxonomyUrl,
+  isPlainId,
+} from './EditLink';
+import { isUrl } from '../../../validators';
 
 const marginLeftStyle = css`
   margin-left: 0.2rem;
@@ -29,22 +37,35 @@ const linkValidationRules = {
   href: { required: true, urlOrNumber: true },
 };
 
-const getLinkFieldStyle = node => {
-  const isExternalResource = node.href;
-  const isNdlaResource = node.resource === 'content-link';
-
-  if (isNdlaResource) {
+const getLinkFieldStyle = input => {
+  if (
+    isNDLAArticleUrl(input) ||
+    isNDLAEdPathUrl(input) ||
+    isNDLALearningPathUrl(input) ||
+    isNDLATaxonomyUrl(input) ||
+    isPlainId(input)
+  ) {
     return css`
       input {
-        background-color: ${colors.tasksAndActivities.background};
         background-color: ${colors.brand.light};
       }
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover,
+      input:-webkit-autofill:focus,
+      input:-webkit-autofill:active {
+        box-shadow: 0 0 0 30px ${colors.brand.light} inset;
+      }
     `;
-  } else if (isExternalResource) {
+  } else if (isUrl(input)) {
     return css`
       input {
-        background-color: ${colors.brand.light};
         background-color: ${colors.tasksAndActivities.background};
+      }
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover,
+      input:-webkit-autofill:focus,
+      input:-webkit-autofill:active {
+        box-shadow: 0 0 0 30px ${colors.tasksAndActivities.background} inset;
       }
     `;
   } else {
@@ -72,13 +93,13 @@ class LinkForm extends Component {
   }
 
   render() {
-    const { t, isEdit, link, onRemove, onClose, node } = this.props;
+    const { t, isEdit, link, onRemove, onClose } = this.props;
     return (
       <Formik
         initialValues={getInitialValues(link)}
         onSubmit={this.handleSave}
         validate={values => validateFormik(values, linkValidationRules, t, 'linkForm')}>
-        {({ submitForm }) => (
+        {({ submitForm, values }) => (
           <Form data-cy="link_form">
             <FormikField name="text" type="text" label={t('form.content.link.text')} />
             <FormikField
@@ -87,7 +108,7 @@ class LinkForm extends Component {
                 url: config.ndlaFrontendDomain,
               })}
               label={t('form.content.link.href')}
-              css={getLinkFieldStyle(node)}
+              css={getLinkFieldStyle(values.href)}
             />
             <Checkbox name="checkbox" label={t('form.content.link.newTab')} />
             <Field right>

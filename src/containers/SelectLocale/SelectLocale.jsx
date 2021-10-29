@@ -6,16 +6,17 @@
  *
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { createBrowserHistory as createHistory } from 'history';
-import { LocaleContext } from '../App/App';
 
 import { appLocales } from '../../i18n';
 import { LocationShape } from '../../shapes';
 
 const SelectLocale = ({ location: { pathname, search } }) => {
-  const locale = useContext(LocaleContext);
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const handleChange = newLocale => {
     const path = pathname.startsWith('/') ? pathname.substring(1) : pathname;
     createHistory().push(`/${newLocale}/${path}${search}`); // Need create new history or else basename is included

@@ -42,6 +42,9 @@ import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
+import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
+import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
+import { useSession } from '../../../Session/SessionProvider';
 
 const byLineStyle = css`
   display: flex;
@@ -64,12 +67,17 @@ const actionsToShowInAreas = {
   summary: actions,
 };
 
-const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>) => {
+const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>): SlatePlugin[] => {
   // Plugins are checked from last to first
   return [
     sectionPlugin,
     divPlugin,
-    paragraphPlugin,
+    paragraphPlugin(
+      language,
+      options({
+        actionsToShowInAreas,
+      }),
+    ),
     noEmbedPlugin,
     linkPlugin(language),
     headingPlugin,
@@ -90,7 +98,6 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
 };
 
 interface Props {
-  userAccess?: string;
   values: TopicArticleFormikType;
   handleBlur: (evt: { target: { name: string } }) => void;
   handleSubmit: () => Promise<void>;
@@ -99,10 +106,10 @@ interface Props {
 const TopicArticleContent = (props: Props) => {
   const { t } = useTranslation();
   const {
-    userAccess,
     values: { id, language, creators, published },
     handleSubmit,
   } = props;
+  const { userAccess } = useSession();
   const [preview, setPreview] = useState(false);
   const handleSubmitRef = React.useRef(handleSubmit);
   const plugins = useMemo(() => {
@@ -163,8 +170,6 @@ const TopicArticleContent = (props: Props) => {
                   },
                 });
               }}
-              language={language ?? ''}
-              actionsToShowInAreas={actionsToShowInAreas}
             />
           </Fragment>
         )}

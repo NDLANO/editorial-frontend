@@ -16,6 +16,8 @@ import { TYPE_BREAK } from '../break';
 import { getCurrentParagraph, TYPE_PARAGRAPH } from './utils';
 import containsVoid from '../../utils/containsVoid';
 import { TYPE_LIST_ITEM } from '../list/types';
+import { BlockPickerOptions } from '../blockPicker/options';
+import Paragraph from './Paragraph';
 
 const KEY_ENTER = 'Enter';
 
@@ -108,7 +110,9 @@ export const paragraphSerializer: SlateSerializer = {
   },
 };
 
-export const paragraphPlugin = (editor: Editor) => {
+export const paragraphPlugin = (language?: string, blockpickerOptions?: BlockPickerOptions) => (
+  editor: Editor,
+) => {
   const { onKeyDown, renderElement, normalizeNode } = editor;
 
   editor.onKeyDown = (e: KeyboardEvent) => {
@@ -145,9 +149,14 @@ export const paragraphPlugin = (editor: Editor) => {
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === TYPE_PARAGRAPH) {
       return (
-        <p className={element.data?.align === 'center' ? 'u-text-center' : ''} {...attributes}>
+        <Paragraph
+          attributes={attributes}
+          element={element}
+          editor={editor}
+          language={language}
+          blockpickerOptions={blockpickerOptions}>
           {children}
-        </p>
+        </Paragraph>
       );
     } else if (renderElement) {
       return renderElement({ attributes, children, element });

@@ -6,7 +6,6 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikHelpers } from 'formik';
@@ -24,9 +23,8 @@ import AudioManuscript from './AudioManuscript';
 import { toCreateAudioFile, toEditAudio } from '../../../util/routeHelpers';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
-import * as messageActions from '../../Messages/messagesActions';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { Author, FormikFormBaseType, License } from '../../../interfaces';
+import { Author, FormikFormBaseType } from '../../../interfaces';
 import {
   AudioApiType,
   AudioMetaInformationPost,
@@ -34,7 +32,8 @@ import {
 } from '../../../modules/audio/audioApiInterfaces';
 import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
-import { ReduxMessageError } from '../../Messages/messagesSelectors';
+import { MessageError, useMessages } from '../../Messages/MessagesProvider';
+import { useLicenses } from '../../Licenses/LicensesProvider';
 
 export interface AudioFormikType extends FormikFormBaseType {
   id?: number;
@@ -90,18 +89,10 @@ const rules: RulesType<AudioFormikType> = {
   },
 };
 
-const mapDispatchToProps = {
-  applicationError: messageActions.applicationError,
-};
-
-const reduxConnector = connect(undefined, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
-
 type OnCreateFunc = (audio: AudioMetaInformationPost, file?: string | Blob) => void;
 type OnUpdateFunc = (audio: AudioMetaInformationPut, file?: string | Blob) => void;
 
-interface BaseProps {
-  licenses: License[];
+interface Props {
   onUpdate: OnCreateFunc | OnUpdateFunc;
   audio?: AudioApiType;
   audioLanguage: string;
@@ -111,22 +102,20 @@ interface BaseProps {
   translateToNN?: () => void;
 }
 
-type Props = BaseProps & PropsFromRedux;
-
 const AudioForm = ({
   audioLanguage,
-  licenses,
   audio,
   isNewlyCreated,
   translating,
   translateToNN,
   onUpdate,
   revision,
-  applicationError,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const prevAudioLanguage = useRef<string | null>(null);
+  const { applicationError } = useMessages();
+  const { licenses } = useLicenses();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -164,7 +153,7 @@ const AudioForm = ({
       actions.setSubmitting(false);
       setSavedToServer(true);
     } catch (err) {
-      applicationError(err as ReduxMessageError);
+      applicationError(err as MessageError);
       actions.setSubmitting(false);
       setSavedToServer(false);
     }
@@ -235,7 +224,7 @@ const AudioForm = ({
                     'processors',
                     'license',
                   ])}>
-                  <AudioMetaData classes={formClasses} licenses={licenses} />
+                  <AudioMetaData classes={formClasses} />
                 </AccordionSection>
               </Accordions>
             )}
@@ -273,12 +262,6 @@ const AudioForm = ({
 };
 
 AudioForm.propTypes = {
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string.isRequired,
-      license: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
   onUpdate: PropTypes.func.isRequired,
   revision: PropTypes.number,
   audio: AudioShape,
@@ -288,4 +271,4 @@ AudioForm.propTypes = {
   translateToNN: PropTypes.func,
 };
 
-export default reduxConnector(AudioForm);
+export default AudioForm;

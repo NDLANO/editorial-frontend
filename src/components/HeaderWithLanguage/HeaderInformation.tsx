@@ -18,14 +18,12 @@ import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
 import { Podcast } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { connect, ConnectedProps } from 'react-redux';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as draftApi from '../../modules/draft/draftApi';
 import Spinner from '../Spinner';
 import handleError from '../../util/handleError';
-import { NewReduxMessage } from '../../containers/Messages/messagesSelectors';
-import * as messageActions from '../../containers/Messages/messagesActions';
+import { useMessages } from '../../containers/Messages/MessagesProvider';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -125,13 +123,13 @@ const HeaderInformation = ({
   isNewLanguage,
   title,
   formIsDirty,
-  createMessage,
   getEntity,
   history,
   taxonomyPaths,
-}: Props & PropsFromRedux) => {
+}: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const { createMessage } = useMessages();
   const onSaveAsNew = async () => {
     if (!getEntity) return;
     try {
@@ -187,12 +185,4 @@ const HeaderInformation = ({
   );
 };
 
-const mapDispatchToProps = {
-  createMessage: (message: NewReduxMessage = { timeToLive: 0 }) =>
-    messageActions.addMessage(message),
-};
-
-const reduxConnector = connect(undefined, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
-
-export default reduxConnector(withRouter(HeaderInformation));
+export default withRouter(HeaderInformation);

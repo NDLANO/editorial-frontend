@@ -9,7 +9,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersionConcept } from '../../modules/concept/conceptApi';
@@ -19,7 +18,6 @@ import {
   deleteLanguageVersionSeries,
 } from '../../modules/audio/audioApi';
 import { deleteLanguageVersion as deleteLanguageVersionDraft } from '../../modules/draft/draftApi';
-import * as messageActions from '../../containers/Messages/messagesActions';
 import {
   toCreateAudioFile,
   toCreateConcept,
@@ -36,7 +34,7 @@ import {
 import AlertModal from '../AlertModal';
 import StyledFilledButton from '../StyledFilledButton';
 import { formatErrorMessage } from '../../util/apiHelpers';
-import { NewReduxMessage } from '../../containers/Messages/messagesSelectors';
+import { useMessages } from '../../containers/Messages/MessagesProvider';
 
 const StyledWrapper = styled.div`
   flex-grow: 1;
@@ -46,14 +44,10 @@ const StyledWrapper = styled.div`
 
 const nonDeletableTypes = ['standard', 'topic-article', 'concept'];
 
-const DeleteLanguageVersion = ({
-  values,
-  history,
-  type,
-  createMessage,
-}: Props & PropsFromRedux) => {
+const DeleteLanguageVersion = ({ values, history, type }: Props) => {
   const { t } = useTranslation();
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
+  const { createMessage } = useMessages();
 
   const toggleShowDeleteWarning = () => {
     setShowDeleteWarning(!showDeleteWarning);
@@ -166,11 +160,4 @@ interface Props extends RouteComponentProps {
   type: string;
 }
 
-const mapDispatchToProps = {
-  createMessage: (message: NewReduxMessage = {}) => messageActions.addMessage(message),
-};
-
-const reduxConnector = connect(undefined, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
-
-export default reduxConnector(withRouter(DeleteLanguageVersion));
+export default withRouter(DeleteLanguageVersion);

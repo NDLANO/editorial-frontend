@@ -15,6 +15,7 @@ import { DEFAULT_LICENSE, parseCopyrightContributors } from '../../../util/formH
 import AgreementFields from './AgreementFields';
 import { formClasses, ActionButton, AbortButton } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
+import withLicenses from '../../Licenses/withLicenses';
 
 const getInitialValues = (agreement = {}) => ({
   id: agreement.id,
@@ -82,7 +83,7 @@ class AgreementForm extends Component {
   };
 
   render() {
-    const { t, agreement, licenses } = this.props;
+    const { t, agreement } = this.props;
 
     const initVal = getInitialValues(agreement);
     return (
@@ -103,7 +104,7 @@ class AgreementForm extends Component {
               </div>
             </div>
             <div {...formClasses('content', '', 'u-4/6@desktop u-push-1/6@desktop')}>
-              <AgreementFields licenses={licenses} />
+              <AgreementFields />
             </div>
             <Field right>
               <AbortButton outline disabled={isSubmitting}>
@@ -132,4 +133,4 @@ AgreementForm.propTypes = {
   onUpdate: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(AgreementForm);
+export default withLicenses(withTranslation()(AgreementForm));

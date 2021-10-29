@@ -11,8 +11,6 @@ import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { uuid } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { css } from '@emotion/core';
 import { compact } from 'lodash';
 // @ts-ignore
@@ -21,12 +19,10 @@ import { toggleRelatedArticles } from '@ndla/article-scripts';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { queryResources } from '../../../../modules/taxonomy';
-import { getLocale } from '../../../../modules/locale/locale';
 import EditRelated from './EditRelated';
 import handleError from '../../../../util/handleError';
 import RelatedArticle from './RelatedArticle';
 import { RelatedElement } from '.';
-import { ReduxState } from '../../../../interfaces';
 import { DraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { Resource } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ARTICLE_EXTERNAL } from '../../../../constants';
@@ -63,10 +59,7 @@ const mapRelatedArticle = (article: DraftApiType, resource: Resource[]): Interna
 });
 
 const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, children }: Props) => {
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [articles, setArticles] = useState<RelatedArticleType[]>([]);
   const [editMode, setEditMode] = useState(false);
 
@@ -138,8 +131,8 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     async (id: string) => {
       try {
         const [article, resource] = await Promise.all([
-          fetchDraft(parseInt(id), language),
-          queryResources(id, language),
+          fetchDraft(id, i18n.language),
+          queryResources(id, i18n.language),
         ]);
         if (article) {
           return mapRelatedArticle(article, resource);
@@ -148,7 +141,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         handleError(error);
       }
     },
-    [language],
+    [i18n.language],
   );
 
   const fetchArticles = useCallback(
@@ -196,7 +189,6 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         <EditRelated
           onRemoveClick={onRemoveClick}
           articles={articles}
-          locale={language}
           insertExternal={insertExternal}
           onInsertBlock={onInsertBlock}
           onExit={() => setEditMode(false)}
@@ -237,8 +229,4 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
   );
 };
 
-const mapStateToProps = (state: ReduxState) => ({
-  locale: getLocale(state),
-});
-
-export default compose(connect(mapStateToProps, null))(RelatedArticleBox);
+export default RelatedArticleBox;

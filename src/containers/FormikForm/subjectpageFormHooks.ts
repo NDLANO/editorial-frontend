@@ -8,9 +8,9 @@ import { FormikProps } from 'formik';
 import { useState } from 'react';
 import { TFunction } from 'react-i18next';
 import { SubjectpageApiType, SubjectpageEditType } from '../../interfaces';
-import * as messageActions from '../Messages/messagesActions';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { SubjectFormValues } from '../EditSubjectFrontpage/components/SubjectpageForm';
+import { useMessages } from '../Messages/MessagesProvider';
 
 export function useSubjectpageFormHooks(
   getSubjectpageFromSlate: Function, // TODO fix type
@@ -29,6 +29,7 @@ export function useSubjectpageFormHooks(
 ) {
   const [savedToServer, setSavedToServer] = useState(false);
   const initialValues = getInitialValues(subjectpage, elementId, selectedLanguage);
+  const { createMessage, applicationError } = useMessages();
 
   const handleSubmit = async (formik: FormikProps<SubjectFormValues>) => {
     formik.setSubmitting(true);
@@ -41,14 +42,14 @@ export function useSubjectpageFormHooks(
       setSavedToServer(true);
     } catch (err) {
       if (err?.status === 409) {
-        messageActions.addMessage({
+        createMessage({
           message: t('alertModal.needToRefresh'),
           timeToLive: 0,
         });
       } else if (err?.json?.messages) {
-        messageActions.addMessage(formatErrorMessage(err));
+        createMessage(formatErrorMessage(err));
       } else {
-        messageActions.applicationError(err);
+        applicationError(err);
       }
       formik.setSubmitting(false);
       setSavedToServer(false);

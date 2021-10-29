@@ -7,22 +7,11 @@
 
 import React from 'react';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
-import { connect, ConnectedProps } from 'react-redux';
 import { OneColumn } from '@ndla/ui';
 import EditResourceRedirect from './EditResourceRedirect';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
-import * as messageActions from '../../Messages/messagesActions';
 import { usePreviousLocation } from '../../../util/routeHelpers';
-import { NewReduxMessage } from '../../Messages/messagesSelectors';
-
-const mapDispatchToProps = {
-  createMessage: (message: NewReduxMessage) => messageActions.addMessage(message),
-  applicationError: messageActions.applicationError,
-};
-
-const reduxConnector = connect(undefined, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
 
 interface BaseProps {}
 
@@ -30,15 +19,9 @@ interface ParamsType {
   articleId: string;
 }
 
-type Props = BaseProps & RouteComponentProps<ParamsType> & PropsFromRedux;
+type Props = BaseProps & RouteComponentProps<ParamsType>;
 
-const LearningResourcePage = ({
-  applicationError,
-  createMessage,
-  match,
-  history,
-  location,
-}: Props) => {
+const LearningResourcePage = ({ match, history, location }: Props) => {
   const previousLocation = usePreviousLocation();
 
   return (
@@ -47,13 +30,7 @@ const LearningResourcePage = ({
         <Switch>
           <Route
             path={`${match.url}/new`}
-            render={routeProps => (
-              <CreateLearningResource
-                {...routeProps}
-                applicationError={applicationError}
-                createMessage={createMessage}
-              />
-            )}
+            render={routeProps => <CreateLearningResource {...routeProps} />}
           />
           <Route path={`${match.url}/:articleId/edit/`}>
             {(params: RouteComponentProps<ParamsType>) => {
@@ -63,8 +40,6 @@ const LearningResourcePage = ({
                   history={history}
                   location={location}
                   isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
-                  applicationError={applicationError}
-                  createMessage={createMessage}
                 />
               );
             }}
@@ -77,4 +52,4 @@ const LearningResourcePage = ({
   );
 };
 
-export default reduxConnector(LearningResourcePage);
+export default LearningResourcePage;

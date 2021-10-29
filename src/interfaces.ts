@@ -11,7 +11,6 @@ import { Store } from 'redux';
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { ReduxImageState } from './modules/image/image';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
-import { ReduxMessageState } from './containers/Messages/messagesSelectors';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
 import { ConceptApiType } from './modules/concept/conceptApiInterfaces';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
@@ -507,7 +506,6 @@ export interface License {
 
 export interface ReduxState {
   images: ReduxImageState;
-  messages: ReduxMessageState;
 }
 
 export type SearchType = typeof SearchTypeValues[number];

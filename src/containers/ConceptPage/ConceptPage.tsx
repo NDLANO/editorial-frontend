@@ -7,12 +7,10 @@
  */
 
 import React, { memo, useEffect, useRef, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
-import * as messageActions from '../Messages/messagesActions';
 import Footer from '../App/components/Footer';
 const CreateConcept = loadable(() => import('./CreateConcept'));
 const EditConcept = loadable(() => import('./EditConcept'));
@@ -20,7 +18,7 @@ const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
 interface BaseProps {}
 
-type Props = BaseProps & RouteComponentProps & PropsFromRedux;
+type Props = BaseProps & RouteComponentProps;
 
 const ConceptPage = (props: Props) => {
   const [previousLocation, setPreviousLocation] = useState('');
@@ -62,11 +60,4 @@ const ConceptPage = (props: Props) => {
   );
 };
 
-const mapDispatchToProps = {
-  applicationError: messageActions.applicationError,
-};
-
-const reduxConnector = connect(undefined, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
-
-export default memo(reduxConnector(ConceptPage));
+export default memo(ConceptPage);

@@ -7,7 +7,6 @@
 
 import React, { Fragment } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -17,23 +16,14 @@ import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface Props extends RouteComponentProps {
   articleId: string;
   selectedLanguage: LocaleType;
   isNewlyCreated: boolean;
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
 }
 
-const EditTopicArticle = ({
-  articleId,
-  selectedLanguage,
-  isNewlyCreated,
-  createMessage,
-  applicationError,
-}: Props) => {
+const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated }: Props) => {
   const {
     loading,
     article,
@@ -68,8 +58,6 @@ const EditTopicArticle = ({
         translateToNN={translateToNN}
         translating={translating}
         isNewlyCreated={isNewlyCreated}
-        createMessage={createMessage}
-        applicationError={applicationError}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
       />

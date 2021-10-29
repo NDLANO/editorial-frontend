@@ -8,21 +8,16 @@
 import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import { useTranslation } from 'react-i18next';
 import LearningResourceForm from './components/LearningResourceForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
 
-interface Props extends RouteComponentProps {
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
-}
+interface Props extends RouteComponentProps {}
 
-const CreateLearningResource = ({ history, applicationError, createMessage }: Props) => {
+const CreateLearningResource = ({ history }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
@@ -40,8 +35,6 @@ const CreateLearningResource = ({ history, applicationError, createMessage }: Pr
         article={{ language: locale, grepCodes: [] }}
         updateArticle={createArticleAndPushRoute}
         updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
-        createMessage={createMessage}
-        applicationError={applicationError}
         translating={false}
         articleChanged={false}
         isNewlyCreated={false}

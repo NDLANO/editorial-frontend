@@ -9,7 +9,6 @@ import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import { useTranslation } from 'react-i18next';
 import TopicArticleForm from './components/TopicArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
@@ -17,14 +16,10 @@ import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType } from '../../../interfaces';
 import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
-import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
-interface Props extends RouteComponentProps {
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
-}
+interface Props extends RouteComponentProps {}
 
-const CreateTopicArticle = ({ history, applicationError, createMessage }: Props) => {
+const CreateTopicArticle = ({ history }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
@@ -45,8 +40,6 @@ const CreateTopicArticle = ({ history, applicationError, createMessage }: Props)
         updateArticle={createArticleAndPushRoute}
         isNewlyCreated={false}
         translating={false}
-        applicationError={applicationError}
-        createMessage={createMessage}
         articleChanged={false}
       />
     </Fragment>

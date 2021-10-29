@@ -11,7 +11,6 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
-import { Action, ActionFunction1 } from 'redux-actions';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -42,7 +41,6 @@ import {
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, RelatedContent } from '../../../../interfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
 import { useLicenses } from '../../../Licenses/LicensesProvider';
 
 export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
@@ -120,8 +118,6 @@ export const convertDraftOrRelated = (
 };
 
 interface Props extends RouteComponentProps {
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   article: Partial<ConvertedDraftType>;
   translating: boolean;
   translateToNN: () => void;
@@ -139,8 +135,6 @@ interface Props extends RouteComponentProps {
 const LearningResourceForm = ({
   article,
   articleStatus,
-  createMessage,
-  applicationError,
   isNewlyCreated = false,
   translateToNN,
   translating,
@@ -217,8 +211,6 @@ const LearningResourceForm = ({
     article,
     t,
     articleStatus,
-    createMessage,
-    applicationError,
     updateArticle,
     updateArticleAndStatus,
     getArticleFromSlate,
@@ -264,7 +256,6 @@ const LearningResourceForm = ({
             getInitialValues={getInitialValues}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            createMessage={createMessage}
             handleSubmit={handleSubmit}
           />
         )}
@@ -282,7 +273,6 @@ const LearningResourceForm = ({
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          createMessage={createMessage}
           isConcept={false}
           hideSecondaryButton={false}
         />

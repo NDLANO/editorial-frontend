@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -42,7 +41,6 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
 import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
 import { useLicenses } from '../../../Licenses/LicensesProvider';
 
@@ -103,8 +101,6 @@ interface Props extends RouteComponentProps {
   article: Partial<ConvertedDraftType>;
   revision?: number;
   updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   articleStatus?: DraftStatus;
   articleChanged: boolean;
   updateArticleAndStatus?: (input: {
@@ -126,8 +122,6 @@ const TopicArticleForm = (props: Props) => {
     translating,
     translateToNN,
     isNewlyCreated,
-    createMessage,
-    applicationError,
     articleStatus,
   } = props;
   const { licenses } = useLicenses();
@@ -207,8 +201,6 @@ const TopicArticleForm = (props: Props) => {
     licenses,
     getArticleFromSlate,
     isNewlyCreated,
-    createMessage,
-    applicationError,
   });
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
@@ -252,7 +244,6 @@ const TopicArticleForm = (props: Props) => {
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
             handleSubmit={async () => handleSubmit(values, formik)}
-            createMessage={createMessage}
           />
         )}
         <EditorFooter
@@ -269,7 +260,6 @@ const TopicArticleForm = (props: Props) => {
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          createMessage={createMessage}
           isConcept={false}
           hideSecondaryButton={false}
         />

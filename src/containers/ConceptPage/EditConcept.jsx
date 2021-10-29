@@ -72,7 +72,6 @@ EditConcept.propTypes = {
   conceptId: PropTypes.string,
   selectedLanguage: PropTypes.string.isRequired,
   isNewlyCreated: PropTypes.bool,
-  createMessage: PropTypes.func.isRequired,
 };
 
 export default EditConcept;

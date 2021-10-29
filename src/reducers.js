@@ -8,11 +8,9 @@
 
 import { combineReducers } from 'redux';
 
-import messages from './containers/Messages/messagesReducer';
 import images from './modules/image/image';
 
 const rootReducers = combineReducers({
-  messages,
   images,
 });
 

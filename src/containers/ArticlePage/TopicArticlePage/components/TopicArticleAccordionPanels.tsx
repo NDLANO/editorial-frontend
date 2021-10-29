@@ -12,7 +12,6 @@ import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
-import { NewReduxMessage } from '../../../Messages/messagesSelectors';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
 
@@ -23,7 +22,6 @@ interface Props extends RouteComponentProps {
   formIsDirty: boolean;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: () => UpdatedDraftApiType;
-  createMessage: (message: NewReduxMessage) => void;
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
 }
 
@@ -34,7 +32,6 @@ const TopicArticleAccordionPanels = ({
   formIsDirty,
   updateNotes,
   history,
-  createMessage,
   getInitialValues,
   getArticle,
 }: Props) => {
@@ -119,7 +116,6 @@ const TopicArticleAccordionPanels = ({
           <VersionAndNotesPanel
             article={article}
             articleId={values.id}
-            createMessage={createMessage}
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}

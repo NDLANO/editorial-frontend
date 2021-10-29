@@ -15,7 +15,6 @@ describe('Search content', () => {
     cy.apiroute('GET', `${taxonomyApi}/resource-types/?language=nb`, 'resourceTypes');
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute('GET', '/search-api/v1/search/editorial/*', 'search');
-    // cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.intercept('GET', '/get_editors*', [
       {
         name: 'Ed Test',

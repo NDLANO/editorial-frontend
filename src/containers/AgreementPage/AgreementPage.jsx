@@ -8,14 +8,13 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { withTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
 import * as api from '../../modules/draft/draftApi';
-import * as messageActions from '../Messages/messagesActions';
 import { toEditAgreement } from '../../util/routeHelpers';
+import withMessages from '../Messages/withMessages';
 import Footer from '../App/components/Footer';
 const EditAgreement = loadable(() => import('./EditAgreement'));
 const CreateAgreement = loadable(() => import('./CreateAgreement'));
@@ -29,7 +28,7 @@ class AgreementPage extends React.Component {
   }
 
   async upsertAgreement(agreement) {
-    const { history, applicationError, addMessage } = this.props;
+    const { history, applicationError, createMessage } = this.props;
     try {
       this.setState({ isSaving: true });
       if (agreement.id) {
@@ -39,7 +38,7 @@ class AgreementPage extends React.Component {
         history.push(toEditAgreement(newAgreement.id));
       }
       this.setState({ isSaving: false });
-      addMessage({
+      createMessage({
         translationKey: agreement.id ? 'form.savedOk' : 'form.createdOk',
         severity: 'success',
       });
@@ -98,13 +97,8 @@ AgreementPage.propTypes = {
   i18n: PropTypes.shape({
     language: PropTypes.string.isRequired,
   }).isRequired,
-  addMessage: PropTypes.func.isRequired,
+  createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = {
-  applicationError: messageActions.applicationError,
-  addMessage: messageActions.addMessage,
-};
-
-export default withTranslation()(connect(undefined, mapDispatchToProps)(AgreementPage));
+export default withTranslation()(withMessages(AgreementPage));

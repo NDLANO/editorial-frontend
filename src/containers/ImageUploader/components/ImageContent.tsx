@@ -18,6 +18,7 @@ import { animations, spacing, colors } from '@ndla/core';
 import IconButton from '../../../components/IconButton';
 import FormikField from '../../../components/FormikField';
 import { ImageFormikType } from '../imageTransformers';
+import { ImageFormErrorFields } from './ImageForm';
 
 const StyledImage = styled.img`
   margin: ${spacing.normal} 0;
@@ -96,7 +97,7 @@ const ImageContent = ({ formik }: Props) => {
             container="div"
             type="text"
             autoExpand
-            warningText={errors[field.name]}
+            warningText={errors[field.name as ImageFormErrorFields]}
             {...field}
           />
         )}
@@ -109,7 +110,7 @@ const ImageContent = ({ formik }: Props) => {
             container="div"
             type="text"
             autoExpand
-            warningText={errors[field.name]}
+            warningText={errors[field.name as ImageFormErrorFields]}
             {...field}
           />
         )}

@@ -5,8 +5,6 @@
  */
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-import { Editor } from 'slate';
-import { Store } from 'redux';
 
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
@@ -367,12 +365,6 @@ export interface NdlaFilmThemesEditType {
   }[];
 }
 
-export interface SlateEditor extends Editor {
-  props: {
-    submitted: boolean;
-    slateStore: Store;
-  };
-}
 export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface ImageEmbed {
   resource: 'image';

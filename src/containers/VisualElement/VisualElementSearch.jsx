@@ -26,7 +26,6 @@ const titles = (t, resource = '') => ({
 });
 
 class VisualElementSearch extends Component {
-
   render() {
     const {
       selectedResource,

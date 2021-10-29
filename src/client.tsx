@@ -8,7 +8,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { render } from 'react-dom';
-import { Provider } from 'react-redux';
 import { BrowserRouter, Router, useHistory } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import ErrorReporter from '@ndla/error-reporter';
@@ -16,7 +15,6 @@ import { createBrowserHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
 import config, { ConfigType, getDefaultLanguage } from './config';
 import { isValidLocale } from './i18n';
-import configureStore from './configureStore';
 import App from './containers/App/App';
 import { initializeI18n, supportedLanguages } from './i18n2';
 import { STORED_LANGUAGE_KEY } from './constants';
@@ -36,12 +34,9 @@ declare global {
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : undefined;
 
-export const store = configureStore();
-
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
 
 window.errorReporter = ErrorReporter.getInstance({
-  store,
   logglyApiKey,
   environment,
   componentName,
@@ -106,11 +101,9 @@ const renderApp = () => {
   render(
     //@ts-ignore i18nInstance is not recognized as valid by I18nextProvider. It works, however.
     <I18nextProvider i18n={i18nInstance}>
-      <Provider store={store}>
-        <Router history={browserHistory}>
-          <I18nWrapper basename={basename} />
-        </Router>
-      </Provider>
+      <Router history={browserHistory}>
+        <I18nWrapper basename={basename} />
+      </Router>
     </I18nextProvider>,
     document.getElementById('root'),
   );

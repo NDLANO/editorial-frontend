@@ -87,7 +87,7 @@ interface Props {
   language: string;
 }
 
-type ErrorFields =
+export type ImageFormErrorFields =
   | 'alttext'
   | 'caption'
   | 'creators'
@@ -171,7 +171,7 @@ const ImageForm = ({
           initialValues,
           dirty,
         });
-        const hasError = (errorFields: ErrorFields[]): boolean =>
+        const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
           errorFields.some(field => !!errors[field]);
         return (
           <FormWrapper inModal={inModal}>

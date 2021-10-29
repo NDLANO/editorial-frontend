@@ -6,14 +6,13 @@
  *
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessage, connect } from 'formik';
 import BEMHelper from 'react-bem-helper';
 import { FieldHeader } from '@ndla/forms';
-import VisualElementSelectField from '../../VisualElement/VisualElementSelectField';
 import VisualElement from '../../VisualElement/VisualElement';
 import FormikField, { FormikFieldHelp } from '../../../components/FormikField';
 import { FormikShape } from '../../../shapes';
@@ -30,13 +29,12 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-const VisualElementField = ({ formik, isSubjectPage, types, videoTypes }) => {
+const VisualElementField = ({ formik, types }) => {
   const { t } = useTranslation();
-  const [selectedResource, setSelectedResource] = useState(undefined);
 
   return (
     <Fragment>
-      <FormikField name="visualElementObject">
+      <FormikField name="visualElement">
         {({ field }) => (
           <div>
             <FieldHeader title={t('form.visualElement.title')}>
@@ -44,18 +42,9 @@ const VisualElementField = ({ formik, isSubjectPage, types, videoTypes }) => {
             </FieldHeader>
             <Fragment>
               <VisualElement
-                changeVisualElement={setSelectedResource}
                 label={t('form.visualElement.label')}
                 language={formik.values.language}
-                isSubjectPage={isSubjectPage}
                 types={types}
-                {...field}
-              />
-              <VisualElementSelectField
-                selectedResource={selectedResource}
-                resetSelectedResource={() => setSelectedResource(undefined)}
-                videoTypes={videoTypes}
-                articleLanguage={formik.values.language}
                 {...field}
               />
             </Fragment>
@@ -77,11 +66,7 @@ const VisualElementField = ({ formik, isSubjectPage, types, videoTypes }) => {
 
 VisualElementField.propTypes = {
   formik: FormikShape,
-  isSubjectPage: PropTypes.bool,
   types: PropTypes.arrayOf(PropTypes.string),
-  videoTypes: PropTypes.array,
-  visualElementCaptionName: PropTypes.string,
-  getArticle: PropTypes.func,
 };
 
 export default connect(VisualElementField);

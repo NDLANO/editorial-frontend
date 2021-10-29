@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
-import textTransformPlugin from '../../components/SlateEditor/plugins/textTransform';
+import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
 import { MetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import AvailabilityField from './components/AvailabilityField';
@@ -20,10 +20,10 @@ import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { ArticleShape } from '../../shapes';
 import { useSession } from '../Session/SessionProvider';
 
-const MetaDataField = ({ article, fetchSearchTags, handleSubmit, handleBlur }) => {
+const MetaDataField = ({ article, fetchSearchTags }) => {
   const { t } = useTranslation();
   const { userAccess } = useSession();
-  const plugins = [textTransformPlugin()];
+  const plugins = [textTransformPlugin];
 
   return (
     <Fragment>
@@ -57,15 +57,7 @@ const MetaDataField = ({ article, fetchSearchTags, handleSubmit, handleBlur }) =
           <PlainTextEditor
             id={field.name}
             placeholder={t('form.metaDescription.label')}
-            handleSubmit={handleSubmit}
             {...field}
-            onBlur={(event, editor, next) => {
-              next();
-              // this is a hack since formik onBlur-handler interferes with slates
-              // related to: https://github.com/ianstormtaylor/slate/issues/2434
-              // formik handleBlur needs to be called for validation to work (and touched to be set)
-              setTimeout(() => handleBlur({ target: { name: 'metaDescription' } }), 0);
-            }}
             plugins={plugins}
           />
         )}
@@ -87,8 +79,6 @@ const MetaDataField = ({ article, fetchSearchTags, handleSubmit, handleBlur }) =
 MetaDataField.propTypes = {
   article: ArticleShape.isRequired,
   fetchSearchTags: PropTypes.func,
-  handleSubmit: PropTypes.func,
-  handleBlur: PropTypes.func,
 };
 
 export default MetaDataField;

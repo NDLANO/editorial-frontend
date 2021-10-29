@@ -35,14 +35,10 @@ declare global {
   }
 }
 
-const { initialState } = window;
-
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : undefined;
 
-export const store = configureStore({
-  ...initialState,
-});
+export const store = configureStore();
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
 

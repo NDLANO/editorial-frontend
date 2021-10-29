@@ -6,12 +6,13 @@
  */
 
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Descendant, Element } from 'slate';
 import { Formik, Form, FormikProps } from 'formik';
+import { useTranslation } from 'react-i18next';
 import {
   SubjectpageEditType,
   SubjectpageType,
-  VisualElement,
+  Embed,
   ArticleType,
   SubjectpageApiType,
 } from '../../../interfaces';
@@ -27,8 +28,11 @@ import { useSubjectpageFormHooks } from '../../FormikForm/subjectpageFormHooks';
 import {
   editorValueToPlainText,
   plainTextToEditorValue,
+  embedToEditorValue,
+  editorValueToEmbed,
 } from '../../../util/articleContentConverter';
 import SaveButton from '../../../components/SaveButton';
+import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
 
 interface Props {
   subjectpage: SubjectpageEditType;
@@ -39,11 +43,13 @@ interface Props {
   elementId: string;
   isNewlyCreated: boolean;
 }
-export interface SubjectFormValues extends SubjectpageType {
-  visualElementObject?: VisualElement;
+export interface SubjectFormValues
+  extends Omit<SubjectpageType, 'description' | 'metaDescription'> {
+  visualElement: Descendant[];
   articleType: string;
-  description?: string;
-  desktopBanner?: VisualElement;
+  description?: Descendant[];
+  metaDescription?: Descendant[];
+  desktopBanner?: Embed;
   editorsChoices: ArticleType[];
   language: string;
   mobileBanner?: number;
@@ -59,10 +65,12 @@ const subjectpageRules: RulesType<SubjectFormValues> = {
     required: true,
     maxLength: 300,
   },
-  visualElementObject: {
+  visualElement: {
     required: true,
     test: (values: SubjectFormValues) => {
-      const badVisualElementId = values?.visualElementObject?.resource_id === '';
+      const element = values?.visualElement[0];
+      const data = Element.isElement(element) && element.type === TYPE_EMBED && element.data;
+      const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
       return badVisualElementId
         ? { translationKey: 'subjectpageForm.missingVisualElement' }
         : undefined;
@@ -86,11 +94,11 @@ const getInitialValues = (
     articleType: elementId.includes('subject') ? 'subjectpage' : 'filter',
     supportedLanguages: subjectpage.supportedLanguages || [],
     language: selectedLanguage,
-    description: plainTextToEditorValue(subjectpage.description, true),
+    description: plainTextToEditorValue(subjectpage.description || ''),
     title: subjectpage.title || '',
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElementObject: subjectpage.visualElementObject,
+    visualElement: embedToEditorValue(subjectpage.visualElement),
     editorsChoices: subjectpage.editorsChoices || [],
     facebook: subjectpage.facebook || '',
     filters: subjectpage.filters || [],
@@ -98,7 +106,7 @@ const getInitialValues = (
     id: subjectpage.id,
     latestContent: subjectpage.latestContent || [],
     layout: subjectpage.layout || 'single',
-    metaDescription: plainTextToEditorValue(subjectpage.metaDescription, true),
+    metaDescription: plainTextToEditorValue(subjectpage.metaDescription || ''),
     mostRead: subjectpage.mostRead || [],
     name: subjectpage.name || '',
     topical: subjectpage.topical || '',
@@ -111,18 +119,9 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
   return {
     articleType: 'subjectpage',
     supportedLanguages: values.supportedLanguages,
-    description: editorValueToPlainText(values.description),
+    description: values.description ? editorValueToPlainText(values.description) : '',
     title: values.title,
-    visualElementObject:
-      'resource_id' in (values.visualElementObject ?? {})
-        ? {
-            resource: values.visualElementObject?.resource,
-            url: values.visualElementObject?.url,
-            resource_id: values.visualElementObject?.resource_id,
-            videoid: values.visualElementObject?.videoid,
-            alt: values.visualElementObject?.alt || values.visualElementObject?.caption,
-          }
-        : undefined,
+    visualElement: editorValueToEmbed(values.visualElement),
     language: values.language,
     mobileBanner: values.mobileBanner,
     desktopBanner: values.desktopBanner,
@@ -133,7 +132,7 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
     id: values.id,
     latestContent: values.latestContent,
     layout: values.layout,
-    metaDescription: editorValueToPlainText(values.metaDescription),
+    metaDescription: values.metaDescription ? editorValueToPlainText(values.metaDescription) : '',
     mostRead: values.mostRead,
     name: values.name,
     topical: values.topical,
@@ -170,7 +169,7 @@ const SubjectpageForm = ({
       onSubmit={() => {}}
       validate={values => validateFormik(values, subjectpageRules, t)}>
       {(formik: FormikProps<SubjectFormValues>) => {
-        const { values, dirty, isSubmitting, errors, isValid, handleBlur } = formik;
+        const { values, dirty, isSubmitting, errors, isValid } = formik;
 
         const formIsDirty: boolean = isFormikFormDirty({
           values,
@@ -193,14 +192,6 @@ const SubjectpageForm = ({
               editorsChoices={values.editorsChoices!}
               elementId={values.elementId!}
               errors={errors}
-              handleSubmit={() => handleSubmit(formik)}
-              onBlur={(event, editor, next) => {
-                next();
-                // this is a hack since formik onBlur-handler interferes with slates
-                // related to: https://github.com/ianstormtaylor/slate/issues/2434
-                // formik handleBlur needs to be called for validation to work (and touched to be set)
-                setTimeout(() => handleBlur({ target: { name: 'introduction' } }), 0);
-              }}
             />
             <Field right>
               <SaveButton

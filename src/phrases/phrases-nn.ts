@@ -553,7 +553,6 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
-      slatetitle: 'Tittel',
       aboutTitle: 'Tittel',
       introduction: 'Ingress',
       creators: 'Opphavsperson',
@@ -571,7 +570,6 @@ const phrases = {
       caption: 'Bildetekst',
       imageFile: 'Bildefil',
       visualElement: 'Visuelt element',
-      visualElementObject: 'Visuelt element',
       visualElementCaption: 'Figur tekst',
       visualElementAlt: 'Alt tekst',
       validFrom: 'Gyldig fra',
@@ -825,7 +823,7 @@ const phrases = {
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {{type}}',
         description:
-          'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på {{url}}. Ndla-ressursar visast med blå bakgrunn og eksterne lenker med gul.',
+          'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på {{- url}}. Ndla-ressursar visast med blå bakgrunn og eksterne lenker med gul.',
       },
       footnote: {
         title: 'Tittel',

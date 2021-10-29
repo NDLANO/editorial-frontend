@@ -14,12 +14,6 @@ const CreateAgreement = ({ upsertAgreement, ...rest }) => (
 );
 
 CreateAgreement.propTypes = {
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
   upsertAgreement: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   isSaving: PropTypes.bool.isRequired,

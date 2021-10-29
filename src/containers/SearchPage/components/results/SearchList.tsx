@@ -22,7 +22,6 @@ import {
   SeriesSearchResultType,
 } from '../../../../modules/audio/audioApiInterfaces';
 import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
-import { useLicenses } from '../../../../modules/draft/draftQueries';
 
 type ResultSummaryType =
   | ImageSearchSummaryApiType
@@ -44,8 +43,6 @@ const SearchList = ({ results, searchObject, type, searching, locale, subjects }
   const { t } = useTranslation();
   const editingState = useState(false);
   const setEditing = editingState[1];
-
-  const { data: licenses } = useLicenses();
   useEffect(() => {
     setEditing(false);
   }, [results, setEditing]);
@@ -68,7 +65,6 @@ const SearchList = ({ results, searchObject, type, searching, locale, subjects }
               locale={locale || result.title.language}
               subjects={subjects}
               editingState={editingState}
-              licenses={licenses}
             />
           </CSSTransition>
         ))}

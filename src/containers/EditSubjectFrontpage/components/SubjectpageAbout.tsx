@@ -8,17 +8,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
-import { Editor } from 'slate';
 import FormikField from '../../../components/FormikField';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
-interface Props {
-  handleSubmit: () => void;
-  onBlur: (event: Event, editor: Editor, next: Function) => void;
-}
-
-const SubjectpageAbout = ({ handleSubmit, onBlur }: Props) => {
+const SubjectpageAbout = () => {
   const { t } = useTranslation();
   return (
     <>
@@ -29,17 +23,16 @@ const SubjectpageAbout = ({ handleSubmit, onBlur }: Props) => {
         name="description"
         showMaxLength
         maxLength={300}>
-        {({ field }: FieldProps) => (
+        {({ field, form: { isSubmitting } }: FieldProps) => (
           <PlainTextEditor
             id={field.name}
             {...field}
+            submitted={isSubmitting}
             placeholder={t('subjectpageForm.description')}
-            handleSubmit={handleSubmit}
-            onBlur={onBlur}
           />
         )}
       </FormikField>
-      <VisualElementField types={['image', 'video']} videoTypes={['Brightcove']} isSubjectPage />
+      <VisualElementField types={['image', 'video']} />
     </>
   );
 };

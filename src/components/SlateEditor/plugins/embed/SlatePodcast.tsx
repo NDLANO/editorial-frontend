@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
@@ -15,22 +16,30 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import { SlateAudio as Audio, Embed, LocaleType } from '../../../../interfaces';
+import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 
 interface Props {
-  attributes?: {
-    'data-key': String;
-    'data-slate-object': String;
-  };
-  embed: Embed;
+  attributes: RenderElementProps['attributes'];
+  embed: AudioEmbed;
   language: string;
   locale: LocaleType;
   onRemoveClick: (event: React.MouseEvent) => void;
+  isSelectedForCopy: boolean;
+  children: ReactNode;
 }
 
-const SlatePodcast = ({ attributes, embed, language, locale, onRemoveClick }: Props) => {
+const SlatePodcast = ({
+  attributes,
+  embed,
+  language,
+  locale,
+  onRemoveClick,
+  isSelectedForCopy,
+  children,
+}: Props) => {
   const { t } = useTranslation();
   const [audio, setAudio] = useState<Audio>({} as Audio);
+  const showCopyOutline = isSelectedForCopy;
 
   useEffect(() => {
     const getAudio = async () => {
@@ -59,8 +68,17 @@ const SlatePodcast = ({ attributes, embed, language, locale, onRemoveClick }: Pr
           embed={embed}
           language={language}
         />
-        {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={false} />}
+        <div
+          contentEditable={false}
+          css={
+            showCopyOutline && {
+              boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+            }
+          }>
+          {audio.id && <AudioPlayerMounter audio={audio} locale={locale} speech={false} />}
+        </div>
       </Figure>
+      {children}
     </div>
   );
 };

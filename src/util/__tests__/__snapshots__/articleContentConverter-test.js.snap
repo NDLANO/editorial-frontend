@@ -3,34 +3,22 @@
 exports[`articleContentConverter convert article that is a mix of inline and block object by wrapping the inline 1`] = `"<section><h2>Section 1</h2><aside data-type=\\"rightAside\\"><p>Some text that slate wants to delete </p><div><em>blabla</em></div></aside></section><section><h2>Section 2</h2></section><section><h2>Section 3</h2></section>"`;
 
 exports[`articleContentConverter convert learningresource content 1`] = `
-Object {
-  "document": Object {
-    "data": Object {},
-    "nodes": Array [
+Array [
+  Object {
+    "children": Array [
       Object {
-        "data": Object {},
-        "nodes": Array [
+        "children": Array [
           Object {
-            "data": Object {},
-            "nodes": Array [
-              Object {
-                "marks": Array [],
-                "object": "text",
-                "text": "Lorem ipsum",
-              },
-            ],
-            "object": "block",
-            "type": "heading-two",
+            "text": "Lorem ipsum",
           },
         ],
-        "object": "block",
-        "type": "section",
+        "level": 2,
+        "type": "heading",
       },
     ],
-    "object": "document",
+    "type": "section",
   },
-  "object": "value",
-}
+]
 `;
 
 exports[`articleContentConverter convert learningresource content to and from editorValue 1`] = `"<section><h2>Lorem ipsum</h2></section>"`;

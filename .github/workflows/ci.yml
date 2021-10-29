@@ -14,7 +14,7 @@ env:
   GH_PR_NUMBER: ${{ github.event.number }}
   GH_PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
   GH_PR_SHA: ${{ github.event.pull_request.head.sha }}
-  NODE_OPTIONS: "--max-old-space-size=4096"
+  NODE_OPTIONS: '--max-old-space-size=4096'
 jobs:
   unit_tests:
     name: 'Unit tests'
@@ -78,5 +78,5 @@ jobs:
         run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
       - name: 'Install'
         run: yarn install --frozen-lockfile
-      - name: "Run run-e2e"
+      - name: 'Run run-e2e'
         run: yarn run-e2e

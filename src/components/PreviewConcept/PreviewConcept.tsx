@@ -22,7 +22,7 @@ import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchSubject } from '../../modules/taxonomy/subjects';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
-import { VisualElement } from '../../interfaces';
+import { Embed } from '../../interfaces';
 
 const StyledBody = styled.div`
   margin: 0 ${spacing.normal} ${spacing.small};
@@ -66,7 +66,7 @@ const VisualElementWrapper = styled.div`
 
 interface Props {
   concept: ConceptApiType;
-  visualElement?: VisualElement;
+  visualElement?: Embed;
 }
 
 const PreviewConcept = ({ concept, visualElement }: Props) => {

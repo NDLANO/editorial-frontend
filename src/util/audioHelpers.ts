@@ -6,7 +6,6 @@
  *
  */
 
-import { Value } from 'slate';
 import { convertFieldWithFallback } from './convertFieldWithFallback';
 import {
   AudioApiType,
@@ -45,8 +44,8 @@ export const audioApiTypeToFormType = (
 
   return {
     ...audio,
-    title: plainTextToEditorValue(title, true),
-    manuscript: plainTextToEditorValue(manuscript, true),
+    title: plainTextToEditorValue(title),
+    manuscript: plainTextToEditorValue(manuscript),
     tags: Array.from(new Set(tags)),
     ...copyright,
     origin: audio?.copyright.origin ?? '',
@@ -63,7 +62,7 @@ export const audioApiTypeToPodcastFormType = (
 ): PodcastFormValues => {
   return {
     ...audioApiTypeToFormType(audio, language),
-    introduction: plainTextToEditorValue(audio?.podcastMeta?.introduction, true),
+    introduction: plainTextToEditorValue(audio?.podcastMeta?.introduction || ''),
     coverPhotoId: audio?.podcastMeta?.coverPhoto.id,
     metaImageAlt: audio?.podcastMeta?.coverPhoto.altText,
     filepath: '',
@@ -84,8 +83,8 @@ export const podcastSeriesTypeToFormType = (
     language,
     coverPhotoId: series?.coverPhoto.id,
     metaImageAlt: series?.coverPhoto.altText,
-    title: plainTextToEditorValue(title, true) as Value,
-    description: plainTextToEditorValue(description, true) as Value,
+    title: plainTextToEditorValue(title),
+    description: plainTextToEditorValue(description),
     episodes: series?.episodes ?? [],
     supportedLanguages: series?.supportedLanguages ?? [language],
   };

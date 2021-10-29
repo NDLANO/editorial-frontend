@@ -58,8 +58,7 @@ const SearchContent = ({ content, locale }: Props) => {
   const { url, alt } = metaImage || {};
   const imageUrl = url ? `${url}?width=200` : '/placeholder.png';
   let resourceType: ContentType | undefined;
-  const cond = (contexts[0]?.resourceTypes?.length ?? 0) > 0;
-  if (cond) {
+  if ((contexts[0]?.resourceTypes?.length ?? 0) > 0) {
     resourceType = getContentTypeFromResourceTypes(contexts[0].resourceTypes);
   } else if (isLearningpath(content.url)) {
     resourceType = getContentTypeFromResourceTypes([{ id: RESOURCE_TYPE_LEARNING_PATH, name: '' }]);

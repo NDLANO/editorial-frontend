@@ -37,7 +37,7 @@ test('articleContentConverter convert learningresource content to and from edito
 
 test('articleContentConverter convert learningresource content', () => {
   const editorValue = learningResourceContentToEditorValue(contentHTML, fragment);
-  expect(editorValue[0].toJSON()).toMatchSnapshot();
+  expect(editorValue[0]).toMatchSnapshot();
 });
 
 test('articleContentConverter convert learningresource content with multiple sections to and from editorValue', () => {

@@ -17,11 +17,11 @@ import { i18nInstance } from '@ndla/ui';
 import config, { ConfigType, getDefaultLanguage } from './config';
 import { isValidLocale } from './i18n';
 import configureStore from './configureStore';
-import { getSessionStateFromLocalStorage } from './modules/session/session';
 import App from './containers/App/App';
 import { initializeI18n, supportedLanguages } from './i18n2';
 import { STORED_LANGUAGE_KEY } from './constants';
 import Spinner from './components/Spinner';
+import { LocaleType } from './interfaces';
 
 declare global {
   interface Window {
@@ -33,15 +33,10 @@ declare global {
   }
 }
 
-const { initialState } = window;
-
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : undefined;
 
-export const store = configureStore({
-  ...initialState,
-  session: getSessionStateFromLocalStorage(),
-});
+export const store = configureStore();
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
 
@@ -64,7 +59,7 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
     initializeI18n(i18n);
     i18n.loadLanguages(i18n.options.supportedLngs as string[]);
     i18n.loadResources(() => setLoading(false));
-    const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
+    const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY) as LocaleType;
     const defaultLanguage = getDefaultLanguage();
     if ((!basename && !storedLanguage) || (!basename && storedLanguage === defaultLanguage)) {
       setBase('');

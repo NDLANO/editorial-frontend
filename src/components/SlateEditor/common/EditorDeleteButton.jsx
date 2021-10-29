@@ -25,7 +25,7 @@ const deleteButtonStyle = css`
 `;
 
 export const EditorDeleteButton = props => (
-  <DeleteButton stripped css={deleteButtonStyle} {...props} />
+  <DeleteButton stripped css={deleteButtonStyle} tabIndex="-1" {...props} />
 );
 
 EditorDeleteButton.propTypes = {

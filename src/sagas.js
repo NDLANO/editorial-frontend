@@ -5,17 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { spawn, all } from 'redux-saga/effects';
-import tagSagas from './modules/tag/tagSagas';
-import sessionSagas from './modules/session/sessionSagas';
-import licenseSagas from './modules/license/licenseSagas';
-import messagesSagas from './containers/Messages/messagesSagas';
+import { all } from 'redux-saga/effects';
 
 export default function* root() {
-  yield all([
-    ...tagSagas.map(s => spawn(s)),
-    ...sessionSagas.map(s => spawn(s)),
-    ...licenseSagas.map(s => spawn(s)),
-    ...messagesSagas.map(s => spawn(s)),
-  ]);
+  yield all([]);
 }

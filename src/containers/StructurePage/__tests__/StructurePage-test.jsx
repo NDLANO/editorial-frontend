@@ -10,7 +10,6 @@ import nock from 'nock';
 import React from 'react';
 import { render, wait, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import { StructureContainer } from '../StructureContainer';
 import {
   subjectsMock,
@@ -19,18 +18,13 @@ import {
 } from '../../../util/__tests__/taxonomyMocks';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 import { taxonomyApi } from '../../../config';
+import { SessionProvider } from '../../Session/SessionProvider';
 
 afterEach(cleanup);
 
-const store = {
-  getState: jest.fn(() => ({ locale: 'nb' })),
-  dispatch: jest.fn(),
-  subscribe: jest.fn(),
-};
-
 const wrapper = () =>
   render(
-    <Provider store={store}>
+    <SessionProvider>
       <MemoryRouter>
         <IntlWrapper>
           <StructureContainer
@@ -52,7 +46,7 @@ const wrapper = () =>
           />
         </IntlWrapper>
       </MemoryRouter>
-    </Provider>,
+    </SessionProvider>,
   );
 
 beforeEach(() => {

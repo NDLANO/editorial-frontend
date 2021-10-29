@@ -32,7 +32,7 @@ export const postImage = (formData: FormData): Promise<ImageApiType> =>
     body: formData,
   }).then(r => resolveJsonOrRejectWithError<ImageApiType>(r));
 
-export const fetchImage = (id: number, language?: string): Promise<ImageApiType> =>
+export const fetchImage = (id: number | string, language?: string): Promise<ImageApiType> =>
   fetchAuthorized(`${baseUrl}/${id}?language=${language}`).then(r =>
     resolveJsonOrRejectWithError<ImageApiType>(r),
   );

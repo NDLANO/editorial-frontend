@@ -22,7 +22,7 @@ import StyledFilledButton from '../StyledFilledButton';
 import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
-import { VisualElement, TypeOfPreview } from '../../interfaces';
+import { Embed, TypeOfPreview } from '../../interfaces';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { createGuard } from '../../util/guards';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
@@ -48,7 +48,7 @@ const closeButtonStyle = css`
 `;
 
 export interface ConceptPreviewType extends ConceptApiType {
-  parsedVisualElement?: VisualElement;
+  parsedVisualElement?: Embed;
 }
 
 const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
@@ -86,9 +86,7 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
     setSecondConcept({ ...secondConcept, parsedVisualElement });
   };
 
-  const getVisualElement = async (
-    visualElementEmbed?: string,
-  ): Promise<VisualElement | undefined> => {
+  const getVisualElement = async (visualElementEmbed?: string): Promise<Embed | undefined> => {
     if (!visualElementEmbed) return undefined;
     const embedTag = parseEmbedTag(visualElementEmbed);
     switch (embedTag?.resource) {

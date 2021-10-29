@@ -1,12 +1,12 @@
-import { Value } from 'slate';
+import { Descendant } from 'slate';
 import { ConceptStatusStateMachineType } from '../../modules/concept/conceptApiInterfaces';
 
 export interface Values {
   id: number;
   revision: number;
-  title: Value;
-  introduction: Value;
-  content: Value;
+  title: Descendant[];
+  introduction: Descendant[];
+  content: Descendant[];
   tags: Array<string>;
   creators: string;
   processors: string;

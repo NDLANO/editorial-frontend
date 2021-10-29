@@ -8,18 +8,6 @@
 
 import { combineReducers } from 'redux';
 
-import locale from './modules/locale/locale';
-import messages from './containers/Messages/messagesReducer';
-import tags from './modules/tag/tag';
-import licenses from './modules/license/license';
-import session from './modules/session/session';
-
-const rootReducers = combineReducers({
-  locale,
-  messages,
-  tags,
-  licenses,
-  session,
-});
+const rootReducers = combineReducers({});
 
 export default rootReducers;

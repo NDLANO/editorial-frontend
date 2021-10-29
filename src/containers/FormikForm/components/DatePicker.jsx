@@ -6,18 +6,17 @@
  *
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader, FieldRemoveButton, FieldSection } from '@ndla/forms';
-import { LocaleContext } from '../../App/App';
 import DateTimeInput from '../../../components/DateTime/DateTimeInput';
 import Field from '../../../components/Field';
 
 const DatePicker = ({ name, onReset, label, ...rest }) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
   return (
     <Field>
       <FieldHeader title={label || t(`form.${name}.label`)} />

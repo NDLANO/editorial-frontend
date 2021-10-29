@@ -10,35 +10,21 @@ import React, { Fragment } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import { useTranslation } from 'react-i18next';
 import LearningResourceForm from './components/LearningResourceForm';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
-import { License, LocaleType } from '../../../interfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
+import { LocaleType } from '../../../interfaces';
 
 interface Props extends RouteComponentProps {
   isNewlyCreated: boolean;
   articleId: string;
   selectedLanguage: LocaleType;
-  licenses: License[];
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
-  userAccess: string | undefined;
 }
 
-const EditLearningResource = ({
-  selectedLanguage,
-  articleId,
-  isNewlyCreated,
-  licenses,
-  applicationError,
-  createMessage,
-  userAccess,
-}: Props) => {
+const EditLearningResource = ({ selectedLanguage, articleId, isNewlyCreated }: Props) => {
   const { t } = useTranslation();
   const {
     loading,
@@ -73,12 +59,8 @@ const EditLearningResource = ({
         translating={translating}
         translateToNN={translateToNN}
         isNewlyCreated={isNewlyCreated}
-        licenses={licenses}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
-        createMessage={createMessage}
-        applicationError={applicationError}
-        userAccess={userAccess}
       />
     </Fragment>
   );

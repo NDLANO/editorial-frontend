@@ -7,57 +7,46 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import { Editor } from 'slate';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import FormikField from '../../components/FormikField';
 
-import textTransformPlugin from '../../components/SlateEditor/plugins/textTransform';
-
-const plugins = [textTransformPlugin()];
+import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
+import saveHotkeyPlugin from '../../components/SlateEditor/plugins/saveHotkey';
 
 interface Props {
   maxLength?: number;
   name?: string;
   handleSubmit: () => Promise<void>;
-  onBlur: (event: Event, editor: Editor, next: Function) => void;
   type?: string;
 }
 
-const TitleField = ({ maxLength = 256, name = 'slatetitle', handleSubmit, onBlur }: Props) => {
+const TitleField = ({ maxLength = 256, name = 'title', handleSubmit }: Props) => {
   const { t } = useTranslation();
+  const handleSubmitRef = React.useRef(handleSubmit);
+
+  React.useEffect(() => {
+    handleSubmitRef.current = handleSubmit;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleSubmit]);
+  const plugins = [textTransformPlugin, saveHotkeyPlugin(() => handleSubmitRef.current())];
   return (
     <FormikField noBorder label={t('form.title.label')} name={name} title maxLength={maxLength}>
-      {({ field }) => (
+      {({ field, form: { isSubmitting } }) => (
         <PlainTextEditor
           id={field.name}
           {...field}
           className={'title'}
           placeholder={t('form.title.label')}
-          data-cy="learning-resource-title"
+          cy="learning-resource-title"
           plugins={plugins}
+          submitted={isSubmitting}
           handleSubmit={handleSubmit}
-          onBlur={onBlur}
         />
       )}
     </FormikField>
   );
-};
-
-TitleField.defaultProps = {
-  name: 'slatetitle',
-  maxLength: 256,
-  type: 'title',
-};
-
-TitleField.propTypes = {
-  maxLength: PropTypes.number,
-  name: PropTypes.string,
-  type: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
 };
 
 export default TitleField;

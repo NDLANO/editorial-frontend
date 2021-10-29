@@ -28,10 +28,10 @@ import {
   AudioApiType,
 } from '../../../modules/audio/audioApiInterfaces';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
-import { License } from '../../../interfaces';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
 import handleError from '../../../util/handleError';
 import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
+import { useLicenses } from '../../Licenses/LicensesProvider';
 
 const podcastRules: RulesType<PodcastFormValues> = {
   title: {
@@ -88,7 +88,6 @@ interface Props {
   inModal?: boolean;
   isNewlyCreated?: boolean;
   language: string;
-  licenses: License[];
   onUpdate: OnCreateFunc | OnUpdateFunc;
   revision?: number;
   translating?: boolean;
@@ -100,12 +99,12 @@ const PodcastForm = ({
   podcastChanged,
   inModal,
   isNewlyCreated,
-  licenses,
   language,
   onUpdate,
   translating,
   translateToNN,
 }: Props) => {
+  const { licenses } = useLicenses();
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
@@ -139,8 +138,8 @@ const PodcastForm = ({
     const podcastMetaData = {
       id: values.id,
       revision: values.revision,
-      title: editorValueToPlainText(values.title),
-      manuscript: editorValueToPlainText(values.manuscript),
+      title: values.title ? editorValueToPlainText(values.title) : '',
+      manuscript: values.manuscript ? editorValueToPlainText(values.manuscript) : '',
       tags: values.tags,
       audioType: 'podcast',
       language: values.language,
@@ -152,7 +151,7 @@ const PodcastForm = ({
         rightsholders: values.rightsholders,
       },
       podcastMeta: {
-        introduction: editorValueToPlainText(values.introduction),
+        introduction: values.introduction ? editorValueToPlainText(values.introduction) : '',
         coverPhotoId: values.coverPhotoId,
         coverPhotoAltText: values.metaImageAlt,
       },
@@ -240,7 +239,7 @@ const PodcastForm = ({
                   title={t('podcastForm.fields.manuscript')}
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={[].some(field => field in errors)}>
-                  <AudioManuscript classes={formClasses} />
+                  <AudioManuscript />
                 </AccordionSection>
                 <AccordionSection
                   id="podcast-upload-podcastmeta"
@@ -257,7 +256,6 @@ const PodcastForm = ({
                       ];
                       validateForm();
                     }}
-                    handleSubmit={submitForm}
                   />
                   <PodcastSeriesInformation />
                 </AccordionSection>
@@ -269,7 +267,7 @@ const PodcastForm = ({
                   hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
                     field => field in errors,
                   )}>
-                  <AudioMetaData classes={formClasses} licenses={licenses} />
+                  <AudioMetaData classes={formClasses} />
                 </AccordionSection>
               </Accordions>
             )}

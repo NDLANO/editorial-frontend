@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
@@ -10,41 +10,35 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
-import { LocaleContext } from '../../../App/App';
-import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
-import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
-import { NewReduxMessage } from '../../../Messages/messagesSelectors';
+import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import { useSession } from '../../../Session/SessionProvider';
 
 interface Props extends RouteComponentProps {
-  userAccess: string | undefined;
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: () => Promise<void>;
   article: Partial<ConvertedDraftType>;
   formIsDirty: boolean;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: () => UpdatedDraftApiType;
-  licenses: License[];
-  createMessage: (message: NewReduxMessage) => void;
-  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
+  getInitialValues: (article: Partial<ConvertedDraftType>) => TopicArticleFormikType;
 }
 
 const TopicArticleAccordionPanels = ({
-  userAccess,
   fetchSearchTags,
   handleSubmit,
   article,
   formIsDirty,
   updateNotes,
-  licenses,
   history,
-  createMessage,
   getInitialValues,
   getArticle,
 }: Props) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
-  const formikContext = useFormikContext<ArticleFormikType>();
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+  const { userAccess } = useSession();
+  const formikContext = useFormikContext<TopicArticleFormikType>();
   const { values, handleBlur, errors, setValues } = formikContext;
   return (
     <Accordions>
@@ -52,21 +46,9 @@ const TopicArticleAccordionPanels = ({
         id={'topic-article-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
-        hasError={
-          !!(
-            errors.slatetitle ||
-            errors.introduction ||
-            errors.content ||
-            errors.visualElementObject
-          )
-        }
+        hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
         startOpen>
-        <TopicArticleContent
-          userAccess={userAccess}
-          handleSubmit={handleSubmit}
-          handleBlur={handleBlur}
-          values={values}
-        />
+        <TopicArticleContent handleSubmit={handleSubmit} handleBlur={handleBlur} values={values} />
       </AccordionSection>
       {values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
         <AccordionSection
@@ -88,19 +70,14 @@ const TopicArticleAccordionPanels = ({
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }>
-        <CopyrightFieldGroup values={values} licenses={licenses} />
+        <CopyrightFieldGroup values={values} />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-metadata'}
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.tags)}>
-        <MetaDataField
-          article={article}
-          handleSubmit={handleSubmit}
-          handleBlur={handleBlur}
-          fetchSearchTags={fetchSearchTags}
-        />
+        <MetaDataField article={article} fetchSearchTags={fetchSearchTags} />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-grepCodes'}
@@ -115,7 +92,7 @@ const TopicArticleAccordionPanels = ({
           title={t('form.name.relatedContent')}
           className={'u-6/6'}
           hasError={!!(errors.conceptIds || errors.relatedContent)}>
-          <RelatedContentFieldGroup values={values} locale={locale} userAccess={userAccess} />
+          <RelatedContentFieldGroup values={values} locale={locale} />
         </AccordionSection>
       )}
       {values.id && (
@@ -127,7 +104,6 @@ const TopicArticleAccordionPanels = ({
           <VersionAndNotesPanel
             article={article}
             articleId={values.id}
-            createMessage={createMessage}
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}

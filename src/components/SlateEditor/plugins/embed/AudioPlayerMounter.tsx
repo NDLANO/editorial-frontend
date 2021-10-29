@@ -81,18 +81,16 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
         speech={speech}
         img={podcastImg}
         description={podcastMeta?.introduction}
-        textVersion={audio?.manuscript}
+        textVersion={audio?.manuscript?.manuscript}
       />
       {!speech && (
-        <>
-          <FigureCaption
-            id={figureLicenseDialogId}
-            figureId={`figure-${audio.id}`}
-            reuseLabel={t('audio.reuse')}
-            licenseRights={license.rights}
-            authors={copyright.creators}
-          />
-        </>
+        <FigureCaption
+          id={figureLicenseDialogId}
+          figureId={`figure-${audio.id}`}
+          reuseLabel={t('audio.reuse')}
+          licenseRights={license.rights}
+          authors={copyright.creators}
+        />
       )}
       {image && <ImageLicense image={image} locale={locale} />}
     </div>

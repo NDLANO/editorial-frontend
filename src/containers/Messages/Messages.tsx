@@ -6,17 +6,13 @@
  *
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { TFunction, useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
 import { css, SerializedStyles } from '@emotion/core';
-import { createBrowserHistory as createHistory } from 'history';
-import { Dispatch } from 'redux';
-import { clearMessage } from './messagesActions';
-import { MessageShape } from '../../shapes';
+import styled from '@emotion/styled';
+import { createBrowserHistory } from 'history';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import AlertModal from '../../components/AlertModal';
-import { ReduxMessage } from './messagesSelectors';
+import { useMessages } from './MessagesProvider';
 
 const appearances: Record<string, SerializedStyles> = {
   hidden: css`
@@ -36,36 +32,49 @@ const StyledMessageAlertOverlay = styled('div')`
   ${(p: { appearance: 'hidden' | '' }) => appearances[p.appearance]};
 `;
 
-const getActions = (message: ReduxMessage, dispatch: Dispatch, t: TFunction) => {
-  if (message.type === 'auth0') {
-    return [
-      {
-        text: t('form.abort'),
-        onClick: () => dispatch(clearMessage(message.id)),
-      },
-      {
-        text: t('alertModal.loginAgain'),
-        onClick: (evt: Event) => {
-          evt.preventDefault();
-          const lastPath = `${window.location.pathname}${
-            window.location.search ? window.location.search : ''
-          }`;
-          localStorage.setItem('lastPath', lastPath);
-          createHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
-          window.location.reload();
-        },
-      },
-    ];
-  }
-  return [];
-};
+type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
+
+export interface MessageType {
+  id: string;
+  message?: string;
+  translationKey?: string;
+  translationObject?: {
+    message?: string;
+  };
+  severity?: MessageSeverity;
+  action?: string;
+  timeToLive?: number;
+  statusCode?: number;
+  type?: string;
+}
 
 interface MessageProps {
-  message: ReduxMessage;
-  dispatch: Dispatch;
+  message: MessageType;
 }
-export const Message = ({ message, dispatch }: MessageProps) => {
+
+const Message = ({ message }: MessageProps) => {
   const { t } = useTranslation();
+  const { clearMessage } = useMessages();
+
+  const auth0Actions = [
+    {
+      text: t('form.abort'),
+      onClick: () => clearMessage(message.id),
+    },
+    {
+      text: t('alertModal.loginAgain'),
+      onClick: (evt: Event) => {
+        evt.preventDefault();
+        const lastPath = `${window.location.pathname}${
+          window.location.search ? window.location.search : ''
+        }`;
+        localStorage.setItem('lastPath', lastPath);
+        createBrowserHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
+        window.location.reload();
+      },
+    },
+  ];
+
   return (
     <AlertModal
       show
@@ -74,42 +83,25 @@ export const Message = ({ message, dispatch }: MessageProps) => {
           ? t(message.translationKey, message.translationObject)
           : message.message!
       }
-      actions={getActions(message, dispatch, t)}
-      onCancel={() => dispatch(clearMessage(message.id))}
+      actions={message.type === 'auth0' ? auth0Actions : []}
+      onCancel={() => clearMessage(message.id)}
       severity={message.severity}
     />
   );
 };
 
-Message.propTypes = {
-  message: MessageShape.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
-
-interface MessagesProps {
-  messages: ReduxMessage[];
-  dispatch: Dispatch;
-}
-export const Messages = ({ dispatch, messages }: MessagesProps) => {
+const Messages = () => {
+  const { messages, clearMessage } = useMessages();
   const isHidden = messages.length === 0;
-  const timeoutMessage = (item: ReduxMessage) => {
-    setTimeout(() => dispatch(clearMessage(item.id)), item.timeToLive);
-  };
-
-  messages.filter(m => (m.timeToLive ?? 1) > 0).forEach(item => timeoutMessage(item));
-
+  const timeout = (item: MessageType) => setTimeout(() => clearMessage(item.id), item.timeToLive);
+  messages.filter(m => (m.timeToLive ?? 1) > 0).forEach(item => timeout(item));
   return (
     <StyledMessageAlertOverlay appearance={isHidden ? 'hidden' : ''}>
       {messages.map(message => (
-        <Message key={message.id} dispatch={dispatch} message={message} />
+        <Message key={message.id} message={message} />
       ))}
     </StyledMessageAlertOverlay>
   );
-};
-
-Messages.propTypes = {
-  messages: PropTypes.arrayOf(MessageShape).isRequired,
-  dispatch: PropTypes.func.isRequired,
 };
 
 export default Messages;

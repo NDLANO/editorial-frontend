@@ -11,19 +11,19 @@ import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
   editorValueToPlainText,
   plainTextToEditorValue,
+  embedTagToEditorValue,
+  editorValueToEmbedTag,
 } from '../../../../util/articleContentConverter';
-import { parseEmbedTag, createEmbedTag } from '../../../../util/embedTagHelpers';
 import {
   DEFAULT_LICENSE,
   parseCopyrightContributors,
   isFormikFormDirty,
-  topicArticleRules,
+  formikCommonArticleRules,
   parseImageUrl,
 } from '../../../../util/formHelper';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
@@ -33,31 +33,37 @@ import validateFormik from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import { ArticleFormikType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
+import {
+  ArticleFormikType,
+  TopicArticleFormikType,
+  useArticleFormHooks,
+} from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
-import { ConvertedDraftType, License } from '../../../../interfaces';
+import { ConvertedDraftType } from '../../../../interfaces';
 import {
   DraftStatus,
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
 import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
+import { useLicenses } from '../../../Licenses/LicensesProvider';
 
-export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
-  const visualElement = parseEmbedTag(article.visualElement);
+export const getInitialValues = (
+  article: Partial<ConvertedDraftType> = {},
+): TopicArticleFormikType => {
   const metaImageId: string = parseImageUrl(article.metaImage);
+
   return {
     agreementId: article.copyright ? article.copyright.agreementId : undefined,
     articleType: 'topic-article',
-    content: topicArticleContentToEditorValue(article.content),
+    content: topicArticleContentToEditorValue(article.content || ''),
     creators: parseCopyrightContributors(article, 'creators'),
     id: article.id,
-    introduction: plainTextToEditorValue(article.introduction, true),
+    introduction: plainTextToEditorValue(article.introduction || ''),
     language: article.language,
     license: article.copyright?.license?.license || DEFAULT_LICENSE.license,
-    metaDescription: plainTextToEditorValue(article.metaDescription, true),
+    metaDescription: plainTextToEditorValue(article.metaDescription || ''),
     metaImageAlt: article.metaImage?.alt || '',
     metaImageId,
     notes: [],
@@ -68,10 +74,10 @@ export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): Art
     status: article.status,
     supportedLanguages: article.supportedLanguages || [],
     tags: article.tags || [],
-    slatetitle: plainTextToEditorValue(article.title, true),
+    title: plainTextToEditorValue(article.title || ''),
     updated: article.updated,
     updatePublished: false,
-    visualElementObject: visualElement,
+    visualElement: embedTagToEditorValue(article.visualElement || ''),
     grepCodes: article.grepCodes || [],
     conceptIds: article.conceptIds || [],
     availability: article.availability || 'everyone',
@@ -98,12 +104,12 @@ const getPublishedDate = (
   return undefined;
 };
 
+// TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
+
 interface Props extends RouteComponentProps {
   article: Partial<ConvertedDraftType>;
   revision?: number;
   updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   articleStatus?: DraftStatus;
   articleChanged: boolean;
   updateArticleAndStatus?: (input: {
@@ -111,10 +117,8 @@ interface Props extends RouteComponentProps {
     newStatus: DraftStatusTypes;
     dirty: boolean;
   }) => Promise<ConvertedDraftType>;
-  userAccess: string | undefined;
   translating: boolean;
   translateToNN?: () => void;
-  licenses: License[];
   isNewlyCreated: boolean;
 }
 
@@ -126,13 +130,10 @@ const TopicArticleForm = (props: Props) => {
     articleChanged,
     translating,
     translateToNN,
-    licenses,
     isNewlyCreated,
-    createMessage,
-    applicationError,
     articleStatus,
-    userAccess,
   } = props;
+  const { licenses } = useLicenses();
 
   const { t } = useTranslation();
 
@@ -143,14 +144,12 @@ const TopicArticleForm = (props: Props) => {
       initialValues,
       preview = false,
     }: {
-      values: ArticleFormikType;
-      initialValues: ArticleFormikType;
+      values: TopicArticleFormikType;
+      initialValues: TopicArticleFormikType;
       preview: boolean;
     }): UpdatedDraftApiType => {
       const emptyField = values.id ? '' : undefined;
-      const visualElement = createEmbedTag(
-        isEmpty(values.visualElementObject) ? {} : values.visualElementObject,
-      );
+
       const content = topicArticleContentToHTML(values.content);
       const metaImage = values?.metaImageId
         ? {
@@ -179,8 +178,8 @@ const TopicArticleForm = (props: Props) => {
         notes: values.notes || [],
         published: getPublishedDate(values, initialValues, preview),
         tags: values.tags,
-        title: editorValueToPlainText(values.slatetitle),
-        visualElement,
+        title: editorValueToPlainText(values.title),
+        visualElement: editorValueToEmbedTag(values.visualElement),
         grepCodes: values.grepCodes ?? [],
         conceptIds: values.conceptIds?.map(c => c.id) ?? [],
         availability: values.availability,
@@ -209,13 +208,11 @@ const TopicArticleForm = (props: Props) => {
     licenses,
     getArticleFromSlate,
     isNewlyCreated,
-    createMessage,
-    applicationError,
   });
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
-  const FormikChild = (formik: FormikProps<ArticleFormikType>) => {
+  const FormikChild = (formik: FormikProps<TopicArticleFormikType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting } = formik;
 
@@ -251,12 +248,9 @@ const TopicArticleForm = (props: Props) => {
             article={article}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
             handleSubmit={async () => handleSubmit(values, formik)}
-            userAccess={userAccess}
-            createMessage={createMessage}
           />
         )}
         <EditorFooter
@@ -273,7 +267,6 @@ const TopicArticleForm = (props: Props) => {
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          createMessage={createMessage}
           isConcept={false}
           hideSecondaryButton={false}
         />
@@ -288,7 +281,7 @@ const TopicArticleForm = (props: Props) => {
     );
   };
 
-  const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [
+  const initialErrors = useMemo(() => validateFormik(initialValues, formikCommonArticleRules, t), [
     initialValues,
     t,
   ]);
@@ -299,10 +292,10 @@ const TopicArticleForm = (props: Props) => {
       validateOnMount
       initialValues={initialValues}
       initialErrors={initialErrors}
-      validateOnChange={false}
+      validateOnBlur={false}
       innerRef={formikRef}
       onSubmit={handleSubmit}
-      validate={values => validateFormik(values, topicArticleRules, t)}>
+      validate={values => validateFormik(values, formikCommonArticleRules, t)}>
       {FormikChild}
     </Formik>
   );

@@ -37,7 +37,16 @@ const filmFrontPage = {
 
 const filmFrontPageAfterTransformation = {
   articleType: 'subjectpage',
-  description: undefined,
+  description: [
+    {
+      children: [
+        {
+          text: '',
+        },
+      ],
+      type: 'paragraph',
+    },
+  ],
   themes: [
     {
       name: [
@@ -54,15 +63,25 @@ const filmFrontPageAfterTransformation = {
   supportedLanguages: ['nb'],
   slideShow: [],
   title: 'Om film',
-  visualElementObject: {
-    alt: 'Et bilde Foto.',
-    metaData: {
-      id: '37',
+  visualElement: [
+    {
+      type: 'embed',
+      data: {
+        alt: 'Et bilde Foto.',
+        metaData: {
+          id: '37',
+        },
+        resource: 'image',
+        resource_id: '37',
+        url: 'https://test.api.ndla.no/image-api/raw/id/37',
+      },
+      children: [
+        {
+          text: '',
+        },
+      ],
     },
-    resource: 'image',
-    resource_id: '37',
-    url: 'https://test.api.ndla.no/image-api/raw/id/37',
-  },
+  ],
 };
 
 test('util/ndlaFilmHelpers getInitialValues', () => {

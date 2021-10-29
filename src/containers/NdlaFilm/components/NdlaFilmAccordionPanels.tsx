@@ -8,7 +8,6 @@ import React from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useTranslation } from 'react-i18next';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
-import { Editor } from 'slate';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
 import { ContentResultType, FormikProperties, NdlaFilmThemesEditType } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
@@ -25,8 +24,6 @@ interface Props {
 interface ComponentProps extends Props {
   errors: FormikErrors<Values>;
   formIsDirty: boolean;
-  handleSubmit: () => void;
-  onBlur: (event: Event, editor: Editor, next: Function) => void;
 }
 
 interface FormikSlideshowProps {
@@ -44,8 +41,6 @@ const SubjectpageAccordionPanels = ({
   allMovies,
   loading,
   selectedLanguage,
-  handleSubmit,
-  onBlur,
 }: ComponentProps) => {
   const { t } = useTranslation();
   const onUpdateMovieList = (
@@ -68,8 +63,8 @@ const SubjectpageAccordionPanels = ({
         id="about"
         title={t('subjectpageForm.about')}
         className="u-4/6@desktop u-push-1/6@desktop"
-        hasError={['title', 'description', 'visualElementObject'].some(field => field in errors)}>
-        <SubjectpageAbout handleSubmit={handleSubmit} onBlur={onBlur} />
+        hasError={['title', 'description', 'visualElement'].some(field => field in errors)}>
+        <SubjectpageAbout />
       </AccordionSection>
       <AccordionSection
         id="slideshow"

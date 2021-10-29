@@ -7,39 +7,23 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { connect, ConnectedProps } from 'react-redux';
-import * as messageActions from '../Messages/messagesActions';
 import ImageForm from './components/ImageForm';
 import { ImageApiType, UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
-import { License } from '../../interfaces';
-import { fetchLicenses } from '../../modules/draft/draftApi';
 import { fetchImage, updateImage } from '../../modules/image/imageApi';
-import { NewReduxMessage } from '../Messages/messagesSelectors';
+import { useLicenses } from '../Licenses/LicensesProvider';
+import { useMessages } from '../Messages/MessagesProvider';
 
-interface BaseProps {
+interface Props {
   imageId?: string;
   imageLanguage?: string;
   isNewlyCreated?: boolean;
 }
 
-type Props = BaseProps & PropsFromRedux;
-
-const EditImage = ({
-  imageId,
-  imageLanguage,
-  isNewlyCreated,
-  applicationError,
-  createMessage,
-}: Props) => {
+const EditImage = ({ imageId, imageLanguage, isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
-  const [licenses, setLicenses] = useState<License[]>([]);
+  const { licenses } = useLicenses();
+  const { applicationError, createMessage } = useMessages();
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);
-  useEffect(() => {
-    (async () => {
-      const lic = await fetchLicenses();
-      setLicenses(lic);
-    })();
-  }, []);
 
   useEffect(() => {
     (async () => {
@@ -71,12 +55,4 @@ const EditImage = ({
   );
 };
 
-const mapDispatchToProps = {
-  createMessage: (message: NewReduxMessage) => messageActions.addMessage(message),
-  applicationError: messageActions.applicationError,
-};
-
-const reduxConnector = connect(undefined, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
-
-export default reduxConnector(EditImage);
+export default EditImage;

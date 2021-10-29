@@ -6,14 +6,11 @@
  *
  */
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Route, Redirect, Switch, RouteComponentProps } from 'react-router-dom';
-import { Action, ActionFunction1 } from 'redux-actions';
 import EditLearningResource from './EditLearningResource';
-import { LocaleContext } from '../../App/App';
 import { fetchDraft } from '../../../modules/draft/draftApi';
-import { License } from '../../../interfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../Messages/messagesSelectors';
 
 interface ParamsType {
   articleId: string;
@@ -21,20 +18,11 @@ interface ParamsType {
 
 interface Props extends RouteComponentProps<ParamsType> {
   isNewlyCreated: boolean;
-  licenses: License[];
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
-  userAccess: string | undefined;
 }
-const EditResourceRedirect = ({
-  match,
-  licenses,
-  applicationError,
-  createMessage,
-  isNewlyCreated,
-  userAccess,
-}: Props) => {
-  const locale = useContext(LocaleContext);
+
+const EditResourceRedirect = ({ match, isNewlyCreated }: Props) => {
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
   const { articleId } = match.params;
   const [supportedLanguage, setSupportedLanguage] = useState<string>();
 
@@ -55,10 +43,6 @@ const EditResourceRedirect = ({
             articleId={articleId}
             selectedLanguage={props.match.params.selectedLanguage}
             isNewlyCreated={isNewlyCreated}
-            licenses={licenses}
-            createMessage={createMessage}
-            applicationError={applicationError}
-            userAccess={userAccess}
           />
         )}
       />

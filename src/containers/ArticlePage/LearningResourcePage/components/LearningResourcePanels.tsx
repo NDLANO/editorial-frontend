@@ -1,53 +1,47 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { FormikHelpers, useFormikContext } from 'formik';
 import config from '../../../../config';
-import { LocaleContext } from '../../../App/App';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../../FormikForm';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
-import { ConvertedDraftType, License, SearchResult } from '../../../../interfaces';
-import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
-import { NewReduxMessage } from '../../../Messages/messagesSelectors';
+import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
+import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import { useSession } from '../../../Session/SessionProvider';
 
 interface Props extends RouteComponentProps {
-  userAccess?: string;
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: (
-    values: ArticleFormikType,
-    formikHelpers: FormikHelpers<ArticleFormikType>,
+    values: LearningResourceFormikType,
+    formikHelpers: FormikHelpers<LearningResourceFormikType>,
   ) => Promise<void>;
   article: Partial<ConvertedDraftType>;
   formIsDirty: boolean;
-  createMessage: (message: NewReduxMessage) => void;
-  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
-  licenses: License[];
+  getInitialValues: (article: Partial<ConvertedDraftType>) => LearningResourceFormikType;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
 }
 
 const LearningResourcePanels = ({
-  userAccess,
   fetchSearchTags,
   article,
   updateNotes,
-  licenses,
   getArticle,
   getInitialValues,
-  createMessage,
   history,
   formIsDirty,
   handleSubmit,
 }: Props) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
-  const formikContext = useFormikContext<ArticleFormikType>();
+  const { t, i18n } = useTranslation();
+  const { userAccess } = useSession();
+  const locale = i18n.language;
+  const formikContext = useFormikContext<LearningResourceFormikType>();
   const { values, setValues, errors, handleBlur } = formikContext;
 
   const showTaxonomySection = !!values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE);
@@ -58,11 +52,10 @@ const LearningResourcePanels = ({
         id={'learning-resource-content'}
         title={t('form.contentSection')}
         className={'u-4/6@desktop u-push-1/6@desktop'}
-        hasError={!!(errors.slatetitle || errors.introduction || errors.content)}
+        hasError={!!(errors.title || errors.introduction || errors.content)}
         startOpen>
         <LearningResourceContent
           formik={formikContext}
-          userAccess={userAccess}
           handleSubmit={() => handleSubmit(values, formikContext)}
           handleBlur={handleBlur}
           values={values}
@@ -75,12 +68,7 @@ const LearningResourcePanels = ({
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}>
-          <LearningResourceTaxonomy
-            userAccess={userAccess}
-            article={article}
-            locale={locale}
-            updateNotes={updateNotes}
-          />
+          <LearningResourceTaxonomy article={article} locale={locale} updateNotes={updateNotes} />
         </AccordionSection>
       )}
       <AccordionSection
@@ -90,19 +78,14 @@ const LearningResourcePanels = ({
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }>
-        <CopyrightFieldGroup values={values} licenses={licenses} />
+        <CopyrightFieldGroup values={values} />
       </AccordionSection>
       <AccordionSection
         id={'learning-resource-metadata'}
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.metaImageAlt || errors.tags)}>
-        <MetaDataField
-          handleBlur={handleBlur}
-          fetchSearchTags={fetchSearchTags}
-          handleSubmit={handleSubmit}
-          article={article}
-        />
+        <MetaDataField fetchSearchTags={fetchSearchTags} article={article} />
       </AccordionSection>
       <AccordionSection
         id={'learning-resource-grepCodes'}
@@ -117,7 +100,7 @@ const LearningResourcePanels = ({
           title={t('form.name.relatedContent')}
           className={'u-6/6'}
           hasError={!!(errors.conceptIds || errors.relatedContent)}>
-          <RelatedContentFieldGroup values={values} locale={locale} userAccess={userAccess} />
+          <RelatedContentFieldGroup values={values} locale={locale} />
         </AccordionSection>
       )}
       {values.id && (
@@ -129,7 +112,6 @@ const LearningResourcePanels = ({
           <VersionAndNotesPanel
             article={article}
             articleId={values.id}
-            createMessage={createMessage}
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}

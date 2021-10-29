@@ -6,13 +6,12 @@
  *
  */
 
-import React, { useContext, useState, useEffect, SyntheticEvent } from 'react';
+import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { FormikHandlers } from 'formik';
-import { LocaleContext } from '../App/App';
 import { createFormData } from '../../util/formDataHelper';
 import {
   postImage,
@@ -44,10 +43,10 @@ const MetaImageSearch = ({
   onChange,
   onImageLoad,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [showImageSelect, setShowImageSelect] = useState(false);
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);
-  const locale = useContext(LocaleContext);
+  const locale = i18n.language;
 
   useEffect(() => {
     if (metaImageId) {

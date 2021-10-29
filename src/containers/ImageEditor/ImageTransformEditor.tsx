@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { css } from '@emotion/core';
-import { Embed } from '../../interfaces';
+import { ImageEmbed } from '../../interfaces';
 import ImageFocalPointEdit from './ImageFocalPointEdit';
 import ImageCropEdit from './ImageCropEdit';
 import { getSrcSets } from '../../util/imageEditorUtil';
@@ -18,17 +18,17 @@ const imgStyle = css`
 `;
 
 interface Props {
-  embed: Embed;
+  embed: ImageEmbed;
   editType?: string;
   onFocalPointChange: (focalPoint: { x: number; y: number }) => void;
   onCropComplete: (crop: ReactCrop.Crop, size: ReactCrop.PixelCrop) => void;
   transformData?: {
-    'upper-left-x': string;
-    'upper-left-y': string;
-    'lower-right-x': string;
-    'lower-right-y': string;
-    'focal-x': string;
-    'focal-y': string;
+    'upper-left-x'?: string;
+    'upper-left-y'?: string;
+    'lower-right-x'?: string;
+    'lower-right-y'?: string;
+    'focal-x'?: string;
+    'focal-y'?: string;
   };
 }
 

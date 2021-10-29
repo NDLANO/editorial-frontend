@@ -10,16 +10,9 @@ import defined from 'defined';
 import auth0, { Auth0DecodedHash, Auth0ParseHashError } from 'auth0-js';
 import config from '../config';
 import { expiresIn, ndlaId, ndlaUserName, ndlaUserEmail } from './jwtHelper';
-import * as messageActions from '../containers/Messages/messagesActions';
+import { NewMessageType } from '../containers/Messages/MessagesProvider';
 
-const client =
-  process.env.NODE_ENV !== 'unittest'
-    ? require('../client.tsx')
-    : {
-        store: {
-          dispatch: () => {},
-        },
-      };
+let createMessageRef: (newMessage: NewMessageType) => void | undefined;
 
 const NDLA_API_URL = config.ndlaApiUrl;
 const AUTH0_DOMAIN = config.auth0Domain;
@@ -145,15 +138,14 @@ export const renewPersonalAuth = () =>
           setAccessTokenInLocalStorage(authResult.accessToken, true);
           resolve(authResult.accessToken);
         } else {
-          client.store.dispatch(
-            messageActions.addAuth0Message({
-              translationKey: 'errorMessage.auth0',
-              translationObject: {
-                message: err?.errorDescription || err?.error_description,
-              },
-              timeToLive: 0,
-            }),
-          );
+          createMessageRef?.({
+            type: 'auth0',
+            translationKey: 'errorMessage.auth0',
+            translationObject: {
+              message: err?.errorDescription || err?.error_description,
+            },
+            timeToLive: 0,
+          });
           reject();
         }
       },
@@ -168,7 +160,10 @@ export const renewAuth = async () => {
 
 let tokenRenewalTimeout: ReturnType<typeof setTimeout>;
 
-const scheduleRenewal = async () => {
+export const scheduleRenewal = async (createMessage?: (newMessage: NewMessageType) => void) => {
+  if (!createMessageRef && createMessage) {
+    createMessageRef = createMessage;
+  }
   if (localStorage.getItem('access_token_personal') !== 'true') {
     return null;
   }
@@ -186,8 +181,6 @@ const scheduleRenewal = async () => {
     scheduleRenewal();
   }
 };
-
-scheduleRenewal();
 
 export function loginPersonalAccessToken(type: string) {
   const connection = config.usernamePasswordEnabled ? undefined : type;

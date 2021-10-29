@@ -28,10 +28,10 @@ import {
   AudioApiType,
 } from '../../../modules/audio/audioApiInterfaces';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
-import { License } from '../../../interfaces';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
 import handleError from '../../../util/handleError';
 import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
+import { useLicenses } from '../../Licenses/LicensesProvider';
 
 const podcastRules: RulesType<PodcastFormValues> = {
   title: {
@@ -88,7 +88,6 @@ interface Props {
   inModal?: boolean;
   isNewlyCreated?: boolean;
   language: string;
-  licenses: License[];
   onUpdate: OnCreateFunc | OnUpdateFunc;
   revision?: number;
   translating?: boolean;
@@ -100,12 +99,12 @@ const PodcastForm = ({
   podcastChanged,
   inModal,
   isNewlyCreated,
-  licenses,
   language,
   onUpdate,
   translating,
   translateToNN,
 }: Props) => {
+  const { licenses } = useLicenses();
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
@@ -268,7 +267,7 @@ const PodcastForm = ({
                   hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
                     field => field in errors,
                   )}>
-                  <AudioMetaData classes={formClasses} licenses={licenses} />
+                  <AudioMetaData classes={formClasses} />
                 </AccordionSection>
               </Accordions>
             )}

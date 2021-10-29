@@ -99,6 +99,7 @@ exports[`EditorErrorMessage renders 1`] = `
 >
   <button
     className="emotion-0 emotion-1 emotion-2"
+    contentEditable={false}
     data-cy="close-related-button"
     disabled={false}
     onClick={[Function]}

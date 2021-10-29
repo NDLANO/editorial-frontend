@@ -12,7 +12,7 @@ import { createEditor } from 'slate';
 import { withReact, Slate, Editable } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { render, fireEvent, cleanup, wait } from '@testing-library/react';
-import { RelatedArticleBox } from '../RelatedArticleBox';
+import RelatedArticleBox from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
 import { TYPE_SECTION } from '../../section';
 import { TYPE_RELATED } from '..';

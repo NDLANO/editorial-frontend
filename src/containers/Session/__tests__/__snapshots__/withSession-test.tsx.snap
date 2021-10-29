@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withSession correctly injects and updates session state 1`] = `
+<div>
+  <button>
+    Click
+  </button>
+  <p>
+    test
+  </p>
+</div>
+`;
+
+exports[`withSession correctly injects and updates session state 2`] = `
+<div>
+  <button>
+    Click
+  </button>
+  <p>
+    Rune Storløpa
+  </p>
+</div>
+`;

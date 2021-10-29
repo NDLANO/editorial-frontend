@@ -17,15 +17,16 @@ import { fetchDraft } from '../../../modules/draft/draftApi';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
 import { classes } from '../WelcomePage';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
+import { useSession } from '../../Session/SessionProvider';
 
 interface Props {
   articleId: number;
   locale: string;
-  userAccess?: string;
 }
 
-const LastUsedContent = ({ articleId, locale, userAccess }: Props) => {
+const LastUsedContent = ({ articleId, locale }: Props) => {
   const { t } = useTranslation();
+  const { userAccess } = useSession();
   const [article, setArticle] = useState<DraftApiType>();
 
   useEffect(() => {

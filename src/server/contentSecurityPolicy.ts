@@ -9,6 +9,7 @@
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
+    'http://api-gateway.ndla-local',
     'https://*.ndla.no',
     'https://logs-01.loggly.com',
     'https://edge.api.brightcove.com',
@@ -35,7 +36,6 @@ const connectSrc = (() => {
   if (process.env.NODE_ENV === 'development') {
     return [
       ...defaultConnectSrc,
-      'http://api-gateway.ndla-local',
       'http://localhost:3001',
       'ws://localhost:3001',
       'http://localhost:3100',
@@ -52,6 +52,7 @@ const scriptSrc = (() => {
     "'unsafe-inline'",
     " 'unsafe-eval'",
     'blob:',
+    'http://api-gateway.ndla-local',
     'https://*.ndlah5p.com',
     'https://h5p.org',
     'https://*.ndla.no',
@@ -102,7 +103,6 @@ const scriptSrc = (() => {
   if (process.env.NODE_ENV === 'development') {
     return [
       ...defaultScriptSrc,
-      'http://api-gateway.ndla-local',
       'http://localhost:3001',
       'ws://localhost:3001',
       'http://localhost:3000',
@@ -113,6 +113,7 @@ const scriptSrc = (() => {
 
 const frameSrc = (() => {
   const defaultFrameSrc = [
+    'http://api-gateway.ndla-local',
     '*.nrk.no',
     'nrk.no',
     '*.vg.no',
@@ -173,7 +174,6 @@ const frameSrc = (() => {
   if (process.env.NODE_ENV === 'development') {
     return [
       ...defaultFrameSrc,
-      'http://api-gateway.ndla-local',
       'http://localhost:3001',
       'ws://localhost:3001',
       'http://localhost:3000',

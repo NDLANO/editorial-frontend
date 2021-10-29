@@ -263,7 +263,7 @@ const AddResourceModal = ({
         if (selectedType === RESOURCE_TYPE_LEARNING_PATH && isLearningPathSearchSummary(selected)) {
           resourceId = await findResourceIdLearningPath(Number(selected.id));
         } else if (isGroupSearchSummary(selected)) {
-          getResourceIdFromPath(selected?.paths?.[0]);
+          resourceId = getResourceIdFromPath(selected?.paths?.[0]);
         }
 
         if (!resourceId) {

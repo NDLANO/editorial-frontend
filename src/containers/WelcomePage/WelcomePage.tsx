@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -18,11 +18,9 @@ import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
 import { fetchUserData } from '../../modules/draft/draftApi';
-import { LocaleContext, UserAccessContext } from '../App/App';
 
 import LastUsedContent from './components/LastUsedContent';
 import SaveSearchUrl from './components/SaveSearchUrl';
-import { LocaleType } from '../../interfaces';
 import Footer from '../App/components/Footer';
 
 const ContentWrapper = styled.div`
@@ -39,10 +37,9 @@ export const classes = new BEMHelper({
 });
 
 export const WelcomePage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [lastUsed, setLastUsed] = useState<string[]>([]);
-  const locale: LocaleType = useContext(LocaleContext);
-  const userAccess: string | undefined = useContext(UserAccessContext);
+  const locale = i18n.language;
 
   const token = getAccessToken();
   const isAccessTokenPersonal = getAccessTokenPersonal();
@@ -81,12 +78,7 @@ export const WelcomePage = () => {
               {lastUsed.length ? (
                 lastUsed.map((result: string) => {
                   return (
-                    <LastUsedContent
-                      key={result}
-                      articleId={parseInt(result)}
-                      locale={locale}
-                      userAccess={userAccess}
-                    />
+                    <LastUsedContent key={result} articleId={parseInt(result)} locale={locale} />
                   );
                 })
               ) : (

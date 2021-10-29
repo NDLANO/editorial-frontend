@@ -25,6 +25,7 @@ import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallb
 import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import SearchHighlight from './SearchHighlight';
+import { useSession } from '../../../Session/SessionProvider';
 
 const FlexBoxWrapper = styled.div`
   display: flex;
@@ -39,8 +40,9 @@ const ContentTypeWrapper = styled.div`
   margin-top: 10px;
 `;
 
-const SearchContent = ({ content, locale, userAccess }) => {
+const SearchContent = ({ content, locale }) => {
   const { t } = useTranslation();
+  const { userAccess } = useSession();
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
   const imageUrl = url ? `${url}?width=200` : '/placeholder.png';
@@ -160,7 +162,6 @@ const SearchContent = ({ content, locale, userAccess }) => {
 SearchContent.propTypes = {
   content: ContentResultShape,
   locale: PropTypes.string.isRequired,
-  userAccess: PropTypes.string,
 };
 
 export default SearchContent;

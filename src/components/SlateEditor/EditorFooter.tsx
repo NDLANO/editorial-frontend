@@ -20,16 +20,15 @@ import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 import { ConceptApiType, ConceptStatus } from '../../modules/concept/conceptApiInterfaces';
-import { NewReduxMessage } from '../../containers/Messages/messagesSelectors';
 import { DraftStatus, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
+import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
 
 interface Props {
   formIsDirty: boolean;
   savedToServer: boolean;
   getEntity?: () => UpdatedDraftApiType | ConceptApiType;
   entityStatus?: DraftStatus;
-  createMessage: (message: NewReduxMessage) => void;
   showSimpleFooter: boolean;
   onSaveClick: (saveAsNewVersion?: boolean) => void;
   fetchStatusStateMachine: () => Promise<PossibleStatuses>;
@@ -62,7 +61,6 @@ function EditorFooter<T extends FormValues>({
   formIsDirty,
   savedToServer,
   getEntity,
-  createMessage,
   entityStatus,
   showSimpleFooter,
   onSaveClick,
@@ -77,6 +75,7 @@ function EditorFooter<T extends FormValues>({
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
   const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
+  const { createMessage } = useMessages();
 
   useEffect(() => {
     const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
@@ -107,7 +106,7 @@ function EditorFooter<T extends FormValues>({
     />
   );
 
-  const catchError = (error: any, createMessage: (message: NewReduxMessage) => void) => {
+  const catchError = (error: any, createMessage: (message: NewMessageType) => void) => {
     if (error?.json?.messages) {
       createMessage(formatErrorMessage(error));
     } else {
@@ -127,16 +126,12 @@ function EditorFooter<T extends FormValues>({
     const updatedEntity = { ...entity, revision: revision ?? entity.revision };
     try {
       await validateEntity?.(id, updatedEntity);
-      if (createMessage) {
-        createMessage({
-          translationKey: 'form.validationOk',
-          severity: 'success',
-        });
-      }
+      createMessage({
+        translationKey: 'form.validationOk',
+        severity: 'success',
+      });
     } catch (error) {
-      if (createMessage) {
-        catchError(error, createMessage);
-      }
+      catchError(error, createMessage);
     }
   };
 
@@ -163,9 +158,7 @@ function EditorFooter<T extends FormValues>({
       setNewStatus(status);
       setFieldValue('status', { current: status });
     } catch (error) {
-      if (createMessage) {
-        catchError(error, createMessage);
-      }
+      catchError(error, createMessage);
     }
   };
 

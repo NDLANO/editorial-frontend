@@ -20,6 +20,7 @@ import { getAccessTokenPersonal } from '../../../util/authHelpers';
 import StyledListButton from '../../../components/StyledListButton';
 import Overlay from '../../../components/Overlay';
 import { StyledDropdownOverlay } from '../../../components/Dropdown';
+import withSession from '../../Session/withSession';
 
 const userIconCss = css`
   color: ${colors.brand.grey};
@@ -115,4 +116,4 @@ SessionContainer.defaultProps = {
   userName: '',
 };
 
-export default withRouter(withTranslation()(SessionContainer));
+export default withRouter(withTranslation()(withSession(SessionContainer)));

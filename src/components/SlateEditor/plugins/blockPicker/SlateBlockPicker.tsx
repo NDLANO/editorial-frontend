@@ -6,13 +6,13 @@
  *
  */
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';
 // @ts-ignore
 import { SlateBlockMenu } from '@ndla/editor';
-import { Portal } from '../../../Portal';
+import styled from '@emotion/styled';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions, { ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
@@ -21,8 +21,6 @@ import { defaultTableBlock } from '../table/utils';
 import { defaultBodyboxBlock } from '../bodybox/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
-import getCurrentBlock from '../../utils/getCurrentBlock';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { TYPE_LIST_ITEM } from '../list/types';
 
 interface Props {
@@ -31,49 +29,46 @@ interface Props {
   illegalAreas: Element['type'][];
   actionsToShowInAreas: { [key: string]: string[] };
   articleLanguage: string;
+  selectedParagraphPath: Path;
+  show: boolean;
 }
 
-interface VisualElementSelect {
-  isOpen: boolean;
-  visualElementType?: string;
-}
+const StyledBlockPickerWrapper = styled.div<{ isList: boolean }>`
+  position: absolute;
+  left: ${props => (props.isList ? -110 : -78)}px;
+  top: -14px;
+`;
 
-const SlateBlockPicker = (props: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+const SlateBlockPicker = ({
+  editor,
+  actionsToShowInAreas,
+  articleLanguage,
+  selectedParagraphPath,
+  show,
+  illegalAreas,
+  allowedPickAreas,
+}: Props) => {
+  const [blockPickerOpen, setBlockPickerOpen] = useState(false);
   const [lastActiveSelection, setLastActiveSelection] = useState<Range>();
-  const [selectedParagraphPath, setSelectedParagraphPath] = useState<Path>();
-  const [visualElementSelect, setVisualElementSelect] = useState<VisualElementSelect>({
-    isOpen: false,
-  });
+
+  const [visualElementPickerOpen, setVisualElementPickerOpen] = useState(false);
+  const [type, setType] = useState('');
 
   const { t } = useTranslation();
 
-  const slateBlockRef = useRef<HTMLDivElement>(null);
-  const slateBlockButtonRef = useRef<HTMLButtonElement>();
-  let zIndexTimeout: NodeJS.Timeout | null = null;
-
   useEffect(() => {
-    if (slateBlockRef?.current) {
-      slateBlockRef.current.style.transition = 'opacity 200ms ease';
-      slateBlockRef.current.style.position = 'absolute';
+    if (Location.isLocation(editor.selection)) {
+      setLastActiveSelection(editor.selection);
     }
-  }, []);
-
-  useEffect(() => {
-    if (Location.isLocation(props.editor.selection)) {
-      setLastActiveSelection(props.editor.selection);
-    }
-  }, [props.editor.selection]);
-
-  useEffect(() => showPicker());
+  }, [editor.selection]);
 
   const onVisualElementClose = () => {
-    setVisualElementSelect({ isOpen: false, visualElementType: '' });
+    setVisualElementPickerOpen(false);
+    setType('');
+    ReactEditor.focus(editor);
   };
 
   const onInsertBlock = (block: Element, selectBlock?: boolean) => {
-    const { editor } = props;
-
     setTimeout(() => {
       Editor.withoutNormalizing(editor, () => {
         if (selectedParagraphPath) {
@@ -89,8 +84,8 @@ const SlateBlockPicker = (props: Props) => {
         }
       });
     }, 0);
-    setIsOpen(false);
-    setSelectedParagraphPath(undefined);
+    setBlockPickerOpen(false);
+    setType('');
   };
 
   const onElementAdd = (data: ActionData) => {
@@ -113,10 +108,8 @@ const SlateBlockPicker = (props: Props) => {
       }
       case 'file':
       case 'embed': {
-        setVisualElementSelect({
-          isOpen: true,
-          visualElementType: data.object,
-        });
+        setVisualElementPickerOpen(true);
+        setType(data.object);
         break;
       }
       case 'related': {
@@ -128,69 +121,13 @@ const SlateBlockPicker = (props: Props) => {
         break;
       }
       default:
-        setIsOpen(false);
-        setSelectedParagraphPath(undefined);
+        setBlockPickerOpen(false);
+
         break;
     }
   };
 
-  const openBlockPicker = (open: boolean) => {
-    const { editor } = props;
-    const [, paragraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH);
-    if (Path.isPath(paragraphPath)) {
-      setSelectedParagraphPath(paragraphPath);
-    }
-    setIsOpen(open);
-  };
-
-  const update = async () => {
-    const { editor } = props;
-    if (
-      slateBlockRef.current &&
-      slateBlockButtonRef.current &&
-      ReactEditor.isFocused(editor) &&
-      Location.isLocation(editor.selection)
-    ) {
-      await new Promise(resolve => setTimeout(resolve, 50));
-
-      // Find location of text selection to calculate where to move slateBlock
-      const range = ReactEditor.toDOMRange(editor, editor.selection);
-      const rect = range.getBoundingClientRect();
-
-      const [[, path]] = Editor.nodes(editor, {
-        match: node => Element.isElement(node) && !editor.isInline(node),
-        mode: 'lowest',
-      });
-
-      const [parent] = Editor.node(editor, Path.parent(path));
-
-      const isListItem = path && Element.isElement(parent) && parent.type === TYPE_LIST_ITEM;
-
-      slateBlockRef.current.style.top = `${rect.top + window.scrollY - 14}px`;
-      slateBlockRef.current.style.left = `${rect.left +
-        window.scrollX -
-        (isListItem ? 110 : 78) -
-        rect.width / 2}px`;
-      slateBlockRef.current.style.position = 'absolute';
-      slateBlockRef.current.style.opacity = '1';
-
-      slateBlockButtonRef.current.setAttribute('aria-hidden', 'false');
-      slateBlockButtonRef.current.tabIndex = 0;
-      slateBlockButtonRef.current.disabled = false;
-      if (zIndexTimeout) {
-        clearTimeout(zIndexTimeout);
-      }
-      zIndexTimeout = setTimeout(() => {
-        if (slateBlockRef.current) {
-          slateBlockRef.current.style.zIndex = '1';
-        }
-      }, 100);
-    }
-  };
-
   const shouldShowMenuPicker = () => {
-    const { editor, illegalAreas, allowedPickAreas } = props;
-
     const [node] = Editor.nodes(editor, {
       match: node => Element.isElement(node) && !editor.isInline(node),
       mode: 'lowest',
@@ -203,45 +140,18 @@ const SlateBlockPicker = (props: Props) => {
     return (
       editor.shouldShowBlockPicker &&
       editor.shouldShowBlockPicker() &&
-      (isOpen ||
+      (blockPickerOpen ||
         (node &&
           Element.isElement(node[0]) &&
           Node.string(node[0]).length === 0 &&
           node[0].children.length === 1 &&
           !illegalBlock &&
-          allowedPickAreas.includes(node[0].type) &&
-          ReactEditor.isFocused(editor)))
+          allowedPickAreas.includes(node[0].type)))
     );
   };
 
-  const showPicker = () => {
-    if (shouldShowMenuPicker()) {
-      update();
-    } else {
-      if (slateBlockRef.current) {
-        slateBlockRef.current.style.opacity = '0';
-      }
-      if (slateBlockButtonRef.current) {
-        slateBlockButtonRef.current.setAttribute('aria-hidden', 'true');
-        slateBlockButtonRef.current.tabIndex = -1;
-        slateBlockButtonRef.current.disabled = true;
-      }
-
-      if (zIndexTimeout) {
-        clearTimeout(zIndexTimeout);
-      }
-      zIndexTimeout = setTimeout(() => {
-        if (slateBlockRef.current) {
-          slateBlockRef.current.style.zIndex = '-1';
-        }
-      }, 100);
-    }
-  };
-
   const getActionsForArea = () => {
-    const { actionsToShowInAreas, editor } = props;
     if (!lastActiveSelection) return actions;
-
     if (
       !Node.has(editor, Range.start(lastActiveSelection).path) ||
       !Node.has(editor, Range.end(lastActiveSelection).path)
@@ -269,37 +179,41 @@ const SlateBlockPicker = (props: Props) => {
     return actions;
   };
 
-  const { articleLanguage } = props;
+  if ((!shouldShowMenuPicker() || !show) && !visualElementPickerOpen) {
+    return null;
+  }
+
+  const [parent] = Editor.node(editor, Path.parent(selectedParagraphPath));
+
+  const isListItem = Element.isElement(parent) && parent.type === TYPE_LIST_ITEM;
 
   return (
-    <>
-      <Portal isOpened={visualElementSelect.isOpen}>
+    <StyledBlockPickerWrapper isList={isListItem} contentEditable={false}>
+      {visualElementPickerOpen ? (
         <SlateVisualElementPicker
           articleLanguage={articleLanguage}
-          resource={visualElementSelect.visualElementType || ''}
+          resource={type || ''}
           onVisualElementClose={onVisualElementClose}
           onInsertBlock={onInsertBlock}
         />
-      </Portal>
-      <Portal isOpened={!visualElementSelect.isOpen}>
-        <div data-cy="slate-block-picker-button" ref={slateBlockRef}>
+      ) : (
+        <div data-cy="slate-block-picker-button">
           <SlateBlockMenu
-            ref={slateBlockButtonRef}
             cy="slate-block-picker"
-            isOpen={isOpen}
+            isOpen={blockPickerOpen}
             heading={t('editorBlockpicker.heading')}
             actions={getActionsForArea().map(action => ({
               ...action,
               label: t(`editorBlockpicker.actions.${action.data.object}`),
             }))}
-            onToggleOpen={openBlockPicker}
+            onToggleOpen={setBlockPickerOpen}
             clickItem={(data: ActionData) => {
               onElementAdd(data);
             }}
           />
         </div>
-      </Portal>
-    </>
+      )}
+    </StyledBlockPickerWrapper>
   );
 };
 

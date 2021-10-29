@@ -25,8 +25,6 @@ import { css } from '@emotion/core';
 import { SlatePlugin } from './interfaces';
 import { SlateProvider } from './SlateContext';
 import { SlateToolbar } from './plugins/toolbar';
-import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
-import options from './plugins/blockPicker/options';
 import { onDragOver, onDragStart, onDrop } from './plugins/DND';
 import withPlugins from './utils/withPlugins';
 
@@ -46,8 +44,6 @@ interface Props {
   placeholder?: string;
   plugins?: SlatePlugin[];
   submitted: boolean;
-  language: string;
-  actionsToShowInAreas: { [key: string]: string[] };
   index?: number;
   removeSection?: (index: number) => void;
 }
@@ -59,8 +55,6 @@ const RichTextEditor = ({
   value,
   onChange,
   submitted,
-  language,
-  actionsToShowInAreas,
   index,
   removeSection,
 }: Props) => {
@@ -149,14 +143,6 @@ const RichTextEditor = ({
               onChange(val, index ?? 0);
             }}>
             <SlateToolbar editor={editor} />
-            <SlateBlockPicker
-              editor={editor}
-              onChange={editor.onChange}
-              articleLanguage={language}
-              {...options({
-                actionsToShowInAreas,
-              })}
-            />
             <Editable
               decorate={entry => decorations(entry)}
               // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types

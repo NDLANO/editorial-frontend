@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
@@ -55,6 +56,14 @@ const factBoxButtonStyle = css`
   }
 `;
 
+const StyledDiv = styled.div`
+  overflow: ${props => (props.expanded ? 'visible' : 'hidden')};
+`;
+
+const StyledAside = styled.aside`
+  overflow: ${props => (props.expanded ? 'visible' : 'hidden')};
+`;
+
 class SlateFactAside extends React.Component {
   constructor() {
     super();
@@ -75,11 +84,12 @@ class SlateFactAside extends React.Component {
     const { children, onRemoveClick, attributes, onMoveContent } = this.props;
 
     return (
-      <aside
+      <StyledAside
+        expanded={this.state.expanded}
         {...classes('fact-aside', '', this.state.expanded ? 'c-factbox expanded' : 'c-factbox')}
         draggable
         {...attributes}>
-        <div className="c-factbox__content c-bodybox">
+        <StyledDiv expanded={this.state.expanded} className="c-factbox__content c-bodybox">
           <MoveContentButton onMouseDown={onMoveContent} />
           <DeleteButton
             stripped
@@ -88,14 +98,14 @@ class SlateFactAside extends React.Component {
             tabIndex="-1"
           />
           {children}
-        </div>
+        </StyledDiv>
         <Button
           contentEditable={false}
           onMouseDown={this.toggleExpanded}
           className="c-factbox__button"
           css={factBoxButtonStyle}
         />
-      </aside>
+      </StyledAside>
     );
   }
 }

@@ -37,7 +37,7 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
     }
   } else if (Node.isNode(value)) {
     return Node.string(value).length === 0;
-  } else if (typeof value === 'object') {
+  } else if (value.constructor === Object) {
     if (Object.keys(value).length === 0) {
       return true;
     }

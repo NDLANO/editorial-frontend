@@ -6,9 +6,9 @@
  *
  */
 
-import React, { Fragment, RefObject, useState } from 'react';
-import { WithTranslation, withTranslation } from 'react-i18next';
+import React, { RefObject, useState } from 'react';
 import { Descendant } from 'slate';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { FormikContextType } from 'formik';
@@ -59,6 +59,10 @@ import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
+import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
+import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
+import { SessionProps } from '../../../Session/SessionProvider';
+import withSession from '../../../Session/withSession';
 
 const byLineStyle = css`
   display: flex;
@@ -95,11 +99,16 @@ export const plugins = (
   articleLanguage: string,
   locale: LocaleType,
   handleSubmitRef: RefObject<() => void>,
-) => {
+): SlatePlugin[] => {
   return [
     sectionPlugin,
     divPlugin,
-    paragraphPlugin,
+    paragraphPlugin(
+      articleLanguage,
+      options({
+        actionsToShowInAreas,
+      }),
+    ),
     footnotePlugin,
     embedPlugin(articleLanguage, locale),
     bodyboxPlugin,
@@ -131,11 +140,12 @@ export const plugins = (
 type Props = {
   locale: LocaleType;
   article: Partial<ConvertedDraftType>;
-  userAccess?: string;
   handleBlur: (evt: { target: { name: string } }) => void;
   values: LearningResourceFormikType;
   handleSubmit: () => Promise<void>;
-} & WithTranslation & { formik: FormikContextType<LearningResourceFormikType> };
+} & CustomWithTranslation & {
+    formik: FormikContextType<LearningResourceFormikType>;
+  } & SessionProps;
 
 const LearningResourceContent = ({
   article: { language: articleLanguage },
@@ -154,7 +164,7 @@ const LearningResourceContent = ({
   }, [handleSubmit]);
 
   return (
-    <Fragment>
+    <>
       <TitleField handleSubmit={handleSubmit} />
       <FormikField name="published" css={byLineStyle}>
         {({ field, form }) => (
@@ -186,7 +196,7 @@ const LearningResourceContent = ({
         noBorder
         className={formikFieldClasses('', 'position-static').className}>
         {({ field: { value, name, onChange }, form: { isSubmitting, setFieldValue } }) => (
-          <Fragment>
+          <>
             <FieldHeader title={t('form.content.label')}>
               {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
                 <EditMarkupLink
@@ -208,11 +218,11 @@ const LearningResourceContent = ({
               actionsToShowInAreas={actionsToShowInAreas}
             />
             <LearningResourceFootnotes footnotes={findFootnotes(value)} />
-          </Fragment>
+          </>
         )}
       </FormikField>
-    </Fragment>
+    </>
   );
 };
 
-export default withTranslation()(LearningResourceContent);
+export default withTranslation()(withSession(LearningResourceContent));

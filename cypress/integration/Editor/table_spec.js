@@ -15,11 +15,11 @@ describe('Table plugin', () => {
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
+    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
     cy.get('[data-slate-node=element] > p')
       .should('be.visible')
       .first()
       .click();
-    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
     cy.get('[data-cy=slate-block-picker]').click();
     cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
   });

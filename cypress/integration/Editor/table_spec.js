@@ -15,6 +15,7 @@ describe('Table plugin', () => {
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
+    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
     cy.get('[data-slate-node=element] > p')
       .should('be.visible')
       .first()

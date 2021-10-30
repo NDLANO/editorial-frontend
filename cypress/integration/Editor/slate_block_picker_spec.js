@@ -14,7 +14,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
-    cy.get('[cy="slate-block-picker-menu"]').should('not.exist');
+    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
   });
 
   beforeEach(() => {

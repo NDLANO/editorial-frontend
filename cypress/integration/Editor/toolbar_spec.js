@@ -14,7 +14,7 @@ describe('Selecting text and using the toolbar', () => {
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
-    cy.get('[cy="slate-block-picker-menu"]').should('not.exist');
+    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
   });
 
   it('change the text styling', () => {

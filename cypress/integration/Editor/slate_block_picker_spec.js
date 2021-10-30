@@ -18,14 +18,13 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   beforeEach(() => {
-    cy.get('[cy=modal-header]').should('not.exist');
-    cy.get('[data-slate-node=element] > p')
-      .should('be.visible')
-      .clear();
     cy.get('[data-slate-node=element] > p')
       .should('be.visible')
       .first()
       .click();
+    cy.get('[data-slate-node=element] > p')
+      .should('be.visible')
+      .clear();
     cy.get('[data-cy=slate-block-picker]').click();
     cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
   });

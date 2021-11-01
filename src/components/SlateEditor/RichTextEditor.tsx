@@ -79,6 +79,7 @@ const RichTextEditor = ({
   useEffect(() => {
     if (!submitted && prevSubmitted.current) {
       // Editor will be normalized. Remove history
+      ReactEditor.deselect(editor);
       editor.children = value;
       editor.history = { redos: [], undos: [] };
       Editor.normalize(editor, { force: true });
@@ -93,7 +94,10 @@ const RichTextEditor = ({
           const existingRange = { anchor: start, focus: end };
 
           if (Range.includes(existingRange, edges[0]) && Range.includes(existingRange, edges[1])) {
-            return Transforms.select(editor, editor.lastSelection);
+            Transforms.select(editor, editor.lastSelection);
+            editor.lastSelection = undefined;
+            editor.lastSelectedBlock = undefined;
+            return;
           }
         }
         // Else: Try to find previous block element and select it.
@@ -110,6 +114,8 @@ const RichTextEditor = ({
           Transforms.collapse(editor, { edge: 'end' });
         }
       }
+      editor.lastSelection = undefined;
+      editor.lastSelectedBlock = undefined;
     }
     prevSubmitted.current = submitted;
     // eslint-disable-next-line react-hooks/exhaustive-deps

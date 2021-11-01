@@ -295,7 +295,6 @@ const AddResourceModal = ({
         //@ts-ignore
         setError(e.messages);
       }
-    } else {
     }
   };
 

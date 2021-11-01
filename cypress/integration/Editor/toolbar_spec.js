@@ -14,13 +14,17 @@ describe('Selecting text and using the toolbar', () => {
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
+    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
   });
 
   it('change the text styling', () => {
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true][contenteditable=true]')
+    cy.get('[data-slate-node=element] > p')
+      .clear()
+      .should('be.visible')
       .first()
-      .focus()
-      .wait(500)
+      .click();
+    cy.get('[data-cy=slate-block-picker]').should('be.visible');
+    cy.get('[data-slate-node=element] > p')
       .type('This is test content{leftarrow}{leftarrow}')
       .contains('This is test content')
       .type('{selectall}');
@@ -69,7 +73,6 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .wait(500)
       .then($el => {
         cy.wrap($el)
           .type('This is a test link{leftarrow}{leftarrow}')
@@ -77,7 +80,9 @@ describe('Selecting text and using the toolbar', () => {
         cy.wrap($el).type('{selectall}');
       });
 
-    cy.get('[data-testid=toolbar-button-link]').click({ force: true });
+    cy.get('[data-testid=toolbar-button-link]')
+      .should('be.visible')
+      .click();
     cy.get('button')
       .contains('Sett inn lenke')
       .click();
@@ -89,7 +94,8 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('a[href="http://www.vg.no"]')
       .should('have.prop', 'href')
       .and('equal', 'http://www.vg.no/');
-    cy.get('a[href="http://www.vg.no"]')
+    cy.get('a[href="http://www.vg.no"][data-slate-node=element]')
+      .contains('This is a test link')
       .click()
       .type('{selectall}');
   });
@@ -111,21 +117,18 @@ describe('Selecting text and using the toolbar', () => {
         cy.get('ol > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
-          .wait(500)
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-bulleted-list]').click();
         cy.get('[data-testid=toolbar-button-bulleted-list][data-active=true]').should('exist');
         cy.get('ul > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
-          .wait(500)
           .type('{selectall}');
         cy.get('[data-testid=toolbar-button-letter-list]').click();
         cy.get('[data-testid=toolbar-button-letter-list][data-active=true]').should('exist');
         cy.get('ol > li').should('have.length', 2);
         cy.wrap($el)
           .focus()
-          .wait(500)
           .type('{selectall}');
       });
   });
@@ -134,13 +137,11 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .wait(500)
       .type('footnote')
       .blur();
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .wait(500)
       .type('{selectall}')
       .blur();
     cy.get('[data-testid=toolbar-button-footnote]').click({ force: true });
@@ -165,14 +166,12 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .wait(500)
       .type('{selectall}')
       .type('1+1')
       .blur();
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .wait(500)
       .type('{selectall}')
       .blur();
     cy.get('[data-testid=toolbar-button-mathml]').click({ force: true });

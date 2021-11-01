@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { toLogin } from '../../util/routeHelpers';
 import { loginPersonalAccessToken } from '../../util/authHelpers';
 import { LocationShape } from '../../shapes';
-import { AuthenticatedContext } from '../App/App';
+import { useSession } from '../Session/SessionProvider';
 const okPaths = ['/login', '/logout'];
 
 type BaseProps<SubProps> = RouteProps &
@@ -17,7 +17,7 @@ type Props<SubProps> = BaseProps<SubProps>;
 
 const PrivateRoute = <T,>({ component, ...rest }: Props<T>) => {
   const Component: React.ComponentType<T> = component;
-  const authenticated = useContext(AuthenticatedContext);
+  const { authenticated } = useSession();
 
   if (
     !authenticated &&

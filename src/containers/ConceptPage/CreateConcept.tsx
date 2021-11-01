@@ -24,11 +24,9 @@ interface Props {
   licences: License[];
   inModal?: boolean;
   addConceptInModal?: Function;
-  licenses: License[];
 }
 
 const CreateConcept = ({
-  licenses,
   locale,
   history,
   initialConcept,
@@ -58,7 +56,6 @@ const CreateConcept = ({
         language={locale}
         onUpdate={concept => createConceptAndPushRoute(concept as ConceptPostType)}
         fetchConceptTags={fetchSearchTags}
-        licenses={licenses}
         inModal={inModal}
         subjects={subjects}
         conceptArticles={conceptArticles}

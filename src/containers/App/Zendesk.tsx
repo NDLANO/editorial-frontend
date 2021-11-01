@@ -10,12 +10,10 @@ import React, { Fragment, useEffect } from 'react';
 import { isAccessTokenValid } from '../../util/authHelpers';
 import { fetchZendeskToken } from '../../modules/auth0/auth0Api';
 import config from '../../config';
+import { useSession } from '../Session/SessionProvider';
 
-interface Props {
-  authenticated: boolean;
-}
-
-const Zendesk = ({ authenticated }: Props) => {
+const Zendesk = () => {
+  const { authenticated } = useSession();
   const addScriptsToPage = async () => {
     const zendeskToken = await fetchZendeskToken();
 

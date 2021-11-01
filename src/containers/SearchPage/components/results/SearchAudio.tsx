@@ -15,18 +15,18 @@ import { colors } from '@ndla/core';
 import { Audio, Podcast } from '@ndla/icons/common';
 import { AudioSearchResultType } from '../../../../modules/audio/audioApiInterfaces';
 import { toEditAudio, toEditPodcast } from '../../../../util/routeHelpers';
-import { AudioResultShape, LicensesArrayOf } from '../../../../shapes';
-import { License } from '../../../../interfaces';
+import { AudioResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
+import { useLicenses } from '../../../Licenses/LicensesProvider';
 
 interface Props {
   audio: AudioSearchResultType;
   locale: string;
-  licenses: License[];
 }
 
-const SearchAudio = ({ audio, locale, licenses }: Props) => {
+const SearchAudio = ({ audio, locale }: Props) => {
   const { t } = useTranslation();
+  const { licenses } = useLicenses();
   const license = licenses && licenses.find(l => audio.license === l.license);
   return (
     <div {...searchClasses('result')}>
@@ -65,7 +65,6 @@ const SearchAudio = ({ audio, locale, licenses }: Props) => {
 SearchAudio.propTypes = {
   audio: AudioResultShape.isRequired,
   locale: PropTypes.string.isRequired,
-  licenses: LicensesArrayOf,
 };
 
 export default SearchAudio;

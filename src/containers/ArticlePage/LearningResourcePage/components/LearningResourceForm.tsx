@@ -11,7 +11,6 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
-import { Action, ActionFunction1 } from 'redux-actions';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -44,8 +43,8 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { ConvertedDraftType, License, RelatedContent } from '../../../../interfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
+import { ConvertedDraftType, RelatedContent } from '../../../../interfaces';
+import { useLicenses } from '../../../Licenses/LicensesProvider';
 
 export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
@@ -124,13 +123,9 @@ export const convertDraftOrRelated = (
 };
 
 interface Props extends RouteComponentProps {
-  userAccess: string | undefined;
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   article: Partial<ConvertedDraftType>;
   translating: boolean;
   translateToNN: () => void;
-  licenses: License[];
   articleStatus?: DraftStatus;
   isNewlyCreated: boolean;
   articleChanged: boolean;
@@ -145,19 +140,17 @@ interface Props extends RouteComponentProps {
 const LearningResourceForm = ({
   article,
   articleStatus,
-  createMessage,
-  applicationError,
   isNewlyCreated = false,
-  licenses,
   translateToNN,
   translating,
   updateArticle,
   updateArticleAndStatus,
   articleChanged,
   history,
-  userAccess,
 }: Props) => {
   const { t } = useTranslation();
+
+  const { licenses } = useLicenses();
 
   const getArticleFromSlate = useCallback(
     ({
@@ -223,8 +216,6 @@ const LearningResourceForm = ({
     article,
     t,
     articleStatus,
-    createMessage,
-    applicationError,
     updateArticle,
     updateArticleAndStatus,
     getArticleFromSlate,
@@ -268,11 +259,8 @@ const LearningResourceForm = ({
             updateNotes={updateArticle}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            userAccess={userAccess}
-            createMessage={createMessage}
             handleSubmit={handleSubmit}
           />
         )}
@@ -290,7 +278,6 @@ const LearningResourceForm = ({
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          createMessage={createMessage}
           isConcept={false}
           hideSecondaryButton={false}
         />

@@ -22,9 +22,8 @@ describe('Film editing', () => {
     cy.get(`input[placeholder="Legg til film i slideshow"]`)
       .click()
       .type('Page One');
-    cy.contains('Page One: A Year Inside the New York Times')
-      .click()
-      .wait('@allMovies');
+    cy.wait('@allMovies');
+    cy.contains('Page One: A Year Inside the New York Times').click();
   });
 
   it('Can remove movie from slideshow', () => {

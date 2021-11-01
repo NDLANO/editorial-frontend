@@ -14,17 +14,16 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
-    cy.get('[cy="slate-block-picker-menu"]').should('not.exist');
+    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
   });
 
   beforeEach(() => {
-    cy.get('[data-slate-node=element] > p').clear({ force: true });
     cy.get('[data-slate-node=element] > p')
+      .should('be.visible')
       .first()
-      .click();
-    cy.get('[data-cy=slate-block-picker]')
-      .click({ force: true })
-      .wait(100);
+      .click()
+      .clear();
+    cy.get('[data-cy=slate-block-picker]').click();
     cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
   });
 

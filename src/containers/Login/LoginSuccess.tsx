@@ -7,32 +7,22 @@
  */
 
 import { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { History } from 'history';
-import { actions } from '../../modules/session/session';
 import { parseHash } from '../../util/authHelpers';
 import { toLogin } from '../../util/routeHelpers';
+import { useSession } from '../Session/SessionProvider';
 
-type Success = {
-  accessToken: string;
-  history: History;
-};
-interface Props extends RouteComponentProps {
-  loginSuccess: (arg0: Success) => void;
-}
+interface Props extends RouteComponentProps {}
 
-export const LoginSuccess = ({ loginSuccess, location: { hash }, history }: Props) => {
+export const LoginSuccess = ({ location: { hash }, history }: Props) => {
+  const { login } = useSession();
   useEffect(() => {
     parseHash(hash).then(authResult => {
       if (authResult.scope?.includes(':') && authResult.accessToken) {
         if (authResult.state) {
           window.location.href = authResult.state;
         }
-        loginSuccess({
-          accessToken: authResult.accessToken,
-          history,
-        });
+        login(authResult.accessToken);
       } else {
         history.replace(`${toLogin()}/failure`);
       }
@@ -41,8 +31,4 @@ export const LoginSuccess = ({ loginSuccess, location: { hash }, history }: Prop
 
   return null;
 };
-
-const mapDispatchToProps = {
-  loginSuccess: actions.loginSuccess,
-};
-export default connect(undefined, mapDispatchToProps)(LoginSuccess);
+export default LoginSuccess;

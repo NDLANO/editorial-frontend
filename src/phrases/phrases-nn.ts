@@ -100,6 +100,7 @@ const phrases = {
     se: 'Samisk',
     sma: 'Sørsamisk',
     unknown: 'Ukjent',
+    und: 'Udefinert',
     de: 'Tysk',
     empty: 'Ingen fleire språk',
     change: 'Bytt til {{language}} versjon',

@@ -19,15 +19,20 @@ const colorType = {
   'subject-matter': 'article-color',
 };
 
+interface Props extends RouteComponentProps {
+  type: 'media';
+  subtypes: SubType[];
+}
+
 const isCurrentTab = (location: RouteComponentProps['location'], subtype: SubType) => {
-  const locations = location && location.pathname ? location.pathname.split('/') : [];
+  const locations = location.pathname.split('/') ?? [];
   if (locations.length > 2 && locations[2] === subtype.type) {
     return true;
   }
   return false;
 };
 
-const SubNavigation = ({ subtypes, type, match, location }: Props) => (
+const SubNavigation = ({ subtypes, type, location }: Props) => (
   <div {...classes('container', colorType[type])}>
     <div {...classes('items')}>
       {subtypes.map(subtype => (
@@ -45,10 +50,5 @@ const SubNavigation = ({ subtypes, type, match, location }: Props) => (
     </div>
   </div>
 );
-
-interface Props extends RouteComponentProps {
-  type: 'media';
-  subtypes: SubType[];
-}
 
 export default withRouter(SubNavigation);

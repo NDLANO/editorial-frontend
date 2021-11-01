@@ -25,7 +25,6 @@ exports[`it goes in and out of edit mode 1`] = `
     role="textbox"
     spellcheck="false"
     style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
-    zindex="-1"
   >
     <div
       data-slate-node="element"
@@ -83,7 +82,6 @@ exports[`it goes in and out of edit mode 2`] = `
     role="textbox"
     spellcheck="false"
     style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
-    zindex="-1"
   >
     <div
       data-slate-node="element"

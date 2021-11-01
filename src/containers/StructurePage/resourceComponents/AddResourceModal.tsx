@@ -7,6 +7,7 @@
  */
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { isArray } from 'lodash';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
@@ -115,6 +116,8 @@ const AddResourceModal = ({
   const isLearningPathSearchSummary = (obj: any): obj is LearningPathSearchSummary => {
     return obj.metaUrl !== undefined;
   };
+
+  const hasPathsProp = (obj: any): obj is { paths?: string[] } => isArray(obj.paths);
 
   const isGroupSearchSummary = (obj: any): obj is GroupSearchSummary => {
     return obj.url !== undefined;
@@ -259,10 +262,11 @@ const AddResourceModal = ({
     if (hasId(selected)) {
       try {
         setLoading(true);
+
         let resourceId: string | undefined;
         if (selectedType === RESOURCE_TYPE_LEARNING_PATH && isLearningPathSearchSummary(selected)) {
           resourceId = await findResourceIdLearningPath(Number(selected.id));
-        } else if (isGroupSearchSummary(selected)) {
+        } else if (hasPathsProp(selected)) {
           resourceId = getResourceIdFromPath(selected?.paths?.[0]);
         }
 
@@ -291,6 +295,7 @@ const AddResourceModal = ({
         //@ts-ignore
         setError(e.messages);
       }
+    } else {
     }
   };
 

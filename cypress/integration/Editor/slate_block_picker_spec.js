@@ -14,7 +14,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
-    cy.get('[cy="slate-block-picker-menu"]').should('not.exist');
+    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
   });
 
   beforeEach(() => {
@@ -23,7 +23,8 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-slate-node=element] > p')
       .should('be.visible')
       .first()
-      .click();
+      .click()
+      .clear();
     cy.get('[data-cy=slate-block-picker]').should('exist');
     cy.get('[data-cy=slate-block-picker]').should('be.visible');
     cy.get('[data-cy=slate-block-picker]').click();
@@ -105,9 +106,9 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     );
     cy.apiroute('GET', '**/audio-api/v1/audio/*?language=nb', 'editor/audios/audio-1');
     cy.get('[data-cy=create-podcast]').click();
+    cy.apiwait(['@editor/audios/podcastList', '@editor/audios/audio-1']);
     cy.get('[data-cy="modal-header"]').should('be.visible');
     cy.get('[data-cy="modal-body"]').should('be.visible');
-    cy.apiwait(['@editor/audios/podcastList', '@editor/audios/audio-1']);
     cy.get('[data-cy="close-modal-button"]').click();
     cy.get('[data-cy="close-modal-button"]').should('not.exist');
   });

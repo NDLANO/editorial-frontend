@@ -2265,10 +2265,10 @@
     defined "1.0.0"
     remarkable "^2.0.1"
 
-"@ndla/video-search@1.3.0-alpha.0":
-  version "1.3.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@ndla/video-search/-/video-search-1.3.0-alpha.0.tgz#7bdefce189130a4ce053bc82ea67559a84a9643d"
-  integrity sha512-tbnmXw2esm5Za6Dk9sId/YoC9sDq+R0AZDLJRivxXWUHnOLaRjaNGuwdoTm+Fx1S7UwL1HkUnxC94XDqKDIAlA==
+"@ndla/video-search@1.4.0-alpha.0":
+  version "1.4.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@ndla/video-search/-/video-search-1.4.0-alpha.0.tgz#7c9f5d083d52ba4ff1800f0dbfc4586b237f9628"
+  integrity sha512-utZxdHmoUPo+dOeZwX8GJiiZcYSqnAz82oN7QwH0Y5PfDdNm7QGUmEK1EQfY3WCfy32mukPvc4pRO5Jq53Ll3A==
   dependencies:
     "@ndla/button" "^1.0.5-alpha.0"
     "@ndla/core" "^0.7.2"

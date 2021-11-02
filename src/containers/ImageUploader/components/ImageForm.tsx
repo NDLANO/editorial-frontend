@@ -152,6 +152,7 @@ const ImageForm = ({
     };
     await onUpdate(imageMetaData, values.imageFile);
     setSavedToServer(true);
+    actions.resetForm();
   };
 
   const initialValues = imageApiTypeToFormType(image, language);
@@ -230,7 +231,7 @@ const ImageForm = ({
               <SaveButton
                 isSaving={isSubmitting || isSaving}
                 disabled={!isValid}
-                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+                showSaved={!dirty && (isNewlyCreated || savedToServer)}
                 formIsDirty={formIsDirty}
                 submit={!inModal}
                 onClick={evt => {

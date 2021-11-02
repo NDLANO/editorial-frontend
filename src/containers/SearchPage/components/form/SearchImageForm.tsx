@@ -15,14 +15,14 @@ import { css } from '@emotion/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
-import { getLicensesWithTranslations } from '../../../../util/licenseHelpers';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import SearchTagGroup from './SearchTagGroup';
 import { searchFormClasses, SearchParams } from './SearchForm';
 import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { MinimalTagType } from './SearchTag';
+import { LicenseFunctions } from '../../../Licenses/LicensesProvider';
+import withLicenses from '../../../Licenses/withLicenses';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -39,10 +39,6 @@ interface State {
     modelReleased: string;
     page?: string;
   };
-  licenses: {
-    id: string;
-    name: string;
-  }[];
 }
 
 const getModelReleasedValues = (t: TFunction) => [
@@ -52,8 +48,8 @@ const getModelReleasedValues = (t: TFunction) => [
   { id: 'not-set', name: t('imageSearch.modelReleased.not-set') },
 ];
 
-class SearchImageForm extends Component<Props & CustomWithTranslation, State> {
-  constructor(props: Props & CustomWithTranslation) {
+class SearchImageForm extends Component<Props & CustomWithTranslation & LicenseFunctions, State> {
+  constructor(props: Props & CustomWithTranslation & LicenseFunctions) {
     super(props);
 
     const { searchObject } = props;
@@ -70,12 +66,7 @@ class SearchImageForm extends Component<Props & CustomWithTranslation, State> {
         license: searchObject.license || '',
         modelReleased: searchObject['model-released'] || '',
       },
-      licenses: [],
     };
-  }
-
-  componentDidMount() {
-    this.getLicenses();
   }
 
   componentDidUpdate(prevProps: Props & CustomWithTranslation) {
@@ -90,17 +81,6 @@ class SearchImageForm extends Component<Props & CustomWithTranslation, State> {
         },
       });
     }
-  }
-
-  async getLicenses() {
-    const licenses = await fetchLicenses();
-    const licensesWithTranslations = getLicensesWithTranslations(licenses, this.props.locale);
-    this.setState({
-      licenses: licensesWithTranslations.map(license => ({
-        id: license.license,
-        name: license.title,
-      })),
-    });
   }
 
   onFieldChange(evt: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLSelectElement>) {
@@ -138,7 +118,11 @@ class SearchImageForm extends Component<Props & CustomWithTranslation, State> {
 
   render() {
     const { t } = this.props;
-    const { search, licenses } = this.state;
+    const { search } = this.state;
+    const licenses = this.props.getTranslatedLicenses(this.props.locale).map(lic => ({
+      id: lic.license,
+      name: lic.title,
+    }));
 
     const tagTypes = [
       {
@@ -250,4 +234,4 @@ class SearchImageForm extends Component<Props & CustomWithTranslation, State> {
   };
 }
 
-export default withTranslation()(SearchImageForm);
+export default withTranslation()(withLicenses(SearchImageForm));

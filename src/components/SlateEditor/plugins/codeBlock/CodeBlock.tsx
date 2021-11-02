@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Block, Document, Inline, Node } from 'slate';
+import { Editor, Path, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps } from 'slate-react';
 import he from 'he';
 
 import Button from '@ndla/button';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Codeblock } from '@ndla/code';
 
-import { getSchemaEmbed } from '../../editorSchema';
-import { CodeBlockType, CodeBlockProps } from '../../../../interfaces';
+import { CodeBlockType } from '../../../../interfaces';
 import EditCodeBlock from './EditCodeBlock';
-
-type ParentNode = Document | Block | Inline;
+import { CodeblockElement } from '.';
 
 const CodeDiv = styled.div`
   cursor: pointer;
 `;
+
+interface Props extends RenderElementProps {
+  element: CodeblockElement;
+  editor: Editor;
+}
 
 interface RemoveCodeBlockProps {
   handleRemove: () => void;
@@ -29,9 +33,9 @@ const RemoveCodeBlock = ({ handleRemove }: RemoveCodeBlockProps) => {
   );
 };
 
-const getInfoFromNode = (node: Node) => {
-  const data = (node as ParentNode)?.data?.toJS() || {};
-  const codeBlock = data['code-block'] || node.text;
+const getInfoFromNode = (element: CodeblockElement) => {
+  const { data } = element;
+  const codeBlock = data['code-block'] || {};
 
   const code = codeBlock.code || data['code-content'] || '';
   const format = codeBlock.format || data['code-format'] || 'text';
@@ -43,14 +47,12 @@ const getInfoFromNode = (node: Node) => {
       title,
       format,
     },
-    isFirstEdit: data['code-block'] === undefined,
   };
 };
 
-const CodeBlock = ({ attributes, editor, node }: CodeBlockProps) => {
-  const { isFirstEdit, model } = getInfoFromNode(node);
-  const [editMode, setEditMode] = useState<boolean>(!model.code);
-  const [firstEdit, setFirstEdit] = useState<boolean>(isFirstEdit);
+const CodeBlock = ({ attributes, editor, element, children }: Props) => {
+  const { model } = getInfoFromNode(element);
+  const [editMode, setEditMode] = useState<boolean>(!model.code && !model.title);
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -60,36 +62,48 @@ const CodeBlock = ({ attributes, editor, node }: CodeBlockProps) => {
     const { code } = codeBlock;
     const properties = {
       data: {
-        ...getSchemaEmbed(node),
-        title: codeBlock.title,
+        ...element.data,
         'code-block': { ...codeBlock, code: he.encode(code) },
       },
+      isFirstEdit: false,
     };
+    ReactEditor.focus(editor);
     setEditMode(false);
-    setFirstEdit(false);
-    editor.setNodeByKey(node.key, properties);
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.setNodes(editor, properties, { at: path });
+    if (Editor.hasPath(editor, Path.next(path))) {
+      setTimeout(() => {
+        Transforms.select(editor, Path.next(path));
+      }, 0);
+    }
   };
 
   const handleRemove = () => {
-    editor.removeNodeByKey(node.key);
-    editor.focus();
+    Transforms.removeNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
   };
 
   const handleUndo = () => {
-    editor.unwrapBlockByKey(node.key, 'code-block');
-    editor.focus();
+    Transforms.unwrapNodes(editor, { at: ReactEditor.findPath(editor, element), voids: true });
   };
 
   const onExit = () => {
+    ReactEditor.focus(editor);
     setEditMode(false);
-    if (firstEdit) {
+    if (element.isFirstEdit) {
       handleUndo();
+    }
+    const path = ReactEditor.findPath(editor, element);
+    if (Editor.hasPath(editor, Path.next(path))) {
+      setTimeout(() => {
+        Transforms.select(editor, Path.next(path));
+      }, 0);
     }
   };
 
   return (
     <CodeDiv
       className="c-figure"
+      contentEditable={false}
       draggable={!editMode}
       onClick={toggleEditMode}
       role="button"
@@ -102,16 +116,15 @@ const CodeBlock = ({ attributes, editor, node }: CodeBlockProps) => {
       />
       {editMode && (
         <EditCodeBlock
-          blur={editor.blur}
           editor={editor}
           onChange={editor.onChange}
-          node={node}
-          closeDialog={toggleEditMode}
+          closeDialog={onExit}
           handleSave={handleSave}
           model={model}
           onExit={onExit}
         />
       )}
+      {children}
     </CodeDiv>
   );
 };

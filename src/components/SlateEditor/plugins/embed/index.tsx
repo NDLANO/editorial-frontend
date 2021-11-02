@@ -6,70 +6,80 @@
  *
  */
 
-import React, { ReactElement } from 'react';
-import { Block, Document, Editor, Inline, SlateError } from 'slate';
+import React from 'react';
+import { Editor, Descendant, Element } from 'slate';
+import { RenderElementProps } from 'slate-react';
 import SlateFigure from './SlateFigure';
-import defaultBlocks from '../../utils/defaultBlocks';
-import { LocaleType, SlateFigureProps } from '../../../../interfaces';
+import { SlateSerializer } from '../../interfaces';
+import { LocaleType, Embed } from '../../../../interfaces';
+import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
+import { defaultEmbedBlock } from './utils';
+import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 
-type ParentNode = Document | Block | Inline;
+export const TYPE_EMBED = 'embed';
 
-export const createEmbedPlugin = (language: string, locale: LocaleType) => {
-  const schema = {
-    blocks: {
-      embed: {
-        isVoid: true,
-        data: {},
-        next: [
-          {
-            type: 'paragraph',
-          },
-          { type: 'heading-two' },
-          { type: 'heading-three' },
-        ],
-        normalize: (editor: Editor, error: SlateError) => {
-          switch (error.code) {
-            case 'next_sibling_type_invalid': {
-              editor.withoutSaving(() => {
-                editor.moveToEndOfNode(error.child).insertBlock(defaultBlocks.defaultBlock);
-              });
-              break;
-            }
-            default:
-              break;
-          }
-        },
-      },
-    },
-  };
+export interface EmbedElement {
+  type: 'embed';
+  data: Embed;
+  children: Descendant[];
+}
 
-  const renderBlock = (
-    props: SlateFigureProps,
-    editor: Editor,
-    next: () => void,
-  ): ReactElement | void => {
-    const { attributes, isSelected, node } = props;
-    switch ((node as ParentNode)?.type) {
-      case 'embed':
-        return (
-          <SlateFigure
-            attributes={attributes}
-            editor={props.editor}
-            isSelected={isSelected}
-            language={language}
-            node={node}
-            locale={locale}
-          />
-        );
-      default:
-        return next();
-    }
-  };
-
-  return {
-    schema,
-    renderBlock,
-  };
+export const embedSerializer: SlateSerializer = {
+  deserialize(el: HTMLElement) {
+    if (el.tagName.toLowerCase() !== TYPE_EMBED) return;
+    return defaultEmbedBlock((parseEmbedTag(el.outerHTML) as unknown) as Embed);
+  },
+  serialize(node: Descendant) {
+    if (!Element.isElement(node)) return;
+    if (node.type !== TYPE_EMBED) return;
+    return createEmbedTag(node.data);
+  },
 };
 
-export default createEmbedPlugin;
+export const embedPlugin = (language: string, locale?: LocaleType, disableNormalize?: boolean) => (
+  editor: Editor,
+) => {
+  const {
+    renderElement: nextRenderElement,
+    normalizeNode: nextNormalizeNode,
+    isVoid: nextIsVoid,
+  } = editor;
+
+  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
+    if (element.type === TYPE_EMBED) {
+      return (
+        <SlateFigure
+          attributes={attributes}
+          editor={editor}
+          element={element}
+          language={language}
+          locale={locale}>
+          {children}
+        </SlateFigure>
+      );
+    } else if (nextRenderElement) {
+      return nextRenderElement({ attributes, children, element });
+    }
+    return undefined;
+  };
+
+  editor.normalizeNode = entry => {
+    const [node, path] = entry;
+
+    if (Element.isElement(node) && node.type === TYPE_EMBED) {
+      if (!disableNormalize && addSurroundingParagraphs(editor, path)) {
+        return;
+      }
+    }
+    nextNormalizeNode(entry);
+  };
+
+  editor.isVoid = (element: Element) => {
+    if (element.type === TYPE_EMBED) {
+      return true;
+    }
+    return nextIsVoid(element);
+  };
+
+  return editor;
+};

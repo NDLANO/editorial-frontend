@@ -10,6 +10,7 @@ exports[`DisplayExternal display error on fetch fail 1`] = `
 
 <div
   className="emotion-0 emotion-1"
+  contentEditable={false}
 >
   <span>
     oEmbed av type  og kilde  er ikke støttet.
@@ -27,6 +28,7 @@ exports[`DisplayExternal renders external correctly 1`] = `
 
 <div
   className="emotion-0 emotion-1"
+  contentEditable={false}
 >
   <span>
     oEmbed av type  og kilde  er ikke støttet.
@@ -203,11 +205,14 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   opacity: 1;
 }
 
+
+
 <div
-  className="c-figure"
+  className="c-figure emotion-16"
 >
   <div
     className="emotion-14 emotion-15"
+    contentEditable={false}
   >
     <div
       className=" emotion-5 emotion-6"
@@ -334,6 +339,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   </div>
   <iframe
     allowFullScreen={true}
+    contentEditable={false}
     frameBorder="0"
     height="486px"
     scrolling="no"

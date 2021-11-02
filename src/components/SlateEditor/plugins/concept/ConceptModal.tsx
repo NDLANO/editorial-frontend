@@ -7,6 +7,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import Modal from '@ndla/modal/lib/Modal';
 import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
@@ -18,7 +19,6 @@ import Pager from '@ndla/pager';
 
 import { searchConcepts } from '../../../../modules/concept/conceptApi';
 import SearchForm from '../../../../containers/SearchPage/components/form/SearchForm';
-import { fetchLicenses } from '../../../../modules/draft/draftApi';
 import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptForm';
@@ -32,7 +32,6 @@ import {
   ConceptTagsSearchResult,
 } from '../../../../modules/concept/conceptApiInterfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { License } from '../../../../interfaces';
 import { createGuard } from '../../../../util/guards';
 import { DraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 
@@ -77,7 +76,6 @@ const ConceptModal = ({
     language: locale,
     query: `${selectedText}`,
   });
-  const [licenses, setLicenses] = useState<License[]>([]);
   const [results, setConcepts] = useState<ConceptSearchResult>({
     language: locale,
     page: 1,
@@ -92,16 +90,6 @@ const ConceptModal = ({
     //Added function because of hooks second argument warning.
     setSelectedTabIndex(index);
   };
-  const getAllLicenses = async () => {
-    const fetchdLicenses = await fetchLicenses();
-    setLicenses(fetchdLicenses);
-  };
-
-  useEffect(() => {
-    if (licenses.length === 0) {
-      getAllLicenses();
-    }
-  }, [concept?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const searchConcept = async (searchParam: ConceptQuery) => {
     if (!searching) {
@@ -155,7 +143,7 @@ const ConceptModal = ({
                         </h2>
                         <SearchForm
                           type={type}
-                          search={searchConcept}
+                          search={debounce(searchConcept, 400)}
                           searchObject={searchObject}
                           locale={locale}
                           subjects={subjects}
@@ -186,7 +174,6 @@ const ConceptModal = ({
                         inModal
                         onClose={onClose}
                         subjects={subjects}
-                        licenses={licenses}
                         onUpdate={onConceptUpsert}
                         language={locale}
                         fetchConceptTags={fetchSearchTags}

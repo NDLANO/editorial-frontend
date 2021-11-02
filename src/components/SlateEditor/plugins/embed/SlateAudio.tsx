@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
@@ -16,19 +17,19 @@ import * as visualElementApi from '../../../../containers/VisualElement/visualEl
 import EditAudio from './EditAudio';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
-import { SlateAudio as Audio, Embed, LocaleType } from '../../../../interfaces';
+import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
 
 interface Props {
-  attributes?: {
-    'data-key': String;
-    'data-slate-object': String;
-  };
+  attributes: RenderElementProps['attributes'];
   changes: { [x: string]: string };
-  embed: Embed;
+  embed: AudioEmbed;
   language: string;
   locale: LocaleType;
   onRemoveClick: (event: React.MouseEvent) => void;
   onFigureInputChange: (event: React.FormEvent<HTMLSelectElement>) => void;
+  active: boolean;
+  isSelectedForCopy: boolean;
+  children: ReactNode;
 }
 
 const SlateAudio = ({
@@ -39,11 +40,15 @@ const SlateAudio = ({
   locale,
   onRemoveClick,
   onFigureInputChange,
+  active,
+  isSelectedForCopy,
+  children,
 }: Props) => {
   const { t } = useTranslation();
   const speech = embed.type === 'minimal';
   const [editMode, setEditMode] = useState(false);
   const [audio, setAudio] = useState<Audio>({} as Audio);
+  const showCopyOutline = isSelectedForCopy && (!editMode || !active);
 
   useEffect(() => {
     const getAudio = async () => {
@@ -104,6 +109,12 @@ const SlateAudio = ({
               />
             )}
             <div
+              css={
+                showCopyOutline && {
+                  boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+                }
+              }
+              contentEditable={false}
               role="button"
               draggable
               className="c-placeholder-editmode"
@@ -115,6 +126,7 @@ const SlateAudio = ({
           </>
         )}
       </Figure>
+      {children}
     </div>
   );
 };

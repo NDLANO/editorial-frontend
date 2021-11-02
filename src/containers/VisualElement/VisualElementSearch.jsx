@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import {
   getImage,
   getUploadedImage,
@@ -20,7 +19,6 @@ import {
   actions as imageActions,
 } from '../../modules/image/image';
 import { ImageShape } from '../../shapes';
-import { getShowSaved } from '../Messages/messagesSelectors';
 import config from '../../config';
 import * as visualElementApi from './visualElementApi';
 import * as imageApi from '../../modules/image/imageApi';
@@ -280,15 +278,12 @@ VisualElementSearch.propTypes = {
 };
 
 const mapDispatchToProps = {
-  fetchLicenses: licenseActions.fetchLicenses,
   clearUploadedImage: imageActions.clearUploadedImage,
 };
 
 const mapStateToProps = state => {
   return {
-    licenses: getAllLicenses(state),
     isSavingImage: getSavingImage(state),
-    showSaved: getShowSaved(state),
     uploadedImage: getUploadedImage(state),
   };
 };

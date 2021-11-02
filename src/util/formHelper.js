@@ -49,7 +49,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false, change
   const slateFields = [
     'description',
     'introduction',
-    'slatetitle',
+    'title',
     'metaDescription',
     'content',
     'conceptContent',
@@ -75,7 +75,7 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false, change
           }
         } else if (
           typeof initialValues[value] === 'object' &&
-          !isEqual(currentValue.toJSON(), initialValues[value].toJSON())
+          !isEqual(currentValue, initialValues[value])
         ) {
           dirtyFields.push(value);
         }
@@ -86,8 +86,8 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false, change
   return dirtyFields.length > 0 || changed;
 };
 
-const formikCommonArticleRules = {
-  slatetitle: {
+export const formikCommonArticleRules = {
+  title: {
     required: true,
     maxLength: 256,
   },
@@ -142,9 +142,7 @@ export const learningResourceRules = {
     required: true,
     test: value => {
       const embedsHasErrors = value.find(sectionValue => {
-        const embeds = findNodesByType(sectionValue.document, 'embed').map(node =>
-          node.get('data').toJS(),
-        );
+        const embeds = findNodesByType(sectionValue, 'embed').map(node => node.data);
         const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
         return notValidEmbeds.length > 0;
       });
@@ -160,15 +158,13 @@ export const topicArticleRules = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
-    onlyValidateIf: values =>
-      values.visualElementObject && values.visualElementObject.resource === 'image',
+    onlyValidateIf: values => values.visualElement && values.visualElement.resource === 'image',
   },
   visualElementCaption: {
     required: false,
     onlyValidateIf: values =>
-      values.visualElementObject &&
-      (values.visualElementObject.resource === 'image' ||
-        values.visualElementObject.resource === 'brightcove'),
+      values.visualElement &&
+      (values.visualElement.resource === 'image' || values.visualElement.resource === 'brightcove'),
   },
 };
 

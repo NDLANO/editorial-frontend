@@ -5,8 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { plainTextToEditorValue, editorValueToPlainText } from '../../util/articleContentConverter';
-import { createEmbedTag } from '../../util/embedTagHelpers';
+import {
+  plainTextToEditorValue,
+  editorValueToPlainText,
+  embedTagToEditorValue,
+  editorValueToEmbedTag,
+} from '../../util/articleContentConverter';
 import {
   ConceptApiType,
   ConceptPostType,
@@ -18,7 +22,6 @@ import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
-import { parseEmbedTag } from '../../util/embedTagHelpers';
 
 const convertNestedConceptProps = (concept: ConceptApiType | undefined, language: string) => {
   if (concept) {
@@ -40,9 +43,12 @@ export const conceptApiTypeToFormType = (
   articles: DraftApiType[],
   initialTitle = '',
 ): ConceptFormValues => {
-  const { title, content, tags, visualElement } = convertNestedConceptProps(concept, language);
+  const { title: conceptTitle, content, tags, visualElement } = convertNestedConceptProps(
+    concept,
+    language,
+  );
   const conceptSubjects = subjects.filter(s => concept?.subjectIds?.find(id => id === s.id)) ?? [];
-  const slateTitle = title === '' ? initialTitle : title;
+  const title = conceptTitle === '' ? initialTitle : conceptTitle;
   // Make sure to omit the content field from concept. It will crash Slate.
   return {
     id: concept?.id,
@@ -51,11 +57,10 @@ export const conceptApiTypeToFormType = (
     metaImage: concept?.metaImage,
     created: concept?.created,
     updated: concept?.updated,
-    visualElement: concept?.visualElement?.visualElement,
-    slatetitle: plainTextToEditorValue(slateTitle, true),
+    title: plainTextToEditorValue(title || ''),
     language,
     subjects: conceptSubjects,
-    conceptContent: plainTextToEditorValue(content, true),
+    conceptContent: plainTextToEditorValue(content || ''),
     supportedLanguages: concept?.supportedLanguages ?? [language],
     creators: concept?.copyright?.creators ?? [],
     rightsholders: concept?.copyright?.rightsholders ?? [],
@@ -66,7 +71,7 @@ export const conceptApiTypeToFormType = (
     metaImageAlt: concept?.metaImage?.alt ?? '',
     tags,
     articles,
-    visualElementObject: parseEmbedTag(visualElement) || {},
+    visualElement: embedTagToEditorValue(visualElement),
   };
 };
 
@@ -78,7 +83,7 @@ export const getConceptPostType = (
   licenses: License[],
 ): ConceptPostType => ({
   ...values,
-  title: editorValueToPlainText(values.slatetitle),
+  title: editorValueToPlainText(values.title),
   content: editorValueToPlainText(values.conceptContent),
   copyright: {
     license: licenses.find(license => license.license === values.license),
@@ -89,7 +94,7 @@ export const getConceptPostType = (
   metaImage: metaImageFromForm(values),
   subjectIds: values.subjects.map(subject => subject.id),
   articleIds: values.articles.map(a => a.id),
-  visualElement: createEmbedTag(values.visualElementObject),
+  visualElement: editorValueToEmbedTag(values.visualElement),
 });
 
 export const getConceptPatchType = (
@@ -111,14 +116,14 @@ export const conceptFormTypeToApiType = (
     revision: values.revision ?? -1,
     status: values.status ?? { current: 'DRAFT', other: [] },
     visualElement: {
-      visualElement: createEmbedTag(values.visualElementObject),
+      visualElement: editorValueToEmbedTag(values.visualElement),
       language: values.language,
     },
     source: values.source,
     tags: { tags: values.tags, language: values.language },
     articleIds: values.articles.map(a => a.id),
     title: {
-      title: editorValueToPlainText(values.slatetitle),
+      title: editorValueToPlainText(values.title),
       language: values.language,
     },
     content: { content: editorValueToPlainText(values.conceptContent), language: values.language },

@@ -11,7 +11,6 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
-import { Action, ActionFunction1 } from 'redux-actions';
 import {
   learningResourceContentToHTML,
   learningResourceContentToEditorValue,
@@ -32,7 +31,10 @@ import { toEditArticle } from '../../../../util/routeHelpers';
 import { nullOrUndefined } from '../../../../util/articleUtil';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import { ArticleFormikType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
+import {
+  LearningResourceFormikType,
+  useArticleFormHooks,
+} from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
 import {
@@ -41,19 +43,21 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { ConvertedDraftType, License, RelatedContent } from '../../../../interfaces';
-import { NewReduxMessage, ReduxMessageError } from '../../../Messages/messagesSelectors';
+import { ConvertedDraftType, RelatedContent } from '../../../../interfaces';
+import { useLicenses } from '../../../Licenses/LicensesProvider';
 
-export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): ArticleFormikType => {
+export const getInitialValues = (
+  article: Partial<ConvertedDraftType> = {},
+): LearningResourceFormikType => {
   const metaImageId = parseImageUrl(article.metaImage);
-  const slatetitle = plainTextToEditorValue(article.title, true);
-  const introduction = plainTextToEditorValue(article.introduction, true);
+  const title = plainTextToEditorValue(article.title || '');
+  const introduction = plainTextToEditorValue(article.introduction || '');
   const content = learningResourceContentToEditorValue(article?.content ?? '');
   const creators = parseCopyrightContributors(article, 'creators');
   const processors = parseCopyrightContributors(article, 'processors');
   const rightsholders = parseCopyrightContributors(article, 'rightsholders');
   const license = article.copyright?.license?.license || DEFAULT_LICENSE.license;
-  const metaDescription = plainTextToEditorValue(article.metaDescription, true);
+  const metaDescription = plainTextToEditorValue(article.metaDescription || '');
 
   return {
     agreementId: article.copyright?.agreementId,
@@ -76,7 +80,7 @@ export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): Art
     status: article.status,
     supportedLanguages: article.supportedLanguages || [],
     tags: article.tags || [],
-    slatetitle,
+    title,
     updatePublished: false,
     updated: article.updated,
     grepCodes: article.grepCodes || [],
@@ -87,8 +91,8 @@ export const getInitialValues = (article: Partial<ConvertedDraftType> = {}): Art
 };
 
 const getPublishedDate = (
-  values: ArticleFormikType,
-  initialValues: ArticleFormikType,
+  values: LearningResourceFormikType,
+  initialValues: LearningResourceFormikType,
   preview: boolean = false,
 ) => {
   if (isEmpty(values.published)) {
@@ -119,12 +123,9 @@ export const convertDraftOrRelated = (
 };
 
 interface Props extends RouteComponentProps {
-  applicationError: ActionFunction1<ReduxMessageError, Action<ReduxMessageError>>;
-  createMessage: (message: NewReduxMessage) => Action<NewReduxMessage>;
   article: Partial<ConvertedDraftType>;
   translating: boolean;
   translateToNN: () => void;
-  licenses: License[];
   articleStatus?: DraftStatus;
   isNewlyCreated: boolean;
   articleChanged: boolean;
@@ -139,10 +140,7 @@ interface Props extends RouteComponentProps {
 const LearningResourceForm = ({
   article,
   articleStatus,
-  createMessage,
-  applicationError,
   isNewlyCreated = false,
-  licenses,
   translateToNN,
   translating,
   updateArticle,
@@ -152,14 +150,16 @@ const LearningResourceForm = ({
 }: Props) => {
   const { t } = useTranslation();
 
+  const { licenses } = useLicenses();
+
   const getArticleFromSlate = useCallback(
     ({
       values,
       initialValues,
       preview = false,
     }: {
-      values: ArticleFormikType;
-      initialValues: ArticleFormikType;
+      values: LearningResourceFormikType;
+      initialValues: LearningResourceFormikType;
       preview?: boolean;
     }): UpdatedDraftApiType => {
       const content = learningResourceContentToHTML(values.content);
@@ -192,7 +192,7 @@ const LearningResourceForm = ({
         notes: values.notes || [],
         published: getPublishedDate(values, initialValues, preview) ?? '',
         tags: values.tags,
-        title: editorValueToPlainText(values.slatetitle),
+        title: editorValueToPlainText(values.title),
         grepCodes: values.grepCodes ?? [],
         conceptIds: values.conceptIds?.map(c => c.id) ?? [],
         availability: values.availability,
@@ -216,8 +216,6 @@ const LearningResourceForm = ({
     article,
     t,
     articleStatus,
-    createMessage,
-    applicationError,
     updateArticle,
     updateArticleAndStatus,
     getArticleFromSlate,
@@ -226,7 +224,7 @@ const LearningResourceForm = ({
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
-  const FormikChild = (formik: FormikProps<ArticleFormikType>) => {
+  const FormikChild = (formik: FormikProps<LearningResourceFormikType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting } = formik;
     const formIsDirty = isFormikFormDirty({
@@ -261,10 +259,8 @@ const LearningResourceForm = ({
             updateNotes={updateArticle}
             formIsDirty={formIsDirty}
             getInitialValues={getInitialValues}
-            licenses={licenses}
             getArticle={getArticle}
             fetchSearchTags={fetchSearchTags}
-            createMessage={createMessage}
             handleSubmit={handleSubmit}
           />
         )}
@@ -282,7 +278,6 @@ const LearningResourceForm = ({
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}
-          createMessage={createMessage}
           isConcept={false}
           hideSecondaryButton={false}
         />

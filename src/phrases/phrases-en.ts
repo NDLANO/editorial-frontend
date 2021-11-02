@@ -99,6 +99,7 @@ const phrases = {
     se: 'Sami',
     sma: 'Southern Sami',
     unknown: 'Unknown',
+    und: 'Undefined',
     de: 'German',
     empty: 'No languages left',
     change: 'Change to {{language}} version',
@@ -528,7 +529,6 @@ const phrases = {
     },
     name: {
       title: 'Title',
-      slatetitle: 'Title',
       aboutTitle: 'Title',
       introduction: 'Ingress',
       creators: 'Creators',
@@ -546,7 +546,6 @@ const phrases = {
       caption: 'Caption',
       imageFile: 'Imagefile',
       visualElement: 'Visual element',
-      visualElementObject: 'Visual element',
       visualElementCaption: 'Caption',
       visualElementAlt: 'Alt-text',
       validFrom: 'Valid from',

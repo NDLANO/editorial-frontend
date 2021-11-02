@@ -16,7 +16,7 @@ import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 import SearchPodcastSeries from './SearchPodcastSeries';
 
-const SearchResult = ({ result, locale, type, subjects, editingState, licenses }) => {
+const SearchResult = ({ result, locale, type, subjects, editingState }) => {
   const { t } = useTranslation();
   switch (type) {
     case 'content':
@@ -28,15 +28,14 @@ const SearchResult = ({ result, locale, type, subjects, editingState, licenses }
           locale={locale}
           subjects={subjects}
           editingState={editingState}
-          licenses={licenses}
         />
       );
     case 'image':
-      return <SearchImage image={result} locale={locale} licenses={licenses} />;
+      return <SearchImage image={result} locale={locale} />;
     case 'audio':
-      return <SearchAudio audio={result} locale={locale} licenses={licenses} />;
+      return <SearchAudio audio={result} locale={locale} />;
     case 'podcast-series':
-      return <SearchPodcastSeries series={result} locale={locale} licenses={licenses} />;
+      return <SearchPodcastSeries series={result} locale={locale} />;
     default:
       return <p>{t('searchForm.resultError', { type })}</p>;
   }
@@ -48,7 +47,6 @@ SearchResult.propTypes = {
   locale: PropTypes.string.isRequired,
   subjects: PropTypes.array,
   editingState: PropTypes.array,
-  licenses: PropTypes.array,
 };
 
 export default SearchResult;

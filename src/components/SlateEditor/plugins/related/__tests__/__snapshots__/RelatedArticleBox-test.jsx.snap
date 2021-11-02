@@ -16,12 +16,51 @@ exports[`it goes in and out of edit mode 1`] = `
 
 <div>
   <div
-    aria-hidden="true"
-    class="emotion-0 emotion-1"
-  />
-  <div
-    style="height: 120px;"
-  />
+    autocapitalize="false"
+    autocorrect="false"
+    contenteditable="true"
+    data-gramm="false"
+    data-slate-editor="true"
+    data-slate-node="value"
+    role="textbox"
+    spellcheck="false"
+    style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
+  >
+    <div
+      data-slate-node="element"
+      style="position: relative;"
+    >
+      <div
+        data-slate-node="element"
+        style="position: relative;"
+      >
+        <span
+          data-slate-node="text"
+        >
+          <span
+            data-slate-leaf="true"
+          >
+            <span
+              data-slate-length="0"
+              data-slate-zero-width="n"
+            >
+              ﻿
+              <br />
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      aria-hidden="true"
+      class="emotion-0 emotion-1"
+    />
+    <div
+      style="height: 120px;"
+    />
+  </div>
 </div>
 `;
 
@@ -32,96 +71,136 @@ exports[`it goes in and out of edit mode 2`] = `
   font-family: Source Sans Pro!important;
 }
 
-<div
-  class="emotion-0"
-  data-testid="relatedWrapper"
-  draggable="true"
-  role="button"
-  tabindex="0"
->
-  <section
-    class="c-related-articles"
+<div>
+  <div
+    autocapitalize="false"
+    autocorrect="false"
+    contenteditable="true"
+    data-gramm="false"
+    data-slate-editor="true"
+    data-slate-node="value"
+    role="textbox"
+    spellcheck="false"
+    style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
   >
-    <h1
-      class="c-section-heading c-related-articles__component-title"
-    >
-      Relatert innhold
-    </h1>
     <div
-      class="c-related-articles__articles"
+      data-slate-node="element"
+      style="position: relative;"
     >
-      <article
-        class="c-related-articles__item c-related-articles__item--external-learning-resources"
+      <div
+        data-slate-node="element"
+        style="position: relative;"
       >
-        <h1
-          class="c-related-articles__title"
+        <span
+          data-slate-node="text"
         >
-          <div
-            class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+          <span
+            data-slate-leaf="true"
           >
-            <svg
-              class="c-icon"
-              data-license="Apache License 2.0"
-              data-source="Material Design"
-              fill="currentColor"
-              height="1em"
-              preserveAspectRatio="xMidYMid meet"
-              style="vertical-align: middle;"
-              viewBox="0 0 24 24"
-              width="1em"
+            <span
+              data-slate-length="0"
+              data-slate-zero-width="n"
             >
-              <title>
-                ExternalLearningResource
-              </title>
-              <g>
+              ﻿
+              <br />
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    class="emotion-0"
+    contenteditable="false"
+    data-testid="relatedWrapper"
+    draggable="true"
+    role="button"
+    tabindex="0"
+  >
+    <section
+      class="c-related-articles"
+    >
+      <h1
+        class="c-section-heading c-related-articles__component-title"
+      >
+        Relatert innhold
+      </h1>
+      <div
+        class="c-related-articles__articles"
+      >
+        <article
+          class="c-related-articles__item c-related-articles__item--external-learning-resources"
+        >
+          <h1
+            class="c-related-articles__title"
+          >
+            <div
+              class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
                 <title>
-                  Eksterne ressurser
+                  ExternalLearningResource
                 </title>
-                <g
-                  fill="none"
-                  fill-rule="evenodd"
-                  stroke="none"
-                  stroke-width="1"
-                >
-                  <g>
+                <g>
+                  <title>
+                    Eksterne ressurser
+                  </title>
+                  <g
+                    fill="none"
+                    fill-rule="evenodd"
+                    stroke="none"
+                    stroke-width="1"
+                  >
                     <g>
-                      <polygon
-                        points="0 0 24 0 24 24 0 24"
-                      />
-                      <path
-                        d="M3.9,12 C3.9,10.29 5.29,8.9 7,8.9 L11,8.9 L11,7 L7,7 C4.24,7 2,9.24 2,12 C2,14.76 4.24,17 7,17 L11,17 L11,15.1 L7,15.1 C5.29,15.1 3.9,13.71 3.9,12 Z M8,13 L16,13 L16,11 L8,11 L8,13 Z M17,7 L13,7 L13,8.9 L17,8.9 C18.71,8.9 20.1,10.29 20.1,12 C20.1,13.71 18.71,15.1 17,15.1 L13,15.1 L13,17 L17,17 C19.76,17 22,14.76 22,12 C22,9.24 19.76,7 17,7 Z"
-                        fill="currentColor"
-                        fill-rule="nonzero"
-                      />
+                      <g>
+                        <polygon
+                          points="0 0 24 0 24 24 0 24"
+                        />
+                        <path
+                          d="M3.9,12 C3.9,10.29 5.29,8.9 7,8.9 L11,8.9 L11,7 L7,7 C4.24,7 2,9.24 2,12 C2,14.76 4.24,17 7,17 L11,17 L11,15.1 L7,15.1 C5.29,15.1 3.9,13.71 3.9,12 Z M8,13 L16,13 L16,11 L8,11 L8,13 Z M17,7 L13,7 L13,8.9 L17,8.9 C18.71,8.9 20.1,10.29 20.1,12 C20.1,13.71 18.71,15.1 17,15.1 L13,15.1 L13,17 L17,17 C19.76,17 22,14.76 22,12 C22,9.24 19.76,7 17,7 Z"
+                          fill="currentColor"
+                          fill-rule="nonzero"
+                        />
+                      </g>
                     </g>
                   </g>
                 </g>
-              </g>
-            </svg>
-          </div>
-          <span
-            class="c-related-articles__link-wrapper"
-          >
-            <a
-              class="c-related-articles__link"
-              href="https://www.vg.no"
-              rel="noopener noreferrer"
-              target="_blank"
+              </svg>
+            </div>
+            <span
+              class="c-related-articles__link-wrapper"
             >
-              Verdens gang
-            </a>
-          </span>
-        </h1>
-        <p
-          class="c-related-articles__description"
-        />
-        <p
-          class="c-related-articles__link-info"
-        >
-          Nettside hos www.vg.no
-        </p>
-      </article>
-    </div>
-  </section>
+              <a
+                class="c-related-articles__link"
+                href="https://www.vg.no"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Verdens gang
+              </a>
+            </span>
+          </h1>
+          <p
+            class="c-related-articles__description"
+          />
+          <p
+            class="c-related-articles__link-info"
+          >
+            Nettside hos www.vg.no
+          </p>
+        </article>
+      </div>
+    </section>
+  </div>
 </div>
 `;

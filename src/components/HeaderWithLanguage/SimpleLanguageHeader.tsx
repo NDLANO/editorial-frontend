@@ -45,6 +45,7 @@ const SimpleLanguageHeader = ({
     { key: 'sma', title: t('language.sma'), include: false },
     { key: 'se', title: t('language.se'), include: false },
     { key: 'unknown', title: t('language.unknown'), include: false },
+    { key: 'und', title: t('language.und'), include: false },
     { key: 'de', title: t('language.de'), include: false },
   ];
   const emptyLanguages = languages.filter(

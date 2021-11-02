@@ -8,18 +8,21 @@
 
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Button from '@ndla/button';
 import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
 import { StyledInputWrapper } from './FigureInput';
 import EditVideoTime from './EditVideoTime';
-import { Embed, FormikInputEvent } from '../../../../interfaces';
+import { BrightcoveEmbed, ExternalEmbed, FormikInputEvent } from '../../../../interfaces';
 import {
   addYoutubeTimeStamps,
   addBrightCoveTimeStampVideoid,
   addBrightCovetimeStampSrc,
+  getBrightCoveStartTime,
+  getStartTime,
+  getStopTime,
 } from '../../../../util/videoUtil';
 
 const videoStyle = css`
@@ -32,32 +35,29 @@ const videoStyle = css`
 `;
 
 interface Props {
-  caption: string;
-  embed: Embed;
+  embed: BrightcoveEmbed | ExternalEmbed;
   figureClass: any;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
-  setCaption: (caption: string) => void;
   src: string;
-  startTime: string;
-  stopTime: string;
-  setStartTime: (startTime: string) => void;
-  setStopTime: (stopTime: string) => void;
+  activeSrc: string;
   toggleEditModus: () => void;
 }
 
 const EditVideo = ({
-  caption,
   embed,
   figureClass,
   saveEmbedUpdates,
   src,
-  startTime,
-  stopTime,
-  setCaption,
-  setStartTime,
-  setStopTime,
+  activeSrc,
   toggleEditModus,
 }: Props) => {
+  const [caption, setCaption] = useState(embed.caption || '');
+  const [startTime, setStartTime] = useState(
+    'videoid' in embed ? getBrightCoveStartTime(embed.videoid) : getStartTime(embed.url),
+  );
+  const [stopTime, setStopTime] = useState(
+    embed.resource === 'external' ? getStopTime(embed.url) : '',
+  );
   const { t } = useTranslation();
   let placeholderElement: any = React.createRef();
   let embedElement: any = React.createRef();
@@ -84,14 +84,11 @@ const EditVideo = ({
   const onSave = () => {
     saveEmbedUpdates({
       caption,
-      url:
-        embed.resource === 'brightcove'
-          ? addBrightCovetimeStampSrc(src, startTime)
-          : addYoutubeTimeStamps(src, startTime, stopTime),
-      videoid:
-        embed.resource === 'brightcove'
-          ? addBrightCoveTimeStampVideoid(embed.videoid, startTime)
-          : embed.videoid,
+      ...(embed.resource === 'brightcove'
+        ? {
+            videoid: addBrightCoveTimeStampVideoid(embed.videoid, startTime),
+          }
+        : {}),
     });
     toggleEditModus();
   };
@@ -121,7 +118,7 @@ const EditVideo = ({
               <iframe
                 title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
                 frameBorder="0"
-                src={src}
+                src={activeSrc}
                 allowFullScreen
                 css={videoStyle}
               />

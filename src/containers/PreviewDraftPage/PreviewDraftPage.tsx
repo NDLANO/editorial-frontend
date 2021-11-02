@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { HelmetWithTracker } from '@ndla/tracker';
 //@ts-ignore
 import { Hero, OneColumn } from '@ndla/ui';

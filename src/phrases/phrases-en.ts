@@ -294,7 +294,6 @@ const phrases = {
     loadMoreVideos: 'Load more videos',
     noResults: 'No videos found',
     addVideo: 'Use video',
-    addVideo360: 'Use 360 version',
     previewVideo: 'Preview',
     publishedDate: 'Published date',
     duration: 'Duration',

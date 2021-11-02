@@ -114,12 +114,12 @@ class VisualElementSearch extends Component {
           loadMoreVideos: t('videoSearch.loadMoreVideos'),
           noResults: t('videoSearch.noResults'),
           addVideo: t('videoSearch.addVideo'),
-          addVideo360: t('videoSearch.addVideo360'),
           previewVideo: t('videoSearch.previewVideo'),
           publishedDate: t('videoSearch.publishedDate'),
           duration: t('videoSearch.duration'),
           interactioncount: t('videoSearch.interactioncount'),
         };
+
         return (
           <Fragment>
             <h2>{titles(t, selectedResource)[selectedResource]}</h2>
@@ -128,7 +128,7 @@ class VisualElementSearch extends Component {
               searchVideos={(query, type) => visualElementApi.searchVideos(query, type)}
               locale={locale}
               translations={videoTranslations}
-              onVideoSelect={(video, type, use360degreePlayer) => {
+              onVideoSelect={(video, type) => {
                 if (type === 'youtube') {
                   handleVisualElementChange({
                     resource: 'external',
@@ -141,9 +141,10 @@ class VisualElementSearch extends Component {
                     videoid: video.id,
                     caption: '',
                     account: config.brightCoveAccountId,
-                    player: use360degreePlayer
-                      ? config.brightcove360PlayerId
-                      : config.brightcovePlayerId,
+                    player:
+                      video.projection === 'equirectangular'
+                        ? config.brightcove360PlayerId
+                        : config.brightcovePlayerId,
                     metaData: video,
                     title: video.name,
                   });

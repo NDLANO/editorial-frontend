@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { HelmetWithTracker } from '@ndla/tracker';
 //@ts-ignore
 import { Hero, OneColumn } from '@ndla/ui';
@@ -56,9 +56,11 @@ const PreviewDraftPage = ({
     return null;
   }
 
-  const hasResourceTypes = resources.length > 0 && resources[0].resourceTypes.length > 0;
-  const fromResourceTypes = getContentTypeFromResourceTypes(resources[0].resourceTypes);
-  const contentTypeFromResourceType = hasResourceTypes ? fromResourceTypes : undefined;
+  const hasResourceTypes = resources.length > 0;
+  const contentTypeFromResourceType = hasResourceTypes
+    ? getContentTypeFromResourceTypes(resources[0].resourceTypes)
+    : undefined;
+
   const contentType = contentTypeFromResourceType?.contentType;
   const label = (hasResourceTypes && resources[0].resourceTypes[0]?.name) || '';
 

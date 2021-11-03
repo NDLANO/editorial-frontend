@@ -29,7 +29,6 @@
     "NDLA_GOOGLE_SEARCH_ENGINE_ID": "@ndla_google_search_engine_id",
     "NDLA_PERSONAL_CLIENT_ID": "@ndla_personal_client_id",
     "BRIGHTCOVE_PLAYER_ID": "@brightcove_player_id",
-    "BRIGHTCOVE_PLAYER_360_ID": "@brightcove_player_360_id",
     "BRIGHTCOVE_ACCOUNT_ID": "@brightcove_account_id",
     "BRIGHTCOVE_API_CLIENT_ID": "@brightcove_api_client_id",
     "BRIGHTCOVE_API_CLIENT_SECRET": "@brightcove_api_client_secret",

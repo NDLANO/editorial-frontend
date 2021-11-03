@@ -50,7 +50,7 @@ const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
   const [image, setImage] = useState<ImageApiType>();
 
   const license = getLicenseByAbbreviation(copyright.license?.license || '', locale);
-  const figureLicenseDialogId = `edit-audio-${audio.id}`;
+  const figureLicenseDialogId = `audio-${audio.id}`;
 
   const podcastImg = podcastMeta?.coverPhoto && {
     url: `${podcastMeta.coverPhoto.url}?width=200&height=200`,

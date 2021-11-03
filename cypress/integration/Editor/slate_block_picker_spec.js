@@ -18,12 +18,17 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   beforeEach(() => {
+    cy.get('[data-slate-node=element] > p').clear();
+    cy.get('[data-slate-node=element] > p').should('exist');
     cy.get('[data-slate-node=element] > p')
       .should('be.visible')
       .first()
       .click()
       .clear();
+    cy.get('[data-cy=slate-block-picker]').should('exist');
+    cy.get('[data-cy=slate-block-picker]').should('be.visible');
     cy.get('[data-cy=slate-block-picker]').click();
+    cy.get('[cy="slate-block-picker-menu"]').should('exist');
     cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
   });
 
@@ -90,6 +95,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
       .first()
       .click();
     cy.get('[data-cy="remove-element"]').click();
+    cy.get('[data-cy="remove-elemnt"]').should('not.exist');
   });
 
   it('opens and closes podcast', () => {
@@ -104,6 +110,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy="modal-header"]').should('be.visible');
     cy.get('[data-cy="modal-body"]').should('be.visible');
     cy.get('[data-cy="close-modal-button"]').click();
+    cy.get('[data-cy="close-modal-button"]').should('not.exist');
   });
 
   it('opens and closes audio', () => {

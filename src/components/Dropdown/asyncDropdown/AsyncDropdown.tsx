@@ -185,9 +185,9 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
       itemToString={item => itemToString(item, labelField)}
       onStateChange={handleStateChange}
       onChange={handleChange}
+      isOpen={keepOpen}
       initialIsOpen={startOpen}
       selectedItem={selectedItem}
-      defaultIsOpen={keepOpen}
       onOuterClick={() => {
         setKeepOpen(false);
       }}>

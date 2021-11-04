@@ -14,8 +14,8 @@ import { withTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import RichTextEditor from './RichTextEditor';
 import StyledFormContainer from './common/StyledFormContainer';
-import { PluginShape } from '../../shapes';
 import DeleteForeverButton from '../DeleteForeverButton';
+import { ActionsInAreasShape } from '../../shapes';
 
 class RichBlockTextEditor extends PureComponent {
   constructor(props) {
@@ -28,10 +28,10 @@ class RichBlockTextEditor extends PureComponent {
     if (window.MathJax) window.MathJax.typeset();
   }
 
-  onChange(evt, index) {
+  onChange(descendant, index) {
     const { onChange, name, value } = this.props;
     const newValue = [].concat(value);
-    newValue[index] = evt.target.value;
+    newValue[index] = descendant;
     onChange({
       target: {
         value: newValue,
@@ -52,18 +52,13 @@ class RichBlockTextEditor extends PureComponent {
   render() {
     const {
       t,
-      schema,
       children,
       value,
-      name,
       placeholder,
       plugins,
-      renderMark,
-      renderBlock,
-      renderInline,
       submitted,
-      onBlur,
-      handleSubmit,
+      language,
+      actionsToShowInAreas,
     } = this.props;
     return (
       <article>
@@ -71,30 +66,24 @@ class RichBlockTextEditor extends PureComponent {
           <StyledFormContainer
             key={`editor_${index}`} // eslint-disable-line react/no-array-index-key
           >
-            {value.length > 1 ? (
+            {value.length > 1 && (
               <Tooltip
                 tooltip={t('form.section.remove')}
                 tooltipContainerClass="tooltipContainerClass">
                 <DeleteForeverButton stripped onClick={() => this.removeSection(index)} />
               </Tooltip>
-            ) : null}
+            )}
             <RichTextEditor
-              id={name}
-              name={name}
               index={index}
-              onBlur={onBlur}
               data-cy={this.props['data-cy']}
               placeholder={placeholder}
               plugins={plugins}
-              renderMark={renderMark}
-              renderBlock={renderBlock}
-              renderInline={renderInline}
               submitted={submitted}
-              schema={schema}
               onChange={this.onChange}
+              language={language}
               value={blockValue}
+              actionsToShowInAreas={actionsToShowInAreas}
               removeSection={this.removeSection}
-              handleSubmit={handleSubmit}
             />
             {children}
           </StyledFormContainer>
@@ -105,22 +94,18 @@ class RichBlockTextEditor extends PureComponent {
 }
 
 RichBlockTextEditor.propTypes = {
-  schema: PropTypes.shape({}),
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
+  actionsToShowInAreas: ActionsInAreasShape.isRequired,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   className: PropTypes.string,
   children: PropTypes.node,
-  plugins: PropTypes.arrayOf(PluginShape).isRequired,
+  plugins: PropTypes.arrayOf(PropTypes.func).isRequired,
   placeholder: PropTypes.string.isRequired,
-  renderMark: PropTypes.func.isRequired,
-  renderBlock: PropTypes.func.isRequired,
-  renderInline: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
   'data-cy': PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(RichBlockTextEditor);

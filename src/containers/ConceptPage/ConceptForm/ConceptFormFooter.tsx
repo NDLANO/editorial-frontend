@@ -16,7 +16,6 @@ import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { AlertModalWrapper, formClasses, ActionButton } from '../../FormikForm';
 import { ConceptFormValues } from '../conceptInterfaces';
-import { NewReduxMessage } from '../../Messages/messagesSelectors';
 import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 import { ConceptApiType } from '../../../modules/concept/conceptApiInterfaces';
 
@@ -30,7 +29,6 @@ interface Props {
   onClose?: () => void;
   onContinue: () => void;
   getApiConcept?: () => ConceptApiType;
-  createMessage: (message: NewReduxMessage) => void;
 }
 
 const ConceptFormFooter = ({
@@ -43,7 +41,6 @@ const ConceptFormFooter = ({
   onClose,
   onContinue,
   getApiConcept,
-  createMessage,
 }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
@@ -79,7 +76,6 @@ const ConceptFormFooter = ({
         </Field>
       ) : (
         <EditorFooter
-          createMessage={createMessage}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getApiConcept}

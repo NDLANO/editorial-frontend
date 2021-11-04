@@ -7,7 +7,7 @@
  */
 
 .c-toolbar {
-  padding: 8px 7px 6px;
+  border-radius: 4px;
   position: absolute;
   z-index: 11;
   top: -10000px;
@@ -16,10 +16,6 @@
   opacity: 0;
   color: black;
   background-color: white;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgba(204, 204, 204, 1);
-  border-radius: 4px;
   transition: opacity 0.75s;
   box-shadow: 3px 3px 5px rgba(153, 153, 153, 0.349019607843137);
 
@@ -32,10 +28,6 @@
     white-space: nowrap;
     word-wrap: normal;
     direction: ltr;
-  }
-
-  &__icon--active {
-    color: var(--brand-color);
   }
 
   &__link-overlay {

@@ -100,6 +100,7 @@ const phrases = {
     se: 'Samisk',
     sma: 'Sørsamisk',
     unknown: 'Ukjent',
+    und: 'Udefinert',
     de: 'Tysk',
     empty: 'Ingen flere språk',
     change: 'Bytt til {{language}} versjon',
@@ -547,7 +548,6 @@ const phrases = {
     },
     name: {
       title: 'Tittel',
-      slatetitle: 'Tittel',
       aboutTitle: 'Tittel',
       introduction: 'Ingress',
       creators: 'Opphavsperson',
@@ -565,7 +565,6 @@ const phrases = {
       caption: 'Bildetekst',
       imageFile: 'Bildefil',
       visualElement: 'Visuelt element',
-      visualElementObject: 'Visuelt element',
       visualElementCaption: 'Figur tekst',
       visualElementAlt: 'Alt-tekst',
       validFrom: 'Gyldig fra',

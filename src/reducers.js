@@ -8,14 +8,10 @@
 
 import { combineReducers } from 'redux';
 
-import messages from './containers/Messages/messagesReducer';
 import images from './modules/image/image';
-import licenses from './modules/license/license';
 
 const rootReducers = combineReducers({
-  messages,
   images,
-  licenses,
 });
 
 export default rootReducers;

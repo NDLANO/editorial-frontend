@@ -15,18 +15,17 @@ import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFa
 import ContentView from './ContentView';
 import FormView from './FormView';
 import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
-import { License, LocaleType } from '../../../../../interfaces';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { LocaleType } from '../../../../../interfaces';
 
 interface Props {
   concept: SearchConceptType;
   locale: LocaleType;
   subjects: SubjectType[];
   editingState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-  licenses: License[];
 }
 
-const SearchConcept = ({ concept, locale, subjects, editingState, licenses }: Props) => {
+const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
   const { t } = useTranslation();
   const [editing, setEditing] = editingState;
   const [localConcept, setLocalConcept] = useState(concept);
@@ -70,7 +69,6 @@ const SearchConcept = ({ concept, locale, subjects, editingState, licenses }: Pr
               updatedBy: newConcept.updatedBy!,
             });
           }}
-          licenses={licenses}
         />
       ) : (
         <ContentView
@@ -82,7 +80,6 @@ const SearchConcept = ({ concept, locale, subjects, editingState, licenses }: Pr
           setShowForm={toggleShowForm}
           t={t}
           editing={editing}
-          licenses={licenses}
         />
       )}
     </div>
@@ -109,7 +106,6 @@ SearchConcept.propTypes = {
   locale: PropTypes.string,
   subjects: PropTypes.array,
   editingState: PropTypes.array,
-  licenses: PropTypes.array,
 };
 
 export default SearchConcept;

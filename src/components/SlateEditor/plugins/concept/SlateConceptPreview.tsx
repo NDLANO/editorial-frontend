@@ -20,10 +20,10 @@ import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
 import IconButton from '../../../IconButton';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
+import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import config from '../../../../config';
 import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
-import { parseEmbedTag } from '../../../../util/embedTagHelpers';
-import { VisualElement } from '../../../../interfaces';
+import { Embed } from '../../../../interfaces';
 
 const StyledFigureButtons = styled('span')`
   position: absolute;
@@ -41,7 +41,7 @@ const StyledFigureButtons = styled('span')`
 interface Props {
   concept: ConceptApiType;
   handleRemove: () => void;
-  id: number;
+  id: number | string;
 }
 
 const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
@@ -54,7 +54,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
   markdown.inline.ruler.enable(['sub', 'sup']);
 
   const VisualElement = () => {
-    const visualElement: VisualElement = parseEmbedTag(concept.visualElement?.visualElement);
+    const visualElement: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
     if (!visualElement) return null;
     switch (visualElement?.resource) {
       case 'image':

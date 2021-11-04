@@ -6,8 +6,10 @@
  *
  */
 
-import { css } from '@emotion/core';
-import React, { useState } from 'react';
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
+import React, { ReactNode, useState } from 'react';
+import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 //@ts-ignore
@@ -16,26 +18,27 @@ import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
-import { Embed } from '../../../../interfaces';
+import { ImageEmbed } from '../../../../interfaces';
 
 const buttonStyle = css`
   min-width: -webkit-fill-available;
   min-width: -moz-available;
+  &:focus img {
+    box-shadow: rgb(32, 88, 143) 0 0 0 2px;
+  }
 `;
 
 interface Props {
   active?: boolean;
-  attributes?: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
-  embed: Embed;
+  attributes: RenderElementProps['attributes'];
+  embed: ImageEmbed;
   figureClass?: { className: string };
   isSelectedForCopy?: boolean;
   language: string;
   onRemoveClick: (event: React.MouseEvent) => void;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   visualElement: boolean;
+  children: ReactNode;
 }
 
 const SlateImage = ({
@@ -48,6 +51,7 @@ const SlateImage = ({
   onRemoveClick,
   saveEmbedUpdates,
   visualElement,
+  children,
 }: Props) => {
   const { t } = useTranslation();
   const [editMode, setEditMode] = useState(false);
@@ -55,8 +59,8 @@ const SlateImage = ({
 
   const constructFigureClassName = () => {
     const isFullWidth = embed.align === 'center';
-    const size = ['small', 'xsmall'].includes(embed.size) ? `-${embed.size}` : '';
-    const align = ['left', 'right'].includes(embed.align) ? `-${embed.align}` : '';
+    const size = embed.size && ['small', 'xsmall'].includes(embed.size) ? `-${embed.size}` : '';
+    const align = embed.align && ['left', 'right'].includes(embed.align) ? `-${embed.align}` : '';
 
     return `c-figure ${!isFullWidth ? `u-float${size}${align}` : ''}`;
   };
@@ -90,6 +94,7 @@ const SlateImage = ({
       )}
       {!(visualElement && editMode) && (
         <Button
+          contentEditable={false}
           css={buttonStyle}
           stripped
           data-label={t('imageEditor.editImage')}
@@ -99,13 +104,11 @@ const SlateImage = ({
               src={`${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`}
               alt={embed.alt}
               srcSet={getSrcSets(embed.resource_id, transformData())}
-              css={
-                showCopyOutline && {
-                  boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
-                }
-              }
+              css={css`
+                box-shadow: ${showCopyOutline ? 'rgb(32, 88, 143) 0 0 0 2px' : 'none'};
+              `}
             />
-            <figcaption className="c-figure__caption">
+            <figcaption className="c-figure__caption" contentEditable={false}>
               <div
                 className="c-figure__info"
                 css={css`
@@ -119,6 +122,7 @@ const SlateImage = ({
           </figure>
         </Button>
       )}
+      {children}
     </div>
   );
 };

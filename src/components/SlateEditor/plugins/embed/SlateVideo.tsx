@@ -6,8 +6,10 @@
  *
  */
 
-import { css } from '@emotion/core';
-import React, { Fragment, useEffect, useState } from 'react';
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
+import { ReactNode, useEffect, useState } from 'react';
+import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
@@ -21,13 +23,11 @@ import EditVideo from './EditVideo';
 import IconButton from '../../../IconButton';
 import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
 import {
-  getYoutubeEmbedUrl,
-  getStartTime,
-  getStopTime,
+  addBrightCoveTimeStampVideoid,
   getBrightCoveStartTime,
+  getYoutubeEmbedUrl,
 } from '../../../../util/videoUtil';
-import { isBrightcoveUrl } from '../../../../util/htmlHelpers';
-import { Embed } from '../../../../interfaces';
+import { ExternalEmbed, BrightcoveEmbed } from '../../../../interfaces';
 
 const videoStyle = css`
   width: 100%;
@@ -39,16 +39,22 @@ const videoStyle = css`
 `;
 
 interface Props {
-  attributes?: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
-  embed: Embed;
+  attributes: RenderElementProps['attributes'];
+  embed: BrightcoveEmbed | ExternalEmbed;
   figureClass: any;
   language: string;
   onRemoveClick: (event: React.MouseEvent) => void;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
+  active: boolean;
+  isSelectedForCopy: boolean;
+  children: ReactNode;
 }
+
+const isBrightcove = (
+  embed: BrightcoveEmbed | ExternalEmbed | undefined,
+): embed is BrightcoveEmbed => {
+  return !!embed && 'videoid' in embed;
+};
 
 const SlateVideo = ({
   attributes,
@@ -57,52 +63,58 @@ const SlateVideo = ({
   language,
   onRemoveClick,
   saveEmbedUpdates,
+  active,
+  isSelectedForCopy,
+  children,
 }: Props) => {
   const { t } = useTranslation();
   const [editMode, setEditMode] = useState(false);
-  const [tEmbed, setEmbed] = useState(embed);
-  const isOriginalEmbed = tEmbed.videoid === embed.videoid;
-  const [src, setSrc] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [stopTime, setStopTime] = useState('');
-  const [caption, setCaption] = useState(tEmbed.caption);
+  const showCopyOutline = isSelectedForCopy && (!editMode || !active);
+  const [showLinkedVideo, setShowLinkedVideo] = useState(false);
 
   const [linkedVideoId, setLinkedVideoId] = useState<string | undefined>();
   useEffect(() => {
+    if (!isBrightcove(embed)) {
+      return;
+    }
     const idWithoutTimestamp = embed.videoid?.split('&')[0];
     visualElementApi
       .fetchBrightcoveVideo(idWithoutTimestamp)
       .then((v: { link?: { text: string } }) => {
         setLinkedVideoId(v.link?.text);
       });
-  }, [embed.videoid]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [(embed as BrightcoveEmbed).videoid]);
 
-  useEffect(() => {
-    const { resource, account, videoid, url, player = 'default' } = tEmbed;
-    if (resource === 'brightcove') {
-      if (isBrightcoveUrl(url)) {
-        setSrc(url);
-      } else {
-        setSrc(
-          `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${videoid}`,
-        );
-      }
-      setStartTime(getBrightCoveStartTime(videoid));
-    } else {
-      const tempUrl = url.includes('embed') ? url : getYoutubeEmbedUrl(url);
-      setSrc(tempUrl);
-      setStartTime(getStartTime(url));
-      setStopTime(getStopTime(url));
+  const getUrl = (getLinkedVideo: boolean) => {
+    if (embed.resource === 'brightcove') {
+      const { account, videoid, player = 'default' } = embed;
+
+      const startTime = getBrightCoveStartTime(videoid);
+      const id =
+        getLinkedVideo && linkedVideoId
+          ? addBrightCoveTimeStampVideoid(linkedVideoId, startTime)
+          : videoid;
+      return `https://players.brightcove.net/${account}/${player}_default/index.html?videoId=${id}`;
+    } else if (embed.resource === 'external') {
+      const { url } = embed;
+      return url.includes('embed') ? url : getYoutubeEmbedUrl(url);
     }
-  }, [tEmbed]);
+    return '';
+  };
 
   const toggleEditModus = () => {
     setEditMode(!editMode);
   };
 
   const switchEmbedSource = () => {
-    const newEmbed = isOriginalEmbed && linkedVideoId ? linkedVideoId : embed.videoid;
-    setEmbed(embed => ({ ...embed, videoid: newEmbed }));
+    if (!isBrightcove(embed)) {
+      return;
+    } else if (linkedVideoId) {
+      setShowLinkedVideo(prev => !prev);
+    } else {
+      setShowLinkedVideo(false);
+    }
   };
 
   return (
@@ -110,47 +122,47 @@ const SlateVideo = ({
       <FigureButtons
         tooltip={t('form.video.remove')}
         onRemoveClick={onRemoveClick}
-        embed={tEmbed}
+        embed={embed}
         figureType="video"
         language={language}>
-        <Tooltip
-          tooltip={
-            isOriginalEmbed ? t('form.video.toLinkedVideo') : t('form.video.fromLinkedVideo')
-          }
-          align="right">
-          {linkedVideoId && (
+        {linkedVideoId && (
+          <Tooltip
+            tooltip={
+              showLinkedVideo ? t('form.video.fromLinkedVideo') : t('form.video.toLinkedVideo')
+            }
+            align="right">
             <IconButton as={SafeLink} onClick={switchEmbedSource}>
               {t('form.video.linkedVideoButton')}
             </IconButton>
-          )}
-        </Tooltip>
+          </Tooltip>
+        )}
       </FigureButtons>
       {editMode ? (
         <EditVideo
-          embed={tEmbed}
+          embed={embed}
           toggleEditModus={toggleEditModus}
           figureClass={figureClass}
-          src={src}
-          startTime={startTime}
-          stopTime={stopTime}
-          setStartTime={setStartTime}
-          setStopTime={setStopTime}
-          caption={caption}
-          setCaption={setCaption}
+          src={getUrl(false)}
+          activeSrc={getUrl(showLinkedVideo)}
           saveEmbedUpdates={saveEmbedUpdates}
         />
       ) : (
-        <Fragment>
+        <div contentEditable={false}>
           <Figure
             draggable
             style={{ paddingTop: '57%' }}
             {...figureClass}
-            id={tEmbed.videoid || tEmbed.url}
-            resizeIframe>
+            id={'videoid' in embed ? embed.videoid : embed.url}
+            resizeIframe
+            css={
+              showCopyOutline && {
+                boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+              }
+            }>
             <iframe
-              title={`Video: ${tEmbed?.metaData?.name || ''}`}
+              title={`Video: ${embed?.metaData?.name || ''}`}
               frameBorder="0"
-              src={src}
+              src={getUrl(showLinkedVideo)}
               allowFullScreen
               css={videoStyle}
             />
@@ -164,12 +176,13 @@ const SlateVideo = ({
                     margin: 0;
                   }
                 `}>
-                {parseMarkdown(caption)}
+                {parseMarkdown(embed.caption || '')}
               </div>
             </figcaption>
           </Button>
-        </Fragment>
+        </div>
       )}
+      {children}
     </div>
   );
 };

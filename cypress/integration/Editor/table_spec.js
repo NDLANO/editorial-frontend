@@ -11,43 +11,37 @@ import editorRoutes from './editorRoutes';
 import t from '../../../src/phrases/phrases-nb';
 
 describe('Table plugin', () => {
-  beforeEach(() => {
+  before(() => {
     setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
+    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
+    cy.get('[data-slate-node=element] > p').clear();
+    cy.get('[data-slate-node=element] > p').should('exist');
+    cy.get('[data-slate-node=element] > p')
+      .should('be.visible')
+      .first()
+      .click()
+      .clear();
+    cy.get('[data-cy=slate-block-picker]').click();
+    cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
   });
 
   it('all table functions work', () => {
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
-      .first()
-      .focus();
-    cy.wait(500);
-    cy.get('[data-cy=slate-block-picker]')
-      .last()
-      .click({ force: true });
-    cy.wait(500);
-
     cy.get('[data-cy=create-table]')
       .last()
       .click({ force: true });
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .wait(500)
       .then($el => {
-        cy.wrap($el).type(
-          '{uparrow}{uparrow}{leftarrow}TEST{rightarrow}TEST2{downarrow}TEST3',
-          {
-            force: true,
-          },
-        );
+        cy.wrap($el).type('{rightarrow}{downarrow}TEST{uparrow}TEST2{uparrow}TEST3', {
+          force: true,
+        });
         cy.get('[data-cy=column-add]').click({ force: true });
-        cy.wait(500);
-        cy.wrap($el).type('Test new column');
-        cy.wait(500);
+        cy.wrap($el).type('{rightarrow}Test new column');
         cy.get('[data-cy=row-add]').click({ force: true });
-        cy.wait(500);
-        cy.wrap($el).type('Test new row');
+        cy.wrap($el).type('{downarrow}Test new row');
       });
 
     cy.get('[data-cy=column-remove]').click({ force: true });

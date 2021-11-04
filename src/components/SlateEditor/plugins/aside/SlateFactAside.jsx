@@ -8,14 +8,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Types from 'slate-prop-types';
 import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
-import { EditorShape } from '../../../../shapes';
+import { EditorShape, AttributesShape } from '../../../../shapes';
 
 const classes = new BEMHelper({
   name: 'editor',
@@ -56,6 +56,14 @@ const factBoxButtonStyle = css`
   }
 `;
 
+const StyledDiv = styled.div`
+  overflow: ${props => (props.expanded ? 'visible' : 'hidden')};
+`;
+
+const StyledAside = styled.aside`
+  overflow: ${props => (props.expanded ? 'visible' : 'hidden')};
+`;
+
 class SlateFactAside extends React.Component {
   constructor() {
     super();
@@ -63,7 +71,6 @@ class SlateFactAside extends React.Component {
       expanded: true,
     };
     this.toggleExpanded = this.toggleExpanded.bind(this);
-    this.onMoveContent = this.onMoveContent.bind(this);
   }
 
   toggleExpanded(evt) {
@@ -73,41 +80,42 @@ class SlateFactAside extends React.Component {
     }));
   }
 
-  onMoveContent() {
-    const { editor, node } = this.props;
-    editor.unwrapBlockByKey(node.key, node.type);
-  }
-
   render() {
-    const { children, onRemoveClick, attributes } = this.props;
+    const { children, onRemoveClick, attributes, onMoveContent } = this.props;
 
     return (
-      <aside
+      <StyledAside
+        expanded={this.state.expanded}
         {...classes('fact-aside', '', this.state.expanded ? 'c-factbox expanded' : 'c-factbox')}
         draggable
         {...attributes}>
-        <div className="c-factbox__content c-bodybox">
-          <MoveContentButton onMouseDown={this.onMoveContent} />
-          <DeleteButton stripped onMouseDown={onRemoveClick} data-cy="remove-fact-aside" />
+        <StyledDiv expanded={this.state.expanded} className="c-factbox__content c-bodybox">
+          <MoveContentButton onMouseDown={onMoveContent} />
+          <DeleteButton
+            stripped
+            onMouseDown={onRemoveClick}
+            data-cy="remove-fact-aside"
+            tabIndex="-1"
+          />
           {children}
-        </div>
+        </StyledDiv>
         <Button
+          contentEditable={false}
           onMouseDown={this.toggleExpanded}
           className="c-factbox__button"
           css={factBoxButtonStyle}
         />
-      </aside>
+      </StyledAside>
     );
   }
 }
 
 SlateFactAside.propTypes = {
-  attributes: PropTypes.shape({
-    'data-key': PropTypes.string.isRequired,
-  }),
+  attributes: AttributesShape,
   onRemoveClick: PropTypes.func.isRequired,
+  onMoveContent: PropTypes.func.isRequired,
   editor: EditorShape.isRequired,
-  node: Types.node.isRequired,
+  node: PropTypes.any,
 };
 
 export default SlateFactAside;

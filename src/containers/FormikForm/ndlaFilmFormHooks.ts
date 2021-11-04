@@ -8,12 +8,12 @@ import { FormikProps } from 'formik';
 import { useState } from 'react';
 import { TFunction } from 'react-i18next';
 import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../interfaces';
-import * as messageActions from '../Messages/messagesActions';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import { updateFilmFrontpage } from '../../modules/frontpage/frontpageApi';
 import { getInitialValues } from '../../util/ndlaFilmHelpers';
 import { getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
 import { NdlaFilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
+import { useMessages } from '../Messages/MessagesProvider';
 
 export function useNdlaFilmFormHooks(
   t: TFunction,
@@ -26,6 +26,7 @@ export function useNdlaFilmFormHooks(
   const [savedToServer, setSavedToServer] = useState(false);
 
   const initialValues = getInitialValues(filmFrontpage, slideshowMovies, themes, selectedLanguage);
+  const { createMessage, applicationError } = useMessages();
 
   const handleSubmit = async (formik: FormikProps<NdlaFilmFormikType>) => {
     formik.setSubmitting(true);
@@ -41,14 +42,14 @@ export function useNdlaFilmFormHooks(
       setSavedToServer(true);
     } catch (err) {
       if (err?.status === 409) {
-        messageActions.addMessage({
+        createMessage({
           message: t('alertModal.needToRefresh'),
           timeToLive: 0,
         });
       } else if (err?.json?.messages) {
-        messageActions.addMessage(formatErrorMessage(err));
+        createMessage(formatErrorMessage(err));
       } else {
-        messageActions.applicationError(err);
+        applicationError(err);
       }
       formik.setSubmitting(false);
       setSavedToServer(false);

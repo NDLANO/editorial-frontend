@@ -61,22 +61,12 @@ const getPlayerObject = (
 
 const AudioContent = ({ formik }: Props) => {
   const { t } = useTranslation();
-  const { values, setFieldValue, submitForm, handleBlur } = formik;
+  const { values, setFieldValue, submitForm } = formik;
   const playerObject = getPlayerObject(values);
 
   return (
     <Fragment>
-      <TitleField
-        handleSubmit={submitForm}
-        name={'title'}
-        onBlur={(event: Event, editor: unknown, next: Function) => {
-          next();
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'title' } }), 0);
-        }}
-      />
+      <TitleField handleSubmit={submitForm} />
 
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
         {() => (

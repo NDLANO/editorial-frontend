@@ -6,11 +6,16 @@
  *
  */
 
-import { Value } from 'slate';
+import { Descendant } from 'slate';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { VisualElement, Author } from '../../interfaces';
-import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptApiType, ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
+
+import { Author, ArticleType } from '../../interfaces';
+
+export interface ConceptFormType extends ConceptApiType {
+  articles: ArticleType[];
+}
 
 export interface ConceptFormValues {
   id?: number;
@@ -20,7 +25,7 @@ export interface ConceptFormValues {
     current: ConceptStatusType;
     other: ConceptStatusType[];
   };
-  visualElement?: string;
+  visualElement: Descendant[];
   source?: string;
   metaImage?: {
     id?: string;
@@ -30,8 +35,8 @@ export interface ConceptFormValues {
   };
   tags: string[];
   articles: DraftApiType[];
-  slatetitle: Value;
-  conceptContent: Value;
+  title: Descendant[];
+  conceptContent: Descendant[];
   created?: string;
   creators: Author[];
   license?: string;
@@ -42,5 +47,4 @@ export interface ConceptFormValues {
   subjects: SubjectType[];
   supportedLanguages: string[];
   updated?: string;
-  visualElementObject?: VisualElement;
 }

@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 import { Eye } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 
-import { Editor } from 'slate';
 import { IngressField, TitleField } from '../../FormikForm';
 import ToggleButton from '../../../components/ToggleButton';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
@@ -43,7 +42,6 @@ const ConceptContent = () => {
   const formikContext = useFormikContext<ConceptFormValues>();
   const {
     values: { creators, updated },
-    handleBlur,
     submitForm,
     isValid,
   } = formikContext;
@@ -59,16 +57,7 @@ const ConceptContent = () => {
 
   return (
     <>
-      <TitleField
-        handleSubmit={submitForm}
-        onBlur={(event: Event, editor: Editor, next: Function) => {
-          next();
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'slatetitle' } }), 0);
-        }}
-      />
+      <TitleField handleSubmit={submitForm} />
       <ByLine>
         <LastUpdatedLine
           name={'lastUpdated'}
@@ -94,13 +83,6 @@ const ConceptContent = () => {
         preview={preview}
         concept
         handleSubmit={handleSubmit}
-        onBlur={(event: Event, editor: unknown, next: () => void) => {
-          next();
-          // this is a hack since formik onBlur-handler interferes with slates
-          // related to: https://github.com/ianstormtaylor/slate/issues/2434
-          // formik handleBlur needs to be called for validation to work (and touched to be set)
-          setTimeout(() => handleBlur({ target: { name: 'content' } }), 0);
-        }}
       />
       {!isValid && showWarning && <StyledHelpMessage error>{t('form.feil')}</StyledHelpMessage>}
     </>

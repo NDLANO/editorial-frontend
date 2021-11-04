@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const DeleteForeverButton = ({ ...rest }: Props) => (
-  <Button {...rest}>
+  <Button contentEditable={false} {...rest}>
     <DeleteForever />
   </Button>
 );

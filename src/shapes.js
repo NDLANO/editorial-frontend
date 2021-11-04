@@ -366,3 +366,22 @@ export const SearchParamsShape = PropTypes.shape({
   language: PropTypes.string,
   fallback: PropTypes.bool,
 });
+
+export const AttributesShape = PropTypes.shape({
+  'data-slate-node': PropTypes.string.isRequired,
+  'data-slate-inline': PropTypes.bool,
+  'data-slate-void': PropTypes.bool,
+  dir: PropTypes.string,
+  ref: PropTypes.any.isRequired,
+});
+
+const ActionsShape = PropTypes.arrayOf(
+  PropTypes.oneOf(['table', 'embed', 'code-block', 'file', 'h5p']),
+);
+
+export const ActionsInAreasShape = PropTypes.shape({
+  details: ActionsShape,
+  aside: ActionsShape,
+  bodybox: ActionsShape,
+  summary: ActionsShape,
+});

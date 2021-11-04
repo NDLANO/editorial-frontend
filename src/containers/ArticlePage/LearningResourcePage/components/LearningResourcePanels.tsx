@@ -68,7 +68,7 @@ const LearningResourcePanels = ({
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}>
-          <LearningResourceTaxonomy article={article} locale={locale} updateNotes={updateNotes} />
+          <LearningResourceTaxonomy article={article} updateNotes={updateNotes} />
         </AccordionSection>
       )}
       <AccordionSection

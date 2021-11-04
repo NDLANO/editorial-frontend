@@ -117,6 +117,7 @@ class VisualElementSearch extends Component {
           duration: t('videoSearch.duration'),
           interactioncount: t('videoSearch.interactioncount'),
         };
+
         return (
           <Fragment>
             <h2>{titles(t, selectedResource)[selectedResource]}</h2>
@@ -138,7 +139,10 @@ class VisualElementSearch extends Component {
                     videoid: video.id,
                     caption: '',
                     account: config.brightCoveAccountId,
-                    player: config.brightcovePlayerId,
+                    player:
+                      video.projection === 'equirectangular'
+                        ? config.brightcove360PlayerId
+                        : config.brightcovePlayerId,
                     metaData: video,
                     title: video.name,
                   });

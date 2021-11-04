@@ -164,6 +164,7 @@ export type ConfigType = {
   npkToken: string | undefined;
   zendeskWidgetKey: string | undefined;
   brightcovePlayerId: string | undefined;
+  brightcove360PlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
 };
@@ -190,6 +191,7 @@ const config: ConfigType = {
   auth0Domain: getEnvironmentVariabel('AUTH0_DOMAIN', getAuth0Hostname()),
   brightCoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
   brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
+  brightcove360PlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_360_ID', 'Ab1234'),
   brightcoveApiUrl: 'https://cms.api.brightcove.com',
   h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),
   googleSearchApiUrl: getEnvironmentVariabel('NDLA_GOOGLE_API_URL', 'https://www.googleapis.com'),

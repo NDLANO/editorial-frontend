@@ -24,6 +24,7 @@ describe('Film editing', () => {
       .type('Page One');
     cy.wait('@allMovies');
     cy.contains('Page One: A Year Inside the New York Times').click();
+    cy.get('[data-cy="elementListItem"]').contains('Page One: A Year Inside the New York Times');
   });
 
   it('Can remove movie from slideshow', () => {
@@ -33,6 +34,9 @@ describe('Film editing', () => {
       .parent()
       .find('button[data-cy="elementListItemDeleteButton"]')
       .click();
+    cy.get('[data-cy="elementListItem"]')
+      .contains('Page One: A Year Inside the New York Times')
+      .should('not.exist');
   });
 
   it('Can add theme', () => {
@@ -46,5 +50,6 @@ describe('Film editing', () => {
       .contains('Opprett gruppe')
       .click();
     cy.wait('@allMovies');
+    cy.contains('Ny testgruppe');
   });
 });

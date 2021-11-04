@@ -35,7 +35,7 @@ export const defaultTextBlockNormalizer = (
   }
 
   // All children must be one of types defined in textBlockElements
-  // If wrong type, unwrap it.
+  // If wrong type, unwrap it. If text, wrap it.
   for (const [child, childPath] of Node.children(editor, path)) {
     if (Text.isText(child)) {
       Transforms.wrapNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {

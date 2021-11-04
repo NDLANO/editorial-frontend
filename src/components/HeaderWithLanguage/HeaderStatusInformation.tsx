@@ -31,6 +31,26 @@ const StyledStatusWrapper = styled.div`
   white-space: nowrap;
 `;
 
+/** Helper component to only render splitter if children are rendering */
+const Splitter = ({
+  children,
+  disableSplitter,
+}: {
+  children?: React.ReactNode;
+  disableSplitter?: boolean;
+}) => {
+  const validChildren = React.Children.toArray(children).filter(child =>
+    React.isValidElement(child),
+  ) as React.ReactElement[];
+  if (!React.Children.count(validChildren)) return null;
+  return (
+    <>
+      {children && !disableSplitter && <StyledSplitter />}
+      {children}
+    </>
+  );
+};
+
 interface Props {
   noStatus: boolean;
   statusText?: string;
@@ -109,13 +129,14 @@ const HeaderStatusInformation = ({
     </StyledLink>
   );
 
-  const learningpathConnections = (type === 'standard' || type === 'topic-article') && (
-    <LearningpathConnection
-      id={id}
-      learningpaths={learningpaths}
-      setLearningpaths={setLearningpaths}
-    />
-  );
+  const learningpathConnections =
+    type === 'standard' || type === 'topic-article' ? (
+      <LearningpathConnection
+        id={id}
+        learningpaths={learningpaths}
+        setLearningpaths={setLearningpaths}
+      />
+    ) : null;
 
   const imageConnections = type === 'image' && (
     <EmbedConnection
@@ -127,24 +148,31 @@ const HeaderStatusInformation = ({
       setConcepts={setConcepts}
     />
   );
-  const audioConnections = (type === 'audio' || type === 'podcast') && (
-    <EmbedConnection id={id} type="audio" articles={articles} setArticles={setArticles} />
-  );
-  const conceptConnecions = type === 'concept' && (
-    <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
-  );
-
-  const splitter = !indentLeft && <StyledSplitter />;
+  const audioConnections =
+    type === 'audio' || type === 'podcast' ? (
+      <EmbedConnection id={id} type="audio" articles={articles} setArticles={setArticles} />
+    ) : null;
+  const conceptConnecions =
+    type === 'concept' ? (
+      <EmbedConnection id={id} type="concept" articles={articles} setArticles={setArticles} />
+    ) : null;
+  const articleConnections =
+    type === 'standard' || type === 'topic-article' ? (
+      <EmbedConnection id={id} type="article" articles={articles} setArticles={setArticles} />
+    ) : null;
 
   const StatusIcons = (
     <>
-      {(type === 'standard' || type === 'topic-article') && splitter}
-      {conceptConnecions}
-      {learningpathConnections}
-      {learningpaths.length + articles.length > 0 && splitter}
-      {published &&
-        (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
-      {multipleTaxonomyIcon}
+      <Splitter disableSplitter={indentLeft}>
+        {articleConnections}
+        {conceptConnecions}
+        {learningpathConnections}
+      </Splitter>
+      <Splitter disableSplitter={indentLeft}>
+        {published &&
+          (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
+        {multipleTaxonomyIcon}
+      </Splitter>
       {imageConnections}
     </>
   );

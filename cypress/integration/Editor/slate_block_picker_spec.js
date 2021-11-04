@@ -90,12 +90,13 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.apiroute('GET', '**/videos/**', 'editor/videos/videoListBrightcove');
 
     cy.get('[data-cy=create-video]').click();
-    cy.apiwait('@editor/videos/videoListBrightcove');
+    cy.apiwait(['@editor/videos/videoListBrightcove', '@editor/videos/brightcoveToken']);
     cy.get('[data-cy="use-video"]')
       .first()
       .click();
     cy.get('[data-cy="remove-element"]').click();
-    cy.get('[data-cy="remove-elemnt"]').should('not.exist');
+    cy.get('[data-cy="remove-element"]').should('not.exist');
+    cy.get('[data-slate-node=element] > p').clear();
   });
 
   it('opens and closes podcast', () => {

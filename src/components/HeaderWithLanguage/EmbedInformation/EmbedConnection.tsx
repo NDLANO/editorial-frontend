@@ -22,11 +22,11 @@ import { SearchConceptType } from '../../../modules/concept/conceptApiInterfaces
 import ElementList from '../../../containers/FormikForm/components/ElementList';
 import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
-type embedType = 'image' | 'audio' | 'concept';
+type EmbedType = 'image' | 'audio' | 'concept' | 'article';
 
 interface Props {
   id?: number;
-  type: embedType;
+  type: EmbedType;
   articles: MultiSearchSummary[];
   setArticles: (articles: MultiSearchSummary[]) => void;
   concepts?: SearchConceptType[];
@@ -39,9 +39,20 @@ const ImageInformationIcon = styled(SubjectMaterial)`
   cursor: pointer;
 `;
 
-const searchObjects = (embedId: number, embedType: embedType) => ({
+type SearchEmbedTypes = 'image' | 'audio' | 'concept' | 'content-link' | 'related-content';
+
+const convertToSearchEmbedTypes = (embedType: EmbedType): SearchEmbedTypes[] => {
+  switch (embedType) {
+    case 'article':
+      return ['content-link', 'related-content'];
+    default:
+      return [embedType];
+  }
+};
+
+const searchObjects = (embedId: number, embedType: EmbedType) => ({
   'embed-id': embedId,
-  'embed-resource': embedType,
+  'embed-resource': convertToSearchEmbedTypes(embedType).join(','),
   'page-size': 50,
 });
 

@@ -21,38 +21,42 @@ describe('Learning resource editing', () => {
   });
 
   it('can enter title, ingress and content then save', () => {
-    cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
-      .first()
-      .click({ force: true }); // checking that saving is disabled
-    cy.get('[data-cy=learning-resource-title]').type('This is a test title.', { force: true });
-    cy.get('[data-cy=learning-resource-ingress]').type('Test ingress', { force: true });
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').should('be.disabled');
+    cy.get('[data-cy=learning-resource-title]')
+      .click()
+      .should('have.focus')
+      .type('This is a test title.');
+    cy.get('[data-cy=learning-resource-ingress]')
+      .click()
+      .should('have.focus')
+      .type('Test ingress');
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
-      .first()
-      .focus()
-      .type('This is test content {enter}', { force: true });
+      .click()
+      .should('have.focus')
+      .type('This is test content {enter}');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
     cy.apiwait('@patchUserData');
+    cy.get('[data-testid=saveLearningResourceButtonWrapper] button').contains('Lagret');
   });
 
   it('Can add all contributors', () => {
-    cy.contains('Lisens og bruker')
-      .click();
+    cy.contains('Lisens og bruker').click();
     cy.apiwait('@agreements');
     cy.get('h2')
       .contains('Opphavsperson')
       .parent()
       .parent()
       .within(_ => {
-        cy.get('[data-cy=addContributor]').click({ force: true });
+        cy.get('[data-cy=addContributor]').click();
         cy.get('input[type="text"]')
           .last()
-          .type('Ola Nordmann', { force: true })
+          .type('Ola Nordmann')
           .blur();
         cy.get('[data-cy="contributor-selector"]')
           .last()
-          .select('originator', { force: true });
+          .select('originator');
         cy.get('[data-cy="contributor-selector"]')
           .first()
           .should('have.value', 'writer');
@@ -62,25 +66,25 @@ describe('Learning resource editing', () => {
       .parent()
       .parent()
       .within(_ => {
-        cy.get('[data-cy=addContributor]').click({ force: true });
+        cy.get('[data-cy=addContributor]').click();
         cy.get('input[type="text"]')
-          .type('Ola Nordmann', { force: true })
+          .type('Ola Nordmann')
           .blur();
-        cy.get('[data-cy="contributor-selector"]').select('rightsholder', { force: true });
+        cy.get('[data-cy="contributor-selector"]').select('rightsholder');
       });
     cy.get('h2')
       .contains('Bearbeider')
       .parent()
       .parent()
       .within(_ => {
-        cy.get('[data-cy=addContributor]').click({ force: true });
+        cy.get('[data-cy=addContributor]').click();
         cy.get('input[type="text"]')
           .last()
-          .type('Ola Nordmann', { force: true })
+          .type('Ola Nordmann')
           .blur();
         cy.get('[data-cy="contributor-selector"]')
           .last()
-          .select('processor', { force: true });
+          .select('processor');
       });
   });
 });

@@ -17,7 +17,11 @@ import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import containsVoid from '../../utils/containsVoid';
-import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
+import {
+  addSurroundingParagraphs,
+  lastTextBlockElement,
+  textBlockElements,
+} from '../../utils/normalizationHelpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import Summary from './Summary';
 
@@ -190,12 +194,11 @@ export const detailsPlugin = (editor: Editor) => {
         for (const [child, childPath] of Node.children(editor, path)) {
           if (!Path.hasPrevious(childPath)) {
             // Unwrap first element in details if it is not a summary element
-
             if (Element.isElement(child) && child.type !== TYPE_SUMMARY) {
               Transforms.unwrapNodes(editor, { at: childPath });
               return;
-              // If first child is text, wrap it in a summary element
             }
+            // If first child is text, wrap it in a summary element
             if (Text.isText(child)) {
               Transforms.wrapNodes(editor, jsx('element', { type: TYPE_SUMMARY }), {
                 at: childPath,
@@ -230,6 +233,35 @@ export const detailsPlugin = (editor: Editor) => {
                 at: nextSiblingPath,
               });
               return;
+            }
+          } else {
+            // All children must be one of types defined in textBlockElements
+            // If wrong type, unwrap it. If text, wrap it.
+            if (Text.isText(child)) {
+              Transforms.wrapNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+                at: childPath,
+              });
+              return;
+            }
+            if (Element.isElement(child) && !textBlockElements.includes(child.type)) {
+              Transforms.unwrapNodes(editor, {
+                at: childPath,
+              });
+              return;
+            }
+            // Last child must be paragraph
+            const lastChild = node.children[node.children.length - 1];
+            if (Element.isElement(lastChild)) {
+              if (!lastTextBlockElement.includes(lastChild.type)) {
+                Transforms.insertNodes(
+                  editor,
+                  jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]),
+                  {
+                    at: [...path, node.children.length],
+                  },
+                );
+                return;
+              }
             }
           }
         }

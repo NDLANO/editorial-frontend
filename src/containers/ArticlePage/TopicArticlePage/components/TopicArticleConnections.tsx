@@ -28,7 +28,7 @@ interface Props {
   structure: SubjectType[];
   activeTopics: StagedTopic[];
   allowMultipleSubjectsOpen?: boolean;
-  stageTaxonomyChanges: ({ path }: { path: string }) => void;
+  stageTaxonomyChanges: ({ path, language }: { path: string; language?: string }) => void;
   getSubjectTopics: (subjectId: string, locale: LocaleType) => Promise<void>;
   locale: LocaleType;
 }
@@ -95,8 +95,8 @@ const TopicArticleConnections = ({
     setOpenedPaths(paths);
   };
 
-  const addTopic = async (path: string, closeModal: () => void) => {
-    stageTaxonomyChanges({ path });
+  const addTopic = async (path: string, closeModal: () => void, language?: string) => {
+    stageTaxonomyChanges({ path, language });
     closeModal();
   };
 
@@ -160,7 +160,7 @@ const TopicArticleConnections = ({
                       id={id}
                       isSubject={isSubject}
                       activeTopics={activeTopics}
-                      addTopic={() => addTopic(path, closeModal)}
+                      addTopic={() => addTopic(path, closeModal, locale)}
                     />
                   );
                 }}

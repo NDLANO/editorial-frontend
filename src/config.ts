@@ -171,7 +171,7 @@ export type ConfigType = {
 const config: ConfigType = {
   ndlaEnvironment,
   taxonomyApi,
-  componentName: getEnvironmentVariabel('npm_package_name'),
+  componentName: getEnvironmentVariabel('npm_package_name', 'editorial-frontend'),
   host: getEnvironmentVariabel('EDITORIAL_FRONTEND_HOST', 'localhost'),
   port: getEnvironmentVariabel('EDITORIAL_FRONTEND_PORT', '3000'),
   redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),

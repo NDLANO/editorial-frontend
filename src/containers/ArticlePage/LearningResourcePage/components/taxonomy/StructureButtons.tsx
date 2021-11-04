@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
@@ -71,12 +70,20 @@ const StyledButtonWrapper = styled.div`
 interface Props {
   isSubject?: boolean;
   id?: string;
+  language: string;
   closeModal: () => void;
   activeTopics: StagedTopic[];
-  addTopic: (id: string | undefined, closeModal: () => void) => void;
+  addTopic: (id: string | undefined, closeModal: () => void, language?: string) => void;
 }
 
-const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }: Props) => {
+const StructureButtons = ({
+  isSubject,
+  id,
+  language,
+  closeModal,
+  activeTopics,
+  addTopic,
+}: Props) => {
   const { t } = useTranslation();
   if (isSubject) {
     return null;
@@ -91,7 +98,7 @@ const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }:
           outline
           css={buttonAdditionStyle}
           type="button"
-          onClick={() => addTopic(id, closeModal)}>
+          onClick={() => addTopic(id, closeModal, language)}>
           {t('taxonomy.topics.filestructureButton')}
         </Button>
       ) : (
@@ -102,14 +109,6 @@ const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }:
       )}
     </StyledButtonWrapper>
   );
-};
-
-StructureButtons.propTypes = {
-  isSubject: PropTypes.bool,
-  id: PropTypes.string,
-  closeModal: PropTypes.func.isRequired,
-  activeTopics: PropTypes.array.isRequired,
-  addTopic: PropTypes.func.isRequired,
 };
 
 export default StructureButtons;

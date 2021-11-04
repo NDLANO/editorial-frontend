@@ -355,7 +355,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     const topicsWithConnectionsAndRelevanceId = sortedParents.map(async (topic, index) => {
       const foundRelevanceId = topicResources[index]?.find(resource => resource.id === resourceId)
         ?.relevanceId;
-      const breadcrumb = await getBreadcrumbFromPath(topic.path);
+      const breadcrumb = await getBreadcrumbFromPath(topic.path, language);
       return {
         topicConnections: topicConnections[index],
         relevanceId: foundRelevanceId ?? RESOURCE_FILTER_CORE,
@@ -436,7 +436,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         subtype: rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
       }));
 
-    const { userAccess, t, article } = this.props;
+    const { userAccess, t, article, locale } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -484,6 +484,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
           onChangeSelectedResource={this.onChangeSelectedResource}
         />
         <TopicConnections
+          locale={locale}
           structure={structure}
           activeTopics={taxonomyChanges.topics}
           removeConnection={this.removeConnection}

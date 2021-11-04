@@ -24,6 +24,7 @@ import StructureButtons from '../../containers/ArticlePage/LearningResourcePage/
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 import { getBreadcrumbFromPath } from '../../util/taxonomyHelpers';
+import { LocaleType } from '../../interfaces';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -36,6 +37,7 @@ const ModalTitleRow = styled.div`
 `;
 
 interface Props {
+  locale: LocaleType;
   structure: SubjectType[];
   activeTopics: StagedTopic[];
   onChangeShowFavorites: () => void;
@@ -49,6 +51,7 @@ interface Props {
 }
 
 const TopicConnections = ({
+  locale,
   structure,
   activeTopics,
   onChangeShowFavorites,
@@ -105,11 +108,11 @@ const TopicConnections = ({
     setOpenedPaths(paths);
   };
 
-  const addTopic = async (id: string | undefined, closeModal: () => void) => {
+  const addTopic = async (id: string | undefined, closeModal: () => void, language?: string) => {
     if (id) {
       const topicToAdd = await fetchTopic(id);
       const topicConnections = await fetchTopicConnections(topicToAdd.id);
-      const breadcrumb = await getBreadcrumbFromPath(topicToAdd.path);
+      const breadcrumb = await getBreadcrumbFromPath(topicToAdd.path, language);
       stageTaxonomyChanges({
         topics: [
           ...activeTopics,
@@ -180,6 +183,7 @@ const TopicConnections = ({
                 }) => (
                   <StructureButtons
                     id={id}
+                    language={locale}
                     isSubject={isSubject}
                     closeModal={closeModal}
                     activeTopics={activeTopics}

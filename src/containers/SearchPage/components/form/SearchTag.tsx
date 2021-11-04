@@ -45,7 +45,7 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
     const { tag, t } = this.props;
 
     return (
-      <dl className="c-tag c-tag--search">
+      <dl className="c-tag c-tag--search" data-cy={`${tag.type}-tag`}>
         <dt {...tagClasses('label')}>{t(`searchForm.tagType.${tag.type}`)}:</dt>
         <dd {...tagClasses('description')}>{tag.name || ''}</dd>
         <Button onClick={this.onRemove} stripped>

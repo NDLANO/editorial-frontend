@@ -32,7 +32,7 @@ describe('Workflow features', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait('@patchUserData');
+    cy.apiwait(['@patchUserData']);
   });
 
   it('Open previews', () => {
@@ -42,7 +42,7 @@ describe('Workflow features', () => {
       .first()
       .click();
     cy.get('[data-testid=closePreview]').click();
-    cy.apiwait(`@converted-article-${ARTICLE_ID}`);
+    cy.apiwait([`@converted-article-${ARTICLE_ID}`]);
   });
 
   it('Can reset to prod', () => {

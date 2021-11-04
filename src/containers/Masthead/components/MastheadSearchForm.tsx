@@ -189,6 +189,7 @@ export const MastheadSearchForm = ({
   return (
     <form onSubmit={handleSubmit} css={formCSS}>
       <input
+        data-cy="mastheadSearch"
         type="text"
         onChange={handleQueryChange}
         value={query}

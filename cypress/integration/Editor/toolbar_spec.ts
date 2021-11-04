@@ -44,6 +44,7 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .last()
       .then($el => {
+        //@ts-ignore Don't know why this doesn't work.
         cy.get($el)
           .focus()
           .type('{selectall}last line{selectall}');

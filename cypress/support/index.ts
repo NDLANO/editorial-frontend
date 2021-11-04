@@ -44,33 +44,34 @@ export const setToken = () => {
       localStorage.setItem('access_token', res.body.access_token);
       localStorage.setItem(
         'access_token_expires_at',
-        expiresIn(res.body.access_token) * 1000 + new Date().getTime(),
+        `${expiresIn(res.body.access_token) * 1000 + new Date().getTime()}`,
       );
-      localStorage.setItem('access_token_personal', true);
+      localStorage.setItem('access_token_personal', 'true');
       token = res.body.access_token;
     });
   } else {
     localStorage.setItem('access_token', token);
     localStorage.setItem(
       'access_token_expires_at',
-      expiresIn(token) * 1000 + new Date().getTime(),
+      `${expiresIn(token) * 1000 + new Date().getTime()}`,
     );
-    localStorage.setItem('access_token_personal', true);
+    localStorage.setItem('access_token_personal', 'true');
   }
 };
 
 // Prevents promts to fix electron hanging: https://github.com/cypress-io/cypress/issues/2118
-Cypress.on('window:before:load', function (win) {
-  const original = win.EventTarget.prototype.addEventListener
-  win.EventTarget.prototype.addEventListener = function () {
+Cypress.on('window:before:load', function(win) {
+  const original = win.EventTarget.prototype.addEventListener;
+  win.EventTarget.prototype.addEventListener = function() {
     if (arguments && arguments[0] === 'beforeunload') {
-      return
+      return;
     }
-    return original.apply(this, arguments)
-  }
+    return original.apply(this, arguments);
+  };
 
   Object.defineProperty(win, 'onbeforeunload', {
-    get: function () { },
-    set: function () { }
-  })
-})
+    // eslint-disable-next-line getter-return
+    get: function() {},
+    set: function() {},
+  });
+});

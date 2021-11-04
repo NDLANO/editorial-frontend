@@ -58,7 +58,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy=create-image]').click();
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
-    cy.apiwait('@editor/images/imageList');
+    cy.apiwait(['@editor/images/imageList']);
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
@@ -66,11 +66,11 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.apiroute('GET', '/image-api/v2/images/?page=1&page-size=16', 'editor/images/imageList');
     cy.apiroute('GET', '**/images/*?language=nb', 'editor/images/image');
     cy.get('[data-cy=create-image]').click();
-    cy.apiwait('@editor/images/imageList');
+    cy.apiwait(['@editor/images/imageList']);
     cy.get('[data-cy="select-image-from-list"]')
       .first()
       .click();
-    cy.apiwait('@editor/images/image');
+    cy.apiwait(['@editor/images/image']);
     cy.get('[data-cy="use-image"]').click();
     cy.get('[data-cy=remove-element]').click();
   });
@@ -81,7 +81,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy=create-video]').click();
     cy.get('[data-cy="modal-header"]').should('exist');
     cy.get('[data-cy="modal-body"]').should('exist');
-    cy.apiwait('@editor/videos/videoListBrightcove');
+    cy.apiwait(['@editor/videos/videoListBrightcove']);
     cy.get('[data-cy="close-modal-button"]').click();
   });
 
@@ -150,7 +150,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
 
     cy.get('[data-cy=create-related]').click();
     cy.get('[data-cy="styled-article-modal"]').should('exist');
-    cy.apiwait('@search');
+    cy.apiwait(['@search']);
     cy.get('[data-cy="close-related-button"]').click();
   });
 

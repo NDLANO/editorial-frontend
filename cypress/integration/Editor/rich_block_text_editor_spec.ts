@@ -17,7 +17,7 @@ describe('Learning resource editing', () => {
     editorRoutes(ARTICLE_ID);
 
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
-    cy.apiwait('@licenses');
+    cy.apiwait(['@licenses']);
   });
 
   it('can enter title, ingress and content then save', () => {
@@ -37,13 +37,13 @@ describe('Learning resource editing', () => {
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
-    cy.apiwait('@patchUserData');
+    cy.apiwait(['@patchUserData']);
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button').contains('Lagret');
   });
 
   it('Can add all contributors', () => {
     cy.contains('Lisens og bruker').click();
-    cy.apiwait('@agreements');
+    cy.apiwait(['@agreements']);
     cy.get('h2')
       .contains('Opphavsperson')
       .parent()

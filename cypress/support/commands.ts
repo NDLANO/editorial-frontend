@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -24,17 +25,21 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('apiroute', (method, url, alias) => {
+Cypress.Commands.add('apiroute', (method: string, url: string, alias: string) => {
   if (Cypress.env('USE_FIXTURES')) {
-    return cy.intercept({method, url}, { fixture: `${alias}`}).as(alias);
+    return cy.intercept({ method, url }, { fixture: `${alias}` }).as(alias);
   }
-  return cy.intercept({method, url}).as(alias);
+  return cy.intercept({ method, url }).as(alias);
 });
 
-const readResponseBody = body => {
+Cypress.Commands.add('dataCy', (value: string) => {
+  return cy.get(`[data-cy=${value}]`);
+});
+
+const readResponseBody = (body: any) => {
   const fr = new FileReader();
   const jsonBody = JSON.stringify(body);
-  const blob = new Blob([jsonBody], {type:"application/json"});
+  const blob = new Blob([jsonBody], { type: 'application/json' });
 
   return new Promise((resolve, reject) => {
     fr.onerror = () => {
@@ -54,7 +59,7 @@ Cypress.Commands.add('apiwait', aliases => {
     let originalXhr = null;
     return cy
       .wait(aliases)
-      .then((xhr) => {
+      .then(xhr => {
         originalXhr = xhr;
         if (Array.isArray(xhr)) {
           return xhr;
@@ -70,9 +75,7 @@ Cypress.Commands.add('apiwait', aliases => {
           'writeFixtures',
           jsons.map((json, i) => ({
             xhr: originalXhr,
-            name: Array.isArray(aliases)
-              ? aliases[i].replace('@', '')
-              : aliases.replace('@', ''),
+            name: Array.isArray(aliases) ? aliases[i].replace('@', '') : aliases.replace('@', ''),
             json: json,
           })),
         ),
@@ -89,7 +92,7 @@ if (COMMAND_DELAY > 0) {
     Cypress.Commands.overwrite(command, (originalFn, ...args) => {
       const origVal = originalFn(...args);
 
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         setTimeout(() => {
           resolve(origVal);
         }, COMMAND_DELAY);

@@ -125,13 +125,14 @@ class SearchAudioForm extends Component<Props & CustomWithTranslation, State> {
       <form onSubmit={this.handleSearch} {...searchFormClasses()}>
         <div {...searchFormClasses('field', '50-width')}>
           <input
+            data-cy="podcastQuery"
             name="query"
             placeholder={t('searchForm.types.podcastSeriesQuery')}
             value={this.state.search.query}
             onChange={this.onFieldChange}
           />
         </div>
-        <div {...searchFormClasses('field', '25-width')}>
+        <div {...searchFormClasses('field', '25-width')} data-cy="podcastChooseLanguage">
           <ObjectSelector
             name="language"
             value={this.state.search.language}
@@ -145,6 +146,7 @@ class SearchAudioForm extends Component<Props & CustomWithTranslation, State> {
         </div>
         <div {...searchFormClasses('field', '25-width')}>
           <Button
+            data-cy="podcastSearchEmpty"
             css={css`
               margin-right: 1%;
               width: 49%;
@@ -154,6 +156,7 @@ class SearchAudioForm extends Component<Props & CustomWithTranslation, State> {
             {t('searchForm.empty')}
           </Button>
           <Button
+            data-cy="podcastSearchButton"
             css={css`
               width: 49%;
             `}
@@ -161,7 +164,7 @@ class SearchAudioForm extends Component<Props & CustomWithTranslation, State> {
             {t('searchForm.btn')}
           </Button>
         </div>
-        <div {...searchFormClasses('tagline')}>
+        <div {...searchFormClasses('tagline')} data-cy="searchTagGroup">
           <SearchTagGroup onRemoveItem={this.removeTagItem} tagTypes={tagTypes} />
         </div>
       </form>

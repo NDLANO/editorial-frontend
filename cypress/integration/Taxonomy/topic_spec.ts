@@ -31,20 +31,23 @@ describe('Topic editing', () => {
     cy.apiroute('GET', `${taxonomyApi}/topics/${selectTopic}/connections`, 'topicConnections');
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.intercept('GET', `${taxonomyApi}/topics/${selectTopic}/resources/?language=nb`, []);
-    cy.intercept('GET', '/draft-api/v1/user-data', {"userId":"user_id","latestEditedArticles":["400","800"]});
+    cy.intercept('GET', '/draft-api/v1/user-data', {
+      userId: 'user_id',
+      latestEditedArticles: ['400', '800'],
+    });
 
     cy.visit(`/structure/${selectSubject}/${selectTopic}`);
   });
 
   it('should have a settings menu where everything works', () => {
-    cy.apiwait('@allSubjectTopics');
+    cy.apiwait(['@allSubjectTopics']);
     cy.apiroute('PUT', `${taxonomyApi}/topics/${selectTopic}/metadata`, 'invisibleMetadata');
 
     cy.get('[data-cy=settings-button-topic]').click();
     cy.get('button')
       .contains(phrases.metadata.changeVisibility)
       .click();
-    cy.get('input[id="visible"]').click({force: true});
+    cy.get('input[id="visible"]').click({ force: true });
     cy.wait('@invisibleMetadata');
   });
 });

@@ -30,7 +30,6 @@ interface Props {
   allowMultipleSubjectsOpen?: boolean;
   stageTaxonomyChanges: ({ path, locale }: { path: string; locale?: LocaleType }) => void;
   getSubjectTopics: (subjectId: string, locale: LocaleType) => Promise<void>;
-  locale: LocaleType;
 }
 
 const StyledTitleModal = styled('h1')`
@@ -49,9 +48,8 @@ const TopicArticleConnections = ({
   allowMultipleSubjectsOpen,
   stageTaxonomyChanges,
   getSubjectTopics,
-  locale,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
@@ -83,7 +81,7 @@ const TopicArticleConnections = ({
     const index = paths.indexOf(path);
     if (index === -1) {
       if (isSubject) {
-        getSubjectTopics(id, locale);
+        getSubjectTopics(id, i18n.language);
         if (!allowMultipleSubjectsOpen) {
           paths = [];
         }
@@ -160,7 +158,7 @@ const TopicArticleConnections = ({
                       id={id}
                       isSubject={isSubject}
                       activeTopics={activeTopics}
-                      addTopic={() => addTopic(path, closeModal, locale)}
+                      addTopic={() => addTopic(path, closeModal, i18n.language)}
                     />
                   );
                 }}

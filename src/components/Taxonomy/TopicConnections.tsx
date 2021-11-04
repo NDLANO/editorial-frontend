@@ -37,7 +37,6 @@ const ModalTitleRow = styled.div`
 `;
 
 interface Props {
-  locale: LocaleType;
   structure: SubjectType[];
   activeTopics: StagedTopic[];
   onChangeShowFavorites: () => void;
@@ -51,7 +50,6 @@ interface Props {
 }
 
 const TopicConnections = ({
-  locale,
   structure,
   activeTopics,
   onChangeShowFavorites,
@@ -183,7 +181,6 @@ const TopicConnections = ({
                 }) => (
                   <StructureButtons
                     id={id}
-                    locale={locale}
                     isSubject={isSubject}
                     closeModal={closeModal}
                     activeTopics={activeTopics}

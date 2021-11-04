@@ -71,14 +71,13 @@ const StyledButtonWrapper = styled.div`
 interface Props {
   isSubject?: boolean;
   id?: string;
-  locale: LocaleType;
   closeModal: () => void;
   activeTopics: StagedTopic[];
   addTopic: (id: string | undefined, closeModal: () => void, locale?: LocaleType) => void;
 }
 
-const StructureButtons = ({ isSubject, id, locale, closeModal, activeTopics, addTopic }: Props) => {
-  const { t } = useTranslation();
+const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }: Props) => {
+  const { t, i18n } = useTranslation();
   if (isSubject) {
     return null;
   }
@@ -92,7 +91,7 @@ const StructureButtons = ({ isSubject, id, locale, closeModal, activeTopics, add
           outline
           css={buttonAdditionStyle}
           type="button"
-          onClick={() => addTopic(id, closeModal, locale)}>
+          onClick={() => addTopic(id, closeModal, i18n.language)}>
           {t('taxonomy.topics.filestructureButton')}
         </Button>
       ) : (

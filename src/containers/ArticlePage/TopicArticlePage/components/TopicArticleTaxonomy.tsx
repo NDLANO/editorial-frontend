@@ -49,7 +49,6 @@ type Props = {
   articleId: number;
   article: Partial<ConvertedDraftType>;
   setIsOpen?: (open: boolean) => void;
-  locale: LocaleType;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
 } & CustomWithTranslation &
   SessionProps;
@@ -117,9 +116,9 @@ class TopicArticleTaxonomy extends Component<Props, State> {
   };
 
   fetchTaxonomy = async () => {
-    const { locale } = this.props;
+    const { i18n } = this.props;
     try {
-      const subjects = await fetchSubjects(locale);
+      const subjects = await fetchSubjects(i18n.language);
 
       const topics = this.props.article.taxonomy?.topics ?? [];
 
@@ -132,7 +131,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       );
 
       const topicsWithConnections = sortedTopics.map(async (topic, index) => {
-        const breadcrumb = await getBreadcrumbFromPath(topic.path, locale);
+        const breadcrumb = await getBreadcrumbFromPath(topic.path, i18n.language);
         return {
           topicConnections: topicConnections[index],
           breadcrumb,
@@ -193,14 +192,14 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     const {
       updateNotes,
       article: { id: articleId, language, revision, supportedLanguages },
-      locale,
+      i18n,
     } = this.props;
     this.setState({ status: 'loading' });
 
     const stagedNewTopics = this.state.stagedTopicChanges.filter(topic => topic.id === 'staged');
     try {
       if (stagedNewTopics.length > 0) {
-        await this.addNewTopic(stagedNewTopics, locale);
+        await this.addNewTopic(stagedNewTopics, i18n.language);
       }
 
       updateNotes({
@@ -285,7 +284,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
 
   render() {
     const { stagedTopicChanges, structure, status, isDirty, showWarning } = this.state;
-    const { t, locale, article, userAccess } = this.props;
+    const { t, article, userAccess } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -320,7 +319,6 @@ class TopicArticleTaxonomy extends Component<Props, State> {
         <TopicArticleConnections
           structure={structure}
           activeTopics={stagedTopicChanges}
-          locale={locale}
           getSubjectTopics={this.getSubjectTopics}
           stageTaxonomyChanges={this.stageTaxonomyChanges}
         />

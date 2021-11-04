@@ -68,7 +68,6 @@ interface FullResource {
 type Props = {
   article: Partial<ConvertedDraftType>;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
-  locale: LocaleType;
   setIsOpen?: (open: boolean) => void;
 } & CustomWithTranslation &
   SessionProps;
@@ -175,7 +174,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       return;
     }
     try {
-      const allTopics = await fetchSubjectTopics(subjectid, this.props.locale);
+      const allTopics = await fetchSubjectTopics(subjectid, this.props.i18n.language);
       const groupedTopics = groupTopics(allTopics);
       this.updateSubject(subjectid, { topics: groupedTopics });
     } catch (err) {
@@ -210,19 +209,19 @@ class LearningResourceTaxonomy extends Component<Props, State> {
   fetchTaxonomy = async () => {
     const {
       article: { id },
-      locale,
+      i18n,
     } = this.props;
     if (!id) return;
 
     try {
-      const resources = await queryResources(id.toString(), locale);
+      const resources = await queryResources(id.toString(), i18n.language);
 
       const resourceId = resources.length === 1 && resources[0].id;
 
       if (resources.length > 1) {
         this.setState({ status: 'error' });
       } else if (resourceId) {
-        const fullResource = await this.fetchFullResource(resourceId, locale);
+        const fullResource = await this.fetchFullResource(resourceId, i18n.language);
 
         this.setState({
           resourceId,
@@ -249,11 +248,11 @@ class LearningResourceTaxonomy extends Component<Props, State> {
   };
 
   fetchTaxonomyChoices = async () => {
-    const { locale } = this.props;
+    const { i18n } = this.props;
     try {
       const [allResourceTypes, subjects] = await Promise.all([
-        fetchResourceTypes(locale),
-        fetchSubjects(locale),
+        fetchResourceTypes(i18n.language),
+        fetchSubjects(i18n.language),
       ]);
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
@@ -330,17 +329,17 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     });
     const resourceTaxonomy = await this.fetchFullResource(
       this.state.resourceId,
-      this.props.locale ?? '',
+      this.props.i18n.language ?? '',
     );
     this.setState({
       resourceTaxonomy,
     });
   };
 
-  fetchFullResource = async (resourceId: string, language: string): Promise<FullResource> => {
+  fetchFullResource = async (resourceId: string, locale: LocaleType): Promise<FullResource> => {
     const { resourceTypes, metadata, parentTopics, name } = await fetchFullResource(
       resourceId,
-      language,
+      locale,
     );
     const sortedParents = parentTopics.filter(pt => pt.path).sort((a, b) => (a.id < b.id ? -1 : 1));
 
@@ -353,7 +352,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     const topicsWithConnectionsAndRelevanceId = sortedParents.map(async (topic, index) => {
       const foundRelevanceId = topicResources[index]?.find(resource => resource.id === resourceId)
         ?.relevanceId;
-      const breadcrumb = await getBreadcrumbFromPath(topic.path, language);
+      const breadcrumb = await getBreadcrumbFromPath(topic.path, locale);
       return {
         topicConnections: topicConnections[index],
         relevanceId: foundRelevanceId ?? RESOURCE_FILTER_CORE,
@@ -434,7 +433,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         subtype: rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
       }));
 
-    const { userAccess, t, article, locale } = this.props;
+    const { userAccess, t, article } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -482,7 +481,6 @@ class LearningResourceTaxonomy extends Component<Props, State> {
           onChangeSelectedResource={this.onChangeSelectedResource}
         />
         <TopicConnections
-          locale={locale}
           structure={structure}
           activeTopics={taxonomyChanges.topics}
           removeConnection={this.removeConnection}

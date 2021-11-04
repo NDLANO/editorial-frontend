@@ -117,13 +117,9 @@ class TopicArticleTaxonomy extends Component<Props, State> {
   };
 
   fetchTaxonomy = async () => {
-    const {
-      article: { language },
-      locale,
-    } = this.props;
-    if (!language) return;
+    const { locale } = this.props;
     try {
-      const subjects = await fetchSubjects(language);
+      const subjects = await fetchSubjects(locale);
 
       const topics = this.props.article.taxonomy?.topics ?? [];
 
@@ -156,9 +152,9 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     }
   };
 
-  stageTaxonomyChanges = async ({ path, language }: { path: string; language?: string }) => {
+  stageTaxonomyChanges = async ({ path, locale }: { path: string; locale?: LocaleType }) => {
     if (path) {
-      const breadcrumb = await getBreadcrumbFromPath(path, language);
+      const breadcrumb = await getBreadcrumbFromPath(path, locale);
       const newTopic: StagedTopic = {
         id: 'staged',
         name: this.props.article.title ?? '',
@@ -178,12 +174,12 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     }
   };
 
-  addNewTopic = async (stagedNewTopics: StagedTopic[], language?: string) => {
+  addNewTopic = async (stagedNewTopics: StagedTopic[], locale?: LocaleType) => {
     const { stagedTopicChanges } = this.state;
     const existingTopics = stagedTopicChanges.filter(t => !stagedNewTopics.includes(t));
     const { articleId } = this.props;
     const newTopics = await Promise.all(
-      stagedNewTopics.map(topic => this.createAndPlaceTopic(topic, articleId, language)),
+      stagedNewTopics.map(topic => this.createAndPlaceTopic(topic, articleId, locale)),
     );
     this.setState({
       isDirty: false,
@@ -248,7 +244,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
   createAndPlaceTopic = async (
     topic: StagedTopic,
     articleId: number,
-    language?: string,
+    locale?: LocaleType,
   ): Promise<StagedTopic> => {
     const newTopicPath = await addTopic({
       name: topic.name,
@@ -273,7 +269,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       });
     }
     const newPath = topic.path.replace('staged', newTopicId.replace('urn:', ''));
-    const breadcrumb = await getBreadcrumbFromPath(newPath, language);
+    const breadcrumb = await getBreadcrumbFromPath(newPath, locale);
     return {
       name: topic.name,
       id: newTopicId,

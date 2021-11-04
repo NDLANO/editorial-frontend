@@ -209,19 +209,20 @@ class LearningResourceTaxonomy extends Component<Props, State> {
 
   fetchTaxonomy = async () => {
     const {
-      article: { language, id },
+      article: { id },
+      locale,
     } = this.props;
-    if (!language || !id) return;
+    if (!id) return;
 
     try {
-      const resources = await queryResources(id.toString(), language);
+      const resources = await queryResources(id.toString(), locale);
 
       const resourceId = resources.length === 1 && resources[0].id;
 
       if (resources.length > 1) {
         this.setState({ status: 'error' });
       } else if (resourceId) {
-        const fullResource = await this.fetchFullResource(resourceId, language);
+        const fullResource = await this.fetchFullResource(resourceId, locale);
 
         this.setState({
           resourceId,
@@ -248,14 +249,11 @@ class LearningResourceTaxonomy extends Component<Props, State> {
   };
 
   fetchTaxonomyChoices = async () => {
-    const {
-      article: { language },
-    } = this.props;
-    if (!language) return;
+    const { locale } = this.props;
     try {
       const [allResourceTypes, subjects] = await Promise.all([
-        fetchResourceTypes(language),
-        fetchSubjects(language),
+        fetchResourceTypes(locale),
+        fetchSubjects(locale),
       ]);
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
@@ -332,7 +330,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     });
     const resourceTaxonomy = await this.fetchFullResource(
       this.state.resourceId,
-      this.props.article.language ?? '',
+      this.props.locale ?? '',
     );
     this.setState({
       resourceTaxonomy,

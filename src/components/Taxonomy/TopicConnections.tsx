@@ -183,7 +183,7 @@ const TopicConnections = ({
                 }) => (
                   <StructureButtons
                     id={id}
-                    language={locale}
+                    locale={locale}
                     isSubject={isSubject}
                     closeModal={closeModal}
                     activeTopics={activeTopics}

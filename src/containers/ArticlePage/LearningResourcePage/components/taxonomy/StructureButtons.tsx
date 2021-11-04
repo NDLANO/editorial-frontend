@@ -15,6 +15,7 @@ import { colors, spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 
 import { StagedTopic } from '../../../TopicArticlePage/components/TopicArticleTaxonomy';
+import { LocaleType } from '../../../../../interfaces';
 
 const buttonAdditionStyle = css`
   opacity: 0;
@@ -70,20 +71,13 @@ const StyledButtonWrapper = styled.div`
 interface Props {
   isSubject?: boolean;
   id?: string;
-  language: string;
+  locale: LocaleType;
   closeModal: () => void;
   activeTopics: StagedTopic[];
   addTopic: (id: string | undefined, closeModal: () => void, language?: string) => void;
 }
 
-const StructureButtons = ({
-  isSubject,
-  id,
-  language,
-  closeModal,
-  activeTopics,
-  addTopic,
-}: Props) => {
+const StructureButtons = ({ isSubject, id, locale, closeModal, activeTopics, addTopic }: Props) => {
   const { t } = useTranslation();
   if (isSubject) {
     return null;
@@ -98,7 +92,7 @@ const StructureButtons = ({
           outline
           css={buttonAdditionStyle}
           type="button"
-          onClick={() => addTopic(id, closeModal, language)}>
+          onClick={() => addTopic(id, closeModal, locale)}>
           {t('taxonomy.topics.filestructureButton')}
         </Button>
       ) : (

@@ -5,10 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createEditor, Descendant, Editor, NodeEntry } from 'slate';
 import {
   Slate,
@@ -26,6 +23,7 @@ import { SlateProvider } from './SlateContext';
 import { SlateToolbar } from './plugins/toolbar';
 import { onDragOver, onDragStart, onDrop } from './plugins/DND';
 import withPlugins from './utils/withPlugins';
+import Spinner from '../Spinner';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -62,11 +60,13 @@ const RichTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
+  const [isFirstNormalization, setIsFirstNormalization] = useState(true);
 
   const prevSubmitted = useRef(submitted);
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });
+    setIsFirstNormalization(false);
     if (removeSection && index) {
       editor.removeSection = () => {
         removeSection(index);
@@ -86,7 +86,7 @@ const RichTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitted]);
 
-  const renderElement = (renderProps: RenderElementProps) => {
+  const renderElement = useCallback((renderProps: RenderElementProps) => {
     const { attributes, children } = renderProps;
     if (editor.renderElement) {
       const ret = editor.renderElement(renderProps);
@@ -95,9 +95,10 @@ const RichTextEditor = ({
       }
     }
     return <p {...attributes}>{children}</p>;
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const renderLeaf = (renderProps: RenderLeafProps) => {
+  const renderLeaf = useCallback((renderProps: RenderLeafProps) => {
     const { attributes, children } = renderProps;
     if (editor.renderLeaf) {
       const ret = editor.renderLeaf(renderProps);
@@ -106,14 +107,23 @@ const RichTextEditor = ({
       }
     }
     return <span {...attributes}>{children}</span>;
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const decorations = (entry: NodeEntry) => {
+  const decorations = useCallback((entry: NodeEntry) => {
     if (editor.decorations) {
       return editor.decorations(editor, entry);
     }
     return [];
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onDragStartCallback = useCallback(onDragStart(editor), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onDragOverCallback = useCallback(onDragOver(editor), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onDropCallback = useCallback(onDrop(editor), []);
 
   return (
     <article>
@@ -125,20 +135,26 @@ const RichTextEditor = ({
             onChange={(val: Descendant[]) => {
               onChange(val, index ?? 0);
             }}>
-            <SlateToolbar editor={editor} />
-            <Editable
-              decorate={entry => decorations(entry)}
-              // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
-              onKeyDown={editor.onKeyDown}
-              placeholder={placeholder}
-              renderElement={renderElement}
-              renderLeaf={renderLeaf}
-              readOnly={submitted}
-              onDragStart={onDragStart(editor)}
-              onDragOver={onDragOver(editor)}
-              onDrop={onDrop(editor)}
-              {...classes('content', undefined, className)}
-            />
+            {!isFirstNormalization ? (
+              <>
+                <SlateToolbar editor={editor} />
+                <Editable
+                  decorate={decorations}
+                  // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types
+                  onKeyDown={editor.onKeyDown}
+                  placeholder={placeholder}
+                  renderElement={renderElement}
+                  renderLeaf={renderLeaf}
+                  readOnly={submitted}
+                  onDragStart={onDragStartCallback}
+                  onDragOver={onDragOverCallback}
+                  onDrop={onDropCallback}
+                  {...classes('content', undefined, className)}
+                />
+              </>
+            ) : (
+              <Spinner />
+            )}
           </Slate>
         </div>
       </SlateProvider>

@@ -6,14 +6,13 @@
  *
  */
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { FormEvent, useState } from 'react';
 import Button from '@ndla/button';
 import Url from 'url-parse';
 import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
-import { withTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { css } from '@emotion/core';
 import { isValidLocale } from '../../../i18n';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
@@ -74,53 +73,45 @@ const formCSS = css`
   }
 `;
 
-export class MastheadSearchForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: props.query,
-    };
-    this.handleQueryChange = this.handleQueryChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleUrlPaste = this.handleUrlPaste.bind(this);
-    this.handleNodeId = this.handleNodeId.bind(this);
-    this.handleTopicUrl = this.handleTopicUrl.bind(this);
-    this.handleFrontendUrl = this.handleFrontendUrl.bind(this);
-  }
+interface Props extends RouteComponentProps {
+  query?: string;
+  onSearchQuerySubmit: (query: string) => void;
+}
 
-  handleQueryChange(evt) {
-    this.setState({ query: evt.target.value });
-  }
+export const MastheadSearchForm = ({
+  query: initQuery = '',
+  history,
+  onSearchQuerySubmit,
+}: Props) => {
+  const [query, setQuery] = useState(initQuery);
+  const { t, i18n } = useTranslation();
 
-  async handleNodeId(nodeId) {
-    const { history } = this.props;
+  const handleQueryChange = (evt: FormEvent<HTMLInputElement>) => setQuery(evt.currentTarget.value);
+
+  const handleNodeId = async (nodeId: number) => {
     try {
       const newArticle = await fetchNewArticleId(nodeId);
       history.push(toEditArticle(newArticle.id, 'standard'));
     } catch (error) {
       history.push(to404());
     }
-  }
+  };
 
-  async handleTaxonomyId(taxId) {
-    const { history } = this.props;
-    let taxonomyFunction = fetchTopic;
-    if (taxId.includes('urn:resource:')) {
-      taxonomyFunction = fetchResource;
-    }
+  const handleTaxonomyId = async (taxId: string) => {
+    const taxonomyFunction = taxId.includes('urn:resource:') ? fetchResource : fetchTopic;
     try {
       const taxElement = await taxonomyFunction(taxId);
-      const arr = taxElement.contentUri.split(':');
-      const id = arr[arr.length - 1];
-      history.push(toEditArticle(id, 'standard'));
+      const arr = taxElement.contentUri?.split(':');
+      if (arr) {
+        const id = arr[arr.length - 1];
+        history.push(toEditArticle(parseInt(id), 'standard'));
+      }
     } catch (error) {
       history.push(to404());
     }
-  }
+  };
 
-  handleUrlPaste(frontendUrl) {
-    const { history } = this.props;
-
+  const handleUrlPaste = (frontendUrl: string) => {
     // Removes search queries before split
     const ndlaUrl = frontendUrl.split(/\?/)[0];
     // Strip / from end if topic
@@ -138,50 +129,46 @@ export class MastheadSearchForm extends Component {
     ) {
       return;
     }
-
-    this.setState({ query: '' });
+    setQuery('');
     if (urlId.includes('urn:topic')) {
-      this.handleTopicUrl(urlId);
+      handleTopicUrl(urlId);
     } else if (splittedNdlaUrl.includes('node')) {
-      this.handleNodeId(urlId);
+      handleNodeId(parseInt(urlId));
     } else if (splittedNdlaUrl.find(e => e.match(/subject:*/))) {
-      this.handleFrontendUrl(cleanUrl);
+      handleFrontendUrl(cleanUrl);
     } else {
-      history.push(toEditArticle(urlId, 'standard'));
+      history.push(toEditArticle(parseInt(urlId), 'standard'));
     }
-  }
+  };
 
-  async handleTopicUrl(urlId) {
-    const { i18n, history } = this.props;
+  const handleTopicUrl = async (urlId: string) => {
     try {
       const topicArticle = await fetchTopic(urlId, i18n.language);
       const arr = topicArticle.contentUri.split(':');
       const id = arr[arr.length - 1];
-      history.push(toEditArticle(id, 'topic-article'));
+      history.push(toEditArticle(parseInt(id), 'topic-article'));
     } catch {
       history.push(to404());
     }
-  }
+  };
 
-  async handleFrontendUrl(url) {
-    const { i18n, history } = this.props;
+  const handleFrontendUrl = async (url: string) => {
     const { pathname } = new Url(url);
     const paths = pathname.split('/');
     const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
 
     try {
-      const newArticle = await resolveUrls(path, i18n.language);
+      const newArticle = await resolveUrls(path);
       const splittedUri = newArticle.contentUri.split(':');
       const articleId = splittedUri[splittedUri.length - 1];
-      history.push(toEditArticle(articleId, 'standard'));
+      history.push(toEditArticle(parseInt(articleId), 'standard'));
     } catch {
       history.push(to404());
     }
-  }
+  };
 
-  handleSubmit(evt) {
+  const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
-    const { query } = this.state;
     const isNDLAUrl = isNDLAFrontendUrl(query);
     const isNodeId =
       query.length > 2 && /#\d+/g.test(query) && !Number.isNaN(parseFloat(query.substring(1)));
@@ -189,48 +176,29 @@ export class MastheadSearchForm extends Component {
     const isTaxonomyId = query.length > 2 && /#urn:(resource|topic)[:\da-fA-F-]+/g.test(query);
 
     if (isNDLAUrl) {
-      this.handleUrlPaste(query);
+      handleUrlPaste(query);
     } else if (isNodeId) {
-      this.handleNodeId(query.substring(1));
+      handleNodeId(parseInt(query.substring(1)));
     } else if (isTaxonomyId) {
-      this.handleTaxonomyId(query.substring(1));
+      handleTaxonomyId(query.substring(1));
     } else {
-      this.props.onSearchQuerySubmit(query);
+      onSearchQuerySubmit(query);
     }
-  }
+  };
 
-  render() {
-    const { t } = this.props;
-
-    return (
-      <form onSubmit={this.handleSubmit} css={formCSS}>
-        <input
-          type="text"
-          onChange={this.handleQueryChange}
-          value={this.state.query}
-          placeholder={t('searchForm.placeholder')}
-        />
-        <Button submit stripped>
-          <Search className="c-icon--medium" />
-        </Button>
-      </form>
-    );
-  }
-}
-
-MastheadSearchForm.propTypes = {
-  query: PropTypes.string,
-  onSearchQuerySubmit: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  i18n: PropTypes.shape({
-    language: PropTypes.string.isRequired,
-  }).isRequired,
+  return (
+    <form onSubmit={handleSubmit} css={formCSS}>
+      <input
+        type="text"
+        onChange={handleQueryChange}
+        value={query}
+        placeholder={t('searchForm.placeholder')}
+      />
+      <Button submit stripped>
+        <Search className="c-icon--medium" />
+      </Button>
+    </form>
+  );
 };
 
-MastheadSearchForm.defaultProps = {
-  query: '',
-};
-
-export default withRouter(withTranslation()(MastheadSearchForm));
+export default withRouter(MastheadSearchForm);

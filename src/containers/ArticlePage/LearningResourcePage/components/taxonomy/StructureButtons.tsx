@@ -74,7 +74,7 @@ interface Props {
   locale: LocaleType;
   closeModal: () => void;
   activeTopics: StagedTopic[];
-  addTopic: (id: string | undefined, closeModal: () => void, language?: string) => void;
+  addTopic: (id: string | undefined, closeModal: () => void, locale?: LocaleType) => void;
 }
 
 const StructureButtons = ({ isSubject, id, locale, closeModal, activeTopics, addTopic }: Props) => {

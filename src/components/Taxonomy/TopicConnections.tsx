@@ -108,11 +108,11 @@ const TopicConnections = ({
     setOpenedPaths(paths);
   };
 
-  const addTopic = async (id: string | undefined, closeModal: () => void, language?: string) => {
+  const addTopic = async (id: string | undefined, closeModal: () => void, locale?: LocaleType) => {
     if (id) {
       const topicToAdd = await fetchTopic(id);
       const topicConnections = await fetchTopicConnections(topicToAdd.id);
-      const breadcrumb = await getBreadcrumbFromPath(topicToAdd.path, language);
+      const breadcrumb = await getBreadcrumbFromPath(topicToAdd.path, locale);
       stageTaxonomyChanges({
         topics: [
           ...activeTopics,

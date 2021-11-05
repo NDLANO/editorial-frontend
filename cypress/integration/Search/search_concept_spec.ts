@@ -14,6 +14,7 @@ describe('Search concepts', () => {
     setToken();
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute('GET', '/concept-api/v1/drafts/*', 'searchConcepts');
+    cy.apiroute('GET', '/draft-api/v1/user-data', 'getUserData');
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.intercept('GET', '/get_editors*', [
       {
@@ -25,7 +26,7 @@ describe('Search concepts', () => {
     ]);
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.visit('/search/concept?page=1&page-size=10&sort=-lastUpdated');
-    cy.apiwait(['@searchConcepts', '@licenses', '@allSubjects', '@zendeskToken']);
+    cy.apiwait(['@searchConcepts', '@licenses', '@allSubjects', '@zendeskToken', '@getUserData']);
   });
 
   it('Can use text input', () => {

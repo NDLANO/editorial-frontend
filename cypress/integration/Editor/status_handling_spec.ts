@@ -31,9 +31,14 @@ describe('Status changes', () => {
       `**/draft-api/v1/drafts/${ARTICLE_ID}/status/PUBLISHED`,
       `statusChangeToPublish`,
     );
+    cy.apiroute(
+      'GET',
+      `/search-api/v1/search/editorial/?embed-id=${ARTICLE_ID}&embed-resource=content-link%2Crelated-content&page-size=50`,
+      `relatedContentUsages${ARTICLE_ID}`,
+    );
 
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
-    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
+    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`, `@relatedContentUsages${ARTICLE_ID}`]);
   });
 
   it('Can change status corretly', () => {

@@ -74,13 +74,9 @@ describe('Selecting text and using the toolbar', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()
       .focus()
-      .then($el => {
-        cy.wrap($el)
-          .type('This is a test link{leftarrow}{leftarrow}')
-          .blur();
-        cy.wrap($el).type('{selectall}');
-      });
-
+      .should('be.focused')
+      .wait(500)
+      .type('This is a test link{selectall}');
     cy.get('[data-testid=toolbar-button-link]')
       .should('be.visible')
       .click();
@@ -97,6 +93,7 @@ describe('Selecting text and using the toolbar', () => {
       .and('equal', 'http://www.vg.no/');
     cy.get('a[href="http://www.vg.no"][data-slate-node=element]')
       .contains('This is a test link')
+      .should('be.enabled')
       .click()
       .type('{selectall}');
   });

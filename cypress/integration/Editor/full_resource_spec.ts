@@ -15,8 +15,13 @@ describe('Edit article with everything', () => {
     setToken();
     editorRoutes(ARTICLE_ID);
 
+    cy.apiroute(
+      'GET',
+      `/search-api/v1/search/editorial/?embed-id=${ARTICLE_ID}&embed-resource=content-link%2Crelated-content&page-size=50`,
+      'resourceUsages',
+    );
     cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
-    cy.apiwait([`@draft-${ARTICLE_ID}`, '@statusMachine', '@licenses']);
+    cy.apiwait([`@draft-${ARTICLE_ID}`, '@statusMachine', '@licenses', '@resourceUsages']);
   });
 
   it('Can change language and fetch the new article', () => {

@@ -15,6 +15,11 @@ describe('Workflow features', () => {
     // change article ID and run cy-record to add the new fixture data
     setToken();
     editorRoutes(ARTICLE_ID);
+    cy.apiroute(
+      'GET',
+      `/search-api/v1/search/editorial/?embed-id=${ARTICLE_ID}&embed-resource=content-link%2Crelated-content&page-size=50`,
+      `relatedContentUsages${ARTICLE_ID}`,
+    );
 
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.contains('Versjonslogg og merknader').click();
@@ -23,6 +28,7 @@ describe('Workflow features', () => {
       `@draft-${ARTICLE_ID}`,
       `@articleHistory-${ARTICLE_ID}`,
       '@getNoteUsers',
+      `@relatedContentUsages${ARTICLE_ID}`,
     ]);
     cy.get('[data-testid=addNote]').should('be.visible');
   });

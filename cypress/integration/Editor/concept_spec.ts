@@ -21,9 +21,14 @@ describe('Language handling', () => {
       `/taxonomy/v1/subjects?key=forklaringsfag&language=nb&value=true`,
       'allConceptSubjects',
     );
+    cy.apiroute(
+      'GET',
+      '/search-api/v1/search/editorial/?embed-id=1&embed-resource=concept&page-size=50',
+      'conceptUsages',
+    );
     cy.apiroute('GET', `**/concept-api/v1/drafts/${CONCEPT_ID}?*`, `concept-${CONCEPT_ID}`);
     cy.visit(`/concept/${CONCEPT_ID}/edit/nb`);
-    cy.apiwait(['@allConceptSubjects', `@concept-${CONCEPT_ID}`]);
+    cy.apiwait(['@allConceptSubjects', `@concept-${CONCEPT_ID}`, '@conceptUsages']);
   });
 
   it('Can change language and fetch the new concept', () => {

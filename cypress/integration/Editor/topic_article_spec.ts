@@ -15,14 +15,15 @@ describe('Language handling', () => {
   beforeEach(() => {
     setToken();
     editorRoutes();
+    cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}*`, `draft-${ARTICLE_ID}`);
     cy.apiroute(
       'GET',
-      `/draft-api/v1/drafts/${ARTICLE_ID}*`,
-      `draft-${ARTICLE_ID}`,
+      `/search-api/v1/search/editorial/?embed-id=${ARTICLE_ID}&embed-resource=content-link%2Crelated-content&page-size=50`,
+      `relatedContentUsages${ARTICLE_ID}`,
     );
 
     cy.visit(`/subject-matter/topic-article/${ARTICLE_ID}/edit/nb`);
-    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
+    cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`, `@relatedContentUsages${ARTICLE_ID}`]);
   });
 
   it('Can change language and fetch the new article', () => {

@@ -18,6 +18,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   beforeEach(() => {
+    setToken();
     cy.get('[data-slate-node=element] > p').clear();
     cy.get('[data-slate-node=element] > p').should('exist');
     cy.get('[data-slate-node=element] > p')
@@ -155,12 +156,12 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   // Placed last because closing depends on event from iframe.
-  it('opens and closes H5P', () => {
+  it('opens and closes H5P', { defaultCommandTimeout: 30000 }, () => {
     // Discard h5p-auth request
     cy.intercept('*', req => {
-      if (req.url.includes('auth')) {
+      if (req.url.includes('/authorize')) {
         req.reply({
-          statusCode: 404,
+          statusCode: 200,
         });
       }
     });

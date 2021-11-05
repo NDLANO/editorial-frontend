@@ -22,6 +22,7 @@ describe('Subject editing', () => {
       `${taxonomyApi}/subjects/${selectSubject}/topics?recursive=true&language=nb`,
       'allSubjectTopics',
     );
+    cy.apiroute('GET', '/draft-api/v1/drafts/*', 'draft-532');
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.intercept('GET', '/draft-api/v1/user-data', {
       userId: 'user_id',
@@ -29,7 +30,7 @@ describe('Subject editing', () => {
     });
 
     cy.visit(`/structure/${selectSubject}`);
-    cy.apiwait(['@allSubjects', '@allSubjectTopics']);
+    cy.apiwait(['@allSubjects', '@allSubjectTopics', '@draft-532']);
   });
 
   beforeEach(() => {
@@ -37,7 +38,13 @@ describe('Subject editing', () => {
   });
 
   it('should add a new subject', () => {
-    cy.intercept('POST', `${taxonomyApi}/subjects`, []).as('addSubject');
+    cy.intercept('POST', `${taxonomyApi}/subjects`, {
+      statusCode: 201,
+      headers: {
+        location: 'urn:subject:asdasdj12312311asd',
+      },
+      body: [],
+    }).as('addSubject');
 
     cy.get('[data-testid=AddSubjectButton]').click();
     cy.get('[data-testid=addSubjectInputField]').type('Cypress test subject{enter}');

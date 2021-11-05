@@ -4,26 +4,27 @@ describe('search podcasts', () => {
   beforeEach(() => {
     setToken();
     cy.apiroute('GET', `/audio-api/v1/series/*`, 'podcastSeries');
+    cy.apiroute('GET', `/audio-api/v1/series/?page=2`, 'podcastSeries2');
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute('GET', '/draft-api/v1/user-data', 'getUserData');
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.visit('/search/podcast-series');
-    cy.apiwait(['@podcastSeries']);
+    cy.apiwait(['@podcastSeries', '@podcastSeries2']);
   });
 
   it('correctly applies and removes all filters and orderings also using empty button', () => {
     cy.dataCy('searchButton').click();
     cy.apiwait(['@podcastSeries']);
-    cy.apiroute('GET', `/audio-api/v1/series/?query=test`, 'podcastSeriesWithQuery');
+    cy.apiroute('GET', `/audio-api/v1/series/?page=1&query=test`, 'podcastSeriesWithQuery');
     cy.dataCy('queryField')
       .click()
       .should('be.focused')
       .type('test{ENTER}');
-    cy.apiwait(['@podcastSeriesWithQuery']);
     cy.dataCy('query-tag').contains('test');
+    cy.apiwait(['@podcastSeriesWithQuery']);
     cy.apiroute(
       'GET',
-      `/audio-api/v1/series/?language=nn&query=test`,
+      `/audio-api/v1/series/?language=nn&page=1&query=test`,
       'podcastSeriesWithQueryAndLanguage',
     );
     cy.dataCy('languageField')

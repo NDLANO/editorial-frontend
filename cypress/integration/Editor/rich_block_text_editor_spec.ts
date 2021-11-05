@@ -16,8 +16,13 @@ describe('Learning resource editing', () => {
     setToken();
     editorRoutes(ARTICLE_ID);
 
+    cy.apiroute(
+      'GET',
+      `/search-api/v1/search/editorial/?embed-id=${ARTICLE_ID}&embed-resource=content-link%2Crelated-content&page-size=50`,
+      'relatedContentUsages',
+    );
     cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
-    cy.apiwait(['@licenses']);
+    cy.apiwait(['@licenses', '@relatedContentUsages']);
   });
 
   it('can enter title, ingress and content then save', () => {

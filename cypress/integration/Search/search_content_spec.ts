@@ -14,6 +14,7 @@ describe('Search content', () => {
     setToken();
     cy.apiroute('GET', `${taxonomyApi}/resource-types/?language=nb`, 'resourceTypes');
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
+    cy.apiroute('GET', '/draft-api/v1/user-data', 'getUserData');
     cy.apiroute('GET', '/search-api/v1/search/editorial/*', 'search');
     cy.intercept('GET', '/get_editors*', [
       {
@@ -25,7 +26,7 @@ describe('Search content', () => {
     ]);
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.visit('/search/content?fallback=true&language=nb&page=1&page-size=10&sort=-relevance');
-    cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@zendeskToken']);
+    cy.apiwait(['@resourceTypes', '@search', '@allSubjects', '@zendeskToken', '@getUserData']);
   });
 
   it('Can use text input', () => {
@@ -72,6 +73,8 @@ describe('Search content', () => {
       'searchType',
     );
     cy.get('select[name="resource-types"]')
+      .should('exist')
+      .should('be.enabled')
       .select('Fagartikkel')
       .blur();
     cy.apiwait(['@searchType']);

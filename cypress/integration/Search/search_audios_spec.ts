@@ -14,9 +14,22 @@ describe('Search audios', () => {
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute('GET', '/audio-api/v1/audio/?page=1&page-size=10&sort=-relevance', 'searchAudios');
+    cy.apiroute(
+      'GET',
+      '/audio-api/v1/audio/?page=2&page-size=10&sort=-relevance',
+      'searchAudiosp2',
+    );
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
+    cy.apiroute('GET', '/draft-api/v1/user-data', 'getUserData');
     cy.visit('/search/audio?page=1&page-size=10&sort=-relevance');
-    cy.apiwait(['@licenses', '@searchAudios', '@allSubjects', '@zendeskToken']);
+    cy.apiwait([
+      '@licenses',
+      '@searchAudios',
+      '@allSubjects',
+      '@zendeskToken',
+      '@getUserData',
+      '@searchAudiosp2',
+    ]);
   });
 
   it('Can use text input', () => {

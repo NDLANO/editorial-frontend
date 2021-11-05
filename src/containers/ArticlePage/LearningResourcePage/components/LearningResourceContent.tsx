@@ -219,7 +219,7 @@ const LearningResourceContent = ({
                 });
               }}
             />
-            <LearningResourceFootnotes footnotes={findFootnotes(value)} />
+            {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}
           </>
         )}
       </FormikField>

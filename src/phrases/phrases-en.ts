@@ -99,7 +99,7 @@ const phrases = {
     se: 'Sami',
     sma: 'Southern Sami',
     unknown: 'Unknown',
-    und: 'Undefined',
+    und: 'Undetermined',
     de: 'German',
     empty: 'No languages left',
     change: 'Change to {{language}} version',

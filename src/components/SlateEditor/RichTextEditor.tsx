@@ -60,13 +60,13 @@ const RichTextEditor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
-  const [isFirstNormalization, setIsFirstNormalization] = useState(true);
+  const [isNormalizing, setIsNormalizing] = useState(true);
 
   const prevSubmitted = useRef(submitted);
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });
-    setIsFirstNormalization(false);
+    setIsNormalizing(false);
     if (removeSection && index) {
       editor.removeSection = () => {
         removeSection(index);
@@ -78,7 +78,9 @@ const RichTextEditor = ({
   useEffect(() => {
     if (!submitted && prevSubmitted.current) {
       editor.history = { redos: [], undos: [] };
+      setIsNormalizing(true);
       Editor.normalize(editor, { force: true });
+      setIsNormalizing(false);
     } else if (submitted && !prevSubmitted.current) {
       ReactEditor.deselect(editor);
     }
@@ -135,7 +137,9 @@ const RichTextEditor = ({
             onChange={(val: Descendant[]) => {
               onChange(val, index ?? 0);
             }}>
-            {!isFirstNormalization ? (
+            {isNormalizing || submitted ? (
+              <Spinner />
+            ) : (
               <>
                 <SlateToolbar editor={editor} />
                 <Editable
@@ -152,8 +156,6 @@ const RichTextEditor = ({
                   {...classes('content', undefined, className)}
                 />
               </>
-            ) : (
-              <Spinner />
             )}
           </Slate>
         </div>

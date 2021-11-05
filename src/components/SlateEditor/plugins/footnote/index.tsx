@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Descendant, Editor, Element, Transforms } from 'slate';
+import { Descendant, Editor, Element, Transforms, Range } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
@@ -100,14 +100,16 @@ export const footnotePlugin = (editor: Editor) => {
 
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_BACKSPACE || e.key === KEY_DELETE) {
-      const [currentBlock, currentPath] = getCurrentBlock(editor, TYPE_FOOTNOTE);
+      if (editor.selection && Range.isCollapsed(editor.selection)) {
+        const [currentBlock, currentPath] = getCurrentBlock(editor, TYPE_FOOTNOTE);
 
-      if (Element.isElement(currentBlock) && currentBlock.type === 'footnote') {
-        e.preventDefault();
-        Transforms.removeNodes(editor, {
-          at: currentPath,
-        });
-        return;
+        if (Element.isElement(currentBlock) && currentBlock.type === 'footnote') {
+          e.preventDefault();
+          Transforms.removeNodes(editor, {
+            at: currentPath,
+          });
+          return;
+        }
       }
     }
     nextOnKeyDown && nextOnKeyDown(e);

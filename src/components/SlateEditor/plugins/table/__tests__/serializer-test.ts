@@ -21,152 +21,150 @@ import {
 } from '../utils';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_TABLE,
-          children: [
-            {
-              type: TYPE_TABLE_HEAD,
-              children: [
-                {
-                  type: TYPE_TABLE_ROW,
-                  children: [
-                    {
-                      type: TYPE_TABLE_CELL,
-                      data: {
-                        isHeader: true,
-                        colspan: 1,
-                        rowspan: 1,
-                      },
-                      children: [
-                        {
-                          type: TYPE_PARAGRAPH,
-                          children: [
-                            {
-                              text: '1',
-                            },
-                          ],
-                        },
-                      ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_TABLE,
+        children: [
+          {
+            type: TYPE_TABLE_HEAD,
+            children: [
+              {
+                type: TYPE_TABLE_ROW,
+                children: [
+                  {
+                    type: TYPE_TABLE_CELL,
+                    data: {
+                      isHeader: true,
+                      colspan: 1,
+                      rowspan: 1,
                     },
-                    {
-                      type: TYPE_TABLE_CELL,
-                      data: {
-                        isHeader: true,
-                        colspan: 1,
-                        rowspan: 1,
+                    children: [
+                      {
+                        type: TYPE_PARAGRAPH,
+                        children: [
+                          {
+                            text: '1',
+                          },
+                        ],
                       },
-                      children: [
-                        {
-                          type: TYPE_PARAGRAPH,
-                          children: [
-                            {
-                              text: '2',
-                            },
-                          ],
-                        },
-                      ],
+                    ],
+                  },
+                  {
+                    type: TYPE_TABLE_CELL,
+                    data: {
+                      isHeader: true,
+                      colspan: 1,
+                      rowspan: 1,
                     },
-                  ],
-                },
-              ],
-            },
-            {
-              type: TYPE_TABLE_BODY,
-              children: [
-                {
-                  type: TYPE_TABLE_ROW,
-                  children: [
-                    {
-                      type: TYPE_TABLE_CELL,
-                      data: {
-                        isHeader: false,
-                        colspan: 1,
-                        rowspan: 1,
+                    children: [
+                      {
+                        type: TYPE_PARAGRAPH,
+                        children: [
+                          {
+                            text: '2',
+                          },
+                        ],
                       },
-                      children: [
-                        {
-                          type: TYPE_PARAGRAPH,
-                          children: [
-                            {
-                              text: '3',
-                            },
-                          ],
-                        },
-                      ],
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_TABLE_BODY,
+            children: [
+              {
+                type: TYPE_TABLE_ROW,
+                children: [
+                  {
+                    type: TYPE_TABLE_CELL,
+                    data: {
+                      isHeader: false,
+                      colspan: 1,
+                      rowspan: 1,
                     },
-                    {
-                      type: TYPE_TABLE_CELL,
-                      data: {
-                        isHeader: false,
-                        colspan: 1,
-                        rowspan: 1,
+                    children: [
+                      {
+                        type: TYPE_PARAGRAPH,
+                        children: [
+                          {
+                            text: '3',
+                          },
+                        ],
                       },
-                      children: [
-                        {
-                          type: TYPE_PARAGRAPH,
-                          children: [
-                            {
-                              text: '4',
-                            },
-                          ],
-                        },
-                      ],
+                    ],
+                  },
+                  {
+                    type: TYPE_TABLE_CELL,
+                    data: {
+                      isHeader: false,
+                      colspan: 1,
+                      rowspan: 1,
                     },
-                  ],
-                },
-                {
-                  type: TYPE_TABLE_ROW,
-                  children: [
-                    {
-                      type: TYPE_TABLE_CELL,
-                      data: {
-                        isHeader: false,
-                        colspan: 1,
-                        rowspan: 1,
+                    children: [
+                      {
+                        type: TYPE_PARAGRAPH,
+                        children: [
+                          {
+                            text: '4',
+                          },
+                        ],
                       },
-                      children: [
-                        {
-                          type: TYPE_PARAGRAPH,
-                          children: [
-                            {
-                              text: '5',
-                            },
-                          ],
-                        },
-                      ],
+                    ],
+                  },
+                ],
+              },
+              {
+                type: TYPE_TABLE_ROW,
+                children: [
+                  {
+                    type: TYPE_TABLE_CELL,
+                    data: {
+                      isHeader: false,
+                      colspan: 1,
+                      rowspan: 1,
                     },
-                    {
-                      type: TYPE_TABLE_CELL,
-                      data: {
-                        isHeader: false,
-                        colspan: 1,
-                        rowspan: 1,
+                    children: [
+                      {
+                        type: TYPE_PARAGRAPH,
+                        children: [
+                          {
+                            text: '5',
+                          },
+                        ],
                       },
-                      children: [
-                        {
-                          type: TYPE_PARAGRAPH,
-                          children: [
-                            {
-                              text: '6',
-                            },
-                          ],
-                        },
-                      ],
+                    ],
+                  },
+                  {
+                    type: TYPE_TABLE_CELL,
+                    data: {
+                      isHeader: false,
+                      colspan: 1,
+                      rowspan: 1,
                     },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ],
+                    children: [
+                      {
+                        type: TYPE_PARAGRAPH,
+                        children: [
+                          {
+                            text: '6',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const html =

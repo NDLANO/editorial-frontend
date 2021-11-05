@@ -14,35 +14,33 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_RELATED } from '..';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_RELATED,
-          data: {
-            nodes: [
-              {
-                resource: 'related-content',
-                'article-id': '123',
-              },
-              {
-                resource: 'related-content',
-                url: 'http://google.com',
-                title: 'test-title',
-              },
-            ],
-          },
-          children: [
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_RELATED,
+        data: {
+          nodes: [
             {
-              text: '',
+              resource: 'related-content',
+              'article-id': '123',
+            },
+            {
+              resource: 'related-content',
+              url: 'http://google.com',
+              title: 'test-title',
             },
           ],
         },
-      ],
-    },
-  ],
+        children: [
+          {
+            text: '',
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const html =

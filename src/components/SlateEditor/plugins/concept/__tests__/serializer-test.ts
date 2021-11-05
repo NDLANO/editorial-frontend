@@ -15,29 +15,27 @@ import {
 import { TYPE_CONCEPT } from '..';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_PARAGRAPH,
-          children: [
-            {
-              type: TYPE_CONCEPT,
-              data: {
-                'content-id': '123',
-                'link-text': 'my concept',
-                resource: 'concept',
-                type: 'inline',
-              },
-              children: [{ text: 'my concept' }],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_PARAGRAPH,
+        children: [
+          {
+            type: TYPE_CONCEPT,
+            data: {
+              'content-id': '123',
+              'link-text': 'my concept',
+              resource: 'concept',
+              type: 'inline',
             },
-          ],
-        },
-      ],
-    },
-  ],
+            children: [{ text: 'my concept' }],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const html =

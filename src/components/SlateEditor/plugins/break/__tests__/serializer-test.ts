@@ -14,18 +14,16 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_BREAK } from '..';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_BREAK,
-          children: [{ text: '' }],
-        },
-      ],
-    },
-  ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_BREAK,
+        children: [{ text: '' }],
+      },
+    ],
+  },
 ];
 
 const html = '<section><br/></section>';

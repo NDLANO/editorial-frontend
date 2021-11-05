@@ -31,27 +31,25 @@ exports[`createEmbedTag creates image embed tag from object 1`] = `
 
 exports[`deserializing related-content works 1`] = `
 Array [
-  Array [
-    Object {
-      "children": Array [
+  Object {
+    "children": Array [
+      Object {
+        "text": "",
+      },
+    ],
+    "data": Object {
+      "nodes": Array [
         Object {
-          "text": "",
+          "title": "Forsiden vg",
+          "url": "www.vg.no",
+        },
+        Object {
+          "article-id": "54",
         },
       ],
-      "data": Object {
-        "nodes": Array [
-          Object {
-            "title": "Forsiden vg",
-            "url": "www.vg.no",
-          },
-          Object {
-            "article-id": "54",
-          },
-        ],
-      },
-      "type": "related",
     },
-  ],
+    "type": "related",
+  },
 ]
 `;
 

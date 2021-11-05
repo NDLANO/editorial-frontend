@@ -14,42 +14,40 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_FILE } from '..';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_FILE,
-          data: [
-            {
-              resource: 'file',
-              path: '/files/resources/file1.txt',
-              type: 'txt',
-              title: 'test_txt',
-              url: 'https://api.test.ndla.no/files/resources/file1.txt',
-            },
-            {
-              path: '/files/resources/file2.pdf',
-              type: 'pdf',
-              title: 'test_pdf2',
-              resource: 'file',
-              url: 'https://api.test.ndla.no/files/resources/file2.pdf',
-            },
-            {
-              path: '/files/resources/file3.pdf',
-              type: 'pdf',
-              title: 'test_pdf3',
-              resource: 'file',
-              display: 'block',
-              url: 'https://api.test.ndla.no/files/resources/file3.pdf',
-            },
-          ],
-          children: [{ text: '' }],
-        },
-      ],
-    },
-  ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_FILE,
+        data: [
+          {
+            resource: 'file',
+            path: '/files/resources/file1.txt',
+            type: 'txt',
+            title: 'test_txt',
+            url: 'https://api.test.ndla.no/files/resources/file1.txt',
+          },
+          {
+            path: '/files/resources/file2.pdf',
+            type: 'pdf',
+            title: 'test_pdf2',
+            resource: 'file',
+            url: 'https://api.test.ndla.no/files/resources/file2.pdf',
+          },
+          {
+            path: '/files/resources/file3.pdf',
+            type: 'pdf',
+            title: 'test_pdf3',
+            resource: 'file',
+            display: 'block',
+            url: 'https://api.test.ndla.no/files/resources/file3.pdf',
+          },
+        ],
+        children: [{ text: '' }],
+      },
+    ],
+  },
 ];
 
 const html =

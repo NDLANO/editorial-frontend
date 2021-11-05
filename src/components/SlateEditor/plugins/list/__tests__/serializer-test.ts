@@ -15,87 +15,85 @@ import {
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 import { TYPE_LIST, TYPE_LIST_ITEM } from '../types';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_LIST,
-          listType: 'letter-list',
-          data: {},
-          children: [
-            {
-              type: TYPE_LIST_ITEM,
-              children: [
-                {
-                  type: TYPE_PARAGRAPH,
-                  children: [
-                    {
-                      text: 'abc',
-                    },
-                  ],
-                },
-                {
-                  type: TYPE_LIST,
-                  listType: 'numbered-list',
-                  data: {},
-                  children: [
-                    {
-                      type: TYPE_LIST_ITEM,
-                      children: [
-                        {
-                          type: TYPE_PARAGRAPH,
-                          children: [
-                            {
-                              text: '123',
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  type: TYPE_LIST,
-                  listType: 'bulleted-list',
-                  data: {},
-                  children: [
-                    {
-                      type: TYPE_LIST_ITEM,
-                      children: [
-                        {
-                          type: TYPE_PARAGRAPH,
-                          children: [
-                            {
-                              text: 'def',
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: TYPE_LIST_ITEM,
-              children: [
-                {
-                  type: TYPE_PARAGRAPH,
-                  children: [
-                    {
-                      text: 'ghi',
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_LIST,
+        listType: 'letter-list',
+        data: {},
+        children: [
+          {
+            type: TYPE_LIST_ITEM,
+            children: [
+              {
+                type: TYPE_PARAGRAPH,
+                children: [
+                  {
+                    text: 'abc',
+                  },
+                ],
+              },
+              {
+                type: TYPE_LIST,
+                listType: 'numbered-list',
+                data: {},
+                children: [
+                  {
+                    type: TYPE_LIST_ITEM,
+                    children: [
+                      {
+                        type: TYPE_PARAGRAPH,
+                        children: [
+                          {
+                            text: '123',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: TYPE_LIST,
+                listType: 'bulleted-list',
+                data: {},
+                children: [
+                  {
+                    type: TYPE_LIST_ITEM,
+                    children: [
+                      {
+                        type: TYPE_PARAGRAPH,
+                        children: [
+                          {
+                            text: 'def',
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_LIST_ITEM,
+            children: [
+              {
+                type: TYPE_PARAGRAPH,
+                children: [
+                  {
+                    text: 'ghi',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const html =
@@ -115,60 +113,59 @@ describe('paragraph serializing tests', () => {
   test('deserializing <li> with plaintext as children', () => {
     const html =
       '<section><ol data-type="letters"><li>abc<strong>123</strong>def<p>paragraph</p>456</li></ol></section>';
-    const expected: Descendant[][] = [
-      [
-        {
-          type: 'section',
-          children: [
-            {
-              type: 'list',
-              listType: 'letter-list',
-              data: {},
-              children: [
-                {
-                  type: 'list-item',
-                  children: [
-                    {
-                      type: 'paragraph',
-                      serializeAsText: true,
-                      children: [
-                        {
-                          text: 'abc',
-                        },
-                        {
-                          bold: true,
-                          text: '123',
-                        },
-                        {
-                          text: 'def',
-                        },
-                      ],
-                    },
-                    {
-                      type: 'paragraph',
-                      children: [
-                        {
-                          text: 'paragraph',
-                        },
-                      ],
-                    },
-                    {
-                      type: 'paragraph',
-                      serializeAsText: true,
-                      children: [
-                        {
-                          text: '456',
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
+    const expected: Descendant[] = [
+      {
+        type: 'section',
+        children: [
+          {
+            type: 'list',
+            listType: 'letter-list',
+            data: {},
+            children: [
+              {
+                type: 'list-item',
+                children: [
+                  {
+                    type: 'paragraph',
+                    serializeAsText: true,
+                    children: [
+                      {
+                        text: 'abc',
+                      },
+                      {
+                        bold: true,
+                        text: '123',
+                      },
+                      {
+                        text: 'def',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'paragraph',
+                    children: [
+                      {
+                        text: 'paragraph',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'paragraph',
+                    serializeAsText: true,
+                    children: [
+                      {
+                        text: '456',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ];
+
     const res = learningResourceContentToEditorValue(html);
     expect(res).toEqual(expected);
   });

@@ -36,25 +36,14 @@ const slateEditorDivStyle = css`
 
 interface Props {
   value: Descendant[];
-  onChange: (descendant: Descendant[], index: number) => void;
+  onChange: (descendant: Descendant[]) => void;
   className?: string;
   placeholder?: string;
   plugins?: SlatePlugin[];
   submitted: boolean;
-  index?: number;
-  removeSection?: (index: number) => void;
 }
 
-const RichTextEditor = ({
-  className,
-  placeholder,
-  plugins,
-  value,
-  onChange,
-  submitted,
-  index,
-  removeSection,
-}: Props) => {
+const RichTextEditor = ({ className, placeholder, plugins, value, onChange, submitted }: Props) => {
   const editor = useMemo(
     () => withReact(withHistory(withPlugins(createEditor(), plugins))),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,11 +56,7 @@ const RichTextEditor = ({
   useEffect(() => {
     Editor.normalize(editor, { force: true });
     setIsNormalizing(false);
-    if (removeSection && index) {
-      editor.removeSection = () => {
-        removeSection(index);
-      };
-    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -131,12 +116,7 @@ const RichTextEditor = ({
     <article>
       <SlateProvider isSubmitted={submitted}>
         <div data-cy="slate-editor" css={slateEditorDivStyle}>
-          <Slate
-            editor={editor}
-            value={value}
-            onChange={(val: Descendant[]) => {
-              onChange(val, index ?? 0);
-            }}>
+          <Slate editor={editor} value={value} onChange={onChange}>
             {isNormalizing || submitted ? (
               <Spinner />
             ) : (

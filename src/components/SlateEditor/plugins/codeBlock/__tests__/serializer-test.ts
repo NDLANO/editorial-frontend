@@ -14,25 +14,23 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_CODEBLOCK } from '..';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_CODEBLOCK,
-          data: {
-            'code-content': 'print(1)',
-            'code-format': 'python',
-            resource: 'code-block',
-            title: 'tittel',
-          },
-          children: [{ text: '' }],
-          isFirstEdit: false,
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_CODEBLOCK,
+        data: {
+          'code-content': 'print(1)',
+          'code-format': 'python',
+          resource: 'code-block',
+          title: 'tittel',
         },
-      ],
-    },
-  ],
+        children: [{ text: '' }],
+        isFirstEdit: false,
+      },
+    ],
+  },
 ];
 
 const html =

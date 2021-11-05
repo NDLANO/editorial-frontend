@@ -7,7 +7,7 @@
  */
 import escapeHtml from 'escape-html';
 import React from 'react';
-import { compact } from 'lodash';
+import { compact, toArray } from 'lodash';
 import { Descendant, Element, Node, Text } from 'slate';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Plain } from './slatePlainSerializer';
@@ -109,9 +109,9 @@ const topicArticleRules: SlateSerializer[] = [
   divSerializer,
 ];
 
-export const learningResourceContentToEditorValue = (html?: string) => {
+export const learningResourceContentToEditorValue = (html?: string): Descendant[] => {
   if (!html) {
-    return [createEmptyValue()];
+    return createEmptyValue();
   }
 
   const deserialize = (el: HTMLElement | ChildNode): Descendant | Descendant[] => {
@@ -145,22 +145,14 @@ export const learningResourceContentToEditorValue = (html?: string) => {
     return children;
   };
 
-  const sections = sectionSplitter(html);
+  const document = new DOMParser().parseFromString(html, 'text/html');
 
-  return sections.map(section => {
-    const document = new DOMParser().parseFromString(section, 'text/html');
-    const nodes = deserialize(document.body.children[0]);
-
-    // Deserialize function sometimes return a list of descendants, but that should never occur at root level.
-    // Expect nodes to always be returned.
-
-    const normalizedNodes = convertFromHTML(Node.isNodeList(nodes) ? nodes[0] : nodes);
-
-    return normalizedNodes ? [normalizedNodes] : [];
-  });
+  const nodes = toArray(document.body.children).map(deserialize);
+  const normalizedNodes = compact(nodes.map(n => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
+  return normalizedNodes;
 };
 
-export function learningResourceContentToHTML(contentValues: Descendant[][]) {
+export function learningResourceContentToHTML(contentValues: Descendant[]) {
   const serialize = (node: Descendant): JSX.Element | null => {
     let children: JSX.Element[];
     if (Text.isText(node)) {
@@ -187,15 +179,12 @@ export function learningResourceContentToHTML(contentValues: Descendant[][]) {
   };
 
   const elements = contentValues
-    .map((descendants: Descendant[]) =>
-      descendants
-        .map((descendant: Descendant) => {
-          const html = serialize(descendant);
-          return html ? renderToStaticMarkup(html) : '';
-        })
-        .join(''),
-    )
+    .map((descendant: Descendant) => {
+      const html = serialize(descendant);
+      return html ? renderToStaticMarkup(html) : '';
+    })
     .join('');
+
   return elements.replace(/<deleteme><\/deleteme>/g, '');
 }
 

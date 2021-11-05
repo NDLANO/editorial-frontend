@@ -15,39 +15,37 @@ import {
 import { TYPE_FOOTNOTE } from '..';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_PARAGRAPH,
-          children: [
-            {
-              text: 'text',
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_PARAGRAPH,
+        children: [
+          {
+            text: 'text',
+          },
+          {
+            type: TYPE_FOOTNOTE,
+            data: {
+              title: 'test-title',
+              year: '2000',
+              resource: 'footnote',
+              authors: ['test'],
+              edition: '1',
+              publisher: 'test-publisher',
+              type: '',
             },
-            {
-              type: TYPE_FOOTNOTE,
-              data: {
-                title: 'test-title',
-                year: '2000',
-                resource: 'footnote',
-                authors: ['test'],
-                edition: '1',
-                publisher: 'test-publisher',
-                type: '',
+            children: [
+              {
+                text: '[#]',
               },
-              children: [
-                {
-                  text: '[#]',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ],
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const html =

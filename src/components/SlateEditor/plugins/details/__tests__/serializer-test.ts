@@ -15,21 +15,19 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_DETAILS, TYPE_SUMMARY } from '..';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_DETAILS,
-          children: [
-            { type: TYPE_SUMMARY, children: [{ text: 'title' }] },
-            { type: TYPE_PARAGRAPH, children: [{ text: 'content' }] },
-          ],
-        },
-      ],
-    },
-  ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_DETAILS,
+        children: [
+          { type: TYPE_SUMMARY, children: [{ text: 'title' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: 'content' }] },
+        ],
+      },
+    ],
+  },
 ];
 
 const html = '<section><details><summary>title</summary><p>content</p></details></section>';

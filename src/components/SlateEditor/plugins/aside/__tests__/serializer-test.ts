@@ -15,24 +15,22 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_ASIDE } from '..';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_ASIDE,
-          data: { type: 'factAside' },
-          children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
-        },
-        {
-          type: TYPE_ASIDE,
-          data: { type: 'rightAside' },
-          children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
-        },
-      ],
-    },
-  ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_ASIDE,
+        data: { type: 'factAside' },
+        children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+      },
+      {
+        type: TYPE_ASIDE,
+        data: { type: 'rightAside' },
+        children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+      },
+    ],
+  },
 ];
 
 const html =

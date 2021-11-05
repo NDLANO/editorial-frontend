@@ -15,47 +15,45 @@ import {
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from '..';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_PARAGRAPH,
-          children: [
-            {
-              type: TYPE_LINK,
-              href: 'http://test.url/',
-              rel: undefined,
-              target: undefined,
-              title: undefined,
-              children: [
-                {
-                  text: 'link',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          type: TYPE_PARAGRAPH,
-          children: [
-            {
-              type: TYPE_CONTENT_LINK,
-              'content-id': '123',
-              'content-type': 'article',
-              'open-in': 'new-context',
-              children: [
-                {
-                  text: 'content-link',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_PARAGRAPH,
+        children: [
+          {
+            type: TYPE_LINK,
+            href: 'http://test.url/',
+            rel: undefined,
+            target: undefined,
+            title: undefined,
+            children: [
+              {
+                text: 'link',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: TYPE_PARAGRAPH,
+        children: [
+          {
+            type: TYPE_CONTENT_LINK,
+            'content-id': '123',
+            'content-type': 'article',
+            'open-in': 'new-context',
+            children: [
+              {
+                text: 'content-link',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const html =

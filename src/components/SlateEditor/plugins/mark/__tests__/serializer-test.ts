@@ -13,72 +13,70 @@ import {
   learningResourceContentToHTML,
 } from '../../../../../util/articleContentConverter';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: 'paragraph',
-          children: [
-            {
-              bold: true,
-              text: 'bold',
-            },
-          ],
-        },
-        {
-          type: 'paragraph',
-          children: [
-            {
-              italic: true,
-              text: 'italic',
-            },
-          ],
-        },
-        {
-          type: 'paragraph',
-          children: [
-            {
-              sup: true,
-              text: 'sup',
-            },
-          ],
-        },
-        {
-          type: 'paragraph',
-          children: [
-            {
-              sub: true,
-              text: 'sub',
-            },
-          ],
-        },
-        {
-          type: 'paragraph',
-          children: [
-            {
-              code: true,
-              text: 'code',
-            },
-          ],
-        },
-        {
-          type: 'paragraph',
-          children: [
-            {
-              bold: true,
-              code: true,
-              italic: true,
-              sub: true,
-              sup: true,
-              text: 'all',
-            },
-          ],
-        },
-      ],
-    },
-  ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: 'paragraph',
+        children: [
+          {
+            bold: true,
+            text: 'bold',
+          },
+        ],
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            italic: true,
+            text: 'italic',
+          },
+        ],
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            sup: true,
+            text: 'sup',
+          },
+        ],
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            sub: true,
+            text: 'sub',
+          },
+        ],
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            code: true,
+            text: 'code',
+          },
+        ],
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            bold: true,
+            code: true,
+            italic: true,
+            sub: true,
+            sup: true,
+            text: 'all',
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const html =

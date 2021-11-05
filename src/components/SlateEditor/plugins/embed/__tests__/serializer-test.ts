@@ -15,31 +15,29 @@ import {
 import { TYPE_EMBED } from '..';
 
 describe('embed image serializing tests', () => {
-  const editorWithImage: Descendant[][] = [
-    [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_EMBED,
-            children: [
-              {
-                text: '',
-              },
-            ],
-            data: {
-              resource: 'image',
-              resource_id: '123',
-              size: 'small',
-              align: 'right',
-              alt: 'test-alt',
-              caption: 'test-caption',
-              url: 'https://test.url',
+  const editorWithImage: Descendant[] = [
+    {
+      type: TYPE_SECTION,
+      children: [
+        {
+          type: TYPE_EMBED,
+          children: [
+            {
+              text: '',
             },
+          ],
+          data: {
+            resource: 'image',
+            resource_id: '123',
+            size: 'small',
+            align: 'right',
+            alt: 'test-alt',
+            caption: 'test-caption',
+            url: 'https://test.url',
           },
-        ],
-      },
-    ],
+        },
+      ],
+    },
   ];
 
   const htmlWithImage =
@@ -57,31 +55,29 @@ describe('embed image serializing tests', () => {
 });
 
 describe('embed brightcove video serializing tests', () => {
-  const editorWithBrightcove: Descendant[][] = [
-    [
-      {
-        children: [
-          {
-            type: 'embed',
-            data: {
-              resource: 'brightcove',
-              videoid: '123',
-              caption: 'test caption',
-              account: '1000',
-              player: 'abc',
-              url: 'https://test.url',
-              title: 'test title',
-            },
-            children: [
-              {
-                text: '',
-              },
-            ],
+  const editorWithBrightcove: Descendant[] = [
+    {
+      children: [
+        {
+          type: 'embed',
+          data: {
+            resource: 'brightcove',
+            videoid: '123',
+            caption: 'test caption',
+            account: '1000',
+            player: 'abc',
+            url: 'https://test.url',
+            title: 'test title',
           },
-        ],
-        type: 'section',
-      },
-    ],
+          children: [
+            {
+              text: '',
+            },
+          ],
+        },
+      ],
+      type: 'section',
+    },
   ];
   const htmlWithBrightcove =
     '<section><embed data-resource="brightcove" data-videoid="123" data-caption="test caption" data-account="1000" data-player="abc" data-url="https://test.url" data-title="test title"/></section>';
@@ -97,27 +93,25 @@ describe('embed brightcove video serializing tests', () => {
 });
 
 describe('embed youtube video serializing tests', () => {
-  const editorWithYotube: Descendant[][] = [
-    [
-      {
-        children: [
-          {
-            type: 'embed',
-            data: {
-              resource: 'external',
-              url: 'https://www.youtube.com/watch?v=testurl',
-              title: 'test title',
-            },
-            children: [
-              {
-                text: '',
-              },
-            ],
+  const editorWithYotube: Descendant[] = [
+    {
+      children: [
+        {
+          type: 'embed',
+          data: {
+            resource: 'external',
+            url: 'https://www.youtube.com/watch?v=testurl',
+            title: 'test title',
           },
-        ],
-        type: 'section',
-      },
-    ],
+          children: [
+            {
+              text: '',
+            },
+          ],
+        },
+      ],
+      type: 'section',
+    },
   ];
   const htmlWithYoutube =
     '<section><embed data-resource="external" data-url="https://www.youtube.com/watch?v=testurl" data-title="test title"/></section>';
@@ -133,29 +127,27 @@ describe('embed youtube video serializing tests', () => {
 });
 
 describe('embed audio serializing tests', () => {
-  const editorWithAudio: Descendant[][] = [
-    [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_EMBED,
-            data: {
-              caption: 'test-caption',
-              resource: 'audio',
-              resource_id: '123',
-              type: 'standard',
-              url: 'https://test.url',
-            },
-            children: [
-              {
-                text: '',
-              },
-            ],
+  const editorWithAudio: Descendant[] = [
+    {
+      type: TYPE_SECTION,
+      children: [
+        {
+          type: TYPE_EMBED,
+          data: {
+            caption: 'test-caption',
+            resource: 'audio',
+            resource_id: '123',
+            type: 'standard',
+            url: 'https://test.url',
           },
-        ],
-      },
-    ],
+          children: [
+            {
+              text: '',
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   const htmlWithAudio =
@@ -173,29 +165,27 @@ describe('embed audio serializing tests', () => {
 });
 
 describe('embed podcast serializing tests', () => {
-  const editorWithPodcast: Descendant[][] = [
-    [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_EMBED,
-            data: {
-              caption: '',
-              resource: 'audio',
-              resource_id: '123',
-              type: 'podcast',
-              url: 'https://test.url',
-            },
-            children: [
-              {
-                text: '',
-              },
-            ],
+  const editorWithPodcast: Descendant[] = [
+    {
+      type: TYPE_SECTION,
+      children: [
+        {
+          type: TYPE_EMBED,
+          data: {
+            caption: '',
+            resource: 'audio',
+            resource_id: '123',
+            type: 'podcast',
+            url: 'https://test.url',
           },
-        ],
-      },
-    ],
+          children: [
+            {
+              text: '',
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   const htmlWithPodcast =
@@ -213,27 +203,25 @@ describe('embed podcast serializing tests', () => {
 });
 
 describe('embed h5p serializing tests', () => {
-  const editorWithH5P: Descendant[][] = [
-    [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_EMBED,
-            data: {
-              resource: 'h5p',
-              path: '/resource/123',
-              url: 'https://test.url/resource/123',
-            },
-            children: [
-              {
-                text: '',
-              },
-            ],
+  const editorWithH5P: Descendant[] = [
+    {
+      type: TYPE_SECTION,
+      children: [
+        {
+          type: TYPE_EMBED,
+          data: {
+            resource: 'h5p',
+            path: '/resource/123',
+            url: 'https://test.url/resource/123',
           },
-        ],
-      },
-    ],
+          children: [
+            {
+              text: '',
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   const htmlWithH5P =

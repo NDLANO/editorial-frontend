@@ -239,11 +239,14 @@ const updateRelevanceId = (
   }
 };
 
-const getBreadcrumbFromPath = async (path: string): Promise<TaxonomyElement[]> => {
+const getBreadcrumbFromPath = async (
+  path: string,
+  language?: string,
+): Promise<TaxonomyElement[]> => {
   const [subjectPath, ...topicPaths] = pathToUrnArray(path);
   const subjectAndTopics = await Promise.all([
-    fetchSubject(subjectPath),
-    ...topicPaths.map(id => fetchTopic(id)),
+    fetchSubject(subjectPath, language),
+    ...topicPaths.map(id => fetchTopic(id, language)),
   ]);
   return subjectAndTopics.map(element => ({
     id: element.id,

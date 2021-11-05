@@ -40,13 +40,13 @@ describe('Search content', () => {
   });
 
   it('Can use status dropdown', () => {
-    cy.apiroute('GET', '/search-api/v1/search/editorial/?draft-status=USER_TEST*', 'searchStatus');
-    cy.get('select[name="status"]')
+    cy.apiroute('GET', '/search-api/v1/search/editorial/?*draft-status=USER_TEST*', 'searchStatus');
+    cy.get('select[name="draft-status"]')
       .select('Brukertest')
       .blur();
     cy.apiwait('@searchStatus');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
-    cy.get('select[name="status"]').select('Velg status');
+    cy.get('select[name="draft-status"]').select('Velg status');
     cy.apiwait('@search');
   });
 
@@ -56,12 +56,12 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?draft-status=PUBLISHED&fallback=false&include-other-statuses=true*',
       'searchOther',
     );
-    cy.get('select[name="status"]')
+    cy.get('select[name="draft-status"]')
       .select('Har publisert versjon')
       .blur();
     cy.apiwait('@searchOther');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
-    cy.get('select[name="status"]').select('Velg status');
+    cy.get('select[name="draft-status"]').select('Velg status');
     cy.apiwait('@search');
   });
 
@@ -71,12 +71,12 @@ describe('Search content', () => {
       '/search-api/v1/search/editorial/?*resource-types=urn%3Aresourcetype%3AacademicArticle*',
       'searchType',
     );
-    cy.get('select[name="resourceTypes"]')
+    cy.get('select[name="resource-types"]')
       .select('Fagartikkel')
       .blur();
     cy.apiwait('@searchType');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
-    cy.get('select[name="resourceTypes"]').select('Velg innholdstype');
+    cy.get('select[name="resource-types"]').select('Velg innholdstype');
     cy.apiwait('@search');
   });
 
@@ -98,13 +98,12 @@ describe('Search content', () => {
   it('Can use user dropdown', () => {
     cy.apiroute(
       'GET',
-      '/search-api/v1/search/editorial/?*users=%22PrcePFwCDOsb2_g0Kcb-maN0%22',
+      '/search-api/v1/search/editorial/?*users=%22PrcePFwCDOsb2_g0Kcb-maN0%22*',
       'searchUser',
     );
     cy.get('select[name="users"]')
       .select('Ed Test')
       .blur();
-    cy.apiwait('@searchUser');
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="users"]').select('Velg bruker');
     cy.apiwait('@search');

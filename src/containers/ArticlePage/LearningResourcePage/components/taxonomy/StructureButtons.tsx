@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
@@ -16,6 +15,7 @@ import { colors, spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 
 import { StagedTopic } from '../../../TopicArticlePage/components/TopicArticleTaxonomy';
+import { LocaleType } from '../../../../../interfaces';
 
 const buttonAdditionStyle = css`
   opacity: 0;
@@ -73,11 +73,11 @@ interface Props {
   id?: string;
   closeModal: () => void;
   activeTopics: StagedTopic[];
-  addTopic: (id: string | undefined, closeModal: () => void) => void;
+  addTopic: (id: string | undefined, closeModal: () => void, locale?: LocaleType) => void;
 }
 
 const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   if (isSubject) {
     return null;
   }
@@ -91,7 +91,7 @@ const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }:
           outline
           css={buttonAdditionStyle}
           type="button"
-          onClick={() => addTopic(id, closeModal)}>
+          onClick={() => addTopic(id, closeModal, i18n.language)}>
           {t('taxonomy.topics.filestructureButton')}
         </Button>
       ) : (
@@ -102,14 +102,6 @@ const StructureButtons = ({ isSubject, id, closeModal, activeTopics, addTopic }:
       )}
     </StyledButtonWrapper>
   );
-};
-
-StructureButtons.propTypes = {
-  isSubject: PropTypes.bool,
-  id: PropTypes.string,
-  closeModal: PropTypes.func.isRequired,
-  activeTopics: PropTypes.array.isRequired,
-  addTopic: PropTypes.func.isRequired,
 };
 
 export default StructureButtons;

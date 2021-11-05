@@ -1,0 +1,107 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import css from '@emotion/css';
+import Button from '@ndla/button';
+import ObjectSelector from '../../../../components/ObjectSelector';
+import { searchFormClasses, SearchParams } from './SearchForm';
+import { MinimalTagType } from './SearchTag';
+import SearchTagGroup from './SearchTagGroup';
+
+export interface SearchFormSelector {
+  type: keyof SearchParams;
+  name?: string;
+  options: { id: string; name: string }[];
+  width?: number;
+}
+
+interface Props {
+  type: string;
+  selectors: SearchFormSelector[];
+  query: string;
+  searchObject: SearchParams;
+  onQueryChange: (event: React.FormEvent<HTMLInputElement>) => void;
+  onSubmit: () => void;
+  onFieldChange: (evt: React.FormEvent<HTMLSelectElement>) => void;
+  emptySearch: (evt: React.MouseEvent<HTMLButtonElement>) => void;
+  removeTag: (tag: MinimalTagType) => void;
+}
+
+const GenericSearchForm = ({
+  type,
+  selectors,
+  query,
+  onQueryChange,
+  onSubmit,
+  searchObject,
+  onFieldChange,
+  emptySearch,
+  removeTag,
+}: Props) => {
+  const { t } = useTranslation();
+  const tags = [{ type: 'query', name: query }, ...selectors];
+  return (
+    <form onSubmit={e => e.preventDefault()} {...searchFormClasses()}>
+      <div {...searchFormClasses('field', '50-width')}>
+        <input
+          data-cy="queryField"
+          name="query"
+          placeholder={t(`searchForm.types.${type}Query`)}
+          value={query}
+          onChange={onQueryChange}
+        />
+      </div>
+      {selectors.map(selector => (
+        <div
+          data-cy={`${selector.type}Field`}
+          key={`search-form-field-${selector.type}`}
+          {...searchFormClasses('field', `${selector.width ?? 50}-width`)}>
+          <ObjectSelector
+            name={selector.type}
+            // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
+            // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
+            value={(searchObject[selector.type] as string) ?? ''}
+            options={selector.options}
+            idKey="id"
+            labelKey="name"
+            emptyField
+            onChange={onFieldChange}
+            placeholder={t(`searchForm.types.${selector.type}`)}
+          />
+        </div>
+      ))}
+      <div {...searchFormClasses('field', '25-width')}>
+        <Button
+          data-cy="searchEmpty"
+          css={css`
+            margin-right: 1%;
+            width: 49%;
+          `}
+          onClick={emptySearch}
+          outline>
+          {t('searchForm.empty')}
+        </Button>
+        <Button
+          data-cy="searchButton"
+          onClick={onSubmit}
+          css={css`
+            width: 49%;
+          `}>
+          {t('searchForm.btn')}
+        </Button>
+      </div>
+      <div {...searchFormClasses('tagline')} data-cy="searchTagGroup">
+        <SearchTagGroup onRemoveItem={removeTag} tagTypes={tags} />
+      </div>
+    </form>
+  );
+};
+
+export default GenericSearchForm;

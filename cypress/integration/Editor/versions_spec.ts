@@ -24,15 +24,24 @@ describe('Workflow features', () => {
       `@articleHistory-${ARTICLE_ID}`,
       '@getNoteUsers',
     ]);
+    cy.get('[data-testid=addNote]').should('be.visible');
   });
 
   it('Can add notes and save', () => {
     cy.get('[data-testid=addNote]').click();
-    cy.get('[data-testid=notesInput]').type('Test merknad');
+    cy.get('[data-testid=notesInput]')
+      .click()
+      .should('have.focus')
+      .type('Test merknad');
     cy.get('[data-testid=saveLearningResourceButtonWrapper] button')
       .first()
       .click();
     cy.apiwait(['@patchUserData']);
+    cy.get('[data-testid=notesInput]').should('not.exist');
+    cy.get('section[id=learning-resource-workflow]')
+      .find('tr')
+      .its('length')
+      .should('eq', 10);
   });
 
   it('Open previews', () => {
@@ -41,8 +50,11 @@ describe('Workflow features', () => {
     cy.get('[data-testid=previewVersion]')
       .first()
       .click();
-    cy.get('[data-testid=closePreview]').click();
     cy.apiwait([`@converted-article-${ARTICLE_ID}`]);
+    cy.get(`article[id=${ARTICLE_ID}]`).should('exist');
+    cy.get('[data-testid=closePreview]')
+      .should('exist')
+      .click();
   });
 
   it('Can reset to prod', () => {

@@ -55,9 +55,7 @@ describe('Search concepts', () => {
 
   it('Can use language type dropdown', () => {
     cy.apiroute('GET', '/concept-api/v1/drafts/?language=nn*', 'searchConceptLang');
-    cy.get('select[name="language"]')
-      .select('Nynorsk')
-      .blur();
+    cy.get('select[name="language"]').select('Nynorsk');
     cy.apiwait(['@searchConceptLang']);
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="language"]').select('Velg språk');
@@ -85,9 +83,7 @@ describe('Search concepts', () => {
       '/concept-api/v1/drafts/?*users=PrcePFwCDOsb2_g0Kcb-maN0',
       'searchConceptUser',
     );
-    cy.get('select[name="users"]')
-      .select('Ed Test')
-      .blur();
+    cy.get('select[name="users"]').select('Ed Test');
     cy.apiwait(['@searchConceptUser']);
     cy.get('span[data-cy="totalCount"').contains(/^Antall søketreff: \d+/);
     cy.get('select[name="users"]').select('Velg bruker');

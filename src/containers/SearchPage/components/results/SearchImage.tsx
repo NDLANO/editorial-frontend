@@ -15,11 +15,11 @@ import { colors } from '@ndla/core';
 import { toEditImage } from '../../../../util/routeHelpers';
 import { ImageResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
-import { ContentResultType } from '../../../../interfaces';
 import { useLicenses } from '../../../Licenses/LicensesProvider';
+import { ImageSearchSummaryApiType } from '../../../../modules/image/imageApiInterfaces';
 
 interface Props {
-  image: ContentResultType;
+  image: ImageSearchSummaryApiType;
   locale: string;
 }
 

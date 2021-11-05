@@ -6,24 +6,18 @@
  *
  */
 
-import React, { Component } from 'react';
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
-import Button from '@ndla/button';
-import { css } from '@emotion/core';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
-import ObjectSelector from '../../../../components/ObjectSelector';
-import SearchTagGroup from './SearchTagGroup';
-import { searchFormClasses, SearchParams } from './SearchForm';
+import { SearchParams } from './SearchForm';
 import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
-import { fetchAuth0Editors } from '../../../../modules/auth0/auth0Api';
 import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { User } from './SearchContentForm';
-import { LocationShape, SearchParamsShape } from '../../../../shapes';
 import { MinimalTagType } from './SearchTag';
+import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
+import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
 
 interface Props extends RouteComponentProps {
   search: (o: SearchParams) => void;
@@ -32,250 +26,105 @@ interface Props extends RouteComponentProps {
   locale: string;
 }
 
-interface SearchState {
-  query: string;
-  language: string;
-  subjects: string;
-  types: string;
-  status: string;
-  users: string;
-  page?: string;
-}
+const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }: Props) => {
+  const { t } = useTranslation();
+  const [queryInput, setQueryInput] = useState(search.query ?? '');
+  const { data: users } = useAuth0Editors(CONCEPT_WRITE_SCOPE, {
+    select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+    placeholderData: [],
+  });
 
-interface State {
-  search: SearchState;
-  users: User[];
-}
+  const onInputChange = (evt: React.FormEvent<HTMLInputElement>) => {
+    setQueryInput(evt.currentTarget.value);
+    doSearch({ ...search, query: evt.currentTarget.value });
+  };
 
-const emptySearchState: SearchState = {
-  status: '',
-  types: '',
-  query: '',
-  subjects: '',
-  language: '',
-  users: '',
-};
-
-class SearchConceptForm extends Component<Props & CustomWithTranslation, State> {
-  constructor(props: Props & CustomWithTranslation) {
-    super(props);
-    const { searchObject } = props;
-    this.state = {
-      search: {
-        subjects: searchObject.subjects || '',
-        query: searchObject.query || '',
-        language: searchObject.language || '',
-        types: 'concept',
-        status: searchObject.status || '',
-        users: searchObject.users || '',
-      },
-      users: [],
-    };
-    this.handleSearch = this.handleSearch.bind(this);
-    this.removeTagItem = this.removeTagItem.bind(this);
-    this.emptySearch = this.emptySearch.bind(this);
-    this.onFieldChange = this.onFieldChange.bind(this);
-    this.getConceptStatuses = this.getConceptStatuses.bind(this);
-  }
-
-  componentDidMount() {
-    this.getExternalData();
-  }
-
-  async getExternalData() {
-    const users = await this.getUsers();
-    this.setState({ users: users });
-  }
-
-  componentDidUpdate(prevProps: Props & CustomWithTranslation) {
-    const { searchObject } = this.props;
-    if (prevProps.searchObject?.query !== searchObject?.query) {
-      this.setState({
-        search: {
-          subjects: searchObject.subjects || '',
-          query: searchObject.query || '',
-          language: searchObject.language || '',
-          types: 'concept',
-          status: searchObject.status || '',
-          users: searchObject.users || '',
-        },
-      });
-    }
-  }
-
-  onFieldChange = (evt: React.FormEvent<HTMLSelectElement> | React.FormEvent<HTMLInputElement>) => {
+  const onFieldChange = (evt: React.FormEvent<HTMLSelectElement>) => {
     const { value, name } = evt.currentTarget;
-    this.setState(
-      prevState => ({ search: { ...prevState.search, [name]: value } }),
-      this.handleSearch,
-    );
+    doSearch({ ...search, [name]: value });
   };
 
-  getConceptStatuses() {
-    return Object.keys(conceptStatuses).map(s => {
-      return { id: s, name: this.props.t(`form.status.${s.toLowerCase()}`) };
-    });
-  }
-
-  handleSearch = (evt?: React.SyntheticEvent) => {
-    if (evt) {
-      evt.preventDefault();
-      evt.stopPropagation();
+  useEffect(() => {
+    if (search.query !== queryInput) {
+      setQueryInput(search.query ?? '');
     }
-    const { search } = this.props;
-    search({ ...this.state.search, page: 1 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search.query]);
+
+  const getConceptStatuses = () => {
+    return Object.keys(conceptStatuses).map(s => {
+      return { id: s, name: t(`form.status.${s.toLowerCase()}`) };
+    });
   };
 
-  removeTagItem(tag: MinimalTagType) {
-    this.setState(
-      prevState => ({ search: { ...prevState.search, [tag.type]: '' } }),
-      this.handleSearch,
-    );
-  }
+  const handleSearch = () => doSearch({ ...search, page: 1 });
 
-  emptySearch() {
-    this.setState({ search: emptySearchState }, this.handleSearch);
-  }
+  const removeTagItem = (tag: MinimalTagType) => {
+    if (tag.type === 'query') setQueryInput('');
+    doSearch({ ...search, [tag.type]: '' });
+  };
 
-  async getUsers() {
-    const editors = await fetchAuth0Editors(CONCEPT_WRITE_SCOPE);
-    return editors.map(u => {
-      return { id: `${u.app_metadata.ndla_id}`, name: u.name };
+  const emptySearch = (evt: React.MouseEvent<HTMLButtonElement>) => {
+    evt.persist();
+    setQueryInput('');
+    doSearch({
+      query: '',
+      language: '',
+      'audio-type': '',
+      license: '',
+      subjects: '',
+      users: '',
+      status: '',
     });
-  }
+  };
 
-  sortByProperty(property: string) {
+  const sortByProperty = (property: string) => {
     type Sortable = { [key: string]: any };
 
     return function(a: Sortable, b: Sortable) {
       return a[property]?.localeCompare(b[property]);
     };
-  }
-
-  render() {
-    const { t, subjects } = this.props;
-    const { search, users } = this.state;
-
-    const tagTypes = [
-      {
-        type: 'query',
-        id: search.query,
-        name: search.query,
-      },
-      {
-        type: 'language',
-        id: search.language,
-        name: getTagName(search.language, getResourceLanguages(t)),
-      },
-      {
-        type: 'users',
-        id: search.users,
-        name: getTagName(search.users, users),
-      },
-      {
-        type: 'subjects',
-        id: search.subjects,
-        name: getTagName(search.subjects, subjects),
-      },
-      {
-        type: 'status',
-        id: search.status,
-        name: getTagName(search.status, this.getConceptStatuses()),
-      },
-    ];
-
-    return (
-      <form onSubmit={this.handleSearch} {...searchFormClasses()}>
-        <div {...searchFormClasses('field', '50-width')}>
-          <input
-            name="query"
-            placeholder={t('searchForm.types.conceptQuery')}
-            value={search.query}
-            onChange={this.onFieldChange}
-          />
-        </div>
-        <div key={`searchfield_subjects`} {...searchFormClasses('field', `50-width`)}>
-          <ObjectSelector
-            name={'subjects'}
-            options={subjects.sort(this.sortByProperty('name'))}
-            idKey="id"
-            value={this.state.search['subjects']}
-            labelKey="name"
-            emptyField
-            placeholder={t(`searchForm.types.subjects`)}
-            onChange={this.onFieldChange}
-          />
-        </div>
-        <div key={`searchfield_status`} {...searchFormClasses('field', `25-width`)}>
-          <ObjectSelector
-            name={'status'}
-            options={this.getConceptStatuses()}
-            idKey="id"
-            value={this.state.search['status']}
-            labelKey="name"
-            emptyField
-            placeholder={t(`searchForm.types.status`)}
-            onChange={this.onFieldChange}
-          />
-        </div>
-        <div {...searchFormClasses('field', '25-width')}>
-          <ObjectSelector
-            name="language"
-            value={search.language}
-            options={getResourceLanguages(t)}
-            idKey="id"
-            labelKey="name"
-            emptyField
-            onChange={this.onFieldChange}
-            onBlur={this.onFieldChange}
-            placeholder={t('searchForm.types.language')}
-          />
-        </div>
-        <div {...searchFormClasses('field', '25-width')}>
-          <ObjectSelector
-            name="users"
-            value={search['users']}
-            options={users.sort(this.sortByProperty('name'))}
-            idKey="id"
-            labelKey="name"
-            emptyField
-            onChange={this.onFieldChange}
-            onBlur={this.onFieldChange}
-            placeholder={t('searchForm.types.users')}
-          />
-        </div>
-        <div {...searchFormClasses('field', '25-width')}>
-          <Button
-            css={css`
-              margin-right: 1%;
-              width: 49%;
-            `}
-            onClick={this.emptySearch}
-            outline>
-            {t('searchForm.empty')}
-          </Button>
-          <Button
-            css={css`
-              width: 49%;
-            `}
-            submit>
-            {t('searchForm.btn')}
-          </Button>
-        </div>
-        <div {...searchFormClasses('tagline')}>
-          <SearchTagGroup onRemoveItem={this.removeTagItem} tagTypes={tagTypes} />
-        </div>
-      </form>
-    );
-  }
-
-  static propTypes = {
-    search: PropTypes.func.isRequired,
-    subjects: PropTypes.array.isRequired,
-    location: LocationShape,
-    searchObject: SearchParamsShape,
-    locale: PropTypes.string.isRequired,
   };
-}
 
-export default withTranslation()(SearchConceptForm);
+  const selectors: SearchFormSelector[] = [
+    {
+      type: 'subjects',
+      name: getTagName(search.subjects, subjects),
+      options: subjects.sort(sortByProperty('name')),
+    },
+    {
+      type: 'status',
+      name: getTagName(search.status, getConceptStatuses()),
+      options: getConceptStatuses(),
+      width: 25,
+    },
+    {
+      type: 'language',
+      name: getTagName(search.language, getResourceLanguages(t)),
+      options: getResourceLanguages(t),
+      width: 25,
+    },
+    {
+      type: 'users',
+      name: getTagName(search.users, users),
+      options: users!.sort(sortByProperty('name')),
+      width: 25,
+    },
+  ];
+
+  return (
+    <GenericSearchForm
+      type="concept"
+      selectors={selectors}
+      query={queryInput}
+      onQueryChange={onInputChange}
+      onSubmit={handleSearch}
+      searchObject={search}
+      onFieldChange={onFieldChange}
+      emptySearch={emptySearch}
+      removeTag={removeTagItem}
+    />
+  );
+};
+
+export default SearchConceptForm;

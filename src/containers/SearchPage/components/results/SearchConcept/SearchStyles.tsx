@@ -18,7 +18,11 @@ export const StyledInfo = styled.div`
   font-size: 0.7rem;
 `;
 
-export const StyledConceptView = styled.div`
+interface StyledConceptViewProps {
+  border?: boolean;
+}
+
+export const StyledConceptView = styled.div<StyledConceptViewProps>`
   display: inline-block;
   width: 90%;
   align-self: center;
@@ -100,7 +104,11 @@ export const StyledBreadcrumbs = styled.div`
   display: flex;
 `;
 
-export const InputField = styled.div`
+interface InputFieldProps {
+  ratio?: number;
+}
+
+export const InputField = styled.div<InputFieldProps>`
   flex-grow: ${props => (props.ratio ? props.ratio : 1)};
 
   label,

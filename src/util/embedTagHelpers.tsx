@@ -38,11 +38,11 @@ export const reduceElementDataAttributes = (
 };
 
 export const reduceChildElements = (el: HTMLElement, type: string) => {
-  const childs: object[] = [];
+  const children: object[] = [];
   el.childNodes.forEach(node => {
     const childElement = node as HTMLElement;
     if (type === 'file') {
-      childs.push({
+      children.push({
         ...childElement.dataset,
       });
     } else if (type === 'related-content') {
@@ -59,14 +59,14 @@ export const reduceChildElements = (el: HTMLElement, type: string) => {
             [curr]: currValue,
           };
         }, {});
-        childs.push(convertedDataset);
+        children.push(convertedDataset);
       }
     } else {
-      childs.push(childElement.dataset);
+      children.push(childElement.dataset);
     }
   });
 
-  return { nodes: childs };
+  return { nodes: children };
 };
 
 export const createDataProps = (obj: Dictionary<string>) =>

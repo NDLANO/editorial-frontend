@@ -7,11 +7,11 @@
  */
 
 import React, { useState } from 'react';
-import { useTranslation, withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import darken from 'polished/lib/color/darken';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
 import { colors, spacing } from '@ndla/core';
@@ -21,7 +21,7 @@ import Overlay from '../../../Overlay';
 import RelatedArticle from './RelatedArticle';
 import ContentLink from '../../../../containers/ArticlePage/components/ContentLink';
 import DeleteButton from '../../../DeleteButton';
-import { RelatedArticleType } from './RelatedArticleBox';
+import { RelatedArticleType, ExternalArticle } from './RelatedArticleBox';
 
 const StyledContainer = styled('div')`
   position: absolute;
@@ -93,7 +93,6 @@ const EditRelated = ({
   articles,
   onInsertBlock,
   onExit,
-  ...rest
 }: Props) => {
   const { t } = useTranslation();
 
@@ -114,29 +113,68 @@ const EditRelated = ({
     });
   };
 
+  const onDragEnd = (a: DropResult) => {
+    if (!a.destination) {
+      return;
+    }
+    const toIndex = a.destination.index;
+    const fromIndex = a.source.index;
+    const newArticles = [...articles];
+
+    const element = newArticles[fromIndex];
+    newArticles.splice(fromIndex, 1);
+    newArticles.splice(toIndex, 0, element);
+    updateArticles(newArticles);
+  };
+
+  const openExternalEdit = (article: ExternalArticle) => {
+    setTempId(article.tempId);
+    setUrl(article.url);
+    setTitle(article.title);
+    toggleAddExternal();
+  };
+
+  const deleteRelatedArticle = (e: Event, articleKey: string) => {
+    e.stopPropagation();
+
+    const newArticles = articles.filter(filterArticle =>
+      'url' in filterArticle
+        ? filterArticle.tempId !== articleKey
+        : filterArticle.id !== articleKey,
+    );
+    updateArticles(newArticles);
+  };
+
+  const onAddExternal = (title: string, url: string) => {
+    if (tempId) {
+      updateArticles(
+        articles.map(a => ('url' in a && a.tempId === tempId ? { ...a, url, title } : a)),
+      );
+      setTempId(undefined);
+      setUrl('');
+      setTitle('');
+    } else {
+      insertExternal(url, title);
+    }
+  };
+
+  const onCloseExternalEdit = () => {
+    setTempId(undefined);
+    setUrl('');
+    setTitle('');
+    toggleAddExternal();
+  };
+
   return (
     <StyledContainer contentEditable={false}>
       <Overlay onExit={onExit} />
-      <StyledBorderDiv {...rest}>
+      <StyledBorderDiv>
         <h1 className="c-section-heading c-related-articles__component-title">
           {t('form.related.title')}
         </h1>
         <p>{t('form.related.subtitle')}</p>
         <StyledListWrapper>
-          <DragDropContext
-            onDragEnd={a => {
-              if (!a.destination) {
-                return;
-              }
-              const toIndex = a.destination.index;
-              const fromIndex = a.source.index;
-              const newArticles = [...articles];
-
-              var element = newArticles[fromIndex];
-              newArticles.splice(fromIndex, 1);
-              newArticles.splice(toIndex, 0, element);
-              updateArticles(newArticles);
-            }}>
+          <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="relatedArticleDroppable">
               {(provided, snapshot) => (
                 <StyledDropZone
@@ -160,12 +198,7 @@ const EditRelated = ({
                               {'url' in article && (
                                 <StyledEditButton
                                   stripped
-                                  onClick={() => {
-                                    setTempId(article.tempId);
-                                    setUrl(article.url);
-                                    setTitle(article.title);
-                                    toggleAddExternal();
-                                  }}>
+                                  onClick={() => openExternalEdit(article)}>
                                   <Tooltip
                                     tooltip={t('form.content.relatedArticle.changeExternal')}>
                                     <Pencil />
@@ -175,16 +208,7 @@ const EditRelated = ({
                               <DeleteButton
                                 title={t('form.content.relatedArticle.removeExternal')}
                                 stripped
-                                onClick={e => {
-                                  e.stopPropagation();
-
-                                  const newArticles = articles.filter(filterArticle =>
-                                    'url' in filterArticle
-                                      ? filterArticle.tempId !== articleKey
-                                      : filterArticle.id !== articleKey,
-                                  );
-                                  updateArticles(newArticles);
-                                }}
+                                onClick={e => deleteRelatedArticle(e, articleKey)}
                               />
                             </StyledArticle>
                           </div>
@@ -218,24 +242,8 @@ const EditRelated = ({
       </StyledBorderDiv>
       {showAddExternal && (
         <ContentLink
-          onAddLink={(title, url) => {
-            if (tempId) {
-              updateArticles(
-                articles.map(a => ('url' in a && a.tempId === tempId ? { ...a, url, title } : a)),
-              );
-              setTempId(undefined);
-              setUrl('');
-              setTitle('');
-            } else {
-              insertExternal(url, title);
-            }
-          }}
-          onClose={() => {
-            setTempId(undefined);
-            setUrl('');
-            setTitle('');
-            toggleAddExternal();
-          }}
+          onAddLink={onAddExternal}
+          onClose={onCloseExternalEdit}
           initialTitle={title}
           initialUrl={url}
         />
@@ -244,4 +252,4 @@ const EditRelated = ({
   );
 };
 
-export default withTranslation()(EditRelated);
+export default EditRelated;

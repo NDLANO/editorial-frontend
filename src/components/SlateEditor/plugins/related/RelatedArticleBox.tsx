@@ -35,7 +35,7 @@ interface Props {
   onRemoveClick: (e: Event) => void;
   children: ReactNode;
 }
-interface ExternalArticle {
+export interface ExternalArticle {
   id: 'external-learning-resources';
   tempId: string;
   url: string;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { isNumber } from 'lodash';
 // @ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import * as resourceTypeConstants from '../../../constants';
@@ -11,7 +12,8 @@ interface RelatedArticleMapping {
 }
 
 export const mapping = (relatedArticleEntryNum?: number): RelatedArticleMapping => {
-  const hiddenModifier = relatedArticleEntryNum ?? 0 > 1 ? ' hidden' : '';
+  const hiddenModifier =
+    isNumber(relatedArticleEntryNum) && relatedArticleEntryNum > 1 ? ' hidden' : '';
   return {
     [resourceTypeConstants.RESOURCE_TYPE_SUBJECT_MATERIAL]: {
       icon: <ContentTypeBadge background type={constants.contentTypes.SUBJECT_MATERIAL} />,

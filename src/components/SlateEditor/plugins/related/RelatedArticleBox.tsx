@@ -81,52 +81,6 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     }
   }, [editMode, articles]);
 
-  const onInsertBlock = (newArticle: string) => {
-    if (!articles.find(it => 'id' in it && it.id === newArticle)) {
-      // get resource and add to state
-      fetchArticle(newArticle).then(article => {
-        if (article) {
-          const newArticles = [...articles, article];
-          setArticles(newArticles);
-          setNodeData(newArticles);
-        }
-      });
-    }
-  };
-
-  const setNodeData = (newArticles: RelatedArticleType[]) => {
-    const path = ReactEditor.findPath(editor, element);
-    Transforms.setNodes(
-      editor,
-      {
-        data: {
-          nodes: newArticles.map(article => {
-            if ('url' in article) {
-              return {
-                resource: 'related-content',
-                url: article.url,
-                title: article.title,
-              };
-            } else {
-              return { resource: 'related-content', 'article-id': article.id.toString() };
-            }
-          }),
-        },
-      },
-      { at: path, voids: true },
-    );
-  };
-
-  const structureExternal = (url: string, title: string): ExternalArticle => {
-    return {
-      id: ARTICLE_EXTERNAL,
-      tempId: uuid(),
-      url,
-      title,
-      description: '',
-    };
-  };
-
   const fetchArticle = useCallback(
     async (id: string) => {
       try {
@@ -171,6 +125,52 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     const newArticles = [...articles, structureExternal(url, title)];
     setArticles(newArticles);
     setNodeData(newArticles);
+  };
+
+  const onInsertBlock = (newArticle: string) => {
+    if (!articles.find(it => 'id' in it && it.id === newArticle)) {
+      // get resource and add to state
+      fetchArticle(newArticle).then(article => {
+        if (article) {
+          const newArticles = [...articles, article];
+          setArticles(newArticles);
+          setNodeData(newArticles);
+        }
+      });
+    }
+  };
+
+  const setNodeData = (newArticles: RelatedArticleType[]) => {
+    const path = ReactEditor.findPath(editor, element);
+    Transforms.setNodes(
+      editor,
+      {
+        data: {
+          nodes: newArticles.map(article => {
+            if ('url' in article) {
+              return {
+                resource: 'related-content',
+                url: article.url,
+                title: article.title,
+              };
+            } else {
+              return { resource: 'related-content', 'article-id': article.id.toString() };
+            }
+          }),
+        },
+      },
+      { at: path, voids: true },
+    );
+  };
+
+  const structureExternal = (url: string, title: string): ExternalArticle => {
+    return {
+      id: ARTICLE_EXTERNAL,
+      tempId: uuid(),
+      url,
+      title,
+      description: '',
+    };
   };
 
   const updateArticles = (newArticles: RelatedArticleType[]) => {

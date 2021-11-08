@@ -1,4 +1,4 @@
-import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange } from 'slate';
+import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange, BaseSelection, Node } from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { BlockQuoteElement } from './plugins/blockquote';
@@ -40,6 +40,8 @@ export type CustomEditor = {
   onKeyDown?: (event: KeyboardEvent) => void;
   renderElement?: (props: RenderElementProps) => JSX.Element | undefined;
   renderLeaf?: (props: RenderLeafProps) => JSX.Element | undefined;
+  lastSelection?: BaseSelection;
+  lastSelectedBlock?: Node;
   removeSection?: () => void;
   shouldShowToolbar: () => boolean;
   shouldShowBlockPicker?: () => boolean;

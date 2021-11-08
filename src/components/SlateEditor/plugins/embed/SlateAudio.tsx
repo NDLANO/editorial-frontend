@@ -76,8 +76,7 @@ const SlateAudio = ({
     onFigureInputChange(e);
   };
 
-  const toggleEdit = (event: React.KeyboardEvent | React.MouseEvent) => {
-    event.stopPropagation();
+  const toggleEdit = () => {
     setEditMode(!editMode);
   };
 

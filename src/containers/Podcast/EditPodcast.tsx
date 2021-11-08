@@ -35,7 +35,13 @@ const EditPodcast = ({ podcastId, podcastLanguage, isNewlyCreated }: Props) => {
   const { translating, translateToNN } = useTranslateApi(
     podcast,
     (podcast: AudioApiType) => setPodcastWithFlag(podcast, true),
-    ['id', 'manuscript', 'title', 'podcastMeta.introduction', 'podcastMeta.coverPhoto.altText'],
+    [
+      'id',
+      'manuscript.manuscript',
+      'title.title',
+      'podcastMeta.introduction',
+      'podcastMeta.coverPhoto.altText',
+    ],
   );
 
   const onUpdate = async (

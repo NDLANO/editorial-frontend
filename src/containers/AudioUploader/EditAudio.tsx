@@ -31,7 +31,7 @@ const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }: 
   const { translating, translateToNN } = useTranslateApi(
     audio,
     (audio: AudioApiType) => setAudio(audio),
-    ['id', 'manuscript', 'title'],
+    ['id', 'manuscript.manuscript', 'title.title'],
   );
 
   useEffect(() => {

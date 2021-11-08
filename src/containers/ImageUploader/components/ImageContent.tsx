@@ -70,6 +70,7 @@ const ImageContent = ({ formik }: Props) => {
         <StyledDeleteButtonContainer>
           <Tooltip tooltip={t('form.image.removeImage')}>
             <IconButton
+              type="button"
               onClick={() => {
                 setFieldValue('imageFile', undefined);
               }}

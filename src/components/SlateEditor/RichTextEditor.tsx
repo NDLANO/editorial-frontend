@@ -6,7 +6,7 @@
  *
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { createEditor, Descendant, Editor, NodeEntry } from 'slate';
+import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from 'slate';
 import {
   Slate,
   Editable,
@@ -16,6 +16,7 @@ import {
   ReactEditor,
 } from 'slate-react';
 import { withHistory } from 'slate-history';
+import { isEqual } from 'lodash';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { SlatePlugin } from './interfaces';
@@ -49,23 +50,58 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
-  const [isNormalizing, setIsNormalizing] = useState(true);
+  const [isFirstNormalize, setIsFirstNormalize] = useState(true);
 
   const prevSubmitted = useRef(submitted);
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });
-    setIsNormalizing(false);
+    setIsFirstNormalize(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (!submitted && prevSubmitted.current) {
+      // Editor will be normalized. Remove history
+      ReactEditor.deselect(editor);
+      editor.children = value;
       editor.history = { redos: [], undos: [] };
-      setIsNormalizing(true);
       Editor.normalize(editor, { force: true });
-      setIsNormalizing(false);
+      ReactEditor.focus(editor);
+      // Try to select previous selection if it exists
+      if (editor.lastSelection) {
+        const edges = Range.edges(editor.lastSelection);
+        if (Editor.hasPath(editor, edges[0].path) && Editor.hasPath(editor, edges[1].path)) {
+          const start = Editor.start(editor, edges[0].path);
+          const end = Editor.end(editor, edges[1].path);
+
+          const existingRange = { anchor: start, focus: end };
+
+          if (Range.includes(existingRange, edges[0]) && Range.includes(existingRange, edges[1])) {
+            Transforms.select(editor, editor.lastSelection);
+            editor.lastSelection = undefined;
+            editor.lastSelectedBlock = undefined;
+            prevSubmitted.current = submitted;
+            return;
+          }
+        }
+        // Else: Try to find previous block element and select it.
+      }
+      if (editor.lastSelectedBlock) {
+        const [target] = Editor.nodes(editor, {
+          at: Editor.range(editor, [0]),
+          match: node => {
+            return isEqual(node, editor.lastSelectedBlock);
+          },
+        });
+        if (target) {
+          Transforms.select(editor, target[1]);
+          Transforms.collapse(editor, { edge: 'end' });
+        }
+      }
+      editor.lastSelection = undefined;
+      editor.lastSelectedBlock = undefined;
     } else if (submitted && !prevSubmitted.current) {
       ReactEditor.deselect(editor);
     }
@@ -117,7 +153,7 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
       <SlateProvider isSubmitted={submitted}>
         <div data-cy="slate-editor" css={slateEditorDivStyle}>
           <Slate editor={editor} value={value} onChange={onChange}>
-            {isNormalizing || submitted ? (
+            {isFirstNormalize ? (
               <Spinner />
             ) : (
               <>

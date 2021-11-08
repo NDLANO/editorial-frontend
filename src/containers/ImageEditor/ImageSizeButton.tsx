@@ -21,7 +21,7 @@ const icon: Record<string, JSX.Element> = {
 interface Props {
   size: string;
   onFieldChange: (evt: MouseEvent, field: string, value: string) => void;
-  currentSize: string;
+  currentSize?: string;
 }
 
 const ImageSizeButton = ({ currentSize = 'fullwidth', size, onFieldChange }: Props) => {

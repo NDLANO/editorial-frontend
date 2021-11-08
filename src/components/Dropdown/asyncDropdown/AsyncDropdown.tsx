@@ -137,8 +137,11 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
     setPage(page.page);
   };
 
-  const handleChange = (selectedItem: ItemValues<ApiType>) => {
+  const handleChange = (selectedItem: ItemValues<ApiType> | null) => {
     setSelectedItem(selectedItem);
+    if (!selectedItem) {
+      return;
+    }
     setInputValue(labelField ? itemToString(selectedItem, labelField) : selectedItem.title);
     onChange(selectedItem.originalItem);
 

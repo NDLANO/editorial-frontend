@@ -9,18 +9,10 @@ import { toEditArticle } from '../../../../util/routeHelpers';
 import { RelatedArticleType } from './RelatedArticleBox';
 
 const resourceTypeProps = (item: RelatedArticleType, numberInList?: number) => {
-  const resourceType =
-    'resource' in item
-      ? item.resource.length &&
-        item.resource[0].resourceTypes &&
-        item.resource[0].resourceTypes.find(
-          resourceType => iconMapping(numberInList)[resourceType.id],
-        )
-      : { id: item.id }; // if no resource it is external article
-  if (resourceType) {
-    return iconMapping(numberInList)[resourceType.id];
-  }
-  return iconMapping(numberInList).default;
+  const resourceTypes = 'resource' in item ? item?.resource[0]?.resourceTypes : undefined;
+  const resourceTypeId = resourceTypes?.find(rt => iconMapping(numberInList)[rt.id])?.id ?? item.id;
+  const mappingType = resourceTypeId ?? 'default';
+  return iconMapping(numberInList)[mappingType];
 };
 
 interface Props {

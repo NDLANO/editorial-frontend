@@ -9,7 +9,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React, { useEffect, useMemo, useRef } from 'react';
-import { createEditor, Descendant, Editor, NodeEntry } from 'slate';
+import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from 'slate';
 import {
   Slate,
   Editable,
@@ -19,6 +19,7 @@ import {
   ReactEditor,
 } from 'slate-react';
 import { withHistory } from 'slate-history';
+import { isEqual } from 'lodash';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import { SlatePlugin } from './interfaces';
@@ -77,10 +78,44 @@ const RichTextEditor = ({
 
   useEffect(() => {
     if (!submitted && prevSubmitted.current) {
+      // Editor will be normalized. Remove history
+      ReactEditor.deselect(editor);
+      editor.children = value;
       editor.history = { redos: [], undos: [] };
       Editor.normalize(editor, { force: true });
-    } else if (submitted && !prevSubmitted.current) {
-      ReactEditor.deselect(editor);
+      ReactEditor.focus(editor);
+      // Try to select previous selection if it exists
+      if (editor.lastSelection) {
+        const edges = Range.edges(editor.lastSelection);
+        if (Editor.hasPath(editor, edges[0].path) && Editor.hasPath(editor, edges[1].path)) {
+          const start = Editor.start(editor, edges[0].path);
+          const end = Editor.end(editor, edges[1].path);
+
+          const existingRange = { anchor: start, focus: end };
+
+          if (Range.includes(existingRange, edges[0]) && Range.includes(existingRange, edges[1])) {
+            Transforms.select(editor, editor.lastSelection);
+            editor.lastSelection = undefined;
+            editor.lastSelectedBlock = undefined;
+            return;
+          }
+        }
+        // Else: Try to find previous block element and select it.
+      }
+      if (editor.lastSelectedBlock) {
+        const [target] = Editor.nodes(editor, {
+          at: Editor.range(editor, [0]),
+          match: node => {
+            return isEqual(node, editor.lastSelectedBlock);
+          },
+        });
+        if (target) {
+          Transforms.select(editor, target[1]);
+          Transforms.collapse(editor, { edge: 'end' });
+        }
+      }
+      editor.lastSelection = undefined;
+      editor.lastSelectedBlock = undefined;
     }
     prevSubmitted.current = submitted;
     // eslint-disable-next-line react-hooks/exhaustive-deps

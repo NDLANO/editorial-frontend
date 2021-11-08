@@ -6,7 +6,7 @@
  *
  */
 
-import { Editor } from 'slate';
+import { Editor, Transforms } from 'slate';
 import isHotkey from 'is-hotkey';
 import { ReactEditor } from 'slate-react';
 
@@ -17,7 +17,15 @@ const saveHotkeyPlugin = (handleSubmit: () => void) => (editor: Editor) => {
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (isSaveHotkey(e)) {
       e.preventDefault();
-      ReactEditor.deselect(editor);
+      editor.lastSelection = editor.selection && { ...editor.selection };
+      Transforms.collapse(editor, {
+        edge: 'end',
+      });
+
+      if (editor.selection) {
+        editor.lastSelectedBlock = Editor.node(editor, editor.selection)[0];
+        ReactEditor.deselect(editor);
+      }
       handleSubmit();
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);

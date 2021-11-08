@@ -75,7 +75,7 @@ describe('Selecting text and using the toolbar', () => {
       .first()
       .focus()
       .should('be.focused')
-      .wait(500)
+      .wait(500) //If we don't wait Cypress swallows the first three inputs of the next command.
       .type('This is a test link{selectall}');
     cy.get('[data-testid=toolbar-button-link]')
       .should('be.visible')

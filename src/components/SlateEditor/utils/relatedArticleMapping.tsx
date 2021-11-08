@@ -1,9 +1,17 @@
 import React from 'react';
+// @ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import * as resourceTypeConstants from '../../../constants';
 
-export const mapping = relatedArticleEntryNum => {
-  const hiddenModifier = relatedArticleEntryNum > 1 ? ' hidden' : '';
+interface RelatedArticleMapping {
+  [key: string]: {
+    icon: JSX.Element;
+    modifier: string;
+  };
+}
+
+export const mapping = (relatedArticleEntryNum?: number): RelatedArticleMapping => {
+  const hiddenModifier = relatedArticleEntryNum ?? 0 > 1 ? ' hidden' : '';
   return {
     [resourceTypeConstants.RESOURCE_TYPE_SUBJECT_MATERIAL]: {
       icon: <ContentTypeBadge background type={constants.contentTypes.SUBJECT_MATERIAL} />,

@@ -58,7 +58,8 @@ const SearchContainer = ({ searchHook, type, location, history }: Props) => {
   searchHook({ ...searchObject, page: nextPage });
 
   useEffect(() => {
-    setSearchObject(parseSearchParams(location.search));
+    _onQueryPush(parseSearchParams(location.search));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
   const subjects = subjectData ?? [];

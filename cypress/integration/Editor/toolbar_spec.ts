@@ -93,7 +93,6 @@ describe('Selecting text and using the toolbar', () => {
       .and('equal', 'http://www.vg.no/');
     cy.get('a[href="http://www.vg.no"][data-slate-node=element]')
       .contains('This is a test link')
-      .should('be.enabled')
       .click()
       .type('{selectall}');
   });

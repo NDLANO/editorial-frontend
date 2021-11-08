@@ -35,11 +35,15 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
     setShowForm(true);
   };
   const { url: metaImageSrc, alt: metaImageAlt } = localConcept.metaImage || {};
-  const title = convertFieldWithFallback(localConcept, 'title', t<string>('conceptSearch.noTitle'));
-  const content = convertFieldWithFallback(
+  const title = convertFieldWithFallback<'title', string>(
+    localConcept,
+    'title',
+    t('conceptSearch.noTitle'),
+  );
+  const content = convertFieldWithFallback<'content', string>(
     localConcept,
     'content',
-    t<string>('conceptSearch.noContent'),
+    t('conceptSearch.noContent'),
   );
   const breadcrumbs = subjects.filter(s => localConcept.subjectIds?.includes(s.id));
 
@@ -78,7 +82,6 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
           locale={locale}
           breadcrumbs={breadcrumbs}
           setShowForm={toggleShowForm}
-          t={t}
           editing={editing}
         />
       )}

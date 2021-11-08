@@ -24,6 +24,7 @@ import {
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
 import { LocaleType } from '../../../interfaces';
+import { useSubject, useSubjects } from './subjectsQueries';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
@@ -161,4 +162,6 @@ export {
   fetchSubjectNameTranslations,
   updateSubjectNameTranslation,
   deleteSubjectNameTranslation,
+  useSubjects,
+  useSubject,
 };

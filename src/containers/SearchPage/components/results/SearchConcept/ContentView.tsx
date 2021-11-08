@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
@@ -26,12 +27,34 @@ import formatDate from '../../../../../util/formatDate';
 import { toEditConcept } from '../../../../../util/routeHelpers';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
 import { useLicenses } from '../../../../Licenses/LicensesProvider';
+import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
+import { LocaleType } from '../../../../../interfaces';
+import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 
-const ContentView = ({ concept, locale, title, content, breadcrumbs, setShowForm, t, editing }) => {
+interface Props {
+  concept: SearchConceptType;
+  locale: LocaleType;
+  title: string;
+  content: string;
+  breadcrumbs: SubjectType[];
+  setShowForm: () => void;
+  editing: boolean;
+}
+
+const ContentView = ({
+  concept,
+  locale,
+  title,
+  content,
+  breadcrumbs,
+  setShowForm,
+  editing,
+}: Props) => {
+  const { t } = useTranslation();
   const { licenses } = useLicenses();
   const license = licenses && licenses.find(l => concept.license === l.license);
   const { userAccess } = useSession();
-  const canEdit = userAccess.includes(CONCEPT_ADMIN_SCOPE);
+  const canEdit = !!userAccess?.includes(CONCEPT_ADMIN_SCOPE);
 
   return (
     <StyledConceptView>
@@ -86,7 +109,6 @@ const ContentView = ({ concept, locale, title, content, breadcrumbs, setShowForm
           published={
             concept.status?.current === 'PUBLISHED' || concept.status?.other.includes('PUBLISHED')
           }
-          noHelp
           indentLeft
           fontSize={10}
         />

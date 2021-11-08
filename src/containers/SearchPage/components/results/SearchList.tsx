@@ -23,7 +23,7 @@ import {
 } from '../../../../modules/audio/audioApiInterfaces';
 import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
 
-type ResultSummaryType =
+export type ResultSummaryType =
   | ImageSearchSummaryApiType
   | SearchConceptType
   | SeriesSearchResultType

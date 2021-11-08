@@ -90,7 +90,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
   const [page, setPage] = useState<number>(1);
   const [inputValue, setInputValue] = useState<string>('');
   const [currentDebounce, setCurrentDebounce] = useState<{ cancel: Function }>();
-  const [keepOpen, setKeepOpen] = useState<boolean>(false);
+  const [keepOpen, setKeepOpen] = useState<boolean>(!!startOpen);
   const [loading, setLoading] = useState<boolean>(false);
   const [totalCount, setTotalCount] = useState<number>(1);
 
@@ -113,12 +113,14 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
       }));
       setItems(transformedItems);
       setLoading(false);
+
       setKeepOpen(keepOpen || !!query);
     },
     [apiAction, keepOpen, showPagination],
   );
 
   const handleInputChange = async (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setKeepOpen(true);
     const value = evt.target.value;
     if (currentDebounce) {
       currentDebounce.cancel();
@@ -142,6 +144,9 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
 
     if (children || clearInputField) {
       setInputValue('');
+    }
+    if (!multiSelect) {
+      setKeepOpen(false);
     }
   };
 
@@ -168,6 +173,8 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
       }
       if (event.key === 'ArrowDown') {
         setKeepOpen(true);
+      } else {
+        setKeepOpen(true);
       }
     };
   };
@@ -185,9 +192,9 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
       itemToString={item => itemToString(item, labelField)}
       onStateChange={handleStateChange}
       onChange={handleChange}
+      isOpen={keepOpen}
       initialIsOpen={startOpen}
       selectedItem={selectedItem}
-      defaultIsOpen={keepOpen}
       onOuterClick={() => {
         setKeepOpen(false);
       }}>

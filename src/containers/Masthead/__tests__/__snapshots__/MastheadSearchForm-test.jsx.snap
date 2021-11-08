@@ -128,7 +128,7 @@ exports[`MastheadSearchForm invalid id at the end of the url 1`] = `
 >
   <input
     onChange={[Function]}
-    placeholder=""
+    placeholder="Søk etter artikler, aktiviteter eller oppgaver"
     type="text"
     value=""
   />
@@ -294,7 +294,7 @@ exports[`MastheadSearchForm redirects on ndla node id pasted 1`] = `
 >
   <input
     onChange={[Function]}
-    placeholder=""
+    placeholder="Søk etter artikler, aktiviteter eller oppgaver"
     type="text"
     value="#4737"
   />
@@ -460,7 +460,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with id at the end 1`] =
 >
   <input
     onChange={[Function]}
-    placeholder=""
+    placeholder="Søk etter artikler, aktiviteter eller oppgaver"
     type="text"
     value=""
   />
@@ -626,7 +626,7 @@ exports[`MastheadSearchForm redirects on ndla url paste with taxonomy id at the 
 >
   <input
     onChange={[Function]}
-    placeholder=""
+    placeholder="Søk etter artikler, aktiviteter eller oppgaver"
     type="text"
     value=""
   />
@@ -792,7 +792,7 @@ exports[`MastheadSearchForm redirects on old ndla url paste with new id 1`] = `
 >
   <input
     onChange={[Function]}
-    placeholder=""
+    placeholder="Søk etter artikler, aktiviteter eller oppgaver"
     type="text"
     value=""
   />

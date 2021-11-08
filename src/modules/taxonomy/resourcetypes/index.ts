@@ -18,6 +18,7 @@ import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
+import { useResourceType } from './resourceTypesQueries';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
@@ -88,4 +89,5 @@ export {
   fetchResourceType,
   createResourceResourceType,
   createDeleteResourceTypes,
+  useResourceType,
 };

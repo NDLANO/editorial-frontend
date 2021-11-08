@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Cross } from '@ndla/icons/action';
 import { Menu } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
@@ -47,7 +46,12 @@ const crossCss = css`
   height: 22px;
 `;
 
-const MastheadButton = ({ children, color, minWidth, open, onClick }) => {
+interface Props {
+  open: boolean;
+  onClick: () => void;
+}
+
+const MastheadButton = ({ open, onClick }: Props) => {
   const { t } = useTranslation();
   return (
     <button type="button" onClick={onClick} css={buttonStyle}>
@@ -64,18 +68,6 @@ const MastheadButton = ({ children, color, minWidth, open, onClick }) => {
       )}
     </button>
   );
-};
-
-MastheadButton.propTypes = {
-  color: PropTypes.string,
-  minWidth: PropTypes.number,
-  open: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
-
-MastheadButton.defaultProps = {
-  color: colors.brand.grey,
-  minWidth: 0,
 };
 
 export default MastheadButton;

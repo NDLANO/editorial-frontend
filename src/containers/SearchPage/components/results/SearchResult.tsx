@@ -15,27 +15,45 @@ import SearchConcept from './SearchConcept';
 import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 import SearchPodcastSeries from './SearchPodcastSeries';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { ResultSummaryType } from './SearchList';
+import { ImageSearchSummaryApiType } from '../../../../modules/image/imageApiInterfaces';
+import {
+  AudioSearchResultType,
+  SeriesSearchResultType,
+} from '../../../../modules/audio/audioApiInterfaces';
+import { SearchConceptType } from '../../../../modules/concept/conceptApiInterfaces';
+import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
+import { LocaleType } from '../../../../interfaces';
 
-const SearchResult = ({ result, locale, type, subjects, editingState }) => {
+interface Props {
+  result: ResultSummaryType;
+  type: string;
+  locale: string;
+  subjects: SubjectType[];
+  editingState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+}
+
+const SearchResult = ({ result, locale, type, subjects, editingState }: Props) => {
   const { t } = useTranslation();
   switch (type) {
     case 'content':
-      return <SearchContent content={result} locale={locale} />;
+      return <SearchContent content={result as MultiSearchSummary} locale={locale} />;
     case 'concept':
       return (
         <SearchConcept
-          concept={result}
-          locale={locale}
+          concept={result as SearchConceptType}
+          locale={locale as LocaleType}
           subjects={subjects}
           editingState={editingState}
         />
       );
     case 'image':
-      return <SearchImage image={result} locale={locale} />;
+      return <SearchImage image={result as ImageSearchSummaryApiType} locale={locale} />;
     case 'audio':
-      return <SearchAudio audio={result} locale={locale} />;
+      return <SearchAudio audio={result as AudioSearchResultType} locale={locale} />;
     case 'podcast-series':
-      return <SearchPodcastSeries series={result} locale={locale} />;
+      return <SearchPodcastSeries series={result as SeriesSearchResultType} />;
     default:
       return <p>{t('searchForm.resultError', { type })}</p>;
   }

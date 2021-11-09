@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { useTranslation } from 'react-i18next';
 import SearchResult from './SearchResult';

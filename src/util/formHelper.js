@@ -141,11 +141,9 @@ export const learningResourceRules = {
   content: {
     required: true,
     test: value => {
-      const embedsHasErrors = value.find(sectionValue => {
-        const embeds = findNodesByType(sectionValue, 'embed').map(node => node.data);
-        const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
-        return notValidEmbeds.length > 0;
-      });
+      const embeds = findNodesByType(value, 'embed').map(node => node.data);
+      const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
+      const embedsHasErrors = notValidEmbeds.length > 0;
 
       return embedsHasErrors
         ? { translationKey: 'learningResourceForm.validation.missingEmbedData' }

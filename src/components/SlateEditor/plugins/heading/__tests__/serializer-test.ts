@@ -14,20 +14,18 @@ import {
   learningResourceContentToHTML,
 } from '../../../../../util/articleContentConverter';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        { type: TYPE_HEADING, level: 1, children: [{ text: 'title1' }] },
-        { type: TYPE_HEADING, level: 2, children: [{ text: 'title2' }] },
-        { type: TYPE_HEADING, level: 3, children: [{ text: 'title3' }] },
-        { type: TYPE_HEADING, level: 4, children: [{ text: 'title4' }] },
-        { type: TYPE_HEADING, level: 5, children: [{ text: 'title5' }] },
-        { type: TYPE_HEADING, level: 6, children: [{ text: 'title6' }] },
-      ],
-    },
-  ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      { type: TYPE_HEADING, level: 1, children: [{ text: 'title1' }] },
+      { type: TYPE_HEADING, level: 2, children: [{ text: 'title2' }] },
+      { type: TYPE_HEADING, level: 3, children: [{ text: 'title3' }] },
+      { type: TYPE_HEADING, level: 4, children: [{ text: 'title4' }] },
+      { type: TYPE_HEADING, level: 5, children: [{ text: 'title5' }] },
+      { type: TYPE_HEADING, level: 6, children: [{ text: 'title6' }] },
+    ],
+  },
 ];
 
 const html =
@@ -40,20 +38,18 @@ describe('heading serializing tests', () => {
   });
 
   test('deserializing', () => {
-    const expected: Descendant[][] = [
-      [
-        {
-          type: TYPE_SECTION,
-          children: [
-            { type: TYPE_HEADING, level: 2, children: [{ text: 'title1' }] },
-            { type: TYPE_HEADING, level: 2, children: [{ text: 'title2' }] },
-            { type: TYPE_HEADING, level: 3, children: [{ text: 'title3' }] },
-            { type: TYPE_HEADING, level: 3, children: [{ text: 'title4' }] },
-            { type: TYPE_HEADING, level: 3, children: [{ text: 'title5' }] },
-            { type: TYPE_HEADING, level: 3, children: [{ text: 'title6' }] },
-          ],
-        },
-      ],
+    const expected: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          { type: TYPE_HEADING, level: 2, children: [{ text: 'title1' }] },
+          { type: TYPE_HEADING, level: 2, children: [{ text: 'title2' }] },
+          { type: TYPE_HEADING, level: 3, children: [{ text: 'title3' }] },
+          { type: TYPE_HEADING, level: 3, children: [{ text: 'title4' }] },
+          { type: TYPE_HEADING, level: 3, children: [{ text: 'title5' }] },
+          { type: TYPE_HEADING, level: 3, children: [{ text: 'title6' }] },
+        ],
+      },
     ];
     const res = learningResourceContentToEditorValue(html);
     expect(res).toEqual(expected);

@@ -33,7 +33,7 @@ const Footnote = (props: Props) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <a
         style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
         contentEditable={false}
@@ -41,7 +41,9 @@ const Footnote = (props: Props) => {
         role="link"
         tabIndex={0}
         onClick={toggleEditMode}>
-        <sup>[#]</sup>
+        <sup contentEditable={false} style={{ userSelect: 'none' }}>
+          [#]
+        </sup>
         {children}
       </a>
       {editMode && (
@@ -53,7 +55,7 @@ const Footnote = (props: Props) => {
           onChange={editor.onChange}
         />
       )}
-    </React.Fragment>
+    </>
   );
 };
 

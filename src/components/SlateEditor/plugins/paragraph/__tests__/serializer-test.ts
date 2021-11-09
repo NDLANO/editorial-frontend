@@ -14,16 +14,14 @@ import {
   learningResourceContentToHTML,
 } from '../../../../../util/articleContentConverter';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        { type: TYPE_PARAGRAPH, children: [{ text: '123' }] },
-        { type: TYPE_PARAGRAPH, children: [{ text: 'abc' }] },
-      ],
-    },
-  ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      { type: TYPE_PARAGRAPH, children: [{ text: '123' }] },
+      { type: TYPE_PARAGRAPH, children: [{ text: 'abc' }] },
+    ],
+  },
 ];
 
 const html = '<section><p>123</p><p>abc</p></section>';
@@ -35,18 +33,17 @@ describe('paragraph serializing tests', () => {
   });
 
   test('serializing handles empty paragraphs', () => {
-    const editorWithEmptyParagraph: Descendant[][] = [
-      [
-        {
-          type: TYPE_SECTION,
-          children: [
-            { type: TYPE_PARAGRAPH, children: [{ text: '123' }] },
-            { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
-            { type: TYPE_PARAGRAPH, children: [{ text: 'abc' }] },
-          ],
-        },
-      ],
+    const editorWithEmptyParagraph: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          { type: TYPE_PARAGRAPH, children: [{ text: '123' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: 'abc' }] },
+        ],
+      },
     ];
+
     const res = learningResourceContentToHTML(editorWithEmptyParagraph);
     expect(res).toMatch(html);
   });

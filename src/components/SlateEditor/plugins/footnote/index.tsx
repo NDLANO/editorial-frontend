@@ -7,12 +7,13 @@
  */
 
 import React from 'react';
-import { Descendant, Editor, Element, Transforms } from 'slate';
+import { Descendant, Editor, Element, Transforms, Range } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import Footnote from './Footnote';
 import { reduceElementDataAttributes, createEmbedTag } from '../../../../util/embedTagHelpers';
+import getCurrentBlock from '../../utils/getCurrentBlock';
 
 export const TYPE_FOOTNOTE = 'footnote';
 const KEY_BACKSPACE = 'Backspace';
@@ -99,14 +100,13 @@ export const footnotePlugin = (editor: Editor) => {
 
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_BACKSPACE || e.key === KEY_DELETE) {
-      if (editor.selection) {
-        const [selected] = Editor.parent(editor, Editor.unhangRange(editor, editor.selection));
+      if (editor.selection && Range.isCollapsed(editor.selection)) {
+        const [currentBlock, currentPath] = getCurrentBlock(editor, TYPE_FOOTNOTE);
 
-        if (Element.isElement(selected) && selected.type === 'footnote') {
+        if (Element.isElement(currentBlock) && currentBlock.type === 'footnote') {
           e.preventDefault();
           Transforms.removeNodes(editor, {
-            at: Editor.unhangRange(editor, editor.selection),
-            match: node => Element.isElement(node) && node.type === 'footnote',
+            at: currentPath,
           });
           return;
         }

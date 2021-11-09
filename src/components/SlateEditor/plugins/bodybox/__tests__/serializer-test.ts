@@ -15,18 +15,16 @@ import {
 import { TYPE_BODYBOX } from '..';
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_BODYBOX,
-          children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
-        },
-      ],
-    },
-  ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_BODYBOX,
+        children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+      },
+    ],
+  },
 ];
 
 const html = '<section><div class="c-bodybox"><p>content</p></div></section>';

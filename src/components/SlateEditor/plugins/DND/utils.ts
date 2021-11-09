@@ -5,10 +5,10 @@ export const getTopNode = (editor: Editor, path: Path): NodeEntry<Node> | null =
   if (Element.isElement(node[0]) && node[0].type === 'section') {
     return node;
   }
-  const parent = Editor.node(editor, Path.parent(path));
-  if (!parent) {
+  if (path.length < 2) {
     return null;
   }
+  const parent = Editor.node(editor, Path.parent(path));
   if (Element.isElement(parent[0]) && parent[0].type === 'section' && Element.isElement(node[0])) {
     return node;
   }

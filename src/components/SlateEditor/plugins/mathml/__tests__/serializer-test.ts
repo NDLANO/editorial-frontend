@@ -15,31 +15,29 @@ import {
 import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 import { TYPE_MATHML } from '..';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          children: [
-            {
-              type: TYPE_MATHML,
-              data: {
-                innerHTML:
-                  '<math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mn>2</mn></mfrac></math>',
-              },
-              children: [
-                {
-                  text: '12',
-                },
-              ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        children: [
+          {
+            type: TYPE_MATHML,
+            data: {
+              innerHTML:
+                '<math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mn>1</mn><mn>2</mn></mfrac></math>',
             },
-          ],
-          type: TYPE_PARAGRAPH,
-        },
-      ],
-    },
-  ],
+            children: [
+              {
+                text: '12',
+              },
+            ],
+          },
+        ],
+        type: TYPE_PARAGRAPH,
+      },
+    ],
+  },
 ];
 
 const html =

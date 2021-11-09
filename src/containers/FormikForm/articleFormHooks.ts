@@ -83,7 +83,7 @@ export interface ArticleFormikType {
 }
 
 export interface LearningResourceFormikType extends ArticleFormikType {
-  content: Descendant[][];
+  content: Descendant[];
 }
 
 export interface TopicArticleFormikType extends ArticleFormikType {

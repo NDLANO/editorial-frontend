@@ -12,6 +12,7 @@ import { Descendant, Editor, Element, NodeEntry, Path, Transforms } from 'slate'
 import { RenderElementProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 import { jsx } from 'slate-hyperscript';
+import { equals } from 'lodash/fp';
 import { SlateSerializer } from '../../interfaces';
 import {
   reduceElementDataAttributes,
@@ -31,10 +32,10 @@ import {
 } from './utils';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
-import { defaultParagraphBlock } from '../paragraph/utils';
 import { normalizeTableBodyAsMatrix } from './matrix';
 import { handleTableKeydown } from './handleKeyDown';
 import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
+import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -118,6 +119,9 @@ export const tableSerializer: SlateSerializer = {
         isHeader: tagName === 'th',
       };
     }
+    if (equals(children, [{ text: '' }])) {
+      children = [defaultParagraphBlock()];
+    }
     return jsx('element', { type: tableTag, data }, children);
   },
   serialize(node: Descendant, children: JSX.Element[]) {
@@ -198,7 +202,6 @@ export const tablePlugin = (editor: Editor) => {
   };
   editor.normalizeNode = entry => {
     const [node, path] = entry;
-
     // A. Table normalizer
     if (isTable(node)) {
       if (addSurroundingParagraphs(editor, path)) {

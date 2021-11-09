@@ -16,7 +16,6 @@ import { FieldHeader } from '@ndla/forms';
 import Tooltip from '@ndla/tooltip';
 import { Eye } from '@ndla/icons/editor';
 import FormikField, { classes as formikFieldClasses } from '../../../../components/FormikField';
-import RichBlockTextEditor from '../../../../components/SlateEditor/RichBlockTextEditor';
 import LearningResourceFootnotes, { FootnoteType } from './LearningResourceFootnotes';
 import LastUpdatedLine from '../../../../components/LastUpdatedLine/LastUpdatedLine';
 import ToggleButton from '../../../../components/ToggleButton';
@@ -63,6 +62,7 @@ import options from '../../../../components/SlateEditor/plugins/blockPicker/opti
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { SessionProps } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
+import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 
 const byLineStyle = css`
   display: flex;
@@ -77,9 +77,8 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-const findFootnotes = (content: Descendant[][]): FootnoteType[] =>
-  content
-    .reduce((acc, descendant) => [...acc, ...findNodesByType(descendant, TYPE_FOOTNOTE)], [])
+const findFootnotes = (content: Descendant[]): FootnoteType[] =>
+  findNodesByType(content, TYPE_FOOTNOTE)
     .map(e => e as FootnoteElement)
     .filter(footnote => Object.keys(footnote.data).length > 0)
     .map(footnoteElement => footnoteElement.data);
@@ -205,19 +204,22 @@ const LearningResourceContent = ({
                 />
               )}
             </FieldHeader>
-            <RichBlockTextEditor
-              submitted={isSubmitting}
+            <RichTextEditor
               placeholder={t('form.content.placeholder')}
-              data-cy="learning-resource-content"
-              plugins={plugins(articleLanguage ?? '', locale, handleSubmitRef)}
-              setFieldValue={setFieldValue}
               value={value}
-              name={name}
-              onChange={onChange}
-              language={articleLanguage}
-              actionsToShowInAreas={actionsToShowInAreas}
+              submitted={isSubmitting}
+              plugins={plugins(articleLanguage ?? '', locale, handleSubmitRef)}
+              data-cy="learning-resource-content"
+              onChange={value => {
+                onChange({
+                  target: {
+                    value,
+                    name,
+                  },
+                });
+              }}
             />
-            <LearningResourceFootnotes footnotes={findFootnotes(value)} />
+            {!isSubmitting && <LearningResourceFootnotes footnotes={findFootnotes(value)} />}
           </>
         )}
       </FormikField>

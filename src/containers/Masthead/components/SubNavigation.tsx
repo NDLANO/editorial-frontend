@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter, NavLink, RouteComponentProps } from 'react-router-dom';
+import { UseQueryResult } from 'react-query';
 import { classes } from './Navigation';
 import { SearchType } from '../../../interfaces';
 import { SearchParams } from '../../SearchPage/components/form/SearchForm';
@@ -11,7 +12,7 @@ interface SubType {
   url: string;
   icon: React.ReactElement;
   path: string;
-  searchFunction: (query: SearchParams) => Promise<ResultType>;
+  searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
 }
 
 const colorType = {

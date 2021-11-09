@@ -29,11 +29,11 @@ export const fileSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== 'div') return;
     if (el.dataset.type !== TYPE_FILE) return;
 
-    let childs: DOMStringMap[] = [];
+    let children: DOMStringMap[] = [];
     el.childNodes.forEach(node => {
-      childs.push((node as HTMLEmbedElement).dataset);
+      children.push((node as HTMLEmbedElement).dataset);
     });
-    return defaultFileBlock(childs);
+    return defaultFileBlock(children);
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;

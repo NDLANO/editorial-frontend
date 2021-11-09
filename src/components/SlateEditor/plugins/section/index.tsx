@@ -10,9 +10,9 @@ import { Node, Element, Descendant, Editor, Text, Transforms, Range } from 'slat
 import { jsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import React from 'react';
+import Section from './Section';
 import { SlateSerializer } from '../../interfaces';
 import { defaultParagraphBlock } from '../paragraph/utils';
-
 export const TYPE_SECTION = 'section';
 const KEY_BACKSPACE = 'Backspace';
 const KEY_TAB = 'Tab';
@@ -84,7 +84,11 @@ export const sectionPlugin = (editor: Editor) => {
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     if (element.type === 'section') {
-      return <section {...attributes}>{children}</section>;
+      return (
+        <Section attributes={attributes} element={element} editor={editor}>
+          {children}
+        </Section>
+      );
     } else if (nextRenderElement) {
       return nextRenderElement({ attributes, children, element });
     }

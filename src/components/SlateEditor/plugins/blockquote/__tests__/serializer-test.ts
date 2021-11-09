@@ -14,18 +14,16 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_QUOTE } from '..';
 
-const editor: Descendant[][] = [
-  [
-    {
-      type: TYPE_SECTION,
-      children: [
-        {
-          type: TYPE_QUOTE,
-          children: [{ text: 'content' }],
-        },
-      ],
-    },
-  ],
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: TYPE_QUOTE,
+        children: [{ text: 'content' }],
+      },
+    ],
+  },
 ];
 
 const html = '<section><blockquote>content</blockquote></section>';

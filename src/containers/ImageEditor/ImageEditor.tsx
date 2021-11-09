@@ -76,8 +76,8 @@ interface Props {
           'lower-right-x'?: string;
           'lower-right-y'?: string;
         };
-        align: string;
-        size: string;
+        align?: string;
+        size?: string;
       }
     | undefined;
 }
@@ -184,12 +184,12 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
           ) : (
             ''
           )}
-          {imageUpdates?.size.startsWith('full') || imageUpdates?.size.startsWith('medium') ? (
+          {imageUpdates?.size?.startsWith('full') || imageUpdates?.size?.startsWith('medium') ? (
             <StyledImageEditorMenu>
               {bylineOptions.map(option => (
                 <ShowBylineButton
                   show={option === 'show'}
-                  currentSize={imageUpdates?.size}
+                  currentSize={imageUpdates.size}
                   onFieldChange={onFieldChange}
                 />
               ))}

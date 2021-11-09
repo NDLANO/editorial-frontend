@@ -9,15 +9,14 @@ import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useTranslation } from 'react-i18next';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
-import { ContentResultType, FormikProperties, NdlaFilmThemesEditType } from '../../../interfaces';
+import { ContentResultType, FormikProperties } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
 import ThemeEditor from './ThemeEditor';
 import SlideshowEditor from './SlideshowEditor';
 import FormikField from '../../../components/FormikField';
+import { MovieThemeApiType } from '../../../modules/frontpage/frontpageApiInterfaces';
 
 interface Props {
-  allMovies: Array<ContentResultType>;
-  loading: boolean;
   selectedLanguage: string;
 }
 
@@ -27,21 +26,16 @@ interface ComponentProps extends Props {
 }
 
 interface FormikSlideshowProps {
-  field: FieldProps<ContentResultType[]>['field'];
+  field: FieldProps<string[]>['field'];
   form: FormikProperties['form'];
 }
 
 interface FormikThemeProps {
-  field: FieldProps<NdlaFilmThemesEditType[]>['field'];
+  field: FieldProps<MovieThemeApiType[]>['field'];
   form: FormikProperties['form'];
 }
 
-const SubjectpageAccordionPanels = ({
-  errors,
-  allMovies,
-  loading,
-  selectedLanguage,
-}: ComponentProps) => {
+const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps) => {
   const { t } = useTranslation();
   const onUpdateMovieList = (
     field: FieldProps<FormikValues>['field'],
@@ -74,13 +68,7 @@ const SubjectpageAccordionPanels = ({
         startOpen>
         <FormikField name={'slideShow'}>
           {({ field, form }: FormikSlideshowProps) => (
-            <SlideshowEditor
-              field={field}
-              form={form}
-              allMovies={allMovies}
-              onUpdateSlideshow={onUpdateMovieList}
-              loading={loading}
-            />
+            <SlideshowEditor field={field} form={form} onUpdateSlideshow={onUpdateMovieList} />
           )}
         </FormikField>
       </AccordionSection>
@@ -95,9 +83,7 @@ const SubjectpageAccordionPanels = ({
             <ThemeEditor
               field={field}
               form={form}
-              allMovies={allMovies}
               onUpdateMovieTheme={onUpdateMovieList}
-              loading={loading}
               selectedLanguage={selectedLanguage}
             />
           )}

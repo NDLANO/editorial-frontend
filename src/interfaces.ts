@@ -334,55 +334,6 @@ type PartialVisualElement =
   | (Omit<Partial<BrightcoveEmbed>, 'resource'> & { resource: 'brightcove' | 'video' })
   | (Omit<Partial<ImageEmbed>, 'resource'> & { resource: 'image' });
 
-export interface NdlaFilmType {
-  name: string;
-}
-
-export interface NdlaFilmVisualElement {
-  alt: string;
-  url: string;
-  type: string;
-}
-
-export interface NdlaFilmApiType extends NdlaFilmType {
-  about: {
-    description: string;
-    language: string;
-    title: string;
-    visualElement: NdlaFilmVisualElement;
-  }[];
-  themes: NdlaFilmThemesApiType[];
-  slideShow: string[];
-}
-
-export interface NdlaFilmEditType extends NdlaFilmType {
-  articleType: string;
-  title: string;
-  description: string;
-  visualElement: Embed;
-  language: string;
-  supportedLanguages: string[];
-  themes: NdlaFilmThemesEditType[];
-  slideShow: ContentResultType[];
-}
-
-export interface NdlaFilmThemesApiType {
-  movies: string[];
-  name: [
-    {
-      name: string;
-      language: string;
-    },
-  ];
-}
-export interface NdlaFilmThemesEditType {
-  movies: ContentResultType[];
-  name: {
-    name: string;
-    language: string;
-  }[];
-}
-
 export interface SlateEditor extends Editor {
   props: {
     submitted: boolean;

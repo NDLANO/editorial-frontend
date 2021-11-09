@@ -7,8 +7,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
-import { Descendant, Element } from 'slate';
-import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../../interfaces';
+import { Descendant } from 'slate';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Field from '../../../components/Field';
@@ -19,19 +18,17 @@ import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleL
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
-import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
+import {
+  FilmFrontpageApiType,
+  MovieThemeApiType,
+} from '../../../modules/frontpage/frontpageApiInterfaces';
 
 interface Props {
-  filmFrontpage: NdlaFilmApiType;
-  updateFilmFrontpage: Function;
+  filmFrontpage: FilmFrontpageApiType;
   selectedLanguage: string;
-  allMovies: ContentResultType[];
-  loading: boolean;
-  slideshowMovies: ContentResultType[];
-  themes: NdlaFilmThemesEditType[];
 }
 
-export interface NdlaFilmFormikType {
+export interface FilmFormikType {
   articleType: string;
   name: string;
   title?: string;
@@ -39,11 +36,11 @@ export interface NdlaFilmFormikType {
   visualElement: Descendant[];
   language: string;
   supportedLanguages: string[];
-  slideShow: ContentResultType[];
-  themes: NdlaFilmThemesEditType[];
+  slideShow: string[];
+  themes: MovieThemeApiType[];
 }
 
-const ndlaFilmRules: RulesType<NdlaFilmFormikType> = {
+const ndlaFilmRules: RulesType<FilmFormikType> = {
   title: {
     required: true,
   },
@@ -53,33 +50,21 @@ const ndlaFilmRules: RulesType<NdlaFilmFormikType> = {
   },
   visualElement: {
     required: true,
-    test: (values: NdlaFilmFormikType) => {
-      const element = values?.visualElement[0];
-      const data = Element.isElement(element) && element.type === TYPE_EMBED && element.data;
-      const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
-      return badVisualElementId
-        ? { translationKey: 'subjectpageForm.missingVisualElement' }
-        : undefined;
-    },
+    // test: (values: FilmFormikType) => {
+    //   const element = values?.visualElement[0];
+    //   const data = Element.isElement(element) && element.type === TYPE_EMBED && element.data;
+    //   const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
+    //   return badVisualElementId
+    //     ? { translationKey: 'subjectpageForm.missingVisualElement' }
+    //     : undefined;
+    // },
   },
 };
 
-const NdlaFilmForm = ({
-  filmFrontpage,
-  updateFilmFrontpage,
-  selectedLanguage,
-  loading,
-  allMovies,
-  slideshowMovies,
-  themes,
-}: Props) => {
+const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
   const { t } = useTranslation();
   const { savedToServer, handleSubmit, initialValues } = useNdlaFilmFormHooks(
-    t,
     filmFrontpage,
-    updateFilmFrontpage,
-    slideshowMovies,
-    themes,
     selectedLanguage,
   );
   const [unsaved, setUnsaved] = useState(false);
@@ -115,8 +100,6 @@ const NdlaFilmForm = ({
             <NdlaFilmAccordionPanels
               errors={errors}
               formIsDirty={formIsDirty}
-              allMovies={allMovies}
-              loading={loading}
               selectedLanguage={selectedLanguage}
             />
             <Field right>

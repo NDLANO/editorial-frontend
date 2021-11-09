@@ -6,13 +6,14 @@
  *
  */
 import * as queryString from 'query-string';
-import { LocaleType, NdlaFilmApiType, SubjectpageApiType } from '../../interfaces';
+import { LocaleType, SubjectpageApiType } from '../../interfaces';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import {
+  FilmFrontpageApiType,
   NewOrUpdatedFilmFrontPageData,
   NewSubjectFrontPageData,
   UpdatedSubjectFrontPageData,
@@ -21,15 +22,17 @@ import {
 const baseUrl = apiResourceUrl('/frontpage-api/v1');
 
 export const fetchFilmFrontpage = () =>
-  fetchAuthorized(`${baseUrl}/filmfrontpage/`).then(resolveJsonOrRejectWithError);
+  fetchAuthorized(`${baseUrl}/filmfrontpage/`).then(r =>
+    resolveJsonOrRejectWithError<FilmFrontpageApiType>(r),
+  );
 
 export const updateFilmFrontpage = (
   filmfrontpage: NewOrUpdatedFilmFrontPageData,
-): Promise<NdlaFilmApiType> => {
+): Promise<FilmFrontpageApiType> => {
   return fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
     method: 'POST',
     body: JSON.stringify(filmfrontpage),
-  }).then(r => resolveJsonOrRejectWithError(r));
+  }).then(r => resolveJsonOrRejectWithError<FilmFrontpageApiType>(r));
 };
 
 export const fetchSubjectpage = (

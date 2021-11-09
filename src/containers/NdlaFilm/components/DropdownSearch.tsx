@@ -10,6 +10,17 @@ import PropTypes from 'prop-types';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { ContentResultShape } from '../../../shapes';
 import { searchResources } from '../../../modules/search/searchApi';
+import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
+
+interface Props {
+  selectedElements: MultiSearchSummary[];
+  onChange: Function;
+  placeholder: string;
+  subjectId?: string;
+  contextTypes?: string;
+  clearInputField?: boolean;
+  onClick?: (event: Event) => void;
+}
 
 const DropdownSearch = ({
   selectedElements,
@@ -19,8 +30,8 @@ const DropdownSearch = ({
   contextTypes,
   clearInputField,
   onClick,
-}) => {
-  const queryResources = async input => {
+}: Props) => {
+  const queryResources = async (input: string) => {
     const query = {
       page: 1,
       subjects: subjectId,

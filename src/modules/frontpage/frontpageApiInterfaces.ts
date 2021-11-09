@@ -1,3 +1,5 @@
+import { Embed } from '../../interfaces';
+
 /**
  * Copyright (c) 2021-present, NDLA.
  *
@@ -9,6 +11,28 @@ interface NewOrUpdatedVisualElement {
   type: string;
   id: string;
   alt?: string;
+}
+
+export interface FilmFrontpageApiType {
+  name: string;
+  about: AboutFilmApiType[];
+  movieThemes: MovieThemeApiType[];
+  slideShow: string[];
+}
+
+export interface MovieThemeApiType {
+  name: {
+    name: string;
+    language: string;
+  }[];
+  movies: string[];
+}
+
+export interface AboutFilmApiType {
+  title: string;
+  description: string;
+  visualElement: Embed;
+  language: string;
 }
 
 interface NewOrUpdatedMovieTheme {

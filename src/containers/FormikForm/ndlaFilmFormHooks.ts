@@ -13,7 +13,7 @@ import { getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
 import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
 import { useMessages } from '../Messages/MessagesProvider';
 import { FilmFrontpageApiType } from '../../modules/frontpage/frontpageApiInterfaces';
-import { useUpdateFilmFrontpageMutation } from '../NdlaFilm/filmMutations';
+import { useUpdateFilmFrontpageMutation } from '../../modules/frontpage/filmMutations';
 
 export function useNdlaFilmFormHooks(
   filmFrontpage: FilmFrontpageApiType,

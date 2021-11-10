@@ -15,7 +15,7 @@ import { searchResources } from '../search/searchApi';
 import { MultiSearchResult } from '../search/searchApiInterfaces';
 import { FILM_FRONTPAGE_QUERY, FILM_SLIDESHOW } from '../../queryKeys';
 import { getIdFromUrn } from '../../util/ndlaFilmHelpers';
-import { sortMoviesByIdList } from './filmUtil';
+import { sortMoviesByIdList } from '../../containers/NdlaFilm/filmUtil';
 
 export const useFilmFrontpageQuery = (options?: UseQueryOptions<FilmFrontpageApiType>) => {
   return useQuery<FilmFrontpageApiType>(

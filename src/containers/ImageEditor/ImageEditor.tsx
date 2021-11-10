@@ -189,7 +189,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
               {bylineOptions.map(option => (
                 <ShowBylineButton
                   show={option === 'show'}
-                  currentSize={imageUpdates?.size}
+                  currentSize={imageUpdates.size}
                   onFieldChange={onFieldChange}
                 />
               ))}

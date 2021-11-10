@@ -11,6 +11,7 @@ import nock from 'nock';
 import { createEditor } from 'slate';
 import { withReact, Slate, Editable } from 'slate-react';
 import { withHistory } from 'slate-history';
+import { act } from 'react-test-renderer';
 import { render, fireEvent, cleanup, wait } from '@testing-library/react';
 import RelatedArticleBox from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
@@ -32,31 +33,19 @@ jest.mock('slate-react', () => {
 
 afterEach(cleanup);
 
-const element = {
-  type: TYPE_SECTION,
+const relatedElement = {
+  type: TYPE_RELATED,
+  data: {},
   children: [
     {
-      type: TYPE_RELATED,
-      data: {
-        nodes: [
-          {
-            resource: 'related-content',
-            'article-id': '123',
-          },
-          {
-            resource: 'related-content',
-            url: 'http://google.com',
-            title: 'test-title',
-          },
-        ],
-      },
-      children: [
-        {
-          text: '',
-        },
-      ],
+      text: '',
     },
   ],
+};
+
+const element = {
+  type: TYPE_SECTION,
+  children: [relatedElement],
 };
 
 const wrapper = () => {
@@ -68,7 +57,12 @@ const wrapper = () => {
         <Slate editor={editor} value={[element]} onChange={() => {}}>
           <Editable />
         </Slate>
-        <RelatedArticleBox t={() => 'injected'} editor={editor} locale="nb" element={element} />
+        <RelatedArticleBox
+          t={() => 'injected'}
+          editor={editor}
+          locale="nb"
+          element={relatedElement}
+        />
       </div>
     </IntlWrapper>,
   );
@@ -80,15 +74,20 @@ test('it goes in and out of edit mode', async () => {
     .reply(200, { results: [] });
   const { getByTestId, container } = wrapper();
 
-  fireEvent.click(getByTestId('showAddExternal'));
+  act(() => {
+    fireEvent.click(getByTestId('showAddExternal'));
+  });
+
   expect(container.firstChild).toMatchSnapshot();
 
   const input = getByTestId('addExternalUrlInput');
   const inputTitle = getByTestId('addExternalTitleInput');
-  fireEvent.change(input, { target: { value: 'https://www.vg.no' } });
-  fireEvent.change(inputTitle, { target: { value: 'Verdens gang' } });
+  act(() => {
+    fireEvent.change(input, { target: { value: 'https://www.vg.no' } });
+    fireEvent.change(inputTitle, { target: { value: 'Verdens gang' } });
+    fireEvent.click(getByTestId('taxonomyLightboxButton'));
+  });
 
-  fireEvent.click(getByTestId('taxonomyLightboxButton'));
   await wait();
 
   expect(container.firstChild).toMatchSnapshot();

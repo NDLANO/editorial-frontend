@@ -53,21 +53,25 @@ const SearchList = ({ results, searchObject, type, searching, locale, subjects }
   return (
     <div {...searchClasses('results')}>
       <TransitionGroup>
-        {results.map((result: ResultSummaryType) => (
-          <CSSTransition
-            key={`transition-${result.id}`}
-            classNames={searchClasses('transition').className}
-            timeout={{ enter: 500, exit: 0 }}>
-            <SearchResult
-              key={result.id}
-              result={result}
-              type={type}
-              locale={locale || result.title.language}
-              subjects={subjects}
-              editingState={editingState}
-            />
-          </CSSTransition>
-        ))}
+        {results.map((result: ResultSummaryType) => {
+          const learningResourceType =
+            'learningResourceType' in result ? result.learningResourceType : '';
+          return (
+            <CSSTransition
+              key={`transition-${result.id}-${learningResourceType}`}
+              classNames={searchClasses('transition').className}
+              timeout={{ enter: 500, exit: 0 }}>
+              <SearchResult
+                key={`${result.id}-${learningResourceType}`}
+                result={result}
+                type={type}
+                locale={locale || result.title.language}
+                subjects={subjects}
+                editingState={editingState}
+              />
+            </CSSTransition>
+          );
+        })}
       </TransitionGroup>
     </div>
   );

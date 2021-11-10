@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import { isEqual } from 'lodash';
 import { useTranslation } from 'react-i18next';
+import { Spinner } from '@ndla/editor';
 import ElementList from '../../FormikForm/components/ElementList';
 import { getUrnFromId } from '../../../util/ndlaFilmHelpers';
 import DropdownSearch from './DropdownSearch';
 import { NDLA_FILM_SUBJECT } from '../../../constants';
 import { useMoviesQuery } from '../filmQueries';
-import { MultiSearchResult, MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
-import { getDefaultLanguage } from '../../../config';
+import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 interface Props {
   movies: string[];
@@ -14,43 +15,45 @@ interface Props {
   placeholder: string;
 }
 
-const dummyOptimisticResults = (results: MultiSearchSummary[]): MultiSearchResult => ({
-  language: getDefaultLanguage(),
-  suggestions: [],
-  totalCount: 0,
-  aggregations: [],
-  pageSize: 10,
-  results,
-});
-
 export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => {
   const { t } = useTranslation();
-  const [optimisticResults, setOptimisticResults] = useState<MultiSearchSummary[]>([]);
+  const [localMovies, setLocalMovies] = useState<string[]>([]);
+  const [apiMovies, setApiMovies] = useState<MultiSearchSummary[]>([]);
   const moviesQuery = useMoviesQuery(movies, {
-    placeholderData: dummyOptimisticResults(optimisticResults),
+    enabled: !isEqual(movies, localMovies),
+    onSuccess: movies => setApiMovies(movies.results),
   });
 
-  const onUpdateMovies = (updates: MultiSearchSummary[]) =>
-    onMoviesUpdated(updates.map(u => getUrnFromId(u.id)));
+  const onUpdateMovies = (updates: MultiSearchSummary[]) => {
+    const updated = updates.map(u => getUrnFromId(u.id));
+    setApiMovies(updates);
+    setLocalMovies(updated);
+    onMoviesUpdated(updated);
+  };
 
   const onAddMovieToTheme = (movie: MultiSearchSummary) => {
-    const existing = moviesQuery.data?.results ?? [];
-    setOptimisticResults([...existing, movie]);
+    setLocalMovies([...movies, getUrnFromId(movie.id)]);
+    setApiMovies(prevMovies => [...prevMovies, movie]);
     onMoviesUpdated([...movies, getUrnFromId(movie.id)]);
   };
 
   return (
     <>
-      <ElementList
-        elements={moviesQuery.data?.results}
-        messages={{
-          dragElement: t('ndlaFilm.editor.changeOrder'),
-          removeElement: t('ndlaFilm.editor.removeMovieFromGroup'),
-        }}
-        onUpdateElements={(elements: MultiSearchSummary[]) => onUpdateMovies(elements)}
-      />
+      {moviesQuery.status === 'loading' ? (
+        <Spinner />
+      ) : (
+        <ElementList
+          elements={apiMovies}
+          messages={{
+            dragElement: t('ndlaFilm.editor.changeOrder'),
+            removeElement: t('ndlaFilm.editor.removeMovieFromGroup'),
+          }}
+          onUpdateElements={(elements: MultiSearchSummary[]) => onUpdateMovies(elements)}
+        />
+      )}
+
       <DropdownSearch
-        selectedElements={moviesQuery.data?.results ?? []}
+        selectedElements={apiMovies}
         onChange={(movie: MultiSearchSummary) => onAddMovieToTheme(movie)}
         subjectId={NDLA_FILM_SUBJECT}
         contextTypes={'standard'}

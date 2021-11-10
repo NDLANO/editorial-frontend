@@ -106,9 +106,9 @@ const renderApp = () => {
     <QueryClientProvider client={queryClient}>
       {/* @ts-ignore i18nInstance is not recognized as valid by I18nextProvider. It works, however. */}
       <I18nextProvider i18n={i18nInstance}>
-          <Router history={browserHistory}>
-            <I18nWrapper basename={basename} />
-          </Router>
+        <Router history={browserHistory}>
+          <I18nWrapper basename={basename} />
+        </Router>
       </I18nextProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>,

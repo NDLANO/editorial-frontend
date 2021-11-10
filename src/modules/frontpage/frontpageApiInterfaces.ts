@@ -1,5 +1,3 @@
-import { Embed } from '../../interfaces';
-
 /**
  * Copyright (c) 2021-present, NDLA.
  *
@@ -28,16 +26,29 @@ export interface MovieThemeApiType {
   movies: string[];
 }
 
+export interface FilmFrontpagePostPatchType extends Omit<FilmFrontpageApiType, 'about'> {
+  about: AboutFilmPostPatchType[];
+}
+
+interface AboutFilmPostPatchType extends Omit<AboutFilmApiType, 'visualElement'> {
+  visualElement: FilmVisualElementPostPatchType;
+}
+
 export interface AboutFilmApiType {
   title: string;
   description: string;
-  visualElement: Embed;
+  visualElement: FilmVisualElementApiType;
   language: string;
 }
 
-interface NewOrUpdatedMovieTheme {
-  name: { name: string; language: string }[];
-  movies: string[];
+interface FilmVisualElementPostPatchType extends Omit<FilmVisualElementApiType, 'url'> {
+  id: string;
+}
+
+export interface FilmVisualElementApiType {
+  type: string;
+  alt: string;
+  url: string;
 }
 
 interface NewOrUpdatedAboutSubject {
@@ -45,13 +56,6 @@ interface NewOrUpdatedAboutSubject {
   description: string;
   language: string;
   visualElement: NewOrUpdatedVisualElement;
-}
-
-export interface NewOrUpdatedFilmFrontPageData {
-  name: string;
-  about: NewOrUpdatedAboutSubject[];
-  movieThemes: NewOrUpdatedMovieTheme[];
-  slideShow: string[];
 }
 
 interface NewOrUpdatedMetaDescription {

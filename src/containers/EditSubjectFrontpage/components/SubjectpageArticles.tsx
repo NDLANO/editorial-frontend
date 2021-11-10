@@ -88,6 +88,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
         onUpdateElements={onUpdateElements}
       />
       <DropdownSearch
+        //@ts-ignore This is poorly typed.
         selectedElements={articles}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={(article: ContentResultType) => onAddArticleToList(article)}

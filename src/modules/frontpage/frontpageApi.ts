@@ -14,7 +14,7 @@ import {
 } from '../../util/apiHelpers';
 import {
   FilmFrontpageApiType,
-  NewOrUpdatedFilmFrontPageData,
+  FilmFrontpagePostPatchType,
   NewSubjectFrontPageData,
   UpdatedSubjectFrontPageData,
 } from './frontpageApiInterfaces';
@@ -27,7 +27,7 @@ export const fetchFilmFrontpage = () =>
   );
 
 export const updateFilmFrontpage = (
-  filmfrontpage: NewOrUpdatedFilmFrontPageData,
+  filmfrontpage: FilmFrontpagePostPatchType,
 ): Promise<FilmFrontpageApiType> => {
   return fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
     method: 'POST',

@@ -31,7 +31,7 @@ export function useNdlaFilmFormHooks(
     const newNdlaFilm = getNdlaFilmFromSlate(filmFrontpage, formik.values, selectedLanguage);
 
     try {
-      await updateFilmFrontpage.mutate(newNdlaFilm);
+      await updateFilmFrontpage.mutateAsync(newNdlaFilm);
 
       Object.keys(formik.values).map(fieldName => formik.setFieldTouched(fieldName, true, true));
 

@@ -15,6 +15,8 @@ import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
 import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
 import {
   FilmFrontpageApiType,
+  FilmFrontpagePostPatchType,
+  FilmVisualElementApiType,
   MovieThemeApiType,
 } from '../modules/frontpage/frontpageApiInterfaces';
 import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed';
@@ -47,7 +49,7 @@ export const getInitialValues = (
   };
 };
 
-const convertVisualElement = (visualElement: NdlaFilmVisualElement): Descendant[] => {
+const convertVisualElement = (visualElement: FilmVisualElementApiType): Descendant[] => {
   const id = getVisualElementId(visualElement);
   if (visualElement.type !== 'brightcove') {
     return [
@@ -97,7 +99,7 @@ const convertVisualElement = (visualElement: NdlaFilmVisualElement): Descendant[
   ];
 };
 
-const getVisualElementId = (visualElement: NdlaFilmVisualElement): string => {
+const getVisualElementId = (visualElement: FilmVisualElementApiType): string => {
   const splitter = visualElement.type === 'brightcove' ? '=' : '/';
   const splittedUrl = visualElement.url.split(splitter);
   const id = splittedUrl.pop() ?? '';
@@ -108,7 +110,7 @@ export const getNdlaFilmFromSlate = (
   initialFrontpage: FilmFrontpageApiType,
   newFrontpage: FilmFormikType,
   selectedLanguage: string,
-): FilmFrontpageApiType => {
+): FilmFrontpagePostPatchType => {
   const slateVisualElement = newFrontpage.visualElement?.[0];
   const data =
     Element.isElement(slateVisualElement) && slateVisualElement.type === TYPE_EMBED
@@ -145,7 +147,7 @@ export const getNdlaFilmFromSlate = (
   if (newLanguage) {
     newAbout.push(editedAbout);
   }
-  const newSlideShow = newFrontpage.slideshow;
+  const newSlideShow = newFrontpage.slideShow;
   const newThemes = newFrontpage.themes.map(theme => {
     return {
       name: theme.name,

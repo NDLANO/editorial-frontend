@@ -17,7 +17,7 @@ const icon = {
 };
 
 interface Props {
-  currentSize: string;
+  currentSize?: string;
   onFieldChange: (evt: MouseEvent, field: string, value: string) => void;
   show: boolean;
 }
@@ -25,7 +25,7 @@ interface Props {
 const ShowBylineButton = ({ currentSize, onFieldChange, show }: Props) => {
   const { t } = useTranslation();
   const bylineTag = '-hide-byline';
-  const hideByline = currentSize.endsWith(bylineTag);
+  const hideByline = currentSize?.endsWith(bylineTag);
 
   const isActive = (show && !hideByline) || (!show && hideByline);
 
@@ -34,7 +34,7 @@ const ShowBylineButton = ({ currentSize, onFieldChange, show }: Props) => {
       onFieldChange(
         evt,
         'size',
-        show ? currentSize.replace(bylineTag, '') : currentSize + bylineTag,
+        show && currentSize ? currentSize.replace(bylineTag, '') : currentSize + bylineTag,
       );
     }
   };

@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
+import { FilmFrontpageApiType } from '../../modules/frontpage/frontpageApiInterfaces';
 import { getInitialValues, getIdFromUrn, getUrnFromId } from '../ndlaFilmHelpers';
 
-const filmFrontPage = {
+const filmFrontPage: FilmFrontpageApiType = {
   name: 'Film',
   about: [
     {
@@ -35,7 +37,7 @@ const filmFrontPage = {
   slideShow: [],
 };
 
-const filmFrontPageAfterTransformation = {
+const filmFrontPageAfterTransformation: FilmFormikType = {
   articleType: 'subjectpage',
   description: [
     {
@@ -55,7 +57,7 @@ const filmFrontPageAfterTransformation = {
           language: 'nb',
         },
       ],
-      movies: [],
+      movies: ['urn:article:288'],
     },
   ],
   name: 'Film',
@@ -85,24 +87,7 @@ const filmFrontPageAfterTransformation = {
 };
 
 test('util/ndlaFilmHelpers getInitialValues', () => {
-  expect(
-    getInitialValues(
-      filmFrontPage,
-      [],
-      [
-        {
-          name: [
-            {
-              name: 'eksempel 2',
-              language: 'nb',
-            },
-          ],
-          movies: [],
-        },
-      ],
-      'nb',
-    ),
-  ).toEqual(filmFrontPageAfterTransformation);
+  expect(getInitialValues(filmFrontPage, 'nb')).toEqual(filmFrontPageAfterTransformation);
 });
 
 const numberId = 1987;

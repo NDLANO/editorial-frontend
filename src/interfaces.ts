@@ -345,10 +345,10 @@ export interface ImageEmbed {
   resource: 'image';
 
   resource_id: string;
-  size: string;
-  align: string;
+  size?: string;
+  align?: string;
   alt: string;
-  caption: string;
+  caption?: string;
   url?: string;
   'focal-x'?: string;
   'focal-y'?: string;

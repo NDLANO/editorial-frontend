@@ -1,10 +1,18 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { sortBy } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useQuery, UseQueryOptions } from 'react-query';
-import { fetchFilmFrontpage } from '../../modules/frontpage/frontpageApi';
-import { FilmFrontpageApiType } from '../../modules/frontpage/frontpageApiInterfaces';
-import { searchResources } from '../../modules/search/searchApi';
-import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
+import { fetchFilmFrontpage } from './frontpageApi';
+import { FilmFrontpageApiType } from './frontpageApiInterfaces';
+import { searchResources } from '../search/searchApi';
+import { MultiSearchResult } from '../search/searchApiInterfaces';
 import { FILM_FRONTPAGE_QUERY, FILM_SLIDESHOW } from '../../queryKeys';
 import { getIdFromUrn } from '../../util/ndlaFilmHelpers';
 import { sortMoviesByIdList } from './filmUtil';

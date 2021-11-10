@@ -12,7 +12,7 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import NdlaFilmForm from './components/NdlaFilmForm';
 import Spinner from '../../components/Spinner';
 import { LocaleType } from '../../interfaces';
-import { useFilmFrontpageQuery } from './filmQueries';
+import { useFilmFrontpageQuery } from '../../modules/frontpage/filmQueries';
 
 interface Props {
   selectedLanguage: LocaleType;
@@ -20,9 +20,6 @@ interface Props {
 
 const NdlaFilmEditor = ({ selectedLanguage }: Props) => {
   const filmFrontpageQuery = useFilmFrontpageQuery();
-  // const slideshowIds = filmFrontpageQuery.data?.slideshow;
-  // const slideshowQuery = useSlideshowQuery(slideshowIds!, { enabled: !!slideshowIds });
-
   const { t } = useTranslation();
 
   if (!filmFrontpageQuery.data) {

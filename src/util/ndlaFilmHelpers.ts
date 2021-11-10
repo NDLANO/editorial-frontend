@@ -180,10 +180,6 @@ export const addMovieToTheme = (
   );
 };
 
-export const changeMoviesInTheme = (themes: MovieThemeApiType[], index: number, movies: any) => {
-  return themes.map((theme, i) => (i === index ? { ...theme, movies } : theme));
-};
-
 export const changeThemeNames = (
   themes: MovieThemeApiType[],
   names: ConvertedThemeName[],

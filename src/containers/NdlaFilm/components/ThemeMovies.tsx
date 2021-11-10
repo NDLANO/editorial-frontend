@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import React, { useState } from 'react';
 import { isEqual } from 'lodash';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +14,7 @@ import ElementList from '../../FormikForm/components/ElementList';
 import { getUrnFromId } from '../../../util/ndlaFilmHelpers';
 import DropdownSearch from './DropdownSearch';
 import { NDLA_FILM_SUBJECT } from '../../../constants';
-import { useMoviesQuery } from '../filmQueries';
+import { useMoviesQuery } from '../../../modules/frontpage/filmQueries';
 import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 interface Props {

@@ -39,6 +39,8 @@ const DropdownSearch = ({
       'page-size': 10,
       query: input,
       'context-types': contextTypes,
+      'resoure-types':
+        'urn:resourcetype:documentary,urn:resourcetype:featureFilm,urn:resourcetype:series,urn:resourcetype:shortFilm',
     };
     const response = await searchResources(query);
     return response;

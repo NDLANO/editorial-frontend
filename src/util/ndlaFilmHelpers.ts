@@ -53,7 +53,7 @@ export const getInitialValues = (
   };
 };
 
-const convertVisualElement = (visualElement: NdlaFilmVisualElement): Descendant[] => {
+export const convertVisualElement = (visualElement: NdlaFilmVisualElement): Descendant[] => {
   const id = getVisualElementId(visualElement);
   if (visualElement.type !== 'brightcove') {
     return [

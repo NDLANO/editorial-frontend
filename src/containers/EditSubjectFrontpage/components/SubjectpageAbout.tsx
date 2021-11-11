@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Descendant } from 'slate';
 import { FieldProps } from 'formik';
 import FormikField from '../../../components/FormikField';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
@@ -23,7 +24,7 @@ const SubjectpageAbout = () => {
         name="description"
         showMaxLength
         maxLength={300}>
-        {({ field, form: { isSubmitting } }: FieldProps) => (
+        {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
           <PlainTextEditor
             id={field.name}
             {...field}

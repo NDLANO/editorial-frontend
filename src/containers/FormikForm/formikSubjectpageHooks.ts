@@ -6,175 +6,106 @@
  */
 import { useEffect, useState } from 'react';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
-import {
-  transformSubjectpageFromApiVersion,
-  transformSubjectpageToApiVersion,
-  getUrnFromId,
-} from '../../util/subjectHelpers';
-import {
-  Learningpath,
-  LocaleType,
-  SubjectpageApiType,
-  SubjectpageEditType,
-} from '../../interfaces';
+import { getUrnFromId } from '../../util/subjectHelpers';
+import { LocaleType } from '../../interfaces';
 import { fetchDraft } from '../../modules/draft/draftApi';
-import {
-  fetchResource,
-  queryResources,
-  queryTopics,
-  queryLearningPathResource,
-} from '../../modules/taxonomy/resources';
+import { fetchResource } from '../../modules/taxonomy/resources';
 import { updateSubject } from '../../modules/taxonomy/subjects';
 import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
-import * as visualElementApi from '../VisualElement/visualElementApi';
-import { imageToVisualElement } from '../../util/visualElementHelper';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import {
+  NewSubjectFrontPageData,
+  SubjectpageApiType,
+  UpdatedSubjectFrontPageData,
+} from '../../modules/frontpage/frontpageApiInterfaces';
+import { Learningpath } from '../../modules/learningpath/learningpathApiInterfaces';
+import { fetchImage } from '../../modules/image/imageApi';
+import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
+import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 
 export function useFetchSubjectpageData(
   elementId: string,
   selectedLanguage: LocaleType,
   subjectpageId: string | undefined,
 ) {
-  const [subjectpage, setSubjectpage] = useState<SubjectpageEditType>();
+  const [subjectpage, setSubjectpage] = useState<SubjectpageApiType>();
+  const [editorsChoices, setEditorsChoices] = useState<(DraftApiType | Learningpath)[]>([]);
+  const [banner, setBanner] = useState<ImageApiType | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
 
   const fetchElementList = async (taxonomyUrns: string[]) => {
     const taxonomyElements = await Promise.all<Topic | Resource>(
-      taxonomyUrns.map(urn => {
-        if (urn.split(':')[1] === 'topic') {
-          return fetchTopic(urn);
-        }
-        return fetchResource(urn);
-      }),
+      taxonomyUrns.map(urn =>
+        urn.split(':')[1] === 'topic' ? fetchTopic(urn) : fetchResource(urn),
+      ),
     );
+
     const elementIds = taxonomyElements
-      .filter(el => el.contentUri)
-      .map(element => element.contentUri!.split(':'))
-      .filter(uri => uri.length > 0 && !isNaN(parseInt(uri[uri.length - 1])));
-    return Promise.all(
-      elementIds.map(async elementId => {
-        if (elementId[1] === 'learningpath') {
-          const learningpath = await fetchLearningpath(parseInt(elementId.pop()!));
-          return {
-            ...learningpath,
-            metaImage: {
-              url: learningpath.coverPhoto.url,
-            },
-          };
-        }
-        return fetchDraft(parseInt(elementId.pop()!));
-      }),
-    );
+      .map(element => element.contentUri?.split(':') ?? [])
+      .filter(uri => uri.length > 0 && Number([uri.length - 1]));
+
+    const promises = elementIds.map(async elementId => {
+      const f = elementId[1] === 'learningpath' ? fetchLearningpath : fetchDraft;
+      return await f(parseInt(elementId.pop()!));
+    });
+    return await Promise.all(promises);
   };
 
-  const fetchTaxonomyUrns = async (
-    elementList: { articleType?: string; id: string | number; learningsteps?: any }[],
-    language: string,
-  ): Promise<string[]> => {
-    const fetched = await Promise.all<Topic[] | Learningpath[] | Resource[]>(
-      elementList.map(element => {
-        if (element.articleType === 'topic-article') {
-          return queryTopics(element.id.toString(), language);
-        } else if (element.learningsteps && typeof element.id === 'number') {
-          return queryLearningPathResource(element.id);
-        }
-        return queryResources(element.id.toString(), language);
-      }),
-    );
-
-    return fetched.map(resource => resource?.[0]?.id?.toString()).filter(e => e !== undefined);
-  };
-
-  const updateSubjectpage = async (
-    updatedSubjectpage: SubjectpageEditType,
-  ): Promise<SubjectpageApiType | null> => {
-    const editorsChoices = await fetchTaxonomyUrns(
-      updatedSubjectpage.editorsChoices!,
-      updatedSubjectpage.language,
-    );
-
-    const apiSubjectPage = transformSubjectpageToApiVersion(updatedSubjectpage, editorsChoices);
-    if (!apiSubjectPage || !updatedSubjectpage.id) return null;
-
+  const updateSubjectpage = async (updatedSubjectpage: UpdatedSubjectFrontPageData) => {
     const savedSubjectpage = await frontpageApi.updateSubjectpage(
-      apiSubjectPage,
+      updatedSubjectpage,
       updatedSubjectpage.id,
       selectedLanguage,
     );
-    setSubjectpage(
-      transformSubjectpageFromApiVersion(
-        savedSubjectpage,
-        elementId,
-        selectedLanguage,
-        updatedSubjectpage.editorsChoices!,
-        updatedSubjectpage.desktopBanner!,
-      ),
-    );
+    setSubjectpage(savedSubjectpage);
     return savedSubjectpage;
   };
 
-  const createSubjectpage = async (
-    createdSubjectpage: SubjectpageEditType,
-  ): Promise<SubjectpageApiType | null> => {
-    const editorsChoices = await fetchTaxonomyUrns(
-      createdSubjectpage.editorsChoices!,
-      createdSubjectpage.language,
-    );
-
-    const apiSubjectPage = transformSubjectpageToApiVersion(createdSubjectpage, editorsChoices);
-    if (!apiSubjectPage) return null;
-
-    const savedSubjectpage = await frontpageApi.createSubjectpage(apiSubjectPage);
+  const createSubjectpage = async (subjectPage: NewSubjectFrontPageData) => {
+    const savedSubjectpage = await frontpageApi.createSubjectpage(subjectPage);
     await updateSubject(elementId, savedSubjectpage.name, getUrnFromId(savedSubjectpage.id));
-    setSubjectpage(
-      transformSubjectpageFromApiVersion(
-        savedSubjectpage,
-        elementId,
-        selectedLanguage,
-        createdSubjectpage.editorsChoices!,
-        createdSubjectpage.desktopBanner!,
-      ),
-    );
+    setSubjectpage(savedSubjectpage);
     return savedSubjectpage;
   };
 
   useEffect(() => {
-    const fetchSubjectpage = async () => {
+    (async () => {
+      setLoading(true);
       if (subjectpageId) {
-        setLoading(true);
         try {
-          const subjectpage: SubjectpageApiType = await frontpageApi.fetchSubjectpage(
-            subjectpageId,
-            selectedLanguage,
-          );
-          const editorsChoices = await fetchElementList(subjectpage.editorsChoices);
-          const banner = await visualElementApi.fetchImage(
-            subjectpage.banner.desktopId,
-            selectedLanguage,
-          );
-          setSubjectpage(
-            transformSubjectpageFromApiVersion(
-              subjectpage,
-              elementId,
-              selectedLanguage,
-              // @ts-ignore TODO Mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
-              editorsChoices,
-              imageToVisualElement(banner),
-            ),
-          );
-        } catch (err) {
-          setError(err);
+          const subjectpage = await frontpageApi.fetchSubjectpage(subjectpageId, selectedLanguage);
+          setSubjectpage(subjectpage);
+        } catch (e) {
+          setError(e);
+          setLoading(false);
         }
-        setLoading(false);
       }
-    };
-    fetchSubjectpage();
-  }, [elementId, selectedLanguage, subjectpageId]);
+    })();
+  }, [subjectpageId, selectedLanguage]);
+
+  useEffect(() => {
+    (async () => {
+      if (subjectpage) {
+        try {
+          const editorsChoices = await fetchElementList(subjectpage.editorsChoices);
+          const banner = await fetchImage(subjectpage.banner.desktopId, selectedLanguage);
+          setEditorsChoices(editorsChoices);
+          setBanner(banner);
+        } catch (e) {
+          setError(e);
+        } finally {
+          setLoading(false);
+        }
+      }
+    })();
+  }, [selectedLanguage, subjectpage]);
 
   return {
     subjectpage,
+    banner,
+    editorsChoices,
     loading,
     updateSubjectpage,
     createSubjectpage,

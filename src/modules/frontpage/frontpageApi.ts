@@ -6,7 +6,7 @@
  *
  */
 import * as queryString from 'query-string';
-import { LocaleType, NdlaFilmApiType, SubjectpageApiType } from '../../interfaces';
+import { LocaleType, NdlaFilmApiType } from '../../interfaces';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -15,6 +15,7 @@ import {
 import {
   NewOrUpdatedFilmFrontPageData,
   NewSubjectFrontPageData,
+  SubjectpageApiType,
   UpdatedSubjectFrontPageData,
 } from './frontpageApiInterfaces';
 

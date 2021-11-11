@@ -11,13 +11,16 @@ import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
-import { ArticleType, ContentResultType, FormikProperties } from '../../../interfaces';
+import { FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
+import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
+import { Learningpath } from '../../../modules/learningpath/learningpathApiInterfaces';
+import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 interface Props {
-  editorsChoices: ArticleType[];
+  editorsChoices: (DraftApiType | Learningpath)[];
   elementId: string;
   field: FormikProperties['field'];
   form: {
@@ -34,35 +37,27 @@ const getSubject = (elementId: string) => {
 
 const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) => {
   const { t } = useTranslation();
-  const [articles, setArticles] = useState<ArticleType[]>(editorsChoices);
+  const [articles, setArticles] = useState<(DraftApiType | Learningpath)[]>(editorsChoices);
   const subjectId = getSubject(elementId);
 
-  const onAddArticleToList = async (article: ContentResultType) => {
+  const onAddArticleToList = async (article: MultiSearchSummary) => {
     try {
-      let newArticle = undefined;
-      if (article.learningResourceType === 'learningpath') {
-        newArticle = await fetchLearningpath(article.id);
-        newArticle = { ...newArticle, metaImage: article.metaImage };
-      } else {
-        newArticle = await fetchDraft(article.id);
-      }
-      // @ts-ignore TODO Temporary ugly hack for mismatching Article types, should be fixed when ConceptForm.jsx -> tsx
-      const temp = [...articles, newArticle] as ArticleType[];
-      if (newArticle !== undefined) {
-        setArticles(temp);
-        updateFormik(field, temp);
-      }
+      const f = article.learningResourceType === 'learningpath' ? fetchLearningpath : fetchDraft;
+      const newArticle = await f(article.id);
+      const temp = [...articles, { ...newArticle, metaImage: article.metaImage }];
+      setArticles(temp);
+      updateFormik(field, temp);
     } catch (e) {
       handleError(e);
     }
   };
 
-  const onUpdateElements = (articleList: ArticleType[]) => {
+  const onUpdateElements = (articleList: (DraftApiType | Learningpath)[]) => {
     setArticles(articleList);
     updateFormik(field, articleList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: ArticleType[]) => {
+  const updateFormik = (formikField: Props['field'], newData: (DraftApiType | Learningpath)[]) => {
     form.setFieldTouched('editorsChoices', true, false);
     formikField.onChange({
       target: {
@@ -90,7 +85,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
       <DropdownSearch
         selectedElements={articles}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(article: ContentResultType) => onAddArticleToList(article)}
+        onChange={(article: MultiSearchSummary) => onAddArticleToList(article)}
         placeholder={t('subjectpageForm.addArticle')}
         subjectId={subjectId}
         clearInputField

@@ -57,4 +57,36 @@ export interface NewSubjectFrontPageData {
   goTo?: string[];
 }
 
-export type UpdatedSubjectFrontPageData = Partial<NewSubjectFrontPageData>;
+export interface SubjectpageApiType {
+  id: number;
+  name: string;
+  layout: string;
+  twitter?: string;
+  facebook?: string;
+  banner: {
+    mobileUrl?: string;
+    mobileId?: number;
+    desktopUrl: string;
+    desktopId: number;
+  };
+  about?: {
+    title: string;
+    description: string;
+    visualElement: {
+      type: string;
+      url: string;
+      alt?: string;
+    };
+  };
+  metaDescription?: string;
+  topical?: string;
+  mostRead: string[];
+  editorsChoices: string[];
+  latestContent?: string[];
+  goTo: string[];
+  supportedLanguages: string[];
+}
+
+export type UpdatedSubjectFrontPageData = Partial<NewSubjectFrontPageData> & {
+  id: string | number;
+};

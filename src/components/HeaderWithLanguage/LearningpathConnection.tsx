@@ -16,7 +16,7 @@ import Tooltip from '@ndla/tooltip';
 import Button from '@ndla/button';
 import { normalPaddingCSS } from '../HowTo';
 import ElementList from '../../containers/FormikForm/components/ElementList';
-import { Learningpath } from '../../interfaces';
+import { Learningpath } from '../../modules/learningpath/learningpathApiInterfaces';
 import { fetchLearningpathsWithArticle } from '../../modules/learningpath/learningpathApi';
 
 interface Props {

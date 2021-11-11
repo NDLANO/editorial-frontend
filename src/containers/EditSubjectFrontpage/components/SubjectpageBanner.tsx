@@ -13,9 +13,10 @@ import { ImageEmbed } from '../../../interfaces';
 import VisualElementSearch from '../../VisualElement/VisualElementSearch';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
 import Lightbox from '../../../components/Lightbox';
+import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
 
 interface Props {
-  field: FieldProps<ImageEmbed>['field'];
+  field: FieldProps<ImageApiType | undefined>['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };

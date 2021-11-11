@@ -24,11 +24,14 @@ interface Props extends RouteComponentProps {
 
 const EditSubjectpage = ({ elementId, selectedLanguage, subjectpageId, isNewlyCreated }: Props) => {
   const { t } = useTranslation();
-  const { loading, subjectpage, updateSubjectpage, error } = useFetchSubjectpageData(
-    elementId,
-    selectedLanguage,
-    subjectpageId,
-  );
+  const {
+    loading,
+    subjectpage,
+    updateSubjectpage,
+    error,
+    editorsChoices,
+    banner,
+  } = useFetchSubjectpageData(elementId, selectedLanguage, subjectpageId);
 
   if (error !== undefined) {
     return <NotFoundPage />;
@@ -40,8 +43,10 @@ const EditSubjectpage = ({ elementId, selectedLanguage, subjectpageId, isNewlyCr
 
   return (
     <>
-      <HelmetWithTracker title={`${subjectpage.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${subjectpage?.about?.title} ${t('htmlTitles.titleTemplate')}`} />
       <SubjectpageForm
+        editorsChoices={editorsChoices}
+        banner={banner}
         elementId={elementId}
         subjectpage={subjectpage}
         selectedLanguage={selectedLanguage}

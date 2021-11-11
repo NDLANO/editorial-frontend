@@ -11,10 +11,9 @@ import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
-import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import MetaInformation from '../../../components/MetaInformation';
-import { ImageEmbed } from '../../../interfaces';
 import config from '../../../config';
+import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
 
 const bannerImageButtonStyle = css`
   display: block;
@@ -23,14 +22,12 @@ const bannerImageButtonStyle = css`
 `;
 
 interface Props {
-  image: ImageEmbed;
+  image: ImageApiType;
   onImageSelectOpen: Function;
 }
 
 const SubjectpageBannerImage = ({ image, onImageSelectOpen }: Props) => {
   const { t } = useTranslation();
-  const title = convertFieldWithFallback(image.metaData, 'title', '');
-  const alt = convertFieldWithFallback(image, 'alt', '');
   const imageAction = (
     <Button css={bannerImageButtonStyle} onClick={onImageSelectOpen}>
       {t('subjectpageForm.changeBanner')}
@@ -40,13 +37,13 @@ const SubjectpageBannerImage = ({ image, onImageSelectOpen }: Props) => {
     title: t('form.metaImage.imageTitle'),
     copyright: t('form.metaImage.copyright'),
   };
-  const src = `${config.ndlaApiUrl}/image-api/raw/id/${image.resource_id}`;
+  const src = `${config.ndlaApiUrl}/image-api/raw/id/${image.id}`;
   return (
     <>
-      <img src={src} style={{ background: colors.brand.primary }} alt={alt} />
+      <img src={src} style={{ background: colors.brand.primary }} alt={image.alttext.alttext} />
       <div style={{ height: 5 }} />
       <MetaInformation
-        title={title}
+        title={image.title.title}
         action={imageAction}
         translations={metaInformationTranslations}
       />

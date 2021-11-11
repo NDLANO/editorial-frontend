@@ -15,7 +15,6 @@ NDLA Editorial Frontend for producing content for NDLA
 What's in the box?
 
 - React
-- Redux
 - Express
 - Webpack + Babel (ES6)
 
@@ -76,7 +75,6 @@ Format code with prettier to get uniform codestyle:
 ```
 $ yarn format
 ```
-
 
 Lint code with [eslint](http://eslint.org/), including [eslint react plugin](https://github.com/yannickcr/eslint-plugin-react), [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import), [eslint-plugin-jsx-a11y](https://github.com/evcohen/eslint-plugin-jsx-a11y#readme).
 Beside linting with globally installed eslint, eslint can be invoked with `yarn`:

@@ -8,17 +8,9 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
-import {
-  getImage,
-  getUploadedImage,
-  getSaving as getSavingImage,
-  actions as imageActions,
-} from '../../modules/image/image';
-import { ImageShape } from '../../shapes';
 import config from '../../config';
 import * as visualElementApi from './visualElementApi';
 import * as imageApi from '../../modules/image/imageApi';
@@ -34,32 +26,8 @@ const titles = (t, resource = '') => ({
 });
 
 class VisualElementSearch extends Component {
-  componentDidUpdate() {
-    const { uploadedImage, selectedResource, handleVisualElementChange } = this.props;
-    if (uploadedImage) {
-      const image = getImage(uploadedImage.id, true);
-      handleVisualElementChange({
-        resource: selectedResource,
-        resource_id: uploadedImage.id,
-        size: 'full',
-        align: '',
-        alt: uploadedImage.alttext.alttext,
-        caption: uploadedImage.caption.caption,
-        metaData: image,
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    const { uploadedImage, clearUploadedImage } = this.props;
-    if (uploadedImage) {
-      clearUploadedImage();
-    }
-  }
-
   render() {
     const {
-      isSavingImage,
       selectedResource,
       selectedResourceUrl,
       selectedResourceType,
@@ -85,7 +53,6 @@ class VisualElementSearch extends Component {
             inModal={true}
             handleVisualElementChange={handleVisualElementChange}
             locale={locale}
-            isSavingImage={isSavingImage}
             closeModal={closeModal}
             fetchImage={fetchImage}
             searchImages={imageApi.searchImages}
@@ -269,7 +236,6 @@ VisualElementSearch.propTypes = {
     }),
   }),
   isSavingImage: PropTypes.bool,
-  image: ImageShape,
   clearUploadedImage: PropTypes.func.isRequired,
   closeModal: PropTypes.func,
   videoTypes: PropTypes.array,
@@ -277,15 +243,4 @@ VisualElementSearch.propTypes = {
   onSaveAsMetaImage: PropTypes.func,
 };
 
-const mapDispatchToProps = {
-  clearUploadedImage: imageActions.clearUploadedImage,
-};
-
-const mapStateToProps = state => {
-  return {
-    isSavingImage: getSavingImage(state),
-    uploadedImage: getUploadedImage(state),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(VisualElementSearch));
+export default withTranslation()(VisualElementSearch);

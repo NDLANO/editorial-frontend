@@ -5,113 +5,54 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { withTranslation, WithTranslation } from 'react-i18next';
-
-import { RouteComponentProps } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ImageForm from './components/ImageForm';
-import { actions, FlatReduxImage, getImage } from '../../modules/image/image';
-import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
-import { ReduxState } from '../../interfaces';
-import withLicenses from '../Licenses/withLicenses';
-import { LicenseFunctions } from '../Licenses/LicensesProvider';
+import { ImageApiType, UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
+import { fetchImage, updateImage } from '../../modules/image/imageApi';
+import { useLicenses } from '../Licenses/LicensesProvider';
+import { useMessages } from '../Messages/MessagesProvider';
 
-interface ImageType extends UpdatedImageMetadata {
-  revision?: number;
-  imageFile?: string | Blob;
-}
-
-interface DispatchTypes {
-  fetchImage: (imageInfo: { id: string; language?: string }) => void;
-  updateImage: (imageInfo: {
-    image: ImageType;
-    file: string | Blob;
-    history: RouteComponentProps['history'];
-    editingArticle?: boolean;
-  }) => void;
-}
-
-interface ReduxProps {
-  image?: FlatReduxImage;
-}
-
-interface BaseProps {
+interface Props {
   imageId?: string;
-  closeModal?: () => void;
   imageLanguage?: string;
-  isSaving?: boolean;
-  inModal?: boolean;
-  editingArticle?: boolean;
   isNewlyCreated?: boolean;
 }
 
-const mapDispatchToProps: DispatchTypes = {
-  fetchImage: actions.fetchImage,
-  updateImage: actions.updateImage,
-};
+const EditImage = ({ imageId, imageLanguage, isNewlyCreated }: Props) => {
+  const { i18n } = useTranslation();
+  const { licenses } = useLicenses();
+  const { applicationError, createMessage } = useMessages();
+  const [image, setImage] = useState<ImageApiType | undefined>(undefined);
 
-const mapStateToProps = (state: ReduxState, props: BaseProps): ReduxProps => {
-  const { imageId } = props;
-  const getImageSelector = getImage(imageId!, true);
-  return {
-    image: getImageSelector(state),
+  useEffect(() => {
+    (async () => {
+      if (imageId) {
+        const img = await fetchImage(parseInt(imageId), imageLanguage);
+        setImage(img);
+      }
+    })();
+  }, [imageLanguage, imageId]);
+
+  const onUpdate = async (updatedImage: UpdatedImageMetadata) => {
+    try {
+      const res = await updateImage(updatedImage);
+      setImage(res);
+    } catch (e) {
+      applicationError(e);
+      createMessage(e.messages);
+    }
   };
+
+  return (
+    <ImageForm
+      language={imageLanguage ?? i18n.language}
+      image={image}
+      onUpdate={onUpdate}
+      isNewlyCreated={isNewlyCreated}
+      licenses={licenses}
+    />
+  );
 };
 
-const reduxConnector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof reduxConnector>;
-
-interface Props extends BaseProps, RouteComponentProps, PropsFromRedux, WithTranslation {}
-
-class EditImage extends Component<Props & LicenseFunctions> {
-  componentDidMount() {
-    const { imageId, fetchImage, imageLanguage } = this.props;
-    if (imageId) {
-      fetchImage({ id: imageId, language: imageLanguage });
-    }
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    const { imageId: prevImageId } = prevProps;
-    const { imageId, fetchImage, imageLanguage, image } = this.props;
-
-    if (
-      imageId &&
-      imageLanguage &&
-      ((image && image.language !== imageLanguage) || imageId !== prevImageId)
-    ) {
-      fetchImage({ id: imageId, language: imageLanguage });
-    }
-  }
-
-  render() {
-    const {
-      history,
-      image: imageData,
-      updateImage,
-      editingArticle,
-      closeModal,
-      isNewlyCreated,
-      licenses,
-      ...rest
-    } = this.props;
-
-    return (
-      <ImageForm
-        isLoading={false}
-        image={imageData || { language: this.props.i18n.language }}
-        onUpdate={(image: UpdatedImageMetadata, file: string | Blob) => {
-          updateImage({ image, file, history, editingArticle });
-        }}
-        closeModal={closeModal}
-        isNewlyCreated={isNewlyCreated}
-        licenses={licenses}
-        {...rest}
-      />
-    );
-  }
-}
-
-export default reduxConnector(withTranslation()(withRouter(withLicenses(EditImage))));
+export default EditImage;

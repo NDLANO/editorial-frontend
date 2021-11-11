@@ -10,6 +10,7 @@ import { match, Route, Switch } from 'react-router';
 import { OneColumn } from '@ndla/ui';
 import NdlaFilmEditor from './NdlaFilmEditor';
 import Footer from '../App/components/Footer';
+import { getDefaultLanguage } from '../../config';
 
 interface Props {
   match: match;
@@ -29,7 +30,7 @@ const NdlaFilm = ({ match }: Props) => {
           <Route
             path={`${match.url}`}
             render={() => {
-              return <NdlaFilmEditor selectedLanguage={'nb'} />;
+              return <NdlaFilmEditor selectedLanguage={getDefaultLanguage()} />;
             }}
           />
         </Switch>

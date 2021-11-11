@@ -34,7 +34,7 @@ const ShowBylineButton = ({ currentSize, onFieldChange, show }: Props) => {
       onFieldChange(
         evt,
         'size',
-        show && currentSize ? currentSize?.replace(bylineTag, '') : currentSize + bylineTag,
+        show && currentSize ? currentSize.replace(bylineTag, '') : currentSize + bylineTag,
       );
     }
   };

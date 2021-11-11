@@ -5,15 +5,30 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Spinner } from '@ndla/editor';
 import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
 import FormikField from '../../../components/FormikField';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 
-const SubjectpageAbout = () => {
+interface Props {
+  selectedLanguage?: string;
+}
+
+const SubjectpageAbout = ({ selectedLanguage }: Props) => {
   const { t } = useTranslation();
+  const [showLoading, setShowLoading] = useState(false);
+
+  useEffect(() => {
+    setShowLoading(true);
+    setTimeout(() => setShowLoading(false), 0);
+  }, [selectedLanguage]);
+
+  if (showLoading) {
+    return <Spinner />;
+  }
   return (
     <>
       <FormikField name="title" noBorder title placeholder={t('form.name.title')} />

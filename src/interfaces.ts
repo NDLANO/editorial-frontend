@@ -5,11 +5,8 @@
  */
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-import { Editor } from 'slate';
-import { Store } from 'redux';
 
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
-import { ReduxImageState } from './modules/image/image';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
 import { ConceptApiType } from './modules/concept/conceptApiInterfaces';
@@ -80,21 +77,6 @@ export interface CodeBlockType {
   code: string;
   title: string;
   format: string;
-}
-
-export interface ImageType {
-  id: string;
-  metaUrl: string;
-  title: string;
-  alttext: string;
-  imageUrl: string;
-  size: number;
-  contentType: string;
-  copyright: Copyright;
-  tags: string[];
-  caption: string;
-  supportedLanguages: string[];
-  language: string;
 }
 
 export interface MetaImage {
@@ -383,12 +365,6 @@ export interface NdlaFilmThemesEditType {
   }[];
 }
 
-export interface SlateEditor extends Editor {
-  props: {
-    submitted: boolean;
-    slateStore: Store;
-  };
-}
 export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface ImageEmbed {
   resource: 'image';
@@ -526,10 +502,6 @@ export interface License {
   license: string;
   description?: string;
   url?: string;
-}
-
-export interface ReduxState {
-  images: ReduxImageState;
 }
 
 export type SearchType = typeof SearchTypeValues[number];

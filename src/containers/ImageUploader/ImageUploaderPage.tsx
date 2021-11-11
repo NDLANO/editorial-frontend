@@ -24,7 +24,7 @@ interface MatchParams {
   imageLanguage?: string;
 }
 
-type Props = RouteComponentProps<MatchParams>;
+interface Props extends RouteComponentProps<MatchParams> {}
 
 const ImageUploaderPage = ({ match, location, ...rest }: Props) => {
   const { t } = useTranslation();
@@ -52,7 +52,6 @@ const ImageUploaderPage = ({ match, location, ...rest }: Props) => {
 
 ImageUploaderPage.propTypes = {
   ...RoutePropTypes,
-  isSaving: PropTypes.bool.isRequired,
   imageId: PropTypes.string,
   imageLanguage: PropTypes.string,
 };

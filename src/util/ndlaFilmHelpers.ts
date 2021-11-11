@@ -23,26 +23,20 @@ import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed';
 
 export const getInitialValues = (
   filmFrontpage: FilmFrontpageApiType,
-  language: string,
+  selectedLanguage: string,
 ): FilmFormikType => {
   const supportedLanguages = filmFrontpage.about.map(about => about.language);
-  let selectedLanguage = language;
-  if (!supportedLanguages.find(lan => lan === language)) {
-    selectedLanguage = supportedLanguages[0];
-  }
-  const aboutInSelectedLanguage = filmFrontpage.about.find(
-    about => about.language === selectedLanguage,
-  );
-  const visualElement =
-    aboutInSelectedLanguage?.visualElement &&
-    convertVisualElement(aboutInSelectedLanguage?.visualElement);
+  const languageAbout = filmFrontpage.about.find(about => about.language === selectedLanguage);
+  const about = languageAbout ?? filmFrontpage.about?.[0];
+
+  const visualElement = about?.visualElement && convertVisualElement(about?.visualElement);
   return {
     articleType: 'subjectpage',
     name: filmFrontpage.name,
-    title: aboutInSelectedLanguage?.title,
-    description: plainTextToEditorValue(aboutInSelectedLanguage?.description ?? ''),
+    title: about?.title,
+    description: plainTextToEditorValue(about?.description ?? ''),
     visualElement: visualElement ?? [],
-    language,
+    language: selectedLanguage,
     supportedLanguages,
     slideShow: filmFrontpage.slideShow,
     themes: filmFrontpage.movieThemes,

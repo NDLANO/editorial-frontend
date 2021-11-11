@@ -69,7 +69,6 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
     selectedLanguage,
   );
   const [unsaved, setUnsaved] = useState(false);
-  const [enableReinitialize, setReinitializeEnabled] = useState(false);
   usePreventWindowUnload(unsaved);
 
   return (
@@ -77,7 +76,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
       initialValues={initialValues}
       onSubmit={() => {}}
       validate={values => validateFormik(values, ndlaFilmRules, t)}
-      enableReinitialize={enableReinitialize}>
+      enableReinitialize={true}>
       {formik => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;
         const formIsDirty: boolean = isFormikFormDirty({
@@ -86,16 +85,15 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
           dirty,
         });
         setUnsaved(formIsDirty);
-        setReinitializeEnabled(selectedLanguage !== values.language);
         return (
           <Form {...formClasses()}>
             <SimpleLanguageHeader
-              articleType={values.articleType!}
+              articleType={values.articleType}
               editUrl={(lang: string) => toEditNdlaFilm(lang)}
               id={20}
               isSubmitting={isSubmitting}
-              language={values.language}
-              supportedLanguages={values.supportedLanguages!}
+              language={selectedLanguage}
+              supportedLanguages={values.supportedLanguages}
               title={values.name}
             />
             <NdlaFilmAccordionPanels

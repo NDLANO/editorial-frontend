@@ -51,6 +51,7 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
         <Spinner />
       ) : (
         <ElementList
+          articleType="standard"
           elements={apiMovies}
           messages={{
             dragElement: t('ndlaFilm.editor.changeOrder'),

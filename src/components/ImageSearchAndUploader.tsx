@@ -13,12 +13,12 @@ import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import EditImage from '../containers/ImageUploader/EditImage';
 import {
   ImageApiType,
   ImageSearchQuery,
   ImageSearchResult,
 } from '../modules/image/imageApiInterfaces';
+import CreateImage from '../containers/ImageUploader/CreateImage';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
@@ -26,8 +26,8 @@ const StyledTitleDiv = styled.div`
 
 interface Props {
   onImageSelect: (image: ImageApiType) => void;
+  inModal?: boolean;
   locale: string;
-  isSavingImage: boolean;
   closeModal: () => void;
   onError: Function;
   searchImages: (query: ImageSearchQuery) => Promise<ImageSearchResult>;
@@ -39,7 +39,7 @@ interface Props {
 const ImageSearchAndUploader = ({
   onImageSelect,
   locale,
-  isSavingImage,
+  inModal,
   closeModal,
   onError,
   searchImages,
@@ -93,7 +93,12 @@ const ImageSearchAndUploader = ({
         {
           title: t('form.visualElement.imageUpload'),
           content: (
-            <EditImage isSaving={isSavingImage} inModal editingArticle closeModal={closeModal} />
+            <CreateImage
+              inModal={inModal}
+              editingArticle
+              closeModal={closeModal}
+              onImageCreated={onImageSelect}
+            />
           ),
         },
       ]}

@@ -11,9 +11,44 @@ interface NewOrUpdatedVisualElement {
   alt?: string;
 }
 
-interface NewOrUpdatedMovieTheme {
-  name: { name: string; language: string }[];
+export interface FilmFrontpageApiType {
+  name: string;
+  about: AboutFilmApiType[];
+  movieThemes: MovieThemeApiType[];
+  slideShow: string[];
+}
+
+export interface MovieThemeApiType {
+  name: {
+    name: string;
+    language: string;
+  }[];
   movies: string[];
+}
+
+export interface FilmFrontpagePostPatchType extends Omit<FilmFrontpageApiType, 'about'> {
+  about: AboutFilmPostPatchType[];
+}
+
+interface AboutFilmPostPatchType extends Omit<AboutFilmApiType, 'visualElement'> {
+  visualElement: FilmVisualElementPostPatchType;
+}
+
+export interface AboutFilmApiType {
+  title: string;
+  description: string;
+  visualElement: FilmVisualElementApiType;
+  language: string;
+}
+
+interface FilmVisualElementPostPatchType extends Omit<FilmVisualElementApiType, 'url'> {
+  id: string;
+}
+
+export interface FilmVisualElementApiType {
+  type: string;
+  alt: string;
+  url: string;
 }
 
 interface NewOrUpdatedAboutSubject {
@@ -21,13 +56,6 @@ interface NewOrUpdatedAboutSubject {
   description: string;
   language: string;
   visualElement: NewOrUpdatedVisualElement;
-}
-
-export interface NewOrUpdatedFilmFrontPageData {
-  name: string;
-  about: NewOrUpdatedAboutSubject[];
-  movieThemes: NewOrUpdatedMovieTheme[];
-  slideShow: string[];
 }
 
 interface NewOrUpdatedMetaDescription {

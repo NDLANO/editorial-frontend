@@ -152,6 +152,7 @@ class ElementList extends Component {
               if (element.id || !(element.url && element.title)) {
                 return (
                   <ElementListItem
+                    articleType={this.props.articleType}
                     key={element.id}
                     isEditable={isEditable}
                     isOrderable={isOrderable}
@@ -195,6 +196,7 @@ class ElementList extends Component {
 
 ElementList.propTypes = {
   elements: PropTypes.arrayOf(ContentResultShape),
+  articleType: PropTypes.string,
   isEditable: PropTypes.bool,
   isOrderable: PropTypes.bool,
   messages: PropTypes.shape({

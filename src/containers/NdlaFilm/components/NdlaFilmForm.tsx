@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
 import { Descendant, Element } from 'slate';
-import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../../interfaces';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Field from '../../../components/Field';
@@ -19,19 +18,18 @@ import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleL
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
+import {
+  FilmFrontpageApiType,
+  MovieThemeApiType,
+} from '../../../modules/frontpage/frontpageApiInterfaces';
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
 
 interface Props {
-  filmFrontpage: NdlaFilmApiType;
-  updateFilmFrontpage: Function;
+  filmFrontpage: FilmFrontpageApiType;
   selectedLanguage: string;
-  allMovies: ContentResultType[];
-  loading: boolean;
-  slideshowMovies: ContentResultType[];
-  themes: NdlaFilmThemesEditType[];
 }
 
-export interface NdlaFilmFormikType {
+export interface FilmFormikType {
   articleType: string;
   name: string;
   title?: string;
@@ -39,11 +37,11 @@ export interface NdlaFilmFormikType {
   visualElement: Descendant[];
   language: string;
   supportedLanguages: string[];
-  slideShow: ContentResultType[];
-  themes: NdlaFilmThemesEditType[];
+  slideShow: string[];
+  themes: MovieThemeApiType[];
 }
 
-const ndlaFilmRules: RulesType<NdlaFilmFormikType> = {
+const ndlaFilmRules: RulesType<FilmFormikType> = {
   title: {
     required: true,
   },
@@ -53,7 +51,7 @@ const ndlaFilmRules: RulesType<NdlaFilmFormikType> = {
   },
   visualElement: {
     required: true,
-    test: (values: NdlaFilmFormikType) => {
+    test: (values: FilmFormikType) => {
       const element = values?.visualElement[0];
       const data = Element.isElement(element) && element.type === TYPE_EMBED && element.data;
       const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
@@ -64,26 +62,13 @@ const ndlaFilmRules: RulesType<NdlaFilmFormikType> = {
   },
 };
 
-const NdlaFilmForm = ({
-  filmFrontpage,
-  updateFilmFrontpage,
-  selectedLanguage,
-  loading,
-  allMovies,
-  slideshowMovies,
-  themes,
-}: Props) => {
+const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
   const { t } = useTranslation();
   const { savedToServer, handleSubmit, initialValues } = useNdlaFilmFormHooks(
-    t,
     filmFrontpage,
-    updateFilmFrontpage,
-    slideshowMovies,
-    themes,
     selectedLanguage,
   );
   const [unsaved, setUnsaved] = useState(false);
-  const [enableReinitialize, setReinitializeEnabled] = useState(false);
   usePreventWindowUnload(unsaved);
 
   return (
@@ -91,7 +76,7 @@ const NdlaFilmForm = ({
       initialValues={initialValues}
       onSubmit={() => {}}
       validate={values => validateFormik(values, ndlaFilmRules, t)}
-      enableReinitialize={enableReinitialize}>
+      enableReinitialize={true}>
       {formik => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;
         const formIsDirty: boolean = isFormikFormDirty({
@@ -100,23 +85,20 @@ const NdlaFilmForm = ({
           dirty,
         });
         setUnsaved(formIsDirty);
-        setReinitializeEnabled(selectedLanguage !== values.language);
         return (
           <Form {...formClasses()}>
             <SimpleLanguageHeader
-              articleType={values.articleType!}
+              articleType={values.articleType}
               editUrl={(lang: string) => toEditNdlaFilm(lang)}
               id={20}
               isSubmitting={isSubmitting}
-              language={values.language}
-              supportedLanguages={values.supportedLanguages!}
+              language={selectedLanguage}
+              supportedLanguages={values.supportedLanguages}
               title={values.name}
             />
             <NdlaFilmAccordionPanels
               errors={errors}
               formIsDirty={formIsDirty}
-              allMovies={allMovies}
-              loading={loading}
               selectedLanguage={selectedLanguage}
             />
             <Field right>

@@ -6,7 +6,6 @@
  *
  */
 
-import { expectSaga } from 'redux-saga-test-plan';
 import 'regenerator-runtime/runtime';
 
 global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
@@ -16,8 +15,6 @@ global.DEFAULT_TIMEOUT = process.env.DEFAULT_TIMEOUT
 const jestTimeout = process.env.JEST_TIMEOUT ? parseInt(process.env.JEST_TIMEOUT, 10) : 30000;
 
 jest.setTimeout(jestTimeout);
-
-expectSaga.DEFAULT_TIMEOUT = global.DEFAULT_TIMEOUT;
 
 /* eslint-disable */
 // fix: `matchMedia` not present, legacy browsers require a polyfill

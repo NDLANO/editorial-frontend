@@ -31,6 +31,7 @@ interface MessageProps {
 
 interface Props {
   deleteFile: (deleteIndex: number) => void;
+  articleType?: string;
   deleteIndex: number;
   isEditable: boolean;
   isOrderable: boolean;
@@ -46,6 +47,7 @@ interface Props {
 
 const ElementListItem = ({
   deleteFile,
+  articleType,
   deleteIndex,
   isEditable,
   isOrderable,
@@ -58,7 +60,11 @@ const ElementListItem = ({
   onDragStart,
   showDragTooltip,
 }: Props) => {
-  const linkProps = resourceToLinkProps(element, element.articleType || 'learning-path', locale);
+  const linkProps = resourceToLinkProps(
+    element,
+    element.articleType ?? (articleType || 'learning-path'),
+    locale,
+  );
 
   return (
     <StyledListItem

@@ -9,20 +9,16 @@
 import { sortBy } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useQuery, UseQueryOptions } from 'react-query';
+import { IFilmFrontPageData } from '@ndla/types-frontpage-api';
 import { fetchFilmFrontpage } from './frontpageApi';
-import { FilmFrontpageApiType } from './frontpageApiInterfaces';
 import { searchResources } from '../search/searchApi';
 import { MultiSearchResult } from '../search/searchApiInterfaces';
 import { FILM_FRONTPAGE_QUERY, FILM_SLIDESHOW } from '../../queryKeys';
 import { getIdFromUrn } from '../../util/ndlaFilmHelpers';
 import { sortMoviesByIdList } from '../../containers/NdlaFilm/filmUtil';
 
-export const useFilmFrontpageQuery = (options?: UseQueryOptions<FilmFrontpageApiType>) => {
-  return useQuery<FilmFrontpageApiType>(
-    [FILM_FRONTPAGE_QUERY],
-    () => fetchFilmFrontpage(),
-    options,
-  );
+export const useFilmFrontpageQuery = (options?: UseQueryOptions<IFilmFrontPageData>) => {
+  return useQuery<IFilmFrontPageData>([FILM_FRONTPAGE_QUERY], () => fetchFilmFrontpage(), options);
 };
 
 const slideshowArticlesQueryObject = {

@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import { useEffect, useState } from 'react';
+import {
+  ISubjectPageData,
+  IUpdatedSubjectFrontPageData,
+  INewSubjectFrontPageData,
+} from '@ndla/types-frontpage-api';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
 import { getUrnFromId } from '../../util/subjectHelpers';
 import { LocaleType } from '../../interfaces';
@@ -14,11 +19,6 @@ import { updateSubject } from '../../modules/taxonomy/subjects';
 import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import {
-  NewSubjectFrontPageData,
-  SubjectpageApiType,
-  UpdatedSubjectFrontPageData,
-} from '../../modules/frontpage/frontpageApiInterfaces';
 import { Learningpath } from '../../modules/learningpath/learningpathApiInterfaces';
 import { fetchImage } from '../../modules/image/imageApi';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
@@ -29,7 +29,7 @@ export function useFetchSubjectpageData(
   selectedLanguage: LocaleType,
   subjectpageId: string | undefined,
 ) {
-  const [subjectpage, setSubjectpage] = useState<SubjectpageApiType>();
+  const [subjectpage, setSubjectpage] = useState<ISubjectPageData>();
   const [editorsChoices, setEditorsChoices] = useState<(DraftApiType | Learningpath)[]>([]);
   const [banner, setBanner] = useState<ImageApiType | undefined>(undefined);
   const [loading, setLoading] = useState(false);
@@ -53,17 +53,20 @@ export function useFetchSubjectpageData(
     return await Promise.all(promises);
   };
 
-  const updateSubjectpage = async (updatedSubjectpage: UpdatedSubjectFrontPageData) => {
+  const updateSubjectpage = async (
+    id: string | number,
+    updatedSubjectpage: IUpdatedSubjectFrontPageData,
+  ) => {
     const savedSubjectpage = await frontpageApi.updateSubjectpage(
       updatedSubjectpage,
-      updatedSubjectpage.id,
+      id,
       selectedLanguage,
     );
     setSubjectpage(savedSubjectpage);
     return savedSubjectpage;
   };
 
-  const createSubjectpage = async (subjectPage: NewSubjectFrontPageData) => {
+  const createSubjectpage = async (subjectPage: INewSubjectFrontPageData) => {
     const savedSubjectpage = await frontpageApi.createSubjectpage(subjectPage);
     await updateSubject(elementId, savedSubjectpage.name, getUrnFromId(savedSubjectpage.id));
     setSubjectpage(savedSubjectpage);

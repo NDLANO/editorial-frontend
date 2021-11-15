@@ -9,11 +9,11 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
+import { INewSubjectFrontPageData } from '@ndla/types-frontpage-api';
 import { LocaleType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import { toEditSubjectpage } from '../../util/routeHelpers';
-import { NewSubjectFrontPageData } from '../../modules/frontpage/frontpageApiInterfaces';
 
 interface Props extends RouteComponentProps {
   selectedLanguage: LocaleType;
@@ -25,7 +25,7 @@ const CreateSubjectpage = ({ selectedLanguage, history, elementId, elementName }
   const { t } = useTranslation();
   const { createSubjectpage } = useFetchSubjectpageData(elementId, selectedLanguage, undefined);
 
-  const createSubjectpageAndPushRoute = async (createdSubjectpage: NewSubjectFrontPageData) => {
+  const createSubjectpageAndPushRoute = async (createdSubjectpage: INewSubjectFrontPageData) => {
     const savedSubjectpage = await createSubjectpage(createdSubjectpage);
     history.push(toEditSubjectpage(elementId, selectedLanguage, savedSubjectpage.id));
     return savedSubjectpage;

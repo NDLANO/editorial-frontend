@@ -9,6 +9,11 @@ import React, { useState } from 'react';
 import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Element } from 'slate';
+import {
+  ISubjectPageData,
+  INewSubjectFrontPageData,
+  IUpdatedSubjectFrontPageData,
+} from '@ndla/types-frontpage-api';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
@@ -18,11 +23,6 @@ import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
-import {
-  NewSubjectFrontPageData,
-  SubjectpageApiType,
-  UpdatedSubjectFrontPageData,
-} from '../../../modules/frontpage/frontpageApiInterfaces';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { Learningpath } from '../../../modules/learningpath/learningpathApiInterfaces';
 import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
@@ -39,11 +39,14 @@ import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
 
 interface Props {
-  subjectpage?: SubjectpageApiType;
+  subjectpage?: ISubjectPageData;
   editorsChoices?: (DraftApiType | Learningpath)[];
   banner?: ImageApiType;
-  createSubjectpage?: (subjectpage: NewSubjectFrontPageData) => Promise<SubjectpageApiType>;
-  updateSubjectpage?: (subjectpage: UpdatedSubjectFrontPageData) => Promise<SubjectpageApiType>;
+  createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
+  updateSubjectpage?: (
+    id: string | number,
+    subjectpage: IUpdatedSubjectFrontPageData,
+  ) => Promise<ISubjectPageData>;
   selectedLanguage: string;
   elementId: string;
   isNewlyCreated: boolean;
@@ -119,13 +122,11 @@ const SubjectpageForm = ({
     const { setSubmitting, values, resetForm, setFieldTouched, validateForm } = formik;
     setSubmitting(true);
     const urns = await fetchTaxonomyUrns(values.editorsChoices, selectedLanguage);
-    const transf = !!values.id ? subjectpageFormikTypeToPatchType : subjectpageFormikTypeToPostType;
-    const subjectpage = transf(values, urns);
     try {
-      if ('id' in subjectpage) {
-        await updateSubjectpage?.(subjectpage);
+      if (values.id) {
+        await updateSubjectpage?.(values.id, subjectpageFormikTypeToPatchType(values, urns));
       } else {
-        createSubjectpage?.(subjectpage);
+        await createSubjectpage?.(subjectpageFormikTypeToPostType(values, urns));
       }
       Object.keys(values).map(fieldName => setFieldTouched(fieldName, true, true));
       resetForm();

@@ -151,7 +151,7 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
-        <div data-cy="slate-editor" css={slateEditorDivStyle}>
+        <div data-cy="slate-editor" css={slateEditorDivStyle} {...classes()}>
           <Slate editor={editor} value={value} onChange={onChange}>
             {isFirstNormalize ? (
               <Spinner />

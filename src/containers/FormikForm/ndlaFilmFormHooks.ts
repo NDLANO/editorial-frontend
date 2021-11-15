@@ -6,35 +6,32 @@
  */
 import { FormikProps } from 'formik';
 import { useState } from 'react';
-import { TFunction } from 'react-i18next';
-import { ContentResultType, NdlaFilmApiType, NdlaFilmThemesEditType } from '../../interfaces';
+import { useTranslation } from 'react-i18next';
 import { formatErrorMessage } from '../../util/apiHelpers';
-import { updateFilmFrontpage } from '../../modules/frontpage/frontpageApi';
 import { getInitialValues } from '../../util/ndlaFilmHelpers';
 import { getNdlaFilmFromSlate } from '../../util/ndlaFilmHelpers';
-import { NdlaFilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
+import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
 import { useMessages } from '../Messages/MessagesProvider';
+import { FilmFrontpageApiType } from '../../modules/frontpage/frontpageApiInterfaces';
+import { useUpdateFilmFrontpageMutation } from '../../modules/frontpage/filmMutations';
 
 export function useNdlaFilmFormHooks(
-  t: TFunction,
-  filmFrontpage: NdlaFilmApiType,
-  updateEditorState: Function,
-  slideshowMovies: ContentResultType[],
-  themes: NdlaFilmThemesEditType[],
+  filmFrontpage: FilmFrontpageApiType,
   selectedLanguage: string,
 ) {
+  const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
+  const updateFilmFrontpage = useUpdateFilmFrontpageMutation();
 
-  const initialValues = getInitialValues(filmFrontpage, slideshowMovies, themes, selectedLanguage);
+  const initialValues = getInitialValues(filmFrontpage, selectedLanguage);
   const { createMessage, applicationError } = useMessages();
 
-  const handleSubmit = async (formik: FormikProps<NdlaFilmFormikType>) => {
+  const handleSubmit = async (formik: FormikProps<FilmFormikType>) => {
     formik.setSubmitting(true);
     const newNdlaFilm = getNdlaFilmFromSlate(filmFrontpage, formik.values, selectedLanguage);
 
     try {
-      const updated = await updateFilmFrontpage(newNdlaFilm);
-      await updateEditorState(updated);
+      await updateFilmFrontpage.mutateAsync(newNdlaFilm);
 
       Object.keys(formik.values).map(fieldName => formik.setFieldTouched(fieldName, true, true));
 

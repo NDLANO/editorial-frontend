@@ -152,6 +152,7 @@ class ElementList extends Component {
               if (element.id || !(element.url && element.title)) {
                 return (
                   <ElementListItem
+                    articleType={this.props.articleType}
                     key={element.id}
                     isEditable={isEditable}
                     isOrderable={isOrderable}
@@ -159,7 +160,7 @@ class ElementList extends Component {
                     deleteIndex={deleteIndex}
                     messages={messages}
                     index={index}
-                    locale={this.props.i18n.locale}
+                    locale={this.props.i18n.language}
                     executeDeleteFile={this.executeDeleteFile}
                     showDragTooltip={elements.length > 1 && draggingIndex === -1}
                     onDragEnd={this.onDragEnd}
@@ -177,7 +178,7 @@ class ElementList extends Component {
                     deleteIndex={deleteIndex}
                     messages={messages}
                     index={index}
-                    locale={this.props.i18n.locale}
+                    locale={this.props.i18n.language}
                     executeDeleteFile={this.executeDeleteFile}
                     showDragTooltip={elements.length > 1 && draggingIndex === -1}
                     onDragEnd={this.onDragEnd}
@@ -195,6 +196,7 @@ class ElementList extends Component {
 
 ElementList.propTypes = {
   elements: PropTypes.arrayOf(ContentResultShape),
+  articleType: PropTypes.string,
   isEditable: PropTypes.bool,
   isOrderable: PropTypes.bool,
   messages: PropTypes.shape({
@@ -203,7 +205,7 @@ ElementList.propTypes = {
   }),
   onUpdateElements: PropTypes.func,
   i18n: PropTypes.shape({
-    locale: LocaleShape.isRequired,
+    language: LocaleShape.isRequired,
   }).isRequired,
 };
 

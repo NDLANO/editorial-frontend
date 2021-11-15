@@ -6,10 +6,11 @@
  *
  */
 
-import React, { Fragment, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { RouteComponentProps } from 'react-router';
 import { HelmetWithTracker } from '@ndla/tracker';
+//@ts-ignore
 import { Hero, OneColumn } from '@ndla/ui';
 import { css } from '@emotion/core';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -18,26 +19,35 @@ import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
 import { queryResources } from '../../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
 import LanguageSelector from './LanguageSelector';
+import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
+import { Resource } from '../../modules/taxonomy/taxonomyApiInterfaces';
+
+interface MatchProps {
+  draftId: string;
+  language: string;
+}
+
+interface Props extends RouteComponentProps<MatchProps> {}
 
 const PreviewDraftPage = ({
   match: {
     params: { draftId, language },
   },
-}) => {
+}: Props) => {
   const { t } = useTranslation();
-  const [draft, setDraft] = useState(undefined);
-  const [resource, setResource] = useState(undefined);
+  const [draft, setDraft] = useState<ArticleConverterApiType | undefined>(undefined);
+  const [resources, setResources] = useState<Resource[]>([]);
 
   useEffect(() => {
     const fetchDraft = async () => {
-      const fetchedDraft = await draftApi.fetchDraft(draftId, language);
+      const fetchedDraft = await draftApi.fetchDraft(parseInt(draftId), language);
       const convertedArticle = await articleApi.getPreviewArticle(fetchedDraft, language);
       setDraft(convertedArticle);
     };
     fetchDraft();
     const fetchResource = async () => {
-      const fetchedResource = await queryResources(draftId, language);
-      setResource(fetchedResource);
+      const fetchedResources = await queryResources(draftId, language);
+      setResources(fetchedResources);
     };
     fetchResource();
   }, [draftId, language]);
@@ -46,18 +56,16 @@ const PreviewDraftPage = ({
     return null;
   }
 
-  const contentTypeFromResourceType =
-    resource && resource.length > 0
-      ? getContentTypeFromResourceTypes(resource[0].resourceTypes)
-      : undefined;
+  const hasResourceTypes = resources.length > 0;
+  const contentTypeFromResourceType = hasResourceTypes
+    ? getContentTypeFromResourceTypes(resources[0].resourceTypes)
+    : undefined;
 
-  const contentType =
-    contentTypeFromResourceType && contentTypeFromResourceType.contentType
-      ? contentTypeFromResourceType.contentType
-      : undefined;
+  const contentType = contentTypeFromResourceType?.contentType;
+  const label = (hasResourceTypes && resources[0].resourceTypes[0]?.name) || '';
 
   return (
-    <Fragment>
+    <>
       <div
         css={css`
           overflow: auto;
@@ -69,23 +77,14 @@ const PreviewDraftPage = ({
         <OneColumn>
           <PreviewDraft
             article={draft}
-            resource={resource}
             contentType={contentType}
             language={language}
+            label={label}
           />
         </OneColumn>
       </div>
-    </Fragment>
+    </>
   );
-};
-
-PreviewDraftPage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      draftId: PropTypes.string.isRequired,
-      language: PropTypes.string.isRequired,
-    }),
-  }),
 };
 
 export default PreviewDraftPage;

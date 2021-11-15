@@ -105,7 +105,7 @@ const FigureButtons = ({
 
   return (
     <StyledFigureButtons
-      align={'align' in embed ? embed.align : ''}
+      align={'align' in embed && !!embed.align ? embed.align : ''}
       theme={{}}
       withMargin={withMargin}
       contentEditable={false}>

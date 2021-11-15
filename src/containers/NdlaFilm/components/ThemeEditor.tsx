@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
-import { Spinner } from '@ndla/editor';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -17,72 +16,40 @@ import { Pencil } from '@ndla/icons/action';
 import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-import ElementList from '../../FormikForm/components/ElementList';
 import ThemeNameModal from './ThemeNameModal';
-import {
-  findName,
-  addMovieToTheme,
-  changeMoviesInTheme,
-  convertThemeNames,
-  changeThemeNames,
-} from '../../../util/ndlaFilmHelpers';
-import DropdownSearch from './DropdownSearch';
-import { ContentResultType, NdlaFilmThemesEditType } from '../../../interfaces';
-import { NDLA_FILM_SUBJECT } from '../../../constants';
+import { findName, convertThemeNames, changeThemeNames } from '../../../util/ndlaFilmHelpers';
+import { ThemeMovies } from './ThemeMovies';
+import { MovieThemeApiType } from '../../../modules/frontpage/frontpageApiInterfaces';
+import { LocaleType } from '../../../interfaces';
 
 interface Props {
-  allMovies: ContentResultType[];
-  field: FieldProps<NdlaFilmThemesEditType[]>['field'];
+  field: FieldProps<MovieThemeApiType[]>['field'];
   form: FormikHelpers<FormikValues>;
   onUpdateMovieTheme: Function;
-  loading: boolean;
   selectedLanguage: string;
 }
 
 export interface ThemeNames {
-  name: {
-    nb: string;
-    nn: string;
-    en: string;
-  };
-  warnings: {
-    nb: boolean;
-    nn: boolean;
-    en: boolean;
-  };
+  name: Record<LocaleType, string>;
+  warnings: Record<LocaleType, boolean>;
 }
 
-const ThemeEditor = ({
-  allMovies,
-  field,
-  form,
-  onUpdateMovieTheme,
-  loading,
-  selectedLanguage,
-}: Props) => {
+const ThemeEditor = ({ field, form, onUpdateMovieTheme, selectedLanguage }: Props) => {
   const { t } = useTranslation();
-  if (loading) {
-    return <Spinner />;
-  }
 
   const themes = field.value;
-  const onAddMovieToTheme = (newMovie: ContentResultType, index: number) => {
-    const movie = allMovies.find(movie => movie.id === newMovie.id);
-    if (movie) {
-      const temp = addMovieToTheme(themes.slice(), index, movie);
-      onUpdateMovieTheme(field, form, temp);
-    }
+  const onAddMovieToTheme = (movies: string[], index: number) => {
+    const newThemes = themes.map((theme, i) => (i === index ? { ...theme, movies } : theme));
+    onUpdateMovieTheme(field, form, newThemes);
   };
 
   const onAddTheme = (theme: ThemeNames) => {
     const newTheme = { name: convertThemeNames(theme), movies: [] };
-    const temp = themes.slice();
-    temp.push(newTheme);
-    onUpdateMovieTheme(field, form, temp);
+    onUpdateMovieTheme(field, form, [...themes, newTheme]);
   };
 
   const onDeleteTheme = (index: number) => {
-    const temp = themes.filter((theme, i) => i !== index);
+    const temp = themes.filter((_, i) => i !== index);
     onUpdateMovieTheme(field, form, temp);
   };
 
@@ -94,11 +61,7 @@ const ThemeEditor = ({
     }
   };
 
-  const rearrangeTheme = (
-    themes: NdlaFilmThemesEditType[],
-    index: number,
-    desiredNewIndex: number,
-  ) => {
+  const rearrangeTheme = (themes: MovieThemeApiType[], index: number, desiredNewIndex: number) => {
     return themes.map((theme, i) => {
       if (i === index) {
         return themes[desiredNewIndex];
@@ -137,7 +100,7 @@ const ThemeEditor = ({
                 .map(name => ` | ${name.name}`)
                 .join('')}>
               <ThemeNameModal
-                onSaveTheme={(names: any) => onSaveThemeName(names, index)}
+                onSaveTheme={theme => onSaveThemeName(theme, index)}
                 initialTheme={{
                   name: {
                     nb: findName(theme.name, 'nb'),
@@ -154,7 +117,7 @@ const ThemeEditor = ({
                     <Pencil />
                   </Button>
                 }
-                wrapperFunctionForButton={(activateButton: Object) => (
+                wrapperFunctionForButton={(activateButton: ReactNode) => (
                   <Tooltip tooltip={t('ndlaFilm.editor.editMovieGroupName')}>
                     {activateButton}
                   </Tooltip>
@@ -202,25 +165,12 @@ const ThemeEditor = ({
                 </Button>
               </Tooltip>
             </FieldHeader>
-            <ElementList
-              elements={theme.movies}
-              messages={{
-                dragElement: t('ndlaFilm.editor.changeOrder'),
-                removeElement: t('ndlaFilm.editor.removeMovieFromGroup'),
-              }}
-              onUpdateElements={(updates: any) =>
-                onUpdateMovieTheme(field, form, changeMoviesInTheme(themes, index, updates))
-              }
-            />
-            <DropdownSearch
-              selectedElements={theme.movies}
-              onChange={(movie: ContentResultType) => onAddMovieToTheme(movie, index)}
-              subjectId={NDLA_FILM_SUBJECT}
-              contextTypes={'standard'}
+            <ThemeMovies
+              movies={theme.movies}
+              onMoviesUpdated={movies => onAddMovieToTheme(movies, index)}
               placeholder={t('ndlaFilm.editor.addMovieToGroup', {
                 name: findName(theme.name, selectedLanguage),
               })}
-              clearInputField
             />
           </StyledThemeWrapper>
         );

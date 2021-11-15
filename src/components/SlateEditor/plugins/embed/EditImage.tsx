@@ -32,7 +32,7 @@ interface Props {
 
 interface StateProps {
   alt: string;
-  caption: string;
+  caption?: string;
   imageUpdates:
     | {
         transformData: {
@@ -43,8 +43,8 @@ interface StateProps {
           'lower-right-x'?: string;
           'lower-right-y'?: string;
         };
-        align: string;
-        size: string;
+        align?: string;
+        size?: string;
       }
     | undefined;
   madeChanges: boolean;
@@ -100,7 +100,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
 
     if (state.imageUpdates?.align === 'center') {
       updatedSize = 'full';
-      if (state.imageUpdates?.size.includes('hide-byline')) {
+      if (state.imageUpdates?.size?.includes('hide-byline')) {
         updatedSize += '-hide-byline';
       }
     }

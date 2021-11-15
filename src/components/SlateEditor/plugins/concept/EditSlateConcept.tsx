@@ -126,7 +126,7 @@ const EditSlateConcept = (props: Props) => {
           subTitle={t('conceptform.title')}
           content={
             concept && (
-              <SlateConceptPreview concept={concept} handleRemove={handleRemove} id={uuid} />
+              <SlateConceptPreview concept={concept} handleRemove={handleRemove} id={concept.id} />
             )
           }
           ariaLabel={t('notions.edit')}>

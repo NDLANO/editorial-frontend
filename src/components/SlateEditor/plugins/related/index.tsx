@@ -35,7 +35,7 @@ interface RelatedExternalArticle {
 export interface RelatedElement {
   type: 'related';
   data: {
-    nodes: (RelatedInternalArticle | RelatedExternalArticle)[];
+    nodes?: (RelatedInternalArticle | RelatedExternalArticle)[];
   };
   children: Descendant[];
 }

@@ -67,7 +67,7 @@ test('DisplayExternal renders external correctly', () => {
     url: 'https://ndla.no/oembed',
   };
 
-  const  { container } = render(
+  const { container } = render(
     <IntlWrapper>
       <DisplayExternal embed={embed} />
     </IntlWrapper>,

@@ -8,7 +8,6 @@
 
 import fetch from 'cross-fetch';
 import queryString from 'query-string';
-import defined from 'defined';
 import config from '../../config';
 import {
   createErrorPayload,
@@ -91,7 +90,7 @@ export const fetchBrightcoveVideo = videoId =>
   fetchWithBrightCoveToken(`${baseBrightCoveUrlV3}/${videoId}`).then(resolveJsonOrRejectWithError);
 
 export const onError = err => {
-  createErrorPayload(err.status, defined(err.message, err.statusText), err);
+  createErrorPayload(err.status, err.message ?? err.statusText, err);
 };
 
 export const searchVideos = (query, type) => {

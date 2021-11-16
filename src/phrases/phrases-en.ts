@@ -154,6 +154,7 @@ const phrases = {
     standard: 'Subject matter',
   },
   subNavigation: {
+    media: 'Media',
     learningPath: 'Learningpath',
     learningPathLink: 'Go to learningpath',
     subjectMatter: 'Subject matter',
@@ -265,6 +266,7 @@ const phrases = {
     linkTitle: 'Go to HTML editor',
     title: 'HTML editor',
     subTitle: 'Edit article with HTML',
+    back: 'Back',
     fetchError:
       'An error occurred while loding an article into the HTML editor. Go back or try to reload the page.',
     saveError: 'An error occurred while saving article changes.',
@@ -396,6 +398,22 @@ const phrases = {
       },
     },
   },
+  agreementForm: {
+    title: {
+      create: 'Agreement',
+      update: 'Agreement',
+    },
+    fields: {
+      title: {
+        label: 'Agreement title',
+        placeholder: 'Agreement title',
+      },
+      content: {
+        label: 'Agreement content',
+        placeholder: 'Agreement content',
+      },
+    },
+  },
   footnoteForm: {
     title: 'Title',
     year: 'Year',
@@ -430,6 +448,7 @@ const phrases = {
     },
   },
   imageEditor: {
+    editImage: 'Edit image',
     remove: {
       crop: 'Remove crop',
       focalPoint: 'Remove focal point',
@@ -576,10 +595,6 @@ const phrases = {
     previewNewWindow: 'Preview in a new window',
     contributor: {
       add: 'Add',
-    },
-    detailBox: {
-      changeTitle: 'Change title',
-      placeholder: 'Short summary',
     },
     mustSaveFirst: 'You must save your changes first',
     abort: 'Abort',
@@ -897,10 +912,6 @@ const phrases = {
     origin: {
       label: 'Origin',
     },
-    caption: {
-      label: 'Caption',
-      placeholder: 'Caption',
-    },
     image: {
       file: 'Image',
       save: 'Save image',
@@ -1213,14 +1224,18 @@ const phrases = {
     },
     resourceTypes: {
       title: 'Content type',
+      helpLabel: 'What is a content type?',
       subTitle: 'What content type does this resource have?',
       placeholder: 'Select content type',
     },
     topics: {
       title: 'Topic connections',
       topicPlacement: 'Topcic placement',
+      helpLabel: 'What is a topic connection?',
       subTitle: 'Where in the taxonomy should this resource be?',
       subTitleTopic: 'Where in the taxonomy should the topic description be?',
+      chooseTaxonomyPlacement: 'Choose placement in taxonomy',
+      changeTaxonomyPlacement: 'Change placement in taxonomy',
       filestructureButton: 'Create a topic connection',
       filestructureHeading: 'Select a topic connection',
       filestructureClose: 'Close',
@@ -1234,6 +1249,7 @@ const phrases = {
       empty: 'No existing grep codes',
       addNew: 'Add new grep code',
     },
+    goTo: 'Open in structure editor',
     missingResourceType: 'Missing resource type',
     metadata: {
       customFields: {

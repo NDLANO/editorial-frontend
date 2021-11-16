@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { FormEvent } from 'react';
 import Button from '@ndla/button';
 import { FieldSection, Input, FieldRemoveButton } from '@ndla/forms';
 import Field from '../../components/Field';
@@ -50,7 +50,7 @@ const AddNotesField = ({
     onNotesChange(value.filter((_, index) => index !== noteIndexToRemove));
   };
 
-  const handleNoteChange = (evt: React.FormEvent<HTMLInputElement>, index: number) => {
+  const handleNoteChange = (evt: FormEvent<HTMLInputElement>, index: number) => {
     const newNotes = [...value];
     newNotes[index] = evt.currentTarget.value;
     onNotesChange(newNotes);
@@ -68,7 +68,7 @@ const AddNotesField = ({
               placeholder={placeholder}
               value={note}
               data-testid="notesInput"
-              onChange={(e: React.FormEvent<HTMLInputElement>) => handleNoteChange(e, index)}
+              onChange={(e: FormEvent<HTMLInputElement>) => handleNoteChange(e, index)}
               white
             />
           </div>

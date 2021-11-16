@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { LOCALE_VALUES, TAXONOMY_CUSTOM_FIELD_LANGUAGE } from '../../../../constants';
 import TaxonomyMetadataDropdown from './TaxonomyMetadataDropdown';

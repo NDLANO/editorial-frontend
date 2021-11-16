@@ -7,7 +7,6 @@
  */
 
 import nock from 'nock';
-import React from 'react';
 import { render, wait, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { StructureContainer } from '../StructureContainer';

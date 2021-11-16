@@ -1,12 +1,12 @@
 import { act, fireEvent, render } from '@testing-library/react';
-import React from 'react';
+import { Component } from 'react';
 import { MessagesFunctions, MessagesProvider } from '../MessagesProvider';
 import withMessages from '../withMessages';
 
 interface BaseProps {}
 type Props = BaseProps & MessagesFunctions;
 
-class TestComponent extends React.Component<Props> {
+class TestComponent extends Component<Props> {
   render() {
     const { messages, createMessage } = this.props;
     return (

@@ -9,7 +9,6 @@
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { HelpIcon, normalPaddingCSS } from '../../../components/HowTo';
 

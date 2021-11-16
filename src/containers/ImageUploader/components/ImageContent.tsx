@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import { connect, FieldProps, FormikContextType } from 'formik';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +42,7 @@ const ImageContent = ({ formik }: Props) => {
   const { t } = useTranslation();
   const { values, errors, setFieldValue } = formik;
   return (
-    <Fragment>
+    <>
       <FormikField
         label={t('form.title.label')}
         name="title"
@@ -116,7 +115,7 @@ const ImageContent = ({ formik }: Props) => {
           />
         )}
       </FormikField>
-    </Fragment>
+    </>
   );
 };
 

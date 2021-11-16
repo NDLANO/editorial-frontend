@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState, useEffect, ReactNode, useMemo } from 'react';
+import { useState, useEffect, ReactNode, useMemo, MouseEvent } from 'react';
+
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
@@ -47,7 +48,7 @@ const EditSlateConcept = (props: Props) => {
 
   const [showConcept, setShowConcept] = useState(false);
 
-  const toggleConceptModal = (evt?: React.MouseEvent) => {
+  const toggleConceptModal = (evt?: MouseEvent) => {
     if (evt) {
       evt.preventDefault();
     }

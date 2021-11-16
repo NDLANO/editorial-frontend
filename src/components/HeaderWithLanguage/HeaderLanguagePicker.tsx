@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import FocusTrapReact from 'focus-trap-react';
 import { useTranslation } from 'react-i18next';

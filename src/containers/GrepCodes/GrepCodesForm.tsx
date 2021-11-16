@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Formik, Form } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';

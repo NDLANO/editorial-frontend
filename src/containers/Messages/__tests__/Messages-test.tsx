@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { findByTestId, fireEvent, render } from '@testing-library/react';
 import { uuid } from '@ndla/util';
 import { act } from 'react-test-renderer';

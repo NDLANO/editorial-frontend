@@ -1,4 +1,3 @@
-import React from 'react';
 import { Global } from '@emotion/react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';

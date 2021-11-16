@@ -6,12 +6,12 @@
  *
  */
 
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FormikHandlers } from 'formik';
 import { Descendant, createEditor, Transforms } from 'slate';
 import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 
 import { SlateProvider } from './SlateContext';
 import { SlatePlugin } from './interfaces';
@@ -48,7 +48,7 @@ const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
     if (editor.children.length === 0) {
       Transforms.insertNodes(
         editor,
-        jsx('element', { type: TYPE_VISUAL_ELEMENT_PICKER }, { text: '' }),
+        slatejsx('element', { type: TYPE_VISUAL_ELEMENT_PICKER }, { text: '' }),
         { at: [0] },
       );
     }

@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
+
 import PropTypes from 'prop-types';
 import { DeleteForever, Done } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';
@@ -59,7 +60,7 @@ const CustomFieldComponent = ({
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       onClose?.();
     }

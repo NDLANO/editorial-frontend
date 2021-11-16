@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, PureComponent } from 'react';
+import { PureComponent, KeyboardEvent, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
@@ -91,7 +91,7 @@ export class InlineAddButton extends PureComponent<Props & CustomWithTranslation
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  async handleClick(e: React.KeyboardEvent<HTMLInputElement>) {
+  async handleClick(e: KeyboardEvent<HTMLInputElement>) {
     e.stopPropagation();
 
     this.setState(
@@ -118,12 +118,12 @@ export class InlineAddButton extends PureComponent<Props & CustomWithTranslation
     );
   }
 
-  handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  handleInputChange(e: ChangeEvent<HTMLInputElement>) {
     e.stopPropagation();
     this.setState({ inputValue: e.target.value });
   }
 
-  handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
+  handleKeyPress(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Escape') {
       this.setState({ status: 'initial' });
     }
@@ -137,7 +137,7 @@ export class InlineAddButton extends PureComponent<Props & CustomWithTranslation
     const { status, inputValue } = this.state;
 
     return status === 'edit' || status === 'loading' || status === 'error' ? (
-      <Fragment>
+      <>
         <StyledInputField
           type="text"
           autoFocus //  eslint-disable-line
@@ -160,7 +160,7 @@ export class InlineAddButton extends PureComponent<Props & CustomWithTranslation
         {status === 'error' && (
           <StyledErrorMessage>{this.props.t('taxonomy.errorMessage')}</StyledErrorMessage>
         )}
-      </Fragment>
+      </>
     ) : (
       <Button
         css={addButtonStyle}

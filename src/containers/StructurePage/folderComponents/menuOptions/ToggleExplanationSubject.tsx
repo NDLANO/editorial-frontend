@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';

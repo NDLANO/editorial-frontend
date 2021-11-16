@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { render } from 'enzyme';
 import { FieldInputProps } from 'formik';
 // @ts-ignore

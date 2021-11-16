@@ -8,7 +8,6 @@
 
 import { css } from '@emotion/core';
 import { FieldProps, Form, Formik, FormikProps } from 'formik';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { Select, Input } from '@ndla/forms';

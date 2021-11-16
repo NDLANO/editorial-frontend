@@ -6,7 +6,7 @@
  *
  */
 
-import React, { memo, useRef } from 'react';
+import { memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';

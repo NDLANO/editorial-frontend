@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactNode } from 'react';
+import { Component, ReactNode } from 'react';
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import debounce from 'lodash/debounce';
@@ -78,7 +78,7 @@ interface State {
   currentDebounce?: DebouncedFunc<() => void>;
 }
 
-class FileList extends React.Component<Props, State> {
+class FileList extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.checkForRemoteFiles.bind(this);

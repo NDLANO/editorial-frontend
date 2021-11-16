@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FormPill } from '@ndla/forms';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
@@ -124,7 +124,7 @@ const GrepCodesFieldContent = ({ articleGrepCodes, field, form }: Props) => {
   };
 
   return (
-    <Fragment>
+    <>
       <FormikFieldDescription description={t('form.grepCodes.description')} />
       {!!failedGrepCodes.length && (
         <FormikFieldHelp error>
@@ -158,7 +158,7 @@ const GrepCodesFieldContent = ({ articleGrepCodes, field, form }: Props) => {
           key={index}
         />
       ))}
-    </Fragment>
+    </>
   );
 };
 

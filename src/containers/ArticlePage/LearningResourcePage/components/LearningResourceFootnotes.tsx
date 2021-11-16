@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import BEMHelper from 'react-bem-helper';
 import { uuid } from '@ndla/util';
 import { useTranslation } from 'react-i18next';

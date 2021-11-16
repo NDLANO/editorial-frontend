@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
 import { css } from '@emotion/core';
 import { User } from '@ndla/icons/common';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { isNumber } from 'lodash';
 // @ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';

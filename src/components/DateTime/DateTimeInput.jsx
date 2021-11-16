@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Flatpickr from 'flatpickr';
 import { Calendar } from '@ndla/icons/editor';
@@ -28,7 +28,7 @@ const StyledDateTimeInput = styled.div`
   width: 100%;
 `;
 
-class DateTimeInput extends React.Component {
+class DateTimeInput extends Component {
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);

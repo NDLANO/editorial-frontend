@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import { RouteComponentProps } from 'react-router-dom';

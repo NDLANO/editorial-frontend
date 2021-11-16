@@ -7,7 +7,7 @@
  *
  */
 
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router-dom';

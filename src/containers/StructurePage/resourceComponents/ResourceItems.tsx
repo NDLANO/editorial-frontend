@@ -6,7 +6,7 @@
  *
  */
 
-import React, { memo, useState } from 'react';
+import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import Resource from './Resource';

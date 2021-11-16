@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
@@ -49,7 +48,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated }: Props
     return <Redirect to={toEditArticle(article.id, article.articleType, article.language)} />;
   }
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker title={`${article.title} ${t('htmlTitles.titleTemplate')}`} />
       <TopicArticleForm
         articleStatus={article.status}
@@ -61,7 +60,7 @@ const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated }: Props
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
       />
-    </Fragment>
+    </>
   );
 };
 

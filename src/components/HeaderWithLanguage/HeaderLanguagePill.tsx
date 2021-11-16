@@ -3,7 +3,8 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React from 'react';
+
+import { ComponentType, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, fonts, spacing } from '@ndla/core';
@@ -43,8 +44,8 @@ const StyledLanguagePill = styled.span<{ disabled: boolean; current: any }>`
 `;
 
 interface Props {
-  children: React.ReactNode[] | React.ReactNode;
-  withComponent?: React.ComponentType<any>;
+  children: ReactNode[] | ReactNode;
+  withComponent?: ComponentType<any>;
   isSubmitting?: boolean;
   current?: boolean;
   to?: string;

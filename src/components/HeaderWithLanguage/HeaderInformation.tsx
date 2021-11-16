@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import { ReactChild, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';
 import Button from '@ndla/button';
@@ -54,10 +55,7 @@ const StyledTitleHeaderWrapper = styled.div`
 
 const { contentTypes } = constants;
 
-export const types: Record<
-  string,
-  { form: string; cssModifier: string; icon: React.ReactChild }
-> = {
+export const types: Record<string, { form: string; cssModifier: string; icon: ReactChild }> = {
   standard: {
     form: 'learningResourceForm',
     cssModifier: 'article',

@@ -6,9 +6,8 @@
  *
  */
 
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState, MouseEvent } from 'react';
+import { css } from '@emotion/core';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 // @ts-ignore
@@ -43,7 +42,7 @@ interface Props {
   embed: BrightcoveEmbed | ExternalEmbed;
   figureClass: any;
   language: string;
-  onRemoveClick: (event: React.MouseEvent) => void;
+  onRemoveClick: (event: MouseEvent) => void;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   active: boolean;
   isSelectedForCopy: boolean;

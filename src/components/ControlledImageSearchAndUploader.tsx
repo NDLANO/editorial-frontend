@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, Fragment } from 'react';
+import { useState } from 'react';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
@@ -73,7 +73,7 @@ const ImageSearchAndUploader = ({
               useImageTitle={t('imageSearch.useImage')}
               onImageSelect={onImageSelect}
               noResults={
-                <Fragment>
+                <>
                   <StyledTitleDiv>{t('imageSearch.noResultsText')}</StyledTitleDiv>
                   <Button
                     submit
@@ -83,7 +83,7 @@ const ImageSearchAndUploader = ({
                     }}>
                     {t('imageSearch.noResultsButtonText')}
                   </Button>
-                </Fragment>
+                </>
               }
               onError={onError}
             />

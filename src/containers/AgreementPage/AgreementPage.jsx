@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -20,7 +20,7 @@ const EditAgreement = loadable(() => import('./EditAgreement'));
 const CreateAgreement = loadable(() => import('./CreateAgreement'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
-class AgreementPage extends React.Component {
+class AgreementPage extends Component {
   constructor() {
     super();
     this.state = { isSaving: false };
@@ -52,7 +52,7 @@ class AgreementPage extends React.Component {
     const { i18n, match, t } = this.props;
     const locale = i18n.language;
     return (
-      <Fragment>
+      <>
         <HelmetWithTracker title={t('htmlTitles.agreementPage')} />
         <OneColumn>
           <Switch>
@@ -82,7 +82,7 @@ class AgreementPage extends React.Component {
           </Switch>
         </OneColumn>
         <Footer showLocaleSelector={false} />
-      </Fragment>
+      </>
     );
   }
 }

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { renderHook } from '@testing-library/react-hooks';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';

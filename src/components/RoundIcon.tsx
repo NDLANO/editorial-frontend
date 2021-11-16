@@ -6,14 +6,14 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 
 interface Props {
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   open?: boolean;
   small?: boolean;
   smallIcon?: boolean;

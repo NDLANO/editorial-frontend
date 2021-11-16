@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Editor, Node } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';

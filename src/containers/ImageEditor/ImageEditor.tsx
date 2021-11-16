@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';

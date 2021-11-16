@@ -6,7 +6,8 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import { ChangeEvent, Component, MouseEvent } from 'react';
+
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
@@ -135,7 +136,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     }
   }
 
-  onChangeSelectedResource = (evt: React.ChangeEvent<HTMLSelectElement>) => {
+  onChangeSelectedResource = (evt: ChangeEvent<HTMLSelectElement>) => {
     const {
       taxonomyChoices: { availableResourceTypes },
     } = this.state;
@@ -281,7 +282,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     }));
   };
 
-  handleSubmit = async (evt: React.MouseEvent<HTMLButtonElement>) => {
+  handleSubmit = async (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     const { resourceTaxonomy, taxonomyChanges, resourceId } = this.state;
     let reassignedResourceId = resourceId;
@@ -465,7 +466,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
 
     return (
-      <Fragment>
+      <>
         {isTaxonomyAdmin && (
           <TaxonomyConnectionErrors
             articleType={article.articleType ?? 'standard'}
@@ -507,7 +508,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
             formIsDirty={isDirty}
           />
         </Field>
-      </Fragment>
+      </>
     );
   }
 }

@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
@@ -41,7 +41,7 @@ interface Props {
   locale: string;
   messages?: MessageProps;
   onDragEnd: () => void;
-  onDragStart: (evt: React.MouseEvent, dragIndex: number) => void;
+  onDragStart: (evt: MouseEvent, dragIndex: number) => void;
   showDragTooltip: boolean;
 }
 

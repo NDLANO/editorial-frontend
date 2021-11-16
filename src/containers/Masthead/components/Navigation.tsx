@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';

@@ -7,9 +7,8 @@
  */
 
 import { Node, Element, Descendant, Editor, Text, Transforms, Range } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
-import React from 'react';
 import Section from './Section';
 import { SlateSerializer } from '../../interfaces';
 import { defaultParagraphBlock } from '../paragraph/utils';
@@ -23,7 +22,7 @@ export interface SectionElement {
 }
 
 export const defaultSectionBlock = () =>
-  jsx('element', { type: TYPE_SECTION }, defaultParagraphBlock());
+  slatejsx('element', { type: TYPE_SECTION }, defaultParagraphBlock());
 
 export const sectionSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -31,9 +30,9 @@ export const sectionSerializer: SlateSerializer = {
     if (tag === TYPE_SECTION) {
       // Wrap single text node in section in a paragraph
       if (children.length === 1 && Text.isText(children[0])) {
-        children = [jsx('element', { type: 'paragraph' }, children)];
+        children = [slatejsx('element', { type: 'paragraph' }, children)];
       }
-      return jsx('element', { type: TYPE_SECTION }, children);
+      return slatejsx('element', { type: TYPE_SECTION }, children);
     }
     return;
   },

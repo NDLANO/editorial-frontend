@@ -6,7 +6,8 @@
  *
  */
 
-import React, { ReactNode } from 'react';
+import { ReactNode, MouseEvent } from 'react';
+
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
@@ -59,8 +60,8 @@ interface Props {
   embed: Embed;
   figureType: string;
   language: string;
-  onEdit?: (event: React.MouseEvent) => void;
-  onRemoveClick: (event: React.MouseEvent) => void;
+  onEdit?: (event: MouseEvent) => void;
+  onRemoveClick: (event: MouseEvent) => void;
   providerName?: string;
   tooltip: string;
   withMargin?: boolean;

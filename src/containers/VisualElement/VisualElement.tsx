@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { FormikHandlers } from 'formik';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import { embedPlugin, EmbedElement } from '../../components/SlateEditor/plugins/embed';

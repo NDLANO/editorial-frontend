@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
 import VisualElementModalWrapper from '../../../containers/VisualElement/VisualElementModalWrapper';

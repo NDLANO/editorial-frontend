@@ -6,9 +6,9 @@
  *
  */
 
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { TYPE_FILE } from '.';
 
 export const defaultFileBlock = (data: DOMStringMap[]) => {
-  return jsx('element', { type: TYPE_FILE, data }, [{ text: '' }]);
+  return slatejsx('element', { type: TYPE_FILE, data }, [{ text: '' }]);
 };

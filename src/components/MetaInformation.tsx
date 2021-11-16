@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -14,7 +14,6 @@ import styled from '@emotion/styled';
 const StyleMetaInformation = styled.div`
   display: inline-block;
   margin-left: ${spacing.normal};
-}
 `;
 
 const StyledStrong = styled.strong`
@@ -28,7 +27,7 @@ interface Props {
     title: string;
     copyright: string;
   };
-  action: React.ReactNode;
+  action: ReactNode;
 }
 
 const MetaInformation = ({ title, copyright, translations, action }: Props) => (

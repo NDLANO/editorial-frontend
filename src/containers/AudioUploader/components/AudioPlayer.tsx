@@ -6,7 +6,7 @@
  *
  */
 
-import React, { createRef } from 'react';
+import { createRef } from 'react';
 import PropTypes from 'prop-types';
 import Field from '../../../components/Field';
 

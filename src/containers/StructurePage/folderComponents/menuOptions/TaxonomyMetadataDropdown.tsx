@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/lib/editor';

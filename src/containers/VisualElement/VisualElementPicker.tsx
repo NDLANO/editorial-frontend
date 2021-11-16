@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import { ReactNode, useState } from 'react';
+
 import { Editor, Element, Transforms } from 'slate';
 import SlateVisualElementPicker from '../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 import VisualElementMenu from './VisualElementMenu';
@@ -15,7 +16,7 @@ interface Props {
   editor: Editor;
   language: string;
   types?: string[];
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const VisualElementPicker = ({ editor, language, types, children }: Props) => {

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';

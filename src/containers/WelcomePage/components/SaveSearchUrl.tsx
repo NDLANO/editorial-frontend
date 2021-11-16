@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+
 import BEMHelper from 'react-bem-helper';
 
 import { useTranslation } from 'react-i18next';
@@ -67,7 +68,7 @@ const SaveSearchUrl = () => {
     setIsValidUrl(isNDLAEdSearchUrl(inputFieldValue));
   };
 
-  const createSaveSearchUrl = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const createSaveSearchUrl = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     if (
       isNDLAEdSearchUrl(inputFieldValue) &&
@@ -107,7 +108,7 @@ const SaveSearchUrl = () => {
           placeholder={t('form.content.link.href')}
           iconRight={<LinkIcon />}
           container="div"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
             setInputFieldValue(event.target.value)
           }
           onBlur={handleBlur}

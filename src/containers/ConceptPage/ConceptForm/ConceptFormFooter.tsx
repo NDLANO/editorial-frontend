@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { isFormikFormDirty } from '../../../util/formHelper';

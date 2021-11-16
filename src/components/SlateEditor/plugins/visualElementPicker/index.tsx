@@ -1,6 +1,5 @@
-import React from 'react';
 import { Descendant, Editor } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import VisualElementPicker from '../../../../containers/VisualElement/VisualElementPicker';
 
 export const TYPE_VISUAL_ELEMENT_PICKER = 'visualElementPicker';
@@ -11,7 +10,7 @@ export interface VisualElementPickerElement {
 }
 
 export const defaultVisualElementPickerBlock = () => {
-  return jsx('element', { type: TYPE_VISUAL_ELEMENT_PICKER }, { text: '' });
+  return slatejsx('element', { type: TYPE_VISUAL_ELEMENT_PICKER }, { text: '' });
 };
 
 export const visualElementPickerPlugin = (language: string, types?: string[]) => (

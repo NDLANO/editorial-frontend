@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import Button from '@ndla/button';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';

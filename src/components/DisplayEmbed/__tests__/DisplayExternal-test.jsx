@@ -7,7 +7,6 @@
  */
 
 import nock from 'nock';
-import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 import DisplayExternal from '../DisplayExternal';

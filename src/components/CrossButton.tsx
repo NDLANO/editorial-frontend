@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Cross } from '@ndla/icons/action';
 import Button from '@ndla/button';
 

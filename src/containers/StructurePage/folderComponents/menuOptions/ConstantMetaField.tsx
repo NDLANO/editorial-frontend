@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
+
 import { spacing } from '@ndla/core';
 import { DeleteForever, Done } from '@ndla/icons/editor';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
@@ -41,7 +42,7 @@ const ConstantMetaField = ({
     setCurrentVal('');
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSubmit();
     }

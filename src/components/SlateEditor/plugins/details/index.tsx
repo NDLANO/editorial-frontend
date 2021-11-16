@@ -6,10 +6,9 @@
  *
  */
 
-import React from 'react';
 import { Element, Descendant, Editor, Path, Transforms, Node, Text, Range, Location } from 'slate';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { colors } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
 import Details from './Details';
@@ -98,9 +97,9 @@ const onBackspace = (
 export const detailsSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() === 'summary') {
-      return jsx('element', { type: TYPE_SUMMARY }, children);
+      return slatejsx('element', { type: TYPE_SUMMARY }, children);
     } else if (el.tagName.toLowerCase() === 'details') {
-      return jsx('element', { type: TYPE_DETAILS }, children);
+      return slatejsx('element', { type: TYPE_DETAILS }, children);
     }
     return;
   },
@@ -200,7 +199,7 @@ export const detailsPlugin = (editor: Editor) => {
             }
             // If first child is text, wrap it in a summary element
             if (Text.isText(child)) {
-              Transforms.wrapNodes(editor, jsx('element', { type: TYPE_SUMMARY }), {
+              Transforms.wrapNodes(editor, slatejsx('element', { type: TYPE_SUMMARY }), {
                 at: childPath,
               });
               return;
@@ -238,7 +237,7 @@ export const detailsPlugin = (editor: Editor) => {
             // All children must be one of types defined in textBlockElements
             // If wrong type, unwrap it. If text, wrap it.
             if (Text.isText(child)) {
-              Transforms.wrapNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+              Transforms.wrapNodes(editor, slatejsx('element', { type: TYPE_PARAGRAPH }), {
                 at: childPath,
               });
               return;
@@ -255,7 +254,7 @@ export const detailsPlugin = (editor: Editor) => {
               if (!lastTextBlockElement.includes(lastChild.type)) {
                 Transforms.insertNodes(
                   editor,
-                  jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]),
+                  slatejsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]),
                   {
                     at: [...path, node.children.length],
                   },

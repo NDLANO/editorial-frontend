@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import Button from '@ndla/button';
 import { Settings } from '@ndla/icons/editor';
 import styled from '@emotion/styled';

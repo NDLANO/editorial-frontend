@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import FormikField from '../../../components/FormikField';
 import { DRAFT_ADMIN_SCOPE } from '../../../constants';
 import ConceptsField from './ConceptsField';

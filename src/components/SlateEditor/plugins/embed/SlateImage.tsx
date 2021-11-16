@@ -6,9 +6,8 @@
  *
  */
 
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState, MouseEvent } from 'react';
+import { css } from '@emotion/core';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
@@ -35,7 +34,7 @@ interface Props {
   figureClass?: { className: string };
   isSelectedForCopy?: boolean;
   language: string;
-  onRemoveClick: (event: React.MouseEvent) => void;
+  onRemoveClick: (event: MouseEvent) => void;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   visualElement: boolean;
   children: ReactNode;

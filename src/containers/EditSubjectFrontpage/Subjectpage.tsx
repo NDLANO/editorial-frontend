@@ -32,45 +32,47 @@ type EditRouteProps = RouteComponentProps<{
 const Subjectpage = ({ match }: Props) => {
   const previousLocation = usePreviousLocation();
 
-  return <>
-    <OneColumn>
-      <Switch>
-        <Route
-          path={`${match.url}/:elementId/:subjectpageId/edit/:selectedLanguage`}
-          render={rp => {
-            const routeProps = rp as EditRouteProps; // Dirty assertion since react-router types are lacking for <Route>
-            return (
-              <EditSubjectpage
-                elementId={routeProps.match.params.elementId}
-                selectedLanguage={routeProps.match.params.selectedLanguage}
-                subjectpageId={routeProps.match.params.subjectpageId}
-                isNewlyCreated={/\/subjectpage\/(.*)\/new/.test(previousLocation ?? '')}
-              />
-            );
-          }}
-        />
-        <Route
-          path={`${match.url}/:elementId/new/:selectedLanguage`}
-          render={rp => {
-            const routeProps = rp as NewRouteProps; // Dirty assertion since react-router types are lacking for <Route>
+  return (
+    <>
+      <OneColumn>
+        <Switch>
+          <Route
+            path={`${match.url}/:elementId/:subjectpageId/edit/:selectedLanguage`}
+            render={rp => {
+              const routeProps = rp as EditRouteProps; // Dirty assertion since react-router types are lacking for <Route>
+              return (
+                <EditSubjectpage
+                  elementId={routeProps.match.params.elementId}
+                  selectedLanguage={routeProps.match.params.selectedLanguage}
+                  subjectpageId={routeProps.match.params.subjectpageId}
+                  isNewlyCreated={/\/subjectpage\/(.*)\/new/.test(previousLocation ?? '')}
+                />
+              );
+            }}
+          />
+          <Route
+            path={`${match.url}/:elementId/new/:selectedLanguage`}
+            render={rp => {
+              const routeProps = rp as NewRouteProps; // Dirty assertion since react-router types are lacking for <Route>
 
-            const elementName =
-              routeProps.location.state && routeProps.location.state.elementName;
+              const elementName =
+                routeProps.location.state && routeProps.location.state.elementName;
 
-            return (
-              <CreateSubjectpage
-                elementId={routeProps.match.params.elementId}
-                selectedLanguage={routeProps.match.params.selectedLanguage}
-                elementName={elementName}
-              />
-            );
-          }}
-        />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </OneColumn>
-    <Footer showLocaleSelector={false} />
-  </>;
+              return (
+                <CreateSubjectpage
+                  elementId={routeProps.match.params.elementId}
+                  selectedLanguage={routeProps.match.params.selectedLanguage}
+                  elementName={elementName}
+                />
+              );
+            }}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </OneColumn>
+      <Footer showLocaleSelector={false} />
+    </>
+  );
 };
 
 export default Subjectpage;

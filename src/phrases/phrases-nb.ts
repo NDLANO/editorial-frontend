@@ -155,6 +155,7 @@ const phrases = {
     standard: 'Læringsressurs',
   },
   subNavigation: {
+    media: 'Media',
     learningPath: 'Læringssti',
     learningPathLink: 'Gå til læringssti',
     subjectMatter: 'Opprett læringsressurs',
@@ -368,6 +369,7 @@ const phrases = {
   topicArticleForm: {
     visualElementTitle: {
       image: 'Bildetittel',
+      video: 'Videotittel',
       h5p: 'H5P tittel',
       brightcove: 'Videotittel',
       external: 'Innholdstekst',
@@ -1028,9 +1030,6 @@ const phrases = {
       },
       addFile: 'Legg til fil',
       removeList: 'Fjern filliste',
-      filesAdded: 'Filer lagt til',
-      saveChanges: 'Lagre endringer',
-      cancel: 'Avbryt',
       placeholder: 'Oppgi et filnavn',
       changeName: 'Endre navn',
       changeOrder: 'Endre rekkefølge',
@@ -1271,10 +1270,6 @@ const phrases = {
       },
     },
   },
-  detailBox: {
-    label: 'Endre overskrift',
-    placeholder: 'Kort sammendrag',
-  },
   notions: {
     edit: 'Rediger forklaring',
     closeNotion: 'Lukk forklaring',
@@ -1314,7 +1309,6 @@ const phrases = {
   editorFooter: {
     buttonLabel: 'Kvalitetssikring',
     heading: 'Kvalitetssikring:',
-    label: '',
     changeStatus: 'Endre status',
     back: 'Gå tilbake',
     inputHeader: 'Din merknad',

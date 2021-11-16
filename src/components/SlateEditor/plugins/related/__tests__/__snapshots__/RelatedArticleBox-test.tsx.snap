@@ -676,23 +676,44 @@ exports[`it goes in and out of edit mode 1`] = `
 exports[`it goes in and out of edit mode 2`] = `
 
 
-.emotion-24 article>p {
+.emotion-55 article>p {
   font-family: Source Sans Pro!important;
 }
 
-.emotion-17 {
+.emotion-19 {
   position: absolute;
   top: 0.1rem;
   right: 0.2rem;
   color: #d1372e;
 }
 
-.emotion-17:hover,
-.emotion-17:focus {
+.emotion-19:hover,
+.emotion-19:focus {
   color: #7d211c;
 }
 
-.emotion-22 {
+.emotion-27 {
+  height: 50px;
+  width: 50px;
+}
+
+.emotion-26 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+
+
+.emotion-44,
+.emotion-44:hover {
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
+}
+
+.emotion-53 {
   position: absolute;
   width: 100%;
 }
@@ -710,7 +731,7 @@ exports[`it goes in and out of edit mode 2`] = `
   animation-name: fadeIn;
 }
 
-.emotion-20 {
+.emotion-22 {
   position: relative;
   border: 2px solid #a5bcd3;
   padding: 52px;
@@ -740,7 +761,7 @@ exports[`it goes in and out of edit mode 2`] = `
   flex: 1;
 }
 
-.emotion-15 {
+.emotion-17 {
   position: relative;
   -webkit-flex: 1 0 50%;
   -ms-flex: 1 0 50%;
@@ -748,26 +769,26 @@ exports[`it goes in and out of edit mode 2`] = `
   max-width: 600px;
 }
 
-.emotion-15 > article {
+.emotion-17 > article {
   max-width: 100%;
 }
 
-.emotion-9 {
+.emotion-11 {
   margin-top: 6.5px;
 }
 
-.emotion-9:first-of-type {
+.emotion-11:first-of-type {
   margin-top: 0;
 }
 
-.emotion-7 {
+.emotion-9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-7 label {
+.emotion-9 label {
   width: 104px;
   max-width: 104px;
   padding: 20px 13px 13px 0;
@@ -778,7 +799,7 @@ exports[`it goes in and out of edit mode 2`] = `
   line-height: 1.1;
 }
 
-.emotion-6 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -807,8 +828,8 @@ exports[`it goes in and out of edit mode 2`] = `
   padding-right: 13px;
 }
 
-.emotion-6 input,
-.emotion-6 textarea {
+.emotion-8 input,
+.emotion-8 textarea {
   width: inherit;
   font-weight: 400;
   color: #444;
@@ -827,35 +848,35 @@ exports[`it goes in and out of edit mode 2`] = `
   flex-grow: 1;
 }
 
-.emotion-6 input:focus,
-.emotion-6 textarea:focus {
+.emotion-8 input:focus,
+.emotion-8 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   outline: none;
 }
 
-.emotion-6 input {
+.emotion-8 input {
   padding: 6.5px 13px;
 }
 
-.emotion-6 textarea {
+.emotion-8 textarea {
   padding: 0 13px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-6 .c-icon {
+.emotion-8 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-11 {
+.emotion-13 {
   margin: 10px 0;
 }
 
-.emotion-13 {
+.emotion-15 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -877,25 +898,25 @@ exports[`it goes in and out of edit mode 2`] = `
   text-align: center;
 }
 
-.emotion-13:hover,
-.emotion-13:focus {
+.emotion-15:hover,
+.emotion-15:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-13[disabled] {
+.emotion-15[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-13:focus {
+.emotion-15:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-18 {
+.emotion-20 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -927,36 +948,130 @@ exports[`it goes in and out of edit mode 2`] = `
   font-weight: 400;
 }
 
-.emotion-18:hover,
-.emotion-18:focus {
+.emotion-20:hover,
+.emotion-20:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-18[disabled] {
+.emotion-20[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-18:focus {
+.emotion-20:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-18:hover,
-.emotion-18:active,
-.emotion-18:disabled,
-.emotion-18:focus {
+.emotion-20:hover,
+.emotion-20:active,
+.emotion-20:disabled,
+.emotion-20:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-18:focus {
+.emotion-20:focus {
   outline-width: medium;
+}
+
+.emotion-6 {
+  border: calc(26px / 6.5) solid rgba(0,0,0,0.1);
+  border-bottom-color: #20588f;
+  border-radius: 50%;
+  -webkit-animation: spinnerAnimation 0.7s linear infinite;
+  animation: spinnerAnimation 0.7s linear infinite;
+  height: 26px;
+  width: 26px;
+  display: block;
+  margin: 0;
+}
+
+.emotion-51 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.emotion-49 {
+  background-color: #f8f8f8;
+  box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
+  width: 620px;
+  border-radius: 5px;
+  position: absolute;
+  top: 5%;
+  z-index: 2;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.emotion-30 {
+  background: linear-gradient(180deg,#5d97a9,#508a9c);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding-left: 13px;
+  height: 50px;
+  color: #f8f8f8;
+}
+
+.emotion-47 {
+  padding: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.emotion-42 {
+  width: 100%;
+}
+
+.emotion-42 > * {
+  width: 100%;
+}
+
+.emotion-42 form {
+  background-color: white;
 }
 
 <div>
@@ -999,7 +1114,7 @@ exports[`it goes in and out of edit mode 2`] = `
     </div>
   </div>
   <div
-    class="emotion-22 emotion-23"
+    class="emotion-53 emotion-54"
     contenteditable="false"
   >
     <div
@@ -1007,7 +1122,7 @@ exports[`it goes in and out of edit mode 2`] = `
       class="emotion-0 emotion-1"
     />
     <div
-      class="emotion-20 emotion-21"
+      class="emotion-22 emotion-23"
     >
       <h1
         class="c-section-heading c-related-articles__component-title"
@@ -1025,7 +1140,7 @@ exports[`it goes in and out of edit mode 2`] = `
         />
       </div>
       <div
-        class="emotion-15 emotion-16"
+        class="emotion-17 emotion-18"
         data-cy="styled-article-modal"
       >
         <div
@@ -1036,13 +1151,13 @@ exports[`it goes in and out of edit mode 2`] = `
           style="position: relative;"
         >
           <div
-            class="emotion-9 emotion-10"
+            class="emotion-11 emotion-12"
           >
             <div
-              class="emotion-7 emotion-8"
+              class="emotion-9 emotion-10"
             >
               <form
-                class="emotion-6"
+                class="emotion-8"
               >
                 <input
                   aria-autocomplete="list"
@@ -1053,37 +1168,20 @@ exports[`it goes in and out of edit mode 2`] = `
                   placeholder="Søk på tittel"
                   value=""
                 />
-                <svg
-                  class="c-icon"
-                  data-license="Apache License 2.0"
-                  data-source="Material Design"
-                  fill="currentColor"
-                  height="1em"
-                  preserveAspectRatio="xMidYMid meet"
-                  style="vertical-align: middle;"
-                  viewBox="0 0 48 48"
-                  width="1em"
-                >
-                  <title>
-                    Search
-                  </title>
-                  <g>
-                    <path
-                      d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"
-                    />
-                  </g>
-                </svg>
+                <div
+                  class="emotion-6 emotion-7"
+                />
               </form>
             </div>
           </div>
         </div>
         <div
-          class="emotion-11 emotion-12"
+          class="emotion-13 emotion-14"
         >
           Eller
         </div>
         <button
-          class="emotion-13 emotion-14"
+          class="emotion-15 emotion-16"
           data-testid="showAddExternal"
           type="button"
         >
@@ -1091,7 +1189,7 @@ exports[`it goes in and out of edit mode 2`] = `
         </button>
       </div>
       <button
-        class="emotion-17 emotion-18 emotion-14"
+        class="emotion-19 emotion-20 emotion-16"
         contenteditable="false"
         data-cy="close-related-button"
         type="button"
@@ -1126,9 +1224,106 @@ exports[`it goes in and out of edit mode 2`] = `
         </svg>
       </button>
     </div>
+    <div
+      class="emotion-51 emotion-52"
+    >
+      <div
+        aria-hidden="true"
+        class="emotion-0 emotion-1"
+      />
+      <div
+        class="emotion-49 emotion-50"
+      >
+        <div
+          class="emotion-30 emotion-31"
+        >
+          Skriv inn tittel og url på ekstern artikkel
+          <button
+            class="emotion-27 emotion-20 emotion-16"
+            type="button"
+          >
+            <svg
+              class="c-icon emotion-26"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
+            >
+              <title>
+                Cross
+              </title>
+              <g>
+                <path
+                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div
+          class="emotion-47 emotion-48"
+        >
+          <div
+            class="emotion-42 emotion-43"
+          >
+            <div
+              class="emotion-11 emotion-12"
+            >
+              <div
+                class="emotion-9 emotion-10"
+              >
+                <div
+                  class="emotion-8"
+                >
+                  <input
+                    data-testid="addExternalTitleInput"
+                    placeholder="Tittel"
+                    type="text"
+                    value="Verdens gang"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="emotion-11 emotion-12"
+            >
+              <div
+                class="emotion-9 emotion-10"
+              >
+                <div
+                  class="emotion-8"
+                >
+                  <input
+                    data-testid="addExternalUrlInput"
+                    placeholder="https://example.com"
+                    type="text"
+                    value="https://www.vg.no"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="emotion-44 emotion-20 emotion-16"
+            data-testid="taxonomyLightboxButton"
+            type="button"
+          >
+            Lagre
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
   <div
-    class="emotion-24"
+    class="emotion-55"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"

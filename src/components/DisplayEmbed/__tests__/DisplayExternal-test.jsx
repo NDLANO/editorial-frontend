@@ -8,7 +8,7 @@
 
 import nock from 'nock';
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 import DisplayExternal from '../DisplayExternal';
 import { getIframeSrcFromHtmlString } from '../../../util/htmlHelpers';
@@ -67,13 +67,13 @@ test('DisplayExternal renders external correctly', () => {
     url: 'https://ndla.no/oembed',
   };
 
-  const component = TestRenderer.create(
+  const  { container } = render(
     <IntlWrapper>
       <DisplayExternal embed={embed} />
     </IntlWrapper>,
     options,
   );
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 test('DisplayExternal renders iframe correctly', () => {
@@ -84,14 +84,14 @@ test('DisplayExternal renders iframe correctly', () => {
     width: '618',
   };
 
-  const component = TestRenderer.create(
+  const { container } = render(
     <IntlWrapper>
       <DisplayExternal onRemoveClick={() => ''} embed={embed} />
     </IntlWrapper>,
     options,
   );
 
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
 
 test('DisplayExternal display error on fetch fail', () => {
@@ -103,13 +103,13 @@ test('DisplayExternal display error on fetch fail', () => {
       code: 'AWFUL_ERROR',
     });
 
-  const component = TestRenderer.create(
+  const { container } = render(
     <IntlWrapper>
       <DisplayExternal embed={{ url: 'https://ndla.no/oembed' }} />
     </IntlWrapper>,
     options,
   );
 
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
   setTimeout(() => {}, global.DEFAULT_TIMEOUT);
 });

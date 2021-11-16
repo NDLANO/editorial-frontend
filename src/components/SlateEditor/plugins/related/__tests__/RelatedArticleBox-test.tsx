@@ -8,11 +8,10 @@
 
 import React from 'react';
 import nock from 'nock';
-import { createEditor } from 'slate';
+import { createEditor, Descendant } from 'slate';
 import { withReact, Slate, Editable } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { act } from 'react-test-renderer';
-import { render, fireEvent, cleanup, wait } from '@testing-library/react';
+import { render, fireEvent, cleanup, act } from '@testing-library/react';
 import RelatedArticleBox from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
 import { TYPE_SECTION } from '../../section';
@@ -33,7 +32,7 @@ jest.mock('slate-react', () => {
 
 afterEach(cleanup);
 
-const relatedElement = {
+const relatedElement: Descendant = {
   type: TYPE_RELATED,
   data: {},
   children: [
@@ -43,7 +42,7 @@ const relatedElement = {
   ],
 };
 
-const element = {
+const element: Descendant = {
   type: TYPE_SECTION,
   children: [relatedElement],
 };
@@ -57,12 +56,7 @@ const wrapper = () => {
         <Slate editor={editor} value={[element]} onChange={() => {}}>
           <Editable />
         </Slate>
-        <RelatedArticleBox
-          t={() => 'injected'}
-          editor={editor}
-          locale="nb"
-          element={relatedElement}
-        />
+        <RelatedArticleBox editor={editor} locale="nb" element={relatedElement} />
       </div>
     </IntlWrapper>,
   );
@@ -87,8 +81,6 @@ test('it goes in and out of edit mode', async () => {
     fireEvent.change(inputTitle, { target: { value: 'Verdens gang' } });
     fireEvent.click(getByTestId('taxonomyLightboxButton'));
   });
-
-  await wait();
 
   expect(container.firstChild).toMatchSnapshot();
 });

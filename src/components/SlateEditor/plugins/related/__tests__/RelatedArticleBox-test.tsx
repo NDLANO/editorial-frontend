@@ -56,7 +56,14 @@ const wrapper = () => {
         <Slate editor={editor} value={[element]} onChange={() => {}}>
           <Editable />
         </Slate>
-        <RelatedArticleBox editor={editor} locale="nb" element={relatedElement} />
+        {/* @ts-ignore */}
+        <RelatedArticleBox
+          editor={editor}
+          locale="nb"
+          element={relatedElement}
+          children={<></>}
+          onRemoveClick={() => {}}
+        />
       </div>
     </IntlWrapper>,
   );
@@ -66,11 +73,21 @@ test('it goes in and out of edit mode', async () => {
   nock('http://ndla-api')
     .get('/search-api/v1/search/editorial/?context-types=standard%2C%20topic-article&page=1&query=')
     .reply(200, { results: [] });
-  const { getByTestId, container } = wrapper();
+  const {
+    getByTestId,
+    container,
+    findByTestId,
+    findByText,
+    findAllByRole,
+    findByDisplayValue,
+  } = wrapper();
+  await findByText('Dra artikkel for å endre rekkefølge');
 
   act(() => {
     fireEvent.click(getByTestId('showAddExternal'));
   });
+
+  await findByTestId('addExternalTitleInput');
 
   expect(container.firstChild).toMatchSnapshot();
 
@@ -78,9 +95,20 @@ test('it goes in and out of edit mode', async () => {
   const inputTitle = getByTestId('addExternalTitleInput');
   act(() => {
     fireEvent.change(input, { target: { value: 'https://www.vg.no' } });
+  });
+
+  await findByDisplayValue('https://www.vg.no');
+
+  act(() => {
     fireEvent.change(inputTitle, { target: { value: 'Verdens gang' } });
+  });
+  await findByDisplayValue('Verdens gang');
+
+  act(() => {
     fireEvent.click(getByTestId('taxonomyLightboxButton'));
   });
+
+  await findAllByRole('link', { name: 'Verdens gang' });
 
   expect(container.firstChild).toMatchSnapshot();
 });

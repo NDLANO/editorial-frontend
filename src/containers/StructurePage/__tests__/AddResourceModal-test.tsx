@@ -89,10 +89,9 @@ test('Can select a resource from the list and it adds it to topic', async () => 
   act(() => {
     fireEvent.click(getByTestId('taxonomyLightboxButton'));
   });
+  await findByText('Lagre');
   expect(nock.isDone());
 });
-
-const location = 'Location';
 
 test('Can paste a valid url and add it to topic', async () => {
   nock('http://ndla-api')
@@ -112,7 +111,7 @@ test('Can paste a valid url and add it to topic', async () => {
         topicid: 'topicId2',
       }),
     )
-    .reply(201, {}, { [location]: 'urn' });
+    .reply(201, {}, { Location: 'urn' });
   const { container, getByTestId, findByTestId, findByText } = wrapper();
   await findByText('Hva kan du om geologiske prosesser?');
   const input = getByTestId('addResourceUrlInput');

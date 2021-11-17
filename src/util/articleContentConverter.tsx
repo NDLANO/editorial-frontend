@@ -37,7 +37,6 @@ import { noEmbedSerializer } from '../components/SlateEditor/plugins/noEmbed';
 import { defaultEmbedBlock } from '../components/SlateEditor/plugins/embed/utils';
 import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
 import { Embed } from '../interfaces';
-import { defaultVisualElementPickerBlock } from '../components/SlateEditor/plugins/visualElementPicker';
 import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/utils';
 import { divSerializer } from '../components/SlateEditor/plugins/div';
 
@@ -280,7 +279,7 @@ export function embedToEditorValue(embed?: Partial<Embed>) {
 
 export function embedTagToEditorValue(embedTag: string) {
   const embed = parseEmbedTag(embedTag);
-  return embed ? embedToEditorValue(embed) : [defaultVisualElementPickerBlock()];
+  return embed ? embedToEditorValue(embed) : [];
 }
 
 export function editorValueToEmbed(editorValue?: Descendant[]) {

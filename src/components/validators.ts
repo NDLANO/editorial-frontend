@@ -30,13 +30,14 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
     return true;
   }
 
+  // a. List of Slate nodes. For example content in Formik.
   if (Node.isNodeList(value)) {
     for (const node of value) {
-      // If one root node is not paragraph or section
+      // i. If one root node is not paragraph or section => nonEmpty
       if (Element.isElement(node) && ![TYPE_PARAGRAPH, TYPE_SECTION].includes(node.type)) {
         return false;
       }
-      // If one descendant of root is not paragraph
+      // ii. If one descendant of root is not paragraph => nonEmpty
       for (const el of [...Node.elements(node)]) {
         const [element] = el;
         if (Element.isElement(element) && element.type !== TYPE_PARAGRAPH) {
@@ -46,21 +47,22 @@ export const isEmpty = (value?: Descendant[] | Descendant | string | null) => {
     }
 
     return value.length === 0 || (value.length === 1 && Node.string(value[0]).length === 0);
+    // b. A single Slate node.
   } else if (Node.isNode(value)) {
+    // i. If one descendant of root is not paragraph => nonEmpty
     for (const el of [...Node.elements(value)]) {
       const [element] = el;
       if (Element.isElement(element) && element.type !== TYPE_PARAGRAPH) {
         return false;
       }
+      // ii. If the generated text string is '' => empty
+      return Node.string(value).length === 0;
     }
-    return Node.string(value).length === 0;
+    // c. Other objects.
   } else if (value.constructor === Object) {
     if (Object.keys(value).length === 0) {
       return true;
     }
-  }
-  if (value.length === 0) {
-    return true;
   }
   return false;
 };

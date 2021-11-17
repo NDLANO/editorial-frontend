@@ -7,11 +7,9 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { HistoryShape } from '../../shapes';
 import { toPreviewDraft } from '../../util/routeHelpers';
 
 const StyledSelect = styled.select`
@@ -21,20 +19,29 @@ const StyledSelect = styled.select`
   display: block;
 `;
 
+interface MatchProps {
+  draftId: string;
+  language: string;
+}
+
+interface Props extends RouteComponentProps<MatchProps> {
+  supportedLanguages: string[];
+}
+
 const LanguageSelector = ({
   supportedLanguages,
   history,
   match: {
     params: { draftId, language },
   },
-}) => {
+}: Props) => {
   const { t } = useTranslation();
   if (supportedLanguages.length === 0) {
     return null;
   }
   return (
     <StyledSelect
-      onChange={evt => history.push(toPreviewDraft(draftId, evt.target.value))}
+      onChange={evt => history.push(toPreviewDraft(parseInt(draftId), evt.target.value))}
       value={language}>
       {supportedLanguages.map(supportedLanguage => (
         <option key={supportedLanguage} value={supportedLanguage}>
@@ -43,17 +50,6 @@ const LanguageSelector = ({
       ))}
     </StyledSelect>
   );
-};
-
-LanguageSelector.propTypes = {
-  supportedLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      draftId: PropTypes.string.isRequired,
-      language: PropTypes.string.isRequired,
-    }),
-  }),
-  history: HistoryShape,
 };
 
 export default withRouter(LanguageSelector);

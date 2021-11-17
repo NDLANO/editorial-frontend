@@ -24,3 +24,6 @@ export const RESOURCE_TYPES = 'resourceTypes';
 
 export const SUBJECTS = 'subjects';
 export const SUBJECT = 'subject';
+
+export const FILM_FRONTPAGE_QUERY = 'filmFrontpage';
+export const FILM_SLIDESHOW = 'filmSlideshow';

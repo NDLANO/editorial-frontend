@@ -23,7 +23,7 @@ export const StyledInputWrapper = styled.div`
 `;
 
 interface Props {
-  caption: string;
+  caption?: string;
   alt: string;
   madeChanges: boolean;
   onChange: Function;

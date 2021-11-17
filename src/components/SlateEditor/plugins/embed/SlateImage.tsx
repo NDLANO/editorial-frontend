@@ -116,7 +116,7 @@ const SlateImage = ({
                     margin: 0;
                   }
                 `}>
-                {parseMarkdown(embed.caption)}
+                {embed.caption && parseMarkdown(embed.caption)}
               </div>
             </figcaption>
           </figure>

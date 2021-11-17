@@ -6,7 +6,6 @@
  *
  */
 
-import defined from 'defined';
 import auth0, { Auth0DecodedHash, Auth0ParseHashError } from 'auth0-js';
 import config from '../config';
 import { expiresIn, ndlaId, ndlaUserName, ndlaUserEmail } from './jwtHelper';
@@ -65,7 +64,7 @@ const apiBaseUrl = (() => {
     return 'http://ndla-api';
   }
 
-  return defined(NDLA_API_URL, locationOrigin);
+  return NDLA_API_URL ?? locationOrigin;
 })();
 
 export { locationOrigin, apiBaseUrl };

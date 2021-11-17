@@ -7,9 +7,9 @@
  */
 
 import React from 'react';
-import { render } from 'enzyme';
 import { FieldInputProps } from 'formik';
-// @ts-ignore
+import { act, fireEvent, render } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 import AvailabilityField from '../components/AvailabilityField';
 
@@ -22,20 +22,21 @@ const mockField: FieldInputProps<string[]> = {
 
 describe('<AvailabilityField />', () => {
   it('renders correctly and sets availability to Alle when everyone is passed as prop', () => {
-    const wrapper = render(
+    const { getAllByRole, getByRole } = render(
       <IntlWrapper>
         <AvailabilityField availability={'everyone'} field={mockField} />
       </IntlWrapper>,
     );
 
-    const h1Text = wrapper.find('h1').text();
-    const inputList = wrapper.find('input[aria-checked]');
-    const labels = wrapper.find('label');
+    expect(getByRole('heading')).toHaveTextContent('Hvem er artikkelen ment for:');
+    expect(getAllByRole('radio')).toHaveLength(3);
+    expect(getByRole('radio', { name: 'Alle' })).toBeChecked();
 
-    expect(h1Text).toBe('Hvem er artikkelen ment for:');
-    expect(inputList.length).toBe(3);
-    expect(labels.length).toBe(3);
-    expect(labels.text()).toBe('AlleLærereElever');
-    expect(inputList.first().attr()['aria-checked']).toBe('true');
+    act(() => {
+      fireEvent.click(getByRole('radio', { name: 'Elever' }));
+    });
+
+    expect(getByRole('radio', { name: 'Alle' })).not.toBeChecked();
+    expect(getByRole('radio', { name: 'Elever' })).toBeChecked();
   });
 });

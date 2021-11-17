@@ -6,8 +6,8 @@
  *
  */
 
+import { render } from '@testing-library/react';
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
 import EditorErrorMessage from '../EditorErrorMessage';
 
 test('EditorErrorMessage renders', () => {
@@ -16,9 +16,9 @@ test('EditorErrorMessage renders', () => {
     resource: 'error',
   };
 
-  const component = TestRenderer.create(
+  const { container } = render(
     <EditorErrorMessage embed={embed} msg={embed.message} onRemoveClick={() => {}} />,
   );
 
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });

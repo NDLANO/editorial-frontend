@@ -40,7 +40,7 @@ To use a different api set the `NDLA_ENVIRONMENT` environment variable.
 
 ### Unit tests
 
-Test framework: Jest with enzyme.
+Test framework: Jest with React Testing Library.
 
 ```
 $ yarn test

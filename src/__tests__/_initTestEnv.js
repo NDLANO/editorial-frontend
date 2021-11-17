@@ -8,14 +8,8 @@
 
 import './raf-polyfill';
 
-/* eslint-disable */
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import prettier from 'prettier/standalone';
 import parseHTML from 'prettier/parser-html';
-
-/* eslint-enable */
-configure({ adapter: new Adapter() });
 
 const localStorageMock = (function createLocalStorage() {
   let store = {};

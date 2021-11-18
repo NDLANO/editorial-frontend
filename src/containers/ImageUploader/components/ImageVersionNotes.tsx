@@ -8,8 +8,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { VersionHistory } from '@ndla/editor';
-import { ImagePropType } from './ImageForm';
-import { EditorNote } from '../../../modules/image/imageApiInterfaces';
+import { EditorNote, ImageApiType } from '../../../modules/image/imageApiInterfaces';
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../../modules/auth0/auth0Api';
 import Spinner from '../../../components/Spinner';
 import formatDate from '../../../util/formatDate';
@@ -20,7 +19,7 @@ const getUser = (userId: string, allUsers: SimpleUserType[]): string => {
 };
 
 interface Props {
-  image?: ImagePropType;
+  image?: ImageApiType;
 }
 
 const ImageVersionNotes = ({ image }: Props) => {

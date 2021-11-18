@@ -6,35 +6,34 @@
  *
  */
 
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { fetchLicenses } from '../modules/draft/draftApi';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
 import {
   ImageApiType,
   ImageSearchQuery,
   UpdatedImageMetadata,
 } from '../modules/image/imageApiInterfaces';
-import { ImageType, License } from '../interfaces';
 import EditorErrorMessage from './SlateEditor/EditorErrorMessage';
+import { useLicenses } from '../containers/Licenses/LicensesProvider';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
 `;
 
 interface Props {
-  onImageSelect: (image: ImageType) => void;
+  onImageSelect: (image: ImageApiType) => void;
   locale: string;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
   searchImages: (queryObject: ImageSearchQuery) => void;
   fetchImage: (id: number) => Promise<ImageApiType>;
-  image?: ImageType;
+  image?: ImageApiType;
   updateImage: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
   inModal?: boolean;
 }
@@ -52,16 +51,10 @@ const ImageSearchAndUploader = ({
 }: Props) => {
   const { t } = useTranslation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [licenses, setLicenses] = useState<License[]>();
-  useEffect(() => {
-    fetchLicenses().then(licenses => setLicenses(licenses));
-  }, []);
-
+  const { licenses } = useLicenses();
   const searchImagesWithParameters = (query: string, page: number) => {
     return searchImages({ query, page, 'page-size': 16 });
   };
-
-  const transformedImage = image ? { ...image, id: parseInt(image.id) } : { language: locale };
 
   return (
     <Tabs
@@ -100,8 +93,9 @@ const ImageSearchAndUploader = ({
           title: t('form.visualElement.imageUpload'),
           content: licenses ? (
             <ImageForm
+              language={locale}
               inModal={inModal}
-              image={transformedImage}
+              image={image}
               onUpdate={updateImage}
               closeModal={closeModal}
               licenses={licenses}

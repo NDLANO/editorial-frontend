@@ -5,52 +5,53 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { LocaleContext } from '../App/App';
+import { useTranslation } from 'react-i18next';
 import ImageForm from './components/ImageForm';
 import { createFormData } from '../../util/formDataHelper';
 import * as imageApi from '../../modules/image/imageApi';
 import { toEditImage } from '../../util/routeHelpers';
-import { License } from '../../interfaces';
-import { NewImageMetadata } from '../../modules/image/imageApiInterfaces';
-import { fetchLicenses } from '../../modules/draft/draftApi';
-import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
+import { ImageApiType, NewImageMetadata } from '../../modules/image/imageApiInterfaces';
+import { useLicenses } from '../Licenses/LicensesProvider';
 
 interface Props extends RouteComponentProps {
   isNewlyCreated?: boolean;
-  showSaved?: boolean;
+  editingArticle?: boolean;
+  onImageCreated?: (image: ImageApiType) => void;
+  closeModal?: () => void;
+  inModal?: boolean;
 }
 
-const CreateImage = ({ history, isNewlyCreated, showSaved }: Props) => {
-  const locale: string = useContext(LocaleContext);
-  const [licenses, setLicenses] = useState<License[]>([]);
-
-  useEffect(() => {
-    getLicenses();
-  }, []);
-
-  const getLicenses = async () => {
-    const license = await fetchLicenses();
-    setLicenses(license);
-  };
+const CreateImage = ({
+  history,
+  isNewlyCreated,
+  editingArticle,
+  onImageCreated,
+  inModal,
+  closeModal,
+}: Props) => {
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
+  const { imageLicenses } = useLicenses();
 
   const onCreateImage = async (imageMetadata: NewImageMetadata, image: string | Blob) => {
     const formData = await createFormData(image, imageMetadata);
     const createdImage = await imageApi.postImage(formData);
-    if (!imageMetadata.id) {
+    onImageCreated?.(createdImage);
+    if (!editingArticle && createdImage.id) {
       history.push(toEditImage(createdImage.id, imageMetadata.language));
     }
   };
 
   return (
     <ImageForm
-      image={{ language: locale }}
-      inModal={false}
-      isLoading={false}
+      language={locale}
+      inModal={inModal}
       isNewlyCreated={isNewlyCreated}
-      licenses={draftLicensesToImageLicenses(licenses)}
+      licenses={imageLicenses}
       onUpdate={onCreateImage}
+      closeModal={closeModal}
     />
   );
 };

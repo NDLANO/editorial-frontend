@@ -11,8 +11,6 @@ import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
-import { fetchLicenses } from '../../modules/draft/draftApi';
-import { License } from '../../interfaces';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 const CreatePodcast = loadable(() => import('./CreatePodcast'));
 const EditPodcast = loadable(() => import('./EditPodcast'));
@@ -25,7 +23,6 @@ interface Props {
 
 const PodcastUploderPage = ({ match, history, location }: RouteComponentProps & Props) => {
   const { t } = useTranslation();
-  const [licenses, setLicenses] = useState<License[]>([]);
   const [previousLocation, setPreviousLocation] = useState('');
   const [isNewlyCreated, setNewlyCreated] = useState(false);
 
@@ -36,28 +33,17 @@ const PodcastUploderPage = ({ match, history, location }: RouteComponentProps & 
     if (previousLocation !== location.pathname) {
       setPreviousLocation(location.pathname);
     }
-
-    getLicenses();
   }, [location.pathname, previousLocation]);
-
-  const getLicenses = async () => {
-    const license = await fetchLicenses();
-    setLicenses(license);
-  };
 
   return (
     <OneColumn>
       <HelmetWithTracker title={t('htmlTitles.podcastUploaderPage')} />
       <Switch>
-        <Route
-          path={`${match.url}/new`}
-          render={() => <CreatePodcast history={history} licenses={licenses} />}
-        />
+        <Route path={`${match.url}/new`} render={() => <CreatePodcast history={history} />} />
         <Route
           path={`${match.url}/:audioId/edit/:audioLanguage`}
           render={routeProps => (
             <EditPodcast
-              licenses={licenses}
               isNewlyCreated={isNewlyCreated}
               podcastId={routeProps.match.params.audioId}
               podcastLanguage={routeProps.match.params.audioLanguage}

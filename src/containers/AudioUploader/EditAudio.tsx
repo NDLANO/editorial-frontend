@@ -14,7 +14,7 @@ import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import Spinner from '../../components/Spinner';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
-import { License, LocaleType } from '../../interfaces';
+import { LocaleType } from '../../interfaces';
 import { AudioApiType, AudioMetaInformationPut } from '../../modules/audio/audioApiInterfaces';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -23,23 +23,15 @@ interface Props {
   audioId: number;
   audioLanguage: string;
   isNewlyCreated?: boolean;
-  licenses: License[];
 }
 
-const EditAudio = ({
-  locale,
-  audioId,
-  audioLanguage,
-  isNewlyCreated,
-  licenses,
-  ...rest
-}: Props) => {
+const EditAudio = ({ locale, audioId, audioLanguage, isNewlyCreated, ...rest }: Props) => {
   const [audio, setAudio] = useState<AudioApiType | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const { translating, translateToNN } = useTranslateApi(
     audio,
     (audio: AudioApiType) => setAudio(audio),
-    ['id', 'manuscript', 'title'],
+    ['id', 'manuscript.manuscript', 'title.title'],
   );
 
   useEffect(() => {
@@ -84,7 +76,6 @@ const EditAudio = ({
       onUpdate={onUpdate}
       audioLanguage={language}
       isNewlyCreated={isNewlyCreated}
-      licenses={licenses}
       translating={translating}
       translateToNN={translateToNN}
       {...rest}
@@ -94,12 +85,6 @@ const EditAudio = ({
 
 EditAudio.propTypes = {
   audioId: PropTypes.string.isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
   locale: PropTypes.string.isRequired,
   audioLanguage: PropTypes.string.isRequired,
   isNewlyCreated: PropTypes.bool,

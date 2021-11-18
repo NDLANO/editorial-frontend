@@ -21,10 +21,6 @@ import SavedSearch from './SavedSearch';
 import { fetchUserData, updateUserData } from '../../../modules/draft/draftApi';
 import { isNDLAEdSearchUrl } from '../../../util/htmlHelpers';
 
-interface Props {
-  locale: string;
-}
-
 export const classes = new BEMHelper({
   name: 'save-search',
   prefix: 'c-',
@@ -40,7 +36,7 @@ export const getSavedSearchRelativeUrl = (inputValue: string) => {
   return '/search'.concat(relativeUrl);
 };
 
-const SaveSearchUrl = ({ locale }: Props) => {
+const SaveSearchUrl = () => {
   const { t } = useTranslation();
   const [isValidUrl, setIsValidUrl] = useState(true);
   const [inputFieldValue, setInputFieldValue] = useState('');
@@ -103,13 +99,7 @@ const SaveSearchUrl = ({ locale }: Props) => {
     <>
       {!!savedSearches.length ? (
         savedSearches.map((search, index) => (
-          <SavedSearch
-            key={search}
-            deleteSearch={deleteSearch}
-            locale={locale}
-            search={search}
-            index={index}
-          />
+          <SavedSearch key={search} deleteSearch={deleteSearch} search={search} index={index} />
         ))
       ) : (
         <span>{t('welcomePage.emptySavedSearch')}</span>

@@ -4,32 +4,18 @@ exports[`articleContentConverter convert article that is a mix of inline and blo
 
 exports[`articleContentConverter convert learningresource content 1`] = `
 Object {
-  "document": Object {
-    "data": Object {},
-    "nodes": Array [
-      Object {
-        "data": Object {},
-        "nodes": Array [
-          Object {
-            "data": Object {},
-            "nodes": Array [
-              Object {
-                "marks": Array [],
-                "object": "text",
-                "text": "Lorem ipsum",
-              },
-            ],
-            "object": "block",
-            "type": "heading-two",
-          },
-        ],
-        "object": "block",
-        "type": "section",
-      },
-    ],
-    "object": "document",
-  },
-  "object": "value",
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "text": "Lorem ipsum",
+        },
+      ],
+      "level": 2,
+      "type": "heading",
+    },
+  ],
+  "type": "section",
 }
 `;
 

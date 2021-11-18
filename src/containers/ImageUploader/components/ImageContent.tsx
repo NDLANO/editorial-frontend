@@ -17,6 +17,8 @@ import { DeleteForever } from '@ndla/icons/editor';
 import { animations, spacing, colors } from '@ndla/core';
 import IconButton from '../../../components/IconButton';
 import FormikField from '../../../components/FormikField';
+import { ImageFormikType } from '../imageTransformers';
+import { ImageFormErrorFields } from './ImageForm';
 
 const StyledImage = styled.img`
   margin: ${spacing.normal} 0;
@@ -34,7 +36,7 @@ const StyledDeleteButtonContainer = styled.div`
 `;
 
 interface Props {
-  formik: FormikContextType<any>;
+  formik: FormikContextType<ImageFormikType>;
 }
 
 const ImageContent = ({ formik }: Props) => {
@@ -70,6 +72,7 @@ const ImageContent = ({ formik }: Props) => {
         <StyledDeleteButtonContainer>
           <Tooltip tooltip={t('form.image.removeImage')}>
             <IconButton
+              type="button"
               onClick={() => {
                 setFieldValue('imageFile', undefined);
               }}
@@ -95,7 +98,7 @@ const ImageContent = ({ formik }: Props) => {
             container="div"
             type="text"
             autoExpand
-            warningText={errors[field.name]}
+            warningText={errors[field.name as ImageFormErrorFields]}
             {...field}
           />
         )}
@@ -108,7 +111,7 @@ const ImageContent = ({ formik }: Props) => {
             container="div"
             type="text"
             autoExpand
-            warningText={errors[field.name]}
+            warningText={errors[field.name as ImageFormErrorFields]}
             {...field}
           />
         )}

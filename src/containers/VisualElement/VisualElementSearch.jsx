@@ -8,24 +8,12 @@
 
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
-import { actions as tagActions, getAllTagsByLanguage } from '../../modules/tag/tag';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
-import {
-  getImage,
-  getUploadedImage,
-  getSaving as getSavingImage,
-  actions as imageActions,
-} from '../../modules/image/image';
-import { ImageShape } from '../../shapes';
-import { getShowSaved } from '../Messages/messagesSelectors';
 import config from '../../config';
 import * as visualElementApi from './visualElementApi';
 import * as imageApi from '../../modules/image/imageApi';
-import { getLocale } from '../../modules/locale/locale';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import VisualElementUrlPreview from './VisualElementUrlPreview';
@@ -38,32 +26,8 @@ const titles = (t, resource = '') => ({
 });
 
 class VisualElementSearch extends Component {
-  componentDidUpdate() {
-    const { uploadedImage, selectedResource, handleVisualElementChange } = this.props;
-    if (uploadedImage) {
-      const image = getImage(uploadedImage.id, true);
-      handleVisualElementChange({
-        resource: selectedResource,
-        resource_id: uploadedImage.id,
-        size: 'full',
-        align: '',
-        alt: uploadedImage.alttext.alttext,
-        caption: uploadedImage.caption.caption,
-        metaData: image,
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    const { uploadedImage, clearUploadedImage } = this.props;
-    if (uploadedImage) {
-      clearUploadedImage();
-    }
-  }
-
   render() {
     const {
-      isSavingImage,
       selectedResource,
       selectedResourceUrl,
       selectedResourceType,
@@ -72,11 +36,12 @@ class VisualElementSearch extends Component {
       closeModal,
       articleLanguage,
       videoTypes,
-      locale,
+      i18n,
       showMetaImageCheckbox,
       onSaveAsMetaImage,
       t,
     } = this.props;
+    const locale = i18n.language;
     const fetchImage = id => visualElementApi.fetchImage(id, articleLanguage);
     const [allowedUrlResource] = EXTERNAL_WHITELIST_PROVIDERS.map(provider => provider.name).filter(
       name => name === selectedResource,
@@ -88,7 +53,6 @@ class VisualElementSearch extends Component {
             inModal={true}
             handleVisualElementChange={handleVisualElementChange}
             locale={locale}
-            isSavingImage={isSavingImage}
             closeModal={closeModal}
             fetchImage={fetchImage}
             searchImages={imageApi.searchImages}
@@ -120,6 +84,7 @@ class VisualElementSearch extends Component {
           duration: t('videoSearch.duration'),
           interactioncount: t('videoSearch.interactioncount'),
         };
+
         return (
           <Fragment>
             <h2>{titles(t, selectedResource)[selectedResource]}</h2>
@@ -141,7 +106,10 @@ class VisualElementSearch extends Component {
                     videoid: video.id,
                     caption: '',
                     account: config.brightCoveAccountId,
-                    player: config.brightcovePlayerId,
+                    player:
+                      video.projection === 'equirectangular'
+                        ? config.brightcove360PlayerId
+                        : config.brightcovePlayerId,
                     metaData: video,
                     title: video.name,
                   });
@@ -255,7 +223,9 @@ VisualElementSearch.propTypes = {
   setH5pFetchFail: PropTypes.func,
   handleVisualElementChange: PropTypes.func.isRequired,
   articleLanguage: PropTypes.string.isRequired,
-  locale: PropTypes.string.isRequired,
+  i18n: PropTypes.shape({
+    language: PropTypes.string.isRequired,
+  }).isRequired,
   uploadedImage: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     alttext: PropTypes.shape({
@@ -266,7 +236,6 @@ VisualElementSearch.propTypes = {
     }),
   }),
   isSavingImage: PropTypes.bool,
-  image: ImageShape,
   clearUploadedImage: PropTypes.func.isRequired,
   closeModal: PropTypes.func,
   videoTypes: PropTypes.array,
@@ -274,23 +243,4 @@ VisualElementSearch.propTypes = {
   onSaveAsMetaImage: PropTypes.func,
 };
 
-const mapDispatchToProps = {
-  fetchTags: tagActions.fetchTags,
-  fetchLicenses: licenseActions.fetchLicenses,
-  clearUploadedImage: imageActions.clearUploadedImage,
-};
-
-const mapStateToProps = state => {
-  const locale = getLocale(state);
-  const getAllTagsSelector = getAllTagsByLanguage(locale);
-  return {
-    locale,
-    tags: getAllTagsSelector(state),
-    licenses: getAllLicenses(state),
-    isSavingImage: getSavingImage(state),
-    showSaved: getShowSaved(state),
-    uploadedImage: getUploadedImage(state),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(VisualElementSearch));
+export default withTranslation()(VisualElementSearch);

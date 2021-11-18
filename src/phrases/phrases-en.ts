@@ -96,9 +96,10 @@ const phrases = {
     en: 'English',
     nb: 'Norwegian - Bokmål',
     nn: 'Norwegian - Nynorsk',
-    se: 'Sami',
+    se: 'Northern Sami',
     sma: 'Southern Sami',
     unknown: 'Unknown',
+    und: 'Undetermined',
     de: 'German',
     empty: 'No languages left',
     change: 'Change to {{language}} version',
@@ -153,6 +154,7 @@ const phrases = {
     standard: 'Subject matter',
   },
   subNavigation: {
+    media: 'Media',
     learningPath: 'Learningpath',
     learningPathLink: 'Go to learningpath',
     subjectMatter: 'Subject matter',
@@ -208,11 +210,12 @@ const phrases = {
       imageQuery: 'Search for images',
       language: 'Select language',
       users: 'Select editor',
-      modelReleased: 'Select model released',
+      'model-released': 'Select model released',
       subjects: 'Select subject',
-      resourceTypes: 'Select resource type',
+      'resource-types': 'Select resource type',
       status: 'Select status',
-      audio: 'Select audio file type',
+      'draft-status': 'Select status',
+      'audio-type': 'Select audio file type',
       license: 'Select license',
     },
     tagType: {
@@ -220,11 +223,12 @@ const phrases = {
       subjects: 'Subject',
       language: 'Language',
       users: 'Editor',
-      resourceTypes: 'Resource type',
+      'resource-types': 'Resource type',
       status: 'Status',
-      audioType: 'Audio file type',
+      'draft-status': 'Status',
+      'audio-type': 'Audio file type',
       license: 'License',
-      modelReleased: 'Model released',
+      'model-released': 'Model released',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -262,6 +266,7 @@ const phrases = {
     linkTitle: 'Go to HTML editor',
     title: 'HTML editor',
     subTitle: 'Edit article with HTML',
+    back: 'Back',
     fetchError:
       'An error occurred while loding an article into the HTML editor. Go back or try to reload the page.',
     saveError: 'An error occurred while saving article changes.',
@@ -393,6 +398,22 @@ const phrases = {
       },
     },
   },
+  agreementForm: {
+    title: {
+      create: 'Agreement',
+      update: 'Agreement',
+    },
+    fields: {
+      title: {
+        label: 'Agreement title',
+        placeholder: 'Agreement title',
+      },
+      content: {
+        label: 'Agreement content',
+        placeholder: 'Agreement content',
+      },
+    },
+  },
   footnoteForm: {
     title: 'Title',
     year: 'Year',
@@ -427,6 +448,7 @@ const phrases = {
     },
   },
   imageEditor: {
+    editImage: 'Edit image',
     remove: {
       crop: 'Remove crop',
       focalPoint: 'Remove focal point',
@@ -528,7 +550,6 @@ const phrases = {
     },
     name: {
       title: 'Title',
-      slatetitle: 'Title',
       aboutTitle: 'Title',
       introduction: 'Ingress',
       creators: 'Creators',
@@ -546,7 +567,6 @@ const phrases = {
       caption: 'Caption',
       imageFile: 'Imagefile',
       visualElement: 'Visual element',
-      visualElementObject: 'Visual element',
       visualElementCaption: 'Caption',
       visualElementAlt: 'Alt-text',
       validFrom: 'Valid from',
@@ -575,10 +595,6 @@ const phrases = {
     previewNewWindow: 'Preview in a new window',
     contributor: {
       add: 'Add',
-    },
-    detailBox: {
-      changeTitle: 'Change title',
-      placeholder: 'Short summary',
     },
     mustSaveFirst: 'You must save your changes first',
     abort: 'Abort',
@@ -896,10 +912,6 @@ const phrases = {
     origin: {
       label: 'Origin',
     },
-    caption: {
-      label: 'Caption',
-      placeholder: 'Caption',
-    },
     image: {
       file: 'Image',
       save: 'Save image',
@@ -1046,6 +1058,7 @@ const phrases = {
         image: 'image',
         audio: 'audio file',
         concept: 'concept',
+        article: 'article',
       },
       sectionTitleArticle: 'Articles containing the {{resource}}',
       sectionTitleConcept: 'Concepts containing the {{resource}}',
@@ -1054,6 +1067,7 @@ const phrases = {
         image: 'Uses of the image in articles and/or concepts',
         audio: 'Uses of the audio file in articles',
         concept: 'Uses of the concept in articles',
+        article: 'Uses of the article in other articles',
       },
       notInUse: 'No uses of the {{resource}} in articles and/or concepts were found',
       articles: '1 article',
@@ -1212,14 +1226,18 @@ const phrases = {
     },
     resourceTypes: {
       title: 'Content type',
+      helpLabel: 'What is a content type?',
       subTitle: 'What content type does this resource have?',
       placeholder: 'Select content type',
     },
     topics: {
       title: 'Topic connections',
       topicPlacement: 'Topcic placement',
+      helpLabel: 'What is a topic connection?',
       subTitle: 'Where in the taxonomy should this resource be?',
       subTitleTopic: 'Where in the taxonomy should the topic description be?',
+      chooseTaxonomyPlacement: 'Choose placement in taxonomy',
+      changeTaxonomyPlacement: 'Change placement in taxonomy',
       filestructureButton: 'Create a topic connection',
       filestructureHeading: 'Select a topic connection',
       filestructureClose: 'Close',
@@ -1233,6 +1251,7 @@ const phrases = {
       empty: 'No existing grep codes',
       addNew: 'Add new grep code',
     },
+    goTo: 'Open in structure editor',
     missingResourceType: 'Missing resource type',
     metadata: {
       customFields: {

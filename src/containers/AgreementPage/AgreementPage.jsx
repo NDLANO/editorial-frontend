@@ -8,18 +8,15 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { withTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
-import { getLocale } from '../../modules/locale/locale';
 import * as api from '../../modules/draft/draftApi';
-import * as messageActions from '../Messages/messagesActions';
-import { actions as licenseActions, getAllLicenses } from '../../modules/license/license';
 import { toEditAgreement } from '../../util/routeHelpers';
+import withMessages from '../Messages/withMessages';
 import Footer from '../App/components/Footer';
-const EditAgreement = loadable(() => import('../../modules/locale/locale'));
+const EditAgreement = loadable(() => import('./EditAgreement'));
 const CreateAgreement = loadable(() => import('./CreateAgreement'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
@@ -30,13 +27,8 @@ class AgreementPage extends React.Component {
     this.upsertAgreement = this.upsertAgreement.bind(this);
   }
 
-  componentDidMount() {
-    const { fetchLicenses } = this.props;
-    fetchLicenses();
-  }
-
   async upsertAgreement(agreement) {
-    const { history, applicationError, addMessage } = this.props;
+    const { history, applicationError, createMessage } = this.props;
     try {
       this.setState({ isSaving: true });
       if (agreement.id) {
@@ -46,7 +38,7 @@ class AgreementPage extends React.Component {
         history.push(toEditAgreement(newAgreement.id));
       }
       this.setState({ isSaving: false });
-      addMessage({
+      createMessage({
         translationKey: agreement.id ? 'form.savedOk' : 'form.createdOk',
         severity: 'success',
       });
@@ -57,7 +49,8 @@ class AgreementPage extends React.Component {
   }
 
   render() {
-    const { locale, match, t, licenses } = this.props;
+    const { i18n, match, t } = this.props;
+    const locale = i18n.language;
     return (
       <Fragment>
         <HelmetWithTracker title={t('htmlTitles.agreementPage')} />
@@ -70,7 +63,6 @@ class AgreementPage extends React.Component {
                   locale={locale}
                   isSaving={this.state.isSaving}
                   upsertAgreement={this.upsertAgreement}
-                  licenses={licenses}
                 />
               )}
             />
@@ -83,7 +75,6 @@ class AgreementPage extends React.Component {
                   locale={locale}
                   isSaving={this.state.isSaving}
                   upsertAgreement={this.upsertAgreement}
-                  licenses={licenses}
                 />
               )}
             />
@@ -103,27 +94,11 @@ AgreementPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  locale: PropTypes.string.isRequired,
-  fetchLicenses: PropTypes.func.isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string,
-      license: PropTypes.string,
-    }),
-  ).isRequired,
-  addMessage: PropTypes.func.isRequired,
+  i18n: PropTypes.shape({
+    language: PropTypes.string.isRequired,
+  }).isRequired,
+  createMessage: PropTypes.func.isRequired,
   applicationError: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  locale: getLocale(state),
-  licenses: getAllLicenses(state),
-});
-
-const mapDispatchToProps = {
-  applicationError: messageActions.applicationError,
-  addMessage: messageActions.addMessage,
-  fetchLicenses: licenseActions.fetchLicenses,
-};
-
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(AgreementPage));
+export default withTranslation()(withMessages(AgreementPage));

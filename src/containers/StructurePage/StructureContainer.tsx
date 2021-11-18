@@ -4,10 +4,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Taxonomy } from '@ndla/icons/editor';
 //@ts-ignore
 import { OneColumn, Spinner } from '@ndla/ui';
-import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
+import { Taxonomy } from '@ndla/icons/editor';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,6 @@ import InlineAddButton from '../../components/InlineAddButton';
 import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
 import { ButtonAppearance } from '../../components/Accordion/types';
 import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
-import { LocaleContext, UserAccessContext } from '../App/App';
 import Footer from '../App/components/Footer';
 import { useSubjects } from '../../modules/taxonomy/subjects';
 import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
@@ -28,6 +27,7 @@ import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers'
 import { useAddSubjectMutation } from '../../modules/taxonomy/subjects/subjectsQueries';
 import StructureRoot from './StructureRoot';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
+import { useSession } from '../Session/SessionProvider';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -45,9 +45,9 @@ export const StructureContainer = ({
   match,
   history,
 }: RouteComponentProps<StructureRouteParams>) => {
-  const { t } = useTranslation();
-  const locale = useContext(LocaleContext);
-  const userAccess = useContext(UserAccessContext);
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+  const { userAccess } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   const [currentTopic, setCurrentTopic] = useState<SubjectTopic | undefined>(undefined);

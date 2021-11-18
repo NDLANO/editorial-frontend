@@ -15,18 +15,17 @@ import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFa
 import ContentView from './ContentView';
 import FormView from './FormView';
 import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
-import { License, LocaleType } from '../../../../../interfaces';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { LocaleType } from '../../../../../interfaces';
 
 interface Props {
   concept: SearchConceptType;
   locale: LocaleType;
   subjects: SubjectType[];
   editingState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-  licenses: License[];
 }
 
-const SearchConcept = ({ concept, locale, subjects, editingState, licenses }: Props) => {
+const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
   const { t } = useTranslation();
   const [editing, setEditing] = editingState;
   const [localConcept, setLocalConcept] = useState(concept);
@@ -36,11 +35,15 @@ const SearchConcept = ({ concept, locale, subjects, editingState, licenses }: Pr
     setShowForm(true);
   };
   const { url: metaImageSrc, alt: metaImageAlt } = localConcept.metaImage || {};
-  const title = convertFieldWithFallback(localConcept, 'title', t<string>('conceptSearch.noTitle'));
-  const content = convertFieldWithFallback(
+  const title = convertFieldWithFallback<'title', string>(
+    localConcept,
+    'title',
+    t('conceptSearch.noTitle'),
+  );
+  const content = convertFieldWithFallback<'content', string>(
     localConcept,
     'content',
-    t<string>('conceptSearch.noContent'),
+    t('conceptSearch.noContent'),
   );
   const breadcrumbs = subjects.filter(s => localConcept.subjectIds?.includes(s.id));
 
@@ -70,7 +73,6 @@ const SearchConcept = ({ concept, locale, subjects, editingState, licenses }: Pr
               updatedBy: newConcept.updatedBy!,
             });
           }}
-          licenses={licenses}
         />
       ) : (
         <ContentView
@@ -80,9 +82,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState, licenses }: Pr
           locale={locale}
           breadcrumbs={breadcrumbs}
           setShowForm={toggleShowForm}
-          t={t}
           editing={editing}
-          licenses={licenses}
         />
       )}
     </div>
@@ -109,7 +109,6 @@ SearchConcept.propTypes = {
   locale: PropTypes.string,
   subjects: PropTypes.array,
   editingState: PropTypes.array,
-  licenses: PropTypes.array,
 };
 
 export default SearchConcept;

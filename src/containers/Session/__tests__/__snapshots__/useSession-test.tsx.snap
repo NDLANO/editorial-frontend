@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getSessionStateFromLocalStorage returns a decoded access token if everything is ok 1`] = `
+Object {
+  "authenticated": true,
+  "user": Object {
+    "name": "Rune Storløpa",
+    "scope": "",
+  },
+  "userNotRegistered": false,
+}
+`;
+
+exports[`getSessionStateFromLocalStorage returns a default initial state if accessToken is not personal 1`] = `
+Object {
+  "authenticated": false,
+  "user": Object {},
+  "userNotRegistered": true,
+}
+`;
+
+exports[`getSessionStateFromLocalStorage returns a default initial state if token is not available in localStorage 1`] = `
+Object {
+  "authenticated": false,
+  "user": Object {},
+  "userNotRegistered": true,
+}
+`;
+
+exports[`useSession nulls all values when logout is called 1`] = `
+Object {
+  "authenticated": true,
+  "login": [Function],
+  "logout": [Function],
+  "userAccess": "",
+  "userName": "Rune Storløpa",
+  "userNotRegistered": true,
+}
+`;
+
+exports[`useSession nulls all values when logout is called 2`] = `
+Object {
+  "authenticated": false,
+  "login": [Function],
+  "logout": [Function],
+  "userAccess": undefined,
+  "userName": undefined,
+  "userNotRegistered": true,
+}
+`;
+
+exports[`useSession returns initial state when called with initial values 1`] = `
+Object {
+  "authenticated": true,
+  "login": [Function],
+  "logout": [Function],
+  "userAccess": "",
+  "userName": "Rune Storløpa",
+  "userNotRegistered": false,
+}
+`;
+
+exports[`useSession returns initial state when called without initial values 1`] = `
+Object {
+  "authenticated": false,
+  "login": [Function],
+  "logout": [Function],
+  "userAccess": undefined,
+  "userName": undefined,
+  "userNotRegistered": true,
+}
+`;

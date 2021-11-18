@@ -1,0 +1,1370 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Messages A message is removed if the modal is closed 1`] = `
+.emotion-21 {
+  position: fixed;
+  width: 80%;
+  max-width: 800px;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  margin: 0 auto;
+}
+
+.emotion-19 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1000;
+  overflow-x: auto;
+}
+
+@media (max-width:48em) {
+  .emotion-19 {
+    top: 64px;
+    overflow-y: auto;
+    white-space: normal;
+    z-index: 26;
+  }
+}
+
+@media (max-width:29.75em) {
+  .emotion-19 {
+    top: 43px;
+  }
+}
+
+.emotion-17 {
+  overflow-x: auto;
+  background-color: white;
+  margin: 52px auto 52px;
+  padding: 1em 2em 3em;
+  max-width: 400px;
+  border-radius: 5px;
+  border-radius: 0;
+  min-height: 210px;
+  max-width: 620px;
+  padding-bottom: 26px;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-3 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-3:hover,
+.emotion-3:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-3[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-3:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-3:focus {
+  outline-width: medium;
+}
+
+.emotion-0 {
+  float: right;
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+  color: #777777;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+}
+
+.emotion-12 {
+  height: 100%;
+  padding-top: 26px;
+  font-size: 24px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-6 {
+  width: 100%;
+  display: inline-block;
+  text-align: left;
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: 13px;
+}
+
+
+
+.emotion-2 {
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+}
+
+.emotion-5 {
+  width: 27px;
+  height: 27px;
+  margin-right: 13px;
+}
+
+<div>
+  <div
+    class="emotion-21 emotion-22"
+  >
+    <div
+      class="emotion-19 emotion-20"
+    >
+      <div
+        class="emotion-16 emotion-17 emotion-18"
+      >
+        <button
+          class="emotion-2 emotion-3 emotion-4"
+          data-testid="closeAlert"
+          type="button"
+        >
+          <svg
+            class="c-icon emotion-0 emotion-1"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            severity="danger"
+            style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
+          >
+            <title>
+              Cross
+            </title>
+            <g>
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </button>
+        <div
+          class="emotion-14 emotion-15"
+        >
+          <div
+            class="emotion-12 emotion-13"
+          >
+            <div
+              class="emotion-8 emotion-9"
+            >
+              <svg
+                class="c-icon emotion-5"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  Warning
+                </title>
+                <g>
+                  <path
+                    d="M0 0h24v24H0V0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </g>
+              </svg>
+              <span
+                class="emotion-6 emotion-7"
+              >
+                Testmessage
+              </span>
+            </div>
+            <div
+              class="emotion-10 emotion-11"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Messages A message is removed if the modal is closed 2`] = `
+.emotion-0 {
+  position: fixed;
+  width: 80%;
+  max-width: 800px;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  margin: 0 auto;
+  display: none;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  />
+</div>
+`;
+
+exports[`Messages A single message renders correctly 1`] = `
+.emotion-21 {
+  position: fixed;
+  width: 80%;
+  max-width: 800px;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  margin: 0 auto;
+}
+
+.emotion-19 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1000;
+  overflow-x: auto;
+}
+
+@media (max-width:48em) {
+  .emotion-19 {
+    top: 64px;
+    overflow-y: auto;
+    white-space: normal;
+    z-index: 26;
+  }
+}
+
+@media (max-width:29.75em) {
+  .emotion-19 {
+    top: 43px;
+  }
+}
+
+.emotion-17 {
+  overflow-x: auto;
+  background-color: white;
+  margin: 52px auto 52px;
+  padding: 1em 2em 3em;
+  max-width: 400px;
+  border-radius: 5px;
+  border-radius: 0;
+  min-height: 210px;
+  max-width: 620px;
+  padding-bottom: 26px;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-3 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-3:hover,
+.emotion-3:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-3[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-3:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-3:focus {
+  outline-width: medium;
+}
+
+.emotion-0 {
+  float: right;
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+  color: #777777;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+}
+
+.emotion-12 {
+  height: 100%;
+  padding-top: 26px;
+  font-size: 24px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-6 {
+  width: 100%;
+  display: inline-block;
+  text-align: left;
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: 13px;
+}
+
+
+
+.emotion-2 {
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+}
+
+.emotion-5 {
+  width: 27px;
+  height: 27px;
+  margin-right: 13px;
+}
+
+<div>
+  <div
+    class="emotion-21 emotion-22"
+  >
+    <div
+      class="emotion-19 emotion-20"
+    >
+      <div
+        class="emotion-16 emotion-17 emotion-18"
+      >
+        <button
+          class="emotion-2 emotion-3 emotion-4"
+          data-testid="closeAlert"
+          type="button"
+        >
+          <svg
+            class="c-icon emotion-0 emotion-1"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            severity="danger"
+            style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
+          >
+            <title>
+              Cross
+            </title>
+            <g>
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </button>
+        <div
+          class="emotion-14 emotion-15"
+        >
+          <div
+            class="emotion-12 emotion-13"
+          >
+            <div
+              class="emotion-8 emotion-9"
+            >
+              <svg
+                class="c-icon emotion-5"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  Warning
+                </title>
+                <g>
+                  <path
+                    d="M0 0h24v24H0V0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </g>
+              </svg>
+              <span
+                class="emotion-6 emotion-7"
+              >
+                Testmessage
+              </span>
+            </div>
+            <div
+              class="emotion-10 emotion-11"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Messages Several messages renders correctly 1`] = `
+.emotion-42 {
+  position: fixed;
+  width: 80%;
+  max-width: 800px;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  margin: 0 auto;
+}
+
+.emotion-19 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1000;
+  overflow-x: auto;
+}
+
+@media (max-width:48em) {
+  .emotion-19 {
+    top: 64px;
+    overflow-y: auto;
+    white-space: normal;
+    z-index: 26;
+  }
+}
+
+@media (max-width:29.75em) {
+  .emotion-19 {
+    top: 43px;
+  }
+}
+
+.emotion-17 {
+  overflow-x: auto;
+  background-color: white;
+  margin: 52px auto 52px;
+  padding: 1em 2em 3em;
+  max-width: 400px;
+  border-radius: 5px;
+  border-radius: 0;
+  min-height: 210px;
+  max-width: 620px;
+  padding-bottom: 26px;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-3 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-3:hover,
+.emotion-3:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-3[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-3:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-3:focus {
+  outline-width: medium;
+}
+
+.emotion-0 {
+  float: right;
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+  color: #777777;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+}
+
+.emotion-12 {
+  height: 100%;
+  padding-top: 26px;
+  font-size: 24px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-6 {
+  width: 100%;
+  display: inline-block;
+  text-align: left;
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: 13px;
+}
+
+
+
+.emotion-2 {
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+}
+
+.emotion-5 {
+  width: 27px;
+  height: 27px;
+  margin-right: 13px;
+}
+
+<div>
+  <div
+    class="emotion-42 emotion-43"
+  >
+    <div
+      class="emotion-19 emotion-20"
+    >
+      <div
+        class="emotion-16 emotion-17 emotion-18"
+      >
+        <button
+          class="emotion-2 emotion-3 emotion-4"
+          data-testid="closeAlert"
+          type="button"
+        >
+          <svg
+            class="c-icon emotion-0 emotion-1"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            severity="danger"
+            style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
+          >
+            <title>
+              Cross
+            </title>
+            <g>
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </button>
+        <div
+          class="emotion-14 emotion-15"
+        >
+          <div
+            class="emotion-12 emotion-13"
+          >
+            <div
+              class="emotion-8 emotion-9"
+            >
+              <svg
+                class="c-icon emotion-5"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  Warning
+                </title>
+                <g>
+                  <path
+                    d="M0 0h24v24H0V0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </g>
+              </svg>
+              <span
+                class="emotion-6 emotion-7"
+              >
+                Testmessage
+              </span>
+            </div>
+            <div
+              class="emotion-10 emotion-11"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="emotion-19 emotion-20"
+    >
+      <div
+        class="emotion-16 emotion-17 emotion-18"
+      >
+        <button
+          class="emotion-2 emotion-3 emotion-4"
+          data-testid="closeAlert"
+          type="button"
+        >
+          <svg
+            class="c-icon emotion-0 emotion-1"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            severity="danger"
+            style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
+          >
+            <title>
+              Cross
+            </title>
+            <g>
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </button>
+        <div
+          class="emotion-14 emotion-15"
+        >
+          <div
+            class="emotion-12 emotion-13"
+          >
+            <div
+              class="emotion-8 emotion-9"
+            >
+              <svg
+                class="c-icon emotion-5"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  Warning
+                </title>
+                <g>
+                  <path
+                    d="M0 0h24v24H0V0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </g>
+              </svg>
+              <span
+                class="emotion-6 emotion-7"
+              >
+                Testmessage2
+              </span>
+            </div>
+            <div
+              class="emotion-10 emotion-11"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Messages auth0 messages provides a cancel button 1`] = `
+.emotion-27 {
+  position: fixed;
+  width: 80%;
+  max-width: 800px;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  margin: 0 auto;
+}
+
+.emotion-25 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1000;
+  overflow-x: auto;
+}
+
+@media (max-width:48em) {
+  .emotion-25 {
+    top: 64px;
+    overflow-y: auto;
+    white-space: normal;
+    z-index: 26;
+  }
+}
+
+@media (max-width:29.75em) {
+  .emotion-25 {
+    top: 43px;
+  }
+}
+
+.emotion-23 {
+  overflow-x: auto;
+  background-color: white;
+  margin: 52px auto 52px;
+  padding: 1em 2em 3em;
+  max-width: 400px;
+  border-radius: 5px;
+  border-radius: 0;
+  min-height: 210px;
+  max-width: 620px;
+  padding-bottom: 26px;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-3 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+}
+
+.emotion-3:hover,
+.emotion-3:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-3[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-3:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-3:hover,
+.emotion-3:active,
+.emotion-3:disabled,
+.emotion-3:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-3:focus {
+  outline-width: medium;
+}
+
+.emotion-0 {
+  float: right;
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+  color: #777777;
+  background-color: #d1372e;
+  color: white;
+}
+
+.emotion-20 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+}
+
+.emotion-18 {
+  height: 100%;
+  padding-top: 26px;
+  font-size: 24px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-6 {
+  width: 100%;
+  display: inline-block;
+  text-align: left;
+}
+
+.emotion-16 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+  margin-top: 13px;
+}
+
+.emotion-11 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  color: #20588f;
+  background-color: transparent;
+  border: 2px solid #20588f;
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: 2px solid #20588f;
+  box-shadow: none;
+}
+
+.emotion-11:hover,
+.emotion-11:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-11[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-11:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-11:hover,
+.emotion-11:focus {
+  color: white;
+  background-color: #20588f;
+  border: 2px solid transparent;
+}
+
+.emotion-11:disabled {
+  color: #777777;
+  border: 2px solid transparent;
+  background-color: #e6e6e6;
+  cursor: not-allowed;
+}
+
+.emotion-11:hover,
+.emotion-11:focus {
+  color: white;
+  background-color: #20588f;
+  border: 2px solid transparent;
+}
+
+.emotion-11:disabled {
+  color: #777777;
+  border: 2px solid transparent;
+  background-color: #e6e6e6;
+  cursor: not-allowed;
+}
+
+
+
+.emotion-2 {
+  float: right;
+  height: 44px;
+  width: 44px;
+  margin-top: -5px;
+  margin-right: -20px;
+}
+
+.emotion-5 {
+  width: 27px;
+  height: 27px;
+  margin-right: 13px;
+}
+
+.emotion-10 {
+  background-color: white;
+  margin-left: 0;
+}
+
+<div>
+  <div
+    class="emotion-27 emotion-28"
+  >
+    <div
+      class="emotion-25 emotion-26"
+    >
+      <div
+        class="emotion-22 emotion-23 emotion-24"
+      >
+        <button
+          class="emotion-2 emotion-3 emotion-4"
+          data-testid="closeAlert"
+          type="button"
+        >
+          <svg
+            class="c-icon emotion-0 emotion-1"
+            data-license="Apache License 2.0"
+            data-source="Material Design"
+            fill="currentColor"
+            height="1em"
+            preserveAspectRatio="xMidYMid meet"
+            severity="danger"
+            style="vertical-align: middle;"
+            viewBox="0 0 24 24"
+            width="1em"
+          >
+            <title>
+              Cross
+            </title>
+            <g>
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </g>
+          </svg>
+        </button>
+        <div
+          class="emotion-20 emotion-21"
+        >
+          <div
+            class="emotion-18 emotion-19"
+          >
+            <div
+              class="emotion-8 emotion-9"
+            >
+              <svg
+                class="c-icon emotion-5"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  Warning
+                </title>
+                <g>
+                  <path
+                    d="M0 0h24v24H0V0z"
+                    fill="none"
+                  />
+                  <path
+                    d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </g>
+              </svg>
+              <span
+                class="emotion-6 emotion-7"
+              >
+                Testmessage
+              </span>
+            </div>
+            <div
+              class="emotion-16 emotion-17"
+            >
+              <button
+                class="emotion-10 emotion-11 emotion-4"
+                type="button"
+              >
+                Avbryt
+              </button>
+              <button
+                class="emotion-10 emotion-11 emotion-4"
+                type="button"
+              >
+                Logg inn på nytt
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Messages auth0 messages provides a cancel button 2`] = `
+.emotion-0 {
+  position: fixed;
+  width: 80%;
+  max-width: 800px;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  margin: 0 auto;
+  display: none;
+}
+
+<div>
+  <div
+    class="emotion-0 emotion-1"
+  />
+</div>
+`;

@@ -13,18 +13,19 @@ import { useTranslation } from 'react-i18next';
 import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
 import { colors } from '@ndla/core';
 import { toEditImage } from '../../../../util/routeHelpers';
-import { ImageResultShape, LicensesArrayOf } from '../../../../shapes';
+import { ImageResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
-import { ContentResultType, License } from '../../../../interfaces';
+import { useLicenses } from '../../../Licenses/LicensesProvider';
+import { ImageSearchSummaryApiType } from '../../../../modules/image/imageApiInterfaces';
 
 interface Props {
-  image: ContentResultType;
+  image: ImageSearchSummaryApiType;
   locale: string;
-  licenses: [License];
 }
 
-const SearchImage = ({ image, locale, licenses }: Props) => {
+const SearchImage = ({ image, locale }: Props) => {
   const { t } = useTranslation();
+  const { licenses } = useLicenses();
   const license = licenses && licenses.find(l => image.license === l.license);
   return (
     <div {...searchClasses('result')}>
@@ -58,7 +59,6 @@ const SearchImage = ({ image, locale, licenses }: Props) => {
 SearchImage.propTypes = {
   image: ImageResultShape.isRequired,
   locale: PropTypes.string.isRequired,
-  licenses: LicensesArrayOf,
 };
 
 export default SearchImage;

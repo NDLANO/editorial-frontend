@@ -8,7 +8,7 @@
 
 import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation, withTranslation, WithTranslation } from 'react-i18next';
+import { useTranslation, withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -26,7 +26,7 @@ import {
   learningResourceContentToHTML,
 } from '../../util/articleContentConverter';
 import { DRAFT_HTML_SCOPE } from '../../constants';
-import { getSessionStateFromLocalStorage } from '../../modules/session/session';
+import { getSessionStateFromLocalStorage } from '../Session/SessionProvider';
 import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
 import { toEditMarkup } from '../../util/routeHelpers';
 import { AlertModalWrapper, formClasses } from '../FormikForm';
@@ -149,8 +149,8 @@ interface State {
   draft: DraftApiType | undefined;
 }
 
-class EditMarkupPage extends Component<Props & WithTranslation, State> {
-  constructor(props: Props & WithTranslation) {
+class EditMarkupPage extends Component<Props & CustomWithTranslation, State> {
+  constructor(props: Props & CustomWithTranslation) {
     super(props);
     this.state = {
       status: 'initial',

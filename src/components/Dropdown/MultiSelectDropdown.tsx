@@ -26,7 +26,7 @@ interface Props<T> {
     shouldValidate?: boolean | undefined,
   ) => void;
   minSearchLength?: number;
-  shouldCreate?: (allValues: T[], newValue: string) => boolean;
+  shouldCreate?: (allValues: T[], newValue: T | { id: string }) => boolean;
 }
 
 export const MultiSelectDropdown = <T extends { id: string }>({
@@ -45,7 +45,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [inputValue, setInputvalue] = useState<string>('');
 
-  const onValueChange = (newValue: T | string) => {
+  const onValueChange = (newValue: T | { id: string }) => {
     onChange({
       target: {
         name,
@@ -56,10 +56,10 @@ export const MultiSelectDropdown = <T extends { id: string }>({
     setIsOpen(false);
   };
 
-  const onCreate = (evt: Event) => {
-    evt.preventDefault();
-    if (shouldCreate(value, inputValue)) {
-      onValueChange(inputValue);
+  const onCreate = (evt?: Event) => {
+    evt?.preventDefault();
+    if (shouldCreate(value, { id: inputValue })) {
+      onValueChange({ id: inputValue });
     }
   };
 
@@ -117,7 +117,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
       inputValue={inputValue}
       onStateChange={handleStateChange}
       itemToString={item => itemToString(item, labelField)}>
-      {({ getInputProps, getMenuProps, getItemProps }) => (
+      {({ getInputProps, ...downshiftProps }) => (
         <div style={{ position: 'relative' }}>
           <DropdownInput
             multiSelect
@@ -136,8 +136,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
             idField={idField}
             labelField={labelField}
             selectedItems={value}
-            getMenuProps={getMenuProps}
-            getItemProps={getItemProps}
+            {...downshiftProps}
             isOpen={isOpen}
             items={data}
             onCreate={showCreateOption && onCreate}

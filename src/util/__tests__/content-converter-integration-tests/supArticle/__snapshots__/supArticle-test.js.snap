@@ -31,14 +31,14 @@ exports[`serializing article with sup tag 1`] = `
   <p>4) Sirkulasjonstrykket på overflaten viser nå:</p>
   <p>pf2 = pf1 (Q2/Q1)<sup>2</sup></p>
   <p>
-    <strong>pf2 = 72,5 · (80/40)</strong><strong><sup>2</sup></strong
+    <strong>pf2 = 72,5 · (80/40)</strong><sup><strong>2</strong></sup
     ><strong> = 290 bar</strong>
   </p>
   <p>5) Sirkulasjonstrykket i bunnen av brønnen:</p>
   <p>pBH2 = pfr2 + phyd1</p>
   <p>
     <strong>pBH2</strong> = <strong>2,5 · (80/40)</strong
-    ><strong><sup>2</sup></strong
+    ><sup><strong>2</strong></sup
     ><strong> + </strong><strong>294,3 = 304,3 bar</strong
     ><strong><br /></strong>
   </p>
@@ -64,7 +64,7 @@ exports[`serializing article with sup tag 1`] = `
     </p>
     <p>iii) Ny friksjon i dysene:</p>
     <p>
-      <strong>pfdyser2 = 20 · (80/40)</strong><strong><sup>2</sup></strong
+      <strong>pfdyser2 = 20 · (80/40)</strong><sup><strong>2</strong></sup
       ><strong> = 80 bar </strong><strong><br /></strong>
     </p>
   </div>

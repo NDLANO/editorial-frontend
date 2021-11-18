@@ -11,7 +11,6 @@ import SearchTag, { MinimalTagType } from './SearchTag';
 
 interface TagType {
   type: string;
-  id: string;
   name?: string;
 }
 

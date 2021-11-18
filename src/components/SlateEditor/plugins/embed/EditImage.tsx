@@ -14,7 +14,7 @@ import FigureInput from './FigureInput';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
-import { Embed, FormikInputEvent } from '../../../../interfaces';
+import { FormikInputEvent, ImageEmbed } from '../../../../interfaces';
 
 const editorContentCSS = css`
   box-shadow: ${shadows.levitate1};
@@ -25,26 +25,26 @@ const imageEditorWrapperStyle = css`
 `;
 
 interface Props {
-  embed: Embed;
+  embed: ImageEmbed;
   saveEmbedUpdates: Function;
   setEditModus: Function;
 }
 
 interface StateProps {
   alt: string;
-  caption: string;
+  caption?: string;
   imageUpdates:
     | {
         transformData: {
-          'focal-x': string;
-          'focal-y': string;
-          'upper-left-x': string;
-          'upper-left-y': string;
-          'lower-right-x': string;
-          'lower-right-y': string;
+          'focal-x'?: string;
+          'focal-y'?: string;
+          'upper-left-x'?: string;
+          'upper-left-y'?: string;
+          'lower-right-x'?: string;
+          'lower-right-y'?: string;
         };
-        align: string;
-        size: string;
+        align?: string;
+        size?: string;
       }
     | undefined;
   madeChanges: boolean;
@@ -74,9 +74,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
   useEffect(() => {
     const bodyRect = document.body.getBoundingClientRect();
     // Use contenteditable as reference to fetch embed size when previewing.
-    const placeholderRect = placeholderElement
-      .closest('div[contenteditable="false"]')
-      .getBoundingClientRect();
+    const placeholderRect = placeholderElement.closest('div.c-figure').getBoundingClientRect();
 
     embedElement.style.position = 'absolute';
     embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;
@@ -102,7 +100,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
 
     if (state.imageUpdates?.align === 'center') {
       updatedSize = 'full';
-      if (state.imageUpdates?.size.includes('hide-byline')) {
+      if (state.imageUpdates?.size?.includes('hide-byline')) {
         updatedSize += '-hide-byline';
       }
     }

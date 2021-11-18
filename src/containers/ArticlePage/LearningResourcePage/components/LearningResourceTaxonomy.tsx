@@ -7,7 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
@@ -47,6 +47,8 @@ import {
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
+import { SessionProps } from '../../../Session/SessionProvider';
+import withSession from '../../../Session/withSession';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -66,10 +68,9 @@ interface FullResource {
 type Props = {
   article: Partial<ConvertedDraftType>;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
-  locale: LocaleType;
   setIsOpen?: (open: boolean) => void;
-  userAccess?: string;
-} & WithTranslation;
+} & CustomWithTranslation &
+  SessionProps;
 
 interface LearningResourceSubjectType extends SubjectType {
   topics?: SubjectTopic[];
@@ -173,7 +174,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       return;
     }
     try {
-      const allTopics = await fetchSubjectTopics(subjectid, this.props.locale);
+      const allTopics = await fetchSubjectTopics(subjectid, this.props.i18n.language);
       const groupedTopics = groupTopics(allTopics);
       this.updateSubject(subjectid, { topics: groupedTopics });
     } catch (err) {
@@ -207,19 +208,20 @@ class LearningResourceTaxonomy extends Component<Props, State> {
 
   fetchTaxonomy = async () => {
     const {
-      article: { language, id },
+      article: { id },
+      i18n,
     } = this.props;
-    if (!language || !id) return;
+    if (!id) return;
 
     try {
-      const resources = await queryResources(id.toString(), language);
+      const resources = await queryResources(id.toString(), i18n.language);
 
       const resourceId = resources.length === 1 && resources[0].id;
 
       if (resources.length > 1) {
         this.setState({ status: 'error' });
       } else if (resourceId) {
-        const fullResource = await this.fetchFullResource(resourceId, language);
+        const fullResource = await this.fetchFullResource(resourceId, i18n.language);
 
         this.setState({
           resourceId,
@@ -246,14 +248,11 @@ class LearningResourceTaxonomy extends Component<Props, State> {
   };
 
   fetchTaxonomyChoices = async () => {
-    const {
-      article: { language },
-    } = this.props;
-    if (!language) return;
+    const { i18n } = this.props;
     try {
       const [allResourceTypes, subjects] = await Promise.all([
-        fetchResourceTypes(language),
-        fetchSubjects(language),
+        fetchResourceTypes(i18n.language),
+        fetchSubjects(i18n.language),
       ]);
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
@@ -330,17 +329,17 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     });
     const resourceTaxonomy = await this.fetchFullResource(
       this.state.resourceId,
-      this.props.article.language ?? '',
+      this.props.i18n.language ?? '',
     );
     this.setState({
       resourceTaxonomy,
     });
   };
 
-  fetchFullResource = async (resourceId: string, language: string): Promise<FullResource> => {
+  fetchFullResource = async (resourceId: string, locale: LocaleType): Promise<FullResource> => {
     const { resourceTypes, metadata, parentTopics, name } = await fetchFullResource(
       resourceId,
-      language,
+      locale,
     );
     const sortedParents = parentTopics.filter(pt => pt.path).sort((a, b) => (a.id < b.id ? -1 : 1));
 
@@ -353,7 +352,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     const topicsWithConnectionsAndRelevanceId = sortedParents.map(async (topic, index) => {
       const foundRelevanceId = topicResources[index]?.find(resource => resource.id === resourceId)
         ?.relevanceId;
-      const breadcrumb = await getBreadcrumbFromPath(topic.path);
+      const breadcrumb = await getBreadcrumbFromPath(topic.path, locale);
       return {
         topicConnections: topicConnections[index],
         relevanceId: foundRelevanceId ?? RESOURCE_FILTER_CORE,
@@ -513,4 +512,4 @@ class LearningResourceTaxonomy extends Component<Props, State> {
   }
 }
 
-export default withTranslation()(LearningResourceTaxonomy);
+export default withTranslation()(withSession(LearningResourceTaxonomy));

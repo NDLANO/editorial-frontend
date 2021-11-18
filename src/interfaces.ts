@@ -5,16 +5,9 @@
  */
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-import { Editor, Node } from 'slate';
-import { Store } from 'redux';
 
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
-import { ReduxImageState } from './modules/image/image';
-import { ReduxLicenseState } from './modules/license/license';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
-import { ReduxSessionState } from './modules/session/session';
-import { ReduxMessageState } from './containers/Messages/messagesSelectors';
-import { ReduxLocaleState } from './modules/locale/locale';
 import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
 import { ConceptApiType } from './modules/concept/conceptApiInterfaces';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
@@ -85,21 +78,6 @@ export interface CodeBlockType {
   code: string;
   title: string;
   format: string;
-}
-
-export interface ImageType {
-  id: string;
-  metaUrl: string;
-  title: string;
-  alttext: string;
-  imageUrl: string;
-  size: number;
-  contentType: string;
-  copyright: Copyright;
-  tags: string[];
-  caption: string;
-  supportedLanguages: string[];
-  language: string;
 }
 
 export interface MetaImage {
@@ -305,7 +283,7 @@ export interface SubjectpageType {
 export interface SubjectpageApiType extends SubjectpageType {
   about: {
     visualElement: {
-      type: string;
+      type: 'brightcove' | 'image';
       url: string;
       alt: string;
       caption: string;
@@ -326,136 +304,105 @@ export interface SubjectpageApiType extends SubjectpageType {
 export interface SubjectpageEditType extends SubjectpageType {
   articleType?: string;
   description?: string;
-  desktopBanner?: VisualElement;
+  desktopBanner?: ImageEmbed;
   editorsChoices?: ArticleType[];
   language: string;
   mobileBanner?: number;
   elementId?: string;
   title?: string;
-  visualElementObject?: VisualElement;
+  visualElement?: PartialVisualElement;
 }
 
-export interface NdlaFilmType {
-  name: string;
-}
-
-export interface NdlaFilmVisualElement {
-  alt: string;
-  url: string;
-  type: string;
-}
-
-export interface NdlaFilmApiType extends NdlaFilmType {
-  about: {
-    description: string;
-    language: string;
-    title: string;
-    visualElement: NdlaFilmVisualElement;
-  }[];
-  themes: NdlaFilmThemesApiType[];
-  slideShow: string[];
-}
-
-export interface NdlaFilmEditType extends NdlaFilmType {
-  articleType: string;
-  title: string;
-  description: string;
-  visualElement: VisualElement;
-  language: string;
-  supportedLanguages: string[];
-  themes: NdlaFilmThemesEditType[];
-  slideShow: ContentResultType[];
-}
-
-export interface NdlaFilmThemesApiType {
-  movies: string[];
-  name: [
-    {
-      name: string;
-      language: string;
-    },
-  ];
-}
-export interface NdlaFilmThemesEditType {
-  movies: ContentResultType[];
-  name: {
-    name: string;
-    language: string;
-  }[];
-}
+type PartialVisualElement =
+  | (Omit<Partial<BrightcoveEmbed>, 'resource'> & { resource: 'brightcove' | 'video' })
+  | (Omit<Partial<ImageEmbed>, 'resource'> & { resource: 'image' });
 
 export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
-export interface VisualElement {
-  resource: string;
+export interface ImageEmbed {
+  resource: 'image';
+
   resource_id: string;
-  account?: string;
-  align?: string;
-  alt?: string;
-  caption?: string;
-  metaData?: any;
-  path?: string;
-  player?: string;
-  title?: string;
   size?: string;
+  align?: string;
+  alt: string;
+  caption?: string;
   url?: string;
-  videoid?: string;
   'focal-x'?: string;
   'focal-y'?: string;
   'lower-right-y'?: string;
   'lower-right-x'?: string;
   'upper-left-y'?: string;
   'upper-left-x'?: string;
+  metaData?: any;
 }
 
-export interface SlateFigureProps {
-  attributes?: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
-  editor: SlateEditor;
-  isSelected: boolean;
-  language: string;
-  node: Node;
-}
-
-export interface CodeBlockProps {
-  attributes: {
-    'data-key': string;
-    'data-slate-object': string;
-  };
-  editor: SlateEditor;
-  node: Node;
-}
-
-export interface SlateEditor extends Editor {
-  props: {
-    submitted: boolean;
-    slateStore: Store;
-  };
-}
-
-export interface Embed {
-  account?: string;
-  align: string;
-  alt: string;
+export interface BrightcoveEmbed {
+  resource: 'brightcove' | 'video';
+  videoid: string;
   caption: string;
-  metaData?: {
-    name: string;
-  };
-  player?: string;
-  resource: string;
-  resource_id: number;
-  size: string;
+  url?: string;
+  account: string;
+  player: string;
+  title: string;
+  metaData?: any;
+}
+
+export interface AudioEmbed {
+  resource: 'audio';
+  resource_id: string;
+  caption: string;
   type: string;
   url: string;
-  videoid: string;
+}
 
-  'focal-x': string;
-  'focal-y': string;
-  'upper-left-x': string;
-  'upper-left-y': string;
-  'lower-right-x': string;
-  'lower-right-y': string;
+export interface H5pEmbed {
+  resource: 'h5p';
+  path: string;
+  url: string;
+  title?: string;
+}
+
+export interface ExternalEmbed {
+  resource: 'external' | 'iframe';
+  url: string;
+  metaData?: any;
+  caption?: string;
+  title?: string;
+}
+
+export interface ErrorEmbed {
+  resource: 'error';
+  message: string;
+}
+
+export type Embed =
+  | ImageEmbed
+  | BrightcoveEmbed
+  | AudioEmbed
+  | H5pEmbed
+  | ExternalEmbed
+  | ErrorEmbed;
+
+export interface FileFormat {
+  url: string;
+  fileType: string;
+  tooltip: string;
+}
+
+export interface File {
+  path: string;
+  resource: string;
+  title: string;
+  type: string;
+  url: string;
+  display?: string;
+  formats?: FileFormat[];
+}
+
+export interface UnsavedFile {
+  path: string;
+  title: string;
+  type: string;
 }
 
 export interface SlateAudio extends Omit<AudioApiType, 'title'> {
@@ -507,14 +454,6 @@ export interface License {
   license: string;
   description?: string;
   url?: string;
-}
-
-export interface ReduxState {
-  images: ReduxImageState;
-  licenses: ReduxLicenseState;
-  session: ReduxSessionState;
-  messages: ReduxMessageState;
-  locale: ReduxLocaleState;
 }
 
 export type SearchType = typeof SearchTypeValues[number];

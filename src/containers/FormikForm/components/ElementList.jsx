@@ -7,11 +7,11 @@
  */
 
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { spacing, spacingUnit, shadows } from '@ndla/core';
-import { ContentResultShape } from '../../../shapes';
-import { LocaleContext } from '../../App/App';
+import { ContentResultShape, LocaleShape } from '../../../shapes';
 import ElementListItem from './ElementListItem';
 import ElementListLink from './ElementListLink';
 
@@ -145,53 +145,50 @@ class ElementList extends Component {
     const { draggingIndex, deleteIndex } = this.state;
     return (
       <StyledWrapper>
-        <LocaleContext.Consumer>
-          {locale => (
-            <StyledList ref={this.wrapperRef} draggingIndex={draggingIndex}>
-              {elements
-                .filter(element => !!element)
-                .map((element, index) => {
-                  if (element.id || !(element.url && element.title)) {
-                    return (
-                      <ElementListItem
-                        key={element.id}
-                        isEditable={isEditable}
-                        isOrderable={isOrderable}
-                        element={element}
-                        deleteIndex={deleteIndex}
-                        messages={messages}
-                        index={index}
-                        locale={locale}
-                        executeDeleteFile={this.executeDeleteFile}
-                        showDragTooltip={elements.length > 1 && draggingIndex === -1}
-                        onDragEnd={this.onDragEnd}
-                        onDragStart={this.onDragStart}
-                        deleteFile={this.deleteFile}
-                      />
-                    );
-                  } else {
-                    return (
-                      <ElementListLink
-                        key={element.title + element.url}
-                        isEditable={isEditable}
-                        isOrderable={isOrderable}
-                        element={element}
-                        deleteIndex={deleteIndex}
-                        messages={messages}
-                        index={index}
-                        locale={locale}
-                        executeDeleteFile={this.executeDeleteFile}
-                        showDragTooltip={elements.length > 1 && draggingIndex === -1}
-                        onDragEnd={this.onDragEnd}
-                        onDragStart={this.onDragStart}
-                        deleteFile={this.deleteFile}
-                      />
-                    );
-                  }
-                })}
-            </StyledList>
-          )}
-        </LocaleContext.Consumer>
+        <StyledList ref={this.wrapperRef} draggingIndex={draggingIndex}>
+          {elements
+            .filter(element => !!element)
+            .map((element, index) => {
+              if (element.id || !(element.url && element.title)) {
+                return (
+                  <ElementListItem
+                    articleType={this.props.articleType}
+                    key={element.id}
+                    isEditable={isEditable}
+                    isOrderable={isOrderable}
+                    element={element}
+                    deleteIndex={deleteIndex}
+                    messages={messages}
+                    index={index}
+                    locale={this.props.i18n.language}
+                    executeDeleteFile={this.executeDeleteFile}
+                    showDragTooltip={elements.length > 1 && draggingIndex === -1}
+                    onDragEnd={this.onDragEnd}
+                    onDragStart={this.onDragStart}
+                    deleteFile={this.deleteFile}
+                  />
+                );
+              } else {
+                return (
+                  <ElementListLink
+                    key={element.title + element.url}
+                    isEditable={isEditable}
+                    isOrderable={isOrderable}
+                    element={element}
+                    deleteIndex={deleteIndex}
+                    messages={messages}
+                    index={index}
+                    locale={this.props.i18n.language}
+                    executeDeleteFile={this.executeDeleteFile}
+                    showDragTooltip={elements.length > 1 && draggingIndex === -1}
+                    onDragEnd={this.onDragEnd}
+                    onDragStart={this.onDragStart}
+                    deleteFile={this.deleteFile}
+                  />
+                );
+              }
+            })}
+        </StyledList>
       </StyledWrapper>
     );
   }
@@ -199,6 +196,7 @@ class ElementList extends Component {
 
 ElementList.propTypes = {
   elements: PropTypes.arrayOf(ContentResultShape),
+  articleType: PropTypes.string,
   isEditable: PropTypes.bool,
   isOrderable: PropTypes.bool,
   messages: PropTypes.shape({
@@ -206,6 +204,9 @@ ElementList.propTypes = {
     dragElement: PropTypes.string,
   }),
   onUpdateElements: PropTypes.func,
+  i18n: PropTypes.shape({
+    language: LocaleShape.isRequired,
+  }).isRequired,
 };
 
 ElementList.defaultProps = {
@@ -214,4 +215,4 @@ ElementList.defaultProps = {
   isOrderable: true,
 };
 
-export default ElementList;
+export default withTranslation()(ElementList);

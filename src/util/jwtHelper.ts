@@ -12,7 +12,7 @@ interface NDLAToken extends JwtPayload {
   'https://ndla.no/ndla_id'?: string;
   'https://ndla.no/user_name'?: string;
   'https://ndla.no/user_email'?: string;
-  scope?: string[];
+  scope?: string;
 }
 
 export function expiresIn(token: string): number {

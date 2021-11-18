@@ -38,7 +38,7 @@ const baseAgreementsUrl: string = apiResourceUrl('/draft-api/v1/agreements');
 const baseFileUrl: string = apiResourceUrl('/draft-api/v1/files');
 const baseUserDataUrl: string = apiResourceUrl('/draft-api/v1/user-data');
 
-export const fetchDraft = async (id: number, language?: string): Promise<DraftApiType> => {
+export const fetchDraft = async (id: number | string, language?: string): Promise<DraftApiType> => {
   const query = queryString.stringify({ language });
   const url = language ? `${baseUrl}/${id}?${query}&fallback=true` : `${baseUrl}/${id}`;
   return fetchAuthorized(url).then(r => resolveJsonOrRejectWithError<DraftApiType>(r));

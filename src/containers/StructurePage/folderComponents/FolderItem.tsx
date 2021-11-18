@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ import AlertModal from '../../../components/AlertModal';
 import { SubjectType, TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import Spinner from '../../../components/Spinner';
 import { Row } from '../../../components';
-import { UserAccessContext } from '../../App/App';
+import { useSession } from '../../Session/SessionProvider';
 
 export const classes = new BEMHelper({
   name: 'folder',
@@ -61,10 +61,10 @@ const FolderItem = ({
   parent,
   structure,
 }: Props) => {
+  const { userAccess } = useSession();
   const type = id?.includes('subject') ? 'subject' : 'topic';
   const { t } = useTranslation();
   const showJumpToResources = isMainActive && type === 'topic';
-  const userAccess = useContext(UserAccessContext);
 
   const [showAlertModal, setShowAlertModal] = useState(false);
 

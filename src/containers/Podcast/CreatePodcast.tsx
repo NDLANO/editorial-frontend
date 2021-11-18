@@ -5,22 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
-import { LocaleContext } from '../App/App';
 import * as audioApi from '../../modules/audio/audioApi';
 import { PodcastMetaInformationPost } from '../../modules/audio/audioApiInterfaces';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
-import { License } from '../../interfaces';
 import PodcastForm from './components/PodcastForm';
 
-interface Props extends RouteComponentProps {
-  licenses: License[];
-}
+interface Props extends RouteComponentProps {}
 
-const CreatePodcast = ({ licenses, history }: Props) => {
-  const locale: string = useContext(LocaleContext);
+const CreatePodcast = ({ history }: Props) => {
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
 
   const onCreatePodcast = async (
     newPodcast: PodcastMetaInformationPost,
@@ -33,14 +31,7 @@ const CreatePodcast = ({ licenses, history }: Props) => {
     }
   };
 
-  return (
-    <PodcastForm
-      licenses={licenses}
-      onUpdate={onCreatePodcast}
-      isNewlyCreated={false}
-      language={locale}
-    />
-  );
+  return <PodcastForm onUpdate={onCreatePodcast} isNewlyCreated={false} language={locale} />;
 };
 
 export default CreatePodcast;

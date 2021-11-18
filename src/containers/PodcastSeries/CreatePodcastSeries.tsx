@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useContext } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { LocaleContext } from '../App/App';
+import { useTranslation } from 'react-i18next';
 import * as audioApi from '../../modules/audio/audioApi';
 import { PodcastSeriesPost } from '../../modules/audio/audioApiInterfaces';
 import { toEditPodcastSeries } from '../../util/routeHelpers';
@@ -18,7 +18,8 @@ interface Props {
 }
 
 const CreatePodcastSeries = ({ history }: Props) => {
-  const locale: string = useContext(LocaleContext);
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
 
   const onUpdate = async (newSeries: PodcastSeriesPost): Promise<void> => {
     const createdSeries = await audioApi.postSeries(newSeries);

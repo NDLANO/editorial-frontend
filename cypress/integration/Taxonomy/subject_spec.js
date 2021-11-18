@@ -84,8 +84,6 @@ describe('Subject editing', () => {
       '@updatedSubjects',
       '@updatedTranslations',
     );
-    cy.wait(1000);
-
     cy.get('[data-testid=subjectName_nb_delete]')
       .first()
       .click();
@@ -100,7 +98,7 @@ describe('Subject editing', () => {
     );
     cy.intercept('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects').as('allSubjects');
     cy.apiwait('@deleteSubjectTranslation', '@selectSubject', '@allSubjects', '@translations');
-    cy.wait(1000);
+    cy.get('[data-testid=saveSubjectTranslationsButton]').contains('Lagret');
 
     cy.get('[data-cy=close-modal-button]')
       .first()

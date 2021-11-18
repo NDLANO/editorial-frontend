@@ -9,7 +9,7 @@ import React, { useState, ReactNode, useRef } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { Value } from 'slate';
+import { Descendant } from 'slate';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
@@ -44,8 +44,8 @@ const podcastRules: RulesType<PodcastSeriesFormikType> = {
 export interface PodcastSeriesFormikType {
   id?: number;
   revision?: number;
-  title: Value;
-  description: Value;
+  title: Descendant[];
+  description: Descendant[];
   language: string;
   coverPhotoId?: string;
   metaImageAlt?: string;

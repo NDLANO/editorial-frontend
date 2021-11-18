@@ -6,24 +6,22 @@
  *
  */
 
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React from 'react';
 import BEMHelper from 'react-bem-helper';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { SearchFolder, LastUsed } from '@ndla/icons/editor';
+import { SearchFolder } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { NAVIGATION_HEADER_MARGIN } from '../../constants';
 import { getAccessToken, getAccessTokenPersonal } from '../../util/authHelpers';
 import { isValid } from '../../util/jwtHelper';
-import { fetchUserData } from '../../modules/draft/draftApi';
-import { LocaleContext, UserAccessContext } from '../App/App';
 
-import LastUsedContent from './components/LastUsedContent';
 import SaveSearchUrl from './components/SaveSearchUrl';
-import { LocaleType } from '../../interfaces';
 import Footer from '../App/components/Footer';
+import LastUsedItems from './components/LastUsedItems';
+import { useUserData } from '../../modules/draft/draftQueries';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -40,71 +38,37 @@ export const classes = new BEMHelper({
 
 export const WelcomePage = () => {
   const { t } = useTranslation();
-  const [lastUsed, setLastUsed] = useState<string[]>([]);
-  const locale: LocaleType = useContext(LocaleContext);
-  const userAccess: string | undefined = useContext(UserAccessContext);
-
-  const token = getAccessToken();
-  const isAccessTokenPersonal = getAccessTokenPersonal();
-
-  useEffect(() => {
-    const fetchLastUsed = async () => {
-      if (isValid(token) && isAccessTokenPersonal) {
-        const result = await fetchUserData();
-        const lastUsed = result.latestEditedArticles || [];
-        setLastUsed(lastUsed);
-      }
-    };
-    fetchLastUsed();
-  }, [isAccessTokenPersonal, token]);
+  const { data } = useUserData({
+    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+  });
+  const lastUsed = data?.latestEditedArticles;
 
   localStorage.setItem('lastPath', '');
 
   return (
-    <Fragment>
-      <ContentWrapper>
-        <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
-        <OneColumn>
-          <div {...classes('header')}>
-            {/* <a href="#guidelines" {...classes('header-link')}>
-              {t('welcomePage.guidelines')}
-              <RightArrow className="c-icon--large" />
-            </a> */}
-            <img {...classes('header-image')} src="/welcome-image.jpg" alt="illustration" />
-          </div>
-          <div {...classes('two-column')}>
-            <div>
-              <div {...classes('column-header')}>
-                <LastUsed className="c-icon--medium" />
-                <span>{t('welcomePage.lastUsed')}</span>
-              </div>
-              {lastUsed.length ? (
-                lastUsed.map((result: string) => {
-                  return (
-                    <LastUsedContent
-                      key={result}
-                      articleId={parseInt(result)}
-                      locale={locale}
-                      userAccess={userAccess}
-                    />
-                  );
-                })
-              ) : (
-                <span>{t('welcomePage.emptyLastUsed')}</span>
-              )}
+    <ContentWrapper>
+      <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
+      <OneColumn>
+        <div {...classes('header')}>
+          {/* <a href="#guidelines" {...classes('header-link')}>
+               {t('welcomePage.guidelines')}
+               <RightArrow className="c-icon--large" />
+             </a> */}
+          <img {...classes('header-image')} src="/welcome-image.jpg" alt="illustration" />
+        </div>
+        <div {...classes('two-column')}>
+          <LastUsedItems lastUsed={lastUsed} />
+          <div>
+            <div {...classes('column-header')}>
+              <SearchFolder className="c-icon--medium" />
+              <span>{t('welcomePage.savedSearch')}</span>
             </div>
-            <div>
-              <div {...classes('column-header')}>
-                <SearchFolder className="c-icon--medium" />
-                <span>{t('welcomePage.savedSearch')}</span>
-              </div>
-              <SaveSearchUrl locale={locale} />
-            </div>
+            <SaveSearchUrl />
           </div>
-        </OneColumn>
-        <Footer showLocaleSelector />
-      </ContentWrapper>
-    </Fragment>
+        </div>
+      </OneColumn>
+      <Footer showLocaleSelector />
+    </ContentWrapper>
   );
 };
 

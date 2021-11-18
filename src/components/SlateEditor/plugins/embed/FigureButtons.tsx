@@ -104,7 +104,11 @@ const FigureButtons = ({
   };
 
   return (
-    <StyledFigureButtons align={embed.align} theme={{}} withMargin={withMargin}>
+    <StyledFigureButtons
+      align={'align' in embed && !!embed.align ? embed.align : ''}
+      theme={{}}
+      withMargin={withMargin}
+      contentEditable={false}>
       <Tooltip tooltip={tooltip} align="right">
         <IconButton
           color="red"
@@ -115,18 +119,19 @@ const FigureButtons = ({
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      {(figureType === 'image' || figureType === 'audio' || figureType === 'podcast') && (
-        <Tooltip tooltip={url[figureType].editTitle} align="right">
-          <IconButton
-            as={Link}
-            to={`${url[figureType].path}/${embed.resource_id}/edit/${language}`}
-            target="_blank"
-            title={url[figureType].editTitle}
-            tabIndex={-1}>
-            <LinkIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+      {(figureType === 'image' || figureType === 'audio' || figureType === 'podcast') &&
+        (embed.resource === 'image' || embed.resource === 'audio') && (
+          <Tooltip tooltip={url[figureType].editTitle} align="right">
+            <IconButton
+              as={Link}
+              to={`${url[figureType].path}/${embed.resource_id}/edit/${language}`}
+              target="_blank"
+              title={url[figureType].editTitle}
+              tabIndex={-1}>
+              <LinkIcon />
+            </IconButton>
+          </Tooltip>
+        )}
       {figureType === 'external' && onEdit && (
         <Tooltip
           tooltip={t('form.external.edit', {
@@ -143,7 +148,9 @@ const FigureButtons = ({
           <Tooltip tooltip={t('form.video.brightcove')} align="right">
             <IconButton
               as={SafeLink}
-              to={`https://studio.brightcove.com/products/videocloud/media/videos/${embed.videoid}`}
+              to={`https://studio.brightcove.com/products/videocloud/media/videos/${
+                embed.videoid.split('&t=')[0]
+              }`}
               target="_blank"
               title={t('form.video.brightcove')}
               tabIndex={-1}>

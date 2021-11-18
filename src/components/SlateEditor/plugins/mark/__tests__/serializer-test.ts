@@ -1,0 +1,95 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Descendant } from 'slate';
+import { TYPE_SECTION } from '../../section';
+import {
+  learningResourceContentToEditorValue,
+  learningResourceContentToHTML,
+} from '../../../../../util/articleContentConverter';
+
+const editor: Descendant[] = [
+  {
+    type: TYPE_SECTION,
+    children: [
+      {
+        type: 'paragraph',
+        children: [
+          {
+            bold: true,
+            text: 'bold',
+          },
+        ],
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            italic: true,
+            text: 'italic',
+          },
+        ],
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            sup: true,
+            text: 'sup',
+          },
+        ],
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            sub: true,
+            text: 'sub',
+          },
+        ],
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            code: true,
+            text: 'code',
+          },
+        ],
+      },
+      {
+        type: 'paragraph',
+        children: [
+          {
+            bold: true,
+            code: true,
+            italic: true,
+            sub: true,
+            sup: true,
+            text: 'all',
+          },
+        ],
+      },
+    ],
+  },
+];
+
+const html =
+  '<section><p><strong>bold</strong></p><p><em>italic</em></p><p><sup>sup</sup></p><p><sub>sub</sub></p><p><code>code</code></p><p><code><sub><sup><em><strong>all</strong></em></sup></sub></code></p></section>';
+
+describe('mark serializing tests', () => {
+  test('serializing', () => {
+    const res = learningResourceContentToHTML(editor);
+    expect(res).toMatch(html);
+  });
+
+  test('deserializing', () => {
+    const res = learningResourceContentToEditorValue(html);
+    expect(res).toEqual(editor);
+  });
+});

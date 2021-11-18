@@ -6,6 +6,8 @@
  *
  */
 
+import { LocaleType } from './interfaces';
+
 export function getEnvironmentVariabel(key: string, fallback: string): string;
 export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
 export function getEnvironmentVariabel(key: string, fallback?: string): string | undefined;
@@ -118,7 +120,8 @@ export const getZendeskWidgetSecret = () => {
   return getEnvironmentVariabel('NDLA_ED_ZENDESK_WIDGET_SECRET', 'something');
 };
 
-export const getDefaultLanguage = () => getEnvironmentVariabel('NDLA_DEFAULT_LANGUAGE', 'nb');
+export const getDefaultLanguage = () =>
+  getEnvironmentVariabel('NDLA_DEFAULT_LANGUAGE', 'nb') as LocaleType;
 
 const usernamePasswordEnabled = () => {
   switch (ndlaEnvironment) {
@@ -161,6 +164,7 @@ export type ConfigType = {
   npkToken: string | undefined;
   zendeskWidgetKey: string | undefined;
   brightcovePlayerId: string | undefined;
+  brightcove360PlayerId: string | undefined;
   disableCSP: string | undefined;
   usernamePasswordEnabled: boolean;
 };
@@ -168,7 +172,7 @@ export type ConfigType = {
 const config: ConfigType = {
   ndlaEnvironment,
   taxonomyApi,
-  componentName: getEnvironmentVariabel('npm_package_name'),
+  componentName: getEnvironmentVariabel('npm_package_name', 'editorial-frontend'),
   host: getEnvironmentVariabel('EDITORIAL_FRONTEND_HOST', 'localhost'),
   port: getEnvironmentVariabel('EDITORIAL_FRONTEND_PORT', '3000'),
   redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),
@@ -187,6 +191,7 @@ const config: ConfigType = {
   auth0Domain: getEnvironmentVariabel('AUTH0_DOMAIN', getAuth0Hostname()),
   brightCoveAccountId: getEnvironmentVariabel('BRIGHTCOVE_ACCOUNT_ID', '123456789'),
   brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
+  brightcove360PlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_360_ID', 'Ab1234'),
   brightcoveApiUrl: 'https://cms.api.brightcove.com',
   h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),
   googleSearchApiUrl: getEnvironmentVariabel('NDLA_GOOGLE_API_URL', 'https://www.googleapis.com'),

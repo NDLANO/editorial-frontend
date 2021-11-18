@@ -1,7 +1,9 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { useMutation, useQuery, useQueryClient, UseQueryOptions } from 'react-query';
@@ -34,7 +36,7 @@ export const useUpdateUserDataMutation = () => {
     {
       onMutate: async newUserData => {
         await queryClient.cancelQueries(USER_DATA);
-        const previousUserData = queryClient.getQueryData<UserDataApiType>('userData');
+        const previousUserData = queryClient.getQueryData<UserDataApiType>(USER_DATA);
         queryClient.setQueryData<UserDataApiType>(USER_DATA, {
           ...previousUserData,
           userId: previousUserData?.userId!,

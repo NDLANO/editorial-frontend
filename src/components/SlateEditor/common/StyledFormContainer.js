@@ -7,6 +7,7 @@ const StyledFormContainer = styled('div')`
   border-top: 1px solid white;
   border-bottom: 1px solid white;
   clear: both;
+  position: relative;
 
   &:hover,
   &:focus {
@@ -16,7 +17,9 @@ const StyledFormContainer = styled('div')`
     .tooltipContainerClass {
       color: red;
       display: block;
-      float: right;
+      position: absolute;
+      top: 0px;
+      right: 0px;
     }
   }
 

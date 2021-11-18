@@ -12,12 +12,11 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import ConceptForm from './ConceptForm/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
-import { LicensesArrayOf } from '../../shapes';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
 
-const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, ...rest }) => {
+const EditConcept = ({ conceptId, isNewlyCreated, selectedLanguage, ...rest }) => {
   const { t } = useTranslation();
   const {
     concept,
@@ -34,8 +33,8 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, ..
 
   const { translating, translateToNN } = useTranslateApi(concept, setConcept, [
     'id',
-    'title',
-    'content',
+    'title.title',
+    'content.content',
   ]);
 
   if (loading || translating) {
@@ -56,7 +55,6 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, ..
         fetchConceptTags={fetchSearchTags}
         fetchStateStatuses={fetchStatusStateMachine}
         isNewlyCreated={isNewlyCreated}
-        licenses={licenses}
         onUpdate={updateConcept}
         language={selectedLanguage}
         subjects={subjects}
@@ -73,9 +71,7 @@ const EditConcept = ({ conceptId, isNewlyCreated, licenses, selectedLanguage, ..
 EditConcept.propTypes = {
   conceptId: PropTypes.string,
   selectedLanguage: PropTypes.string.isRequired,
-  licenses: LicensesArrayOf.isRequired,
   isNewlyCreated: PropTypes.bool,
-  createMessage: PropTypes.func.isRequired,
 };
 
 export default EditConcept;

@@ -7,7 +7,7 @@
  */
 
 import React, { Component, Fragment } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
 import Field from '../../../../components/Field';
@@ -42,15 +42,16 @@ import {
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
+import withSession from '../../../Session/withSession';
+import { SessionProps } from '../../../Session/SessionProvider';
 
 type Props = {
   articleId: number;
   article: Partial<ConvertedDraftType>;
   setIsOpen?: (open: boolean) => void;
-  locale: LocaleType;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
-  userAccess?: string;
-} & WithTranslation;
+} & CustomWithTranslation &
+  SessionProps;
 
 interface StructureSubject extends SubjectType {
   topics?: SubjectTopic[];
@@ -115,12 +116,9 @@ class TopicArticleTaxonomy extends Component<Props, State> {
   };
 
   fetchTaxonomy = async () => {
-    const {
-      article: { language },
-    } = this.props;
-    if (!language) return;
+    const { i18n } = this.props;
     try {
-      const subjects = await fetchSubjects(language);
+      const subjects = await fetchSubjects(i18n.language);
 
       const topics = this.props.article.taxonomy?.topics ?? [];
 
@@ -133,7 +131,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       );
 
       const topicsWithConnections = sortedTopics.map(async (topic, index) => {
-        const breadcrumb = await getBreadcrumbFromPath(topic.path);
+        const breadcrumb = await getBreadcrumbFromPath(topic.path, i18n.language);
         return {
           topicConnections: topicConnections[index],
           breadcrumb,
@@ -153,9 +151,9 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     }
   };
 
-  stageTaxonomyChanges = async ({ path }: { path: string }) => {
+  stageTaxonomyChanges = async ({ path, locale }: { path: string; locale?: LocaleType }) => {
     if (path) {
-      const breadcrumb = await getBreadcrumbFromPath(path);
+      const breadcrumb = await getBreadcrumbFromPath(path, locale);
       const newTopic: StagedTopic = {
         id: 'staged',
         name: this.props.article.title ?? '',
@@ -175,12 +173,12 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     }
   };
 
-  addNewTopic = async (stagedNewTopics: StagedTopic[]) => {
+  addNewTopic = async (stagedNewTopics: StagedTopic[], locale?: LocaleType) => {
     const { stagedTopicChanges } = this.state;
     const existingTopics = stagedTopicChanges.filter(t => !stagedNewTopics.includes(t));
     const { articleId } = this.props;
     const newTopics = await Promise.all(
-      stagedNewTopics.map(topic => this.createAndPlaceTopic(topic, articleId)),
+      stagedNewTopics.map(topic => this.createAndPlaceTopic(topic, articleId, locale)),
     );
     this.setState({
       isDirty: false,
@@ -194,13 +192,14 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     const {
       updateNotes,
       article: { id: articleId, language, revision, supportedLanguages },
+      i18n,
     } = this.props;
     this.setState({ status: 'loading' });
 
     const stagedNewTopics = this.state.stagedTopicChanges.filter(topic => topic.id === 'staged');
     try {
       if (stagedNewTopics.length > 0) {
-        await this.addNewTopic(stagedNewTopics);
+        await this.addNewTopic(stagedNewTopics, i18n.language);
       }
 
       updateNotes({
@@ -241,7 +240,11 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     }
   };
 
-  createAndPlaceTopic = async (topic: StagedTopic, articleId: number): Promise<StagedTopic> => {
+  createAndPlaceTopic = async (
+    topic: StagedTopic,
+    articleId: number,
+    locale?: LocaleType,
+  ): Promise<StagedTopic> => {
     const newTopicPath = await addTopic({
       name: topic.name,
       contentUri: `urn:article:${articleId}`,
@@ -265,7 +268,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       });
     }
     const newPath = topic.path.replace('staged', newTopicId.replace('urn:', ''));
-    const breadcrumb = await getBreadcrumbFromPath(newPath);
+    const breadcrumb = await getBreadcrumbFromPath(newPath, locale);
     return {
       name: topic.name,
       id: newTopicId,
@@ -281,7 +284,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
 
   render() {
     const { stagedTopicChanges, structure, status, isDirty, showWarning } = this.state;
-    const { t, locale, article, userAccess } = this.props;
+    const { t, article, userAccess } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -316,7 +319,6 @@ class TopicArticleTaxonomy extends Component<Props, State> {
         <TopicArticleConnections
           structure={structure}
           activeTopics={stagedTopicChanges}
-          locale={locale}
           getSubjectTopics={this.getSubjectTopics}
           stageTaxonomyChanges={this.stageTaxonomyChanges}
         />
@@ -341,4 +343,4 @@ class TopicArticleTaxonomy extends Component<Props, State> {
   }
 }
 
-export default withTranslation()(TopicArticleTaxonomy);
+export default withTranslation()(withSession(TopicArticleTaxonomy));

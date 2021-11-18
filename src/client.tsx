@@ -8,7 +8,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { render } from 'react-dom';
-import { Provider } from 'react-redux';
 import { BrowserRouter, Router, useHistory } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -18,12 +17,11 @@ import { createBrowserHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
 import config, { ConfigType, getDefaultLanguage } from './config';
 import { isValidLocale } from './i18n';
-import configureStore from './configureStore';
-import { getSessionStateFromLocalStorage } from './modules/session/session';
 import App from './containers/App/App';
 import { initializeI18n, supportedLanguages } from './i18n2';
 import { STORED_LANGUAGE_KEY } from './constants';
 import Spinner from './components/Spinner';
+import { LocaleType } from './interfaces';
 
 declare global {
   interface Window {
@@ -35,20 +33,12 @@ declare global {
   }
 }
 
-const { initialState } = window;
-
 const paths = window.location.pathname.split('/');
 const basename = isValidLocale(paths[1]) ? `${paths[1]}` : undefined;
-
-export const store = configureStore({
-  ...initialState,
-  session: getSessionStateFromLocalStorage(),
-});
 
 const { logglyApiKey, logEnvironment: environment, componentName } = config;
 
 window.errorReporter = ErrorReporter.getInstance({
-  store,
   logglyApiKey,
   environment,
   componentName,
@@ -66,7 +56,7 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
     initializeI18n(i18n);
     i18n.loadLanguages(i18n.options.supportedLngs as string[]);
     i18n.loadResources(() => setLoading(false));
-    const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY);
+    const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY) as LocaleType;
     const defaultLanguage = getDefaultLanguage();
     if ((!basename && !storedLanguage) || (!basename && storedLanguage === defaultLanguage)) {
       setBase('');
@@ -120,17 +110,13 @@ const queryClient = new QueryClient({
 const renderApp = () => {
   render(
     <QueryClientProvider client={queryClient}>
-      <>
-        {/* @ts-ignore i18nInstance is not recognized as valid by I18nextProvider. It works, however. */}
-        <I18nextProvider i18n={i18nInstance}>
-          <Provider store={store}>
-            <Router history={browserHistory}>
-              <I18nWrapper basename={basename} />
-            </Router>
-          </Provider>
-        </I18nextProvider>
-        <ReactQueryDevtools />
-      </>
+      {/* @ts-ignore i18nInstance is not recognized as valid by I18nextProvider. It works, however. */}
+      <I18nextProvider i18n={i18nInstance}>
+        <Router history={browserHistory}>
+          <I18nWrapper basename={basename} />
+        </Router>
+      </I18nextProvider>
+      <ReactQueryDevtools />
     </QueryClientProvider>,
     document.getElementById('root'),
   );

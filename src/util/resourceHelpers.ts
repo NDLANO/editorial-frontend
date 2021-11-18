@@ -61,6 +61,8 @@ export const getResourceLanguages = (t: TFunction) => [
   { id: 'nn', name: t('language.nn') },
   { id: 'en', name: t('language.en') },
   { id: 'sma', name: t('language.sma') },
+  { id: 'se', name: t('language.se') },
+  { id: 'und', name: t('language.und') },
   { id: 'unknown', name: t('language.unknown') },
 ];
 
@@ -83,7 +85,7 @@ export const resourceToLinkProps = (
   content: {
     id: number;
     supportedLanguages?: string[];
-    contexts: [{ learningResourceType: string }];
+    contexts: { learningResourceType: string }[];
   },
   contentType: string | undefined,
   locale: string,

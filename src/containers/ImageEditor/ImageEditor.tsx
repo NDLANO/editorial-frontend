@@ -18,7 +18,7 @@ import ImageTransformEditor from './ImageTransformEditor';
 import ImageAlignButton from './ImageAlignButton';
 import ImageSizeButton from './ImageSizeButton';
 import ImageEditorButton from './ImageEditorButton';
-import { Embed } from '../../interfaces';
+import { ImageEmbed } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
 import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 import ShowBylineButton from './ShowBylineButton';
@@ -64,20 +64,20 @@ const defaultData = {
 };
 
 interface Props {
-  embed: Embed;
+  embed: ImageEmbed;
   onUpdatedImageSettings: Function;
   imageUpdates:
     | {
         transformData: {
-          'focal-x': string;
-          'focal-y': string;
-          'upper-left-x': string;
-          'upper-left-y': string;
-          'lower-right-x': string;
-          'lower-right-y': string;
+          'focal-x'?: string;
+          'focal-y'?: string;
+          'upper-left-x'?: string;
+          'upper-left-y'?: string;
+          'lower-right-x'?: string;
+          'lower-right-y'?: string;
         };
-        align: string;
-        size: string;
+        align?: string;
+        size?: string;
       }
     | undefined;
 }
@@ -184,12 +184,12 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
           ) : (
             ''
           )}
-          {imageUpdates?.size.startsWith('full') || imageUpdates?.size.startsWith('medium') ? (
+          {imageUpdates?.size?.startsWith('full') || imageUpdates?.size?.startsWith('medium') ? (
             <StyledImageEditorMenu>
               {bylineOptions.map(option => (
                 <ShowBylineButton
                   show={option === 'show'}
-                  currentSize={imageUpdates?.size}
+                  currentSize={imageUpdates.size}
                   onFieldChange={onFieldChange}
                 />
               ))}

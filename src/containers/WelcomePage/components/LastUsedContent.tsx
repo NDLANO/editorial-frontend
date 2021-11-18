@@ -6,37 +6,28 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { DRAFT_HTML_SCOPE } from '../../../constants';
 import formatDate from '../../../util/formatDate';
 import { toEditArticle, toEditMarkup } from '../../../util/routeHelpers';
-import { fetchDraft } from '../../../modules/draft/draftApi';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
 import { classes } from '../WelcomePage';
-import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
+import { useDraft } from '../../../modules/draft/draftQueries';
+import { useSession } from '../../Session/SessionProvider';
 
 interface Props {
   articleId: number;
-  locale: string;
-  userAccess?: string;
 }
 
-const LastUsedContent = ({ articleId, locale, userAccess }: Props) => {
-  const { t } = useTranslation();
-  const [article, setArticle] = useState<DraftApiType>();
+const LastUsedContent = ({ articleId }: Props) => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+  const { userAccess } = useSession();
 
-  useEffect(() => {
-    const fetchArticle = async (articleId: number, locale: string) => {
-      const article = await fetchDraft(articleId, locale);
-      setArticle(article);
-    };
-    if (articleId) {
-      fetchArticle(articleId, locale);
-    }
-  }, [articleId, locale]);
+  const { data: article } = useDraft(articleId, locale);
 
   return (
     <div {...classes('result')}>

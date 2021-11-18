@@ -100,7 +100,7 @@ export interface ImageSearchSummaryApiType {
     language: string;
   };
   contributors: string[];
-  alttext: {
+  altText: {
     alttext: string;
     language: string;
   };

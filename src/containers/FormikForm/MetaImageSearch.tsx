@@ -6,13 +6,12 @@
  *
  */
 
-import React, { useContext, useState, useEffect, SyntheticEvent } from 'react';
+import React, { useState, useEffect, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { FormikHandlers } from 'formik';
-import { LocaleContext } from '../App/App';
 import { createFormData } from '../../util/formDataHelper';
 import {
   postImage,
@@ -21,19 +20,16 @@ import {
   fetchImage,
   onError,
 } from '../../modules/image/imageApi';
-import { transformApiToCleanImage } from '../../modules/image/imageApiUtil';
 import HowToHelper from '../../components/HowTo/HowToHelper';
 import ImageSearchAndUploader from '../../components/ControlledImageSearchAndUploader';
 
 import MetaImageField from './components/MetaImageField';
-import { ImageType } from '../../interfaces';
-import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
+import { ImageApiType, UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 
 interface Props {
   metaImageId: string;
   onChange: FormikHandlers['handleChange'];
   name: string;
-  isSavingImage: boolean;
   setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void;
   onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
   showRemoveButton: boolean;
@@ -47,22 +43,18 @@ const MetaImageSearch = ({
   onChange,
   onImageLoad,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [showImageSelect, setShowImageSelect] = useState(false);
-  const [image, setImage] = useState<ImageType | undefined>(undefined);
-  const locale = useContext(LocaleContext);
-
-  const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
+  const [image, setImage] = useState<ImageApiType | undefined>(undefined);
+  const locale = i18n.language;
 
   useEffect(() => {
     if (metaImageId) {
-      fetchImageWithLocale(parseInt(metaImageId)).then(image =>
-        setImage(transformApiToCleanImage(image, locale)),
-      );
+      fetchImage(parseInt(metaImageId), locale).then(image => setImage(image));
     } else {
       setImage(undefined);
     }
-  }, [metaImageId, locale]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [metaImageId, locale]);
 
   const onChangeFormik = (id: string | null) => {
     onChange({
@@ -77,7 +69,7 @@ const MetaImageSearch = ({
     setShowImageSelect(false);
   };
 
-  const onImageSet = (image: ImageType) => {
+  const onImageSet = (image: ImageApiType) => {
     onImageSelectClose();
     setImage(image);
     onChangeFormik(image.id);
@@ -96,11 +88,11 @@ const MetaImageSearch = ({
   const onImageUpdate = async (image: UpdatedImageMetadata, file: string | Blob | undefined) => {
     if (image.id) {
       const updatedImage = await updateImage(image);
-      onImageSet(transformApiToCleanImage(updatedImage, locale));
+      onImageSet(updatedImage);
     } else {
       const formData = await createFormData(file, image);
       const createdImage = await postImage(formData);
-      onImageSet({ ...transformApiToCleanImage(createdImage, locale) });
+      onImageSet(createdImage);
     }
   };
 
@@ -127,7 +119,7 @@ const MetaImageSearch = ({
                 onImageSelect={onImageSet}
                 locale={locale}
                 closeModal={onImageSelectClose}
-                fetchImage={fetchImageWithLocale}
+                fetchImage={id => fetchImage(id, locale)}
                 searchImages={searchImages}
                 onError={onError}
                 updateImage={onImageUpdate}

@@ -8,9 +8,10 @@
 
 import nock from 'nock';
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
 import { MastheadSearchForm } from '../components/MastheadSearchForm';
 import { taxonomyApi } from '../../../config';
+import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 const noop = () => {};
 
@@ -19,22 +20,19 @@ test('MastheadSearchForm redirects on ndla url paste with id at the end', () => 
     push: jest.fn(),
   };
 
-  const component = TestRenderer.create(
-    <MastheadSearchForm
-      query=""
-      searching={false}
-      onSearchQuerySubmit={noop}
-      t={() => ''}
-      locale="nb"
-      history={historyMock}
-    />,
+  const { container } = render(
+    <IntlWrapper>
+      <MastheadSearchForm
+        query=""
+        searching={false}
+        onSearchQuerySubmit={noop}
+        t={() => ''}
+        locale="nb"
+        history={historyMock}
+      />
+    </IntlWrapper>,
   );
-  const tree = component.toJSON();
-  const e = {
-    preventDefault: () => {},
-  };
-  tree.props.onSubmit(e);
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBeTruthy();
     expect(historyMock.push.calledWith('/subject-matter/learning-resource/3333/edit/nb')).toBe(
@@ -52,7 +50,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
     .get(`${taxonomyApi}/topics/urn:topic:1:179373/?language=nb`)
     .reply(200, { contentUri: 'urn:content:4232' });
 
-  const component = TestRenderer.create(
+  const { container } = render(
     <MastheadSearchForm
       query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373"
       searching={false}
@@ -62,12 +60,7 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
       history={historyMock}
     />,
   );
-  const tree = component.toJSON();
-  const e = {
-    preventDefault: () => {},
-  };
-  tree.props.onSubmit(e);
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBeTruthy();
     expect(historyMock.push.calledWith('/subject-matter/topic-article/4232/edit/nb')).toBe(true);
@@ -83,7 +76,7 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
     .get('/draft-api/v1/drafts/external_id/4737')
     .reply(200, { id: '123' });
 
-  const component = TestRenderer.create(
+  const { container } = render(
     <MastheadSearchForm
       query="https://ndla.no/nb/node/4737?fag=36"
       searching={false}
@@ -93,12 +86,7 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
       history={historyMock}
     />,
   );
-  const tree = component.toJSON();
-  const e = {
-    preventDefault: () => {},
-  };
-  tree.props.onSubmit(e);
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBeTruthy();
     expect(historyMock.push.getCall(0).args[0]).toBe(
@@ -112,7 +100,7 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
     push: jest.fn(),
   };
 
-  const component = TestRenderer.create(
+  const { container } = render(
     <MastheadSearchForm
       query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
       searching={false}
@@ -122,12 +110,7 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
       history={historyMock}
     />,
   );
-  const tree = component.toJSON();
-  const e = {
-    preventDefault: () => {},
-  };
-  tree.props.onSubmit(e);
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBe(false);
   }, global.DEFAULT_TIMEOUT);
@@ -141,7 +124,7 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
     .get('/draft-api/v1/drafts/external_id/4737')
     .reply(200, { id: '123' });
 
-  const component = TestRenderer.create(
+  const { container } = render(
     <MastheadSearchForm
       query="#4737"
       searching={false}
@@ -151,12 +134,7 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
       history={historyMock}
     />,
   );
-  const tree = component.toJSON();
-  const e = {
-    preventDefault: () => {},
-  };
-  tree.props.onSubmit(e);
-  expect(component.toJSON()).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBeTruthy();
     expect(historyMock.push.calledWith('/subject-matter/learning-resource/123/edit/nb')).toBe(true);

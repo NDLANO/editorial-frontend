@@ -7,7 +7,6 @@
  */
 
 import queryString from 'query-string';
-import defined from 'defined';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -32,7 +31,7 @@ export const postImage = (formData: FormData): Promise<ImageApiType> =>
     body: formData,
   }).then(r => resolveJsonOrRejectWithError<ImageApiType>(r));
 
-export const fetchImage = (id: number, language?: string): Promise<ImageApiType> =>
+export const fetchImage = (id: number | string, language?: string): Promise<ImageApiType> =>
   fetchAuthorized(`${baseUrl}/${id}?language=${language}`).then(r =>
     resolveJsonOrRejectWithError<ImageApiType>(r),
   );
@@ -58,7 +57,7 @@ export const searchImages = (query: ImageSearchQuery): Promise<ImageSearchResult
 };
 
 export const onError = (err: Response & Error) => {
-  createErrorPayload(err.status, defined(err.message, err.statusText), err);
+  createErrorPayload(err.status, err.message ?? err.statusText, err);
 };
 
 export const deleteLanguageVersionImage = (

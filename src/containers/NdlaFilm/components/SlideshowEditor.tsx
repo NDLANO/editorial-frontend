@@ -8,36 +8,18 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { Spinner } from '@ndla/editor';
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-import ElementList from '../../FormikForm/components/ElementList';
-import DropdownSearch from './DropdownSearch';
-import { ContentResultType } from '../../../interfaces';
-import { NDLA_FILM_SUBJECT } from '../../../constants';
+import { ThemeMovies } from './ThemeMovies';
 
 interface Props {
   onUpdateSlideshow: Function;
-  allMovies: ContentResultType[];
-  loading: boolean;
-  field: FieldProps<ContentResultType[]>['field'];
+  field: FieldProps<string[]>['field'];
   form: FormikHelpers<FormikValues>;
 }
 
-const SlideshowEditor = ({ onUpdateSlideshow, allMovies, loading, field, form }: Props) => {
+const SlideshowEditor = ({ onUpdateSlideshow, field, form }: Props) => {
   const { t } = useTranslation();
-  if (loading) {
-    return <Spinner />;
-  }
-
   const slideshowMovies = field.value;
-  const onAddMovieToSlideshow = (newMovie: ContentResultType) => {
-    const movie = allMovies.find(movie => movie.id === newMovie.id);
-    if (movie) {
-      const temp = slideshowMovies.slice();
-      temp.push(movie);
-      onUpdateSlideshow(field, form, temp);
-    }
-  };
 
   return (
     <>
@@ -45,22 +27,10 @@ const SlideshowEditor = ({ onUpdateSlideshow, allMovies, loading, field, form }:
         title={t('ndlaFilm.editor.slideshowTitle')}
         subTitle={t('ndlaFilm.editor.slideshowSubTitle')}
       />
-      <ElementList
-        elements={slideshowMovies}
-        data-cy="slideshow-movie-list"
-        messages={{
-          dragElement: t('ndlaFilm.editor.changeOrder'),
-          removeElement: t('ndlaFilm.editor.removeMovieFromSlideshow'),
-        }}
-        onUpdateElements={(movies: ContentResultType[]) => onUpdateSlideshow(field, form, movies)}
-      />
-      <DropdownSearch
-        selectedElements={slideshowMovies}
-        onChange={(movie: ContentResultType) => onAddMovieToSlideshow(movie)}
+      <ThemeMovies
+        movies={slideshowMovies}
+        onMoviesUpdated={movies => onUpdateSlideshow(field, form, movies)}
         placeholder={t('ndlaFilm.editor.addMovieToSlideshow')}
-        subjectId={NDLA_FILM_SUBJECT}
-        contextTypes={'standard'}
-        clearInputField
       />
     </>
   );

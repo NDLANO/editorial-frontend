@@ -1,7 +1,9 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 export const SEARCH_AUDIO = 'searchAudio';
@@ -35,3 +37,6 @@ export const TOPIC = 'topic';
 export const GREP_CODE = 'grepCode';
 
 export const TOPIC_RESOURCE_STATUS_GREP_QUERY = 'topicResourcesWithStatusAndGrep';
+
+export const FILM_FRONTPAGE_QUERY = 'filmFrontpage';
+export const FILM_SLIDESHOW = 'filmSlideshow';

@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { css, SerializedStyles } from '@emotion/core';
 import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
@@ -33,6 +32,7 @@ interface Props {
   'data-cy'?: string;
   onClick?: (event: Event) => void;
   title?: string;
+  tabIndex?: string;
 }
 
 export const DeleteButton = ({ children, style, ...rest }: Props) => (
@@ -43,9 +43,5 @@ export const DeleteButton = ({ children, style, ...rest }: Props) => (
     {...rest}
   />
 );
-
-DeleteButton.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-};
 
 export default DeleteButton;

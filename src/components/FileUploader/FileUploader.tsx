@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
@@ -14,19 +14,20 @@ import { UploadDropZone } from '@ndla/forms';
 import { uploadFile } from '../../modules/draft/draftApi';
 import { createFormData } from '../../util/formDataHelper';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
-import { UserAccessContext } from '../../containers/App/App';
 import handleError from '../../util/handleError';
+import { UnsavedFile } from '../../interfaces';
+import { useSession } from '../../containers/Session/SessionProvider';
 
 const wrapperCSS = css`
   padding: 0 ${spacing.large};
 `;
 
 interface Props {
-  onFileSave: (files: { path: string; type: string; title: string }[]) => void;
+  onFileSave: (files: UnsavedFile[]) => void;
 }
 
 const FileUploader = ({ onFileSave }: Props) => {
-  const userAccess = useContext(UserAccessContext);
+  const { userAccess } = useSession();
   const allowedFiles = allowedFiletypes;
   if (userAccess?.includes(DRAFT_ADMIN_SCOPE)) {
     allowedFiles.push(...adminAllowedFiletypes);

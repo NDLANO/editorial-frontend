@@ -121,23 +121,21 @@ const FolderItem = ({
           </Row>
         </Button>
       )}
-      {
-        <AlertModal
-          show={showAlertModal}
-          text={t('taxonomy.resource.copyError')}
-          actions={[
-            {
-              text: t('alertModal.continue'),
-              onClick: () => {
-                setShowAlertModal(false);
-              },
+      <AlertModal
+        show={showAlertModal}
+        text={t('taxonomy.resource.copyError')}
+        actions={[
+          {
+            text: t('alertModal.continue'),
+            onClick: () => {
+              setShowAlertModal(false);
             },
-          ]}
-          onCancel={() => {
-            setShowAlertModal(false);
-          }}
-        />
-      }
+          },
+        ]}
+        onCancel={() => {
+          setShowAlertModal(false);
+        }}
+      />
     </div>
   );
 };

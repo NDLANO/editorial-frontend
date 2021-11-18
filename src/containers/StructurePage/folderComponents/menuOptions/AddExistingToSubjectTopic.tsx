@@ -6,10 +6,9 @@
  *
  */
 
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import RoundIcon from '../../../../components/RoundIcon';
 import {
   addSubjectTopic,

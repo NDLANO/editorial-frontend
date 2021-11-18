@@ -1,4 +1,4 @@
-import { Global } from '@emotion/react';
+import { Global } from '@emotion/core';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';

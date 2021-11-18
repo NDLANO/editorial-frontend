@@ -7,6 +7,7 @@
  */
 
 import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/lib/editor';
 import { searchClasses } from '../../../SearchPage/SearchContainer';
@@ -69,7 +70,9 @@ const TaxonomyMetadataDropdown = ({
           delete customFields[field];
           updateCustomFields({ ...customFields });
         }}
-        css={{ marginLeft: `${spacing.xxsmall}` }}>
+        css={css`
+          margin-left: ${spacing.xxsmall};
+        `}>
         <DeleteForever />
       </MenuItemSaveButton>
     </StyledMenuItemEditField>

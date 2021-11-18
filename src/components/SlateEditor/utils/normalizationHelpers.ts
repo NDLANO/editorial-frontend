@@ -122,7 +122,6 @@ export const addSurroundingParagraphs = (editor: Editor, path: Path) => {
     Transforms.insertNodes(editor, defaultParagraphBlock(), {
       at: nextPath,
     });
-
     return true;
   }
 
@@ -143,4 +142,5 @@ export const addSurroundingParagraphs = (editor: Editor, path: Path) => {
       }
     }
   }
+  return false;
 };

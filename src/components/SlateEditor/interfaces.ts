@@ -17,6 +17,7 @@ import { FileElement } from './plugins/file';
 import { DetailsElement, SummaryElement } from './plugins/details';
 import {
   TableBodyElement,
+  TableCaptionElement,
   TableCellElement,
   TableElement,
   TableHeadElement,
@@ -70,6 +71,7 @@ declare module 'slate' {
       | SummaryElement
       | CodeblockElement
       | TableElement
+      | TableCaptionElement
       | TableRowElement
       | TableCellElement
       | TableHeadElement

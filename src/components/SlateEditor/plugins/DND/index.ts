@@ -14,6 +14,7 @@ import { TYPE_HEADING } from '../heading';
 import { TYPE_LIST, TYPE_LIST_ITEM } from '../list/types';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { TYPE_SECTION } from '../section';
+import { TYPE_TABLE_CAPTION } from '../table/utils';
 import onDrop from './onDrop';
 import { getTopNode } from './utils';
 
@@ -46,7 +47,7 @@ const dndPlugin = (editor: Editor) => {
           return (
             Element.isElement(element) &&
             (element.children.length > 1 ||
-              [TYPE_HEADING, TYPE_PARAGRAPH, TYPE_QUOTE].includes(element.type))
+              [TYPE_HEADING, TYPE_PARAGRAPH, TYPE_QUOTE, TYPE_TABLE_CAPTION].includes(element.type))
           );
         })?.[0];
         if (Element.isElement(lowestCommonAncestor)) {
@@ -55,6 +56,9 @@ const dndPlugin = (editor: Editor) => {
           }
           if (lowestCommonAncestor.type === TYPE_LIST) {
             return [lowestCommonAncestor];
+          }
+          if (lowestCommonAncestor.type === TYPE_TABLE_CAPTION) {
+            return lowestCommonAncestor.children;
           }
           if (lowestCommonAncestor.type === TYPE_LIST_ITEM) {
             const lowestCommonList = [...Node.nodes(section)].find(([element]) => {

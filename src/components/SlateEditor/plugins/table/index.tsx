@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { Descendant, Editor, Element, NodeEntry, Path, Transforms } from 'slate';
+import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 import { jsx } from 'slate-hyperscript';
@@ -21,11 +21,13 @@ import {
 import SlateTable from './SlateTable';
 import {
   defaultTableBodyBlock,
+  defaultTableCaptionBlock,
   defaultTableCellBlock,
   defaultTableHeadBlock,
   defaultTableRowBlock,
   TYPE_TABLE,
   TYPE_TABLE_BODY,
+  TYPE_TABLE_CAPTION,
   TYPE_TABLE_CELL,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
@@ -34,7 +36,14 @@ import getCurrentBlock from '../../utils/getCurrentBlock';
 import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 import { normalizeTableBodyAsMatrix } from './matrix';
 import { handleTableKeydown } from './handleKeyDown';
-import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
+import {
+  isTable,
+  isTableBody,
+  isTableCaption,
+  isTableCell,
+  isTableHead,
+  isTableRow,
+} from './helpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 
 export const KEY_ARROW_UP = 'ArrowUp';
@@ -42,11 +51,19 @@ export const KEY_ARROW_DOWN = 'ArrowDown';
 export const KEY_TAB = 'Tab';
 export const KEY_BACKSPACE = 'Backspace';
 export const KEY_DELETE = 'Delete';
+const KEY_ENTER = 'Enter';
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
 
 export interface TableElement {
   type: 'table';
+  caption: string;
+  colgroups: string;
+  children: Descendant[];
+}
+
+export interface TableCaptionElement {
+  type: 'table-caption';
   children: Descendant[];
 }
 
@@ -87,11 +104,33 @@ export const TABLE_TAGS: { [key: string]: string } = {
 export const tableSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     const tagName = el.tagName.toLowerCase();
+
     if (tagName === 'table') {
-      return jsx('element', { type: TYPE_TABLE }, children);
+      const childNodes = Array.from(el.childNodes) as HTMLElement[];
+      const colgroups =
+        childNodes
+          .filter(child => ['colgroup', 'col'].includes((child as HTMLElement).tagName))
+          .map(col => col.outerHTML)
+          .join('') || '';
+      return jsx(
+        'element',
+        {
+          type: TYPE_TABLE,
+          colgroups,
+        },
+        children.filter(
+          child =>
+            Element.isElement(child) &&
+            [TYPE_TABLE_HEAD, TYPE_TABLE_BODY, TYPE_TABLE_CAPTION].includes(child.type),
+        ),
+      );
     }
     if (tagName === 'tr') {
       return jsx('element', { type: TYPE_TABLE_ROW }, children);
+    }
+
+    if (tagName === 'caption') {
+      return defaultTableCaptionBlock();
     }
 
     if (tagName === 'thead') {
@@ -141,9 +180,17 @@ export const tableSerializer: SlateSerializer = {
       return <tbody>{children}</tbody>;
     }
 
+    if (node.type === TYPE_TABLE_CAPTION) {
+      return <caption>{Node.string(node)}</caption>;
+    }
+
     if (node.type === TYPE_TABLE) {
-      const ret = <table>{children}</table>;
-      return ret;
+      return (
+        <table>
+          {node.colgroups}
+          {children}
+        </table>
+      );
     }
     if (node.type === TYPE_TABLE_ROW) {
       return <tr>{children}</tr>;
@@ -180,6 +227,8 @@ export const tablePlugin = (editor: Editor) => {
             {children}
           </SlateTable>
         );
+      case TYPE_TABLE_CAPTION:
+        return <caption {...attributes}>{children}</caption>;
       case TYPE_TABLE_ROW:
         return <tr {...attributes}>{children}</tr>;
       case TYPE_TABLE_CELL:
@@ -204,18 +253,24 @@ export const tablePlugin = (editor: Editor) => {
     const [node, path] = entry;
     // A. Table normalizer
     if (isTable(node)) {
-      if (addSurroundingParagraphs(editor, path)) {
-        return;
-      }
-      // i. If table contains elements other than head or body element, wrap it with head or body element
-      for (const [bodyIndex, child] of node.children.entries()) {
-        if (!isTableHead(child) && !isTableBody(child)) {
-          const wrapAsHeader = bodyIndex === 0;
+      // i. If table contains elements other than head, body or caption element, wrap it with head or body element
+      for (const [index, child] of node.children.entries()) {
+        if (index === 0 && !isTableCaption(child)) {
+          return Transforms.insertNodes(editor, defaultTableCaptionBlock(), {
+            at: [...path, index],
+          });
+        }
+
+        if (index !== 0 && isTableCaption(child)) {
+          return Transforms.removeNodes(editor, { at: [...path, index] });
+        }
+        if (!isTableHead(child) && !isTableBody(child) && !isTableCaption(child)) {
+          const wrapAsHeader = index === 1;
           return Transforms.wrapNodes(
             editor,
             wrapAsHeader ? defaultTableHeadBlock(0) : defaultTableBodyBlock(0, 0),
             {
-              at: [...path, bodyIndex],
+              at: [...path, index],
             },
           );
         }
@@ -227,6 +282,9 @@ export const tablePlugin = (editor: Editor) => {
             return;
           }
         }
+      }
+      if (addSurroundingParagraphs(editor, path)) {
+        return;
       }
     }
 
@@ -288,13 +346,41 @@ export const tablePlugin = (editor: Editor) => {
       }
     }
 
+    // E. TableCaption normalizer
+    if (isTableCaption(node)) {
+      for (const [index, child] of node.children.entries()) {
+        // i. Unwrap if not text
+        if (!Text.isText(child)) {
+          return Transforms.unwrapNodes(editor, {
+            at: [...path, index],
+          });
+          // ii. Remove styling on text
+        } else if (
+          child.bold ||
+          child.code ||
+          child.italic ||
+          child.sub ||
+          child.sup ||
+          child.underlined
+        ) {
+          Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
+            at: path,
+            match: node => Text.isText(node),
+          });
+          return;
+        }
+      }
+    }
+
     normalizeNode(entry);
   };
 
   editor.onKeyDown = event => {
+    // Navigation with arrows and tab
     if (validKeys.includes(event.key)) {
       const [tableNode, tablePath] = getCurrentBlock(editor, TYPE_TABLE);
       if (
+        tablePath &&
         tableNode &&
         editor.selection &&
         Path.isDescendant(editor.selection.anchor.path, tablePath)
@@ -304,6 +390,13 @@ export const tablePlugin = (editor: Editor) => {
             TableElement
           >);
         }
+      }
+    }
+    // Prevent enter from functioning in caption
+    if (event.key === KEY_ENTER) {
+      const [captionNode] = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
+      if (captionNode) {
+        return event.preventDefault();
       }
     }
     onKeyDown && onKeyDown(event);

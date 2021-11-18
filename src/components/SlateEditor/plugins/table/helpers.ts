@@ -1,6 +1,7 @@
 import { Editor, Element, Node, Path, Transforms } from 'slate';
 import {
   TableBodyElement,
+  TableCaptionElement,
   TableCellElement,
   TableElement,
   TableHeadElement,
@@ -10,6 +11,7 @@ import {
   defaultTableCellBlock,
   TYPE_TABLE,
   TYPE_TABLE_BODY,
+  TYPE_TABLE_CAPTION,
   TYPE_TABLE_CELL,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
@@ -18,6 +20,10 @@ import {
 // Checks
 export const isTable = (node: Node): node is TableElement => {
   return Element.isElement(node) && node.type === TYPE_TABLE;
+};
+
+export const isTableCaption = (node: Node): node is TableCaptionElement => {
+  return Element.isElement(node) && node.type === TYPE_TABLE_CAPTION;
 };
 export const isTableHead = (node: Node): node is TableHeadElement => {
   return Element.isElement(node) && node.type === TYPE_TABLE_HEAD;

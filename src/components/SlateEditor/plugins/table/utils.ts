@@ -1,12 +1,21 @@
-import { Editor, Path, Transforms } from 'slate';
+import { Editor, Element, Path, Transforms } from 'slate';
 import { jsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
-import { TableElement, TableRowElement, TableHeadElement, TableBodyElement } from '.';
+import {
+  TableElement,
+  TableRowElement,
+  TableHeadElement,
+  TableBodyElement,
+  TableCellElement,
+  TableCaptionElement,
+} from '.';
+import getCurrentBlock from '../../utils/getCurrentBlock';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { isTable, isTableCell, isTableRow } from './helpers';
 import { findCellCoordinate, getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
 
 export const TYPE_TABLE = 'table';
+export const TYPE_TABLE_CAPTION = 'table-caption';
 export const TYPE_TABLE_HEAD = 'table-head';
 export const TYPE_TABLE_BODY = 'table-body';
 export const TYPE_TABLE_ROW = 'table-row';
@@ -25,10 +34,15 @@ export const countCells = (row: TableRowElement, stop?: number) => {
 };
 
 export const defaultTableBlock = (height: number, width: number) => {
-  return jsx('element', { type: TYPE_TABLE }, [
+  return jsx('element', { type: TYPE_TABLE, colgroups: '' }, [
+    defaultTableCaptionBlock(),
     defaultTableHeadBlock(width),
     defaultTableBodyBlock(height - 1, width),
-  ]);
+  ]) as TableElement;
+};
+
+export const defaultTableCaptionBlock = () => {
+  return jsx('element', { type: TYPE_TABLE_CAPTION }, [{ text: '' }]) as TableCaptionElement;
 };
 
 export const defaultTableCellBlock = () => {
@@ -42,8 +56,11 @@ export const defaultTableCellBlock = () => {
         rowspan: 1,
       },
     },
-    defaultParagraphBlock(),
-  );
+    {
+      ...defaultParagraphBlock(),
+      serializeAsText: true,
+    },
+  ) as TableCellElement;
 };
 
 export const defaultTableRowBlock = (width: number) => {
@@ -222,6 +239,51 @@ export const removeRow = (editor: Editor, path: Path) => {
   }
 };
 
+export const insertHead = (editor: Editor, tableElement: TableElement, path: Path) => {
+  const [bodyElement, bodyPath] = getCurrentBlock(editor, TYPE_TABLE_BODY);
+  const [rowElement] = getCurrentBlock(editor, TYPE_TABLE_BODY);
+
+  if (
+    bodyPath &&
+    Element.isElement(bodyElement) &&
+    bodyElement.type === TYPE_TABLE_BODY &&
+    Element.isElement(rowElement) &&
+    rowElement.type === TYPE_TABLE_ROW
+  ) {
+    return Transforms.insertNodes(
+      editor,
+      {
+        ...defaultTableHeadBlock(0),
+        children: [
+          {
+            ...defaultTableRowBlock(0),
+            children: rowElement.children.map(cell => {
+              if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
+                return {
+                  ...defaultTableCellBlock(),
+                  data: {
+                    ...cell.data,
+                    rowspan: 1,
+                  },
+                };
+              }
+              return {
+                ...defaultTableCellBlock(),
+                data: {
+                  rowspan: 1,
+                  colspan: 1,
+                  isHeader: true,
+                },
+              };
+            }),
+          },
+        ],
+      },
+      { at: bodyPath },
+    );
+  }
+};
+
 export const insertRow = (editor: Editor, tableElement: TableElement, path: Path) => {
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
@@ -232,10 +294,12 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
   const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
 
   if (matrix && isTableCell(cell)) {
-    const selectedPath = findCellCoordinate(matrix, cell);
-    if (selectedPath) {
+    const selectedCoordinate = findCellCoordinate(matrix, cell);
+    if (selectedCoordinate) {
       const selectedRowIndex =
-        selectedPath[0] + matrix[selectedPath[0]][selectedPath[1]].data.rowspan - 1;
+        selectedCoordinate[0] +
+        matrix[selectedCoordinate[0]][selectedCoordinate[1]].data.rowspan -
+        1;
 
       Editor.withoutNormalizing(editor, () => {
         let rowsInserted = 0;

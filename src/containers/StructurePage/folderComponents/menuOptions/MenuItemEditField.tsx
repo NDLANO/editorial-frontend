@@ -91,7 +91,7 @@ const MenuItemEditField = ({
           disabled={status === 'loading'}
           onClick={handleSubmit}>
           {status === 'loading' ? (
-            <Spinner appearance="small" />
+            <Spinner appearance="small" data-testid="inlineEditSpinner" />
           ) : (
             <Done className="c-icon--small" />
           )}

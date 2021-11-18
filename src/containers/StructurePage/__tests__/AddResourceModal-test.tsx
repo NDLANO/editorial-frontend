@@ -7,7 +7,7 @@
  */
 
 import nock from 'nock';
-import { render, fireEvent, cleanup, wait } from '@testing-library/react';
+import { render, fireEvent, cleanup, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import AddResourceModal from '../resourceComponents/AddResourceModal';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
@@ -43,20 +43,19 @@ beforeEach(() => {
     .reply(200, resourcesByType);
 });
 
-const wrapper = props =>
+const wrapper = (existingResourceIds: string[] = []) =>
   render(
     <IntlWrapper>
       <MemoryRouter>
         <AddResourceModal
+          data-testid="addResourceModal"
           topicId="topicId2"
           allowPaste
-          t={() => 'injected'}
           type={resourceType}
           onClose={() => {}}
           refreshResources={() => {}}
-          startOpen
           locale="nb"
-          {...props}
+          existingResourceIds={existingResourceIds}
         />
       </MemoryRouter>
     </IntlWrapper>,
@@ -74,17 +73,21 @@ test('Can select a resource from the list and it adds it to topic', async () => 
         topicid: 'urn:topicId2',
       }),
     )
-    .reply(201);
-  const { container, getByText, getByTestId } = wrapper();
-  await wait(() => getByText(resourcesByType[0].results[0].title.title));
+    .reply(201, undefined, { Location: 'urn' });
+  const { container, getByText, getByTestId, findByText, findByTestId } = wrapper();
+  await findByText('Hva kan du om geologiske prosesser?');
 
   expect(container.firstChild).toMatchSnapshot();
-  fireEvent.click(getByText(resourcesByType[0].results[0].title.title));
-  await wait(() => getByTestId('articlePreview'));
+  act(() => {
+    fireEvent.click(getByText('Hva kan du om geologiske prosesser?'));
+  });
+  await findByTestId('articlePreview');
 
   expect(container.firstChild).toMatchSnapshot();
-  fireEvent.click(getByTestId('taxonomyLightboxButton'));
-  await wait();
+  act(() => {
+    fireEvent.click(getByTestId('taxonomyLightboxButton'));
+  });
+  await findByText('Lagre');
   expect(nock.isDone());
 });
 
@@ -103,18 +106,24 @@ test('Can paste a valid url and add it to topic', async () => {
       `${taxonomyApi}/topic-resources`,
       JSON.stringify({
         resourceId: 'urn:resource:1:168388',
-        topicid: 'urn:topicId2',
+        topicid: 'topicId2',
       }),
     )
-    .reply(201);
-  const { container, getByTestId } = wrapper();
+    .reply(201, {}, { Location: 'urn' });
+  const { container, getByTestId, findByTestId, findByText } = wrapper();
+  await findByText('Hva kan du om geologiske prosesser?');
   const input = getByTestId('addResourceUrlInput');
-  fireEvent.change(input, { target: { value: ndlaUrl } });
+  act(() => {
+    fireEvent.change(input, { target: { value: ndlaUrl } });
+  });
+  await findByTestId('articlePreview');
 
-  await wait(() => getByTestId('articlePreview'));
   expect(container.firstChild).toMatchSnapshot();
-  fireEvent.click(getByTestId('taxonomyLightboxButton'));
-  await wait();
+  act(() => {
+    fireEvent.click(getByTestId('taxonomyLightboxButton'));
+  });
+
+  expect((await findByTestId('taxonomyLightboxButton')).firstElementChild).toBeNull();
 
   expect(nock.isDone());
 });

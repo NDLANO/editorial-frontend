@@ -32,8 +32,8 @@ const EditConcept = ({ conceptId, isNewlyCreated, selectedLanguage, ...rest }) =
 
   const { translating, translateToNN } = useTranslateApi(concept, setConcept, [
     'id',
-    'title',
-    'content',
+    'title.title',
+    'content.content',
   ]);
 
   if (loading || translating) {

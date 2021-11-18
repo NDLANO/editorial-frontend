@@ -6,9 +6,8 @@
  *
  */
 
-import { findByTestId, fireEvent, render } from '@testing-library/react';
+import { act, findByTestId, fireEvent, render } from '@testing-library/react';
 import { uuid } from '@ndla/util';
-import { act } from 'react-test-renderer';
 import Messages, { MessageType } from '../Messages';
 import { MessagesProvider } from '../MessagesProvider';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';

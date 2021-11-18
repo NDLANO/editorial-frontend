@@ -62,7 +62,9 @@ const ContentLink = ({ onAddLink, onClose, initialTitle = '', initialUrl = '' }:
       onClose={onClose}>
       <StyledContent>
         <Input
-          warningText={showError && isEmpty(title) && t('form.relatedContent.link.missingTitle')}
+          warningText={
+            showError && isEmpty(title) ? t('form.relatedContent.link.missingTitle') : undefined
+          }
           data-testid="addExternalTitleInput"
           container="div"
           type="text"
@@ -71,7 +73,9 @@ const ContentLink = ({ onAddLink, onClose, initialTitle = '', initialUrl = '' }:
           onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
         />
         <Input
-          warningText={showError && !isUrl(url) && t('form.relatedContent.link.missingUrl')}
+          warningText={
+            showError && !isUrl(url) ? t('form.relatedContent.link.missingUrl') : undefined
+          }
           data-testid="addExternalUrlInput"
           container="div"
           type="text"

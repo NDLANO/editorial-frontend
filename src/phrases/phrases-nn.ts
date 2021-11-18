@@ -369,6 +369,7 @@ const phrases = {
   topicArticleForm: {
     visualElementTitle: {
       image: 'Bildetittel',
+      video: 'Videotittel',
       h5p: 'H5P-tittel',
       brightcove: 'Videotittel',
       external: 'Innhaldstekst',
@@ -520,10 +521,6 @@ const phrases = {
       podcast: 'Podkastepisode',
     },
   },
-  detailBox: {
-    changeTitle: 'Endre overskrift',
-    placeholder: 'Kort sammendrag',
-  },
   form: {
     articleSection: 'Artiklar',
     metadataSection: 'Metadata',
@@ -591,10 +588,6 @@ const phrases = {
       button: 'Samanlikn utkast og artikkel',
       article: 'Publisert versjon',
       draft: 'Utkast',
-    },
-    detailBox: {
-      changeTitle: 'Endre overskrift',
-      placeholder: 'Kort sammendrag',
     },
     previewLanguageArticle: {
       button: 'Samanlikn språkversjonar',
@@ -1233,12 +1226,14 @@ const phrases = {
     removeLink: 'Fjern lenke',
     resourceTypes: {
       title: 'Innhaldstype',
+      helpLabel: 'Kva er ei Innhaldstype?',
       subTitle: 'Kva for ei innhaldstype har denne ressursen?',
       placeholder: 'Velg innhaldstype',
     },
     topics: {
       title: 'Emnetilknytninger',
       topicPlacement: 'Emneplassering',
+      helpLabel: 'Kva er emnetilknytning?',
       subTitle: 'Kvar i taksonomien skal ressursen ligge?',
       subTitleTopic: 'Kvar i taksonomien skal emneskildringa ligge?',
       filestructureButton: 'Opprett en emnetilknytning',
@@ -1314,7 +1309,6 @@ const phrases = {
   editorFooter: {
     buttonLabel: 'Kvalitetssikring',
     heading: 'Kvalitetssikring:',
-    label: '',
     changeStatus: 'Endre status',
     back: 'Gå tilbake',
     inputHeader: 'Din merknad',

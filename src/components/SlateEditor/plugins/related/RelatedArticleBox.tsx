@@ -187,6 +187,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     <>
       {editMode && (
         <EditRelated
+          data-testid="editRelated"
           onRemoveClick={onRemoveClick}
           articles={articles}
           insertExternal={insertExternal}

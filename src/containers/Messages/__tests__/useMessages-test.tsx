@@ -7,8 +7,7 @@
  */
 
 import { ReactNode } from 'react';
-import { renderHook } from '@testing-library/react-hooks';
-import { act } from 'react-test-renderer';
+import { act, renderHook } from '@testing-library/react-hooks';
 import { MessagesProvider, NewMessageType, useMessages } from '../MessagesProvider';
 
 interface WrapperProps {

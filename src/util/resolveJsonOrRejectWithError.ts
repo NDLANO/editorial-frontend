@@ -1,5 +1,3 @@
-import defined from 'defined';
-
 export function createErrorPayload(status: number, messages: string, json: any) {
   throw Object.assign({}, { status, json, messages }, new Error(''));
 }
@@ -30,7 +28,7 @@ export const resolveVoidOrRejectWithError = (res: Response): Promise<void> => {
     return res
       .json()
       .then(json => {
-        reject(createErrorPayload(res.status, defined(json.messages, res.statusText), json));
+        reject(createErrorPayload(res.status, json.messages ?? res.statusText, json));
       })
       .catch(reject);
   });
@@ -58,11 +56,7 @@ export const resolveJsonOrRejectWithError = <T>(
       .json()
       .then(json => {
         reject(
-          createErrorPayload(
-            res.status,
-            defined(json.messages, json.description, res.statusText),
-            json,
-          ),
+          createErrorPayload(res.status, json.messages ?? json.description ?? res.statusText, json),
         );
       })
       .catch(reject);

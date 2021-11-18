@@ -7,8 +7,8 @@
  */
 
 import nock from 'nock';
-import { render, wait, cleanup } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { render, cleanup } from '@testing-library/react';
+import { MemoryRouter, useHistory } from 'react-router-dom';
 import { StructureContainer } from '../StructureContainer';
 import {
   subjectsMock,
@@ -21,28 +21,37 @@ import { SessionProvider } from '../../Session/SessionProvider';
 
 afterEach(cleanup);
 
+const TestStructureContainer = () => {
+  const history = useHistory();
+  return (
+    <StructureContainer
+      history={history}
+      match={{
+        url: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
+        params: {
+          subject: 'urn:subject:1',
+          topic: 'urn:topic:1:186479',
+          subtopics: 'urn:topic:1:172650',
+        },
+        isExact: false,
+        path: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
+      }}
+      location={{
+        search: '',
+        pathname: 'test',
+        hash: '',
+        state: '',
+      }}
+    />
+  );
+};
+
 const wrapper = () =>
   render(
     <SessionProvider>
       <MemoryRouter>
         <IntlWrapper>
-          <StructureContainer
-            t={() => 'injected'}
-            locale="nb"
-            match={{
-              url: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
-              params: {
-                subject: 'urn:subject:1',
-                topic1: 'urn:topic:1:186479',
-                topic2: 'urn:topic:1:172650',
-              },
-            }}
-            location={{
-              search: '',
-              pathname: 'test',
-              hash: '',
-            }}
-          />
+          <TestStructureContainer />
         </IntlWrapper>
       </MemoryRouter>
     </SessionProvider>,
@@ -103,9 +112,8 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
     .persist()
     .get('/draft-api/v1/user-data')
     .reply(200, {});
-  const { container, getByText } = wrapper();
-
-  await wait(() => getByText('Fortelleteknikker og virkemidler'));
+  const { container, findByText } = wrapper();
+  await findByText('Fortelleteknikker og virkemidler');
   expect(container.firstChild).toMatchSnapshot();
 
   expect(nock.isDone());

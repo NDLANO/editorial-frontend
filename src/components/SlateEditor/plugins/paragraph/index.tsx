@@ -13,11 +13,12 @@ import { jsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_BREAK } from '../break';
-import { getCurrentParagraph, TYPE_PARAGRAPH } from './utils';
+import { getCurrentParagraph, isParagraph, TYPE_PARAGRAPH } from './utils';
 import containsVoid from '../../utils/containsVoid';
 import { TYPE_LIST_ITEM } from '../list/types';
 import { BlockPickerOptions } from '../blockPicker/options';
 import Paragraph from './Paragraph';
+import { TYPE_TABLE_CELL } from '../table/utils';
 
 const KEY_ENTER = 'Enter';
 
@@ -128,8 +129,32 @@ export const paragraphPlugin = (language?: string, blockpickerOptions?: BlockPic
 
     if (Element.isElement(node) && node.type === TYPE_PARAGRAPH && node.serializeAsText) {
       const [parentNode] = Editor.node(editor, Path.parent(path));
-      if (Element.isElement(parentNode) && parentNode.type !== TYPE_LIST_ITEM) {
+      if (
+        Element.isElement(parentNode) &&
+        parentNode.type !== TYPE_LIST_ITEM &&
+        parentNode.type !== TYPE_TABLE_CELL
+      ) {
         return Transforms.unsetNodes(editor, 'serializeAsText', { at: path });
+      }
+      if (Path.hasPrevious(path)) {
+        const [previousNode] = Editor.node(editor, Path.previous(path));
+        if (isParagraph(previousNode)) {
+          return Transforms.unsetNodes(editor, 'serializeAsText', {
+            at: Path.parent(path),
+            mode: 'all',
+            match: isParagraph,
+          });
+        }
+      }
+      if (Editor.hasPath(editor, Path.next(path))) {
+        const [nextNode] = Editor.node(editor, Path.next(path));
+        if (isParagraph(nextNode)) {
+          return Transforms.unsetNodes(editor, 'serializeAsText', {
+            at: Path.parent(path),
+            mode: 'all',
+            match: isParagraph,
+          });
+        }
       }
     }
 

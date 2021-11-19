@@ -159,7 +159,12 @@ export const tableSerializer: SlateSerializer = {
       };
     }
     if (equals(children, [{ text: '' }])) {
-      children = [defaultParagraphBlock()];
+      children = [
+        {
+          ...defaultParagraphBlock(),
+          serializeAsText: true,
+        },
+      ];
     }
     return jsx('element', { type: tableTag, data }, children);
   },
@@ -316,10 +321,14 @@ export const tablePlugin = (editor: Editor) => {
     if (isTableCell(node)) {
       // Cells should only contain elements. If not, wrap content in paragraph
       if (!Element.isElementList(node.children)) {
-        return Transforms.wrapNodes(editor, defaultParagraphBlock(), {
-          at: path,
-          match: node => !Element.isElement(node),
-        });
+        return Transforms.wrapNodes(
+          editor,
+          { ...defaultParagraphBlock(), serializeAsText: true },
+          {
+            at: path,
+            match: node => !Element.isElement(node),
+          },
+        );
       }
     }
 

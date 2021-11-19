@@ -6,12 +6,18 @@
  *
  */
 
-import { Editor, Element } from 'slate';
+import { Editor, Element, Node } from 'slate';
 import { jsx } from 'slate-hyperscript';
+import { ParagraphElement } from '.';
 
 export const TYPE_PARAGRAPH = 'paragraph';
 
-export const defaultParagraphBlock = () => jsx('element', { type: TYPE_PARAGRAPH }, { text: '' });
+export const defaultParagraphBlock = () =>
+  jsx('element', { type: TYPE_PARAGRAPH }, { text: '' }) as ParagraphElement;
+
+export const isParagraph = (node: Node): node is ParagraphElement => {
+  return Element.isElement(node) && node.type === TYPE_PARAGRAPH;
+};
 
 export const getCurrentParagraph = (editor: Editor) => {
   if (!editor.selection?.anchor) return null;

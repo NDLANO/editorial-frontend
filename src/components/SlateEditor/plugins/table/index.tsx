@@ -204,9 +204,6 @@ export const tablePlugin = (editor: Editor) => {
     const [node, path] = entry;
     // A. Table normalizer
     if (isTable(node)) {
-      if (addSurroundingParagraphs(editor, path)) {
-        return;
-      }
       // i. If table contains elements other than head or body element, wrap it with head or body element
       for (const [bodyIndex, child] of node.children.entries()) {
         if (!isTableHead(child) && !isTableBody(child)) {
@@ -227,6 +224,10 @@ export const tablePlugin = (editor: Editor) => {
             return;
           }
         }
+      }
+      // iii. Add surrounding paragraphs. Must be last since the table itself is not altered.
+      if (addSurroundingParagraphs(editor, path)) {
+        return;
       }
     }
 

@@ -130,17 +130,17 @@ const normalizeRow = (
     Transforms.insertNodes(editor, defaultTableRowBlock(1), {
       at: [...tableBodyPath, rowIndex],
     });
+    return;
   }
 
   // B. Insert cells if row has empty positions.
   for (const [columnIndex, element] of matrix[rowIndex].entries()) {
-    // A. Check if cell at first index exists in Slate.
+    // i. Check if cell at first index exists in Slate.
     if (!element) {
       if (columnIndex === 0) {
         // If path does not exist. Insert empty row.
         const targetPath = [...tableBodyPath, rowIndex, 0];
         insertEmptyCells(editor, targetPath, 1);
-
         return true;
       }
     }
@@ -189,7 +189,9 @@ export const normalizeTableBodyAsMatrix = (
 
   // Build up a matrix by inserting and normalizing one row at a time
   for (const [rowIndex, row] of tableBody.children.entries()) {
-    if (!isTableRow(row)) return false;
+    if (!isTableRow(row)) {
+      return false;
+    }
     if (!matrix[rowIndex]) {
       matrix[rowIndex] = [];
     }
@@ -261,22 +263,20 @@ export const normalizeTableBodyAsMatrix = (
   } else if (Editor.hasPath(editor, Path.next(tableBodyPath))) {
     const [nextBody, nextBodyPath] = Editor.node(editor, Path.next(tableBodyPath));
     if (isTableHead(nextBody) || isTableBody(nextBody)) {
-      const previousBodyWidth = getTableBodyWidth(nextBody);
+      const nextBodyWidth = getTableBodyWidth(nextBody);
       const currentBodyWidth = getTableBodyWidth(tableBody);
 
-      const widthDiff = currentBodyWidth - previousBodyWidth;
+      const widthDiff = currentBodyWidth - nextBodyWidth;
 
-      // i. Next body is narrower. Add cells in all rows
+      // i. First row in next body is narrower. Add cells in that row
       if (widthDiff > 0) {
-        Editor.withoutNormalizing(editor, () => {
-          for (const [index, row] of nextBody.children.entries()) {
-            if (isTableRow(row)) {
-              const targetPath = [...nextBodyPath, index, row.children.length];
-              insertEmptyCells(editor, targetPath, widthDiff);
-            }
-          }
-        });
-        return true;
+        const targetRow = nextBody.children[0];
+        if (isTableRow(targetRow)) {
+          const targetPath = [...nextBodyPath, 0, targetRow.children.length];
+          insertEmptyCells(editor, targetPath, widthDiff);
+          return true;
+        }
+
         // ii. Current body is narrower. Add cells in all rows
       } else if (widthDiff < 0) {
         Editor.withoutNormalizing(editor, () => {

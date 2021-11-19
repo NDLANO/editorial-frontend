@@ -139,7 +139,6 @@ export const learningResourceRules = {
     onlyValidateIf: values => !!values.metaImageId,
   },
   content: {
-    required: true,
     test: value => {
       const embeds = findNodesByType(value, 'embed').map(node => node.data);
       const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));

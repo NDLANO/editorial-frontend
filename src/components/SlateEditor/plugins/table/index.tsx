@@ -292,6 +292,7 @@ export const tablePlugin = (editor: Editor) => {
           }
         }
       }
+      // iii. Add surrounding paragraphs. Must be last since the table itself is not altered.
       if (addSurroundingParagraphs(editor, path)) {
         return;
       }

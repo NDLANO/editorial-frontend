@@ -253,29 +253,38 @@ export const tablePlugin = (editor: Editor) => {
     const [node, path] = entry;
     // A. Table normalizer
     if (isTable(node)) {
-      // i. If table contains elements other than head, body or caption element, wrap it with head or body element
-      for (const [index, child] of node.children.entries()) {
-        if (index === 0 && !isTableCaption(child)) {
-          return Transforms.insertNodes(editor, defaultTableCaptionBlock(), {
-            at: [...path, index],
-          });
-        }
+      const tableChildren = node.children;
 
+      // i. First item must be a caption. Otherwise: Insert one.
+      if (!isTableCaption(tableChildren[0])) {
+        return Transforms.insertNodes(editor, defaultTableCaptionBlock(), {
+          at: [...path, 0],
+        });
+      }
+
+      // ii. Second item must be tableHead or tableBody. Otherwise: Insert tableHead.
+      if (!isTableHead(tableChildren[1]) && !isTableBody(tableChildren[1])) {
+        return Transforms.insertNodes(editor, defaultTableHeadBlock(0), {
+          at: [...path, 1],
+        });
+      }
+
+      // i. Make sure table contains the correct caption, tableHead and tableBody nodes.
+      for (const [index, child] of node.children.entries()) {
+        // Caption can't be placed at any other index than 0. Otherwise: Remote it.
         if (index !== 0 && isTableCaption(child)) {
           return Transforms.removeNodes(editor, { at: [...path, index] });
         }
-        if (!isTableHead(child) && !isTableBody(child) && !isTableCaption(child)) {
-          const wrapAsHeader = index === 1;
-          return Transforms.wrapNodes(
-            editor,
-            wrapAsHeader ? defaultTableHeadBlock(0) : defaultTableBodyBlock(0, 0),
-            {
-              at: [...path, index],
-            },
-          );
+
+        // Consecutive items must be tableBody. Otherwise: Wrap as tableBody.
+        if (index === 1 && !isTableHead(child) && !isTableBody(child)) {
+          return Transforms.wrapNodes(editor, defaultTableBodyBlock(1, 0), {
+            at: [...path, index],
+          });
         }
       }
-      // ii. Normalize each tableBody using matrix convertion for help.
+
+      // iii. Normalize each tableBody using matrix convertion for help.
       for (const [index, child] of node.children.entries()) {
         if (isTableHead(child) || isTableBody(child)) {
           if (normalizeTableBodyAsMatrix(editor, child, [...path, index])) {

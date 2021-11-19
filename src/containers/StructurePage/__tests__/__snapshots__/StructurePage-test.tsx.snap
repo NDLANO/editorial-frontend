@@ -1,6 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`fetches and renders a list of subjects and topics based on pathname 1`] = `
+@keyframes animation-0 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
 .emotion-2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -350,6 +364,17 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
+}
+
+.emotion-300 {
+  border: 0.4em solid #e8e3e3;
+  border-bottom-color: #20588f;
+  border-radius: 50%;
+  margin: 0 auto;
+  width: 3em;
+  height: 3em;
+  -webkit-animation: animation-0 0.7s linear infinite;
+  animation: animation-0 0.7s linear infinite;
 }
 
 .emotion-123 {
@@ -2007,5 +2032,8 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
       </div>
     </div>
   </div>
+  <div
+    class="emotion-300 emotion-301"
+  />
 </div>
 `;

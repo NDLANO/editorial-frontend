@@ -7,10 +7,9 @@
  */
 
 import React, { ReactNode } from 'react';
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { act } from 'react-test-renderer';
 import { getSessionStateFromLocalStorage, SessionProvider, useSession } from '../SessionProvider';
 
 const accessToken =

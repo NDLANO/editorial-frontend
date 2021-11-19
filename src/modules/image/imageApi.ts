@@ -7,7 +7,6 @@
  */
 
 import queryString from 'query-string';
-import defined from 'defined';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -58,7 +57,7 @@ export const searchImages = (query: ImageSearchQuery): Promise<ImageSearchResult
 };
 
 export const onError = (err: Response & Error) => {
-  createErrorPayload(err.status, defined(err.message, err.statusText), err);
+  createErrorPayload(err.status, err.message ?? err.statusText, err);
 };
 
 export const deleteLanguageVersionImage = (

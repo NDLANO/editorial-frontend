@@ -6,17 +6,16 @@
  *
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { FormikHandlers } from 'formik';
-import { Descendant, createEditor, Transforms } from 'slate';
+import { Descendant, createEditor } from 'slate';
 import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { jsx } from 'slate-hyperscript';
 
 import { SlateProvider } from './SlateContext';
 import { SlatePlugin } from './interfaces';
-import { TYPE_VISUAL_ELEMENT_PICKER } from './plugins/visualElementPicker';
 import withPlugins from './utils/withPlugins';
+import VisualElementPicker from '../../containers/VisualElement/VisualElementPicker';
 
 interface Props {
   name: string;
@@ -27,9 +26,10 @@ interface Props {
   language: string;
   selectedResource: string;
   resetSelectedResource: () => void;
+  types?: string[];
 }
 
-const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
+const VisualElementEditor = ({ name, value, plugins, onChange, types, language }: Props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
@@ -43,17 +43,6 @@ const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
     }
     return <div {...attributes}>{children}</div>;
   };
-
-  useEffect(() => {
-    if (editor.children.length === 0) {
-      Transforms.insertNodes(
-        editor,
-        jsx('element', { type: TYPE_VISUAL_ELEMENT_PICKER }, { text: '' }),
-        { at: [0] },
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor.children]);
 
   return (
     <SlateProvider>
@@ -69,7 +58,9 @@ const VisualElementEditor = ({ name, value, plugins, onChange }: Props) => {
             },
           });
         }}>
+        <VisualElementPicker editor={editor} types={types} language={language} />
         <Editable
+          readOnly={true}
           renderElement={renderElement}
           onDragStart={e => {
             e.stopPropagation();

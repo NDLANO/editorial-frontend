@@ -16,6 +16,7 @@ import { TYPE_SECTION } from '../../section';
 import {
   TYPE_TABLE,
   TYPE_TABLE_BODY,
+  TYPE_TABLE_CAPTION,
   TYPE_TABLE_CELL,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
@@ -37,7 +38,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            verticalHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -150,7 +161,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            verticalHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -163,6 +184,7 @@ describe('table normalizer tests', () => {
                           isHeader: true,
                           colspan: 1,
                           rowspan: 1,
+                          scope: undefined,
                         },
                         children: [
                           {
@@ -269,7 +291,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            verticalHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -349,7 +381,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            verticalHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -380,10 +422,12 @@ describe('table normalizer tests', () => {
                           isHeader: true,
                           colspan: 1,
                           rowspan: 1,
+                          scope: undefined,
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            serializeAsText: true,
                             children: [
                               {
                                 text: '',
@@ -468,7 +512,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            verticalHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -571,7 +625,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            verticalHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -679,7 +743,7 @@ describe('table normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Add missing cells', () => {
+  test('Add missing cells and caption', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -690,6 +754,8 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            verticalHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
                 type: TYPE_TABLE_HEAD,
@@ -785,7 +851,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            verticalHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -866,6 +942,7 @@ describe('table normalizer tests', () => {
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            serializeAsText: true,
                             children: [
                               {
                                 text: '',

@@ -7,7 +7,8 @@
  *
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
@@ -57,8 +58,8 @@ const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DEL
 
 export interface TableElement {
   type: 'table';
-  caption: string;
   colgroups: string;
+  verticalHeaders: boolean;
   children: Descendant[];
 }
 
@@ -91,6 +92,7 @@ export interface TableCellElement {
     valign?: string;
     class?: string;
     isHeader: boolean;
+    scope?: 'row' | 'col';
   };
   children: Descendant[];
 }
@@ -106,10 +108,13 @@ export const tableSerializer: SlateSerializer = {
     const tagName = el.tagName.toLowerCase();
 
     if (tagName === 'table') {
+      const verticalHeaders = !!el.querySelector('tbody th');
       const childNodes = Array.from(el.childNodes) as HTMLElement[];
       const colgroups =
         childNodes
-          .filter(child => ['colgroup', 'col'].includes((child as HTMLElement).tagName))
+          .filter(child =>
+            ['colgroup', 'col'].includes((child as HTMLElement).tagName.toLowerCase()),
+          )
           .map(col => col.outerHTML)
           .join('') || '';
       return jsx(
@@ -117,6 +122,7 @@ export const tableSerializer: SlateSerializer = {
         {
           type: TYPE_TABLE,
           colgroups,
+          verticalHeaders,
         },
         children.filter(
           child =>
@@ -130,7 +136,7 @@ export const tableSerializer: SlateSerializer = {
     }
 
     if (tagName === 'caption') {
-      return defaultTableCaptionBlock();
+      return jsx('element', { type: TYPE_TABLE_CAPTION }, children);
     }
 
     if (tagName === 'thead') {
@@ -147,15 +153,17 @@ export const tableSerializer: SlateSerializer = {
       isHeader: tagName === 'th',
     };
     if (tagName === 'th' || tagName === 'td') {
-      const filter = ['rowspan', 'colspan', 'align', 'valign', 'class'];
+      const filter = ['rowspan', 'colspan', 'align', 'valign', 'class', 'scope'];
       const attrs = reduceElementDataAttributes(el, filter);
       const colspan = attrs.colspan && parseInt(attrs.colspan);
       const rowspan = attrs.rowspan && parseInt(attrs.rowspan);
+      const scope = attrs.scope === 'row' || attrs.scope === 'col' ? attrs.scope : undefined;
       data = {
         ...attrs,
         colspan: colspan || 1,
         rowspan: rowspan || 1,
         isHeader: tagName === 'th',
+        scope,
       };
     }
     if (equals(children, [{ text: '' }])) {
@@ -171,9 +179,14 @@ export const tableSerializer: SlateSerializer = {
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
     if (
-      ![TYPE_TABLE, TYPE_TABLE_HEAD, TYPE_TABLE_BODY, TYPE_TABLE_ROW, TYPE_TABLE_CELL].includes(
-        node.type,
-      )
+      ![
+        TYPE_TABLE,
+        TYPE_TABLE_HEAD,
+        TYPE_TABLE_BODY,
+        TYPE_TABLE_ROW,
+        TYPE_TABLE_CELL,
+        TYPE_TABLE_CAPTION,
+      ].includes(node.type)
     )
       return;
 
@@ -186,15 +199,22 @@ export const tableSerializer: SlateSerializer = {
     }
 
     if (node.type === TYPE_TABLE_CAPTION) {
-      return <caption>{Node.string(node)}</caption>;
+      if (Node.string(node) === '') {
+        return <></>;
+      }
+      return <caption>{children}</caption>;
     }
 
     if (node.type === TYPE_TABLE) {
+      const [caption, ...rest] = children;
       return (
-        <table>
-          {node.colgroups}
-          {children}
-        </table>
+        <table
+          dangerouslySetInnerHTML={{
+            __html:
+              renderToStaticMarkup(caption) +
+              node.colgroups +
+              rest.map(e => renderToStaticMarkup(e)).join(''),
+          }}></table>
       );
     }
     if (node.type === TYPE_TABLE_ROW) {
@@ -341,20 +361,31 @@ export const tablePlugin = (editor: Editor) => {
         }
       }
 
-      const [parent] = Editor.node(editor, Path.parent(path));
+      const [body, bodyPath] = Editor.node(editor, Path.parent(path));
+      const [table] = Editor.node(editor, Path.parent(bodyPath));
 
-      // ii. Make sure cells in TableHead are marked as isHeader. Cells in TableBody are not.
-      if (isTableHead(parent) || isTableBody(parent)) {
-        const isHeader = isTableHead(parent);
+      // ii. Make sure cells in TableHead are marked as isHeader.
+      //     Cells in TableBody will not be altered if verticalHeaders: true on Table.
+      if ((isTableHead(body) || isTableBody(body)) && isTable(table)) {
         for (const [index, cell] of node.children.entries()) {
-          if (isTableCell(cell) && cell.data.isHeader !== isHeader) {
+          if (table.verticalHeaders && isTableBody(body)) {
+            continue;
+          }
+
+          const shouldBeHeader = isTableHead(body);
+          const expectedScope = shouldBeHeader && table.verticalHeaders ? 'col' : undefined;
+          if (
+            isTableCell(cell) &&
+            (cell.data.isHeader !== shouldBeHeader || expectedScope !== cell.data.scope)
+          ) {
             return HistoryEditor.withoutSaving(editor, () => {
               Transforms.setNodes(
                 editor,
                 {
                   data: {
                     ...cell.data,
-                    isHeader: isHeader,
+                    isHeader: shouldBeHeader,
+                    scope: expectedScope,
                   },
                 },
                 { at: [...path, index] },

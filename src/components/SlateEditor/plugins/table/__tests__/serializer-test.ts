@@ -15,6 +15,7 @@ import {
 import {
   TYPE_TABLE,
   TYPE_TABLE_BODY,
+  TYPE_TABLE_CAPTION,
   TYPE_TABLE_CELL,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
@@ -27,7 +28,17 @@ const editor: Descendant[] = [
     children: [
       {
         type: TYPE_TABLE,
+        verticalHeaders: false,
+        colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
         children: [
+          {
+            type: TYPE_TABLE_CAPTION,
+            children: [
+              {
+                text: 'title',
+              },
+            ],
+          },
           {
             type: TYPE_TABLE_HEAD,
             children: [
@@ -40,6 +51,7 @@ const editor: Descendant[] = [
                       isHeader: true,
                       colspan: 1,
                       rowspan: 1,
+                      scope: undefined,
                     },
                     children: [
                       {
@@ -58,6 +70,7 @@ const editor: Descendant[] = [
                       isHeader: true,
                       colspan: 1,
                       rowspan: 1,
+                      scope: undefined,
                     },
                     children: [
                       {
@@ -86,6 +99,7 @@ const editor: Descendant[] = [
                       isHeader: false,
                       colspan: 1,
                       rowspan: 1,
+                      scope: undefined,
                     },
                     children: [
                       {
@@ -104,6 +118,7 @@ const editor: Descendant[] = [
                       isHeader: false,
                       colspan: 1,
                       rowspan: 1,
+                      scope: undefined,
                     },
                     children: [
                       {
@@ -127,6 +142,7 @@ const editor: Descendant[] = [
                       isHeader: false,
                       colspan: 1,
                       rowspan: 1,
+                      scope: undefined,
                     },
                     children: [
                       {
@@ -145,6 +161,7 @@ const editor: Descendant[] = [
                       isHeader: false,
                       colspan: 1,
                       rowspan: 1,
+                      scope: undefined,
                     },
                     children: [
                       {
@@ -168,9 +185,9 @@ const editor: Descendant[] = [
 ];
 
 const html =
-  '<section><table><thead><tr><th><p>1</p></th><th><p>2</p></th></tr></thead><tbody><tr><td><p>3</p></td><td><p>4</p></td></tr><tr><td><p>5</p></td><td><p>6</p></td></tr></tbody></table></section>';
+  '<section><table><caption>title</caption><colgroup></colgroup><colgroup span="2"></colgroup><thead><tr><th><p>1</p></th><th><p>2</p></th></tr></thead><tbody><tr><td><p>3</p></td><td><p>4</p></td></tr><tr><td><p>5</p></td><td><p>6</p></td></tr></tbody></table></section>';
 
-describe('related serializing tests', () => {
+describe('table serializing tests', () => {
   test('serializing', () => {
     const res = learningResourceContentToHTML(editor);
     expect(res).toMatch(html);

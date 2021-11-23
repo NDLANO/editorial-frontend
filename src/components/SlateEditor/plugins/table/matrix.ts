@@ -2,6 +2,7 @@ import { compact } from 'lodash';
 import { Descendant, Editor, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { TableBodyElement, TableCellElement, TableHeadElement } from '.';
+import getCurrentBlock from '../../utils/getCurrentBlock';
 import {
   insertEmptyCells,
   isTable,
@@ -10,7 +11,7 @@ import {
   isTableHead,
   isTableRow,
 } from './helpers';
-import { defaultTableRowBlock, getTableBodyWidth } from './utils';
+import { defaultTableRowBlock, getTableBodyWidth, TYPE_TABLE } from './utils';
 
 /**
  * Insert cellElement into the matrix and the first available column in rowIndex.
@@ -123,8 +124,11 @@ const normalizeRow = (
   editor: Editor,
   matrix: TableCellElement[][],
   rowIndex: number,
+  tableBody: TableHeadElement | TableBodyElement,
   tableBodyPath: Path,
 ) => {
+  const [table] = getCurrentBlock(editor, TYPE_TABLE);
+
   // A. If row does not exist in slate => Insert empty row
   if (!Editor.hasPath(editor, [...tableBodyPath, rowIndex])) {
     Transforms.insertNodes(editor, defaultTableRowBlock(1), {
@@ -146,7 +150,104 @@ const normalizeRow = (
     }
   }
 
-  // C. Compare width of previous and current row and insert empty cells if they are of unequal length.
+  // C. Make sure isHeader and scope is set correctly in cells in header and body
+  if (table && isTable(table)) {
+    const isHead = isTableHead(tableBody);
+    const { verticalHeaders } = table;
+    // Check every cell of the row to be normalized
+    for (const [index, cell] of matrix[rowIndex].entries()) {
+      // A. Normalize table head
+      if (isHead) {
+        // i. If table has vertical headers.
+        //    Make sure scope='col' and isHeader=true
+        if (verticalHeaders) {
+          if (cell.data.scope !== 'col' || !cell.data.isHeader) {
+            return Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  scope: verticalHeaders ? 'col' : undefined,
+                  isHeader: true,
+                },
+              },
+              {
+                at: [...tableBodyPath, rowIndex],
+                match: isTableCell,
+                mode: 'lowest',
+              },
+            );
+          }
+        } else {
+          // ii. If table does not have vertical headers
+          //     Make sure cells in header has scope=undefined and isHeader=true
+          if (cell.data.scope || !cell.data.isHeader) {
+            return Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  scope: undefined,
+                  isHeader: true,
+                },
+              },
+              {
+                at: [...tableBodyPath, rowIndex],
+                match: isTableCell,
+                mode: 'lowest',
+              },
+            );
+          }
+        }
+      } else {
+        // i. If table has vertical headers
+        //    First cell in row should be a header
+        if (verticalHeaders) {
+          if (index === 0 && (cell.data.scope !== 'row' || !cell.data.isHeader)) {
+            return Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  scope: 'row',
+                  isHeader: true,
+                },
+              },
+              {
+                at: ReactEditor.findPath(editor, cell),
+              },
+            );
+          }
+        } else {
+          // ii. If table does not have vertical headers
+          //     Make sure cells in body has scope=undefined and isHeader=false
+          if (cell.data.scope || cell.data.isHeader) {
+            return Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  scope: undefined,
+                  isHeader: false,
+                },
+              },
+              {
+                at: [...tableBodyPath, rowIndex],
+                match: isTableCell,
+                mode: 'lowest',
+              },
+            );
+          }
+        }
+      }
+    }
+  }
+
+  // D. Compare width of previous and current row and insert empty cells if they are of unequal length.
   if (rowIndex > 0) {
     const lengthDiff = compact(matrix[rowIndex]).length - matrix[rowIndex - 1].length;
 
@@ -215,14 +316,14 @@ export const normalizeTableBodyAsMatrix = (
       placeCellInMatrix(matrix, rowIndex, colspan, rowspan, cell);
     }
     // B. Validate insertion of the current row. This will restart the normalization.
-    if (normalizeRow(editor, matrix, rowIndex, tableBodyPath)) {
+    if (normalizeRow(editor, matrix, rowIndex, tableBody, tableBodyPath)) {
       return true;
     }
   }
 
   // B. Rowspan can cause matrix to have more rows than slate. Normalize if needed.
   if (tableBody.children.length < matrix.length) {
-    if (normalizeRow(editor, matrix, tableBody.children.length, tableBodyPath)) {
+    if (normalizeRow(editor, matrix, tableBody.children.length, tableBody, tableBodyPath)) {
       return true;
     }
   }

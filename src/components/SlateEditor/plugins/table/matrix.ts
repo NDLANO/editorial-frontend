@@ -2,7 +2,6 @@ import { compact } from 'lodash';
 import { Descendant, Editor, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { TableBodyElement, TableCellElement, TableHeadElement } from '.';
-import getCurrentBlock from '../../utils/getCurrentBlock';
 import {
   insertEmptyCells,
   isTable,
@@ -11,7 +10,7 @@ import {
   isTableHead,
   isTableRow,
 } from './helpers';
-import { defaultTableRowBlock, getTableBodyWidth, TYPE_TABLE } from './utils';
+import { defaultTableRowBlock, getTableBodyWidth } from './utils';
 
 /**
  * Insert cellElement into the matrix and the first available column in rowIndex.
@@ -126,15 +125,15 @@ const normalizeRow = (
   rowIndex: number,
   tableBody: TableHeadElement | TableBodyElement,
   tableBodyPath: Path,
-) => {
-  const [table] = getCurrentBlock(editor, TYPE_TABLE);
+): boolean => {
+  const [table] = Editor.node(editor, Path.parent(tableBodyPath));
 
   // A. If row does not exist in slate => Insert empty row
   if (!Editor.hasPath(editor, [...tableBodyPath, rowIndex])) {
     Transforms.insertNodes(editor, defaultTableRowBlock(1), {
       at: [...tableBodyPath, rowIndex],
     });
-    return;
+    return true;
   }
 
   // B. Insert cells if row has empty positions.
@@ -151,7 +150,7 @@ const normalizeRow = (
   }
 
   // C. Make sure isHeader and scope is set correctly in cells in header and body
-  if (table && isTable(table)) {
+  if (isTable(table)) {
     const isHead = isTableHead(tableBody);
     const { verticalHeaders } = table;
     // Check every cell of the row to be normalized
@@ -162,7 +161,7 @@ const normalizeRow = (
         //    Make sure scope='col' and isHeader=true
         if (verticalHeaders) {
           if (cell.data.scope !== 'col' || !cell.data.isHeader) {
-            return Transforms.setNodes(
+            Transforms.setNodes(
               editor,
               {
                 ...cell,
@@ -173,17 +172,18 @@ const normalizeRow = (
                 },
               },
               {
-                at: [...tableBodyPath, rowIndex],
+                at: [...tableBodyPath, rowIndex, index],
                 match: isTableCell,
                 mode: 'lowest',
               },
             );
+            return true;
           }
         } else {
           // ii. If table does not have vertical headers
           //     Make sure cells in header has scope=undefined and isHeader=true
           if (cell.data.scope || !cell.data.isHeader) {
-            return Transforms.setNodes(
+            Transforms.setNodes(
               editor,
               {
                 ...cell,
@@ -194,11 +194,12 @@ const normalizeRow = (
                 },
               },
               {
-                at: [...tableBodyPath, rowIndex],
+                at: [...tableBodyPath, rowIndex, index],
                 match: isTableCell,
                 mode: 'lowest',
               },
             );
+            return true;
           }
         }
       } else {
@@ -206,7 +207,7 @@ const normalizeRow = (
         //    First cell in row should be a header
         if (verticalHeaders) {
           if (index === 0 && (cell.data.scope !== 'row' || !cell.data.isHeader)) {
-            return Transforms.setNodes(
+            Transforms.setNodes(
               editor,
               {
                 ...cell,
@@ -217,15 +218,16 @@ const normalizeRow = (
                 },
               },
               {
-                at: ReactEditor.findPath(editor, cell),
+                at: [...tableBodyPath, rowIndex, 0],
               },
             );
+            return true;
           }
         } else {
           // ii. If table does not have vertical headers
           //     Make sure cells in body has scope=undefined and isHeader=false
           if (cell.data.scope || cell.data.isHeader) {
-            return Transforms.setNodes(
+            Transforms.setNodes(
               editor,
               {
                 ...cell,
@@ -236,11 +238,12 @@ const normalizeRow = (
                 },
               },
               {
-                at: [...tableBodyPath, rowIndex],
+                at: [...tableBodyPath, rowIndex, index],
                 match: isTableCell,
                 mode: 'lowest',
               },
             );
+            return true;
           }
         }
       }
@@ -314,6 +317,8 @@ export const normalizeTableBodyAsMatrix = (
 
       // ii. Place cell in matrix
       placeCellInMatrix(matrix, rowIndex, colspan, rowspan, cell);
+    }
+    if (isTableBody(tableBody)) {
     }
     // B. Validate insertion of the current row. This will restart the normalization.
     if (normalizeRow(editor, matrix, rowIndex, tableBody, tableBodyPath)) {

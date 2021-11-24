@@ -159,9 +159,15 @@ export const renewAuth = async () => {
 
 let tokenRenewalTimeout: ReturnType<typeof setTimeout>;
 
-export const scheduleRenewal = async (createMessage?: (newMessage: NewMessageType) => void) => {
+export const scheduleRenewal = async (
+  createMessage?: (newMessage: NewMessageType) => void,
+  ignoreRenew = false,
+) => {
   if (!createMessageRef && createMessage) {
     createMessageRef = createMessage;
+  }
+  if (ignoreRenew) {
+    return;
   }
   if (localStorage.getItem('access_token_personal') !== 'true') {
     return null;

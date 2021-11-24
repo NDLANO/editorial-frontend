@@ -12,6 +12,7 @@ import { ImageApiType, UpdatedImageMetadata } from '../../modules/image/imageApi
 import { fetchImage, updateImage } from '../../modules/image/imageApi';
 import { useLicenses } from '../Licenses/LicensesProvider';
 import { useMessages } from '../Messages/MessagesProvider';
+import { createFormData } from '../../util/formDataHelper';
 
 interface Props {
   imageId?: string;
@@ -34,9 +35,11 @@ const EditImage = ({ imageId, imageLanguage, isNewlyCreated }: Props) => {
     })();
   }, [imageLanguage, imageId]);
 
-  const onUpdate = async (updatedImage: UpdatedImageMetadata) => {
+  const onUpdate = async (updatedImage: UpdatedImageMetadata, image: string | Blob) => {
+    const formData = await createFormData(image, updatedImage);
+
     try {
-      const res = await updateImage(updatedImage);
+      const res = await updateImage(updatedImage, formData);
       setImage(res);
     } catch (e) {
       applicationError(e);

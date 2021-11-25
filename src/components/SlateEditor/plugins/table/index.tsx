@@ -207,13 +207,21 @@ export const tableSerializer: SlateSerializer = {
 
     if (node.type === TYPE_TABLE) {
       const [caption, ...rest] = children;
+      if (caption.type === 'caption') {
+        return (
+          <table
+            dangerouslySetInnerHTML={{
+              __html:
+                renderToStaticMarkup(caption) +
+                node.colgroups +
+                rest.map(e => renderToStaticMarkup(e)).join(''),
+            }}></table>
+        );
+      }
       return (
         <table
           dangerouslySetInnerHTML={{
-            __html:
-              renderToStaticMarkup(caption) +
-              node.colgroups +
-              rest.map(e => renderToStaticMarkup(e)).join(''),
+            __html: node.colgroups + children.map(e => renderToStaticMarkup(e)).join(''),
           }}></table>
       );
     }

@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Switch, Route, RouteComponentProps } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Route, useNavigate, useLocation, Routes } from 'react-router-dom';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
@@ -17,26 +18,27 @@ import { useSession } from '../Session/SessionProvider';
 const LoginFailure = loadable(() => import('./LoginFailure'));
 const LoginSuccess = loadable(() => import('./LoginSuccess'));
 
-interface Props extends RouteComponentProps {}
-
-export const Login = ({ match, location, history }: Props) => {
+export const Login = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { authenticated } = useSession();
-  if (authenticated && location.hash === '' && match.url === '/login') {
-    history.push('/');
-    return null;
-  }
+  useEffect(() => {
+    if (authenticated && location.hash === '' && location.pathname.startsWith('/login/')) {
+      navigate('/');
+    }
+  }, [authenticated, location.hash, location.pathname, navigate]);
 
   return (
     <>
       <HelmetWithTracker title={t('htmlTitles.loginPage')} />
       <OneColumn cssModifier="clear">
         <div className="u-2/3@desktop u-push-1/3@desktop">
-          <Switch>
-            <Route path={`${match.url}/success`} component={LoginSuccess} />
-            <Route path={`${match.url}/failure`} component={LoginFailure} />
-            <Route component={LoginProviders} />
-          </Switch>
+          <Routes>
+            <Route path={'success/*'} element={<LoginSuccess />} />
+            <Route path={'failure'} element={<LoginFailure />} />
+            <Route path="/" element={<LoginProviders />} />
+          </Routes>
         </div>
       </OneColumn>
       <Footer showLocaleSelector />

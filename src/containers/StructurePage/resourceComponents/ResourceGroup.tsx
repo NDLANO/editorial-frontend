@@ -19,7 +19,6 @@ import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TopicResource } from './StructureResources';
-import { StructureRouteParams } from '../StructureContainer';
 import { LocaleType } from '../../../interfaces';
 
 export const classes = new BEMHelper({
@@ -35,7 +34,7 @@ interface Props {
   resourceType: ResourceType & {
     disabled?: boolean;
   };
-  params: StructureRouteParams;
+  params: { topic: string; subtopics?: string };
   refreshResources: () => Promise<void>;
   locale: LocaleType;
   onUpdateResource: (resource: TopicResource) => void;

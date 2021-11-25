@@ -5,7 +5,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import HeaderLanguagePill from './HeaderLanguagePill';
@@ -15,8 +15,7 @@ interface LinkWithReplaceProps {
 }
 
 const LinkWithReplace = ({ to, ...rest }: LinkWithReplaceProps) => {
-  let history = useHistory();
-  return <Link to={{ pathname: to, state: history.location.state }} replace {...rest} />;
+  return <Navigate to={to} replace {...rest} />;
 };
 
 interface Props {

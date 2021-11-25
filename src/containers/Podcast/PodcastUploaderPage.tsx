@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { RouteComponentProps, Route, Switch } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
@@ -15,16 +15,11 @@ const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 const CreatePodcast = loadable(() => import('./CreatePodcast'));
 const EditPodcast = loadable(() => import('./EditPodcast'));
 
-interface Props {
-  match: RouteComponentProps['match'];
-  history: RouteComponentProps['history'];
-  location: RouteComponentProps['location'];
-}
-
-const PodcastUploderPage = ({ match, history, location }: RouteComponentProps & Props) => {
+const PodcastUploderPage = () => {
   const { t } = useTranslation();
   const [previousLocation, setPreviousLocation] = useState('');
   const [isNewlyCreated, setNewlyCreated] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     /\/podcast-upload\/(.*)\/new/.test(location.pathname)
@@ -38,20 +33,14 @@ const PodcastUploderPage = ({ match, history, location }: RouteComponentProps & 
   return (
     <OneColumn>
       <HelmetWithTracker title={t('htmlTitles.podcastUploaderPage')} />
-      <Switch>
-        <Route path={`${match.url}/new`} render={() => <CreatePodcast history={history} />} />
+      <Routes>
+        <Route path={'new'} element={<CreatePodcast />} />
         <Route
-          path={`${match.url}/:audioId/edit/:audioLanguage`}
-          render={routeProps => (
-            <EditPodcast
-              isNewlyCreated={isNewlyCreated}
-              podcastId={routeProps.match.params.audioId}
-              podcastLanguage={routeProps.match.params.audioLanguage}
-            />
-          )}
+          path={':audioId/edit/:audioLanguage'}
+          element={<EditPodcast isNewlyCreated={isNewlyCreated} />}
         />
-        <Route component={NotFoundPage} />
-      </Switch>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </OneColumn>
   );
 };

@@ -9,7 +9,7 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { DeleteForever } from '@ndla/icons/editor';
 import { deleteLanguageVersionConcept } from '../../modules/concept/conceptApi';
 import { deleteLanguageVersionImage } from '../../modules/image/imageApi';
@@ -44,10 +44,21 @@ const StyledWrapper = styled.div`
 
 const nonDeletableTypes = ['standard', 'topic-article', 'concept'];
 
-const DeleteLanguageVersion = ({ values, history, type }: Props) => {
+interface Props {
+  values: {
+    id?: number;
+    language: string;
+    supportedLanguages: string[];
+    articleType?: string;
+  };
+  type: string;
+}
+
+const DeleteLanguageVersion = ({ values, type }: Props) => {
   const { t } = useTranslation();
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
   const { createMessage } = useMessages();
+  const navigate = useNavigate();
 
   const toggleShowDeleteWarning = () => {
     setShowDeleteWarning(!showDeleteWarning);
@@ -65,7 +76,7 @@ const DeleteLanguageVersion = ({ values, history, type }: Props) => {
         switch (type) {
           case 'audio':
             await deleteLanguageVersionAudio(id, language);
-            history.push(
+            navigate(
               newAfterLanguageDeletion
                 ? toCreateAudioFile()
                 : toEditAudio(id, otherSupportedLanguage!),
@@ -73,7 +84,7 @@ const DeleteLanguageVersion = ({ values, history, type }: Props) => {
             break;
           case 'podcast':
             await deleteLanguageVersionAudio(id, language);
-            history.push(
+            navigate(
               newAfterLanguageDeletion
                 ? toCreatePodcastFile()
                 : toEditPodcast(id, otherSupportedLanguage!),
@@ -81,7 +92,7 @@ const DeleteLanguageVersion = ({ values, history, type }: Props) => {
             break;
           case 'podcast-series':
             await deleteLanguageVersionSeries(id, language);
-            history.push(
+            navigate(
               newAfterLanguageDeletion
                 ? toCreatePodcastSeries()
                 : toEditPodcastSeries(id, otherSupportedLanguage!),
@@ -89,13 +100,13 @@ const DeleteLanguageVersion = ({ values, history, type }: Props) => {
             break;
           case 'image':
             await deleteLanguageVersionImage(id, language);
-            history.push(
+            navigate(
               newAfterLanguageDeletion ? toCreateImage() : toEditImage(id, otherSupportedLanguage!),
             );
             break;
           case 'concept':
             await deleteLanguageVersionConcept(id, language);
-            history.push(
+            navigate(
               newAfterLanguageDeletion
                 ? toCreateConcept()
                 : toEditConcept(id, otherSupportedLanguage!),
@@ -103,7 +114,7 @@ const DeleteLanguageVersion = ({ values, history, type }: Props) => {
             break;
           default:
             await deleteLanguageVersionDraft(id, language);
-            history.push(toEditArticle(id, articleType!, otherSupportedLanguage));
+            navigate(toEditArticle(id, articleType!, otherSupportedLanguage));
             break;
         }
       } catch (error) {
@@ -150,14 +161,4 @@ const DeleteLanguageVersion = ({ values, history, type }: Props) => {
   );
 };
 
-interface Props extends RouteComponentProps {
-  values: {
-    id?: number;
-    language: string;
-    supportedLanguages: string[];
-    articleType?: string;
-  };
-  type: string;
-}
-
-export default withRouter(DeleteLanguageVersion);
+export default DeleteLanguageVersion;

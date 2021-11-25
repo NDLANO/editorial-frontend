@@ -7,17 +7,15 @@
 
 import { ReactElement } from 'react';
 
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router';
 import { UseQueryResult } from 'react-query';
 import loadable from '@loadable/component';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import SubNavigation from '../Masthead/components/SubNavigation';
 import { toSearch } from '../../util/routeHelpers';
-import { RoutePropTypes } from '../../shapes';
 import SearchContainer, { ResultType } from '../SearchPage/SearchContainer';
 import { SearchType } from '../../interfaces';
 import { SearchParams } from '../SearchPage/components/form/SearchForm';
@@ -28,11 +26,8 @@ import { useSearchConcepts } from '../../modules/concept/conceptQueries';
 import { useSearchAudio, useSearchSeries } from '../../modules/audio/audioQueries';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
-interface Props extends RouteComponentProps {}
-
-const SearchPage = ({ match }: Props) => {
-  const { t, i18n } = useTranslation();
-  const locale = i18n.language;
+const SearchPage = () => {
+  const { t } = useTranslation();
   const supportedTypes: {
     title: string;
     type: SearchType;
@@ -53,7 +48,7 @@ const SearchPage = ({ match }: Props) => {
         'content',
       ),
       icon: <SearchContent className="c-icon--large" />,
-      path: `${match.url}/content`,
+      path: 'content',
       searchHook: useSearch,
     },
     {
@@ -68,7 +63,7 @@ const SearchPage = ({ match }: Props) => {
         'audio',
       ),
       icon: <SquareAudio className="c-icon--large" />,
-      path: `${match.url}/audio`,
+      path: 'audio',
       searchHook: useSearchAudio,
     },
     {
@@ -83,7 +78,7 @@ const SearchPage = ({ match }: Props) => {
         'image',
       ),
       icon: <SearchMedia className="c-icon--large" />,
-      path: `${match.url}/image`,
+      path: 'image',
       searchHook: useSearchImages,
     },
     {
@@ -91,7 +86,7 @@ const SearchPage = ({ match }: Props) => {
       type: 'concept',
       url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'concept'),
       icon: <Concept className="c-icon--large" />,
-      path: `${match.url}/concept`,
+      path: 'concept',
       searchHook: useSearchConcepts,
     },
     {
@@ -99,7 +94,7 @@ const SearchPage = ({ match }: Props) => {
       type: 'podcast-series',
       url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'podcast-series'),
       icon: <List className="c-icon--large" />,
-      path: `${match.url}/podcast-series`,
+      path: 'podcast-series',
       searchHook: useSearchSeries,
     },
   ];
@@ -107,28 +102,26 @@ const SearchPage = ({ match }: Props) => {
   return (
     <>
       <SubNavigation type="media" subtypes={supportedTypes} />
-      <Switch>
+      <Routes>
         {supportedTypes.map(type => {
           return (
-            <PrivateRoute
-              locale={locale}
+            <Route
               key={type.type}
-              path={type.path}
-              component={SearchContainer}
-              type={type.type}
-              searchHook={type.searchHook}
+              path={`${type.path}/*`}
+              element={
+                <PrivateRoute
+                  key={type.type}
+                  component={<SearchContainer searchHook={type.searchHook} type={type.type} />}
+                />
+              }
             />
           );
         })}
-        <Route component={NotFoundPage} />
-      </Switch>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
       <Footer showLocaleSelector={false} />
     </>
   );
 };
 
-SearchPage.propTypes = {
-  ...RoutePropTypes,
-};
-
-export default withRouter(SearchPage);
+export default SearchPage;

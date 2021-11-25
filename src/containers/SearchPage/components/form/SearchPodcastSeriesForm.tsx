@@ -7,9 +7,7 @@
  */
 
 import { FormEvent, useEffect, useState, MouseEvent } from 'react';
-
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import { SearchParams } from './SearchForm';
@@ -17,7 +15,7 @@ import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces'
 import { MinimalTagType } from './SearchTag';
 import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
 
-interface Props extends RouteComponentProps {
+interface Props {
   search: (o: SearchParams) => void;
   subjects: SubjectType[];
   searchObject: SearchParams;

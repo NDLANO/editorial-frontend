@@ -5,34 +5,19 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { match, Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import NdlaFilmEditor from './NdlaFilmEditor';
 import Footer from '../App/components/Footer';
-import { getDefaultLanguage } from '../../config';
 
-interface Props {
-  match: match;
-}
-
-const NdlaFilm = ({ match }: Props) => {
+const NdlaFilm = () => {
   return (
     <>
       <OneColumn>
-        <Switch>
-          <Route
-            path={`${match.url}/:selectedLanguage`}
-            render={routeProps => {
-              return <NdlaFilmEditor selectedLanguage={routeProps.match.params.selectedLanguage} />;
-            }}
-          />
-          <Route
-            path={`${match.url}`}
-            render={() => {
-              return <NdlaFilmEditor selectedLanguage={getDefaultLanguage()} />;
-            }}
-          />
-        </Switch>
+        <Routes>
+          <Route path={`:selectedLanguage`} element={<NdlaFilmEditor />} />
+          <Route path={''} element={<NdlaFilmEditor />} />
+        </Routes>
       </OneColumn>
       <Footer showLocaleSelector={false} />
     </>

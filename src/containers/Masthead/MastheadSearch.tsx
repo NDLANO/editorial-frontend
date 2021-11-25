@@ -6,44 +6,24 @@
  *
  */
 
-import { Component } from 'react';
 import queryString from 'query-string';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MastheadSearchForm from './components/MastheadSearchForm';
 import { toSearch } from '../../util/routeHelpers';
 import { SearchTypeValues } from '../../constants';
 import { parseSearchParams } from '../SearchPage/components/form/SearchForm';
 import { SearchType } from '../../interfaces';
 
-interface Props extends RouteComponentProps {
+interface Props {
   close: () => void;
 }
 
-interface State {
-  query?: string;
-}
+const MastheadSearch = ({ close }: Props) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const query = queryString.parse(location.search).query;
 
-class MastheadSearch extends Component<Props, State> {
-  static getDerivedStateFromProps(props: Props, state: State) {
-    const { location } = props;
-    const { query } = state;
-    const propsQuery = queryString.parse(location.search).query;
-    if (query !== propsQuery) {
-      return { query: propsQuery };
-    }
-    return null;
-  }
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      query: undefined,
-    };
-  }
-
-  onSearchQuerySubmit = (searchQuery: string) => {
-    const { location, history, close } = this.props;
-
+  const onSearchQuerySubmit = (searchQuery: string) => {
     const type =
       location.pathname
         .split('/')
@@ -64,19 +44,17 @@ class MastheadSearch extends Component<Props, State> {
       'page-size': 10,
     };
 
-    history.push(toSearch(newParams, type));
+    navigate(toSearch(newParams, type));
 
     close();
   };
 
-  render() {
-    return (
-      <MastheadSearchForm
-        query={this.state.query}
-        onSearchQuerySubmit={searchQuery => this.onSearchQuerySubmit(searchQuery)}
-      />
-    );
-  }
-}
+  return (
+    <MastheadSearchForm
+      query={query}
+      onSearchQuerySubmit={(searchQuery: string) => onSearchQuerySubmit(searchQuery)}
+    />
+  );
+};
 
-export default withRouter(MastheadSearch);
+export default MastheadSearch;

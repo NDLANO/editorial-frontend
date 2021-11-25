@@ -6,7 +6,7 @@
  *
  */
 
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { toPreviewDraft } from '../../util/routeHelpers';
@@ -18,29 +18,20 @@ const StyledSelect = styled.select`
   display: block;
 `;
 
-interface MatchProps {
-  draftId: string;
-  language: string;
-}
-
-interface Props extends RouteComponentProps<MatchProps> {
+interface Props {
   supportedLanguages: string[];
 }
 
-const LanguageSelector = ({
-  supportedLanguages,
-  history,
-  match: {
-    params: { draftId, language },
-  },
-}: Props) => {
+const LanguageSelector = ({ supportedLanguages }: Props) => {
   const { t } = useTranslation();
+  const { draftId, language } = useParams<'draftId' | 'language'>();
+  const navigate = useNavigate();
   if (supportedLanguages.length === 0) {
     return null;
   }
   return (
     <StyledSelect
-      onChange={evt => history.push(toPreviewDraft(parseInt(draftId), evt.target.value))}
+      onChange={evt => navigate(toPreviewDraft(Number(draftId), evt.target.value))}
       value={language}>
       {supportedLanguages.map(supportedLanguage => (
         <option key={supportedLanguage} value={supportedLanguage}>
@@ -51,4 +42,4 @@ const LanguageSelector = ({
   );
 };
 
-export default withRouter(LanguageSelector);
+export default LanguageSelector;

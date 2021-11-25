@@ -7,6 +7,7 @@
  */
 
 import nock from 'nock';
+import { MemoryRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import { MastheadSearchForm } from '../components/MastheadSearchForm';
 import { taxonomyApi } from '../../../config';
@@ -14,23 +15,18 @@ import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 const noop = () => {};
 
+const wrapper = (component ) => (
+  <MemoryRouter>
+    <IntlWrapper>{component}</IntlWrapper>
+  </MemoryRouter>
+);
+
 test('MastheadSearchForm redirects on ndla url paste with id at the end', () => {
   const historyMock = {
     push: jest.fn(),
   };
 
-  const { container } = render(
-    <IntlWrapper>
-      <MastheadSearchForm
-        query=""
-        searching={false}
-        onSearchQuerySubmit={noop}
-        t={() => ''}
-        locale="nb"
-        history={historyMock}
-      />
-    </IntlWrapper>,
-  );
+  const { container } = render(wrapper(<MastheadSearchForm query="" onSearchQuerySubmit={noop} />));
   expect(container).toMatchSnapshot();
   setTimeout(() => {
     expect(historyMock.push.calledOnce).toBeTruthy();
@@ -50,14 +46,12 @@ test('MastheadSearchForm redirects on ndla url paste with taxonomy id at the end
     .reply(200, { contentUri: 'urn:content:4232' });
 
   const { container } = render(
-    <MastheadSearchForm
-      query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373"
-      searching={false}
-      locale="nb"
-      onSearchQuerySubmit={noop}
-      t={() => ''}
-      history={historyMock}
-    />,
+    wrapper(
+      <MastheadSearchForm
+        query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373"
+        onSearchQuerySubmit={noop}
+      />,
+    ),
   );
   expect(container).toMatchSnapshot();
   setTimeout(() => {
@@ -76,14 +70,9 @@ test('MastheadSearchForm redirects on old ndla url paste with new id', () => {
     .reply(200, { id: '123' });
 
   const { container } = render(
-    <MastheadSearchForm
-      query="https://ndla.no/nb/node/4737?fag=36"
-      searching={false}
-      locale="nb"
-      onSearchQuerySubmit={noop}
-      t={() => ''}
-      history={historyMock}
-    />,
+    wrapper(
+      <MastheadSearchForm query="https://ndla.no/nb/node/4737?fag=36" onSearchQuerySubmit={noop} />,
+    ),
   );
   expect(container).toMatchSnapshot();
   setTimeout(() => {
@@ -100,14 +89,12 @@ test('MastheadSearchForm invalid id at the end of the url', () => {
   };
 
   const { container } = render(
-    <MastheadSearchForm
-      query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
-      searching={false}
-      onSearchQuerySubmit={noop}
-      t={() => ''}
-      locale="nb"
-      history={historyMock}
-    />,
+    wrapper(
+      <MastheadSearchForm
+        query="https://ndla-frontend.test.api.ndla.no/article/urn:subject:100/urn:topic:1:179373/urn:resource:1:16838"
+        onSearchQuerySubmit={noop}
+      />,
+    ),
   );
   expect(container).toMatchSnapshot();
   setTimeout(() => {
@@ -124,14 +111,7 @@ test('MastheadSearchForm redirects on ndla node id pasted', () => {
     .reply(200, { id: '123' });
 
   const { container } = render(
-    <MastheadSearchForm
-      query="#4737"
-      searching={false}
-      locale="nb"
-      onSearchQuerySubmit={noop}
-      t={() => ''}
-      history={historyMock}
-    />,
+    wrapper(<MastheadSearchForm query="#4737" onSearchQuerySubmit={noop} />),
   );
   expect(container).toMatchSnapshot();
   setTimeout(() => {

@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import {} from 'react-router-dom';
 import { css } from '@emotion/core';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
@@ -37,7 +37,7 @@ const resourceButtonStyle = css`
   ${fonts.sizes(14, 1.1)};
 `;
 
-interface BaseProps {
+interface Props {
   getAllSubjects: () => Promise<void>;
   refreshTopics: () => Promise<void>;
   structure: SubjectType[];
@@ -58,8 +58,6 @@ interface BaseProps {
   saveSubjectTopicItems: (topicId: string, saveItems: Pick<TaxonomyElement, 'metadata'>) => void;
   parent?: string;
 }
-
-type Props = BaseProps & RouteComponentProps;
 
 const FolderItem = ({
   name,
@@ -140,4 +138,4 @@ const FolderItem = ({
   );
 };
 
-export default withRouter(FolderItem);
+export default FolderItem;

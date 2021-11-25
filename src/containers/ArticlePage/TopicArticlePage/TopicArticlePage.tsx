@@ -5,32 +5,32 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { Route, Switch, withRouter } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
-import { RouteComponentProps } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import EditArticleRedirect from './EditArticleRedirect';
 import CreateTopicArticle from './CreateTopicArticle';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { usePreviousLocation } from '../../../util/routeHelpers';
 
-interface Props extends RouteComponentProps<{ articleId: string }> {}
-
-const TopicArticlePage = ({ match }: Props) => {
+const TopicArticlePage = () => {
   const previousLocation = usePreviousLocation();
 
   return (
     <OneColumn>
-      <Switch>
-        <Route path={`${match.url}/new`} render={() => <CreateTopicArticle />} />
-        <Route path={`${match.url}/:articleId/edit/`}>
-          <EditArticleRedirect
-            isNewlyCreated={previousLocation === '/subject-matter/topic-article/new'}
-          />
-        </Route>
-        <Route component={NotFoundPage} />
-      </Switch>
+      <Routes>
+        <Route path={'new'} element={<CreateTopicArticle />} />
+        <Route
+          path={':articleId/edit/*'}
+          element={
+            <EditArticleRedirect
+              isNewlyCreated={previousLocation === '/subject-matter/topic-article/new'}
+            />
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </OneColumn>
   );
 };
 
-export default withRouter(TopicArticlePage);
+export default TopicArticlePage;

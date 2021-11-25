@@ -10,10 +10,10 @@ import { FormEvent, useState } from 'react';
 
 import Button from '@ndla/button';
 import Url from 'url-parse';
+import { useNavigate } from 'react-router-dom';
 import { colors, misc, spacing, fonts } from '@ndla/core';
 import { Search } from '@ndla/icons/common';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { css } from '@emotion/core';
 import { isValidLocale } from '../../../i18n';
 import { toEditArticle, to404 } from '../../../util/routeHelpers';
@@ -74,27 +74,24 @@ const formCSS = css`
   }
 `;
 
-interface Props extends RouteComponentProps {
+interface Props {
   query?: string;
   onSearchQuerySubmit: (query: string) => void;
 }
 
-export const MastheadSearchForm = ({
-  query: initQuery = '',
-  history,
-  onSearchQuerySubmit,
-}: Props) => {
+export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit }: Props) => {
   const [query, setQuery] = useState(initQuery);
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   const handleQueryChange = (evt: FormEvent<HTMLInputElement>) => setQuery(evt.currentTarget.value);
 
   const handleNodeId = async (nodeId: number) => {
     try {
       const newArticle = await fetchNewArticleId(nodeId);
-      history.push(toEditArticle(newArticle.id, 'standard'));
+      navigate(toEditArticle(newArticle.id, 'standard'));
     } catch (error) {
-      history.push(to404());
+      navigate(to404());
     }
   };
 
@@ -105,10 +102,10 @@ export const MastheadSearchForm = ({
       const arr = taxElement.contentUri?.split(':');
       if (arr) {
         const id = arr[arr.length - 1];
-        history.push(toEditArticle(parseInt(id), 'standard'));
+        navigate(toEditArticle(parseInt(id), 'standard'));
       }
     } catch (error) {
-      history.push(to404());
+      navigate(to404());
     }
   };
 
@@ -138,7 +135,7 @@ export const MastheadSearchForm = ({
     } else if (splittedNdlaUrl.find(e => e.match(/subject:*/))) {
       handleFrontendUrl(cleanUrl);
     } else {
-      history.push(toEditArticle(parseInt(urlId), 'standard'));
+      navigate(toEditArticle(parseInt(urlId), 'standard'));
     }
   };
 
@@ -147,9 +144,9 @@ export const MastheadSearchForm = ({
       const topicArticle = await fetchTopic(urlId, i18n.language);
       const arr = topicArticle.contentUri.split(':');
       const id = arr[arr.length - 1];
-      history.push(toEditArticle(parseInt(id), 'topic-article'));
+      navigate(toEditArticle(parseInt(id), 'topic-article'));
     } catch {
-      history.push(to404());
+      navigate(to404());
     }
   };
 
@@ -162,9 +159,9 @@ export const MastheadSearchForm = ({
       const newArticle = await resolveUrls(path);
       const splittedUri = newArticle.contentUri.split(':');
       const articleId = splittedUri[splittedUri.length - 1];
-      history.push(toEditArticle(parseInt(articleId), 'standard'));
+      navigate(toEditArticle(parseInt(articleId), 'standard'));
     } catch {
-      history.push(to404());
+      navigate(to404());
     }
   };
 
@@ -202,4 +199,4 @@ export const MastheadSearchForm = ({
   );
 };
 
-export default withRouter(MastheadSearchForm);
+export default MastheadSearchForm;

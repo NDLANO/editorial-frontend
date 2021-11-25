@@ -172,7 +172,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       onClick={toggleMenu}
       style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
       {...attributes}>
-      <MathML model={nodeInfo.model} />
+      <MathML model={nodeInfo.model} editor={editor} element={element} />
       <Portal isOpened={showMenu}>
         <BlockMenu
           top={top}

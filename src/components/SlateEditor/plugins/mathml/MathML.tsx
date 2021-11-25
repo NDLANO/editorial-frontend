@@ -7,16 +7,22 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { Editor } from 'slate';
+import { ReactEditor } from 'slate-react';
+import { MathmlElement } from '.';
 
 interface Props {
   model: {
     xlmns: string;
     innerHTML: string;
   };
+  editor: Editor;
+  element: MathmlElement;
 }
 
-const MathML = ({ model }: Props) => {
+const MathML = ({ model, element, editor }: Props) => {
   const [reRender, setReRender] = useState(false);
+  const [mathjaxInitialized, setMathjaxInitialized] = useState(true);
 
   const mounted = useRef(false);
 
@@ -24,14 +30,33 @@ const MathML = ({ model }: Props) => {
     if (!mounted.current) {
       mounted.current = true;
     } else {
+      const { MathJax } = window;
+      const node = ReactEditor.toDOMNode(editor, element);
+      if (MathJax && node) {
+        MathJax.typesetClear([node]);
+      }
       // Note: a small delay before a 're-render" is required in order to
       // get the MathJax script to render correctly after editing the MathML
       setReRender(true);
       setTimeout(() => {
         setReRender(false);
+        setMathjaxInitialized(false);
       }, 10);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model.innerHTML]);
+
+  useEffect(() => {
+    if (mathjaxInitialized) {
+      return;
+    }
+    const { MathJax } = window;
+    const node = ReactEditor.toDOMNode(editor, element);
+    if (MathJax && node) {
+      MathJax.typeset([node]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mathjaxInitialized]);
 
   if (reRender) {
     return null;

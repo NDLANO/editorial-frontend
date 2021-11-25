@@ -62,12 +62,22 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
   }, []);
 
   useEffect(() => {
+    const { MathJax } = window;
+    if (MathJax && !isFirstNormalize && !editor.mathjaxInitialized) {
+      MathJax.typesetPromise();
+      editor.mathjaxInitialized = true;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor.mathjaxInitialized, isFirstNormalize]);
+
+  useEffect(() => {
     if (!submitted && prevSubmitted.current) {
       // Editor data will be updated and normalized. Reset history and other settings.
       ReactEditor.deselect(editor);
       editor.children = value;
       editor.history = { redos: [], undos: [] };
       editor.mathjaxInitialized = false;
+      window.MathJax?.typesetClear();
       Editor.normalize(editor, { force: true });
       ReactEditor.focus(editor);
       // Try to select previous selection if it exists

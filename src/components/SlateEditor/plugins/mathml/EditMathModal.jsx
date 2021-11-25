@@ -53,7 +53,7 @@ const EditMathModal = ({
   const uuid = useMemo(() => uniqueId(), []);
   useEffect(() => {
     const node = document.getElementById(uuid);
-    if (window.MathJax) window.MathJax.typesetPromise([node]);
+    if (node && window.MathJax) window.MathJax.typesetPromise([node]);
   }, [uuid, renderMathML]);
   return (
     <Modal

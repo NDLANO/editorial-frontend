@@ -36,6 +36,8 @@ const MathML = ({ model, element, editor }: Props) => {
 
   useEffect(() => {
     if (!mounted.current) {
+      // Mathml can sometimes be re-mounted. Usually caused itself or nearby elements being moved.
+      // If editor already has fully formatted all Mathjax, we must make sure the re-mounted node is formatted again.
       if (editor.mathjaxInitialized) {
         clearMathjax(editor, element);
         setMathjaxInitialized(false);

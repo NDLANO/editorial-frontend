@@ -15,7 +15,7 @@ import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 
 const noop = () => {};
 
-const wrapper = (component ) => (
+const wrapper = component => (
   <MemoryRouter>
     <IntlWrapper>{component}</IntlWrapper>
   </MemoryRouter>

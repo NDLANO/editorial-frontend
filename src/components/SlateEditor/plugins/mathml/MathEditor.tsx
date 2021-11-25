@@ -67,16 +67,6 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
 
   const toggleMenu = () => {
     setShowMenu(prev => !prev);
-    const { MathJax } = window;
-    if (MathJax) {
-      const node = ReactEditor.toDOMNode(editor, element);
-      if (!editor.mathjaxInitialized) {
-        MathJax.typeset();
-        editor.mathjaxInitialized = true;
-      } else {
-        MathJax.typeset([node]);
-      }
-    }
   };
 
   const toggleEdit = () => {

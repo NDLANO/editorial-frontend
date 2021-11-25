@@ -20,6 +20,14 @@ interface Props {
   element: MathmlElement;
 }
 
+const clearMathjax = (editor: Editor, element: MathmlElement) => {
+  const { MathJax } = window;
+  const node = ReactEditor.toDOMNode(editor, element);
+  if (MathJax && node) {
+    MathJax.typesetClear([node]);
+  }
+};
+
 const MathML = ({ model, element, editor }: Props) => {
   const [reRender, setReRender] = useState(false);
   const [mathjaxInitialized, setMathjaxInitialized] = useState(true);
@@ -28,13 +36,13 @@ const MathML = ({ model, element, editor }: Props) => {
 
   useEffect(() => {
     if (!mounted.current) {
+      if (editor.mathjaxInitialized) {
+        clearMathjax(editor, element);
+        setMathjaxInitialized(false);
+      }
       mounted.current = true;
     } else {
-      const { MathJax } = window;
-      const node = ReactEditor.toDOMNode(editor, element);
-      if (MathJax && node) {
-        MathJax.typesetClear([node]);
-      }
+      clearMathjax(editor, element);
       // Note: a small delay before a 're-render" is required in order to
       // get the MathJax script to render correctly after editing the MathML
       setReRender(true);

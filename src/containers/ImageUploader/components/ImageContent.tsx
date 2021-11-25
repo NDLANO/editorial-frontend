@@ -19,6 +19,7 @@ import IconButton from '../../../components/IconButton';
 import FormikField from '../../../components/FormikField';
 import { ImageFormikType } from '../imageTransformers';
 import { ImageFormErrorFields } from './ImageForm';
+import { TitleField } from '../../FormikForm';
 
 const StyledImage = styled.img`
   margin: ${spacing.normal} 0;
@@ -41,16 +42,11 @@ interface Props {
 
 const ImageContent = ({ formik }: Props) => {
   const { t } = useTranslation();
-  const { values, errors, setFieldValue } = formik;
+  const { values, errors, setFieldValue, submitForm } = formik;
   return (
     <Fragment>
-      <FormikField
-        label={t('form.title.label')}
-        name="title"
-        title
-        noBorder
-        placeholder={t('form.title.label')}
-      />
+      <TitleField handleSubmit={submitForm} />
+
       {!values.imageFile && (
         <UploadDropZone
           name="imageFile"

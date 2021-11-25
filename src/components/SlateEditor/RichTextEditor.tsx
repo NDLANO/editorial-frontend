@@ -63,10 +63,11 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
 
   useEffect(() => {
     if (!submitted && prevSubmitted.current) {
-      // Editor will be normalized. Remove history
+      // Editor data will be updated and normalized. Reset history and other settings.
       ReactEditor.deselect(editor);
       editor.children = value;
       editor.history = { redos: [], undos: [] };
+      editor.mathjaxInitialized = false;
       Editor.normalize(editor, { force: true });
       ReactEditor.focus(editor);
       // Try to select previous selection if it exists

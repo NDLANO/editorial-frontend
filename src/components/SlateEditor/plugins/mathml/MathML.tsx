@@ -7,10 +7,8 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { RenderElementProps } from 'slate-react';
 
 interface Props {
-  attributes: RenderElementProps['attributes'];
   model: {
     xlmns: string;
     innerHTML: string;
@@ -21,6 +19,7 @@ const MathML = ({ model }: Props) => {
   const [reRender, setReRender] = useState(false);
 
   const mounted = useRef(false);
+
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
@@ -39,7 +38,7 @@ const MathML = ({ model }: Props) => {
   }
 
   return (
-    <span data-cy="math" contentEditable={false}>
+    <span data-cy="math">
       {/* @ts-ignore math does not exist in JSX, but this hack works by setting innerHTML manually. */}
       <math
         xlmns={model.xlmns}

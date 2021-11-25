@@ -64,6 +64,7 @@ const MathML = ({ model, element, editor }: Props) => {
     const node = ReactEditor.toDOMNode(editor, element);
     if (MathJax && node) {
       MathJax.typeset([node]);
+      setMathjaxInitialized(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mathjaxInitialized]);

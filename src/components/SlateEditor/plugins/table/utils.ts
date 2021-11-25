@@ -3,7 +3,7 @@ import { jsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
 import { TableElement, TableRowElement, TableHeadElement, TableBodyElement } from '.';
 import { defaultParagraphBlock } from '../paragraph/utils';
-import { isTable, isTableCell, isTableRow } from './helpers';
+import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
 import { findCellCoordinate, getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
 
 export const TYPE_TABLE = 'table';
@@ -370,6 +370,14 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
   const [cell] = cellEntry;
 
   const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
+
+  const firstBody = tableElement.children[0];
+
+  if (isTableBody(firstBody) || isTableHead(firstBody)) {
+    if (getTableBodyWidth(firstBody) === 1) {
+      return;
+    }
+  }
 
   if (matrix && isTableCell(cell)) {
     const selectedPath = findCellCoordinate(matrix, cell);

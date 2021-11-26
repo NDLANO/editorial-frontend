@@ -148,7 +148,7 @@ class App extends Component<ActualProps, InternalState> {
 
 const AuthInitializer = ({ children }: { children: ReactElement }) => {
   const { createMessage } = useMessages();
-  scheduleRenewal(createMessage);
+  scheduleRenewal(createMessage, true);
   return children;
 };
 

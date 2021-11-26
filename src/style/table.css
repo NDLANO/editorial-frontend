@@ -6,7 +6,8 @@
  *
  */
 
-.c-editor table td {
+.c-editor table td,
+.c-editor table th {
   min-width: 29px;
 }
 

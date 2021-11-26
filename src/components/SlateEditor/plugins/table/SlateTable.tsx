@@ -23,10 +23,8 @@ const SlateTable = (props: Props) => {
   const { editor, attributes, element, children } = props;
   return (
     <div className="c-table__wrapper c-table__content">
-      <div {...attributes}>
-        <TableActions editor={editor} element={element} />
-        <table>{children}</table>
-      </div>
+      <TableActions editor={editor} element={element} />
+      <table {...attributes}>{children}</table>
     </div>
   );
 };

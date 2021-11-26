@@ -134,9 +134,9 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       const topicsWithConnections = sortedTopics.map(async (topic, index) => {
         const breadcrumb = await getBreadcrumbFromPath(topic.path, i18n.language);
         return {
+          ...topic,
           topicConnections: topicConnections[index],
           breadcrumb,
-          ...topic,
         };
       });
       const stagedTopicChanges = await Promise.all(topicsWithConnections);

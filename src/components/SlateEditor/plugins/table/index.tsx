@@ -113,10 +113,11 @@ export const tableSerializer: SlateSerializer = {
       isHeader: tagName === 'th',
     };
     if (tagName === 'th' || tagName === 'td') {
-      const filter = ['rowspan', 'colspan', 'align', 'valign', 'class', 'scope'];
+      const filter = ['rowspan', 'colspan', 'align', 'valign', 'class', 'scope', 'id'];
       const attrs = reduceElementDataAttributes(el, filter);
       const colspan = attrs.colspan && parseInt(attrs.colspan);
       const rowspan = attrs.rowspan && parseInt(attrs.rowspan);
+      const id = attrs.id || undefined;
       const scope = attrs.scope === 'row' || attrs.scope === 'col' ? attrs.scope : undefined;
       data = {
         ...attrs,
@@ -124,6 +125,7 @@ export const tableSerializer: SlateSerializer = {
         rowspan: rowspan || 1,
         isHeader: tagName === 'th',
         scope,
+        id,
       };
     }
     if (equals(children, [{ text: '' }])) {

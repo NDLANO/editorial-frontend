@@ -30,6 +30,7 @@ export interface TableRowElement {
 export interface TableCellElement {
   type: 'table-cell';
   data: {
+    id?: string;
     rowspan: number;
     colspan: number;
     align?: string;

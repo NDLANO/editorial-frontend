@@ -8,6 +8,7 @@
 
 import { ReactNode, useState, MouseEvent } from 'react';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
@@ -39,6 +40,11 @@ interface Props {
   visualElement: boolean;
   children: ReactNode;
 }
+
+const StyledDiv = styled.div<{ embed: ImageEmbed }>`
+  ${props => (!props.embed.alt ? 'border: 2px solid rgba(209,55,46,0.3);' : '')}
+  z-index: 1;
+`;
 
 const SlateImage = ({
   active,
@@ -76,11 +82,11 @@ const SlateImage = ({
   };
 
   return (
-    <div
+    <StyledDiv
       {...attributes}
       draggable={!visualElement && !editMode}
       className={constructFigureClassName()}
-      css={!embed.alt && { border: '2px solid rgba(209,55,46,0.3);' }}>
+      embed={embed}>
       <FigureButtons
         tooltip={t('form.image.removeImage')}
         onRemoveClick={onRemoveClick}
@@ -122,7 +128,7 @@ const SlateImage = ({
         </Button>
       )}
       {children}
-    </div>
+    </StyledDiv>
   );
 };
 

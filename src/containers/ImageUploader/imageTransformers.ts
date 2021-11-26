@@ -1,11 +1,13 @@
+import { Descendant } from 'slate';
 import { Author } from '../../interfaces';
 import { ImageApiType } from '../../modules/image/imageApiInterfaces';
+import { plainTextToEditorValue } from '../../util/articleContentConverter';
 
 export interface ImageFormikType {
   id?: number;
   language: string;
   supportedLanguages: string[];
-  title: string;
+  title: Descendant[];
   alttext: string;
   caption: string;
   imageFile?: string;
@@ -27,7 +29,7 @@ export const imageApiTypeToFormType = (
     id: image?.id ? parseInt(image.id) : undefined,
     language,
     supportedLanguages: image?.supportedLanguages ?? [language],
-    title: image?.title.title ?? '',
+    title: plainTextToEditorValue(image?.title.title || ''),
     alttext: image?.alttext.alttext ?? '',
     caption: image?.caption.caption ?? '',
     imageFile: image?.imageUrl,

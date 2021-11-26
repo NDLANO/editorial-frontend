@@ -6,10 +6,11 @@
  *
  */
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { useTranslation } from 'react-i18next';
+import { uniqueId } from 'lodash';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
@@ -49,9 +50,11 @@ const EditMathModal = ({
   id,
 }) => {
   const { t } = useTranslation();
+  const uuid = useMemo(() => uniqueId(), []);
   useEffect(() => {
-    if (window.MathJax) window.MathJax.typesetPromise();
-  }, [renderMathML]);
+    const node = document.getElementById(uuid);
+    if (node && window.MathJax) window.MathJax.typesetPromise([node]);
+  }, [uuid, renderMathML]);
   return (
     <Modal
       narrow
@@ -87,6 +90,7 @@ const EditMathModal = ({
             <h3>{t('mathEditor.preview')}</h3>
             <hr />
             <StyledMathPreviewWrapper
+              id={uuid}
               dangerouslySetInnerHTML={{
                 __html: renderMathML,
               }}

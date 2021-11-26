@@ -137,7 +137,7 @@ const App = ({ isClient }: Props) => {
 
 const AuthInitializer = ({ children }: { children: ReactElement }) => {
   const { createMessage } = useMessages();
-  scheduleRenewal(createMessage);
+  scheduleRenewal(createMessage, true);
   return children;
 };
 

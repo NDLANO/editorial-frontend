@@ -355,10 +355,10 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         ?.relevanceId;
       const breadcrumb = await getBreadcrumbFromPath(topic.path, locale);
       return {
+        ...topic,
         topicConnections: topicConnections[index],
         relevanceId: foundRelevanceId ?? RESOURCE_FILTER_CORE,
         breadcrumb,
-        ...topic,
       };
     });
     const topics = await Promise.all(topicsWithConnectionsAndRelevanceId);

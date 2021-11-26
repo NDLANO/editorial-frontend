@@ -205,6 +205,7 @@ const normalizeRow = (
       } else {
         // i. If table has rowHeaders
         //    First cell in row should be a header
+        //    Other cells should not be a header
         if (rowHeaders) {
           if (index === 0 && (cell.data.scope !== 'row' || !cell.data.isHeader)) {
             Transforms.setNodes(
@@ -219,6 +220,27 @@ const normalizeRow = (
               },
               {
                 at: [...tableBodyPath, rowIndex, 0],
+              },
+            );
+            return true;
+          }
+          if (
+            index !== 0 &&
+            (cell.data.scope || cell.data.isHeader) &&
+            matrix[rowIndex][index - 1] !== cell
+          ) {
+            Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  scope: undefined,
+                  isHeader: false,
+                },
+              },
+              {
+                at: [...tableBodyPath, rowIndex, index],
               },
             );
             return true;

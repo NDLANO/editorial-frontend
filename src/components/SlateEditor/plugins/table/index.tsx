@@ -333,7 +333,7 @@ export const tablePlugin = (editor: Editor) => {
       const [table] = Editor.node(editor, Path.parent(bodyPath));
 
       // ii. Make sure cells in TableHead are marked as isHeader.
-      //     Cells in TableBody will not be altered if rowHeaders: true on Table.
+      //     Cells in TableBody will not be altered if rowHeaders=true on Table.
       if ((isTableHead(body) || isTableBody(body)) && isTable(table)) {
         for (const [index, cell] of node.children.entries()) {
           if (table.rowHeaders && isTableBody(body)) {

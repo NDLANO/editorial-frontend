@@ -7,10 +7,9 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from 'slate';
-import { RenderElementProps } from 'slate-react';
+import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { equals } from 'lodash/fp';
@@ -47,6 +46,7 @@ import {
 } from './helpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { TableElement } from './interfaces';
+import WithPlaceHolder from './../../common/WithPlaceHolder';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -210,7 +210,7 @@ export const tableSerializer: SlateSerializer = {
 };
 
 export const tablePlugin = (editor: Editor) => {
-  const { renderElement, normalizeNode, onKeyDown } = editor;
+  const { renderElement, normalizeNode, onKeyDown, renderLeaf } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     switch (element.type) {
@@ -242,6 +242,26 @@ export const tablePlugin = (editor: Editor) => {
         return renderElement && renderElement({ attributes, children, element });
     }
   };
+
+  editor.renderLeaf = (props: RenderLeafProps) => {
+    const { attributes, children, leaf, text } = props;
+    const path = ReactEditor.findPath(editor, text);
+
+    const [parent] = Editor.node(editor, Path.parent(path));
+    if (
+      Element.isElement(parent) &&
+      parent.type === TYPE_TABLE_CAPTION &&
+      Node.string(leaf) === ''
+    ) {
+      return (
+        <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
+          {children}
+        </WithPlaceHolder>
+      );
+    }
+    return renderLeaf && renderLeaf(props);
+  };
+
   editor.normalizeNode = entry => {
     const [node, path] = entry;
     // A. Table normalizer

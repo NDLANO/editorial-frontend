@@ -9,7 +9,6 @@
 import { Element, Descendant, Editor, Path, Transforms, Node, Text, Range, Location } from 'slate';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { colors } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
 import Details from './Details';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
@@ -23,6 +22,7 @@ import {
 } from '../../utils/normalizationHelpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import Summary from './Summary';
+import WithPlaceHolder from '../../common/WithPlaceHolder';
 
 export const TYPE_DETAILS = 'details';
 export const TYPE_SUMMARY = 'summary';
@@ -121,6 +121,7 @@ export const detailsPlugin = (editor: Editor) => {
     normalizeNode: nextNormalizeNode,
     onKeyDown: nextOnKeyDown,
     shouldShowToolbar: nextShouldShowToolbar,
+    renderLeaf,
   } = editor;
 
   editor.onKeyDown = event => {
@@ -166,25 +167,12 @@ export const detailsPlugin = (editor: Editor) => {
     const [parent] = Editor.node(editor, Path.parent(path));
     if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(leaf) === '') {
       return (
-        <span style={{ position: 'relative' }}>
-          <span {...attributes}>{children}</span>
-          <span
-            style={{
-              position: 'absolute',
-              top: 0,
-              opacity: 0.3,
-              color: `${colors.black}`,
-              pointerEvents: 'none',
-              userSelect: 'none',
-              display: 'inline-block',
-            }}
-            contentEditable={false}>
-            Tittel
-          </span>
-        </span>
+        <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
+          {children}
+        </WithPlaceHolder>
       );
     }
-    return;
+    return renderLeaf && renderLeaf(props);
   };
 
   editor.normalizeNode = entry => {

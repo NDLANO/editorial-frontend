@@ -30,7 +30,7 @@ describe('table serializing tests', () => {
         children: [
           {
             type: TYPE_TABLE,
-            verticalHeaders: false,
+            rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
@@ -196,14 +196,14 @@ describe('table serializing tests', () => {
     expect(deserialized).toEqual(editor);
   });
 
-  test('seriaize and deserialize table with vertical headers', () => {
+  test('seriaize and deserialize table with row headers', () => {
     const editor: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_TABLE,
-            verticalHeaders: true,
+            rowHeaders: true,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {

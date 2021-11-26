@@ -68,7 +68,7 @@ export const tableSerializer: SlateSerializer = {
     const tagName = el.tagName.toLowerCase();
 
     if (tagName === 'table') {
-      const verticalHeaders = !!el.querySelector('tbody th');
+      const rowHeaders = !!el.querySelector('tbody th');
       const childNodes = Array.from(el.childNodes) as HTMLElement[];
       const colgroups =
         childNodes
@@ -82,7 +82,7 @@ export const tableSerializer: SlateSerializer = {
         {
           type: TYPE_TABLE,
           colgroups,
-          verticalHeaders,
+          rowHeaders,
         },
         children.filter(
           child =>
@@ -333,15 +333,15 @@ export const tablePlugin = (editor: Editor) => {
       const [table] = Editor.node(editor, Path.parent(bodyPath));
 
       // ii. Make sure cells in TableHead are marked as isHeader.
-      //     Cells in TableBody will not be altered if verticalHeaders: true on Table.
+      //     Cells in TableBody will not be altered if rowHeaders: true on Table.
       if ((isTableHead(body) || isTableBody(body)) && isTable(table)) {
         for (const [index, cell] of node.children.entries()) {
-          if (table.verticalHeaders && isTableBody(body)) {
+          if (table.rowHeaders && isTableBody(body)) {
             continue;
           }
 
           const shouldBeHeader = isTableHead(body);
-          const expectedScope = shouldBeHeader && table.verticalHeaders ? 'col' : undefined;
+          const expectedScope = shouldBeHeader && table.rowHeaders ? 'col' : undefined;
           if (
             isTableCell(cell) &&
             (cell.data.isHeader !== shouldBeHeader || expectedScope !== cell.data.scope)

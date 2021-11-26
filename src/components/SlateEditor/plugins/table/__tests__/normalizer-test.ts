@@ -38,7 +38,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
-            verticalHeaders: false,
+            rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
@@ -161,7 +161,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
-            verticalHeaders: false,
+            rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
@@ -291,7 +291,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
-            verticalHeaders: false,
+            rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
@@ -381,7 +381,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
-            verticalHeaders: false,
+            rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
@@ -512,7 +512,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
-            verticalHeaders: false,
+            rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
@@ -625,7 +625,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
-            verticalHeaders: false,
+            rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
@@ -754,7 +754,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
-            verticalHeaders: false,
+            rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
@@ -851,7 +851,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
-            verticalHeaders: false,
+            rowHeaders: false,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
@@ -970,7 +970,7 @@ describe('table normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Make sure vertical headers and table headers are set correctly when verticalHeaders=true', () => {
+  test('Make sure row headers and table headers are set correctly when rowHeaders=true', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -981,7 +981,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
-            verticalHeaders: true,
+            rowHeaders: true,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
@@ -1127,7 +1127,7 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
-            verticalHeaders: true,
+            rowHeaders: true,
             colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {

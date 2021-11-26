@@ -152,14 +152,14 @@ const normalizeRow = (
   // C. Make sure isHeader and scope is set correctly in cells in header and body
   if (isTable(table)) {
     const isHead = isTableHead(tableBody);
-    const { verticalHeaders } = table;
+    const { rowHeaders } = table;
     // Check every cell of the row to be normalized
     for (const [index, cell] of matrix[rowIndex].entries()) {
       // A. Normalize table head
       if (isHead) {
-        // i. If table has vertical headers.
+        // i. If table has row headers.
         //    Make sure scope='col' and isHeader=true
-        if (verticalHeaders) {
+        if (rowHeaders) {
           if (cell.data.scope !== 'col' || !cell.data.isHeader) {
             Transforms.setNodes(
               editor,
@@ -167,7 +167,7 @@ const normalizeRow = (
                 ...cell,
                 data: {
                   ...cell.data,
-                  scope: verticalHeaders ? 'col' : undefined,
+                  scope: rowHeaders ? 'col' : undefined,
                   isHeader: true,
                 },
               },
@@ -180,7 +180,7 @@ const normalizeRow = (
             return true;
           }
         } else {
-          // ii. If table does not have vertical headers
+          // ii. If table does not have rowHeaders
           //     Make sure cells in header has scope=undefined and isHeader=true
           if (cell.data.scope || !cell.data.isHeader) {
             Transforms.setNodes(
@@ -203,9 +203,9 @@ const normalizeRow = (
           }
         }
       } else {
-        // i. If table has vertical headers
+        // i. If table has rowHeaders
         //    First cell in row should be a header
-        if (verticalHeaders) {
+        if (rowHeaders) {
           if (index === 0 && (cell.data.scope !== 'row' || !cell.data.isHeader)) {
             Transforms.setNodes(
               editor,
@@ -224,7 +224,7 @@ const normalizeRow = (
             return true;
           }
         } else {
-          // ii. If table does not have vertical headers
+          // ii. If table does not have rowHeaders
           //     Make sure cells in body has scope=undefined and isHeader=false
           if (cell.data.scope || cell.data.isHeader) {
             Transforms.setNodes(

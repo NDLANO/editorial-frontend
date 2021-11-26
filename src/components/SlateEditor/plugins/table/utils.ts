@@ -124,12 +124,12 @@ export const createIdenticalRow = (element: TableRowElement) => {
   );
 };
 
-export const toggleVerticalHeaders = (editor: Editor, path: Path) => {
+export const toggleRowHeaders = (editor: Editor, path: Path) => {
   const [table] = Editor.node(editor, path);
   if (isTable(table)) {
     Transforms.setNodes(
       editor,
-      { verticalHeaders: !table.verticalHeaders },
+      { rowHeaders: !table.rowHeaders },
       {
         at: path,
       },
@@ -142,6 +142,11 @@ export const removeRow = (editor: Editor, path: Path) => {
     at: path,
     match: node => isTableHead(node) || isTableBody(node),
   });
+
+  if (!tableBodyEntry) {
+    return;
+  }
+
   const [tableBody, tableBodyPath] = tableBodyEntry;
 
   // If tableHead only contains one row. Remove it.
@@ -323,57 +328,58 @@ export const insertTableHead = (editor: Editor) => {
 };
 
 export const insertRow = (editor: Editor, tableElement: TableElement, path: Path) => {
-  const [tableHeadEntry] = Editor.nodes(editor, {
+  const [tableBodyEntry] = Editor.nodes(editor, {
     at: path,
-    match: node => isTableHead(node),
+    match: node => isTableHead(node) || isTableRow(node),
   });
 
-  if (tableHeadEntry) {
-    const [tableHead, tableHeadPath] = tableHeadEntry;
+  if (!tableBodyEntry) {
+    return;
+  }
 
-    // If tableHead contains two rows. Insert the row in tableBody instead
-    if (isTableHead(tableHead)) {
-      if (tableHead.children.length === 2) {
-        const tableBodyPath = Path.next(tableHeadPath);
+  // If tableHead contains two rows. Insert the row in tableBody instead
+  const [tableHead, tableHeadPath] = tableBodyEntry;
+  if (isTableHead(tableHead)) {
+    if (tableHead.children.length === 2) {
+      const tableBodyPath = Path.next(tableHeadPath);
 
-        if (Editor.hasPath(editor, tableBodyPath)) {
-          const [tableBody] = Editor.node(editor, tableBodyPath);
+      if (Editor.hasPath(editor, tableBodyPath)) {
+        const [tableBody] = Editor.node(editor, tableBodyPath);
 
-          if (isTableBody(tableBody)) {
-            const firstRow = tableBody.children[0];
+        if (isTableBody(tableBody)) {
+          const firstRow = tableBody.children[0];
 
-            if (isTableRow(firstRow)) {
-              return Transforms.insertNodes(
-                editor,
-                {
-                  ...defaultTableRowBlock(0),
-                  children: firstRow.children.map(cell => {
-                    if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
-                      return {
-                        ...defaultTableCellBlock(),
-                        data: {
-                          ...cell.data,
-                          rowspan: 1,
-                        },
-                      };
-                    }
+          if (isTableRow(firstRow)) {
+            return Transforms.insertNodes(
+              editor,
+              {
+                ...defaultTableRowBlock(0),
+                children: firstRow.children.map(cell => {
+                  if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
                     return {
                       ...defaultTableCellBlock(),
                       data: {
+                        ...cell.data,
                         rowspan: 1,
-                        colspan: 1,
-                        isHeader: false,
                       },
                     };
-                  }),
-                },
-                { at: [...tableBodyPath, 0] },
-              );
-            }
+                  }
+                  return {
+                    ...defaultTableCellBlock(),
+                    data: {
+                      rowspan: 1,
+                      colspan: 1,
+                      isHeader: false,
+                    },
+                  };
+                }),
+              },
+              { at: [...tableBodyPath, 0] },
+            );
           }
         }
-        return;
       }
+      return;
     }
   }
 
@@ -457,6 +463,15 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
 };
 
 export const insertColumn = (editor: Editor, tableElement: TableElement, path: Path) => {
+  const [tableBodyEntry] = Editor.nodes(editor, {
+    at: path,
+    match: node => isTableHead(node) || isTableRow(node),
+  });
+
+  if (!tableBodyEntry) {
+    return;
+  }
+
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
     match: node => isTableCell(node),
@@ -519,6 +534,15 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
 };
 
 export const removeColumn = (editor: Editor, tableElement: TableElement, path: Path) => {
+  const [tableBodyEntry] = Editor.nodes(editor, {
+    at: path,
+    match: node => isTableHead(node) || isTableRow(node),
+  });
+
+  if (!tableBodyEntry) {
+    return;
+  }
+
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
     match: node => isTableCell(node),

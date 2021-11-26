@@ -839,9 +839,9 @@ const phrases = {
         'column-add': 'Legg til kolonne',
         'column-remove': 'Fjern kolonne',
         'table-remove': 'Fjern tabell',
-        addHead: 'Legg til kolonner-header',
-        disableVerticalHeaders: 'Deaktiver header på rad',
-        enableVerticalHeaders: 'Aktiver header på rad',
+        addHead: 'Legg til header (kolonne)',
+        disableRowHeaders: 'Deaktiver header (rad)',
+        enableRowHeaders: 'Aktiver header (rad)',
       },
     },
     tags: {

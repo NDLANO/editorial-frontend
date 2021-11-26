@@ -838,9 +838,9 @@ const phrases = {
         'column-add': 'Add column',
         'column-remove': 'Remove column',
         'table-remove': 'Remove table',
-        addHead: 'Add column headers',
-        disableVerticalHeaders: 'Disable row headers',
-        enableVerticalHeaders: 'Enable row headers',
+        addHead: 'Add headers (column)',
+        disableRowHeaders: 'Disable headers (row)',
+        enableRowHeaders: 'Enable headers (row)',
       },
     },
     tags: {

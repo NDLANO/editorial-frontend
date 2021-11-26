@@ -25,9 +25,9 @@ const ConceptPage = () => {
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <OneColumn>
         <Routes>
-          <Route path={'new'} element={<CreateConcept locale={i18n.language} />} />
+          <Route path="new" element={<CreateConcept locale={i18n.language} />} />
           <Route
-            path={':conceptId/edit/:selectedLanguage'}
+            path=":conceptId/edit/:selectedLanguage"
             element={<EditConcept isNewlyCreated={previousLocation === '/concept/new'} />}
           />
           <Route path="*" element={<NotFoundPage />} />

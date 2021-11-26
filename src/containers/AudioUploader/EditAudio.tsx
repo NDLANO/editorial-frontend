@@ -8,7 +8,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import AudioForm from './components/AudioForm';
-import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import Spinner from '../../components/Spinner';
@@ -16,6 +15,7 @@ import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import { LocaleType } from '../../interfaces';
 import { AudioApiType, AudioMetaInformationPut } from '../../modules/audio/audioApiInterfaces';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { fetchAudio, updateAudio } from '../../modules/audio/audioApi';
 
 interface Props {
   locale: LocaleType;
@@ -33,16 +33,14 @@ const EditAudio = ({ locale, isNewlyCreated, ...rest }: Props) => {
   );
 
   useEffect(() => {
-    async function fetchAudio() {
+    (async () => {
       if (audioId) {
         setLoading(true);
-        const apiAudio = await audioApi.fetchAudio(Number(audioId), audioLanguage!);
+        const apiAudio = await fetchAudio(Number(audioId), audioLanguage!);
         setAudio(apiAudio);
         setLoading(false);
       }
-    }
-
-    fetchAudio();
+    })();
   }, [audioId, audioLanguage]);
 
   const onUpdate = async (
@@ -50,7 +48,7 @@ const EditAudio = ({ locale, isNewlyCreated, ...rest }: Props) => {
     file: string | Blob | undefined,
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
-    const updatedAudio = await audioApi.updateAudio(Number(audioId), formData);
+    const updatedAudio = await updateAudio(Number(audioId), formData);
     setAudio(updatedAudio);
   };
 

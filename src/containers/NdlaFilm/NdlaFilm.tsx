@@ -15,8 +15,8 @@ const NdlaFilm = () => {
     <>
       <OneColumn>
         <Routes>
-          <Route path={`:selectedLanguage`} element={<NdlaFilmEditor />} />
-          <Route path={''} element={<NdlaFilmEditor />} />
+          <Route path=":selectedLanguage" element={<NdlaFilmEditor />} />
+          <Route path="" element={<NdlaFilmEditor />} />
         </Routes>
       </OneColumn>
       <Footer showLocaleSelector={false} />

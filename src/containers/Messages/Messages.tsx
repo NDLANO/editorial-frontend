@@ -70,7 +70,7 @@ const Message = ({ message }: MessageProps) => {
         }`;
         localStorage.setItem('lastPath', lastPath);
         navigate('/logout/session?returnToLogin=true'); // Push to logoutPath
-        // window.location.reload();
+        window.location.reload();
       },
     },
   ];

@@ -18,9 +18,9 @@ const TopicArticlePage = () => {
   return (
     <OneColumn>
       <Routes>
-        <Route path={'new'} element={<CreateTopicArticle />} />
+        <Route path="new" element={<CreateTopicArticle />} />
         <Route
-          path={':articleId/edit/*'}
+          path=":articleId/edit/*"
           element={
             <EditArticleRedirect
               isNewlyCreated={previousLocation === '/subject-matter/topic-article/new'}

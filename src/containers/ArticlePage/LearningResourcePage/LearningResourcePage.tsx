@@ -19,16 +19,16 @@ const LearningResourcePage = () => {
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <OneColumn>
         <Routes>
-          <Route path={'new'} element={<CreateLearningResource />} />
+          <Route path="new" element={<CreateLearningResource />} />
           <Route
-            path={'/:articleId/edit/*'}
+            path="/:articleId/edit/*"
             element={
               <EditResourceRedirect
                 isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
               />
             }
           />
-          <Route element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </OneColumn>
     </div>

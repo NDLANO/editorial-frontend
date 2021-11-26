@@ -24,9 +24,9 @@ const Logout = () => {
       <OneColumn cssModifier="clear">
         <div className="u-2/3@desktop u-push-1/3@desktop">
           <Routes>
-            <Route path={'federated'} element={<LogoutFederated />} />
-            <Route path={'session'} element={<LogoutSession />} />
-            <Route element={<LogoutProviders />} />
+            <Route path="federated" element={<LogoutFederated />} />
+            <Route path="session" element={<LogoutSession />} />
+            <Route path="" element={<LogoutProviders />} />
           </Routes>
         </div>
       </OneColumn>

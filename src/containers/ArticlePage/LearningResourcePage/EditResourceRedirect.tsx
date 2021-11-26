@@ -32,7 +32,7 @@ const EditResourceRedirect = ({ isNewlyCreated }: Props) => {
   return (
     <Routes>
       <Route
-        path={':selectedLanguage/'}
+        path=":selectedLanguage/"
         element={<EditLearningResource articleId={articleId} isNewlyCreated={isNewlyCreated} />}
       />
       <Route

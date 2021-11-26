@@ -22,9 +22,9 @@ const ImageUploaderPage = () => {
     <OneColumn>
       <HelmetWithTracker title={t('htmlTitles.imageUploaderPage')} />
       <Routes>
-        <Route path={'new'} element={<CreateImage />} />
+        <Route path="new" element={<CreateImage />} />
         <Route
-          path={':imageId/edit/:imageLanguage'}
+          path=":imageId/edit/:imageLanguage"
           element={<EditImage isNewlyCreated={prevLoc === '/media/image-upload/new'} />}
         />
         <Route path="*" element={<NotFoundPage />} />

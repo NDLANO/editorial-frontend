@@ -34,9 +34,9 @@ const PodcastUploderPage = () => {
     <OneColumn>
       <HelmetWithTracker title={t('htmlTitles.podcastUploaderPage')} />
       <Routes>
-        <Route path={'new'} element={<CreatePodcast />} />
+        <Route path="new" element={<CreatePodcast />} />
         <Route
-          path={':audioId/edit/:audioLanguage'}
+          path=":audioId/edit/:audioLanguage"
           element={<EditPodcast isNewlyCreated={isNewlyCreated} />}
         />
         <Route path="*" element={<NotFoundPage />} />

@@ -25,23 +25,21 @@ interface Props {
   subtypes: SubType[];
 }
 
-const SubNavigation = ({ subtypes, type }: Props) => {
-  return (
-    <div {...classes('container', colorType[type])}>
-      <div {...classes('items')}>
-        {subtypes.map(subtype => (
-          <NavLink
-            key={`typemenu_${subtype.type}`}
-            id={subtype.type}
-            to={subtype.url}
-            className={({ isActive }) => classes('item', isActive ? 'active' : '').className}>
-            {subtype.icon}
-            <span>{subtype.title}</span>
-          </NavLink>
-        ))}
-      </div>
+const SubNavigation = ({ subtypes, type }: Props) => (
+  <div {...classes('container', colorType[type])}>
+    <div {...classes('items')}>
+      {subtypes.map(subtype => (
+        <NavLink
+          key={`typemenu_${subtype.type}`}
+          id={subtype.type}
+          to={subtype.url}
+          className={({ isActive }) => classes('item', isActive ? 'active' : '').className}>
+          {subtype.icon}
+          <span>{subtype.title}</span>
+        </NavLink>
+      ))}
     </div>
-  );
-};
+  </div>
+);
 
 export default SubNavigation;

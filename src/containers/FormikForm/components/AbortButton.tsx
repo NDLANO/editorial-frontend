@@ -6,10 +6,9 @@
  *
  */
 
-import { HTMLProps, ReactNode, useContext } from 'react';
+import { HTMLProps, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ActionButton from './ActionButton';
-import { FirstLoadContext } from '../../App/App';
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   children?: ReactNode;
@@ -17,10 +16,9 @@ interface Props extends HTMLProps<HTMLButtonElement> {
 }
 
 const AbortButton = ({ children, ...rest }: Props) => {
-  const isFirstLoad = useContext(FirstLoadContext);
   const navigate = useNavigate();
   return (
-    <ActionButton onClick={isFirstLoad ? () => navigate('/') : () => navigate(-1)} {...rest}>
+    <ActionButton onClick={() => navigate(-1)} {...rest}>
       {children}
     </ActionButton>
   );

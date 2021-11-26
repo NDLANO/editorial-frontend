@@ -56,7 +56,7 @@ const AgreementPage = () => {
       <OneColumn>
         <Routes>
           <Route
-            path={'new'}
+            path="new"
             element={
               <CreateAgreement
                 locale={locale}
@@ -75,7 +75,7 @@ const AgreementPage = () => {
               />
             }
           />
-          <Route element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </OneColumn>
       <Footer showLocaleSelector={false} />

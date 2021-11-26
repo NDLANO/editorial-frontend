@@ -23,9 +23,9 @@ const PodcastSeriesPage = () => {
     <OneColumn>
       <HelmetWithTracker title={t('htmlTitles.podcastSeriesPage')} />
       <Routes>
-        <Route path={'new'} element={<CreatePodcastSeries />} />
+        <Route path="new" element={<CreatePodcastSeries />} />
         <Route
-          path={':seriesId/edit/:seriesLanguage'}
+          path=":seriesId/edit/:seriesLanguage"
           element={
             <EditPodcastSeries isNewlyCreated={previousLocation === '/media/podcast-series/new'} />
           }

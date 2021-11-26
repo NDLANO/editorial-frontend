@@ -10,7 +10,6 @@ import { useState } from 'react';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import {} from 'react-router-dom';
 import { css } from '@emotion/core';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';

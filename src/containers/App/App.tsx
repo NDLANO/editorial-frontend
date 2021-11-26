@@ -9,13 +9,13 @@
 // import before all other imports component to make sure it is loaded before any emotion stuff.
 import '../../style/index.css';
 
-import { createContext, ReactElement, useContext, useEffect, useState } from 'react';
+import { ReactElement, useContext, useEffect } from 'react';
 import Helmet from 'react-helmet';
 import loadable from '@loadable/component';
 import { History } from 'history';
 import { Content, PageContainer } from '@ndla/ui';
 import { configureTracker } from '@ndla/tracker';
-import { Route, Routes, useLocation, UNSAFE_NavigationContext } from 'react-router-dom';
+import { Route, Routes, UNSAFE_NavigationContext } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Navigation from '../Masthead/components/Navigation';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -44,22 +44,14 @@ const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
 const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
 const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 
-export const FirstLoadContext = createContext(true);
-
 interface Props {
   isClient?: boolean;
 }
 
 const App = ({ isClient }: Props) => {
-  const [firstLoad, setFirstLoad] = useState(true);
   const { t } = useTranslation();
-  const location = useLocation();
   // Listen has been partially removed.
   const navigator = useContext(UNSAFE_NavigationContext).navigator as History;
-
-  useEffect(() => {
-    setFirstLoad(false);
-  }, [location.pathname]);
 
   useEffect(() => {
     if (isClient) {
@@ -74,63 +66,58 @@ const App = ({ isClient }: Props) => {
 
   return (
     <ErrorBoundary>
-      <FirstLoadContext.Provider value={firstLoad}>
-        <MessagesProvider>
-          <LicensesProvider>
-            <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
-              <AuthInitializer>
-                <PageContainer background>
-                  <Zendesk />
-                  <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
-                  <Content>
-                    <Navigation />
-                    <Routes>
-                      <Route path="/" element={<WelcomePage />} />
-                      <Route path="login/*" element={<Login />} />
-                      <Route path="logout/*" element={<Logout />} />
-                      <Route
-                        path="/subjectpage/*"
-                        element={<PrivateRoute component={<Subjectpage />} />}
-                      />
-                      <Route
-                        path="search/*"
-                        element={<PrivateRoute component={<SearchPage />} />}
-                      />
-                      <Route
-                        path="subject-matter/*"
-                        element={<PrivateRoute component={<SubjectMatterPage />} />}
-                      />
-                      <Route
-                        path="/edit-markup/:draftId/:language/*"
-                        element={<PrivateRoute component={<EditMarkupPage />} />}
-                      />
-                      <Route
-                        path="/concept/*"
-                        element={<PrivateRoute component={<ConceptPage />} />}
-                      />
-                      <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
-                      <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
-                      <Route
-                        path="/agreement/*"
-                        element={<PrivateRoute component={<AgreementPage />} />}
-                      />
-                      <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
-                      <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
-                      <Route
-                        path="/structure/*"
-                        element={<PrivateRoute component={<StructurePage />} />}
-                      />
-                      <Route path="/forbidden" element={<ForbiddenPage />} />
-                      <Route path="*" element={<NotFoundPage />} />
-                    </Routes>
-                  </Content>
-                  <Messages />
-                </PageContainer>
-              </AuthInitializer>
-            </SessionProvider>
-          </LicensesProvider>
-        </MessagesProvider>
-      </FirstLoadContext.Provider>
+      <MessagesProvider>
+        <LicensesProvider>
+          <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
+            <AuthInitializer>
+              <PageContainer background>
+                <Zendesk />
+                <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
+                <Content>
+                  <Navigation />
+                  <Routes>
+                    <Route path="/" element={<WelcomePage />} />
+                    <Route path="login/*" element={<Login />} />
+                    <Route path="logout/*" element={<Logout />} />
+                    <Route
+                      path="/subjectpage/*"
+                      element={<PrivateRoute component={<Subjectpage />} />}
+                    />
+                    <Route path="search/*" element={<PrivateRoute component={<SearchPage />} />} />
+                    <Route
+                      path="subject-matter/*"
+                      element={<PrivateRoute component={<SubjectMatterPage />} />}
+                    />
+                    <Route
+                      path="/edit-markup/:draftId/:language/*"
+                      element={<PrivateRoute component={<EditMarkupPage />} />}
+                    />
+                    <Route
+                      path="/concept/*"
+                      element={<PrivateRoute component={<ConceptPage />} />}
+                    />
+                    <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
+                    <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
+                    <Route
+                      path="/agreement/*"
+                      element={<PrivateRoute component={<AgreementPage />} />}
+                    />
+                    <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
+                    <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
+                    <Route
+                      path="/structure/*"
+                      element={<PrivateRoute component={<StructurePage />} />}
+                    />
+                    <Route path="/forbidden" element={<ForbiddenPage />} />
+                    <Route path="*" element={<NotFoundPage />} />
+                  </Routes>
+                </Content>
+                <Messages />
+              </PageContainer>
+            </AuthInitializer>
+          </SessionProvider>
+        </LicensesProvider>
+      </MessagesProvider>
     </ErrorBoundary>
   );
 };

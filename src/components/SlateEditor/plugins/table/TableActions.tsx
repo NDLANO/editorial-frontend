@@ -133,6 +133,7 @@ const TableActions = ({ editor, element }: Props) => {
         <>
           <Button
             key={'toggle-row-headers'}
+            data-cy={'toggle-row-headers'}
             stripped
             onMouseDown={(e: Event) => handleOnClick(e, 'toggle-row-headers')}
             css={tableActionButtonStyle}>
@@ -147,6 +148,7 @@ const TableActions = ({ editor, element }: Props) => {
           {showAddHeader && (
             <Button
               key={'head-add'}
+              data-cy={'head-add'}
               stripped
               onMouseDown={(e: Event) => handleOnClick(e, 'head-add')}
               css={tableActionButtonStyle}>

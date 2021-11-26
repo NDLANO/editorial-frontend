@@ -21,9 +21,10 @@ import {
   removeColumn,
   removeTable,
   toggleVerticalHeaders,
+  insertTableHead,
 } from './utils';
 import { TableElement } from './interfaces';
-import { isTable } from './helpers';
+import { isTable, isTableHead } from './helpers';
 
 const tableActionButtonStyle = css`
   margin-right: 1rem;
@@ -57,6 +58,10 @@ const TableActions = ({ editor, element }: Props) => {
   const tablePath = ReactEditor.findPath(editor, element);
   const [table] = Editor.node(editor, tablePath);
 
+  if (!isTable(table)) {
+    return null;
+  }
+
   const handleOnClick = (e: Event, operation: string) => {
     e.preventDefault();
     const selectedPath = editor.selection?.anchor.path;
@@ -69,6 +74,9 @@ const TableActions = ({ editor, element }: Props) => {
         }
         case 'row-add':
           insertRow(editor, element, selectedPath);
+          break;
+        case 'head-add':
+          insertTableHead(editor);
           break;
         case 'column-remove': {
           removeColumn(editor, element, selectedPath);
@@ -88,6 +96,12 @@ const TableActions = ({ editor, element }: Props) => {
     }
   };
 
+  const tableHead = table.children[1];
+  const hasTableHead = isTableHead(tableHead);
+  const selectedPath = editor.selection?.anchor.path;
+
+  const showAddHeader =
+    selectedPath && !hasTableHead && Path.isCommon([...tablePath, 1, 0], selectedPath);
   const show =
     Range.isRange(editor.selection) &&
     Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&
@@ -119,6 +133,15 @@ const TableActions = ({ editor, element }: Props) => {
           )}
         </span>
       </Button>
+      {showAddHeader && (
+        <Button
+          key={'head-add'}
+          stripped
+          onMouseDown={(e: Event) => handleOnClick(e, 'head-add')}
+          css={tableActionButtonStyle}>
+          <span>{t(`form.content.table.addHead`)}</span>
+        </Button>
+      )}
     </StyledTableActions>
   );
 };

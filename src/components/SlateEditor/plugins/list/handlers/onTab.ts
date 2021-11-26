@@ -31,10 +31,8 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
   });
 
   if (
-    currentItemNode &&
     Element.isElement(currentItemNode) &&
     currentItemNode.type === TYPE_LIST_ITEM &&
-    currentListNode &&
     Element.isElement(currentListNode) &&
     currentListNode.type === TYPE_LIST &&
     // selected text block node must be a direct child of list item.

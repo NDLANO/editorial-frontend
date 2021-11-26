@@ -138,6 +138,25 @@ export const toggleVerticalHeaders = (editor: Editor, path: Path) => {
 };
 
 export const removeRow = (editor: Editor, path: Path) => {
+  const [tableBodyEntry] = Editor.nodes(editor, {
+    at: path,
+    match: node => isTableHead(node) || isTableBody(node),
+  });
+  const [tableBody, tableBodyPath] = tableBodyEntry;
+
+  // If tableHead only contains one row. Remove it.
+  if (isTableHead(tableBody)) {
+    if (tableBody.children.length === 1) {
+      return Transforms.removeNodes(editor, { at: tableBodyPath });
+    }
+  }
+
+  if (isTableBody(tableBody)) {
+    if (tableBody.children.length === 1) {
+      return;
+    }
+  }
+
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
     match: node => isTableCell(node),
@@ -252,9 +271,9 @@ export const removeRow = (editor: Editor, path: Path) => {
   }
 };
 
-export const insertTableHead = (editor: Editor, tableElement: TableElement, path: Path) => {
+export const insertTableHead = (editor: Editor) => {
   const tableBodyEntry = getCurrentBlock(editor, TYPE_TABLE_BODY);
-  const tableRowEntry = getCurrentBlock(editor, TYPE_TABLE_BODY);
+  const tableRowEntry = getCurrentBlock(editor, TYPE_TABLE_ROW);
 
   if (!tableBodyEntry || !tableRowEntry) {
     return;
@@ -304,6 +323,60 @@ export const insertTableHead = (editor: Editor, tableElement: TableElement, path
 };
 
 export const insertRow = (editor: Editor, tableElement: TableElement, path: Path) => {
+  const [tableHeadEntry] = Editor.nodes(editor, {
+    at: path,
+    match: node => isTableHead(node),
+  });
+
+  if (tableHeadEntry) {
+    const [tableHead, tableHeadPath] = tableHeadEntry;
+
+    // If tableHead contains two rows. Insert the row in tableBody instead
+    if (isTableHead(tableHead)) {
+      if (tableHead.children.length === 2) {
+        const tableBodyPath = Path.next(tableHeadPath);
+
+        if (Editor.hasPath(editor, tableBodyPath)) {
+          const [tableBody] = Editor.node(editor, tableBodyPath);
+
+          if (isTableBody(tableBody)) {
+            const firstRow = tableBody.children[0];
+
+            if (isTableRow(firstRow)) {
+              return Transforms.insertNodes(
+                editor,
+                {
+                  ...defaultTableRowBlock(0),
+                  children: firstRow.children.map(cell => {
+                    if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
+                      return {
+                        ...defaultTableCellBlock(),
+                        data: {
+                          ...cell.data,
+                          rowspan: 1,
+                        },
+                      };
+                    }
+                    return {
+                      ...defaultTableCellBlock(),
+                      data: {
+                        rowspan: 1,
+                        colspan: 1,
+                        isHeader: false,
+                      },
+                    };
+                  }),
+                },
+                { at: [...tableBodyPath, 0] },
+              );
+            }
+          }
+        }
+        return;
+      }
+    }
+  }
+
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
     match: node => isTableCell(node),

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';

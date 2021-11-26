@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
@@ -78,7 +78,7 @@ function EditorFooter<T extends FormValues>({
   const { createMessage } = useMessages();
 
   useEffect(() => {
-    const fetchStatuses = async (setStatuses: React.Dispatch<PossibleStatuses>) => {
+    const fetchStatuses = async (setStatuses: Dispatch<PossibleStatuses>) => {
       const possibleStatuses = await fetchStatusStateMachine();
       setStatuses(possibleStatuses);
     };

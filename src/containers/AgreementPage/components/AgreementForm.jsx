@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';

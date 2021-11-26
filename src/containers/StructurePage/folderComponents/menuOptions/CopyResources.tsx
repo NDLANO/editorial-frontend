@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import { Copy } from '@ndla/icons/action';

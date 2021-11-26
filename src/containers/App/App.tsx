@@ -9,7 +9,7 @@
 // import before all other imports component to make sure it is loaded before any emotion stuff.
 import '../../style/index.css';
 
-import React from 'react';
+import { Component, createContext, ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import loadable from '@loadable/component';
@@ -46,7 +46,7 @@ const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
 const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
 const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 
-export const FirstLoadContext = React.createContext(true);
+export const FirstLoadContext = createContext(true);
 
 interface InternalState {
   firstLoad: boolean;
@@ -58,7 +58,7 @@ interface Props {
 
 type ActualProps = Props & RouteComponentProps & CustomWithTranslation;
 
-class App extends React.Component<ActualProps, InternalState> {
+class App extends Component<ActualProps, InternalState> {
   constructor(props: ActualProps) {
     super(props);
     if (props.isClient) {
@@ -146,7 +146,7 @@ class App extends React.Component<ActualProps, InternalState> {
   };
 }
 
-const AuthInitializer = ({ children }: { children: React.ReactElement }) => {
+const AuthInitializer = ({ children }: { children: ReactElement }) => {
   const { createMessage } = useMessages();
   scheduleRenewal(createMessage, true);
   return children;

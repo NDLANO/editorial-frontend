@@ -6,7 +6,8 @@
  *
  */
 
-import React, { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
+
 import PropTypes from 'prop-types';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
@@ -59,7 +60,7 @@ const buttonLineStyle = (styledAppearance: ButtonAppearance) => css`
 interface Props {
   appearance: ButtonAppearance;
   children: ReactElement | ReactElement[];
-  addButton?: React.ReactNode;
+  addButton?: ReactNode;
   handleToggle: () => void;
 }
 

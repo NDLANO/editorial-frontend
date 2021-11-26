@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { useTranslation, withTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
@@ -81,7 +81,7 @@ const toApiVersion = (
 };
 
 interface Props {
-  children?: (openPreview: () => Promise<void>) => React.ReactElement;
+  children?: (openPreview: () => Promise<void>) => ReactElement;
   getArticle: (preview: boolean) => UpdatedDraftApiType | DraftApiType;
   label: string;
   typeOfPreview: TypeOfPreview;

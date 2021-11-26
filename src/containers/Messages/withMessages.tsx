@@ -1,11 +1,9 @@
-import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { ComponentType, ReactElement } from 'react';
 import { MessagesFunctions, useMessages } from './MessagesProvider';
 
-function withMessages<P>(
-  WrappedComponent: React.ComponentType<P & MessagesFunctions>,
-): React.ComponentType<P> {
-  const WithMessages = (props: P): React.ReactElement<P> => {
+function withMessages<P>(WrappedComponent: ComponentType<P & MessagesFunctions>): ComponentType<P> {
+  const WithMessages = (props: P): ReactElement<P> => {
     const messagesFunc = useMessages();
     return <WrappedComponent {...{ ...props, ...messagesFunc }} />;
   };

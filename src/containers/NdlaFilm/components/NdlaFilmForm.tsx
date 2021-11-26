@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import { Descendant, Element } from 'slate';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';

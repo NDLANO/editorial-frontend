@@ -8,7 +8,6 @@
 
 import styled from '@emotion/styled';
 import { InformationOutline } from '@ndla/icons/common';
-import React from 'react';
 import { spacing, fonts } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { AudioFormikType } from './AudioForm';

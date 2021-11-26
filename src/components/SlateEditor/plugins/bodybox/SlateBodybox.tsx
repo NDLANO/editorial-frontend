@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';

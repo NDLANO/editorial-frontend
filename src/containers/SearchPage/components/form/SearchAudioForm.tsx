@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState, MouseEvent } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
@@ -52,14 +53,14 @@ const SearchAudioForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search.query]);
 
-  const onInputChange = (evt: React.FormEvent<HTMLInputElement>) => {
+  const onInputChange = (evt: FormEvent<HTMLInputElement>) => {
     evt.preventDefault();
     evt.stopPropagation();
     setQueryInput(evt.currentTarget.value);
     doSearch({ ...search, query: evt.currentTarget.value });
   };
 
-  const onFieldChange = (evt: React.FormEvent<HTMLSelectElement>) => {
+  const onFieldChange = (evt: FormEvent<HTMLSelectElement>) => {
     const { value, name } = evt.currentTarget;
     doSearch({ ...search, [name]: value });
   };
@@ -71,7 +72,7 @@ const SearchAudioForm = ({
     doSearch({ ...search, [tag.type]: '' });
   };
 
-  const emptySearch = (evt: React.MouseEvent<HTMLButtonElement>) => {
+  const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.persist();
     setQueryInput('');
     doSearch({ query: '', language: '', 'audio-type': '', license: '' });

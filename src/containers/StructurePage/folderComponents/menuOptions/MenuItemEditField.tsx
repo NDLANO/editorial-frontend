@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import { ReactNode, useState, KeyboardEvent } from 'react';
+
 import PropTypes from 'prop-types';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -27,7 +28,7 @@ interface Props {
   onSubmit: (input: string) => Promise<void>;
   onClose: () => void;
   currentVal?: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   messages?: {
     errorMessage?: string;
   };
@@ -62,7 +63,7 @@ const MenuItemEditField = ({
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       setStatus('initial');
     }

@@ -1,5 +1,5 @@
 import { Editor, Element, Range, Transforms } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 
 export const insertMathml = (editor: Editor) => {
@@ -15,13 +15,21 @@ export const insertMathml = (editor: Editor) => {
   }
 
   if (Range.isCollapsed(selection)) {
-    Transforms.insertNodes(editor, jsx('element', { type: 'mathml', data: {} }, [{ text: '' }]), {
-      at: Editor.unhangRange(editor, selection),
-    });
+    Transforms.insertNodes(
+      editor,
+      slatejsx('element', { type: 'mathml', data: {} }, [{ text: '' }]),
+      {
+        at: Editor.unhangRange(editor, selection),
+      },
+    );
   } else {
-    Transforms.wrapNodes(editor, jsx('element', { type: 'mathml', data: {} }, [{ text: '' }]), {
-      at: Editor.unhangRange(editor, selection),
-      split: true,
-    });
+    Transforms.wrapNodes(
+      editor,
+      slatejsx('element', { type: 'mathml', data: {} }, [{ text: '' }]),
+      {
+        at: Editor.unhangRange(editor, selection),
+        split: true,
+      },
+    );
   }
 };

@@ -1,4 +1,3 @@
-import React from 'react';
 import { MultiButton } from '@ndla/button';
 import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';

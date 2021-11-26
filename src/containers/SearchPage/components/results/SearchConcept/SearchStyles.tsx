@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { css } from '@emotion/core';

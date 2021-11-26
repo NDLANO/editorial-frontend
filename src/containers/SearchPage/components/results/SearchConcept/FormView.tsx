@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { RadioButtonGroup } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';

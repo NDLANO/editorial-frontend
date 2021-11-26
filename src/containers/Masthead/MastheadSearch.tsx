@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import queryString from 'query-string';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import MastheadSearchForm from './components/MastheadSearchForm';

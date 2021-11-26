@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';

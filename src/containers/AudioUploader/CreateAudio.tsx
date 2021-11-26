@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import AudioForm from './components/AudioForm';

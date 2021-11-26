@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';

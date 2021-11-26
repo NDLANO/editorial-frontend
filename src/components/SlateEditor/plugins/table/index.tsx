@@ -7,11 +7,10 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element, NodeEntry, Path, Transforms } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { equals } from 'lodash/fp';
 import { SlateSerializer } from '../../interfaces';
 import {
@@ -88,18 +87,18 @@ export const tableSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     const tagName = el.tagName.toLowerCase();
     if (tagName === 'table') {
-      return jsx('element', { type: TYPE_TABLE }, children);
+      return slatejsx('element', { type: TYPE_TABLE }, children);
     }
     if (tagName === 'tr') {
-      return jsx('element', { type: TYPE_TABLE_ROW }, children);
+      return slatejsx('element', { type: TYPE_TABLE_ROW }, children);
     }
 
     if (tagName === 'thead') {
-      return jsx('element', { type: TYPE_TABLE_HEAD }, children);
+      return slatejsx('element', { type: TYPE_TABLE_HEAD }, children);
     }
 
     if (tagName === 'tbody') {
-      return jsx('element', { type: TYPE_TABLE_BODY }, children);
+      return slatejsx('element', { type: TYPE_TABLE_BODY }, children);
     }
 
     const tableTag = TABLE_TAGS[tagName];
@@ -122,7 +121,7 @@ export const tableSerializer: SlateSerializer = {
     if (equals(children, [{ text: '' }])) {
       children = [defaultParagraphBlock()];
     }
-    return jsx('element', { type: tableTag, data }, children);
+    return slatejsx('element', { type: tableTag, data }, children);
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;

@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -26,7 +25,7 @@ const MetaDataField = ({ article, fetchSearchTags }) => {
   const plugins = [textTransformPlugin];
 
   return (
-    <Fragment>
+    <>
       <FormikField
         name="tags"
         label={t('form.tags.label')}
@@ -72,7 +71,7 @@ const MetaDataField = ({ article, fetchSearchTags }) => {
           />
         )}
       </FormikField>
-    </Fragment>
+    </>
   );
 };
 

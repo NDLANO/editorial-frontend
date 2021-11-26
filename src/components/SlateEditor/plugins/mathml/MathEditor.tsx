@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Editor, Element, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';

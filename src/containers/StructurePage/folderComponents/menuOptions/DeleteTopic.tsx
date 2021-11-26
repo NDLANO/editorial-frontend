@@ -6,7 +6,7 @@
  *
  */
 
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';

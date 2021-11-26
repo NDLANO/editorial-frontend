@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
@@ -46,7 +46,7 @@ export const ToggleButton = ({ children, ...rest }: Props) => (
 
 interface Props {
   active: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   onClick: () => void;
 }
 

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ImageForm from './components/ImageForm';

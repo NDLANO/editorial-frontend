@@ -6,9 +6,9 @@
  *
  */
 
-import React from 'react';
+import { createElement } from 'react';
 import { RenderElementProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'slate';
 import { SlateSerializer } from '../../interfaces';
 import hasNodeOfType from '../../utils/hasNodeOfType';
@@ -28,28 +28,28 @@ export const headingSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'h1') {
-      return jsx('element', { type: TYPE_HEADING, level: 2 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 2 }, children);
     }
     if (tag === 'h2') {
-      return jsx('element', { type: TYPE_HEADING, level: 2 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 2 }, children);
     }
     if (tag === 'h3') {
-      return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
     if (tag === 'h4') {
-      return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
     if (tag === 'h5') {
-      return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
     if (tag === 'h6') {
-      return jsx('element', { type: TYPE_HEADING, level: 3 }, children);
+      return slatejsx('element', { type: TYPE_HEADING, level: 3 }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
     if (node.type === TYPE_HEADING) {
-      return React.createElement('h' + node.level, [], [children]);
+      return createElement('h' + node.level, [], [children]);
     }
   },
 };
@@ -61,7 +61,7 @@ const onEnter = (
 ) => {
   if (hasNodeOfType(editor, TYPE_HEADING)) {
     e.preventDefault();
-    Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]));
+    Transforms.insertNodes(editor, slatejsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]));
     return;
   }
   return nextOnKeyDown && nextOnKeyDown(e);

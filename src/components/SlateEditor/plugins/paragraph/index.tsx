@@ -6,10 +6,9 @@
  *
  */
 
-import React from 'react';
 import { Editor, Node, Element, Descendant, Text, Path, Transforms } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_BREAK } from '../break';
@@ -79,7 +78,7 @@ export const paragraphSerializer: SlateSerializer = {
 
     const data = reduceElementDataAttributes(el, ['align', 'data-align']);
 
-    return jsx(
+    return slatejsx(
       'element',
       {
         type: TYPE_PARAGRAPH,

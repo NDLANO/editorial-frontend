@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { MouseEvent } from 'react';
 import styled from '@emotion/styled';
 import { css, SerializedStyles } from '@emotion/core';
 import { animations } from '@ndla/core';
@@ -49,7 +49,7 @@ const StyledOverlay = styled.div<{ modifiers: string | string[] }>`
 `;
 
 interface Props {
-  onExit?: (event: React.MouseEvent) => void;
+  onExit?: (event: MouseEvent) => void;
   modifiers?: string | string[];
 }
 

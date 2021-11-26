@@ -4,7 +4,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';

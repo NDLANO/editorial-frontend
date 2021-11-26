@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import { createRef, Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
@@ -37,7 +37,7 @@ class ElementList extends Component {
       draggingIndex: -1,
       deleteIndex: -1,
     };
-    this.wrapperRef = React.createRef();
+    this.wrapperRef = createRef();
   }
 
   deleteFile = deleteIndex => {

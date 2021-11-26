@@ -1,4 +1,4 @@
-import React from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import Flatpickr from 'flatpickr';
@@ -14,7 +14,7 @@ const locales = {
   nn: NyNorsk,
 };
 
-class DateTimeWrapper extends React.Component {
+class DateTimeWrapper extends Component {
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);

@@ -6,7 +6,8 @@
  *
  */
 
-import React, { Fragment } from 'react';
+import { FormEvent } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { connect, FormikContextType } from 'formik';
 import BEMHelper from 'react-bem-helper';
@@ -65,7 +66,7 @@ const AudioContent = ({ formik }: Props) => {
   const playerObject = getPlayerObject(values);
 
   return (
-    <Fragment>
+    <>
       <TitleField handleSubmit={submitForm} />
 
       <FormikField noBorder name="audioFile" label={t('form.audio.file')}>
@@ -93,7 +94,7 @@ const AudioContent = ({ formik }: Props) => {
               <UploadDropZone
                 name="audioFile"
                 allowedFiles={['audio/mp3', 'audio/mpeg']}
-                onAddedFiles={(files: FileList, evt: React.FormEvent<HTMLInputElement>) => {
+                onAddedFiles={(files: FileList, evt: FormEvent<HTMLInputElement>) => {
                   const file = evt.currentTarget.files?.[0];
                   const filepath = file ? URL.createObjectURL(file) : undefined;
                   const newFile = file && filepath ? { file, filepath } : undefined;
@@ -108,7 +109,7 @@ const AudioContent = ({ formik }: Props) => {
         )}
       </FormikField>
       <AudioCopyInfo values={values} />
-    </Fragment>
+    </>
   );
 };
 

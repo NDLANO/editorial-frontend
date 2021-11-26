@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import nock from 'nock';
 import { render, fireEvent, cleanup, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -77,7 +76,6 @@ test('Can select a resource from the list and it adds it to topic', async () => 
     .reply(201, undefined, { Location: 'urn' });
   const { container, getByText, getByTestId, findByText, findByTestId } = wrapper();
   await findByText('Hva kan du om geologiske prosesser?');
-  // await wait(() => getByText(resourcesByType[0].results[0].title.title));
 
   expect(container.firstChild).toMatchSnapshot();
   act(() => {

@@ -7,7 +7,7 @@
  */
 
 import { LastUsed } from '@ndla/icons/editor';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { classes } from '../WelcomePage';
 import LastUsedContent from './LastUsedContent';

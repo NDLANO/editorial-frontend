@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { RouteComponentProps, Route, Switch } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';

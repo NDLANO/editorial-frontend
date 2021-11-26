@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { FieldInputProps } from 'formik';
 import { act, fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';

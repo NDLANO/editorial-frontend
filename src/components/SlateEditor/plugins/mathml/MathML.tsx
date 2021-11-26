@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Editor } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { MathmlElement } from '.';

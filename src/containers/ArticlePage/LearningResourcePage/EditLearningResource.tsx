@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
@@ -50,7 +49,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, isNewlyCreated }: P
   }
 
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker title={`${article.title} ${t('htmlTitles.titleTemplate')}`} />
       <LearningResourceForm
         article={article}
@@ -62,7 +61,7 @@ const EditLearningResource = ({ selectedLanguage, articleId, isNewlyCreated }: P
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
       />
-    </Fragment>
+    </>
   );
 };
 

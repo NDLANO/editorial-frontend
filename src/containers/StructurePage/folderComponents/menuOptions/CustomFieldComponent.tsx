@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
+import { css } from '@emotion/core';
 import PropTypes from 'prop-types';
 import { DeleteForever, Done } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';
@@ -59,7 +60,7 @@ const CustomFieldComponent = ({
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       onClose?.();
     }
@@ -91,7 +92,11 @@ const CustomFieldComponent = ({
         <MenuItemSaveButton onClick={handleSubmit} data-testid={'CustomFieldSaveButton'}>
           <Done className="c-icon--small" />
         </MenuItemSaveButton>
-        <MenuItemSaveButton onClick={handleDelete} css={{ marginLeft: `${spacing.xxsmall}` }}>
+        <MenuItemSaveButton
+          onClick={handleDelete}
+          css={css`
+            margin-left: ${spacing.xxsmall};
+          `}>
           <DeleteForever />
         </MenuItemSaveButton>
       </StyledMenuItemEditField>

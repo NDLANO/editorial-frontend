@@ -1,4 +1,4 @@
-import React from 'react';
+import { ComponentType } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
@@ -10,13 +10,13 @@ const okPaths = ['/login', '/logout'];
 
 type BaseProps<SubProps> = RouteProps &
   Omit<SubProps, keyof RouteComponentProps> & {
-    component: React.ComponentType<SubProps>;
+    component: ComponentType<SubProps>;
   };
 
 type Props<SubProps> = BaseProps<SubProps>;
 
 const PrivateRoute = <T,>({ component, ...rest }: Props<T>) => {
-  const Component: React.ComponentType<T> = component;
+  const Component: ComponentType<T> = component;
   const { authenticated } = useSession();
 
   if (

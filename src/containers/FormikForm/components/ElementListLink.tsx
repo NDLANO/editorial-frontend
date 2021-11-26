@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { MouseEvent } from 'react';
 import styled from '@emotion/styled';
 import { spacing, spacingUnit, colors } from '@ndla/core';
 import { Link } from '@ndla/icons/common';
@@ -33,7 +33,7 @@ interface Props {
   locale: string;
   messages: MessageProps;
   onDragEnd: () => void;
-  onDragStart: (evt: React.MouseEvent, dragIndex: number) => void;
+  onDragStart: (evt: MouseEvent, dragIndex: number) => void;
   showDragTooltip: boolean;
 }
 

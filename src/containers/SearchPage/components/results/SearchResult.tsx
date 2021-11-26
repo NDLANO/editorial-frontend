@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ContentResultShape, ImageResultShape, AudioResultShape } from '../../../../shapes';
@@ -31,7 +31,7 @@ interface Props {
   type: string;
   locale: string;
   subjects: SubjectType[];
-  editingState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+  editingState: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 
 const SearchResult = ({ result, locale, type, subjects, editingState }: Props) => {

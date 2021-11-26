@@ -1,7 +1,6 @@
-import React from 'react';
 import { Editor, Node, Element, Descendant, Transforms, Text, Path } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { Dictionary } from 'lodash';
 import { SlateSerializer } from '../../interfaces';
 import onEnter from './handlers/onEnter';
@@ -58,7 +57,7 @@ export const listSerializer: SlateSerializer = {
             lastElement.children.push({ text: '\n' });
           } else {
             acc.push(
-              jsx('element', { type: TYPE_PARAGRAPH, serializeAsText: true }, { text: '\n' }),
+              slatejsx('element', { type: TYPE_PARAGRAPH, serializeAsText: true }, { text: '\n' }),
             );
           }
         } else {
@@ -74,7 +73,7 @@ export const listSerializer: SlateSerializer = {
           lastElement.children.push(cur);
           return acc;
         } else {
-          acc.push(jsx('element', { type: TYPE_PARAGRAPH, serializeAsText: true }, cur));
+          acc.push(slatejsx('element', { type: TYPE_PARAGRAPH, serializeAsText: true }, cur));
           return acc;
         }
       }
@@ -83,12 +82,16 @@ export const listSerializer: SlateSerializer = {
     }, [] as Descendant[]);
 
     if (tag === 'ul') {
-      return jsx('element', { type: TYPE_LIST, listType: 'bulleted-list', data: {} }, children);
+      return slatejsx(
+        'element',
+        { type: TYPE_LIST, listType: 'bulleted-list', data: {} },
+        children,
+      );
     }
     if (tag === 'ol') {
       const start = el.getAttribute('start');
       if (el.getAttribute('data-type') === 'letters') {
-        return jsx(
+        return slatejsx(
           'element',
           { type: TYPE_LIST, listType: 'letter-list', data: { start: start ? start : undefined } },
           children,
@@ -96,7 +99,7 @@ export const listSerializer: SlateSerializer = {
       }
       // Default to numbered list if no type is set.
       else {
-        return jsx(
+        return slatejsx(
           'element',
           {
             type: TYPE_LIST,
@@ -108,7 +111,7 @@ export const listSerializer: SlateSerializer = {
       }
     }
     if (tag === 'li') {
-      return jsx('element', { type: TYPE_LIST_ITEM }, children);
+      return slatejsx('element', { type: TYPE_LIST_ITEM }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {

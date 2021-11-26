@@ -7,7 +7,7 @@
  */
 
 import { Descendant, Element } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
 import { LOCALE_VALUES } from '../constants';
 import { ContentResultType, LocaleType } from '../interfaces';
@@ -47,7 +47,7 @@ const convertVisualElement = (visualElement: FilmVisualElementApiType): Descenda
   const id = getVisualElementId(visualElement);
   if (visualElement.type !== 'brightcove') {
     return [
-      jsx(
+      slatejsx(
         'element',
         {
           type: TYPE_EMBED,
@@ -71,7 +71,7 @@ const convertVisualElement = (visualElement: FilmVisualElementApiType): Descenda
   const player = splittedUrl[4].split('_')[0];
 
   return [
-    jsx(
+    slatejsx(
       'element',
       {
         type: TYPE_EMBED,

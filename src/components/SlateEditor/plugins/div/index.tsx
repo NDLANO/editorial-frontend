@@ -6,10 +6,9 @@
  *
  */
 
-import React from 'react';
 import { Editor, Element, Descendant } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 
 export const TYPE_DIV = 'div';
@@ -26,7 +25,7 @@ export const divSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== 'div') return;
 
-    return jsx(
+    return slatejsx(
       'element',
       {
         type: TYPE_DIV,

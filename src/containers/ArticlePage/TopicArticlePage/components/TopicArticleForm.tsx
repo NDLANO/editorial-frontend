@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';

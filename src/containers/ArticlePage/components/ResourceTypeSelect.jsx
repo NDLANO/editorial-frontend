@@ -4,7 +4,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FieldHeader, Select } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +17,7 @@ const ResourceTypeSelect = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <Fragment>
+    <>
       <FieldHeader
         title={t('taxonomy.resourceTypes.title')}
         subTitle={t('taxonomy.resourceTypes.subTitle')}>
@@ -43,7 +42,7 @@ const ResourceTypeSelect = ({
           ),
         )}
       </Select>
-    </Fragment>
+    </>
   );
 };
 

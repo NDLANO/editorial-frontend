@@ -6,7 +6,8 @@
  *
  */
 
-import React, { FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
+
 import Button from '@ndla/button';
 import Url from 'url-parse';
 import { colors, misc, spacing, fonts } from '@ndla/core';
@@ -167,7 +168,7 @@ export const MastheadSearchForm = ({
     }
   };
 
-  const handleSubmit = (evt: React.FormEvent) => {
+  const handleSubmit = (evt: FormEvent) => {
     evt.preventDefault();
     const isNDLAUrl = isNDLAFrontendUrl(query);
     const isNodeId =

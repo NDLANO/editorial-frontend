@@ -6,9 +6,8 @@
  *
  */
 
-import React from 'react';
 import { Editor, Element, Descendant } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import { SlateSerializer } from '../../interfaces';
 export const TYPE_BREAK = 'br';
@@ -41,10 +40,10 @@ export const breakSerializer: SlateSerializer = {
     if (el.parentElement && el.parentElement.tagName) {
       const tagName = el.parentElement.tagName.toLowerCase();
       if (allowedBreakContainers.includes(tagName)) {
-        return jsx('element', { type: TYPE_BREAK }, [{ text: '' }]);
+        return slatejsx('element', { type: TYPE_BREAK }, [{ text: '' }]);
       }
     }
-    return jsx('text', { text: '\n' });
+    return slatejsx('text', { text: '\n' });
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;

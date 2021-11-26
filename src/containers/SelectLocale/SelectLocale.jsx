@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { createBrowserHistory as createHistory } from 'history';

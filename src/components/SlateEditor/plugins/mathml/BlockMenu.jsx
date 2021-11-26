@@ -1,5 +1,5 @@
+import { PureComponent } from 'react';
 import Button from '@ndla/button';
-import React, { PureComponent } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { css } from '@emotion/core';

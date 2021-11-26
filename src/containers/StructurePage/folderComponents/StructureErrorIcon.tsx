@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';

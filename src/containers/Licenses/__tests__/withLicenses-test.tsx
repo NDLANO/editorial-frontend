@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import React from 'react';
+import { Component } from 'react';
 import nock from 'nock';
 import { LicenseFunctions, LicensesProvider } from '../LicensesProvider';
 import withLicenses from '../withLicenses';
@@ -7,7 +7,7 @@ import mockLicenses from './mockLicenses';
 
 interface Props {}
 
-class TestComponent extends React.Component<Props & LicenseFunctions> {
+class TestComponent extends Component<Props & LicenseFunctions> {
   render() {
     const { licenses } = this.props;
 

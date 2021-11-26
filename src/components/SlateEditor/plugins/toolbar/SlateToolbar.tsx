@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import { createRef, useEffect } from 'react';
 import { Editor, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
@@ -62,7 +62,7 @@ const onButtonClick = (event: KeyboardEvent, editor: Editor, kind: string, type:
 };
 
 const SlateToolbar = (props: Props) => {
-  const portalRef = React.createRef<HTMLDivElement>();
+  const portalRef = createRef<HTMLDivElement>();
 
   useEffect(() => {
     updateMenu();

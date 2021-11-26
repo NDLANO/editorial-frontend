@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component, Suspense } from 'react';
+import { lazy, Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation, withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -53,7 +53,7 @@ window.MonacoEnvironment = {
   globalAPI: true,
 };
 
-const MonacoEditor = React.lazy(() => import('../../components/MonacoEditor'));
+const MonacoEditor = lazy(() => import('../../components/MonacoEditor'));
 
 // Serialize and deserialize content using slate helpers
 // to ensure standarized markup.

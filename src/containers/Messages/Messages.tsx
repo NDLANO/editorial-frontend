@@ -9,7 +9,6 @@
 import { css, SerializedStyles } from '@emotion/core';
 import styled from '@emotion/styled';
 import { createBrowserHistory } from 'history';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AlertModal from '../../components/AlertModal';
 import { useMessages } from './MessagesProvider';

@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing, animations, shadows } from '@ndla/core';
 import styled from '@emotion/styled';

@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   clearAccessTokenFromLocalStorage,
@@ -11,7 +11,7 @@ import { decodeToken, isValid } from '../../util/jwtHelper';
 import { toLogin } from '../../util/routeHelpers';
 
 const SessionContext = createContext<
-  [SessionState, React.Dispatch<React.SetStateAction<SessionState>>] | undefined
+  [SessionState, Dispatch<SetStateAction<SessionState>>] | undefined
 >(undefined);
 
 interface Props {

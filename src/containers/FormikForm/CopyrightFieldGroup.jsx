@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import LicenseField from './components/LicenseField';
 import { AgreementConnectionField, ContributorsField } from '.';
@@ -22,7 +21,7 @@ const CopyrightFieldGroup = ({
 }) => {
   const disabled = !!values.agreementId;
   return (
-    <Fragment>
+    <>
       <ContributorsField contributorTypes={contributorTypesOverride || contributorTypes} />
       {disableAgreements || <AgreementConnectionField values={values} width={3 / 4} />}
       <FormikField name="license">
@@ -30,7 +29,7 @@ const CopyrightFieldGroup = ({
           <LicenseField disabled={disabled} enableLicenseNA={enableLicenseNA} {...field} />
         )}
       </FormikField>
-    </Fragment>
+    </>
   );
 };
 

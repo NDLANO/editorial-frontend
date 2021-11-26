@@ -7,13 +7,13 @@
  */
 
 import { Editor, Element, Node } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { ParagraphElement } from '.';
 
 export const TYPE_PARAGRAPH = 'paragraph';
 
 export const defaultParagraphBlock = () =>
-  jsx('element', { type: TYPE_PARAGRAPH }, { text: '' }) as ParagraphElement;
+  slatejsx('element', { type: TYPE_PARAGRAPH }, { text: '' }) as ParagraphElement;
 
 export const isParagraph = (node: Node): node is ParagraphElement => {
   return Element.isElement(node) && node.type === TYPE_PARAGRAPH;

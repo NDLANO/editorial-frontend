@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
 import { css } from '@emotion/core';
 import { ImageEmbed } from '../../interfaces';
 import ImageFocalPointEdit from './ImageFocalPointEdit';

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
@@ -121,23 +121,21 @@ const FolderItem = ({
           </Row>
         </Button>
       )}
-      {
-        <AlertModal
-          show={showAlertModal}
-          text={t('taxonomy.resource.copyError')}
-          actions={[
-            {
-              text: t('alertModal.continue'),
-              onClick: () => {
-                setShowAlertModal(false);
-              },
+      <AlertModal
+        show={showAlertModal}
+        text={t('taxonomy.resource.copyError')}
+        actions={[
+          {
+            text: t('alertModal.continue'),
+            onClick: () => {
+              setShowAlertModal(false);
             },
-          ]}
-          onCancel={() => {
-            setShowAlertModal(false);
-          }}
-        />
-      }
+          },
+        ]}
+        onCancel={() => {
+          setShowAlertModal(false);
+        }}
+      />
     </div>
   );
 };

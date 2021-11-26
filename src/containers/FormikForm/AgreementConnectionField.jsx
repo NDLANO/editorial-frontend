@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
@@ -68,7 +68,7 @@ class AgreementConnectionField extends Component {
     const { t, width } = this.props;
     const { agreement } = this.state;
     return (
-      <Fragment>
+      <>
         <FieldHeader title={t('form.agreement.label')} width={width}>
           <HowToHelper pageId="userAgreements" tooltip={t('form.agreement.helpLabel')} />
         </FieldHeader>
@@ -101,7 +101,7 @@ class AgreementConnectionField extends Component {
             {agreement.title}
           </Link>
         )}
-      </Fragment>
+      </>
     );
   }
 }

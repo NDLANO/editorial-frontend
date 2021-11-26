@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { Fragment } from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
@@ -29,7 +28,7 @@ export const Login = ({ match, location, history }: Props) => {
   }
 
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker title={t('htmlTitles.loginPage')} />
       <OneColumn cssModifier="clear">
         <div className="u-2/3@desktop u-push-1/3@desktop">
@@ -41,7 +40,7 @@ export const Login = ({ match, location, history }: Props) => {
         </div>
       </OneColumn>
       <Footer showLocaleSelector />
-    </Fragment>
+    </>
   );
 };
 

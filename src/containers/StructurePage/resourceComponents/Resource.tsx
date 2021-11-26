@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import { ReactElement, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { css } from '@emotion/core';
@@ -146,7 +147,7 @@ const Resource = ({
     }
   };
 
-  const PublishedWrapper = ({ children }: { children: React.ReactElement }) =>
+  const PublishedWrapper = ({ children }: { children: ReactElement }) =>
     !path ? (
       children
     ) : (

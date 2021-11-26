@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { isAccessTokenValid } from '../../util/authHelpers';
 import { fetchZendeskToken } from '../../modules/auth0/auth0Api';
 import config from '../../config';

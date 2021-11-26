@@ -208,8 +208,6 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   opacity: 1;
 }
 
-
-
 <div>
   <div
     class="c-figure emotion-16"

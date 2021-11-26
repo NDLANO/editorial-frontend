@@ -7,7 +7,6 @@
  */
 
 import nock from 'nock';
-import React from 'react';
 import { render } from '@testing-library/react';
 import { MastheadSearchForm } from '../components/MastheadSearchForm';
 import { taxonomyApi } from '../../../config';

@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Node } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { RenderElementProps } from 'slate-react';

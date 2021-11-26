@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useRef, useState } from 'react';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -63,7 +63,7 @@ const ImageFocalPointEdit = ({ embed, onFocalPointChange, transformData }: Props
   const [marker, setMarker] = useState<Marker>({
     showMarker: false,
   });
-  let focalImgRef = React.useRef<HTMLImageElement | null>(null);
+  let focalImgRef = useRef<HTMLImageElement | null>(null);
 
   const onImageClick = (evt: MouseEvent) => {
     evt.preventDefault();

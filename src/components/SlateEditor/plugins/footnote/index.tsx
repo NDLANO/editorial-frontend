@@ -6,10 +6,9 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element, Transforms, Range } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import Footnote from './Footnote';
 import { reduceElementDataAttributes, createEmbedTag } from '../../../../util/embedTagHelpers';
@@ -39,7 +38,7 @@ export const footnoteSerializer: SlateSerializer = {
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource !== 'footnote') return;
-    return jsx(
+    return slatejsx(
       'element',
       {
         type: TYPE_FOOTNOTE,

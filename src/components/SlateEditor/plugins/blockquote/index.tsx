@@ -6,9 +6,8 @@
  *
  */
 
-import React from 'react';
 import { RenderElementProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Transforms } from 'slate';
 import { SlateSerializer } from '../../interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
@@ -26,7 +25,7 @@ export const blockQuoteSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     const tag = el.tagName.toLowerCase();
     if (tag === 'blockquote') {
-      return jsx('element', { type: TYPE_QUOTE }, children);
+      return slatejsx('element', { type: TYPE_QUOTE }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {
@@ -69,7 +68,7 @@ const onEnter = (
     });
   }
 
-  return editor.insertNode(jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]));
+  return editor.insertNode(slatejsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]));
 };
 
 export const blockQuotePlugin = (editor: Editor) => {

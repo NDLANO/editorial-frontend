@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 
@@ -21,7 +21,7 @@ const Field = ({ children, className, noBorder = false, title = false, right = f
 
 interface Props {
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   noBorder?: boolean;
   right?: boolean;
   title?: boolean;

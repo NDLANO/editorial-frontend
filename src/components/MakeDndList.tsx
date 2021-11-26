@@ -1,4 +1,4 @@
-import React from 'react';
+import { Children, cloneElement, ReactElement } from 'react';
 import {
   DragDropContext,
   Droppable,
@@ -14,7 +14,7 @@ const classes = new BEMHelper({
 });
 
 interface Props {
-  children: React.ReactElement[];
+  children: ReactElement[];
   disableDnd: boolean;
   onDragEnd: (result: DropResult, provided: ResponderProvided) => void;
   dragHandle: boolean;
@@ -31,7 +31,7 @@ const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }: Props) => 
           <div
             ref={provided.innerRef}
             {...classes('drop-zone', snapshot.isDraggingOver ? 'dragging' : '')}>
-            {React.Children.map(children, (child, index) => {
+            {Children.map(children, (child, index) => {
               if (!child) {
                 return null;
               }
@@ -43,7 +43,7 @@ const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }: Props) => 
                       {...providedInner.draggableProps}
                       {...(dragHandle ? {} : providedInner.dragHandleProps)}
                       {...classes('drag-item')}>
-                      {React.cloneElement(child, {
+                      {cloneElement(child, {
                         isDragging: snapshotInner.isDragging,
                         dragHandleProps: providedInner.dragHandleProps,
                       })}

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';

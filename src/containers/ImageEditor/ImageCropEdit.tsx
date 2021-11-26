@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ReactCrop from 'react-image-crop';
 import config from '../../config';
 import { ImageEmbed } from '../../interfaces';

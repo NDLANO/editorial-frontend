@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { spacing as styledSpacing } from '@ndla/core';
 import { AlignItemsType, JustifyContentType } from '../style/styleInterfaces';
@@ -20,7 +20,7 @@ const StyledRow = styled('div')<Props>`
 `;
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
   spacing?: keyof typeof styledSpacing;
   alignItems?: AlignItemsType;
   justifyContent?: JustifyContentType;

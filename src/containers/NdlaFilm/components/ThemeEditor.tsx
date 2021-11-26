@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';

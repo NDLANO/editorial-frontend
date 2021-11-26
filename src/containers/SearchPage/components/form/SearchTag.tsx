@@ -6,7 +6,8 @@
  *
  */
 
-import React, { Component } from 'react';
+import { Component, MouseEvent } from 'react';
+
 import PropTypes from 'prop-types';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
@@ -34,7 +35,7 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
     this.onRemove = this.onRemove.bind(this);
   }
 
-  onRemove(e: React.MouseEvent<HTMLButtonElement>) {
+  onRemove(e: MouseEvent<HTMLButtonElement>) {
     const { onRemoveItem, tag } = this.props;
     e.preventDefault();
     e.stopPropagation();

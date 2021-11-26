@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { RadioButtonGroup } from '@ndla/ui';
@@ -28,7 +27,7 @@ interface Props {
 const ImageMetaData = ({ imageTags, licenses, imageLanguage }: Props) => {
   const { t } = useTranslation();
   return (
-    <Fragment>
+    <>
       <FormikField
         name="tags"
         label={t('form.tags.label')}
@@ -78,7 +77,7 @@ const ImageMetaData = ({ imageTags, licenses, imageLanguage }: Props) => {
           );
         }}
       </FormikField>
-    </Fragment>
+    </>
   );
 };
 

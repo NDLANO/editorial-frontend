@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 interface Props {
@@ -23,11 +22,11 @@ const FormikFieldLabel = ({ label, noBorder, name }: Props) => {
     return <label htmlFor={name}>{label}</label>;
   }
   return (
-    <Fragment>
+    <>
       <label className="u-hidden" htmlFor={name}>
         {label}
       </label>
-    </Fragment>
+    </>
   );
 };
 

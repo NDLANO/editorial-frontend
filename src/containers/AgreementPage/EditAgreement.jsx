@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import AgreementForm from './components/AgreementForm';
 import * as api from '../../modules/draft/draftApi';

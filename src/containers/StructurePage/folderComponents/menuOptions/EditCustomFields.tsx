@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 import RoundIcon from '../../../../components/RoundIcon';

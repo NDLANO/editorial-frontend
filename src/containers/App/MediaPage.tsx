@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, withRouter, RouteComponentProps } from 'react-router-dom';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -17,7 +16,7 @@ import PodcastSeriesPage from '../PodcastSeries/PodcastSeriesPage';
 import Footer from './components/Footer';
 
 const MediaPage = ({ match }: RouteComponentProps) => (
-  <Fragment>
+  <>
     <Switch>
       <PrivateRoute path={`${match.url}/image-upload`} component={ImageUploaderPage} />
       <PrivateRoute path={`${match.url}/audio-upload`} component={AudioUploaderPage} />
@@ -26,7 +25,7 @@ const MediaPage = ({ match }: RouteComponentProps) => (
       <Route component={NotFoundPage} />
     </Switch>
     <Footer showLocaleSelector={false} />
-  </Fragment>
+  </>
 );
 
 MediaPage.propTypes = {

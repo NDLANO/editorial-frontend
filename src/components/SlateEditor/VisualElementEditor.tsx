@@ -6,12 +6,11 @@
  *
  */
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { FormikHandlers } from 'formik';
 import { Descendant, createEditor } from 'slate';
 import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
 import { withHistory } from 'slate-history';
-
 import { SlateProvider } from './SlateContext';
 import { SlatePlugin } from './interfaces';
 import withPlugins from './utils/withPlugins';

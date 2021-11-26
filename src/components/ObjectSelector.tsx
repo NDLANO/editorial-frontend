@@ -6,14 +6,14 @@
  *
  */
 
-import React from 'react';
+import { FormEvent, MouseEvent } from 'react';
 import { uuid } from '@ndla/util';
 
 interface Props {
   options: Record<string, any>[];
   value: string;
-  onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
-  onBlur?: (event: React.FormEvent<HTMLSelectElement>) => void;
+  onChange: (event: FormEvent<HTMLSelectElement>) => void;
+  onBlur?: (event: FormEvent<HTMLSelectElement>) => void;
   labelKey: string;
   idKey: string;
   disabled?: boolean;
@@ -21,7 +21,7 @@ interface Props {
   emptyField?: boolean;
   placeholder?: string;
   name: string;
-  onClick?: (event: React.MouseEvent<HTMLSelectElement>) => void;
+  onClick?: (event: MouseEvent<HTMLSelectElement>) => void;
 }
 const ObjectSelector = ({
   options,

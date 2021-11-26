@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
 import { Pencil } from '@ndla/icons/action';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';

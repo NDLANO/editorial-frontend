@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import { colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';

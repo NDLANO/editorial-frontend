@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import { useTranslation } from 'react-i18next';

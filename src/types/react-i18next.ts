@@ -1,4 +1,5 @@
 import { Callback, i18n } from 'i18next';
+import { ComponentProps, ComponentType } from 'react';
 import { LocaleType } from '../interfaces';
 
 declare module 'react-i18next' {
@@ -28,14 +29,12 @@ declare module 'react-i18next' {
       withRef?: boolean;
     },
   ): <
-    C extends React.ComponentType<React.ComponentProps<C> & WithTranslationProps>,
+    C extends ComponentType<ComponentProps<C> & WithTranslationProps>,
     ResolvedProps = JSX.LibraryManagedAttributes<
       C,
-      Subtract<React.ComponentProps<C>, WithTranslationProps>
+      Subtract<ComponentProps<C>, WithTranslationProps>
     >
   >(
     component: C,
-  ) => React.ComponentType<
-    Omit<ResolvedProps, keyof CustomWithTranslation<N>> & WithTranslationProps
-  >;
+  ) => ComponentType<Omit<ResolvedProps, keyof CustomWithTranslation<N>> & WithTranslationProps>;
 }

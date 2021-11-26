@@ -46,6 +46,7 @@ export type CustomEditor = {
   shouldShowToolbar: () => boolean;
   shouldShowBlockPicker?: () => boolean;
   decorations?: (editor: Editor, entry: NodeEntry) => BaseRange[];
+  mathjaxInitialized?: boolean;
 };
 
 declare module 'slate' {

@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { spacing } from '@ndla/core';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
 import { RouteComponentProps, withRouter } from 'react-router-dom';

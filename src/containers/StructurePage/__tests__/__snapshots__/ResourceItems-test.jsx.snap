@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.emotion-168 {
+.emotion-162 {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.emotion-26 {
+.emotion-25 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -187,7 +187,7 @@ exports[`matches snapshot 1`] = `
   font-size: 0.8rem;
 }
 
-.emotion-22 {
+.emotion-21 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -217,43 +217,40 @@ exports[`matches snapshot 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
+  margin-left: 13px;
+  line-height: 1;
 }
 
-.emotion-22:hover,
-.emotion-22:focus {
+.emotion-21:hover,
+.emotion-21:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-22[disabled] {
+.emotion-21[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-22:focus {
+.emotion-21:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-22:hover,
-.emotion-22:active,
-.emotion-22:disabled,
-.emotion-22:focus {
+.emotion-21:hover,
+.emotion-21:active,
+.emotion-21:disabled,
+.emotion-21:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-22:focus {
+.emotion-21:focus {
   outline-width: medium;
-}
-
-.emotion-21 {
-  margin-left: 13px;
-  line-height: 1;
 }
 
 .emotion-20 {
@@ -263,7 +260,7 @@ exports[`matches snapshot 1`] = `
 }
 
 <ul
-  class="c-topic-resource__list emotion-168 emotion-169"
+  class="c-topic-resource__list emotion-162 emotion-163"
 >
   <div
     class="c-dnd-list__drop-zone"
@@ -273,7 +270,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
+        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -374,7 +371,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-21 emotion-22 emotion-23"
+              class="emotion-21 emotion-22"
               type="button"
             >
               <svg
@@ -411,7 +408,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
+        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -518,7 +515,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-21 emotion-22 emotion-23"
+              class="emotion-21 emotion-22"
               type="button"
             >
               <svg
@@ -555,7 +552,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
+        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -662,7 +659,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-21 emotion-22 emotion-23"
+              class="emotion-21 emotion-22"
               type="button"
             >
               <svg
@@ -699,7 +696,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
+        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -806,7 +803,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-21 emotion-22 emotion-23"
+              class="emotion-21 emotion-22"
               type="button"
             >
               <svg
@@ -843,7 +840,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
+        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -950,7 +947,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-21 emotion-22 emotion-23"
+              class="emotion-21 emotion-22"
               type="button"
             >
               <svg
@@ -987,7 +984,7 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-26 emotion-27"
+        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
@@ -1094,7 +1091,7 @@ exports[`matches snapshot 1`] = `
             class=""
           >
             <button
-              class="emotion-21 emotion-22 emotion-23"
+              class="emotion-21 emotion-22"
               type="button"
             >
               <svg

@@ -6,7 +6,6 @@
  *
  */
 import escapeHtml from 'escape-html';
-import React from 'react';
 import { compact, toArray } from 'lodash';
 import { Descendant, Element, Node, Text } from 'slate';
 import { renderToStaticMarkup } from 'react-dom/server';

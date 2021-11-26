@@ -115,8 +115,8 @@ export const formikCommonArticleRules = {
   },
   notes: {
     required: false,
-    test: value => {
-      const emptyNote = value.find(note => note.length === 0);
+    test: values => {
+      const emptyNote = values.notes?.find(note => note.length === 0);
       if (emptyNote !== undefined) {
         return { translationKey: 'validation.noEmptyNote' };
       }
@@ -126,7 +126,7 @@ export const formikCommonArticleRules = {
   grepCodes: {
     required: false,
     test: values => {
-      const wrongFormat = !!values.find(value => !isGrepCodeValid(value));
+      const wrongFormat = !!values?.grepCodes?.find(value => !isGrepCodeValid(value));
       return wrongFormat ? { translationKey: 'validation.grepCodes' } : undefined;
     },
   },
@@ -139,8 +139,9 @@ export const learningResourceRules = {
     onlyValidateIf: values => !!values.metaImageId,
   },
   content: {
-    test: value => {
-      const embeds = findNodesByType(value, 'embed').map(node => node.data);
+    required: true,
+    test: values => {
+      const embeds = findNodesByType(values.content ?? [], 'embed').map(node => node.data);
       const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
       const embedsHasErrors = notValidEmbeds.length > 0;
 

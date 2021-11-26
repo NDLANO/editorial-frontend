@@ -1,13 +1,14 @@
 import { uuid } from '@ndla/util';
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+
 import { MessageType } from './Messages';
 
 interface Props {
-  children?: React.ReactNode;
+  children?: ReactNode;
   initialValues?: MessageType[];
 }
 const MessagesContext = createContext<
-  [MessageType[], React.Dispatch<React.SetStateAction<MessageType[]>>] | undefined
+  [MessageType[], Dispatch<SetStateAction<MessageType[]>>] | undefined
 >(undefined);
 
 export interface MessagesFunctions {

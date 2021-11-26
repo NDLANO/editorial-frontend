@@ -14,7 +14,7 @@
 /* eslint-disable no-continue, no-param-reassign, no-restricted-syntax  */
 
 import { Descendant, Element, Text, Node } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { inlines } from '../components/SlateEditor/helpers';
 import { ParagraphElement } from '../components/SlateEditor/plugins/paragraph';
 
@@ -39,7 +39,7 @@ export function convertFromHTML(root: Descendant | null) {
             continue;
           }
           if (!openWrapperBlock) {
-            openWrapperBlock = jsx('element', { type: 'paragraph' }, []) as ParagraphElement;
+            openWrapperBlock = slatejsx('element', { type: 'paragraph' }, []) as ParagraphElement;
             cleanNodes.push(openWrapperBlock);
           }
           openWrapperBlock.children.push(child);

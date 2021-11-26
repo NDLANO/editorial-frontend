@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Editor } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { TableElement } from './interfaces';

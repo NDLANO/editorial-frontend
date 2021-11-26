@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
@@ -25,7 +25,7 @@ const EditButton = styled(Button)`
 `;
 interface Props {
   isActive?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   stripped: boolean;
   tabIndex: number;
   onClick: (evt: MouseEvent) => void;

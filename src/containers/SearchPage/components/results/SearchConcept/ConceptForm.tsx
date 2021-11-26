@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import isEqual from 'lodash/fp/isEqual';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';

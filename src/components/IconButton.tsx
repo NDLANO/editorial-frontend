@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode, MouseEvent } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 
@@ -57,16 +57,16 @@ export const StyledButton = styled.button<{ color?: keyof typeof colors.support 
 `;
 
 interface Props {
-  as?: React.ReactNode;
+  as?: ReactNode;
   to?: string;
   target?: string;
   title?: string;
   tabIndex?: number;
-  onClick?: (event: React.MouseEvent) => void;
+  onClick?: (event: MouseEvent) => void;
   type?: 'button' | 'reset' | 'submit';
-  children: React.ReactNode;
+  children: ReactNode;
   color?: 'red' | 'green';
-  tag?: string | React.ReactNode;
+  tag?: string | ReactNode;
 }
 
 export const IconButton = ({ children, tag = 'button', ...rest }: Props) => (

@@ -6,9 +6,9 @@
  *
  */
 
-import React from 'react';
+import { ReactElement } from 'react';
 import { Descendant, Editor, Text, Transforms } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderLeafProps } from 'slate-react';
 import { SlateSerializer } from '../../interfaces';
 
@@ -40,20 +40,20 @@ export const markSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (!Object.keys(marks).includes(el.tagName.toLowerCase())) return;
     return children.map(child =>
-      Text.isText(child) ? jsx('text', { [marks[el.tagName.toLowerCase()]]: true }, child) : child,
+      Text.isText(child)
+        ? slatejsx('text', { [marks[el.tagName.toLowerCase()]]: true }, child)
+        : child,
     );
   },
 
   serialize(node: Descendant) {
     if (!Text.isText(node)) return;
     let ret;
-    const children = node.text
-      .split('\n')
-      .reduce((array: (React.ReactElement | string)[], text, i) => {
-        if (i !== 0) array.push(<br key={i} />);
-        array.push(text);
-        return array;
-      }, []);
+    const children = node.text.split('\n').reduce((array: (ReactElement | string)[], text, i) => {
+      if (i !== 0) array.push(<br key={i} />);
+      array.push(text);
+      return array;
+    }, []);
     if (node.bold) {
       ret = <strong>{children}</strong>;
     }

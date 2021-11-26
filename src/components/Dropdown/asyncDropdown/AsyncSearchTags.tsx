@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { DropdownInput } from '@ndla/forms';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -75,7 +75,7 @@ const AsyncSearchTags = ({ language, initialTags, field, form, fetchTags, update
   };
 
   return (
-    <Fragment>
+    <>
       <AsyncDropdown
         idField="title"
         labelField="title"
@@ -103,7 +103,7 @@ const AsyncSearchTags = ({ language, initialTags, field, form, fetchTags, update
           />
         )}
       </AsyncDropdown>
-    </Fragment>
+    </>
   );
 };
 

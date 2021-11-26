@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { css } from '@emotion/core';
@@ -18,7 +18,7 @@ const menuItemStyle = css`
 `;
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
   stripped?: boolean;
   'data-testid'?: string;
   onClick?: () => void;

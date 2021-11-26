@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+
 import { Editor, Element, Transforms } from 'slate';
 import SlateVisualElementPicker from '../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
 import { isEmpty } from '../../components/validators';

@@ -1,5 +1,4 @@
-import React from 'react';
-// @ts-ignore
+//@ts-ignore
 import { RelatedArticle as RelatedArticleUI } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';

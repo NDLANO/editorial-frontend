@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Spinner } from '@ndla/editor';
 import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';

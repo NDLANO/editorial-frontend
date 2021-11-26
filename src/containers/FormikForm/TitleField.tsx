@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
@@ -24,9 +24,9 @@ interface Props {
 
 const TitleField = ({ maxLength = 256, name = 'title', handleSubmit }: Props) => {
   const { t } = useTranslation();
-  const handleSubmitRef = React.useRef(handleSubmit);
+  const handleSubmitRef = useRef(handleSubmit);
 
-  React.useEffect(() => {
+  useEffect(() => {
     handleSubmitRef.current = handleSubmit;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);

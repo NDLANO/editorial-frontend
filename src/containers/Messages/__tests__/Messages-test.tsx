@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { act, findByTestId, fireEvent, render } from '@testing-library/react';
 import { uuid } from '@ndla/util';
 import Messages, { MessageType } from '../Messages';

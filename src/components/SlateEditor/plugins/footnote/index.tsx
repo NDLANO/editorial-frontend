@@ -101,7 +101,11 @@ export const footnotePlugin = (editor: Editor) => {
   editor.onKeyDown = (e: KeyboardEvent) => {
     if (e.key === KEY_BACKSPACE || e.key === KEY_DELETE) {
       if (editor.selection && Range.isCollapsed(editor.selection)) {
-        const [currentBlock, currentPath] = getCurrentBlock(editor, TYPE_FOOTNOTE);
+        const entry = getCurrentBlock(editor, TYPE_FOOTNOTE);
+        if (!entry) {
+          return nextOnKeyDown && nextOnKeyDown(e);
+        }
+        const [currentBlock, currentPath] = entry;
 
         if (Element.isElement(currentBlock) && currentBlock.type === 'footnote') {
           e.preventDefault();

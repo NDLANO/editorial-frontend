@@ -14,8 +14,16 @@ import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';
-import { insertRow, removeRow, insertColumn, removeColumn, removeTable } from './utils';
-import { TableElement } from '.';
+import {
+  insertRow,
+  removeRow,
+  insertColumn,
+  removeColumn,
+  removeTable,
+  toggleVerticalHeaders,
+} from './utils';
+import { TableElement } from './interfaces';
+import { isTable } from './helpers';
 
 const tableActionButtonStyle = css`
   margin-right: 1rem;
@@ -46,11 +54,13 @@ interface Props {
 
 const TableActions = ({ editor, element }: Props) => {
   const { t } = useTranslation();
+  const tablePath = ReactEditor.findPath(editor, element);
+  const [table] = Editor.node(editor, tablePath);
 
   const handleOnClick = (e: Event, operation: string) => {
     e.preventDefault();
     const selectedPath = editor.selection?.anchor.path;
-    const tablePath = ReactEditor.findPath(editor, element);
+
     if (selectedPath && Path.isDescendant(selectedPath, tablePath)) {
       switch (operation) {
         case 'row-remove': {
@@ -69,6 +79,9 @@ const TableActions = ({ editor, element }: Props) => {
           break;
         case 'table-remove':
           removeTable(editor, tablePath);
+          break;
+        case 'toggle-vertical-headers':
+          toggleVerticalHeaders(editor, tablePath);
           break;
         default:
       }
@@ -91,6 +104,21 @@ const TableActions = ({ editor, element }: Props) => {
           <span>{t(`form.content.table.${operation}`)}</span>
         </Button>
       ))}
+      <Button
+        key={'toggle-vertical-headers'}
+        stripped
+        onMouseDown={(e: Event) => handleOnClick(e, 'toggle-vertical-headers')}
+        css={tableActionButtonStyle}>
+        <span>
+          {t(
+            `form.content.table.${
+              isTable(table) && table.verticalHeaders
+                ? 'disableVerticalHeaders'
+                : 'enableVerticalHeaders'
+            }`,
+          )}
+        </span>
+      </Button>
     </StyledTableActions>
   );
 };

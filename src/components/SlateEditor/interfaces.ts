@@ -22,7 +22,7 @@ import {
   TableElement,
   TableHeadElement,
   TableRowElement,
-} from './plugins/table';
+} from './plugins/table/interfaces';
 import { RelatedElement } from './plugins/related';
 import { EmbedElement } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';

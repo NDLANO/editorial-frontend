@@ -16,8 +16,15 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
     return next && next(event);
   }
 
-  const [currentItemNode, currentItemPath] = getCurrentBlock(editor, TYPE_LIST_ITEM);
-  const [currentListNode, currentListPath] = getCurrentBlock(editor, TYPE_LIST);
+  const listEntry = getCurrentBlock(editor, TYPE_LIST);
+  const listItemEntry = getCurrentBlock(editor, TYPE_LIST_ITEM);
+
+  if (!listEntry || !listItemEntry) {
+    return next && next(event);
+  }
+
+  const [currentListNode, currentListPath] = listItemEntry;
+  const [currentItemNode, currentItemPath] = listEntry;
   const [[currentTextBlockNode, currentTextBlockPath]] = Editor.nodes(editor, {
     match: n => Element.isElement(n) && firstTextBlockElement.includes(n.type),
     mode: 'lowest',

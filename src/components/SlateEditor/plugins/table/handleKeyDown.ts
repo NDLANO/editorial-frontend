@@ -1,17 +1,13 @@
 import { Editor, NodeEntry, Path, Point, Range, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import {
-  KEY_ARROW_DOWN,
-  KEY_ARROW_UP,
-  KEY_BACKSPACE,
-  KEY_DELETE,
-  KEY_TAB,
   TableBodyElement,
   TableCellElement,
   TableElement,
   TableHeadElement,
   TableRowElement,
-} from '.';
+} from './interfaces';
+import { KEY_ARROW_DOWN, KEY_ARROW_UP, KEY_BACKSPACE, KEY_DELETE, KEY_TAB } from '.';
 import { isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
 import { findCellCoordinate, getTableAsMatrix } from './matrix';
 import { createIdenticalRow } from './utils';

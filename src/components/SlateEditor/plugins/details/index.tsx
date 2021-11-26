@@ -70,25 +70,27 @@ const onBackspace = (
     if (detailsEntry) {
       const [detailsNode, detailsPath] = detailsEntry;
 
-      const summaryEntry = getCurrentBlock(editor, TYPE_SUMMARY);
+      if (detailsNode) {
+        const summaryEntry = getCurrentBlock(editor, TYPE_SUMMARY);
 
-      if (summaryEntry?.length) {
-        const [summaryNode] = summaryEntry;
-        if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === '') {
+        if (summaryEntry?.length) {
+          const [summaryNode] = summaryEntry;
+          if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === '') {
+            e.preventDefault();
+            Transforms.move(editor, { reverse: true });
+            return;
+          }
+        }
+        if (
+          Node.string(detailsNode) === '' &&
+          Element.isElement(detailsNode) &&
+          !containsVoid(editor, detailsNode) &&
+          detailsNode.children.length === 2
+        ) {
           e.preventDefault();
-          Transforms.move(editor, { reverse: true });
+          Transforms.removeNodes(editor, { at: detailsPath });
           return;
         }
-      }
-      if (
-        Node.string(detailsNode) === '' &&
-        Element.isElement(detailsNode) &&
-        !containsVoid(editor, detailsNode) &&
-        detailsNode.children.length === 2
-      ) {
-        e.preventDefault();
-        Transforms.removeNodes(editor, { at: detailsPath });
-        return;
       }
     }
   }

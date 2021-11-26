@@ -1,7 +1,7 @@
 import { compact } from 'lodash';
 import { Descendant, Editor, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { TableBodyElement, TableCellElement, TableHeadElement } from '.';
+import { TableBodyElement, TableCellElement, TableHeadElement } from './interfaces';
 import {
   insertEmptyCells,
   isTable,

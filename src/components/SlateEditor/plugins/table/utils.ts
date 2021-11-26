@@ -8,7 +8,7 @@ import {
   TableBodyElement,
   TableCellElement,
   TableCaptionElement,
-} from '.';
+} from './interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
@@ -122,6 +122,19 @@ export const createIdenticalRow = (element: TableRowElement) => {
       return defaultTableCellBlock();
     }),
   );
+};
+
+export const toggleVerticalHeaders = (editor: Editor, path: Path) => {
+  const [table] = Editor.node(editor, path);
+  if (isTable(table)) {
+    Transforms.setNodes(
+      editor,
+      { verticalHeaders: !table.verticalHeaders },
+      {
+        at: path,
+      },
+    );
+  }
 };
 
 export const removeRow = (editor: Editor, path: Path) => {
@@ -239,9 +252,15 @@ export const removeRow = (editor: Editor, path: Path) => {
   }
 };
 
-export const insertHead = (editor: Editor, tableElement: TableElement, path: Path) => {
-  const [bodyElement, bodyPath] = getCurrentBlock(editor, TYPE_TABLE_BODY);
-  const [rowElement] = getCurrentBlock(editor, TYPE_TABLE_BODY);
+export const insertTableHead = (editor: Editor, tableElement: TableElement, path: Path) => {
+  const tableBodyEntry = getCurrentBlock(editor, TYPE_TABLE_BODY);
+  const tableRowEntry = getCurrentBlock(editor, TYPE_TABLE_BODY);
+
+  if (!tableBodyEntry || !tableRowEntry) {
+    return;
+  }
+  const [bodyElement, bodyPath] = tableBodyEntry;
+  const [rowElement] = tableRowEntry;
 
   if (
     bodyPath &&

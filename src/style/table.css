@@ -17,6 +17,11 @@
   font-weight: 700;
 }
 
+.c-table__content tbody .c-table__header:first-child {
+  border-right: 3px solid #deebf6;
+  border-bottom: 1px solid rgb(239, 240, 242);
+}
+
 .c-article table {
   margin-top: 0;
 }

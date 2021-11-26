@@ -6,7 +6,7 @@ import {
   TableElement,
   TableHeadElement,
   TableRowElement,
-} from '.';
+} from './interfaces';
 import {
   defaultTableCellBlock,
   TYPE_TABLE,

@@ -46,6 +46,7 @@ import {
   isTableRow,
 } from './helpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
+import { TableElement } from './interfaces';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -55,47 +56,6 @@ export const KEY_DELETE = 'Delete';
 const KEY_ENTER = 'Enter';
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
-
-export interface TableElement {
-  type: 'table';
-  colgroups: string;
-  verticalHeaders: boolean;
-  children: Descendant[];
-}
-
-export interface TableCaptionElement {
-  type: 'table-caption';
-  children: Descendant[];
-}
-
-export interface TableHeadElement {
-  type: 'table-head';
-  children: Descendant[];
-}
-
-export interface TableBodyElement {
-  type: 'table-body';
-  children: Descendant[];
-}
-
-export interface TableRowElement {
-  type: 'table-row';
-  children: Descendant[];
-}
-
-export interface TableCellElement {
-  type: 'table-cell';
-  data: {
-    rowspan: number;
-    colspan: number;
-    align?: string;
-    valign?: string;
-    class?: string;
-    isHeader: boolean;
-    scope?: 'row' | 'col';
-  };
-  children: Descendant[];
-}
 
 export const TABLE_TAGS: { [key: string]: string } = {
   th: 'table-cell',
@@ -436,7 +396,12 @@ export const tablePlugin = (editor: Editor) => {
   editor.onKeyDown = event => {
     // Navigation with arrows and tab
     if (validKeys.includes(event.key)) {
-      const [tableNode, tablePath] = getCurrentBlock(editor, TYPE_TABLE);
+      const entry = getCurrentBlock(editor, TYPE_TABLE);
+      if (!entry) {
+        return onKeyDown && onKeyDown(event);
+      }
+      const [tableNode, tablePath] = entry;
+
       if (
         tablePath &&
         tableNode &&
@@ -452,7 +417,12 @@ export const tablePlugin = (editor: Editor) => {
     }
     // Prevent enter from functioning in caption
     if (event.key === KEY_ENTER) {
-      const [captionNode] = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
+      const entry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
+      if (!entry) {
+        return onKeyDown && onKeyDown(event);
+      }
+      const [captionNode] = entry;
+
       if (captionNode) {
         return event.preventDefault();
       }

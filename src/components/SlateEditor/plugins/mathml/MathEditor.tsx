@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { KeyboardEvent, MouseEvent, useEffect, useState } from 'react';
 import { Editor, Element, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';
@@ -65,7 +65,9 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
     };
   };
 
-  const toggleMenu = () => {
+  const toggleMenu = (event: KeyboardEvent | MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
     setShowMenu(prev => !prev);
   };
 

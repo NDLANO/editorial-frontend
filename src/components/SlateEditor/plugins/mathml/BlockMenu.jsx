@@ -34,9 +34,9 @@ class BlockMenu extends PureComponent {
     document.removeEventListener('click', this.closeModal, false);
   }
 
-  closeModal = ({ target }) => {
-    if (this.modal && !this.modal.contains(target)) {
-      this.props.toggleMenu();
+  closeModal = event => {
+    if (this.modal && !this.modal.contains(event.target)) {
+      this.props.toggleMenu(event);
     }
   };
 

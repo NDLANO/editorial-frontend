@@ -85,8 +85,10 @@ test('transformUrlIfNeeded returns original if kahoot profile url is used', asyn
 
 test('transformUrlIfNeeded returns codepen embed url', async () => {
   const url1 = await transformUrlIfNeeded('https://codepen.io/user/pen/qCnfB');
-
   expect(url1).toMatch('https://codepen.io/user/embed/qCnfB');
+
+  const url2 = await transformUrlIfNeeded('https://codepen.io/team/user/pen/rzqYxX');
+  expect(url2).toMatch('https://codepen.io/team/user/embed/rzqYxX');
 });
 
 test('transformUrlIfNeeded returns original if not pen', async () => {

@@ -80,11 +80,11 @@ const codepenTransformer: UrlTransformer = {
     return true;
   },
   transform: async url => {
-    const elements = url.split('/');
-    const username = elements[3];
-    const penID = elements[5];
+    const obj = new URL(url);
+    obj.pathname = obj.pathname.replace('/pen/', '/embed/');
+    const penID = obj.pathname.split('/').pop();
     if (penID) {
-      return `https://codepen.io/${username}/embed/${penID}`;
+      return obj.href;
     }
     return url;
   },

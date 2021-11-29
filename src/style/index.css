@@ -50,9 +50,13 @@
 
 /* Should be moved to Article component in @ndla/ui */
 /* stylelint-disable-next-line */
-mjx-container[jax='CHTML'][display='true'] {
-  margin: 0;
-  display: inline-block !important;
+mjx-container.MathJax[jax='CHTML'][display='true'] {
+  display: inline-flex !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1px 0;
+  margin: 5px 0;
+  max-width: -webkit-stretch;
 }
 
 /* Override @ndla/ui styles */

@@ -66,4 +66,32 @@ const kahootTransformer: UrlTransformer = {
   },
 };
 
-export const urlTransformers: UrlTransformer[] = [nrkTransformer, kahootTransformer];
+const codepenTransformer: UrlTransformer = {
+  domains: ['codepen.io'],
+  shouldTransform: (url, domains) => {
+    const aTag = urlAsATag(url);
+
+    if (!domains.includes(aTag.hostname)) {
+      return false;
+    }
+    if (!aTag.href.includes('/pen/')) {
+      return false;
+    }
+    return true;
+  },
+  transform: async url => {
+    const elements = url.split('/');
+    const username = elements[3];
+    const penID = elements[5];
+    if (penID) {
+      return `https://codepen.io/${username}/embed/${penID}`;
+    }
+    return url;
+  },
+};
+
+export const urlTransformers: UrlTransformer[] = [
+  nrkTransformer,
+  kahootTransformer,
+  codepenTransformer,
+];

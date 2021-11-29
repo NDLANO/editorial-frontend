@@ -170,6 +170,7 @@ const frameSrc = (() => {
     'reader.pubfront.com',
     'ebok.no',
     'trinket.io',
+    'codepen.io',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

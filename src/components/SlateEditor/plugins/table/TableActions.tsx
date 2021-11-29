@@ -42,7 +42,7 @@ const StyledTableActions = styled('div')`
   box-shadow: 1px 1px 8px 1px ${colors.brand.greyLighter};
   border-radius: 5px;
   transform: translateY(-100%);
-  top: 24px;
+  top: -24px;
   padding: 5px;
   position: absolute;
 `;

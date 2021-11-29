@@ -11,6 +11,14 @@
   min-width: 29px;
 }
 
+.c-editor table {
+  margin: 0 !important;
+}
+
+.c-editor .c-table__content {
+  margin: 64px 0;
+}
+
 .c-table__header {
   background-color: white;
   border-bottom: 3px solid #deebf6;
@@ -20,8 +28,4 @@
 .c-table__content tbody .c-table__header:first-child {
   border-right: 3px solid #deebf6;
   border-bottom: 1px solid rgb(239, 240, 242);
-}
-
-.c-article table {
-  margin-top: 0;
 }

@@ -1,4 +1,4 @@
-import { MouseEvent, PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
@@ -29,7 +29,7 @@ interface Props {
   left: number;
   handleRemove: () => void;
   toggleEdit: () => void;
-  toggleMenu: (event: KeyboardEvent | MouseEvent | Event) => void;
+  toggleMenu: (event: Event) => void;
 }
 
 class BlockMenu extends PureComponent<Props & WithTranslation> {

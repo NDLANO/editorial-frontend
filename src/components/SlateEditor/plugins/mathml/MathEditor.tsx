@@ -65,7 +65,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
     };
   };
 
-  const toggleMenu = (event: KeyboardEvent | MouseEvent) => {
+  const toggleMenu = (event: KeyboardEvent | MouseEvent | Event) => {
     event.preventDefault();
     event.stopPropagation();
     setShowMenu(prev => !prev);

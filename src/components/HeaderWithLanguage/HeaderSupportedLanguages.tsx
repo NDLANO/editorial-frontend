@@ -5,7 +5,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import HeaderLanguagePill from './HeaderLanguagePill';
@@ -15,7 +15,7 @@ interface LinkWithReplaceProps {
 }
 
 const LinkWithReplace = ({ to, ...rest }: LinkWithReplaceProps) => {
-  return <Navigate to={to} replace {...rest} />;
+  return <Link to={to} replace {...rest} />;
 };
 
 interface Props {

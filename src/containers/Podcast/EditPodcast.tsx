@@ -55,16 +55,14 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   };
 
   useEffect(() => {
-    async function fetchPodcast() {
+    (async () => {
       if (podcastId) {
         setLoading(true);
         const apiPodcast = await audioApi.fetchAudio(podcastId, podcastLanguage);
         setPodcastWithFlag(apiPodcast, false);
         setLoading(false);
       }
-    }
-
-    fetchPodcast();
+    })();
   }, [podcastId, podcastLanguage]);
 
   if (podcastId && !podcast?.id) {

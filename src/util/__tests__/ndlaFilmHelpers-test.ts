@@ -64,7 +64,16 @@ const filmFrontPageAfterTransformation: FilmFormikType = {
   language: 'nb',
   supportedLanguages: ['nb'],
   slideShow: [],
-  title: 'Om film',
+  title: [
+    {
+      children: [
+        {
+          text: 'Om film',
+        },
+      ],
+      type: 'paragraph',
+    },
+  ],
   visualElement: [
     {
       type: 'embed',

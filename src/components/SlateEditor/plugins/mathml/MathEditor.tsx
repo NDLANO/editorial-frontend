@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { Editor, Element, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';
@@ -65,7 +65,9 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
     };
   };
 
-  const toggleMenu = () => {
+  const toggleMenu = (event: MouseEvent | Event) => {
+    event.preventDefault();
+    event.stopPropagation();
     setShowMenu(prev => !prev);
   };
 
@@ -158,7 +160,6 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
     <span
       role="button"
       tabIndex={0}
-      onKeyPress={toggleMenu}
       onClick={toggleMenu}
       style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
       {...attributes}>

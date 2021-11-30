@@ -55,18 +55,18 @@ const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContin
 
   useEffect(() => {
     if (!shouldBlock && nextLocation) {
-      navigate(nextLocation);
+      navigate(nextLocation); //
     }
   }, [shouldBlock, nextLocation, navigate]);
 
   useBlocker(transition => {
-    if (!(isSubmitting || !formIsDirty || discardChanges)) {
+    if (shouldBlock) {
       setOpenModal(true);
       setNextLocation(transition.location);
     } else {
       setDiscardChanges(false);
     }
-  }, !(isSubmitting || !formIsDirty || discardChanges));
+  }, shouldBlock);
 
   const onCancel = () => {
     setOpenModal(false);

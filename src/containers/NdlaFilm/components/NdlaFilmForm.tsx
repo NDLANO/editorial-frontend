@@ -32,7 +32,7 @@ interface Props {
 export interface FilmFormikType {
   articleType: string;
   name: string;
-  title?: string;
+  title: Descendant[];
   description: Descendant[];
   visualElement: Descendant[];
   language: string;

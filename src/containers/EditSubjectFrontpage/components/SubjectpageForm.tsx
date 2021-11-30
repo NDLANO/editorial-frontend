@@ -54,7 +54,7 @@ export interface SubjectFormValues
   language: string;
   mobileBanner?: number;
   elementId?: string;
-  title: string;
+  title: Descendant[];
 }
 
 const subjectpageRules: RulesType<SubjectFormValues> = {
@@ -95,7 +95,7 @@ const getInitialValues = (
     supportedLanguages: subjectpage.supportedLanguages || [],
     language: selectedLanguage,
     description: plainTextToEditorValue(subjectpage.description || ''),
-    title: subjectpage.title || '',
+    title: plainTextToEditorValue(subjectpage.title || ''),
     mobileBanner: subjectpage.mobileBanner || undefined,
     desktopBanner: subjectpage.desktopBanner || undefined,
     visualElement: embedToEditorValue(subjectpage.visualElement),
@@ -120,7 +120,7 @@ const getSubjectpageFromSlate = (values: SubjectFormValues) => {
     articleType: 'subjectpage',
     supportedLanguages: values.supportedLanguages,
     description: values.description ? editorValueToPlainText(values.description) : '',
-    title: values.title,
+    title: editorValueToPlainText(values.title),
     visualElement: editorValueToEmbed(values.visualElement),
     language: values.language,
     mobileBanner: values.mobileBanner,

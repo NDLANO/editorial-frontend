@@ -33,7 +33,7 @@ export const getInitialValues = (
   return {
     articleType: 'subjectpage',
     name: filmFrontpage.name,
-    title: about?.title,
+    title: plainTextToEditorValue(about?.title ?? ''),
     description: plainTextToEditorValue(about?.description ?? ''),
     visualElement: visualElement ?? [],
     language: selectedLanguage,
@@ -114,7 +114,7 @@ export const getNdlaFilmFromSlate = (
   const editedAbout = {
     description: editorValueToPlainText(newFrontpage.description),
     language: selectedLanguage,
-    title: newFrontpage.title ?? '',
+    title: editorValueToPlainText(newFrontpage.title),
     visualElement: {
       alt: (data && 'alt' in data && data.alt) || (data && 'caption' in data && data.caption) || '',
       id: (data && 'metaData' in data && data.metaData.id) || '',

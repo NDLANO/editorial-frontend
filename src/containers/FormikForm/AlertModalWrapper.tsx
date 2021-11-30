@@ -12,6 +12,7 @@ import { History, Blocker, Transition } from 'history';
 import { useTranslation } from 'react-i18next';
 import AlertModal from '../../components/AlertModal';
 import { MessageSeverity } from '../../interfaces';
+import { supportedLanguages } from '../../i18n2';
 
 interface Props {
   text: string;
@@ -61,8 +62,11 @@ const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContin
 
   useBlocker(transition => {
     if (shouldBlock) {
+      // transition does not respect basename. Filter out basename until it is fixed.
+      const pathRegex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
+      const pathname = transition.location.pathname.replace(pathRegex, '/');
       setOpenModal(true);
-      setNextLocation(transition.location);
+      setNextLocation({ ...transition.location, pathname });
     } else {
       setDiscardChanges(false);
     }

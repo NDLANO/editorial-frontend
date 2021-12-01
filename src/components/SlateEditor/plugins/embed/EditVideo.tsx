@@ -6,9 +6,9 @@
  *
  */
 
+import { createRef, useEffect, useState } from 'react';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
-import React, { Fragment, useEffect, useState } from 'react';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Button from '@ndla/button';
 import { Portal } from '../../../Portal';
@@ -59,8 +59,8 @@ const EditVideo = ({
     embed.resource === 'external' ? getStopTime(embed.url) : '',
   );
   const { t } = useTranslation();
-  let placeholderElement: any = React.createRef();
-  let embedElement: any = React.createRef();
+  let placeholderElement: any = createRef();
+  let embedElement: any = createRef();
 
   useEffect(() => {
     const bodyRect = document.body.getBoundingClientRect();
@@ -99,7 +99,7 @@ const EditVideo = ({
     caption === embed.caption;
 
   return (
-    <Fragment>
+    <>
       <Overlay onExit={toggleEditModus} />
       <div
         ref={placeholderEl => {
@@ -133,7 +133,7 @@ const EditVideo = ({
                   setStopTime={setStopTime}
                 />
               ) : (
-                <Fragment>
+                <>
                   <Input
                     name="caption"
                     label={t('form.video.caption.label')}
@@ -146,7 +146,7 @@ const EditVideo = ({
                     white
                   />
                   <EditVideoTime name="url" startTime={startTime} setStartTime={setStartTime} />
-                </Fragment>
+                </>
               )}
               <StyledButtonWrapper paddingLeft>
                 <Button onClick={toggleEditModus} outline>
@@ -160,7 +160,7 @@ const EditVideo = ({
           </div>
         </Portal>
       </div>
-    </Fragment>
+    </>
   );
 };
 

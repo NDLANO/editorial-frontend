@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import nock from 'nock';
 import { createEditor, Descendant } from 'slate';
 import { withReact, Slate, Editable } from 'slate-react';

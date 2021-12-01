@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { MessagesProvider, NewMessageType, useMessages } from '../MessagesProvider';
 

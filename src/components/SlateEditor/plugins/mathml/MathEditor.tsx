@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { Editor, Element, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';
@@ -15,7 +15,7 @@ import { Portal } from '../../../Portal';
 import EditMath from './EditMath';
 import MathML from './MathML';
 import BlockMenu from './BlockMenu';
-import { MathmlElement } from '.';
+import { MathmlElement, TYPE_MATHML } from '.';
 import mergeLastUndos from '../../utils/mergeLastUndos';
 
 const getInfoFromNode = (node: MathmlElement) => {
@@ -37,15 +37,19 @@ interface Props {
   element: MathmlElement;
 }
 
-const MathEditor = (props: Props & RenderElementProps) => {
-  const { isFirstEdit: isFirstEditStatus } = getInfoFromNode(props.element);
-  const [isFirstEdit, setIsFirstEdit] = useState(isFirstEditStatus);
-  const [editMode, setEditMode] = useState(isFirstEditStatus);
+const MathEditor = ({ element, children, attributes, editor }: Props & RenderElementProps) => {
+  const [nodeInfo, setNodeInfo] = useState(() => getInfoFromNode(element));
+  const [isFirstEdit, setIsFirstEdit] = useState(nodeInfo.isFirstEdit);
+  const [editMode, setEditMode] = useState(isFirstEdit);
   const [showMenu, setShowMenu] = useState(false);
   const selected = useSelected();
   const focused = useFocused();
 
-  const mathMLRef = props.attributes.ref;
+  const mathMLRef = attributes.ref;
+
+  useEffect(() => {
+    setNodeInfo(getInfoFromNode(element));
+  }, [element]);
 
   const getMenuPosition = () => {
     if (mathMLRef.current) {
@@ -61,9 +65,10 @@ const MathEditor = (props: Props & RenderElementProps) => {
     };
   };
 
-  const toggleMenu = () => {
+  const toggleMenu = (event: MouseEvent | Event) => {
+    event.preventDefault();
+    event.stopPropagation();
     setShowMenu(prev => !prev);
-    if (window.MathJax) window.MathJax.typesetPromise();
   };
 
   const toggleEdit = () => {
@@ -71,7 +76,6 @@ const MathEditor = (props: Props & RenderElementProps) => {
   };
 
   const onExit = () => {
-    const { element, editor } = props;
     setEditMode(false);
     const elementPath = ReactEditor.findPath(editor, element);
     let leafPath: Path;
@@ -98,7 +102,6 @@ const MathEditor = (props: Props & RenderElementProps) => {
   };
 
   const handleSave = (mathML: string) => {
-    const { element, editor } = props;
     const properties = {
       data: { innerHTML: mathML },
     };
@@ -109,7 +112,7 @@ const MathEditor = (props: Props & RenderElementProps) => {
       Transforms.setNodes(editor, properties, {
         at: path,
         voids: true,
-        match: node => Element.isElement(node) && node.type === 'mathml',
+        match: node => Element.isElement(node) && node.type === TYPE_MATHML,
       });
 
       const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild
@@ -125,7 +128,7 @@ const MathEditor = (props: Props & RenderElementProps) => {
       Transforms.setNodes(editor, properties, {
         at: path,
         voids: true,
-        match: node => Element.isElement(node) && node.type === 'mathml',
+        match: node => Element.isElement(node) && node.type === TYPE_MATHML,
       });
     }
 
@@ -142,31 +145,25 @@ const MathEditor = (props: Props & RenderElementProps) => {
   };
 
   const handleRemove = () => {
-    const { editor, element } = props;
-
     const path = ReactEditor.findPath(editor, element);
 
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: node => Element.isElement(node) && node.type === 'mathml',
+      match: node => Element.isElement(node) && node.type === TYPE_MATHML,
       voids: true,
     });
   };
 
-  const { element, children, attributes } = props;
-  const { model } = getInfoFromNode(element);
   const { top, left } = getMenuPosition();
 
   return (
     <span
-      contentEditable={false}
       role="button"
       tabIndex={0}
-      onKeyPress={toggleMenu}
       onClick={toggleMenu}
       style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
       {...attributes}>
-      <MathML attributes={attributes} model={model} />
+      <MathML model={nodeInfo.model} editor={editor} element={element} />
       <Portal isOpened={showMenu}>
         <BlockMenu
           top={top}
@@ -179,7 +176,7 @@ const MathEditor = (props: Props & RenderElementProps) => {
       {editMode && (
         <EditMath
           onExit={onExit}
-          model={model}
+          model={nodeInfo.model}
           handleSave={handleSave}
           isEditMode={editMode}
           handleRemove={handleRemove}

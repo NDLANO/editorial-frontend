@@ -6,10 +6,9 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import MathEditor from './MathEditor';
@@ -25,7 +24,7 @@ export interface MathmlElement {
 export const mathmlSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== 'math') return;
-    return jsx(
+    return slatejsx(
       'element',
       { type: TYPE_MATHML, data: { ...reduceElementDataAttributes(el), innerHTML: el.innerHTML } },
       [{ text: el.textContent }],

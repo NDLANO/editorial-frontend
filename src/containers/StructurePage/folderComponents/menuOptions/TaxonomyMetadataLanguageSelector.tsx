@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TAXONOMY_CUSTOM_FIELD_LANGUAGE } from '../../../../constants';
 import { supportedLanguages } from '../../../../i18n2';

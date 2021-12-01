@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactNode, useEffect, useState } from 'react';
+import { FormEvent, ReactNode, useEffect, useState, MouseEvent } from 'react';
 import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
@@ -25,8 +25,8 @@ interface Props {
   embed: AudioEmbed;
   language: string;
   locale: LocaleType;
-  onRemoveClick: (event: React.MouseEvent) => void;
-  onFigureInputChange: (event: React.FormEvent<HTMLSelectElement>) => void;
+  onRemoveClick: (event: MouseEvent) => void;
+  onFigureInputChange: (event: FormEvent<HTMLSelectElement>) => void;
   active: boolean;
   isSelectedForCopy: boolean;
   children: ReactNode;
@@ -67,7 +67,7 @@ const SlateAudio = ({
     getAudio();
   }, [embed, language]);
 
-  const onAudioFigureInputChange = (e: React.FormEvent<HTMLSelectElement>) => {
+  const onAudioFigureInputChange = (e: FormEvent<HTMLSelectElement>) => {
     const { value, name } = e.currentTarget;
     setAudio({
       ...audio,

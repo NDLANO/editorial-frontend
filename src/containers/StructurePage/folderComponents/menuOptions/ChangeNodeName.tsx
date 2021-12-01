@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { FieldArray, Form, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';

@@ -6,12 +6,12 @@
 
 //@ts-ignore
 import { OneColumn, Spinner } from '@ndla/ui';
+import { useState, useRef, useLayoutEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { Taxonomy } from '@ndla/icons/editor';
-import React, { useLayoutEffect, useRef, useState } from 'react';
 import { Switch } from '@ndla/switch';
 import { colors } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
-import { RouteComponentProps, withRouter } from 'react-router';
 import styled from '@emotion/styled';
 import Accordion from '../../components/Accordion';
 import ErrorBoundary from '../../components/ErrorBoundary';

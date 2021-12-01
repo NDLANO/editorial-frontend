@@ -7,7 +7,6 @@
  */
 
 import nock from 'nock';
-import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { render, cleanup } from '@testing-library/react';
 import { MemoryRouter, useHistory } from 'react-router-dom';

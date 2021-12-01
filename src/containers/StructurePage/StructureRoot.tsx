@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import { MutableRefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DropResult } from 'react-beautiful-dnd';
 import { useQueryClient } from 'react-query';
@@ -24,7 +24,7 @@ interface Props {
   toggleFavorite: () => void;
   onChildNodeSelected: (node?: ChildNodeType) => void;
   nodeResourcesLoading: boolean;
-  resourceSectionRef: React.MutableRefObject<HTMLDivElement | null>;
+  resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   allRootNodes: NodeType[];
   renderBeforeTitle?: RenderBeforeFunction;
 }

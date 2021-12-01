@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import FileList from './FileList';

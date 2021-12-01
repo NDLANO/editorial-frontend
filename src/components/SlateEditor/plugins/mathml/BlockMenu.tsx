@@ -1,12 +1,11 @@
+import { PureComponent } from 'react';
 import Button from '@ndla/button';
-import React, { PureComponent } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { css } from '@emotion/core';
-import { withTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
+import { WithTranslation, withTranslation } from 'react-i18next';
 
-const StyledMenu = styled('span')`
+const StyledMenu = styled('span')<{ top: number; left: number }>`
   cursor: pointer;
   position: absolute;
   padding: ${spacing.xsmall};
@@ -25,7 +24,16 @@ const buttonStyle = css`
   margin: 0 ${spacing.xsmall};
 `;
 
-class BlockMenu extends PureComponent {
+interface Props {
+  top: number;
+  left: number;
+  handleRemove: () => void;
+  toggleEdit: () => void;
+  toggleMenu: (event: Event) => void;
+}
+
+class BlockMenu extends PureComponent<Props & WithTranslation> {
+  modal: HTMLSpanElement | null | undefined;
   componentDidMount() {
     document.addEventListener('click', this.closeModal, false);
   }
@@ -34,9 +42,9 @@ class BlockMenu extends PureComponent {
     document.removeEventListener('click', this.closeModal, false);
   }
 
-  closeModal = ({ target }) => {
-    if (this.modal && !this.modal.contains(target)) {
-      this.props.toggleMenu();
+  closeModal = (event: Event) => {
+    if (this.modal && event.target instanceof Element && !this.modal.contains(event.target)) {
+      this.props.toggleMenu(event);
     }
   };
 
@@ -55,14 +63,5 @@ class BlockMenu extends PureComponent {
     );
   }
 }
-
-BlockMenu.propTypes = {
-  top: PropTypes.number,
-  left: PropTypes.number,
-  t: PropTypes.func,
-  toggleMenu: PropTypes.func,
-  toggleEdit: PropTypes.func,
-  handleRemove: PropTypes.func,
-};
 
 export default withTranslation()(BlockMenu);

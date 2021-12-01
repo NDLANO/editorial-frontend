@@ -4,8 +4,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
 import { spacing } from '@ndla/core';
+import { css } from '@emotion/core';
 import { DeleteForever, Done } from '@ndla/icons/editor';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../../styles';
 import RoundIcon from '../../../../../components/RoundIcon';
@@ -47,7 +48,7 @@ const ConstantMetaField = ({
     setCurrentVal('');
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSubmit();
     }
@@ -68,7 +69,11 @@ const ConstantMetaField = ({
       <MenuItemSaveButton onClick={handleSubmit} data-testid={'CustomFieldSaveButton'}>
         <Done className="c-icon--small" />
       </MenuItemSaveButton>
-      <MenuItemSaveButton onClick={handleDelete} css={{ marginLeft: `${spacing.xxsmall}` }}>
+      <MenuItemSaveButton
+        onClick={handleDelete}
+        css={css`
+          margin-left: ${spacing.xxsmall};
+        `}>
         <DeleteForever />
       </MenuItemSaveButton>
     </StyledMenuItemEditField>

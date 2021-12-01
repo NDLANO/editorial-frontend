@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import BEMHelper from 'react-bem-helper';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';

@@ -6,11 +6,11 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeleteForever } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
+import { css } from '@emotion/core';
 
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemSaveButton from './components/MenuItemSaveButton';
@@ -51,7 +51,9 @@ const ToggleExplanationSubject = ({ customFields, updateFields }: Props) => {
             delete customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT];
             updateFields({ ...customFields });
           }}
-          css={{ marginLeft: `${spacing.xxsmall}` }}>
+          css={css`
+            margin-left: ${spacing.xxsmall};
+          `}>
           <DeleteForever />
         </MenuItemSaveButton>
       </StyledMenuItemEditField>

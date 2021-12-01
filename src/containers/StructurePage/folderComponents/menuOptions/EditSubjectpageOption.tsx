@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Home } from '@ndla/icons/common';
 import { Link } from 'react-router-dom';

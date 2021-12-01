@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
@@ -22,7 +22,7 @@ const iconCSS = css`
 `;
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const HelpMessage = ({ children, t }: Props & CustomWithTranslation) => (

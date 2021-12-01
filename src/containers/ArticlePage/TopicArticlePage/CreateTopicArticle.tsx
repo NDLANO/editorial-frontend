@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
@@ -33,7 +32,7 @@ const CreateTopicArticle = ({ history }: Props) => {
   };
 
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker title={t('htmlTitles.createTopicArticlePage')} />
       <TopicArticleForm
         article={{ language: locale, grepCodes: [] }}
@@ -42,7 +41,7 @@ const CreateTopicArticle = ({ history }: Props) => {
         translating={false}
         articleChanged={false}
       />
-    </Fragment>
+    </>
   );
 };
 

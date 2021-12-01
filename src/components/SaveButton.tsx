@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { MouseEvent } from 'react';
 import Button from '@ndla/button';
 import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
@@ -64,7 +64,7 @@ interface Props {
   formIsDirty?: boolean;
   large?: boolean;
   disabled?: boolean;
-  onClick: (evt: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick: (evt: MouseEvent<HTMLButtonElement>) => void;
   clippedButton?: boolean;
   submit?: boolean;
 }

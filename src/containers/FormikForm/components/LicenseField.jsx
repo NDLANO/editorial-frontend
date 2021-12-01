@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader, FieldSection, Select } from '@ndla/forms';
@@ -22,7 +21,7 @@ const LicenseField = props => {
   const licensesWithTranslations = getLicensesWithTranslations(licenses, locale, enableLicenseNA);
 
   return (
-    <Fragment>
+    <>
       <FieldHeader title={t('form.license.label')} width={width}>
         <HowToHelper pageId="userLicense" tooltip={t('form.license.helpLabel')} />
       </FieldHeader>
@@ -44,7 +43,7 @@ const LicenseField = props => {
           </Select>
         </div>
       </FieldSection>
-    </Fragment>
+    </>
   );
 };
 

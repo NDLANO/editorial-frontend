@@ -7,7 +7,7 @@
  */
 
 import { Descendant, Element } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
 import { LOCALE_VALUES } from '../constants';
 import { ContentResultType, LocaleType } from '../interfaces';
@@ -33,7 +33,7 @@ export const getInitialValues = (
   return {
     articleType: 'subjectpage',
     name: filmFrontpage.name,
-    title: about?.title,
+    title: plainTextToEditorValue(about?.title ?? ''),
     description: plainTextToEditorValue(about?.description ?? ''),
     visualElement: visualElement ?? [],
     language: selectedLanguage,
@@ -47,7 +47,7 @@ const convertVisualElement = (visualElement: FilmVisualElementApiType): Descenda
   const id = getVisualElementId(visualElement);
   if (visualElement.type !== 'brightcove') {
     return [
-      jsx(
+      slatejsx(
         'element',
         {
           type: TYPE_EMBED,
@@ -71,7 +71,7 @@ const convertVisualElement = (visualElement: FilmVisualElementApiType): Descenda
   const player = splittedUrl[4].split('_')[0];
 
   return [
-    jsx(
+    slatejsx(
       'element',
       {
         type: TYPE_EMBED,
@@ -114,7 +114,7 @@ export const getNdlaFilmFromSlate = (
   const editedAbout = {
     description: editorValueToPlainText(newFrontpage.description),
     language: selectedLanguage,
-    title: newFrontpage.title ?? '',
+    title: editorValueToPlainText(newFrontpage.title),
     visualElement: {
       alt: (data && 'alt' in data && data.alt) || (data && 'caption' in data && data.caption) || '',
       id: (data && 'metaData' in data && data.metaData.id) || '',

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
@@ -125,7 +125,7 @@ const AddResourceModal = ({
     setSelected(selected);
   };
 
-  const onPaste = async (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const onPaste = async (evt: ChangeEvent<HTMLInputElement>) => {
     const val = evt.target.value;
     const resourceId = getResourceIdFromPath(val);
     if (!val || !resourceId) {

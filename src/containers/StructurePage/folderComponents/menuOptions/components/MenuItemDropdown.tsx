@@ -6,7 +6,7 @@
  *
  */
 
-import React, { memo, useState } from 'react';
+import { memo, ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { css } from '@emotion/core';
@@ -41,7 +41,7 @@ const DropdownWrapper = styled.div`
 const PAGE_SIZE = 10;
 
 interface Props {
-  icon: React.ReactNode;
+  icon: ReactNode;
   onSubmit: (selected: NodeType & { description?: string }) => Promise<void>;
   onClose: () => void;
   searchResult: (NodeType & { description?: string })[];

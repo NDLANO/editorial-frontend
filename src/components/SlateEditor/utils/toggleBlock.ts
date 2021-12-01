@@ -7,7 +7,7 @@
  */
 
 import { Element, Editor, Transforms, Range } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import hasNodeOfType from './hasNodeOfType';
 
 const toggleBlock = (editor: Editor, type: Element['type']) => {
@@ -24,7 +24,7 @@ const toggleBlock = (editor: Editor, type: Element['type']) => {
       at: Editor.unhangRange(editor, editor.selection),
     });
   } else {
-    Transforms.wrapNodes(editor, jsx('element', { type }, []), {
+    Transforms.wrapNodes(editor, slatejsx('element', { type }, []), {
       at: Editor.unhangRange(editor, editor.selection),
     });
   }

@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import BEMHelper from 'react-bem-helper';
@@ -64,7 +64,7 @@ const StyledAside = styled.aside`
   overflow: ${props => (props.expanded ? 'visible' : 'hidden')};
 `;
 
-class SlateFactAside extends React.Component {
+class SlateFactAside extends Component {
   constructor() {
     super();
     this.state = {

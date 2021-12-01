@@ -1,5 +1,5 @@
 import { Editor, Transforms, Element } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 
 export const insertFootnote = (editor: Editor) => {
@@ -11,5 +11,5 @@ export const insertFootnote = (editor: Editor) => {
     return;
   }
   Transforms.collapse(editor, { edge: 'end' });
-  editor.insertNode(jsx('element', { type: 'footnote', data: {} }, [{ text: '' }]));
+  editor.insertNode(slatejsx('element', { type: 'footnote', data: {} }, [{ text: '' }]));
 };

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { css } from '@emotion/core';
@@ -238,7 +238,7 @@ const Resource = ({ resource: initialResource, onDelete, dragHandleProps }: Prop
   );
 };
 
-const PublishedWrapper = ({ path, children }: { path?: string; children: React.ReactElement }) => {
+const PublishedWrapper = ({ path, children }: { path?: string; children: ReactElement }) => {
   if (!path) {
     return children;
   }

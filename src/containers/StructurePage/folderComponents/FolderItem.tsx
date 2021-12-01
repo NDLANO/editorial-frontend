@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';

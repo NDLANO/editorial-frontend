@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element } from 'slate';
 import NoEmbedMessage from './NoEmbedMessage';
 import { SlateSerializer } from '../../interfaces';

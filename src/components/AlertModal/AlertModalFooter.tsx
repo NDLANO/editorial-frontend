@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactElement } from 'react';
 import Button from '@ndla/button';
 import { uuid } from '@ndla/util';
 import styled from '@emotion/styled';
@@ -26,7 +26,7 @@ const StyledFooter = styled('div')`
 `;
 
 interface Props {
-  component?: React.ReactElement[] | React.ReactElement;
+  component?: ReactElement[] | ReactElement;
   actions?: {
     text: string;
     onClick: (event: Event) => void;

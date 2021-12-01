@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Editor, Descendant, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import SlateFigure from './SlateFigure';

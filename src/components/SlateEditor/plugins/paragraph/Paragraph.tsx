@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { isObject } from 'lodash';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Editor, Node, Path } from 'slate';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import { ParagraphElement } from '.';

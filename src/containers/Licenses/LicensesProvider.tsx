@@ -1,16 +1,26 @@
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+
 import { License } from '../../interfaces';
 import { fetchLicenses } from '../../modules/draft/draftApi';
 import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
 import { ImageApiLicense } from '../../modules/image/imageApiInterfaces';
 
 const LicenseContext = createContext<
-  [LicenseState, React.Dispatch<React.SetStateAction<LicenseState>>] | undefined
+  [LicenseState, Dispatch<SetStateAction<LicenseState>>] | undefined
 >(undefined);
 
 interface Props {
-  children?: React.ReactNode;
+  children?: ReactNode;
   initialValue?: LicenseState;
 }
 

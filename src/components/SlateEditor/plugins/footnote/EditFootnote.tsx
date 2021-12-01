@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';

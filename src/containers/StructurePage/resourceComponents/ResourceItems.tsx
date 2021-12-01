@@ -6,7 +6,7 @@
  *
  */
 
-import React, { memo, useState } from 'react';
+import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { DropResult } from 'react-beautiful-dnd';

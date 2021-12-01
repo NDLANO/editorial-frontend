@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
@@ -31,7 +31,7 @@ interface Props {
   onClick: () => void;
   stripped?: boolean;
   disabled?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const AddNodeResourceButton = ({ children, ...rest }: Props) => (

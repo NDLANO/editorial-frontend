@@ -7,7 +7,7 @@
  */
 
 import { Editor, Transforms, Element, Range } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { HeadingElement } from '.';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 import hasNodeWithProps from '../../utils/hasNodeWithProps';
@@ -46,7 +46,7 @@ export const toggleHeading = (editor: Editor, level: HeadingElement['level']) =>
       hanging: false,
     });
   } else {
-    Transforms.setNodes(editor, jsx('element', newHeadingProps, []), {
+    Transforms.setNodes(editor, slatejsx('element', newHeadingProps, []), {
       match: node => Element.isElement(node) && node.type === 'paragraph',
       at: Editor.unhangRange(editor, editor.selection),
     });

@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import nock from 'nock';
 import { render, cleanup } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';

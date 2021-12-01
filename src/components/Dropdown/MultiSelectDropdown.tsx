@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+
 import Downshift, { StateChangeOptions } from 'downshift';
 import { DropdownInput, DropdownMenu } from '@ndla/forms';
 import { FormikHandlers } from 'formik';
@@ -63,7 +64,7 @@ export const MultiSelectDropdown = <T extends { id: string }>({
     }
   };
 
-  const onInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value;
 
     if (value.length >= minSearchLength) {

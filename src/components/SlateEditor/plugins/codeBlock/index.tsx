@@ -6,10 +6,9 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import CodeBlock from './CodeBlock';
 import { SlateSerializer } from '../../interfaces';
 import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
@@ -40,7 +39,7 @@ export const codeblockSerializer: SlateSerializer = {
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource !== 'code-block') return;
-    return jsx(
+    return slatejsx(
       'element',
       { type: TYPE_CODEBLOCK, data: { ...embedAttributes }, isFirstEdit: false },
       [{ text: '' }],

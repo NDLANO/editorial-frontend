@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import Button from '@ndla/button';
@@ -165,7 +165,7 @@ class VisualElementUrlPreview extends Component {
     const isChangedUrl = url !== selectedResourceUrl || selectedResourceUrl === undefined;
 
     return (
-      <Fragment>
+      <>
         <FieldHeader
           title={
             isChangedUrl
@@ -240,7 +240,7 @@ class VisualElementUrlPreview extends Component {
             </StyledPreviewItem>
           </StyledPreviewWrapper>
         )}
-      </Fragment>
+      </>
     );
   }
 }

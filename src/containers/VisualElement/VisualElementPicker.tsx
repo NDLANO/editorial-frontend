@@ -6,22 +6,22 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+
 import { Editor, Element, Transforms } from 'slate';
 import SlateVisualElementPicker from '../../components/SlateEditor/plugins/blockPicker/SlateVisualElementPicker';
+import { isEmpty } from '../../components/validators';
 import VisualElementMenu from './VisualElementMenu';
 
 interface Props {
   editor: Editor;
   language: string;
   types?: string[];
-  children: React.ReactNode;
 }
 
-const VisualElementPicker = ({ editor, language, types, children }: Props) => {
+const VisualElementPicker = ({ editor, language, types }: Props) => {
   const onInsertBlock = (block: Element) => {
     Editor.withoutNormalizing(editor, () => {
-      Transforms.removeNodes(editor, { at: [0] });
       Transforms.insertNodes(editor, block, { at: [0] });
     });
   };
@@ -36,6 +36,10 @@ const VisualElementPicker = ({ editor, language, types, children }: Props) => {
     setSelectedResource(visualElement);
   };
 
+  if (!isEmpty(editor.children)) {
+    return null;
+  }
+
   return (
     <div contentEditable={false}>
       {selectedResource && (
@@ -47,7 +51,6 @@ const VisualElementPicker = ({ editor, language, types, children }: Props) => {
         />
       )}
       <VisualElementMenu onSelect={onSelect} types={types} />
-      {children}
     </div>
   );
 };

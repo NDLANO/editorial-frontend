@@ -75,6 +75,7 @@ async function createDeleteUpdateTopicResources(
         createTopicResource({
           topicid: item.id,
           primary: item.primary,
+          relevanceId: item.relevanceId,
           resourceId, // Not consistent!
         }),
       ),

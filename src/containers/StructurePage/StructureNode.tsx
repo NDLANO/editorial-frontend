@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useEffect } from 'react';
+import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { spacing, colors, fonts } from '@ndla/core';
 //@ts-ignore
@@ -23,7 +23,7 @@ export type RenderBeforeFunction = (
   input: ChildNodeType | NodeType,
   isRoot: boolean,
   articleType?: string,
-) => React.ReactNode;
+) => ReactNode;
 
 interface ItemTitleButtonProps {
   isVisible?: boolean;
@@ -141,12 +141,12 @@ const StyledIcon = styled.button`
 `;
 
 interface RoundIconProps {
-  smallIcon: React.ReactNode;
+  smallIcon: ReactNode;
   clicked?: boolean;
   type?: 'button' | 'reset' | 'submit';
 }
 
-const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & React.HTMLProps<HTMLButtonElement>) => (
+const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & HTMLProps<HTMLButtonElement>) => (
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
 
@@ -160,7 +160,7 @@ interface Props {
   level: number;
   onChildNodeSelected: (childNode?: ChildNodeType) => void;
   childNodeResourcesLoading: boolean;
-  resourceSectionRef: React.MutableRefObject<HTMLDivElement | null>;
+  resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   rootNodeId: string;
   onDragEnd: (result: DropResult, childNodes: ChildNodeType[]) => Promise<void>;
   connectionId: string;

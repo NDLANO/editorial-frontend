@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { VersionHistory } from '@ndla/editor';
 import { EditorNote, ImageApiType } from '../../../modules/image/imageApiInterfaces';
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../../modules/auth0/auth0Api';

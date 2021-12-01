@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Remarkable } from 'remarkable';
 
 //@ts-ignore

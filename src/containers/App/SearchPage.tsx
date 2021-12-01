@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
+import { ReactElement } from 'react';
+
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { SearchMedia, SearchContent, Concept, SquareAudio } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
@@ -36,7 +37,7 @@ const SearchPage = ({ match }: Props) => {
     title: string;
     type: SearchType;
     url: string;
-    icon: React.ReactElement;
+    icon: ReactElement;
     path: string;
     searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
   }[] = [
@@ -104,7 +105,7 @@ const SearchPage = ({ match }: Props) => {
   ];
 
   return (
-    <Fragment>
+    <>
       <SubNavigation type="media" subtypes={supportedTypes} />
       <Switch>
         {supportedTypes.map(type => {
@@ -122,7 +123,7 @@ const SearchPage = ({ match }: Props) => {
         <Route component={NotFoundPage} />
       </Switch>
       <Footer showLocaleSelector={false} />
-    </Fragment>
+    </>
   );
 };
 

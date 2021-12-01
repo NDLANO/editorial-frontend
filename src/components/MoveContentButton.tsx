@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import darken from 'polished/lib/color/darken';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';

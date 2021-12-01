@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Accordions, AccordionSection } from '@ndla/accordion';
@@ -32,6 +32,7 @@ import ImageVersionNotes from './ImageVersionNotes';
 import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 import { License } from '../../../interfaces';
+import { editorValueToPlainText } from '../../../util/articleContentConverter';
 
 const imageRules: RulesType<ImageFormikType> = {
   title: {
@@ -136,7 +137,7 @@ const ImageForm = ({
     actions.setSubmitting(true);
     const imageMetaData: NewImageMetadata = {
       id: values.id,
-      title: values.title,
+      title: editorValueToPlainText(values.title),
       alttext: values.alttext,
       caption: values.caption,
       language: values.language,

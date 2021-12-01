@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState, MouseEvent } from 'react';
 import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
@@ -23,7 +23,7 @@ interface Props {
   embed: AudioEmbed;
   language: string;
   locale: LocaleType;
-  onRemoveClick: (event: React.MouseEvent) => void;
+  onRemoveClick: (event: MouseEvent) => void;
   isSelectedForCopy: boolean;
   children: ReactNode;
 }

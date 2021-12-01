@@ -6,9 +6,8 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import { defaultTextBlockNormalizer } from '../../utils/normalizationHelpers';
 import { SlateSerializer } from '../../interfaces';
@@ -25,7 +24,7 @@ export const bodyboxSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
     if (el.tagName.toLowerCase() !== 'div') return;
     if (el.className === 'c-bodybox') {
-      return jsx('element', { type: TYPE_BODYBOX }, children);
+      return slatejsx('element', { type: TYPE_BODYBOX }, children);
     }
   },
   serialize(node: Descendant, children: JSX.Element[]) {

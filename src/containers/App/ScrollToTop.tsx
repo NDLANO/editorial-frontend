@@ -1,6 +1,6 @@
-import React from 'react';
+import { Component } from 'react';
 
-class ScrollToTop extends React.Component {
+class ScrollToTop extends Component {
   componentDidUpdate() {
     window.scrollTo(0, 0);
   }

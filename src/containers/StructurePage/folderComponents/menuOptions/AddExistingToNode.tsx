@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Plus } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';

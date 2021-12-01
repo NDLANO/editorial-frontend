@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, RefObject, useMemo, useState } from 'react';
+import { useRef, useEffect, RefObject, useMemo, useState } from 'react';
 import { FieldHeader } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'formik';
@@ -111,18 +111,18 @@ const TopicArticleContent = (props: Props) => {
   } = props;
   const { userAccess } = useSession();
   const [preview, setPreview] = useState(false);
-  const handleSubmitRef = React.useRef(handleSubmit);
+  const handleSubmitRef = useRef(handleSubmit);
   const plugins = useMemo(() => {
     return createPlugins(language ?? '', handleSubmitRef);
   }, [language]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     handleSubmitRef.current = handleSubmit;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
 
   return (
-    <Fragment>
+    <>
       <TitleField handleSubmit={handleSubmit} />
       <FormikField name="published" css={byLineStyle}>
         {({ field, form }) => (
@@ -151,7 +151,7 @@ const TopicArticleContent = (props: Props) => {
       <VisualElementField />
       <FormikField name="content" label={t('form.content.label')} noBorder>
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
-          <Fragment>
+          <>
             <FieldHeader title={t('form.content.label')}>
               {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && language && (
                 <EditMarkupLink to={toEditMarkup(id, language)} title={t('editMarkup.linkTitle')} />
@@ -171,10 +171,10 @@ const TopicArticleContent = (props: Props) => {
                 });
               }}
             />
-          </Fragment>
+          </>
         )}
       </FormikField>
-    </Fragment>
+    </>
   );
 };
 

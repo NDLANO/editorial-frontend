@@ -4,13 +4,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { animations } from '@ndla/core';
 import css from '@emotion/css';
 
 type Props = {
   show?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   fadeType: FadeType;
 };
 

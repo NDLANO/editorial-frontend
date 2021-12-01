@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Concept } from '@ndla/icons/editor';
@@ -22,7 +23,7 @@ interface Props {
   concept: SearchConceptType;
   locale: LocaleType;
   subjects: SubjectType[];
-  editingState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+  editingState: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 
 const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {

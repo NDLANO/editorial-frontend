@@ -10,14 +10,13 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
-import AddTopicResourceButton from './AddTopicResourceButton';
+import AddNodeResourceButton from './AddNodeResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { TopicResource } from './StructureResources';
-import { LocaleType } from '../../../interfaces';
+import { ResourceWithNodeConnection } from '../../../modules/taxonomy/nodes/nodeApiTypes';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -25,18 +24,16 @@ export const classes = new BEMHelper({
 });
 
 interface Props {
-  currentTopicId: string;
-  topicResources: TopicResource[];
-  resourceTypes: (ResourceType & {
-    disabled?: boolean;
-  })[];
-  locale: LocaleType;
+  currentNodeId: string;
+  nodeResources: ResourceWithNodeConnection[];
+  resourceTypes: ResourceType[];
 }
 
-const AllResourcesGroup = ({ resourceTypes, topicResources, locale, currentTopicId }: Props) => {
+const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNodeId }: Props) => {
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState<boolean>(true);
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
+  const resourceTypesWithoutMissing = resourceTypes.filter(rt => rt.id !== 'missing');
 
   const toggleDisplayResource = () => {
     setDisplayResource(prev => !prev);
@@ -46,32 +43,27 @@ const AllResourcesGroup = ({ resourceTypes, topicResources, locale, currentTopic
     setShowAddModal(prev => !prev);
   };
 
-  const newResourceTypeOptions = resourceTypes
-    .filter(rt => rt.id !== 'missing')
-    .map(rt => ({ id: rt.id, name: rt.name }));
-
   return (
     <>
       <Accordion
         addButton={
-          <AddTopicResourceButton stripped onClick={toggleAddModal}>
+          <AddNodeResourceButton stripped onClick={toggleAddModal}>
             <Plus />
             {t('taxonomy.addResource')}
-          </AddTopicResourceButton>
+          </AddNodeResourceButton>
         }
         handleToggle={toggleDisplayResource}
         appearance={ButtonAppearance.RESOURCEGROUP}
         header={t('taxonomy.resources')}
         hidden={!displayResource}>
-        <ResourceItems resources={topicResources} locale={locale} currentTopicId={currentTopicId} />
+        <ResourceItems resources={nodeResources} currentNodeId={currentNodeId} />
       </Accordion>
       {showAddModal && (
         <AddResourceModal
-          resourceTypes={newResourceTypeOptions}
-          topicId={currentTopicId}
+          resourceTypes={resourceTypesWithoutMissing}
+          nodeId={currentNodeId}
           onClose={() => setShowAddModal(false)}
-          existingResourceIds={topicResources.map(r => r.id)}
-          locale={locale}
+          existingResourceIds={nodeResources.map(r => r.id)}
         />
       )}
     </>

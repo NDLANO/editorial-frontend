@@ -34,10 +34,10 @@ interface Props {
   children: React.ReactNode;
 }
 
-const AddTopicResourceButton = ({ children, ...rest }: Props) => (
+const AddNodeResourceButton = ({ children, ...rest }: Props) => (
   <Button type="button" css={addButtonStyle} {...rest}>
     {children}
   </Button>
 );
 
-export default AddTopicResourceButton;
+export default AddNodeResourceButton;

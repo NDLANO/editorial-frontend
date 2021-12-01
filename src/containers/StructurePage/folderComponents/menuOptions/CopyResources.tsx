@@ -12,10 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import { Copy } from '@ndla/icons/action';
 import {
-  fetchTopics,
-  fetchSubjectTopics,
-  fetchTopicResources,
-  createTopicResource,
   fetchResource,
   createResource,
   createResourceResourceType,
@@ -25,31 +21,31 @@ import {
 import { cloneDraft } from '../../../../modules/draft/draftApi';
 import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
 import {
-  Resource,
-  ResourceResourceType,
   ResourceTranslation,
-  SubjectTopic,
   TaxonomyElement,
-  Topic,
-  ResourceWithTopicConnection,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import retrieveBreadCrumbs from '../../../../util/retrieveBreadCrumbs';
-import MenuItemDropdown from './MenuItemDropdown';
-import MenuItemButton from './MenuItemButton';
+import MenuItemDropdown from './components/MenuItemDropdown';
+import MenuItemButton from './components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 import { getIdFromUrn } from '../../../../util/taxonomyHelpers';
-import { TOPIC_RESOURCES } from '../../../../queryKeys';
+import { RESOURCES_WITH_NODE_CONNECTION } from '../../../../queryKeys';
+import AlertModal from '../../../../components/AlertModal';
+import {
+  ChildNodeType,
+  NodeType,
+  ResourceWithNodeConnection,
+} from '../../../../modules/taxonomy/nodes/nodeApiTypes';
+import { fetchNodeResources, fetchNodes } from '../../../../modules/taxonomy/nodes/nodeApi';
+import { usePostResourceForNodeMutation } from '../../../../modules/taxonomy/nodes/nodeMutations';
 
 type PathArray = Array<TaxonomyElement>;
 
 interface Props {
-  locale: string;
-  id: string;
-  subjectId: string;
+  toNode: NodeType | ChildNodeType;
   structure: PathArray;
   onClose: () => void;
-  setShowAlertModal: (show: boolean) => void;
 }
 
 const iconCss = css`
@@ -57,92 +53,84 @@ const iconCss = css`
   height: 8px;
 `;
 
-const CopyResources = ({ id, locale, subjectId, structure, onClose, setShowAlertModal }: Props) => {
-  const { t } = useTranslation();
-  const [topics, setTopics] = useState<Topic[]>([]);
+const CopyResources = ({ toNode, structure, onClose }: Props) => {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language;
+  const [nodes, setNodes] = useState<NodeType[]>([]);
   const [showCopySearch, setShowCopySearch] = useState(false);
   const [showCloneSearch, setShowCloneSearch] = useState(false);
   const qc = useQueryClient();
+  const [showAlertModal, setShowAlertModal] = useState(false);
+
+  const postNodeResource = usePostResourceForNodeMutation();
 
   useEffect(() => {
-    Promise.all([fetchTopics(locale || 'nb'), fetchSubjectTopics(subjectId, locale)])
-      .then(([topics, subjectTopics]: [Topic[], SubjectTopic[]]) => {
-        const newTopics = topics
-          .filter(topic => !subjectTopics.some(t => t.id === topic.id))
-          .map(topic => ({ ...topic, description: getTopicBreadcrumb(topic, topics) }));
-        setTopics(newTopics);
-      })
-      .catch((e: Error) => handleError(e));
+    (async () => {
+      const childNodes = 'childNodes' in toNode ? toNode.childNodes ?? [] : [];
+      const allNodes = await fetchNodes({ language: locale });
+      const newNodes = allNodes
+        .filter(n => !childNodes.some(child => n.id === child.id))
+        .map(n => ({ ...n, description: getNodeBreadcrumb(n, allNodes) }));
+      setNodes(newNodes);
+    })();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const getTopicBreadcrumb = (topic: Topic, topics: Topic[]) => {
-    if (!topic.path) return undefined;
+  const getNodeBreadcrumb = (currentNode: NodeType, allNodes: NodeType[]) => {
+    if (!currentNode.path) return undefined;
     const breadCrumbs: PathArray = retrieveBreadCrumbs({
-      topicPath: topic.path,
+      nodePath: currentNode.path,
       structure,
-      allTopics: topics,
-      title: topic.name,
+      allNodes,
+      title: currentNode.name,
     });
     return breadCrumbs.map(crumb => crumb.name).join(' > ');
   };
 
-  const addResourcesToTopic = async (resources: (Resource | ResourceWithTopicConnection)[]) => {
+  const addResourcesToNode = async (
+    resources: Pick<ResourceWithNodeConnection, 'primary' | 'rank' | 'id'>[],
+  ) => {
     // This is made so the code runs sequentially and not cause server overflow
-    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    // on nodes with plenty of resources. The for-loop can be replaced with reduce().
+
     for (let i = 0; i < resources.length; i++) {
-      try {
-        await createTopicResource({
-          primary: resources[i].isPrimary,
-          rank: resources[i].rank,
-          resourceId: resources[i].id,
-          topicid: id,
-        });
-      } catch (e) {
-        handleError(e);
-      }
+      const { primary, rank, id } = resources[i];
+      await postNodeResource.mutateAsync(
+        { body: { primary, rank, resourceId: id, nodeId: toNode.id } },
+        { onError: e => handleError(e) },
+      );
     }
   };
 
-  const cloneResourceResourceTypes = async (
-    resourceTypes: ResourceResourceType[],
-    resourceId: string,
-  ) => {
+  const cloneResourceResourceTypes = async (resourceTypeIds: string[], resourceId: string) => {
     // This is made so the code runs sequentially and not cause server overflow
-    // on topics with plenty of resources. The for-loop can be replaced with reduce().
-    for (let i = 0; i < resourceTypes.length; i++) {
-      await createResourceResourceType({
-        resourceId: `${resourceId}`,
-        resourceTypeId: `${resourceTypes[i].id}`,
-      });
+    // on nodes with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < resourceTypeIds.length; i++) {
+      await createResourceResourceType({ resourceId, resourceTypeId: resourceTypeIds[i] });
     }
   };
 
-  const cloneResourceTranslations = async (
-    resourceTranslations: ResourceTranslation[],
-    resourceId: string,
-  ) => {
+  const cloneResourceTranslations = async (translations: ResourceTranslation[], id: string) => {
     // This is made so the code runs sequentially and not cause server overflow
-    // on topics with plenty of resources. The for-loop can be replaced with reduce().
-    for (let i = 0; i < resourceTranslations.length; i++) {
-      await setResourceTranslation(resourceId, resourceTranslations[i].language, {
-        name: resourceTranslations[i].name,
-      });
+    // on nodes with plenty of resources. The for-loop can be replaced with reduce().
+    for (let i = 0; i < translations.length; i++) {
+      await setResourceTranslation(id, translations[i].language, { name: translations[i].name });
     }
   };
 
   const clonedResource = async (
     newResourceBody: { contentUri?: string; name: string },
-    oldResource: ResourceWithTopicConnection,
+    oldResource: ResourceWithNodeConnection,
   ) => {
     const newResourcePath = await createResource(newResourceBody);
     const newResourceUrn = newResourcePath.split('/').pop()!;
-    cloneResourceResourceTypes(oldResource.resourceTypes, newResourceUrn);
+    const resourceTypeIds = oldResource.resourceTypes.map(rt => rt.id);
+    await cloneResourceResourceTypes(resourceTypeIds, newResourceUrn);
     const resourceTranslations = await fetchResourceTranslations(oldResource.id);
     await cloneResourceTranslations(resourceTranslations, newResourceUrn);
     return await fetchResource(newResourceUrn, locale);
   };
 
-  const cloneResource = async (resource: ResourceWithTopicConnection) => {
+  const cloneResource = async (resource: ResourceWithNodeConnection) => {
     const resourceType = resource.contentUri?.split(':')[1];
     const resourceId = resource.contentUri ? getIdFromUrn(resource.contentUri!) : null;
     if (resourceType === 'article' && resourceId) {
@@ -158,27 +146,20 @@ const CopyResources = ({ id, locale, subjectId, structure, onClose, setShowAlert
         language: locale,
       };
       const clonedLearningpath = await learningpathCopy(resourceId, newLearningpathBody);
-      const newLearningpathId = clonedLearningpath.id;
       const newResourceBody = {
-        contentUri: `urn:learningpath:${newLearningpathId}`,
+        contentUri: `urn:learningpath:${clonedLearningpath.id}`,
         name: resource.name,
       };
       return await clonedResource(newResourceBody, resource);
     } else {
-      // Edge-case for resources without contentUri
-      return await clonedResource(
-        {
-          name: resource.name,
-        },
-        resource,
-      );
+      return await clonedResource({ name: resource.name }, resource);
     }
   };
 
-  const cloneResources = async (resources: ResourceWithTopicConnection[]) => {
+  const cloneResources = async (resources: ResourceWithNodeConnection[]) => {
     const clonedResources = [];
     // This is made so the code runs sequentially and not cause server overflow
-    // on topics with plenty of resources. The for-loop can be replaced with reduce().
+    // on nodes with plenty of resources. The for-loop can be replaced with reduce().
     for (let i = 0; i < resources.length; i++) {
       const clonedResource = await cloneResource(resources[i]);
       clonedResources.push(clonedResource);
@@ -186,27 +167,23 @@ const CopyResources = ({ id, locale, subjectId, structure, onClose, setShowAlert
     return clonedResources;
   };
 
-  const copyResources = async (topic: Topic) => {
+  const copyResources = async (fromNode: NodeType) => {
     try {
-      const resources = await fetchTopicResources(topic.id);
-      await addResourcesToTopic(resources);
-      await qc.invalidateQueries([TOPIC_RESOURCES, id]);
+      const resources = await fetchNodeResources(fromNode.id);
+      await addResourcesToNode(resources);
+      await qc.invalidateQueries([RESOURCES_WITH_NODE_CONNECTION, toNode.id, { language: locale }]);
     } catch (e) {
       setShowAlertModal(true);
       handleError(e);
     }
   };
 
-  const copyAndCloneResources = async (topic: Topic) => {
+  const copyAndCloneResources = async (fromNode: NodeType) => {
     try {
-      const resources = await fetchTopicResources(topic.id);
+      const resources = await fetchNodeResources(fromNode.id);
       const clonedResources = await cloneResources(resources);
-      await addResourcesToTopic(clonedResources);
-      // Taxonomy API takes a while to set resource types for cloned resources. If you don't delay
-      // query invalidation the cloned resources will be placed in the "missing" category until the
-      // query is refetched at a later point.
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      await qc.invalidateQueries([TOPIC_RESOURCES, id]);
+      await addResourcesToNode(clonedResources);
+      await qc.invalidateQueries([RESOURCES_WITH_NODE_CONNECTION, toNode.id, { language: locale }]);
     } catch (e) {
       setShowAlertModal(true);
       handleError(e);
@@ -227,8 +204,8 @@ const CopyResources = ({ id, locale, subjectId, structure, onClose, setShowAlert
         </MenuItemButton>
       ) : (
         <MenuItemDropdown
-          placeholder={t('taxonomy.existingTopic')}
-          searchResult={topics}
+          placeholder={t('taxonomy.existingNode')}
+          searchResult={nodes}
           onClose={onClose}
           onSubmit={copyResources}
           icon={<Copy />}
@@ -248,8 +225,8 @@ const CopyResources = ({ id, locale, subjectId, structure, onClose, setShowAlert
         </MenuItemButton>
       ) : (
         <MenuItemDropdown
-          placeholder={t('taxonomy.existingTopic')}
-          searchResult={topics}
+          placeholder={t('taxonomy.existingNode')}
+          searchResult={nodes}
           onClose={onClose}
           onSubmit={copyAndCloneResources}
           icon={<Copy />}
@@ -257,6 +234,21 @@ const CopyResources = ({ id, locale, subjectId, structure, onClose, setShowAlert
           showPagination
         />
       )}
+      <AlertModal
+        show={showAlertModal}
+        text={t('taxonomy.resource.copyError')}
+        actions={[
+          {
+            text: t('alertModal.continue'),
+            onClick: () => {
+              setShowAlertModal(false);
+            },
+          },
+        ]}
+        onCancel={() => {
+          setShowAlertModal(false);
+        }}
+      />
     </>
   );
 };

@@ -68,10 +68,7 @@ export const getResourceLanguages = (t: TFunction) => [
 
 export const getContentTypeFromResourceTypes = (resourceTypes: ResourceType[]): ContentType => {
   const resourceType = resourceTypes.find(type => !!mapping[type.id]);
-  if (resourceType) {
-    return mapping[resourceType.id];
-  }
-  return mapping.default;
+  return resourceType ? mapping[resourceType.id] : mapping.default;
 };
 
 const isLearningPathResourceType = (contentType?: string) =>

@@ -423,7 +423,7 @@ export const subjectsMock = [
     id: 'urn:subject:218c9882-5f4f-484d-848b-119fb97d7766',
     contentUri: null,
     name: 'Matte 101',
-    path: null,
+    path: '/subject:218c9882-5f4f-484d-848b-119fb97d7766',
   },
 ];
 

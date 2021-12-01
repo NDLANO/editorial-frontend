@@ -7,10 +7,10 @@
 import React, { useState } from 'react';
 import { spacing } from '@ndla/core';
 import { DeleteForever, Done } from '@ndla/icons/editor';
-import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
-import RoundIcon from '../../../../components/RoundIcon';
+import { StyledMenuItemEditField, StyledMenuItemInputField } from '../../styles';
+import RoundIcon from '../../../../../components/RoundIcon';
 import MenuItemSaveButton from './MenuItemSaveButton';
-import { TaxonomyMetadata } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { TaxonomyMetadata } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   fieldKey: string;

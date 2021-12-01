@@ -20,9 +20,7 @@ import { Pencil } from '@ndla/icons/action';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 
 import RoundIcon from '../../../../components/RoundIcon';
-import MenuItemButton from './MenuItemButton';
-import { TaxNameTranslation } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { EditMode } from '../../../../interfaces';
+import MenuItemButton from './components/MenuItemButton';
 import { Row } from '../../../../components';
 import SaveButton from '../../../../components/SaveButton';
 import FormikField from '../../../../components/FormikField';
@@ -33,15 +31,17 @@ import UIField from '../../../../components/Field';
 import { supportedLanguages } from '../../../../i18n2';
 import { requiredField } from '../../../../util/yupValidators';
 import DeleteButton from '../../../../components/DeleteButton';
-import AddSubjectTranslation from './AddSubjectTranslation';
+import AddNodeTranslation from './AddNodeTranslation';
 import handleError from '../../../../util/handleError';
 import { StyledErrorMessage } from '../styles';
+import { NODE, NODES } from '../../../../queryKeys';
+import { useNodeTranslations } from '../../../../modules/taxonomy/nodes/nodeQueries';
 import {
-  useDeleteSubjectNameTranslation,
-  useSubjectNameTranslations,
-  useUpdateSubjectNameTranslation,
-} from '../../../../modules/taxonomy/subjects/subjectsQueries';
-import { SUBJECT, SUBJECTS } from '../../../../queryKeys';
+  useDeleteNodeTranslationMutation,
+  useUpdateNodeTranslationMutation,
+} from '../../../../modules/taxonomy/nodes/nodeMutations';
+import { NodeTranslation, NodeType } from '../../../../modules/taxonomy/nodes/nodeApiTypes';
+import { EditModeHandler } from '../SettingsMenuDropdownType';
 
 const buttonStyle = css`
   flex-grow: 1;
@@ -62,37 +62,27 @@ const formikFieldStyle = css`
 `;
 
 interface FormikTranslationFormValues {
-  translations: TaxNameTranslation[];
+  translations: NodeTranslation[];
 }
 
 interface Props {
-  toggleEditMode: (s: EditMode) => void;
-  onClose: () => void;
-  editMode: string;
-  name: string;
-  id: string;
-  contentUri?: string;
+  node: NodeType;
+  editModeHandler: EditModeHandler;
 }
 
-const ChangeSubjectName = ({ toggleEditMode, onClose, editMode, id, name }: Props) => {
+const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }: Props) => {
   const { t } = useTranslation();
   return (
     <>
       <MenuItemButton
         stripped
         data-testid="changeSubjectNameButton"
-        onClick={() => toggleEditMode('changeSubjectName')}>
+        onClick={() => toggleEditMode('changeNodeName')}>
         <RoundIcon small icon={<Pencil />} />
         {t('taxonomy.changeName.buttonTitle')}
       </MenuItemButton>
-      {editMode === 'changeSubjectName' && (
-        <ChangeSubjectNameModal
-          name={name}
-          onClose={() => {
-            toggleEditMode('changeSubjectName');
-          }}
-          id={id}
-        />
+      {editMode === 'changeNodeName' && (
+        <ChangeNodeNameModal node={node} onClose={() => toggleEditMode('changeNodeName')} />
       )}
     </>
   );
@@ -100,27 +90,27 @@ const ChangeSubjectName = ({ toggleEditMode, onClose, editMode, id, name }: Prop
 
 interface ModalProps {
   onClose: () => void;
-  id: string;
-  name: string;
+  node: NodeType;
 }
 
-const ChangeSubjectNameModal = ({ onClose, id, name }: ModalProps) => {
+const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   const { t } = useTranslation();
   const [loadError, setLoadError] = useState('');
   const [updateError, setUpdateError] = useState('');
+  const { id, name } = node;
 
-  const { data: translations, isLoading: loading, refetch } = useSubjectNameTranslations(id, {
+  const { data: translations, isLoading: loading, refetch } = useNodeTranslations(id, {
     placeholderData: [],
     onError: e => {
       handleError(e);
       setLoadError(t('taxonomy.changeName.loadError'));
     },
   });
-  const { mutateAsync: deleteSubjectNameTranslation } = useDeleteSubjectNameTranslation();
-  const { mutateAsync: updateSubjectNameTranslation } = useUpdateSubjectNameTranslation();
+  const { mutateAsync: deleteNodeTranslation } = useDeleteNodeTranslationMutation();
+  const { mutateAsync: updateNodeTranslation } = useUpdateNodeTranslationMutation();
   const qc = useQueryClient();
 
-  const toRecord = (translations: TaxNameTranslation[]): Record<string, TaxNameTranslation> =>
+  const toRecord = (translations: NodeTranslation[]): Record<string, NodeTranslation> =>
     translations.reduce((prev, curr) => ({ ...prev, [curr.language]: curr }), {});
 
   const onSubmit = async (formik: FormikProps<FormikTranslationFormValues>) => {
@@ -132,10 +122,10 @@ const ChangeSubjectNameModal = ({ onClose, id, name }: ModalProps) => {
     const toUpdate = Object.entries(newValues).filter(([key, value]) => value !== initial[key]);
 
     const deleteCalls = deleted.map(([, d]) =>
-      deleteSubjectNameTranslation({ subjectId: id, locale: d.language }),
+      deleteNodeTranslation({ subjectId: id, locale: d.language }),
     );
     const updateCalls = toUpdate.map(([, u]) =>
-      updateSubjectNameTranslation({ subjectId: id, locale: u.language, name: u.name }),
+      updateNodeTranslation({ id, locale: u.language, newTranslation: { name: u.name } }),
     );
     const promises = [...deleteCalls, ...updateCalls];
     try {
@@ -143,15 +133,15 @@ const ChangeSubjectNameModal = ({ onClose, id, name }: ModalProps) => {
     } catch (e) {
       handleError(e);
       setUpdateError(t('taxonomy.changeName.updateError'));
-      qc.invalidateQueries(SUBJECTS);
-      qc.invalidateQueries([SUBJECT, id]);
+      qc.invalidateQueries(NODES);
+      qc.invalidateQueries([NODE, id]);
       formik.setSubmitting(false);
       return;
     }
 
     if (promises.length > 0) {
-      qc.invalidateQueries(SUBJECTS);
-      qc.invalidateQueries([SUBJECT, id]);
+      qc.invalidateQueries(NODES);
+      qc.invalidateQueries([NODE, id]);
     }
     await refetch();
     formik.resetForm({ values: formik.values, isSubmitting: false });
@@ -241,7 +231,7 @@ const ChangeSubjectNameModal = ({ onClose, id, name }: ModalProps) => {
                               </FormikField>
                             </Row>
                           ))}
-                          <AddSubjectTranslation
+                          <AddNodeTranslation
                             defaultName={name}
                             onAddTranslation={push}
                             availableLanguages={availableLanguages}
@@ -277,4 +267,4 @@ const ChangeSubjectNameModal = ({ onClose, id, name }: ModalProps) => {
   );
 };
 
-export default ChangeSubjectName;
+export default ChangeNodeName;

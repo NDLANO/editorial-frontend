@@ -123,7 +123,7 @@ class App extends React.Component<ActualProps, InternalState> {
                         <PrivateRoute path="/film" component={NdlaFilm} />
                         <PrivateRoute path="/h5p" component={H5PPage} />
                         <PrivateRoute
-                          path="/structure/:subject?/:topic?/:subtopics(.*)?"
+                          path="/structure/:root?/:child?/:children(.*)?"
                           component={StructurePage}
                         />
                         <Route path="/forbidden" component={ForbiddenPage} />

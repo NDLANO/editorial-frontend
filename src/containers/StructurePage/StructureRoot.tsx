@@ -5,119 +5,99 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { DropResult } from 'react-beautiful-dnd';
 import { useQueryClient } from 'react-query';
 import { partition, sortBy } from 'lodash';
-import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import {
-  useSubjectTopicsWithArticleType,
-  useUpdateSubjectTopic,
-} from '../../modules/taxonomy/subjects/subjectsQueries';
-import { groupTopics } from '../../util/taxonomyHelpers';
-import { SUBJECT_TOPICS_WITH_ARTICLE_TYPE } from '../../queryKeys';
-import { useUpdateTopicSubTopic } from '../../modules/taxonomy/topics/topicQueries';
+import { groupChildNodes } from '../../util/taxonomyHelpers';
+import { CHILD_NODES_WITH_ARTICLE_TYPE } from '../../queryKeys';
 import StructureNode, { RenderBeforeFunction } from './StructureNode';
+import { ChildNodeType, NodeType } from '../../modules/taxonomy/nodes/nodeApiTypes';
+import { useChildNodesWithArticleType } from '../../modules/taxonomy/nodes/nodeQueries';
+import { useUpdateNodeConnectionMutation } from '../../modules/taxonomy/nodes/nodeMutations';
 
 interface Props {
-  subject: SubjectType;
+  node: NodeType;
   toggleOpen: (path: string) => void;
   openedPaths: string[];
-  favoriteSubjectIds?: string[];
+  favoriteNodeIds?: string[];
   toggleFavorite: () => void;
-  locale: string;
-  onTopicSelect: (topic?: SubjectTopic) => void;
-  topicResourcesLoading: boolean;
+  onChildNodeSelected: (node?: ChildNodeType) => void;
+  nodeResourcesLoading: boolean;
   resourceSectionRef: React.MutableRefObject<HTMLDivElement | null>;
-  allSubjects: SubjectType[];
+  allRootNodes: NodeType[];
   renderBeforeTitle?: RenderBeforeFunction;
 }
 
 const StructureRoot = ({
-  favoriteSubjectIds,
-  subject,
+  favoriteNodeIds,
+  node,
   openedPaths,
   toggleOpen,
   toggleFavorite,
-  locale,
-  onTopicSelect,
-  topicResourcesLoading,
+  onChildNodeSelected,
+  nodeResourcesLoading,
   resourceSectionRef,
-  allSubjects,
+  allRootNodes,
   renderBeforeTitle,
 }: Props) => {
-  const { data: topicsData, isLoading } = useSubjectTopicsWithArticleType(subject.id, locale, {
-    enabled: openedPaths[0] === subject.id,
-    select: allTopics => groupTopics(allTopics),
+  const { i18n } = useTranslation();
+  const locale = i18n.language;
+  const childNodesQuery = useChildNodesWithArticleType(node.id, locale, {
+    enabled: openedPaths[0] === node.id,
+    select: childNodes => groupChildNodes(childNodes),
   });
+
   const qc = useQueryClient();
 
   const onUpdateRank = async (id: string, newRank: number) => {
-    await qc.cancelQueries([SUBJECT_TOPICS_WITH_ARTICLE_TYPE, subject.id, locale]);
-    const prevData = qc.getQueryData<SubjectTopic[]>([
-      SUBJECT_TOPICS_WITH_ARTICLE_TYPE,
-      subject.id,
-      locale,
-    ]);
+    await qc.cancelQueries([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale]);
+    const compositeKey = [CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale];
+    const prevData = qc.getQueryData<ChildNodeType[]>(compositeKey);
     const [toUpdate, other] = partition(prevData, t => t.connectionId === id);
-    const updatedTopic: SubjectTopic = { ...toUpdate[0], rank: newRank };
-    const updated = other.map(t => (t.rank >= updatedTopic.rank ? { ...t, rank: t.rank + 1 } : t));
-    const newArr = sortBy([...updated, updatedTopic], 'rank');
-    qc.setQueryData<SubjectTopic[]>([SUBJECT_TOPICS_WITH_ARTICLE_TYPE, subject.id, locale], newArr);
+    const updatedNode: ChildNodeType = { ...toUpdate[0], rank: newRank };
+    const updated = other.map(t => (t.rank >= updatedNode.rank ? { ...t, rank: t.rank + 1 } : t));
+    const newArr = sortBy([...updated, updatedNode], 'rank');
+    qc.setQueryData<ChildNodeType[]>([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale], newArr);
     return prevData;
   };
-  const { mutateAsync: updateTopicSubtopic } = useUpdateTopicSubTopic({
+
+  const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
     onMutate: data => onUpdateRank(data.id, data.body.rank!),
-  });
-  const { mutateAsync: updateSubjectTopic } = useUpdateSubjectTopic({
-    onMutate: data => onUpdateRank(data.id, data.body.rank!),
+    onSettled: () => qc.invalidateQueries([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale]),
   });
 
-  const onDragEnd = async (
-    { draggableId, source, destination }: DropResult,
-    topics: SubjectTopic[],
-  ) => {
-    if (!destination) {
-      return;
-    }
-    const currentRank = topics[source.index].rank;
-    const destinationRank = topics[destination.index].rank;
+  const onDragEnd = async (dropResult: DropResult, nodes: ChildNodeType[]) => {
+    const { draggableId, source, destination } = dropResult;
+    if (!destination) return;
+    const currentRank = nodes[source.index].rank;
+    const destinationRank = nodes[destination.index].rank;
     if (currentRank === destinationRank) return;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
-    const updateFunc = draggableId.includes('topic-subtopic')
-      ? updateTopicSubtopic
-      : updateSubjectTopic;
-    await updateFunc(
-      { id: draggableId, body: { rank: newRank } },
-      {
-        onSettled: () =>
-          qc.invalidateQueries([SUBJECT_TOPICS_WITH_ARTICLE_TYPE, subject.id, locale]),
-      },
-    );
+    await updateNodeConnection({ id: draggableId, body: { rank: newRank } });
   };
+
   return (
     <StructureNode
       renderBeforeTitle={renderBeforeTitle}
-      id={subject.id}
-      item={subject}
-      nodes={topicsData}
+      id={node.id}
+      item={node}
+      nodes={childNodesQuery.data}
       openedPaths={openedPaths}
-      locale={locale}
       level={1}
-      onTopicSelect={onTopicSelect}
+      onChildNodeSelected={onChildNodeSelected}
       toggleOpen={toggleOpen}
       toggleFavorite={toggleFavorite}
-      path={subject.id}
-      parent={''}
-      subjectId={subject.id}
-      topicResourcesLoading={topicResourcesLoading}
+      rootNodeId={node.id}
+      childNodeResourcesLoading={nodeResourcesLoading}
       resourceSectionRef={resourceSectionRef}
       onDragEnd={onDragEnd}
       connectionId={''}
       parentActive={true}
-      allSubjects={allSubjects}
+      allRootNodes={allRootNodes}
       isRoot={true}
-      favoriteSubjectIds={favoriteSubjectIds}
-      isLoading={isLoading}
+      favoriteNodeIds={favoriteNodeIds}
+      isLoading={childNodesQuery.isLoading}
     />
   );
 };

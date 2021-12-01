@@ -13,17 +13,15 @@ import { getIdFromUrn } from '../../util/taxonomyHelpers';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
 import Spinner from '../../components/Spinner';
 import GrepCodesForm from './GrepCodesForm';
-import { LocaleType } from '../../interfaces';
 import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface Props {
   contentUri?: string;
   onClose: (newGrepCodes?: string[]) => void;
-  locale: LocaleType;
 }
 
-const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
-  const { t } = useTranslation();
+const GrepCodesModal = ({ contentUri, onClose }: Props) => {
+  const { t, i18n } = useTranslation();
   const articleId = getIdFromUrn(contentUri);
   const [newGrepCodes, setNewGrepCodes] = useState<string[] | undefined>(undefined);
 
@@ -33,7 +31,7 @@ const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
     articleChanged,
     updateArticle,
     updateArticleAndStatus,
-  } = useFetchArticleData(articleId?.toString(), locale);
+  } = useFetchArticleData(articleId?.toString(), i18n.language);
 
   const onUpdateArticle = async (updated: UpdatedDraftApiType) => {
     const res = await updateArticle(updated);

@@ -18,16 +18,16 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import InlineAddButton from '../../components/InlineAddButton';
 import { useUpdateUserDataMutation, useUserData } from '../../modules/draft/draftQueries';
 import { ButtonAppearance } from '../../components/Accordion/types';
-import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
+import { REMEMBER_FAVOURITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
-import { useSubjects } from '../../modules/taxonomy/subjects';
-import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import StructureResources from './resourceComponents/StructureResources';
 import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers';
-import { useAddSubjectMutation } from '../../modules/taxonomy/subjects/subjectsQueries';
 import StructureRoot from './StructureRoot';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 import { useSession } from '../Session/SessionProvider';
+import { useNodes } from '../../modules/taxonomy/nodes/nodeQueries';
+import { ChildNodeType, NodeType } from '../../modules/taxonomy/nodes/nodeApiTypes';
+import { useAddNodeMutation } from '../../modules/taxonomy/nodes/nodeMutations';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -35,9 +35,9 @@ const StructureWrapper = styled.ul`
 `;
 
 export interface StructureRouteParams {
-  subject?: string;
-  subtopics?: string;
-  topic?: string;
+  root?: string;
+  child?: string;
+  children?: string;
 }
 
 export const StructureContainer = ({
@@ -46,42 +46,44 @@ export const StructureContainer = ({
   history,
 }: RouteComponentProps<StructureRouteParams>) => {
   const { t, i18n } = useTranslation();
-  const locale = i18n.language;
   const { userAccess } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
-  const [currentTopic, setCurrentTopic] = useState<SubjectTopic | undefined>(undefined);
-  const [topicResourcesLoading, setTopicResourcesLoading] = useState(false);
+  const [currentNode, setCurrentNode] = useState<ChildNodeType | undefined>(undefined);
+  const [nodeResourcesLoading, setNodeResourcesLoading] = useState(false);
   const resourceSection = useRef<HTMLDivElement>(null);
 
-  const { data: { favoriteSubjects } = {}, isLoading: userDataLoading } = useUserData();
-  const { data: subjectData, isLoading: subjectsLoading } = useSubjects(locale, undefined, {
-    select: subjects => subjects.sort((a, b) => a.name?.localeCompare(b.name)),
-    placeholderData: [],
-  });
-  const addSubjectMutation = useAddSubjectMutation();
+  const userDataQuery = useUserData();
+  const favoriteNodes = userDataQuery.data?.favoriteSubjects ?? [];
+
+  const nodesQuery = useNodes(
+    { language: i18n.language, nodeType: 'SUBJECT' },
+    {
+      select: nodes => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
+      placeholderData: [],
+    },
+  );
+  const addNodeMutation = useAddNodeMutation();
   const updateUserDataMutation = useUpdateUserDataMutation();
 
   useLayoutEffect(() => {
-    const initialShowFavorites = window.localStorage.getItem(REMEMBER_FAVOURITE_SUBJECTS);
+    const initialShowFavorites = window.localStorage.getItem(REMEMBER_FAVOURITE_NODES);
     setShowFavorites(initialShowFavorites === 'true');
   }, []);
 
-  const getFavoriteSubjects = (subjects: SubjectType[] = [], favoriteSubjectIds: string[] = []) => {
-    return subjects.filter(e => favoriteSubjectIds.includes(e.id));
+  const getFavoriteNodes = (nodes: NodeType[] = [], favoriteNodeIds: string[] = []) => {
+    return nodes.filter(node => favoriteNodeIds.includes(node.id));
   };
 
-  const subjects = showFavorites
-    ? getFavoriteSubjects(subjectData, favoriteSubjects)
-    : subjectData!;
+  const nodes = showFavorites ? getFavoriteNodes(nodesQuery.data, favoriteNodes) : nodesQuery.data!;
 
-  const toggleFavorite = (subjectId: string) => {
-    if (!favoriteSubjects) {
+  const toggleFavorite = (nodeId: string) => {
+    if (!favoriteNodes) {
       return;
     }
-    const updatedFavorites = favoriteSubjects.includes(subjectId)
-      ? favoriteSubjects.filter(s => s !== subjectId)
-      : [...favoriteSubjects, subjectId];
+    const updatedFavorites = favoriteNodes.includes(nodeId)
+      ? favoriteNodes.filter(s => s !== nodeId)
+      : [...favoriteNodes, nodeId];
     updateUserDataMutation.mutate({ favoriteSubjects: updatedFavorites });
   };
 
@@ -89,7 +91,7 @@ export const StructureContainer = ({
     setEditStructureHidden(!editStructureHidden);
   };
   const toggleShowFavorites = () => {
-    window.localStorage.setItem(REMEMBER_FAVOURITE_SUBJECTS, (!showFavorites).toString());
+    window.localStorage.setItem(REMEMBER_FAVOURITE_NODES, (!showFavorites).toString());
     setShowFavorites(!showFavorites);
   };
 
@@ -99,12 +101,12 @@ export const StructureContainer = ({
     const currentPath = url.replace('/structure/', '');
     const levelAbove = removeLastItemFromUrl(currentPath);
     const newPath = currentPath === path ? levelAbove : path;
-    const deleteSearch = !!params.subject && !newPath.includes(params.subject);
+    const deleteSearch = !!params.root && !newPath.includes(params.root);
     history.replace(`/structure/${newPath.concat(deleteSearch ? '' : search)}`);
   };
 
-  const addSubject = async (name: string) => {
-    addSubjectMutation.mutate({ name });
+  const addNode = async (name: string) => {
+    await addNodeMutation.mutateAsync({ name, nodeType: 'TOPIC' });
   };
 
   const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
@@ -122,9 +124,7 @@ export const StructureContainer = ({
           }
           appearance={ButtonAppearance.TAXONOMY}
           addButton={
-            isTaxonomyAdmin && (
-              <InlineAddButton title={t('taxonomy.addSubject')} action={addSubject} />
-            )
+            isTaxonomyAdmin && <InlineAddButton title={t('taxonomy.addSubject')} action={addNode} />
           }
           toggleSwitch={
             <Switch
@@ -138,38 +138,34 @@ export const StructureContainer = ({
           }
           hidden={editStructureHidden}>
           <div id="plumbContainer">
-            {userDataLoading || subjectsLoading ? (
+            {userDataQuery.isLoading || nodesQuery.isLoading ? (
               <Spinner />
             ) : (
               <StructureWrapper>
-                {subjects!.map(subject => (
+                {nodes!.map(node => (
                   <StructureRoot
                     renderBeforeTitle={isTaxonomyAdmin ? StructureErrorIcon : undefined}
-                    allSubjects={subjectData ?? []}
+                    allRootNodes={nodesQuery.data ?? []}
                     openedPaths={getPathsFromUrl(match.url)}
                     resourceSectionRef={resourceSection}
-                    topicResourcesLoading={topicResourcesLoading}
-                    onTopicSelect={setCurrentTopic}
-                    favoriteSubjectIds={favoriteSubjects}
-                    key={subject.id}
-                    subject={subject}
+                    nodeResourcesLoading={nodeResourcesLoading}
+                    onChildNodeSelected={setCurrentNode}
+                    favoriteNodeIds={favoriteNodes}
+                    key={node.id}
+                    node={node}
                     toggleOpen={handleStructureToggle}
-                    toggleFavorite={() => toggleFavorite(subject.id)}
-                    locale={locale}
+                    toggleFavorite={() => toggleFavorite(node.id)}
                   />
                 ))}
               </StructureWrapper>
             )}
           </div>
         </Accordion>
-        {currentTopic && (
+        {currentNode && (
           <StructureResources
-            setResourcesLoading={setTopicResourcesLoading}
-            locale={locale}
             resourceRef={resourceSection}
-            currentTopic={currentTopic}
-            updateCurrentTopic={setCurrentTopic}
-            grouped={currentTopic.metadata?.customFields['topic-resources'] ?? 'grouped'}
+            currentChildNode={currentNode}
+            updateCurrentChildNode={setCurrentNode}
           />
         )}
       </OneColumn>

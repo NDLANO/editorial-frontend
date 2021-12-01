@@ -46,7 +46,7 @@ export const updateStatusLearningpath = (
   }).then(r => resolveJsonOrRejectWithError<Learningpath>(r));
 
 export const updateLearningPathTaxonomy = (
-  id: number,
+  id: number | string,
   createIfMissing: boolean = false,
 ): Promise<Learningpath> =>
   fetchAuthorized(`${baseUrl}/${id}/update-taxonomy/?create-if-missing=${createIfMissing}`, {

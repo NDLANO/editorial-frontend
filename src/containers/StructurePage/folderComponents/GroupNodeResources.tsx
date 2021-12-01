@@ -20,40 +20,39 @@ import { StyledMenuItemEditField, StyledMenuItemInputField } from './styles';
 import RoundIcon from '../../../components/RoundIcon';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { useTopicMetadataUpdateMutation } from '../../../modules/taxonomy/topics/topicQueries';
-import { SUBJECT_TOPICS_WITH_ARTICLE_TYPE } from '../../../queryKeys';
+import { CHILD_NODES_WITH_ARTICLE_TYPE } from '../../../queryKeys';
+import { NodeType } from '../../../modules/taxonomy/nodes/nodeApiTypes';
+import { useUpdateNodeMetadataMutation } from '../../../modules/taxonomy/nodes/nodeMutations';
 
 interface Props {
-  topicId: string;
-  subjectId: string;
-  metadata: TaxonomyMetadata;
+  node: NodeType;
   hideIcon?: boolean;
   onChanged?: (newMeta: Partial<TaxonomyMetadata>) => void;
 }
 
-const GroupTopicResources = ({ topicId, subjectId, metadata, hideIcon, onChanged }: Props) => {
+const GroupNodeResources = ({ node, hideIcon, onChanged }: Props) => {
   const { t } = useTranslation();
-  const updateTopicMetadataMutation = useTopicMetadataUpdateMutation();
+  const updateNodeMetadata = useUpdateNodeMetadataMutation();
   const qc = useQueryClient();
   const updateMetadata = async () => {
     const customFields = {
-      ...metadata.customFields,
+      ...node.metadata.customFields,
       [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES]: isGrouped
         ? TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE
         : TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
     };
-    updateTopicMetadataMutation.mutate(
-      { id: topicId, metadata: { customFields } },
+    updateNodeMetadata.mutate(
+      { id: node.id, metadata: { customFields } },
       {
-        onSettled: () => qc.invalidateQueries(SUBJECT_TOPICS_WITH_ARTICLE_TYPE),
+        onSettled: () => qc.invalidateQueries(CHILD_NODES_WITH_ARTICLE_TYPE),
         onSuccess: () => onChanged?.({ customFields }),
       },
     );
   };
 
-  const topicResources = metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
+  const nodeResources = node.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
   const isGrouped =
-    (topicResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) ===
+    (nodeResources ?? TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE) ===
     TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE;
   return (
     <StyledMenuItemEditField>
@@ -78,4 +77,4 @@ const GroupTopicResources = ({ topicId, subjectId, metadata, hideIcon, onChanged
   );
 };
 
-export default GroupTopicResources;
+export default GroupNodeResources;

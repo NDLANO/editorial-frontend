@@ -16,14 +16,14 @@ import { Row } from '../../../../components';
 import FormikField from '../../../../components/FormikField';
 import validateFormik from '../../../../components/formikValidationSchema';
 import { LocaleType } from '../../../../interfaces';
-import { TaxNameTranslation } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { NodeTranslation } from '../../../../modules/taxonomy/nodes/nodeApiTypes';
 
 const formikFieldStyle = css`
   margin-top: 0px;
 `;
 
-interface AddSubjectTranslationProps {
-  onAddTranslation: (translation: TaxNameTranslation) => void;
+interface Props {
+  onAddTranslation: (translation: NodeTranslation) => void;
   availableLanguages: LocaleType[];
   defaultName: string;
 }
@@ -33,11 +33,7 @@ interface FormValues {
   language: LocaleType;
 }
 
-const AddSubjectTranslation = ({
-  onAddTranslation,
-  availableLanguages,
-  defaultName,
-}: AddSubjectTranslationProps) => {
+const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName }: Props) => {
   const { t } = useTranslation();
 
   const rules = {
@@ -121,4 +117,4 @@ const AddSubjectTranslation = ({
   );
 };
 
-export default AddSubjectTranslation;
+export default AddNodeTranslation;

@@ -10,27 +10,18 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pencil } from '@ndla/icons/action';
 import RoundIcon from '../../../../components/RoundIcon';
-import { TaxonomyElement } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import MenuItemButton from './MenuItemButton';
+import MenuItemButton from './components/MenuItemButton';
 import MenuItemCustomField from './MenuItemCustomField';
 import { EditMode } from '../../../../interfaces';
+import { NodeType } from '../../../../modules/taxonomy/nodes/nodeApiTypes';
 
-interface Props extends TaxonomyElement {
-  subjectId: string;
+interface Props {
+  node: NodeType;
   toggleEditMode: (state: EditMode) => void;
   editMode: string;
-  type: 'topic' | 'subject';
 }
 
-const EditCustomFields = ({
-  id,
-  subjectId,
-  name,
-  metadata,
-  toggleEditMode,
-  editMode,
-  type,
-}: Props) => {
+const EditCustomFields = ({ node, toggleEditMode, editMode }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -42,15 +33,7 @@ const EditCustomFields = ({
         {t('taxonomy.metadata.customFields.alterFields')}
       </MenuItemButton>
 
-      {editMode === 'openCustomFields' && (
-        <MenuItemCustomField
-          id={id}
-          subjectId={subjectId}
-          name={name}
-          metadata={metadata}
-          type={type}
-        />
-      )}
+      {editMode === 'openCustomFields' && <MenuItemCustomField node={node} />}
     </div>
   );
 };

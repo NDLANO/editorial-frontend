@@ -46,17 +46,9 @@ interface Props {
   contentType?: string;
   name?: string;
   isVisible?: boolean;
-  locale: string;
 }
 
-const VersionHistoryLightBox = ({
-  onClose,
-  contentUri,
-  contentType,
-  name,
-  isVisible,
-  locale,
-}: Props) => {
+const VersionHistoryLightBox = ({ onClose, contentUri, contentType, name, isVisible }: Props) => {
   const [notes, setNotes] = useState<VersionHistoryNotes[] | undefined>(undefined);
   const { t } = useTranslation();
 
@@ -102,7 +94,6 @@ const VersionHistoryLightBox = ({
         <ResourceItemLink
           contentType={contentType}
           contentUri={contentUri}
-          locale={locale}
           name={name}
           isVisible={isVisible}
         />

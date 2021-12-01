@@ -9,7 +9,6 @@
 import {
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
-  getCurrentTopic,
   pathToUrnArray,
 } from '../taxonomyHelpers';
 import { resourceTypesMock, flattenedResourceTypes, filtersMock } from './taxonomyMocks';
@@ -150,28 +149,6 @@ test('taxonomy/sortIntoCreateDeleteUpdate different item changes', () => {
     [],
     [],
   ]);
-});
-
-test('getCurrentTopic', () => {
-  const input = [
-    { params: { topic: 'topic1' }, allTopics: [] },
-    { params: { topic: 'topic1' }, allTopics: [] },
-    { params: { topic: 'topic1' }, allTopics: [{ id: 'topic1' }] },
-    {
-      params: { topic: 'topic1', subtopics: 'topic2' },
-      allTopics: [{ id: 'topic1' }, { id: 'topic2' }],
-    },
-    {
-      params: { topic: 'topic1', subtopics: 'topic99' },
-      allTopics: [{ id: 'topic1' }, { id: 'topic2' }],
-    },
-  ];
-
-  const output = [undefined, undefined, { id: 'topic1' }, { id: 'topic2' }, undefined];
-
-  input.forEach((variables, i) => {
-    expect(getCurrentTopic(variables)).toEqual(output[i]);
-  });
 });
 
 test('pathToUrnArray', () => {

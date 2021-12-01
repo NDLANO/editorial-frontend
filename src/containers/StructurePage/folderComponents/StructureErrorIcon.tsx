@@ -12,8 +12,8 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { AlertCircle } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
-import { SubjectTopic, SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
+import { NodeType } from '../../../modules/taxonomy/nodes/nodeApiTypes';
 
 const StyledWarnIcon = styled(AlertCircle)`
   height: ${spacing.nsmall};
@@ -21,11 +21,7 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.support.red};
 `;
 
-const StructureErrorIcon = (
-  item: SubjectTopic | SubjectType,
-  isRoot: boolean,
-  articleType?: string,
-) => {
+const StructureErrorIcon = (item: NodeType, isRoot: boolean, articleType?: string) => {
   const { t } = useTranslation();
   if (isRoot || articleType === 'topic-article') return null;
 

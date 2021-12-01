@@ -14,18 +14,14 @@ import { spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
 
 import RoundIcon from '../../../../components/RoundIcon';
-import MenuItemButton from './MenuItemButton';
-import { EditMode } from '../../../../interfaces';
-import { useUpdateSubjectMetadata } from '../../../../modules/taxonomy/subjects/subjectsQueries';
-import { useTopicMetadataUpdateMutation } from '../../../../modules/taxonomy/topics/topicQueries';
+import MenuItemButton from './components/MenuItemButton';
+import { useUpdateNodeMetadataMutation } from '../../../../modules/taxonomy/nodes/nodeMutations';
+import { NodeType } from '../../../../modules/taxonomy/nodes/nodeApiTypes';
+import { EditModeHandler } from '../SettingsMenuDropdownType';
 
 interface Props {
-  editMode: string;
-  id: string;
-  name: string;
-  menuType: 'subject' | 'topic';
-  metadata: { grepCodes: string[]; visible: boolean };
-  toggleEditMode: (mode: EditMode) => void;
+  node: NodeType;
+  editModeHandler: EditModeHandler;
 }
 
 export const DropDownWrapper = styled('div')`
@@ -36,33 +32,20 @@ export const DropDownWrapper = styled('div')`
   padding: calc(${spacing.small} / 2);
 `;
 
-const ToggleVisibility = ({ editMode, id, name, menuType, metadata, toggleEditMode }: Props) => {
+const ToggleVisibility = ({ node, editModeHandler: { toggleEditMode, editMode } }: Props) => {
   const { t } = useTranslation();
+  const { name, id, metadata } = node;
   const [visible, setVisible] = useState(metadata?.visible);
-  const { mutateAsync: updateSubjectMetadata } = useUpdateSubjectMetadata();
-  const { mutateAsync: updateTopicMetadata } = useTopicMetadataUpdateMutation();
+  const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
 
   const toggleVisibility = async () => {
-    const func = menuType === 'subject' ? updateSubjectMetadata : updateTopicMetadata;
-    await func({ id, metadata: { grepCodes: metadata.grepCodes, visible: !visible } });
+    await updateMetadata({ id, metadata: { grepCodes: metadata.grepCodes, visible: !visible } });
     setVisible(!visible);
   };
 
   const toggleEditModes = () => {
     toggleEditMode('toggleMetadataVisibility');
   };
-
-  const toggle = visible ? (
-    <DropDownWrapper>
-      {name} {t('metadata.visible')}
-      <Switch onChange={toggleVisibility} checked={visible} label="" id={'visible'} />
-    </DropDownWrapper>
-  ) : (
-    <DropDownWrapper>
-      {name} {t('metadata.notVisible')}
-      <Switch onChange={toggleVisibility} checked={visible} label="" id={'visible'} />
-    </DropDownWrapper>
-  );
 
   return (
     <>
@@ -73,7 +56,12 @@ const ToggleVisibility = ({ editMode, id, name, menuType, metadata, toggleEditMo
         <RoundIcon small icon={<Eye />} />
         {t('metadata.changeVisibility')}
       </MenuItemButton>
-      {editMode === 'toggleMetadataVisibility' && toggle}
+      {editMode === 'toggleMetadataVisibility' && (
+        <DropDownWrapper>
+          {name} {t(`metadata.${visible ? 'visible' : 'notVisible'}`)}
+          <Switch onChange={toggleVisibility} checked={visible} label="" id={'visible'} />
+        </DropDownWrapper>
+      )}
     </>
   );
 };

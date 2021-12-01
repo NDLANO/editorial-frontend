@@ -9,22 +9,21 @@
 import React, { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
+import { DropResult } from 'react-beautiful-dnd';
 import { partition, sortBy, uniqBy } from 'lodash';
 import styled from '@emotion/styled';
 import Resource from './Resource';
-import { updateTopicSubtopic, updateSubjectTopic } from '../../../modules/taxonomy';
 import handleError from '../../../util/handleError';
 import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import Spinner from '../../../components/Spinner';
-import { TopicResource } from './StructureResources';
 import { classes } from './ResourceGroup';
-import { LocaleType } from '../../../interfaces';
+import { RESOURCES_WITH_NODE_CONNECTION } from '../../../queryKeys';
+import { ResourceWithNodeConnection } from '../../../modules/taxonomy/nodes/nodeApiTypes';
 import {
-  useDeleteTopicResourceMutation,
-  useUpdateTopicResource,
-} from '../../../modules/taxonomy/topics/topicQueries';
-import { TOPIC_RESOURCES } from '../../../queryKeys';
+  useDeleteResourceForNodeMutation,
+  usePutResourceForNodeMutation,
+} from '../../../modules/taxonomy/nodes/nodeMutations';
 
 const StyledResourceItems = styled.ul`
   list-style: none;
@@ -37,68 +36,52 @@ const StyledErrorMessage = styled.div`
 `;
 
 interface Props {
-  resources: TopicResource[];
-  locale: LocaleType;
-  currentTopicId: string;
+  resources: ResourceWithNodeConnection[];
+  currentNodeId: string;
 }
 
-const ResourceItems = ({ resources, locale, currentTopicId }: Props) => {
-  const { t } = useTranslation();
+const ResourceItems = ({ resources, currentNodeId }: Props) => {
+  const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>('');
 
   const qc = useQueryClient();
-  const {
-    mutateAsync: deleteTopicResource,
-    error,
-    isLoading: loading,
-  } = useDeleteTopicResourceMutation();
+  const deleteNodeResource = useDeleteResourceForNodeMutation();
+  const compKey = [RESOURCES_WITH_NODE_CONNECTION, currentNodeId, { language: i18n.language }];
 
   const onUpdateRank = async (id: string, newRank: number) => {
-    await qc.cancelQueries([TOPIC_RESOURCES, resources[0].topicId, locale]);
+    await qc.cancelQueries(compKey);
     const [toUpdate, other] = partition(resources, t => t.connectionId === id);
-    const updatedRes: TopicResource = { ...toUpdate[0], rank: newRank };
-    const prevData =
-      qc.getQueryData<TopicResource[]>([TOPIC_RESOURCES, updatedRes.topicId, locale, undefined]) ??
-      [];
+    const updatedRes: ResourceWithNodeConnection = { ...toUpdate[0], rank: newRank };
+    const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
     const updated = other.map(t => (t.rank >= updatedRes.rank ? { ...t, rank: t.rank + 1 } : t));
     const newArr = sortBy([...updated, updatedRes], 'rank');
-    const allResources = uniqBy<TopicResource>([...newArr, ...prevData], 'id');
-    qc.setQueryData<TopicResource[]>(
-      [TOPIC_RESOURCES, updatedRes.topicId, locale, undefined],
-      allResources,
-    );
+    const allResources = uniqBy<ResourceWithNodeConnection>([...newArr, ...prevData], 'id');
+    qc.setQueryData<ResourceWithNodeConnection[]>(compKey, allResources);
     return resources;
   };
 
-  const { mutateAsync: updateTopicResource } = useUpdateTopicResource({
+  const { mutateAsync: updateNodeResource } = usePutResourceForNodeMutation({
     onMutate: data => onUpdateRank(data.id, data.body.rank as number),
     onError: e => handleError(e),
-    onSuccess: () => qc.invalidateQueries([TOPIC_RESOURCES]),
+    onSuccess: () => qc.invalidateQueries(compKey),
   });
 
   const onDelete = async (deleteId: string) => {
     setDeleteId('');
-    await deleteTopicResource(deleteId, {
-      onSuccess: () => qc.invalidateQueries(TOPIC_RESOURCES),
-    });
+    await deleteNodeResource.mutateAsync(
+      { id: deleteId },
+      { onSuccess: () => qc.invalidateQueries(compKey) },
+    );
   };
 
-  const onDragEnd = async ({
-    destination,
-    source,
-  }: {
-    destination?: { index: number };
-    source: { index: number };
-  }) => {
-    if (!destination) {
-      return;
-    }
+  const onDragEnd = async ({ destination, source }: DropResult) => {
+    if (!destination) return;
     const { connectionId, primary, relevanceId, rank: currentRank } = resources[source.index];
     const { rank } = resources[destination.index];
     if (currentRank === rank) {
       return;
     }
-    await updateTopicResource({
+    await updateNodeResource({
       id: connectionId,
       body: {
         primary,
@@ -112,31 +95,7 @@ const ResourceItems = ({ resources, locale, currentTopicId }: Props) => {
     setDeleteId(newDeleteId);
   };
 
-  const updateRelevanceId = async (
-    connectionId: string,
-    body: {
-      primary?: boolean;
-      rank?: number;
-      relevanceId?: string;
-    },
-  ) => {
-    const [, connectionType] = connectionId.split(':');
-    switch (connectionType) {
-      case 'topic-resource':
-        updateTopicResource({ id: connectionId, body });
-        break;
-      case 'topic-subtopic':
-        updateTopicSubtopic(connectionId, body);
-        break;
-      case 'subject-topic':
-        updateSubjectTopic(connectionId, { ...body, rank: body.rank! });
-        break;
-      default:
-        return;
-    }
-  };
-
-  if (loading) {
+  if (deleteNodeResource.isLoading) {
     return <Spinner />;
   }
   return (
@@ -144,19 +103,16 @@ const ResourceItems = ({ resources, locale, currentTopicId }: Props) => {
       <MakeDndList onDragEnd={onDragEnd} dragHandle disableDnd={false}>
         {resources.map(resource => (
           <Resource
-            {...resource}
+            id={resource.id}
             resource={resource}
             key={resource.id}
             onDelete={toggleDelete}
-            locale={locale}
-            updateRelevanceId={updateRelevanceId}
           />
         ))}
       </MakeDndList>
-      {error && (
+      {deleteNodeResource.error && (
         <StyledErrorMessage data-testid="inlineEditErrorMessage" {...classes('errorMessage')}>
-          {/* @ts-ignore */}
-          {`${t('taxonomy.errorMessage')}: ${e.message}`}
+          {`${t('taxonomy.errorMessage')}: ${deleteNodeResource.error.message}`}
         </StyledErrorMessage>
       )}
       <AlertModal

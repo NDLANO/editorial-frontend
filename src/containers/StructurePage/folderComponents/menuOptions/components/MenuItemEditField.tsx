@@ -11,10 +11,10 @@ import PropTypes from 'prop-types';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Done } from '@ndla/icons/editor';
-import { StyledMenuItemInputField, StyledErrorMessage } from '../styles';
-import RoundIcon from '../../../../components/RoundIcon';
-import handleError from '../../../../util/handleError';
-import Spinner from '../../../../components/Spinner';
+import { StyledMenuItemInputField, StyledErrorMessage } from '../../styles';
+import RoundIcon from '../../../../../components/RoundIcon';
+import handleError from '../../../../../util/handleError';
+import Spinner from '../../../../../components/Spinner';
 import MenuItemSaveButton from './MenuItemSaveButton';
 
 const StyledMenuItemEditField = styled('div')`

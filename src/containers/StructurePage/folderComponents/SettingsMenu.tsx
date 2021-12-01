@@ -6,19 +6,22 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
+import { shadows, colors, spacing, animations } from '@ndla/core';
 import { Settings } from '@ndla/icons/editor';
+import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { useState } from 'react';
 import Overlay from '../../../components/Overlay';
+import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 import RoundIcon from '../../../components/RoundIcon';
-import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import SettingsMenuDropdown from './SettingsMenuDropdown';
 import { PathArray } from '../../../util/retrieveBreadCrumbs';
-import { EditMode } from '../../../interfaces';
+import { NodeType } from '../../../modules/taxonomy/nodes/nodeApiTypes';
+import CrossButton from '../../../components/CrossButton';
+import { getNodeTypeFromNodeId } from '../../../modules/taxonomy/nodes/nodeUtil';
 
-const StyledDivWrapper = styled('div')`
+const SettingsMenuWrapper = styled('div')`
   position: relative;
   display: flex;
 
@@ -28,71 +31,73 @@ const StyledDivWrapper = styled('div')`
 `;
 
 interface Props {
-  type: string;
-  setShowAlertModal: (show: boolean) => void;
-  id: string;
-  name: string;
-  path: string;
-  showAllOptions: boolean;
-  metadata: TaxonomyMetadata;
-  locale: string;
-  subjectId: string;
-  parent?: string;
+  node: NodeType;
+  rootNodeId: string;
   structure: PathArray;
 }
 
-const SettingsMenu = ({
-  type,
-  setShowAlertModal,
-  id,
-  name,
-  path,
-  locale,
-  metadata,
-  showAllOptions,
-  subjectId,
-  parent,
-  structure,
-}: Props) => {
+const SettingsMenu = ({ node, rootNodeId, structure }: Props) => {
   const [open, setOpen] = useState(false);
-  const [editMode, setEditMode] = useState<EditMode>('');
-
-  const toggleEditMode = (mode: EditMode) => {
-    setEditMode(prev => (mode === prev ? '' : mode));
-  };
+  const { t } = useTranslation();
+  const nodeType = getNodeTypeFromNodeId(node.id);
 
   const toggleOpenMenu = () => {
     setOpen(!open);
   };
 
   return (
-    <StyledDivWrapper>
-      <Button onClick={toggleOpenMenu} data-cy={`settings-button-${type}`} stripped>
+    <SettingsMenuWrapper>
+      <Button onClick={toggleOpenMenu} data-cy={`settings-button`} stripped>
         <RoundIcon icon={<Settings />} margin open={open} />
       </Button>
       {open && (
         <>
           <Overlay modifiers={['zIndex']} onExit={toggleOpenMenu} />
-          <SettingsMenuDropdown
-            onClose={toggleOpenMenu}
-            toggleEditMode={toggleEditMode}
-            editMode={editMode}
-            setShowAlertModal={setShowAlertModal}
-            id={id}
-            name={name}
-            type={type}
-            locale={locale}
-            metadata={metadata}
-            path={path}
-            showAllOptions={showAllOptions}
-            subjectId={subjectId}
-            parent={parent}
-            structure={structure}
-          />
+
+          <StyledDivWrapper>
+            <div className="header">
+              <RoundIcon icon={<Settings />} open />
+              <span
+                css={css`
+                  margin-left: calc(${spacing.small} / 2);
+                `}>
+                {t(`taxonomy.${nodeType.toLowerCase()}Settings`)}
+              </span>
+              <CrossButton stripped css={closeButtonStyle} onClick={toggleOpenMenu} />
+            </div>
+            <SettingsMenuDropdownType
+              node={node}
+              onClose={toggleOpenMenu}
+              rootNodeId={rootNodeId}
+              structure={structure}
+            />
+          </StyledDivWrapper>
         </>
       )}
-    </StyledDivWrapper>
+    </SettingsMenuWrapper>
   );
 };
+
+const closeButtonStyle = css`
+  color: ${colors.brand.grey};
+  margin-left: auto;
+`;
+
+export const StyledDivWrapper = styled('div')`
+  position: absolute;
+  ${animations.fadeIn()}
+  box-shadow: ${shadows.levitate1};
+  z-index: 2;
+  top: -1px;
+  padding: calc(${spacing.small} / 2);
+  width: 550px;
+  background-color: ${colors.brand.greyLightest};
+  box-shadow: 0 0 4px 0 rgba(78, 78, 78, 0.5);
+
+  & .header {
+    display: flex;
+    align-items: center;
+  }
+`;
 
 export default SettingsMenu;

@@ -40,3 +40,14 @@ export const TOPIC_RESOURCE_STATUS_GREP_QUERY = 'topicResourcesWithStatusAndGrep
 
 export const FILM_FRONTPAGE_QUERY = 'filmFrontpage';
 export const FILM_SLIDESHOW = 'filmSlideshow';
+
+export const NODE = 'node';
+export const NODES = 'nodes';
+export const CHILD_NODES_WITH_ARTICLE_TYPE = 'childNodesWithArticleType';
+export const NODE_TRANSLATIONS = 'nodeTranslations';
+export const NODE_CONNECTION = 'nodeConnection';
+export const NODE_CONNECTIONS = 'nodeConnections';
+export const CONNECTIONS_FOR_NODE = 'connectionsForNode';
+export const NODE_RESOURCES = 'resourcesForNode';
+export const RESOURCES_WITH_NODE_CONNECTION = 'resourcesWithNodeConnection';
+export const NODE_RESOURCE_STATUS_GREP_QUERY = 'nodeResourceWithStatusAndGrep';

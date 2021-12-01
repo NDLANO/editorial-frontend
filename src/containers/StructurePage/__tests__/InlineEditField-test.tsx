@@ -9,7 +9,7 @@
 import React from 'react';
 import { render, fireEvent, cleanup, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import MenuItemEditField from '../folderComponents/menuOptions/MenuItemEditField';
+import MenuItemEditField from '../folderComponents/menuOptions/components/MenuItemEditField';
 
 afterEach(cleanup);
 

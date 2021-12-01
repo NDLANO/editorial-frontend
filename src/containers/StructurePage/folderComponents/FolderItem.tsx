@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
@@ -15,12 +15,9 @@ import { css } from '@emotion/core';
 import BEMHelper from 'react-bem-helper';
 import SettingsMenu from './SettingsMenu';
 
-import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
-import AlertModal from '../../../components/AlertModal';
-import { SubjectType, TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import Spinner from '../../../components/Spinner';
 import { Row } from '../../../components';
-import { useSession } from '../../Session/SessionProvider';
+import { NodeType } from '../../../modules/taxonomy/nodes/nodeApiTypes';
 
 export const classes = new BEMHelper({
   name: 'folder',
@@ -33,58 +30,30 @@ const resourceButtonStyle = css`
 `;
 
 interface BaseProps {
-  structure: SubjectType[];
+  node: NodeType;
+  structure: NodeType[];
   jumpToResources?: () => void;
-  locale: string;
-  name: string;
-  pathToString: string;
   isMainActive?: boolean;
   resourcesLoading?: boolean;
-  id: string;
-  metadata: TaxonomyMetadata;
-  subjectId: string;
-  parent?: string;
+  rootNodeId: string;
 }
 
 type Props = BaseProps & RouteComponentProps;
 
 const FolderItem = ({
-  name,
-  pathToString,
-  id,
+  node,
   jumpToResources,
   isMainActive,
-  metadata,
-  locale,
   resourcesLoading,
-  subjectId,
-  parent,
+  rootNodeId,
   structure,
 }: Props) => {
-  const { userAccess } = useSession();
-  const type = id?.includes('subject') ? 'subject' : 'topic';
   const { t } = useTranslation();
-  const showJumpToResources = isMainActive && type === 'topic';
-
-  const [showAlertModal, setShowAlertModal] = useState(false);
+  const showJumpToResources = isMainActive && node.id.includes('topic');
 
   return (
     <div data-cy="folderWrapper" {...classes('wrapper')}>
-      {isMainActive && (
-        <SettingsMenu
-          id={id}
-          name={name}
-          type={type}
-          path={pathToString}
-          showAllOptions={!!userAccess?.includes(TAXONOMY_ADMIN_SCOPE)}
-          metadata={metadata}
-          setShowAlertModal={setShowAlertModal}
-          locale={locale}
-          subjectId={subjectId}
-          parent={parent}
-          structure={structure}
-        />
-      )}
+      {isMainActive && <SettingsMenu node={node} rootNodeId={rootNodeId} structure={structure} />}
       {showJumpToResources && (
         <Button
           outline
@@ -100,23 +69,6 @@ const FolderItem = ({
           </Row>
         </Button>
       )}
-      {
-        <AlertModal
-          show={showAlertModal}
-          text={t('taxonomy.resource.copyError')}
-          actions={[
-            {
-              text: t('alertModal.continue'),
-              onClick: () => {
-                setShowAlertModal(false);
-              },
-            },
-          ]}
-          onCancel={() => {
-            setShowAlertModal(false);
-          }}
-        />
-      }
     </div>
   );
 };

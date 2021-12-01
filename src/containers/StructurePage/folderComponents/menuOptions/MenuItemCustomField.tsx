@@ -11,12 +11,9 @@ import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { Plus } from '@ndla/icons/action';
-import GroupTopicResources from '../GroupTopicResources';
-import {
-  TaxonomyElement,
-  TaxonomyMetadata,
-} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import CustomFieldComponent from './CustomFieldComponent';
+import GroupNodeResources from '../GroupNodeResources';
+import { TaxonomyMetadata } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import CustomFieldComponent from './components/CustomFieldComponent';
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -27,60 +24,57 @@ import {
 import { filterWrapper } from '../styles';
 import ToggleExplanationSubject from './ToggleExplanationSubject';
 import TaxonomyMetadataLanguageSelector from './TaxonomyMetadataLanguageSelector';
-import ConstantMetaField from './ConstantMetaField';
-import SubjectCategorySelector from './SubjectCategorySelector';
-import { useUpdateSubjectMetadata } from '../../../../modules/taxonomy/subjects/subjectsQueries';
-import { useTopicMetadataUpdateMutation } from '../../../../modules/taxonomy/topics/topicQueries';
+import ConstantMetaField from './components/ConstantMetaField';
+import NodeCategorySelector from './NodeCategorySelector';
+import { NodeType, SUBJECT_NODE } from '../../../../modules/taxonomy/nodes/nodeApiTypes';
+import { useUpdateNodeMetadataMutation } from '../../../../modules/taxonomy/nodes/nodeMutations';
+import { getNodeTypeFromNodeId } from '../../../../modules/taxonomy/nodes/nodeUtil';
 
-interface Props extends TaxonomyElement {
-  subjectId: string;
-  type: 'topic' | 'subject';
+interface Props {
+  node: NodeType;
 }
 
-const MenuItemCustomField = ({ id, subjectId, metadata, type }: Props) => {
+const MenuItemCustomField = ({ node }: Props) => {
   const { t } = useTranslation();
+  const { id, metadata } = node;
+  const nodeType = getNodeTypeFromNodeId(id);
   const [isOpen, setOpen] = useState<boolean>(false);
   const [customFields, setCustomFields] = useState<TaxonomyMetadata['customFields']>(
     metadata.customFields,
   );
 
-  const { mutate: updateSubjectMetadata } = useUpdateSubjectMetadata();
-  const { mutate: updateTopicMetadata } = useTopicMetadataUpdateMutation();
+  const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
 
   useEffect(() => {
-    const func = type === 'subject' ? updateSubjectMetadata : updateTopicMetadata;
     if (customFields !== metadata.customFields) {
-      func({ id, metadata: { customFields } });
+      updateMetadata({ id, metadata: { customFields } });
     }
   }, [customFields]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const filteredSubjectFields = [
+  const filteredRootFields = [
     TAXONOMY_CUSTOM_FIELD_LANGUAGE,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   ];
-  const [filteredTopicFields] = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
+  const [filteredChildFields] = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
 
   const filterHardcodedMetadataValues = () => {
     return Object.entries(customFields).filter(([taxonomyMetadataField, _]) => {
-      const fieldsToFilter = type === 'subject' ? filteredSubjectFields : filteredTopicFields;
+      const fieldsToFilter = nodeType === SUBJECT_NODE ? filteredRootFields : filteredChildFields;
       return !fieldsToFilter.includes(taxonomyMetadataField);
     });
   };
 
   return (
     <div>
-      {type === 'subject' ? (
+      {nodeType === SUBJECT_NODE ? (
         <>
           <TaxonomyMetadataLanguageSelector
             customFields={customFields}
             updateCustomFields={setCustomFields}
           />
-          <SubjectCategorySelector
-            customFields={customFields}
-            updateCustomFields={setCustomFields}
-          />
+          <NodeCategorySelector customFields={customFields} updateCustomFields={setCustomFields} />
           <ToggleExplanationSubject customFields={customFields} updateFields={setCustomFields} />
           <ConstantMetaField
             keyPlaceholder={t('taxonomy.metadata.customFields.oldSubjectId')}
@@ -91,7 +85,7 @@ const MenuItemCustomField = ({ id, subjectId, metadata, type }: Props) => {
           />
         </>
       ) : (
-        <GroupTopicResources metadata={metadata} topicId={id} subjectId={subjectId} />
+        <GroupNodeResources node={node} />
       )}
       {filterHardcodedMetadataValues()
         .sort((a, b) => a[0].localeCompare(b[0]))

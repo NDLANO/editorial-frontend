@@ -16,11 +16,11 @@ import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Search } from '@ndla/icons/lib/common';
 import { DropdownMenu, Input } from '@ndla/forms';
-import handleError from '../../../../util/handleError';
-import { itemToString } from '../../../../util/downShiftHelpers';
-import RoundIcon from '../../../../components/RoundIcon';
-import { StyledErrorMessage } from '../styles';
-import { Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import handleError from '../../../../../util/handleError';
+import { itemToString } from '../../../../../util/downShiftHelpers';
+import { StyledErrorMessage } from '../../styles';
+import { NodeType } from '../../../../../modules/taxonomy/nodes/nodeApiTypes';
+import RoundIcon from '../../../../../components/RoundIcon';
 
 const menuItemStyle = css`
   display: flex;
@@ -42,9 +42,9 @@ const PAGE_SIZE = 10;
 
 interface Props {
   icon: React.ReactNode;
-  onSubmit: (selected: Topic & { description?: string }) => Promise<void>;
+  onSubmit: (selected: NodeType & { description?: string }) => Promise<void>;
   onClose: () => void;
-  searchResult: (Topic & { description?: string })[];
+  searchResult: (NodeType & { description?: string })[];
   placeholder: string;
   filter?: string;
   smallIcon?: boolean;
@@ -87,7 +87,7 @@ const MenuItemDropdown = ({
     );
   };
 
-  const handleSubmit = async (selected: Topic & { description: string }) => {
+  const handleSubmit = async (selected: NodeType & { description: string }) => {
     if (selected) {
       setStatus('loading');
       try {

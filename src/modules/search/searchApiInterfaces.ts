@@ -12,7 +12,7 @@ import { SearchResultBase } from '../../interfaces';
  *  simulate an array: ie 'item1,item2,item3' */
 type CommaSeparatedList = string;
 
-export interface GroupSearchResult extends SearchResultBase<GroupSearchSummary> {
+export interface GroupSearchResult extends SearchResultBase<MultiSearchSummary> {
   // could possibly include aggregations and suggestions, as they are provided by the API.
   resourceType: string;
 }

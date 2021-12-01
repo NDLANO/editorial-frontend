@@ -13,7 +13,7 @@ import { spacing } from '@ndla/core';
 import { Switch } from '@ndla/switch';
 
 import RoundIcon from '../../../../components/RoundIcon';
-import MenuItemSaveButton from './MenuItemSaveButton';
+import MenuItemSaveButton from './components/MenuItemSaveButton';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../constants';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 

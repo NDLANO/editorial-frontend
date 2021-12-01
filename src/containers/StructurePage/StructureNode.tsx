@@ -15,20 +15,21 @@ import styled from '@emotion/styled';
 import FolderItem from './folderComponents/FolderItem';
 import Fade from './Fade';
 import MakeDndList from './MakeDNDList';
-import { SubjectTopic, SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { createGuard } from '../../util/guards';
+import { ChildNodeType, NodeType } from '../../modules/taxonomy/nodes/nodeApiTypes';
+import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
 
 export type RenderBeforeFunction = (
-  input: SubjectTopic | SubjectType,
+  input: ChildNodeType | NodeType,
   isRoot: boolean,
   articleType?: string,
 ) => React.ReactNode;
 
 interface ItemTitleButtonProps {
   isVisible?: boolean;
-  hasSubtopics?: boolean;
+  hasChildNodes?: boolean;
   lastItemClickable?: boolean;
-  isSubject?: boolean;
+  isRootNode?: boolean;
   arrowDirection?: number;
 }
 
@@ -71,17 +72,17 @@ const ItemTitleButton = styled.button<ItemTitleButtonProps>`
   white-space: nowrap;
   font-style: ${props => !props.isVisible && 'italic'};
 
-  ${props => props.hasSubtopics && itemTitleArrow};
+  ${props => props.hasChildNodes && itemTitleArrow};
   ${props =>
     props.lastItemClickable &&
     css`
       cursor: pointer;
     `};
-  ${props => !props.hasSubtopics && !props.isSubject && itemTitleLinked};
+  ${props => !props.hasChildNodes && !props.isRootNode && itemTitleLinked};
 
   &:before {
     transition: transform 200ms ease;
-    transform: rotate(${props => props.hasSubtopics && props.arrowDirection}deg);
+    transform: rotate(${props => props.hasChildNodes && props.arrowDirection}deg);
   }
 `;
 
@@ -149,29 +150,26 @@ const RoundIcon = ({ smallIcon, ...rest }: RoundIconProps & React.HTMLProps<HTML
   <StyledIcon {...rest}>{smallIcon}</StyledIcon>
 );
 
-const isNode = createGuard<SubjectTopic>('connectionId');
+const isChildNode = createGuard<ChildNodeType>('connectionId');
 
 interface Props {
   id: string;
-  item: (SubjectTopic & { articleType?: string }) | SubjectType;
+  item: (ChildNodeType & { articleType?: string }) | NodeType;
   openedPaths: string[];
-  toggleOpen: (topicId: string) => void;
-  locale: string;
+  toggleOpen: (nodeId: string) => void;
   level: number;
-  onTopicSelect: (topic?: SubjectTopic) => void;
-  topicResourcesLoading: boolean;
+  onChildNodeSelected: (childNode?: ChildNodeType) => void;
+  childNodeResourcesLoading: boolean;
   resourceSectionRef: React.MutableRefObject<HTMLDivElement | null>;
-  path: string;
-  parent: string;
-  subjectId: string;
-  onDragEnd: (result: DropResult, topics: SubjectTopic[]) => Promise<void>;
+  rootNodeId: string;
+  onDragEnd: (result: DropResult, childNodes: ChildNodeType[]) => Promise<void>;
   connectionId: string;
   parentActive: boolean;
-  allSubjects: SubjectType[];
+  allRootNodes: NodeType[];
   isRoot?: boolean;
-  favoriteSubjectIds?: string[];
+  favoriteNodeIds?: string[];
   toggleFavorite?: () => void;
-  nodes?: SubjectTopic[];
+  nodes?: ChildNodeType[];
   isLoading?: boolean;
   renderBeforeTitle?: RenderBeforeFunction;
 }
@@ -180,40 +178,38 @@ const StructureNode = ({
   item,
   openedPaths,
   toggleOpen,
-  locale,
   level,
-  onTopicSelect,
-  path,
-  parent,
-  subjectId,
-  topicResourcesLoading,
+  onChildNodeSelected,
+  rootNodeId,
+  childNodeResourcesLoading,
   resourceSectionRef,
   onDragEnd,
   parentActive,
-  allSubjects,
+  allRootNodes,
   isRoot,
-  favoriteSubjectIds,
+  favoriteNodeIds,
   toggleFavorite,
   isLoading,
   nodes,
   renderBeforeTitle,
 }: Props) => {
+  const path = nodePathToUrnPath(item.path);
   const isOpen = openedPaths.includes(path);
   const isActive = openedPaths[openedPaths.length - 1] === path;
-  const hasSubtopics = isRoot ? true : nodes && nodes.length > 0;
-  const connectionId = isNode(item) ? item.connectionId : undefined;
-  const articleType = isNode(item) ? item.articleType : undefined;
+  const hasChildNodes = isRoot ? true : nodes && nodes.length > 0;
+  const connectionId = isChildNode(item) ? item.connectionId : undefined;
+  const articleType = isChildNode(item) ? item.articleType : undefined;
 
   useEffect(() => {
-    if (isActive && isNode(item)) {
-      onTopicSelect(item);
+    if (isActive && isChildNode(item)) {
+      onChildNodeSelected(item);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onItemClick = () => {
     toggleOpen(path);
-    onTopicSelect(isNode(item) ? item : undefined);
+    onChildNodeSelected(isChildNode(item) ? item : undefined);
   };
 
   return (
@@ -223,23 +219,23 @@ const StructureNode = ({
       key={path}
       greyedOut={!parentActive && !isActive}>
       <StyledItemBar level={level} highlight={isActive}>
-        {favoriteSubjectIds && (
+        {favoriteNodeIds && (
           <RoundIcon
             onClick={toggleFavorite}
             smallIcon={
-              favoriteSubjectIds.includes(item.id) ? (
-                <Star color={colors.favoriteColor} />
-              ) : (
-                <Star color={colors.brand.greyDark} />
-              )
+              <Star
+                color={
+                  favoriteNodeIds.includes(item.id) ? colors.favoriteColor : colors.brand.greyDark
+                }
+              />
             }
           />
         )}
         <ItemTitleButton
           type="button"
           id={item.id}
-          hasSubtopics={hasSubtopics}
-          isSubject={false}
+          hasChildNodes={hasChildNodes}
+          isRootNode={false}
           lastItemClickable={true}
           arrowDirection={isOpen ? 90 : 0}
           onClick={onItemClick}
@@ -249,18 +245,13 @@ const StructureNode = ({
         </ItemTitleButton>
         {isActive && (
           <FolderItem
-            id={item.id}
-            parent={parent}
-            subjectId={subjectId}
-            pathToString={path}
+            node={item}
+            rootNodeId={rootNodeId}
             key={item.id}
-            name={item.name}
-            metadata={item.metadata}
             isMainActive={isOpen}
-            structure={allSubjects}
-            resourcesLoading={topicResourcesLoading}
+            structure={allRootNodes}
+            resourcesLoading={childNodeResourcesLoading}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
-            locale={locale}
           />
         )}
         {isLoading && (
@@ -269,7 +260,7 @@ const StructureNode = ({
           </span>
         )}
       </StyledItemBar>
-      {hasSubtopics && isOpen && nodes && (
+      {hasChildNodes && isOpen && nodes && (
         <StructureWrapper>
           <Fade show={true} fadeType="fadeInTop">
             <MakeDndList
@@ -280,21 +271,18 @@ const StructureNode = ({
                 <StructureNode
                   renderBeforeTitle={renderBeforeTitle}
                   key={`${path}/${t.id}`}
-                  allSubjects={allSubjects}
+                  allRootNodes={allRootNodes}
                   parentActive={isActive}
                   connectionId={t.connectionId}
                   id={t.id}
-                  subjectId={subjectId}
-                  parent={item.id}
-                  path={`${path}/${t.id}`}
+                  rootNodeId={rootNodeId}
                   openedPaths={openedPaths}
                   resourceSectionRef={resourceSectionRef}
-                  topicResourcesLoading={topicResourcesLoading}
-                  onTopicSelect={onTopicSelect}
+                  childNodeResourcesLoading={childNodeResourcesLoading}
+                  onChildNodeSelected={onChildNodeSelected}
                   item={t}
-                  nodes={t.subtopics}
+                  nodes={t.childNodes}
                   toggleOpen={toggleOpen}
-                  locale={locale}
                   level={level + 1}
                   onDragEnd={onDragEnd}
                 />

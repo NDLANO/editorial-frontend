@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors, mq, breakpoints } from '@ndla/core';
@@ -34,18 +35,18 @@ const StyledH1 = styled.h1<{ isVisible?: boolean }>`
 interface Props {
   contentType?: string;
   contentUri?: string;
-  locale: string;
   name?: string;
   isVisible?: boolean;
 }
 
-const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = true }: Props) => {
+const ResourceItemLink = ({ contentType, contentUri, name, isVisible = true }: Props) => {
+  const { i18n } = useTranslation();
   const linkTo = contentUri && contentUri.split(':').pop();
 
   if (linkTo) {
     if (contentType === 'learning-path') {
       const linkProps = {
-        href: toLearningpathFull(parseInt(linkTo), locale),
+        href: toLearningpathFull(parseInt(linkTo), i18n.language),
         target: '_blank',
         rel: 'noopener noreferrer',
       };

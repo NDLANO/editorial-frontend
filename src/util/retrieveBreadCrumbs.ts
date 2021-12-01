@@ -3,17 +3,17 @@ import handleError from './handleError';
 import { pathToUrnArray } from './taxonomyHelpers';
 
 export type Input = {
-  topicPath: string;
+  nodePath: string;
   structure: PathArray;
-  allTopics: PathArray;
+  allNodes: PathArray;
   title?: string;
 };
 
 export type PathArray = Array<TaxonomyElement>;
 
-const retrieveBreadCrumbs = ({ topicPath, structure, allTopics, title }: Input): PathArray => {
+const retrieveBreadCrumbs = ({ nodePath, structure, allNodes, title }: Input): PathArray => {
   try {
-    const [subjectPath, ...topicPaths] = pathToUrnArray(topicPath);
+    const [subjectPath, ...topicPaths] = pathToUrnArray(nodePath);
 
     const subject = structure.find(structureSubject => structureSubject.id === subjectPath);
     if (!subject) return [];
@@ -25,7 +25,7 @@ const retrieveBreadCrumbs = ({ topicPath, structure, allTopics, title }: Input):
       },
     ];
     topicPaths.forEach((pathId: string) => {
-      const path = allTopics.find(subtopic => subtopic.id === pathId);
+      const path = allNodes.find(subtopic => subtopic.id === pathId);
       if (path) {
         returnPaths.push({
           name: path.name,

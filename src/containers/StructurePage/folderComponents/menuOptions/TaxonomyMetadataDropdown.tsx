@@ -13,7 +13,7 @@ import { DeleteForever } from '@ndla/icons/lib/editor';
 import { searchClasses } from '../../../SearchPage/SearchContainer';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 import RoundIcon from '../../../../components/RoundIcon';
-import MenuItemSaveButton from './MenuItemSaveButton';
+import MenuItemSaveButton from './components/MenuItemSaveButton';
 
 interface Option {
   key: string;

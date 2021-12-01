@@ -15,21 +15,17 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 
 import RoundIcon from '../../../../components/RoundIcon';
-import MenuItemButton from './MenuItemButton';
-import MenuItemEditField from '../menuOptions/MenuItemEditField';
-import { EditMode } from '../../../../interfaces';
+import MenuItemButton from './components/MenuItemButton';
+import MenuItemEditField from './components/MenuItemEditField';
 import { useGrepCodes } from '../../../../modules/grep/grepQueries';
 import Spinner from '../../../../components/Spinner';
-import { useUpdateSubjectMetadata } from '../../../../modules/taxonomy/subjects/subjectsQueries';
-import { useTopicMetadataUpdateMutation } from '../../../../modules/taxonomy/topics/topicQueries';
+import { NodeType } from '../../../../modules/taxonomy/nodes/nodeApiTypes';
+import { useUpdateNodeMetadataMutation } from '../../../../modules/taxonomy/nodes/nodeMutations';
+import { EditModeHandler } from '../SettingsMenuDropdownType';
 
 interface Props {
-  editMode: EditMode;
-  id: string;
-  name: string;
-  menuType: 'subject' | 'topic';
-  metadata: { grepCodes: string[]; visible: boolean };
-  toggleEditMode: (mode: EditMode) => void;
+  editModeHandler: EditModeHandler;
+  node: NodeType;
 }
 
 export const DropDownWrapper = styled('div')`
@@ -44,17 +40,16 @@ const StyledGrepItem = styled('div')`
   margin: calc(var(--spacing--small) / 2);
 `;
 
-const EditGrepCodes = ({ editMode, id, menuType, metadata, toggleEditMode }: Props) => {
+const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: Props) => {
   const { t } = useTranslation();
+  const { id, metadata } = node;
   const [grepCodes, setGrepCodes] = useState<string[]>(metadata?.grepCodes ?? []);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
-  const { mutateAsync: updateSubjectMetadata } = useUpdateSubjectMetadata();
-  const { mutateAsync: updateTopicMetadata } = useTopicMetadataUpdateMutation();
+  const { mutateAsync: patchMetadata } = useUpdateNodeMetadataMutation();
   const grepCodesWithName = useGrepCodes(grepCodes, editMode === 'editGrepCodes');
 
   const updateMetadata = async (codes: string[]) => {
-    const func = menuType === 'subject' ? updateSubjectMetadata : updateTopicMetadata;
-    await func({ id, metadata: { grepCodes: codes, visible: metadata.visible } });
+    await patchMetadata({ id, metadata: { grepCodes: codes, visible: metadata.visible } });
     setGrepCodes(codes);
   };
 

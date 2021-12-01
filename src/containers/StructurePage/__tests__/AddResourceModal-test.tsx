@@ -54,11 +54,10 @@ const wrapper = (existingResourceIds: string[] = []) =>
         <QueryClientProvider client={qc}>
           <AddResourceModal
             data-testid="addResourceModal"
-            topicId="topicId2"
+            nodeId="topicId2"
             allowPaste
             type={resourceType}
             onClose={() => {}}
-            locale="nb"
             existingResourceIds={existingResourceIds}
           />
         </QueryClientProvider>
@@ -72,16 +71,15 @@ test('Can select a resource from the list and it adds it to topic', async () => 
     .reply(200, articleMock);
   nock('http://ndla-api')
     .post(
-      `${taxonomyApi}/topic-resources`,
+      `${taxonomyApi}/node-resources`,
       JSON.stringify({
         resourceId: 'urn:resource:1:175733',
-        topicid: 'topicId2',
+        nodeId: 'topicId2',
       }),
     )
     .reply(201, undefined, { Location: 'urn' });
   const { container, getByText, getByTestId, findByText, findByTestId } = wrapper();
   await findByText('Hva kan du om geologiske prosesser?');
-  // await wait(() => getByText(resourcesByType[0].results[0].title.title));
 
   expect(container.firstChild).toMatchSnapshot();
   act(() => {
@@ -109,10 +107,10 @@ test('Can paste a valid url and add it to topic', async () => {
     .reply(200, resourceTypeMock);
   nock('http://ndla-api')
     .post(
-      `${taxonomyApi}/topic-resources`,
+      `${taxonomyApi}/node-resources`,
       JSON.stringify({
         resourceId: 'urn:resource:1:168388',
-        topicid: 'topicId2',
+        nodeId: 'topicId2',
       }),
     )
     .reply(201, {}, { Location: 'urn' });

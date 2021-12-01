@@ -19,6 +19,7 @@ import { AlertCircle, Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 import { useQuery, useQueryClient } from 'react-query';
+import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 
 import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
@@ -29,13 +30,16 @@ import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
-import { LocaleType } from '../../../interfaces';
-import { TopicResource } from './StructureResources';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import { DraftStatusTypes } from '../../../modules/draft/draftApiInterfaces';
-import { TOPIC_RESOURCE_STATUS_GREP_QUERY } from '../../../queryKeys';
+import { DraftStatus, DraftStatusTypes } from '../../../modules/draft/draftApiInterfaces';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
+import { ResourceWithNodeConnection } from '../../../modules/taxonomy/nodes/nodeApiTypes';
+import {
+  usePutResourceForNodeMutation,
+  useUpdateNodeConnectionMutation,
+} from '../../../modules/taxonomy/nodes/nodeMutations';
+import { NODE_RESOURCE_STATUS_GREP_QUERY } from '../../../queryKeys';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -54,19 +58,11 @@ const statusButtonStyle = css`
 `;
 
 interface Props {
-  resource: TopicResource;
+  resource: ResourceWithNodeConnection;
   onDelete?: (connectionId: string) => void;
-  updateResource?: (resource: TopicResource) => void;
-  connectionId: string;
-  dragHandleProps?: object;
-  locale: LocaleType;
-  relevanceId?: string;
-  updateRelevanceId?: (
-    connectionId: string,
-    body: { primary?: boolean; rank?: number; relevanceId?: string },
-  ) => Promise<void>;
-  primary?: boolean;
-  rank?: number;
+  updateResource?: (resource: ResourceWithNodeConnection) => void;
+  dragHandleProps?: DraggableProvidedDragHandleProps;
+  id?: string; // required for MakeDndList, otherwise ignored
 }
 const grepButtonStyle = css`
   margin-left: ${spacing.xsmall};
@@ -109,36 +105,28 @@ const getArticleTypeFromId = (id?: string) => {
   return undefined;
 };
 
-const Resource = ({
-  resource: initialResource,
-  onDelete,
-  connectionId,
-  dragHandleProps = {},
-  locale,
-  relevanceId,
-  updateRelevanceId,
-  primary,
-  rank,
-  updateResource,
-}: Props) => {
-  const { t } = useTranslation();
+interface ResourceWithGrepAndStatus extends ResourceWithNodeConnection {
+  grepCodes?: string[];
+  status?: DraftStatus;
+  articleType?: string;
+}
+
+const Resource = ({ resource: initialResource, onDelete, dragHandleProps }: Props) => {
+  const { t, i18n } = useTranslation();
   const history = useHistory();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
   const qc = useQueryClient();
+  const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation();
+  const { mutateAsync: updateResourceConnection } = usePutResourceForNodeMutation();
 
-  const getGrepCodesAndStatus = async (resource: TopicResource) => {
+  const getGrepCodesAndStatus = async (resource: ResourceWithGrepAndStatus) => {
     const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
     if (id && resourceType === 'article') {
-      const article = await fetchDraft(parseInt(id), locale);
-      return {
-        ...resource,
-        status: article.status,
-        grepCodes: article.grepCodes,
-        articleType: article.articleType,
-      };
+      const { status, grepCodes, articleType } = await fetchDraft(id, i18n.language);
+      return { ...resource, status, grepCodes, articleType };
     } else if (id && resourceType === 'learningpath') {
-      const learningpath = await fetchLearningpath(parseInt(id), locale);
+      const learningpath = await fetchLearningpath(parseInt(id), i18n.language);
       if (learningpath.status) {
         const status = { current: learningpath.status as DraftStatusTypes, other: [] };
         return { ...resource, status };
@@ -147,17 +135,17 @@ const Resource = ({
     return resource;
   };
 
-  const { data: resourceData, isLoading, error } = useQuery(
-    [TOPIC_RESOURCE_STATUS_GREP_QUERY, initialResource.id],
+  const { data, isLoading } = useQuery<ResourceWithGrepAndStatus>(
+    [NODE_RESOURCE_STATUS_GREP_QUERY, initialResource.id],
     () => getGrepCodesAndStatus(initialResource),
     { retry: false, initialData: initialResource },
   );
 
+  const resource = data!;
+
   if (isLoading) {
     return <div {...dragHandleProps} />;
   }
-
-  const resource = error ? initialResource : resourceData!;
 
   const contentType =
     resource.resourceTypes.length > 0
@@ -177,47 +165,19 @@ const Resource = ({
 
   const onGrepModalClosed = async (newGrepCodes?: string[]) => {
     setShowGrepCodes(false);
-    qc.cancelQueries([TOPIC_RESOURCE_STATUS_GREP_QUERY, resource.id]);
-    const resourceWithNewGrep: TopicResource = { ...resource, grepCodes: newGrepCodes };
-    qc.setQueryData<TopicResource>(
-      [TOPIC_RESOURCE_STATUS_GREP_QUERY, resource.id],
-      resourceWithNewGrep,
-    );
-    await qc.invalidateQueries([TOPIC_RESOURCE_STATUS_GREP_QUERY, resource.id]);
+    const compKey = [NODE_RESOURCE_STATUS_GREP_QUERY, resource.id];
+    qc.cancelQueries(compKey);
+    const resourceWithNewGrep: ResourceWithGrepAndStatus = { ...resource, grepCodes: newGrepCodes };
+    qc.setQueryData<ResourceWithGrepAndStatus>(compKey, resourceWithNewGrep);
+    await qc.invalidateQueries(compKey);
   };
 
-  const PublishedWrapper = ({ children }: { children: React.ReactElement }) =>
-    !path ? (
-      children
-    ) : (
-      <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${path}`}>
-        {children}
-      </StyledLink>
-    );
-
-  const WrongTypeError = () => {
-    const isArticle = resource.contentUri?.startsWith('urn:article');
-    if (!isArticle) return null;
-
-    const expectedArticleType = getArticleTypeFromId(resource.id);
-    if (expectedArticleType === resource.articleType) return null;
-
-    const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
-      id: getIdFromUrn(resource.contentUri),
-    });
-
-    const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
-      placedAs: t(`articleType.${expectedArticleType}`),
-      isType: t(`articleType.${resource.articleType}`),
-    });
-
-    const errorText = resource.articleType ? wrongArticleTypeError : missingArticleTypeError;
-
-    return (
-      <Tooltip tooltip={errorText}>
-        <StyledWarnIcon title={undefined} />
-      </Tooltip>
-    );
+  const updateRelevanceId = async (relevanceId: string) => {
+    const { connectionId, primary, rank } = resource;
+    const func = connectionId.includes('topic-resource')
+      ? updateResourceConnection
+      : updateNodeConnection;
+    await func({ id: connectionId, body: { relevanceId, primary, rank: rank } });
   };
 
   return (
@@ -233,7 +193,6 @@ const Resource = ({
         <ResourceItemLink
           contentType={contentType}
           contentUri={resource.contentUri}
-          locale={locale}
           name={resource.name}
           isVisible={resource.metadata?.visible}
         />
@@ -247,9 +206,9 @@ const Resource = ({
           {t(`form.status.${resource.status.current.toLowerCase()}`)}
         </Button>
       )}
-      <WrongTypeError />
+      <WrongTypeError resource={resource} />
       {(resource.status?.current === PUBLISHED || resource.status?.other?.includes(PUBLISHED)) && (
-        <PublishedWrapper>
+        <PublishedWrapper path={path}>
           <Tooltip tooltip={t('form.workflow.published')}>
             <StyledCheckIcon />
           </Tooltip>
@@ -260,18 +219,9 @@ const Resource = ({
           {`GREP (${resource.grepCodes?.length || 0})`}
         </Button>
       )}
-      <RelevanceOption
-        relevanceId={relevanceId}
-        onChange={relevanceIdUpdate =>
-          updateRelevanceId?.(connectionId, {
-            relevanceId: relevanceIdUpdate,
-            primary,
-            rank,
-          })
-        }
-      />
+      <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
 
-      {onDelete && <RemoveButton onClick={() => onDelete(connectionId)} />}
+      {onDelete && <RemoveButton onClick={() => onDelete(resource.connectionId)} />}
       {showVersionHistory && (
         <VersionHistoryLightbox
           onClose={() => setShowVersionHistory(false)}
@@ -279,17 +229,49 @@ const Resource = ({
           contentType={contentType}
           name={resource.name}
           isVisible={resource.metadata?.visible}
-          locale={locale}
         />
       )}
       {showGrepCodes && (
-        <GrepCodesModal
-          onClose={onGrepModalClosed}
-          contentUri={resource.contentUri}
-          locale={locale}
-        />
+        <GrepCodesModal onClose={onGrepModalClosed} contentUri={resource.contentUri} />
       )}
     </StyledText>
+  );
+};
+
+const PublishedWrapper = ({ path, children }: { path?: string; children: React.ReactElement }) => {
+  if (!path) {
+    return children;
+  }
+  return (
+    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${path}`}>
+      {children}
+    </StyledLink>
+  );
+};
+
+const WrongTypeError = ({ resource }: { resource: ResourceWithGrepAndStatus }) => {
+  const { t } = useTranslation();
+  const isArticle = resource.contentUri?.startsWith('urn:article');
+  if (!isArticle) return null;
+
+  const expectedArticleType = getArticleTypeFromId(resource.id);
+  if (expectedArticleType === resource.articleType) return null;
+
+  const missingArticleTypeError = t('taxonomy.info.missingArticleType', {
+    id: getIdFromUrn(resource.contentUri),
+  });
+
+  const wrongArticleTypeError = t('taxonomy.info.wrongArticleType', {
+    placedAs: t(`articleType.${expectedArticleType}`),
+    isType: t(`articleType.${resource.articleType}`),
+  });
+
+  const errorText = resource.articleType ? wrongArticleTypeError : missingArticleTypeError;
+
+  return (
+    <Tooltip tooltip={errorText}>
+      <StyledWarnIcon title={undefined} />
+    </Tooltip>
   );
 };
 

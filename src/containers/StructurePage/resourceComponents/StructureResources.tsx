@@ -11,24 +11,23 @@ import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { RefObject } from 'react';
-import { useState } from 'react';
 import { TFunction } from 'i18next';
 import ResourceGroup from './ResourceGroup';
 import AllResourcesGroup from './AllResourcesGroup';
-import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
+import { groupSortResourceTypesFromNodeResources } from '../../../util/taxonomyHelpers';
 import handleError from '../../../util/handleError';
-import TopicDescription from './TopicDescription';
-import GroupTopicResources from '../folderComponents/GroupTopicResources';
+import NodeDescription from './NodeDescription';
+import GroupNodeResources from '../folderComponents/GroupNodeResources';
 import {
   ResourceResourceType,
   ResourceType,
-  ResourceWithTopicConnection,
-  SubjectTopic,
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
-import { LocaleType } from '../../../interfaces';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
-import { useTopicResources } from '../../../modules/taxonomy/topics/topicQueries';
+import {
+  ChildNodeType,
+  ResourceWithNodeConnection,
+} from '../../../modules/taxonomy/nodes/nodeApiTypes';
+import { useResourcesWithNodeConnection } from '../../../modules/taxonomy/nodes/nodeQueries';
 
 const StyledDiv = styled('div')`
   width: calc(${spacing.large} * 5);
@@ -36,18 +35,10 @@ const StyledDiv = styled('div')`
   margin-right: calc(${spacing.nsmall});
 `;
 
-export interface TopicResource extends ResourceWithTopicConnection {
-  articleType?: string;
-  status?: DraftStatus;
-}
-
 interface Props {
-  locale: LocaleType;
-  currentTopic: SubjectTopic;
+  currentChildNode: ChildNodeType;
   resourceRef: RefObject<HTMLDivElement>;
-  setResourcesLoading: (loading: boolean) => void;
-  updateCurrentTopic: (newCurrent: SubjectTopic) => void;
-  grouped: string;
+  updateCurrentChildNode: (newCurrent: ChildNodeType) => void;
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
@@ -57,22 +48,18 @@ const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boole
 });
 
 const missingObject: ResourceResourceType = { id: 'missing', name: '', connectionId: '' };
-const withMissing = (r: TopicResource): TopicResource => ({ ...r, resourceTypes: [missingObject] });
+const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection => ({
+  ...r,
+  resourceTypes: [missingObject],
+});
 
-const StructureResources = ({
-  locale,
-  currentTopic,
-  resourceRef,
-  grouped,
-  updateCurrentTopic,
-}: Props) => {
-  const { t } = useTranslation();
-  const [topicGrepCodes, setTopicGrepCodes] = useState<string[]>([]);
+const StructureResources = ({ currentChildNode, resourceRef, updateCurrentChildNode }: Props) => {
+  const { t, i18n } = useTranslation();
+  const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
 
-  const { data: topicResources } = useTopicResources<TopicResource[]>(
-    currentTopic.id,
-    locale,
-    undefined,
+  const { data: nodeResources } = useResourcesWithNodeConnection(
+    currentChildNode.id,
+    { language: i18n.language },
     {
       select: resources => resources.map(r => (r.resourceTypes.length > 0 ? r : withMissing(r))),
       onError: e => handleError(e),
@@ -80,61 +67,52 @@ const StructureResources = ({
     },
   );
 
-  const { data: resourceTypes } = useAllResourceTypes(locale, {
+  const { data: resourceTypes } = useAllResourceTypes(i18n.language, {
     select: resourceTypes => [...resourceTypes, getMissingResourceType(t)],
     onError: e => handleError(e),
   });
 
-  const groupedTopicResources = groupSortResourceTypesFromTopicResources(
+  const groupedNodeResources = groupSortResourceTypesFromNodeResources(
     resourceTypes ?? [],
-    topicResources ?? [],
+    nodeResources ?? [],
   );
 
   return (
     <div ref={resourceRef}>
-      {currentTopic && currentTopic.id && (
+      {currentChildNode && currentChildNode.id && (
         <StyledDiv>
-          <GroupTopicResources
-            topicId={currentTopic.id}
-            subjectId={`urn:${currentTopic.path.split('/')[1]}`}
-            metadata={currentTopic.metadata}
+          <GroupNodeResources
+            node={currentChildNode}
             onChanged={partialMeta =>
-              updateCurrentTopic({
-                ...currentTopic,
-                metadata: { ...currentTopic.metadata, ...partialMeta },
+              updateCurrentChildNode({
+                ...currentChildNode,
+                metadata: { ...currentChildNode.metadata, ...partialMeta },
               })
             }
             hideIcon
           />
         </StyledDiv>
       )}
-      <TopicDescription
-        onUpdateResource={r => setTopicGrepCodes(r.grepCodes ?? [])}
-        locale={locale}
-        currentTopic={currentTopic}
-        grepCodes={topicGrepCodes}
-      />
+      <NodeDescription currentNode={currentChildNode} />
       {grouped === 'ungrouped' && (
         <AllResourcesGroup
           key="ungrouped"
-          topicResources={topicResources ?? []}
-          locale={locale}
+          nodeResources={nodeResources ?? []}
           resourceTypes={resourceTypes ?? []}
-          currentTopicId={currentTopic.id}
+          currentNodeId={currentChildNode.id}
         />
       )}
       {grouped === 'grouped' &&
         resourceTypes?.map(resourceType => {
-          const topicResource = groupedTopicResources.find(
+          const nodeResource = groupedNodeResources.find(
             resource => resource.id === resourceType.id,
           );
           return (
             <ResourceGroup
               key={resourceType.id}
               resourceType={resourceType}
-              topicResource={topicResource}
-              locale={locale}
-              currentTopicId={currentTopic.id}
+              resources={nodeResource?.resources}
+              currentNodeId={currentChildNode.id}
             />
           );
         })}

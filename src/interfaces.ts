@@ -24,15 +24,14 @@ export type PartialRecord<K extends keyof any, T> = {
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
 export type EditMode =
-  | 'changeSubjectName'
-  | 'deleteTopic'
-  | 'addExistingSubjectTopic'
+  | 'changeNodeName'
+  | 'deleteChildNode'
   | 'openCustomFields'
   | 'toggleMetadataVisibility'
   | 'editGrepCodes'
-  | 'addExistingTopic'
-  | 'addTopic'
-  | 'deleteSubject'
+  | 'addNode'
+  | 'deleteNode'
+  | 'addExistingToNode'
   | '';
 
 export interface FormikFormBaseType {

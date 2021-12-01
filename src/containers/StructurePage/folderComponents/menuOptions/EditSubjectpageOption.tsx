@@ -11,24 +11,22 @@ import { useTranslation } from 'react-i18next';
 import { Home } from '@ndla/icons/common';
 import { Link } from 'react-router-dom';
 import RoundIcon from '../../../../components/RoundIcon';
-import MenuItemButton from './MenuItemButton';
+import MenuItemButton from './components/MenuItemButton';
 import { toEditSubjectpage, toCreateSubjectpage } from '../../../../util/routeHelpers';
 import { getIdFromUrn } from '../../../../util/subjectHelpers';
 import '../../../../style/link.css';
-import { useSubject } from '../../../../modules/taxonomy/subjects/subjectsQueries';
+import { NodeType } from '../../../../modules/taxonomy/nodes/nodeApiTypes';
 
 interface Props {
-  id: string;
-  locale: string;
+  node: NodeType;
 }
 
-const EditSubjectpageOption = ({ id, locale }: Props) => {
-  const { t } = useTranslation();
-  const { data: subject } = useSubject(id, locale);
+const EditSubjectpageOption = ({ node }: Props) => {
+  const { t, i18n } = useTranslation();
 
-  const link = subject?.contentUri
-    ? toEditSubjectpage(id, locale, getIdFromUrn(subject.contentUri))
-    : toCreateSubjectpage(id, locale);
+  const link = node.contentUri
+    ? toEditSubjectpage(node.id, i18n.language, getIdFromUrn(node.contentUri))
+    : toCreateSubjectpage(node.id, i18n.language);
 
   return (
     <Link
@@ -36,7 +34,7 @@ const EditSubjectpageOption = ({ id, locale }: Props) => {
       to={{
         pathname: link,
         state: {
-          elementName: subject?.name,
+          elementName: node?.name,
         },
       }}>
       <MenuItemButton stripped data-testid="editSubjectpageOption">

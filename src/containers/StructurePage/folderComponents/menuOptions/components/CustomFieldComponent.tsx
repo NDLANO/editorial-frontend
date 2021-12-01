@@ -10,10 +10,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DeleteForever, Done } from '@ndla/icons/editor';
 import { spacing } from '@ndla/core';
-import RoundIcon from '../../../../components/RoundIcon';
+import RoundIcon from '../../../../../components/RoundIcon';
 import MenuItemSaveButton from './MenuItemSaveButton';
-import { StyledMenuItemInputField, StyledMenuItemEditField } from '../styles';
-import { TaxonomyMetadata } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { StyledMenuItemInputField, StyledMenuItemEditField } from '../../styles';
+import { TaxonomyMetadata } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 interface Props {
   onSubmit: (prevState: any) => void;

@@ -6,184 +6,86 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
-  AddExistingToTopic,
-  AddExistingToSubjectTopic,
-  ChangeSubjectName,
+  ChangeNodeName,
   CopyResources,
-  DeleteTopic,
-  DeleteSubjectOption,
   EditGrepCodes,
-  PublishTopic,
+  PublishChildNode,
   ToggleVisibility,
   EditSubjectpageOption,
   EditCustomFields,
 } from './menuOptions';
-import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../../util/retrieveBreadCrumbs';
 import { EditMode } from '../../../interfaces';
+import AddExistingToNode from './menuOptions/AddExistingToNode';
+import { useSession } from '../../Session/SessionProvider';
+import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+import { NodeType, SUBJECT_NODE, TOPIC_NODE } from '../../../modules/taxonomy/nodes/nodeApiTypes';
+import { getNodeTypeFromNodeId } from '../../../modules/taxonomy/nodes/nodeUtil';
+import { DeleteChildNode, DeleteNode } from './menuOptions/DeleteNode';
 
 interface Props {
-  metadata: TaxonomyMetadata;
-  numberOfSubtopics?: number;
-  subjectId: string;
-  editMode: EditMode;
-  toggleEditMode: (mode: EditMode) => void;
-  path: string;
-  locale: string;
+  rootNodeId: string;
+  node: NodeType;
   onClose: () => void;
-  id: string;
-  name: string;
-  settingsMenuType?: 'topic' | 'subject';
-  showAllOptions: boolean;
-  setShowAlertModal: (show: boolean) => void;
-  contentUri?: string;
   structure: PathArray;
-  parent?: string;
 }
 
-const SettingsMenuDropdownType = ({
-  subjectId,
-  metadata,
-  numberOfSubtopics,
-  editMode,
-  toggleEditMode,
-  path,
-  locale,
-  onClose,
-  name,
-  id,
-  contentUri,
-  settingsMenuType,
-  showAllOptions,
-  setShowAlertModal,
-  structure,
-  parent,
-}: Props) => {
-  switch (settingsMenuType) {
-    case 'subject':
-      return showAllOptions ? (
-        <>
-          <ChangeSubjectName
-            toggleEditMode={toggleEditMode}
-            onClose={onClose}
-            editMode={editMode}
-            name={name}
-            id={id}
-            contentUri={contentUri}
-          />
-          <EditCustomFields
-            type={settingsMenuType}
-            toggleEditMode={toggleEditMode}
-            editMode={editMode}
-            subjectId={subjectId}
-            id={id}
-            name={name}
-            metadata={metadata}
-          />
-          <AddExistingToSubjectTopic
-            path={path}
-            onClose={onClose}
-            editMode={editMode}
-            toggleEditMode={toggleEditMode}
-            locale={locale}
-            id={id}
-            structure={structure}
-          />
-          <ToggleVisibility
-            menuType={settingsMenuType}
-            editMode={editMode}
-            id={id}
-            name={name}
-            metadata={metadata}
-            toggleEditMode={toggleEditMode}
-          />
-          <EditGrepCodes
-            menuType={settingsMenuType}
-            editMode={editMode}
-            id={id}
-            name={name}
-            metadata={metadata}
-            toggleEditMode={toggleEditMode}
-          />
-          <EditSubjectpageOption id={id} locale={locale} />
-          <DeleteSubjectOption
-            id={id}
-            locale={locale}
-            editMode={editMode}
-            toggleEditMode={toggleEditMode}
-          />
-        </>
-      ) : null;
-    case 'topic':
-      return (
-        <>
-          {showAllOptions && <PublishTopic locale={locale} id={id} />}
-          {showAllOptions && parent && (
-            <>
-              <EditCustomFields
-                type={settingsMenuType}
-                toggleEditMode={toggleEditMode}
-                editMode={editMode}
-                subjectId={subjectId}
-                id={id}
-                name={name}
-                metadata={metadata}
-              />
-              <DeleteTopic
-                editMode={editMode}
-                toggleEditMode={toggleEditMode}
-                parent={parent}
-                id={id}
-                locale={locale}
-                subjectId={subjectId}
-              />
-              <AddExistingToTopic
-                path={path}
-                onClose={onClose}
-                editMode={editMode}
-                toggleEditMode={toggleEditMode}
-                locale={locale}
-                id={id}
-                subjectId={subjectId}
-                numberOfSubtopics={numberOfSubtopics}
-                structure={structure}
-              />
-              <ToggleVisibility
-                menuType={settingsMenuType}
-                editMode={editMode}
-                id={id}
-                name={name}
-                metadata={metadata}
-                toggleEditMode={toggleEditMode}
-              />
-              <EditGrepCodes
-                menuType={settingsMenuType}
-                editMode={editMode}
-                id={id}
-                name={name}
-                metadata={metadata}
-                toggleEditMode={toggleEditMode}
-              />
-            </>
-          )}
-          {showAllOptions && (
-            <CopyResources
-              locale={locale}
-              id={id}
-              setShowAlertModal={setShowAlertModal}
-              subjectId={subjectId}
-              structure={structure}
-              onClose={onClose}
-            />
-          )}
-        </>
-      );
-    default:
-      return null;
+export interface EditModeHandler {
+  editMode: EditMode;
+  toggleEditMode: (editMode: EditMode) => void;
+}
+
+const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Props) => {
+  const { userAccess } = useSession();
+  const [editMode, setEditMode] = useState<EditMode>('');
+  const nodeType = getNodeTypeFromNodeId(node.id);
+  const toggleEditMode = (mode: EditMode) => setEditMode(prev => (mode === prev ? '' : mode));
+  const editModeHandler = { editMode, toggleEditMode };
+
+  if (!!!userAccess?.includes(TAXONOMY_ADMIN_SCOPE)) {
+    return null;
   }
+
+  if (nodeType === SUBJECT_NODE) {
+    return (
+      <>
+        <ChangeNodeName editModeHandler={editModeHandler} node={node} />
+        <EditCustomFields toggleEditMode={toggleEditMode} editMode={editMode} node={node} />
+        <AddExistingToNode
+          node={node}
+          editModeHandler={editModeHandler}
+          onClose={onClose}
+          structure={structure}
+          rootNodeId={rootNodeId}
+        />
+        <ToggleVisibility node={node} editModeHandler={editModeHandler} />
+        <EditGrepCodes node={node} editModeHandler={editModeHandler} />
+        <EditSubjectpageOption node={node} />
+        <DeleteNode node={node} editModeHandler={editModeHandler} />
+      </>
+    );
+  } else if (nodeType === TOPIC_NODE) {
+    return (
+      <>
+        <PublishChildNode node={node} />
+        <EditCustomFields toggleEditMode={toggleEditMode} editMode={editMode} node={node} />
+        <DeleteChildNode editModeHandler={editModeHandler} node={node} rootNodeId={rootNodeId} />
+        <AddExistingToNode
+          node={node}
+          editModeHandler={editModeHandler}
+          onClose={onClose}
+          rootNodeId={rootNodeId}
+          structure={structure}
+        />
+        <ToggleVisibility node={node} editModeHandler={editModeHandler} />
+        <EditGrepCodes node={node} editModeHandler={editModeHandler} />
+        <CopyResources toNode={node} structure={structure} onClose={onClose} />
+      </>
+    );
+  } else return null;
 };
 
 export default SettingsMenuDropdownType;

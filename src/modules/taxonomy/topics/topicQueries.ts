@@ -23,7 +23,6 @@ import {
   updateTopicSubtopic,
 } from '.';
 import { deleteTopicResource, updateTopicResource } from '..';
-import { TopicResource } from '../../../containers/StructurePage/resourceComponents/StructureResources';
 import {
   SUBJECT_TOPICS_WITH_ARTICLE_TYPE,
   TOPIC,
@@ -31,7 +30,12 @@ import {
   TOPIC_CONNECTIONS,
   TOPIC_RESOURCES,
 } from '../../../queryKeys';
-import { TaxonomyMetadata, Topic, TopicConnections } from '../taxonomyApiInterfaces';
+import {
+  ResourceWithTopicConnection,
+  TaxonomyMetadata,
+  Topic,
+  TopicConnections,
+} from '../taxonomyApiInterfaces';
 import { TopicSubtopicPutBody } from './topicInterfaces';
 
 export const useDeleteTopic = () => {
@@ -64,13 +68,13 @@ export const useTopic = (id: string, language?: string, options?: UseQueryOption
   return useQuery<Topic>([TOPIC, id, language], () => fetchTopic(id, language), options);
 };
 
-export const useTopicResources = <ReturnType = TopicResource[]>(
+export const useTopicResources = <ReturnType = ResourceWithTopicConnection[]>(
   topicId: string,
   language?: string,
   relevance?: string,
-  options?: UseQueryOptions<TopicResource[], unknown, ReturnType>,
+  options?: UseQueryOptions<ResourceWithTopicConnection[], unknown, ReturnType>,
 ) => {
-  return useQuery<TopicResource[], unknown, ReturnType>(
+  return useQuery<ResourceWithTopicConnection[], unknown, ReturnType>(
     [TOPIC_RESOURCES, topicId, language, relevance],
     () => fetchTopicResources(topicId, language, relevance),
     options,

@@ -31,9 +31,9 @@ const TestStructureContainer = () => {
       match={{
         url: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
         params: {
-          subject: 'urn:subject:1',
-          topic: 'urn:topic:1:186479',
-          subtopics: 'urn:topic:1:172650',
+          root: 'urn:subject:1',
+          child: 'urn:topic:1:186479',
+          children: 'urn:topic:1:172650',
         },
         isExact: false,
         path: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
@@ -56,23 +56,7 @@ const wrapper = () =>
       <MemoryRouter>
         <IntlWrapper>
           <QueryClientProvider client={qc}>
-            <StructureContainer
-              t={() => 'injected'}
-              locale="nb"
-              match={{
-                url: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
-                params: {
-                  subject: 'urn:subject:1',
-                  topic1: 'urn:topic:1:186479',
-                  topic2: 'urn:topic:1:172650',
-                },
-              }}
-              location={{
-                search: '',
-                pathname: 'test',
-                hash: '',
-              }}
-            />
+            <TestStructureContainer />
           </QueryClientProvider>
         </IntlWrapper>
       </MemoryRouter>
@@ -86,7 +70,7 @@ beforeEach(() => {
     .reply(200, resourceTypesMock);
 
   nock('http://ndla-api')
-    .get(`${taxonomyApi}/subjects?language=nb`)
+    .get(`${taxonomyApi}/nodes?language=nb&nodeType=SUBJECT`)
     .reply(200, subjectsMock);
 });
 
@@ -94,7 +78,7 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
   const mockTopicArticle = articleId => {
     nock('http://ndla-api')
       .persist()
-      .get(`/draft-api/v1/drafts/${articleId}`)
+      .get(`/draft-api/v1/drafts/${articleId}?language=nb&fallback=true`)
       .reply(200, { articleType: 'topic-article' });
   };
 
@@ -147,42 +131,42 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
     8622,
   ].map(id => mockTopicArticle(id));
 
-  nock('http://ndla-api')
-    .persist()
-    .get('/draft-api/v1/drafts/3592?language=nb&fallback=true')
-    .reply(200, { articleType: 'topic-article' });
+  // nock('http://ndla-api')
+  //   .persist()
+  //   .get('/draft-api/v1/drafts/3592?language=nb&fallback=true')
+  //   .reply(200, { articleType: 'topic-article' });
 
   nock('http://ndla-api')
     .persist()
-    .get(`${taxonomyApi}/subjects/${subjectsMock[0].id}/topics?recursive=true&language=nb`)
+    .get(`${taxonomyApi}/nodes/${subjectsMock[0].id}/nodes?language=nb&recursive=true`)
     .reply(200, subjectTopicsMock);
-  nock('http://ndla-api')
-    .get(`${taxonomyApi}/subjects/${subjectsMock[0].id}/filters`)
-    .reply(200, []);
-  nock('http://ndla-api')
-    .persist()
-    .get(
-      `${taxonomyApi}/topics/urn:topic:1:172650/resources?language=nb&relevance=urn:relevance:core&filter=`,
-    )
-    .reply(200, []);
-  nock('http://ndla-api')
-    .persist()
-    .get(`${taxonomyApi}/subjects/${subjectsMock[0].id}/topics?recursive=true`)
-    .reply(200, subjectTopicsMock);
-  nock('http://ndla-api')
-    .persist()
-    .get(
-      `${taxonomyApi}/topics/urn:topic:1:172650/resources?language=nb&relevance=urn:relevance:supplementary&filter=`,
-    )
-    .reply(200, []);
-  nock('http://ndla-api')
-    .persist()
-    .get('/article-api/v2/articles/3592')
-    .reply(200, {});
-  nock('http://ndla-api')
-    .persist()
-    .get(`${taxonomyApi}/filters/?language=nb`)
-    .reply(200, []);
+  // nock('http://ndla-api')
+  //   .get(`${taxonomyApi}/subjects/${subjectsMock[0].id}/filters`)
+  //   .reply(200, []);
+  // nock('http://ndla-api')
+  //   .persist()
+  //   .get(
+  //     `${taxonomyApi}/topics/urn:topic:1:172650/resources?language=nb&relevance=urn:relevance:core&filter=`,
+  //   )
+  //   .reply(200, []);
+  // nock('http://ndla-api')
+  //   .persist()
+  //   .get(`${taxonomyApi}/nodes/${subjectsMock[0].id}/nodes?recursive=true`)
+  //   .reply(200, subjectTopicsMock);
+  // nock('http://ndla-api')
+  //   .persist()
+  //   .get(
+  //     `${taxonomyApi}/topics/urn:topic:1:172650/resources?language=nb&relevance=urn:relevance:supplementary&filter=`,
+  //   )
+  //   .reply(200, []);
+  // nock('http://ndla-api')
+  //   .persist()
+  //   .get('/article-api/v2/articles/3592')
+  //   .reply(200, {});
+  // nock('http://ndla-api')
+  //   .persist()
+  //   .get(`${taxonomyApi}/filters/?language=nb`)
+  //   .reply(200, []);
   nock('http://ndla-api')
     .persist()
     .get('/draft-api/v1/user-data')

@@ -6,21 +6,15 @@
  *
  */
 
-import { TopicResource } from '../containers/StructurePage/resourceComponents/StructureResources';
 import { FlattenedResourceType } from '../interfaces';
 import {
   ResourceType,
   SubjectTopic,
   TaxonomyElement,
 } from '../modules/taxonomy/taxonomyApiInterfaces';
-import {
-  updateTopicResource,
-  updateTopicSubtopic,
-  updateSubjectTopic,
-  fetchTopic,
-  fetchSubject,
-} from '../modules/taxonomy';
+import { fetchTopic, fetchSubject } from '../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
+import { ChildNodeType, ResourceWithNodeConnection } from '../modules/taxonomy/nodes/nodeApiTypes';
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getIdFromUrn = (urn?: string) => {
@@ -98,53 +92,26 @@ const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
 
 // Same structuring used from ndla-frontend
 
-const getResourcesGroupedByResourceTypes = (
-  resourcesByTopic: TopicResource[],
-): Record<string, TopicResource[]> => {
-  return resourcesByTopic.reduce<Record<string, TopicResource[]>>((obj, resource) => {
-    const resourceTypesWithResources = resource.resourceTypes.map(type => {
-      const existing = obj[type.id] ?? [];
-      return { ...type, resources: [...existing, resource] };
-    });
-    const reduced = resourceTypesWithResources.reduce(
-      (acc, type) => ({ ...acc, [type.id]: type.resources }),
+const safeSpread = <T>(toAdd: T, existing?: T[]) => (existing ? [...existing, toAdd] : [toAdd]);
+
+const groupResourcesByResourceType = (resources: ResourceWithNodeConnection[]) => {
+  return resources
+    .flatMap(res => res.resourceTypes.map<[string, ResourceWithNodeConnection]>(rt => [rt.id, res]))
+    .reduce<Record<string, ResourceWithNodeConnection[]>>(
+      (acc, [id, cur]) => ({ ...acc, [id]: safeSpread(cur, acc[id]) }),
       {},
     );
-    return { ...obj, ...reduced };
-  }, {});
 };
 
-// Same structuring used from ndla-frontend
-const getTopicResourcesByType = (
+const groupSortResourceTypesFromNodeResources = (
   resourceTypes: ResourceType[],
-  groupedResourceListItem: Record<string, TopicResource[]>,
-): (ResourceType & { resources: TopicResource[] })[] => {
+  topicResources: ResourceWithNodeConnection[],
+) => {
+  const groupedByResource = groupResourcesByResourceType(topicResources);
   return resourceTypes
-    .map(type => {
-      const resources: TopicResource[] = groupedResourceListItem[type.id] ?? [];
-      return { ...type, resources };
-    })
-    .filter(type => type.resources.length > 0);
-};
-
-const topicResourcesByTypeWithMetaData = (
-  resorceTypesByTopic: (ResourceType & {
-    resources: TopicResource[];
-  })[],
-) => {
-  return resorceTypesByTopic.map(type => ({
-    ...type,
-    contentType: getContentTypeFromResourceTypes([type]).contentType,
-  }));
-};
-
-const groupSortResourceTypesFromTopicResources = (
-  resourceTypes: ResourceType[],
-  topicResources: TopicResource[],
-) => {
-  const sortedResourceTypes = getResourcesGroupedByResourceTypes(topicResources);
-  const resorceTypesByTopic = getTopicResourcesByType(resourceTypes, sortedResourceTypes);
-  return topicResourcesByTypeWithMetaData(resorceTypesByTopic);
+    .map(type => ({ ...type, resources: groupedByResource[type.id] ?? [] }))
+    .filter(type => type.resources.length > 0)
+    .map(type => ({ ...type, contentType: getContentTypeFromResourceTypes([type]).contentType }));
 };
 
 const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): SubjectTopic[] => {
@@ -165,6 +132,26 @@ const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): Subject
   });
 };
 
+const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): ChildNodeType[] => {
+  return childNodes.map(node => {
+    if (node.id === childNode.parent) {
+      return { ...node, childNodes: safeSpread(childNode, node.childNodes) };
+    }
+    if (node.childNodes) {
+      return { ...node, childNodes: insertChild(node.childNodes, childNode) };
+    }
+    return node;
+  });
+};
+
+const groupChildNodes = (childNodes: ChildNodeType[]) =>
+  childNodes.reduce((acc, curr) => {
+    const mainTopic = curr.parent.includes('subject');
+    if (mainTopic) return acc;
+    const withoutCurrent = acc.filter(node => node.id !== curr.id);
+    return insertChild(withoutCurrent, curr);
+  }, childNodes);
+
 const groupTopics = (allTopics: SubjectTopic[]) =>
   allTopics.reduce((acc, curr) => {
     const mainTopic = curr.parent.includes('subject');
@@ -174,31 +161,6 @@ const groupTopics = (allTopics: SubjectTopic[]) =>
       curr,
     );
   }, allTopics);
-
-const getCurrentTopic = ({
-  params,
-  allTopics = [],
-}: {
-  params: {
-    topic?: string;
-    subtopics?: string;
-  };
-  allTopics: SubjectTopic[];
-}) => {
-  const { topic, subtopics } = params;
-  const topics = subtopics?.split('/');
-  if (topics && topics.length > 0) {
-    const lastTopic = topics.slice(-1)[0];
-    return allTopics.find(t => t.id === lastTopic);
-  }
-  if (topic) {
-    return allTopics.find(t => t.id === topic);
-  }
-};
-
-const getSubtopics = (topicId: string, allTopics: SubjectTopic[]) => {
-  return allTopics.filter(t => t.parent === topicId);
-};
 
 const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {
   if (resourceTypes.length === 0) {
@@ -218,27 +180,6 @@ const pathToUrnArray = (path: string) =>
     .splice(1)
     .map(url => `urn:${url}`);
 
-const updateRelevanceId = (
-  connectionId: string,
-  body: {
-    relevanceId?: string;
-    primary?: boolean;
-    rank?: number;
-  },
-): Promise<void> => {
-  const [, connectionType] = connectionId.split(':');
-  switch (connectionType) {
-    case 'topic-resource':
-      return updateTopicResource(connectionId, body);
-    case 'topic-subtopic':
-      return updateTopicSubtopic(connectionId, body);
-    case 'subject-topic':
-      return updateSubjectTopic(connectionId, body);
-    default:
-      return new Promise(() => {});
-  }
-};
-
 const getBreadcrumbFromPath = async (
   path: string,
   language?: string,
@@ -255,19 +196,16 @@ const getBreadcrumbFromPath = async (
   }));
 };
 
+export const nodePathToUrnPath = (path: string) => path.replace(/\//g, '/urn:').substr(1);
+
 export {
+  groupChildNodes,
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
-  getResourcesGroupedByResourceTypes,
-  getTopicResourcesByType,
-  topicResourcesByTypeWithMetaData,
-  groupSortResourceTypesFromTopicResources,
+  groupSortResourceTypesFromNodeResources,
   groupTopics,
-  getCurrentTopic,
-  getSubtopics,
   sortByName,
   selectedResourceTypeValue,
   pathToUrnArray,
-  updateRelevanceId,
   getBreadcrumbFromPath,
 };

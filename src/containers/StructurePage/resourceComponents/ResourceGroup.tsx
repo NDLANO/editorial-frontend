@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
-import AddTopicResourceButton from './AddTopicResourceButton';
+import AddNodeResourceButton from './AddNodeResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
@@ -18,8 +18,7 @@ import AddResourceModal from './AddResourceModal';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { TopicResource } from './StructureResources';
-import { LocaleType } from '../../../interfaces';
+import { ResourceWithNodeConnection } from '../../../modules/taxonomy/nodes/nodeApiTypes';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -27,17 +26,13 @@ export const classes = new BEMHelper({
 });
 
 interface Props {
-  topicResource?: {
-    resources?: TopicResource[];
-    contentType: string;
-  };
+  resources?: ResourceWithNodeConnection[];
   resourceType: ResourceType & {
     disabled?: boolean;
   };
-  locale: LocaleType;
-  currentTopicId: string;
+  currentNodeId: string;
 }
-const ResourceGroup = ({ resourceType, topicResource, locale, currentTopicId }: Props) => {
+const ResourceGroup = ({ resourceType, resources, currentNodeId }: Props) => {
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -54,36 +49,24 @@ const ResourceGroup = ({ resourceType, topicResource, locale, currentTopicId }: 
     <>
       <Accordion
         addButton={
-          <AddTopicResourceButton
-            stripped
-            onClick={toggleAddModal}
-            disabled={resourceType.disabled}>
+          <AddNodeResourceButton stripped onClick={toggleAddModal} disabled={resourceType.disabled}>
             <Plus />
             {t('taxonomy.addResource')}
-          </AddTopicResourceButton>
+          </AddNodeResourceButton>
         }
         handleToggle={handleToggle}
         appearance={ButtonAppearance.RESOURCEGROUP}
         header={resourceType.name}
-        hidden={topicResource?.resources ? displayResource : true}>
-        <>
-          {topicResource?.resources && (
-            <ResourceItems
-              resources={topicResource.resources}
-              locale={locale}
-              currentTopicId={currentTopicId}
-            />
-          )}
-        </>
+        hidden={resources ? displayResource : true}>
+        {resources && <ResourceItems resources={resources} currentNodeId={currentNodeId} />}
       </Accordion>
       {showAddModal && (
         <AddResourceModal
           type={resourceType.id}
           allowPaste={resourceType.id !== RESOURCE_TYPE_LEARNING_PATH}
-          topicId={currentTopicId}
+          nodeId={currentNodeId}
           onClose={toggleAddModal}
-          existingResourceIds={topicResource?.resources?.map(r => r.id) ?? []}
-          locale={locale}
+          existingResourceIds={resources?.map(r => r.id) ?? []}
         />
       )}
     </>

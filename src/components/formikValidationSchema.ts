@@ -159,7 +159,7 @@ const validateFormik = <FormikValuesType>(
       }
       const testFunction = rules[ruleKey].test;
       if (testFunction) {
-        const testError = testFunction(value);
+        const testError = testFunction(values);
         if (testError) {
           errors[ruleKey] = appendError(
             errors[ruleKey],

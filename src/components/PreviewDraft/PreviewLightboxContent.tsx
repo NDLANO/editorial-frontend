@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Spinner from '../Spinner';
@@ -41,7 +41,7 @@ interface Props {
     entity: ArticleType | ConceptPreviewType,
     label: string,
     contentType?: string,
-  ) => React.ReactNode;
+  ) => ReactNode;
 }
 
 const isArticleArray = createArrayGuard<ArticleConverterApiType>('availability');

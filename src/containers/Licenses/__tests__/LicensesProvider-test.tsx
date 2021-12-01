@@ -1,7 +1,7 @@
 import nock from 'nock';
 import { render } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { LicensesProvider, useLicenses } from '../LicensesProvider';
 import mockLicenses from './mockLicenses';
 

@@ -7,7 +7,7 @@
  */
 
 import { Editor, Element, Range, Transforms } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 
 export const insertLink = (editor: Editor) => {
   if (editor.selection) {
@@ -42,7 +42,7 @@ const wrapLink = (editor: Editor) => {
   const { selection } = editor;
   const isCollapsed = selection && Range.isCollapsed(selection);
 
-  const link = jsx(
+  const link = slatejsx(
     'element',
     {
       type: 'link',

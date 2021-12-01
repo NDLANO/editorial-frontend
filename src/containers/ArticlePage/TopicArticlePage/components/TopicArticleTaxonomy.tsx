@@ -6,7 +6,8 @@
  *
  */
 
-import React, { Component, Fragment } from 'react';
+import { Component, MouseEvent } from 'react';
+
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
@@ -133,9 +134,9 @@ class TopicArticleTaxonomy extends Component<Props, State> {
       const topicsWithConnections = sortedTopics.map(async (topic, index) => {
         const breadcrumb = await getBreadcrumbFromPath(topic.path, i18n.language);
         return {
+          ...topic,
           topicConnections: topicConnections[index],
           breadcrumb,
-          ...topic,
         };
       });
       const stagedTopicChanges = await Promise.all(topicsWithConnections);
@@ -187,7 +188,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     });
   };
 
-  handleSubmit = async (evt: React.MouseEvent<HTMLButtonElement>) => {
+  handleSubmit = async (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     const {
       updateNotes,
@@ -309,7 +310,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
     const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
 
     return (
-      <Fragment>
+      <>
         {isTaxonomyAdmin && (
           <TaxonomyConnectionErrors
             articleType={article.articleType ?? 'topic-article'}
@@ -338,7 +339,7 @@ class TopicArticleTaxonomy extends Component<Props, State> {
             defaultText="saveTax"
           />
         </Field>
-      </Fragment>
+      </>
     );
   }
 }

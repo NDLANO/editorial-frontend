@@ -1,46 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`it goes in and out of edit mode 1`] = `
-
-
-.emotion-55 article>p {
-  font-family: Source Sans Pro!important;
+.emotion-52 article > p {
+  font-family: Source Sans Pro !important;
 }
 
-.emotion-19 {
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
-}
-
-.emotion-19:hover,
-.emotion-19:focus {
-  color: #7d211c;
-}
-
-.emotion-27 {
-  height: 50px;
-  width: 50px;
-}
-
-.emotion-26 {
-  height: 24px;
-  width: 24px;
-  margin-right: 7px;
-}
-
-
-
-.emotion-44,
-.emotion-44:hover {
-  border-radius: 5px;
-  background-color: white;
-  margin-top: 26px;
-  padding: 3px 52px;
-}
-
-.emotion-53 {
+.emotion-50 {
   position: absolute;
   width: 100%;
 }
@@ -58,7 +23,7 @@ exports[`it goes in and out of edit mode 1`] = `
   animation-name: fadeIn;
 }
 
-.emotion-22 {
+.emotion-21 {
   position: relative;
   border: 2px solid #a5bcd3;
   padding: 52px;
@@ -243,7 +208,246 @@ exports[`it goes in and out of edit mode 1`] = `
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-20 {
+.emotion-19 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  color: #d1372e;
+}
+
+.emotion-19:hover,
+.emotion-19:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-19[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-19:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-19:hover,
+.emotion-19:active,
+.emotion-19:disabled,
+.emotion-19:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-19:focus {
+  outline-width: medium;
+}
+
+.emotion-19:hover,
+.emotion-19:focus {
+  color: #7d211c;
+}
+
+.emotion-6 {
+  border: calc(26px / 6.5) solid rgba(0,0,0,0.1);
+  border-bottom-color: #20588f;
+  border-radius: 50%;
+  -webkit-animation: spinnerAnimation 0.7s linear infinite;
+  animation: spinnerAnimation 0.7s linear infinite;
+  height: 26px;
+  width: 26px;
+  display: block;
+  margin: 0;
+}
+
+.emotion-48 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  z-index: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.emotion-46 {
+  background-color: #f8f8f8;
+  box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
+  width: 620px;
+  border-radius: 5px;
+  position: absolute;
+  top: 5%;
+  z-index: 2;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.emotion-28 {
+  background: linear-gradient(180deg,#5d97a9,#508a9c);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding-left: 13px;
+  height: 50px;
+  color: #f8f8f8;
+}
+
+.emotion-26 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  height: 50px;
+  width: 50px;
+}
+
+.emotion-26:hover,
+.emotion-26:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-26[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-26:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-26:hover,
+.emotion-26:active,
+.emotion-26:disabled,
+.emotion-26:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-26:focus {
+  outline-width: medium;
+}
+
+.emotion-25 {
+  height: 24px;
+  width: 24px;
+  margin-right: 7px;
+}
+
+.emotion-44 {
+  padding: 2em;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  -ms-flex-align: flex-end;
+  align-items: flex-end;
+}
+
+.emotion-40 {
+  width: 100%;
+}
+
+.emotion-40 > * {
+  width: 100%;
+}
+
+.emotion-40 form {
+  background-color: white;
+}
+
+.emotion-42 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -275,130 +479,44 @@ exports[`it goes in and out of edit mode 1`] = `
   font-weight: 400;
 }
 
-.emotion-20:hover,
-.emotion-20:focus {
+.emotion-42:hover,
+.emotion-42:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-20[disabled] {
+.emotion-42[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-20:focus {
+.emotion-42:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-20:hover,
-.emotion-20:active,
-.emotion-20:disabled,
-.emotion-20:focus {
+.emotion-42:hover,
+.emotion-42:active,
+.emotion-42:disabled,
+.emotion-42:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-20:focus {
+.emotion-42:focus {
   outline-width: medium;
 }
 
-.emotion-6 {
-  border: calc(26px / 6.5) solid rgba(0,0,0,0.1);
-  border-bottom-color: #20588f;
-  border-radius: 50%;
-  -webkit-animation: spinnerAnimation 0.7s linear infinite;
-  animation: spinnerAnimation 0.7s linear infinite;
-  height: 26px;
-  width: 26px;
-  display: block;
-  margin: 0;
-}
-
-.emotion-51 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.8);
-  z-index: 1;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.emotion-49 {
-  background-color: #f8f8f8;
-  box-shadow: 0 0 2px 0 rgba(115,115,115,0.5);
-  width: 620px;
+.emotion-42,
+.emotion-42:hover {
   border-radius: 5px;
-  position: absolute;
-  top: 5%;
-  z-index: 2;
-  max-height: 90vh;
-  overflow: auto;
-}
-
-.emotion-30 {
-  background: linear-gradient(180deg,#5d97a9,#508a9c);
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  font-size: 1.2rem;
-  padding-left: 13px;
-  height: 50px;
-  color: #f8f8f8;
-}
-
-.emotion-47 {
-  padding: 2em;
-  height: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  -webkit-align-items: flex-end;
-  -webkit-box-align: flex-end;
-  -ms-flex-align: flex-end;
-  align-items: flex-end;
-}
-
-.emotion-42 {
-  width: 100%;
-}
-
-.emotion-42 > * {
-  width: 100%;
-}
-
-.emotion-42 form {
   background-color: white;
+  margin-top: 26px;
+  padding: 3px 52px;
 }
 
 <div>
@@ -441,7 +559,7 @@ exports[`it goes in and out of edit mode 1`] = `
     </div>
   </div>
   <div
-    class="emotion-53 emotion-54"
+    class="emotion-50 emotion-51"
     contenteditable="false"
   >
     <div
@@ -449,7 +567,7 @@ exports[`it goes in and out of edit mode 1`] = `
       class="emotion-0 emotion-1"
     />
     <div
-      class="emotion-22 emotion-23"
+      class="emotion-21 emotion-22"
     >
       <h1
         class="c-section-heading c-related-articles__component-title"
@@ -516,7 +634,7 @@ exports[`it goes in and out of edit mode 1`] = `
         </button>
       </div>
       <button
-        class="emotion-19 emotion-20 emotion-16"
+        class="emotion-19 emotion-16"
         contenteditable="false"
         data-cy="close-related-button"
         type="button"
@@ -552,25 +670,25 @@ exports[`it goes in and out of edit mode 1`] = `
       </button>
     </div>
     <div
-      class="emotion-51 emotion-52"
+      class="emotion-48 emotion-49"
     >
       <div
         aria-hidden="true"
         class="emotion-0 emotion-1"
       />
       <div
-        class="emotion-49 emotion-50"
+        class="emotion-46 emotion-47"
       >
         <div
-          class="emotion-30 emotion-31"
+          class="emotion-28 emotion-29"
         >
           Skriv inn tittel og url på ekstern artikkel
           <button
-            class="emotion-27 emotion-20 emotion-16"
+            class="emotion-26 emotion-16"
             type="button"
           >
             <svg
-              class="c-icon emotion-26"
+              class="c-icon emotion-25"
               data-license="Apache License 2.0"
               data-source="Material Design"
               fill="currentColor"
@@ -596,10 +714,10 @@ exports[`it goes in and out of edit mode 1`] = `
           </button>
         </div>
         <div
-          class="emotion-47 emotion-48"
+          class="emotion-44 emotion-45"
         >
           <div
-            class="emotion-42 emotion-43"
+            class="emotion-40 emotion-41"
           >
             <div
               class="emotion-11 emotion-12"
@@ -639,7 +757,7 @@ exports[`it goes in and out of edit mode 1`] = `
             </div>
           </div>
           <button
-            class="emotion-44 emotion-20 emotion-16"
+            class="emotion-42 emotion-16"
             data-testid="taxonomyLightboxButton"
             type="button"
           >
@@ -650,7 +768,7 @@ exports[`it goes in and out of edit mode 1`] = `
     </div>
   </div>
   <div
-    class="emotion-55"
+    class="emotion-52"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"
@@ -674,25 +792,11 @@ exports[`it goes in and out of edit mode 1`] = `
 `;
 
 exports[`it goes in and out of edit mode 2`] = `
-
-
-.emotion-24 article>p {
-  font-family: Source Sans Pro!important;
+.emotion-35 article > p {
+  font-family: Source Sans Pro !important;
 }
 
-.emotion-17 {
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
-}
-
-.emotion-17:hover,
-.emotion-17:focus {
-  color: #7d211c;
-}
-
-.emotion-22 {
+.emotion-33 {
   position: absolute;
   width: 100%;
 }
@@ -710,7 +814,7 @@ exports[`it goes in and out of edit mode 2`] = `
   animation-name: fadeIn;
 }
 
-.emotion-20 {
+.emotion-31 {
   position: relative;
   border: 2px solid #a5bcd3;
   padding: 52px;
@@ -719,7 +823,7 @@ exports[`it goes in and out of edit mode 2`] = `
   z-index: 1;
 }
 
-.emotion-4 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -730,17 +834,17 @@ exports[`it goes in and out of edit mode 2`] = `
   z-index: 1;
 }
 
-.emotion-4 figure {
+.emotion-16 figure {
   position: static !important;
 }
 
-.emotion-2 {
+.emotion-14 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
 
-.emotion-15 {
+.emotion-12 {
   position: relative;
   -webkit-flex: 1 0 50%;
   -ms-flex: 1 0 50%;
@@ -748,26 +852,26 @@ exports[`it goes in and out of edit mode 2`] = `
   max-width: 600px;
 }
 
-.emotion-15 > article {
+.emotion-12 > article {
   max-width: 100%;
 }
 
-.emotion-9 {
+.emotion-21 {
   margin-top: 6.5px;
 }
 
-.emotion-9:first-of-type {
+.emotion-21:first-of-type {
   margin-top: 0;
 }
 
-.emotion-7 {
+.emotion-19 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.emotion-7 label {
+.emotion-19 label {
   width: 104px;
   max-width: 104px;
   padding: 20px 13px 13px 0;
@@ -778,7 +882,7 @@ exports[`it goes in and out of edit mode 2`] = `
   line-height: 1.1;
 }
 
-.emotion-6 {
+.emotion-18 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -807,8 +911,8 @@ exports[`it goes in and out of edit mode 2`] = `
   padding-right: 13px;
 }
 
-.emotion-6 input,
-.emotion-6 textarea {
+.emotion-18 input,
+.emotion-18 textarea {
   width: inherit;
   font-weight: 400;
   color: #444;
@@ -827,35 +931,35 @@ exports[`it goes in and out of edit mode 2`] = `
   flex-grow: 1;
 }
 
-.emotion-6 input:focus,
-.emotion-6 textarea:focus {
+.emotion-18 input:focus,
+.emotion-18 textarea:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   outline: none;
 }
 
-.emotion-6 input {
+.emotion-18 input {
   padding: 6.5px 13px;
 }
 
-.emotion-6 textarea {
+.emotion-18 textarea {
   padding: 0 13px;
   height: 20px;
   margin: 14px 0;
   resize: none;
 }
 
-.emotion-6 .c-icon {
+.emotion-18 .c-icon {
   width: 24px;
   height: 24px;
 }
 
-.emotion-11 {
+.emotion-23 {
   margin: 10px 0;
 }
 
-.emotion-13 {
+.emotion-25 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -877,25 +981,25 @@ exports[`it goes in and out of edit mode 2`] = `
   text-align: center;
 }
 
-.emotion-13:hover,
-.emotion-13:focus {
+.emotion-25:hover,
+.emotion-25:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-13[disabled] {
+.emotion-25[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-13:focus {
+.emotion-25:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-18 {
+.emotion-10 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -925,38 +1029,152 @@ exports[`it goes in and out of edit mode 2`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  color: #d1372e;
 }
 
-.emotion-18:hover,
-.emotion-18:focus {
+.emotion-10:hover,
+.emotion-10:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-18[disabled] {
+.emotion-10[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-18:focus {
+.emotion-10:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-18:hover,
-.emotion-18:active,
-.emotion-18:disabled,
-.emotion-18:focus {
+.emotion-10:hover,
+.emotion-10:active,
+.emotion-10:disabled,
+.emotion-10:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-18:focus {
+.emotion-10:focus {
   outline-width: medium;
+}
+
+.emotion-10:hover,
+.emotion-10:focus {
+  color: #7d211c;
+}
+
+.emotion-8 {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #20588f;
+  border: 2px solid #20588f;
+  border-radius: 4px;
+  padding: 4px 13px;
+  outline-width: 0;
+  cursor: pointer;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
+  line-height: 1.625;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 700;
+  -webkit-transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  transition: all .2s cubic-bezier(0.17,0.04,0.03,0.94);
+  box-shadow: none;
+  text-align: center;
+  -webkit-transition: background-color none;
+  transition: background-color none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  position: absolute;
+  top: 0.1rem;
+  right: 1.5rem;
+  color: #d1372e;
+}
+
+.emotion-8:hover,
+.emotion-8:focus {
+  color: white;
+  background-color: #184673;
+  border: 2px solid #184673;
+}
+
+.emotion-8[disabled] {
+  color: #777777;
+  background-color: #e6e6e6;
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.emotion-8:focus {
+  box-shadow: 0 0 2px #20588f;
+}
+
+.emotion-8:hover,
+.emotion-8:active,
+.emotion-8:disabled,
+.emotion-8:focus {
+  box-shadow: none;
+  color: #20588f;
+  background-color: transparent;
+  border: none;
+}
+
+.emotion-8:focus {
+  outline-width: medium;
+}
+
+.emotion-8:hover,
+.emotion-8:focus {
+  color: #7d211c;
+}
+
+.emotion-5 {
+  position: relative;
+}
+
+.emotion-3 {
+  opacity: 0;
+  position: absolute;
+  z-index: 9999;
+  pointer-events: none;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-delay: 0ms;
+  animation-delay: 0ms;
+  -webkit-animation-duration: 300ms;
+  animation-duration: 300ms;
+}
+
+.emotion-2 {
+  display: block;
+  color: #fff;
+  background: #444;
+  border-radius: 2px;
+  padding: 6.5px 13px;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-size: 14;
+  font-size: 0.7777777777777778rem;
+  line-height: 1.2 font-weight:400;
+  text-align: center;
+  white-space: nowrap;
+  max-width: calc(100vw - #{26px});
 }
 
 <div>
@@ -999,7 +1217,7 @@ exports[`it goes in and out of edit mode 2`] = `
     </div>
   </div>
   <div
-    class="emotion-22 emotion-23"
+    class="emotion-33 emotion-34"
     contenteditable="false"
   >
     <div
@@ -1007,7 +1225,7 @@ exports[`it goes in and out of edit mode 2`] = `
       class="emotion-0 emotion-1"
     />
     <div
-      class="emotion-20 emotion-21"
+      class="emotion-31 emotion-32"
     >
       <h1
         class="c-section-heading c-related-articles__component-title"
@@ -1018,14 +1236,183 @@ exports[`it goes in and out of edit mode 2`] = `
         Dra artikkel for å endre rekkefølge
       </p>
       <div
-        class="emotion-4 emotion-5"
+        class="emotion-16 emotion-17"
       >
         <div
-          class="drop-zone emotion-2 emotion-3"
-        />
+          class="drop-zone emotion-14 emotion-15"
+        >
+          <div
+            aria-roledescription="Draggable item. Press space bar to lift"
+            class="drag-item"
+            data-react-beautiful-dnd-drag-handle="0"
+            data-react-beautiful-dnd-draggable="0"
+            draggable="false"
+            tabindex="0"
+          >
+            <div
+              class="emotion-12 emotion-13"
+            >
+              <article
+                class="c-related-articles__item c-related-articles__item--external-learning-resources"
+              >
+                <h1
+                  class="c-related-articles__title"
+                >
+                  <div
+                    class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+                  >
+                    <svg
+                      class="c-icon"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      style="vertical-align: middle;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                    >
+                      <title>
+                        ExternalLearningResource
+                      </title>
+                      <g>
+                        <title>
+                          Eksterne ressurser
+                        </title>
+                        <g
+                          fill="none"
+                          fill-rule="evenodd"
+                          stroke="none"
+                          stroke-width="1"
+                        >
+                          <g>
+                            <g>
+                              <polygon
+                                points="0 0 24 0 24 24 0 24"
+                              />
+                              <path
+                                d="M3.9,12 C3.9,10.29 5.29,8.9 7,8.9 L11,8.9 L11,7 L7,7 C4.24,7 2,9.24 2,12 C2,14.76 4.24,17 7,17 L11,17 L11,15.1 L7,15.1 C5.29,15.1 3.9,13.71 3.9,12 Z M8,13 L16,13 L16,11 L8,11 L8,13 Z M17,7 L13,7 L13,8.9 L17,8.9 C18.71,8.9 20.1,10.29 20.1,12 C20.1,13.71 18.71,15.1 17,15.1 L13,15.1 L13,17 L17,17 C19.76,17 22,14.76 22,12 C22,9.24 19.76,7 17,7 Z"
+                                fill="currentColor"
+                                fill-rule="nonzero"
+                              />
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>
+                  </div>
+                  <span
+                    class="c-related-articles__link-wrapper"
+                  >
+                    <a
+                      class="c-related-articles__link"
+                      href="https://www.vg.no"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Verdens gang
+                    </a>
+                  </span>
+                </h1>
+                <p
+                  class="c-related-articles__description"
+                />
+                <p
+                  class="c-related-articles__link-info"
+                >
+                  Nettside hos www.vg.no
+                </p>
+              </article>
+              <button
+                class="emotion-7 emotion-8 emotion-9"
+                type="button"
+              >
+                <div
+                  class=" emotion-5 emotion-6"
+                >
+                  <div
+                    class="emotion-3 emotion-4"
+                  >
+                    <span
+                      class="emotion-2"
+                      role="tooltip"
+                    >
+                      Endre ekstern artikkel
+                    </span>
+                  </div>
+                  <div
+                    aria-label="Endre ekstern artikkel"
+                    class=""
+                  >
+                    <svg
+                      class="c-icon"
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      fill="currentColor"
+                      height="1em"
+                      preserveAspectRatio="xMidYMid meet"
+                      style="vertical-align: middle;"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                    >
+                      <title>
+                        Pencil
+                      </title>
+                      <g>
+                        <path
+                          d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                        />
+                        <path
+                          d="M0 0h24v24H0z"
+                          fill="none"
+                        />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              </button>
+              <button
+                class="emotion-10 emotion-9"
+                contenteditable="false"
+                data-cy="close-related-button"
+                title="Slett ekstern artikkel"
+                type="button"
+              >
+                <svg
+                  class="c-icon"
+                  data-license="Apache License 2.0"
+                  data-source="Material Design"
+                  fill="currentColor"
+                  height="1em"
+                  preserveAspectRatio="xMidYMid meet"
+                  style="vertical-align: middle;"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                >
+                  <title>
+                    DeleteForever
+                  </title>
+                  <g>
+                    <path
+                      d="M0 0h24v24H0V0z"
+                      fill="none"
+                    />
+                    <path
+                      d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                    />
+                    <path
+                      d="M0 0h24v24H0z"
+                      fill="none"
+                    />
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <div
-        class="emotion-15 emotion-16"
+        class="emotion-12 emotion-13"
         data-cy="styled-article-modal"
       >
         <div
@@ -1036,13 +1423,13 @@ exports[`it goes in and out of edit mode 2`] = `
           style="position: relative;"
         >
           <div
-            class="emotion-9 emotion-10"
+            class="emotion-21 emotion-22"
           >
             <div
-              class="emotion-7 emotion-8"
+              class="emotion-19 emotion-20"
             >
               <form
-                class="emotion-6"
+                class="emotion-18"
               >
                 <input
                   aria-autocomplete="list"
@@ -1078,12 +1465,12 @@ exports[`it goes in and out of edit mode 2`] = `
           </div>
         </div>
         <div
-          class="emotion-11 emotion-12"
+          class="emotion-23 emotion-24"
         >
           Eller
         </div>
         <button
-          class="emotion-13 emotion-14"
+          class="emotion-25 emotion-9"
           data-testid="showAddExternal"
           type="button"
         >
@@ -1091,7 +1478,7 @@ exports[`it goes in and out of edit mode 2`] = `
         </button>
       </div>
       <button
-        class="emotion-17 emotion-18 emotion-14"
+        class="emotion-10 emotion-9"
         contenteditable="false"
         data-cy="close-related-button"
         type="button"
@@ -1128,7 +1515,7 @@ exports[`it goes in and out of edit mode 2`] = `
     </div>
   </div>
   <div
-    class="emotion-24"
+    class="emotion-35"
     contenteditable="false"
     data-testid="relatedWrapper"
     draggable="true"
@@ -1145,7 +1532,79 @@ exports[`it goes in and out of edit mode 2`] = `
       </h1>
       <div
         class="c-related-articles__articles"
-      />
+      >
+        <article
+          class="c-related-articles__item c-related-articles__item--external-learning-resources"
+        >
+          <h1
+            class="c-related-articles__title"
+          >
+            <div
+              class="c-content-type-badge c-content-type-badge--external-learning-resources c-content-type-badge--small c-content-type-badge--background c-content-type-badge--border"
+            >
+              <svg
+                class="c-icon"
+                data-license="Apache License 2.0"
+                data-source="Material Design"
+                fill="currentColor"
+                height="1em"
+                preserveAspectRatio="xMidYMid meet"
+                style="vertical-align: middle;"
+                viewBox="0 0 24 24"
+                width="1em"
+              >
+                <title>
+                  ExternalLearningResource
+                </title>
+                <g>
+                  <title>
+                    Eksterne ressurser
+                  </title>
+                  <g
+                    fill="none"
+                    fill-rule="evenodd"
+                    stroke="none"
+                    stroke-width="1"
+                  >
+                    <g>
+                      <g>
+                        <polygon
+                          points="0 0 24 0 24 24 0 24"
+                        />
+                        <path
+                          d="M3.9,12 C3.9,10.29 5.29,8.9 7,8.9 L11,8.9 L11,7 L7,7 C4.24,7 2,9.24 2,12 C2,14.76 4.24,17 7,17 L11,17 L11,15.1 L7,15.1 C5.29,15.1 3.9,13.71 3.9,12 Z M8,13 L16,13 L16,11 L8,11 L8,13 Z M17,7 L13,7 L13,8.9 L17,8.9 C18.71,8.9 20.1,10.29 20.1,12 C20.1,13.71 18.71,15.1 17,15.1 L13,15.1 L13,17 L17,17 C19.76,17 22,14.76 22,12 C22,9.24 19.76,7 17,7 Z"
+                          fill="currentColor"
+                          fill-rule="nonzero"
+                        />
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <span
+              class="c-related-articles__link-wrapper"
+            >
+              <a
+                class="c-related-articles__link"
+                href="https://www.vg.no"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Verdens gang
+              </a>
+            </span>
+          </h1>
+          <p
+            class="c-related-articles__description"
+          />
+          <p
+            class="c-related-articles__link-info"
+          >
+            Nettside hos www.vg.no
+          </p>
+        </article>
+      </div>
     </section>
   </div>
 </div>

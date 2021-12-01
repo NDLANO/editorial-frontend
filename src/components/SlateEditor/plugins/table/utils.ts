@@ -1,9 +1,9 @@
 import { Editor, Path, Transforms } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
 import { TableElement, TableRowElement, TableHeadElement, TableBodyElement } from '.';
 import { defaultParagraphBlock } from '../paragraph/utils';
-import { isTable, isTableCell, isTableRow } from './helpers';
+import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
 import { findCellCoordinate, getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
 
 export const TYPE_TABLE = 'table';
@@ -25,14 +25,14 @@ export const countCells = (row: TableRowElement, stop?: number) => {
 };
 
 export const defaultTableBlock = (height: number, width: number) => {
-  return jsx('element', { type: TYPE_TABLE }, [
+  return slatejsx('element', { type: TYPE_TABLE }, [
     defaultTableHeadBlock(width),
     defaultTableBodyBlock(height - 1, width),
   ]);
 };
 
 export const defaultTableCellBlock = () => {
-  return jsx(
+  return slatejsx(
     'element',
     {
       type: TYPE_TABLE_CELL,
@@ -47,7 +47,7 @@ export const defaultTableCellBlock = () => {
 };
 
 export const defaultTableRowBlock = (width: number) => {
-  return jsx(
+  return slatejsx(
     'element',
     {
       type: TYPE_TABLE_ROW,
@@ -57,7 +57,7 @@ export const defaultTableRowBlock = (width: number) => {
 };
 
 export const defaultTableHeadBlock = (width: number) => {
-  return jsx(
+  return slatejsx(
     'element',
     {
       type: TYPE_TABLE_HEAD,
@@ -67,7 +67,7 @@ export const defaultTableHeadBlock = (width: number) => {
 };
 
 export const defaultTableBodyBlock = (height: number, width: number) => {
-  return jsx(
+  return slatejsx(
     'element',
     {
       type: TYPE_TABLE_BODY,
@@ -89,7 +89,7 @@ export const getTableBodyHeight = (element: TableHeadElement | TableBodyElement)
 };
 
 export const createIdenticalRow = (element: TableRowElement) => {
-  return jsx(
+  return slatejsx(
     'element',
     { type: TYPE_TABLE_ROW },
     element.children.map(child => {
@@ -272,7 +272,7 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
           } else {
             // C. If not row is inserted yet. Insert a new row.
             if (!rowsInserted) {
-              Transforms.insertNodes(editor, jsx('element', { type: TYPE_TABLE_ROW }), {
+              Transforms.insertNodes(editor, slatejsx('element', { type: TYPE_TABLE_ROW }), {
                 at: newRowPath,
               });
             }
@@ -370,6 +370,14 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
   const [cell] = cellEntry;
 
   const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
+
+  const firstBody = tableElement.children[0];
+
+  if (isTableBody(firstBody) || isTableHead(firstBody)) {
+    if (getTableBodyWidth(firstBody) === 1) {
+      return;
+    }
+  }
 
   if (matrix && isTableCell(cell)) {
     const selectedPath = findCellCoordinate(matrix, cell);

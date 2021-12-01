@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Remarkable } from 'remarkable';
 import parse from 'html-react-parser';
@@ -38,9 +38,9 @@ const IngressField = ({
   preview = false,
   concept = false,
 }) => {
-  const handleSubmitRef = React.useRef(handleSubmit);
+  const handleSubmitRef = useRef(handleSubmit);
 
-  React.useEffect(() => {
+  useEffect(() => {
     handleSubmitRef.current = handleSubmit;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);

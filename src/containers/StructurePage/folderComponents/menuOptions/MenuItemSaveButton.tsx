@@ -6,10 +6,10 @@
  *
  */
 
-import React from 'react';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import { css } from '@emotion/core';
+import { ReactNode } from 'react';
 
 const menuItemSaveButtonStyle = css`
   &,
@@ -27,7 +27,7 @@ const menuItemSaveButtonStyle = css`
 interface Props {
   disabled?: boolean;
   onClick: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
   'data-testid'?: string;
 }
 

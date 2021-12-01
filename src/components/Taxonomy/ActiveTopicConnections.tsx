@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { StyledConnectionsWrapper } from '../../style/LearningResourceTaxonomyStyles';
 import ActiveTopicConnection from './ActiveTopicConnection';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';

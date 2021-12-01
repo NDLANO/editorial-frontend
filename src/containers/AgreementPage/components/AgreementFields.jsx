@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { LicenseField, DatePicker, ContributorsField } from '../../FormikForm';
 import FormikField, { classes as fieldsClasses } from '../../../components/FormikField';

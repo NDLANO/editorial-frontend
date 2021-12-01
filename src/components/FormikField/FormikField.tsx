@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { get } from 'lodash/fp';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';

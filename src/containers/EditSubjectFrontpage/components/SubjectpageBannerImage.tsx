@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';

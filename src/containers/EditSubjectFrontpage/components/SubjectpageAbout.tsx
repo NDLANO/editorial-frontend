@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Spinner } from '@ndla/editor';
 import { useTranslation } from 'react-i18next';
 import { Descendant } from 'slate';
-import { FieldProps } from 'formik';
+import { FieldProps, useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
+import { TitleField } from '../../FormikForm';
 
 interface Props {
   selectedLanguage?: string;
@@ -21,6 +22,8 @@ interface Props {
 const SubjectpageAbout = ({ selectedLanguage }: Props) => {
   const { t } = useTranslation();
   const [showLoading, setShowLoading] = useState(false);
+
+  const { submitForm } = useFormikContext();
 
   useEffect(() => {
     setShowLoading(true);
@@ -32,7 +35,7 @@ const SubjectpageAbout = ({ selectedLanguage }: Props) => {
   }
   return (
     <>
-      <FormikField name="title" noBorder title placeholder={t('form.name.title')} />
+      <TitleField handleSubmit={submitForm} />
       <FormikField
         noBorder
         label={t('subjectpageForm.description')}

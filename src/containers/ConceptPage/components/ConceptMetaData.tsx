@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
@@ -29,7 +28,7 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
   const { values } = useFormikContext<ConceptFormValues>();
 
   return (
-    <Fragment>
+    <>
       {inModal ? (
         <InlineImageSearch name="metaImageId" />
       ) : (
@@ -71,7 +70,7 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
           />
         )}
       </FormikField>
-    </Fragment>
+    </>
   );
 };
 

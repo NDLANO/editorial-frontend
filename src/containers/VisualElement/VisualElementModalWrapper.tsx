@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
+import { ReactElement, useState } from 'react';
+
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
@@ -9,7 +10,7 @@ interface Props {
   resource: string;
   onClose: () => void;
   isOpen: boolean;
-  children: (setH5pFetchFail: (failed: boolean) => void) => React.ReactElement;
+  children: (setH5pFetchFail: (failed: boolean) => void) => ReactElement;
 }
 
 const h5pContentCss = css`
@@ -51,12 +52,12 @@ const VisualElementModalWrapper = ({ resource, children, onClose, isOpen }: Prop
       backgroundColor="white"
       onClose={onClose}>
       {(onCloseModal: () => void) => (
-        <React.Fragment>
+        <>
           <ModalHeader>
             <ModalCloseButton title={t('dialog.close')} onClick={onCloseModal} />
           </ModalHeader>
           <ModalBody>{children(setH5pFetchFail)}</ModalBody>
-        </React.Fragment>
+        </>
       )}
     </StyledVisualElementModal>
   );

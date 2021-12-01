@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useFormikContext } from 'formik';
 import PropTypes from 'prop-types';
 import VisualElementSearch from './VisualElementSearch';

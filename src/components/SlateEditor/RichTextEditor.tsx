@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createEditor, Descendant, Editor, NodeEntry, Range, Transforms } from 'slate';
 import {
   Slate,
@@ -62,11 +62,22 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
   }, []);
 
   useEffect(() => {
+    const { MathJax } = window;
+    if (MathJax && !isFirstNormalize && !editor.mathjaxInitialized) {
+      MathJax.typesetPromise();
+      editor.mathjaxInitialized = true;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor.mathjaxInitialized, isFirstNormalize]);
+
+  useEffect(() => {
     if (!submitted && prevSubmitted.current) {
-      // Editor will be normalized. Remove history
+      // Editor data will be updated and normalized. Reset history and other settings.
       ReactEditor.deselect(editor);
       editor.children = value;
       editor.history = { redos: [], undos: [] };
+      editor.mathjaxInitialized = false;
+      window.MathJax?.typesetClear();
       Editor.normalize(editor, { force: true });
       ReactEditor.focus(editor);
       // Try to select previous selection if it exists
@@ -151,7 +162,7 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
   return (
     <article>
       <SlateProvider isSubmitted={submitted}>
-        <div data-cy="slate-editor" css={slateEditorDivStyle}>
+        <div data-cy="slate-editor" css={slateEditorDivStyle} {...classes()}>
           <Slate editor={editor} value={value} onChange={onChange}>
             {isFirstNormalize ? (
               <Spinner />

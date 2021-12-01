@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Fragment, SyntheticEvent } from 'react';
+import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
@@ -75,7 +75,7 @@ const MetaImageField = ({
     copyright: t('form.metaImage.copyright'),
   };
   return (
-    <Fragment>
+    <>
       <div {...formClasses('meta-image')}>
         <img src={image.imageUrl} alt={alt} onLoad={onImageLoad} />
         <MetaInformation
@@ -92,7 +92,7 @@ const MetaImageField = ({
         placeholder={t('topicArticleForm.fields.alt.placeholder')}
         maxLength={300}
       />
-    </Fragment>
+    </>
   );
 };
 

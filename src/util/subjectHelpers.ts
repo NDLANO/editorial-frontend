@@ -8,7 +8,6 @@ import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
 import { DraftApiType } from '../modules/draft/draftApiInterfaces';
 import { ImageApiType } from '../modules/image/imageApiInterfaces';
 import { Learningpath } from '../modules/learningpath/learningpathApiInterfaces';
-
 import {
   editorValueToEmbed,
   editorValueToPlainText,
@@ -41,7 +40,7 @@ export interface SubjectPageFormikType {
   language: string;
   mobileBanner?: number;
   elementId: string;
-  title: string;
+  title: Descendant[];
 }
 
 export const subjectpageFormikTypeToPatchType = (
@@ -61,7 +60,7 @@ export const subjectpageFormikTypeToPostType = (
   return {
     about: [
       {
-        title: values.title,
+        title: editorValueToPlainText(values.title),
         description: values.description ? editorValueToPlainText(values.description) : '',
         language: values.language,
         visualElement: {
@@ -112,7 +111,7 @@ export const subjectpageApiTypeToFormikType = (
     supportedLanguages: subjectpage?.supportedLanguages ?? [],
     language: selectedLanguage,
     description: plainTextToEditorValue(subjectpage?.about?.description ?? ''),
-    title: subjectpage?.about?.title ?? '',
+    title: plainTextToEditorValue(subjectpage?.about?.title ?? ''),
     mobileBanner: subjectpage?.banner?.mobileId,
     desktopBanner: banner,
     visualElement: embed ?? [],

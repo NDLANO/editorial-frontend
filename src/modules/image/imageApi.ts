@@ -7,7 +7,6 @@
  */
 
 import queryString from 'query-string';
-import defined from 'defined';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -37,17 +36,14 @@ export const fetchImage = (id: number | string, language?: string): Promise<Imag
     resolveJsonOrRejectWithError<ImageApiType>(r),
   );
 
-export const updateImage = (imageMetadata: UpdatedImageMetadata): Promise<ImageApiType> =>
+export const updateImage = (
+  imageMetadata: UpdatedImageMetadata,
+  formData?: FormData,
+): Promise<ImageApiType> =>
   fetchAuthorized(`${baseUrl}/${imageMetadata.id}`, {
     method: 'PATCH',
-    body: JSON.stringify(imageMetadata),
-  }).then(r => resolveJsonOrRejectWithError<ImageApiType>(r));
-
-export const patchImage = (id: number, formData: FormData): Promise<ImageApiType> =>
-  fetchAuthorized(`${baseUrl}/${id}`, {
-    method: 'PATCH',
     headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
-    body: formData,
+    body: formData || JSON.stringify(imageMetadata),
   }).then(r => resolveJsonOrRejectWithError<ImageApiType>(r));
 
 export const searchImages = (query: ImageSearchQuery): Promise<ImageSearchResult> => {
@@ -58,7 +54,7 @@ export const searchImages = (query: ImageSearchQuery): Promise<ImageSearchResult
 };
 
 export const onError = (err: Response & Error) => {
-  createErrorPayload(err.status, defined(err.message, err.statusText), err);
+  createErrorPayload(err.status, err.message ?? err.statusText, err);
 };
 
 export const deleteLanguageVersionImage = (

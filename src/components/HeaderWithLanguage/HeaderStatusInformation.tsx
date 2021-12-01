@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState } from 'react';
+import { Children, isValidElement, ReactElement, ReactNode, useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
@@ -36,13 +36,13 @@ const Splitter = ({
   children,
   disableSplitter,
 }: {
-  children?: React.ReactNode;
+  children?: ReactNode;
   disableSplitter?: boolean;
 }) => {
-  const validChildren = React.Children.toArray(children).filter(child =>
-    React.isValidElement(child),
-  ) as React.ReactElement[];
-  if (!React.Children.count(validChildren)) return null;
+  const validChildren = Children.toArray(children).filter(child =>
+    isValidElement(child),
+  ) as ReactElement[];
+  if (!Children.count(validChildren)) return null;
   return (
     <>
       {children && !disableSplitter && <StyledSplitter />}

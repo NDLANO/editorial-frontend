@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState, MouseEvent } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router-dom';
 import { getResourceLanguages } from '../../../../util/resourceHelpers';
@@ -34,12 +35,12 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     placeholderData: [],
   });
 
-  const onInputChange = (evt: React.FormEvent<HTMLInputElement>) => {
+  const onInputChange = (evt: FormEvent<HTMLInputElement>) => {
     setQueryInput(evt.currentTarget.value);
     doSearch({ ...search, query: evt.currentTarget.value });
   };
 
-  const onFieldChange = (evt: React.FormEvent<HTMLSelectElement>) => {
+  const onFieldChange = (evt: FormEvent<HTMLSelectElement>) => {
     const { value, name } = evt.currentTarget;
     doSearch({ ...search, [name]: value });
   };
@@ -64,7 +65,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     doSearch({ ...search, [tag.type]: '' });
   };
 
-  const emptySearch = (evt: React.MouseEvent<HTMLButtonElement>) => {
+  const emptySearch = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.persist();
     setQueryInput('');
     doSearch({

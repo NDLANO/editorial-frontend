@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
@@ -34,7 +34,7 @@ interface Props {
     entity: ArticleType | ConceptApiType,
     label: string,
     contentType?: string,
-  ) => React.ReactNode;
+  ) => ReactNode;
 }
 
 const isConceptApiType = createGuard<ConceptApiType>('articleIds');

@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
@@ -61,22 +62,26 @@ const ContentLink = ({ onAddLink, onClose, initialTitle = '', initialUrl = '' }:
       onClose={onClose}>
       <StyledContent>
         <Input
-          warningText={showError && isEmpty(title) && t('form.relatedContent.link.missingTitle')}
+          warningText={
+            showError && isEmpty(title) ? t('form.relatedContent.link.missingTitle') : undefined
+          }
           data-testid="addExternalTitleInput"
           container="div"
           type="text"
           placeholder={t('form.relatedContent.link.titlePlaceholder')}
           value={title}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
         />
         <Input
-          warningText={showError && !isUrl(url) && t('form.relatedContent.link.missingUrl')}
+          warningText={
+            showError && !isUrl(url) ? t('form.relatedContent.link.missingUrl') : undefined
+          }
           data-testid="addExternalUrlInput"
           container="div"
           type="text"
           placeholder={t('form.relatedContent.link.urlPlaceholder')}
           value={url}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
         />
       </StyledContent>
     </TaxonomyLightbox>

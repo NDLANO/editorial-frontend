@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
@@ -33,8 +32,8 @@ const EditConcept = ({ conceptId, isNewlyCreated, selectedLanguage, ...rest }) =
 
   const { translating, translateToNN } = useTranslateApi(concept, setConcept, [
     'id',
-    'title',
-    'content',
+    'title.title',
+    'content.content',
   ]);
 
   if (loading || translating) {

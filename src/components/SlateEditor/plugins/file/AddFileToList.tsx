@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { Portal } from '../../../Portal';

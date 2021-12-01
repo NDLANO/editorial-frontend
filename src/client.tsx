@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Router, useHistory } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';

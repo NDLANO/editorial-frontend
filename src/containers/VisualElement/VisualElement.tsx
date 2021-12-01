@@ -6,11 +6,10 @@
  *
  */
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { FormikHandlers } from 'formik';
 import VisualElementEditor from '../../components/SlateEditor/VisualElementEditor';
 import { embedPlugin, EmbedElement } from '../../components/SlateEditor/plugins/embed';
-import { visualElementPickerPlugin } from '../../components/SlateEditor/plugins/visualElementPicker';
 
 interface Props {
   onChange: FormikHandlers['handleChange'];
@@ -34,12 +33,13 @@ const VisualElement = ({
   resetSelectedResource,
 }: Props) => {
   const plugins = useMemo(() => {
-    return [embedPlugin(language, undefined, true), visualElementPickerPlugin(language, types)];
+    return [embedPlugin(language, undefined, true)];
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedResource]);
 
   return (
     <VisualElementEditor
+      types={types}
       name={name}
       value={value}
       plugins={plugins}

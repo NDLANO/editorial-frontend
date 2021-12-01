@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { PureComponent, ReactNode } from 'react';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import styled from '@emotion/styled';
@@ -123,14 +123,14 @@ interface Props {
   onClose: Function;
   display: boolean;
   width?: string;
-  closeButton?: React.ReactNode;
+  closeButton?: ReactNode;
   appearance?: 'modal' | 'big' | 'fullscreen';
   severity?: MessageSeverity;
   contentCss?: SerializedStyles;
   hideCloseButton?: boolean;
 }
 
-class Lightbox extends React.PureComponent<Props, State> {
+class Lightbox extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { display: props.display };

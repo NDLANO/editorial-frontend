@@ -6,7 +6,7 @@
  *
  */
 
-import React, { RefObject, useState } from 'react';
+import { useRef, useEffect, RefObject, useState } from 'react';
 import { Descendant } from 'slate';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
@@ -154,11 +154,11 @@ const LearningResourceContent = ({
   handleSubmit,
   locale,
 }: Props) => {
-  const handleSubmitRef = React.useRef(handleSubmit);
+  const handleSubmitRef = useRef(handleSubmit);
 
   const [preview, setPreview] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     handleSubmitRef.current = handleSubmit;
   }, [handleSubmit]);
 

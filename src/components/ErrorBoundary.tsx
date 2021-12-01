@@ -6,19 +6,19 @@
  *
  */
 
-import React from 'react';
+import { PureComponent, ReactNode } from 'react';
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import handleError from '../util/handleError';
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 interface State {
   error: Error | undefined;
 }
 
-class ErrorBoundary extends React.PureComponent<Props & CustomWithTranslation, State> {
+class ErrorBoundary extends PureComponent<Props & CustomWithTranslation, State> {
   constructor(props: Props & CustomWithTranslation) {
     super(props);
     this.state = { error: undefined };

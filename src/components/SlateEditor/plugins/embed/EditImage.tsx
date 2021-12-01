@@ -7,7 +7,7 @@
  */
 
 import { css } from '@emotion/core';
-import React, { useEffect, useState } from 'react';
+import { createRef, useEffect, useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
 import { shadows, spacingUnit } from '@ndla/core';
 import FigureInput from './FigureInput';
@@ -51,8 +51,8 @@ interface StateProps {
 }
 
 const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
-  let placeholderElement: any = React.createRef();
-  let embedElement: any = React.createRef();
+  let placeholderElement: any = createRef();
+  let embedElement: any = createRef();
   const [state, setState] = useState<StateProps>({
     alt: embed.alt,
     caption: embed.caption,

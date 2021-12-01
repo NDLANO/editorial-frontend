@@ -1,5 +1,5 @@
 import { Editor, Element, NodeEntry, Node, Transforms, Text, Path } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { defaultParagraphBlock, TYPE_PARAGRAPH } from '../plugins/paragraph/utils';
 
 export const firstTextBlockElement: Element['type'][] = ['paragraph', 'heading', 'quote'];
@@ -28,7 +28,7 @@ export const defaultTextBlockNormalizer = (
   if (!Element.isElement(node)) return;
 
   if (node.children.length === 0) {
-    Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]), {
+    Transforms.insertNodes(editor, slatejsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]), {
       at: [...path, 0],
     });
     return;
@@ -38,7 +38,7 @@ export const defaultTextBlockNormalizer = (
   // If wrong type, unwrap it. If text, wrap it.
   for (const [child, childPath] of Node.children(editor, path)) {
     if (Text.isText(child)) {
-      Transforms.wrapNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+      Transforms.wrapNodes(editor, slatejsx('element', { type: TYPE_PARAGRAPH }), {
         at: childPath,
       });
       return;
@@ -55,9 +55,13 @@ export const defaultTextBlockNormalizer = (
   const firstChild = node.children[0];
   if (Element.isElement(firstChild)) {
     if (!firstTextBlockElement.includes(firstChild.type)) {
-      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]), {
-        at: [...path, 0],
-      });
+      Transforms.insertNodes(
+        editor,
+        slatejsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]),
+        {
+          at: [...path, 0],
+        },
+      );
       return;
     }
   }
@@ -66,9 +70,13 @@ export const defaultTextBlockNormalizer = (
   const lastChild = node.children[node.children.length - 1];
   if (Element.isElement(lastChild)) {
     if (!lastTextBlockElement.includes(lastChild.type)) {
-      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]), {
-        at: [...path, node.children.length],
-      });
+      Transforms.insertNodes(
+        editor,
+        slatejsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]),
+        {
+          at: [...path, node.children.length],
+        },
+      );
       return;
     }
   }
@@ -78,7 +86,7 @@ export const defaultTextBlockNormalizer = (
   if (Editor.hasPath(editor, nextPath)) {
     const [nextNode] = Editor.node(editor, nextPath);
     if (!Element.isElement(nextNode) || !afterOrBeforeTextBlockElement.includes(nextNode.type)) {
-      Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+      Transforms.insertNodes(editor, slatejsx('element', { type: TYPE_PARAGRAPH }), {
         at: nextPath,
       });
 
@@ -96,7 +104,7 @@ export const defaultTextBlockNormalizer = (
         !Element.isElement(previousNode) ||
         !afterOrBeforeTextBlockElement.includes(previousNode.type)
       ) {
-        Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+        Transforms.insertNodes(editor, slatejsx('element', { type: TYPE_PARAGRAPH }), {
           at: path,
         });
         return;
@@ -135,7 +143,7 @@ export const addSurroundingParagraphs = (editor: Editor, path: Path) => {
         !Element.isElement(previousNode) ||
         !afterOrBeforeTextBlockElement.includes(previousNode.type)
       ) {
-        Transforms.insertNodes(editor, jsx('element', { type: TYPE_PARAGRAPH }), {
+        Transforms.insertNodes(editor, slatejsx('element', { type: TYPE_PARAGRAPH }), {
           at: path,
         });
 

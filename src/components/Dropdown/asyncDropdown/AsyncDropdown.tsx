@@ -4,7 +4,8 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree. *
  */
-import React, { useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+
 import Downshift, { StateChangeOptions } from 'downshift';
 import debounce from 'lodash/debounce';
 // @ts-ignore
@@ -34,7 +35,7 @@ interface Props<ApiType> {
     value: string;
     removeItem?: (tag: string) => void;
     onBlur?: (event: Event) => void;
-    onChange?: (evt: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
     onKeyDown: (event: KeyboardEvent) => void;
   }) => JSX.Element;
   clearInputField?: boolean;
@@ -119,7 +120,7 @@ export const AsyncDropdown = <ApiType extends ApiTypeValues>({
     [apiAction, keepOpen, showPagination],
   );
 
-  const handleInputChange = async (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = async (evt: ChangeEvent<HTMLInputElement>) => {
     setKeepOpen(true);
     const value = evt.target.value;
     if (currentDebounce) {

@@ -6,8 +6,8 @@
  *
  */
 
+import { useEffect, FormEvent, MouseEvent, createRef } from 'react';
 import { css } from '@emotion/core';
-import React, { useEffect, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '@ndla/forms';
 import { AudioPlayer } from '@ndla/ui';
@@ -28,10 +28,10 @@ interface Props {
   changes: { [x: string]: string };
   embed: AudioEmbed;
   language: string;
-  onAudioFigureInputChange: (event: React.FormEvent<HTMLSelectElement>) => void;
-  onChange: (event: React.FormEvent<HTMLSelectElement>) => void;
-  onExit: (event: React.MouseEvent) => void;
-  onRemoveClick: (event: React.MouseEvent) => void;
+  onAudioFigureInputChange: (event: FormEvent<HTMLSelectElement>) => void;
+  onChange: (event: FormEvent<HTMLSelectElement>) => void;
+  onExit: (event: MouseEvent) => void;
+  onRemoveClick: (event: MouseEvent) => void;
   speech: boolean;
   type: string;
 }
@@ -49,8 +49,8 @@ const EditAudio = ({
   changes,
 }: Props) => {
   const { t } = useTranslation();
-  let placeholderElement: any = React.createRef();
-  let embedElement: any = React.createRef();
+  let placeholderElement: any = createRef();
+  let embedElement: any = createRef();
   const { submitted } = useSlateContext();
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const EditAudio = ({
   }, [embedElement, placeholderElement]);
 
   return (
-    <Fragment>
+    <>
       <Overlay onExit={onExit} key="audioOverlay" />
       <div
         key="audioPlaceholder"
@@ -86,7 +86,7 @@ const EditAudio = ({
             embedElement = embedEl;
           }}>
           <ObjectSelector
-            onClick={(evt: React.MouseEvent) => evt.stopPropagation()}
+            onClick={(evt: MouseEvent) => evt.stopPropagation()}
             onChange={onChange}
             onBlur={onChange}
             key="type"
@@ -126,7 +126,7 @@ const EditAudio = ({
           />
         </div>
       </Portal>
-    </Fragment>
+    </>
   );
 };
 

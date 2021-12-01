@@ -6,10 +6,9 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { defaultTextBlockNormalizer } from '../../utils/normalizationHelpers';
 import { SlateSerializer } from '../../interfaces';
 import SlateAside from './SlateAside';
@@ -28,7 +27,7 @@ export interface AsideElement {
 export const asideSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== 'aside') return;
-    return jsx('element', { type: TYPE_ASIDE, data: getAsideType(el) }, children);
+    return slatejsx('element', { type: TYPE_ASIDE, data: getAsideType(el) }, children);
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;

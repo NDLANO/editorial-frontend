@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { FormEvent, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import css from '@emotion/css';
 import Button from '@ndla/button';
@@ -27,10 +27,10 @@ interface Props {
   selectors: SearchFormSelector[];
   query: string;
   searchObject: SearchParams;
-  onQueryChange: (event: React.FormEvent<HTMLInputElement>) => void;
+  onQueryChange: (event: FormEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
-  onFieldChange: (evt: React.FormEvent<HTMLSelectElement>) => void;
-  emptySearch: (evt: React.MouseEvent<HTMLButtonElement>) => void;
+  onFieldChange: (evt: FormEvent<HTMLSelectElement>) => void;
+  emptySearch: (evt: MouseEvent<HTMLButtonElement>) => void;
   removeTag: (tag: MinimalTagType) => void;
 }
 

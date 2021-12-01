@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import BEMHelper from 'react-bem-helper';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';

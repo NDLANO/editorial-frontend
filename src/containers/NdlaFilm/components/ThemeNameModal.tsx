@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 //@ts-ignore
 import { NdlaFilmThemeEditorModal } from '@ndla/editor';
 import Modal from '@ndla/modal';

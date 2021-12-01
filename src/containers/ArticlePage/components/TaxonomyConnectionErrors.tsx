@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { AlertCircle } from '@ndla/icons/editor';
@@ -96,7 +96,7 @@ const TaxonomyConnectionErrors = ({ taxonomy, articleType }: Props) => {
       {wrongConnections.map(taxonomyElement => {
         const visibility = taxonomyElement.metadata ? taxonomyElement.metadata.visible : true;
         const errorElement = ` - ${taxonomyElement.id} (${taxonomyElement.name})`;
-        const LinkWrapper = ({ children }: { children: React.ReactNode }) => {
+        const LinkWrapper = ({ children }: { children: ReactNode }) => {
           if (!taxonomyElement.path) {
             return <>{children}</>;
           }

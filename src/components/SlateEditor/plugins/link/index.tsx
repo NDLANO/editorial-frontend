@@ -6,9 +6,8 @@
  *
  */
 
-import React from 'react';
 import { RenderElementProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { Descendant, Editor, Element, Text, Node, Transforms } from 'slate';
 import { SlateSerializer } from '../../interfaces';
 import Link from './Link';
@@ -39,7 +38,7 @@ export const linkSerializer: SlateSerializer = {
     const tag = el.tagName.toLowerCase();
     if (tag === 'a') {
       const a = el as HTMLLinkElement;
-      return jsx(
+      return slatejsx(
         'element',
         {
           type: TYPE_LINK,
@@ -55,7 +54,7 @@ export const linkSerializer: SlateSerializer = {
       const embed = el as HTMLEmbedElement;
       const embedAttributes = reduceElementDataAttributes(embed);
       if (embedAttributes.resource !== 'content-link') return;
-      return jsx(
+      return slatejsx(
         'element',
         {
           type: TYPE_CONTENT_LINK,

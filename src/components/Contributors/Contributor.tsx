@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ChangeEvent } from 'react';
 import PropTypes from 'prop-types';
 import { FieldSection, FieldSplitter, Input, Select, FieldRemoveButton } from '@ndla/forms';
 import { ContributorType, ContributorFieldName } from './types';
@@ -23,11 +23,11 @@ interface Props {
   labelRemove?: string;
   contributor: ContributorType;
   handleContributorChange: (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement>,
     name: ContributorFieldName,
     index: number,
   ) => void;
-  removeContributor: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void;
+  removeContributor: (event: ChangeEvent<HTMLInputElement>, index: number) => void;
   contributorTypeItems: ContributorTypeItem[];
   index: number;
   errorMessages?: string[];
@@ -60,18 +60,12 @@ const Contributor = ({
           placeholder={placeholder}
           disabled={disabled}
           value={contributor.name}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleContributorChange(e, 'name', index)
-          }
+          onChange={(e: ChangeEvent<HTMLInputElement>) => handleContributorChange(e, 'name', index)}
         />
         <Select
           value={contributor.type}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleContributorChange(e, 'type', index)
-          }
-          onBlur={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleContributorChange(e, 'type', index)
-          }
+          onChange={(e: ChangeEvent<HTMLInputElement>) => handleContributorChange(e, 'type', index)}
+          onBlur={(e: ChangeEvent<HTMLInputElement>) => handleContributorChange(e, 'type', index)}
           data-cy="contributor-selector">
           <option value="" />
           {contributorTypeItems.map((item: ContributorTypeItem) => (
@@ -84,7 +78,7 @@ const Contributor = ({
     </div>
     <div>
       <FieldRemoveButton
-        onClick={(evt: React.ChangeEvent<HTMLInputElement>) => removeContributor(evt, index)}>
+        onClick={(evt: ChangeEvent<HTMLInputElement>) => removeContributor(evt, index)}>
         {labelRemove}
       </FieldRemoveButton>
     </div>

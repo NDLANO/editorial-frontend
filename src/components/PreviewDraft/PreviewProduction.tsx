@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArticleType } from '../../interfaces';
 import PreviewDraft from './PreviewDraft';
@@ -29,7 +28,7 @@ const PreviewProduction = ({
 }: Props) => {
   const { t } = useTranslation();
   return (
-    <Fragment>
+    <>
       <StyledPreviewTwoArticles>
         <h2 className="u-4/6@desktop u-push-1/6@desktop">
           {t('form.previewProductionArticle.draft')}
@@ -52,7 +51,7 @@ const PreviewProduction = ({
           language={previewLanguage}
         />
       </StyledPreviewTwoArticles>
-    </Fragment>
+    </>
   );
 };
 

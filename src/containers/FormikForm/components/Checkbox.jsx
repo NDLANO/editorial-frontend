@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -23,10 +22,10 @@ const Checkbox = ({ display, children, ...rest }) => {
   return (
     <FormikField {...rest}>
       {({ field }) => (
-        <Fragment>
+        <>
           <StyledInputCheckbox display={display} type="checkbox" checked={field.value} {...field} />
           {children}
-        </Fragment>
+        </>
       )}
     </FormikField>
   );

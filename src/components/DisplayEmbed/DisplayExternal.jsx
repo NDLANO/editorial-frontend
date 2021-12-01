@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
@@ -51,26 +51,11 @@ export class DisplayExternal extends Component {
     const { editor, element, embed } = this.props;
 
     if (properties.url !== embed.url || properties.path !== embed.path) {
-      if (properties.resource === 'h5p') {
-        Transforms.setNodes(
-          editor,
-          {
-            data: {
-              ...properties,
-              url: embed.url,
-              path: embed.path,
-            },
-          },
-          { at: ReactEditor.findPath(editor, element) },
-        );
-        this.iframe.src = embed.url;
-      } else {
-        Transforms.setNodes(
-          editor,
-          { data: { ...properties } },
-          { at: ReactEditor.findPath(editor, element) },
-        );
-      }
+      Transforms.setNodes(
+        editor,
+        { data: { ...properties } },
+        { at: ReactEditor.findPath(editor, element) },
+      );
       this.closeEditEmbed();
     }
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactElement } from 'react';
 import { withRouter, NavLink, RouteComponentProps } from 'react-router-dom';
 import { UseQueryResult } from 'react-query';
 import { classes } from './Navigation';
@@ -10,7 +10,7 @@ interface SubType {
   title: string;
   type: SearchType;
   url: string;
-  icon: React.ReactElement;
+  icon: ReactElement;
   path: string;
   searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
 }

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { FormikHelpers, FormikValues } from 'formik';
@@ -37,15 +37,15 @@ const getSubject = (elementId: string) => {
 
 const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) => {
   const { t } = useTranslation();
-  const [articles, setArticles] = useState<(DraftApiType | Learningpath)[]>(editorsChoices);
+  const [resources, setResources] = useState<(DraftApiType | Learningpath)[]>(editorsChoices);
   const subjectId = getSubject(elementId);
 
   const onAddArticleToList = async (article: MultiSearchSummary) => {
     try {
       const f = article.learningResourceType === 'learningpath' ? fetchLearningpath : fetchDraft;
-      const newArticle = await f(article.id);
-      const temp = [...articles, { ...newArticle, metaImage: article.metaImage }];
-      setArticles(temp);
+      const newResource = await f(article.id);
+      const temp = [...resources, { ...newResource, metaImage: article.metaImage }];
+      setResources(temp);
       updateFormik(field, temp);
     } catch (e) {
       handleError(e);
@@ -53,7 +53,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
   };
 
   const onUpdateElements = (articleList: (DraftApiType | Learningpath)[]) => {
-    setArticles(articleList);
+    setResources(articleList);
     updateFormik(field, articleList);
   };
 
@@ -74,7 +74,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
         subTitle={t('subjectpageForm.articles')}
       />
       <ElementList
-        elements={articles}
+        elements={resources}
         data-cy="editors-choices-article-list"
         messages={{
           dragElement: t('form.file.changeOrder'),
@@ -84,7 +84,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
       />
       <DropdownSearch
         //@ts-ignore This is poorly typed.
-        selectedElements={articles}
+        selectedElements={resources}
         onClick={(event: Event) => event.stopPropagation()}
         onChange={(article: MultiSearchSummary) => onAddArticleToList(article)}
         placeholder={t('subjectpageForm.addArticle')}

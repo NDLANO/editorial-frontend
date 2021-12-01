@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Check } from '@ndla/icons/editor';
 import HeaderInformation from './HeaderInformation';

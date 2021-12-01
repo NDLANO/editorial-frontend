@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
@@ -40,10 +40,10 @@ interface Props {
   disabled?: boolean;
   handleToggle: () => void;
   className?: string;
-  addButton?: React.ReactNode;
+  addButton?: ReactNode;
   appearance: ButtonAppearance;
-  toggleSwitch?: React.ReactNode;
-  children?: React.ReactNode;
+  toggleSwitch?: ReactNode;
+  children?: ReactNode;
 }
 
 const Accordion = ({

@@ -99,6 +99,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'Ebok', url: ['ebok.no'] },
   { name: 'VG', url: ['www.vg.no'] },
   { name: 'Trinket', url: ['trinket.io'], height: '700px' },
+  { name: 'Codepen', url: ['codepen.io'], height: '500px' },
 ];
 
 export const SearchTypeValues = [

@@ -26,7 +26,6 @@ import { RelatedElement } from './plugins/related';
 import { EmbedElement } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
 import { CodeblockElement } from './plugins/codeBlock';
-import { VisualElementPickerElement } from './plugins/visualElementPicker';
 import { DivElement } from './plugins/div';
 
 export type SlatePlugin = (editor: Editor) => Editor;
@@ -46,6 +45,7 @@ export type CustomEditor = {
   shouldShowToolbar: () => boolean;
   shouldShowBlockPicker?: () => boolean;
   decorations?: (editor: Editor, entry: NodeEntry) => BaseRange[];
+  mathjaxInitialized?: boolean;
 };
 
 declare module 'slate' {
@@ -77,7 +77,6 @@ declare module 'slate' {
       | RelatedElement
       | EmbedElement
       | BodyboxElement
-      | VisualElementPickerElement
       | DivElement;
     Text: CustomTextWithMarks;
   }

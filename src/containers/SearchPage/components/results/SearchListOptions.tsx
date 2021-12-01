@@ -6,7 +6,8 @@
  *
  */
 
-import React, { useState } from 'react';
+import { FormEvent, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { searchClasses } from '../../SearchContainer';
 import { SearchParams } from '../form/SearchForm';
@@ -29,7 +30,7 @@ const SearchListOptions = ({
   const { t } = useTranslation();
   const [pageSize, setPageSize] = useState(searchObject['page-size'] ?? 10);
 
-  const handlePageSizeChange = (evt: React.FormEvent<HTMLSelectElement>) => {
+  const handlePageSizeChange = (evt: FormEvent<HTMLSelectElement>) => {
     setPageSize(parseInt(evt.currentTarget.value));
     search({ 'page-size': parseInt(evt.currentTarget.value), page: 1 }, type);
   };

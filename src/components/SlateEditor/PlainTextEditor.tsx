@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useMemo, FocusEvent } from 'react';
+import { useMemo, FocusEvent } from 'react';
 import { createEditor, Descendant } from 'slate';
 import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';

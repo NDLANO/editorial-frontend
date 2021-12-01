@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldProps, FormikValues } from 'formik';
 import FormikField from '../../components/FormikField';
@@ -19,13 +18,13 @@ interface Props {
 const GrepCodesField = ({ grepCodes }: Props) => {
   const { t } = useTranslation();
   return (
-    <Fragment>
+    <>
       <FormikField name="grepCodes" label={t('form.grepCodes.label')}>
         {({ field, form }: FieldProps<string[], FormikValues>) => (
           <GrepCodesFieldContent articleGrepCodes={grepCodes} field={field} form={form} />
         )}
       </FormikField>
-    </Fragment>
+    </>
   );
 };
 

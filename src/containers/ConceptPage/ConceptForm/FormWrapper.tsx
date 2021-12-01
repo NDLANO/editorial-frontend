@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Form } from 'formik';
 import { formClasses } from '../../FormikForm';
 

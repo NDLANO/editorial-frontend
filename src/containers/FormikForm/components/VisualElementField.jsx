@@ -6,7 +6,6 @@
  *
  */
 
-import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
@@ -33,21 +32,21 @@ const VisualElementField = ({ formik, types }) => {
   const { t } = useTranslation();
 
   return (
-    <Fragment>
+    <>
       <FormikField name="visualElement">
         {({ field }) => (
           <div>
             <FieldHeader title={t('form.visualElement.title')}>
               <HowToHelper pageId="VisualElement" tooltip={t('form.visualElement.helpLabel')} />
             </FieldHeader>
-            <Fragment>
+            <>
               <VisualElement
                 label={t('form.visualElement.label')}
                 language={formik.values.language}
                 types={types}
                 {...field}
               />
-            </Fragment>
+            </>
           </div>
         )}
       </FormikField>
@@ -60,7 +59,7 @@ const VisualElementField = ({ formik, types }) => {
           )}
         </ErrorMessage>
       ))}
-    </Fragment>
+    </>
   );
 };
 

@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactNode, SyntheticEvent, useCallback, useEffect, useState } from 'react';
+import { ReactNode, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { uuid } from '@ndla/util';
@@ -187,6 +187,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     <>
       {editMode && (
         <EditRelated
+          data-testid="editRelated"
           onRemoveClick={onRemoveClick}
           articles={articles}
           insertExternal={insertExternal}

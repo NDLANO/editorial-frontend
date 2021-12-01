@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EditorErrorMessage renders 1`] = `
-.emotion-3 {
+.emotion-2 {
   position: relative;
   border: 1px solid #d1372e;
   color: #d1372e;
   padding: 1rem;
 }
 
-.emotion-1 {
+.emotion-0 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -38,51 +38,48 @@ exports[`EditorErrorMessage renders 1`] = `
   box-shadow: none;
   border: none;
   font-weight: 400;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  color: #d1372e;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.2rem;
+  color: #d1372e;
 }
 
-.emotion-1:hover,
-.emotion-1:focus {
+.emotion-0:hover,
+.emotion-0:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-1[disabled] {
+.emotion-0[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-1:focus {
+.emotion-0:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-1:hover,
-.emotion-1:active,
-.emotion-1:disabled,
-.emotion-1:focus {
+.emotion-0:hover,
+.emotion-0:active,
+.emotion-0:disabled,
+.emotion-0:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-1:focus {
+.emotion-0:focus {
   outline-width: medium;
 }
 
-.emotion-0 {
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
-  position: absolute;
-  top: 0.1rem;
-  right: 0.2rem;
-  color: #d1372e;
-}
-
 .emotion-0:hover,
 .emotion-0:focus {
   color: #7d211c;
@@ -93,55 +90,50 @@ exports[`EditorErrorMessage renders 1`] = `
   color: #7d211c;
 }
 
-<div
-  className="emotion-3 emotion-4"
-  contentEditable={false}
->
-  <button
-    className="emotion-0 emotion-1 emotion-2"
-    contentEditable={false}
-    data-cy="close-related-button"
-    disabled={false}
-    onClick={[Function]}
-    tabIndex="-1"
-    type="button"
+<div>
+  <div
+    class="emotion-2 emotion-3"
+    contenteditable="false"
   >
-    <svg
-      className="c-icon"
-      data-license="Apache License 2.0"
-      data-source="Material Design"
-      fill="currentColor"
-      height="1em"
-      preserveAspectRatio="xMidYMid meet"
-      style={
-        Object {
-          "color": undefined,
-          "verticalAlign": "middle",
-        }
-      }
-      viewBox="0 0 24 24"
-      width="1em"
+    <button
+      class="emotion-0 emotion-1"
+      contenteditable="false"
+      data-cy="close-related-button"
+      tabindex="-1"
+      type="button"
     >
-      <title>
-        DeleteForever
-      </title>
-      <g>
-        <path
-          d="M0 0h24v24H0V0z"
-          fill="none"
-        />
-        <path
-          d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-        />
-        <path
-          d="M0 0h24v24H0z"
-          fill="none"
-        />
-      </g>
-    </svg>
-  </button>
-  <span>
-    This is error
-  </span>
+      <svg
+        class="c-icon"
+        data-license="Apache License 2.0"
+        data-source="Material Design"
+        fill="currentColor"
+        height="1em"
+        preserveAspectRatio="xMidYMid meet"
+        style="vertical-align: middle;"
+        viewBox="0 0 24 24"
+        width="1em"
+      >
+        <title>
+          DeleteForever
+        </title>
+        <g>
+          <path
+            d="M0 0h24v24H0V0z"
+            fill="none"
+          />
+          <path
+            d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </g>
+      </svg>
+    </button>
+    <span>
+      This is error
+    </span>
+  </div>
 </div>
 `;

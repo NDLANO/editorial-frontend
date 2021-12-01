@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ReactNode, useState } from 'react';
+import { FormEvent, ReactNode, useState } from 'react';
 import { Editor, Transforms, Element, Path } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
@@ -45,7 +45,7 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
   const { t } = useTranslation();
   const [changes, setChanges] = useState<ChangesProp>({ caption: '' });
 
-  const onFigureInputChange = (event: React.FormEvent<HTMLSelectElement>) => {
+  const onFigureInputChange = (event: FormEvent<HTMLSelectElement>) => {
     event.preventDefault();
     const { value, name } = event.currentTarget;
     const change = { [name]: value };

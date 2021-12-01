@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import styled from '@emotion/styled';
 import { keyframes, css, SerializedStyles } from '@emotion/core';
 import { colors } from '@ndla/core';

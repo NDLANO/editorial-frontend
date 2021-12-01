@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { RefObject, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
@@ -16,7 +17,7 @@ interface Props {
   refreshTopics: () => Promise<void>;
   currentTopic: SubjectTopic;
   status?: DraftStatus;
-  resourceRef: React.RefObject<HTMLDivElement>;
+  resourceRef: RefObject<HTMLDivElement>;
   grepCodes: string[];
   onUpdateResource: (updatedResource: TopicResource) => void;
   topicArticleType?: string;

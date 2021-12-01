@@ -6,7 +6,6 @@
  *
  */
 
-import React from 'react';
 import { Cross } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';

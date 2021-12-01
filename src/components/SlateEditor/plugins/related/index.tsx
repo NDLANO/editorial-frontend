@@ -6,10 +6,9 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import RelatedArticleBox from './RelatedArticleBox';
 import { SlateSerializer } from '../../interfaces';
 import { createEmbedTag, reduceChildElements } from '../../../../util/embedTagHelpers';
@@ -18,7 +17,7 @@ import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 export const TYPE_RELATED = 'related';
 
 export const defaultRelatedBlock = () => {
-  return jsx('element', { type: TYPE_RELATED, data: {} }, { text: '' });
+  return slatejsx('element', { type: TYPE_RELATED, data: {} }, { text: '' });
 };
 
 interface RelatedInternalArticle {
@@ -46,7 +45,7 @@ export const relatedSerializer: SlateSerializer = {
     const { type } = el.dataset;
     if (type !== 'related-content') return;
 
-    return jsx(
+    return slatejsx(
       'element',
       {
         type: TYPE_RELATED,

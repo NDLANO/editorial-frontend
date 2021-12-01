@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
@@ -26,7 +26,7 @@ const deleteButtonStyle = css`
 
 interface Props {
   style?: string | SerializedStyles;
-  children?: React.ReactNode;
+  children?: ReactNode;
   stripped?: boolean;
   onMouseDown?: (event: MouseEvent) => void;
   'data-cy'?: string;

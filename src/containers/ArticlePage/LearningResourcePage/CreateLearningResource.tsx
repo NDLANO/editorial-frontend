@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { Fragment } from 'react';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { RouteComponentProps } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +28,7 @@ const CreateLearningResource = ({ history }: Props) => {
   };
 
   return (
-    <Fragment>
+    <>
       <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
       <LearningResourceForm
         article={{ language: locale, grepCodes: [] }}
@@ -40,7 +39,7 @@ const CreateLearningResource = ({ history }: Props) => {
         isNewlyCreated={false}
         translateToNN={() => {}}
       />
-    </Fragment>
+    </>
   );
 };
 

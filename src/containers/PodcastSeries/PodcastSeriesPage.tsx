@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import { RouteComponentProps, Route, Switch, RouteProps } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -22,7 +22,7 @@ interface MatchParams {
 }
 
 interface BetterRouteProps extends RouteProps {
-  render?: (props: RouteComponentProps<MatchParams>) => React.ReactNode;
+  render?: (props: RouteComponentProps<MatchParams>) => ReactNode;
 }
 
 const PodcastSeriesPage = ({ match, history, location }: RouteComponentProps<MatchParams>) => {

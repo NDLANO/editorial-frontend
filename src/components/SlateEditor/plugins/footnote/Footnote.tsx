@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Editor } from 'slate';
 import { RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';

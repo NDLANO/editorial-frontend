@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import React, { useState, ReactNode, useRef } from 'react';
+import { useState, ReactNode, useRef } from 'react';
 import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';

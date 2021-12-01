@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { colors, fonts } from '@ndla/core';
@@ -14,7 +14,7 @@ import { colors, fonts } from '@ndla/core';
 interface Props {
   error?: boolean;
   float?: 'left' | 'right' | 'none' | 'inherit';
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const StyledHelpMessage = styled.span`

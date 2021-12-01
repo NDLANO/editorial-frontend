@@ -6,9 +6,8 @@
  *
  */
 
-import React from 'react';
 import { Descendant, Editor, Element, Node, Range, Transforms } from 'slate';
-import { jsx } from 'slate-hyperscript';
+import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
@@ -30,7 +29,7 @@ export const conceptSerializer: SlateSerializer = {
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
     if (embedAttributes.resource !== 'concept') return;
-    return jsx(
+    return slatejsx(
       'element',
       {
         type: TYPE_CONCEPT,

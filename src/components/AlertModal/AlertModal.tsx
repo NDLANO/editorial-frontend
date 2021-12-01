@@ -6,7 +6,7 @@
  *
  */
 
-import React from 'react';
+import { ReactElement } from 'react';
 import PropTypes from 'prop-types';
 import { Warning } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
@@ -44,7 +44,7 @@ const alertModalBodyIconStyle = css`
 interface Props {
   text: string;
   onCancel: () => void;
-  component?: React.ReactElement[] | React.ReactElement;
+  component?: ReactElement[] | ReactElement;
   actions?: { text: string; onClick: (event: Event) => void; 'data-testid'?: string }[];
   show?: boolean;
   severity?: MessageSeverity;

@@ -50,9 +50,9 @@ export const WelcomePage = () => {
       <OneColumn>
         <div {...classes('header')}>
           {/* <a href="#guidelines" {...classes('header-link')}>
-               {t('welcomePage.guidelines')}
-               <RightArrow className="c-icon--large" />
-             </a> */}
+              {t('welcomePage.guidelines')}
+              <RightArrow className="c-icon--large" />
+            </a> */}
           <img {...classes('header-image')} src="/welcome-image.jpg" alt="illustration" />
         </div>
         <div {...classes('two-column')}>

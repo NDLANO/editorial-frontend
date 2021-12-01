@@ -149,6 +149,16 @@ test('taxonomy/sortIntoCreateDeleteUpdate different item changes', () => {
     [],
     [],
   ]);
+
+  const orig = { id: '1', name: '1', test: '1' };
+  const updated = { id: '1', name: '2', test: '2' };
+  expect(
+    sortIntoCreateDeleteUpdate({
+      changedItems: [updated],
+      originalItems: [orig],
+      updateProperties: ['name', 'test'],
+    }),
+  ).toEqual([[], [], [{ id: '1', name: '2', test: '2' }]]);
 });
 
 test('pathToUrnArray', () => {

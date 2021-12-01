@@ -10,7 +10,7 @@ import {
   usePostNodeConnectionMutation,
 } from '../../../../modules/taxonomy/nodes/nodeMutations';
 import { CHILD_NODES_WITH_ARTICLE_TYPE } from '../../../../queryKeys';
-import retrieveBreadCrumbs, { PathArray } from '../../../../util/retrieveBreadCrumbs';
+import { retrieveBreadCrumbs } from '../../../../util/taxonomyHelpers';
 import MenuItemButton from './components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
@@ -19,7 +19,7 @@ interface Props {
   node: NodeType;
   onClose: () => void;
   editModeHandler: EditModeHandler;
-  structure: PathArray;
+  structure: NodeType[];
   rootNodeId: string;
 }
 

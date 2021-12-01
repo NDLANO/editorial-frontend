@@ -20,16 +20,12 @@ import {
 } from '../../../../modules/taxonomy';
 import { cloneDraft } from '../../../../modules/draft/draftApi';
 import { learningpathCopy } from '../../../../modules/learningpath/learningpathApi';
-import {
-  ResourceTranslation,
-  TaxonomyElement,
-} from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import retrieveBreadCrumbs from '../../../../util/retrieveBreadCrumbs';
+import { ResourceTranslation } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import MenuItemDropdown from './components/MenuItemDropdown';
 import MenuItemButton from './components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
-import { getIdFromUrn } from '../../../../util/taxonomyHelpers';
+import { getIdFromUrn, retrieveBreadCrumbs } from '../../../../util/taxonomyHelpers';
 import { RESOURCES_WITH_NODE_CONNECTION } from '../../../../queryKeys';
 import AlertModal from '../../../../components/AlertModal';
 import {
@@ -40,11 +36,9 @@ import {
 import { fetchNodeResources, fetchNodes } from '../../../../modules/taxonomy/nodes/nodeApi';
 import { usePostResourceForNodeMutation } from '../../../../modules/taxonomy/nodes/nodeMutations';
 
-type PathArray = Array<TaxonomyElement>;
-
 interface Props {
   toNode: NodeType | ChildNodeType;
-  structure: PathArray;
+  structure: NodeType[];
   onClose: () => void;
 }
 
@@ -77,7 +71,7 @@ const CopyResources = ({ toNode, structure, onClose }: Props) => {
 
   const getNodeBreadcrumb = (currentNode: NodeType, allNodes: NodeType[]) => {
     if (!currentNode.path) return undefined;
-    const breadCrumbs: PathArray = retrieveBreadCrumbs({
+    const breadCrumbs = retrieveBreadCrumbs({
       nodePath: currentNode.path,
       structure,
       allNodes,

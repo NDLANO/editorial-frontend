@@ -16,7 +16,6 @@ import {
   EditSubjectpageOption,
   EditCustomFields,
 } from './menuOptions';
-import { PathArray } from '../../../util/retrieveBreadCrumbs';
 import { EditMode } from '../../../interfaces';
 import AddExistingToNode from './menuOptions/AddExistingToNode';
 import { useSession } from '../../Session/SessionProvider';
@@ -29,7 +28,7 @@ interface Props {
   rootNodeId: string;
   node: NodeType;
   onClose: () => void;
-  structure: PathArray;
+  structure: NodeType[];
 }
 
 export interface EditModeHandler {

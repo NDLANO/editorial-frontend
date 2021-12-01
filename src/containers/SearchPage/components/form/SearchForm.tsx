@@ -46,7 +46,7 @@ export interface SearchParams {
 }
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
-  const queryStringObject = queryString.parse(locationSearch) as Record<string, string | undefined>;
+  const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
   return {
     query: queryStringObject.query,
     'draft-status': queryStringObject['draft-status'],

@@ -6,8 +6,10 @@
  *
  */
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+
 import BEMHelper from 'react-bem-helper';
+
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input } from '@ndla/forms';
@@ -17,8 +19,9 @@ import { getAccessToken, getAccessTokenPersonal } from '../../../util/authHelper
 import { isValid } from '../../../util/jwtHelper';
 
 import SavedSearch from './SavedSearch';
-import { fetchUserData, updateUserData } from '../../../modules/draft/draftApi';
+import { updateUserData } from '../../../modules/draft/draftApi';
 import { isNDLAEdSearchUrl } from '../../../util/htmlHelpers';
+import { useUpdateUserDataMutation, useUserData } from '../../../modules/draft/draftQueries';
 
 export const classes = new BEMHelper({
   name: 'save-search',
@@ -39,22 +42,15 @@ const SaveSearchUrl = () => {
   const { t } = useTranslation();
   const [isValidUrl, setIsValidUrl] = useState(true);
   const [inputFieldValue, setInputFieldValue] = useState('');
-  const [savedSearches, setSavedSearches] = useState<string[]>([]);
+  const { data } = useUserData({
+    enabled: isValid(getAccessToken()) && getAccessTokenPersonal(),
+  });
 
-  useEffect(() => {
-    fetchSavedSearch();
-  }, []);
+  const userDataMutation = useUpdateUserDataMutation();
 
-  const fetchSavedSearch = async () => {
-    const token = getAccessToken();
-    const isAccessTokenPersonal = getAccessTokenPersonal();
+  if (!data) return null;
 
-    if (isValid(token) && isAccessTokenPersonal) {
-      const result = await fetchUserData();
-      const searches = result.savedSearches || [];
-      setSavedSearches(searches);
-    }
-  };
+  const savedSearches = data.savedSearches ?? [];
 
   const getWarningText = () => {
     if (!isValidUrl) {
@@ -81,8 +77,7 @@ const SaveSearchUrl = () => {
     ) {
       const savedSearchesUpdated = [...savedSearches, getSavedSearchRelativeUrl(inputFieldValue)];
       setInputFieldValue('');
-      setSavedSearches(savedSearchesUpdated);
-      updateUserMetadata(savedSearchesUpdated);
+      userDataMutation.mutate({ savedSearches: savedSearchesUpdated });
     } else {
       setIsValidUrl(false);
     }
@@ -90,8 +85,7 @@ const SaveSearchUrl = () => {
 
   const deleteSearch = (index: number) => {
     const reduced_array = savedSearches.filter((_, idx) => idx !== index);
-    setSavedSearches(reduced_array);
-    updateUserMetadata(reduced_array);
+    userDataMutation.mutate({ savedSearches: reduced_array });
   };
 
   return (

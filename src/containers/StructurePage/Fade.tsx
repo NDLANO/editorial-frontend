@@ -38,17 +38,12 @@ const Fade = ({ show = true, fadeType, children }: Props) => {
 
   if (!shouldRender) return null;
 
+  const animation = show ? animations[fadeType] : animations[fadeOut(fadeType)];
   return (
     <div
-      css={
-        show
-          ? css`
-              ${animations[fadeType](animations.durations.fast)}
-            `
-          : css`
-              ${animations[fadeOut(fadeType)](animations.durations.fast)}
-            `
-      }
+      css={css`
+        ${animation(animations.durations.fast)}
+      `}
       onAnimationEnd={onAnimationEnd}>
       {children}
     </div>

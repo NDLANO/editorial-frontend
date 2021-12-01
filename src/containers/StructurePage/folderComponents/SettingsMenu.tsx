@@ -16,7 +16,6 @@ import styled from '@emotion/styled';
 import Overlay from '../../../components/Overlay';
 import SettingsMenuDropdownType from './SettingsMenuDropdownType';
 import RoundIcon from '../../../components/RoundIcon';
-import { PathArray } from '../../../util/retrieveBreadCrumbs';
 import { NodeType } from '../../../modules/taxonomy/nodes/nodeApiTypes';
 import CrossButton from '../../../components/CrossButton';
 import { getNodeTypeFromNodeId } from '../../../modules/taxonomy/nodes/nodeUtil';
@@ -33,7 +32,7 @@ const SettingsMenuWrapper = styled('div')`
 interface Props {
   node: NodeType;
   rootNodeId: string;
-  structure: PathArray;
+  structure: NodeType[];
 }
 
 const SettingsMenu = ({ node, rootNodeId, structure }: Props) => {

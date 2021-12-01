@@ -6,6 +6,8 @@
  *
  */
 
+import { TFunction } from 'i18next';
+import { differenceWith } from 'lodash';
 import { FlattenedResourceType } from '../interfaces';
 import {
   ResourceType,
@@ -15,6 +17,7 @@ import {
 import { fetchTopic, fetchSubject } from '../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
 import { ChildNodeType, ResourceWithNodeConnection } from '../modules/taxonomy/nodes/nodeApiTypes';
+import handleError from './handleError';
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getIdFromUrn = (urn?: string) => {
@@ -30,30 +33,13 @@ const sortByName = (a: TaxonomyElement, b: TaxonomyElement) => {
   return 0;
 };
 
-const flattenResourceTypesAndAddContextTypes = (
-  data: ResourceType[] = [],
-  t: (key: string) => string,
-) => {
-  const resourceTypes: FlattenedResourceType[] = [];
-  data.forEach(type => {
-    if (type.subtypes) {
-      type.subtypes.forEach(subtype =>
-        resourceTypes.push({
-          typeName: type.name,
-          typeId: type.id,
-          name: subtype.name,
-          id: subtype.id,
-        }),
-      );
-    } else {
-      resourceTypes.push({
-        name: type.name,
-        id: type.id,
-      });
-    }
-  });
-  resourceTypes.push({ name: t('contextTypes.topic'), id: 'topic-article' });
-  return resourceTypes;
+const transformSubtypes = (type: ResourceType): FlattenedResourceType[] =>
+  type.subtypes?.map(subtype => ({ typeName: type.name, typeId: type.id, ...subtype })) ?? [];
+
+const flattenResourceTypesAndAddContextTypes = (data: ResourceType[] = [], t: TFunction) => {
+  return data
+    .flatMap(type => (type.subtypes ? transformSubtypes(type) : { name: type.name, id: type.id }))
+    .concat({ name: t('contextTypes.topic'), id: 'topic-article' });
 };
 
 const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
@@ -67,10 +53,7 @@ const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
 }) => {
   const updateItems: T[] = [];
   const createItems: T[] = [];
-  const deleteItems = originalItems.filter(item => {
-    const originalItemInChangedItem = changedItems.find(changedItem => changedItem.id === item.id);
-    return !originalItemInChangedItem;
-  });
+  const deleteItems = differenceWith(originalItems, changedItems, (a, b) => a.id === b.id);
   changedItems.forEach(changedItem => {
     const foundItem = originalItems.find(item => item.id === changedItem.id);
     if (foundItem) {
@@ -90,15 +73,13 @@ const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
   return [createItems, deleteItems, updateItems];
 };
 
-// Same structuring used from ndla-frontend
-
-const safeSpread = <T>(toAdd: T, existing?: T[]) => (existing ? [...existing, toAdd] : [toAdd]);
+const safeConcat = <T>(toAdd: T, existing?: T[]) => (existing ? existing.concat(toAdd) : [toAdd]);
 
 const groupResourcesByResourceType = (resources: ResourceWithNodeConnection[]) => {
   return resources
     .flatMap(res => res.resourceTypes.map<[string, ResourceWithNodeConnection]>(rt => [rt.id, res]))
     .reduce<Record<string, ResourceWithNodeConnection[]>>(
-      (acc, [id, cur]) => ({ ...acc, [id]: safeSpread(cur, acc[id]) }),
+      (acc, [id, cur]) => ({ ...acc, [id]: safeConcat(cur, acc[id]) }),
       {},
     );
 };
@@ -117,16 +98,10 @@ const groupSortResourceTypesFromNodeResources = (
 const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): SubjectTopic[] => {
   return topics.map(topic => {
     if (topic.id === subTopic.parent) {
-      return {
-        ...topic,
-        subtopics: [...(topic.subtopics || []), subTopic],
-      };
+      return { ...topic, subtopics: safeConcat(subTopic, topic.subtopics) };
     }
     if (topic.subtopics) {
-      return {
-        ...topic,
-        subtopics: insertSubTopic(topic.subtopics, subTopic),
-      };
+      return { ...topic, subtopics: insertSubTopic(topic.subtopics, subTopic) };
     }
     return topic;
   });
@@ -135,7 +110,7 @@ const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): Subject
 const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): ChildNodeType[] => {
   return childNodes.map(node => {
     if (node.id === childNode.parent) {
-      return { ...node, childNodes: safeSpread(childNode, node.childNodes) };
+      return { ...node, childNodes: safeConcat(childNode, node.childNodes) };
     }
     if (node.childNodes) {
       return { ...node, childNodes: insertChild(node.childNodes, childNode) };
@@ -146,20 +121,16 @@ const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): Chi
 
 const groupChildNodes = (childNodes: ChildNodeType[]) =>
   childNodes.reduce((acc, curr) => {
-    const mainTopic = curr.parent.includes('subject');
-    if (mainTopic) return acc;
+    if (curr.parent.includes('subject')) return acc;
     const withoutCurrent = acc.filter(node => node.id !== curr.id);
     return insertChild(withoutCurrent, curr);
   }, childNodes);
 
 const groupTopics = (allTopics: SubjectTopic[]) =>
   allTopics.reduce((acc, curr) => {
-    const mainTopic = curr.parent.includes('subject');
-    if (mainTopic) return acc;
-    return insertSubTopic(
-      acc.filter(topic => topic.id !== curr.id),
-      curr,
-    );
+    if (curr.parent.includes('subject')) return acc;
+    const withoutCurrent = acc.filter(topic => topic.id !== curr.id);
+    return insertSubTopic(withoutCurrent, curr);
   }, allTopics);
 
 const selectedResourceTypeValue = (resourceTypes: { id: string; parentId?: string }[]): string => {
@@ -194,6 +165,40 @@ const getBreadcrumbFromPath = async (
     name: element.name,
     metadata: element.metadata,
   }));
+};
+
+export type Input = {
+  nodePath: string;
+  structure: TaxonomyElement[];
+  allNodes: TaxonomyElement[];
+  title?: string;
+};
+
+export const retrieveBreadCrumbs = ({
+  nodePath,
+  structure,
+  allNodes,
+  title,
+}: Input): TaxonomyElement[] => {
+  try {
+    const [subjectPath, ...topicPaths] = pathToUrnArray(nodePath);
+    const subject = structure.find(structureSubject => structureSubject.id === subjectPath);
+    if (!subject) return [];
+
+    const subjectRet = [{ name: subject.name, id: subject.id, metadata: subject.metadata }];
+    return topicPaths.reduce((acc, pathId) => {
+      const path = allNodes.find(subtopic => subtopic.id === pathId);
+      if (path) {
+        return acc.concat({ name: path.name, id: path.id, metadata: path.metadata });
+      } else if (title) {
+        const metadata = { visible: true, grepCodes: [], customFields: {} };
+        return acc.concat({ name: title, id: pathId, metadata });
+      } else return acc;
+    }, subjectRet);
+  } catch (err) {
+    handleError(err);
+    return [];
+  }
 };
 
 export const nodePathToUrnPath = (path: string) => path.replace(/\//g, '/urn:').substr(1);

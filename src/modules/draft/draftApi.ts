@@ -166,10 +166,14 @@ export const updateUserData = async (userData: UpdatedUserDataApiType): Promise<
     body: JSON.stringify(userData),
   }).then(r => resolveJsonOrRejectWithError<UserDataApiType>(r));
 
-export const fetchStatusStateMachine = async (): Promise<DraftStatusStateMachineType> =>
-  fetchAuthorized(`${baseUrl}/status-state-machine/`).then(r =>
+export const fetchStatusStateMachine = async (
+  id?: number,
+): Promise<DraftStatusStateMachineType> => {
+  const idParam = id ? `?articleId=${id}` : '';
+  return fetchAuthorized(`${baseUrl}/status-state-machine/${idParam}`).then(r =>
     resolveJsonOrRejectWithError<DraftStatusStateMachineType>(r),
   );
+};
 
 export const headFileAtRemote = async (fileUrl: string): Promise<boolean> => {
   const res = await fetch(fileUrl, {

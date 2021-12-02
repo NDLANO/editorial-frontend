@@ -263,7 +263,7 @@ const TopicArticleForm = (props: Props) => {
             handleSubmit(values, formik);
           }}
           entityStatus={article.status}
-          fetchStatusStateMachine={fetchStatusStateMachine}
+          fetchStatusStateMachine={() => fetchStatusStateMachine(article.id)}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}

@@ -36,16 +36,10 @@ export interface GetNodeResourcesParams {
   type?: string;
 }
 
-export interface NodeMetadata {
-  customFields: Record<string, any>;
-  grepCodes: string[];
-  visible: boolean;
-}
-
 export interface NodeType {
   contentUri: string;
   id: string;
-  metadata: NodeMetadata;
+  metadata: TaxonomyMetadata;
   name: string;
   path: string;
   paths?: string[];
@@ -97,11 +91,6 @@ export interface ConnectionForNode {
   type: string;
 }
 
-export interface RecursiveNodeMetadataUpdateResult {
-  updated: any[];
-  updatedCount: number;
-}
-
 export interface NodeConnectionPostType {
   childId: string;
   parentId: string;
@@ -113,24 +102,6 @@ export interface NodeConnectionPostType {
 export interface NodeConnectionPutType {
   primary?: boolean;
   rank?: number;
-  relevanceId?: string;
-}
-
-export interface NodeConnection {
-  childId: string;
-  id: string;
-  parentId: string;
-  primary: boolean;
-  rank: number;
-  relevanceId: string | null;
-}
-
-export interface NodeResource {
-  id: string;
-  nodeId: string;
-  resourceId: string;
-  primary: boolean;
-  rank: number;
   relevanceId?: string;
 }
 

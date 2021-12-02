@@ -5,22 +5,19 @@ import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
+import { TaxonomyMetadata } from '../taxonomyApiInterfaces';
 import {
   GetChildNodesParams,
   GetNodeParams,
   GetNodeResourcesParams,
   NodeType,
-  NodeMetadata,
   NodePostPatchType,
-  RecursiveNodeMetadataUpdateResult,
   NodeTranslation,
   NodeTranslationPutType,
   ChildNodeType,
-  NodeConnection,
   NodeConnectionPutType,
   NodeConnectionPostType,
   ConnectionForNode,
-  NodeResource,
   NodeResourcePostType,
   NodeResourcePutType,
   ResourceWithNodeConnection,
@@ -47,16 +44,13 @@ export const postNode = (newNode: NodePostPatchType): Promise<string> =>
 export const fetchConnectionsForNode = (id: string): Promise<ConnectionForNode[]> =>
   fetchAndResolve({ url: `${baseUrl}/${id}/connections` });
 
-export const putNode = (id: string, node: NodePostPatchType): Promise<any> =>
-  putAndResolve({ body: JSON.stringify(node), url: `${baseUrl}/${id}` });
-
 export const deleteNode = (id: string): Promise<void> =>
   deleteAndResolve({ url: `${baseUrl}/${id}` });
 
-export const fetchNodeMetadata = (id: string): Promise<NodeMetadata> =>
-  fetchAndResolve({ url: `${baseUrl}/${id}/metadata` });
-
-export const putNodeMetadata = (id: string, meta: Partial<NodeMetadata>): Promise<NodeMetadata> =>
+export const putNodeMetadata = (
+  id: string,
+  meta: Partial<TaxonomyMetadata>,
+): Promise<TaxonomyMetadata> =>
   putAndResolve({ body: JSON.stringify(meta), url: `${baseUrl}/${id}/metadata` });
 
 export const fetchChildNodes = (
@@ -67,10 +61,6 @@ export const fetchChildNodes = (
 
 export const fetchNodeTranslations = (id: string): Promise<NodeTranslation[]> =>
   fetchAndResolve({ url: `${baseUrl}/${id}/translations` });
-
-export const fetchNodeTranslation = (id: string, language: string): Promise<NodeTranslation> => {
-  return fetchAndResolve({ url: `${baseUrl}/${id}/translations/${language}` });
-};
 
 export const deleteNodeTranslation = (id: string, language: string): Promise<void> => {
   return deleteAndResolve({ url: `${baseUrl}/${id}/translations/${language}` });
@@ -87,28 +77,12 @@ export const putNodeTranslation = (
     alternateResolve: resolveVoidOrRejectWithError,
   });
 
-export const putNodeMetadataRecursive = (
-  id: string,
-  meta: NodeMetadata,
-  applyToResources?: boolean,
-): Promise<RecursiveNodeMetadataUpdateResult> =>
-  putAndResolve({
-    url: `${baseUrl}/${id}/metadata-recursive`,
-    body: JSON.stringify({ applyToResources, meta }),
-  });
-
 export const fetchNodeResources = (
   id: string,
   params?: GetNodeResourcesParams,
 ): Promise<ResourceWithNodeConnection[]> => {
   return fetchAndResolve({ url: `${baseUrl}/${id}/resources${stringifyQuery(params)}` });
 };
-
-export const fetchNodeConnections = (): Promise<NodeConnection[]> =>
-  fetchAndResolve({ url: connUrl });
-
-export const fetchNodeConnection = (id: string): Promise<NodeConnection> =>
-  fetchAndResolve({ url: `${connUrl}/${id}` });
 
 export const deleteNodeConnection = (id: string): Promise<void> =>
   deleteAndResolve({ url: `${connUrl}/${id}`, alternateResolve: resolveVoidOrRejectWithError });
@@ -126,12 +100,6 @@ export const postNodeConnection = (body: NodeConnectionPostType): Promise<string
     body: JSON.stringify(body),
     alternateResolve: resolveLocation,
   });
-
-export const fetchResourcesForNodes = (): Promise<NodeResource[]> =>
-  fetchAndResolve({ url: resUrl });
-
-export const fetchResourceForNode = (id: string): Promise<NodeResource[]> =>
-  fetchAndResolve({ url: `${resUrl}/${id}` });
 
 export const postResourceForNode = (body: NodeResourcePostType): Promise<void> =>
   postAndResolve({

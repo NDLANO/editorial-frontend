@@ -4,9 +4,6 @@ import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
   CONNECTIONS_FOR_NODE,
   NODE,
-  NODE_CONNECTION,
-  NODE_CONNECTIONS,
-  NODE_RESOURCES,
   NODE_TRANSLATIONS,
   RESOURCES_WITH_NODE_CONNECTION,
 } from '../../../queryKeys';
@@ -15,20 +12,15 @@ import {
   fetchChildNodes,
   fetchConnectionsForNode,
   fetchNode,
-  fetchNodeConnection,
-  fetchNodeConnections,
   fetchNodeResources,
   fetchNodes,
   fetchNodeTranslations,
-  fetchResourcesForNodes,
 } from './nodeApi';
 import {
   ChildNodeType,
   ConnectionForNode,
   GetNodeParams,
   GetNodeResourcesParams,
-  NodeConnection,
-  NodeResource,
   NodeTranslation,
   NodeType,
   ResourceWithNodeConnection,
@@ -101,14 +93,6 @@ export const useNodeTranslations = (id: string, options?: UseQueryOptions<NodeTr
   );
 };
 
-export const useNodeConnection = (id: string, options?: UseQueryOptions<NodeConnection>) => {
-  return useQuery<NodeConnection>([NODE_CONNECTION, id], () => fetchNodeConnection(id), options);
-};
-
-export const useNodeConnections = (options?: UseQueryOptions<NodeConnection[]>) => {
-  return useQuery<NodeConnection[]>([NODE_CONNECTIONS], () => fetchNodeConnections());
-};
-
 export const useResourcesWithNodeConnection = (
   id: string,
   params: GetNodeResourcesParams,
@@ -119,8 +103,4 @@ export const useResourcesWithNodeConnection = (
     () => fetchNodeResources(id, params),
     options,
   );
-};
-
-export const useNodeResources = (options?: UseQueryOptions<NodeResource[]>) => {
-  return useQuery<NodeResource[]>([NODE_RESOURCES], () => fetchResourcesForNodes(), options);
 };

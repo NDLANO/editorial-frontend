@@ -1,6 +1,7 @@
 import { useMutation, UseMutationOptions, useQueryClient } from 'react-query';
 import { NODES } from '../../../queryKeys';
 import handleError from '../../../util/handleError';
+import { TaxonomyMetadata } from '../taxonomyApiInterfaces';
 import {
   deleteNode,
   deleteNodeConnection,
@@ -17,7 +18,6 @@ import {
 import {
   NodeConnectionPostType,
   NodeConnectionPutType,
-  NodeMetadata,
   NodePostPatchType,
   NodeResourcePostType,
   NodeResourcePutType,
@@ -48,14 +48,15 @@ export const useAddNodeMutation = () => {
 
 export const useUpdateNodeMetadataMutation = () => {
   const qc = useQueryClient();
-  return useMutation<NodeMetadata, unknown, { id: string; metadata: Partial<NodeMetadata> }>(
-    data => putNodeMetadata(data.id, data.metadata),
-    {
-      onSettled: () => {
-        qc.invalidateQueries(NODES);
-      },
+  return useMutation<
+    TaxonomyMetadata,
+    unknown,
+    { id: string; metadata: Partial<TaxonomyMetadata> }
+  >(data => putNodeMetadata(data.id, data.metadata), {
+    onSettled: () => {
+      qc.invalidateQueries(NODES);
     },
-  );
+  });
 };
 
 export const useDeleteNodeMutation = () => {

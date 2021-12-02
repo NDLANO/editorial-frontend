@@ -6,7 +6,7 @@
  */
 
 import { useState } from 'react';
-import {  Element } from 'slate';
+import { Element } from 'slate';
 import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import {

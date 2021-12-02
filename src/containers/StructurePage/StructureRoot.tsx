@@ -23,7 +23,6 @@ interface Props {
   favoriteNodeIds?: string[];
   toggleFavorite: () => void;
   onChildNodeSelected: (node?: ChildNodeType) => void;
-  nodeResourcesLoading: boolean;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   allRootNodes: NodeType[];
   renderBeforeTitle?: RenderBeforeFunction;
@@ -36,7 +35,6 @@ const StructureRoot = ({
   toggleOpen,
   toggleFavorite,
   onChildNodeSelected,
-  nodeResourcesLoading,
   resourceSectionRef,
   allRootNodes,
   renderBeforeTitle,
@@ -89,7 +87,6 @@ const StructureRoot = ({
       toggleOpen={toggleOpen}
       toggleFavorite={toggleFavorite}
       rootNodeId={node.id}
-      childNodeResourcesLoading={nodeResourcesLoading}
       resourceSectionRef={resourceSectionRef}
       onDragEnd={onDragEnd}
       connectionId={''}

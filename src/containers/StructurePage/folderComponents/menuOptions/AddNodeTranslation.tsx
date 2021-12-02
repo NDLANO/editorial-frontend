@@ -97,10 +97,10 @@ const AddNodeTranslation = ({ onAddTranslation, availableLanguages, defaultName 
                       {...field}
                       onKeyDown={(e: KeyboardEvent) => onKeyDown(e, formik)}
                       placeholder={t('taxonomy.changeName.namePlaceholder')}
-                      data-testid="addSubjectNameTranslation"
+                      data-testid="addNodeNameTranslation"
                     />
                     <Button
-                      data-testid="addSubjectNameTranslationButton"
+                      data-testid="addNodeNameTranslationButton"
                       onClick={() => handleAddTranslation(formik)}
                       disabled={!isValid}>
                       {t('taxonomy.changeName.add')}

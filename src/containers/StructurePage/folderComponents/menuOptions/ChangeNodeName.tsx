@@ -76,7 +76,7 @@ const ChangeNodeName = ({ editModeHandler: { editMode, toggleEditMode }, node }:
     <>
       <MenuItemButton
         stripped
-        data-testid="changeSubjectNameButton"
+        data-testid="changeNodeNameButton"
         onClick={() => toggleEditMode('changeNodeName')}>
         <RoundIcon small icon={<Pencil />} />
         {t('taxonomy.changeName.buttonTitle')}
@@ -97,10 +97,10 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   const { t } = useTranslation();
   const [loadError, setLoadError] = useState('');
   const [updateError, setUpdateError] = useState('');
+  const [saved, setSaved] = useState(false);
   const { id, name } = node;
 
   const { data: translations, isLoading: loading, refetch } = useNodeTranslations(id, {
-    placeholderData: [],
     onError: e => {
       handleError(e);
       setLoadError(t('taxonomy.changeName.loadError'));
@@ -148,8 +148,11 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
     setSaved(true);
   };
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   const initialValues = { translations: translations?.slice() ?? [] };
-  const [saved, setSaved] = useState(false);
 
   const schema = yup.object().shape({
     translations: yup.array().of(
@@ -159,10 +162,6 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
       }),
     ),
   });
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   if (loadError) {
     return <StyledErrorMessage>{loadError}</StyledErrorMessage>;
@@ -245,7 +244,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                           {t('taxonomy.changeName.cancel')}
                         </Button>
                         <SaveButton
-                          data-testid="saveSubjectTranslationsButton"
+                          data-testid="saveNodeTranslationsButton"
                           large
                           isSaving={isSubmitting}
                           showSaved={!formIsDirty && saved}

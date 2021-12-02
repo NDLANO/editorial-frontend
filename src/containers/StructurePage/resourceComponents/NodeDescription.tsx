@@ -37,7 +37,6 @@ const NodeDescription = ({ currentNode }: Props) => {
               paths: [],
               nodeId: '',
               resourceTypes: [],
-              primary: currentNode.isPrimary,
               relevanceId: currentNode.relevanceId!,
             }}
           />

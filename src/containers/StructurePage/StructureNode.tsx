@@ -159,7 +159,6 @@ interface Props {
   toggleOpen: (nodeId: string) => void;
   level: number;
   onChildNodeSelected: (childNode?: ChildNodeType) => void;
-  childNodeResourcesLoading: boolean;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
   rootNodeId: string;
   onDragEnd: (result: DropResult, childNodes: ChildNodeType[]) => Promise<void>;
@@ -181,7 +180,6 @@ const StructureNode = ({
   level,
   onChildNodeSelected,
   rootNodeId,
-  childNodeResourcesLoading,
   resourceSectionRef,
   onDragEnd,
   parentActive,
@@ -250,7 +248,6 @@ const StructureNode = ({
             key={item.id}
             isMainActive={isOpen}
             structure={allRootNodes}
-            resourcesLoading={childNodeResourcesLoading}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
           />
         )}
@@ -278,7 +275,6 @@ const StructureNode = ({
                   rootNodeId={rootNodeId}
                   openedPaths={openedPaths}
                   resourceSectionRef={resourceSectionRef}
-                  childNodeResourcesLoading={childNodeResourcesLoading}
                   onChildNodeSelected={onChildNodeSelected}
                   item={t}
                   nodes={t.childNodes}

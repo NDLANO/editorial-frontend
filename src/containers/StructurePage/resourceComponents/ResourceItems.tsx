@@ -40,6 +40,8 @@ interface Props {
   currentNodeId: string;
 }
 
+const isError = (error: unknown): error is Error => (error as Error).message !== undefined;
+
 const ResourceItems = ({ resources, currentNodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>('');
@@ -98,6 +100,7 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   if (deleteNodeResource.isLoading) {
     return <Spinner />;
   }
+
   return (
     <StyledResourceItems {...classes('list')}>
       <MakeDndList onDragEnd={onDragEnd} dragHandle disableDnd={false}>
@@ -110,7 +113,7 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
           />
         ))}
       </MakeDndList>
-      {deleteNodeResource.error && (
+      {deleteNodeResource.error && isError(deleteNodeResource.error) && (
         <StyledErrorMessage data-testid="inlineEditErrorMessage" {...classes('errorMessage')}>
           {`${t('taxonomy.errorMessage')}: ${deleteNodeResource.error.message}`}
         </StyledErrorMessage>

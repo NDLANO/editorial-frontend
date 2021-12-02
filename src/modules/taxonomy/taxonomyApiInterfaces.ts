@@ -46,7 +46,7 @@ export interface Topic extends TaxonomyElement {
 export interface Resource extends TaxonomyElement {
   connectionId: string;
   contentUri?: string;
-  isPrimary: boolean;
+  primary: boolean;
   path: string;
   paths: string[];
   rank: number;

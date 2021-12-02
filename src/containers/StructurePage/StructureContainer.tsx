@@ -50,7 +50,6 @@ export const StructureContainer = ({
   const [editStructureHidden, setEditStructureHidden] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   const [currentNode, setCurrentNode] = useState<ChildNodeType | undefined>(undefined);
-  const [nodeResourcesLoading, setNodeResourcesLoading] = useState(false);
   const resourceSection = useRef<HTMLDivElement>(null);
 
   const userDataQuery = useUserData();
@@ -148,7 +147,6 @@ export const StructureContainer = ({
                     allRootNodes={nodesQuery.data ?? []}
                     openedPaths={getPathsFromUrl(match.url)}
                     resourceSectionRef={resourceSection}
-                    nodeResourcesLoading={nodeResourcesLoading}
                     onChildNodeSelected={setCurrentNode}
                     favoriteNodeIds={favoriteNodes}
                     key={node.id}

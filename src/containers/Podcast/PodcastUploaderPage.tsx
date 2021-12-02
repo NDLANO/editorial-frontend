@@ -36,7 +36,7 @@ const PodcastUploderPage = () => {
       <Routes>
         <Route path="new" element={<CreatePodcast />} />
         <Route
-          path=":podcastId/edit/:audioLanguage"
+          path=":podcastId/edit/:podcastLanguage"
           element={<EditPodcast isNewlyCreated={isNewlyCreated} />}
         />
         <Route path="*" element={<NotFoundPage />} />

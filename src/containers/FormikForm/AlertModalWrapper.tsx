@@ -56,7 +56,7 @@ const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContin
 
   useEffect(() => {
     if (!shouldBlock && nextLocation) {
-      navigate(nextLocation); //
+      navigate(nextLocation);
     }
   }, [shouldBlock, nextLocation, navigate]);
 

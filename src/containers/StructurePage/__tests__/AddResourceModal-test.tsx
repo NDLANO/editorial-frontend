@@ -8,6 +8,7 @@
 
 import nock from 'nock';
 import { render, fireEvent, cleanup, act } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AddResourceModal from '../resourceComponents/AddResourceModal';
@@ -17,22 +18,28 @@ import { taxonomyApi } from '../../../config';
 
 afterEach(cleanup);
 
-const resourceType = 'urn:resourcetype:reviewResource';
+const resourceType = 'urn:resourcetype:tasksAndActivities';
 const ndlaUrl = 'https://beta.ndla.no/subject:3/topic:1:179373/topic:1:170165/resource:1:168388/';
 const resourceMock = {
   id: 'urn:resource:1:168388',
   name: 'Oppgaver til utforskeren',
   contentUri: 'urn:article:24',
   path: '/subject:9/topic:1:179373/topic:1:170165/resource:1:168388',
+  resourceTypes: [
+    {
+      id: 'urn:resourcetype:task',
+      parentId: 'urn:resourcetype:tasksAndActivities',
+      name: 'Oppgave',
+      connectionId: 'urn:resource-resourcetype:9115ed35-3a9b-41e8-9f7a-0717d2ee8146',
+    },
+    {
+      id: 'urn:resourcetype:tasksAndActivities',
+      parentId: null,
+      name: 'Oppgaver og aktiviteter',
+      connectionId: 'urn:resource-resourcetype:0e1ac7ac-fc7d-44db-b217-ebf262ede263',
+    },
+  ],
 };
-const resourceTypeMock = [
-  {
-    id: 'urn:resourcetype:tasksAndActivities',
-    parentId: null,
-    name: 'Oppgaver og aktiviteter',
-    connectionId: 'urn:resource-resourcetype:9414c99b-73c4-4222-8b94-58a84aba02cd',
-  },
-];
 
 beforeEach(() => {
   nock('http://ndla-api')
@@ -102,9 +109,6 @@ test('Can paste a valid url and add it to topic', async () => {
     .get(`${taxonomyApi}/resources/urn:resource:1:168388`)
     .reply(200, resourceMock);
   nock('http://ndla-api')
-    .get(`${taxonomyApi}/resources/urn:resource:1:168388/resource-types/`)
-    .reply(200, resourceTypeMock);
-  nock('http://ndla-api')
     .post(
       `${taxonomyApi}/node-resources`,
       JSON.stringify({
@@ -113,13 +117,20 @@ test('Can paste a valid url and add it to topic', async () => {
       }),
     )
     .reply(201, {}, { Location: 'urn' });
-  const { container, getByTestId, findByTestId, findByText } = wrapper();
+  const {
+    container,
+    getByTestId,
+    findByTestId,
+    findByText,
+    getByPlaceholderText,
+    queryByPlaceholderText,
+  } = wrapper();
   await findByText('Hva kan du om geologiske prosesser?');
-  const input = getByTestId('addResourceUrlInput');
-  act(() => {
-    fireEvent.change(input, { target: { value: ndlaUrl } });
-  });
+  const input = getByPlaceholderText('Lim inn lenke fra ndla.no');
+  fireEvent.change(input, { target: { value: ndlaUrl } });
   await findByTestId('articlePreview');
+  expect(queryByPlaceholderText('Søk på tittel')).not.toBeInTheDocument();
+  await findByText(articleMock.title.title);
 
   expect(container.firstChild).toMatchSnapshot();
   act(() => {

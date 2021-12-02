@@ -139,7 +139,7 @@ const AddResourceModal = ({
         const article = await getArticle(Number(resource.contentUri.split(':').pop()!));
         setContent(articleToContent(article));
       }
-      const pastedType = resource.resourceTypes[0].id;
+      const pastedType = resource.resourceTypes[0]?.id;
       const isSameType = resource.resourceTypes.some(rt => rt.id === selectedType);
       const error = isSameType ? '' : `${t('taxonomy.wrongType')} ${pastedType}`;
       setSelected({ id: parseInt(val), paths: [val] });

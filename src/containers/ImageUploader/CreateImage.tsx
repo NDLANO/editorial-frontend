@@ -12,7 +12,8 @@ import { createFormData } from '../../util/formDataHelper';
 import * as imageApi from '../../modules/image/imageApi';
 import { toEditImage } from '../../util/routeHelpers';
 import { ImageApiType, NewImageMetadata } from '../../modules/image/imageApiInterfaces';
-import { useLicenses } from '../Licenses/LicensesProvider';
+import { useLicenses } from '../../modules/draft/draftQueries';
+import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
 
 interface Props extends RouteComponentProps {
   isNewlyCreated?: boolean;
@@ -32,7 +33,8 @@ const CreateImage = ({
 }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const { imageLicenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
+  const imageLicenses = draftLicensesToImageLicenses(licenses!);
 
   const onCreateImage = async (imageMetadata: NewImageMetadata, image: string | Blob) => {
     const formData = await createFormData(image, imageMetadata);

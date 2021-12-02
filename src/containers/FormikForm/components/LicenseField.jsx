@@ -11,11 +11,11 @@ import { useTranslation } from 'react-i18next';
 import { FieldHeader, FieldSection, Select } from '@ndla/forms';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { getLicensesWithTranslations } from '../../../util/licenseHelpers';
-import { useLicenses } from '../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../modules/draft/draftQueries';
 
 const LicenseField = props => {
   const { onChange, onBlur, name, onFocus, value, disabled, width, enableLicenseNA } = props;
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({placeholderData: []});
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const licensesWithTranslations = getLicensesWithTranslations(licenses, locale, enableLicenseNA);

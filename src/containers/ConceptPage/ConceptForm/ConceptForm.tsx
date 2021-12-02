@@ -36,7 +36,7 @@ import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
-import { useLicenses } from '../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../modules/draft/draftQueries';
 
 interface Props {
   concept?: ConceptApiType;
@@ -96,7 +96,7 @@ const ConceptForm = ({
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
   const { t } = useTranslation();
   const { applicationError } = useMessages();
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
 
   useEffect(() => {
     setSavedToServer(false);
@@ -119,12 +119,12 @@ const ConceptForm = ({
         const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
         const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !formikDirty;
         await updateConceptAndStatus(
-          getConceptPatchType(values, licenses),
+          getConceptPatchType(values, licenses!),
           newStatus!,
           !skipSaving,
         );
       } else {
-        await onUpdate(getConceptPatchType(values, licenses), revision!);
+        await onUpdate(getConceptPatchType(values, licenses!), revision!);
       }
       formikHelpers.resetForm();
       formikHelpers.setSubmitting(false);
@@ -161,7 +161,7 @@ const ConceptForm = ({
         const { id, revision, status, created, updated } = values;
         const requirements = id && revision && status && created && updated;
         const getEntity = requirements
-          ? () => conceptFormTypeToApiType(values, licenses, concept?.updatedBy)
+          ? () => conceptFormTypeToApiType(values, licenses!, concept?.updatedBy)
           : undefined;
         const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
         return (

@@ -44,7 +44,7 @@ import {
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, RelatedContent } from '../../../../interfaces';
-import { useLicenses } from '../../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../../modules/draft/draftQueries';
 
 export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
@@ -150,7 +150,7 @@ const LearningResourceForm = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
 
   const getArticleFromSlate = useCallback(
     ({
@@ -177,7 +177,7 @@ const LearningResourceForm = ({
         articleType: 'standard',
         content: content && content.length > 0 ? content : emptyContent,
         copyright: {
-          license: licenses.find(license => license.license === values.license),
+          license: licenses!.find(license => license.license === values.license),
           origin: values.origin,
           creators: values.creators,
           processors: values.processors,

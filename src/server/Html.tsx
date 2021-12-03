@@ -94,8 +94,8 @@ const Html = (props: Props) => {
           dangerouslySetInnerHTML={{
             __html: `
               MathJax = {
-                loader: {
-                  load: ['ui/lazy']
+                chtml:{
+                  mathmlSpacing:false
                 },
                 options: {
                   renderActions: {

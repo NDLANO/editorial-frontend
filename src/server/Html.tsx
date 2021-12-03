@@ -95,7 +95,7 @@ const Html = (props: Props) => {
             __html: `
               MathJax = {
                 chtml:{
-                  mathmlSpacing:false
+                  mathmlSpacing: false
                 },
                 options: {
                   renderActions: {

@@ -13,7 +13,7 @@ import { User } from '@ndla/icons/common';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toLogoutSession, toLogin } from '../../../util/routeHelpers';
 import { getAccessTokenPersonal } from '../../../util/authHelpers';
 import StyledListButton from '../../../components/StyledListButton';
@@ -41,7 +41,7 @@ const AuthSiteNavItem = ({ logoutText, onClick }: AuthSiteNavItemProps) => (
   </StyledDropdownOverlay>
 );
 
-interface Props extends RouteComponentProps {
+interface Props {
   close: () => void;
 }
 
@@ -93,4 +93,4 @@ const SessionContainer = ({ close }: Props) => {
   );
 };
 
-export default withRouter(SessionContainer);
+export default SessionContainer;

@@ -7,40 +7,39 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import * as audioApi from '../../modules/audio/audioApi';
+import { useParams } from 'react-router-dom';
+import { fetchSeries, updateSeries } from '../../modules/audio/audioApi';
 import Spinner from '../../components/Spinner';
 import { PodcastSeriesApiType, PodcastSeriesPut } from '../../modules/audio/audioApiInterfaces';
 import PodcastSeriesForm from './components/PodcastSeriesForm';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
-  podcastSeriesId: number;
-  podcastSeriesLanguage: string;
   isNewlyCreated: boolean;
 }
 
-const EditPodcastSeries = ({ podcastSeriesId, podcastSeriesLanguage, isNewlyCreated }: Props) => {
+const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
+  const { seriesId, seriesLanguage } = useParams<'seriesId' | 'seriesLanguage'>();
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const [podcastSeries, setPodcastSeries] = useState<PodcastSeriesApiType | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
   const onUpdate = async (newSeries: PodcastSeriesPut): Promise<void> => {
-    const updatedSeries = await audioApi.updateSeries(podcastSeriesId, newSeries);
+    const updatedSeries = await updateSeries(seriesId!, newSeries);
     setPodcastSeries(updatedSeries);
   };
 
   useEffect(() => {
-    const fetchSeries = async () => {
-      if (podcastSeriesId) {
+    (async () => {
+      if (seriesId) {
         setLoading(true);
-        const apiSeries = await audioApi.fetchSeries(podcastSeriesId, podcastSeriesLanguage);
+        const apiSeries = await fetchSeries(seriesId!, seriesLanguage!);
         setPodcastSeries(apiSeries);
         setLoading(false);
       }
-    };
-    fetchSeries();
-  }, [podcastSeriesId, podcastSeriesLanguage]);
+    })();
+  }, [seriesId, seriesLanguage]);
 
   if (loading) {
     return <Spinner />;
@@ -50,7 +49,7 @@ const EditPodcastSeries = ({ podcastSeriesId, podcastSeriesLanguage, isNewlyCrea
     return <NotFoundPage />;
   }
 
-  const language = podcastSeriesLanguage ?? locale;
+  const language = seriesLanguage ?? locale;
 
   return (
     <PodcastSeriesForm

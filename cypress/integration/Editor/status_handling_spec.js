@@ -32,7 +32,7 @@ describe('Status changes', () => {
       `statusChangeToPublish`,
     );
 
-    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
+    cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.apiwait(['@licenses', `@draft-${ARTICLE_ID}`]);
   });
 

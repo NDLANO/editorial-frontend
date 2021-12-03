@@ -8,8 +8,6 @@
 
 import PropTypes from 'prop-types';
 import BEMHelper from 'react-bem-helper';
-import { RouteComponentProps } from 'react-router-dom';
-import { withRouter } from 'react-router';
 import queryString from 'query-string';
 import SearchContentForm from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
@@ -72,7 +70,7 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
   };
 };
 
-interface Props extends RouteComponentProps {
+interface Props {
   type: SearchType;
   searchObject: SearchParams;
   search: (o: SearchParams) => void;
@@ -105,4 +103,4 @@ SearchForm.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default withRouter(SearchForm);
+export default SearchForm;

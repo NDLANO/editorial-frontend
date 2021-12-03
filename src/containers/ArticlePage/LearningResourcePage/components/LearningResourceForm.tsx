@@ -7,7 +7,6 @@
  */
 
 import { useCallback, useMemo, useState } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
@@ -122,7 +121,7 @@ export const convertDraftOrRelated = (
   });
 };
 
-interface Props extends RouteComponentProps {
+interface Props {
   article: Partial<ConvertedDraftType>;
   translating: boolean;
   translateToNN: () => void;
@@ -146,7 +145,6 @@ const LearningResourceForm = ({
   updateArticle,
   updateArticleAndStatus,
   articleChanged,
-  history,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -312,4 +310,4 @@ const LearningResourceForm = ({
   );
 };
 
-export default withRouter(LearningResourceForm);
+export default LearningResourceForm;

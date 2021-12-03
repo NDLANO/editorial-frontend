@@ -9,24 +9,21 @@
 // import before all other imports component to make sure it is loaded before any emotion stuff.
 import '../../style/index.css';
 
-import { Component, createContext, ReactElement } from 'react';
-import PropTypes from 'prop-types';
+import { ReactElement, useContext, useEffect } from 'react';
 import Helmet from 'react-helmet';
 import loadable from '@loadable/component';
+import { History } from 'history';
 import { Content, PageContainer } from '@ndla/ui';
 import { configureTracker } from '@ndla/tracker';
-import { withRouter, Route, Switch, RouteComponentProps } from 'react-router-dom';
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
+import { Route, Routes, UNSAFE_NavigationContext } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Navigation from '../Masthead/components/Navigation';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { scheduleRenewal } from '../../util/authHelpers';
-
 import Zendesk from './Zendesk';
-import { LOCALE_VALUES } from '../../constants';
 import config from '../../config';
 import { MessagesProvider, useMessages } from '../Messages/MessagesProvider';
 import Messages from '../Messages/Messages';
-import { LicensesProvider } from '../Licenses/LicensesProvider';
 import { getSessionStateFromLocalStorage, SessionProvider } from '../Session/SessionProvider';
 const Login = loadable(() => import('../Login/Login'));
 const Logout = loadable(() => import('../Logout/Logout'));
@@ -46,105 +43,78 @@ const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
 const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
 const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 
-export const FirstLoadContext = createContext(true);
-
-interface InternalState {
-  firstLoad: boolean;
-}
-
 interface Props {
   isClient?: boolean;
 }
 
-type ActualProps = Props & RouteComponentProps & CustomWithTranslation;
+const App = ({ isClient }: Props) => {
+  const { t } = useTranslation();
+  // Listen has been partially removed.
+  const navigator = useContext(UNSAFE_NavigationContext).navigator as History;
 
-class App extends Component<ActualProps, InternalState> {
-  constructor(props: ActualProps) {
-    super(props);
-    if (props.isClient) {
+  useEffect(() => {
+    if (isClient) {
       configureTracker({
-        listen: props.history.listen,
+        listen: navigator.listen,
         gaTrackingId: config.gaTrackingId,
         googleTagManagerId: config.googleTagManagerId,
       });
     }
-    this.state = {
-      firstLoad: true,
-    };
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  componentDidMount() {
-    this.listenForHistoryChanges();
-  }
-
-  getChildContext() {
-    return {
-      locale: this.props.i18n.language,
-    };
-  }
-
-  listenForHistoryChanges = () => {
-    const { history } = this.props;
-    history.listen(() => {
-      this.setState({ firstLoad: false });
-    });
-  };
-
-  render() {
-    const { t } = this.props;
-
-    return (
-      <ErrorBoundary>
-        <FirstLoadContext.Provider value={this.state.firstLoad}>
-          <MessagesProvider>
-            <LicensesProvider>
-              <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
-                <AuthInitializer>
-                  <PageContainer background>
-                    <Zendesk />
-                    <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
-                    <Content>
-                      <Navigation />
-                      <Switch>
-                        <Route path="/" exact component={WelcomePage} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/logout" component={Logout} />
-                        <PrivateRoute path="/subjectpage" component={Subjectpage} />
-                        <PrivateRoute path="/search" component={SearchPage} />
-                        <PrivateRoute path="/subject-matter" component={SubjectMatterPage} />
-                        <PrivateRoute
-                          path="/edit-markup/:draftId/:language"
-                          component={EditMarkupPage}
-                        />
-                        <PrivateRoute path="/concept" component={ConceptPage} />
-                        <Route path="/preview/:draftId/:language" component={PreviewDraftPage} />
-                        <PrivateRoute path="/media" component={MediaPage} />
-                        <PrivateRoute path="/agreement" component={AgreementPage} />
-                        <PrivateRoute path="/film" component={NdlaFilm} />
-                        <PrivateRoute path="/h5p" component={H5PPage} />
-                        <PrivateRoute
-                          path="/structure/:subject?/:topic?/:subtopics(.*)?"
-                          component={StructurePage}
-                        />
-                        <Route path="/forbidden" component={ForbiddenPage} />
-                        <Route component={NotFoundPage} />
-                      </Switch>
-                    </Content>
-                    <Messages />
-                  </PageContainer>
-                </AuthInitializer>
-              </SessionProvider>
-            </LicensesProvider>
-          </MessagesProvider>
-        </FirstLoadContext.Provider>
-      </ErrorBoundary>
-    );
-  }
-
-  static childContextTypes = {
-    locale: PropTypes.oneOf(LOCALE_VALUES),
-  };
-}
+  return (
+    <ErrorBoundary>
+      <MessagesProvider>
+        <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
+          <AuthInitializer>
+            <PageContainer background>
+              <Zendesk />
+              <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
+              <Content>
+                <Navigation />
+                <Routes>
+                  <Route path="/" element={<WelcomePage />} />
+                  <Route path="login/*" element={<Login />} />
+                  <Route path="logout/*" element={<Logout />} />
+                  <Route
+                    path="/subjectpage/*"
+                    element={<PrivateRoute component={<Subjectpage />} />}
+                  />
+                  <Route path="search/*" element={<PrivateRoute component={<SearchPage />} />} />
+                  <Route
+                    path="subject-matter/*"
+                    element={<PrivateRoute component={<SubjectMatterPage />} />}
+                  />
+                  <Route
+                    path="/edit-markup/:draftId/:language/*"
+                    element={<PrivateRoute component={<EditMarkupPage />} />}
+                  />
+                  <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
+                  <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
+                  <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
+                  <Route
+                    path="/agreement/*"
+                    element={<PrivateRoute component={<AgreementPage />} />}
+                  />
+                  <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
+                  <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
+                  <Route
+                    path="/structure/*"
+                    element={<PrivateRoute component={<StructurePage />} />}
+                  />
+                  <Route path="/forbidden" element={<ForbiddenPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </Content>
+              <Messages />
+            </PageContainer>
+          </AuthInitializer>
+        </SessionProvider>
+      </MessagesProvider>
+    </ErrorBoundary>
+  );
+};
 
 const AuthInitializer = ({ children }: { children: ReactElement }) => {
   const { createMessage } = useMessages();
@@ -152,4 +122,4 @@ const AuthInitializer = ({ children }: { children: ReactElement }) => {
   return children;
 };
 
-export default withRouter(withTranslation()(App));
+export default App;

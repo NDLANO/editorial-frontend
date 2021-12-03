@@ -15,7 +15,7 @@ import { useLicenses } from '../../../modules/draft/draftQueries';
 
 const LicenseField = props => {
   const { onChange, onBlur, name, onFocus, value, disabled, width, enableLicenseNA } = props;
-  const { data: licenses } = useLicenses({placeholderData: []});
+  const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const licensesWithTranslations = getLicensesWithTranslations(licenses, locale, enableLicenseNA);

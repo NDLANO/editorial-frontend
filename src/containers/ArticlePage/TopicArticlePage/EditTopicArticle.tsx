@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { Redirect, withRouter } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { RouteComponentProps } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import TopicArticleForm from './components/TopicArticleForm';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -16,13 +15,14 @@ import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 
-interface Props extends RouteComponentProps {
+interface Props {
   articleId: string;
-  selectedLanguage: LocaleType;
   isNewlyCreated: boolean;
 }
 
-const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated }: Props) => {
+const EditTopicArticle = ({ articleId, isNewlyCreated }: Props) => {
+  const params = useParams<'selectedLanguage'>();
+  const selectedLanguage = params.selectedLanguage as LocaleType;
   const {
     loading,
     article,
@@ -45,7 +45,8 @@ const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated }: Props
   }
 
   if (article.articleType !== 'topic-article') {
-    return <Redirect to={toEditArticle(article.id, article.articleType, article.language)} />;
+    const redirectUrl = toEditArticle(article.id, article.articleType, article.language);
+    return <Navigate replace to={redirectUrl} />;
   }
   return (
     <>
@@ -64,4 +65,4 @@ const EditTopicArticle = ({ articleId, selectedLanguage, isNewlyCreated }: Props
   );
 };
 
-export default withRouter(EditTopicArticle);
+export default EditTopicArticle;

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ImageForm from './components/ImageForm';
 import { createFormData } from '../../util/formDataHelper';
@@ -15,7 +15,7 @@ import { ImageApiType, NewImageMetadata } from '../../modules/image/imageApiInte
 import { useLicenses } from '../../modules/draft/draftQueries';
 import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
 
-interface Props extends RouteComponentProps {
+interface Props {
   isNewlyCreated?: boolean;
   editingArticle?: boolean;
   onImageCreated?: (image: ImageApiType) => void;
@@ -24,7 +24,6 @@ interface Props extends RouteComponentProps {
 }
 
 const CreateImage = ({
-  history,
   isNewlyCreated,
   editingArticle,
   onImageCreated,
@@ -35,13 +34,14 @@ const CreateImage = ({
   const locale = i18n.language;
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const imageLicenses = draftLicensesToImageLicenses(licenses!);
+  const navigate = useNavigate();
 
   const onCreateImage = async (imageMetadata: NewImageMetadata, image: string | Blob) => {
     const formData = await createFormData(image, imageMetadata);
     const createdImage = await imageApi.postImage(formData);
     onImageCreated?.(createdImage);
     if (!editingArticle && createdImage.id) {
-      history.push(toEditImage(createdImage.id, imageMetadata.language));
+      navigate(toEditImage(createdImage.id, imageMetadata.language));
     }
   };
 
@@ -57,4 +57,4 @@ const CreateImage = ({
   );
 };
 
-export default withRouter(CreateImage);
+export default CreateImage;

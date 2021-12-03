@@ -5,47 +5,31 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { Route, RouteComponentProps, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import EditResourceRedirect from './EditResourceRedirect';
 import CreateLearningResource from './CreateLearningResource';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 import { usePreviousLocation } from '../../../util/routeHelpers';
 
-interface BaseProps {}
-
-interface ParamsType {
-  articleId: string;
-}
-
-type Props = BaseProps & RouteComponentProps<ParamsType>;
-
-const LearningResourcePage = ({ match, history, location }: Props) => {
+const LearningResourcePage = () => {
   const previousLocation = usePreviousLocation();
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <OneColumn>
-        <Switch>
+        <Routes>
+          <Route path="new" element={<CreateLearningResource />} />
           <Route
-            path={`${match.url}/new`}
-            render={routeProps => <CreateLearningResource {...routeProps} />}
+            path="/:articleId/edit/*"
+            element={
+              <EditResourceRedirect
+                isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
+              />
+            }
           />
-          <Route path={`${match.url}/:articleId/edit/`}>
-            {(params: RouteComponentProps<ParamsType>) => {
-              return (
-                <EditResourceRedirect
-                  match={params.match}
-                  history={history}
-                  location={location}
-                  isNewlyCreated={previousLocation === '/subject-matter/learning-resource/new'}
-                />
-              );
-            }}
-          </Route>
-
-          <Route component={NotFoundPage} />
-        </Switch>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </OneColumn>
     </div>
   );

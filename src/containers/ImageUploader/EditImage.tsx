@@ -7,6 +7,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import ImageForm from './components/ImageForm';
 import { ImageApiType, UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { fetchImage, updateImage } from '../../modules/image/imageApi';
@@ -22,9 +23,10 @@ interface Props {
   isNewlyCreated?: boolean;
 }
 
-const EditImage = ({ imageId, imageLanguage, isNewlyCreated }: Props) => {
+const EditImage = ({ isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
   const { data: licenses } = useLicenses({ placeholderData: [] });
+  const { imageId, imageLanguage } = useParams<'imageId' | 'imageLanguage'>();
   const [loading, setLoading] = useState(false);
   const { applicationError, createMessage } = useMessages();
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);

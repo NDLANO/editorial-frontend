@@ -84,7 +84,7 @@ const SearchContainer = ({ searchHook, type, location, history }: Props) => {
   const onQueryPush = useMemo(() => debounce(_onQueryPush, 400), []);
 
   const onSortOrderChange = (sort: string): void => {
-    onQueryPush({ sort, page: 1 });
+    onQueryPush({ ...searchObject, sort, page: 1 });
   };
 
   const lastPage = results?.totalCount

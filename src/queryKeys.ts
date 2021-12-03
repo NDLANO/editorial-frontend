@@ -12,12 +12,15 @@ export const SEARCH_SERIES = 'searchSeries';
 export const SEARCH_IMAGES = 'searchImages';
 export const SEARCH = 'search';
 
+export const CONCEPT_STATE_MACHINE = 'conceptStateMachine';
+
 export const AUTH0_USERS = 'auth0Users';
 export const AUTH0_EDITORS = 'auth0Editors';
 
 export const DRAFT = 'draft';
 export const LICENSES = 'licenses';
 export const USER_DATA = 'userData';
+export const DRAFT_STATUS_STATE_MACHINE = 'draftStatusStateMachine';
 
 export const RESOURCE_TYPE = 'resourceType';
 export const RESOURCE_TYPES = 'resourceTypes';

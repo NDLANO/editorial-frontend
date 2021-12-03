@@ -198,7 +198,6 @@ ConceptModal.propTypes = {
   concept: ConceptShape,
   createConcept: PropTypes.func.isRequired,
   fetchSearchTags: PropTypes.func,
-  fetchStatusStateMachine: PropTypes.func,
   handleRemove: PropTypes.func.isRequired,
   id: PropTypes.number,
   isOpen: PropTypes.bool.isRequired,

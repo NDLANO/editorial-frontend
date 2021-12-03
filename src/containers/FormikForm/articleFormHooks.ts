@@ -12,12 +12,7 @@ import { TFunction } from 'i18next';
 import { FormikHelpers } from 'formik';
 
 import { Descendant } from 'slate';
-import {
-  deleteFile,
-  fetchStatusStateMachine,
-  validateDraft,
-  fetchSearchTags,
-} from '../../modules/draft/draftApi';
+import { deleteFile, validateDraft, fetchSearchTags } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
@@ -212,7 +207,6 @@ export function useArticleFormHooks<
     initialValues,
     setSaveAsNewVersion,
     handleSubmit,
-    fetchStatusStateMachine,
     validateDraft,
     fetchSearchTags,
   };

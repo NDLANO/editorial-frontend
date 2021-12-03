@@ -9,7 +9,6 @@
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import { fetchStatusStateMachine } from '../../../modules/concept/conceptApi';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
@@ -17,6 +16,7 @@ import { AlertModalWrapper, formClasses, ActionButton } from '../../FormikForm';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 import { ConceptApiType } from '../../../modules/concept/conceptApiInterfaces';
+import { useConceptStateMachine } from '../../../modules/concept/conceptQueries';
 
 interface Props {
   entityStatus?: DraftStatus;
@@ -43,6 +43,7 @@ const ConceptFormFooter = ({
 }: Props) => {
   const { t } = useTranslation();
   const formikContext = useFormikContext<ConceptFormValues>();
+  const conceptStateMachine = useConceptStateMachine();
   const { values, errors, initialValues, dirty, isSubmitting, submitForm } = formikContext;
   const formIsDirty = isFormikFormDirty({
     values,
@@ -79,7 +80,7 @@ const ConceptFormFooter = ({
           savedToServer={savedToServer}
           getEntity={getApiConcept}
           entityStatus={entityStatus}
-          fetchStatusStateMachine={fetchStatusStateMachine}
+          statusStateMachine={conceptStateMachine.data}
           showSimpleFooter={showSimpleFooter}
           onSaveClick={submitForm}
           hideSecondaryButton

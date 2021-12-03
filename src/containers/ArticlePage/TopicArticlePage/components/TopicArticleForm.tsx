@@ -48,6 +48,7 @@ import {
 } from '../../../../modules/draft/draftApiInterfaces';
 import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
 import { useLicenses } from '../../../Licenses/LicensesProvider';
+import { useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 
 export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
@@ -134,6 +135,7 @@ const TopicArticleForm = (props: Props) => {
     articleStatus,
   } = props;
   const { licenses } = useLicenses();
+  const statusStateMachine = useDraftStatusStateMachine({ articleId: article.id });
 
   const { t } = useTranslation();
 
@@ -195,7 +197,6 @@ const TopicArticleForm = (props: Props) => {
     initialValues,
     setSaveAsNewVersion,
     handleSubmit,
-    fetchStatusStateMachine,
     validateDraft,
     fetchSearchTags,
   } = useArticleFormHooks({
@@ -263,7 +264,7 @@ const TopicArticleForm = (props: Props) => {
             handleSubmit(values, formik);
           }}
           entityStatus={article.status}
-          fetchStatusStateMachine={() => fetchStatusStateMachine(article.id)}
+          statusStateMachine={statusStateMachine.data}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}

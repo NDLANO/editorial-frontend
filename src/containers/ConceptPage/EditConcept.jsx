@@ -21,7 +21,6 @@ const EditConcept = ({ conceptId, isNewlyCreated, selectedLanguage, ...rest }) =
     concept,
     fetchSearchTags,
     conceptArticles,
-    fetchStatusStateMachine,
     loading,
     setConcept,
     conceptChanged,
@@ -52,7 +51,6 @@ const EditConcept = ({ conceptId, isNewlyCreated, selectedLanguage, ...rest }) =
         conceptArticles={conceptArticles}
         conceptChanged={conceptChanged}
         fetchConceptTags={fetchSearchTags}
-        fetchStateStatuses={fetchStatusStateMachine}
         isNewlyCreated={isNewlyCreated}
         onUpdate={updateConcept}
         language={selectedLanguage}

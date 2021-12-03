@@ -45,6 +45,7 @@ import {
 } from '../../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, RelatedContent } from '../../../../interfaces';
 import { useLicenses } from '../../../Licenses/LicensesProvider';
+import { useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 
 export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
@@ -151,6 +152,7 @@ const LearningResourceForm = ({
   const { t } = useTranslation();
 
   const { licenses } = useLicenses();
+  const statusStateMachine = useDraftStatusStateMachine({ articleId: article.id });
 
   const getArticleFromSlate = useCallback(
     ({
@@ -208,7 +210,6 @@ const LearningResourceForm = ({
     initialValues,
     setSaveAsNewVersion,
     handleSubmit,
-    fetchStatusStateMachine,
     validateDraft,
     fetchSearchTags,
   } = useArticleFormHooks({
@@ -274,7 +275,7 @@ const LearningResourceForm = ({
             handleSubmit(values, formik);
           }}
           entityStatus={article.status}
-          fetchStatusStateMachine={() => fetchStatusStateMachine(article.id)}
+          statusStateMachine={statusStateMachine.data}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}

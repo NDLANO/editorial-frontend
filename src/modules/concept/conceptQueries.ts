@@ -8,9 +8,13 @@
 
 import queryString from 'query-string';
 import { useQuery, UseQueryOptions } from 'react-query';
-import { SEARCH_CONCEPTS } from '../../queryKeys';
-import { searchConcepts } from './conceptApi';
-import { ConceptQuery, ConceptSearchResult } from './conceptApiInterfaces';
+import { CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from '../../queryKeys';
+import { fetchStatusStateMachine, searchConcepts } from './conceptApi';
+import {
+  ConceptQuery,
+  ConceptSearchResult,
+  ConceptStatusStateMachineType,
+} from './conceptApiInterfaces';
 
 export const useSearchConcepts = (
   query: ConceptQuery,
@@ -21,3 +25,13 @@ export const useSearchConcepts = (
     () => searchConcepts(query),
     options,
   );
+
+export const useConceptStateMachine = (
+  options?: UseQueryOptions<ConceptStatusStateMachineType>,
+) => {
+  return useQuery<ConceptStatusStateMachineType>(
+    [CONCEPT_STATE_MACHINE],
+    () => fetchStatusStateMachine(),
+    options,
+  );
+};

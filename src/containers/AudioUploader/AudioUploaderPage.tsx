@@ -5,75 +5,39 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { withTranslation, CustomWithTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router';
+import { useTranslation } from 'react-i18next';
 import CreateAudio from './CreateAudio';
 import EditAudio from './EditAudio';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import { LocationShape, HistoryShape, LocaleShape } from '../../shapes';
+import { usePreviousLocation } from '../../util/routeHelpers';
 
-interface BaseProps {}
+const AudioUploaderPage = () => {
+  const { t, i18n } = useTranslation();
+  const previousLocation = usePreviousLocation();
 
-type Props = BaseProps & RouteComponentProps & CustomWithTranslation;
+  return (
+    <div>
+      <OneColumn>
+        <HelmetWithTracker title={t('htmlTitles.audioUploaderPage')} />
+        <Routes>
+          <Route path="new" element={<CreateAudio locale={i18n.language} />} />
+          <Route
+            path=":audioId/edit/:audioLanguage"
+            element={
+              <EditAudio
+                isNewlyCreated={previousLocation === '/media/audio-upload/new'}
+                locale={i18n.language}
+              />
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </OneColumn>
+    </div>
+  );
+};
 
-interface State {
-  previousLocation: string;
-}
-
-class AudioUploaderPage extends Component<Props, State> {
-  state = {
-    previousLocation: '',
-  };
-
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
-      this.setState({ previousLocation: prevProps.location.pathname });
-    }
-  }
-
-  render() {
-    const { match, t, i18n } = this.props;
-    const locale = i18n.language;
-    return (
-      <div>
-        <OneColumn>
-          <HelmetWithTracker title={t('htmlTitles.audioUploaderPage')} />
-          <Switch>
-            <Route path={`${match.url}/new`} render={() => <CreateAudio locale={locale} />} />
-            <Route
-              path={`${match.url}/:audioId/edit/:audioLanguage`}
-              render={props => (
-                <EditAudio
-                  audioId={props.match.params.audioId}
-                  audioLanguage={props.match.params.audioLanguage}
-                  isNewlyCreated={this.state.previousLocation === '/media/audio-upload/new'}
-                  locale={locale}
-                />
-              )}
-            />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </OneColumn>
-      </div>
-    );
-  }
-
-  static propTypes = {
-    match: PropTypes.shape({
-      url: PropTypes.string.isRequired,
-      params: PropTypes.shape({}).isRequired,
-      isExact: PropTypes.bool.isRequired,
-      path: PropTypes.string.isRequired,
-    }).isRequired,
-    locale: LocaleShape.isRequired,
-    history: HistoryShape,
-    location: LocationShape,
-  };
-}
-
-export default withTranslation()(AudioUploaderPage);
+export default AudioUploaderPage;

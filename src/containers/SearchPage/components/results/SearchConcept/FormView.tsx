@@ -38,7 +38,10 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
     title: t(`language.${lan}`),
     value: lan,
   }));
-  const [language, setLanguage] = useState<string>(concept.supportedLanguages[0]);
+
+  const [language, setLanguage] = useState<string>(
+    concept.supportedLanguages.find(l => l === i18n.language) ?? concept.supportedLanguages[0],
+  );
   const [fullConcept, setFullConcept] = useState<ConceptApiType | undefined>();
   const { licenses, licensesLoading } = useLicenses();
 
@@ -68,7 +71,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
   }, [concept, fullConcept, licenses, licensesLoading, subjects]);
 
   const handleSubmit = async (formConcept: InlineFormConcept) => {
-    if (!fullConcept || !licensesLoading) return;
+    if (!fullConcept || licensesLoading) return;
     const getCreators = (creators: { type: string; name: string }[], newAuthor: string) => {
       const author = creators.find(cr => cr.type === 'Writer');
       if (newAuthor !== '') {

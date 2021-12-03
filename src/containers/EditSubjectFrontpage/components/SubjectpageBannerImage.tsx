@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import MetaInformation from '../../../components/MetaInformation';
 import config from '../../../config';
-import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
+import { ImageEmbed } from '../../../interfaces';
 
 const bannerImageButtonStyle = css`
   display: block;
@@ -21,7 +21,7 @@ const bannerImageButtonStyle = css`
 `;
 
 interface Props {
-  image: ImageApiType;
+  image: ImageEmbed;
   onImageSelectOpen: Function;
 }
 
@@ -36,13 +36,13 @@ const SubjectpageBannerImage = ({ image, onImageSelectOpen }: Props) => {
     title: t('form.metaImage.imageTitle'),
     copyright: t('form.metaImage.copyright'),
   };
-  const src = `${config.ndlaApiUrl}/image-api/raw/id/${image.id}`;
+  const src = `${config.ndlaApiUrl}/image-api/raw/id/${image.resource_id}`;
   return (
     <>
-      <img src={src} style={{ background: colors.brand.primary }} alt={image.alttext.alttext} />
+      <img src={src} style={{ background: colors.brand.primary }} alt={image.alt} />
       <div style={{ height: 5 }} />
       <MetaInformation
-        title={image.title.title}
+        title={image.caption}
         action={imageAction}
         translations={metaInformationTranslations}
       />

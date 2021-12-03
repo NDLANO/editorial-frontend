@@ -6,29 +6,34 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import ConceptForm from './ConceptForm/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
+import { ConceptPatchType } from '../../modules/concept/conceptApiInterfaces';
 
-const EditConcept = ({ conceptId, isNewlyCreated, selectedLanguage, ...rest }) => {
+interface Props {
+  isNewlyCreated?: boolean;
+}
+
+const EditConcept = ({ isNewlyCreated }: Props) => {
+  const { conceptId, selectedLanguage } = useParams<'conceptId' | 'selectedLanguage'>();
   const { t } = useTranslation();
   const {
     concept,
     fetchSearchTags,
     conceptArticles,
-    fetchStatusStateMachine,
     loading,
     setConcept,
     conceptChanged,
     subjects,
     updateConcept,
     updateConceptAndStatus,
-  } = useFetchConceptData(conceptId, selectedLanguage);
+  } = useFetchConceptData(Number(conceptId), selectedLanguage!);
 
   const { translating, translateToNN } = useTranslateApi(concept, setConcept, [
     'id',
@@ -48,29 +53,22 @@ const EditConcept = ({ conceptId, isNewlyCreated, selectedLanguage, ...rest }) =
     <>
       <HelmetWithTracker title={`${concept.title.title} ${t('htmlTitles.titleTemplate')}`} />
       <ConceptForm
+        inModal={false}
         concept={concept}
         conceptArticles={conceptArticles}
         conceptChanged={conceptChanged}
         fetchConceptTags={fetchSearchTags}
-        fetchStateStatuses={fetchStatusStateMachine}
         isNewlyCreated={isNewlyCreated}
-        onUpdate={updateConcept}
-        language={selectedLanguage}
+        onUpdate={async concept => {
+          updateConcept(concept as ConceptPatchType);
+        }}
+        language={selectedLanguage!}
         subjects={subjects}
         translateToNN={translateToNN}
-        translating={translating}
         updateConceptAndStatus={updateConceptAndStatus}
-        setConcept={setConcept}
-        {...rest}
       />
     </>
   );
-};
-
-EditConcept.propTypes = {
-  conceptId: PropTypes.string,
-  selectedLanguage: PropTypes.string.isRequired,
-  isNewlyCreated: PropTypes.bool,
 };
 
 export default EditConcept;

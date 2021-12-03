@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { Route, RouteComponentProps, Switch } from 'react-router';
+import { Route, Routes } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
 
@@ -15,60 +15,24 @@ const EditSubjectpage = loadable(() => import('./EditSubjectpage'));
 const CreateSubjectpage = loadable(() => import('./CreateSubjectpage'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
-interface Props extends RouteComponentProps {}
-
-type NewRouteProps = RouteComponentProps<
-  { elementId: string; selectedLanguage: string },
-  {},
-  { elementName: string }
->;
-
-type EditRouteProps = RouteComponentProps<{
-  elementId: string;
-  selectedLanguage: string;
-  subjectpageId: string;
-}>;
-
-const Subjectpage = ({ match }: Props) => {
+const Subjectpage = () => {
   const previousLocation = usePreviousLocation();
 
   return (
     <>
       <OneColumn>
-        <Switch>
+        <Routes>
           <Route
-            path={`${match.url}/:elementId/:subjectpageId/edit/:selectedLanguage`}
-            render={rp => {
-              const routeProps = rp as EditRouteProps; // Dirty assertion since react-router types are lacking for <Route>
-              return (
-                <EditSubjectpage
-                  elementId={routeProps.match.params.elementId}
-                  selectedLanguage={routeProps.match.params.selectedLanguage}
-                  subjectpageId={routeProps.match.params.subjectpageId}
-                  isNewlyCreated={/\/subjectpage\/(.*)\/new/.test(previousLocation ?? '')}
-                />
-              );
-            }}
+            path=":elementId/:subjectpageId/edit/:selectedLanguage"
+            element={
+              <EditSubjectpage
+                isNewlyCreated={/\/subjectpage\/(.*)\/new/.test(previousLocation ?? '')}
+              />
+            }
           />
-          <Route
-            path={`${match.url}/:elementId/new/:selectedLanguage`}
-            render={rp => {
-              const routeProps = rp as NewRouteProps; // Dirty assertion since react-router types are lacking for <Route>
-
-              const elementName =
-                routeProps.location.state && routeProps.location.state.elementName;
-
-              return (
-                <CreateSubjectpage
-                  elementId={routeProps.match.params.elementId}
-                  selectedLanguage={routeProps.match.params.selectedLanguage}
-                  elementName={elementName}
-                />
-              );
-            }}
-          />
-          <Route component={NotFoundPage} />
-        </Switch>
+          <Route path=":elementId/new/:selectedLanguage" element={<CreateSubjectpage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </OneColumn>
       <Footer showLocaleSelector={false} />
     </>

@@ -8,7 +8,7 @@
 
 import nock from 'nock';
 import { render, cleanup } from '@testing-library/react';
-import { MemoryRouter, useHistory } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { StructureContainer } from '../StructureContainer';
 import {
   subjectsMock,
@@ -21,37 +21,12 @@ import { SessionProvider } from '../../Session/SessionProvider';
 
 afterEach(cleanup);
 
-const TestStructureContainer = () => {
-  const history = useHistory();
-  return (
-    <StructureContainer
-      history={history}
-      match={{
-        url: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
-        params: {
-          subject: 'urn:subject:1',
-          topic: 'urn:topic:1:186479',
-          subtopics: 'urn:topic:1:172650',
-        },
-        isExact: false,
-        path: 'urn:subject:1/urn:topic:1:186479/urn:topic:1:172650',
-      }}
-      location={{
-        search: '',
-        pathname: 'test',
-        hash: '',
-        state: '',
-      }}
-    />
-  );
-};
-
 const wrapper = () =>
   render(
     <SessionProvider>
-      <MemoryRouter>
+      <MemoryRouter initialEntries={['urn:subject:1/urn:topic:1:186479/urn:topic:1:172650']}>
         <IntlWrapper>
-          <TestStructureContainer />
+          <StructureContainer />
         </IntlWrapper>
       </MemoryRouter>
     </SessionProvider>,

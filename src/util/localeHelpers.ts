@@ -1,4 +1,4 @@
-import { RouteComponentProps } from 'react-router-dom';
+import { Location } from 'react-router-dom';
 import { LocaleType } from '../interfaces';
 import { appLocales } from '../i18n';
 import { LOCALE_VALUES } from '../constants';
@@ -19,11 +19,7 @@ export const stringToLocale = (stringLanguage?: string): LocaleType | undefined 
   return LOCALE_VALUES.find(lv => lv === stringLanguage);
 };
 
-const getLocaleURL = (
-  newLocale: string,
-  locale: string,
-  location: RouteComponentProps['location'],
-): string => {
+const getLocaleURL = (newLocale: string, locale: string, location: Location): string => {
   const { pathname, search } = location;
   const basePath = pathname.startsWith(`/${locale}/`)
     ? pathname.replace(`/${locale}/`, '/')
@@ -31,10 +27,7 @@ const getLocaleURL = (
   return newLocale === 'nb' ? `${basePath}${search}` : `/${newLocale}${basePath}${search}`;
 };
 
-export const getLocaleUrls = (
-  locale: string,
-  location: RouteComponentProps['location'],
-): localeUrlsType => {
+export const getLocaleUrls = (locale: string, location: Location): localeUrlsType => {
   const localeUrls: localeUrlsType = {};
   appLocales.forEach((appLocale: appLocaleType) => {
     localeUrls[appLocale.abbreviation] = {

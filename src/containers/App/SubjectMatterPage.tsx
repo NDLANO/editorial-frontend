@@ -5,11 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import PropTypes from 'prop-types';
-import { Route, Switch, withRouter } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
+import { Route, Routes } from 'react-router-dom';
 import loadable from '@loadable/component';
-import { LocationShape, HistoryShape } from '../../shapes';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import Footer from './components/Footer';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
@@ -18,26 +15,18 @@ const LearningResourcePage = loadable(() =>
   import('../ArticlePage/LearningResourcePage/LearningResourcePage'),
 );
 
-const SubjectMatterPage = ({ match }: RouteComponentProps) => (
+const SubjectMatterPage = () => (
   <>
-    <Switch>
-      <PrivateRoute path={`${match.url}/topic-article/`} component={TopicArticlePage} />
-      <PrivateRoute path={`${match.url}/learning-resource`} component={LearningResourcePage} />
-      <Route component={NotFoundPage} />
-    </Switch>
+    <Routes>
+      <Route path="topic-article/*" element={<PrivateRoute component={<TopicArticlePage />} />} />
+      <Route
+        path="learning-resource/*"
+        element={<PrivateRoute component={<LearningResourcePage />} />}
+      />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
     <Footer showLocaleSelector={false} />
   </>
 );
 
-SubjectMatterPage.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-    params: PropTypes.object.isRequired,
-    isExact: PropTypes.bool.isRequired,
-    path: PropTypes.string.isRequired,
-  }).isRequired,
-  location: LocationShape,
-  history: HistoryShape,
-};
-
-export default withRouter(SubjectMatterPage);
+export default SubjectMatterPage;

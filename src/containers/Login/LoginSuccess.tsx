@@ -7,24 +7,24 @@
  */
 
 import { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { parseHash } from '../../util/authHelpers';
 import { toLogin } from '../../util/routeHelpers';
 import { useSession } from '../Session/SessionProvider';
 
-interface Props extends RouteComponentProps {}
-
-export const LoginSuccess = ({ location: { hash }, history }: Props) => {
+export const LoginSuccess = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { login } = useSession();
   useEffect(() => {
-    parseHash(hash).then(authResult => {
+    parseHash(location.hash).then(authResult => {
       if (authResult.scope?.includes(':') && authResult.accessToken) {
         if (authResult.state) {
           window.location.href = authResult.state;
         }
         login(authResult.accessToken);
       } else {
-        history.replace(`${toLogin()}/failure`);
+        navigate(`${toLogin()}/failure`, { replace: true });
       }
     });
   }, []); //  eslint-disable-line

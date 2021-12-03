@@ -11,12 +11,11 @@ import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
 
-import { FormikProperties } from '../../../interfaces';
+import { FormikProperties, ImageEmbed } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';
-import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
 
 interface FormikProps {
-  field: FieldProps<ImageApiType | undefined>['field'];
+  field: FieldProps<ImageEmbed | undefined>['field'];
   form: FormikProperties['form'];
 }
 

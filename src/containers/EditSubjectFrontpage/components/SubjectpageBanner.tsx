@@ -13,10 +13,9 @@ import { ImageEmbed } from '../../../interfaces';
 import VisualElementSearch from '../../VisualElement/VisualElementSearch';
 import SubjectpageBannerImage from './SubjectpageBannerImage';
 import Lightbox from '../../../components/Lightbox';
-import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
 
 interface Props {
-  field: FieldProps<ImageApiType | undefined>['field'];
+  field: FieldProps<ImageEmbed | undefined>['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
@@ -33,13 +32,8 @@ const SubjectpageBanner = ({ field, form, title }: Props) => {
   };
 
   const updateFormik = (value?: ImageEmbed) => {
+    field.onChange({ target: { name: field.name, value: value } });
     form.setFieldTouched(field.name, true, false);
-    field.onChange({
-      target: {
-        name: field.name,
-        value: value || null,
-      },
-    });
   };
 
   const onImageSelectClose = () => {

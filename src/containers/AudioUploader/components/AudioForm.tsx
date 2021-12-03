@@ -248,11 +248,6 @@ const AudioForm = ({
               formIsDirty={formIsDirty}
               severity="danger"
               text={t('alertModal.notSaved')}
-              showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-              onClick={(evt: Event) => {
-                evt.preventDefault();
-                submitForm();
-              }}
             />
           </FormWrapper>
         );

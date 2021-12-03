@@ -8,11 +8,11 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router';
 import { HelmetWithTracker } from '@ndla/tracker';
 //@ts-ignore
 import { Hero, OneColumn } from '@ndla/ui';
 import { css } from '@emotion/core';
+import { useParams } from 'react-router-dom';
 import * as draftApi from '../../modules/draft/draftApi';
 import * as articleApi from '../../modules/article/articleApi';
 import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
@@ -22,18 +22,10 @@ import LanguageSelector from './LanguageSelector';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 import { Resource } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
-interface MatchProps {
-  draftId: string;
-  language: string;
-}
-
-interface Props extends RouteComponentProps<MatchProps> {}
-
-const PreviewDraftPage = ({
-  match: {
-    params: { draftId, language },
-  },
-}: Props) => {
+const PreviewDraftPage = () => {
+  const params = useParams<'draftId' | 'language'>();
+  const draftId = params.draftId!;
+  const language = params.language!;
   const { t } = useTranslation();
   const [draft, setDraft] = useState<ArticleConverterApiType | undefined>(undefined);
   const [resources, setResources] = useState<Resource[]>([]);

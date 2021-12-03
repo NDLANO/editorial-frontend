@@ -79,7 +79,7 @@ export const fetchSearchTags = async (
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchSeries = (id: number, language: string): Promise<PodcastSeriesApiType> =>
+export const fetchSeries = (id: number | string, language: string): Promise<PodcastSeriesApiType> =>
   fetchAuthorized(`${seriesBaseUrl}/${id}?language=${language}`).then(r =>
     resolveJsonOrRejectWithError<PodcastSeriesApiType>(r),
   );
@@ -91,7 +91,7 @@ export const postSeries = (newSeries: PodcastSeriesPost): Promise<PodcastSeriesA
   }).then(r => resolveJsonOrRejectWithError<PodcastSeriesApiType>(r));
 
 export const updateSeries = (
-  id: number,
+  id: number | string,
   newSeries: PodcastSeriesPut,
 ): Promise<PodcastSeriesApiType> =>
   fetchAuthorized(`${seriesBaseUrl}/${id}`, {

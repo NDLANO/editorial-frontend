@@ -42,6 +42,7 @@ interface Props {
   subjectpage?: ISubjectPageData;
   editorsChoices?: (DraftApiType | Learningpath)[];
   banner?: ImageApiType;
+  elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
   updateSubjectpage?: (
     id: string | number,
@@ -82,6 +83,7 @@ const subjectpageRules: RulesType<SubjectPageFormikType> = {
 
 const SubjectpageForm = ({
   elementId,
+  elementName,
   subjectpage,
   selectedLanguage,
   updateSubjectpage,
@@ -95,6 +97,7 @@ const SubjectpageForm = ({
   const { createMessage, applicationError } = useMessages();
   const initialValues = subjectpageApiTypeToFormikType(
     subjectpage,
+    elementName,
     elementId,
     selectedLanguage,
     editorsChoices,
@@ -119,7 +122,7 @@ const SubjectpageForm = ({
   };
 
   const handleSubmit = async (formik: FormikProps<SubjectPageFormikType>) => {
-    const { setSubmitting, values, resetForm, setFieldTouched, validateForm } = formik;
+    const { setSubmitting, values, validateForm } = formik;
     setSubmitting(true);
     const urns = await fetchTaxonomyUrns(values.editorsChoices, selectedLanguage);
     try {
@@ -128,8 +131,6 @@ const SubjectpageForm = ({
       } else {
         await createSubjectpage?.(subjectpageFormikTypeToPostType(values, urns));
       }
-      Object.keys(values).map(fieldName => setFieldTouched(fieldName, true, true));
-      resetForm();
       setSavedToServer(true);
     } catch (err) {
       if (err?.status === 409) {
@@ -152,6 +153,7 @@ const SubjectpageForm = ({
       initialValues={initialValues}
       initialErrors={initialErrors}
       onSubmit={() => {}}
+      enableReinitialize
       validate={values => validateFormik(values, subjectpageRules, t)}>
       {(formik: FormikProps<SubjectPageFormikType>) => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;
@@ -171,7 +173,7 @@ const SubjectpageForm = ({
               isSubmitting={isSubmitting}
               language={values.language}
               supportedLanguages={values.supportedLanguages!}
-              title={values.name}
+              title={elementName ?? values.name ?? ''}
             />
             <SubjectpageAccordionPanels
               editorsChoices={values.editorsChoices}

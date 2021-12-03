@@ -14,6 +14,7 @@ import {
   plainTextToEditorValue,
 } from './articleContentConverter';
 import { convertVisualElement } from './ndlaFilmHelpers';
+import { imageToVisualElement } from './visualElementHelper';
 
 export const getIdFromUrn = (urnId: string | undefined) => urnId?.replace('urn:frontpage:', '');
 
@@ -35,7 +36,7 @@ export interface SubjectPageFormikType {
   articleType: string;
   description?: Descendant[];
   metaDescription?: Descendant[];
-  desktopBanner?: ImageApiType;
+  desktopBanner?: ImageEmbed;
   editorsChoices: (Learningpath | DraftApiType)[];
   language: string;
   mobileBanner?: number;
@@ -72,7 +73,7 @@ export const subjectpageFormikTypeToPostType = (
     ],
     banner: {
       mobileImageId: values.mobileBanner,
-      desktopImageId: parseInt(values.desktopBanner!.id),
+      desktopImageId: parseInt(values.desktopBanner!.resource_id),
     },
     editorsChoices: editorsChoicesUrns,
     facebook: values.facebook,
@@ -96,12 +97,14 @@ export const subjectpageFormikTypeToPostType = (
 
 export const subjectpageApiTypeToFormikType = (
   subjectpage: ISubjectPageData | undefined,
+  elementName: string | undefined,
   elementId: string,
   selectedLanguage: string,
   editorsChoices?: (Learningpath | DraftApiType)[],
   banner?: ImageApiType, // maybe undefined?
 ): SubjectPageFormikType => {
   const visualElement = subjectpage?.about?.visualElement;
+  const desktopBanner = banner ? imageToVisualElement(banner) : undefined;
 
   const embed = visualElement
     ? convertVisualElement({ ...visualElement, alt: visualElement.alt ?? '' })
@@ -113,7 +116,7 @@ export const subjectpageApiTypeToFormikType = (
     description: plainTextToEditorValue(subjectpage?.about?.description ?? ''),
     title: plainTextToEditorValue(subjectpage?.about?.title ?? ''),
     mobileBanner: subjectpage?.banner?.mobileId,
-    desktopBanner: banner,
+    desktopBanner,
     visualElement: embed ?? [],
     editorsChoices: editorsChoices ?? [],
     facebook: subjectpage?.facebook,
@@ -123,7 +126,7 @@ export const subjectpageApiTypeToFormikType = (
     layout: subjectpage?.layout ?? 'single',
     metaDescription: plainTextToEditorValue(subjectpage?.metaDescription || ''),
     mostRead: subjectpage?.mostRead ?? [],
-    name: subjectpage?.name ?? '',
+    name: subjectpage?.name ?? elementName ?? '',
     topical: subjectpage?.topical ?? '',
     twitter: subjectpage?.twitter ?? '',
     elementId,

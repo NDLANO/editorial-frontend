@@ -6,8 +6,7 @@
  */
 
 import { HelmetWithTracker } from '@ndla/tracker';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import TopicArticleForm from './components/TopicArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
@@ -16,10 +15,9 @@ import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType } from '../../../interfaces';
 import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
 
-interface Props extends RouteComponentProps {}
-
-const CreateTopicArticle = ({ history }: Props) => {
+const CreateTopicArticle = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
 
@@ -27,7 +25,7 @@ const CreateTopicArticle = ({ history }: Props) => {
     createdArticle: UpdatedDraftApiType,
   ): Promise<ConvertedDraftType> => {
     const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
-    history.push(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
+    navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
     return await transformArticleFromApiVersion(savedArticle, locale);
   };
 
@@ -45,4 +43,4 @@ const CreateTopicArticle = ({ history }: Props) => {
   );
 };
 
-export default withRouter(CreateTopicArticle);
+export default CreateTopicArticle;

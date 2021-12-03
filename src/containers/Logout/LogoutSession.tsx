@@ -8,14 +8,13 @@
 
 import { useEffect } from 'react';
 import queryString from 'query-string';
-import { RouteComponentProps } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { LocationShape } from '../../shapes';
 import { useSession } from '../Session/SessionProvider';
 
-interface Props extends RouteComponentProps {}
-
-export const LogoutSession = ({ location }: Props) => {
+export const LogoutSession = () => {
   const { logout } = useSession();
+  const location = useLocation();
   useEffect(() => {
     const query = queryString.parse(location.search);
     logout(false, !!query?.returnToLogin);

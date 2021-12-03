@@ -13,7 +13,7 @@ import { fetchDraft, fetchLicenses, fetchUserData, updateUserData } from './draf
 import { DraftApiType, UpdatedUserDataApiType, UserDataApiType } from './draftApiInterfaces';
 
 export const useDraft = (
-  id: number,
+  id: number | string,
   language?: string,
   options?: UseQueryOptions<DraftApiType>,
 ) => {

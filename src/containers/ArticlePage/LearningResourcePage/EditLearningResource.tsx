@@ -6,9 +6,8 @@
  *
  */
 
-import { Redirect, withRouter } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { RouteComponentProps } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LearningResourceForm from './components/LearningResourceForm';
 import { toEditArticle } from '../../../util/routeHelpers';
@@ -17,14 +16,15 @@ import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 
-interface Props extends RouteComponentProps {
+interface Props {
   isNewlyCreated: boolean;
   articleId: string;
-  selectedLanguage: LocaleType;
 }
 
-const EditLearningResource = ({ selectedLanguage, articleId, isNewlyCreated }: Props) => {
+const EditLearningResource = ({ articleId, isNewlyCreated }: Props) => {
   const { t } = useTranslation();
+  const params = useParams<'selectedLanguage'>();
+  const selectedLanguage = params.selectedLanguage as LocaleType;
   const {
     loading,
     article,
@@ -45,7 +45,8 @@ const EditLearningResource = ({ selectedLanguage, articleId, isNewlyCreated }: P
     return <Spinner withWrapper />;
   }
   if (article.articleType !== 'standard') {
-    return <Redirect to={toEditArticle(article.id, article.articleType, article.language)} />;
+    const replaceUrl = toEditArticle(article.id, article.articleType, article.language);
+    return <Navigate replace to={replaceUrl} />;
   }
 
   return (
@@ -65,4 +66,4 @@ const EditLearningResource = ({ selectedLanguage, articleId, isNewlyCreated }: P
   );
 };
 
-export default withRouter(EditLearningResource);
+export default EditLearningResource;

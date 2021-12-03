@@ -342,17 +342,6 @@ export const FormikShape = PropTypes.shape({
   setFieldValue: PropTypes.func,
 });
 
-export const RoutePropTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-    params: PropTypes.object.isRequired,
-    isExact: PropTypes.bool.isRequired,
-    path: PropTypes.string.isRequired,
-  }).isRequired,
-  location: LocationShape,
-  history: HistoryShape.isRequired,
-};
-
 export const LocaleShape = PropTypes.oneOf(LOCALE_VALUES);
 
 export const SearchParamsShape = PropTypes.shape({

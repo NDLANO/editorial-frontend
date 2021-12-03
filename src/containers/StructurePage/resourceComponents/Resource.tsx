@@ -9,7 +9,7 @@
 import { ReactElement, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 //@ts-ignore
@@ -117,7 +117,7 @@ const Resource = ({
   updateResource,
 }: Props) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const location = useLocation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
 
@@ -128,7 +128,7 @@ const Resource = ({
 
   const iconType = contentType === 'topic-article' ? 'topic' : contentType;
 
-  const structurePaths: string[] = history.location.pathname.replace('/structure', '').split('/');
+  const structurePaths: string[] = location.pathname.replace('/structure', '').split('/');
   const currentPath = structurePaths.map(p => p.replace('urn:', '')).join('/');
   const path = resource.paths.find(p => {
     const pArr = p.split('/');

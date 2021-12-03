@@ -6,7 +6,7 @@
  */
 
 import PropTypes from 'prop-types';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
@@ -14,11 +14,12 @@ import { toEditAudio } from '../../util/routeHelpers';
 import { AudioMetaInformationPost } from '../../modules/audio/audioApiInterfaces';
 import { HistoryShape } from '../../shapes';
 
-interface Props extends RouteComponentProps {
+interface Props {
   locale: string;
 }
 
-const CreateAudio = ({ history, locale, ...rest }: Props) => {
+const CreateAudio = ({ locale }: Props) => {
+  const navigate = useNavigate();
   const onCreateAudio = async (
     newAudio: AudioMetaInformationPost,
     file?: string | Blob,
@@ -26,11 +27,11 @@ const CreateAudio = ({ history, locale, ...rest }: Props) => {
     const formData = await createFormData(file, newAudio);
     const createdAudio = await audioApi.postAudio(formData);
     if (!newAudio.id) {
-      history.push(toEditAudio(createdAudio.id, newAudio.language));
+      navigate(toEditAudio(createdAudio.id, newAudio.language));
     }
   };
 
-  return <AudioForm onUpdate={onCreateAudio} audioLanguage={locale} {...rest} />;
+  return <AudioForm onUpdate={onCreateAudio} audioLanguage={locale} />;
 };
 
 CreateAudio.propTypes = {
@@ -38,4 +39,4 @@ CreateAudio.propTypes = {
   locale: PropTypes.string.isRequired,
 };
 
-export default withRouter(CreateAudio);
+export default CreateAudio;

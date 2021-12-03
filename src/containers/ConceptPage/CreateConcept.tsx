@@ -7,33 +7,22 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../util/routeHelpers';
-import { License } from '../../interfaces';
 import ConceptForm from './ConceptForm/ConceptForm';
 import { ConceptPostType } from '../../modules/concept/conceptApiInterfaces';
 
 interface Props {
-  initialConcept?: {
-    title?: string;
-  };
   locale: string;
-  licences: License[];
   inModal?: boolean;
   addConceptInModal?: Function;
 }
 
-const CreateConcept = ({
-  locale,
-  history,
-  initialConcept,
-  inModal = false,
-  addConceptInModal,
-  ...rest
-}: Props & RouteComponentProps) => {
+const CreateConcept = ({ locale, inModal = false, addConceptInModal }: Props) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { subjects, createConcept, fetchSearchTags, conceptArticles } = useFetchConceptData(
     undefined,
     locale,
@@ -44,7 +33,7 @@ const CreateConcept = ({
     if (inModal && addConceptInModal) {
       addConceptInModal(savedConcept);
     } else {
-      history.push(toEditConcept(savedConcept.id, createdConcept.language));
+      navigate(toEditConcept(savedConcept.id, createdConcept.language));
     }
   };
 
@@ -58,10 +47,9 @@ const CreateConcept = ({
         inModal={inModal}
         subjects={subjects}
         conceptArticles={conceptArticles}
-        {...rest}
       />
     </>
   );
 };
 
-export default withRouter(CreateConcept);
+export default CreateConcept;

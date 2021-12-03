@@ -8,12 +8,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter, Router, useHistory } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import ErrorReporter from '@ndla/error-reporter';
-import { createBrowserHistory } from 'history';
 import { i18nInstance } from '@ndla/ui';
 import config, { ConfigType, getDefaultLanguage } from './config';
 import { isValidLocale } from './i18n';
@@ -44,9 +43,15 @@ window.errorReporter = ErrorReporter.getInstance({
   componentName,
 });
 
-const browserHistory = createBrowserHistory();
+const constructNewPath = (newLocale?: LocaleType) => {
+  const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
+  const path = window.location.pathname.replace(regex, '');
+  const fullPath = path.startsWith('/') ? path : `/${path}`;
+  const localePrefix = newLocale ? `/${newLocale}` : '';
+  return `${localePrefix}${fullPath}${window.location.search}`;
+};
 
-const I18nWrapper = ({ basename }: { basename?: string }) => {
+const AppWrapper = ({ basename }: { basename?: string }) => {
   const { i18n } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [base, setBase] = useState('');
@@ -54,49 +59,50 @@ const I18nWrapper = ({ basename }: { basename?: string }) => {
 
   useEffect(() => {
     initializeI18n(i18n);
-    i18n.loadLanguages(i18n.options.supportedLngs as string[]);
+    i18n.loadLanguages(supportedLanguages);
     i18n.loadResources(() => setLoading(false));
     const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY) as LocaleType;
     const defaultLanguage = getDefaultLanguage();
     if ((!basename && !storedLanguage) || (!basename && storedLanguage === defaultLanguage)) {
-      setBase('');
       i18n.changeLanguage(defaultLanguage);
     } else if (storedLanguage && isValidLocale(storedLanguage)) {
       i18n.changeLanguage(storedLanguage);
-      setBase(i18n.language);
     }
   }, [basename, i18n]);
 
+  // handle path changes when the language is changed
   useEffect(() => {
-    if (!firstRender.current) {
+    if (firstRender.current) {
+      firstRender.current = false;
+    } else {
+      window.history.replaceState('', '', constructNewPath(i18n.language));
       setBase(i18n.language);
     }
-    firstRender.current = false;
   }, [i18n.language]);
 
-  if (loading) {
-    return <Spinner />;
-  }
+  // handle initial redirect if URL has wrong or missing locale prefix.
+  useEffect(() => {
+    const storedLanguage = window.localStorage.getItem(STORED_LANGUAGE_KEY) as LocaleType;
+    if ((!storedLanguage || storedLanguage === getDefaultLanguage()) && !basename) return;
+    if (isValidLocale(storedLanguage) && storedLanguage === basename) {
+      setBase(storedLanguage);
+      return;
+    }
+    if (window.location.pathname.includes('/login/success')) return;
+    setBase(storedLanguage);
+    window.history.replaceState('', '', constructNewPath(storedLanguage));
+  }, [basename]);
 
-  return (
-    <BrowserRouter basename={base} key={base}>
-      <LocaleRedirector base={base} />
-    </BrowserRouter>
-  );
+  if (loading) return <Spinner />;
+  return <RouterComponent base={base} />;
 };
 
-const LocaleRedirector = ({ base }: { base: string }) => {
-  const { i18n } = useTranslation();
-  const history = useHistory();
-  useEffect(() => {
-    const regex = new RegExp(supportedLanguages.map(l => `/${l}/`).join('|'));
-    const path = window.location.pathname.replace(regex, '');
-    const fullPath = path.startsWith('/') ? path : `/${path}`;
-    if (!window.location.pathname.includes('/login/success')) {
-      history.replace(`${fullPath}${window.location.search}`);
-    }
-  }, [base, history]);
-  return <App key={i18n.language} isClient={true} />;
+const RouterComponent = ({ base }: { base: string }) => {
+  return (
+    <BrowserRouter key={base} basename={base}>
+      <App isClient={true} key={base} />
+    </BrowserRouter>
+  );
 };
 
 const queryClient = new QueryClient();
@@ -104,11 +110,8 @@ const queryClient = new QueryClient();
 const renderApp = () => {
   render(
     <QueryClientProvider client={queryClient}>
-      {/* @ts-ignore i18nInstance is not recognized as valid by I18nextProvider. It works, however. */}
       <I18nextProvider i18n={i18nInstance}>
-        <Router history={browserHistory}>
-          <I18nWrapper basename={basename} />
-        </Router>
+        <AppWrapper basename={basename} />
       </I18nextProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>,

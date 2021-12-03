@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { FormikHelpers, useFormikContext } from 'formik';
 import config from '../../../../config';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
@@ -14,7 +13,7 @@ import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
 
-interface Props extends RouteComponentProps {
+interface Props {
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: (
     values: LearningResourceFormikType,
@@ -33,7 +32,6 @@ const LearningResourcePanels = ({
   updateNotes,
   getArticle,
   getInitialValues,
-  history,
   formIsDirty,
   handleSubmit,
 }: Props) => {
@@ -121,4 +119,4 @@ const LearningResourcePanels = ({
   );
 };
 
-export default withRouter(LearningResourcePanels);
+export default LearningResourcePanels;

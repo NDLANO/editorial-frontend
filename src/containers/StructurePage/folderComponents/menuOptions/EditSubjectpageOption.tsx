@@ -40,14 +40,7 @@ const EditSubjectpageOption = ({ id, locale }: Props) => {
     : toCreateSubjectpage(id, locale);
 
   return (
-    <Link
-      className={'link'}
-      to={{
-        pathname: link,
-        state: {
-          elementName: subject?.name,
-        },
-      }}>
+    <Link className={'link'} state={{ elementName: subject?.name }} to={{ pathname: link }}>
       <MenuItemButton stripped data-testid="editSubjectpageOption">
         <RoundIcon small icon={<Home />} />
         {t('taxonomy.editSubjectpage')}

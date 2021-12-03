@@ -31,7 +31,7 @@ describe('withSession', () => {
   it('correctly injects and updates session state', async () => {
     const history = createMemoryHistory();
     const { container } = render(
-      <Router history={history}>
+      <Router location={history.location} navigator={history}>
         <SessionProvider>
           <TestComponentWithSession />
         </SessionProvider>

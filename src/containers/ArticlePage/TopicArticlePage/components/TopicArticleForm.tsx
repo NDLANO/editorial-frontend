@@ -10,7 +10,6 @@ import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -106,7 +105,7 @@ const getPublishedDate = (
 
 // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
 
-interface Props extends RouteComponentProps {
+interface Props {
   article: Partial<ConvertedDraftType>;
   revision?: number;
   updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
@@ -301,4 +300,4 @@ const TopicArticleForm = (props: Props) => {
   );
 };
 
-export default withRouter(TopicArticleForm);
+export default TopicArticleForm;

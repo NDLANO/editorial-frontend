@@ -1,5 +1,5 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   clearAccessTokenFromLocalStorage,
   getAccessToken,
@@ -73,7 +73,7 @@ export const useSession = (): SessionProps => {
     throw new Error('useSession must be used within a SessionProvider');
   }
   const [session, setSession] = sessionContext;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const setAuthenticated = (authenticated: boolean) => setSession(s => ({ ...s, authenticated }));
   const setUserNotRegistered = (userNotRegistered: boolean) =>
@@ -89,10 +89,10 @@ export const useSession = (): SessionProps => {
       setAuthenticated(true);
       setUserData({ name: decoded?.['https://ndla.no/user_name'], scope: decoded?.scope });
       setAccessTokenInLocalStorage(accessToken, true);
-      history.replace('/');
+      navigate('/', { replace: true });
     } catch (e) {
       console.error(e);
-      history.replace(`${toLogin()}/failure`);
+      navigate(`${toLogin()}/failure`, { replace: true });
     }
   };
 

@@ -10,13 +10,19 @@ import queryString from 'query-string';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MastheadSearchForm from './components/MastheadSearchForm';
 import { toSearch } from '../../util/routeHelpers';
-import { SearchTypeValues } from '../../constants';
 import { parseSearchParams } from '../SearchPage/components/form/SearchForm';
-import { SearchType } from '../../interfaces';
 
 interface Props {
   close: () => void;
 }
+
+const pathToTypeMapping: Record<string, string> = {
+  'image-upload': 'image',
+  'audio-upload': 'audio',
+  concept: 'concept',
+  'podcast-series': 'podcast-series',
+  default: 'content',
+};
 
 const MastheadSearch = ({ close }: Props) => {
   const location = useLocation();
@@ -24,10 +30,8 @@ const MastheadSearch = ({ close }: Props) => {
   const query = queryString.parse(location.search).query;
 
   const onSearchQuerySubmit = (searchQuery: string) => {
-    const type =
-      location.pathname
-        .split('/')
-        .find(pathValue => SearchTypeValues.includes(pathValue as SearchType)) || 'content';
+    const matched = location.pathname.split('/').find(v => !!pathToTypeMapping[v]);
+    const type = matched ? pathToTypeMapping[matched] : pathToTypeMapping.default;
 
     let oldParams;
     if (type === 'content') {

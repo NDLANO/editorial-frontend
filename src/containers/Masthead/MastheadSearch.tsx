@@ -39,12 +39,13 @@ const MastheadSearch = ({ close }: Props) => {
     } else {
       oldParams = queryString.parse(location.search);
     }
+    const sort = type === 'content' || type === 'concept' ? '-lastUpdated' : '-relevance';
 
     const newParams = {
       ...oldParams,
       query: searchQuery || undefined,
       page: 1,
-      sort: '-lastUpdated',
+      sort,
       'page-size': 10,
     };
 

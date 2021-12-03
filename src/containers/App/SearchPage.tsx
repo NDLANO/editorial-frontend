@@ -92,7 +92,7 @@ const SearchPage = () => {
     {
       title: t('subNavigation.searchPodcastSeries'),
       type: 'podcast-series',
-      url: toSearch({ page: '1', sort: '-lastUpdated', 'page-size': 10 }, 'podcast-series'),
+      url: toSearch({ page: '1', sort: '-relevance', 'page-size': 10 }, 'podcast-series'),
       icon: <List className="c-icon--large" />,
       path: 'podcast-series',
       searchHook: useSearchSeries,

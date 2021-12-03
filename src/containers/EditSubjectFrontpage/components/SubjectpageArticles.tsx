@@ -40,11 +40,11 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
   const [resources, setResources] = useState<(DraftApiType | Learningpath)[]>(editorsChoices);
   const subjectId = getSubject(elementId);
 
-  const onAddArticleToList = async (article: MultiSearchSummary) => {
+  const onAddResultToList = async (result: MultiSearchSummary) => {
     try {
-      const f = article.learningResourceType === 'learningpath' ? fetchLearningpath : fetchDraft;
-      const newResource = await f(article.id);
-      const temp = [...resources, { ...newResource, metaImage: article.metaImage }];
+      const f = result.learningResourceType === 'learningpath' ? fetchLearningpath : fetchDraft;
+      const newResource = await f(result.id);
+      const temp = [...resources, { ...newResource, metaImage: result.metaImage }];
       setResources(temp);
       updateFormik(field, temp);
     } catch (e) {
@@ -86,7 +86,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
         //@ts-ignore This is poorly typed.
         selectedElements={resources}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(article: MultiSearchSummary) => onAddArticleToList(article)}
+        onChange={(result: MultiSearchSummary) => onAddResultToList(result)}
         placeholder={t('subjectpageForm.addArticle')}
         subjectId={subjectId}
         clearInputField

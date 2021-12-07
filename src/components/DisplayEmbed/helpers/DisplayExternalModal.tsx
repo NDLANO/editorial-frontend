@@ -1,19 +1,39 @@
-import PropTypes from 'prop-types';
 import VisualElementSearch from '../../../containers/VisualElement/VisualElementSearch';
 import VisualElementModalWrapper from '../../../containers/VisualElement/VisualElementModalWrapper';
+import { Embed } from '../../../interfaces';
 
-const DisplayExternalModal = ({ isEditMode, allowedProvider, onEditEmbed, onClose, type, src }) => {
+interface Props {
+  src: string;
+  type: string;
+  onEditEmbed: (embed: Embed) => void;
+  onClose: () => void;
+  isEditMode: boolean;
+  allowedProvider: {
+    height?: string;
+    name: string;
+    url: string[];
+  };
+}
+const DisplayExternalModal = ({
+  isEditMode,
+  allowedProvider,
+  onEditEmbed,
+  onClose,
+  type,
+  src,
+}: Props) => {
   if (!isEditMode) {
     return null;
   }
   return (
     <VisualElementModalWrapper
-      resource={allowedProvider.name.toLowerCase()}
+      // allowedProvider.name should always be a permitted Embed when editMode is true.
+      resource={allowedProvider.name.toLowerCase() as Embed['resource']}
       isOpen={isEditMode}
       onClose={onClose}>
       {setH5pFetchFail => (
         <VisualElementSearch
-          selectedResource={allowedProvider.name}
+          selectedResource={allowedProvider.name as Embed['resource']}
           selectedResourceUrl={src}
           selectedResourceType={type}
           handleVisualElementChange={onEditEmbed}
@@ -23,19 +43,6 @@ const DisplayExternalModal = ({ isEditMode, allowedProvider, onEditEmbed, onClos
       )}
     </VisualElementModalWrapper>
   );
-};
-
-DisplayExternalModal.propTypes = {
-  src: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  onEditEmbed: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  isEditMode: PropTypes.bool.isRequired,
-  allowedProvider: PropTypes.shape({
-    height: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    url: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }).isRequired,
 };
 
 export default DisplayExternalModal;

@@ -1,3 +1,4 @@
+import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 
 interface AllowListEntry {
@@ -16,7 +17,13 @@ const UrlAllowList = ({ allowList }: Props) => {
 
   const filteredAllowList = allowList.sort(sortEntries);
   return (
-    <table className="c-table">
+    <table
+      className="c-table"
+      css={css`
+        display: table;
+        margin-right: auto !important;
+        margin-left: auto !important;
+      `}>
       <thead>
         <tr>
           <th>{t('form.content.link.name')}</th>

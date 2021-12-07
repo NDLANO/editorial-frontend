@@ -2,6 +2,10 @@ export function createErrorPayload(status: number, messages: string, json: any) 
   throw Object.assign({}, { status, json, messages }, new Error(''));
 }
 
+export const onError = (err: Response & Error) => {
+  createErrorPayload(err.status, err.message ?? err.statusText, err);
+};
+
 export const resolveLocation = (res: Response): Promise<string> => {
   return new Promise((resolve, reject) => {
     const location = res.headers.get('Location');

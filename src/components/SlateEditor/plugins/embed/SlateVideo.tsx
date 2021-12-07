@@ -20,7 +20,7 @@ import SafeLink from '@ndla/safelink';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
 import IconButton from '../../../IconButton';
-import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
+import { fetchBrightcoveVideo } from '../../../../modules/video/brightcoveApi';
 import {
   addBrightCoveTimeStampVideoid,
   getBrightCoveStartTime,
@@ -77,11 +77,8 @@ const SlateVideo = ({
       return;
     }
     const idWithoutTimestamp = embed.videoid?.split('&')[0];
-    visualElementApi
-      .fetchBrightcoveVideo(idWithoutTimestamp)
-      .then((v: { link?: { text: string } }) => {
-        setLinkedVideoId(v.link?.text);
-      });
+
+    fetchBrightcoveVideo(idWithoutTimestamp).then(v => setLinkedVideoId(v.link?.text));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [(embed as BrightcoveEmbed).videoid]);
 

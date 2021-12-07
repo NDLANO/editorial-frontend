@@ -27,7 +27,7 @@ import {
 import { updateSubject } from '../../modules/taxonomy/subjects';
 import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
-import * as visualElementApi from '../VisualElement/visualElementApi';
+import { fetchImage } from '../../modules/image/imageApi';
 import { imageToVisualElement } from '../../util/visualElementHelper';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
@@ -150,10 +150,7 @@ export function useFetchSubjectpageData(
             selectedLanguage,
           );
           const editorsChoices = await fetchElementList(subjectpage.editorsChoices);
-          const banner = await visualElementApi.fetchImage(
-            subjectpage.banner.desktopId,
-            selectedLanguage,
-          );
+          const banner = await fetchImage(subjectpage.banner.desktopId, selectedLanguage);
           setSubjectpage(
             transformSubjectpageFromApiVersion(
               subjectpage,

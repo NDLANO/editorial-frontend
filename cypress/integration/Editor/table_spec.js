@@ -24,7 +24,7 @@ describe('Table plugin', () => {
       .click()
       .clear();
     cy.get('[data-cy=slate-block-picker]').click();
-    cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
+    cy.get('[data-cy="slate-block-picker-menu"]').should('be.visible');
   });
 
   it('all table functions work', () => {

@@ -36,7 +36,6 @@ const slateEditorDivStyle = css`
 `;
 
 interface Props {
-  // value: Descendant[];
   initialValue: Descendant[];
   onChange: (descendant: Descendant[]) => void;
   className?: string;

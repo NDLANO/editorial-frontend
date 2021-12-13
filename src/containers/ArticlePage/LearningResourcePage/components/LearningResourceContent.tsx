@@ -56,7 +56,7 @@ import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
-import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
@@ -140,11 +140,11 @@ type Props = {
   locale: LocaleType;
   article: Partial<ConvertedDraftType>;
   handleBlur: (evt: { target: { name: string } }) => void;
-  values: ArticleFormikType;
+  values: LearningResourceFormikType;
   handleSubmit: () => Promise<void>;
   initialContent: Descendant[];
 } & CustomWithTranslation & {
-    formik: FormikContextType<ArticleFormikType>;
+    formik: FormikContextType<LearningResourceFormikType>;
   } & SessionProps;
 
 const LearningResourceContent = ({

@@ -31,7 +31,7 @@ import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
 import { ConvertedDraftType, Note } from '../../interfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
-import { ArticleFormikType } from './articleFormHooks';
+import { LearningResourceFormikType, TopicArticleFormikType } from './articleFormHooks';
 import { useMessages } from '../Messages/MessagesProvider';
 
 const paddingPanelStyleInside = css`
@@ -47,8 +47,13 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 interface Props {
   articleId: number;
   article: Partial<ConvertedDraftType>;
-  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
-  setValues(values: ArticleFormikType, shouldValidate?: boolean): void;
+  getInitialValues: (
+    article: Partial<ConvertedDraftType>,
+  ) => LearningResourceFormikType | TopicArticleFormikType;
+  setValues(
+    values: LearningResourceFormikType | TopicArticleFormikType,
+    shouldValidate?: boolean,
+  ): void;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
   setContent: (content: Descendant[]) => void;
 }

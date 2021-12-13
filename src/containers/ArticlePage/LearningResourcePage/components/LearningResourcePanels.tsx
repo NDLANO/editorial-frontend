@@ -12,17 +12,17 @@ import LearningResourceContent from './LearningResourceContent';
 import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
-import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
+import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 
 interface Props {
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: (
-    values: ArticleFormikType,
-    formikHelpers: FormikHelpers<ArticleFormikType>,
+    values: LearningResourceFormikType,
+    formikHelpers: FormikHelpers<LearningResourceFormikType>,
   ) => Promise<void>;
   article: Partial<ConvertedDraftType>;
   formIsDirty: boolean;
-  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
+  getInitialValues: (article: Partial<ConvertedDraftType>) => LearningResourceFormikType;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
 }
@@ -39,7 +39,7 @@ const LearningResourcePanels = ({
   const { t, i18n } = useTranslation();
   const { userAccess } = useSession();
   const locale = i18n.language;
-  const formikContext = useFormikContext<ArticleFormikType>();
+  const formikContext = useFormikContext<LearningResourceFormikType>();
   const { values, setValues, errors, handleBlur } = formikContext;
   const [initialContent, setInitialContent] = useState(values.content);
 

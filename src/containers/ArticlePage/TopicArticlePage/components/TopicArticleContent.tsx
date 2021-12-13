@@ -10,6 +10,7 @@ import { useRef, useEffect, RefObject, useMemo, useState } from 'react';
 import { FieldHeader } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'formik';
+import { Descendant } from 'slate';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
@@ -40,11 +41,11 @@ import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
-import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
 import { useSession } from '../../../Session/SessionProvider';
+import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
 
 const byLineStyle = css`
   display: flex;
@@ -101,6 +102,7 @@ interface Props {
   values: TopicArticleFormikType;
   handleBlur: (evt: { target: { name: string } }) => void;
   handleSubmit: () => Promise<void>;
+  initialContent: Descendant[];
 }
 
 const TopicArticleContent = (props: Props) => {
@@ -159,7 +161,7 @@ const TopicArticleContent = (props: Props) => {
             </FieldHeader>
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
-              value={value}
+              initialValue={props.initialContent}
               submitted={isSubmitting}
               plugins={plugins}
               onChange={value => {

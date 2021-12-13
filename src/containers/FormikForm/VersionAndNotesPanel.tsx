@@ -10,6 +10,7 @@ import { useEffect, useState, Fragment } from 'react';
 import { spacing, colors } from '@ndla/core';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
+import { Descendant } from 'slate';
 import Accordion, {
   AccordionWrapper,
   AccordionPanel,
@@ -49,6 +50,7 @@ interface Props {
   getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
   setValues(values: ArticleFormikType, shouldValidate?: boolean): void;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
+  setContent: (content: Descendant[]) => void;
 }
 
 const VersionAndNotesPanel = ({
@@ -57,6 +59,7 @@ const VersionAndNotesPanel = ({
   getInitialValues,
   setValues,
   getArticle,
+  setContent,
 }: Props) => {
   const { t } = useTranslation();
   const [versions, setVersions] = useState<DraftApiType[]>([]);
@@ -116,6 +119,7 @@ const VersionAndNotesPanel = ({
         await transformArticleFromApiVersion({ ...newArticle, status: version.status }, language),
       );
 
+      setContent(newValues.content);
       setValues(newValues);
       createMessage({
         message: t('form.resetToProd.success'),

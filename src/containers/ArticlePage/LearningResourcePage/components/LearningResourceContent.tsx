@@ -56,7 +56,7 @@ import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
-import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
+import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
@@ -140,10 +140,11 @@ type Props = {
   locale: LocaleType;
   article: Partial<ConvertedDraftType>;
   handleBlur: (evt: { target: { name: string } }) => void;
-  values: LearningResourceFormikType;
+  values: ArticleFormikType;
   handleSubmit: () => Promise<void>;
+  initialContent: Descendant[];
 } & CustomWithTranslation & {
-    formik: FormikContextType<LearningResourceFormikType>;
+    formik: FormikContextType<ArticleFormikType>;
   } & SessionProps;
 
 const LearningResourceContent = ({
@@ -153,6 +154,7 @@ const LearningResourceContent = ({
   values: { id, language, creators, published },
   handleSubmit,
   locale,
+  initialContent,
 }: Props) => {
   const handleSubmitRef = useRef(handleSubmit);
 
@@ -206,7 +208,7 @@ const LearningResourceContent = ({
             </FieldHeader>
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
-              value={value}
+              initialValue={initialContent}
               submitted={isSubmitting}
               plugins={plugins(articleLanguage ?? '', locale, handleSubmitRef)}
               data-cy="learning-resource-content"

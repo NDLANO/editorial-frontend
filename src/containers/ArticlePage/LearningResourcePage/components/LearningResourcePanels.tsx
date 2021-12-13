@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -9,19 +10,19 @@ import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
 import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
-import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
+import { ArticleFormikType } from '../../../FormikForm/articleFormHooks';
 
 interface Props {
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: (
-    values: LearningResourceFormikType,
-    formikHelpers: FormikHelpers<LearningResourceFormikType>,
+    values: ArticleFormikType,
+    formikHelpers: FormikHelpers<ArticleFormikType>,
   ) => Promise<void>;
   article: Partial<ConvertedDraftType>;
   formIsDirty: boolean;
-  getInitialValues: (article: Partial<ConvertedDraftType>) => LearningResourceFormikType;
+  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
   updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
 }
@@ -38,8 +39,9 @@ const LearningResourcePanels = ({
   const { t, i18n } = useTranslation();
   const { userAccess } = useSession();
   const locale = i18n.language;
-  const formikContext = useFormikContext<LearningResourceFormikType>();
+  const formikContext = useFormikContext<ArticleFormikType>();
   const { values, setValues, errors, handleBlur } = formikContext;
+  const [initialContent, setInitialContent] = useState(values.content);
 
   const showTaxonomySection = !!values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE);
 
@@ -58,6 +60,7 @@ const LearningResourcePanels = ({
           values={values}
           article={article}
           locale={locale}
+          initialContent={initialContent}
         />
       </AccordionSection>
       {showTaxonomySection && (
@@ -112,6 +115,7 @@ const LearningResourcePanels = ({
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}
+            setContent={setInitialContent}
           />
         </AccordionSection>
       )}

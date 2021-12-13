@@ -36,7 +36,8 @@ const slateEditorDivStyle = css`
 `;
 
 interface Props {
-  value: Descendant[];
+  // value: Descendant[];
+  initialValue: Descendant[];
   onChange: (descendant: Descendant[]) => void;
   className?: string;
   placeholder?: string;
@@ -44,7 +45,14 @@ interface Props {
   submitted: boolean;
 }
 
-const RichTextEditor = ({ className, placeholder, plugins, value, onChange, submitted }: Props) => {
+const RichTextEditor = ({
+  className,
+  placeholder,
+  plugins,
+  initialValue,
+  onChange,
+  submitted,
+}: Props) => {
   const editor = useMemo(
     () => withReact(withHistory(withPlugins(createEditor(), plugins))),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,49 +79,54 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
   }, [editor.mathjaxInitialized, isFirstNormalize]);
 
   useEffect(() => {
-    if (!submitted && prevSubmitted.current) {
-      // Editor data will be updated and normalized. Reset history and other settings.
-      ReactEditor.deselect(editor);
-      editor.children = value;
-      editor.history = { redos: [], undos: [] };
-      editor.mathjaxInitialized = false;
-      window.MathJax?.typesetClear();
-      Editor.normalize(editor, { force: true });
-      ReactEditor.focus(editor);
-      // Try to select previous selection if it exists
-      if (editor.lastSelection) {
-        const edges = Range.edges(editor.lastSelection);
-        if (Editor.hasPath(editor, edges[0].path) && Editor.hasPath(editor, edges[1].path)) {
-          const start = Editor.start(editor, edges[0].path);
-          const end = Editor.end(editor, edges[1].path);
+    if (isFirstNormalize) {
+      return;
+    }
+    ReactEditor.deselect(editor);
+    editor.children = initialValue;
+    editor.history = { redos: [], undos: [] };
+    editor.mathjaxInitialized = false;
+    window.MathJax?.typesetClear();
+    Editor.normalize(editor, { force: true });
+    ReactEditor.focus(editor);
+    // Try to select previous selection if it exists
+    if (editor.lastSelection) {
+      const edges = Range.edges(editor.lastSelection);
+      if (Editor.hasPath(editor, edges[0].path) && Editor.hasPath(editor, edges[1].path)) {
+        const start = Editor.start(editor, edges[0].path);
+        const end = Editor.end(editor, edges[1].path);
 
-          const existingRange = { anchor: start, focus: end };
+        const existingRange = { anchor: start, focus: end };
 
-          if (Range.includes(existingRange, edges[0]) && Range.includes(existingRange, edges[1])) {
-            Transforms.select(editor, editor.lastSelection);
-            editor.lastSelection = undefined;
-            editor.lastSelectedBlock = undefined;
-            prevSubmitted.current = submitted;
-            return;
-          }
-        }
-        // Else: Try to find previous block element and select it.
-      }
-      if (editor.lastSelectedBlock) {
-        const [target] = Editor.nodes(editor, {
-          at: Editor.range(editor, [0]),
-          match: node => {
-            return isEqual(node, editor.lastSelectedBlock);
-          },
-        });
-        if (target) {
-          Transforms.select(editor, target[1]);
-          Transforms.collapse(editor, { edge: 'end' });
+        if (Range.includes(existingRange, edges[0]) && Range.includes(existingRange, edges[1])) {
+          Transforms.select(editor, editor.lastSelection);
+          editor.lastSelection = undefined;
+          editor.lastSelectedBlock = undefined;
+          return;
         }
       }
-      editor.lastSelection = undefined;
-      editor.lastSelectedBlock = undefined;
-    } else if (submitted && !prevSubmitted.current) {
+      // Else: Try to find previous block element and select it.
+    }
+    if (editor.lastSelectedBlock) {
+      const [target] = Editor.nodes(editor, {
+        at: Editor.range(editor, [0]),
+        match: node => {
+          return isEqual(node, editor.lastSelectedBlock);
+        },
+      });
+      if (target) {
+        Transforms.select(editor, target[1]);
+        Transforms.collapse(editor, { edge: 'end' });
+      }
+    }
+    editor.lastSelection = undefined;
+    editor.lastSelectedBlock = undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValue]);
+
+  useEffect(() => {
+    // Editor data will be updated and normalized. Reset history and other settings.
+    if (submitted && !prevSubmitted.current) {
       ReactEditor.deselect(editor);
     }
     prevSubmitted.current = submitted;
@@ -163,7 +176,7 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
     <article>
       <SlateProvider isSubmitted={submitted}>
         <div data-cy="slate-editor" css={slateEditorDivStyle} {...classes()}>
-          <Slate editor={editor} value={value} onChange={onChange}>
+          <Slate editor={editor} value={initialValue} onChange={onChange}>
             {isFirstNormalize ? (
               <Spinner />
             ) : (

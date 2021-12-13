@@ -57,6 +57,7 @@ export interface ArticleFormikType {
   title?: Descendant[];
   introduction?: Descendant[];
   metaDescription?: Descendant[];
+  content: Descendant[];
   agreementId?: number;
   articleType: string;
   status?: DraftStatus;
@@ -82,14 +83,6 @@ export interface ArticleFormikType {
   relatedContent: (DraftApiType | RelatedContent)[];
 }
 
-export interface LearningResourceFormikType extends ArticleFormikType {
-  content: Descendant[];
-}
-
-export interface TopicArticleFormikType extends ArticleFormikType {
-  content: Descendant[];
-}
-
 type HooksInputObject<T> = {
   getInitialValues: (article: Partial<ConvertedDraftType>) => T;
   article: Partial<ConvertedDraftType>;
@@ -110,9 +103,7 @@ type HooksInputObject<T> = {
   isNewlyCreated: boolean;
 };
 
-export function useArticleFormHooks<
-  T extends LearningResourceFormikType | TopicArticleFormikType | ArticleFormikType
->({
+export function useArticleFormHooks<T extends ArticleFormikType>({
   getInitialValues,
   article,
   t,

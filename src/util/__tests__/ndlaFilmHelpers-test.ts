@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+import { IFilmFrontPageData } from '@ndla/types-frontpage-api';
 import { FilmFormikType } from '../../containers/NdlaFilm/components/NdlaFilmForm';
-import { FilmFrontpageApiType } from '../../modules/frontpage/frontpageApiInterfaces';
 import { getInitialValues, getIdFromUrn, getUrnFromId } from '../ndlaFilmHelpers';
 
-const filmFrontPage: FilmFrontpageApiType = {
+const filmFrontPage: IFilmFrontPageData = {
   name: 'Film',
   about: [
     {

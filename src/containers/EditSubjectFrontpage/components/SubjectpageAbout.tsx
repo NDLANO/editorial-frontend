@@ -8,6 +8,7 @@
 import { useEffect, useState } from 'react';
 import { Spinner } from '@ndla/editor';
 import { useTranslation } from 'react-i18next';
+import { Descendant } from 'slate';
 import { FieldProps, useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import VisualElementField from '../../FormikForm/components/VisualElementField';
@@ -41,7 +42,7 @@ const SubjectpageAbout = ({ selectedLanguage }: Props) => {
         name="description"
         showMaxLength
         maxLength={300}>
-        {({ field, form: { isSubmitting } }: FieldProps) => (
+        {({ field, form: { isSubmitting } }: FieldProps<Descendant[]>) => (
           <PlainTextEditor
             id={field.name}
             {...field}

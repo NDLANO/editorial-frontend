@@ -28,8 +28,8 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy=slate-block-picker]').should('exist');
     cy.get('[data-cy=slate-block-picker]').should('be.visible');
     cy.get('[data-cy=slate-block-picker]').click();
-    cy.get('[cy="slate-block-picker-menu"]').should('exist');
-    cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
+    cy.get('[data-cy="slate-block-picker-menu"]').should('exist');
+    cy.get('[data-cy="slate-block-picker-menu"]').should('be.visible');
   });
 
   it('adds and removes factAside', () => {
@@ -102,7 +102,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   it('opens and closes podcast', () => {
     cy.apiroute(
       'GET',
-      '/audio-api/v1/audio/?audio-type=podcast&page=1&query=&page-size=16',
+      '/audio-api/v1/audio/?audio-type=podcast&locale=nb&page=1&page-size=16&query=',
       'editor/audios/podcastList',
     );
     cy.apiroute('GET', '**/audio-api/v1/audio/*?language=nb', 'editor/audios/audio-1');
@@ -117,7 +117,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   it('opens and closes audio', () => {
     cy.apiroute(
       'GET',
-      '/audio-api/v1/audio/?audio-type=standard&page=1&query=&page-size=16',
+      '/audio-api/v1/audio/?audio-type=standard&locale=nb&page=1&page-size=16&query=',
       'editor/audios/audioList',
     );
     cy.apiroute('GET', '**/audio-api/v1/audio/*?language=nb', 'editor/audios/audio-1');

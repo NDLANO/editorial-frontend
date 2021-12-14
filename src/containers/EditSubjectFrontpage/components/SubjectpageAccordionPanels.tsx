@@ -10,14 +10,16 @@ import { FormikErrors } from 'formik';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
-import { ArticleType, FormikProperties } from '../../../interfaces';
+import { FormikProperties } from '../../../interfaces';
 import FormikField from '../../../components/FormikField';
-import { SubjectFormValues } from './SubjectpageForm';
+import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
+import { Learningpath } from '../../../modules/learningpath/learningpathApiInterfaces';
+import { SubjectPageFormikType } from '../../../util/subjectHelpers';
 
 interface Props {
-  editorsChoices: ArticleType[];
+  editorsChoices: (DraftApiType | Learningpath)[];
   elementId: string;
-  errors: FormikErrors<SubjectFormValues>;
+  errors: FormikErrors<SubjectPageFormikType>;
 }
 
 const SubjectpageAccordionPanels = ({ editorsChoices, elementId, errors }: Props) => {

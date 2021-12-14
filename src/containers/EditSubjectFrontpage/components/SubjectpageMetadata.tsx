@@ -15,7 +15,7 @@ import { FormikProperties, ImageEmbed } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';
 
 interface FormikProps {
-  field: FieldProps<ImageEmbed>['field'];
+  field: FieldProps<ImageEmbed | undefined>['field'];
   form: FormikProperties['form'];
 }
 

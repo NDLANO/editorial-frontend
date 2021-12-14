@@ -42,12 +42,23 @@ interface Props {
   onSaveAsMetaImage?: (image: ImageApiType) => void;
 }
 
-interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type'> {
+interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {
   audioType?: string;
+  pageSize?: number;
 }
 
-const searchAudios = (query: LocalAudioSearchParams) =>
-  searchAudio({ ...query, 'audio-type': query.audioType, 'page-size': 16 });
+const searchAudios = (query: LocalAudioSearchParams) => {
+  // AudioSearch passes values that are not accepted by the API. They must be altered to have the correct key.
+  const audioType = query.audioType;
+  delete query.audioType;
+  delete query.pageSize;
+  const correctQuery: AudioSearchParams = {
+    ...query,
+    'page-size': 16,
+    'audio-type': audioType,
+  };
+  return searchAudio(correctQuery);
+};
 
 const VisualElementSearch = ({
   selectedResource,

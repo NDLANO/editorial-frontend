@@ -94,6 +94,9 @@ const Html = (props: Props) => {
           dangerouslySetInnerHTML={{
             __html: `
               MathJax = {
+                chtml:{
+                  mathmlSpacing: false
+                },
                 options: {
                   renderActions: {
                     addMenu: [],
@@ -112,7 +115,7 @@ const Html = (props: Props) => {
         <script
           type="text/javascript"
           defer
-          src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/mml-chtml.js"
+          src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/mml-chtml.js"
         />
       </body>
     </html>

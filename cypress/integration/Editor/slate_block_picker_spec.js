@@ -28,8 +28,8 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
     cy.get('[data-cy=slate-block-picker]').should('exist');
     cy.get('[data-cy=slate-block-picker]').should('be.visible');
     cy.get('[data-cy=slate-block-picker]').click();
-    cy.get('[cy="slate-block-picker-menu"]').should('exist');
-    cy.get('[cy="slate-block-picker-menu"]').should('be.visible');
+    cy.get('[data-cy="slate-block-picker-menu"]').should('exist');
+    cy.get('[data-cy="slate-block-picker-menu"]').should('be.visible');
   });
 
   it('adds and removes factAside', () => {

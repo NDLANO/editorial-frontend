@@ -585,9 +585,9 @@ const phrases = {
       coverPhotoId: 'Metabilde',
     },
     previewProductionArticle: {
-      button: 'Samanlikn utkast og artikkel',
-      article: 'Publisert versjon',
-      draft: 'Utkast',
+      button: 'Samanlikn gjeldande versjon med gamal versjon',
+      version: 'Versjon {{revision}}',
+      current: 'Gjeldende versjon',
     },
     previewLanguageArticle: {
       button: 'Samanlikn språkversjonar',

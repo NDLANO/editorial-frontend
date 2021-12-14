@@ -110,7 +110,7 @@
     "@ndla/button": "1.0.6",
     "@ndla/carousel": "1.0.6",
     "@ndla/code": "1.0.12",
-    "@ndla/editor": "1.1.5",
+    "@ndla/editor": "^1.1.6",
     "@ndla/error-reporter": "^1.0.5",
     "@ndla/forms": "1.0.29",
     "@ndla/howto": "1.1.14",

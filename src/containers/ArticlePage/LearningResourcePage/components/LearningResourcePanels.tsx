@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { FormikHelpers, useFormikContext } from 'formik';
@@ -40,8 +39,7 @@ const LearningResourcePanels = ({
   const { userAccess } = useSession();
   const locale = i18n.language;
   const formikContext = useFormikContext<LearningResourceFormikType>();
-  const { values, setValues, errors, handleBlur } = formikContext;
-  const [initialContent, setInitialContent] = useState(values.content);
+  const { values, setValues, errors, handleBlur, setStatus } = formikContext;
 
   const showTaxonomySection = !!values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE);
 
@@ -60,7 +58,6 @@ const LearningResourcePanels = ({
           values={values}
           article={article}
           locale={locale}
-          initialContent={initialContent}
         />
       </AccordionSection>
       {showTaxonomySection && (
@@ -115,7 +112,7 @@ const LearningResourcePanels = ({
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}
-            setContent={setInitialContent}
+            setStatus={setStatus}
           />
         </AccordionSection>
       )}

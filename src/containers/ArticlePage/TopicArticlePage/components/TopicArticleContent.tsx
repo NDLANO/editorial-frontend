@@ -10,7 +10,6 @@ import { useRef, useEffect, RefObject, useMemo, useState } from 'react';
 import { FieldHeader } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'formik';
-import { Descendant } from 'slate';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
@@ -102,7 +101,6 @@ interface Props {
   values: TopicArticleFormikType;
   handleBlur: (evt: { target: { name: string } }) => void;
   handleSubmit: () => Promise<void>;
-  initialContent: Descendant[];
 }
 
 const TopicArticleContent = (props: Props) => {
@@ -161,7 +159,7 @@ const TopicArticleContent = (props: Props) => {
             </FieldHeader>
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
-              initialValue={props.initialContent}
+              value={value}
               submitted={isSubmitting}
               plugins={plugins}
               onChange={value => {

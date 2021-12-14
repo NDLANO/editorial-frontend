@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
@@ -37,8 +36,7 @@ const TopicArticleAccordionPanels = ({
   const locale = i18n.language;
   const { userAccess } = useSession();
   const formikContext = useFormikContext<TopicArticleFormikType>();
-  const { values, handleBlur, errors, setValues } = formikContext;
-  const [initialContent, setInitialContent] = useState(values.content);
+  const { values, handleBlur, errors, setValues, setStatus } = formikContext;
 
   return (
     <Accordions>
@@ -48,12 +46,7 @@ const TopicArticleAccordionPanels = ({
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
         startOpen>
-        <TopicArticleContent
-          handleSubmit={handleSubmit}
-          handleBlur={handleBlur}
-          values={values}
-          initialContent={initialContent}
-        />
+        <TopicArticleContent handleSubmit={handleSubmit} handleBlur={handleBlur} values={values} />
       </AccordionSection>
       {values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
         <AccordionSection
@@ -107,7 +100,7 @@ const TopicArticleAccordionPanels = ({
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}
-            setContent={setInitialContent}
+            setStatus={setStatus}
           />
         </AccordionSection>
       )}

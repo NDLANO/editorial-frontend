@@ -40,7 +40,6 @@ import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concep
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
-// import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 
 import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
@@ -142,7 +141,6 @@ type Props = {
   handleBlur: (evt: { target: { name: string } }) => void;
   values: LearningResourceFormikType;
   handleSubmit: () => Promise<void>;
-  initialContent: Descendant[];
 } & CustomWithTranslation & {
     formik: FormikContextType<LearningResourceFormikType>;
   } & SessionProps;
@@ -154,7 +152,6 @@ const LearningResourceContent = ({
   values: { id, language, creators, published },
   handleSubmit,
   locale,
-  initialContent,
 }: Props) => {
   const handleSubmitRef = useRef(handleSubmit);
 
@@ -208,7 +205,7 @@ const LearningResourceContent = ({
             </FieldHeader>
             <RichTextEditor
               placeholder={t('form.content.placeholder')}
-              initialValue={initialContent}
+              value={value}
               submitted={isSubmitting}
               plugins={plugins(articleLanguage ?? '', locale, handleSubmitRef)}
               data-cy="learning-resource-content"

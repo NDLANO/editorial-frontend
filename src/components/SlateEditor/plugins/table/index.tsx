@@ -113,7 +113,7 @@ export const tableSerializer: SlateSerializer = {
       isHeader: tagName === 'th',
     };
     if (tagName === 'th' || tagName === 'td') {
-      const filter = ['rowspan', 'colspan', 'align', 'valign', 'class', 'scope', 'id'];
+      const filter = ['rowspan', 'colspan', 'align', 'valign', 'class', 'scope', 'id', 'headers'];
       const attrs = reduceElementDataAttributes(el, filter);
       const colspan = attrs.colspan && parseInt(attrs.colspan);
       const rowspan = attrs.rowspan && parseInt(attrs.rowspan);

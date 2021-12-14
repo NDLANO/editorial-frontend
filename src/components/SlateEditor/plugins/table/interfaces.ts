@@ -36,6 +36,7 @@ export interface TableCellElement {
     align?: string;
     valign?: string;
     class?: string;
+    headers?: string;
     isHeader: boolean;
     scope?: 'row' | 'col';
   };

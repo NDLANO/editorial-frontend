@@ -144,7 +144,6 @@ export const learningResourceContentToEditorValue = (html?: string): Descendant[
   };
 
   const document = new DOMParser().parseFromString(html, 'text/html');
-
   const nodes = toArray(document.body.children).map(deserialize);
   const normalizedNodes = compact(nodes.map(n => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
   return normalizedNodes;

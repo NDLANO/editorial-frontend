@@ -172,8 +172,8 @@ const normalizeRow = (
                 },
               },
               {
-                at: [...tableBodyPath, rowIndex, index],
-                match: isTableCell,
+                at: [...tableBodyPath, rowIndex],
+                match: node => node === cell,
                 mode: 'lowest',
               },
             );
@@ -181,7 +181,7 @@ const normalizeRow = (
           }
         } else {
           // ii. If table does not have rowHeaders
-          //     Make sure cells in header has scope=undefined and isHeader=true
+          // Make sure cells in header has scope=undefined and isHeader=true
           if (cell.data.scope || !cell.data.isHeader) {
             Transforms.setNodes(
               editor,
@@ -194,8 +194,8 @@ const normalizeRow = (
                 },
               },
               {
-                at: [...tableBodyPath, rowIndex, index],
-                match: isTableCell,
+                at: [...tableBodyPath, rowIndex],
+                match: node => node === cell,
                 mode: 'lowest',
               },
             );
@@ -219,7 +219,8 @@ const normalizeRow = (
                 },
               },
               {
-                at: [...tableBodyPath, rowIndex, 0],
+                at: [...tableBodyPath, rowIndex],
+                match: node => node === cell,
               },
             );
             return true;
@@ -240,7 +241,8 @@ const normalizeRow = (
                 },
               },
               {
-                at: [...tableBodyPath, rowIndex, index],
+                at: [...tableBodyPath, rowIndex],
+                match: node => node === cell,
               },
             );
             return true;

@@ -7,6 +7,7 @@
 
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { IMovieTheme } from '@ndla/types-frontpage-api';
 import Button from '@ndla/button';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
 import styled from '@emotion/styled';
@@ -19,11 +20,10 @@ import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import ThemeNameModal from './ThemeNameModal';
 import { findName, convertThemeNames, changeThemeNames } from '../../../util/ndlaFilmHelpers';
 import { ThemeMovies } from './ThemeMovies';
-import { MovieThemeApiType } from '../../../modules/frontpage/frontpageApiInterfaces';
 import { LocaleType } from '../../../interfaces';
 
 interface Props {
-  field: FieldProps<MovieThemeApiType[]>['field'];
+  field: FieldProps<IMovieTheme[]>['field'];
   form: FormikHelpers<FormikValues>;
   onUpdateMovieTheme: Function;
   selectedLanguage: string;
@@ -61,7 +61,7 @@ const ThemeEditor = ({ field, form, onUpdateMovieTheme, selectedLanguage }: Prop
     }
   };
 
-  const rearrangeTheme = (themes: MovieThemeApiType[], index: number, desiredNewIndex: number) => {
+  const rearrangeTheme = (themes: IMovieTheme[], index: number, desiredNewIndex: number) => {
     return themes.map((theme, i) => {
       if (i === index) {
         return themes[desiredNewIndex];

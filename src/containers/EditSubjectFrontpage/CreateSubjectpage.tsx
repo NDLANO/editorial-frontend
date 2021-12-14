@@ -6,8 +6,9 @@
  */
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { LocaleType, SubjectpageEditType } from '../../interfaces';
+import { INewSubjectFrontPageData } from '@ndla/types-frontpage-api';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { LocaleType } from '../../interfaces';
 import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import { toEditSubjectpage } from '../../util/routeHelpers';
@@ -18,11 +19,11 @@ const CreateSubjectpage = () => {
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const elementId = params.elementId!;
   const location = useLocation();
-  const elementName = location.state?.elementName;
+  const elementName: string | undefined = location?.state?.elementName;
   const navigate = useNavigate();
   const { createSubjectpage } = useFetchSubjectpageData(elementId, selectedLanguage, undefined);
 
-  const createSubjectpageAndPushRoute = async (createdSubjectpage: SubjectpageEditType) => {
+  const createSubjectpageAndPushRoute = async (createdSubjectpage: INewSubjectFrontPageData) => {
     const savedSubjectpage = await createSubjectpage(createdSubjectpage);
     const savedId = savedSubjectpage?.id;
     if (savedId) {
@@ -35,9 +36,9 @@ const CreateSubjectpage = () => {
     <>
       <HelmetWithTracker title={t('htmlTitles.createSubjectpage')} />
       <SubjectpageForm
-        subjectpage={{ language: selectedLanguage, name: elementName }}
         selectedLanguage={selectedLanguage}
-        updateSubjectpage={createSubjectpageAndPushRoute}
+        elementName={elementName}
+        createSubjectpage={createSubjectpageAndPushRoute}
         elementId={elementId}
         isNewlyCreated={false}
       />

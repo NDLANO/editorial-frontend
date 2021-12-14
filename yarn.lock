@@ -2172,6 +2172,11 @@
   dependencies:
     warning "^4.0.3"
 
+"@ndla/types-frontpage-api@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ndla/types-frontpage-api/-/types-frontpage-api-0.0.3.tgz#31e6b1dba0b8a215c06b2918f34cfb0385192b0e"
+  integrity sha512-1sAwf7TyjAElbzvWjfLw1PI4pG9HQ+KArMNY8shDZnY3GiASko2GsJUxbTX/ryU85iTwkA9dPPR+Zuo6C9o9DA==
+
 "@ndla/ui@3.0.11", "@ndla/ui@^3.0.11":
   version "3.0.11"
   resolved "https://registry.yarnpkg.com/@ndla/ui/-/ui-3.0.11.tgz#2c34c58c7e0b50e3ebc5bd41c338c43674dcb506"

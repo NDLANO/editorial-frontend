@@ -6,16 +6,14 @@
  */
 
 import { useState } from 'react';
-import { Descendant, Element } from 'slate';
+import { Element } from 'slate';
 import { Formik, Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import {
-  SubjectpageEditType,
-  SubjectpageType,
-  Embed,
-  ArticleType,
-  SubjectpageApiType,
-} from '../../../interfaces';
+  ISubjectPageData,
+  INewSubjectFrontPageData,
+  IUpdatedSubjectFrontPageData,
+} from '@ndla/types-frontpage-api';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
@@ -24,40 +22,38 @@ import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
-import { useSubjectpageFormHooks } from '../../FormikForm/subjectpageFormHooks';
-import {
-  editorValueToPlainText,
-  plainTextToEditorValue,
-  embedToEditorValue,
-  editorValueToEmbed,
-} from '../../../util/articleContentConverter';
 import SaveButton from '../../../components/SaveButton';
+import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
+import { Learningpath } from '../../../modules/learningpath/learningpathApiInterfaces';
+import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
+import {
+  subjectpageApiTypeToFormikType,
+  SubjectPageFormikType,
+  subjectpageFormikTypeToPatchType,
+  subjectpageFormikTypeToPostType,
+} from '../../../util/subjectHelpers';
+import { useMessages } from '../../Messages/MessagesProvider';
+import { formatErrorMessage } from '../../../util/apiHelpers';
+import { queryLearningPathResource, queryResources, queryTopics } from '../../../modules/taxonomy';
+import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
 
 interface Props {
-  subjectpage: SubjectpageEditType;
-  updateSubjectpage: (
-    updatedSubjectpage: SubjectpageEditType,
-  ) => Promise<SubjectpageApiType | null>;
+  subjectpage?: ISubjectPageData;
+  editorsChoices?: (DraftApiType | Learningpath)[];
+  banner?: ImageApiType;
+  elementName?: string;
+  createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
+  updateSubjectpage?: (
+    id: string | number,
+    subjectpage: IUpdatedSubjectFrontPageData,
+  ) => Promise<ISubjectPageData>;
   selectedLanguage: string;
   elementId: string;
   isNewlyCreated: boolean;
 }
-export interface SubjectFormValues
-  extends Omit<SubjectpageType, 'description' | 'metaDescription'> {
-  visualElement: Descendant[];
-  articleType: string;
-  description?: Descendant[];
-  metaDescription?: Descendant[];
-  desktopBanner?: Embed;
-  editorsChoices: ArticleType[];
-  language: string;
-  mobileBanner?: number;
-  elementId?: string;
-  title: Descendant[];
-}
 
-const subjectpageRules: RulesType<SubjectFormValues> = {
+const subjectpageRules: RulesType<SubjectPageFormikType> = {
   title: {
     required: true,
   },
@@ -67,7 +63,7 @@ const subjectpageRules: RulesType<SubjectFormValues> = {
   },
   visualElement: {
     required: true,
-    test: (values: SubjectFormValues) => {
+    test: (values: SubjectPageFormikType) => {
       const element = values?.visualElement[0];
       const data = Element.isElement(element) && element.type === TYPE_EMBED && element.data;
       const badVisualElementId = data && 'resource_id' in data && data.resource_id === '';
@@ -85,80 +81,70 @@ const subjectpageRules: RulesType<SubjectFormValues> = {
   },
 };
 
-const getInitialValues = (
-  subjectpage: SubjectpageEditType,
-  elementId: string,
-  selectedLanguage: string,
-): SubjectFormValues => {
-  return {
-    articleType: elementId.includes('subject') ? 'subjectpage' : 'filter',
-    supportedLanguages: subjectpage.supportedLanguages || [],
-    language: selectedLanguage,
-    description: plainTextToEditorValue(subjectpage.description || ''),
-    title: plainTextToEditorValue(subjectpage.title || ''),
-    mobileBanner: subjectpage.mobileBanner || undefined,
-    desktopBanner: subjectpage.desktopBanner || undefined,
-    visualElement: embedToEditorValue(subjectpage.visualElement),
-    editorsChoices: subjectpage.editorsChoices || [],
-    facebook: subjectpage.facebook || '',
-    filters: subjectpage.filters || [],
-    goTo: subjectpage.goTo || [],
-    id: subjectpage.id,
-    latestContent: subjectpage.latestContent || [],
-    layout: subjectpage.layout || 'single',
-    metaDescription: plainTextToEditorValue(subjectpage.metaDescription || ''),
-    mostRead: subjectpage.mostRead || [],
-    name: subjectpage.name || '',
-    topical: subjectpage.topical || '',
-    twitter: subjectpage.twitter || '',
-    elementId: elementId,
-  };
-};
-
-const getSubjectpageFromSlate = (values: SubjectFormValues) => {
-  return {
-    articleType: 'subjectpage',
-    supportedLanguages: values.supportedLanguages,
-    description: values.description ? editorValueToPlainText(values.description) : '',
-    title: editorValueToPlainText(values.title),
-    visualElement: editorValueToEmbed(values.visualElement),
-    language: values.language,
-    mobileBanner: values.mobileBanner,
-    desktopBanner: values.desktopBanner,
-    editorsChoices: values.editorsChoices,
-    facebook: values.facebook,
-    filters: values.filters,
-    goTo: values.goTo,
-    id: values.id,
-    latestContent: values.latestContent,
-    layout: values.layout,
-    metaDescription: values.metaDescription ? editorValueToPlainText(values.metaDescription) : '',
-    mostRead: values.mostRead,
-    name: values.name,
-    topical: values.topical,
-    twitter: values.twitter,
-  };
-};
-
 const SubjectpageForm = ({
   elementId,
+  elementName,
   subjectpage,
   selectedLanguage,
   updateSubjectpage,
+  createSubjectpage,
   isNewlyCreated,
+  editorsChoices,
+  banner,
 }: Props) => {
   const { t } = useTranslation();
-  const { savedToServer, handleSubmit, initialValues } = useSubjectpageFormHooks(
-    getSubjectpageFromSlate,
-    t,
-    updateSubjectpage,
+  const [savedToServer, setSavedToServer] = useState(false);
+  const { createMessage, applicationError } = useMessages();
+  const initialValues = subjectpageApiTypeToFormikType(
     subjectpage,
-    getInitialValues,
-    selectedLanguage,
+    elementName,
     elementId,
+    selectedLanguage,
+    editorsChoices,
+    banner,
   );
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
+
+  const fetchTaxonomyUrns = async (choices: (DraftApiType | Learningpath)[], language: string) => {
+    const fetched = await Promise.all<Topic[] | Learningpath[] | Resource[]>(
+      choices.map(choice => {
+        if ('articleType' in choice && choice.articleType === 'topic-article') {
+          return queryTopics(choice.id.toString(), language);
+        } else if ('learningsteps' in choice && typeof choice.id === 'number') {
+          return queryLearningPathResource(choice.id);
+        }
+        return queryResources(choice.id.toString(), language);
+      }),
+    );
+
+    return fetched.map(resource => resource?.[0]?.id?.toString()).filter(e => e !== undefined);
+  };
+
+  const handleSubmit = async (formik: FormikProps<SubjectPageFormikType>) => {
+    const { setSubmitting, values, validateForm } = formik;
+    setSubmitting(true);
+    const urns = await fetchTaxonomyUrns(values.editorsChoices, selectedLanguage);
+    try {
+      if (values.id) {
+        await updateSubjectpage?.(values.id, subjectpageFormikTypeToPatchType(values, urns));
+      } else {
+        await createSubjectpage?.(subjectpageFormikTypeToPostType(values, urns));
+      }
+      setSavedToServer(true);
+    } catch (err) {
+      if (err?.status === 409) {
+        createMessage({ message: t('alertModal.needToRefresh'), timeToLive: 0 });
+      } else if (err?.json?.messages) {
+        createMessage(formatErrorMessage(err));
+      } else {
+        applicationError(err);
+      }
+      setSubmitting(false);
+      setSavedToServer(false);
+    }
+    await validateForm();
+  };
 
   const initialErrors = validateFormik(initialValues, subjectpageRules, t);
 
@@ -167,8 +153,9 @@ const SubjectpageForm = ({
       initialValues={initialValues}
       initialErrors={initialErrors}
       onSubmit={() => {}}
+      enableReinitialize
       validate={values => validateFormik(values, subjectpageRules, t)}>
-      {(formik: FormikProps<SubjectFormValues>) => {
+      {(formik: FormikProps<SubjectPageFormikType>) => {
         const { values, dirty, isSubmitting, errors, isValid } = formik;
 
         const formIsDirty: boolean = isFormikFormDirty({
@@ -182,14 +169,14 @@ const SubjectpageForm = ({
             <SimpleLanguageHeader
               articleType={values.articleType!}
               editUrl={(lang: string) => toEditSubjectpage(values.elementId!, lang, values.id)}
-              id={parseInt(values.id!)}
+              id={values.id!}
               isSubmitting={isSubmitting}
               language={values.language}
               supportedLanguages={values.supportedLanguages!}
-              title={values.name}
+              title={elementName ?? values.name ?? ''}
             />
             <SubjectpageAccordionPanels
-              editorsChoices={values.editorsChoices!}
+              editorsChoices={values.editorsChoices}
               elementId={values.elementId!}
               errors={errors}
             />

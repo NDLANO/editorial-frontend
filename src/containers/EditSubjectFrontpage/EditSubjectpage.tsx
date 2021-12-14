@@ -23,11 +23,14 @@ const EditSubjectpage = ({ isNewlyCreated }: Props) => {
   const { elementId, subjectpageId, selectedLanguage } = useParams<
     'elementId' | 'subjectpageId' | 'selectedLanguage'
   >();
-  const { loading, subjectpage, updateSubjectpage, error } = useFetchSubjectpageData(
-    elementId!,
-    selectedLanguage as LocaleType,
-    subjectpageId,
-  );
+  const {
+    loading,
+    subjectpage,
+    updateSubjectpage,
+    error,
+    editorsChoices,
+    banner,
+  } = useFetchSubjectpageData(elementId!, selectedLanguage as LocaleType, subjectpageId);
 
   if (error !== undefined) {
     return <NotFoundPage />;
@@ -39,8 +42,10 @@ const EditSubjectpage = ({ isNewlyCreated }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={`${subjectpage.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${subjectpage?.about?.title} ${t('htmlTitles.titleTemplate')}`} />
       <SubjectpageForm
+        editorsChoices={editorsChoices}
+        banner={banner}
         elementId={elementId!}
         subjectpage={subjectpage}
         selectedLanguage={selectedLanguage!}

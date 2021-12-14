@@ -15,7 +15,7 @@ import SubjectpageBannerImage from './SubjectpageBannerImage';
 import Lightbox from '../../../components/Lightbox';
 
 interface Props {
-  field: FieldProps<ImageEmbed>['field'];
+  field: FieldProps<ImageEmbed | undefined>['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
   };
@@ -32,13 +32,8 @@ const SubjectpageBanner = ({ field, form, title }: Props) => {
   };
 
   const updateFormik = (value?: ImageEmbed) => {
+    field.onChange({ target: { name: field.name, value: value } });
     form.setFieldTouched(field.name, true, false);
-    field.onChange({
-      target: {
-        name: field.name,
-        value: value || null,
-      },
-    });
   };
 
   const onImageSelectClose = () => {

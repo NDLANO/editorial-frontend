@@ -1070,7 +1070,6 @@ const phrases = {
         concept: 'Bruk av forklaringen i artikler',
         article: 'Bruk av artikkelen i andre artikler',
       },
-      notInUse: 'Fant ingen artikler eller forklaringer som bruker {{resource}}',
       articles: '{{count}} artikkel',
       articles_plural: '{{count}} artikler',
       concepts: '1 forklaring',

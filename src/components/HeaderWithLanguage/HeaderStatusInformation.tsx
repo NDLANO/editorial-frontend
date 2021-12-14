@@ -167,13 +167,10 @@ const HeaderStatusInformation = ({
         {articleConnections}
         {conceptConnecions}
         {learningpathConnections}
-      </Splitter>
-      <Splitter disableSplitter={indentLeft}>
         {published &&
           (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
       </Splitter>
-      {imageConnections}
     </>
   );
 

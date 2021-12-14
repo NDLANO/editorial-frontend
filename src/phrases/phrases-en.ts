@@ -1069,7 +1069,6 @@ const phrases = {
         concept: 'Uses of the concept in articles',
         article: 'Uses of the article in other articles',
       },
-      notInUse: 'No uses of the {{resource}} in articles and/or concepts were found',
       articles: '1 article',
       articles_plural: '{{count}} articles',
       concepts: '1 concept',

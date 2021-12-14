@@ -443,12 +443,11 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
             Transforms.insertNodes(
               editor,
               {
-                type: TYPE_TABLE_CELL,
+                ...defaultTableCellBlock(),
                 data: {
                   ...cell.data,
                   rowspan: 1,
                 },
-                children: [defaultParagraphBlock()],
               },
               {
                 at: [...newRowPath, rowsInserted],
@@ -517,12 +516,11 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
             Transforms.insertNodes(
               editor,
               {
-                type: TYPE_TABLE_CELL,
+                ...defaultTableCellBlock(),
                 data: {
                   ...cell.data,
                   colspan: 1,
                 },
-                children: [defaultParagraphBlock()],
               },
               { at: Path.next(ReactEditor.findPath(editor, cell)) },
             );

@@ -107,7 +107,6 @@ type HooksInputObject<T> = {
     initialValues: T;
     preview: boolean;
   }) => UpdatedDraftApiType;
-  isNewlyCreated: boolean;
 };
 
 export function useArticleFormHooks<
@@ -120,13 +119,11 @@ export function useArticleFormHooks<
   updateArticle,
   updateArticleAndStatus,
   getArticleFromSlate,
-  isNewlyCreated = false,
 }: HooksInputObject<T>) {
   const { id, revision, language } = article;
   const formikRef: any = useRef<any>(null); // TODO: Formik bruker any for denne ref'en men kanskje vi skulle gjort noe kulere?
   const { createMessage, applicationError } = useMessages();
   const [savedToServer, setSavedToServer] = useState(false);
-  const [saveAsNewVersion, setSaveAsNewVersion] = useState(isNewlyCreated);
   const initialValues = getInitialValues(article);
 
   useEffect(() => {
@@ -138,7 +135,11 @@ export function useArticleFormHooks<
     }
   }, [language, id]);
 
-  const handleSubmit = async (values: T, formikHelpers: FormikHelpers<T>): Promise<void> => {
+  const handleSubmit = async (
+    values: T,
+    formikHelpers: FormikHelpers<T>,
+    saveAsNew = false,
+  ): Promise<void> => {
     formikHelpers.setSubmitting(true);
     const initialStatus = articleStatus ? articleStatus.current : undefined;
     const newStatus = values.status?.current;
@@ -149,9 +150,7 @@ export function useArticleFormHooks<
       preview: false,
     });
 
-    const newArticle = saveAsNewVersion
-      ? { ...slateArticle, createNewVersion: true }
-      : slateArticle;
+    const newArticle = saveAsNew ? { ...slateArticle, createNewVersion: true } : slateArticle;
 
     let savedArticle: ConvertedDraftType;
     try {
@@ -210,7 +209,6 @@ export function useArticleFormHooks<
     savedToServer,
     formikRef,
     initialValues,
-    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,

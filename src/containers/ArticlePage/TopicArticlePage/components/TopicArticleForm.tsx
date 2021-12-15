@@ -192,7 +192,6 @@ const TopicArticleForm = (props: Props) => {
     savedToServer,
     formikRef,
     initialValues,
-    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
@@ -206,7 +205,6 @@ const TopicArticleForm = (props: Props) => {
     updateArticleAndStatus,
     licenses,
     getArticleFromSlate,
-    isNewlyCreated,
   });
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
@@ -258,8 +256,7 @@ const TopicArticleForm = (props: Props) => {
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={saveAsNewVersion => {
-            setSaveAsNewVersion(saveAsNewVersion ?? false);
-            handleSubmit(values, formik);
+            handleSubmit(values, formik, saveAsNewVersion ?? false);
           }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}

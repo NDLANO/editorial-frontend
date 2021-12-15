@@ -378,6 +378,32 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
             );
           }
         }
+        // If tableBody does not exist. Insert it with rows matching the end of tableHead
+      } else {
+        const headerMatrix = getTableBodyAsMatrix(editor, tableHeadPath);
+        if (headerMatrix) {
+          const lastHeadRow = [...new Set(headerMatrix[headerMatrix.length - 1])];
+          return Transforms.insertNodes(
+            editor,
+            {
+              ...defaultTableBodyBlock(0, 0),
+              children: [
+                {
+                  ...defaultTableRowBlock(0),
+                  children: lastHeadRow.map((cell, index) => ({
+                    ...defaultTableCellBlock(),
+                    data: {
+                      ...cell.data,
+                      isHeader: index === 0 && tableElement.rowHeaders,
+                      rowspan: 1,
+                    },
+                  })),
+                },
+              ],
+            },
+            { at: Path.next(tableHeadPath) },
+          );
+        }
       }
       return;
     }

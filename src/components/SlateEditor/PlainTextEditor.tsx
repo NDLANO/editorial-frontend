@@ -39,8 +39,7 @@ const PlainTextEditor = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
-  const formikContext = useFormikContext<LearningResourceFormikType>();
-  const { status, setStatus } = formikContext;
+  const { status, setStatus } = useFormikContext<LearningResourceFormikType>();
 
   useEffect(() => {
     if (status === 'revertVersion') {

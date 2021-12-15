@@ -55,8 +55,7 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
   const prevSubmitted = useRef(submitted);
 
-  const formikContext = useFormikContext<LearningResourceFormikType>();
-  const { status, setStatus } = formikContext;
+  const { status, setStatus } = useFormikContext<LearningResourceFormikType>();
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });

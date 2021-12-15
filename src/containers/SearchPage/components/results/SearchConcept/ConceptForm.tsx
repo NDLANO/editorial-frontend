@@ -21,7 +21,7 @@ import { InputField, InputPair } from './SearchStyles';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ConceptStatusType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
-import { useLicenses } from '../../../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../../../modules/draft/draftQueries';
 
 export interface InlineFormConcept {
   title: string;
@@ -64,7 +64,7 @@ const validate = (values: InlineFormConcept): ErrorsType => {
 
 const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, cancel }: Props) => {
   const { t } = useTranslation();
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
   const formik = useFormik<InlineFormConcept>({
     initialValues,
     validate,
@@ -76,7 +76,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
   }, [initialValues]); // eslint-disable-line react-hooks/exhaustive-deps
   const hasChanges = !isEqual(initialValues, values);
 
-  const licensesWithTranslations = getLicensesWithTranslations(licenses, language);
+  const licensesWithTranslations = getLicensesWithTranslations(licenses!, language);
 
   return (
     <form>

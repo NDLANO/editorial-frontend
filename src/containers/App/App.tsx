@@ -24,7 +24,6 @@ import Zendesk from './Zendesk';
 import config from '../../config';
 import { MessagesProvider, useMessages } from '../Messages/MessagesProvider';
 import Messages from '../Messages/Messages';
-import { LicensesProvider } from '../Licenses/LicensesProvider';
 import { getSessionStateFromLocalStorage, SessionProvider } from '../Session/SessionProvider';
 const Login = loadable(() => import('../Login/Login'));
 const Logout = loadable(() => import('../Logout/Logout'));
@@ -67,56 +66,51 @@ const App = ({ isClient }: Props) => {
   return (
     <ErrorBoundary>
       <MessagesProvider>
-        <LicensesProvider>
-          <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
-            <AuthInitializer>
-              <PageContainer background>
-                <Zendesk />
-                <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
-                <Content>
-                  <Navigation />
-                  <Routes>
-                    <Route path="/" element={<WelcomePage />} />
-                    <Route path="login/*" element={<Login />} />
-                    <Route path="logout/*" element={<Logout />} />
-                    <Route
-                      path="/subjectpage/*"
-                      element={<PrivateRoute component={<Subjectpage />} />}
-                    />
-                    <Route path="search/*" element={<PrivateRoute component={<SearchPage />} />} />
-                    <Route
-                      path="subject-matter/*"
-                      element={<PrivateRoute component={<SubjectMatterPage />} />}
-                    />
-                    <Route
-                      path="/edit-markup/:draftId/:language/*"
-                      element={<PrivateRoute component={<EditMarkupPage />} />}
-                    />
-                    <Route
-                      path="/concept/*"
-                      element={<PrivateRoute component={<ConceptPage />} />}
-                    />
-                    <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
-                    <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
-                    <Route
-                      path="/agreement/*"
-                      element={<PrivateRoute component={<AgreementPage />} />}
-                    />
-                    <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
-                    <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
-                    <Route
-                      path="/structure/*"
-                      element={<PrivateRoute component={<StructurePage />} />}
-                    />
-                    <Route path="/forbidden" element={<ForbiddenPage />} />
-                    <Route path="*" element={<NotFoundPage />} />
-                  </Routes>
-                </Content>
-                <Messages />
-              </PageContainer>
-            </AuthInitializer>
-          </SessionProvider>
-        </LicensesProvider>
+        <SessionProvider initialValue={getSessionStateFromLocalStorage()}>
+          <AuthInitializer>
+            <PageContainer background>
+              <Zendesk />
+              <Helmet meta={[{ name: 'description', content: t('meta.description') }]} />
+              <Content>
+                <Navigation />
+                <Routes>
+                  <Route path="/" element={<WelcomePage />} />
+                  <Route path="login/*" element={<Login />} />
+                  <Route path="logout/*" element={<Logout />} />
+                  <Route
+                    path="/subjectpage/*"
+                    element={<PrivateRoute component={<Subjectpage />} />}
+                  />
+                  <Route path="search/*" element={<PrivateRoute component={<SearchPage />} />} />
+                  <Route
+                    path="subject-matter/*"
+                    element={<PrivateRoute component={<SubjectMatterPage />} />}
+                  />
+                  <Route
+                    path="/edit-markup/:draftId/:language/*"
+                    element={<PrivateRoute component={<EditMarkupPage />} />}
+                  />
+                  <Route path="/concept/*" element={<PrivateRoute component={<ConceptPage />} />} />
+                  <Route path="/preview/:draftId/:language/*" element={<PreviewDraftPage />} />
+                  <Route path="/media/*" element={<PrivateRoute component={<MediaPage />} />} />
+                  <Route
+                    path="/agreement/*"
+                    element={<PrivateRoute component={<AgreementPage />} />}
+                  />
+                  <Route path="/film/*" element={<PrivateRoute component={<NdlaFilm />} />} />
+                  <Route path="/h5p/*" element={<PrivateRoute component={<H5PPage />} />} />
+                  <Route
+                    path="/structure/*"
+                    element={<PrivateRoute component={<StructurePage />} />}
+                  />
+                  <Route path="/forbidden" element={<ForbiddenPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </Content>
+              <Messages />
+            </PageContainer>
+          </AuthInitializer>
+        </SessionProvider>
       </MessagesProvider>
     </ErrorBoundary>
   );

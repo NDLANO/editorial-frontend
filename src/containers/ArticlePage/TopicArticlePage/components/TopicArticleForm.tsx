@@ -46,7 +46,7 @@ import {
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
 import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
-import { useLicenses } from '../../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../../modules/draft/draftQueries';
 
 export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
@@ -132,7 +132,7 @@ const TopicArticleForm = (props: Props) => {
     isNewlyCreated,
     articleStatus,
   } = props;
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
 
   const { t } = useTranslation();
 
@@ -162,7 +162,7 @@ const TopicArticleForm = (props: Props) => {
         articleType: 'topic-article',
         content: content || emptyField,
         copyright: {
-          license: licenses.find(license => license.license === values.license),
+          license: licenses!.find(license => license.license === values.license),
           creators: values.creators,
           processors: values.processors,
           rightsholders: values.rightsholders,

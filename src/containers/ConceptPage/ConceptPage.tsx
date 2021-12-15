@@ -7,35 +7,19 @@
  */
 
 import { memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Route, Routes } from 'react-router-dom';
-import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
-import Footer from '../App/components/Footer';
-import { usePreviousLocation } from '../../util/routeHelpers';
+import { useConcept } from '../../modules/concept/conceptQueries';
+import ResourcePage from '../../components/ResourcePage';
 const CreateConcept = loadable(() => import('./CreateConcept'));
 const EditConcept = loadable(() => import('./EditConcept'));
-const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
-const ConceptPage = () => {
-  const previousLocation = usePreviousLocation();
-  const { i18n } = useTranslation();
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <OneColumn>
-        <Routes>
-          <Route path="new" element={<CreateConcept locale={i18n.language} />} />
-          <Route
-            path=":conceptId/edit/:selectedLanguage"
-            element={<EditConcept isNewlyCreated={previousLocation === '/concept/new'} />}
-          />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </OneColumn>
-      <Footer showLocaleSelector={false} />
-    </div>
-  );
-};
+const ConceptPage = () => (
+  <ResourcePage
+    CreateComponent={CreateConcept}
+    EditComponent={EditConcept}
+    useHook={useConcept}
+    createUrl="/concept/new"
+  />
+);
 
 export default memo(ConceptPage);

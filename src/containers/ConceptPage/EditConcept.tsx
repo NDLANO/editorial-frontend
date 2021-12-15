@@ -21,7 +21,7 @@ interface Props {
 }
 
 const EditConcept = ({ isNewlyCreated }: Props) => {
-  const { conceptId, selectedLanguage } = useParams<'conceptId' | 'selectedLanguage'>();
+  const { id: conceptId, selectedLanguage } = useParams<'id' | 'selectedLanguage'>();
   const { t } = useTranslation();
   const {
     concept,

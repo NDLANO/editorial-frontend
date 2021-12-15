@@ -39,10 +39,10 @@ test('isDraftPublished status undefined', () => {
 
 test('transformArticleFromApiVersion', async () => {
   nock('http://ndla-api/')
-    .get('/concept-api/v1/drafts/1?language=&fallback=true')
+    .get('/concept-api/v1/drafts/1?fallback=true')
     .reply(200, { ...apiConcept, id: 1 });
   nock('http://ndla-api/')
-    .get('/concept-api/v1/drafts/2?language=&fallback=true')
+    .get('/concept-api/v1/drafts/2?fallback=true')
     .reply(200, { ...apiConcept, id: 2 });
 
   nock('http://ndla-api/')

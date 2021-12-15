@@ -5,32 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { Route, Routes } from 'react-router-dom';
-import { OneColumn } from '@ndla/ui';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
-import { usePreviousLocation } from '../../util/routeHelpers';
+import { useImage } from '../../modules/image/imageQueries';
+import ResourcePage from '../../components/ResourcePage';
 const EditImage = loadable(() => import('./EditImage'));
 const CreateImage = loadable(() => import('./CreateImage'));
-const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
-const ImageUploaderPage = () => {
-  const { t } = useTranslation();
-  const prevLoc = usePreviousLocation();
-  return (
-    <OneColumn>
-      <HelmetWithTracker title={t('htmlTitles.imageUploaderPage')} />
-      <Routes>
-        <Route path="new" element={<CreateImage />} />
-        <Route
-          path=":imageId/edit/:imageLanguage"
-          element={<EditImage isNewlyCreated={prevLoc === '/media/image-upload/new'} />}
-        />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </OneColumn>
-  );
-};
+const ImageUploaderPage = () => (
+  <ResourcePage
+    CreateComponent={CreateImage}
+    EditComponent={EditImage}
+    useHook={useImage}
+    createUrl="/media/image-upload/new"
+    titleTranslationKey="htmlTitles.imageUploaderPage"
+  />
+);
 
 export default ImageUploaderPage;

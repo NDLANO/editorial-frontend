@@ -21,9 +21,9 @@ interface Props {
 }
 
 const EditPodcast = ({ isNewlyCreated }: Props) => {
-  const params = useParams<'podcastId' | 'podcastLanguage'>();
-  const podcastId = Number(params.podcastId);
-  const podcastLanguage = params.podcastLanguage!;
+  const params = useParams<'id' | 'selectedLanguage'>();
+  const podcastId = Number(params.id);
+  const podcastLanguage = params.selectedLanguage!;
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const [podcast, setPodcast] = useState<AudioApiType | undefined>(undefined);

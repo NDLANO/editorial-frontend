@@ -130,7 +130,7 @@ const SlateVideo = ({
               showLinkedVideo ? t('form.video.fromLinkedVideo') : t('form.video.toLinkedVideo')
             }
             align="right">
-            <IconButton as={SafeLink} onClick={switchEmbedSource}>
+            <IconButton as={SafeLink} onClick={switchEmbedSource} to="">
               {t('form.video.linkedVideoButton')}
             </IconButton>
           </Tooltip>

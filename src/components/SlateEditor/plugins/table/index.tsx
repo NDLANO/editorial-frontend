@@ -73,7 +73,7 @@ export const tableSerializer: SlateSerializer = {
       const colgroups =
         childNodes
           .filter(child =>
-            ['colgroup', 'col'].includes((child as HTMLElement).tagName.toLowerCase()),
+            ['colgroup', 'col'].includes((child as HTMLElement).tagName?.toLowerCase()),
           )
           .map(col => col.outerHTML)
           .join('') || '';

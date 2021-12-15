@@ -584,9 +584,9 @@ const phrases = {
       coverPhotoId: 'Meta image',
     },
     previewProductionArticle: {
-      button: 'Compare draft and article',
-      article: 'Published version',
-      draft: 'Draft',
+      button: 'Compare current version with old version',
+      version: 'Version {{revision}}',
+      current: 'Current version',
     },
     previewLanguageArticle: {
       button: 'Compare language versions',

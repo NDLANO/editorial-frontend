@@ -13,10 +13,11 @@
 
 .c-editor table {
   margin: 0 !important;
+  padding: 0 24px;
 }
 
 .c-editor .c-table__content {
-  margin: 64px 24px;
+  margin: 64px 0;
   padding: 0;
 }
 

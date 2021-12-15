@@ -31,7 +31,7 @@ import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
 import handleError from '../../../util/handleError';
 import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
-import { useLicenses } from '../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../modules/draft/draftQueries';
 
 const podcastRules: RulesType<PodcastFormValues> = {
   title: {
@@ -104,7 +104,7 @@ const PodcastForm = ({
   translating,
   translateToNN,
 }: Props) => {
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
   const size = useRef<[number, number] | undefined>(undefined);
@@ -113,7 +113,7 @@ const PodcastForm = ({
     values: PodcastFormValues,
     actions: FormikHelpers<PodcastFormValues>,
   ) => {
-    const license = licenses.find(license => license.license === values.license);
+    const license = licenses!.find(license => license.license === values.license);
 
     if (
       license === undefined ||

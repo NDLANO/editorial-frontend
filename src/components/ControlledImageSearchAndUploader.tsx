@@ -20,7 +20,7 @@ import {
   UpdatedImageMetadata,
 } from '../modules/image/imageApiInterfaces';
 import EditorErrorMessage from './SlateEditor/EditorErrorMessage';
-import { useLicenses } from '../containers/Licenses/LicensesProvider';
+import { useLicenses } from '../modules/draft/draftQueries';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
@@ -51,7 +51,7 @@ const ImageSearchAndUploader = ({
 }: Props) => {
   const { t } = useTranslation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
   const searchImagesWithParameters = (query: string, page: number) => {
     return searchImages({ query, page, 'page-size': 16 });
   };

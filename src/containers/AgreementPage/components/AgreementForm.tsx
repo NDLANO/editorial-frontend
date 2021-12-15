@@ -18,8 +18,8 @@ import {
   NewAgreementApiType,
   UpdatedAgreementApiType,
 } from '../../../modules/draft/draftApiInterfaces';
-import { useLicenses } from '../../Licenses/LicensesProvider';
 import { Author } from '../../../interfaces';
+import { useLicenses } from '../../../modules/draft/draftQueries';
 
 interface AgreementFormValues {
   id?: number;
@@ -82,7 +82,7 @@ interface Props {
 }
 const AgreementForm = ({ onUpsert, agreement }: Props) => {
   const { t } = useTranslation();
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
   const handleSubmit = async (
     values: AgreementFormValues,
     actions: FormikHelpers<AgreementFormValues>,
@@ -94,7 +94,7 @@ const AgreementForm = ({ onUpsert, agreement }: Props) => {
       title: values.title,
       content: values.content,
       copyright: {
-        license: licenses.find(license => license.license === values.license),
+        license: licenses!.find(license => license.license === values.license),
         origin: values.origin,
         creators: values.creators,
         processors: values.processors,

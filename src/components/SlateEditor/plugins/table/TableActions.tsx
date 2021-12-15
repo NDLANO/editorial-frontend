@@ -38,11 +38,12 @@ const tableActionButtonStyle = css`
 `;
 
 const StyledTableActions = styled('div')`
+  background: ${colors.white};
   display: ${(p: { show: boolean }) => (p.show ? 'block;' : 'none')};
   box-shadow: 1px 1px 8px 1px ${colors.brand.greyLighter};
   border-radius: 5px;
   transform: translateY(-100%);
-  top: -24px;
+  top: -10px;
   padding: 5px;
   position: absolute;
 `;

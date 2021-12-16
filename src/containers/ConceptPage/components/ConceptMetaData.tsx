@@ -31,7 +31,7 @@ const onSaveAsVisualElement = (
   image: ImageApiType,
   formikContext: FormikContextType<ConceptFormValues>,
 ) => {
-  const { setFieldValue } = formikContext;
+  const { setFieldValue, setFieldTouched } = formikContext;
 
   if (image) {
     const visualElement: ImageEmbed = {
@@ -42,8 +42,9 @@ const onSaveAsVisualElement = (
       alt: convertFieldWithFallback(image as Object, 'alttext', ''),
       caption: convertFieldWithFallback(image as Object, 'caption', '') || '',
     };
+    setFieldValue('visualElement', [defaultEmbedBlock(visualElement)]);
     setTimeout(() => {
-      setFieldValue('visualElement', [defaultEmbedBlock(visualElement)], true);
+      setFieldTouched('visualElement', true, false);
     }, 0);
   }
 };

@@ -14,6 +14,12 @@ const corsAnywhereUrl = `${
   config.ndlaEnvironment === 'local' ? 'https://cors-anywhere.herokuapp.com/' : ''
 }`;
 
+const baseUrl =
+  process.env.NODE_ENV === 'unittest'
+    ? 'http://nrk-api'
+    : corsAnywhereUrl + 'https://nrkno-skole-prod.kube.nrk.no';
+
+//Type inferred from API call.
 interface NRKMedia {
   airedDate: string;
   clipType: string;
@@ -50,11 +56,6 @@ interface NRKMedia {
 }
 
 export const fetchNrkMedia = async (mediaId: string | number) => {
-  const baseUrl =
-    process.env.NODE_ENV === 'unittest'
-      ? 'http://nrk-api'
-      : corsAnywhereUrl + 'https://nrkno-skole-prod.kube.nrk.no';
-
   const nrkMediaJson = await fetch(`${baseUrl}/skole/api/media/${mediaId}`);
   return resolveJsonOrRejectWithError<NRKMedia>(nrkMediaJson);
 };

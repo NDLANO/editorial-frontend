@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
 import queryString from 'query-string';
 import config from '../../config';
 import {
@@ -25,6 +31,7 @@ interface BrightcoveImage {
   }[];
 }
 
+//Best effort, inferred from API call.
 export interface BrightcoveApiType {
   account_id: string | null;
   clip_source_video_id: string;
@@ -58,7 +65,7 @@ export interface BrightcoveApiType {
     restricted: boolean;
   };
   has_digital_master: boolean;
-  id: number;
+  id: string;
   images: Record<string, BrightcoveImage>;
   labels: string[];
   link: {
@@ -70,7 +77,7 @@ export interface BrightcoveApiType {
   offline_enabled: boolean;
   original_filename: string;
   playback_rights_id: string;
-  projection: string;
+  projection?: string;
   published_at: string;
   reference_id: string;
   schedule: {
@@ -127,8 +134,6 @@ export const fetchBrightcoveVideo = (videoId: string) =>
 export interface VideoSearchQuery extends BrightcoveQueryParams {
   start?: number;
 }
-
-export type VideoType = 'Brightcove' | 'youtube';
 
 export const searchVideos = async (query: VideoSearchQuery) => {
   return await searchBrightcoveVideos(query);

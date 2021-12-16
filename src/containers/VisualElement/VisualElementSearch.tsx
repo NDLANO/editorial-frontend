@@ -10,22 +10,25 @@ import { TFunction, useTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import config from '../../config';
-import * as imageApi from '../../modules/image/imageApi';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import VisualElementUrlPreview from './VisualElementUrlPreview';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { ImageApiType } from '../../modules/image/imageApiInterfaces';
-import { fetchImage } from '../../modules/image/imageApi';
+import { fetchImage, searchImages } from '../../modules/image/imageApi';
 import { fetchAudio } from '../../modules/audio/audioApi';
 import { onError } from '../../util/resolveJsonOrRejectWithError';
-import { searchVideos, VideoSearchQuery } from '../../modules/video/brightcoveApi';
+import {
+  BrightcoveApiType,
+  searchVideos,
+  VideoSearchQuery,
+} from '../../modules/video/brightcoveApi';
 import { AudioSearchParams, AudioSearchResultType } from '../../modules/audio/audioApiInterfaces';
 import { searchAudio } from '../../modules/audio/audioApi';
 import { Embed } from '../../interfaces';
 
-const titles = (t: TFunction, resource = '') => ({
+const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
 });
 
@@ -37,7 +40,6 @@ interface Props {
   handleVisualElementChange: (embed: Embed) => void;
   articleLanguage?: string;
   closeModal: () => void;
-  videoTypes?: string[];
   showMetaImageCheckbox?: boolean;
   onSaveAsMetaImage?: (image: ImageApiType) => void;
 }
@@ -68,7 +70,6 @@ const VisualElementSearch = ({
   handleVisualElementChange,
   articleLanguage,
   closeModal,
-  videoTypes = [],
   showMetaImageCheckbox,
   onSaveAsMetaImage,
 }: Props) => {
@@ -85,7 +86,7 @@ const VisualElementSearch = ({
           locale={locale}
           closeModal={closeModal}
           fetchImage={id => fetchImage(id, articleLanguage)}
-          searchImages={imageApi.searchImages}
+          searchImages={searchImages}
           onError={onError}
           onImageSelect={image => {
             handleVisualElementChange({
@@ -123,27 +124,19 @@ const VisualElementSearch = ({
             searchVideos={(query: VideoSearchQuery) => searchVideos(query)}
             locale={locale}
             translations={videoTranslations}
-            onVideoSelect={(video: any, type: 'youtube' | 'brightcove') => {
-              if (type === 'youtube') {
-                handleVisualElementChange({
-                  resource: 'external',
-                  url: video.pagemap?.videoobject?.[0]?.url || video.link,
-                  title: video.title,
-                });
-              } else {
-                handleVisualElementChange({
-                  resource: type,
-                  videoid: video.id,
-                  caption: '',
-                  account: config.brightCoveAccountId!,
-                  player:
-                    video.projection === 'equirectangular'
-                      ? config.brightcove360PlayerId!
-                      : config.brightcovePlayerId!,
-                  metaData: video,
-                  title: video.name,
-                });
-              }
+            onVideoSelect={(video: BrightcoveApiType, type: 'brightcove') => {
+              handleVisualElementChange({
+                resource: type,
+                videoid: video.id,
+                caption: '',
+                account: config.brightCoveAccountId!,
+                player:
+                  video.projection === 'equirectangular'
+                    ? config.brightcove360PlayerId!
+                    : config.brightcovePlayerId!,
+                metaData: video,
+                title: video.name,
+              });
             }}
             onError={onError}
           />

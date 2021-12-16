@@ -25,7 +25,6 @@ const SubjectMatterPage = () => (
       />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
-    <Footer showLocaleSelector={false} />
   </>
 );
 

@@ -8,7 +8,6 @@
 import { Route, Routes } from 'react-router-dom';
 import loadable from '@loadable/component';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
-import Footer from './components/Footer';
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 const TopicArticlePage = loadable(() => import('../ArticlePage/TopicArticlePage/TopicArticlePage'));
 const LearningResourcePage = loadable(() =>

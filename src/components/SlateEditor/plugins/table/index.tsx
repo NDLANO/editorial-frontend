@@ -248,10 +248,15 @@ export const tablePlugin = (editor: Editor) => {
     if (isTableCell(node)) {
       // Cells should only contain elements. If not, wrap content in paragraph
       if (!Element.isElementList(node.children)) {
-        return Transforms.wrapNodes(editor, defaultParagraphBlock(), {
-          at: path,
-          match: node => !Element.isElement(node),
-        });
+        return Transforms.wrapNodes(
+          editor,
+          { ...defaultParagraphBlock(), serializeAsText: true },
+          {
+            at: path,
+            match: n => n !== node,
+            mode: 'highest',
+          },
+        );
       }
     }
 

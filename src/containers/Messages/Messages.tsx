@@ -8,8 +8,8 @@
 
 import { css, SerializedStyles } from '@emotion/core';
 import styled from '@emotion/styled';
-import { createBrowserHistory } from 'history';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import AlertModal from '../../components/AlertModal';
 import { useMessages } from './MessagesProvider';
 
@@ -53,6 +53,7 @@ interface MessageProps {
 
 const Message = ({ message }: MessageProps) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { clearMessage } = useMessages();
 
   const auth0Actions = [
@@ -68,7 +69,7 @@ const Message = ({ message }: MessageProps) => {
           window.location.search ? window.location.search : ''
         }`;
         localStorage.setItem('lastPath', lastPath);
-        createBrowserHistory().push('/logout/session?returnToLogin=true'); // Push to logoutPath
+        navigate('/logout/session?returnToLogin=true'); // Push to logoutPath
         window.location.reload();
       },
     },

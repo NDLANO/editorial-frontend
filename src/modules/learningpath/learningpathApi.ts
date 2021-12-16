@@ -11,9 +11,9 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
-import { Learningpath } from '../../interfaces';
 import {
   CopyLearningPathBody,
+  Learningpath,
   LearningPathSearchResult,
   SearchBody,
 } from './learningpathApiInterfaces';

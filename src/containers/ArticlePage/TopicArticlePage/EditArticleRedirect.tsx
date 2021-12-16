@@ -6,47 +6,46 @@
  *
  */
 
-import { useState, useEffect } from 'react';
-import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
+import { Navigate, Route, Routes, useParams, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router';
+import { Spinner } from '@ndla/editor';
 import EditTopicArticle from './EditTopicArticle';
-import { fetchDraft } from '../../../modules/draft/draftApi';
+import { useDraft } from '../../../modules/draft/draftQueries';
 
-interface Props extends RouteComponentProps<{ articleId: string }> {
+interface Props {
   isNewlyCreated: boolean;
 }
-const EditArticleRedirect = ({ match, isNewlyCreated }: Props) => {
-  const { i18n } = useTranslation();
-  const locale = i18n.language;
-  const { articleId } = match.params;
-  const [supportedLanguage, setSupportedLanguage] = useState<string>();
 
-  useEffect(() => {
-    fetchDraft(parseInt(articleId)).then(article => {
-      const lang =
-        article.supportedLanguages.find(l => l === locale) || article.supportedLanguages[0];
-      setSupportedLanguage(lang);
-    });
-  }, [articleId, locale]);
+const EditArticleRedirect = ({ isNewlyCreated }: Props) => {
+  const { articleId } = useParams<'articleId'>();
+  const { i18n } = useTranslation();
+  const { pathname } = useLocation();
+  const locale = i18n.language;
+  const { data } = useDraft(articleId!, undefined, { enabled: !!articleId });
+
+  if (!data) {
+    return <Spinner />;
+  }
+
+  if (articleId === undefined) {
+    return <Navigate to={'/404'} />;
+  }
+
+  const supportedLanguage =
+    data.supportedLanguages.find(l => l === locale) ?? data.supportedLanguages[0];
 
   return (
-    <Switch>
+    <Routes>
       <Route
-        path={`${match.url}/:selectedLanguage`}
-        render={props => (
-          <EditTopicArticle
-            articleId={articleId}
-            selectedLanguage={props.match.params.selectedLanguage}
-            isNewlyCreated={isNewlyCreated}
-          />
-        )}
+        path=":selectedLanguage/"
+        element={<EditTopicArticle articleId={articleId} isNewlyCreated={isNewlyCreated} />}
       />
-      {supportedLanguage && (
-        <Redirect push from={match.url} to={`${match.url}/${supportedLanguage}`} />
-      )}
-    </Switch>
+      <Route
+        path="/"
+        element={<Navigate replace state={{ from: pathname }} to={supportedLanguage} />}
+      />
+    </Routes>
   );
 };
 
-export default withRouter(EditArticleRedirect);
+export default EditArticleRedirect;

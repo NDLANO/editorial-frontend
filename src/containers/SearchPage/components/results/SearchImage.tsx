@@ -14,8 +14,8 @@ import { colors } from '@ndla/core';
 import { toEditImage } from '../../../../util/routeHelpers';
 import { ImageResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
-import { useLicenses } from '../../../Licenses/LicensesProvider';
 import { ImageSearchSummaryApiType } from '../../../../modules/image/imageApiInterfaces';
+import { useLicenses } from '../../../../modules/draft/draftQueries';
 
 interface Props {
   image: ImageSearchSummaryApiType;
@@ -24,7 +24,7 @@ interface Props {
 
 const SearchImage = ({ image, locale }: Props) => {
   const { t } = useTranslation();
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses();
   const license = licenses && licenses.find(l => image.license === l.license);
   return (
     <div {...searchClasses('result')}>

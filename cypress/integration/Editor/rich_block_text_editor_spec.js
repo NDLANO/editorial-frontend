@@ -16,7 +16,7 @@ describe('Learning resource editing', () => {
     setToken();
     editorRoutes(ARTICLE_ID);
 
-    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
+    cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.apiwait('@licenses');
   });
 

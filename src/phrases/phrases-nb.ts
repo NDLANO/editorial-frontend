@@ -586,9 +586,9 @@ const phrases = {
       coverPhotoId: 'Metabilde',
     },
     previewProductionArticle: {
-      button: 'Sammenlign utkast og artikkel',
-      article: 'Publisert versjon',
-      draft: 'Utkast',
+      button: 'Sammenlign gjeldende versjon med gammel versjon',
+      version: 'Versjon {{revision}}',
+      current: 'Gjeldende versjon',
     },
     previewLanguageArticle: {
       button: 'Sammenlign språkversjoner',
@@ -1070,7 +1070,6 @@ const phrases = {
         concept: 'Bruk av forklaringen i artikler',
         article: 'Bruk av artikkelen i andre artikler',
       },
-      notInUse: 'Fant ingen artikler eller forklaringer som bruker {{resource}}',
       articles: '{{count}} artikkel',
       articles_plural: '{{count}} artikler',
       concepts: '1 forklaring',

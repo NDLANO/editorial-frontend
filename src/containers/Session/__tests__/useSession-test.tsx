@@ -22,7 +22,7 @@ afterEach(() => {
 const history = createMemoryHistory();
 
 const baseWrapper = ({ children, initialValues }: { children?: ReactNode; initialValues: any }) => (
-  <Router history={history}>
+  <Router location={history.location} navigator={history}>
     <SessionProvider initialValue={initialValues}>{children}</SessionProvider>
   </Router>
 );
@@ -51,12 +51,13 @@ describe('getSessionStateFromLocalStorage', () => {
 describe('useSession', () => {
   test('correctly sets access token and access_token_personal on successful login', async () => {
     const replaceSpy = jest.spyOn(history, 'replace');
+    const expected = { hash: '', pathname: '/', search: '' };
     const { result } = renderHook(() => useSession(), { wrapper: baseWrapper });
     act(() => {
       result.current.login(accessToken);
     });
     expect(replaceSpy).toHaveBeenCalledTimes(1);
-    expect(replaceSpy).toHaveBeenCalledWith('/');
+    expect(replaceSpy).toHaveBeenCalledWith(expected, undefined);
     expect(localStorage.getItem('access_token')).toEqual(accessToken);
     expect(localStorage.getItem('access_token_personal')).toEqual('true');
   });

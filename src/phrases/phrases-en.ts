@@ -584,9 +584,9 @@ const phrases = {
       coverPhotoId: 'Meta image',
     },
     previewProductionArticle: {
-      button: 'Compare draft and article',
-      article: 'Published version',
-      draft: 'Draft',
+      button: 'Compare current version with old version',
+      version: 'Version {{revision}}',
+      current: 'Current version',
     },
     previewLanguageArticle: {
       button: 'Compare language versions',
@@ -1069,7 +1069,6 @@ const phrases = {
         concept: 'Uses of the concept in articles',
         article: 'Uses of the article in other articles',
       },
-      notInUse: 'No uses of the {{resource}} in articles and/or concepts were found',
       articles: '1 article',
       articles_plural: '{{count}} articles',
       concepts: '1 concept',

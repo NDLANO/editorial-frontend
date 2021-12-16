@@ -6,39 +6,40 @@
  *
  */
 import * as queryString from 'query-string';
-import { LocaleType, SubjectpageApiType } from '../../interfaces';
+import {
+  ISubjectPageData,
+  IFilmFrontPageData,
+  INewSubjectFrontPageData,
+  IUpdatedSubjectFrontPageData,
+  INewOrUpdatedFilmFrontPageData,
+} from '@ndla/types-frontpage-api';
+import { LocaleType } from '../../interfaces';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
-import {
-  FilmFrontpageApiType,
-  FilmFrontpagePostPatchType,
-  NewSubjectFrontPageData,
-  UpdatedSubjectFrontPageData,
-} from './frontpageApiInterfaces';
 
 const baseUrl = apiResourceUrl('/frontpage-api/v1');
 
 export const fetchFilmFrontpage = () =>
   fetchAuthorized(`${baseUrl}/filmfrontpage/`).then(r =>
-    resolveJsonOrRejectWithError<FilmFrontpageApiType>(r),
+    resolveJsonOrRejectWithError<IFilmFrontPageData>(r),
   );
 
 export const updateFilmFrontpage = (
-  filmfrontpage: FilmFrontpagePostPatchType,
-): Promise<FilmFrontpageApiType> => {
+  filmfrontpage: INewOrUpdatedFilmFrontPageData,
+): Promise<IFilmFrontPageData> => {
   return fetchAuthorized(`${baseUrl}/filmfrontpage/`, {
     method: 'POST',
     body: JSON.stringify(filmfrontpage),
-  }).then(r => resolveJsonOrRejectWithError<FilmFrontpageApiType>(r));
+  }).then(r => resolveJsonOrRejectWithError<IFilmFrontPageData>(r));
 };
 
 export const fetchSubjectpage = (
   id: number | string,
   language: LocaleType,
-): Promise<SubjectpageApiType> => {
+): Promise<ISubjectPageData> => {
   const query = queryString.stringify({ language });
   const url = `${baseUrl}/subjectpage/${id}`;
   const urlLang = language ? url + `?${query}&fallback=true` : url;
@@ -46,10 +47,10 @@ export const fetchSubjectpage = (
 };
 
 export const updateSubjectpage = (
-  subjectpage: UpdatedSubjectFrontPageData,
+  subjectpage: IUpdatedSubjectFrontPageData,
   subjectpageId: number | string,
   language: LocaleType,
-): Promise<SubjectpageApiType> => {
+): Promise<ISubjectPageData> => {
   const query = queryString.stringify({ language });
   return fetchAuthorized(`${baseUrl}/subjectpage/${subjectpageId}?${query}`, {
     method: 'PATCH',
@@ -58,8 +59,8 @@ export const updateSubjectpage = (
 };
 
 export const createSubjectpage = (
-  subjectpage: NewSubjectFrontPageData,
-): Promise<SubjectpageApiType> =>
+  subjectpage: INewSubjectFrontPageData,
+): Promise<ISubjectPageData> =>
   fetchAuthorized(`${baseUrl}/subjectpage/`, {
     method: 'POST',
     body: JSON.stringify(subjectpage),

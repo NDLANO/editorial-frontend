@@ -23,7 +23,7 @@ import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { useLicenses } from '../../../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../../../modules/draft/draftQueries';
 
 interface Props {
   concept: SearchConceptType;
@@ -38,9 +38,12 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
     title: t(`language.${lan}`),
     value: lan,
   }));
-  const [language, setLanguage] = useState<string>(concept.supportedLanguages[0]);
+
+  const [language, setLanguage] = useState<string>(
+    concept.supportedLanguages.find(l => l === i18n.language) ?? concept.supportedLanguages[0],
+  );
   const [fullConcept, setFullConcept] = useState<ConceptApiType | undefined>();
-  const { licenses, licensesLoading } = useLicenses();
+  const { data: licenses, isLoading: licensesLoading } = useLicenses({ placeholderData: [] });
 
   useEffect(() => {
     fetchConcept(concept.id, language).then(c => setFullConcept(c));
@@ -61,14 +64,14 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
         author: author ? author.name : '',
         subjects: subjects.filter(s => subjectIds?.find(id => id === s.id)),
         license:
-          licenses.find(l => l.license === fullConcept.copyright?.license?.license)?.license || '',
+          licenses!.find(l => l.license === fullConcept.copyright?.license?.license)?.license || '',
         tags: fullConcept.tags?.tags || [],
       });
     }
   }, [concept, fullConcept, licenses, licensesLoading, subjects]);
 
   const handleSubmit = async (formConcept: InlineFormConcept) => {
-    if (!fullConcept || !licensesLoading) return;
+    if (!fullConcept || licensesLoading) return;
     const getCreators = (creators: { type: string; name: string }[], newAuthor: string) => {
       const author = creators.find(cr => cr.type === 'Writer');
       if (newAuthor !== '') {
@@ -98,7 +101,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
       copyright: {
         ...fullConcept.copyright,
         creators,
-        license: licenses.find(l => l.license === formConcept.license),
+        license: licenses!.find(l => l.license === formConcept.license),
         rightsholders: [],
         processors: [],
       },

@@ -6,14 +6,13 @@
  */
 
 import { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { toLogoutSession } from '../../util/routeHelpers';
 
-interface Props extends RouteComponentProps {}
-
-const LogoutProviders = ({ history }: Props) => {
+const LogoutProviders = () => {
+  const navigate = useNavigate();
   useEffect(() => {
-    history.push(toLogoutSession());
+    navigate(toLogoutSession());
   });
   return null;
 };

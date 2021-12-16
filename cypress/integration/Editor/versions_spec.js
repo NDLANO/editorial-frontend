@@ -16,7 +16,7 @@ describe('Workflow features', () => {
     setToken();
     editorRoutes(ARTICLE_ID);
 
-    cy.visit(`/nb/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
+    cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.contains('Versjonslogg og merknader').click();
     cy.apiwait([
       '@licenses',

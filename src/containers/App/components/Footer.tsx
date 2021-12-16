@@ -6,11 +6,11 @@
  *
  */
 
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { Footer, LanguageSelector, FooterText, EditorName } from '@ndla/ui';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { useTranslation } from 'react-i18next';
 import { getLocaleUrls } from '../../../util/localeHelpers';
 import { LocaleType } from '../../../interfaces';
 
@@ -18,12 +18,12 @@ const StyledFooterWrapper = styled.div`
   margin-top: ${spacing.large};
 `;
 
-interface Props extends RouteComponentProps {
-  location: RouteComponentProps['location'];
+interface Props {
   showLocaleSelector?: boolean;
 }
 
-const FooterWrapper = ({ location, showLocaleSelector }: Props) => {
+const FooterWrapper = ({ showLocaleSelector }: Props) => {
+  const location = useLocation();
   const { t, i18n } = useTranslation();
   const languageSelector = showLocaleSelector ? (
     <LanguageSelector
@@ -47,4 +47,4 @@ const FooterWrapper = ({ location, showLocaleSelector }: Props) => {
   );
 };
 
-export default withRouter(FooterWrapper);
+export default FooterWrapper;

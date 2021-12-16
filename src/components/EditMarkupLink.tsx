@@ -53,12 +53,8 @@ export const EditMarkupLink = ({ title, to, inHeader }: Props) => {
     <Link
       css={linkStyle}
       data-testid="edit-markup-link"
-      to={{
-        pathname: to,
-        state: {
-          backUrl: location.pathname + location.search,
-        },
-      }}>
+      state={{ backUrl: location.pathname + location.search }}
+      to={{ pathname: to }}>
       <Code title={title} />
     </Link>
   );

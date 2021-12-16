@@ -7,7 +7,6 @@
  */
 
 import { useCallback, useMemo, useState } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
@@ -44,7 +43,7 @@ import {
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, RelatedContent } from '../../../../interfaces';
-import { useLicenses } from '../../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../../modules/draft/draftQueries';
 import { useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 
 export const getInitialValues = (
@@ -123,7 +122,7 @@ export const convertDraftOrRelated = (
   });
 };
 
-interface Props extends RouteComponentProps {
+interface Props {
   article: Partial<ConvertedDraftType>;
   translating: boolean;
   translateToNN: () => void;
@@ -147,11 +146,10 @@ const LearningResourceForm = ({
   updateArticle,
   updateArticleAndStatus,
   articleChanged,
-  history,
 }: Props) => {
   const { t } = useTranslation();
 
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
   const statusStateMachine = useDraftStatusStateMachine({ articleId: article.id });
 
   const getArticleFromSlate = useCallback(
@@ -179,7 +177,7 @@ const LearningResourceForm = ({
         articleType: 'standard',
         content: content && content.length > 0 ? content : emptyContent,
         copyright: {
-          license: licenses.find(license => license.license === values.license),
+          license: licenses!.find(license => license.license === values.license),
           origin: values.origin,
           creators: values.creators,
           processors: values.processors,
@@ -313,4 +311,4 @@ const LearningResourceForm = ({
   );
 };
 
-export default withRouter(LearningResourceForm);
+export default LearningResourceForm;

@@ -6,18 +6,17 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as audioApi from '../../modules/audio/audioApi';
 import { PodcastMetaInformationPost } from '../../modules/audio/audioApiInterfaces';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import PodcastForm from './components/PodcastForm';
 
-interface Props extends RouteComponentProps {}
-
-const CreatePodcast = ({ history }: Props) => {
+const CreatePodcast = () => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
+  const navigate = useNavigate();
 
   const onCreatePodcast = async (
     newPodcast: PodcastMetaInformationPost,
@@ -26,7 +25,7 @@ const CreatePodcast = ({ history }: Props) => {
     const formData = await createFormData(podcastFile, newPodcast);
     const createdPodcast = await audioApi.postAudio(formData);
     if (!newPodcast.id) {
-      history.push(toEditPodcast(createdPodcast.id, newPodcast.language));
+      navigate(toEditPodcast(createdPodcast.id, newPodcast.language));
     }
   };
 

@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import config from '../../../../config';
 import TopicArticleContent from './TopicArticleContent';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
@@ -14,7 +13,7 @@ import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
 
-interface Props extends RouteComponentProps {
+interface Props {
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: () => Promise<void>;
   article: Partial<ConvertedDraftType>;
@@ -30,7 +29,6 @@ const TopicArticleAccordionPanels = ({
   article,
   formIsDirty,
   updateNotes,
-  history,
   getInitialValues,
   getArticle,
 }: Props) => {
@@ -108,4 +106,4 @@ const TopicArticleAccordionPanels = ({
   );
 };
 
-export default withRouter(TopicArticleAccordionPanels);
+export default TopicArticleAccordionPanels;

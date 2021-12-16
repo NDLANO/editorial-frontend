@@ -31,7 +31,7 @@ const PreviewProduction = ({
     <>
       <StyledPreviewTwoArticles>
         <h2 className="u-4/6@desktop u-push-1/6@desktop">
-          {t('form.previewProductionArticle.draft')}
+          {t('form.previewProductionArticle.current')}
         </h2>
         <PreviewDraft
           article={firstEntity}
@@ -42,7 +42,7 @@ const PreviewProduction = ({
       </StyledPreviewTwoArticles>
       <StyledPreviewTwoArticles>
         <h2 className="u-4/6@desktop u-push-1/6@desktop">
-          {t('form.previewProductionArticle.article')}
+          {t('form.previewProductionArticle.version', { revision: secondEntity.revision })}
         </h2>
         <PreviewDraft
           article={secondEntity}

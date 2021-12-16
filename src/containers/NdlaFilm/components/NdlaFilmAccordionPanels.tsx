@@ -7,13 +7,13 @@
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useTranslation } from 'react-i18next';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
+import { IMovieTheme } from '@ndla/types-frontpage-api';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
 import { ContentResultType, FormikProperties } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
 import ThemeEditor from './ThemeEditor';
 import SlideshowEditor from './SlideshowEditor';
 import FormikField from '../../../components/FormikField';
-import { MovieThemeApiType } from '../../../modules/frontpage/frontpageApiInterfaces';
 
 interface Props {
   selectedLanguage: string;
@@ -30,7 +30,7 @@ interface FormikSlideshowProps {
 }
 
 interface FormikThemeProps {
-  field: FieldProps<MovieThemeApiType[]>['field'];
+  field: FieldProps<IMovieTheme[]>['field'];
   form: FormikProperties['form'];
 }
 

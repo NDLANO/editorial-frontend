@@ -6,50 +6,41 @@
  *
  */
 
-import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Route, Redirect, Switch, RouteComponentProps } from 'react-router-dom';
+import { Route, useParams, Routes, useLocation, Navigate } from 'react-router-dom';
+import { Spinner } from '@ndla/editor';
 import EditLearningResource from './EditLearningResource';
-import { fetchDraft } from '../../../modules/draft/draftApi';
+import { useDraft } from '../../../modules/draft/draftQueries';
+import NotFound from '../../NotFoundPage/NotFoundPage';
 
-interface ParamsType {
-  articleId: string;
-}
-
-interface Props extends RouteComponentProps<ParamsType> {
+interface Props {
   isNewlyCreated: boolean;
 }
 
-const EditResourceRedirect = ({ match, isNewlyCreated }: Props) => {
+const EditResourceRedirect = ({ isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const { articleId } = match.params;
-  const [supportedLanguage, setSupportedLanguage] = useState<string>();
+  const { pathname } = useLocation();
+  const params = useParams<'articleId'>();
+  const articleId = params.articleId!;
+  const { data } = useDraft(articleId, undefined, { enabled: !!articleId });
 
-  useEffect(() => {
-    fetchDraft(parseInt(articleId)).then(article => {
-      const lang =
-        article.supportedLanguages.find(l => l === locale) || article.supportedLanguages[0];
-      setSupportedLanguage(lang);
-    });
-  }, [articleId, locale]);
+  if (!data) return <Spinner />;
+  const supportedLanguage =
+    data.supportedLanguages.find(l => l === locale) ?? data.supportedLanguages[0];
 
   return (
-    <Switch>
+    <Routes>
       <Route
-        path={`${match.url}/:selectedLanguage`}
-        render={props => (
-          <EditLearningResource
-            articleId={articleId}
-            selectedLanguage={props.match.params.selectedLanguage}
-            isNewlyCreated={isNewlyCreated}
-          />
-        )}
+        path=":selectedLanguage/"
+        element={<EditLearningResource articleId={articleId} isNewlyCreated={isNewlyCreated} />}
       />
-      {supportedLanguage && (
-        <Redirect push from={match.url} to={`${match.url}/${supportedLanguage}`} />
-      )}
-    </Switch>
+      <Route
+        path="/"
+        element={<Navigate replace state={{ from: pathname }} to={supportedLanguage} />}
+      />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 };
 

@@ -24,16 +24,24 @@ import {
 } from './draftApiInterfaces';
 
 export const useDraft = (
-  id: number,
+  id: number | string,
   language?: string,
   options?: UseQueryOptions<DraftApiType>,
 ) => {
   return useQuery<DraftApiType>([DRAFT, id, language], () => fetchDraft(id, language), options);
 };
 
-export const useLicenses = <ReturnType>(
+export const useLicenses = <ReturnType = License[]>(
   options?: UseQueryOptions<License[], unknown, ReturnType>,
-) => useQuery<License[], unknown, ReturnType>(LICENSES, fetchLicenses, options);
+) =>
+  useQuery<License[], unknown, ReturnType>(LICENSES, fetchLicenses, {
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    staleTime: Infinity,
+    retry: false,
+    ...options,
+  });
 
 export const useUserData = (options?: UseQueryOptions<UserDataApiType>) =>
   useQuery<UserDataApiType>(USER_DATA, fetchUserData, options);

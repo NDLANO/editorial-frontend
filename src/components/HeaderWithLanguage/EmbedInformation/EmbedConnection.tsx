@@ -77,14 +77,7 @@ const EmbedConnection = ({ id, type, articles, setArticles, concepts, setConcept
   }, [id, type, setArticles, setConcepts]);
 
   if (!articles?.length && !concepts?.length) {
-    return (
-      <Tooltip
-        tooltip={t('form.embedConnections.notInUse', {
-          resource: t(`form.embedConnections.type.${type}`),
-        })}>
-        <SubjectMaterial css={normalPaddingCSS} />
-      </Tooltip>
-    );
+    return null;
   }
 
   return (

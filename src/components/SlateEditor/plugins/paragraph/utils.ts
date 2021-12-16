@@ -8,11 +8,12 @@
 
 import { Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
+import { ParagraphElement } from '.';
 
 export const TYPE_PARAGRAPH = 'paragraph';
 
 export const defaultParagraphBlock = () =>
-  slatejsx('element', { type: TYPE_PARAGRAPH }, { text: '' });
+  slatejsx('element', { type: TYPE_PARAGRAPH }, { text: '' }) as ParagraphElement;
 
 export const getCurrentParagraph = (editor: Editor) => {
   if (!editor.selection?.anchor) return null;

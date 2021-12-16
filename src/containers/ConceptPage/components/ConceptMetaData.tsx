@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useFormikContext } from 'formik';
+import { FormikContextType, useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MetaImageSearch } from '../../FormikForm';
@@ -16,6 +16,10 @@ import InlineImageSearch from './InlineImageSearch';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
 import { ConceptTagsSearchResult } from '../../../modules/concept/conceptApiInterfaces';
+import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
+import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
+import { defaultEmbedBlock } from '../../../components/SlateEditor/plugins/embed/utils';
+import { ImageEmbed } from '../../../interfaces';
 
 interface Props {
   subjects: SubjectType[];
@@ -23,9 +27,31 @@ interface Props {
   inModal: boolean;
 }
 
+const onSaveAsVisualElement = (
+  image: ImageApiType,
+  formikContext: FormikContextType<ConceptFormValues>,
+) => {
+  const { setFieldValue } = formikContext;
+
+  if (image) {
+    const visualElement: ImageEmbed = {
+      resource: 'image',
+      resource_id: image.id,
+      size: 'full',
+      align: '',
+      alt: convertFieldWithFallback(image as Object, 'alttext', ''),
+      caption: convertFieldWithFallback(image as Object, 'caption', '') || '',
+    };
+    setTimeout(() => {
+      setFieldValue('visualElement', [defaultEmbedBlock(visualElement)], true);
+    }, 0);
+  }
+};
+
 const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
   const { t } = useTranslation();
-  const { values } = useFormikContext<ConceptFormValues>();
+  const formikContext = useFormikContext<ConceptFormValues>();
+  const { values } = formikContext;
 
   return (
     <>
@@ -38,6 +64,8 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
               metaImageId={field.value}
               setFieldTouched={form.setFieldTouched}
               showRemoveButton
+              showMetaImageCheckbox={true}
+              onSaveAsMetaImage={image => onSaveAsVisualElement(image, formikContext)}
               {...field}
             />
           )}

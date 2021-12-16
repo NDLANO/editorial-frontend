@@ -47,7 +47,10 @@ interface Props {
   conceptArticles: DraftApiType[];
   onClose?: () => void;
   language: string;
-  onUpdate: (updateConcept: ConceptPostType | ConceptPatchType, revision?: number) => Promise<void>;
+  onUpdate: (
+    updateConcept: ConceptPostType | ConceptPatchType,
+    revision?: number,
+  ) => Promise<ConceptApiType>;
   subjects: SubjectType[];
   initialTitle?: string;
   translateToNN?: () => void;
@@ -55,7 +58,7 @@ interface Props {
     updatedConcept: ConceptPatchType,
     newStatus: ConceptStatusType,
     dirty: boolean,
-  ) => Promise<void>;
+  ) => Promise<ConceptApiType>;
 }
 
 const conceptFormRules: RulesType<ConceptFormValues> = {
@@ -113,20 +116,24 @@ const ConceptForm = ({
     const newStatus = values.status?.current;
     const statusChange = initialStatus !== newStatus;
 
+    let savedArticle;
+
     try {
       if (statusChange && updateConceptAndStatus) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
         const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
         const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !formikDirty;
-        await updateConceptAndStatus(
+        savedArticle = await updateConceptAndStatus(
           getConceptPatchType(values, licenses!),
           newStatus!,
           !skipSaving,
         );
       } else {
-        await onUpdate(getConceptPatchType(values, licenses!), revision!);
+        savedArticle = await onUpdate(getConceptPatchType(values, licenses!), revision!);
       }
-      formikHelpers.resetForm();
+      formikHelpers.resetForm({
+        values: conceptApiTypeToFormType(savedArticle, language, subjects, conceptArticles),
+      });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
     } catch (err) {

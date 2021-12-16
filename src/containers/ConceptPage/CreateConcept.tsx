@@ -35,6 +35,7 @@ const CreateConcept = ({ locale, inModal = false, addConceptInModal }: Props) =>
     } else {
       navigate(toEditConcept(savedConcept.id, createdConcept.language));
     }
+    return savedConcept;
   };
 
   return (

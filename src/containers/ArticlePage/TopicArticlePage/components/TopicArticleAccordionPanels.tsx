@@ -36,7 +36,8 @@ const TopicArticleAccordionPanels = ({
   const locale = i18n.language;
   const { userAccess } = useSession();
   const formikContext = useFormikContext<TopicArticleFormikType>();
-  const { values, handleBlur, errors, setValues } = formikContext;
+  const { values, handleBlur, errors, setValues, setStatus } = formikContext;
+
   return (
     <Accordions>
       <AccordionSection
@@ -99,6 +100,7 @@ const TopicArticleAccordionPanels = ({
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}
+            setStatus={setStatus}
           />
         </AccordionSection>
       )}

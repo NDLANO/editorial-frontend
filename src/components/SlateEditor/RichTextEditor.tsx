@@ -16,6 +16,7 @@ import {
   ReactEditor,
 } from 'slate-react';
 import { withHistory } from 'slate-history';
+import { useFormikContext } from 'formik';
 import { isEqual } from 'lodash';
 import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
@@ -25,6 +26,7 @@ import { SlateToolbar } from './plugins/toolbar';
 import { onDragOver, onDragStart, onDrop } from './plugins/DND';
 import withPlugins from './utils/withPlugins';
 import Spinner from '../Spinner';
+import { LearningResourceFormikType } from '../../containers/FormikForm/articleFormHooks';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -51,8 +53,9 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
     [],
   );
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
-
   const prevSubmitted = useRef(submitted);
+
+  const { status, setStatus } = useFormikContext<LearningResourceFormikType>();
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });
@@ -71,8 +74,11 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
   }, [editor.mathjaxInitialized, isFirstNormalize]);
 
   useEffect(() => {
-    if (!submitted && prevSubmitted.current) {
-      // Editor data will be updated and normalized. Reset history and other settings.
+    // When form is submitted or form content has been revert to a previous version, the editor has to be reinitialized.
+    if ((!submitted && prevSubmitted.current) || status === 'revertVersion') {
+      if (isFirstNormalize) {
+        return;
+      }
       ReactEditor.deselect(editor);
       editor.children = value;
       editor.history = { redos: [], undos: [] };
@@ -93,7 +99,6 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
             Transforms.select(editor, editor.lastSelection);
             editor.lastSelection = undefined;
             editor.lastSelectedBlock = undefined;
-            prevSubmitted.current = submitted;
             return;
           }
         }
@@ -113,12 +118,15 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
       }
       editor.lastSelection = undefined;
       editor.lastSelectedBlock = undefined;
+      if (status === 'revertVersion') {
+        setStatus(undefined);
+      }
     } else if (submitted && !prevSubmitted.current) {
       ReactEditor.deselect(editor);
     }
     prevSubmitted.current = submitted;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [submitted]);
+  }, [status, submitted]);
 
   const renderElement = useCallback((renderProps: RenderElementProps) => {
     const { attributes, children } = renderProps;

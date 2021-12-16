@@ -9,9 +9,9 @@ import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
 import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
-import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
+import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 
 interface Props {
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
@@ -39,7 +39,7 @@ const LearningResourcePanels = ({
   const { userAccess } = useSession();
   const locale = i18n.language;
   const formikContext = useFormikContext<LearningResourceFormikType>();
-  const { values, setValues, errors, handleBlur } = formikContext;
+  const { values, setValues, errors, handleBlur, setStatus } = formikContext;
 
   const showTaxonomySection = !!values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE);
 
@@ -112,6 +112,7 @@ const LearningResourcePanels = ({
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}
+            setStatus={setStatus}
           />
         </AccordionSection>
       )}

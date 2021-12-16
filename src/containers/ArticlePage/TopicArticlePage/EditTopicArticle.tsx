@@ -16,12 +16,12 @@ import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 
 interface Props {
-  articleId: string;
   isNewlyCreated: boolean;
 }
 
-const EditTopicArticle = ({ articleId, isNewlyCreated }: Props) => {
-  const params = useParams<'selectedLanguage'>();
+const EditTopicArticle = ({ isNewlyCreated }: Props) => {
+  const params = useParams<'id' | 'selectedLanguage'>();
+  const articleId = params.id!;
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const {
     loading,

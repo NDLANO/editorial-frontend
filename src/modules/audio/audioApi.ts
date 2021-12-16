@@ -35,10 +35,12 @@ export const postAudio = (formData: FormData): Promise<AudioApiType> =>
     body: formData,
   }).then(r => resolveJsonOrRejectWithError<AudioApiType>(r));
 
-export const fetchAudio = (id: number, locale: string): Promise<AudioApiType> =>
-  fetchAuthorized(`${baseUrl}/${id}?language=${locale}`).then(r =>
+export const fetchAudio = (id: string | number, locale?: string): Promise<AudioApiType> => {
+  const languageParam = locale ? `?language=${locale}` : '';
+  return fetchAuthorized(`${baseUrl}/${id}${languageParam}`).then(r =>
     resolveJsonOrRejectWithError<AudioApiType>(r),
   );
+};
 
 export const updateAudio = (id: number, formData: FormData): Promise<AudioApiType> =>
   fetchAuthorized(`${baseUrl}/${id}`, {
@@ -79,10 +81,15 @@ export const fetchSearchTags = async (
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchSeries = (id: number | string, language: string): Promise<PodcastSeriesApiType> =>
-  fetchAuthorized(`${seriesBaseUrl}/${id}?language=${language}`).then(r =>
+export const fetchSeries = (
+  id: number | string,
+  language?: string,
+): Promise<PodcastSeriesApiType> => {
+  const languageParam = language ? `?language=${language}` : '';
+  return fetchAuthorized(`${seriesBaseUrl}/${id}${languageParam}`).then(r =>
     resolveJsonOrRejectWithError<PodcastSeriesApiType>(r),
   );
+};
 
 export const postSeries = (newSeries: PodcastSeriesPost): Promise<PodcastSeriesApiType> =>
   fetchAuthorized(`${seriesBaseUrl}`, {

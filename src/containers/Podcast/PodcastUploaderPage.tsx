@@ -5,44 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useState, useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
-import { OneColumn } from '@ndla/ui';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
-const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
+import { useAudio } from '../../modules/audio/audioQueries';
+import ResourcePage from '../../components/ResourcePage';
 const CreatePodcast = loadable(() => import('./CreatePodcast'));
 const EditPodcast = loadable(() => import('./EditPodcast'));
 
-const PodcastUploderPage = () => {
-  const { t } = useTranslation();
-  const [previousLocation, setPreviousLocation] = useState('');
-  const [isNewlyCreated, setNewlyCreated] = useState(false);
-  const location = useLocation();
-
-  useEffect(() => {
-    /\/podcast-upload\/(.*)\/new/.test(location.pathname)
-      ? setNewlyCreated(true)
-      : setNewlyCreated(false);
-    if (previousLocation !== location.pathname) {
-      setPreviousLocation(location.pathname);
-    }
-  }, [location.pathname, previousLocation]);
-
-  return (
-    <OneColumn>
-      <HelmetWithTracker title={t('htmlTitles.podcastUploaderPage')} />
-      <Routes>
-        <Route path="new" element={<CreatePodcast />} />
-        <Route
-          path=":podcastId/edit/:podcastLanguage"
-          element={<EditPodcast isNewlyCreated={isNewlyCreated} />}
-        />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </OneColumn>
-  );
-};
+const PodcastUploderPage = () => (
+  <ResourcePage
+    CreateComponent={CreatePodcast}
+    EditComponent={EditPodcast}
+    useHook={useAudio}
+    createUrl="/media/podcast-upload/new"
+    titleTranslationKey="htmlTitles.podcastUploaderPage"
+  />
+);
 
 export default PodcastUploderPage;

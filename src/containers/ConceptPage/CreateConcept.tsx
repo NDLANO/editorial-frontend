@@ -15,17 +15,16 @@ import ConceptForm from './ConceptForm/ConceptForm';
 import { ConceptPostType } from '../../modules/concept/conceptApiInterfaces';
 
 interface Props {
-  locale: string;
   inModal?: boolean;
   addConceptInModal?: Function;
 }
 
-const CreateConcept = ({ locale, inModal = false, addConceptInModal }: Props) => {
-  const { t } = useTranslation();
+const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { subjects, createConcept, fetchSearchTags, conceptArticles } = useFetchConceptData(
     undefined,
-    locale,
+    i18n.language,
   );
 
   const createConceptAndPushRoute = async (createdConcept: ConceptPostType) => {
@@ -41,7 +40,7 @@ const CreateConcept = ({ locale, inModal = false, addConceptInModal }: Props) =>
     <>
       <HelmetWithTracker title={t(`conceptform.title`)} />
       <ConceptForm
-        language={locale}
+        language={i18n.language}
         onUpdate={concept => createConceptAndPushRoute(concept as ConceptPostType)}
         fetchConceptTags={fetchSearchTags}
         inModal={inModal}

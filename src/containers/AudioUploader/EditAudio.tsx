@@ -12,18 +12,16 @@ import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import Spinner from '../../components/Spinner';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
-import { LocaleType } from '../../interfaces';
 import { AudioApiType, AudioMetaInformationPut } from '../../modules/audio/audioApiInterfaces';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { fetchAudio, updateAudio } from '../../modules/audio/audioApi';
 
 interface Props {
-  locale: LocaleType;
   isNewlyCreated?: boolean;
 }
 
-const EditAudio = ({ locale, isNewlyCreated, ...rest }: Props) => {
-  const { audioId, audioLanguage } = useParams<'audioId' | 'audioLanguage'>();
+const EditAudio = ({ isNewlyCreated }: Props) => {
+  const { id: audioId, selectedLanguage: audioLanguage } = useParams<'id' | 'selectedLanguage'>();
   const [audio, setAudio] = useState<AudioApiType | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const { translating, translateToNN } = useTranslateApi(
@@ -64,7 +62,8 @@ const EditAudio = ({ locale, isNewlyCreated, ...rest }: Props) => {
     return <Navigate replace to={toEditPodcast(Number(audioId), audioLanguage!)} />;
   }
 
-  const language = audioLanguage || locale;
+  const language = audioLanguage!;
+
   return (
     <AudioForm
       audio={audio}
@@ -74,7 +73,6 @@ const EditAudio = ({ locale, isNewlyCreated, ...rest }: Props) => {
       isNewlyCreated={isNewlyCreated}
       translating={translating}
       translateToNN={translateToNN}
-      {...rest}
     />
   );
 };

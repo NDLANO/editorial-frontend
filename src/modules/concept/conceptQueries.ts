@@ -8,10 +8,21 @@
 
 import queryString from 'query-string';
 import { useQuery, UseQueryOptions } from 'react-query';
-import { SEARCH_CONCEPTS } from '../../queryKeys';
-import { searchConcepts } from './conceptApi';
-import { ConceptQuery, ConceptSearchResult } from './conceptApiInterfaces';
+import { CONCEPT, SEARCH_CONCEPTS } from '../../queryKeys';
+import { fetchConcept, searchConcepts } from './conceptApi';
+import { ConceptApiType, ConceptQuery, ConceptSearchResult } from './conceptApiInterfaces';
 
+export const useConcept = (
+  id: string | number,
+  language?: string,
+  options?: UseQueryOptions<ConceptApiType>,
+) => {
+  return useQuery<ConceptApiType>(
+    [CONCEPT, id, language],
+    () => fetchConcept(id, language),
+    options,
+  );
+};
 export const useSearchConcepts = (
   query: ConceptQuery,
   options?: UseQueryOptions<ConceptSearchResult>,

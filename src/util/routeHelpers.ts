@@ -177,15 +177,11 @@ export const getPathsFromUrl = (url: string) => {
 };
 
 export const usePreviousLocation = () => {
-  const currentLocationRef = useRef<string>();
-  const previousLocationRef = useRef<string>();
   const location = useLocation();
+  const locationRef = useRef<string | undefined>(undefined);
 
   useEffect(() => {
-    if (currentLocationRef.current !== previousLocationRef.current) {
-      previousLocationRef.current = currentLocationRef.current;
-    }
-    currentLocationRef.current = location.pathname;
-  }, [location.pathname]);
-  return previousLocationRef.current;
+    locationRef.current = location.pathname;
+  }, [location]);
+  return locationRef.current;
 };

@@ -18,6 +18,7 @@ export interface SubjectTopic extends TaxonomyElement {
   relevanceId?: string;
   parent: string;
   path: string;
+  paths: string[];
   connectionId: string;
   subtopics?: SubjectTopic[];
   rank: number;

@@ -12,6 +12,8 @@ import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
+import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
+import { onSaveAsVisualElement } from '../../../FormikForm/utils';
 
 interface Props {
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
@@ -70,7 +72,12 @@ const TopicArticleAccordionPanels = ({
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.tags)}>
-        <MetaDataField article={article} fetchSearchTags={fetchSearchTags} />
+        <MetaDataField
+          article={article}
+          fetchSearchTags={fetchSearchTags}
+          showCheckbox={true}
+          checkboxAction={(image: ImageApiType) => onSaveAsVisualElement(image, formikContext)}
+        />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-grepCodes'}

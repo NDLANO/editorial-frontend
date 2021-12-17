@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { FormikContextType, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MetaImageSearch } from '../../FormikForm';
@@ -16,38 +16,13 @@ import InlineImageSearch from './InlineImageSearch';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
 import { ConceptTagsSearchResult } from '../../../modules/concept/conceptApiInterfaces';
-import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
-import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
-import { defaultEmbedBlock } from '../../../components/SlateEditor/plugins/embed/utils';
-import { ImageEmbed } from '../../../interfaces';
+import { onSaveAsVisualElement } from '../../FormikForm/utils';
 
 interface Props {
   subjects: SubjectType[];
   fetchTags: (input: string, language: string) => Promise<ConceptTagsSearchResult>;
   inModal: boolean;
 }
-
-const onSaveAsVisualElement = (
-  image: ImageApiType,
-  formikContext: FormikContextType<ConceptFormValues>,
-) => {
-  const { setFieldValue, setFieldTouched } = formikContext;
-
-  if (image) {
-    const visualElement: ImageEmbed = {
-      resource: 'image',
-      resource_id: image.id,
-      size: 'full',
-      align: '',
-      alt: convertFieldWithFallback(image as Object, 'alttext', ''),
-      caption: convertFieldWithFallback(image as Object, 'caption', '') || '',
-    };
-    setFieldValue('visualElement', [defaultEmbedBlock(visualElement)]);
-    setTimeout(() => {
-      setFieldTouched('visualElement', true, false);
-    }, 0);
-  }
-};
 
 const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
   const { t } = useTranslation();

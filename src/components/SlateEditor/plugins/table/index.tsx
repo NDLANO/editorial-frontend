@@ -254,7 +254,6 @@ export const tablePlugin = (editor: Editor) => {
           {
             at: path,
             match: n => n !== node,
-            mode: 'highest',
           },
         );
       }

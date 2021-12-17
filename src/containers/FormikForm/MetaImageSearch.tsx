@@ -44,8 +44,8 @@ const MetaImageSearch = ({
   setFieldTouched,
   onChange,
   onImageLoad,
-  showCheckbox: showCheckbox,
-  checkboxAction: checkboxAction,
+  showCheckbox,
+  checkboxAction,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [showImageSelect, setShowImageSelect] = useState(false);

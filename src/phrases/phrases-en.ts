@@ -289,6 +289,7 @@ const phrases = {
     buttonTitle: 'Search',
     useImage: 'Use image',
     metaImageCheckboxLabel: 'Set as meta image',
+    visualElementCheckboxLabel: 'Set as visual element',
     noTitle: 'No title',
     noResultsText: 'No images found. Would you like to upload a new image?',
     noResultsButtonText: 'Upload image',

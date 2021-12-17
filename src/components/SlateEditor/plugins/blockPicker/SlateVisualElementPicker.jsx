@@ -4,7 +4,7 @@ import VisualElementSearch from '../../../../containers/VisualElement/VisualElem
 import { defaultEmbedBlock } from '../embed/utils';
 import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
-import { onSaveAsMetaImage } from '../../../../containers/VisualElement/VisualElementSelectField';
+import { checkboxAction } from '../../../../containers/VisualElement/VisualElementSelectField';
 
 const SlateVisualElementPicker = ({
   articleLanguage,
@@ -15,8 +15,7 @@ const SlateVisualElementPicker = ({
   const formikContext = useFormikContext();
   const { values } = formikContext;
 
-  const showMetaImageCheckbox =
-    values.metaImageAlt !== undefined && values.metaImageId !== undefined;
+  const showCheckbox = values.metaImageAlt !== undefined && values.metaImageId !== undefined;
 
   const onVisualElementAdd = (visualElement, type = 'embed') => {
     if (type === 'embed') {
@@ -37,8 +36,8 @@ const SlateVisualElementPicker = ({
           handleVisualElementChange={onVisualElementAdd}
           closeModal={onVisualElementClose}
           setH5pFetchFail={setH5pFetchFail}
-          showMetaImageCheckbox={showMetaImageCheckbox}
-          onSaveAsMetaImage={image => onSaveAsMetaImage(image, formikContext)}
+          showCheckbox={showCheckbox}
+          checkboxAction={image => checkboxAction(image, formikContext)}
         />
       )}
     </VisualElementModalWrapper>

@@ -33,8 +33,8 @@ interface Props {
   setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void;
   onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
   showRemoveButton: boolean;
-  showMetaImageCheckbox: boolean;
-  onSaveAsMetaImage: (image: ImageApiType) => void;
+  showCheckbox: boolean;
+  checkboxAction: (image: ImageApiType) => void;
 }
 
 const MetaImageSearch = ({
@@ -44,8 +44,8 @@ const MetaImageSearch = ({
   setFieldTouched,
   onChange,
   onImageLoad,
-  showMetaImageCheckbox,
-  onSaveAsMetaImage,
+  showCheckbox: showCheckbox,
+  checkboxAction: checkboxAction,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const [showImageSelect, setShowImageSelect] = useState(false);
@@ -128,8 +128,8 @@ const MetaImageSearch = ({
                 onError={onError}
                 updateImage={onImageUpdate}
                 image={image}
-                showMetaImageCheckbox={showMetaImageCheckbox}
-                onSaveAsMetaImage={onSaveAsMetaImage}
+                showCheckbox={showCheckbox}
+                checkboxAction={checkboxAction}
               />
             </ModalBody>
           </>

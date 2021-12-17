@@ -290,6 +290,7 @@ const phrases = {
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
     metaImageCheckboxLabel: 'Sett som metabilde',
+    visualElementCheckboxLabel: 'Sett som visuelt element',
     noTitle: 'Ingen tittel',
     noResultsText: 'Fant ingen bilder på søk. Ønsker du å laste opp et nytt bilde?',
     noResultsButtonText: 'Last opp bilde',

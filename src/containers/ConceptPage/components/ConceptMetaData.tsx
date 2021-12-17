@@ -65,8 +65,8 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
               metaImageId={field.value}
               setFieldTouched={form.setFieldTouched}
               showRemoveButton
-              showMetaImageCheckbox={true}
-              onSaveAsMetaImage={image => onSaveAsVisualElement(image, formikContext)}
+              showCheckbox={true}
+              checkboxAction={image => onSaveAsVisualElement(image, formikContext)}
               {...field}
             />
           )}

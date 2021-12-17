@@ -106,6 +106,7 @@ const ConceptModal = ({
       ? await updateConcept(upsertedConcept)
       : await createConcept(upsertedConcept);
     addConcept(savedConcept);
+    return savedConcept;
   };
 
   useEffect(() => {

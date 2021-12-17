@@ -60,7 +60,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
         onUpdate={async concept => {
-          updateConcept(concept as ConceptPatchType);
+          return updateConcept(concept as ConceptPatchType);
         }}
         language={selectedLanguage!}
         subjects={subjects}

@@ -23,6 +23,7 @@ import {
   createResource,
   getResourceId,
   queryResources,
+  queryTopics,
 } from '../../../../modules/taxonomy';
 import { sortByName, groupTopics, getBreadcrumbFromPath } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
@@ -44,9 +45,11 @@ import {
   SubjectType,
   SubjectTopic,
   ParentTopicWithRelevanceAndConnections,
+  Topic,
+  Resource,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
-import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import { LocaleType } from '../../../../interfaces';
+import { DraftApiType, UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { SessionProps } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
@@ -67,8 +70,8 @@ interface FullResource {
 }
 
 type Props = {
-  article: Partial<ConvertedDraftType>;
-  updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  article: DraftApiType;
+  updateNotes: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   setIsOpen?: (open: boolean) => void;
 } & CustomWithTranslation &
   SessionProps;
@@ -78,6 +81,7 @@ interface LearningResourceSubjectType extends SubjectType {
 }
 
 interface State {
+  taxonomy: { topics?: Topic[]; resources?: Resource[] };
   resourceId: string;
   structure: LearningResourceSubjectType[];
   status: string;
@@ -108,6 +112,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     this.state = {
       resourceId: '',
       structure: [],
+      taxonomy: { resources: [], topics: [] },
 
       status: 'loading',
       isDirty: false,
@@ -215,7 +220,9 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     if (!id) return;
 
     try {
+      const topics = await queryTopics(id, i18n.language, 'article');
       const resources = await queryResources(id.toString(), i18n.language);
+      this.setState({ taxonomy: { resources, topics } });
 
       const resourceId = resources.length === 1 && resources[0].id;
 
@@ -288,17 +295,17 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     let reassignedResourceId = resourceId;
     const {
       updateNotes,
-      article: { language, id, title, revision, supportedLanguages },
+      article: { id, title, revision, supportedLanguages },
     } = this.props;
-    if (!language || !id) return;
+    if (!title?.language || !id) return;
     this.setState({ status: 'loading' });
     try {
       if (!reassignedResourceId) {
         await createResource({
           contentUri: `urn:article:${id}`,
-          name: title ?? '',
+          name: title?.title ?? '',
         });
-        reassignedResourceId = await getResourceId({ id, language });
+        reassignedResourceId = await getResourceId({ id, language: title.language });
         this.setState({
           resourceId: reassignedResourceId,
         });
@@ -308,7 +315,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         updateNotes({
           id,
           revision: revision ?? 0,
-          language,
+          language: title.language,
           notes: ['Oppdatert taksonomi.'],
           supportedLanguages: supportedLanguages ?? [],
         });
@@ -456,7 +463,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       );
     }
 
-    const mainResource = this.props.article.taxonomy?.resources?.[0];
+    const mainResource = this.state.taxonomy?.resources?.[0];
     const mainEntity = mainResource && {
       id: mainResource.id,
       name: mainResource.name,
@@ -470,7 +477,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         {isTaxonomyAdmin && (
           <TaxonomyConnectionErrors
             articleType={article.articleType ?? 'standard'}
-            taxonomy={article.taxonomy}
+            taxonomy={this.state.taxonomy}
           />
         )}
         {isTaxonomyAdmin && resourceId && (

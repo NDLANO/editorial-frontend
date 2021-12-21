@@ -129,7 +129,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       options: subjects.sort(sortByProperty('name')),
     },
     {
-      name: getTagName(search['resource-types'], resourceTypes),
+      name: getTagName(search['resource-types'], resourceTypes ?? []),
       type: 'resource-types',
       width: 25,
       options: resourceTypes!.sort(sortByProperty('name')),
@@ -144,7 +144,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       options: getDraftStatuses().sort(sortByProperty('name')),
     },
     {
-      name: getTagName(search.users, users),
+      name: getTagName(search.users, users ?? []),
       type: 'users',
       width: 25,
       options: users!.sort(sortByProperty('name')),

@@ -11,9 +11,8 @@ import { useTranslation } from 'react-i18next';
 import TopicArticleForm from './components/TopicArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
-import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { ConvertedDraftType } from '../../../interfaces';
-import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
+import { DraftApiType, UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
+import { convertUpdateToNewDraft } from '../../../util/articleUtil';
 
 const CreateTopicArticle = () => {
   const { t, i18n } = useTranslation();
@@ -23,17 +22,19 @@ const CreateTopicArticle = () => {
 
   const createArticleAndPushRoute = async (
     createdArticle: UpdatedDraftApiType,
-  ): Promise<ConvertedDraftType> => {
+  ): Promise<DraftApiType> => {
     const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
-    navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
-    return await transformArticleFromApiVersion(savedArticle, locale);
+    navigate(
+      toEditArticle(savedArticle.id, savedArticle.articleType, savedArticle.title?.language),
+    );
+    return savedArticle;
   };
 
   return (
     <>
       <HelmetWithTracker title={t('htmlTitles.createTopicArticlePage')} />
       <TopicArticleForm
-        article={{ language: locale, grepCodes: [] }}
+        articleLanguage={i18n.language}
         updateArticle={createArticleAndPushRoute}
         isNewlyCreated={false}
         translating={false}

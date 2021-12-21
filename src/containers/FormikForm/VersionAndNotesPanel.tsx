@@ -24,14 +24,14 @@ import handleError from '../../util/handleError';
 import AddNotesField from './AddNotesField';
 import formatDate from '../../util/formatDate';
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/auth0Api';
-import { transformArticleFromApiVersion } from '../../util/articleUtil';
 import VersionActionbuttons from './VersionActionButtons';
 import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
-import { ConvertedDraftType, Note } from '../../interfaces';
+import { Note } from '../../interfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
-import { ArticleFormikType } from './articleFormHooks';
+import { TopicArticleFormType } from './articleFormHooks';
 import { useMessages } from '../Messages/MessagesProvider';
+import { draftApiTypeToTopicArticleFormType } from '../ArticlePage/TopicArticlePage/topicHelpers';
 
 const paddingPanelStyleInside = css`
   background: ${colors.brand.greyLightest};
@@ -44,20 +44,12 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 };
 
 interface Props {
-  articleId: number;
-  article: Partial<ConvertedDraftType>;
-  getInitialValues: (article: Partial<ConvertedDraftType>) => ArticleFormikType;
-  setValues(values: ArticleFormikType, shouldValidate?: boolean): void;
+  article: DraftApiType;
+  setValues(values: TopicArticleFormType, shouldValidate?: boolean): void;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
 }
 
-const VersionAndNotesPanel = ({
-  articleId,
-  article,
-  getInitialValues,
-  setValues,
-  getArticle,
-}: Props) => {
+const VersionAndNotesPanel = ({ article, setValues, getArticle }: Props) => {
   const { t } = useTranslation();
   const [versions, setVersions] = useState<DraftApiType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -67,7 +59,7 @@ const VersionAndNotesPanel = ({
     const getVersions = async () => {
       try {
         setLoading(true);
-        const versions = await draftApi.fetchDraftHistory(articleId, article.language);
+        const versions = await draftApi.fetchDraftHistory(article.id, article.title?.language);
         setVersions(versions);
         setLoading(false);
       } catch (e) {
@@ -76,7 +68,7 @@ const VersionAndNotesPanel = ({
       }
     };
     getVersions();
-  }, [articleId, article]);
+  }, [article.id, article.title?.language]);
 
   useEffect(() => {
     if (versions.length) {
@@ -97,13 +89,13 @@ const VersionAndNotesPanel = ({
 
   const resetVersion = async (
     version: DraftApiType,
-    language: string | undefined,
+    language: string,
     showFromArticleApi: boolean,
   ) => {
     try {
       let newArticle: DraftApiType = version;
       if (showFromArticleApi) {
-        const articleApiArticle = await articleApi.getArticle(articleId, language);
+        const articleApiArticle = await articleApi.getArticle(article.id, language);
         newArticle = {
           ...articleApiArticle,
           notes: [],
@@ -112,10 +104,10 @@ const VersionAndNotesPanel = ({
           status: { current: 'PUBLISHED', other: [] },
         };
       }
-      const newValues = getInitialValues(
-        await transformArticleFromApiVersion({ ...newArticle, status: version.status }, language),
+      const newValues = draftApiTypeToTopicArticleFormType(
+        { ...newArticle, status: version.status },
+        language,
       );
-
       setValues(newValues);
       createMessage({
         message: t('form.resetToProd.success'),

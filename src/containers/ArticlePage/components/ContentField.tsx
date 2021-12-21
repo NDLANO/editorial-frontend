@@ -5,41 +5,50 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
-import { FormikHelpers, FormikValues } from 'formik';
+import { FieldInputProps, FormikHelpers } from 'formik';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
-import { ConvertedRelatedContent, FormikProperties } from '../../../interfaces';
+import { ConvertedRelatedContent, RelatedContent, RelatedContentLink } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
-import { ArticleFormikType } from '../../FormikForm/articleFormHooks';
+import { ArticleFormType } from '../../FormikForm/articleFormHooks';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { DraftApiType, DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
-  locale: string;
-  values: ArticleFormikType;
-  field: FormikProperties['field'];
-  form: {
-    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  };
+  field: FieldInputProps<ArticleFormType['relatedContent']>;
+  form: FormikHelpers<ArticleFormType>;
 }
 
-const ContentField = ({ locale, values, field, form }: Props) => {
-  const { t } = useTranslation();
-  const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>(
-    values.relatedContent,
-  );
+const ContentField = ({ field, form }: Props) => {
+  const { t, i18n } = useTranslation();
+  const [relatedContent, setRelatedContent] = useState<ConvertedRelatedContent[]>([]);
   const [showAddExternal, setShowAddExternal] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const promises = field.value.map<Promise<ConvertedRelatedContent> | RelatedContentLink>(
+        element => {
+          if (typeof element === 'number') {
+            return fetchDraft(element);
+          } else return element;
+        },
+      );
+      const content = await Promise.all(promises);
+      setRelatedContent(content);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onAddArticleToList = async (article: DraftSearchSummary) => {
     try {
-      const newArticle = await fetchDraft(article.id, locale);
+      const newArticle = await fetchDraft(article.id, i18n.language);
       const temp = [...relatedContent, newArticle];
       if (newArticle) {
         setRelatedContent(temp);
@@ -52,15 +61,17 @@ const ContentField = ({ locale, values, field, form }: Props) => {
 
   const onUpdateElements = (relatedContent: ConvertedRelatedContent[]) => {
     setRelatedContent(relatedContent);
-    updateFormik(field, relatedContent);
+    const newFieldValue = relatedContent.map(rc => (isDraftApiType(rc) ? rc.id : rc));
+    updateFormik(field, newFieldValue);
   };
 
   const updateFormik = (formikField: Props['field'], newData: ConvertedRelatedContent[]) => {
     form.setFieldTouched('relatedContent', true, false);
+    const newRc: RelatedContent[] = newData.map(rc => (isDraftApiType(rc) ? rc.id : rc));
     formikField.onChange({
       target: {
         name: formikField.name,
-        value: newData || null,
+        value: newRc || null,
       },
     });
   };
@@ -69,7 +80,7 @@ const ContentField = ({ locale, values, field, form }: Props) => {
     return searchDrafts({
       query,
       page,
-      language: locale,
+      language: i18n.language,
     });
   };
 
@@ -79,9 +90,9 @@ const ContentField = ({ locale, values, field, form }: Props) => {
     updateFormik(field, temp);
   };
 
-  const isDraftApiType = (obj: any): obj is DraftApiType => {
-    return obj.id !== undefined;
-  };
+  const isDraftApiType = (
+    relatedContent: ConvertedRelatedContent,
+  ): relatedContent is DraftApiType => (relatedContent as DraftApiType).id !== undefined;
 
   const selectedItems = relatedContent.filter(isDraftApiType);
 

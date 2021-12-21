@@ -19,7 +19,6 @@ import { FormikFieldHelp } from '../../components/FormikField';
 import AsyncDropdown from '../../components/Dropdown/asyncDropdown/AsyncDropdown';
 
 interface Props {
-  articleGrepCodes: string[];
   field: FieldProps<string[]>['field'];
   form: {
     setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
@@ -47,7 +46,7 @@ export const convertGrepCodesToObject = async (grepCodes: string[]) => {
   );
 };
 
-const GrepCodesFieldContent = ({ articleGrepCodes, field, form }: Props) => {
+const GrepCodesFieldContent = ({ field, form }: Props) => {
   const { t } = useTranslation();
   const [grepCodes, setGrepCodes] = useState<GrepCode[]>([]);
   const [failedGrepCodes, setFailedGrepCodes] = useState<string[]>([]);
@@ -60,10 +59,11 @@ const GrepCodesFieldContent = ({ articleGrepCodes, field, form }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const comp = await convertGrepCodesToObject(articleGrepCodes);
+      const comp = await convertGrepCodesToObject(field.value);
       setGrepCodes(comp);
     })();
-  }, [articleGrepCodes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const updateFormik = (formikField: Props['field'], newData: string[]) => {
     formikField.onChange({

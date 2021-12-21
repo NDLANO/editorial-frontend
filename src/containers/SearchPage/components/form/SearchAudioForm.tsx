@@ -90,7 +90,7 @@ const SearchAudioForm = ({
     },
     {
       type: 'license',
-      name: getTagName(search.license, licenses),
+      name: getTagName(search.license, licenses!),
       options: licenses ?? [],
     },
     {

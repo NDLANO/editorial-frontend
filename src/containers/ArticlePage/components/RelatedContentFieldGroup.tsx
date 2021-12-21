@@ -10,28 +10,18 @@ import FormikField from '../../../components/FormikField';
 import { DRAFT_ADMIN_SCOPE } from '../../../constants';
 import ConceptsField from './ConceptsField';
 import ContentField from './ContentField';
-import { ArticleFormikType } from '../../FormikForm/articleFormHooks';
 import { useSession } from '../../Session/SessionProvider';
 
-interface Props {
-  values: ArticleFormikType;
-  locale: string;
-}
-
-const RelatedContentFieldGroup = ({ locale, values }: Props) => {
+const RelatedContentFieldGroup = () => {
   const { userAccess } = useSession();
   return (
     <>
       <FormikField name={'conceptIds'}>
-        {({ field, form }) => (
-          <ConceptsField field={field} form={form} locale={locale} values={values} />
-        )}
+        {({ field, form }) => <ConceptsField field={field} form={form} />}
       </FormikField>
       {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormikField name={'relatedContent'}>
-          {({ field, form }) => (
-            <ContentField field={field} form={form} locale={locale} values={values} />
-          )}
+          {({ field, form }) => <ContentField field={field} form={form} />}
         </FormikField>
       )}
     </>

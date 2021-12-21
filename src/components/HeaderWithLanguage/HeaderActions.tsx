@@ -56,7 +56,7 @@ const PreviewLightBox = ({
         )}
       </PreviewDraftLightbox>
     );
-  } else return null;
+  } else return <></>;
 };
 
 interface Props {

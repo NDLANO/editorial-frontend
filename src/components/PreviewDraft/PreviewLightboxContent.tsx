@@ -13,7 +13,7 @@ import Spinner from '../Spinner';
 import PreviewProduction from './PreviewProduction';
 import PreviewLanguage from './PreviewLanguage';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
-import { ArticleType, TypeOfPreview } from '../../interfaces';
+import { TypeOfPreview } from '../../interfaces';
 import { ConceptPreviewType } from '../PreviewConcept/PreviewConceptLightbox';
 import { createArrayGuard } from '../../util/guards';
 
@@ -38,7 +38,7 @@ interface Props {
   previewLanguage: string;
   contentType?: string;
   getEntityPreview: (
-    entity: ArticleType | ConceptPreviewType,
+    entity: ArticleConverterApiType | ConceptPreviewType,
     label: string,
     contentType?: string,
   ) => ReactNode;

@@ -6,15 +6,13 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { ErrorMessage, connect } from 'formik';
+import { ErrorMessage, useFormikContext } from 'formik';
 import BEMHelper from 'react-bem-helper';
 import { FieldHeader } from '@ndla/forms';
 import VisualElement from '../../VisualElement/VisualElement';
 import FormikField, { FormikFieldHelp } from '../../../components/FormikField';
-import { FormikShape } from '../../../shapes';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 
 export const visualElementClasses = new BEMHelper({
@@ -28,8 +26,15 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-const VisualElementField = ({ formik, types }) => {
+interface VisualElementValues {
+  language: string;
+}
+interface Props {
+  types?: string[];
+}
+const VisualElementField = ({ types }: Props) => {
   const { t } = useTranslation();
+  const formik = useFormikContext<VisualElementValues>();
 
   return (
     <>
@@ -63,9 +68,4 @@ const VisualElementField = ({ formik, types }) => {
   );
 };
 
-VisualElementField.propTypes = {
-  formik: FormikShape,
-  types: PropTypes.arrayOf(PropTypes.string),
-};
-
-export default connect(VisualElementField);
+export default VisualElementField;

@@ -10,12 +10,17 @@ import { Formik, Form } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { ArticleFormikType, useArticleFormHooks } from '../FormikForm/articleFormHooks';
+import { ArticleFormType, useArticleFormHooks } from '../FormikForm/articleFormHooks';
 import GrepCodesField from '../FormikForm/GrepCodesField';
 import SaveMultiButton from '../../components/SaveMultiButton';
-import { DraftStatusTypes, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
+import {
+  DraftApiType,
+  DraftStatusTypes,
+  UpdatedDraftApiType,
+} from '../../modules/draft/draftApiInterfaces';
 import { isFormikFormDirty } from '../../util/formHelper';
-import { ConvertedDraftType } from '../../interfaces';
+import { draftApiTypeToTopicArticleFormType } from '../ArticlePage/TopicArticlePage/topicHelpers';
+import { License } from '../../interfaces';
 
 const SaveButtonContainer = styled.div`
   display: flex;
@@ -23,31 +28,12 @@ const SaveButtonContainer = styled.div`
   margin-top: ${spacing.small};
 `;
 
-const getInitialValues = (article: Partial<ConvertedDraftType>): ArticleFormikType => {
-  return {
-    articleType: article.articleType ?? '',
-    conceptIds: article.conceptIds ?? [],
-    creators: article.copyright?.creators ?? [],
-    processors: article.copyright?.processors ?? [],
-    relatedContent: article.relatedContent ?? [],
-    rightsholders: article.copyright?.rightsholders ?? [],
-    supportedLanguages: article.supportedLanguages ?? [],
-    tags: article.tags ?? [],
-    updatePublished: false,
-    id: article.id,
-    revision: article.revision,
-    notes: [],
-    grepCodes: article.grepCodes || [],
-  };
-};
-
-const getArticle = ({
-  values,
-}: {
-  values: ArticleFormikType;
-  initialValues: ArticleFormikType;
-  preview: boolean;
-}): UpdatedDraftApiType => {
+const getArticle = (
+  values: ArticleFormType,
+  initialValues: ArticleFormType,
+  licenses: License[],
+  preview?: boolean,
+): UpdatedDraftApiType => {
   return {
     revision: 0,
     id: values.id,
@@ -57,14 +43,14 @@ const getArticle = ({
 };
 
 interface Props {
-  article: ConvertedDraftType;
+  article: DraftApiType;
   articleChanged: boolean;
-  updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  updateArticle: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   updateArticleAndStatus?: (input: {
     updatedArticle: UpdatedDraftApiType;
     newStatus: DraftStatusTypes;
     dirty: boolean;
-  }) => Promise<ConvertedDraftType>;
+  }) => Promise<DraftApiType>;
 }
 
 const GrepCodesForm = ({
@@ -73,9 +59,10 @@ const GrepCodesForm = ({
   updateArticle,
   updateArticleAndStatus,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const articleLanguage = article.title?.language ?? i18n.language;
   const { savedToServer, handleSubmit } = useArticleFormHooks({
-    getInitialValues,
+    getInitialValues: draftApiTypeToTopicArticleFormType,
     article,
     t,
     articleStatus: article.status,
@@ -83,20 +70,23 @@ const GrepCodesForm = ({
     updateArticleAndStatus,
     getArticleFromSlate: getArticle,
     isNewlyCreated: false,
+    articleLanguage,
   });
 
   return (
-    <Formik initialValues={getInitialValues(article)} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={draftApiTypeToTopicArticleFormType(article, articleLanguage)}
+      onSubmit={handleSubmit}>
       {({ submitForm, isSubmitting, errors, values, dirty }) => {
         const formIsDirty = isFormikFormDirty({
-          initialValues: getInitialValues(article),
+          initialValues: draftApiTypeToTopicArticleFormType(article, articleLanguage),
           values,
           dirty,
           changed: articleChanged,
         });
         return (
           <Form>
-            <GrepCodesField grepCodes={article?.grepCodes || []} />
+            <GrepCodesField />
             <SaveButtonContainer>
               <SaveMultiButton
                 isSaving={isSubmitting}

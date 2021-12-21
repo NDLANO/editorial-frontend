@@ -105,7 +105,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
     },
     {
       type: 'users',
-      name: getTagName(search.users, users),
+      name: getTagName(search.users, users!),
       options: users!.sort(sortByProperty('name')),
       width: 25,
     },

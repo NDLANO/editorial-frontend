@@ -16,7 +16,7 @@ const AgreementFields = () => {
         placeholder={t('agreementForm.fields.title.placeholder')}
       />
       <ContributorsField contributorTypes={contributorTypes} />
-      <LicenseField />
+      <FormikField name="license">{({ field }) => <LicenseField {...field} />}</FormikField>
       <FormikField label={t('agreementForm.fields.content.label')} name="content">
         {({ field }) => (
           <textarea

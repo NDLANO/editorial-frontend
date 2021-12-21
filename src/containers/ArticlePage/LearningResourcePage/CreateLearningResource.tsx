@@ -12,7 +12,7 @@ import LearningResourceForm from './components/LearningResourceForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
 import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { convertUpdateToNewDraft, transformArticleFromApiVersion } from '../../../util/articleUtil';
+import { convertUpdateToNewDraft } from '../../../util/articleUtil';
 
 const CreateLearningResource = () => {
   const { t, i18n } = useTranslation();
@@ -23,20 +23,19 @@ const CreateLearningResource = () => {
   const createArticleAndPushRoute = async (createdArticle: UpdatedDraftApiType) => {
     const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
     navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
-    return await transformArticleFromApiVersion(savedArticle, locale);
+    return savedArticle;
   };
 
   return (
     <>
       <HelmetWithTracker title={t('htmlTitles.createLearningResourcePage')} />
       <LearningResourceForm
-        article={{ language: locale, grepCodes: [] }}
         updateArticle={createArticleAndPushRoute}
         updateArticleAndStatus={inp => createArticleAndPushRoute(inp.updatedArticle)}
         translating={false}
         articleChanged={false}
         isNewlyCreated={false}
-        translateToNN={() => {}}
+        articleLanguage={i18n.language}
       />
     </>
   );

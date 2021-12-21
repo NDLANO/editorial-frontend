@@ -10,9 +10,9 @@ import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
-import { ArticleType } from '../../interfaces';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { createGuard } from '../../util/guards';
+import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 
 export const StyledPreviewHeader = styled.div`
   min-height: 6rem;
@@ -26,12 +26,12 @@ const StyledPreview = styled.div`
 interface Props {
   label: string;
   contentType?: string;
-  firstEntity: ArticleType | ConceptApiType;
-  secondEntity: ArticleType | ConceptApiType;
+  firstEntity: ArticleConverterApiType | ConceptApiType;
+  secondEntity: ArticleConverterApiType | ConceptApiType;
   previewLanguage: string;
   onChangePreviewLanguage(language: string): void;
   getEntityPreview: (
-    entity: ArticleType | ConceptApiType,
+    entity: ArticleConverterApiType | ConceptApiType,
     label: string,
     contentType?: string,
   ) => ReactNode;

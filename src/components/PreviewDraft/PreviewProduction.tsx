@@ -7,13 +7,13 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { ArticleType } from '../../interfaces';
+import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 import PreviewDraft from './PreviewDraft';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 
 interface Props {
-  firstEntity: ArticleType;
-  secondEntity: ArticleType;
+  firstEntity: ArticleConverterApiType;
+  secondEntity: ArticleConverterApiType;
   contentType?: string;
   label: string;
   previewLanguage: string;

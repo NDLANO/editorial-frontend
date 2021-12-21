@@ -301,10 +301,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     this.setState({ status: 'loading' });
     try {
       if (!reassignedResourceId) {
-        await createResource({
-          contentUri: `urn:article:${id}`,
-          name: title?.title ?? '',
-        });
+        await createResource({ contentUri: `urn:article:${id}`, name: title.title });
         reassignedResourceId = await getResourceId({ id, language: title.language });
         this.setState({
           resourceId: reassignedResourceId,

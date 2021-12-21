@@ -24,7 +24,7 @@ import { ArticleConverterApiType } from '../../modules/article/articleApiInterfa
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { LocaleType, PartialRecord, TypeOfPreview } from '../../interfaces';
 import { createGuard } from '../../util/guards';
-import { updatedDraftApiTypeToDraftApiType } from '../../containers/ArticlePage/TopicArticlePage/topicHelpers';
+import { updatedDraftApiTypeToDraftApiType } from '../../containers/ArticlePage/articleTransformers';
 
 const twoArticlesCloseButtonStyle = css`
   position: absolute;

@@ -4,7 +4,7 @@ import {
   DraftApiType,
   DraftStatusTypes,
   UpdatedDraftApiType,
-} from '../../../modules/draft/draftApiInterfaces';
+} from '../../modules/draft/draftApiInterfaces';
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,
@@ -14,15 +14,15 @@ import {
   plainTextToEditorValue,
   topicArticleContentToEditorValue,
   topicArticleContentToHTML,
-} from '../../../util/articleContentConverter';
+} from '../../util/articleContentConverter';
 import {
   ArticleFormType,
   LearningResourceFormType,
   TopicArticleFormType,
-} from '../../FormikForm/articleFormHooks';
-import { DEFAULT_LICENSE, parseImageUrl } from '../../../util/formHelper';
-import { License } from '../../../interfaces';
-import { nullOrUndefined } from '../../../util/articleUtil';
+} from '../FormikForm/articleFormHooks';
+import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
+import { License } from '../../interfaces';
+import { nullOrUndefined } from '../../util/articleUtil';
 
 const getPublishedDate = (
   values: ArticleFormType,

@@ -16,7 +16,7 @@ import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropd
 import { ConceptApiType, SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
 import { ArticleFormType } from '../../FormikForm/articleFormHooks';
 
-interface ConceptAPiTypeWithArticleType extends ConceptApiType {
+interface ConceptApiTypeWithArticleType extends ConceptApiType {
   articleType?: string;
 }
 interface Props {
@@ -26,7 +26,7 @@ interface Props {
 
 const ConceptsField = ({ field, form }: Props) => {
   const { t, i18n } = useTranslation();
-  const [concepts, setConcepts] = useState<ConceptAPiTypeWithArticleType[]>([]);
+  const [concepts, setConcepts] = useState<ConceptApiTypeWithArticleType[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -42,29 +42,23 @@ const ConceptsField = ({ field, form }: Props) => {
       const newConcept = await fetchConcept(concept.id, i18n.language);
       const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
       setConcepts(temp);
-      updateFormik(
-        field,
-        temp.map(t => t.id),
-      );
+      updateFormik(field, temp);
     } catch (e) {
       handleError(e);
     }
   };
 
-  const onUpdateElements = (conceptList: ConceptAPiTypeWithArticleType[]) => {
+  const onUpdateElements = (conceptList: ConceptApiTypeWithArticleType[]) => {
     setConcepts(conceptList);
-    updateFormik(
-      field,
-      conceptList.map(t => t.id),
-    );
+    updateFormik(field, conceptList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: number[]) => {
+  const updateFormik = (formikField: Props['field'], newData: ConceptApiTypeWithArticleType[]) => {
     form.setFieldTouched('conceptIds', true, false);
     formikField.onChange({
       target: {
         name: formikField.name,
-        value: newData || null,
+        value: newData.map(c => c.id) || null,
       },
     });
   };

@@ -33,7 +33,7 @@ import { fetchStatusStateMachine, validateDraft } from '../../../../modules/draf
 import {
   draftApiTypeToLearningResourceFormType,
   learningResourceFormTypeToDraftApiType,
-} from '../../TopicArticlePage/topicHelpers';
+} from '../../articleTransformers';
 
 interface Props {
   article?: DraftApiType;
@@ -66,7 +66,9 @@ const LearningResourceForm = ({
 
   const { data: licenses } = useLicenses({ placeholderData: [] });
 
-  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks({
+  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
+    LearningResourceFormType
+  >({
     getInitialValues: draftApiTypeToLearningResourceFormType,
     article,
     t,
@@ -114,7 +116,6 @@ const LearningResourceForm = ({
             articleLanguage={articleLanguage}
             article={article}
             updateNotes={updateArticle}
-            formIsDirty={formIsDirty}
             getArticle={getArticle}
             handleSubmit={handleSubmit}
           />

@@ -24,9 +24,7 @@ const CreateTopicArticle = () => {
     createdArticle: UpdatedDraftApiType,
   ): Promise<DraftApiType> => {
     const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
-    navigate(
-      toEditArticle(savedArticle.id, savedArticle.articleType, savedArticle.title?.language),
-    );
+    navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
     return savedArticle;
   };
 

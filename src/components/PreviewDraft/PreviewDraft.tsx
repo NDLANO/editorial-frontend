@@ -13,7 +13,6 @@ import { Remarkable } from 'remarkable';
 import { ContentTypeBadge } from '@ndla/ui';
 import { Article } from '@ndla/ui';
 import { LocaleType } from '../../interfaces';
-//@ts-ignore
 import '../DisplayEmbed/helpers/h5pResizer';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 import formatDate from '../../util/formatDate';

@@ -29,9 +29,12 @@ import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
 import { Note } from '../../interfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
-import { TopicArticleFormType } from './articleFormHooks';
+import { ArticleFormType } from './articleFormHooks';
 import { useMessages } from '../Messages/MessagesProvider';
-import { draftApiTypeToTopicArticleFormType } from '../ArticlePage/TopicArticlePage/topicHelpers';
+import {
+  draftApiTypeToLearningResourceFormType,
+  draftApiTypeToTopicArticleFormType,
+} from '../ArticlePage/articleTransformers';
 
 const paddingPanelStyleInside = css`
   background: ${colors.brand.greyLightest};
@@ -45,12 +48,13 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 
 interface Props {
   article: DraftApiType;
-  setValues(values: TopicArticleFormType, shouldValidate?: boolean): void;
+  setValues(values: ArticleFormType, shouldValidate?: boolean): void;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
   setStatus: (status?: any) => void;
+  type: 'standard' | 'topic-article';
 }
 
-const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus }: Props) => {
+const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus, type }: Props) => {
   const { t } = useTranslation();
   const [versions, setVersions] = useState<DraftApiType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -69,7 +73,7 @@ const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus }: Pro
       }
     };
     getVersions();
-  }, [article.id, article.title?.language]);
+  }, [article.id, article]);
 
   useEffect(() => {
     if (versions.length) {
@@ -105,10 +109,11 @@ const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus }: Pro
           status: { current: 'PUBLISHED', other: [] },
         };
       }
-      const newValues = draftApiTypeToTopicArticleFormType(
-        { ...newArticle, status: version.status },
-        language,
-      );
+      const transform =
+        type === 'standard'
+          ? draftApiTypeToLearningResourceFormType
+          : draftApiTypeToTopicArticleFormType;
+      const newValues = transform({ ...newArticle, status: version.status }, language);
       setValues(newValues);
       setStatus('revertVersion');
       createMessage({

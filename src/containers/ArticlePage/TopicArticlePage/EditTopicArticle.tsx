@@ -45,11 +45,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   }
 
   if (article.articleType !== 'topic-article') {
-    const redirectUrl = toEditArticle(
-      article.id,
-      article.articleType,
-      article.introduction?.language,
-    );
+    const redirectUrl = toEditArticle(article.id, article.articleType, article.title?.language);
     return <Navigate replace to={redirectUrl} />;
   }
   return (

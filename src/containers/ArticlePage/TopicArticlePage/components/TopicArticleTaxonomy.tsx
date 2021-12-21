@@ -181,7 +181,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes }: Props) => {
       updateNotes({
         id: articleId,
         revision: revision ?? 0,
-        language: article.introduction?.language,
+        language: article.title?.language,
         notes: ['Oppdatert taksonomi.'],
         supportedLanguages: supportedLanguages ?? [],
       });

@@ -28,7 +28,7 @@ import { useLicenses } from '../../../../modules/draft/draftQueries';
 import {
   draftApiTypeToTopicArticleFormType,
   topicArticleFormTypeToDraftApiType,
-} from '../topicHelpers';
+} from '../../articleTransformers';
 import { fetchStatusStateMachine, validateDraft } from '../../../../modules/draft/draftApi';
 import { formikCommonArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
 
@@ -64,7 +64,9 @@ const TopicArticleForm = ({
 
   const { t } = useTranslation();
 
-  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks({
+  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
+    TopicArticleFormType
+  >({
     getInitialValues: draftApiTypeToTopicArticleFormType,
     article,
     t,

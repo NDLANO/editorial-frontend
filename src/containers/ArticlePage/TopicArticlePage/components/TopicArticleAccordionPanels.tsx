@@ -105,6 +105,7 @@ const TopicArticleAccordionPanels = ({
             getArticle={getArticle}
             setValues={setValues}
             setStatus={setStatus}
+            type="topic-article"
           />
         </AccordionSection>
       )}

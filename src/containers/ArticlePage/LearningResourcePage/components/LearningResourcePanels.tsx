@@ -18,7 +18,6 @@ interface Props {
     formikHelpers: FormikHelpers<LearningResourceFormType>,
   ) => Promise<void>;
   article?: DraftApiType;
-  formIsDirty: boolean;
   updateNotes: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
   articleLanguage: string;
@@ -103,6 +102,7 @@ const LearningResourcePanels = ({
             getArticle={getArticle}
             setValues={setValues}
             setStatus={setStatus}
+            type="standard"
           />
         </AccordionSection>
       )}

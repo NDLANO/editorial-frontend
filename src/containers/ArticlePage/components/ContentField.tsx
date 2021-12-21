@@ -61,8 +61,7 @@ const ContentField = ({ field, form }: Props) => {
 
   const onUpdateElements = (relatedContent: ConvertedRelatedContent[]) => {
     setRelatedContent(relatedContent);
-    const newFieldValue = relatedContent.map(rc => (isDraftApiType(rc) ? rc.id : rc));
-    updateFormik(field, newFieldValue);
+    updateFormik(field, relatedContent);
   };
 
   const updateFormik = (formikField: Props['field'], newData: ConvertedRelatedContent[]) => {

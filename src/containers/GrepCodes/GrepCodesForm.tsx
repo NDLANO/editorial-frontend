@@ -19,7 +19,7 @@ import {
   UpdatedDraftApiType,
 } from '../../modules/draft/draftApiInterfaces';
 import { isFormikFormDirty } from '../../util/formHelper';
-import { draftApiTypeToTopicArticleFormType } from '../ArticlePage/TopicArticlePage/topicHelpers';
+import { draftApiTypeToTopicArticleFormType } from '../ArticlePage/articleTransformers';
 import { License } from '../../interfaces';
 
 const SaveButtonContainer = styled.div`

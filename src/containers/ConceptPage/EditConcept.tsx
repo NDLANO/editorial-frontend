@@ -21,7 +21,7 @@ interface Props {
 }
 
 const EditConcept = ({ isNewlyCreated }: Props) => {
-  const { conceptId, selectedLanguage } = useParams<'conceptId' | 'selectedLanguage'>();
+  const { id: conceptId, selectedLanguage } = useParams<'id' | 'selectedLanguage'>();
   const { t } = useTranslation();
   const {
     concept,
@@ -60,7 +60,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
         onUpdate={async concept => {
-          updateConcept(concept as ConceptPatchType);
+          return updateConcept(concept as ConceptPatchType);
         }}
         language={selectedLanguage!}
         subjects={subjects}

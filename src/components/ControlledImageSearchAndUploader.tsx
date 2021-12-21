@@ -36,6 +36,8 @@ interface Props {
   image?: ImageApiType;
   updateImage: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
   inModal?: boolean;
+  showCheckbox?: boolean;
+  checkboxAction?: (image: ImageApiType) => void;
 }
 
 const ImageSearchAndUploader = ({
@@ -48,6 +50,8 @@ const ImageSearchAndUploader = ({
   searchImages,
   onError,
   inModal = false,
+  showCheckbox,
+  checkboxAction,
 }: Props) => {
   const { t } = useTranslation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
@@ -71,6 +75,7 @@ const ImageSearchAndUploader = ({
               searchPlaceholder={t('imageSearch.placeholder')}
               searchButtonTitle={t('imageSearch.buttonTitle')}
               useImageTitle={t('imageSearch.useImage')}
+              checkboxLabel={t('imageSearch.visualElementCheckboxLabel')}
               onImageSelect={onImageSelect}
               noResults={
                 <>
@@ -86,6 +91,8 @@ const ImageSearchAndUploader = ({
                 </>
               }
               onError={onError}
+              showCheckbox={showCheckbox}
+              checkboxAction={checkboxAction}
             />
           ),
         },

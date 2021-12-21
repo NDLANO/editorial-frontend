@@ -66,13 +66,7 @@ const LearningResourceForm = ({
 
   const { data: licenses } = useLicenses({ placeholderData: [] });
 
-  const {
-    savedToServer,
-    formikRef,
-    initialValues,
-    setSaveAsNewVersion,
-    handleSubmit,
-  } = useArticleFormHooks({
+  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks({
     getInitialValues: draftApiTypeToLearningResourceFormType,
     article,
     t,
@@ -80,7 +74,6 @@ const LearningResourceForm = ({
     updateArticle,
     updateArticleAndStatus,
     getArticleFromSlate: learningResourceFormTypeToDraftApiType,
-    isNewlyCreated,
     articleLanguage,
   });
 
@@ -132,8 +125,7 @@ const LearningResourceForm = ({
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={(saveAsNewVersion?: boolean) => {
-            setSaveAsNewVersion(saveAsNewVersion ?? false);
-            handleSubmit(values, formik);
+            handleSubmit(values, formik, saveAsNewVersion || false);
           }}
           entityStatus={article?.status}
           fetchStatusStateMachine={fetchStatusStateMachine}

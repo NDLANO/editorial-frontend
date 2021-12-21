@@ -17,6 +17,7 @@ import { parseMarkdown } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
+import { isNumeric } from '../../../../components/validators';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
 import IconButton from '../../../IconButton';
@@ -80,7 +81,9 @@ const SlateVideo = ({
     visualElementApi
       .fetchBrightcoveVideo(idWithoutTimestamp)
       .then((v: { link?: { text: string } }) => {
-        setLinkedVideoId(v.link?.text);
+        if (isNumeric(v.link?.text)) {
+          setLinkedVideoId(v.link?.text);
+        }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [(embed as BrightcoveEmbed).videoid]);

@@ -63,7 +63,6 @@ const TopicDescription = ({
                 name: topicDescription,
                 status,
                 topicId: currentTopic.id,
-                paths: [],
                 resourceTypes: [],
                 grepCodes,
                 primary: currentTopic.isPrimary,

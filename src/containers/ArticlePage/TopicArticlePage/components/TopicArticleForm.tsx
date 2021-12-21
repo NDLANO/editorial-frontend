@@ -64,13 +64,7 @@ const TopicArticleForm = ({
 
   const { t } = useTranslation();
 
-  const {
-    savedToServer,
-    formikRef,
-    initialValues,
-    setSaveAsNewVersion,
-    handleSubmit,
-  } = useArticleFormHooks({
+  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks({
     getInitialValues: draftApiTypeToTopicArticleFormType,
     article,
     t,
@@ -79,7 +73,6 @@ const TopicArticleForm = ({
     updateArticleAndStatus,
     licenses,
     getArticleFromSlate: topicArticleFormTypeToDraftApiType,
-    isNewlyCreated,
     articleLanguage,
   });
 
@@ -130,8 +123,7 @@ const TopicArticleForm = ({
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={saveAsNewVersion => {
-            setSaveAsNewVersion(saveAsNewVersion ?? false);
-            handleSubmit(values, formik);
+            handleSubmit(values, formik, saveAsNewVersion ?? false);
           }}
           entityStatus={article?.status}
           fetchStatusStateMachine={fetchStatusStateMachine}

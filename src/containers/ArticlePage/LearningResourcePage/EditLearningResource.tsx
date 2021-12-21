@@ -18,13 +18,13 @@ import { LocaleType } from '../../../interfaces';
 
 interface Props {
   isNewlyCreated: boolean;
-  articleId: string;
 }
 
-const EditLearningResource = ({ articleId, isNewlyCreated }: Props) => {
+const EditLearningResource = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
-  const params = useParams<'selectedLanguage'>();
+  const params = useParams<'selectedLanguage' | 'id'>();
   const selectedLanguage = params.selectedLanguage as LocaleType;
+  const articleId = params.id!;
   const {
     loading,
     article,

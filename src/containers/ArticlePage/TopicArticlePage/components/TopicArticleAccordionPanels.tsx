@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
@@ -11,6 +19,7 @@ import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
 import { DraftApiType, UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
+import { onSaveAsVisualElement } from '../../../FormikForm/utils';
 
 interface Props {
   handleSubmit: () => Promise<void>;
@@ -29,7 +38,8 @@ const TopicArticleAccordionPanels = ({
 }: Props) => {
   const { t } = useTranslation();
   const { userAccess } = useSession();
-  const { values, errors, setValues } = useFormikContext<TopicArticleFormType>();
+  const formikContext = useFormikContext<TopicArticleFormType>();
+  const { values, errors, setValues, setStatus } = formikContext;
   return (
     <Accordions>
       <AccordionSection
@@ -62,7 +72,11 @@ const TopicArticleAccordionPanels = ({
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.tags)}>
-        <MetaDataField articleLanguage={articleLanguage} />
+        <MetaDataField
+          articleLanguage={articleLanguage}
+          showCheckbox={true}
+          checkboxAction={image => onSaveAsVisualElement(image, formikContext)}
+        />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-grepCodes'}
@@ -86,7 +100,12 @@ const TopicArticleAccordionPanels = ({
           title={t('form.workflowSection')}
           className={'u-6/6'}
           hasError={!!errors.notes}>
-          <VersionAndNotesPanel article={article} getArticle={getArticle} setValues={setValues} />
+          <VersionAndNotesPanel
+            article={article}
+            getArticle={getArticle}
+            setValues={setValues}
+            setStatus={setStatus}
+          />
         </AccordionSection>
       )}
     </Accordions>

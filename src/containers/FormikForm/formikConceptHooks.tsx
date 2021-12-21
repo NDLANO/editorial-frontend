@@ -84,21 +84,23 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   };
 
   const updateConceptAndStatus = async (
-    updatedConcept: ConceptPatchType,
+    conceptPatch: ConceptPatchType,
     newStatus: ConceptStatusType,
     dirty: boolean,
-  ) => {
+  ): Promise<ConceptApiType> => {
     const newConcept = dirty
-      ? await conceptApi.updateConcept(updatedConcept)
-      : await conceptApi.fetchConcept(updatedConcept.id, updatedConcept.language);
+      ? await conceptApi.updateConcept(conceptPatch)
+      : await conceptApi.fetchConcept(conceptPatch.id, conceptPatch.language);
     const convertedArticles = await fetchElementList(newConcept.articleIds);
-    const conceptChangedStatus = await conceptApi.updateConceptStatus(updatedConcept.id, newStatus);
-    setConcept({
+    const conceptChangedStatus = await conceptApi.updateConceptStatus(conceptPatch.id, newStatus);
+    const updatedConcept = {
       ...newConcept,
       status: conceptChangedStatus.status,
-    });
+    };
+    setConcept(updatedConcept);
     setConceptArticles(convertedArticles);
     setConceptChanged(false);
+    return updatedConcept;
   };
 
   return {

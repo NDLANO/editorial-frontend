@@ -96,7 +96,6 @@ type HooksInputObject<T extends ArticleFormType> = {
     licenses: License[],
     preview?: boolean,
   ) => UpdatedDraftApiType;
-  isNewlyCreated: boolean;
   articleLanguage: string;
 };
 
@@ -108,7 +107,6 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   updateArticle,
   updateArticleAndStatus,
   getArticleFromSlate,
-  isNewlyCreated = false,
   articleLanguage,
 }: HooksInputObject<T>) {
   const { id, revision } = article ?? {};
@@ -116,7 +114,6 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   const { createMessage, applicationError } = useMessages();
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const [savedToServer, setSavedToServer] = useState(false);
-  const [saveAsNewVersion, setSaveAsNewVersion] = useState(isNewlyCreated);
   const initialValues = getInitialValues(article, articleLanguage);
 
   useEffect(() => {
@@ -128,16 +125,18 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     }
   }, [articleLanguage, id]);
 
-  const handleSubmit = async (values: T, formikHelpers: FormikHelpers<T>): Promise<void> => {
+  const handleSubmit = async (
+    values: T,
+    formikHelpers: FormikHelpers<T>,
+    saveAsNew = false,
+  ): Promise<void> => {
     formikHelpers.setSubmitting(true);
     const initialStatus = articleStatus?.current;
     const newStatus = values.status?.current;
     const statusChange = initialStatus !== newStatus;
     const slateArticle = getArticleFromSlate(values, initialValues, licenses!, false);
 
-    const newArticle = saveAsNewVersion
-      ? { ...slateArticle, createNewVersion: true }
-      : slateArticle;
+    const newArticle = saveAsNew ? { ...slateArticle, createNewVersion: true } : slateArticle;
 
     let savedArticle: DraftApiType;
     try {
@@ -196,7 +195,6 @@ export function useArticleFormHooks<T extends ArticleFormType>({
     savedToServer,
     formikRef,
     initialValues,
-    setSaveAsNewVersion,
     handleSubmit,
   };
 }

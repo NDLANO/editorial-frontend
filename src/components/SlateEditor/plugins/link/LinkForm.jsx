@@ -101,7 +101,12 @@ class LinkForm extends Component {
         validate={values => validateFormik(values, linkValidationRules, t, 'linkForm')}>
         {({ submitForm, values }) => (
           <Form data-cy="link_form">
-            <FormikField name="text" type="text" label={t('form.content.link.text')} />
+            <FormikField
+              name="text"
+              type="text"
+              label={t('form.content.link.text')}
+              autoFocus={true}
+            />
             <FormikField
               name="href"
               description={t('form.content.link.description', {

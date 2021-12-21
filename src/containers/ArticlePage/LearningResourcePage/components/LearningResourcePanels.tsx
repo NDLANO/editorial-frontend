@@ -34,7 +34,7 @@ const LearningResourcePanels = ({
   const { t } = useTranslation();
   const { userAccess } = useSession();
   const formikContext = useFormikContext<LearningResourceFormType>();
-  const { values, setValues, errors, handleBlur } = formikContext;
+  const { values, setValues, errors, handleBlur, setStatus } = formikContext;
 
   return (
     <Accordions>
@@ -98,7 +98,12 @@ const LearningResourcePanels = ({
           title={t('form.workflowSection')}
           className={'u-6/6'}
           hasError={!!errors.notes}>
-          <VersionAndNotesPanel article={article} getArticle={getArticle} setValues={setValues} />
+          <VersionAndNotesPanel
+            article={article}
+            getArticle={getArticle}
+            setValues={setValues}
+            setStatus={setStatus}
+          />
         </AccordionSection>
       )}
     </Accordions>

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import VisualElementSearch from './VisualElementSearch';
 import VisualElementModalWrapper from './VisualElementModalWrapper';
 
-export const onSaveAsMetaImage = (image, formikContext) => {
+export const checkboxAction = (image, formikContext) => {
   const { setFieldValue } = formikContext;
 
   if (setFieldValue && image) {
@@ -34,8 +34,7 @@ const VisualElementSelectField = ({
 
   const { values } = formikContext;
 
-  const showMetaImageCheckbox =
-    values.metaImageAlt !== undefined && values.metaImageId !== undefined;
+  const showCheckbox = values.metaImageAlt !== undefined && values.metaImageId !== undefined;
 
   const onImageLightboxClose = () => {
     resetSelectedResource();
@@ -64,8 +63,8 @@ const VisualElementSelectField = ({
           videoTypes={videoTypes}
           articleLanguage={articleLanguage}
           setH5pFetchFail={setH5pFetchFail}
-          showMetaImageCheckbox={showMetaImageCheckbox}
-          onSaveAsMetaImage={image => onSaveAsMetaImage(image, formikContext)}
+          showCheckbox={showCheckbox}
+          checkboxAction={image => checkboxAction(image, formikContext)}
         />
       )}
     </VisualElementModalWrapper>

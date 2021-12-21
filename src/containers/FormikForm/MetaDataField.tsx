@@ -17,12 +17,15 @@ import AvailabilityField from './components/AvailabilityField';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
 import { fetchSearchTags } from '../../modules/draft/draftApi';
+import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 
 interface Props {
   articleLanguage: string;
+  showCheckbox?: boolean;
+  checkboxAction?: (image: ImageApiType) => void;
 }
 
-const MetaDataField = ({ articleLanguage }: Props) => {
+const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
   const { userAccess } = useSession();
   const plugins = [textTransformPlugin];
@@ -70,6 +73,8 @@ const MetaDataField = ({ articleLanguage }: Props) => {
             metaImageId={field.value}
             setFieldTouched={form.setFieldTouched}
             showRemoveButton={false}
+            showCheckbox={showCheckbox}
+            checkboxAction={checkboxAction}
             {...field}
           />
         )}

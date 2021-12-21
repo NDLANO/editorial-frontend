@@ -47,9 +47,10 @@ interface Props {
   article: DraftApiType;
   setValues(values: TopicArticleFormType, shouldValidate?: boolean): void;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
+  setStatus: (status?: any) => void;
 }
 
-const VersionAndNotesPanel = ({ article, setValues, getArticle }: Props) => {
+const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus }: Props) => {
   const { t } = useTranslation();
   const [versions, setVersions] = useState<DraftApiType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -109,6 +110,7 @@ const VersionAndNotesPanel = ({ article, setValues, getArticle }: Props) => {
         language,
       );
       setValues(newValues);
+      setStatus('revertVersion');
       createMessage({
         message: t('form.resetToProd.success'),
         severity: 'success',

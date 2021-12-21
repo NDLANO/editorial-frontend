@@ -204,7 +204,6 @@ const LearningResourceForm = ({
     savedToServer,
     formikRef,
     initialValues,
-    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
@@ -217,7 +216,6 @@ const LearningResourceForm = ({
     updateArticle,
     updateArticleAndStatus,
     getArticleFromSlate,
-    isNewlyCreated,
   });
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
@@ -268,8 +266,7 @@ const LearningResourceForm = ({
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={(saveAsNewVersion?: boolean) => {
-            setSaveAsNewVersion(saveAsNewVersion ?? false);
-            handleSubmit(values, formik);
+            handleSubmit(values, formik, saveAsNewVersion || false);
           }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}

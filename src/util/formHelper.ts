@@ -95,11 +95,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
       if (slateFields.includes(key)) {
         if (key === 'content') {
           if (
-            checkIfContentHasChanged(
-              values['content']!,
-              initialValues['content']!,
-              initialValues.articleType!,
-            )
+            checkIfContentHasChanged(values[key]!, initialValues[key]!, initialValues.articleType!)
           ) {
             dirtyFields.push(value);
           }

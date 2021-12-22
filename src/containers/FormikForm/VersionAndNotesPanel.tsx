@@ -73,7 +73,7 @@ const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus, type 
       }
     };
     getVersions();
-  }, [article.id, article]);
+  }, [article]);
 
   useEffect(() => {
     if (versions.length) {

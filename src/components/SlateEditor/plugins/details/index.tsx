@@ -18,11 +18,14 @@ import getCurrentBlock from '../../utils/getCurrentBlock';
 import containsVoid from '../../utils/containsVoid';
 import {
   addSurroundingParagraphs,
+  afterOrBeforeTextBlockElement,
   lastTextBlockElement,
   textBlockElements,
 } from '../../utils/normalizationHelpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import Summary from './Summary';
+import { NormalizerConfig } from '../../utils/defaultNormalizer';
+import { defaultSummaryBlock } from './utils';
 
 export const TYPE_DETAILS = 'details';
 export const TYPE_SUMMARY = 'summary';
@@ -38,6 +41,36 @@ export interface SummaryElement {
   type: 'summary';
   children: Descendant[];
 }
+
+const DetailsNormalizerConfig: NormalizerConfig = {
+  firstNode: {
+    allowed: [TYPE_SUMMARY],
+    defaultElement: defaultSummaryBlock,
+  },
+  nodes: {
+    allowed: textBlockElements,
+    defaultElement: defaultParagraphBlock,
+  },
+  lastNode: {
+    allowed: lastTextBlockElement,
+    defaultElement: defaultParagraphBlock,
+  },
+  previous: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultElement: defaultParagraphBlock,
+  },
+  next: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultElement: defaultParagraphBlock,
+  },
+};
+
+const SummaryNormalizerConfig: NormalizerConfig = {
+  parent: {
+    allowed: [TYPE_DETAILS],
+    defaultElement: defaultParagraphBlock,
+  },
+};
 
 const onEnter = (
   e: KeyboardEvent,

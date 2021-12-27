@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { FormikHelpers, useFormikContext } from 'formik';
 import config from '../../../../config';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
@@ -10,11 +9,11 @@ import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import LearningResourceTaxonomy from './LearningResourceTaxonomy';
 import LearningResourceContent from './LearningResourceContent';
 import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
-import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
+import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
 
-interface Props extends RouteComponentProps {
+interface Props {
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: (
     values: LearningResourceFormikType,
@@ -33,7 +32,6 @@ const LearningResourcePanels = ({
   updateNotes,
   getArticle,
   getInitialValues,
-  history,
   formIsDirty,
   handleSubmit,
 }: Props) => {
@@ -41,7 +39,7 @@ const LearningResourcePanels = ({
   const { userAccess } = useSession();
   const locale = i18n.language;
   const formikContext = useFormikContext<LearningResourceFormikType>();
-  const { values, setValues, errors, handleBlur } = formikContext;
+  const { values, setValues, errors, handleBlur, setStatus } = formikContext;
 
   const showTaxonomySection = !!values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE);
 
@@ -114,6 +112,7 @@ const LearningResourcePanels = ({
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}
+            setStatus={setStatus}
           />
         </AccordionSection>
       )}
@@ -121,4 +120,4 @@ const LearningResourcePanels = ({
   );
 };
 
-export default withRouter(LearningResourcePanels);
+export default LearningResourcePanels;

@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { Form, Formik } from 'formik';
 import { Descendant, Element } from 'slate';
+import { IFilmFrontPageData, IMovieTheme } from '@ndla/types-frontpage-api';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Field from '../../../components/Field';
@@ -18,27 +19,23 @@ import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleL
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
-import {
-  FilmFrontpageApiType,
-  MovieThemeApiType,
-} from '../../../modules/frontpage/frontpageApiInterfaces';
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
 
 interface Props {
-  filmFrontpage: FilmFrontpageApiType;
+  filmFrontpage: IFilmFrontPageData;
   selectedLanguage: string;
 }
 
 export interface FilmFormikType {
   articleType: string;
   name: string;
-  title?: string;
+  title: Descendant[];
   description: Descendant[];
   visualElement: Descendant[];
   language: string;
   supportedLanguages: string[];
   slideShow: string[];
-  themes: MovieThemeApiType[];
+  themes: IMovieTheme[];
 }
 
 const ndlaFilmRules: RulesType<FilmFormikType> = {

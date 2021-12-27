@@ -7,6 +7,7 @@
  */
 
 import { ReactNode } from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { MessagesProvider, NewMessageType, useMessages } from '../MessagesProvider';
 
@@ -16,7 +17,9 @@ interface WrapperProps {
 }
 
 const wrapper = ({ children, initialValues }: WrapperProps) => (
-  <MessagesProvider>{children}</MessagesProvider>
+  <MemoryRouter>
+    <MessagesProvider>{children}</MessagesProvider>
+  </MemoryRouter>
 );
 
 describe('useMessages', () => {

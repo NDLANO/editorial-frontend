@@ -25,10 +25,10 @@ import {
 import formatDate from '../../../../../util/formatDate';
 import { toEditConcept } from '../../../../../util/routeHelpers';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
-import { useLicenses } from '../../../../Licenses/LicensesProvider';
 import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { LocaleType } from '../../../../../interfaces';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { useLicenses } from '../../../../../modules/draft/draftQueries';
 
 interface Props {
   concept: SearchConceptType;
@@ -50,7 +50,7 @@ const ContentView = ({
   editing,
 }: Props) => {
   const { t } = useTranslation();
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses();
   const license = licenses && licenses.find(l => concept.license === l.license);
   const { userAccess } = useSession();
   const canEdit = !!userAccess?.includes(CONCEPT_ADMIN_SCOPE);

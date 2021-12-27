@@ -1,12 +1,13 @@
 import { Global } from '@emotion/core';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
-import { RouteComponentProps } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { HistoryShape } from '../../shapes';
 
-const H5PPage = ({ history }: RouteComponentProps) => {
+const H5PPage = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const locale = i18n.language;
   return (
     <>
@@ -24,7 +25,7 @@ const H5PPage = ({ history }: RouteComponentProps) => {
         canReturnResources={false}
         onSelect={() => {}}
         onClose={() => {
-          history.push('/');
+          navigate('/');
         }}
         locale={locale}
       />

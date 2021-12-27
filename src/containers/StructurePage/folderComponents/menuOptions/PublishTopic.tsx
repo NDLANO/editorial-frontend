@@ -27,7 +27,7 @@ import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 import handleError from '../../../../util/handleError';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
 import { Resource, Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { Learningpath } from '../../../../interfaces';
+import { Learningpath } from '../../../../modules/learningpath/learningpathApiInterfaces';
 
 const StyledDiv = styled.div`
   display: flex;

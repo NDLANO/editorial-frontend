@@ -5,20 +5,17 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import PropTypes from 'prop-types';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
 import { AudioMetaInformationPost } from '../../modules/audio/audioApiInterfaces';
-import { HistoryShape } from '../../shapes';
 
-interface Props extends RouteComponentProps {
-  locale: string;
-}
-
-const CreateAudio = ({ history, locale, ...rest }: Props) => {
+const CreateAudio = () => {
+  const { i18n } = useTranslation();
+  const navigate = useNavigate();
   const onCreateAudio = async (
     newAudio: AudioMetaInformationPost,
     file?: string | Blob,
@@ -26,16 +23,11 @@ const CreateAudio = ({ history, locale, ...rest }: Props) => {
     const formData = await createFormData(file, newAudio);
     const createdAudio = await audioApi.postAudio(formData);
     if (!newAudio.id) {
-      history.push(toEditAudio(createdAudio.id, newAudio.language));
+      navigate(toEditAudio(createdAudio.id, newAudio.language));
     }
   };
 
-  return <AudioForm onUpdate={onCreateAudio} audioLanguage={locale} {...rest} />;
+  return <AudioForm onUpdate={onCreateAudio} audioLanguage={i18n.language} />;
 };
 
-CreateAudio.propTypes = {
-  history: HistoryShape,
-  locale: PropTypes.string.isRequired,
-};
-
-export default withRouter(CreateAudio);
+export default CreateAudio;

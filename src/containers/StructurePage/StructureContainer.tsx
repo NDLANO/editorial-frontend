@@ -10,7 +10,7 @@
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Params, useLocation, useNavigate } from 'react-router-dom';
 import { Taxonomy } from '@ndla/icons/editor';
 import { Structure } from '@ndla/editor';
 import { Switch } from '@ndla/switch';
@@ -46,20 +46,17 @@ import {
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 import { useSession } from '../Session/SessionProvider';
 
-interface Props extends RouteComponentProps<StructureRouteParams> {}
-
-export interface StructureRouteParams {
-  subject?: string;
-  subtopics?: string;
-  topic?: string;
-}
-
 interface RouteProps {
-  params: StructureRouteParams;
+  params: Params<'subject' | 'topic' | 'subtopics'>;
   location: { pathname: string };
 }
-
-export const StructureContainer = ({ match, location, history }: Props) => {
+export const StructureContainer = () => {
+  const location = useLocation();
+  const [subject, topic, ...rest] = location.pathname.replace('/structure/', '').split('/');
+  const joinedRest = rest.join('/');
+  const subtopics = joinedRest.length > 0 ? joinedRest : undefined;
+  const params = { subject, topic, subtopics };
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
   const { userAccess } = useSession();
@@ -73,7 +70,6 @@ export const StructureContainer = ({ match, location, history }: Props) => {
   const resourceSection = useRef<HTMLDivElement>(null);
   const prevRouteParams = useRef<RouteProps | undefined>(undefined);
 
-  const { params } = match;
   const topicId = params.subtopics?.split('/')?.pop() || params.topic;
   const currentTopic = getCurrentTopic({
     params,
@@ -85,7 +81,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
     (async () => {
       const subjects = await fetchSubjects(locale);
       setSubjects(subjects.sort((a, b) => a.name?.localeCompare(b.name)));
-      const { subject } = match.params;
+      const { subject } = params;
       if (subject) {
         getSubjectTopics(subject, locale);
       }
@@ -162,8 +158,8 @@ export const StructureContainer = ({ match, location, history }: Props) => {
   };
 
   const refreshTopics = async () => {
-    if (match.params.subject) {
-      getSubjectTopics(match.params.subject, locale);
+    if (params.subject) {
+      getSubjectTopics(params.subject, locale);
     }
   };
 
@@ -173,20 +169,18 @@ export const StructureContainer = ({ match, location, history }: Props) => {
 
   const handleStructureToggle = (input: { path: string }) => {
     const { path } = input;
-    const { url, params } = match;
     const { search } = location;
-    const currentPath = url.replace('/structure/', '');
+    const currentPath = location.pathname.replace('/structure/', '');
     const levelAbove = removeLastItemFromUrl(currentPath);
     const newPath = currentPath === path ? levelAbove : path;
     const deleteSearch = !!params.subject && !newPath.includes(params.subject);
-    history.push(`/structure/${newPath.concat(deleteSearch ? '' : search)}`);
+    navigate(`/structure/${newPath.concat(deleteSearch ? '' : search)}`);
   };
 
   const onDragEnd = async ({ draggableId, source, destination }: DropResult) => {
     if (!destination) {
       return;
     }
-    const { params } = match;
     const currentSubject = subjects.find(sub => sub.id === params.subject);
 
     const currentTopic = getCurrentTopic({
@@ -273,7 +267,7 @@ export const StructureContainer = ({ match, location, history }: Props) => {
             <Structure
               DND
               onDragEnd={onDragEnd}
-              openedPaths={getPathsFromUrl(match.url)}
+              openedPaths={getPathsFromUrl(location.pathname)}
               structure={showFavorites ? getFavoriteSubjects(subjects, favoriteSubjects) : subjects}
               toggleOpen={handleStructureToggle}
               highlightMainActive
@@ -342,4 +336,4 @@ export const StructureContainer = ({ match, location, history }: Props) => {
   );
 };
 
-export default withRouter(StructureContainer);
+export default StructureContainer;

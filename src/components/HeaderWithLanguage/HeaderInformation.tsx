@@ -7,8 +7,8 @@
  */
 
 import { ReactChild, useState } from 'react';
-
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { css } from '@emotion/react';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
@@ -18,7 +18,6 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
 import { Podcast } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
-import { RouteComponentProps, withRouter } from 'react-router';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -99,7 +98,7 @@ export const types: Record<string, { form: string; cssModifier: string; icon: Re
   },
 };
 
-interface Props extends RouteComponentProps {
+interface Props {
   noStatus: boolean;
   statusText?: string;
   published?: boolean;
@@ -122,12 +121,12 @@ const HeaderInformation = ({
   title,
   formIsDirty,
   getEntity,
-  history,
   taxonomyPaths,
 }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const { createMessage } = useMessages();
+  const navigate = useNavigate();
   const onSaveAsNew = async () => {
     if (!getEntity) return;
     try {
@@ -142,7 +141,7 @@ const HeaderInformation = ({
         const article = getEntity();
         const newArticle = await draftApi.cloneDraft(article.id, article.language);
         // we don't set loading to false as the redirect will unmount this component anyway
-        history.push(toEditArticle(newArticle.id, newArticle.articleType, article.language));
+        navigate(toEditArticle(newArticle.id, newArticle.articleType, article.language));
       }
     } catch (e) {
       handleError(e);
@@ -183,4 +182,4 @@ const HeaderInformation = ({
   );
 };
 
-export default withRouter(HeaderInformation);
+export default HeaderInformation;

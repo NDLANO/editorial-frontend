@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Switch, Route, RouteComponentProps } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 //@ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
@@ -16,20 +16,18 @@ import Footer from '../App/components/Footer';
 const LogoutFederated = loadable(() => import('./LogoutFederated'));
 const LogoutSession = loadable(() => import('./LogoutSession'));
 
-interface Props extends RouteComponentProps {}
-
-const Logout = ({ match }: Props) => {
+const Logout = () => {
   const { t } = useTranslation();
   return (
     <>
       <HelmetWithTracker title={t('htmlTitles.logoutPage')} />
       <OneColumn cssModifier="clear">
         <div className="u-2/3@desktop u-push-1/3@desktop">
-          <Switch>
-            <Route path={`${match.url}/federated`} component={LogoutFederated} />
-            <Route path={`${match.url}/session`} component={LogoutSession} />
-            <Route component={LogoutProviders} />
-          </Switch>
+          <Routes>
+            <Route path="federated" element={<LogoutFederated />} />
+            <Route path="session" element={<LogoutSession />} />
+            <Route path="" element={<LogoutProviders />} />
+          </Routes>
         </div>
       </OneColumn>
       <Footer showLocaleSelector />

@@ -7,22 +7,22 @@
  */
 
 import { Descendant, Element } from 'slate';
+import {
+  IFilmFrontPageData,
+  IMovieTheme,
+  INewOrUpdatedFilmFrontPageData,
+  IVisualElement,
+} from '@ndla/types-frontpage-api';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
 import { LOCALE_VALUES } from '../constants';
 import { ContentResultType, LocaleType } from '../interfaces';
 import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
 import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
-import {
-  FilmFrontpageApiType,
-  FilmFrontpagePostPatchType,
-  FilmVisualElementApiType,
-  MovieThemeApiType,
-} from '../modules/frontpage/frontpageApiInterfaces';
 import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed';
 
 export const getInitialValues = (
-  filmFrontpage: FilmFrontpageApiType,
+  filmFrontpage: IFilmFrontPageData,
   selectedLanguage: string,
 ): FilmFormikType => {
   const supportedLanguages = filmFrontpage.about.map(about => about.language);
@@ -33,7 +33,7 @@ export const getInitialValues = (
   return {
     articleType: 'subjectpage',
     name: filmFrontpage.name,
-    title: about?.title,
+    title: plainTextToEditorValue(about?.title ?? ''),
     description: plainTextToEditorValue(about?.description ?? ''),
     visualElement: visualElement ?? [],
     language: selectedLanguage,
@@ -43,7 +43,7 @@ export const getInitialValues = (
   };
 };
 
-const convertVisualElement = (visualElement: FilmVisualElementApiType): Descendant[] => {
+export const convertVisualElement = (visualElement: IVisualElement): Descendant[] => {
   const id = getVisualElementId(visualElement);
   if (visualElement.type !== 'brightcove') {
     return [
@@ -93,7 +93,7 @@ const convertVisualElement = (visualElement: FilmVisualElementApiType): Descenda
   ];
 };
 
-const getVisualElementId = (visualElement: FilmVisualElementApiType): string => {
+const getVisualElementId = (visualElement: IVisualElement): string => {
   const splitter = visualElement.type === 'brightcove' ? '=' : '/';
   const splittedUrl = visualElement.url.split(splitter);
   const id = splittedUrl.pop() ?? '';
@@ -101,10 +101,10 @@ const getVisualElementId = (visualElement: FilmVisualElementApiType): string => 
 };
 
 export const getNdlaFilmFromSlate = (
-  initialFrontpage: FilmFrontpageApiType,
+  initialFrontpage: IFilmFrontPageData,
   newFrontpage: FilmFormikType,
   selectedLanguage: string,
-): FilmFrontpagePostPatchType => {
+): INewOrUpdatedFilmFrontPageData => {
   const slateVisualElement = newFrontpage.visualElement?.[0];
   const data =
     Element.isElement(slateVisualElement) && slateVisualElement.type === TYPE_EMBED
@@ -114,7 +114,7 @@ export const getNdlaFilmFromSlate = (
   const editedAbout = {
     description: editorValueToPlainText(newFrontpage.description),
     language: selectedLanguage,
-    title: newFrontpage.title ?? '',
+    title: editorValueToPlainText(newFrontpage.title),
     visualElement: {
       alt: (data && 'alt' in data && data.alt) || (data && 'caption' in data && data.caption) || '',
       id: (data && 'metaData' in data && data.metaData.id) || '',
@@ -165,7 +165,7 @@ export const getUrnFromId = (id: string | number) => {
 };
 
 export const addMovieToTheme = (
-  themes: MovieThemeApiType[],
+  themes: IMovieTheme[],
   index: number,
   newMovie: ContentResultType,
 ) => {
@@ -175,7 +175,7 @@ export const addMovieToTheme = (
 };
 
 export const changeThemeNames = (
-  themes: MovieThemeApiType[],
+  themes: IMovieTheme[],
   names: ConvertedThemeName[],
   index: number,
 ) => {

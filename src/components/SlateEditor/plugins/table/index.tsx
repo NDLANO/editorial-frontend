@@ -336,7 +336,7 @@ export const tablePlugin = (editor: Editor) => {
           { ...defaultParagraphBlock(), serializeAsText: true },
           {
             at: path,
-            match: node => !Element.isElement(node),
+            match: n => n !== node,
           },
         );
       }

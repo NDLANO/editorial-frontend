@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
@@ -17,12 +17,13 @@ import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import { PodcastMetaInformationPut, AudioApiType } from '../../modules/audio/audioApiInterfaces';
 
 interface Props {
-  podcastId: number;
-  podcastLanguage: string;
   isNewlyCreated: boolean;
 }
 
-const EditPodcast = ({ podcastId, podcastLanguage, isNewlyCreated }: Props) => {
+const EditPodcast = ({ isNewlyCreated }: Props) => {
+  const params = useParams<'id' | 'selectedLanguage'>();
+  const podcastId = Number(params.id);
+  const podcastLanguage = params.selectedLanguage!;
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const [podcast, setPodcast] = useState<AudioApiType | undefined>(undefined);
@@ -49,21 +50,19 @@ const EditPodcast = ({ podcastId, podcastLanguage, isNewlyCreated }: Props) => {
     podcastFile: string | Blob | undefined,
   ) => {
     const formData = await createFormData(podcastFile, newPodcast);
-    const updatedPodcast = await audioApi.updateAudio(podcastId, formData);
+    const updatedPodcast = await audioApi.updateAudio(Number(podcastId!), formData);
     setPodcastWithFlag(updatedPodcast, false);
   };
 
   useEffect(() => {
-    async function fetchPodcast() {
+    (async () => {
       if (podcastId) {
         setLoading(true);
         const apiPodcast = await audioApi.fetchAudio(podcastId, podcastLanguage);
         setPodcastWithFlag(apiPodcast, false);
         setLoading(false);
       }
-    }
-
-    fetchPodcast();
+    })();
   }, [podcastId, podcastLanguage]);
 
   if (podcastId && !podcast?.id) {
@@ -75,7 +74,7 @@ const EditPodcast = ({ podcastId, podcastLanguage, isNewlyCreated }: Props) => {
   }
 
   if (podcast?.audioType === 'standard') {
-    return <Redirect to={toEditAudio(podcastId, podcastLanguage)} />;
+    return <Navigate replace to={toEditAudio(podcastId, podcastLanguage)} />;
   }
 
   const language = podcastLanguage || locale;

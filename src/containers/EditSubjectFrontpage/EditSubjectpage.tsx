@@ -7,27 +7,30 @@
 
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import Spinner from '../../components/Spinner';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { LocaleType } from '../../interfaces';
 
-interface Props extends RouteComponentProps {
-  elementId: string;
-  selectedLanguage: LocaleType;
-  subjectpageId: string;
+interface Props {
   isNewlyCreated: boolean;
 }
 
-const EditSubjectpage = ({ elementId, selectedLanguage, subjectpageId, isNewlyCreated }: Props) => {
+const EditSubjectpage = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
-  const { loading, subjectpage, updateSubjectpage, error } = useFetchSubjectpageData(
-    elementId,
-    selectedLanguage,
-    subjectpageId,
-  );
+  const { elementId, subjectpageId, selectedLanguage } = useParams<
+    'elementId' | 'subjectpageId' | 'selectedLanguage'
+  >();
+  const {
+    loading,
+    subjectpage,
+    updateSubjectpage,
+    error,
+    editorsChoices,
+    banner,
+  } = useFetchSubjectpageData(elementId!, selectedLanguage as LocaleType, subjectpageId);
 
   if (error !== undefined) {
     return <NotFoundPage />;
@@ -39,11 +42,13 @@ const EditSubjectpage = ({ elementId, selectedLanguage, subjectpageId, isNewlyCr
 
   return (
     <>
-      <HelmetWithTracker title={`${subjectpage.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${subjectpage?.about?.title} ${t('htmlTitles.titleTemplate')}`} />
       <SubjectpageForm
-        elementId={elementId}
+        editorsChoices={editorsChoices}
+        banner={banner}
+        elementId={elementId!}
         subjectpage={subjectpage}
-        selectedLanguage={selectedLanguage}
+        selectedLanguage={selectedLanguage!}
         updateSubjectpage={updateSubjectpage}
         isNewlyCreated={isNewlyCreated}
       />
@@ -51,4 +56,4 @@ const EditSubjectpage = ({ elementId, selectedLanguage, subjectpageId, isNewlyCr
   );
 };
 
-export default withRouter(EditSubjectpage);
+export default EditSubjectpage;

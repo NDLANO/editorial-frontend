@@ -7,7 +7,6 @@
  */
 
 import { ReactElement } from 'react';
-import PropTypes from 'prop-types';
 import { Warning } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
@@ -62,19 +61,5 @@ const AlertModal = ({ text, onCancel, actions, component, show, severity = 'dang
       </StyledAlertModal>
     </Lightbox>
   ) : null;
-
-AlertModal.propTypes = {
-  text: PropTypes.string.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  component: PropTypes.node,
-  actions: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string,
-      onClick: PropTypes.func,
-    }),
-  ),
-  show: PropTypes.bool,
-  severity: PropTypes.string,
-};
 
 export default AlertModal;

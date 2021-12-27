@@ -6,6 +6,7 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UseQueryResult } from 'react-query';
 import { HelmetWithTracker } from '@ndla/tracker';
@@ -14,7 +15,6 @@ import Pager from '@ndla/pager';
 import { Search } from '@ndla/icons/common';
 import debounce from 'lodash/debounce';
 import BEMHelper from 'react-bem-helper';
-import { RouteComponentProps, withRouter } from 'react-router';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
@@ -40,15 +40,15 @@ export type ResultType =
   | AudioSearchResult
   | MultiSearchResult;
 
-interface BaseProps {
+interface Props {
   type: SearchType;
   searchHook: (query: SearchParams) => UseQueryResult<ResultType>;
 }
 
-type Props = BaseProps & RouteComponentProps;
-
-const SearchContainer = ({ searchHook, type, location, history }: Props) => {
+const SearchContainer = ({ searchHook, type }: Props) => {
   const { t, i18n } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const locale = i18n.language;
   const { data: subjectData } = useSubjects(locale);
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
@@ -75,8 +75,7 @@ const SearchContainer = ({ searchHook, type, location, history }: Props) => {
       return validValue ? { ...prev, [currKey]: currVal } : prev;
     }, {});
     setSearchObject(newQuery);
-
-    history.push(toSearch(newQuery, type));
+    navigate(toSearch(newQuery, type));
   };
 
   // useMemo ensures that _onQueryPush remains the same.
@@ -84,7 +83,7 @@ const SearchContainer = ({ searchHook, type, location, history }: Props) => {
   const onQueryPush = useMemo(() => debounce(_onQueryPush, 400), []);
 
   const onSortOrderChange = (sort: string): void => {
-    onQueryPush({ sort, page: 1 });
+    onQueryPush({ ...searchObject, sort, page: 1 });
   };
 
   const lastPage = results?.totalCount
@@ -135,4 +134,4 @@ const SearchContainer = ({ searchHook, type, location, history }: Props) => {
   );
 };
 
-export default withRouter(SearchContainer);
+export default SearchContainer;

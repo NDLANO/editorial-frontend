@@ -5,52 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { ReactNode } from 'react';
-import { RouteComponentProps, Route, Switch, RouteProps } from 'react-router-dom';
-import { OneColumn } from '@ndla/ui';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
-import { usePreviousLocation } from '../../util/routeHelpers';
+import { useSeries } from '../../modules/audio/audioQueries';
+import ResourcePage from '../../components/ResourcePage';
 const CreatePodcastSeries = loadable(() => import('./CreatePodcastSeries'));
 const EditPodcastSeries = loadable(() => import('./EditPodcastSeries'));
-const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
 
-interface MatchParams {
-  seriesId: string;
-  seriesLanguage: string;
-}
-
-interface BetterRouteProps extends RouteProps {
-  render?: (props: RouteComponentProps<MatchParams>) => ReactNode;
-}
-
-const PodcastSeriesPage = ({ match, history, location }: RouteComponentProps<MatchParams>) => {
-  const { t } = useTranslation();
-  const previousLocation = usePreviousLocation();
-
-  return (
-    <OneColumn>
-      <HelmetWithTracker title={t('htmlTitles.podcastSeriesPage')} />
-      <Switch>
-        <Route<BetterRouteProps>
-          path={`${match.url}/new`}
-          render={() => <CreatePodcastSeries history={history} />}
-        />
-        <Route<BetterRouteProps>
-          path={`${match.url}/:seriesId/edit/:seriesLanguage`}
-          render={routeProps => (
-            <EditPodcastSeries
-              isNewlyCreated={previousLocation === '/media/podcast-series/new'}
-              podcastSeriesId={Number(routeProps.match.params.seriesId)}
-              podcastSeriesLanguage={routeProps.match.params.seriesLanguage}
-            />
-          )}
-        />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </OneColumn>
-  );
-};
+const PodcastSeriesPage = () => (
+  <ResourcePage
+    CreateComponent={CreatePodcastSeries}
+    EditComponent={EditPodcastSeries}
+    useHook={useSeries}
+    createUrl="/media/podcast-series/new"
+    titleTranslationKey="htmlTitles.podcastSeriesPage"
+  />
+);
 
 export default PodcastSeriesPage;

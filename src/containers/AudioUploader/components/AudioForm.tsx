@@ -33,7 +33,7 @@ import {
 import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
-import { useLicenses } from '../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../modules/draft/draftQueries';
 
 export interface AudioFormikType extends FormikFormBaseType {
   id?: number;
@@ -115,7 +115,7 @@ const AudioForm = ({
   const [savedToServer, setSavedToServer] = useState(false);
   const prevAudioLanguage = useRef<string | null>(null);
   const { applicationError } = useMessages();
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -140,7 +140,7 @@ const AudioForm = ({
         tags: values.tags,
         audioType: 'standard',
         copyright: {
-          license: licenses.find(license => license.license === values.license),
+          license: licenses!.find(license => license.license === values.license),
           origin: values.origin,
           creators: values.creators,
           processors: values.processors,
@@ -248,11 +248,6 @@ const AudioForm = ({
               formIsDirty={formIsDirty}
               severity="danger"
               text={t('alertModal.notSaved')}
-              showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-              onClick={(evt: Event) => {
-                evt.preventDefault();
-                submitForm();
-              }}
             />
           </FormWrapper>
         );

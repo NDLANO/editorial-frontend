@@ -37,8 +37,8 @@ class VisualElementSearch extends Component {
       articleLanguage,
       videoTypes,
       i18n,
-      showMetaImageCheckbox,
-      onSaveAsMetaImage,
+      showCheckbox,
+      checkboxAction,
       t,
     } = this.props;
     const locale = i18n.language;
@@ -68,8 +68,8 @@ class VisualElementSearch extends Component {
                 metaData: image,
               });
             }}
-            showMetaImageCheckbox={showMetaImageCheckbox}
-            onSaveAsMetaImage={onSaveAsMetaImage}
+            showCheckbox={showCheckbox}
+            checkboxAction={checkboxAction}
           />
         );
       case 'video': {
@@ -239,8 +239,8 @@ VisualElementSearch.propTypes = {
   clearUploadedImage: PropTypes.func.isRequired,
   closeModal: PropTypes.func,
   videoTypes: PropTypes.array,
-  showMetaImageCheckbox: PropTypes.bool,
-  onSaveAsMetaImage: PropTypes.func,
+  showCheckbox: PropTypes.bool,
+  checkboxAction: PropTypes.func,
 };
 
 export default withTranslation()(VisualElementSearch);

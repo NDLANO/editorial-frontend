@@ -9,6 +9,7 @@
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { fonts, spacing } from '@ndla/core';
+import { HTMLProps, ReactNode } from 'react';
 
 const buttonStyle = css`
   margin-right: 1rem;
@@ -31,7 +32,14 @@ const linkStyle = css`
   }
 `;
 
-const ActionButton = ({ children, ...rest }) => {
+interface Props extends HTMLProps<HTMLButtonElement> {
+  children?: ReactNode;
+  outline?: boolean;
+  link?: boolean;
+  submit?: boolean;
+}
+
+const ActionButton = ({ children, ...rest }: Props) => {
   return (
     <Button css={rest.link ? linkStyle : buttonStyle} {...rest}>
       {children}

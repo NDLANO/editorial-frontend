@@ -14,7 +14,7 @@ import Tooltip from '@ndla/tooltip';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
-import { Learningpath } from '../../interfaces';
+import { Learningpath } from '../../modules/learningpath/learningpathApiInterfaces';
 import { MultiSearchSummary } from '../../modules/search/searchApiInterfaces';
 import { SearchConceptType } from '../../modules/concept/conceptApiInterfaces';
 
@@ -167,13 +167,10 @@ const HeaderStatusInformation = ({
         {articleConnections}
         {conceptConnecions}
         {learningpathConnections}
-      </Splitter>
-      <Splitter disableSplitter={indentLeft}>
         {published &&
           (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
       </Splitter>
-      {imageConnections}
     </>
   );
 

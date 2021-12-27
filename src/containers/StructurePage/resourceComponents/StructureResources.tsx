@@ -31,7 +31,6 @@ import {
   TaxonomyMetadata,
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftStatus, DraftStatusTypes } from '../../../modules/draft/draftApiInterfaces';
-import { StructureRouteParams } from '../StructureContainer';
 import { LocaleType } from '../../../interfaces';
 
 const StyledDiv = styled('div')`
@@ -47,7 +46,7 @@ export interface TopicResource extends ResourceWithTopicConnection {
 
 interface Props {
   locale: LocaleType;
-  params: StructureRouteParams;
+  params: { topic: string; subtopics?: string };
   currentTopic: SubjectTopic;
   refreshTopics: () => Promise<void>;
   resourceRef: RefObject<HTMLDivElement>;

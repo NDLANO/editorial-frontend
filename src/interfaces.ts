@@ -200,62 +200,6 @@ export type RelatedContent = RelatedContentLink | number;
 
 export type ConvertedRelatedContent = RelatedContent | DraftApiType;
 
-export interface Learningpath {
-  copyright: {
-    license: License;
-    contributors: [
-      {
-        type: string;
-        name: string;
-      },
-    ];
-  };
-  duration: number;
-  canEdit: boolean;
-  verificationStatus: string;
-  lastUpdated: string;
-  description: {
-    description: string;
-    language: string;
-  };
-  tags: {
-    tags: string[];
-    language: string;
-  };
-  isBasedOn: number;
-  learningsteps: [
-    {
-      seqNo: number;
-      metaUrl: string;
-      id: number;
-      title: {
-        title: string;
-        language: string;
-      };
-      type: string;
-    },
-  ];
-  metaUrl: string;
-  revision: number;
-  learningstepUrl: string;
-  id: number;
-  status: string;
-  ownerId: string;
-  supportedLanguages: string[];
-  message: {
-    message: string;
-    date: string;
-  };
-  coverPhoto: {
-    url: string;
-    metaUrl: string;
-  };
-  title: {
-    title: string;
-    language: string;
-  };
-}
-
 export interface SearchResult {
   totalCount: number;
   page: number;
@@ -263,58 +207,6 @@ export interface SearchResult {
   language: string;
   results: string[];
 }
-
-export interface SubjectpageType {
-  facebook?: string;
-  filters?: string[];
-  goTo?: string[];
-  id?: string;
-  latestContent?: string[];
-  layout?: string;
-  metaDescription?: string;
-  mostRead?: string[];
-  name: string;
-  topical?: string;
-  twitter?: string;
-  supportedLanguages?: string[];
-}
-
-export interface SubjectpageApiType extends SubjectpageType {
-  about: {
-    visualElement: {
-      type: 'brightcove' | 'image';
-      url: string;
-      alt: string;
-      caption: string;
-      resource_id: string;
-    };
-    title: string;
-    description: string;
-  };
-  banner: {
-    mobileUrl: string;
-    mobileId: number;
-    desktopUrl: string;
-    desktopId: number;
-  };
-  editorsChoices: string[];
-}
-
-export interface SubjectpageEditType extends SubjectpageType {
-  articleType?: string;
-  description?: string;
-  desktopBanner?: ImageEmbed;
-  editorsChoices?: ArticleType[];
-  language: string;
-  mobileBanner?: number;
-  elementId?: string;
-  title?: string;
-  visualElement?: PartialVisualElement;
-}
-
-type PartialVisualElement =
-  | (Omit<Partial<BrightcoveEmbed>, 'resource'> & { resource: 'brightcove' | 'video' })
-  | (Omit<Partial<ImageEmbed>, 'resource'> & { resource: 'image' });
 
 export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface ImageEmbed {

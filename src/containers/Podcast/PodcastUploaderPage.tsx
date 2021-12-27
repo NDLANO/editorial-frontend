@@ -5,55 +5,20 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useState, useEffect } from 'react';
-import { RouteComponentProps, Route, Switch } from 'react-router-dom';
-import { OneColumn } from '@ndla/ui';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { useTranslation } from 'react-i18next';
 import loadable from '@loadable/component';
-const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
+import { useAudio } from '../../modules/audio/audioQueries';
+import ResourcePage from '../../components/ResourcePage';
 const CreatePodcast = loadable(() => import('./CreatePodcast'));
 const EditPodcast = loadable(() => import('./EditPodcast'));
 
-interface Props {
-  match: RouteComponentProps['match'];
-  history: RouteComponentProps['history'];
-  location: RouteComponentProps['location'];
-}
-
-const PodcastUploderPage = ({ match, history, location }: RouteComponentProps & Props) => {
-  const { t } = useTranslation();
-  const [previousLocation, setPreviousLocation] = useState('');
-  const [isNewlyCreated, setNewlyCreated] = useState(false);
-
-  useEffect(() => {
-    /\/podcast-upload\/(.*)\/new/.test(location.pathname)
-      ? setNewlyCreated(true)
-      : setNewlyCreated(false);
-    if (previousLocation !== location.pathname) {
-      setPreviousLocation(location.pathname);
-    }
-  }, [location.pathname, previousLocation]);
-
-  return (
-    <OneColumn>
-      <HelmetWithTracker title={t('htmlTitles.podcastUploaderPage')} />
-      <Switch>
-        <Route path={`${match.url}/new`} render={() => <CreatePodcast history={history} />} />
-        <Route
-          path={`${match.url}/:audioId/edit/:audioLanguage`}
-          render={routeProps => (
-            <EditPodcast
-              isNewlyCreated={isNewlyCreated}
-              podcastId={routeProps.match.params.audioId}
-              podcastLanguage={routeProps.match.params.audioLanguage}
-            />
-          )}
-        />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </OneColumn>
-  );
-};
+const PodcastUploderPage = () => (
+  <ResourcePage
+    CreateComponent={CreatePodcast}
+    EditComponent={EditPodcast}
+    useHook={useAudio}
+    createUrl="/media/podcast-upload/new"
+    titleTranslationKey="htmlTitles.podcastUploaderPage"
+  />
+);
 
 export default PodcastUploderPage;

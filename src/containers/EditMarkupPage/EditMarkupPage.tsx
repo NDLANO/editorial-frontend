@@ -6,21 +6,18 @@
  *
  */
 
-import { lazy, Component, Suspense } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation, withTranslation, CustomWithTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { FieldHeader } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
-import { RouteComponentProps } from 'react-router';
 import { fetchDraft, updateDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { Row, PreviewDraftLightbox } from '../../components';
-
-import { HistoryShape } from '../../shapes';
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
@@ -124,17 +121,6 @@ ErrorMessage.propTypes = {
   language: PropTypes.string.isRequired,
 };
 
-interface MatchParams {
-  draftId: string;
-  language: string;
-}
-
-interface MarkupLocationState {
-  backUrl?: string;
-}
-
-interface Props extends RouteComponentProps<MatchParams, {}, MarkupLocationState> {}
-
 type Status =
   | 'initial'
   | 'edit'
@@ -144,201 +130,150 @@ type Status =
   | 'saving'
   | 'saved';
 
-interface State {
-  status: Status;
-  draft: DraftApiType | undefined;
-}
+const EditMarkupPage = () => {
+  const { t } = useTranslation();
+  const params = useParams<'draftId' | 'language'>();
+  const draftId = params.draftId!;
+  const language = params.language!;
+  const [status, setStatus] = useState<Status>('initial');
+  const [draft, setDraft] = useState<DraftApiType | undefined>(undefined);
+  const location = useLocation();
 
-class EditMarkupPage extends Component<Props & CustomWithTranslation, State> {
-  constructor(props: Props & CustomWithTranslation) {
-    super(props);
-    this.state = {
-      status: 'initial',
-      draft: undefined,
-    };
-    this.saveChanges = this.saveChanges.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  async componentDidMount() {
+  useEffect(() => {
     const session = getSessionStateFromLocalStorage();
-
-    if (!session.user?.scope?.includes(DRAFT_HTML_SCOPE)) {
-      this.setState({ status: 'access-error' });
+    if (!session.user.scope?.includes(DRAFT_HTML_SCOPE)) {
+      setStatus('access-error');
       return;
     }
-
-    try {
-      const { draftId, language } = this.props.match.params;
-      const draft = await fetchDraft(Number(draftId), language);
-      this.setState({ draft });
-    } catch (e) {
-      handleError(e);
-      this.setState({ status: 'fetch-error' });
-    }
-  }
-
-  async componentDidUpdate(prevProps: Props) {
-    if (prevProps.match.params.language !== this.props.match.params.language) {
-      const session = getSessionStateFromLocalStorage();
-
-      if (!session.user?.scope?.includes(DRAFT_HTML_SCOPE)) {
-        this.setState({ status: 'access-error' });
-        return;
-      }
-
+    (async () => {
       try {
-        const { draftId, language } = this.props.match.params;
-        const draft = await fetchDraft(Number(draftId), language);
-        this.setState({ draft });
+        const fetched = await fetchDraft(draftId, language);
+        setDraft(fetched);
       } catch (e) {
         handleError(e);
-        this.setState({ status: 'fetch-error' });
+        setStatus('fetch-error');
       }
-    }
-  }
+    })();
+  }, [draftId, language]);
 
-  saveChanges = async () => {
+  const saveChanges = async () => {
     try {
-      const { draftId, language } = this.props.match.params;
-      this.setState({ status: 'saving' });
-      const stateContent = this.state.draft?.content?.content;
+      setStatus('saving');
+      const stateContent = draft?.content?.content;
       const content = standardizeContent(stateContent ?? '');
-      const draft = await updateDraft({
+      const updatedDraft = await updateDraft({
         id: parseInt(draftId, 10),
         content,
-        revision: this.state.draft?.revision ?? -1,
+        revision: draft?.revision ?? -1,
         language,
-        supportedLanguages: this.state.draft?.supportedLanguages ?? [],
+        supportedLanguages: draft?.supportedLanguages ?? [],
       });
-      this.setState({ status: 'saved', draft });
+      setDraft(updatedDraft);
+      setStatus('saved');
     } catch (e) {
       handleError(e);
-      this.setState({ status: 'save-error' });
+      setStatus('save-error');
     }
   };
 
-  handleChange = (value: string) => {
-    this.setState(prevState => ({
-      draft: updateContentInDraft(prevState.draft, value),
-      status: 'edit',
-    }));
+  const handleChange = (value: string) => {
+    setStatus('edit');
+    setDraft(updateContentInDraft(draft, value));
   };
 
-  render() {
-    const { draftId, language } = this.props.match.params;
-    const { t } = this.props;
-    const { status, draft } = this.state;
-    const { location } = this.props.history;
-    if (status === 'access-error') {
-      return (
-        <ErrorMessage draftId={draftId} language={language} messageId="forbiddenPage.description" />
-      );
-    }
-
-    if (status === 'fetch-error') {
-      return (
-        <ErrorMessage draftId={draftId} language={language} messageId="editMarkup.fetchError" />
-      );
-    }
-    const isDirty = status === 'edit';
-    const isSubmitting = status === 'saving';
+  if (status === 'access-error') {
     return (
-      <Container>
-        <FieldHeader title={t('editMarkup.title')} subTitle={t('editMarkup.subTitle')}>
-          <HelpMessage>
-            <p>{t('editMarkup.helpMessage.paragraph1')}</p>
-            <p>{t('editMarkup.helpMessage.paragraph2')}</p>
-          </HelpMessage>
-        </FieldHeader>
-        <LanguageWrapper>
-          <HeaderSupportedLanguages
-            supportedLanguages={draft?.supportedLanguages}
-            language={language}
-            editUrl={(lang: string) => toEditMarkup(draftId, lang)}
-            id={parseInt(draftId)}
-            isSubmitting={isSubmitting}
-            replace={true}
-          />
-        </LanguageWrapper>
-        <Suspense fallback={<Spinner />}>
-          <MonacoEditor
-            key={
-              draft && draft.content
-                ? draft.id + draft.revision + '-' + draft.content.language
-                : 'draft'
-            }
-            value={draft?.content?.content ?? ''}
-            onChange={this.handleChange}
-            onSave={this.saveChanges}
-          />
-          {status === 'save-error' && (
-            <StyledErrorMessage
-              css={css`
-                text-align: left;
-                margin: ${spacing.normal};
-              `}>
-              {t('editMarkup.saveError')}
-            </StyledErrorMessage>
-          )}
-          <Row
-            justifyContent="space-between"
-            css={css`
-              margin: ${spacing.normal};
-            `}>
-            <PreviewDraftLightbox
-              label={t('form.previewProductionArticle.article')}
-              typeOfPreview="preview"
-              getArticle={() => {
-                const content = standardizeContent(draft?.content?.content ?? '');
-                const update = updateContentInDraft(draft, content)!;
-                return {
-                  ...update,
-                  tags: { tags: [], language },
-                  language,
-                };
-              }}
-            />
-            <Row justifyContent="end" alignItems="baseline">
-              <Link
-                to={
-                  location.state?.backUrl ||
-                  `/subject-matter/learning-resource/${draftId}/edit/${language}`
-                }>
-                {t('editMarkup.back')}
-              </Link>
-              <SaveButton
-                {...formClasses}
-                isSaving={status === 'saving'}
-                formIsDirty={status === 'edit'}
-                showSaved={status === 'saved'}
-                onClick={this.saveChanges}
-              />
-            </Row>
-          </Row>
-        </Suspense>
-        <AlertModalWrapper
-          isSubmitting={isSubmitting}
-          formIsDirty={isDirty}
-          severity="danger"
-          text={t('alertModal.notSaved')}
-        />
-      </Container>
+      <ErrorMessage draftId={draftId} language={language} messageId="forbiddenPage.description" />
     );
   }
 
-  static propTypes = {
-    match: PropTypes.shape({
-      url: PropTypes.string.isRequired,
-      params: PropTypes.shape({
-        draftId: PropTypes.string.isRequired,
-        language: PropTypes.string.isRequired,
-      }).isRequired,
-      isExact: PropTypes.bool.isRequired,
-      path: PropTypes.string.isRequired,
-    }).isRequired,
-    history: HistoryShape,
-  };
-}
+  if (status === 'fetch-error') {
+    return <ErrorMessage draftId={draftId} language={language} messageId="editMarkup.fetchError" />;
+  }
+  const isDirty = status === 'edit';
+  const isSubmitting = status === 'saving';
+  return (
+    <Container>
+      <FieldHeader title={t('editMarkup.title')} subTitle={t('editMarkup.subTitle')}>
+        <HelpMessage>
+          <p>{t('editMarkup.helpMessage.paragraph1')}</p>
+          <p>{t('editMarkup.helpMessage.paragraph2')}</p>
+        </HelpMessage>
+      </FieldHeader>
+      <LanguageWrapper>
+        <HeaderSupportedLanguages
+          supportedLanguages={draft?.supportedLanguages}
+          language={language}
+          editUrl={(lang: string) => toEditMarkup(draftId, lang)}
+          id={parseInt(draftId)}
+          isSubmitting={isSubmitting}
+          replace={true}
+        />
+      </LanguageWrapper>
+      <Suspense fallback={<Spinner />}>
+        <MonacoEditor
+          key={
+            draft && draft.content
+              ? draft.id + draft.revision + '-' + draft.content.language
+              : 'draft'
+          }
+          value={draft?.content?.content ?? ''}
+          onChange={handleChange}
+          onSave={saveChanges}
+        />
+        {status === 'save-error' && (
+          <StyledErrorMessage
+            css={css`
+              text-align: left;
+              margin: ${spacing.normal};
+            `}>
+            {t('editMarkup.saveError')}
+          </StyledErrorMessage>
+        )}
+        <Row
+          justifyContent="space-between"
+          css={css`
+            margin: ${spacing.normal};
+          `}>
+          <PreviewDraftLightbox
+            label={t('form.previewProductionArticle.article')}
+            typeOfPreview="preview"
+            getArticle={() => {
+              const content = standardizeContent(draft?.content?.content ?? '');
+              const update = updateContentInDraft(draft, content)!;
+              return {
+                ...update,
+                tags: { tags: [], language },
+                language,
+              };
+            }}
+          />
+          <Row justifyContent="end" alignItems="baseline">
+            <Link
+              to={
+                location.state?.backUrl ||
+                `/subject-matter/learning-resource/${draftId}/edit/${language}`
+              }>
+              {t('editMarkup.back')}
+            </Link>
+            <SaveButton
+              {...formClasses}
+              isSaving={status === 'saving'}
+              formIsDirty={status === 'edit'}
+              showSaved={status === 'saved'}
+              onClick={saveChanges}
+            />
+          </Row>
+        </Row>
+      </Suspense>
+      <AlertModalWrapper
+        isSubmitting={isSubmitting}
+        formIsDirty={isDirty}
+        severity="danger"
+        text={t('alertModal.notSaved')}
+      />
+    </Container>
+  );
+};
 
-export default withTranslation()(EditMarkupPage);
+export default EditMarkupPage;

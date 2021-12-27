@@ -36,7 +36,7 @@ import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
-import { useLicenses } from '../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../modules/draft/draftQueries';
 
 interface Props {
   concept?: ConceptApiType;
@@ -47,7 +47,10 @@ interface Props {
   conceptArticles: DraftApiType[];
   onClose?: () => void;
   language: string;
-  onUpdate: (updateConcept: ConceptPostType | ConceptPatchType, revision?: number) => Promise<void>;
+  onUpdate: (
+    updateConcept: ConceptPostType | ConceptPatchType,
+    revision?: number,
+  ) => Promise<ConceptApiType>;
   subjects: SubjectType[];
   initialTitle?: string;
   translateToNN?: () => void;
@@ -55,7 +58,7 @@ interface Props {
     updatedConcept: ConceptPatchType,
     newStatus: ConceptStatusType,
     dirty: boolean,
-  ) => Promise<void>;
+  ) => Promise<ConceptApiType>;
 }
 
 const conceptFormRules: RulesType<ConceptFormValues> = {
@@ -96,7 +99,7 @@ const ConceptForm = ({
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
   const { t } = useTranslation();
   const { applicationError } = useMessages();
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
 
   useEffect(() => {
     setSavedToServer(false);
@@ -113,20 +116,24 @@ const ConceptForm = ({
     const newStatus = values.status?.current;
     const statusChange = initialStatus !== newStatus;
 
+    let savedArticle;
+
     try {
       if (statusChange && updateConceptAndStatus) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
         const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
         const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !formikDirty;
-        await updateConceptAndStatus(
-          getConceptPatchType(values, licenses),
+        savedArticle = await updateConceptAndStatus(
+          getConceptPatchType(values, licenses!),
           newStatus!,
           !skipSaving,
         );
       } else {
-        await onUpdate(getConceptPatchType(values, licenses), revision!);
+        savedArticle = await onUpdate(getConceptPatchType(values, licenses!), revision!);
       }
-      formikHelpers.resetForm();
+      formikHelpers.resetForm({
+        values: conceptApiTypeToFormType(savedArticle, language, subjects, conceptArticles),
+      });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
     } catch (err) {
@@ -161,7 +168,7 @@ const ConceptForm = ({
         const { id, revision, status, created, updated } = values;
         const requirements = id && revision && status && created && updated;
         const getEntity = requirements
-          ? () => conceptFormTypeToApiType(values, licenses, concept?.updatedBy)
+          ? () => conceptFormTypeToApiType(values, licenses!, concept?.updatedBy)
           : undefined;
         const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
         return (

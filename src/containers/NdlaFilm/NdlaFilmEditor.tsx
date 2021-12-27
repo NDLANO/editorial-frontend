@@ -7,19 +7,24 @@
 
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
 import NdlaFilmForm from './components/NdlaFilmForm';
 import Spinner from '../../components/Spinner';
-import { LocaleType } from '../../interfaces';
 import { useFilmFrontpageQuery } from '../../modules/frontpage/filmQueries';
+import { getDefaultLanguage } from '../../config';
+import { isValidLocale } from '../../i18n';
+import NotFound from '../NotFoundPage/NotFoundPage';
 
-interface Props {
-  selectedLanguage: LocaleType;
-}
-
-const NdlaFilmEditor = ({ selectedLanguage }: Props) => {
+const NdlaFilmEditor = () => {
   const filmFrontpageQuery = useFilmFrontpageQuery();
+  const { selectedLanguage } = useParams<'selectedLanguage'>();
+  const selectedLangOrDefault = selectedLanguage ?? getDefaultLanguage();
   const { t } = useTranslation();
+
+  if (!isValidLocale(selectedLangOrDefault)) {
+    return <NotFound />;
+  }
 
   if (!filmFrontpageQuery.data) {
     return <Spinner withWrapper />;
@@ -28,7 +33,10 @@ const NdlaFilmEditor = ({ selectedLanguage }: Props) => {
   return (
     <OneColumn>
       <HelmetWithTracker title={t('htmlTitles.ndlaFilmPage')} />
-      <NdlaFilmForm filmFrontpage={filmFrontpageQuery.data} selectedLanguage={selectedLanguage} />
+      <NdlaFilmForm
+        filmFrontpage={filmFrontpageQuery.data}
+        selectedLanguage={selectedLangOrDefault}
+      />
     </OneColumn>
   );
 };

@@ -7,7 +7,6 @@
  */
 
 import { useCallback, useMemo, useState } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
@@ -44,7 +43,7 @@ import {
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, RelatedContent } from '../../../../interfaces';
-import { useLicenses } from '../../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../../modules/draft/draftQueries';
 
 export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
@@ -122,7 +121,7 @@ export const convertDraftOrRelated = (
   });
 };
 
-interface Props extends RouteComponentProps {
+interface Props {
   article: Partial<ConvertedDraftType>;
   translating: boolean;
   translateToNN: () => void;
@@ -146,11 +145,10 @@ const LearningResourceForm = ({
   updateArticle,
   updateArticleAndStatus,
   articleChanged,
-  history,
 }: Props) => {
   const { t } = useTranslation();
 
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
 
   const getArticleFromSlate = useCallback(
     ({
@@ -177,7 +175,7 @@ const LearningResourceForm = ({
         articleType: 'standard',
         content: content && content.length > 0 ? content : emptyContent,
         copyright: {
-          license: licenses.find(license => license.license === values.license),
+          license: licenses!.find(license => license.license === values.license),
           origin: values.origin,
           creators: values.creators,
           processors: values.processors,
@@ -206,7 +204,6 @@ const LearningResourceForm = ({
     savedToServer,
     formikRef,
     initialValues,
-    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
@@ -219,7 +216,6 @@ const LearningResourceForm = ({
     updateArticle,
     updateArticleAndStatus,
     getArticleFromSlate,
-    isNewlyCreated,
   });
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
@@ -270,8 +266,7 @@ const LearningResourceForm = ({
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={(saveAsNewVersion?: boolean) => {
-            setSaveAsNewVersion(saveAsNewVersion ?? false);
-            handleSubmit(values, formik);
+            handleSubmit(values, formik, saveAsNewVersion || false);
           }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}
@@ -312,4 +307,4 @@ const LearningResourceForm = ({
   );
 };
 
-export default withRouter(LearningResourceForm);
+export default LearningResourceForm;

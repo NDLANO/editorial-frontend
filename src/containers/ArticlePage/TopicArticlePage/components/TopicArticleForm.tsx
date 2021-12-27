@@ -10,7 +10,6 @@ import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import {
   topicArticleContentToHTML,
   topicArticleContentToEditorValue,
@@ -47,7 +46,7 @@ import {
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
 import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
-import { useLicenses } from '../../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../../modules/draft/draftQueries';
 
 export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
@@ -106,7 +105,7 @@ const getPublishedDate = (
 
 // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
 
-interface Props extends RouteComponentProps {
+interface Props {
   article: Partial<ConvertedDraftType>;
   revision?: number;
   updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
@@ -133,7 +132,7 @@ const TopicArticleForm = (props: Props) => {
     isNewlyCreated,
     articleStatus,
   } = props;
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
 
   const { t } = useTranslation();
 
@@ -163,7 +162,7 @@ const TopicArticleForm = (props: Props) => {
         articleType: 'topic-article',
         content: content || emptyField,
         copyright: {
-          license: licenses.find(license => license.license === values.license),
+          license: licenses!.find(license => license.license === values.license),
           creators: values.creators,
           processors: values.processors,
           rightsholders: values.rightsholders,
@@ -193,7 +192,6 @@ const TopicArticleForm = (props: Props) => {
     savedToServer,
     formikRef,
     initialValues,
-    setSaveAsNewVersion,
     handleSubmit,
     fetchStatusStateMachine,
     validateDraft,
@@ -207,7 +205,6 @@ const TopicArticleForm = (props: Props) => {
     updateArticleAndStatus,
     licenses,
     getArticleFromSlate,
-    isNewlyCreated,
   });
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
@@ -259,8 +256,7 @@ const TopicArticleForm = (props: Props) => {
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={saveAsNewVersion => {
-            setSaveAsNewVersion(saveAsNewVersion ?? false);
-            handleSubmit(values, formik);
+            handleSubmit(values, formik, saveAsNewVersion ?? false);
           }}
           entityStatus={article.status}
           fetchStatusStateMachine={fetchStatusStateMachine}
@@ -301,4 +297,4 @@ const TopicArticleForm = (props: Props) => {
   );
 };
 
-export default withRouter(TopicArticleForm);
+export default TopicArticleForm;

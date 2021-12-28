@@ -4,10 +4,10 @@ import VisualElementSearch from '../../../../containers/VisualElement/VisualElem
 import { defaultEmbedBlock } from '../embed/utils';
 import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
-import { Embed } from '../../../../interfaces';
 import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
+import { Embed } from '../../../../interfaces';
 
-export const onSaveAsMetaImage = (
+export const checkboxAction = (
   image: ImageApiType,
   formikContext: FormikContextType<{ metaImageId?: string; metaImageAlt?: string }>,
 ) => {
@@ -36,8 +36,7 @@ const SlateVisualElementPicker = ({
   const formikContext = useFormikContext<{ metaImageAlt?: string; metaImageId?: string }>();
   const { values } = formikContext;
 
-  const showMetaImageCheckbox =
-    values.metaImageAlt !== undefined && values.metaImageId !== undefined;
+  const showCheckbox = values.metaImageAlt !== undefined && values.metaImageId !== undefined;
 
   const onVisualElementAdd = (visualElement: Partial<Embed> | DOMStringMap[], type = 'embed') => {
     if (type === 'embed') {
@@ -58,8 +57,8 @@ const SlateVisualElementPicker = ({
           handleVisualElementChange={onVisualElementAdd}
           closeModal={onVisualElementClose}
           setH5pFetchFail={setH5pFetchFail}
-          showMetaImageCheckbox={showMetaImageCheckbox}
-          onSaveAsMetaImage={image => onSaveAsMetaImage(image, formikContext)}
+          showCheckbox={showCheckbox}
+          checkboxAction={(image: ImageApiType) => checkboxAction(image, formikContext)}
         />
       )}
     </VisualElementModalWrapper>

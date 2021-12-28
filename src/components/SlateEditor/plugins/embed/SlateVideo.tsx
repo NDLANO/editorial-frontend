@@ -17,6 +17,7 @@ import { parseMarkdown } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
+import { isNumeric } from '../../../../components/validators';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
 import IconButton from '../../../IconButton';
@@ -78,7 +79,11 @@ const SlateVideo = ({
     }
     const idWithoutTimestamp = embed.videoid?.split('&')[0];
 
-    fetchBrightcoveVideo(idWithoutTimestamp).then(v => setLinkedVideoId(v.link?.text));
+    fetchBrightcoveVideo(idWithoutTimestamp).then(v => {
+      if (isNumeric(v.link?.text)) {
+        setLinkedVideoId(v.link?.text);
+      }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [(embed as BrightcoveEmbed).videoid]);
 
@@ -127,7 +132,7 @@ const SlateVideo = ({
               showLinkedVideo ? t('form.video.fromLinkedVideo') : t('form.video.toLinkedVideo')
             }
             align="right">
-            <IconButton as={SafeLink} onClick={switchEmbedSource}>
+            <IconButton as={SafeLink} onClick={switchEmbedSource} to="">
               {t('form.video.linkedVideoButton')}
             </IconButton>
           </Tooltip>

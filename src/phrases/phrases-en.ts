@@ -289,6 +289,7 @@ const phrases = {
     buttonTitle: 'Search',
     useImage: 'Use image',
     metaImageCheckboxLabel: 'Set as meta image',
+    visualElementCheckboxLabel: 'Set as visual element',
     noTitle: 'No title',
     noResultsText: 'No images found. Would you like to upload a new image?',
     noResultsButtonText: 'Upload image',
@@ -584,9 +585,9 @@ const phrases = {
       coverPhotoId: 'Meta image',
     },
     previewProductionArticle: {
-      button: 'Compare draft and article',
-      article: 'Published version',
-      draft: 'Draft',
+      button: 'Compare current version with old version',
+      version: 'Version {{revision}}',
+      current: 'Current version',
     },
     previewLanguageArticle: {
       button: 'Compare language versions',

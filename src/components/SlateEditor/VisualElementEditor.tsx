@@ -6,8 +6,9 @@
  *
  */
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FormikHandlers } from 'formik';
+import { isEqual } from 'lodash';
 import { Descendant, createEditor } from 'slate';
 import { Slate, Editable, withReact, RenderElementProps } from 'slate-react';
 import { withHistory } from 'slate-history';
@@ -42,6 +43,15 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
     return <div {...attributes}>{children}</div>;
   };
 
+  useEffect(() => {
+    if (!isEqual(editor.children, value)) {
+      editor.children = value;
+      editor.history = { undos: [], redos: [] };
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
   return (
     <SlateProvider>
       <Slate
@@ -52,13 +62,12 @@ const VisualElementEditor = ({ name, value, plugins, onChange, types, language }
             target: {
               name,
               value: val,
-              type: 'SlateEditorValue',
             },
           });
         }}>
         <VisualElementPicker editor={editor} types={types} language={language} />
         <Editable
-          readOnly={true}
+          readOnly={false}
           renderElement={renderElement}
           onDragStart={e => {
             e.stopPropagation();

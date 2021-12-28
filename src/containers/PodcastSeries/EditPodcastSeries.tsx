@@ -19,7 +19,7 @@ interface Props {
 }
 
 const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
-  const { seriesId, seriesLanguage } = useParams<'seriesId' | 'seriesLanguage'>();
+  const { id: seriesId, selectedLanguage: seriesLanguage } = useParams<'id' | 'selectedLanguage'>();
   const { i18n } = useTranslation();
   const locale = i18n.language;
   const [podcastSeries, setPodcastSeries] = useState<PodcastSeriesApiType | undefined>(undefined);

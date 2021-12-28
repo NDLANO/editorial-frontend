@@ -82,7 +82,6 @@ const GrepCodesForm = ({
     updateArticle,
     updateArticleAndStatus,
     getArticleFromSlate: getArticle,
-    isNewlyCreated: false,
   });
 
   return (

@@ -284,6 +284,7 @@ const phrases = {
     buttonTitle: 'Søk',
     useImage: 'Bruk bildet',
     metaImageCheckboxLabel: 'Sett som metabilde',
+    visualElementCheckboxLabel: 'Sett som visuelt element',
     noTitle: 'Ingen tittel',
     noResultsText: 'Fann ingen bilder på søk. Ønskjer du å laste opp eit nytt bilde?',
     noResultsButtonText: 'Last opp bilde',
@@ -585,9 +586,9 @@ const phrases = {
       coverPhotoId: 'Metabilde',
     },
     previewProductionArticle: {
-      button: 'Samanlikn utkast og artikkel',
-      article: 'Publisert versjon',
-      draft: 'Utkast',
+      button: 'Samanlikn gjeldande versjon med gamal versjon',
+      version: 'Versjon {{revision}}',
+      current: 'Gjeldende versjon',
     },
     previewLanguageArticle: {
       button: 'Samanlikn språkversjonar',

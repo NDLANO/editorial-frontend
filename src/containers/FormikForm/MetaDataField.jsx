@@ -19,7 +19,7 @@ import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { ArticleShape } from '../../shapes';
 import { useSession } from '../Session/SessionProvider';
 
-const MetaDataField = ({ article, fetchSearchTags }) => {
+const MetaDataField = ({ article, fetchSearchTags, showCheckbox, checkboxAction }) => {
   const { t } = useTranslation();
   const { userAccess } = useSession();
   const plugins = [textTransformPlugin];
@@ -67,6 +67,8 @@ const MetaDataField = ({ article, fetchSearchTags }) => {
             metaImageId={field.value}
             setFieldTouched={form.setFieldTouched}
             showRemoveButton={false}
+            showCheckbox={showCheckbox}
+            checkboxAction={checkboxAction}
             {...field}
           />
         )}
@@ -78,6 +80,8 @@ const MetaDataField = ({ article, fetchSearchTags }) => {
 MetaDataField.propTypes = {
   article: ArticleShape.isRequired,
   fetchSearchTags: PropTypes.func,
+  showCheckbox: PropTypes.bool,
+  checkboxAction: PropTypes.func,
 };
 
 export default MetaDataField;

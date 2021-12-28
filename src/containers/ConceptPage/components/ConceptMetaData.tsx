@@ -16,6 +16,7 @@ import InlineImageSearch from './InlineImageSearch';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
 import { ConceptTagsSearchResult } from '../../../modules/concept/conceptApiInterfaces';
+import { onSaveAsVisualElement } from '../../FormikForm/utils';
 
 interface Props {
   subjects: SubjectType[];
@@ -25,7 +26,8 @@ interface Props {
 
 const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
   const { t } = useTranslation();
-  const { values } = useFormikContext<ConceptFormValues>();
+  const formikContext = useFormikContext<ConceptFormValues>();
+  const { values } = formikContext;
 
   return (
     <>
@@ -38,6 +40,8 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
               metaImageId={field.value}
               setFieldTouched={form.setFieldTouched}
               showRemoveButton
+              showCheckbox={true}
+              checkboxAction={image => onSaveAsVisualElement(image, formikContext)}
               {...field}
             />
           )}

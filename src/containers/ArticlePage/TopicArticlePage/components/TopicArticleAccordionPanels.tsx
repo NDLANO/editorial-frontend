@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
@@ -12,6 +20,8 @@ import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
 import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
 import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
+import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
+import { onSaveAsVisualElement } from '../../../FormikForm/utils';
 
 interface Props {
   fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
@@ -36,7 +46,8 @@ const TopicArticleAccordionPanels = ({
   const locale = i18n.language;
   const { userAccess } = useSession();
   const formikContext = useFormikContext<TopicArticleFormikType>();
-  const { values, handleBlur, errors, setValues } = formikContext;
+  const { values, handleBlur, errors, setValues, setStatus } = formikContext;
+
   return (
     <Accordions>
       <AccordionSection
@@ -62,14 +73,19 @@ const TopicArticleAccordionPanels = ({
         hasError={
           !!(errors.creators || errors.rightsholders || errors.processors || errors.license)
         }>
-        <CopyrightFieldGroup values={values} />
+        <CopyrightFieldGroup values={values} enableLicenseNA={true} />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-metadata'}
         title={t('form.metadataSection')}
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.tags)}>
-        <MetaDataField article={article} fetchSearchTags={fetchSearchTags} />
+        <MetaDataField
+          article={article}
+          fetchSearchTags={fetchSearchTags}
+          showCheckbox={true}
+          checkboxAction={(image: ImageApiType) => onSaveAsVisualElement(image, formikContext)}
+        />
       </AccordionSection>
       <AccordionSection
         id={'topic-article-grepCodes'}
@@ -99,6 +115,7 @@ const TopicArticleAccordionPanels = ({
             getArticle={getArticle}
             getInitialValues={getInitialValues}
             setValues={setValues}
+            setStatus={setStatus}
           />
         </AccordionSection>
       )}

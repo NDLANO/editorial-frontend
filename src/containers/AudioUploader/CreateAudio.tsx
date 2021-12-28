@@ -5,20 +5,16 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import AudioForm from './components/AudioForm';
 import * as audioApi from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
 import { AudioMetaInformationPost } from '../../modules/audio/audioApiInterfaces';
-import { HistoryShape } from '../../shapes';
 
-interface Props {
-  locale: string;
-}
-
-const CreateAudio = ({ locale }: Props) => {
+const CreateAudio = () => {
+  const { i18n } = useTranslation();
   const navigate = useNavigate();
   const onCreateAudio = async (
     newAudio: AudioMetaInformationPost,
@@ -31,12 +27,7 @@ const CreateAudio = ({ locale }: Props) => {
     }
   };
 
-  return <AudioForm onUpdate={onCreateAudio} audioLanguage={locale} />;
-};
-
-CreateAudio.propTypes = {
-  history: HistoryShape,
-  locale: PropTypes.string.isRequired,
+  return <AudioForm onUpdate={onCreateAudio} audioLanguage={i18n.language} />;
 };
 
 export default CreateAudio;

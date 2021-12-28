@@ -16,7 +16,7 @@ import { AudioSearchResultType } from '../../../../modules/audio/audioApiInterfa
 import { toEditAudio, toEditPodcast } from '../../../../util/routeHelpers';
 import { AudioResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
-import { useLicenses } from '../../../Licenses/LicensesProvider';
+import { useLicenses } from '../../../../modules/draft/draftQueries';
 
 interface Props {
   audio: AudioSearchResultType;
@@ -25,7 +25,7 @@ interface Props {
 
 const SearchAudio = ({ audio, locale }: Props) => {
   const { t } = useTranslation();
-  const { licenses } = useLicenses();
+  const { data: licenses } = useLicenses();
   const license = licenses && licenses.find(l => audio.license === l.license);
   return (
     <div {...searchClasses('result')}>

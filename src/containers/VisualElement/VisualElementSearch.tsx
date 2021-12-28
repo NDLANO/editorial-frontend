@@ -40,8 +40,8 @@ interface Props {
   handleVisualElementChange: (embed: Embed) => void;
   articleLanguage?: string;
   closeModal: () => void;
-  showMetaImageCheckbox?: boolean;
-  onSaveAsMetaImage?: (image: ImageApiType) => void;
+  showCheckbox?: boolean;
+  checkboxAction?: (image: ImageApiType) => void;
 }
 
 interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {
@@ -70,8 +70,8 @@ const VisualElementSearch = ({
   handleVisualElementChange,
   articleLanguage,
   closeModal,
-  showMetaImageCheckbox,
-  onSaveAsMetaImage,
+  showCheckbox: showMetaImageCheckbox,
+  checkboxAction: onSaveAsMetaImage,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
@@ -99,8 +99,8 @@ const VisualElementSearch = ({
               metaData: image,
             });
           }}
-          showMetaImageCheckbox={showMetaImageCheckbox}
-          onSaveAsMetaImage={onSaveAsMetaImage}
+          showCheckbox={showMetaImageCheckbox}
+          checkboxAction={onSaveAsMetaImage}
         />
       );
     case 'video': {

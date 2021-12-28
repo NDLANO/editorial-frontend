@@ -1,4 +1,4 @@
-import { Editor, Element, NodeEntry, Path, Text, Transforms } from 'slate';
+import { Descendant, Editor, Element, NodeEntry, Path, Text, Transforms } from 'slate';
 
 type ElementType = Element['type'];
 
@@ -41,25 +41,43 @@ const normalizeChildren = (editor: Editor, entry: NodeEntry, config: NormalizerC
     if (nodes) return nodes;
   };
 
+  const normalize = (child: Descendant, path: Path, rule: DefaultNodeSettings): boolean => {
+    const { allowed, defaultElement } = rule;
+    if (Text.isText(child)) {
+      if (defaultElement) {
+        Transforms.wrapNodes(editor, defaultElement(), {
+          at: path,
+        });
+        return true;
+      } else {
+        Transforms.removeNodes(editor, { at: path });
+        return true;
+      }
+    } else if (!allowed.includes(child.type)) {
+      Transforms.unwrapNodes(editor, { at: path });
+      return true;
+    }
+    return false;
+  };
+
   for (const [index, child] of children.entries()) {
     const rule = getRule(index);
     if (!rule) return false;
 
-    const { allowed, defaultElement } = rule;
+    if (normalize(child, [...path, index], rule)) {
+      return true;
+    }
+  }
 
-    if (Text.isText(child)) {
+  if (node.children.length === 1 && firstNode && lastNode) {
+    const child = node.children[0];
+    const { allowed, defaultElement } = lastNode;
+
+    if (!Element.isElement(child) || !allowed.includes(child.type)) {
       if (defaultElement) {
-        Transforms.wrapNodes(editor, defaultElement(), {
-          at: [...path, index],
-        });
-        return true;
-      } else {
-        Transforms.removeNodes(editor, { at: [...path, index] });
+        Transforms.insertNodes(editor, defaultElement(), { at: [...path, 1] });
         return true;
       }
-    } else if (!allowed.includes(child.type)) {
-      Transforms.unwrapNodes(editor, { at: [...path, index] });
-      return true;
     }
   }
 
@@ -145,18 +163,18 @@ export const defaultBlockNormalizer = (
   const { previous, next, firstNode, lastNode, nodes, parent } = config;
 
   if (firstNode || nodes || lastNode) {
-    if (parent && normalizeParent(editor, entry, parent)) {
-      return true;
-    }
     if (normalizeChildren(editor, entry, config)) {
       return true;
     }
-    if (previous && normalizePrevious(editor, entry, previous)) {
-      return true;
-    }
-    if (next && normalizeNext(editor, entry, next)) {
-      return true;
-    }
+  }
+  if (parent && normalizeParent(editor, entry, parent)) {
+    return true;
+  }
+  if (previous && normalizePrevious(editor, entry, previous)) {
+    return true;
+  }
+  if (next && normalizeNext(editor, entry, next)) {
+    return true;
   }
 
   return false;

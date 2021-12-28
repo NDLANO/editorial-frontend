@@ -12,12 +12,10 @@ import { jsx as slatejsx } from 'slate-hyperscript';
 import { colors } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
 import Details from './Details';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import containsVoid from '../../utils/containsVoid';
 import {
-  addSurroundingParagraphs,
   afterOrBeforeTextBlockElement,
   lastTextBlockElement,
   textBlockElements,
@@ -232,7 +230,6 @@ export const detailsPlugin = (editor: Editor) => {
         for (const [child, childPath] of Node.children(editor, path)) {
           // Unwrap elements inside summary until only the text remains.
           if (Element.isElement(child)) {
-            console.log('RUNS');
             Transforms.unwrapNodes(editor, { at: childPath, voids: true });
             return;
           }

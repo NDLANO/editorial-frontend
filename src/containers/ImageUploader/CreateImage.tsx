@@ -12,8 +12,6 @@ import { createFormData } from '../../util/formDataHelper';
 import * as imageApi from '../../modules/image/imageApi';
 import { toEditImage } from '../../util/routeHelpers';
 import { ImageApiType, NewImageMetadata } from '../../modules/image/imageApiInterfaces';
-import { useLicenses } from '../../modules/draft/draftQueries';
-import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
 
 interface Props {
   isNewlyCreated?: boolean;
@@ -32,8 +30,6 @@ const CreateImage = ({
 }: Props) => {
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const { data: licenses } = useLicenses({ placeholderData: [] });
-  const imageLicenses = draftLicensesToImageLicenses(licenses!);
   const navigate = useNavigate();
 
   const onCreateImage = async (imageMetadata: NewImageMetadata, image: string | Blob) => {
@@ -43,6 +39,7 @@ const CreateImage = ({
     if (!editingArticle && createdImage.id) {
       navigate(toEditImage(createdImage.id, imageMetadata.language));
     }
+    return createdImage;
   };
 
   return (
@@ -50,7 +47,6 @@ const CreateImage = ({
       language={locale}
       inModal={inModal}
       isNewlyCreated={isNewlyCreated}
-      licenses={imageLicenses}
       onUpdate={onCreateImage}
       closeModal={closeModal}
     />

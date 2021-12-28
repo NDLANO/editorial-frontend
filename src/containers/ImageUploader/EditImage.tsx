@@ -11,7 +11,6 @@ import { useParams } from 'react-router-dom';
 import ImageForm from './components/ImageForm';
 import { ImageApiType, UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { fetchImage, updateImage } from '../../modules/image/imageApi';
-import { useLicenses } from '../../modules/draft/draftQueries';
 import { useMessages } from '../Messages/MessagesProvider';
 import { createFormData } from '../../util/formDataHelper';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -26,7 +25,6 @@ interface Props {
 const EditImage = ({ isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
   const { id: imageId, selectedLanguage: imageLanguage } = useParams<'id' | 'selectedLanguage'>();
-  const { data: licenses } = useLicenses({ placeholderData: [] });
   const [loading, setLoading] = useState(false);
   const { applicationError, createMessage } = useMessages();
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);
@@ -48,9 +46,11 @@ const EditImage = ({ isNewlyCreated }: Props) => {
     try {
       const res = await updateImage(updatedImage, formData);
       setImage(res);
+      return res;
     } catch (e) {
       applicationError(e);
       createMessage(e.messages);
+      return Promise.reject(e);
     }
   };
 
@@ -68,7 +68,6 @@ const EditImage = ({ isNewlyCreated }: Props) => {
       image={image}
       onUpdate={onUpdate}
       isNewlyCreated={isNewlyCreated}
-      licenses={licenses!}
     />
   );
 };

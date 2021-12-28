@@ -19,8 +19,6 @@ import {
   ImageSearchQuery,
   UpdatedImageMetadata,
 } from '../modules/image/imageApiInterfaces';
-import EditorErrorMessage from './SlateEditor/EditorErrorMessage';
-import { useLicenses } from '../modules/draft/draftQueries';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
@@ -34,7 +32,7 @@ interface Props {
   searchImages: (queryObject: ImageSearchQuery) => void;
   fetchImage: (id: number) => Promise<ImageApiType>;
   image?: ImageApiType;
-  updateImage: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
+  updateImage: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => Promise<ImageApiType>;
   inModal?: boolean;
   showCheckbox?: boolean;
   checkboxAction?: (image: ImageApiType) => void;
@@ -55,7 +53,6 @@ const ImageSearchAndUploader = ({
 }: Props) => {
   const { t } = useTranslation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const { data: licenses } = useLicenses({ placeholderData: [] });
   const searchImagesWithParameters = (query: string, page: number) => {
     return searchImages({ query, page, 'page-size': 16 });
   };
@@ -98,17 +95,14 @@ const ImageSearchAndUploader = ({
         },
         {
           title: t('form.visualElement.imageUpload'),
-          content: licenses ? (
+          content: (
             <ImageForm
               language={locale}
               inModal={inModal}
               image={image}
               onUpdate={updateImage}
               closeModal={closeModal}
-              licenses={licenses}
             />
-          ) : (
-            <EditorErrorMessage msg={t('errorMessage.description')} />
           ),
         },
       ]}

@@ -1,16 +1,24 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { Descendant } from 'slate';
 import { Author } from '../../interfaces';
 import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 import { plainTextToEditorValue } from '../../util/articleContentConverter';
 
-export interface ImageFormikType {
+export interface ImageFormType {
   id?: number;
   language: string;
   supportedLanguages: string[];
   title: Descendant[];
   alttext: string;
   caption: string;
-  imageFile?: string;
+  imageFile?: File | string;
   tags: string[];
   creators: Author[];
   processors: Author[];
@@ -18,13 +26,12 @@ export interface ImageFormikType {
   origin: string;
   license?: string;
   modelReleased: string;
-  filepath?: string;
 }
 
 export const imageApiTypeToFormType = (
   image: ImageApiType | undefined,
   language: string,
-): ImageFormikType => {
+): ImageFormType => {
   return {
     id: image?.id ? parseInt(image.id) : undefined,
     language,

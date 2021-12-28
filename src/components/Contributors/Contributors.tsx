@@ -16,6 +16,7 @@ import { FieldHeader } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import Contributor from './Contributor';
 import { ContributorType, ContributorFieldName } from './types';
+import { ContributorType as ContributorTypeName } from '../../interfaces';
 
 const StyledFormWarningText = styled.p`
   font-family: ${fonts.sans};
@@ -23,14 +24,8 @@ const StyledFormWarningText = styled.p`
   ${fonts.sizes(14, 1.1)};
 `;
 
-enum ContributorGroups {
-  CREATORS = 'creators',
-  PROCESSORS = 'processors',
-  RIGHTSHOLDERS = 'rightsholders',
-}
-
 interface Props {
-  name: ContributorGroups;
+  name: ContributorTypeName;
   label: string;
   onChange: (event: { target: { value: ContributorType[]; name: string } }) => void;
   errorMessages?: string[];
@@ -123,11 +118,7 @@ const Contributors = ({
 };
 
 Contributors.propTypes = {
-  name: PropTypes.oneOf<ContributorGroups>([
-    ContributorGroups.CREATORS,
-    ContributorGroups.PROCESSORS,
-    ContributorGroups.RIGHTSHOLDERS,
-  ]).isRequired,
+  name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   errorMessages: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,

@@ -6,16 +6,10 @@
  *
  */
 
-import { Author } from '../../interfaces';
-
-export interface ImageApiLicense {
-  license: string;
-  description?: string;
-  url?: string;
-}
+import { Author, License } from '../../interfaces';
 
 interface Copyright {
-  license: ImageApiLicense;
+  license: License;
   origin: string;
   processors: Author[];
   rightsholders: Author[];

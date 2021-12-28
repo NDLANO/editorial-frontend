@@ -24,7 +24,7 @@ import {
 } from '../../utils/normalizationHelpers';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import Summary from './Summary';
-import { NormalizerConfig } from '../../utils/defaultNormalizer';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { defaultSummaryBlock } from './utils';
 
 export const TYPE_DETAILS = 'details';
@@ -42,7 +42,7 @@ export interface SummaryElement {
   children: Descendant[];
 }
 
-const DetailsNormalizerConfig: NormalizerConfig = {
+const detailsNormalizerConfig: NormalizerConfig = {
   firstNode: {
     allowed: [TYPE_SUMMARY],
     defaultElement: defaultSummaryBlock,
@@ -65,7 +65,7 @@ const DetailsNormalizerConfig: NormalizerConfig = {
   },
 };
 
-const SummaryNormalizerConfig: NormalizerConfig = {
+const summaryNormalizerConfig: NormalizerConfig = {
   parent: {
     allowed: [TYPE_DETAILS],
     defaultElement: defaultParagraphBlock,
@@ -223,103 +223,16 @@ export const detailsPlugin = (editor: Editor) => {
 
     if (Element.isElement(node)) {
       if (node.type === TYPE_DETAILS) {
-        for (const [child, childPath] of Node.children(editor, path)) {
-          if (!Path.hasPrevious(childPath)) {
-            // Unwrap first element in details if it is not a summary element
-            if (Element.isElement(child) && child.type !== TYPE_SUMMARY) {
-              Transforms.unwrapNodes(editor, { at: childPath });
-              return;
-            }
-            // If first child is text, wrap it in a summary element
-            if (Text.isText(child)) {
-              Transforms.wrapNodes(editor, slatejsx('element', { type: TYPE_SUMMARY }), {
-                at: childPath,
-              });
-              return;
-            }
-
-            const nextSiblingPath = Path.next(childPath);
-
-            if (Node.has(editor, nextSiblingPath)) {
-              const [nextSibling] = Editor.node(editor, nextSiblingPath);
-
-              // If summary is followed by text, wrap it in a paragraph
-              if (Text.isText(nextSibling)) {
-                Transforms.wrapNodes(editor, defaultParagraphBlock(), { at: nextSiblingPath });
-                return;
-              }
-
-              // Insert empty paragraph after summary if it does not already exist.
-              if (!Element.isElement(nextSibling) || nextSibling.type !== TYPE_PARAGRAPH) {
-                // Does only apply when summary is the first element.
-                if (!Path.hasPrevious(childPath)) {
-                  Transforms.insertNodes(editor, defaultParagraphBlock(), {
-                    at: nextSiblingPath,
-                  });
-                  return;
-                }
-              }
-            } else {
-              // If no sibling exists, insert an empty paragraph.
-              Transforms.insertNodes(editor, defaultParagraphBlock(), {
-                at: nextSiblingPath,
-              });
-              return;
-            }
-          } else {
-            // All children must be one of types defined in textBlockElements
-            // If wrong type, unwrap it. If text, wrap it.
-            if (Text.isText(child)) {
-              Transforms.wrapNodes(editor, slatejsx('element', { type: TYPE_PARAGRAPH }), {
-                at: childPath,
-              });
-              return;
-            }
-            if (Element.isElement(child) && !textBlockElements.includes(child.type)) {
-              Transforms.unwrapNodes(editor, {
-                at: childPath,
-              });
-              return;
-            }
-            // Last child must be paragraph
-            const lastChild = node.children[node.children.length - 1];
-            if (Element.isElement(lastChild)) {
-              if (!lastTextBlockElement.includes(lastChild.type)) {
-                Transforms.insertNodes(
-                  editor,
-                  slatejsx('element', { type: TYPE_PARAGRAPH }, [{ text: '' }]),
-                  {
-                    at: [...path, node.children.length],
-                  },
-                );
-                return;
-              }
-            }
-          }
-        }
-        if (addSurroundingParagraphs(editor, path)) {
+        if (defaultBlockNormalizer(editor, entry, detailsNormalizerConfig)) {
           return;
         }
       }
 
       if (node.type === TYPE_SUMMARY) {
-        const [parent] = Editor.node(editor, Path.parent(path));
-        // Change summary node to paragraph if not a child of details element
-        if (!Element.isElement(parent) || parent.type !== TYPE_DETAILS) {
-          Transforms.setNodes(editor, { type: TYPE_PARAGRAPH }, { at: path });
-          return;
-        }
-        // Change summary node to paragraph if not first child of details element
-        if (Element.isElement(parent) && parent.type === TYPE_DETAILS) {
-          if (Path.hasPrevious(path)) {
-            Transforms.setNodes(editor, { type: TYPE_PARAGRAPH }, { at: path });
-            return;
-          }
-        }
-
         for (const [child, childPath] of Node.children(editor, path)) {
           // Unwrap elements inside summary until only the text remains.
           if (Element.isElement(child)) {
+            console.log('RUNS');
             Transforms.unwrapNodes(editor, { at: childPath, voids: true });
             return;
           }
@@ -338,6 +251,9 @@ export const detailsPlugin = (editor: Editor) => {
             });
             return;
           }
+        }
+        if (defaultBlockNormalizer(editor, entry, summaryNormalizerConfig)) {
+          return;
         }
       }
     }

@@ -82,8 +82,8 @@ const normalizePrevious = (
   const previousPath = Path.previous(path);
 
   const [previousNode] = Editor.node(editor, previousPath);
-  if (!Element.isElement(previousNode) || allowed.includes(previousNode.type)) {
-    Transforms.insertNodes(editor, defaultElement());
+  if (!Element.isElement(previousNode) || !allowed.includes(previousNode.type)) {
+    Transforms.insertNodes(editor, defaultElement(), { at: previousPath });
     return true;
   }
 
@@ -103,7 +103,7 @@ const normalizeNext = (
 
   if (Editor.hasPath(editor, nextPath)) {
     const [nextNode] = Editor.node(editor, nextPath);
-    if (!Element.isElement(nextNode) || allowed.includes(nextNode.type)) {
+    if (!Element.isElement(nextNode) || !allowed.includes(nextNode.type)) {
       Transforms.insertNodes(editor, defaultElement());
       return true;
     }
@@ -120,7 +120,7 @@ const normalizeParent = (
   entry: NodeEntry,
   settings: ParentNodeSettings,
 ): boolean => {
-  const [node, path] = entry;
+  const [, path] = entry;
   const { defaultElement, allowed } = settings;
 
   const [parent] = Editor.node(editor, Path.parent(path));
@@ -145,6 +145,9 @@ export const defaultBlockNormalizer = (
   const { previous, next, firstNode, lastNode, nodes, parent } = config;
 
   if (firstNode || nodes || lastNode) {
+    if (parent && normalizeParent(editor, entry, parent)) {
+      return true;
+    }
     if (normalizeChildren(editor, entry, config)) {
       return true;
     }
@@ -152,9 +155,6 @@ export const defaultBlockNormalizer = (
       return true;
     }
     if (next && normalizeNext(editor, entry, next)) {
-      return true;
-    }
-    if (parent && normalizeParent(editor, entry, parent)) {
       return true;
     }
   }

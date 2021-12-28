@@ -6,7 +6,7 @@
  *
  */
 
-import { Element, Descendant, Editor, Path, Transforms, Node, Text, Range, Location } from 'slate';
+import { Element, Descendant, Editor, Path, Transforms, Node, Range, Location } from 'slate';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { colors } from '@ndla/core';

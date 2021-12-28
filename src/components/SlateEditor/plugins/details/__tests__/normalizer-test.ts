@@ -55,7 +55,6 @@ describe('details normalizer tests', () => {
         type: TYPE_SECTION,
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
-
           {
             type: TYPE_DETAILS,
             children: [
@@ -64,7 +63,6 @@ describe('details normalizer tests', () => {
             ],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
-
           {
             type: TYPE_DETAILS,
             children: [
@@ -73,7 +71,6 @@ describe('details normalizer tests', () => {
             ],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
-
           {
             type: TYPE_DETAILS,
             children: [

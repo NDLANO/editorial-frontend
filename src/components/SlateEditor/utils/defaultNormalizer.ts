@@ -122,7 +122,7 @@ const normalizeNext = (
   if (Editor.hasPath(editor, nextPath)) {
     const [nextNode] = Editor.node(editor, nextPath);
     if (!Element.isElement(nextNode) || !allowed.includes(nextNode.type)) {
-      Transforms.insertNodes(editor, defaultElement());
+      Transforms.insertNodes(editor, defaultElement(), { at: nextPath });
       return true;
     }
   } else {

@@ -85,9 +85,9 @@ export class DisplayExternal extends Component<Props, State> {
   onEditEmbed(properties: Embed) {
     const { editor, element, embed } = this.props;
     const prevUrl = embed.resource === 'external' ? embed.url : undefined;
-    const currentUrl = properties.resource === 'external' ? embed.url : undefined;
+    const currentUrl = properties.resource === 'external' ? properties.url : undefined;
     const prevPath = embed.resource === 'h5p' ? embed.path : undefined;
-    const currentPath = embed.resource === 'h5p' ? embed.path : undefined;
+    const currentPath = properties.resource === 'h5p' ? properties.path : undefined;
 
     if (prevUrl !== currentUrl || prevPath !== currentPath) {
       Transforms.setNodes(

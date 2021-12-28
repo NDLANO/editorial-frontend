@@ -27,13 +27,12 @@ const DisplayExternalModal = ({
   }
   return (
     <VisualElementModalWrapper
-      // allowedProvider.name should always be a permitted Embed when editMode is true.
-      resource={allowedProvider.name.toLowerCase() as Embed['resource']}
+      resource={allowedProvider.name.toLowerCase()}
       isOpen={isEditMode}
       onClose={onClose}>
       {setH5pFetchFail => (
         <VisualElementSearch
-          selectedResource={allowedProvider.name as Embed['resource']}
+          selectedResource={allowedProvider.name}
           selectedResourceUrl={src}
           selectedResourceType={type}
           handleVisualElementChange={onEditEmbed}

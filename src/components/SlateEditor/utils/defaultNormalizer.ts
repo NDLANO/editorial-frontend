@@ -26,7 +26,7 @@ export interface NormalizerConfig {
   nodes?: DefaultNodeRule;
 }
 
-const normalizeChildren = (editor: Editor, entry: NodeEntry, config: NormalizerConfig): boolean => {
+const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConfig): boolean => {
   const [node, path] = entry;
 
   if (!Element.isElement(node)) return false;
@@ -41,7 +41,7 @@ const normalizeChildren = (editor: Editor, entry: NodeEntry, config: NormalizerC
     if (nodes) return nodes;
   };
 
-  // If node only contains one child
+  // 1. If node has defined rules for both first and last node, but only contains one node.
   if (node.children.length === 1 && firstNode && lastNode) {
     const child = node.children[0];
     const { allowed, defaultElement } = lastNode;
@@ -54,6 +54,7 @@ const normalizeChildren = (editor: Editor, entry: NodeEntry, config: NormalizerC
     }
   }
 
+  // 2. Check each child node
   for (const [index, child] of children.entries()) {
     const rule = getRule(index);
 
@@ -63,15 +64,15 @@ const normalizeChildren = (editor: Editor, entry: NodeEntry, config: NormalizerC
     if (Text.isText(child)) {
       if (defaultElement) {
         Transforms.wrapNodes(editor, defaultElement(), {
-          at: path,
+          at: [...path, index],
         });
         return true;
       } else {
-        Transforms.removeNodes(editor, { at: path });
+        Transforms.removeNodes(editor, { at: [...path, index] });
         return true;
       }
     } else if (!allowed.includes(child.type)) {
-      Transforms.unwrapNodes(editor, { at: path });
+      Transforms.unwrapNodes(editor, { at: [...path, index] });
       return true;
     }
   }
@@ -87,6 +88,7 @@ const normalizePrevious = (
   const [, path] = entry;
   const { defaultElement, allowed } = settings;
 
+  // 1. If previous element does not exist, insert default element
   if (!Path.hasPrevious(path)) {
     Transforms.insertNodes(editor, defaultElement(), { at: path });
     return true;
@@ -95,6 +97,8 @@ const normalizePrevious = (
   const previousPath = Path.previous(path);
 
   const [previousNode] = Editor.node(editor, previousPath);
+
+  // 2. If previous element is incorrect, insert default element
   if (!Element.isElement(previousNode) || !allowed.includes(previousNode.type)) {
     Transforms.insertNodes(editor, defaultElement(), { at: previousPath });
     return true;
@@ -105,17 +109,17 @@ const normalizePrevious = (
 
 const normalizeNext = (editor: Editor, entry: NodeEntry, settings: SiblingNodeRule): boolean => {
   const [, path] = entry;
-
   const nextPath = Path.next(path);
-
   const { defaultElement, allowed } = settings;
 
+  // 1. If next element is incorrect, insert default element
   if (Editor.hasPath(editor, nextPath)) {
     const [nextNode] = Editor.node(editor, nextPath);
     if (!Element.isElement(nextNode) || !allowed.includes(nextNode.type)) {
       Transforms.insertNodes(editor, defaultElement(), { at: nextPath });
       return true;
     }
+    // 2. If next element does not exist, insert default element
   } else {
     Transforms.insertNodes(editor, defaultElement(), { at: nextPath });
     return true;
@@ -130,6 +134,7 @@ const normalizeParent = (editor: Editor, entry: NodeEntry, settings: ParentNodeR
 
   const [parent] = Editor.node(editor, Path.parent(path));
 
+  // 1. If parent element is incorrect, change current node to default element
   if (!Element.isElement(parent) || !allowed.includes(parent.type)) {
     Transforms.setNodes(editor, defaultElement(), { at: path });
     return true;
@@ -150,17 +155,14 @@ export const defaultBlockNormalizer = (
   const { previous, next, firstNode, lastNode, nodes, parent } = config;
 
   if (firstNode || nodes || lastNode) {
-    if (normalizeChildren(editor, entry, config)) {
+    if (normalizeNodes(editor, entry, config)) {
       return true;
     }
-  }
-  if (parent && normalizeParent(editor, entry, parent)) {
+  } else if (parent && normalizeParent(editor, entry, parent)) {
     return true;
-  }
-  if (previous && normalizePrevious(editor, entry, previous)) {
+  } else if (previous && normalizePrevious(editor, entry, previous)) {
     return true;
-  }
-  if (next && normalizeNext(editor, entry, next)) {
+  } else if (next && normalizeNext(editor, entry, next)) {
     return true;
   }
 

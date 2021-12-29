@@ -1,29 +1,29 @@
-import { Descendant, Editor, Element, NodeEntry, Path, Text, Transforms } from 'slate';
+import { Editor, Element, NodeEntry, Path, Text, Transforms } from 'slate';
 
 type ElementType = Element['type'];
 
-interface DefaultNodeSettings {
+interface DefaultNodeRule {
   allowed: ElementType[];
   defaultElement?: () => Element;
 }
 
-interface SiblingNodeSettings {
+interface SiblingNodeRule {
   allowed: ElementType[];
   defaultElement: () => Element;
 }
 
-interface ParentNodeSettings {
+interface ParentNodeRule {
   allowed: ElementType[];
   defaultElement: () => Element;
 }
 
 export interface NormalizerConfig {
-  parent?: ParentNodeSettings;
-  previous?: SiblingNodeSettings;
-  next?: SiblingNodeSettings;
-  firstNode?: DefaultNodeSettings;
-  lastNode?: DefaultNodeSettings;
-  nodes?: DefaultNodeSettings;
+  parent?: ParentNodeRule;
+  previous?: SiblingNodeRule;
+  next?: SiblingNodeRule;
+  firstNode?: DefaultNodeRule;
+  lastNode?: DefaultNodeRule;
+  nodes?: DefaultNodeRule;
 }
 
 const normalizeChildren = (editor: Editor, entry: NodeEntry, config: NormalizerConfig): boolean => {
@@ -41,7 +41,24 @@ const normalizeChildren = (editor: Editor, entry: NodeEntry, config: NormalizerC
     if (nodes) return nodes;
   };
 
-  const normalize = (child: Descendant, path: Path, rule: DefaultNodeSettings): boolean => {
+  // If node only contains one child
+  if (node.children.length === 1 && firstNode && lastNode) {
+    const child = node.children[0];
+    const { allowed, defaultElement } = lastNode;
+
+    if (!Element.isElement(child) || !allowed.includes(child.type)) {
+      if (defaultElement) {
+        Transforms.insertNodes(editor, defaultElement(), { at: [...path, 1] });
+        return true;
+      }
+    }
+  }
+
+  for (const [index, child] of children.entries()) {
+    const rule = getRule(index);
+
+    if (!rule) return false;
+
     const { allowed, defaultElement } = rule;
     if (Text.isText(child)) {
       if (defaultElement) {
@@ -57,28 +74,6 @@ const normalizeChildren = (editor: Editor, entry: NodeEntry, config: NormalizerC
       Transforms.unwrapNodes(editor, { at: path });
       return true;
     }
-    return false;
-  };
-
-  for (const [index, child] of children.entries()) {
-    const rule = getRule(index);
-    if (!rule) return false;
-
-    if (normalize(child, [...path, index], rule)) {
-      return true;
-    }
-  }
-
-  if (node.children.length === 1 && firstNode && lastNode) {
-    const child = node.children[0];
-    const { allowed, defaultElement } = lastNode;
-
-    if (!Element.isElement(child) || !allowed.includes(child.type)) {
-      if (defaultElement) {
-        Transforms.insertNodes(editor, defaultElement(), { at: [...path, 1] });
-        return true;
-      }
-    }
   }
 
   return false;
@@ -87,7 +82,7 @@ const normalizeChildren = (editor: Editor, entry: NodeEntry, config: NormalizerC
 const normalizePrevious = (
   editor: Editor,
   entry: NodeEntry,
-  settings: SiblingNodeSettings,
+  settings: SiblingNodeRule,
 ): boolean => {
   const [, path] = entry;
   const { defaultElement, allowed } = settings;
@@ -108,11 +103,7 @@ const normalizePrevious = (
   return false;
 };
 
-const normalizeNext = (
-  editor: Editor,
-  entry: NodeEntry,
-  settings: SiblingNodeSettings,
-): boolean => {
+const normalizeNext = (editor: Editor, entry: NodeEntry, settings: SiblingNodeRule): boolean => {
   const [, path] = entry;
 
   const nextPath = Path.next(path);
@@ -133,11 +124,7 @@ const normalizeNext = (
   return false;
 };
 
-const normalizeParent = (
-  editor: Editor,
-  entry: NodeEntry,
-  settings: ParentNodeSettings,
-): boolean => {
+const normalizeParent = (editor: Editor, entry: NodeEntry, settings: ParentNodeRule): boolean => {
   const [, path] = entry;
   const { defaultElement, allowed } = settings;
 

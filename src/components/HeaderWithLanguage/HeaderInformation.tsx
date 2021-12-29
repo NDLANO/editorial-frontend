@@ -109,6 +109,7 @@ interface Props {
   formIsDirty?: boolean;
   taxonomyPaths?: string[];
   id?: number;
+  setHasConnections?: (hasConnections: boolean) => void;
 }
 
 const HeaderInformation = ({
@@ -122,6 +123,7 @@ const HeaderInformation = ({
   formIsDirty,
   getEntity,
   taxonomyPaths,
+  setHasConnections,
 }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -177,6 +179,7 @@ const HeaderInformation = ({
         taxonomyPaths={taxonomyPaths}
         type={type}
         id={id}
+        setHasConnections={setHasConnections}
       />
     </StyledHeader>
   );

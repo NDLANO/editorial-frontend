@@ -51,10 +51,11 @@ interface Props {
     supportedLanguages: string[];
     articleType?: string;
   };
+  disabled: boolean;
   type: string;
 }
 
-const DeleteLanguageVersion = ({ values, type }: Props) => {
+const DeleteLanguageVersion = ({ values, type, disabled }: Props) => {
   const { t } = useTranslation();
   const [showDeleteWarning, setShowDeleteWarning] = useState(false);
   const { createMessage } = useMessages();
@@ -134,7 +135,11 @@ const DeleteLanguageVersion = ({ values, type }: Props) => {
 
   return (
     <StyledWrapper>
-      <StyledFilledButton type="button" deletable onClick={toggleShowDeleteWarning}>
+      <StyledFilledButton
+        type="button"
+        disabled={disabled}
+        deletable
+        onClick={toggleShowDeleteWarning}>
         <DeleteForever />
         {t('form.workflow.deleteLanguageVersion.button', {
           languageVersion: t(`language.${language}`).toLowerCase(),

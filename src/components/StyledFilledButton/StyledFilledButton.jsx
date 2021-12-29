@@ -40,12 +40,23 @@ const StyledFilledButton = styled.button`
     background: ${colors.brand.primary};
     ${props =>
       props.deletable &&
+      !props.disabled &&
       css`
         background: ${colors.support.red};
       `}
     transform: translate(1px, 1px);
     .c-icon {
       color: #fff;
+    }
+  }
+  &:disabled {
+    background: ${colors.brand.greyLight};
+    color: ${colors.brand.grey};
+    cursor: not-allowed;
+    pointer-events: auto;
+    transform: translate(0px, 0px);
+    .c-icon {
+      color: ${colors.support.red};
     }
   }
 `;

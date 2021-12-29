@@ -249,7 +249,7 @@ export interface AudioEmbed {
 export interface H5pEmbed {
   resource: 'h5p';
   path: string;
-  url: string;
+  url?: string;
   title?: string;
 }
 
@@ -259,6 +259,7 @@ export interface ExternalEmbed {
   metaData?: any;
   caption?: string;
   title?: string;
+  height?: string;
 }
 
 export interface ErrorEmbed {
@@ -337,6 +338,7 @@ export interface H5POembed {
   width: number;
   html: string;
   type: string;
+  providerName?: string;
   version: string;
   title: string;
 }

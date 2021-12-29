@@ -11,9 +11,8 @@ import { RenderElementProps } from 'slate-react';
 // @ts-ignore
 import { Figure } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
-
-import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
-
+import { fetchAudio } from '../../../../modules/audio/audioApi';
+import { onError } from '../../../../util/resolveJsonOrRejectWithError';
 import AudioPlayerMounter from './AudioPlayerMounter';
 import FigureButtons from './FigureButtons';
 import { SlateAudio as Audio, LocaleType, AudioEmbed } from '../../../../interfaces';
@@ -44,14 +43,14 @@ const SlatePodcast = ({
   useEffect(() => {
     const getAudio = async () => {
       try {
-        const audio = await visualElementApi.fetchAudio(embed.resource_id, language);
+        const audio = await fetchAudio(parseInt(embed.resource_id), language);
         setAudio({
           ...audio,
           caption: embed.caption,
           title: audio.title?.title || '',
         });
       } catch (error) {
-        visualElementApi.onError(error);
+        onError(error);
       }
     };
 

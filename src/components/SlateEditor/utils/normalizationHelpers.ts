@@ -1,5 +1,6 @@
 import { Editor, Element, NodeEntry, Node, Transforms, Text, Path } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
+import { ElementType } from '../interfaces';
 import { defaultParagraphBlock, TYPE_PARAGRAPH } from '../plugins/paragraph/utils';
 
 export const firstTextBlockElement: Element['type'][] = ['paragraph', 'heading', 'quote'];
@@ -18,6 +19,9 @@ export const textBlockElements: Element['type'][] = [
 export const lastTextBlockElement: Element['type'][] = ['paragraph'];
 
 export const afterOrBeforeTextBlockElement: Element['type'][] = ['paragraph', 'heading'];
+
+export const createNode = (type: ElementType, attributes?: Partial<Element>) =>
+  slatejsx('element', { ...attributes, type });
 
 export const defaultTextBlockNormalizer = (
   editor: Editor,

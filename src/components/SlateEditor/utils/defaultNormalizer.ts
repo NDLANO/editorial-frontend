@@ -1,20 +1,20 @@
 import { Editor, Element, NodeEntry, Path, Text, Transforms } from 'slate';
-
-type ElementType = Element['type'];
+import { ElementType } from '../interfaces';
+import { createNode } from './normalizationHelpers';
 
 interface DefaultNodeRule {
   allowed: ElementType[];
-  defaultElement?: () => Element;
+  defaultType?: ElementType;
 }
 
 interface SiblingNodeRule {
   allowed: ElementType[];
-  defaultElement: () => Element;
+  defaultType: ElementType;
 }
 
 interface ParentNodeRule {
   allowed: ElementType[];
-  defaultElement: () => Element;
+  defaultType: ElementType;
 }
 
 export interface NormalizerConfig {
@@ -44,11 +44,11 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
   // 1. If node has defined rules for both first and last node, but only contains one node.
   if (node.children.length === 1 && firstNode && lastNode) {
     const child = node.children[0];
-    const { allowed, defaultElement } = lastNode;
+    const { allowed, defaultType } = lastNode;
 
     if (!Element.isElement(child) || !allowed.includes(child.type)) {
-      if (defaultElement) {
-        Transforms.insertNodes(editor, defaultElement(), { at: [...path, 1] });
+      if (defaultType) {
+        Transforms.insertNodes(editor, createNode(defaultType), { at: [...path, 1] });
         return true;
       }
     }
@@ -60,10 +60,10 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
 
     if (!rule) return false;
 
-    const { allowed, defaultElement } = rule;
+    const { allowed, defaultType } = rule;
     if (Text.isText(child)) {
-      if (defaultElement) {
-        Transforms.wrapNodes(editor, defaultElement(), {
+      if (defaultType) {
+        Transforms.wrapNodes(editor, createNode(defaultType), {
           at: [...path, index],
         });
         return true;
@@ -86,11 +86,11 @@ const normalizePrevious = (
   settings: SiblingNodeRule,
 ): boolean => {
   const [, path] = entry;
-  const { defaultElement, allowed } = settings;
+  const { defaultType, allowed } = settings;
 
   // 1. If previous element does not exist, insert default element
   if (!Path.hasPrevious(path)) {
-    Transforms.insertNodes(editor, defaultElement(), { at: path });
+    Transforms.insertNodes(editor, createNode(defaultType), { at: path });
     return true;
   }
 
@@ -100,7 +100,7 @@ const normalizePrevious = (
 
   // 2. If previous element is incorrect, insert default element
   if (!Element.isElement(previousNode) || !allowed.includes(previousNode.type)) {
-    Transforms.insertNodes(editor, defaultElement(), { at: previousPath });
+    Transforms.insertNodes(editor, createNode(defaultType), { at: previousPath });
     return true;
   }
 
@@ -110,18 +110,18 @@ const normalizePrevious = (
 const normalizeNext = (editor: Editor, entry: NodeEntry, settings: SiblingNodeRule): boolean => {
   const [, path] = entry;
   const nextPath = Path.next(path);
-  const { defaultElement, allowed } = settings;
+  const { defaultType, allowed } = settings;
 
   // 1. If next element is incorrect, insert default element
   if (Editor.hasPath(editor, nextPath)) {
     const [nextNode] = Editor.node(editor, nextPath);
     if (!Element.isElement(nextNode) || !allowed.includes(nextNode.type)) {
-      Transforms.insertNodes(editor, defaultElement(), { at: nextPath });
+      Transforms.insertNodes(editor, createNode(defaultType), { at: nextPath });
       return true;
     }
     // 2. If next element does not exist, insert default element
   } else {
-    Transforms.insertNodes(editor, defaultElement(), { at: nextPath });
+    Transforms.insertNodes(editor, createNode(defaultType), { at: nextPath });
     return true;
   }
 
@@ -130,13 +130,13 @@ const normalizeNext = (editor: Editor, entry: NodeEntry, settings: SiblingNodeRu
 
 const normalizeParent = (editor: Editor, entry: NodeEntry, settings: ParentNodeRule): boolean => {
   const [, path] = entry;
-  const { defaultElement, allowed } = settings;
+  const { defaultType, allowed } = settings;
 
   const [parent] = Editor.node(editor, Path.parent(path));
 
   // 1. If parent element is incorrect, change current node to default element
   if (!Element.isElement(parent) || !allowed.includes(parent.type)) {
-    Transforms.setNodes(editor, defaultElement(), { at: path });
+    Transforms.setNodes(editor, createNode(defaultType), { at: path });
     return true;
   }
 
@@ -158,11 +158,14 @@ export const defaultBlockNormalizer = (
     if (normalizeNodes(editor, entry, config)) {
       return true;
     }
-  } else if (parent && normalizeParent(editor, entry, parent)) {
+  }
+  if (parent && normalizeParent(editor, entry, parent)) {
     return true;
-  } else if (previous && normalizePrevious(editor, entry, previous)) {
+  }
+  if (previous && normalizePrevious(editor, entry, previous)) {
     return true;
-  } else if (next && normalizeNext(editor, entry, next)) {
+  }
+  if (next && normalizeNext(editor, entry, next)) {
     return true;
   }
 

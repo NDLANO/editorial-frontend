@@ -20,10 +20,9 @@ import {
   lastTextBlockElement,
   textBlockElements,
 } from '../../utils/normalizationHelpers';
-import { defaultParagraphBlock } from '../paragraph/utils';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import Summary from './Summary';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { defaultSummaryBlock } from './utils';
 
 export const TYPE_DETAILS = 'details';
 export const TYPE_SUMMARY = 'summary';
@@ -43,30 +42,30 @@ export interface SummaryElement {
 const detailsNormalizerConfig: NormalizerConfig = {
   firstNode: {
     allowed: [TYPE_SUMMARY],
-    defaultElement: defaultSummaryBlock,
+    defaultType: TYPE_SUMMARY,
   },
   nodes: {
     allowed: textBlockElements,
-    defaultElement: defaultParagraphBlock,
+    defaultType: TYPE_PARAGRAPH,
   },
   lastNode: {
     allowed: lastTextBlockElement,
-    defaultElement: defaultParagraphBlock,
+    defaultType: TYPE_PARAGRAPH,
   },
   previous: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultElement: defaultParagraphBlock,
+    defaultType: TYPE_PARAGRAPH,
   },
   next: {
     allowed: afterOrBeforeTextBlockElement,
-    defaultElement: defaultParagraphBlock,
+    defaultType: TYPE_PARAGRAPH,
   },
 };
 
 const summaryNormalizerConfig: NormalizerConfig = {
   parent: {
     allowed: [TYPE_DETAILS],
-    defaultElement: defaultParagraphBlock,
+    defaultType: TYPE_PARAGRAPH,
   },
 };
 

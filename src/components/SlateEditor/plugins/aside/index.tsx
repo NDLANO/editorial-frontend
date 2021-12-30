@@ -9,10 +9,17 @@
 import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { defaultTextBlockNormalizer } from '../../utils/normalizationHelpers';
+import {
+  afterOrBeforeTextBlockElement,
+  firstTextBlockElement,
+  lastTextBlockElement,
+  textBlockElements,
+} from '../../utils/normalizationHelpers';
 import { SlateSerializer } from '../../interfaces';
 import SlateAside from './SlateAside';
 import { getAsideType } from './utils';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 
 export const TYPE_ASIDE = 'aside';
 
@@ -23,6 +30,29 @@ export interface AsideElement {
   };
   children: Descendant[];
 }
+
+const normalizerConfig: NormalizerConfig = {
+  nodes: {
+    allowed: textBlockElements,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  previous: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  next: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  firstNode: {
+    allowed: firstTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  lastNode: {
+    allowed: lastTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+};
 
 export const asideSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -56,7 +86,9 @@ export const asidePlugin = (editor: Editor) => {
     const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_ASIDE) {
-      defaultTextBlockNormalizer(editor, entry, nextNormalizeNode);
+      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+        return;
+      }
     } else {
       nextNormalizeNode(entry);
     }

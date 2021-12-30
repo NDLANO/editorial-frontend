@@ -4,23 +4,13 @@ import { createNode } from './normalizationHelpers';
 
 interface DefaultNodeRule {
   allowed: ElementType[];
-  defaultType?: ElementType;
-}
-
-interface SiblingNodeRule {
-  allowed: ElementType[];
-  defaultType: ElementType;
-}
-
-interface ParentNodeRule {
-  allowed: ElementType[];
   defaultType: ElementType;
 }
 
 export interface NormalizerConfig {
-  parent?: ParentNodeRule;
-  previous?: SiblingNodeRule;
-  next?: SiblingNodeRule;
+  parent?: DefaultNodeRule;
+  previous?: DefaultNodeRule;
+  next?: DefaultNodeRule;
   firstNode?: DefaultNodeRule;
   lastNode?: DefaultNodeRule;
   nodes?: DefaultNodeRule;
@@ -42,13 +32,31 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
   };
 
   // 1. If node has defined rules for both first and last node, but only contains one node.
-  if (node.children.length === 1 && firstNode && lastNode) {
+  if (node.children.length === 1 && (firstNode || lastNode)) {
     const child = node.children[0];
-    const { allowed, defaultType } = lastNode;
 
-    if (!Element.isElement(child) || !allowed.includes(child.type)) {
-      if (defaultType) {
+    if (firstNode) {
+      const { allowed, defaultType } = firstNode;
+      if (Text.isText(child)) {
+        Transforms.wrapNodes(editor, createNode(defaultType), { at: [...path, 0] });
+        return true;
+      } else if (!Element.isElement(child) || !allowed.includes(child.type)) {
+        Transforms.unwrapNodes(editor, { at: [...path, 0] });
+        return true;
+      }
+    }
+
+    if (lastNode) {
+      const { allowed, defaultType } = lastNode;
+      if (Text.isText(child)) {
         Transforms.insertNodes(editor, createNode(defaultType), { at: [...path, 1] });
+        return true;
+      } else if (!Element.isElement(child) || !allowed.includes(child.type)) {
+        if (firstNode) {
+          Transforms.insertNodes(editor, createNode(defaultType), { at: [...path, 1] });
+        } else {
+          Transforms.unwrapNodes(editor, { at: [...path, 0] });
+        }
         return true;
       }
     }
@@ -58,21 +66,24 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
   for (const [index, child] of children.entries()) {
     const rule = getRule(index);
 
-    if (!rule) return false;
+    if (!rule) continue;
 
     const { allowed, defaultType } = rule;
     if (Text.isText(child)) {
-      if (defaultType) {
-        Transforms.wrapNodes(editor, createNode(defaultType), {
-          at: [...path, index],
-        });
-        return true;
-      } else {
-        Transforms.removeNodes(editor, { at: [...path, index] });
-        return true;
-      }
+      Transforms.wrapNodes(editor, createNode(defaultType), {
+        at: [...path, index],
+      });
+      return true;
     } else if (!allowed.includes(child.type)) {
       Transforms.unwrapNodes(editor, { at: [...path, index] });
+      return true;
+    }
+  }
+
+  if (children.length === 0) {
+    const rule = getRule(0);
+    if (rule?.defaultType) {
+      Transforms.insertNodes(editor, createNode(rule.defaultType), { at: [...path, 0] });
       return true;
     }
   }
@@ -83,7 +94,7 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
 const normalizePrevious = (
   editor: Editor,
   entry: NodeEntry,
-  settings: SiblingNodeRule,
+  settings: DefaultNodeRule,
 ): boolean => {
   const [, path] = entry;
   const { defaultType, allowed } = settings;
@@ -107,7 +118,7 @@ const normalizePrevious = (
   return false;
 };
 
-const normalizeNext = (editor: Editor, entry: NodeEntry, settings: SiblingNodeRule): boolean => {
+const normalizeNext = (editor: Editor, entry: NodeEntry, settings: DefaultNodeRule): boolean => {
   const [, path] = entry;
   const nextPath = Path.next(path);
   const { defaultType, allowed } = settings;
@@ -128,7 +139,7 @@ const normalizeNext = (editor: Editor, entry: NodeEntry, settings: SiblingNodeRu
   return false;
 };
 
-const normalizeParent = (editor: Editor, entry: NodeEntry, settings: ParentNodeRule): boolean => {
+const normalizeParent = (editor: Editor, entry: NodeEntry, settings: DefaultNodeRule): boolean => {
   const [, path] = entry;
   const { defaultType, allowed } = settings;
 

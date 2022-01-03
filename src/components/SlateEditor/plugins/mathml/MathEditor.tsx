@@ -77,6 +77,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
 
   const onExit = () => {
     setEditMode(false);
+    setShowMenu(false);
     const elementPath = ReactEditor.findPath(editor, element);
     let leafPath: Path;
 
@@ -134,6 +135,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
 
     setIsFirstEdit(false);
     setEditMode(false);
+    setShowMenu(false);
 
     setTimeout(() => {
       ReactEditor.focus(editor);

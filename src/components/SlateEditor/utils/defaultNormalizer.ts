@@ -111,7 +111,7 @@ const normalizePrevious = (
 
   // 2. If previous element is incorrect, insert default element
   if (!Element.isElement(previousNode) || !allowed.includes(previousNode.type)) {
-    Transforms.insertNodes(editor, createNode(defaultType), { at: previousPath });
+    Transforms.insertNodes(editor, createNode(defaultType), { at: path });
     return true;
   }
 

@@ -76,22 +76,14 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
   };
 
   const onExit = () => {
-    setEditMode(false);
-    setShowMenu(false);
     const elementPath = ReactEditor.findPath(editor, element);
     let leafPath: Path;
 
     if (isFirstEdit) {
       leafPath = Path.previous(elementPath);
-      const oldLeafLength = Editor.string(editor, leafPath, { voids: true }).length;
-      const mathLength = Node.string(element).length;
+      ReactEditor.focus(editor);
+      Transforms.select(editor, Editor.start(editor, Path.next(elementPath)));
       handleRemove();
-      setTimeout(() => {
-        Transforms.select(editor, {
-          anchor: { path: leafPath, offset: oldLeafLength + mathLength },
-          focus: { path: leafPath, offset: oldLeafLength + mathLength },
-        });
-      }, 0);
     } else {
       leafPath = Path.next(elementPath);
       ReactEditor.focus(editor);
@@ -99,6 +91,8 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
         anchor: { path: leafPath, offset: 0 },
         focus: { path: leafPath, offset: 0 },
       });
+      setEditMode(false);
+      setShowMenu(false);
     }
   };
 
@@ -133,17 +127,15 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       });
     }
 
+    ReactEditor.focus(editor);
+    Transforms.select(editor, {
+      anchor: { path: leafPath, offset: 0 },
+      focus: { path: leafPath, offset: 0 },
+    });
+
     setIsFirstEdit(false);
     setEditMode(false);
     setShowMenu(false);
-
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, {
-        anchor: { path: leafPath, offset: 0 },
-        focus: { path: leafPath, offset: 0 },
-      });
-    }, 0);
   };
 
   const handleRemove = () => {

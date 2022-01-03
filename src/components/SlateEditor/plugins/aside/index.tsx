@@ -86,8 +86,8 @@ export const asidePlugin = (editor: Editor) => {
     const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_ASIDE) {
-      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
-        return;
+      if (!defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+        return nextNormalizeNode(entry);
       }
     } else {
       nextNormalizeNode(entry);

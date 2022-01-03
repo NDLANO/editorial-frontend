@@ -77,19 +77,15 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
 
   const onExit = () => {
     const elementPath = ReactEditor.findPath(editor, element);
-    let leafPath: Path;
 
     if (isFirstEdit) {
-      leafPath = Path.previous(elementPath);
-      ReactEditor.focus(editor);
-      Transforms.select(editor, Editor.start(editor, Path.next(elementPath)));
       handleRemove();
     } else {
-      leafPath = Path.next(elementPath);
+      const nextPath = Path.next(elementPath);
       ReactEditor.focus(editor);
       Transforms.select(editor, {
-        anchor: { path: leafPath, offset: 0 },
-        focus: { path: leafPath, offset: 0 },
+        anchor: { path: nextPath, offset: 0 },
+        focus: { path: nextPath, offset: 0 },
       });
       setEditMode(false);
       setShowMenu(false);
@@ -140,6 +136,8 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
 
   const handleRemove = () => {
     const path = ReactEditor.findPath(editor, element);
+    ReactEditor.focus(editor);
+    Transforms.select(editor, Editor.start(editor, Path.next(path)));
 
     Transforms.unwrapNodes(editor, {
       at: path,

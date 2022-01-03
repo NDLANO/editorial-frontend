@@ -30,11 +30,12 @@ import {
   TYPE_TABLE_ROW,
 } from './utils';
 import getCurrentBlock from '../../utils/getCurrentBlock';
-import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
 import { normalizeTableBodyAsMatrix } from './matrix';
 import { handleTableKeydown } from './handleKeyDown';
 import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
-import { defaultParagraphBlock } from '../paragraph/utils';
+import { defaultParagraphBlock, TYPE_PARAGRAPH } from '../paragraph/utils';
+import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -76,6 +77,17 @@ export interface TableCellElement {
   };
   children: Descendant[];
 }
+
+const normalizerConfig: NormalizerConfig = {
+  previous: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  next: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+};
 
 export const TABLE_TAGS: { [key: string]: string } = {
   th: 'table-cell',
@@ -225,7 +237,7 @@ export const tablePlugin = (editor: Editor) => {
         }
       }
       // iii. Add surrounding paragraphs. Must be last since the table itself is not altered.
-      if (addSurroundingParagraphs(editor, path)) {
+      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }
     }

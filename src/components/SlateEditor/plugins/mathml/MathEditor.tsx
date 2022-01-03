@@ -7,7 +7,7 @@
  */
 
 import { MouseEvent, useEffect, useState } from 'react';
-import { Editor, Element, Node, Path, Transforms } from 'slate';
+import { Editor, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';
 import he from 'he';
@@ -15,7 +15,7 @@ import { Portal } from '../../../Portal';
 import EditMath from './EditMath';
 import MathML from './MathML';
 import BlockMenu from './BlockMenu';
-import { MathmlElement, TYPE_MATHML } from '.';
+import { MathmlElement } from '.';
 import mergeLastUndos from '../../utils/mergeLastUndos';
 
 const getInfoFromNode = (node: MathmlElement) => {
@@ -107,7 +107,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       Transforms.setNodes(editor, properties, {
         at: path,
         voids: true,
-        match: node => Element.isElement(node) && node.type === TYPE_MATHML,
+        match: node => node === element,
       });
 
       const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild
@@ -123,7 +123,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       Transforms.setNodes(editor, properties, {
         at: path,
         voids: true,
-        match: node => Element.isElement(node) && node.type === TYPE_MATHML,
+        match: node => node === element,
       });
     }
 
@@ -143,7 +143,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
 
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_MATHML,
+      match: node => node === element,
       voids: true,
     });
   };

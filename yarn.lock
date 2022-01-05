@@ -1967,7 +1967,15 @@
     "@ndla/licenses" "^1.0.7"
     "@ndla/util" "^1.1.1"
 
-"@ndla/button@1.0.6", "@ndla/button@^1.0.6":
+"@ndla/button@1.0.7-alpha.28+17b732739":
+  version "1.0.7-alpha.28"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-1.0.7-alpha.28.tgz#f9674028aa269a5696e6cc865ed34db3fc7b3710"
+  integrity sha512-lmZ9pNfFAOeOUdh7/n5kuQxbPa0QRR3sSg8MDbNBg/10atutFfpy398KvLyGdGj4ek9iRGODNUJ9LOnhYvddfA==
+  dependencies:
+    "@ndla/core" "^0.7.2"
+    "@ndla/icons" "^1.3.1"
+
+"@ndla/button@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@ndla/button/-/button-1.0.6.tgz#747dce7976e96e0ff8ee9cc73ba46710e1339ccc"
   integrity sha512-nbxQ9e0Ph8P9jdeAh/a5I1ch2C/uJBHVEmAqn+RnaU+laGlnpydMnuMGCNIittDfWHCziEntoSJ/RuaHDuWSOA==

@@ -11,7 +11,7 @@ const StyledSpan = styled('span')`
 `;
 
 const Wrapper = styled('div')`
-  button {
+  div > button:disabled {
     ${(props: { modifier: string }) => {
       return saveButtonAppearances[props.modifier];
     }}
@@ -52,14 +52,12 @@ const SaveMultiButton = ({
   const { t } = useTranslation();
   const modifier = getModifier();
   const disabledButton = isSaving || !formIsDirty || disabled;
-  const enableSecondary = !(isSaving || showSaved);
 
   return (
     <>
       <Wrapper modifier={modifier} data-testid="saveLearningResourceButtonWrapper">
         <MultiButton
           disabled={disabledButton}
-          enableSecondary={enableSecondary}
           onClick={(value: string) => {
             const saveAsNewVersion = value === 'saveAsNew';
             onClick(saveAsNewVersion);
@@ -72,7 +70,7 @@ const SaveMultiButton = ({
                   {
                     label: t('form.saveAsNewVersion'),
                     value: 'saveAsNew',
-                    alwaysEnable: true,
+                    enable: !isSaving,
                   },
                   {
                     label: t('form.save'),

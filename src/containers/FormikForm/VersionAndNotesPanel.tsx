@@ -32,6 +32,7 @@ import { ConvertedDraftType, Note } from '../../interfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { LearningResourceFormikType, TopicArticleFormikType } from './articleFormHooks';
 import { useMessages } from '../Messages/MessagesProvider';
+import { useFormEvents } from '../../components/Form/FormEventProvider';
 
 const paddingPanelStyleInside = css`
   background: ${colors.brand.greyLightest};
@@ -70,6 +71,7 @@ const VersionAndNotesPanel = ({
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<SimpleUserType[]>([]);
   const { createMessage } = useMessages();
+  const { dispatchEvent } = useFormEvents();
   useEffect(() => {
     const getVersions = async () => {
       try {
@@ -125,6 +127,7 @@ const VersionAndNotesPanel = ({
 
       setValues(newValues);
       setStatus('revertVersion');
+      dispatchEvent('reset');
       createMessage({
         message: t('form.resetToProd.success'),
         severity: 'success',

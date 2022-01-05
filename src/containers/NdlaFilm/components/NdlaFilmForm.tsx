@@ -20,6 +20,7 @@ import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
+import withFormEventsProvider from '../../../components/Form/withFormEvents';
 
 interface Props {
   filmFrontpage: IFilmFrontPageData;
@@ -121,4 +122,4 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
   );
 };
 
-export default NdlaFilmForm;
+export default withFormEventsProvider(NdlaFilmForm);

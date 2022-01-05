@@ -19,7 +19,6 @@ import {
   validDateRange,
 } from './validators';
 import handleError from '../util/handleError';
-import { bytesToSensibleFormat } from '../util/fileSizeUtil';
 
 const appendError = (error: string, newError: string): string =>
   error ? `${error} \n ${newError}` : newError;
@@ -97,20 +96,6 @@ const validateFormik = <FormikValuesType>(
             t('validation.dateAfterInvalid', {
               label,
               beforeLabel: t('form.validDate.from.label').toLowerCase(),
-            }),
-          );
-        }
-      }
-
-      if (rules[ruleKey].maxSize) {
-        const maxSize = rules[ruleKey].maxSize!;
-        const fileSize = get(ruleKey, values);
-        if (fileSize > maxSize) {
-          errors[ruleKey] = appendError(
-            errors[ruleKey],
-            t('validation.maxSizeExceeded', {
-              maxSize: bytesToSensibleFormat(maxSize),
-              fileSize: bytesToSensibleFormat(fileSize),
             }),
           );
         }

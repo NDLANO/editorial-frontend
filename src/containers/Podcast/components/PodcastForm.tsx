@@ -32,6 +32,7 @@ import PodcastSeriesInformation from './PodcastSeriesInformation';
 import handleError from '../../../util/handleError';
 import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import withFormEventsProvider from '../../../components/Form/withFormEvents';
 
 const podcastRules: RulesType<PodcastFormValues> = {
   title: {
@@ -300,4 +301,4 @@ const PodcastForm = ({
   );
 };
 
-export default PodcastForm;
+export default withFormEventsProvider(PodcastForm);

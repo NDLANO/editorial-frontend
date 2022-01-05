@@ -27,6 +27,7 @@ import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
 import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
+import withFormEventsProvider from '../../../components/Form/withFormEvents';
 
 const podcastRules: RulesType<PodcastSeriesFormikType> = {
   title: {
@@ -210,4 +211,4 @@ const PodcastSeriesForm = ({
   );
 };
 
-export default PodcastSeriesForm;
+export default withFormEventsProvider(PodcastSeriesForm);

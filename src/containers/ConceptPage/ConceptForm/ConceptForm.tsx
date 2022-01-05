@@ -37,6 +37,7 @@ import ConceptFormFooter from './ConceptFormFooter';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import withFormEventsProvider from '../../../components/Form/withFormEvents';
 
 interface Props {
   concept?: ConceptApiType;
@@ -235,4 +236,4 @@ const ConceptForm = ({
   );
 };
 
-export default ConceptForm;
+export default withFormEventsProvider(ConceptForm);

@@ -37,6 +37,7 @@ import { formatErrorMessage } from '../../../util/apiHelpers';
 import { queryLearningPathResource, queryResources, queryTopics } from '../../../modules/taxonomy';
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
+import withFormEventsProvider from '../../../components/Form/withFormEvents';
 
 interface Props {
   subjectpage?: ISubjectPageData;
@@ -203,4 +204,4 @@ const SubjectpageForm = ({
   );
 };
 
-export default SubjectpageForm;
+export default withFormEventsProvider(SubjectpageForm);

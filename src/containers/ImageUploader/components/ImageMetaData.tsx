@@ -6,90 +6,73 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { RadioButtonGroup } from '@ndla/ui';
-import { FieldInputProps, FieldProps } from 'formik';
 import { fetchSearchTags } from '../../../modules/image/imageApi';
-import FormikField from '../../../components/FormikField';
-import { LicenseField, ContributorsField } from '../../FormikForm';
-import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-import { ImageApiLicense } from '../../../modules/image/imageApiInterfaces';
+import { LicenseField } from '../../FormikForm';
+import ContributorsField from '../../Form/ContributorsField';
+import FormField from '../../../components/Form';
+import { ImageFormType } from '../imageTransformers';
+import AsyncSearchTags from '../../Form/AsyncSearchTags';
+import { ContributorType } from '../../../interfaces';
 
-const contributorTypes = ['creators', 'rightsholders', 'processors'];
+const contributorTypes: ContributorType[] = ['creators', 'rightsholders', 'processors'];
 
 interface Props {
-  imageTags: string[];
-  licenses: ImageApiLicense[];
   imageLanguage?: string;
 }
 
-const ImageMetaData = ({ imageTags, licenses, imageLanguage }: Props) => {
+const ImageMetaData = ({ imageLanguage }: Props) => {
   const { t } = useTranslation();
   return (
     <>
-      <FormikField
+      <FormField<ImageFormType, 'tags'>
         name="tags"
         label={t('form.tags.label')}
         obligatory
         description={t('form.tags.description')}>
-        {({ field, form }: FieldProps<string[], string[]>) => (
+        {({ value, onChange }) => (
           <AsyncSearchTags
             language={imageLanguage || 'all'}
-            initialTags={imageTags}
-            field={field}
-            form={form}
+            initialTags={value}
+            onChange={onChange}
             fetchTags={fetchSearchTags}
           />
         )}
-      </FormikField>
-      <FormikField name="license">
-        {({ field }: { field: FieldInputProps<string> }) => (
-          <LicenseField licenses={licenses} {...field} />
+      </FormField>
+      <FormField<ImageFormType, 'license'> name="license">
+        {({ onChange, onBlur, name, value }) => (
+          <LicenseField onChange={onChange} onBlur={onBlur} name={name} value={value} />
         )}
-      </FormikField>
-      <FormikField label={t('form.origin.label')} name="origin" />
+      </FormField>
+      <FormField<ImageFormType, 'origin'> label={t('form.origin.label')} name="origin">
+        {({ value, onChange, onBlur }) => (
+          <input value={value} onChange={onChange} onBlur={onBlur} />
+        )}
+      </FormField>
       <ContributorsField contributorTypes={contributorTypes} />
 
-      <FormikField
+      <FormField<ImageFormType, 'modelReleased'>
         name="modelReleased"
         label={t('form.modelReleased.label')}
         description={t('form.modelReleased.description')}>
-        {({ field }: { field: FieldInputProps<string> }) => {
+        {({ value, onChange }) => {
           const options = ['yes', 'not-applicable', 'no', 'not-set'];
           const defaultValue = 'not-set';
           return (
             <>
               <RadioButtonGroup
-                selected={field.value ?? defaultValue}
+                selected={value ?? defaultValue}
                 uniqeIds
                 options={options.map(value => ({ title: t(`form.modelReleased.${value}`), value }))}
-                onChange={(value: string) =>
-                  field.onChange({
-                    target: {
-                      name: field.name,
-                      value: value,
-                    },
-                  })
-                }
+                onChange={(value: string) => onChange(value)}
               />
             </>
           );
         }}
-      </FormikField>
+      </FormField>
     </>
   );
-};
-
-ImageMetaData.propTypes = {
-  imageTags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string.isRequired,
-      license: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
-  imageLanguage: PropTypes.string,
 };
 
 export default ImageMetaData;

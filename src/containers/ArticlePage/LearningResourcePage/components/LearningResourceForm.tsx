@@ -44,6 +44,7 @@ import {
 } from '../../../../modules/draft/draftApiInterfaces';
 import { ConvertedDraftType, RelatedContent } from '../../../../interfaces';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
+import withFormEventsProvider from '../../../../components/Form/withFormEvents';
 
 export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
@@ -307,4 +308,4 @@ const LearningResourceForm = ({
   );
 };
 
-export default LearningResourceForm;
+export default withFormEventsProvider(LearningResourceForm);

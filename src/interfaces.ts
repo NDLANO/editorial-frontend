@@ -23,6 +23,8 @@ export type PartialRecord<K extends keyof any, T> = {
 
 export type AvailabilityType = 'everyone' | 'teacher' | 'student';
 
+export type ContributorType = 'creators' | 'processors' | 'rightsholders';
+
 export type EditMode =
   | 'changeSubjectName'
   | 'deleteTopic'

@@ -34,6 +34,7 @@ import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import withFormEventsProvider from '../../../components/Form/withFormEvents';
 
 export interface AudioFormikType extends FormikFormBaseType {
   id?: number;
@@ -266,4 +267,4 @@ AudioForm.propTypes = {
   translateToNN: PropTypes.func,
 };
 
-export default AudioForm;
+export default withFormEventsProvider(AudioForm);

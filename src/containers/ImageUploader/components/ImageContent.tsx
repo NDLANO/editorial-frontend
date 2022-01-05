@@ -6,112 +6,54 @@
  *
  */
 
-import { connect, FieldProps, FormikContextType } from 'formik';
-import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { UploadDropZone, Input } from '@ndla/forms';
-import SafeLink from '@ndla/safelink';
-import Tooltip from '@ndla/tooltip';
-import { DeleteForever } from '@ndla/icons/editor';
-import { animations, spacing, colors } from '@ndla/core';
-import IconButton from '../../../components/IconButton';
-import FormikField from '../../../components/FormikField';
-import { ImageFormikType } from '../imageTransformers';
-import { ImageFormErrorFields } from './ImageForm';
-import { TitleField } from '../../FormikForm';
-
-const StyledImage = styled.img`
-  margin: ${spacing.normal} 0;
-  border: 1px solid ${colors.brand.greyLight};
-  ${animations.fadeInBottom()}
-`;
-
-const StyledDeleteButtonContainer = styled.div`
-  position: absolute;
-  right: -${spacing.medium};
-  transform: translateY(${spacing.normal});
-  z-index: 1;
-  display: flex;
-  flex-direction: row;
-`;
+import { Input } from '@ndla/forms';
+import TitleField from '../../Form/TitleField';
+import FormField from '../../../components/Form/FormField';
+import ImageFormField from './ImageFormField';
+import { ImageFormType } from '../imageTransformers';
 
 interface Props {
-  formik: FormikContextType<ImageFormikType>;
+  onSubmit: (values: ImageFormType) => Promise<void>;
 }
-
-const ImageContent = ({ formik }: Props) => {
+const ImageContent = ({ onSubmit }: Props) => {
   const { t } = useTranslation();
-  const { values, errors, setFieldValue, submitForm } = formik;
   return (
     <>
-      <TitleField handleSubmit={submitForm} />
-      {!values.imageFile && (
-        <UploadDropZone
-          name="imageFile"
-          allowedFiles={['image/gif', 'image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml']}
-          onAddedFiles={(files: FileList, evt: InputEvent) => {
-            const target = evt.target as HTMLInputElement;
-            setFieldValue(
-              'filepath',
-              target.files?.[0] ? URL.createObjectURL(target.files[0]) : undefined,
-            );
-            setFieldValue('imageFile', target.files?.[0]);
-          }}
-          ariaLabel={t('form.image.dragdrop.ariaLabel')}>
-          <strong>{t('form.image.dragdrop.main')}</strong>
-          {t('form.image.dragdrop.sub')}
-        </UploadDropZone>
-      )}
-      {values.imageFile && (
-        <StyledDeleteButtonContainer>
-          <Tooltip tooltip={t('form.image.removeImage')}>
-            <IconButton
-              type="button"
-              onClick={() => {
-                setFieldValue('imageFile', undefined);
-              }}
-              tabIndex={-1}>
-              <DeleteForever />
-            </IconButton>
-          </Tooltip>
-        </StyledDeleteButtonContainer>
-      )}
-      {values.imageFile && (
-        <SafeLink target="_blank" to={values.imageFile}>
-          <StyledImage src={values.filepath || values.imageFile} alt="" />
-        </SafeLink>
-      )}
-      <FormikField name="imageFile.size" showError={true}>
-        {_ => <></>}
-      </FormikField>
-      <FormikField name="caption" showError={false}>
-        {({ field }: FieldProps) => (
+      <TitleField onSubmit={onSubmit} />
+      <ImageFormField />
+      <FormField<ImageFormType, 'caption'> name="caption" showError={false}>
+        {({ error, value, onChange, onBlur }) => (
           <Input
             placeholder={t('form.image.caption.placeholder')}
             label={t('form.image.caption.label')}
             container="div"
             type="text"
             autoExpand
-            warningText={errors[field.name as ImageFormErrorFields]}
-            {...field}
+            warningText={error?.message}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
           />
         )}
-      </FormikField>
-      <FormikField name="alttext" showError={false}>
-        {({ field }: FieldProps) => (
+      </FormField>
+      <FormField<ImageFormType, 'alttext'> name="alttext" showError={false}>
+        {({ error, value, onChange, onBlur }) => (
           <Input
             placeholder={t('form.image.alt.placeholder')}
             label={t('form.image.alt.label')}
             container="div"
             type="text"
             autoExpand
-            warningText={errors[field.name as ImageFormErrorFields]}
-            {...field}
+            warningText={error?.message}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
           />
         )}
-      </FormikField>
+      </FormField>
     </>
   );
 };
 
-export default connect<any, any>(ImageContent);
+export default ImageContent;

@@ -47,6 +47,7 @@ import {
 } from '../../../../modules/draft/draftApiInterfaces';
 import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
+import withFormEventsProvider from '../../../../components/Form/withFormEvents';
 
 export const getInitialValues = (
   article: Partial<ConvertedDraftType> = {},
@@ -297,4 +298,4 @@ const TopicArticleForm = (props: Props) => {
   );
 };
 
-export default TopicArticleForm;
+export default withFormEventsProvider(TopicArticleForm);

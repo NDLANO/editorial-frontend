@@ -93,10 +93,12 @@ const MetaImageSearch = ({
     if (image.id) {
       const updatedImage = await updateImage(image);
       onImageSet(updatedImage);
+      return updatedImage;
     } else {
       const formData = await createFormData(file, image);
       const createdImage = await postImage(formData);
       onImageSet(createdImage);
+      return createdImage;
     }
   };
 

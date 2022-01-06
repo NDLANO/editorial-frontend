@@ -11,7 +11,7 @@ const StyledSpan = styled('span')`
 `;
 
 const Wrapper = styled('div')`
-  button {
+  div > button:disabled {
     ${(props: { modifier: string }) => {
       return saveButtonAppearances[props.modifier];
     }}
@@ -70,6 +70,7 @@ const SaveMultiButton = ({
                   {
                     label: t('form.saveAsNewVersion'),
                     value: 'saveAsNew',
+                    enable: !isSaving,
                   },
                   {
                     label: t('form.save'),

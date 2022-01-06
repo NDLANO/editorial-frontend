@@ -107,7 +107,7 @@
     "@ndla/accordion": "^1.0.2",
     "@ndla/article-scripts": "^2.0.4",
     "@ndla/audio-search": "1.0.11",
-    "@ndla/button": "1.0.6",
+    "@ndla/button": "1.1.1",
     "@ndla/carousel": "1.0.6",
     "@ndla/code": "1.0.12",
     "@ndla/editor": "^1.1.6",

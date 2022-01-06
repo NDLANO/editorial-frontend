@@ -4,16 +4,15 @@ import { Eye, Restore } from '@ndla/icons/editor';
 import { StyledAccordionsPanelIconButton } from '@ndla/accordion';
 
 import { PreviewDraftLightbox } from '../../components';
-import { ConvertedDraftType } from '../../interfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface Props {
   showFromArticleApi: boolean;
-  article: Partial<ConvertedDraftType>;
+  article: DraftApiType;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
   resetVersion: (
     version: DraftApiType,
-    language: string | undefined,
+    language: string,
     showFromArticleApi: boolean,
   ) => Promise<void>;
   version: DraftApiType;
@@ -55,7 +54,7 @@ const VersionActionButtons = ({
         <StyledAccordionsPanelIconButton
           type="button"
           data-testid="resetToVersion"
-          onClick={() => resetVersion(version, article.language, showFromArticleApi)}>
+          onClick={() => resetVersion(version, article.title!.language, showFromArticleApi)}>
           <Restore />
         </StyledAccordionsPanelIconButton>
       </Tooltip>

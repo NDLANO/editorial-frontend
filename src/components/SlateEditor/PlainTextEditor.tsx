@@ -13,7 +13,7 @@ import { withHistory } from 'slate-history';
 import { FormikHandlers, useFormikContext } from 'formik';
 import { SlatePlugin } from './interfaces';
 import withPlugins from './utils/withPlugins';
-import { LearningResourceFormikType } from '../../containers/FormikForm/articleFormHooks';
+import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 
 interface Props {
   id: string;
@@ -39,7 +39,7 @@ const PlainTextEditor = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
 
-  const { status, setStatus } = useFormikContext<LearningResourceFormikType>();
+  const { status, setStatus } = useFormikContext<ArticleFormType>();
 
   useEffect(() => {
     if (status === 'revertVersion') {

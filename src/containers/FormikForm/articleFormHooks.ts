@@ -12,12 +12,7 @@ import { TFunction } from 'i18next';
 import { FormikHelpers } from 'formik';
 
 import { Descendant } from 'slate';
-import {
-  deleteFile,
-  fetchStatusStateMachine,
-  validateDraft,
-  fetchSearchTags,
-} from '../../modules/draft/draftApi';
+import { deleteFile } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
@@ -27,15 +22,9 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../modules/draft/draftApiInterfaces';
-import {
-  Author,
-  AvailabilityType,
-  ConvertedDraftType,
-  License,
-  RelatedContent,
-} from '../../interfaces';
-import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
+import { Author, AvailabilityType, License, RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
+import { useLicenses } from '../../modules/draft/draftQueries';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -52,66 +41,65 @@ const deleteRemovedFiles = async (oldArticleContent: string, newArticleContent: 
   return Promise.all(pathsToDelete.map(path => deleteFile(path)));
 };
 
-export interface ArticleFormikType {
-  id?: number;
-  title?: Descendant[];
-  introduction?: Descendant[];
-  metaDescription?: Descendant[];
+export interface ArticleFormType {
   agreementId?: number;
   articleType: string;
-  status?: DraftStatus;
+  availability: AvailabilityType;
+  conceptIds: number[];
+  content: Descendant[];
   creators: Author[];
+  grepCodes: string[];
+  id?: number;
+  introduction: Descendant[];
+  language: string;
+  license: string;
+  metaDescription: Descendant[];
+  metaImageAlt: string;
+  metaImageId: string;
+  notes: string[];
   processors: Author[];
-  rightsholders: Author[];
-  language?: string;
-  license?: string;
-  metaImageAlt?: string;
-  metaImageId?: string;
-  notes?: string[];
-  origin?: string;
   published?: string;
+  relatedContent: RelatedContent[];
   revision?: number;
+  rightsholders: Author[];
+  status?: DraftStatus;
   supportedLanguages: string[];
   tags: string[];
+  title: Descendant[];
   updatePublished: boolean;
   updated?: string;
-  visualElement?: Descendant[];
-  grepCodes?: string[];
-  conceptIds: ConceptApiType[];
-  availability?: AvailabilityType;
-  relatedContent: (DraftApiType | RelatedContent)[];
 }
 
-export interface LearningResourceFormikType extends ArticleFormikType {
-  content: Descendant[];
+export interface LearningResourceFormType extends ArticleFormType {
+  origin?: string;
 }
 
-export interface TopicArticleFormikType extends ArticleFormikType {
-  content: Descendant[];
+export interface TopicArticleFormType extends ArticleFormType {
+  visualElement: Descendant[];
 }
 
-type HooksInputObject<T> = {
-  getInitialValues: (article: Partial<ConvertedDraftType>) => T;
-  article: Partial<ConvertedDraftType>;
+type HooksInputObject<T extends ArticleFormType> = {
+  getInitialValues: (article: DraftApiType | undefined, language: string) => T;
+  article?: DraftApiType;
   t: TFunction;
   articleStatus?: DraftStatus;
-  updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  updateArticle: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   updateArticleAndStatus?: (input: {
     updatedArticle: UpdatedDraftApiType;
     newStatus: DraftStatusTypes;
     dirty: boolean;
-  }) => Promise<ConvertedDraftType>;
+  }) => Promise<DraftApiType>;
   licenses?: License[];
-  getArticleFromSlate: (input: {
-    values: T;
-    initialValues: T;
-    preview: boolean;
-  }) => UpdatedDraftApiType;
+  getArticleFromSlate: (
+    values: T,
+    initialValues: T,
+    licenses: License[],
+    preview?: boolean,
+  ) => UpdatedDraftApiType;
+  articleLanguage: string;
 };
 
-export function useArticleFormHooks<
-  T extends LearningResourceFormikType | TopicArticleFormikType | ArticleFormikType
->({
+export function useArticleFormHooks<T extends ArticleFormType>({
   getInitialValues,
   article,
   t,
@@ -119,12 +107,14 @@ export function useArticleFormHooks<
   updateArticle,
   updateArticleAndStatus,
   getArticleFromSlate,
+  articleLanguage,
 }: HooksInputObject<T>) {
-  const { id, revision, language } = article;
+  const { id, revision } = article ?? {};
   const formikRef: any = useRef<any>(null); // TODO: Formik bruker any for denne ref'en men kanskje vi skulle gjort noe kulere?
   const { createMessage, applicationError } = useMessages();
+  const { data: licenses } = useLicenses({ placeholderData: [] });
   const [savedToServer, setSavedToServer] = useState(false);
-  const initialValues = getInitialValues(article);
+  const initialValues = getInitialValues(article, articleLanguage);
 
   useEffect(() => {
     setSavedToServer(false);
@@ -133,7 +123,7 @@ export function useArticleFormHooks<
       // form is reset. We do it here when language, id or status is changed
       formikRef.current?.resetForm();
     }
-  }, [language, id]);
+  }, [articleLanguage, id]);
 
   const handleSubmit = async (
     values: T,
@@ -141,18 +131,14 @@ export function useArticleFormHooks<
     saveAsNew = false,
   ): Promise<void> => {
     formikHelpers.setSubmitting(true);
-    const initialStatus = articleStatus ? articleStatus.current : undefined;
+    const initialStatus = articleStatus?.current;
     const newStatus = values.status?.current;
     const statusChange = initialStatus !== newStatus;
-    const slateArticle = getArticleFromSlate({
-      values,
-      initialValues,
-      preview: false,
-    });
+    const slateArticle = getArticleFromSlate(values, initialValues, licenses!, false);
 
     const newArticle = saveAsNew ? { ...slateArticle, createNewVersion: true } : slateArticle;
 
-    let savedArticle: ConvertedDraftType;
+    let savedArticle: DraftApiType;
     try {
       if (statusChange && newStatus && updateArticleAndStatus) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
@@ -178,10 +164,10 @@ export function useArticleFormHooks<
         });
       }
 
-      await deleteRemovedFiles(article.content ?? '', newArticle.content ?? '');
+      await deleteRemovedFiles(article?.content?.content ?? '', newArticle.content ?? '');
 
       setSavedToServer(true);
-      formikHelpers.resetForm({ values: getInitialValues(savedArticle) });
+      formikHelpers.resetForm({ values: getInitialValues(savedArticle, articleLanguage) });
       formikHelpers.setFieldValue('notes', [], false);
     } catch (e) {
       const err = e as any;
@@ -210,8 +196,5 @@ export function useArticleFormHooks<
     formikRef,
     initialValues,
     handleSubmit,
-    fetchStatusStateMachine,
-    validateDraft,
-    fetchSearchTags,
   };
 }

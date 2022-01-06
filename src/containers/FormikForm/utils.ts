@@ -12,11 +12,11 @@ import { ImageEmbed } from '../../interfaces';
 import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { ConceptFormValues } from '../ConceptPage/conceptInterfaces';
-import { TopicArticleFormikType } from './articleFormHooks';
+import { ArticleFormType } from './articleFormHooks';
 
-export const onSaveAsVisualElement = (
+export const onSaveAsVisualElement = <T extends ArticleFormType>(
   image: ImageApiType,
-  formikContext: FormikContextType<ConceptFormValues> | FormikContextType<TopicArticleFormikType>,
+  formikContext: FormikContextType<ConceptFormValues> | FormikContextType<T>,
 ) => {
   const { setFieldValue, setFieldTouched } = formikContext;
 

@@ -45,14 +45,15 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     return <Spinner withWrapper />;
   }
   if (article.articleType !== 'standard') {
-    const replaceUrl = toEditArticle(article.id, article.articleType, article.language);
+    const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
     return <Navigate replace to={replaceUrl} />;
   }
 
   return (
     <>
-      <HelmetWithTracker title={`${article.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
       <LearningResourceForm
+        articleLanguage={selectedLanguage}
         article={article}
         articleStatus={article.status}
         articleChanged={articleChanged}

@@ -6,6 +6,7 @@
  */
 
 import isEqual from 'lodash/fp/isEqual';
+import { Descendant } from 'slate';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
 import {
@@ -14,21 +15,27 @@ import {
 } from './articleContentConverter';
 import { diffHTML } from './diffHTML';
 import { isGrepCodeValid } from './articleUtil';
+import { License, MetaImage } from '../interfaces';
+import { RulesType } from '../components/formikValidationSchema';
+import {
+  ArticleFormType,
+  LearningResourceFormType,
+  TopicArticleFormType,
+} from '../containers/FormikForm/articleFormHooks';
+import { isEmbed } from '../components/SlateEditor/plugins/embed/utils';
+import { EmbedElement } from '../components/SlateEditor/plugins/embed';
 
-export const DEFAULT_LICENSE = {
+export const DEFAULT_LICENSE: License = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
   license: 'CC-BY-SA-4.0',
   url: 'https://creativecommons.org/licenses/by-sa/4.0/',
 };
 
-export const parseCopyrightContributors = (obj, contributorType) => {
-  if (!obj.copyright) {
-    return [];
-  }
-  return obj.copyright[contributorType] || [];
-};
-
-const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
+const checkIfContentHasChanged = (
+  currentValue: Descendant[],
+  initialContent: Descendant[],
+  type: string,
+) => {
   if (currentValue.length !== initialContent.length) return true;
   const toHTMLFunction =
     type === 'standard' ? learningResourceContentToHTML : topicArticleContentToHTML;
@@ -41,7 +48,31 @@ const checkIfContentHasChanged = ({ currentValue, type, initialContent }) => {
   return false;
 };
 
-export const isFormikFormDirty = ({ values, initialValues, dirty = false, changed = false }) => {
+interface FormikFields {
+  description?: Descendant[];
+  introduction?: Descendant[];
+  title?: Descendant[];
+  metaDescription?: Descendant[];
+  content?: Descendant[];
+  conceptContent?: Descendant[];
+  manuscript?: Descendant[];
+  articleType?: string;
+  [x: string]: any;
+}
+
+interface FormikFormDirtyParams<T extends FormikFields> {
+  values: T;
+  initialValues: T;
+  dirty?: boolean;
+  changed?: boolean;
+}
+
+export const isFormikFormDirty = <T extends FormikFields>({
+  values,
+  initialValues,
+  dirty = false,
+  changed = false,
+}: FormikFormDirtyParams<T>) => {
   if (!dirty) {
     return changed;
   }
@@ -58,35 +89,28 @@ export const isFormikFormDirty = ({ values, initialValues, dirty = false, change
   // and skipping fields that only changes on the server
   const skipFields = ['revision', 'updated', 'updatePublished', 'id', 'status'];
   const dirtyFields = [];
-  Object.keys(values)
-    .filter(field => !skipFields.includes(field))
-    .forEach(value => {
-      const currentValue = values[value];
-      if (slateFields.includes(value)) {
-        if (value === 'content') {
+  Object.entries(values)
+    .filter(([key]) => !skipFields.includes(key))
+    .forEach(([key, value]) => {
+      if (slateFields.includes(key)) {
+        if (key === 'content') {
           if (
-            checkIfContentHasChanged({
-              currentValue,
-              initialContent: initialValues.content,
-              type: initialValues.articleType,
-            })
+            checkIfContentHasChanged(values[key]!, initialValues[key]!, initialValues.articleType!)
           ) {
             dirtyFields.push(value);
           }
-        } else if (
-          typeof initialValues[value] === 'object' &&
-          !isEqual(currentValue, initialValues[value])
-        ) {
+        } else if (typeof value === 'object' && !isEqual(value, initialValues[key])) {
           dirtyFields.push(value);
         }
-      } else if (!isEqual(currentValue, initialValues[value])) {
+      } else if (!isEqual(value, initialValues[key as keyof T])) {
         dirtyFields.push(value);
       }
     });
+
   return dirtyFields.length > 0 || changed;
 };
 
-export const formikCommonArticleRules = {
+export const formikCommonArticleRules: RulesType<ArticleFormType> = {
   title: {
     required: true,
     maxLength: 256,
@@ -132,7 +156,7 @@ export const formikCommonArticleRules = {
   },
 };
 
-export const learningResourceRules = {
+export const learningResourceRules: RulesType<LearningResourceFormType> = {
   ...formikCommonArticleRules,
   metaImageAlt: {
     required: true,
@@ -141,7 +165,9 @@ export const learningResourceRules = {
   content: {
     required: true,
     test: values => {
-      const embeds = findNodesByType(values.content ?? [], 'embed').map(node => node.data);
+      const embeds = findNodesByType(values.content ?? [], 'embed').map(
+        node => (node as EmbedElement).data,
+      );
       const notValidEmbeds = embeds.filter(embed => !isUserProvidedEmbedDataValid(embed));
       const embedsHasErrors = notValidEmbeds.length > 0;
 
@@ -152,25 +178,24 @@ export const learningResourceRules = {
   },
 };
 
-export const topicArticleRules = {
+export const topicArticleRules: RulesType<TopicArticleFormType> = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
-    onlyValidateIf: values => values.visualElement && values.visualElement.resource === 'image',
+    onlyValidateIf: values =>
+      isEmbed(values.visualElement[0]) && values.visualElement[0].data.resource === 'image',
   },
   visualElementCaption: {
     required: false,
     onlyValidateIf: values =>
-      values.visualElement &&
-      (values.visualElement.resource === 'image' || values.visualElement.resource === 'brightcove'),
+      isEmbed(values.visualElement[0]) &&
+      (values.visualElement[0].data.resource === 'image' ||
+        values.visualElement[0].data.resource === 'brightcove'),
   },
 };
 
-export const parseImageUrl = metaImage => {
+export const parseImageUrl = (metaImage?: MetaImage) => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
-    if (metaImage?.id) {
-      return metaImage.id;
-    }
     return '';
   }
 
@@ -178,6 +203,6 @@ export const parseImageUrl = metaImage => {
   return splittedUrl[splittedUrl.length - 1];
 };
 
-export const getTagName = (id, data) => {
-  return data.find(entry => entry.id === id)?.name;
+export const getTagName = (id: string | undefined, data: { id: string; name: string }[] = []) => {
+  return id ? data.find(entry => entry.id === id)?.name : undefined;
 };

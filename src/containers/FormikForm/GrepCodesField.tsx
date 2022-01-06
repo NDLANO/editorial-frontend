@@ -11,17 +11,13 @@ import { FieldProps, FormikValues } from 'formik';
 import FormikField from '../../components/FormikField';
 import GrepCodesFieldContent from './GrepCodesFieldContent';
 
-interface Props {
-  grepCodes: string[];
-}
-
-const GrepCodesField = ({ grepCodes }: Props) => {
+const GrepCodesField = () => {
   const { t } = useTranslation();
   return (
     <>
       <FormikField name="grepCodes" label={t('form.grepCodes.label')}>
         {({ field, form }: FieldProps<string[], FormikValues>) => (
-          <GrepCodesFieldContent articleGrepCodes={grepCodes} field={field} form={form} />
+          <GrepCodesFieldContent field={field} form={form} />
         )}
       </FormikField>
     </>

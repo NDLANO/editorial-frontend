@@ -6,62 +6,7 @@
  *
  */
 
-import nock from 'nock';
-import {
-  transformArticleFromApiVersion,
-  transformArticleToApiVersion,
-  isDraftPublished,
-  isGrepCodeValid,
-} from '../articleUtil';
-import { apiArticle, transformedArticle } from './articleMocks';
-import { apiConcept } from './conceptMocks';
-
-test('isDraftPublished is true', () => {
-  const isPublished = isDraftPublished({
-    current: 'STATUS',
-    other: ['PUBLISHED'],
-  });
-  expect(isPublished).toBe(true);
-});
-
-test('isDraftPublished is false', () => {
-  const isPublished = isDraftPublished({
-    current: 'DRAFT',
-    other: [],
-  });
-  expect(isPublished).toBe(false);
-});
-
-test('isDraftPublished status undefined', () => {
-  const isPublished = isDraftPublished();
-  expect(isPublished).toBe(false);
-});
-
-test('transformArticleFromApiVersion', async () => {
-  nock('http://ndla-api/')
-    .get('/concept-api/v1/drafts/1?fallback=true')
-    .reply(200, { ...apiConcept, id: 1 });
-  nock('http://ndla-api/')
-    .get('/concept-api/v1/drafts/2?fallback=true')
-    .reply(200, { ...apiConcept, id: 2 });
-
-  nock('http://ndla-api/')
-    .get('/draft-api/v1/drafts/3')
-    .reply(200, { ...apiArticle, id: 3 });
-
-  const conceptIds = [1, 2];
-  const relatedContent = [3, { url: 'url', title: 'title' }];
-  const transformed = await transformArticleFromApiVersion(
-    { ...apiArticle, conceptIds, relatedContent },
-    'nb',
-  );
-  expect(transformed).toMatchSnapshot();
-});
-
-test('transformArticleToApiVersion', () => {
-  const transformed = transformArticleToApiVersion(transformedArticle);
-  expect(transformed).toMatchSnapshot();
-});
+import { isGrepCodeValid } from '../articleUtil';
 
 test('isGrepCodeValid correct behavior', () => {
   const grepCodes = new Map();

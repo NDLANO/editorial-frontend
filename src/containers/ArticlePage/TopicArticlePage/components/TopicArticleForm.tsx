@@ -6,213 +6,83 @@
  *
  */
 
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
-import {
-  topicArticleContentToHTML,
-  topicArticleContentToEditorValue,
-  editorValueToPlainText,
-  plainTextToEditorValue,
-  embedTagToEditorValue,
-  editorValueToEmbedTag,
-} from '../../../../util/articleContentConverter';
-import {
-  DEFAULT_LICENSE,
-  parseCopyrightContributors,
-  isFormikFormDirty,
-  formikCommonArticleRules,
-  parseImageUrl,
-} from '../../../../util/formHelper';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import { toEditArticle } from '../../../../util/routeHelpers';
-import { nullOrUndefined } from '../../../../util/articleUtil';
 import validateFormik from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
-import {
-  ArticleFormikType,
-  TopicArticleFormikType,
-  useArticleFormHooks,
-} from '../../../FormikForm/articleFormHooks';
+import { TopicArticleFormType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
-import { ConvertedDraftType } from '../../../../interfaces';
 import {
+  DraftApiType,
   DraftStatus,
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { convertDraftOrRelated } from '../../LearningResourcePage/components/LearningResourceForm';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
-
-export const getInitialValues = (
-  article: Partial<ConvertedDraftType> = {},
-): TopicArticleFormikType => {
-  const metaImageId: string = parseImageUrl(article.metaImage);
-
-  return {
-    agreementId: article.copyright ? article.copyright.agreementId : undefined,
-    articleType: 'topic-article',
-    content: topicArticleContentToEditorValue(article.content || ''),
-    creators: parseCopyrightContributors(article, 'creators'),
-    id: article.id,
-    introduction: plainTextToEditorValue(article.introduction || ''),
-    language: article.language,
-    license: article.copyright?.license?.license || DEFAULT_LICENSE.license,
-    metaDescription: plainTextToEditorValue(article.metaDescription || ''),
-    metaImageAlt: article.metaImage?.alt || '',
-    metaImageId,
-    notes: [],
-    processors: parseCopyrightContributors(article, 'processors'),
-    published: article.published,
-    revision: article.revision,
-    rightsholders: parseCopyrightContributors(article, 'rightsholders'),
-    status: article.status,
-    supportedLanguages: article.supportedLanguages || [],
-    tags: article.tags || [],
-    title: plainTextToEditorValue(article.title || ''),
-    updated: article.updated,
-    updatePublished: false,
-    visualElement: embedTagToEditorValue(article.visualElement || ''),
-    grepCodes: article.grepCodes || [],
-    conceptIds: article.conceptIds || [],
-    availability: article.availability || 'everyone',
-    relatedContent: article.relatedContent || [],
-  };
-};
-
-const getPublishedDate = (
-  values: ArticleFormikType,
-  initialValues: ArticleFormikType,
-  preview: boolean = false,
-) => {
-  if (isEmpty(values.published)) {
-    return undefined;
-  }
-  if (preview) {
-    return values.published;
-  }
-
-  const hasPublishedDateChaned = initialValues.published !== values.published;
-  if (hasPublishedDateChaned || values.updatePublished) {
-    return values.published;
-  }
-  return undefined;
-};
-
-// TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
+import {
+  draftApiTypeToTopicArticleFormType,
+  topicArticleFormTypeToDraftApiType,
+} from '../../articleTransformers';
+import { fetchStatusStateMachine, validateDraft } from '../../../../modules/draft/draftApi';
+import { formikCommonArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
 
 interface Props {
-  article: Partial<ConvertedDraftType>;
+  article?: DraftApiType;
   revision?: number;
-  updateArticle: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  updateArticle: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   articleStatus?: DraftStatus;
   articleChanged: boolean;
   updateArticleAndStatus?: (input: {
     updatedArticle: UpdatedDraftApiType;
     newStatus: DraftStatusTypes;
     dirty: boolean;
-  }) => Promise<ConvertedDraftType>;
+  }) => Promise<DraftApiType>;
   translating: boolean;
   translateToNN?: () => void;
   isNewlyCreated: boolean;
+  articleLanguage: string;
 }
 
-const TopicArticleForm = (props: Props) => {
-  const {
-    article,
-    updateArticle,
-    updateArticleAndStatus,
-    articleChanged,
-    translating,
-    translateToNN,
-    isNewlyCreated,
-    articleStatus,
-  } = props;
+const TopicArticleForm = ({
+  article,
+  updateArticle,
+  articleChanged,
+  translating,
+  translateToNN,
+  isNewlyCreated,
+  articleLanguage,
+  articleStatus,
+  updateArticleAndStatus,
+}: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
 
   const { t } = useTranslation();
 
-  // TODO preview parameter does not work for topic articles. Used from PreviewDraftLightbox
-  const getArticleFromSlate = useCallback(
-    ({
-      values,
-      initialValues,
-      preview = false,
-    }: {
-      values: TopicArticleFormikType;
-      initialValues: TopicArticleFormikType;
-      preview: boolean;
-    }): UpdatedDraftApiType => {
-      const emptyField = values.id ? '' : undefined;
-
-      const content = topicArticleContentToHTML(values.content);
-      const metaImage = values?.metaImageId
-        ? {
-            id: values.metaImageId,
-            alt: values.metaImageAlt ?? '',
-          }
-        : nullOrUndefined(values?.metaImageId);
-
-      return {
-        revision: 0,
-        articleType: 'topic-article',
-        content: content || emptyField,
-        copyright: {
-          license: licenses!.find(license => license.license === values.license),
-          creators: values.creators,
-          processors: values.processors,
-          rightsholders: values.rightsholders,
-          agreementId: values.agreementId,
-        },
-        supportedLanguages: values.supportedLanguages,
-        id: values.id,
-        introduction: editorValueToPlainText(values.introduction),
-        metaDescription: editorValueToPlainText(values.metaDescription),
-        language: values.language,
-        metaImage,
-        notes: values.notes || [],
-        published: getPublishedDate(values, initialValues, preview),
-        tags: values.tags,
-        title: editorValueToPlainText(values.title),
-        visualElement: editorValueToEmbedTag(values.visualElement),
-        grepCodes: values.grepCodes ?? [],
-        conceptIds: values.conceptIds?.map(c => c.id) ?? [],
-        availability: values.availability,
-        relatedContent: convertDraftOrRelated(values.relatedContent),
-      };
-    },
-    [licenses],
-  );
-
-  const {
-    savedToServer,
-    formikRef,
-    initialValues,
-    handleSubmit,
-    fetchStatusStateMachine,
-    validateDraft,
-    fetchSearchTags,
-  } = useArticleFormHooks({
-    getInitialValues,
+  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
+    TopicArticleFormType
+  >({
+    getInitialValues: draftApiTypeToTopicArticleFormType,
     article,
     t,
     articleStatus,
     updateArticle,
     updateArticleAndStatus,
     licenses,
-    getArticleFromSlate,
+    getArticleFromSlate: topicArticleFormTypeToDraftApiType,
+    articleLanguage,
   });
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
-  const FormikChild = (formik: FormikProps<TopicArticleFormikType>) => {
+  const FormikChild = (formik: FormikProps<TopicArticleFormType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting } = formik;
-
     const formIsDirty = isFormikFormDirty({
       values,
       initialValues,
@@ -220,15 +90,16 @@ const TopicArticleForm = (props: Props) => {
       changed: articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
-    const getArticle = () => getArticleFromSlate({ values, initialValues, preview: false });
+    const getArticle = () => topicArticleFormTypeToDraftApiType(values, initialValues, licenses!);
     const editUrl = values.id
       ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
       : undefined;
+
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage
           values={values}
-          content={article}
+          content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           getEntity={getArticle}
           editUrl={editUrl}
           formIsDirty={formIsDirty}
@@ -241,24 +112,22 @@ const TopicArticleForm = (props: Props) => {
           <Spinner withWrapper />
         ) : (
           <TopicArticleAccordionPanels
+            articleLanguage={articleLanguage}
             updateNotes={updateArticle}
             article={article}
-            formIsDirty={formIsDirty}
-            getInitialValues={getInitialValues}
             getArticle={getArticle}
-            fetchSearchTags={fetchSearchTags}
             handleSubmit={async () => handleSubmit(values, formik)}
           />
         )}
         <EditorFooter
-          showSimpleFooter={!article.id}
+          showSimpleFooter={!article?.id}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={saveAsNewVersion => {
             handleSubmit(values, formik, saveAsNewVersion ?? false);
           }}
-          entityStatus={article.status}
+          entityStatus={article?.status}
           fetchStatusStateMachine={fetchStatusStateMachine}
           validateEntity={validateDraft}
           isArticle

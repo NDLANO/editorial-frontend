@@ -40,11 +40,11 @@ import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { sectionPlugin } from '../../../../components/SlateEditor/plugins/section';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
+import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
 import { useSession } from '../../../Session/SessionProvider';
-import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
 
 const byLineStyle = css`
   display: flex;
@@ -98,8 +98,7 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
 };
 
 interface Props {
-  values: TopicArticleFormikType;
-  handleBlur: (evt: { target: { name: string } }) => void;
+  values: TopicArticleFormType;
   handleSubmit: () => Promise<void>;
 }
 
@@ -118,7 +117,6 @@ const TopicArticleContent = (props: Props) => {
 
   useEffect(() => {
     handleSubmitRef.current = handleSubmit;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSubmit]);
 
   return (

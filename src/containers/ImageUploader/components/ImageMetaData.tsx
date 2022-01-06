@@ -44,9 +44,7 @@ const ImageMetaData = ({ imageTags, licenses, imageLanguage }: Props) => {
         )}
       </FormikField>
       <FormikField name="license">
-        {({ field }: { field: FieldInputProps<string> }) => (
-          <LicenseField licenses={licenses} {...field} />
-        )}
+        {({ field }: { field: FieldInputProps<string> }) => <LicenseField {...field} />}
       </FormikField>
       <FormikField label={t('form.origin.label')} name="origin" />
       <ContributorsField contributorTypes={contributorTypes} />

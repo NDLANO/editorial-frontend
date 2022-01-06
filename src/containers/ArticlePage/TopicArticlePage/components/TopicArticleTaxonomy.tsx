@@ -20,6 +20,7 @@ import {
   addTopic,
   queryResources,
   queryTopics,
+  updateTopicMetadata,
 } from '../../../../modules/taxonomy';
 import {
   sortByName,
@@ -140,6 +141,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes }: Props) => {
   const stageTaxonomyChanges = async ({ path, locale }: { path: string; locale?: LocaleType }) => {
     if (path) {
       const breadcrumb = await getBreadcrumbFromPath(path, locale);
+      const allStatuses = article.status ? article.status.other.concat(article.status.current) : [];
       const newTopic: StagedTopic = {
         id: 'staged',
         name: article.title?.title ?? '',
@@ -147,7 +149,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes }: Props) => {
         breadcrumb,
         metadata: {
           grepCodes: [],
-          visible: true,
+          visible: allStatuses.some(s => s === 'PUBLISHED'),
           customFields: {},
         },
       };
@@ -237,6 +239,9 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes }: Props) => {
         subjectid: paths[0],
       });
     }
+    if (!topic.metadata.visible) {
+      await updateTopicMetadata(newTopicId, { visible: topic.metadata.visible });
+    }
     const newPath = topic.path.replace('staged', newTopicId.replace('urn:', ''));
     const breadcrumb = await getBreadcrumbFromPath(newPath, locale);
     return {
@@ -244,11 +249,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes }: Props) => {
       id: newTopicId,
       path: newPath,
       breadcrumb,
-      metadata: {
-        grepCodes: [],
-        visible: true,
-        customFields: {},
-      },
+      metadata: topic.metadata,
     };
   };
 

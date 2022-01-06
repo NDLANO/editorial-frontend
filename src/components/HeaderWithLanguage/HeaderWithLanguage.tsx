@@ -6,6 +6,7 @@
  *
  */
 
+import { useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
@@ -82,6 +83,8 @@ const HeaderWithLanguage = ({
   const { t, i18n } = useTranslation();
   const { articleType } = values;
   const { id, title, status } = content;
+  // true by default to disable language deletions until connections are retrieved.
+  const [hasConnections, setHasConnections] = useState(true);
 
   const language = content.language ?? i18n.language;
   const supportedLanguages = values.supportedLanguages ?? [language];
@@ -107,10 +110,12 @@ const HeaderWithLanguage = ({
         id={id}
         published={published}
         taxonomyPaths={taxonomyPaths}
+        setHasConnections={setHasConnections}
         {...rest}
       />
       <StyledLanguageWrapper>
         <HeaderActions
+          disableDelete={hasConnections && supportedLanguages.length === 1}
           values={safeValues}
           noStatus={noStatus}
           isNewLanguage={isNewLanguage}

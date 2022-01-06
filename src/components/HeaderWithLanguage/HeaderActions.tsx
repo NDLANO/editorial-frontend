@@ -68,6 +68,7 @@ interface Props {
   noStatus: boolean;
   setTranslateOnContinue?: (translateOnContinue: boolean) => void;
   translateToNN?: () => void;
+  disableDelete: boolean;
   type: string;
   values: {
     articleType?: string;
@@ -87,6 +88,7 @@ const HeaderActions = ({
   setTranslateOnContinue,
   type,
   translateToNN,
+  disableDelete,
   values,
 }: Props) => {
   const { t } = useTranslation();
@@ -149,7 +151,7 @@ const HeaderActions = ({
               />
             </>
           )}
-        <DeleteLanguageVersion values={values} type={type} />
+        {<DeleteLanguageVersion values={values} type={type} disabled={disableDelete} />}
       </>
     );
   }

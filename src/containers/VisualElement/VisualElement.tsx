@@ -13,7 +13,6 @@ import { embedPlugin, EmbedElement } from '../../components/SlateEditor/plugins/
 
 interface Props {
   onChange: FormikHandlers['handleChange'];
-  changeVisualElement: (visualElement: string) => void;
   name: string;
   types: string[];
   language: string;
@@ -24,7 +23,6 @@ interface Props {
 
 const VisualElement = ({
   onChange,
-  changeVisualElement,
   name,
   types,
   language,
@@ -44,7 +42,6 @@ const VisualElement = ({
       value={value}
       plugins={plugins}
       onChange={onChange}
-      changeVisualElement={changeVisualElement}
       language={language}
       selectedResource={selectedResource}
       resetSelectedResource={resetSelectedResource}

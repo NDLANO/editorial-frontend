@@ -22,7 +22,6 @@ interface Props {
   value: Descendant[];
   plugins: SlatePlugin[];
   onChange: FormikHandlers['handleChange'];
-  changeVisualElement: (visualElement: string) => void;
   language: string;
   selectedResource: string;
   resetSelectedResource: () => void;

@@ -26,15 +26,12 @@ const StyledErrorPreLine = styled.span`
 
 const extraErrorFields = ['visualElementCaption', 'visualElementAlt'];
 
-interface VisualElementValues {
-  language: string;
-}
 interface Props {
   types?: string[];
 }
 const VisualElementField = ({ types }: Props) => {
   const { t } = useTranslation();
-  const formik = useFormikContext<VisualElementValues>();
+  const formik = useFormikContext<{ language: string }>();
 
   return (
     <>

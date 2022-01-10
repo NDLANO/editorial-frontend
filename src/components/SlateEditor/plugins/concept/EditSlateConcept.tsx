@@ -48,10 +48,7 @@ const EditSlateConcept = (props: Props) => {
 
   const [showConcept, setShowConcept] = useState(false);
 
-  const toggleConceptModal = (evt?: MouseEvent) => {
-    if (evt) {
-      evt.preventDefault();
-    }
+  const toggleConceptModal = () => {
     setShowConcept(!showConcept);
   };
 
@@ -120,7 +117,7 @@ const EditSlateConcept = (props: Props) => {
 
   return (
     <>
-      <span {...attributes} onMouseDown={toggleConceptModal}>
+      <span {...attributes} onClick={toggleConceptModal}>
         <Notion
           id={uuid}
           title={concept?.title.title}

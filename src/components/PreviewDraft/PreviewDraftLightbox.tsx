@@ -12,6 +12,7 @@ import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
+import { OneColumn } from '@ndla/ui';
 import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
@@ -191,12 +192,14 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
             onChangePreviewLanguage={onChangePreviewLanguage}
             previewLanguage={previewLanguage!}
             getEntityPreview={(article, label, contentType) => (
-              <PreviewDraft
-                article={article as ArticleConverterApiType}
-                label={label}
-                contentType={contentType}
-                language={previewLanguage! as LocaleType}
-              />
+              <OneColumn>
+                <PreviewDraft
+                  article={article as ArticleConverterApiType}
+                  label={label}
+                  contentType={contentType}
+                  language={previewLanguage! as LocaleType}
+                />
+              </OneColumn>
             )}
           />
         </Lightbox>

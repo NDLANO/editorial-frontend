@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
@@ -25,8 +25,6 @@ import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import config from '../../../../config';
 import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
 import { Embed } from '../../../../interfaces';
-import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
-import { fetchImage } from '../../../../modules/image/imageApi';
 
 const StyledFigureButtons = styled('span')`
   position: absolute;

@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
@@ -25,6 +25,8 @@ import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import config from '../../../../config';
 import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
 import { Embed } from '../../../../interfaces';
+import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
+import { fetchImage } from '../../../../modules/image/imageApi';
 
 const StyledFigureButtons = styled('span')`
   position: absolute;
@@ -50,7 +52,7 @@ interface ImageWrapperProps {
 }
 
 const ImageWrapper = ({ children, url }: ImageWrapperProps) =>
-  url ? <ImageLink src={url}>{children}</ImageLink> : <>children</>;
+  url ? <ImageLink src={url}>{children}</ImageLink> : <>{children}</>;
 
 const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
   const { t } = useTranslation();
@@ -66,9 +68,10 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
     if (!visualElement) return null;
     switch (visualElement?.resource) {
       case 'image':
+        const wrapperUrl = `${config.ndlaApiUrl}/image-api/raw/id/${visualElement.resource_id}`;
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
         return (
-          <ImageWrapper url={visualElement.url}>
+          <ImageWrapper url={wrapperUrl}>
             <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />
           </ImageWrapper>
         );

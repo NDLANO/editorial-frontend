@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect, ReactNode, useMemo, MouseEvent } from 'react';
+import { useState, useEffect, ReactNode, useMemo } from 'react';
 
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';

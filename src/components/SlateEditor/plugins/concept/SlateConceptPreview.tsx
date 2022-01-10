@@ -6,13 +6,14 @@
  *
  */
 
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
 import { spacing, spacingUnit } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
+import { ImageLink } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
@@ -43,6 +44,13 @@ interface Props {
   handleRemove: () => void;
   id: number | string;
 }
+interface ImageWrapperProps {
+  children: ReactNode;
+  url?: string;
+}
+
+const ImageWrapper = ({ children, url }: ImageWrapperProps) =>
+  url ? <ImageLink src={url}>{children}</ImageLink> : <>children</>;
 
 const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
   const { t } = useTranslation();
@@ -59,7 +67,11 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
-        return <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />;
+        return (
+          <ImageWrapper url={visualElement.url}>
+            <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />
+          </ImageWrapper>
+        );
       case 'external':
         return (
           <iframe

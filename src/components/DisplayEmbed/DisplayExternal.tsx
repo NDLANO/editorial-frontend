@@ -15,7 +15,7 @@ import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
 import { fetchExternalOembed } from '../../util/apiHelpers';
-import { urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
+import { urlOrigin, getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
 import config from '../../config';
@@ -101,13 +101,14 @@ export class DisplayExternal extends Component<Props, State> {
 
   async getPropsFromEmbed() {
     const { embed, language } = this.props;
+    const origin = embed.url ? urlOrigin(embed.url) : config.h5pApiUrl;
     const domain = embed.url ? urlDomain(embed.url) : config.h5pApiUrl;
     const cssUrl = encodeURIComponent(`${config.ndlaFrontendDomain}/static/h5p-custom-css.css`);
     this.setState({ domain });
 
     if (embed.resource === 'external' || embed.resource === 'h5p') {
       try {
-        const base = embed.resource === 'h5p' ? `${domain}${embed.path}` : embed.url;
+        const base = embed.resource === 'h5p' ? `${origin}${embed.path}` : embed.url;
         const url =
           config.h5pApiUrl && base.includes(config.h5pApiUrl)
             ? `${base}?locale=${getH5pLocale(language)}&cssUrl=${cssUrl}`

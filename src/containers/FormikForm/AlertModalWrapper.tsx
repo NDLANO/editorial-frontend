@@ -73,6 +73,7 @@ const AlertModalWrapper = ({ text, severity, isSubmitting, formIsDirty, onContin
   }, shouldBlock);
 
   const onCancel = () => {
+    setNextLocation(undefined);
     setOpenModal(false);
   };
 

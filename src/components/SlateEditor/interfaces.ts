@@ -1,4 +1,13 @@
-import { Editor, Descendant, BaseEditor, NodeEntry, BaseRange, BaseSelection, Node } from 'slate';
+import {
+  Editor,
+  Descendant,
+  BaseEditor,
+  NodeEntry,
+  BaseRange,
+  BaseSelection,
+  Node,
+  Element,
+} from 'slate';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { BlockQuoteElement } from './plugins/blockquote';
@@ -81,3 +90,5 @@ declare module 'slate' {
     Text: CustomTextWithMarks;
   }
 }
+
+export type ElementType = Element['type'];

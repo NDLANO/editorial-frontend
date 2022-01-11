@@ -15,6 +15,7 @@ import withPlugins from '../../../utils/withPlugins';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
 import { TYPE_SECTION } from '../../section';
 import { TYPE_HEADING } from '../../heading';
+import { TYPE_LINK } from '../../link';
 
 const editor = withHistory(
   withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
@@ -144,7 +145,8 @@ describe('bodybox normalizer tests', () => {
             type: TYPE_BODYBOX,
             children: [
               {
-                type: TYPE_BODYBOX,
+                type: TYPE_LINK,
+                href: 'testurl',
                 children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
               },
             ],

@@ -7,6 +7,7 @@
  */
 
 import { constants } from '@ndla/ui';
+import { HeroContentType } from '@ndla/ui/lib/Hero';
 import { TFunction } from 'react-i18next';
 import {
   toEditArticle,
@@ -28,11 +29,11 @@ import { ResourceType } from '../modules/taxonomy/taxonomyApiInterfaces';
 
 const { contentTypes } = constants;
 
-interface ContentType {
-  contentType: string;
+interface ContentTypeType {
+  contentType: HeroContentType;
 }
 
-const mapping: Record<string, ContentType> = {
+const mapping: Record<string, ContentTypeType> = {
   [RESOURCE_TYPE_LEARNING_PATH]: {
     contentType: contentTypes.LEARNING_PATH,
   },
@@ -66,7 +67,7 @@ export const getResourceLanguages = (t: TFunction) => [
   { id: 'unknown', name: t('language.unknown') },
 ];
 
-export const getContentTypeFromResourceTypes = (resourceTypes: ResourceType[]): ContentType => {
+export const getContentTypeFromResourceTypes = (resourceTypes: ResourceType[]): ContentTypeType => {
   const resourceType = resourceTypes.find(type => !!mapping[type.id]);
   if (resourceType) {
     return mapping[resourceType.id];

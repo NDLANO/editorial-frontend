@@ -77,6 +77,7 @@ const PreviewLightboxContent = ({
         contentType={contentType}
         secondEntity={entities[1]}
         previewLanguage={previewLanguage}
+        getEntityPreview={getEntityPreview}
       />
     );
   }

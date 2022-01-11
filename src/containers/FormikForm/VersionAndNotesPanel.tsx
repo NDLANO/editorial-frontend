@@ -141,13 +141,7 @@ const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus, type 
         )}
       </FormikField>
       <Accordion openIndexes={[0]} tiny>
-        {({
-          getPanelProps,
-          getBarProps,
-        }: {
-          getPanelProps: (index: number) => object;
-          getBarProps: (index: number) => object;
-        }) => (
+        {({ getPanelProps, getBarProps }) => (
           <AccordionWrapper>
             {versions.map((version, index) => {
               const {
@@ -161,7 +155,7 @@ const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus, type 
               const showFromArticleApi = versions.length === 1 && published;
               return (
                 <Fragment key={revision}>
-                  <AccordionBar {...getBarProps(index)} title={revision}>
+                  <AccordionBar {...getBarProps(index)} title={`${revision}`}>
                     <StyledAccordionsPanelItemsWrapper>
                       <div>{formatDate(updated)}</div>
                       <div>

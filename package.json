@@ -124,7 +124,7 @@
     "@ndla/tabs": "^1.0.11",
     "@ndla/tooltip": "^0.2.49",
     "@ndla/tracker": "^0.4.5",
-    "@ndla/ui": "^3.2.4",
+    "@ndla/ui": "^3.2.8",
     "@ndla/util": "^1.1.1",
     "@ndla/video-search": "1.4.7",
     "auth0-js": "^9.13.2",

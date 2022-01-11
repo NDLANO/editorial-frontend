@@ -11,8 +11,10 @@ import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import CodeBlock from './CodeBlock';
 import { SlateSerializer } from '../../interfaces';
-import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 export const TYPE_CODEBLOCK = 'code-block';
 
@@ -32,6 +34,17 @@ export interface CodeblockElement {
   isFirstEdit: boolean;
   children: Descendant[];
 }
+
+const normalizerConfig: NormalizerConfig = {
+  previous: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  next: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+};
 
 export const codeblockSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
@@ -81,10 +94,10 @@ export const codeblockPlugin = (editor: Editor) => {
   };
 
   editor.normalizeNode = entry => {
-    const [node, path] = entry;
+    const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_CODEBLOCK) {
-      if (addSurroundingParagraphs(editor, path)) {
+      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }
     }

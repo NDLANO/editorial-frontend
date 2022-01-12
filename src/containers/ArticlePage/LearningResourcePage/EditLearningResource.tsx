@@ -35,10 +35,10 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   } = useFetchArticleData(articleId, selectedLanguage);
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
-    'title',
-    'metaDescription',
-    'introduction',
-    'content',
+    'title.title',
+    'metaDescription.metaDescription',
+    'introduction.introduction',
+    'content.content',
   ]);
 
   if (loading || !article || !article.id) {

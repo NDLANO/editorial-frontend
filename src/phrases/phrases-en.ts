@@ -716,6 +716,7 @@ const phrases = {
       statusLabel: 'Status',
       published: 'There exists a published version of this item.',
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
+      currentStatus: 'Current status: {{ status }}.',
     },
     status: {
       new: 'New - unsaved',

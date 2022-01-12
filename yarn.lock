@@ -2125,14 +2125,14 @@
     "@ndla/util" "^2.0.0"
     "@reach/dialog" "^0.2.9"
 
-"@ndla/notion@1.0.18":
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-1.0.18.tgz#52d2076e5778a296f91ac6044486080de62c7bb2"
-  integrity sha512-rtB6qMqEb5dhjtgP+Nd706HsUXm/h73uqghyjDQ8vA5EATs7nykzFUg1zFteSb9+qECkFOTwYPPOM6clMb/Iwg==
+"@ndla/notion@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@ndla/notion/-/notion-1.1.0.tgz#dbb28da17c928701b320108dfe46002496c743bf"
+  integrity sha512-GvFIA2WhzWKPvlxt/2jGCgWRQS+MFp+9wh+ZDepB74c37namBQt1W4E4dhMJ2xp68pj06h/AyM5v4LzJsRedUg==
   dependencies:
     "@ndla/core" "^0.7.2"
     "@ndla/licenses" "^1.0.7"
-    "@ndla/modal" "^1.1.13"
+    "@ndla/modal" "^1.1.14"
 
 "@ndla/pager@1.0.9":
   version "1.0.9"

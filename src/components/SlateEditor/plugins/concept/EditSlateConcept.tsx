@@ -162,7 +162,7 @@ const EditSlateConcept = (props: Props) => {
                 </Tooltip>
                 {concept.status.current !== 'PUBLISHED' && (
                   <Tooltip
-                    tooltip={t('form.workflow.notCurrentlyPublished', {
+                    tooltip={t('form.workflow.currentStatus', {
                       status: t(`form.status.${concept.status.current.toLowerCase()}`),
                     })}>
                     <StyledWarnIcon />

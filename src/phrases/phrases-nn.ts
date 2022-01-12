@@ -717,7 +717,7 @@ const phrases = {
       statusLabel: 'Status',
       published: 'Det finst ein publisert versjon av dettet elementet.',
       multipleTaxonomy: 'Artikkelen har fleire oppføringar i taksonomi.',
-      notCurrentlyPublished: 'Nåværende status er: {{status}}.',
+      currentStatus: 'Gjeldande status: {{status}}.',
     },
     status: {
       new: 'Ny - Ikke lagret',

@@ -17,7 +17,7 @@ interface Props {
 
 const AvailabilityField = ({ field }: Props) => {
   const { t } = useTranslation();
-  const availabilityValues: AvailabilityType[] = ['everyone', 'teacher', 'student'];
+  const availabilityValues: AvailabilityType[] = ['everyone', 'teacher'];
 
   return (
     <RadioButtonGroup

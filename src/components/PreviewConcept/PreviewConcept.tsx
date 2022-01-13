@@ -17,6 +17,7 @@ import {
   NotionDialogText,
   NotionDialogTags,
 } from '@ndla/notion';
+import { ImageLink } from '@ndla/ui';
 import { Remarkable } from 'remarkable';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
@@ -87,7 +88,11 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
-        return <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />;
+        return (
+          <ImageLink src={visualElement.url!}>
+            <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />{' '}
+          </ImageLink>
+        );
       case 'video':
       case 'brightcove':
       case 'external':

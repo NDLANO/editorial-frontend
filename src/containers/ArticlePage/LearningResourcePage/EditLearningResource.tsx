@@ -28,6 +28,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   const {
     loading,
     article,
+    taxonomy,
     setArticle,
     articleChanged,
     updateArticle,
@@ -54,6 +55,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
       <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
       <LearningResourceForm
         articleLanguage={selectedLanguage}
+        articleTaxonomy={taxonomy}
         article={article}
         articleStatus={article.status}
         articleChanged={articleChanged}

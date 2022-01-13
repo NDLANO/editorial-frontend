@@ -15,6 +15,7 @@ import HeaderActions from './HeaderActions';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { getTaxonomyPathsFromTaxonomy } from './util';
+import { ArticleTaxonomy } from '../../containers/FormikForm/formikDraftHooks';
 
 export const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
@@ -42,9 +43,9 @@ interface Props {
       other: string[];
     };
     title?: string;
-    taxonomy?: TaxonomyObject;
     supportedLanguages?: string[];
   };
+  taxonomy?: ArticleTaxonomy;
   editUrl?: (url: string) => string;
   getEntity?: () => ConceptApiType | UpdatedDraftApiType;
   isSubmitting?: boolean;
@@ -78,6 +79,7 @@ const HeaderWithLanguage = ({
   type,
   values,
   formIsDirty = false,
+  taxonomy,
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
@@ -95,7 +97,7 @@ const HeaderWithLanguage = ({
   const multiType = articleType ?? type;
   const isArticle = multiType === 'standard' || multiType === 'topic-article';
 
-  const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(content?.taxonomy, id) : [];
+  const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(taxonomy, id) : [];
 
   const safeValues = { ...values, language, supportedLanguages };
 

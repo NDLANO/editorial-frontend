@@ -22,8 +22,6 @@ import {
   fetchFullResource,
   createResource,
   getResourceId,
-  queryResources,
-  queryTopics,
 } from '../../../../modules/taxonomy';
 import { sortByName, groupTopics, getBreadcrumbFromPath } from '../../../../util/taxonomyHelpers';
 import handleError from '../../../../util/handleError';
@@ -45,14 +43,13 @@ import {
   SubjectType,
   SubjectTopic,
   ParentTopicWithRelevanceAndConnections,
-  Topic,
-  Resource,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../../interfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { SessionProps } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
+import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 
 const blacklistedResourceTypes = [RESOURCE_TYPE_LEARNING_PATH];
 
@@ -71,6 +68,7 @@ interface FullResource {
 
 type Props = {
   article: DraftApiType;
+  taxonomy: ArticleTaxonomy;
   updateNotes: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   setIsOpen?: (open: boolean) => void;
 } & CustomWithTranslation &
@@ -81,7 +79,6 @@ interface LearningResourceSubjectType extends SubjectType {
 }
 
 interface State {
-  taxonomy: { topics?: Topic[]; resources?: Resource[] };
   resourceId: string;
   structure: LearningResourceSubjectType[];
   status: string;
@@ -112,7 +109,6 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     this.state = {
       resourceId: '',
       structure: [],
-      taxonomy: { resources: [], topics: [] },
 
       status: 'loading',
       isDirty: false,
@@ -216,17 +212,14 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     const {
       article: { id },
       i18n,
+      taxonomy,
     } = this.props;
     if (!id) return;
 
     try {
-      const topics = await queryTopics(id, i18n.language, 'article');
-      const resources = await queryResources(id.toString(), i18n.language);
-      this.setState({ taxonomy: { resources, topics } });
+      const resourceId = taxonomy.resources.length === 1 && taxonomy.resources[0].id;
 
-      const resourceId = resources.length === 1 && resources[0].id;
-
-      if (resources.length > 1) {
+      if (taxonomy.resources.length > 1) {
         this.setState({ status: 'error' });
       } else if (resourceId) {
         const fullResource = await this.fetchFullResource(resourceId, i18n.language);
@@ -460,7 +453,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       );
     }
 
-    const mainResource = this.state.taxonomy?.resources?.[0];
+    const mainResource = this.props.taxonomy.resources?.[0];
     const mainEntity = mainResource && {
       id: mainResource.id,
       name: mainResource.name,
@@ -474,7 +467,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         {isTaxonomyAdmin && (
           <TaxonomyConnectionErrors
             articleType={article.articleType ?? 'standard'}
-            taxonomy={this.state.taxonomy}
+            taxonomy={this.props.taxonomy}
           />
         )}
         {isTaxonomyAdmin && resourceId && (

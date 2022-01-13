@@ -18,8 +18,6 @@ import {
   addTopicToTopic,
   addSubjectTopic,
   addTopic,
-  queryResources,
-  queryTopics,
   updateTopicMetadata,
 } from '../../../../modules/taxonomy';
 import {
@@ -36,32 +34,27 @@ import TopicArticleConnections from './TopicArticleConnections';
 import { FormikFieldHelp } from '../../../../components/FormikField';
 import { LocaleType } from '../../../../interfaces';
 import {
-  Resource,
   SubjectTopic,
   SubjectType,
   TaxonomyElement,
   TaxonomyMetadata,
-  Topic,
   TopicConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 import { useSession } from '../../../Session/SessionProvider';
+import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 
 type Props = {
   article: DraftApiType;
   setIsOpen?: (open: boolean) => void;
   updateNotes: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
+  taxonomy: ArticleTaxonomy;
 };
 
 interface StructureSubject extends SubjectType {
   topics?: SubjectTopic[];
-}
-
-interface Taxonomy {
-  resources: Resource[];
-  topics: Topic[];
 }
 
 export interface StagedTopic extends TaxonomyElement {
@@ -77,27 +70,22 @@ export interface StagedTopic extends TaxonomyElement {
   metadata: TaxonomyMetadata;
 }
 
-const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes }: Props) => {
+const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Props) => {
   const [structure, setStructure] = useState<StructureSubject[]>([]);
   const [status, setStatus] = useState('loading');
   const [isDirty, setIsDirty] = useState(false);
   const [stagedTopicChanges, setStagedTopicChanges] = useState<StagedTopic[]>([]);
   const [showWarning, setShowWarning] = useState(false);
-  const [taxonomy, setTaxonomy] = useState<Taxonomy | undefined>(undefined);
   const { t, i18n } = useTranslation();
   const { userAccess } = useSession();
 
   useEffect(() => {
     (async () => {
-      const resources = await queryResources(article.id, article.title!.language, 'article');
-      const topics = await queryTopics(article.id, article.title!.language, 'article');
-      const localTaxonomy = { resources, topics };
-      setTaxonomy(localTaxonomy);
       try {
         const subjects = await fetchSubjects(i18n.language);
 
         const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
-        const activeTopics = localTaxonomy.topics.filter(t => t.path) ?? [];
+        const activeTopics = taxonomy.topics.filter(t => t.path) ?? [];
         const sortedTopics = activeTopics.sort((a, b) => (a.id < b.id ? -1 : 1));
 
         const topicConnections = await Promise.all(
@@ -122,7 +110,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes }: Props) => {
         setStatus('error');
       }
     })();
-  }, [article.id, article.title, article.title?.language, i18n.language]);
+  }, [i18n.language, taxonomy]);
 
   const getSubjectTopics = async (subjectId: string, locale: LocaleType) => {
     if (structure.some(subject => subject.id === subjectId && subject.topics)) {

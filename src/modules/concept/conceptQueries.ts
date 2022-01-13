@@ -10,7 +10,12 @@ import queryString from 'query-string';
 import { useQuery, UseQueryOptions } from 'react-query';
 import { CONCEPT, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from '../../queryKeys';
 import { fetchConcept, fetchStatusStateMachine, searchConcepts } from './conceptApi';
-import { ConceptApiType, ConceptQuery, ConceptSearchResult, ConceptStatusStateMachineType } from './conceptApiInterfaces';
+import {
+  ConceptApiType,
+  ConceptQuery,
+  ConceptSearchResult,
+  ConceptStatusStateMachineType,
+} from './conceptApiInterfaces';
 
 export const useConcept = (
   id: string | number,

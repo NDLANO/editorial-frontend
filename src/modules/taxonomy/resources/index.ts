@@ -110,7 +110,7 @@ export const queryResources = (
 };
 
 export const queryTopics = (
-  contentId: string,
+  contentId: string | number,
   language: string,
   contentType = 'article',
 ): Promise<Topic[]> => {

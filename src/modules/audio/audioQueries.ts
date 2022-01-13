@@ -8,9 +8,32 @@
 
 import { useQuery, UseQueryOptions } from 'react-query';
 import queryString from 'query-string';
-import { SEARCH_AUDIO, SEARCH_SERIES } from '../../queryKeys';
-import { AudioSearchResult, SeriesSearchParams, SeriesSearchResult } from './audioApiInterfaces';
-import { searchAudio, searchSeries } from './audioApi';
+import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from '../../queryKeys';
+import {
+  AudioApiType,
+  AudioSearchResult,
+  PodcastSeriesApiType,
+  SeriesSearchParams,
+  SeriesSearchResult,
+} from './audioApiInterfaces';
+import { fetchAudio, fetchSeries, searchAudio, searchSeries } from './audioApi';
+
+export const useAudio = (
+  id: string | number,
+  language: string | undefined,
+  options?: UseQueryOptions<AudioApiType>,
+) => useQuery<AudioApiType>([AUDIO, id, language], () => fetchAudio(id, language), options);
+
+export const useSeries = (
+  id: string | number,
+  language: string | undefined,
+  options?: UseQueryOptions<PodcastSeriesApiType>,
+) =>
+  useQuery<PodcastSeriesApiType>(
+    [PODCAST_SERIES, id, language],
+    () => fetchSeries(id, language),
+    options,
+  );
 
 export const useSearchSeries = (
   query: SeriesSearchParams,

@@ -17,10 +17,11 @@ import { parseMarkdown } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
+import { isNumeric } from '../../../../components/validators';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
 import IconButton from '../../../IconButton';
-import * as visualElementApi from '../../../../containers/VisualElement/visualElementApi';
+import { fetchBrightcoveVideo } from '../../../../modules/video/brightcoveApi';
 import {
   addBrightCoveTimeStampVideoid,
   getBrightCoveStartTime,
@@ -77,11 +78,12 @@ const SlateVideo = ({
       return;
     }
     const idWithoutTimestamp = embed.videoid?.split('&')[0];
-    visualElementApi
-      .fetchBrightcoveVideo(idWithoutTimestamp)
-      .then((v: { link?: { text: string } }) => {
+
+    fetchBrightcoveVideo(idWithoutTimestamp).then(v => {
+      if (isNumeric(v.link?.text)) {
         setLinkedVideoId(v.link?.text);
-      });
+      }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [(embed as BrightcoveEmbed).videoid]);
 

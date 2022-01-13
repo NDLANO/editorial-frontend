@@ -9,9 +9,16 @@
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
-import { defaultTextBlockNormalizer } from '../../utils/normalizationHelpers';
+import {
+  afterOrBeforeTextBlockElement,
+  firstTextBlockElement,
+  lastTextBlockElement,
+  textBlockElements,
+} from '../../utils/normalizationHelpers';
 import { SlateSerializer } from '../../interfaces';
 import SlateBodybox from './SlateBodybox';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 export const TYPE_BODYBOX = 'bodybox';
 
@@ -19,6 +26,29 @@ export interface BodyboxElement {
   type: 'bodybox';
   children: Descendant[];
 }
+
+const normalizerConfig: NormalizerConfig = {
+  nodes: {
+    allowed: textBlockElements,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  previous: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  next: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  firstNode: {
+    allowed: firstTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  lastNode: {
+    allowed: lastTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+};
 
 export const bodyboxSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {
@@ -53,7 +83,9 @@ export const bodyboxPlugin = (editor: Editor) => {
     const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_BODYBOX) {
-      defaultTextBlockNormalizer(editor, entry, nextNormalizeNode);
+      if (!defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+        return nextNormalizeNode(entry);
+      }
     } else {
       nextNormalizeNode(entry);
     }

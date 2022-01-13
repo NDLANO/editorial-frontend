@@ -17,6 +17,14 @@ export const CONCEPT_STATE_MACHINE = 'conceptStateMachine';
 export const AUTH0_USERS = 'auth0Users';
 export const AUTH0_EDITORS = 'auth0Editors';
 
+export const CONCEPT = 'concept';
+
+export const IMAGE = 'image';
+
+export const AUDIO = 'audio';
+
+export const PODCAST_SERIES = 'podcastSeries';
+
 export const DRAFT = 'draft';
 export const LICENSES = 'licenses';
 export const USER_DATA = 'userData';

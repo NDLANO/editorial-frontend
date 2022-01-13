@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Agreement } from '@ndla/icons/editor';
 import Field from '../../../components/Field';
-import { DEFAULT_LICENSE, parseCopyrightContributors } from '../../../util/formHelper';
+import { DEFAULT_LICENSE } from '../../../util/formHelper';
 import AgreementFields from './AgreementFields';
 import { formClasses, ActionButton, AbortButton } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
@@ -38,9 +38,9 @@ const getInitialValues = (agreement?: AgreementApiType): AgreementFormValues => 
   id: agreement?.id,
   title: agreement?.title || '',
   content: agreement?.content || '',
-  creators: parseCopyrightContributors(agreement, 'creators'),
-  processors: parseCopyrightContributors(agreement, 'processors'),
-  rightsholders: parseCopyrightContributors(agreement, 'rightsholders'),
+  creators: agreement?.copyright.creators ?? [],
+  processors: agreement?.copyright.processors ?? [],
+  rightsholders: agreement?.copyright.rightsholders ?? [],
   origin: agreement?.copyright?.origin || '',
   license: agreement?.copyright?.license?.license || DEFAULT_LICENSE.license,
   validFrom: agreement?.copyright?.validFrom,

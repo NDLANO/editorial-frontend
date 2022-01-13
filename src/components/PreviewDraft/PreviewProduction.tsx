@@ -6,17 +6,29 @@
  *
  */
 
+import styled from '@emotion/styled';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArticleType } from '../../interfaces';
-import PreviewDraft from './PreviewDraft';
+import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
+import { ConceptPreviewType } from '../PreviewConcept/PreviewConceptLightbox';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 
+const StyledPreview = styled.div`
+  display: inline-block;
+  width: 100%;
+`;
+
 interface Props {
-  firstEntity: ArticleType;
-  secondEntity: ArticleType;
+  firstEntity: ArticleConverterApiType;
+  secondEntity: ArticleConverterApiType;
   contentType?: string;
   label: string;
   previewLanguage: string;
+  getEntityPreview: (
+    entity: ArticleConverterApiType | ConceptPreviewType,
+    label: string,
+    contentType?: string,
+  ) => ReactNode;
 }
 
 const PreviewProduction = ({
@@ -25,33 +37,24 @@ const PreviewProduction = ({
   label,
   previewLanguage,
   contentType,
+  getEntityPreview,
 }: Props) => {
   const { t } = useTranslation();
   return (
-    <>
+    <StyledPreview>
       <StyledPreviewTwoArticles>
         <h2 className="u-4/6@desktop u-push-1/6@desktop">
           {t('form.previewProductionArticle.current')}
         </h2>
-        <PreviewDraft
-          article={firstEntity}
-          label={label}
-          contentType={contentType}
-          language={previewLanguage}
-        />
+        {getEntityPreview(firstEntity, label, contentType)}
       </StyledPreviewTwoArticles>
       <StyledPreviewTwoArticles>
         <h2 className="u-4/6@desktop u-push-1/6@desktop">
           {t('form.previewProductionArticle.version', { revision: secondEntity.revision })}
         </h2>
-        <PreviewDraft
-          article={secondEntity}
-          label={label}
-          contentType={contentType}
-          language={previewLanguage}
-        />
+        {getEntityPreview(secondEntity, label, contentType)}
       </StyledPreviewTwoArticles>
-    </>
+    </StyledPreview>
   );
 };
 

@@ -70,7 +70,7 @@ const SearchSaveButton = () => {
   const saveSearch = async () => {
     setError('');
     setLoading(true);
-    const oldSearchList = data?.savedSearches;
+    const oldSearchList = savedSearches;
 
     if (!oldSearchList) {
       handleFailure('fetchFailed');

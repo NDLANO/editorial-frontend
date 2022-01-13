@@ -1,5 +1,5 @@
 import queryString from 'query-string';
-import { fetchNrkMedia } from './visualElementApi';
+import { fetchNrkMedia } from '../../modules/video/nrkApi';
 import { urlAsATag } from '../../util/htmlHelpers';
 
 export interface UrlTransformer {

@@ -18,13 +18,13 @@ import { LocaleType } from '../../../interfaces';
 
 interface Props {
   isNewlyCreated: boolean;
-  articleId: string;
 }
 
-const EditLearningResource = ({ articleId, isNewlyCreated }: Props) => {
+const EditLearningResource = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
-  const params = useParams<'selectedLanguage'>();
+  const params = useParams<'selectedLanguage' | 'id'>();
   const selectedLanguage = params.selectedLanguage as LocaleType;
+  const articleId = params.id!;
   const {
     loading,
     article,
@@ -35,24 +35,25 @@ const EditLearningResource = ({ articleId, isNewlyCreated }: Props) => {
   } = useFetchArticleData(articleId, selectedLanguage);
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
-    'title',
-    'metaDescription',
-    'introduction',
-    'content',
+    'title.title',
+    'metaDescription.metaDescription',
+    'introduction.introduction',
+    'content.content',
   ]);
 
   if (loading || !article || !article.id) {
     return <Spinner withWrapper />;
   }
   if (article.articleType !== 'standard') {
-    const replaceUrl = toEditArticle(article.id, article.articleType, article.language);
+    const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
     return <Navigate replace to={replaceUrl} />;
   }
 
   return (
     <>
-      <HelmetWithTracker title={`${article.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
       <LearningResourceForm
+        articleLanguage={selectedLanguage}
         article={article}
         articleStatus={article.status}
         articleChanged={articleChanged}

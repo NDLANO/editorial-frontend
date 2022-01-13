@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { isValidURL, isNDLAFrontendUrl } from '../htmlHelpers';
+import { isValidURL, isNDLAFrontendUrl, urlDomain, urlOrigin } from '../htmlHelpers';
 
 test('util/htmlHelpers isValidUrl', () => {
   expect(isValidURL('http://en.wikipedia.org/wiki/Procter_&_Gamble')).toBeTruthy();
@@ -45,4 +45,16 @@ test('util/isNDLAFrontendUrl', () => {
   expect(isNDLAFrontendUrl('https://test.ndla.no/nb/subject:6/topic:1:182849')).toBeTruthy();
   expect(isNDLAFrontendUrl('https://test.ndla.no/subject:6/topic:1:182849')).toBeTruthy();
   expect(isNDLAFrontendUrl('https://test.ndla.no/node/182849')).toBeTruthy();
+});
+
+test('urlDomain gets correct domain from url', () => {
+  expect(urlDomain('https://ndla.no')).toBe('ndla.no');
+});
+
+test('urlOrigin gets correct origin from url', () => {
+  expect(
+    urlOrigin(
+      'https://test.ndla.no/subjects/subject:6/topic:1:182849/topic:1:175043/resource:1:175253',
+    ),
+  ).toBe('https://test.ndla.no');
 });

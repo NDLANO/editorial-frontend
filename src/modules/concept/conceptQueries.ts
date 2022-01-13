@@ -8,14 +8,21 @@
 
 import queryString from 'query-string';
 import { useQuery, UseQueryOptions } from 'react-query';
-import { CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from '../../queryKeys';
-import { fetchStatusStateMachine, searchConcepts } from './conceptApi';
-import {
-  ConceptQuery,
-  ConceptSearchResult,
-  ConceptStatusStateMachineType,
-} from './conceptApiInterfaces';
+import { CONCEPT, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from '../../queryKeys';
+import { fetchConcept, fetchStatusStateMachine, searchConcepts } from './conceptApi';
+import { ConceptApiType, ConceptQuery, ConceptSearchResult, ConceptStatusStateMachineType } from './conceptApiInterfaces';
 
+export const useConcept = (
+  id: string | number,
+  language?: string,
+  options?: UseQueryOptions<ConceptApiType>,
+) => {
+  return useQuery<ConceptApiType>(
+    [CONCEPT, id, language],
+    () => fetchConcept(id, language),
+    options,
+  );
+};
 export const useSearchConcepts = (
   query: ConceptQuery,
   options?: UseQueryOptions<ConceptSearchResult>,

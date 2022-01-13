@@ -40,7 +40,6 @@ import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concep
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
-// import pasteHandler from '../../../../components/SlateEditor/plugins/pastehandler';
 import { textTransformPlugin } from '../../../../components/SlateEditor/plugins/textTransform';
 
 import { tablePlugin } from '../../../../components/SlateEditor/plugins/table';
@@ -55,8 +54,8 @@ import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { markPlugin } from '../../../../components/SlateEditor/plugins/mark';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
 import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
-import { ConvertedDraftType, LocaleType } from '../../../../interfaces';
-import { LearningResourceFormikType } from '../../../FormikForm/articleFormHooks';
+import { LocaleType } from '../../../../interfaces';
+import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
@@ -137,22 +136,21 @@ export const plugins = (
   ];
 };
 type Props = {
-  locale: LocaleType;
-  article: Partial<ConvertedDraftType>;
+  articleLanguage: string;
   handleBlur: (evt: { target: { name: string } }) => void;
-  values: LearningResourceFormikType;
+  values: LearningResourceFormType;
   handleSubmit: () => Promise<void>;
 } & CustomWithTranslation & {
-    formik: FormikContextType<LearningResourceFormikType>;
+    formik: FormikContextType<LearningResourceFormType>;
   } & SessionProps;
 
 const LearningResourceContent = ({
-  article: { language: articleLanguage },
   t,
   userAccess,
+  articleLanguage,
   values: { id, language, creators, published },
   handleSubmit,
-  locale,
+  i18n,
 }: Props) => {
   const handleSubmitRef = useRef(handleSubmit);
 
@@ -208,7 +206,7 @@ const LearningResourceContent = ({
               placeholder={t('form.content.placeholder')}
               value={value}
               submitted={isSubmitting}
-              plugins={plugins(articleLanguage ?? '', locale, handleSubmitRef)}
+              plugins={plugins(articleLanguage ?? '', i18n.language, handleSubmitRef)}
               data-cy="learning-resource-content"
               onChange={value => {
                 onChange({

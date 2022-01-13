@@ -25,8 +25,8 @@ interface Props {
 
 const EditImage = ({ isNewlyCreated }: Props) => {
   const { i18n } = useTranslation();
+  const { id: imageId, selectedLanguage: imageLanguage } = useParams<'id' | 'selectedLanguage'>();
   const { data: licenses } = useLicenses({ placeholderData: [] });
-  const { imageId, imageLanguage } = useParams<'imageId' | 'imageLanguage'>();
   const [loading, setLoading] = useState(false);
   const { applicationError, createMessage } = useMessages();
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);

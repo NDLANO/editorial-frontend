@@ -6,13 +6,14 @@
  *
  */
 
-import { useMemo, FocusEvent } from 'react';
+import { useMemo, FocusEvent, useEffect } from 'react';
 import { createEditor, Descendant } from 'slate';
 import { Slate, Editable, ReactEditor, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { FormikHandlers } from 'formik';
+import { FormikHandlers, useFormikContext } from 'formik';
 import { SlatePlugin } from './interfaces';
 import withPlugins from './utils/withPlugins';
+import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 
 interface Props {
   id: string;
@@ -37,6 +38,17 @@ const PlainTextEditor = ({
 }: Props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const editor = useMemo(() => withHistory(withReact(withPlugins(createEditor(), plugins))), []);
+
+  const { status, setStatus } = useFormikContext<ArticleFormType>();
+
+  useEffect(() => {
+    if (status === 'revertVersion') {
+      ReactEditor.deselect(editor);
+      editor.children = value;
+      setStatus(undefined);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
   return (
     <Slate

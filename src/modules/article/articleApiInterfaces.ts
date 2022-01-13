@@ -6,8 +6,7 @@
  *
  */
 
-import { ArticleType, Author, AvailabilityType, SearchResultBase } from '../../interfaces';
-import { FootnoteType } from '../../containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
+import { Author, AvailabilityType, SearchResultBase } from '../../interfaces';
 
 export type ArticleSearchResult = SearchResultBase<ArticleSearchSummaryApiType>;
 export interface ArticleSearchSummaryApiType {
@@ -41,20 +40,16 @@ export interface ArticleSearchSummaryApiType {
   grepCodes: string[];
 }
 
-export interface ArticleConverterApiType extends ArticleType {
-  availability: AvailabilityType;
-  copyright: Pick<Copyright, 'creators' | 'license' | 'processors' | 'rightsholders'>;
-  metaData: {
-    footnotes?: FootnoteType[];
-    images?: {
-      title: string;
-      altText: string;
-      copyright: Copyright;
-      src: string;
-      copyText: string;
-    }[];
-    copyText: string;
-  };
+type TransformedFields = 'title' | 'content' | 'tags' | 'introduction' | 'metaDescription';
+export interface ArticleConverterApiType extends Omit<ArticleApiType, TransformedFields> {
+  title: string;
+  content: string;
+  metaData: { copyText: string };
+  tags: string[];
+  introduction?: string;
+  metaDescription: string;
+  headerData: Record<string, string>;
+  language: string;
 }
 
 export interface ArticleApiType {
@@ -78,13 +73,11 @@ export interface ArticleApiType {
     tags: string[];
     language: string;
   };
-  requiredLibraries: [
-    {
-      mediaType: string;
-      name: string;
-      url: string;
-    },
-  ];
+  requiredLibraries: {
+    mediaType: string;
+    name: string;
+    url: string;
+  }[];
   visualElement?: {
     visualElement: string;
     language: string;

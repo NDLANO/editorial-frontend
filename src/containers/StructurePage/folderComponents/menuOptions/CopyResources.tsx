@@ -75,6 +75,7 @@ const CopyResources = ({
       .then(([topics, subjectTopics]: [Topic[], SubjectTopic[]]) => {
         setTopics(
           topics
+            .filter(topic => topic.path)
             .filter(topic => !subjectTopics.some(t => t.id === topic.id))
             .map(topic => ({
               ...topic,

@@ -289,6 +289,7 @@ const phrases = {
     buttonTitle: 'Search',
     useImage: 'Use image',
     metaImageCheckboxLabel: 'Set as meta image',
+    visualElementCheckboxLabel: 'Set as visual element',
     noTitle: 'No title',
     noResultsText: 'No images found. Would you like to upload a new image?',
     noResultsButtonText: 'Upload image',
@@ -715,6 +716,7 @@ const phrases = {
       statusLabel: 'Status',
       published: 'There exists a published version of this item.',
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
+      currentStatus: 'Current status: {{ status }}.',
     },
     status: {
       new: 'New - unsaved',

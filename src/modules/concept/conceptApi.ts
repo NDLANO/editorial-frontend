@@ -34,10 +34,14 @@ export const fetchSearchTags = async (
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchConcept = async (conceptId: number, locale: string): Promise<ConceptApiType> => {
-  return fetchAuthorized(
-    `${draftConceptUrl}/${conceptId}?language=${locale}&fallback=true`,
-  ).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));
+export const fetchConcept = async (
+  conceptId: string | number,
+  locale?: string,
+): Promise<ConceptApiType> => {
+  const languageParam = locale ? `language=${locale}&` : '';
+  return fetchAuthorized(`${draftConceptUrl}/${conceptId}?${languageParam}fallback=true`).then(r =>
+    resolveJsonOrRejectWithError<ConceptApiType>(r),
+  );
 };
 
 export const addConcept = async (concept: ConceptPostType): Promise<ConceptApiType> =>

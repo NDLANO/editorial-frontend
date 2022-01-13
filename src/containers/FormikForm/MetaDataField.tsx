@@ -6,7 +6,6 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import FormikField from '../../components/FormikField';
@@ -16,10 +15,17 @@ import { MetaImageSearch } from '.';
 import AsyncSearchTags from '../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import AvailabilityField from './components/AvailabilityField';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
-import { ArticleShape } from '../../shapes';
 import { useSession } from '../Session/SessionProvider';
+import { fetchSearchTags } from '../../modules/draft/draftApi';
+import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 
-const MetaDataField = ({ article, fetchSearchTags }) => {
+interface Props {
+  articleLanguage: string;
+  showCheckbox?: boolean;
+  checkboxAction?: (image: ImageApiType) => void;
+}
+
+const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
   const { userAccess } = useSession();
   const plugins = [textTransformPlugin];
@@ -34,16 +40,16 @@ const MetaDataField = ({ article, fetchSearchTags }) => {
         {({ field, form }) => (
           <AsyncSearchTags
             initialTags={field.value}
-            language={article.language}
+            language={articleLanguage}
             field={field}
             form={form}
             fetchTags={fetchSearchTags}
           />
         )}
       </FormikField>
-      {userAccess.includes(DRAFT_ADMIN_SCOPE) && (
+      {userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormikField name="availability" label={t('form.availability.label')}>
-          {({ field }) => <AvailabilityField availability={article.availability} field={field} />}
+          {({ field }) => <AvailabilityField field={field} />}
         </FormikField>
       )}
       <FormikField
@@ -67,17 +73,14 @@ const MetaDataField = ({ article, fetchSearchTags }) => {
             metaImageId={field.value}
             setFieldTouched={form.setFieldTouched}
             showRemoveButton={false}
+            showCheckbox={showCheckbox}
+            checkboxAction={checkboxAction}
             {...field}
           />
         )}
       </FormikField>
     </>
   );
-};
-
-MetaDataField.propTypes = {
-  article: ArticleShape.isRequired,
-  fetchSearchTags: PropTypes.func,
 };
 
 export default MetaDataField;

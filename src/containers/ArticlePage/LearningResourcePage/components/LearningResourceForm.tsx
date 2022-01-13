@@ -6,32 +6,18 @@
  *
  */
 
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import isEmpty from 'lodash/fp/isEmpty';
 import { Formik, Form, FormikProps } from 'formik';
-import {
-  learningResourceContentToHTML,
-  learningResourceContentToEditorValue,
-  editorValueToPlainText,
-  plainTextToEditorValue,
-} from '../../../../util/articleContentConverter';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import validateFormik from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
-import {
-  DEFAULT_LICENSE,
-  parseCopyrightContributors,
-  isFormikFormDirty,
-  parseImageUrl,
-  learningResourceRules,
-} from '../../../../util/formHelper';
+import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
 import { toEditArticle } from '../../../../util/routeHelpers';
-import { nullOrUndefined } from '../../../../util/articleUtil';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import {
-  LearningResourceFormikType,
+  LearningResourceFormType,
   useArticleFormHooks,
 } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
@@ -42,99 +28,27 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { ConvertedDraftType, RelatedContent } from '../../../../interfaces';
-import { useLicenses } from '../../../../modules/draft/draftQueries';
-import { useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
-
-export const getInitialValues = (
-  article: Partial<ConvertedDraftType> = {},
-): LearningResourceFormikType => {
-  const metaImageId = parseImageUrl(article.metaImage);
-  const title = plainTextToEditorValue(article.title || '');
-  const introduction = plainTextToEditorValue(article.introduction || '');
-  const content = learningResourceContentToEditorValue(article?.content ?? '');
-  const creators = parseCopyrightContributors(article, 'creators');
-  const processors = parseCopyrightContributors(article, 'processors');
-  const rightsholders = parseCopyrightContributors(article, 'rightsholders');
-  const license = article.copyright?.license?.license || DEFAULT_LICENSE.license;
-  const metaDescription = plainTextToEditorValue(article.metaDescription || '');
-
-  return {
-    agreementId: article.copyright?.agreementId,
-    articleType: 'standard',
-    content,
-    creators,
-    id: article.id,
-    introduction,
-    language: article.language,
-    license,
-    metaDescription,
-    metaImageAlt: article.metaImage?.alt || '',
-    metaImageId,
-    notes: [],
-    origin: article.copyright?.origin,
-    processors,
-    published: article.published,
-    revision: article.revision,
-    rightsholders,
-    status: article.status,
-    supportedLanguages: article.supportedLanguages || [],
-    tags: article.tags || [],
-    title,
-    updatePublished: false,
-    updated: article.updated,
-    grepCodes: article.grepCodes || [],
-    conceptIds: article.conceptIds || [],
-    availability: article.availability || 'everyone',
-    relatedContent: article.relatedContent || [],
-  };
-};
-
-const getPublishedDate = (
-  values: LearningResourceFormikType,
-  initialValues: LearningResourceFormikType,
-  preview: boolean = false,
-) => {
-  if (isEmpty(values.published)) {
-    return undefined;
-  }
-  if (preview) {
-    return values.published;
-  }
-
-  const hasPublishedDateChanged = initialValues.published !== values.published;
-  if (hasPublishedDateChanged || values.updatePublished) {
-    return values.published;
-  }
-  return undefined;
-};
-
-const isRelatedContent = (object: DraftApiType | RelatedContent): object is RelatedContent => {
-  return (object as DraftApiType).id === undefined;
-};
-
-export const convertDraftOrRelated = (
-  relatedContents: (DraftApiType | RelatedContent)[],
-): RelatedContent[] => {
-  return relatedContents.map(r => {
-    if (isRelatedContent(r)) return r;
-    else return r.id;
-  });
-};
+import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
+import { validateDraft } from '../../../../modules/draft/draftApi';
+import {
+  draftApiTypeToLearningResourceFormType,
+  learningResourceFormTypeToDraftApiType,
+} from '../../articleTransformers';
 
 interface Props {
-  article: Partial<ConvertedDraftType>;
+  article?: DraftApiType;
   translating: boolean;
-  translateToNN: () => void;
+  translateToNN?: () => void;
   articleStatus?: DraftStatus;
   isNewlyCreated: boolean;
   articleChanged: boolean;
-  updateArticle: (updatedArticle: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  updateArticle: (updatedArticle: UpdatedDraftApiType) => Promise<DraftApiType>;
   updateArticleAndStatus: (input: {
     updatedArticle: UpdatedDraftApiType;
     newStatus: DraftStatusTypes;
     dirty: boolean;
-  }) => Promise<ConvertedDraftType>;
+  }) => Promise<DraftApiType>;
+  articleLanguage: string;
 }
 
 const LearningResourceForm = ({
@@ -146,84 +60,29 @@ const LearningResourceForm = ({
   updateArticle,
   updateArticleAndStatus,
   articleChanged,
+  articleLanguage,
 }: Props) => {
   const { t } = useTranslation();
 
   const { data: licenses } = useLicenses({ placeholderData: [] });
-  const statusStateMachine = useDraftStatusStateMachine({ articleId: article.id });
+  const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
-  const getArticleFromSlate = useCallback(
-    ({
-      values,
-      initialValues,
-      preview = false,
-    }: {
-      values: LearningResourceFormikType;
-      initialValues: LearningResourceFormikType;
-      preview?: boolean;
-    }): UpdatedDraftApiType => {
-      const content = learningResourceContentToHTML(values.content);
-      const emptyContent = values.id ? '' : undefined;
-
-      const metaImage = values?.metaImageId
-        ? {
-            id: values.metaImageId,
-            alt: values.metaImageAlt ?? '',
-          }
-        : nullOrUndefined(values?.metaImageId);
-
-      return {
-        revision: 0,
-        articleType: 'standard',
-        content: content && content.length > 0 ? content : emptyContent,
-        copyright: {
-          license: licenses!.find(license => license.license === values.license),
-          origin: values.origin,
-          creators: values.creators,
-          processors: values.processors,
-          rightsholders: values.rightsholders,
-        },
-        supportedLanguages: values.supportedLanguages,
-        id: values.id,
-        introduction: editorValueToPlainText(values.introduction),
-        language: values.language,
-        metaImage,
-        metaDescription: editorValueToPlainText(values.metaDescription),
-        notes: values.notes || [],
-        published: getPublishedDate(values, initialValues, preview) ?? '',
-        tags: values.tags,
-        title: editorValueToPlainText(values.title),
-        grepCodes: values.grepCodes ?? [],
-        conceptIds: values.conceptIds?.map(c => c.id) ?? [],
-        availability: values.availability,
-        relatedContent: convertDraftOrRelated(values.relatedContent),
-      };
-    },
-    [licenses],
-  );
-
-  const {
-    savedToServer,
-    formikRef,
-    initialValues,
-    setSaveAsNewVersion,
-    handleSubmit,
-    validateDraft,
-    fetchSearchTags,
-  } = useArticleFormHooks({
-    getInitialValues,
+  const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
+    LearningResourceFormType
+  >({
+    getInitialValues: draftApiTypeToLearningResourceFormType,
     article,
     t,
     articleStatus,
     updateArticle,
     updateArticleAndStatus,
-    getArticleFromSlate,
-    isNewlyCreated,
+    getArticleFromSlate: learningResourceFormTypeToDraftApiType,
+    articleLanguage,
   });
 
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
-  const FormikChild = (formik: FormikProps<LearningResourceFormikType>) => {
+  const FormikChild = (formik: FormikProps<LearningResourceFormType>) => {
     // eslint doesn't allow this to be inlined when using hooks (in usePreventWindowUnload)
     const { values, dirty, isSubmitting } = formik;
     const formIsDirty = isFormikFormDirty({
@@ -233,7 +92,8 @@ const LearningResourceForm = ({
       changed: articleChanged,
     });
     usePreventWindowUnload(formIsDirty);
-    const getArticle = () => getArticleFromSlate({ values, initialValues, preview: false });
+    const getArticle = () =>
+      learningResourceFormTypeToDraftApiType(values, initialValues, licenses!, false);
     const editUrl = values.id
       ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
       : undefined;
@@ -241,7 +101,7 @@ const LearningResourceForm = ({
       <Form {...formClasses()}>
         <HeaderWithLanguage
           values={values}
-          content={article}
+          content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           editUrl={editUrl}
           getEntity={getArticle}
           formIsDirty={formIsDirty}
@@ -254,25 +114,22 @@ const LearningResourceForm = ({
           <Spinner withWrapper />
         ) : (
           <LearningResourcePanels
+            articleLanguage={articleLanguage}
             article={article}
             updateNotes={updateArticle}
-            formIsDirty={formIsDirty}
-            getInitialValues={getInitialValues}
             getArticle={getArticle}
-            fetchSearchTags={fetchSearchTags}
             handleSubmit={handleSubmit}
           />
         )}
         <EditorFooter
-          showSimpleFooter={!article.id}
+          showSimpleFooter={!article}
           formIsDirty={formIsDirty}
           savedToServer={savedToServer}
           getEntity={getArticle}
           onSaveClick={(saveAsNewVersion?: boolean) => {
-            setSaveAsNewVersion(saveAsNewVersion ?? false);
-            handleSubmit(values, formik);
+            handleSubmit(values, formik, saveAsNewVersion || false);
           }}
-          entityStatus={article.status}
+          entityStatus={article?.status}
           statusStateMachine={statusStateMachine.data}
           validateEntity={validateDraft}
           isArticle

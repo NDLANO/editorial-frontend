@@ -11,7 +11,6 @@ import AudioUploaderPage from '../AudioUploader/AudioUploaderPage';
 import ImageUploaderPage from '../ImageUploader/ImageUploaderPage';
 import PodcastUploaderPage from '../Podcast/PodcastUploaderPage';
 import PodcastSeriesPage from '../PodcastSeries/PodcastSeriesPage';
-import Footer from './components/Footer';
 
 const MediaPage = () => (
   <>
@@ -24,7 +23,6 @@ const MediaPage = () => (
       />
       <Route path="podcast-series/*" element={<PrivateRoute component={<PodcastSeriesPage />} />} />
     </Routes>
-    <Footer showLocaleSelector={false} />
   </>
 );
 

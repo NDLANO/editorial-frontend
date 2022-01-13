@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
 import { IMovieTheme } from '@ndla/types-frontpage-api';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
-import { ContentResultType, FormikProperties } from '../../../interfaces';
+import { FormikProperties } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
 import ThemeEditor from './ThemeEditor';
 import SlideshowEditor from './SlideshowEditor';
@@ -39,7 +39,7 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
   const onUpdateMovieList = (
     field: FieldProps<FormikValues>['field'],
     form: FormikHelpers<FormikValues>,
-    movieList: ContentResultType[],
+    movieList: string[],
   ) => {
     form.setFieldTouched(field.name, true, false);
     field.onChange({

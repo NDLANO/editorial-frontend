@@ -6,19 +6,32 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { FieldInputProps } from 'formik';
 import { FieldHeader, FieldSection, Select } from '@ndla/forms';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { getLicensesWithTranslations } from '../../../util/licenseHelpers';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 
-const LicenseField = props => {
-  const { onChange, onBlur, name, onFocus, value, disabled, width, enableLicenseNA } = props;
+interface Props extends FieldInputProps<string> {
+  disabled?: boolean;
+  enableLicenseNA?: boolean;
+  width?: number;
+}
+
+const LicenseField = ({
+  onChange,
+  onBlur,
+  name = 'license',
+  value,
+  disabled = false,
+  width = 3 / 4,
+  enableLicenseNA,
+}: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const licensesWithTranslations = getLicensesWithTranslations(licenses, locale, enableLicenseNA);
+  const licensesWithTranslations = getLicensesWithTranslations(licenses!, locale, enableLicenseNA);
 
   return (
     <>
@@ -27,13 +40,7 @@ const LicenseField = props => {
       </FieldHeader>
       <FieldSection>
         <div>
-          <Select
-            disabled={disabled}
-            value={value}
-            onChange={onChange}
-            onBlur={onBlur}
-            onFocus={onFocus}
-            name={name}>
+          <Select disabled={disabled} value={value} onChange={onChange} onBlur={onBlur} name={name}>
             {!value && <option>{t('form.license.choose')}</option>}
             {licensesWithTranslations.map(license => (
               <option value={license.license} key={license.license}>
@@ -45,23 +52,6 @@ const LicenseField = props => {
       </FieldSection>
     </>
   );
-};
-
-LicenseField.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-  name: PropTypes.string,
-  value: PropTypes.string,
-  onFocus: PropTypes.func,
-  width: PropTypes.number,
-  enableLicenseNA: PropTypes.bool,
-};
-
-LicenseField.defaultProps = {
-  disabled: false,
-  name: 'license',
-  width: 3 / 4,
 };
 
 export default LicenseField;

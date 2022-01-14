@@ -1113,6 +1113,8 @@ const phrases = {
     minItems: '{{label}} must have at least one {{labelLowerCase}}.',
     minItems_plural: '{{label}} must have at least {{count}} unique {{labelLowerCase}}.',
     noEmptyNote: 'A note cannot be empty',
+    noLicenseWithoutCopyrightHolder:
+      'A license cannot be added without providing at least one copyright holder.',
     maxSizeExceeded:
       'The file you are trying to upload is too large. Max size: {{maxSize}}. File size: {{fileSize}}.',
     grepCodes:

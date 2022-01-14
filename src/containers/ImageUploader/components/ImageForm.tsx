@@ -64,6 +64,11 @@ const imageRules: RulesType<ImageFormikType> = {
   },
   license: {
     required: true,
+    test: values => {
+      const authors = values.creators.concat(values.rightsholders).concat(values.processors);
+      if (!values.license || authors.length > 0) return undefined;
+      return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
+    },
   },
 };
 

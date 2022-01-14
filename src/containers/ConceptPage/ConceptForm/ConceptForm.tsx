@@ -78,6 +78,15 @@ const conceptFormRules: RulesType<ConceptFormValues> = {
   subjects: {
     minItems: 1,
   },
+
+  license: {
+    required: false,
+    test: values => {
+      const authors = values.creators.concat(values.rightsholders).concat(values.processors);
+      if (!values.license || values.license === 'N/A' || authors.length > 0) return undefined;
+      return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
+    },
+  },
 };
 
 const ConceptForm = ({

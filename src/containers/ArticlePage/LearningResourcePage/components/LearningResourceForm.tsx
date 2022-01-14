@@ -34,9 +34,11 @@ import {
   draftApiTypeToLearningResourceFormType,
   learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
+import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 
 interface Props {
   article?: DraftApiType;
+  articleTaxonomy?: ArticleTaxonomy;
   translating: boolean;
   translateToNN?: () => void;
   articleStatus?: DraftStatus;
@@ -53,6 +55,7 @@ interface Props {
 
 const LearningResourceForm = ({
   article,
+  articleTaxonomy,
   articleStatus,
   isNewlyCreated = false,
   translateToNN,
@@ -101,6 +104,7 @@ const LearningResourceForm = ({
       <Form {...formClasses()}>
         <HeaderWithLanguage
           values={values}
+          taxonomy={articleTaxonomy}
           content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           editUrl={editUrl}
           getEntity={getArticle}
@@ -116,6 +120,7 @@ const LearningResourceForm = ({
           <LearningResourcePanels
             articleLanguage={articleLanguage}
             article={article}
+            taxonomy={articleTaxonomy}
             updateNotes={updateArticle}
             getArticle={getArticle}
             handleSubmit={handleSubmit}

@@ -31,9 +31,11 @@ import {
 } from '../../articleTransformers';
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import { formikCommonArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
+import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 
 interface Props {
   article?: DraftApiType;
+  articleTaxonomy?: ArticleTaxonomy;
   revision?: number;
   updateArticle: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   articleStatus?: DraftStatus;
@@ -51,6 +53,7 @@ interface Props {
 
 const TopicArticleForm = ({
   article,
+  articleTaxonomy,
   updateArticle,
   articleChanged,
   translating,
@@ -99,6 +102,7 @@ const TopicArticleForm = ({
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage
+          taxonomy={articleTaxonomy}
           values={values}
           content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           getEntity={getArticle}
@@ -113,6 +117,7 @@ const TopicArticleForm = ({
           <Spinner withWrapper />
         ) : (
           <TopicArticleAccordionPanels
+            taxonomy={articleTaxonomy}
             articleLanguage={articleLanguage}
             updateNotes={updateArticle}
             article={article}

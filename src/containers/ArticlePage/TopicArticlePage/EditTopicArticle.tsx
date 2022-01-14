@@ -26,6 +26,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const {
     loading,
     article,
+    taxonomy,
     setArticle,
     articleChanged,
     updateArticle,
@@ -52,6 +53,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     <>
       <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
       <TopicArticleForm
+        articleTaxonomy={taxonomy}
         articleStatus={article.status}
         articleLanguage={selectedLanguage}
         articleChanged={articleChanged}

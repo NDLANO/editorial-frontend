@@ -25,63 +25,96 @@ const normalizeNodes = (editor: Editor, entry: NodeEntry, config: NormalizerConf
 
   const children = node.children;
 
-  const getRule = (index: number) => {
-    if (index === 0 && firstNode) return firstNode;
-    if (index === children.length - 1 && lastNode) return lastNode;
-    if (nodes) return nodes;
-  };
-
-  // 1. If node has defined rules for both first and last node, but only contains one node.
-  if (node.children.length === 1 && (firstNode || lastNode)) {
-    const child = node.children[0];
-
-    if (firstNode) {
-      const { allowed, defaultType } = firstNode;
+  for (const [index, child] of children.entries()) {
+    // 1. If first node
+    if (index === 0 && firstNode) {
+      // a. Wrap text as default firstNode type
       if (Text.isText(child)) {
-        Transforms.wrapNodes(editor, createNode(defaultType), { at: [...path, 0] });
+        Transforms.wrapNodes(editor, createNode(firstNode.defaultType), {
+          at: [...path, 0],
+        });
         return true;
-      } else if (!Element.isElement(child) || !allowed.includes(child.type)) {
-        Transforms.unwrapNodes(editor, { at: [...path, 0] });
-        return true;
-      }
-    }
-
-    if (lastNode) {
-      const { allowed, defaultType } = lastNode;
-      if (Text.isText(child)) {
-        Transforms.insertNodes(editor, createNode(defaultType), { at: [...path, 1] });
-        return true;
-      } else if (!Element.isElement(child) || !allowed.includes(child.type)) {
-        if (firstNode) {
-          Transforms.insertNodes(editor, createNode(defaultType), { at: [...path, 1] });
+        // first node is wrong and must be changed
+      } else if (!firstNode.allowed.includes(child.type)) {
+        // b. If child is also an allowed lastNode. Insert default firstNode type before
+        if (children.length === 1 && lastNode && lastNode.allowed.includes(child.type)) {
+          Transforms.insertNodes(editor, createNode(firstNode.defaultType), {
+            at: [...path, 0],
+          });
+          return true;
+        }
+        // c. If child is allowed nodes type. Insert default firstNode type before.
+        else if (nodes && nodes.allowed.includes(child.type)) {
+          Transforms.insertNodes(editor, createNode(firstNode.defaultType), {
+            at: [...path, 0],
+          });
+          return true;
+          // d. Else: Unwrap child
         } else {
           Transforms.unwrapNodes(editor, { at: [...path, 0] });
+          return true;
         }
-        return true;
       }
     }
-  }
 
-  // 2. Check each child node
-  for (const [index, child] of children.entries()) {
-    const rule = getRule(index);
+    // 2. If last node
+    if (index === children.length - 1 && lastNode) {
+      // a. Wrap text as default firstNode type
+      if (Text.isText(child)) {
+        Transforms.wrapNodes(editor, createNode(lastNode.defaultType), {
+          at: [...path, children.length - 1],
+        });
+        return true;
+        // last node is wrong and must be changed
+      } else if (!lastNode.allowed.includes(child.type)) {
+        // b. If child is allowed firstNode type. Insert default firstNode type after
+        if (children.length === 1 && firstNode && firstNode.allowed.includes(child.type)) {
+          Transforms.insertNodes(editor, createNode(lastNode.defaultType), {
+            at: [...path, children.length],
+          });
+          return true;
+        }
+        // c. If child is allowed nodes type. Insert default lastNode type after.
+        else if (nodes && nodes.allowed.includes(child.type)) {
+          Transforms.insertNodes(editor, createNode(lastNode.defaultType), {
+            at: [...path, children.length],
+          });
+          return true;
+          // c. Else: Unwrap child
+        } else {
+          Transforms.unwrapNodes(editor, {
+            at: [...path, children.length - 1],
+          });
+          return true;
+        }
+      }
+    }
 
-    if (!rule) continue;
+    // 3. If node is valid first or last node, skip next step
+    if (
+      Element.isElement(child) &&
+      ((index === 0 && firstNode && firstNode.allowed.includes(child.type)) ||
+        (index === children.length - 1 && lastNode && lastNode.allowed.includes(child.type)))
+    ) {
+      continue;
+    }
 
-    const { allowed, defaultType } = rule;
-    if (Text.isText(child)) {
-      Transforms.wrapNodes(editor, createNode(defaultType), {
-        at: [...path, index],
-      });
-      return true;
-    } else if (!allowed.includes(child.type)) {
-      Transforms.unwrapNodes(editor, { at: [...path, index] });
-      return true;
+    // 4. Other nodes
+    if (nodes) {
+      // a. Wrap if text
+      if (Text.isText(child)) {
+        Transforms.wrapNodes(editor, createNode(nodes.defaultType), { at: [...path, index] });
+        return true;
+        // b. Unwrap if incorrect
+      } else if (!nodes.allowed.includes(child.type)) {
+        Transforms.unwrapNodes(editor, { at: [...path, index] });
+        return true;
+      }
     }
   }
 
   if (children.length === 0) {
-    const rule = getRule(0);
+    const rule = firstNode || lastNode || nodes;
     if (rule?.defaultType) {
       Transforms.insertNodes(editor, createNode(rule.defaultType), { at: [...path, 0] });
       return true;

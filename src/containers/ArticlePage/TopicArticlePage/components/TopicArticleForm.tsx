@@ -24,12 +24,12 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { useLicenses } from '../../../../modules/draft/draftQueries';
+import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import {
   draftApiTypeToTopicArticleFormType,
   topicArticleFormTypeToDraftApiType,
 } from '../../articleTransformers';
-import { fetchStatusStateMachine, validateDraft } from '../../../../modules/draft/draftApi';
+import { validateDraft } from '../../../../modules/draft/draftApi';
 import { formikCommonArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
 
 interface Props {
@@ -61,6 +61,7 @@ const TopicArticleForm = ({
   updateArticleAndStatus,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
+  const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
   const { t } = useTranslation();
 
@@ -128,7 +129,7 @@ const TopicArticleForm = ({
             handleSubmit(values, formik, saveAsNewVersion ?? false);
           }}
           entityStatus={article?.status}
-          fetchStatusStateMachine={fetchStatusStateMachine}
+          statusStateMachine={statusStateMachine.data}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}

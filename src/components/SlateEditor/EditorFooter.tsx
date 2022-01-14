@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect, Dispatch } from 'react';
+import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
@@ -31,7 +31,7 @@ interface Props {
   entityStatus?: DraftStatus;
   showSimpleFooter: boolean;
   onSaveClick: (saveAsNewVersion?: boolean) => void;
-  fetchStatusStateMachine: () => Promise<PossibleStatuses>;
+  statusStateMachine?: PossibleStatuses;
   validateEntity?: (id: number, updatedEntity: UpdatedDraftApiType) => Promise<{ id: number }>;
   isArticle?: boolean;
   isConcept: boolean;
@@ -64,7 +64,7 @@ function EditorFooter<T extends FormValues>({
   entityStatus,
   showSimpleFooter,
   onSaveClick,
-  fetchStatusStateMachine,
+  statusStateMachine,
   validateEntity,
   isArticle,
   isConcept,
@@ -74,17 +74,7 @@ function EditorFooter<T extends FormValues>({
 }: Props) {
   const { t } = useTranslation();
   const { values, setFieldValue, isSubmitting } = useFormikContext<T>();
-  const [possibleStatuses, setStatuses] = useState<PossibleStatuses | any>({});
   const { createMessage } = useMessages();
-
-  useEffect(() => {
-    const fetchStatuses = async (setStatuses: Dispatch<PossibleStatuses>) => {
-      const possibleStatuses = await fetchStatusStateMachine();
-      setStatuses(possibleStatuses);
-    };
-    fetchStatuses(setStatuses);
-  }, [fetchStatusStateMachine]);
-
   // Wait for newStatus to be set to trigger since formik doesn't update fields instantly
   const [newStatus, setNewStatus] = useState<string | null>(null);
   useEffect(() => {
@@ -143,13 +133,15 @@ function EditorFooter<T extends FormValues>({
     );
   }
 
-  const getStatuses = () =>
-    entityStatus && Array.isArray(possibleStatuses[entityStatus.current])
-      ? possibleStatuses[entityStatus?.current].map((status: string) => ({
-          name: t(`form.status.actions.${status}`),
-          id: status,
-          active: status === entityStatus.current,
-        }))
+  const transformStatus = (entityStatus: DraftStatus, status: string) => ({
+    name: t(`form.status.actions.${status}`),
+    id: status,
+    active: status === entityStatus.current,
+  });
+
+  const statuses =
+    statusStateMachine && entityStatus
+      ? statusStateMachine[entityStatus.current]?.map(s => transformStatus(entityStatus, s)) ?? []
       : [];
 
   const updateStatus = async (comment: string, status: string) => {
@@ -189,7 +181,7 @@ function EditorFooter<T extends FormValues>({
         <div data-cy="footerStatus">
           <FooterStatus
             onSave={updateStatus}
-            options={getStatuses()}
+            options={statuses}
             messages={{
               label: '',
               changeStatus: t(`form.status.${entityStatus?.current.toLowerCase()}`),

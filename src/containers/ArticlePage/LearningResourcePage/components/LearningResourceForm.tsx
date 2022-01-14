@@ -28,8 +28,8 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { useLicenses } from '../../../../modules/draft/draftQueries';
-import { fetchStatusStateMachine, validateDraft } from '../../../../modules/draft/draftApi';
+import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
+import { validateDraft } from '../../../../modules/draft/draftApi';
 import {
   draftApiTypeToLearningResourceFormType,
   learningResourceFormTypeToDraftApiType,
@@ -65,6 +65,7 @@ const LearningResourceForm = ({
   const { t } = useTranslation();
 
   const { data: licenses } = useLicenses({ placeholderData: [] });
+  const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
   const { savedToServer, formikRef, initialValues, handleSubmit } = useArticleFormHooks<
     LearningResourceFormType
@@ -129,7 +130,7 @@ const LearningResourceForm = ({
             handleSubmit(values, formik, saveAsNewVersion || false);
           }}
           entityStatus={article?.status}
-          fetchStatusStateMachine={fetchStatusStateMachine}
+          statusStateMachine={statusStateMachine.data}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}

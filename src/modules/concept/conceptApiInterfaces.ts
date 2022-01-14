@@ -12,6 +12,8 @@ export type LanguageFieldType<T> = T & {
   language: string;
 };
 
+export type ConceptStatusStateMachineType = Record<ConceptStatusType, string[]>;
+
 export type ConceptStatusType =
   | 'DRAFT'
   | 'QUALITY_ASSURED'
@@ -27,16 +29,6 @@ export interface ConceptStatus {
 }
 
 export type ConceptTagsSearchResult = SearchResultBase<string>;
-
-export interface ConceptStatusStateMachineType {
-  DRAFT: string[];
-  QUALITY_ASSURED: string[];
-  PUBLISHED: string[];
-  QUEUED_FOR_LANGUAGE: string[];
-  ARCHIVED: string[];
-  TRANSLATED: string[];
-  UNPUBLISHED: string[];
-}
 
 export interface ConceptQuery {
   query?: string;

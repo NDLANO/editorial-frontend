@@ -119,6 +119,7 @@ const LearningResourceForm = ({
           <LearningResourcePanels
             articleLanguage={articleLanguage}
             article={article}
+            taxonomy={articleTaxonomy}
             updateNotes={updateArticle}
             getArticle={getArticle}
             handleSubmit={handleSubmit}

@@ -54,7 +54,7 @@ const LearningResourcePanels = ({
           values={values}
         />
       </AccordionSection>
-      {article && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {article && taxonomy && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
         <AccordionSection
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}

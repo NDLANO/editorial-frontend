@@ -590,7 +590,7 @@ const phrases = {
       button: 'Sammenlign gjeldende versjon med gammel versjon',
       version: 'Versjon {{revision}}',
       current: 'Gjeldende versjon',
-      published: 'Publisert versjon',
+      article: 'Artikkel',
     },
     previewLanguageArticle: {
       button: 'Sammenlign språkversjoner',

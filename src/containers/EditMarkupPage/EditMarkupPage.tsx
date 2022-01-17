@@ -235,7 +235,7 @@ const EditMarkupPage = () => {
             margin: ${spacing.normal};
           `}>
           <PreviewDraftLightbox
-            label={t('form.previewProductionArticle.published')}
+            label={t('form.previewProductionArticle.article')}
             typeOfPreview="preview"
             getArticle={() => {
               const content = standardizeContent(draft?.content?.content ?? '');

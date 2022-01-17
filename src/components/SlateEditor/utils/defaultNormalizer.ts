@@ -180,7 +180,7 @@ const normalizeParent = (editor: Editor, entry: NodeEntry, settings: DefaultNode
 
   // 1. If parent element is incorrect, change current node to default element
   if (!Element.isElement(parent) || !allowed.includes(parent.type)) {
-    Transforms.setNodes(editor, createNode(defaultType), { at: path });
+    Transforms.setNodes<Element>(editor, createNode(defaultType), { at: path });
     return true;
   }
 

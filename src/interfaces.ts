@@ -16,7 +16,7 @@ export type PartialRecord<K extends keyof any, T> = {
   [P in K]?: T;
 };
 
-export type AvailabilityType = 'everyone' | 'teacher' | 'student';
+export type AvailabilityType = 'everyone' | 'teacher';
 
 export type EditMode =
   | 'changeSubjectName'

@@ -29,14 +29,14 @@ describe('<AvailabilityField />', () => {
     );
 
     expect(getByRole('heading')).toHaveTextContent('Hvem er artikkelen ment for:');
-    expect(getAllByRole('radio')).toHaveLength(3);
+    expect(getAllByRole('radio')).toHaveLength(2);
     expect(getByRole('radio', { name: 'Alle' })).toBeChecked();
 
     act(() => {
-      fireEvent.click(getByRole('radio', { name: 'Elever' }));
+      fireEvent.click(getByRole('radio', { name: 'Lærere' }));
     });
 
     expect(getByRole('radio', { name: 'Alle' })).not.toBeChecked();
-    expect(getByRole('radio', { name: 'Elever' })).toBeChecked();
+    expect(getByRole('radio', { name: 'Lærere' })).toBeChecked();
   });
 });

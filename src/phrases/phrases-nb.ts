@@ -678,7 +678,6 @@ const phrases = {
     availability: {
       everyone: 'Alle',
       teacher: 'Lærere',
-      student: 'Elever',
       label: 'Tilgjengelighet',
       description: 'Hvem er artikkelen ment for:',
     },

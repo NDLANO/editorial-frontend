@@ -668,7 +668,6 @@ const phrases = {
     availability: {
       everyone: 'Everyone',
       teacher: 'Teachers',
-      student: 'Students',
       label: 'Availability',
       description: 'Who the article is intended for:',
     },

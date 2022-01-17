@@ -142,14 +142,14 @@ const EditSlateConcept = (props: Props) => {
           title={concept?.title.title ?? ''}
           subTitle={t('conceptform.title')}
           headerContent={
-            (concept?.status.current === 'PUBLISHED' ||
-              concept?.status.other.includes('PUBLISHED')) && (
-              <div
-                css={css`
-                  display: flex;
-                  flex: 1;
-                  flex-direction: inherit;
-                `}>
+            <div
+              css={css`
+                display: flex;
+                flex: 1;
+                flex-direction: inherit;
+              `}>
+              {(concept?.status.current === 'PUBLISHED' ||
+                concept?.status.other.includes('PUBLISHED')) && (
                 <Tooltip
                   tooltip={t('form.workflow.published')}
                   css={css`
@@ -157,16 +157,16 @@ const EditSlateConcept = (props: Props) => {
                   `}>
                   <StyledCheckIcon />
                 </Tooltip>
-                {concept.status.current !== 'PUBLISHED' && (
-                  <Tooltip
-                    tooltip={t('form.workflow.currentStatus', {
-                      status: t(`form.status.${concept.status.current.toLowerCase()}`),
-                    })}>
-                    <StyledWarnIcon />
-                  </Tooltip>
-                )}
-              </div>
-            )
+              )}
+              {concept?.status.current !== 'PUBLISHED' && (
+                <Tooltip
+                  tooltip={t('form.workflow.currentStatus', {
+                    status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+                  })}>
+                  <StyledWarnIcon />
+                </Tooltip>
+              )}
+            </div>
           }
           content={
             concept && (

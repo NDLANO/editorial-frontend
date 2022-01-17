@@ -156,11 +156,10 @@ const EditMarkupPage = () => {
     })();
   }, [draftId, language]);
 
-  const saveChanges = async () => {
+  const saveChanges = async (editorContent: string) => {
     try {
       setStatus('saving');
-      const stateContent = draft?.content?.content;
-      const content = standardizeContent(stateContent ?? '');
+      const content = standardizeContent(editorContent ?? '');
       const updatedDraft = await updateDraft({
         id: parseInt(draftId, 10),
         content,
@@ -236,7 +235,7 @@ const EditMarkupPage = () => {
             margin: ${spacing.normal};
           `}>
           <PreviewDraftLightbox
-            label={t('form.previewProductionArticle.article')}
+            label={t('form.previewProductionArticle.published')}
             typeOfPreview="preview"
             getArticle={() => {
               const content = standardizeContent(draft?.content?.content ?? '');
@@ -261,7 +260,7 @@ const EditMarkupPage = () => {
               isSaving={status === 'saving'}
               formIsDirty={status === 'edit'}
               showSaved={status === 'saved'}
-              onClick={saveChanges}
+              onClick={() => saveChanges(draft?.content?.content ?? '')}
             />
           </Row>
         </Row>

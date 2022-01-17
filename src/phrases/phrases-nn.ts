@@ -589,6 +589,7 @@ const phrases = {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
       version: 'Versjon {{revision}}',
       current: 'Gjeldende versjon',
+      published: 'Publisert versjon',
     },
     previewLanguageArticle: {
       button: 'Samanlikn språkversjonar',

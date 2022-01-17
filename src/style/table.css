@@ -21,6 +21,14 @@
   padding: 0;
 }
 
+.c-editor td p {
+  margin-top: 0;
+}
+
+.c-editor td p:last-child {
+  margin: 0;
+}
+
 .c-table__header {
   background-color: white;
   border-bottom: 3px solid #deebf6;

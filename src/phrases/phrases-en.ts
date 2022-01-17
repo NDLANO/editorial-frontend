@@ -588,6 +588,7 @@ const phrases = {
       button: 'Compare current version with old version',
       version: 'Version {{revision}}',
       current: 'Current version',
+      article: 'Article',
     },
     previewLanguageArticle: {
       button: 'Compare language versions',

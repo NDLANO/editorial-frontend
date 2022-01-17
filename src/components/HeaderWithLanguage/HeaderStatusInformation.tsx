@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Children, isValidElement, ReactElement, ReactNode, useState } from 'react';
+import { Children, isValidElement, ReactElement, ReactNode, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
@@ -61,6 +61,7 @@ interface Props {
   fontSize?: number;
   type?: string;
   id?: number;
+  setHasConnections?: (hasConnections: boolean) => void;
 }
 
 const HeaderStatusInformation = ({
@@ -73,11 +74,18 @@ const HeaderStatusInformation = ({
   fontSize,
   type,
   id,
+  setHasConnections,
 }: Props) => {
   const { t } = useTranslation();
   const [learningpaths, setLearningpaths] = useState<Learningpath[]>([]);
   const [articles, setArticles] = useState<MultiSearchSummary[]>([]);
   const [concepts, setConcepts] = useState<SearchConceptType[]>([]);
+
+  useEffect(() => {
+    const allConnections = [...learningpaths, ...articles, ...concepts];
+    setHasConnections?.(allConnections.length > 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [learningpaths, articles, concepts]);
 
   const StyledStatus = styled.p`
     ${fonts.sizes(fontSize || 18, 1.1)};

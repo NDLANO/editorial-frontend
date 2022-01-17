@@ -8,12 +8,7 @@ import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
-import { Resource } from './modules/taxonomy/taxonomyApiInterfaces';
-import { ConceptApiType } from './modules/concept/conceptApiInterfaces';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
-import { DraftStatus } from './modules/draft/draftApiInterfaces';
-import { FootnoteType } from './containers/ArticlePage/LearningResourcePage/components/LearningResourceFootnotes';
-import { ArticleTaxonomy } from './containers/FormikForm/formikDraftHooks';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
@@ -21,7 +16,7 @@ export type PartialRecord<K extends keyof any, T> = {
   [P in K]?: T;
 };
 
-export type AvailabilityType = 'everyone' | 'teacher' | 'student';
+export type AvailabilityType = 'everyone' | 'teacher';
 
 export type EditMode =
   | 'changeSubjectName'
@@ -92,36 +87,6 @@ export interface FlattenedResourceType {
   typeName?: string;
 }
 
-export interface ContentResultType {
-  articleType: string;
-  contexts: [
-    {
-      learningResourceType: string;
-      resourceTypes: { id: string; name: string; resources?: Resource[] }[];
-    },
-  ];
-  id: number;
-  title: { title: string; language: string };
-  url?: string;
-  license?: string;
-  metaDescription?: { metaDescription: string; language: string };
-  metaImage?: MetaImage;
-  metaUrl?: string;
-  altText?: {
-    alttext: string;
-    language: string;
-  };
-  learningResourceType?: string;
-  supportedLanguages?: string[];
-  previewUrl?: string;
-  highlights: [
-    {
-      field: string;
-      matches: string[];
-    },
-  ];
-}
-
 export interface Auth0UserData {
   app_metadata: {
     ndla_id: string;
@@ -131,58 +96,6 @@ export interface Auth0UserData {
 
 export interface ZendeskToken {
   token: string;
-}
-
-export interface ArticleType {
-  id: number;
-  title: string;
-  language: string;
-  agreementId: number;
-  introduction: string;
-  validTo: string;
-  validFrom: string;
-  visualElement: string;
-  metaDescription: string;
-  tags: string[];
-  published: string;
-  copyright: Copyright;
-  metaImage: MetaImage;
-  oldNdlaUrl: string;
-  revision: number;
-  updated: string;
-  supportedLanguages: string[];
-  updatedBy: string;
-  articleType: string;
-  created: string;
-  contentUri: string;
-  requiredLibraries: [
-    {
-      mediaType: string;
-      url: string;
-      name: string;
-    },
-  ];
-  notes: Note[];
-  taxonomy: {
-    topics: [
-      {
-        id: string;
-        name: string;
-        contentUri: string;
-        path: string;
-        paths: string[];
-      },
-    ];
-  };
-  status: DraftStatus;
-  content: string;
-  grepCodes: string[];
-  conceptIds: number[];
-  relatedContent: RelatedContent[];
-  availability?: AvailabilityType;
-  metaData?: {
-    footnotes?: FootnoteType[];
-  };
 }
 
 export interface RelatedContentLink {
@@ -199,14 +112,6 @@ export type TypeOfPreview =
 export type RelatedContent = RelatedContentLink | number;
 
 export type ConvertedRelatedContent = RelatedContent | DraftApiType;
-
-export interface SearchResult {
-  totalCount: number;
-  page: number;
-  pageSize: number;
-  language: string;
-  results: string[];
-}
 
 export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface ImageEmbed {
@@ -249,7 +154,7 @@ export interface AudioEmbed {
 export interface H5pEmbed {
   resource: 'h5p';
   path: string;
-  url: string;
+  url?: string;
   title?: string;
 }
 
@@ -259,6 +164,7 @@ export interface ExternalEmbed {
   metaData?: any;
   caption?: string;
   title?: string;
+  height?: string;
 }
 
 export interface ErrorEmbed {
@@ -301,24 +207,12 @@ export interface SlateAudio extends Omit<AudioApiType, 'title'> {
   caption: string;
 }
 
-export interface CreateMessageType {
-  severity: string;
-  message?: string;
-  timeToLive?: number;
-  translationKey?: string;
-}
-
 export interface FormikInputEvent {
   preventDefault: Function;
   target: {
     value: string;
     name: string;
   };
-}
-
-export interface AccordionProps {
-  openIndexes: string[];
-  handleItemClick: Function;
 }
 
 export interface FormikProperties {
@@ -337,6 +231,7 @@ export interface H5POembed {
   width: number;
   html: string;
   type: string;
+  providerName?: string;
   version: string;
   title: string;
 }
@@ -348,58 +243,3 @@ export interface License {
 }
 
 export type SearchType = typeof SearchTypeValues[number];
-
-export type ConvertedDraftType = {
-  language?: string;
-  title?: string;
-  introduction?: string;
-  visualElement?: string;
-  content?: string;
-  metaDescription?: string;
-  tags: string[];
-  conceptIds: ConceptApiType[];
-  relatedContent: (DraftApiType | RelatedContent)[];
-  id?: number;
-  oldNdlaUrl?: string | undefined;
-  revision: number;
-  status: DraftStatus;
-  copyright?: Copyright | undefined;
-  requiredLibraries: { mediaType: string; name: string; url: string }[];
-  metaImage?: { id: string; alt: string } | null;
-  created: string;
-  updated: string;
-  updatedBy: string;
-  published: string;
-  articleType: string;
-  supportedLanguages: string[];
-  notes: Note[];
-  editorLabels: string[];
-  grepCodes: string[];
-  availability: AvailabilityType;
-} & { taxonomy?: Partial<ArticleTaxonomy> };
-
-export interface SlateArticle {
-  articleType: string;
-  content?: string;
-  copyright: {
-    license?: License;
-    origin?: string;
-    creators: Author[];
-    processors: Author[];
-    rightsholders: Author[];
-  };
-  id?: number;
-  introduction?: string;
-  language?: string;
-  metaImage?: { id: string; alt: string | undefined } | null;
-  metaDescription: string;
-  notes: string[];
-  published?: string;
-  supportedLanguages: string[];
-  tags: string[];
-  title?: string;
-  grepCodes: string[] | undefined;
-  conceptIds?: ConceptApiType[];
-  availability?: AvailabilityType;
-  relatedContent: (DraftApiType | RelatedContent)[];
-}

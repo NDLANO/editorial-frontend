@@ -8,6 +8,7 @@ exports[`it goes in and out of edit mode 1`] = `
 .emotion-50 {
   position: absolute;
   width: 100%;
+  z-index: 2;
 }
 
 .emotion-0 {
@@ -798,6 +799,7 @@ exports[`it goes in and out of edit mode 2`] = `
 .emotion-33 {
   position: absolute;
   width: 100%;
+  z-index: 2;
 }
 
 .emotion-0 {

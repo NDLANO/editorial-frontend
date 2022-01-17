@@ -12,7 +12,9 @@ import { jsx as slatejsx } from 'slate-hyperscript';
 import RelatedArticleBox from './RelatedArticleBox';
 import { SlateSerializer } from '../../interfaces';
 import { createEmbedTag, reduceChildElements } from '../../../../util/embedTagHelpers';
-import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
+import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 export const TYPE_RELATED = 'related';
 
@@ -30,6 +32,17 @@ interface RelatedExternalArticle {
   url: string;
   title: string;
 }
+
+const normalizerConfig: NormalizerConfig = {
+  previous: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  next: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+};
 
 export interface RelatedElement {
   type: 'related';
@@ -101,10 +114,10 @@ export const relatedPlugin = (editor: Editor) => {
   };
 
   editor.normalizeNode = entry => {
-    const [node, path] = entry;
+    const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_RELATED) {
-      if (addSurroundingParagraphs(editor, path)) {
+      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }
     }

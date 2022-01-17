@@ -6,23 +6,26 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import LicenseField from './components/LicenseField';
 import { AgreementConnectionField, ContributorsField } from '.';
 import FormikField from '../../components/FormikField';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
-const CopyrightFieldGroup = ({
-  values,
-  contributorTypesOverride,
-  disableAgreements,
-  enableLicenseNA,
-}) => {
+interface Props {
+  values: {
+    agreementId?: number;
+    [x: string]: any;
+  };
+  disableAgreements?: boolean;
+  enableLicenseNA?: boolean;
+}
+
+const CopyrightFieldGroup = ({ values, disableAgreements, enableLicenseNA }: Props) => {
   const disabled = !!values.agreementId;
   return (
     <>
-      <ContributorsField contributorTypes={contributorTypesOverride || contributorTypes} />
+      <ContributorsField contributorTypes={contributorTypes} />
       {disableAgreements || <AgreementConnectionField values={values} width={3 / 4} />}
       <FormikField name="license">
         {({ field }) => (
@@ -31,15 +34,6 @@ const CopyrightFieldGroup = ({
       </FormikField>
     </>
   );
-};
-
-CopyrightFieldGroup.propTypes = {
-  values: PropTypes.shape({
-    agreementId: PropTypes.number,
-  }),
-  contributorTypesOverride: PropTypes.arrayOf(PropTypes.string),
-  disableAgreements: PropTypes.bool,
-  enableLicenseNA: PropTypes.bool,
 };
 
 export default CopyrightFieldGroup;

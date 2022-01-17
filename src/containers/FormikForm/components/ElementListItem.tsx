@@ -14,7 +14,7 @@ import { spacing, spacingUnit, colors, fonts, animations } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
 import { resourceToLinkProps } from '../../../util/resourceHelpers';
-import { ContentResultType } from '../../../interfaces';
+import { MetaImage } from '../../../interfaces';
 
 const ELEMENT_HEIGHT = 69;
 const ELEMENT_MARGIN = 4;
@@ -29,13 +29,21 @@ interface MessageProps {
   dragElement: string;
 }
 
+interface ElementType {
+  id: number;
+  contexts: any;
+  articleType?: string;
+  metaImage?: MetaImage;
+  title: { title: string; language: string };
+}
+
 interface Props {
   deleteFile: (deleteIndex: number) => void;
   articleType?: string;
   deleteIndex: number;
   isEditable: boolean;
   isOrderable: boolean;
-  element: ContentResultType;
+  element: ElementType;
   executeDeleteFile: () => void;
   index: number;
   locale: string;

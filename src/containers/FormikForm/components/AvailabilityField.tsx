@@ -12,18 +12,17 @@ import { useTranslation } from 'react-i18next';
 import { AvailabilityType } from '../../../interfaces';
 
 interface Props {
-  availability: string;
-  field: FieldInputProps<string[]>;
+  field: FieldInputProps<AvailabilityType>;
 }
 
-const AvailabilityField = ({ availability, field }: Props) => {
+const AvailabilityField = ({ field }: Props) => {
   const { t } = useTranslation();
-  const availabilityValues: AvailabilityType[] = ['everyone', 'teacher', 'student'];
+  const availabilityValues: AvailabilityType[] = ['everyone', 'teacher'];
 
   return (
     <RadioButtonGroup
       label={t('form.availability.description')}
-      selected={availability}
+      selected={field.value}
       uniqeIds
       options={availabilityValues.map(value => ({
         title: t(`form.availability.${value}`),

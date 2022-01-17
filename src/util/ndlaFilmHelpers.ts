@@ -16,7 +16,7 @@ import {
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { editorValueToPlainText, plainTextToEditorValue } from './articleContentConverter';
 import { LOCALE_VALUES } from '../constants';
-import { ContentResultType, LocaleType } from '../interfaces';
+import { LocaleType } from '../interfaces';
 import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
 import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
 import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed';
@@ -162,16 +162,6 @@ export const getIdFromUrn = (urnId: string) => {
 
 export const getUrnFromId = (id: string | number) => {
   return `urn:article:${id}`;
-};
-
-export const addMovieToTheme = (
-  themes: IMovieTheme[],
-  index: number,
-  newMovie: ContentResultType,
-) => {
-  return themes.map((theme, i) =>
-    i === index ? { ...theme, movies: [...theme.movies, newMovie] } : theme,
-  );
 };
 
 export const changeThemeNames = (

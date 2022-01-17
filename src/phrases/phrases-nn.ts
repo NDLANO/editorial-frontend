@@ -669,7 +669,6 @@ const phrases = {
     availability: {
       everyone: 'Alle',
       teacher: 'Lærarar',
-      student: 'Elevar',
       label: 'Tilgjengelighet',
       description: 'Kven er artikkelen meint for:',
     },
@@ -717,6 +716,7 @@ const phrases = {
       statusLabel: 'Status',
       published: 'Det finst ein publisert versjon av dettet elementet.',
       multipleTaxonomy: 'Artikkelen har fleire oppføringar i taksonomi.',
+      currentStatus: 'Gjeldande status: {{status}}.',
     },
     status: {
       new: 'Ny - Ikke lagret',

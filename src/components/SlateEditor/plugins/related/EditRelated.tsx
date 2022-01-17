@@ -26,6 +26,7 @@ import { RelatedArticleType, ExternalArticle } from './RelatedArticleBox';
 const StyledContainer = styled('div')`
   position: absolute;
   width: 100%;
+  z-index: 2;
 `;
 
 const StyledBorderDiv = styled('div')`

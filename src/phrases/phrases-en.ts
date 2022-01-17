@@ -668,7 +668,6 @@ const phrases = {
     availability: {
       everyone: 'Everyone',
       teacher: 'Teachers',
-      student: 'Students',
       label: 'Availability',
       description: 'Who the article is intended for:',
     },
@@ -716,6 +715,7 @@ const phrases = {
       statusLabel: 'Status',
       published: 'There exists a published version of this item.',
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
+      currentStatus: 'Current status: {{ status }}.',
     },
     status: {
       new: 'New - unsaved',

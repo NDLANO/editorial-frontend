@@ -51,7 +51,9 @@ const SubjectpageBanner = ({ field, form, title }: Props) => {
         <Lightbox display appearance={'big'} onClose={onImageSelectClose}>
           <VisualElementSearch
             selectedResource={'image'}
-            handleVisualElementChange={onImageChange}
+            handleVisualElementChange={rt =>
+              rt.type === 'embed' ? onImageChange(rt.value as ImageEmbed) : null
+            }
             closeModal={onImageSelectClose}
           />
         </Lightbox>

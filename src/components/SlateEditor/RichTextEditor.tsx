@@ -26,7 +26,7 @@ import { SlateToolbar } from './plugins/toolbar';
 import { onDragOver, onDragStart, onDrop } from './plugins/DND';
 import withPlugins from './utils/withPlugins';
 import Spinner from '../Spinner';
-import { LearningResourceFormikType } from '../../containers/FormikForm/articleFormHooks';
+import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -55,7 +55,7 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
   const [isFirstNormalize, setIsFirstNormalize] = useState(true);
   const prevSubmitted = useRef(submitted);
 
-  const { status, setStatus } = useFormikContext<LearningResourceFormikType>();
+  const { status, setStatus } = useFormikContext<ArticleFormType>();
 
   useEffect(() => {
     Editor.normalize(editor, { force: true });

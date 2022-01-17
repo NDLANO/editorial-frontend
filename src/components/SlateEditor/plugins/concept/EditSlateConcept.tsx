@@ -6,13 +6,18 @@
  *
  */
 
-import { useState, useEffect, ReactNode, useMemo, MouseEvent } from 'react';
+import { useState, useEffect, ReactNode, useMemo } from 'react';
 
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import { Dictionary, uniqueId } from 'lodash';
+import { css } from '@emotion/core';
+import styled from '@emotion/styled';
+import { colors, spacing } from '@ndla/core';
+import { Check, AlertCircle } from '@ndla/icons/editor';
 import Notion from '@ndla/notion';
+import Tooltip from '@ndla/tooltip';
 import { ConceptElement, TYPE_CONCEPT } from '.';
 import ConceptModal from './ConceptModal';
 import SlateConceptPreview from './SlateConceptPreview';
@@ -29,6 +34,20 @@ const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => 
     type: 'inline',
   },
 });
+
+const StyledCheckIcon = styled(Check)`
+  margin-left: 10px;
+  width: ${spacing.normal};
+  height: ${spacing.normal};
+  fill: ${colors.support.green};
+`;
+
+const StyledWarnIcon = styled(AlertCircle)`
+  margin-left: 5px;
+  height: ${spacing.normal};
+  width: ${spacing.normal};
+  fill: ${colors.brand.grey};
+`;
 
 interface Props {
   element: ConceptElement;
@@ -48,10 +67,7 @@ const EditSlateConcept = (props: Props) => {
 
   const [showConcept, setShowConcept] = useState(false);
 
-  const toggleConceptModal = (evt?: MouseEvent) => {
-    if (evt) {
-      evt.preventDefault();
-    }
+  const toggleConceptModal = () => {
     setShowConcept(!showConcept);
   };
 
@@ -120,11 +136,38 @@ const EditSlateConcept = (props: Props) => {
 
   return (
     <>
-      <span {...attributes} onMouseDown={toggleConceptModal}>
+      <span {...attributes} onClick={toggleConceptModal}>
         <Notion
           id={uuid}
-          title={concept?.title.title}
+          title={concept?.title.title ?? ''}
           subTitle={t('conceptform.title')}
+          headerContent={
+            (concept?.status.current === 'PUBLISHED' ||
+              concept?.status.other.includes('PUBLISHED')) && (
+              <div
+                css={css`
+                  display: flex;
+                  flex: 1;
+                  flex-direction: inherit;
+                `}>
+                <Tooltip
+                  tooltip={t('form.workflow.published')}
+                  css={css`
+                    margin-right: auto;
+                  `}>
+                  <StyledCheckIcon />
+                </Tooltip>
+                {concept.status.current !== 'PUBLISHED' && (
+                  <Tooltip
+                    tooltip={t('form.workflow.currentStatus', {
+                      status: t(`form.status.${concept.status.current.toLowerCase()}`),
+                    })}>
+                    <StyledWarnIcon />
+                  </Tooltip>
+                )}
+              </div>
+            )
+          }
           content={
             concept && (
               <SlateConceptPreview concept={concept} handleRemove={handleRemove} id={concept.id} />

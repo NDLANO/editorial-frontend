@@ -7,24 +7,25 @@
  */
 
 import { useState, useEffect } from 'react';
+import { dropRight, uniq } from 'lodash';
 import * as draftApi from '../../modules/draft/draftApi';
-import { transformArticleFromApiVersion } from '../../util/articleUtil';
-import { queryResources, queryTopics } from '../../modules/taxonomy';
-import { ConvertedDraftType, LocaleType } from '../../interfaces';
 import {
+  DraftApiType,
   DraftStatusTypes,
   NewDraftApiType,
   UpdatedDraftApiType,
 } from '../../modules/draft/draftApiInterfaces';
+import { queryResources, queryTopics } from '../../modules/taxonomy';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
-export type ArticleTaxonomy = {
+export interface ArticleTaxonomy {
   resources: Resource[];
   topics: Topic[];
-};
+}
 
-export function useFetchArticleData(articleId: string | undefined, locale: LocaleType) {
-  const [article, setArticle] = useState<ConvertedDraftType | undefined>(undefined);
+export function useFetchArticleData(articleId: string | undefined, language: string) {
+  const [article, setArticle] = useState<DraftApiType | undefined>(undefined);
+  const [taxonomy, setTaxonony] = useState<ArticleTaxonomy>({ resources: [], topics: [] });
   const [articleChanged, setArticleChanged] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -32,35 +33,31 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
     const fetchArticle = async () => {
       if (articleId) {
         setLoading(true);
-        const article = await draftApi.fetchDraft(parseInt(articleId, 10), locale);
-        const taxonomy = await fetchTaxonomy(articleId, locale);
-        setArticle(await transformArticleFromApiVersion({ taxonomy, ...article }, locale));
+        const article = await draftApi.fetchDraft(parseInt(articleId, 10), language);
+        const taxonomy = await fetchTaxonomy(articleId, language);
+        setArticle(article);
+        setTaxonony(taxonomy);
         setArticleChanged(false);
         setLoading(false);
       }
     };
     fetchArticle();
-  }, [articleId, locale]);
+  }, [articleId, language]);
 
-  const fetchTaxonomy = async (id: string, language: LocaleType): Promise<ArticleTaxonomy> => {
+  const fetchTaxonomy = async (id: string, language: string) => {
     const [resources, topics] = await Promise.all([
       queryResources(id, language, 'article'),
       queryTopics(id, language, 'article'),
     ]);
-
     return { resources, topics };
   };
 
-  const updateArticle = async (
-    updatedArticle: UpdatedDraftApiType,
-  ): Promise<ConvertedDraftType> => {
+  const updateArticle = async (updatedArticle: UpdatedDraftApiType): Promise<DraftApiType> => {
     const savedArticle = await draftApi.updateDraft(updatedArticle);
-    const taxonomy = !!articleId ? await fetchTaxonomy(articleId, locale) : undefined;
-    const updated = await transformArticleFromApiVersion({ taxonomy, ...savedArticle }, locale);
     await updateUserData(savedArticle.id);
-    setArticle(updated);
+    setArticle(savedArticle);
     setArticleChanged(false);
-    return updated;
+    return savedArticle;
   };
 
   const updateArticleAndStatus = async ({
@@ -71,7 +68,7 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
     updatedArticle: UpdatedDraftApiType;
     newStatus: DraftStatusTypes;
     dirty: boolean;
-  }): Promise<ConvertedDraftType> => {
+  }): Promise<DraftApiType> => {
     if (dirty) {
       await draftApi.updateDraft(updatedArticle);
     }
@@ -79,11 +76,8 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
     if (!updatedArticle.id) throw new Error('Article without id gotten when updating status');
 
     const statusChangedDraft = await draftApi.updateStatusDraft(updatedArticle.id, newStatus);
-    const article = await draftApi.fetchDraft(updatedArticle.id, locale);
-    const updated = await transformArticleFromApiVersion(
-      { ...article, status: statusChangedDraft.status },
-      locale,
-    );
+    const article = await draftApi.fetchDraft(updatedArticle.id, language);
+    const updated: DraftApiType = { ...article, status: statusChangedDraft.status };
     await updateUserData(statusChangedDraft.id);
 
     setArticle(updated);
@@ -93,7 +87,7 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
 
   const createArticle = async (createdArticle: NewDraftApiType) => {
     const savedArticle = await draftApi.createDraft(createdArticle);
-    setArticle(await transformArticleFromApiVersion(savedArticle, locale));
+    setArticle(savedArticle);
     setArticleChanged(false);
     await updateUserData(savedArticle.id);
     return savedArticle;
@@ -102,33 +96,17 @@ export function useFetchArticleData(articleId: string | undefined, locale: Local
   const updateUserData = async (articleId: number) => {
     const stringId = articleId.toString();
     const result = await draftApi.fetchUserData();
-    const latestEditedArticles = Array.from(new Set(result.latestEditedArticles || []));
-    let userUpdatedMetadata;
-
-    if (!latestEditedArticles.includes(stringId)) {
-      if (latestEditedArticles.length >= 10) {
-        latestEditedArticles.pop();
-      }
-      latestEditedArticles.splice(0, 0, stringId);
-      userUpdatedMetadata = {
-        latestEditedArticles: latestEditedArticles,
-      };
-    } else {
-      const latestEditedFiltered = latestEditedArticles.filter(id => {
-        return id !== stringId;
-      });
-      latestEditedFiltered.unshift(stringId);
-      userUpdatedMetadata = {
-        latestEditedArticles: latestEditedFiltered,
-      };
-    }
-
-    draftApi.updateUserData(userUpdatedMetadata);
+    const latestEdited = uniq(result.latestEditedArticles || []);
+    const latestEditedArticles = latestEdited.includes(stringId)
+      ? [stringId].concat(latestEdited.filter(id => id !== stringId))
+      : [stringId].concat(dropRight(latestEdited, 1));
+    draftApi.updateUserData({ latestEditedArticles });
   };
 
   return {
     article,
-    setArticle: (article: ConvertedDraftType) => {
+    taxonomy,
+    setArticle: (article: DraftApiType) => {
       setArticle(article);
       setArticleChanged(true);
     },

@@ -7,7 +7,7 @@
  */
 
 import { MouseEvent, useEffect, useState } from 'react';
-import { Editor, Element, Node, Path, Transforms } from 'slate';
+import { Editor, Node, Path, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, useFocused, useSelected } from 'slate-react';
 import { colors } from '@ndla/core';
 import he from 'he';
@@ -15,7 +15,7 @@ import { Portal } from '../../../Portal';
 import EditMath from './EditMath';
 import MathML from './MathML';
 import BlockMenu from './BlockMenu';
-import { MathmlElement, TYPE_MATHML } from '.';
+import { MathmlElement } from '.';
 import mergeLastUndos from '../../utils/mergeLastUndos';
 
 const getInfoFromNode = (node: MathmlElement) => {
@@ -76,28 +76,19 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
   };
 
   const onExit = () => {
-    setEditMode(false);
     const elementPath = ReactEditor.findPath(editor, element);
-    let leafPath: Path;
 
     if (isFirstEdit) {
-      leafPath = Path.previous(elementPath);
-      const oldLeafLength = Editor.string(editor, leafPath, { voids: true }).length;
-      const mathLength = Node.string(element).length;
       handleRemove();
-      setTimeout(() => {
-        Transforms.select(editor, {
-          anchor: { path: leafPath, offset: oldLeafLength + mathLength },
-          focus: { path: leafPath, offset: oldLeafLength + mathLength },
-        });
-      }, 0);
     } else {
-      leafPath = Path.next(elementPath);
+      const nextPath = Path.next(elementPath);
       ReactEditor.focus(editor);
       Transforms.select(editor, {
-        anchor: { path: leafPath, offset: 0 },
-        focus: { path: leafPath, offset: 0 },
+        anchor: { path: nextPath, offset: 0 },
+        focus: { path: nextPath, offset: 0 },
       });
+      setEditMode(false);
+      setShowMenu(false);
     }
   };
 
@@ -112,7 +103,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       Transforms.setNodes(editor, properties, {
         at: path,
         voids: true,
-        match: node => Element.isElement(node) && node.type === TYPE_MATHML,
+        match: node => node === element,
       });
 
       const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild
@@ -128,28 +119,29 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       Transforms.setNodes(editor, properties, {
         at: path,
         voids: true,
-        match: node => Element.isElement(node) && node.type === TYPE_MATHML,
+        match: node => node === element,
       });
     }
 
+    ReactEditor.focus(editor);
+    Transforms.select(editor, {
+      anchor: { path: leafPath, offset: 0 },
+      focus: { path: leafPath, offset: 0 },
+    });
+
     setIsFirstEdit(false);
     setEditMode(false);
-
-    setTimeout(() => {
-      ReactEditor.focus(editor);
-      Transforms.select(editor, {
-        anchor: { path: leafPath, offset: 0 },
-        focus: { path: leafPath, offset: 0 },
-      });
-    }, 0);
+    setShowMenu(false);
   };
 
   const handleRemove = () => {
     const path = ReactEditor.findPath(editor, element);
+    ReactEditor.focus(editor);
+    Transforms.select(editor, Editor.start(editor, Path.next(path)));
 
     Transforms.unwrapNodes(editor, {
       at: path,
-      match: node => Element.isElement(node) && node.type === TYPE_MATHML,
+      match: node => node === element,
       voids: true,
     });
   };

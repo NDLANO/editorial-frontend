@@ -16,38 +16,33 @@ import { CopyrightFieldGroup, VersionAndNotesPanel, MetaDataField } from '../../
 import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
-import { TopicArticleFormikType } from '../../../FormikForm/articleFormHooks';
-import { ConvertedDraftType, SearchResult } from '../../../../interfaces';
-import { UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
+import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
+import { DraftApiType, UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
-import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
 import { onSaveAsVisualElement } from '../../../FormikForm/utils';
+import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 
 interface Props {
-  fetchSearchTags: (input: string, language: string) => Promise<SearchResult>;
   handleSubmit: () => Promise<void>;
-  article: Partial<ConvertedDraftType>;
-  formIsDirty: boolean;
-  updateNotes: (art: UpdatedDraftApiType) => Promise<ConvertedDraftType>;
+  article?: DraftApiType;
+  taxonomy?: ArticleTaxonomy;
+  updateNotes: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   getArticle: () => UpdatedDraftApiType;
-  getInitialValues: (article: Partial<ConvertedDraftType>) => TopicArticleFormikType;
+  articleLanguage: string;
 }
 
 const TopicArticleAccordionPanels = ({
-  fetchSearchTags,
   handleSubmit,
   article,
-  formIsDirty,
   updateNotes,
-  getInitialValues,
   getArticle,
+  articleLanguage,
+  taxonomy,
 }: Props) => {
-  const { t, i18n } = useTranslation();
-  const locale = i18n.language;
+  const { t } = useTranslation();
   const { userAccess } = useSession();
-  const formikContext = useFormikContext<TopicArticleFormikType>();
-  const { values, handleBlur, errors, setValues, setStatus } = formikContext;
-
+  const formikContext = useFormikContext<TopicArticleFormType>();
+  const { values, errors, setValues, setStatus } = formikContext;
   return (
     <Accordions>
       <AccordionSection
@@ -56,14 +51,14 @@ const TopicArticleAccordionPanels = ({
         className={'u-4/6@desktop u-push-1/6@desktop'}
         hasError={!!(errors.title || errors.introduction || errors.content || errors.visualElement)}
         startOpen>
-        <TopicArticleContent handleSubmit={handleSubmit} handleBlur={handleBlur} values={values} />
+        <TopicArticleContent handleSubmit={handleSubmit} values={values} />
       </AccordionSection>
-      {values.id && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {article && taxonomy && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
         <AccordionSection
           id={'topic-article-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}>
-          <TopicArticleTaxonomy articleId={values.id} article={article} updateNotes={updateNotes} />
+          <TopicArticleTaxonomy article={article} updateNotes={updateNotes} taxonomy={taxonomy} />
         </AccordionSection>
       )}
       <AccordionSection
@@ -81,10 +76,9 @@ const TopicArticleAccordionPanels = ({
         className={'u-6/6'}
         hasError={!!(errors.metaDescription || errors.tags)}>
         <MetaDataField
-          article={article}
-          fetchSearchTags={fetchSearchTags}
+          articleLanguage={articleLanguage}
           showCheckbox={true}
-          checkboxAction={(image: ImageApiType) => onSaveAsVisualElement(image, formikContext)}
+          checkboxAction={image => onSaveAsVisualElement(image, formikContext)}
         />
       </AccordionSection>
       <AccordionSection
@@ -92,7 +86,7 @@ const TopicArticleAccordionPanels = ({
         title={t('form.name.grepCodes')}
         className={'u-6/6'}
         hasError={!!errors.grepCodes}>
-        <GrepCodesField grepCodes={article.grepCodes ?? []} />
+        <GrepCodesField />
       </AccordionSection>
       {config.ndlaEnvironment === 'test' && (
         <AccordionSection
@@ -100,10 +94,10 @@ const TopicArticleAccordionPanels = ({
           title={t('form.name.relatedContent')}
           className={'u-6/6'}
           hasError={!!(errors.conceptIds || errors.relatedContent)}>
-          <RelatedContentFieldGroup values={values} locale={locale} />
+          <RelatedContentFieldGroup />
         </AccordionSection>
       )}
-      {values.id && (
+      {article && (
         <AccordionSection
           id={'topic-article-workflow'}
           title={t('form.workflowSection')}
@@ -111,11 +105,10 @@ const TopicArticleAccordionPanels = ({
           hasError={!!errors.notes}>
           <VersionAndNotesPanel
             article={article}
-            articleId={values.id}
             getArticle={getArticle}
-            getInitialValues={getInitialValues}
             setValues={setValues}
             setStatus={setStatus}
+            type="topic-article"
           />
         </AccordionSection>
       )}

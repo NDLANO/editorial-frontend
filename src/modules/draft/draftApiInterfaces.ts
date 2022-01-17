@@ -14,24 +14,7 @@ import {
   Note,
   SearchResultBase,
 } from '../../interfaces';
-
-export interface DraftStatusStateMachineType {
-  QUALITY_ASSURED: string[];
-  PUBLISHED: string[];
-  QUEUED_FOR_LANGUAGE: string[];
-  AWAITING_UNPUBLISHING: string[];
-  QUALITY_ASSURED_DELAYED: string[];
-  QUEUED_FOR_PUBLISHING: string[];
-  QUEUED_FOR_PUBLISHING_DELAYED: string[];
-  IMPORTED: string[];
-  DRAFT: string[];
-  USER_TEST: string[];
-  PROPOSAL: string[];
-  TRANSLATED: string[];
-  UNPUBLISHED: string[];
-  AWAITING_QUALITY_ASSURANCE: string[];
-  ARCHIVED: string[];
-}
+export type DraftStatusStateMachineType = Record<DraftStatusTypes, string[]>;
 
 export interface UploadedFileType {
   filename: string;

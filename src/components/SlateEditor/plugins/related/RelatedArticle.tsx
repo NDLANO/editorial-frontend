@@ -28,9 +28,11 @@ const RelatedArticle = ({ item, numberInList }: Props) => {
   return (
     <RelatedArticleUI
       {...resourceTypeProps(item, numberInList)}
-      title={convertFieldWithFallback(item, 'title', item.title)}
+      title={convertFieldWithFallback<'title'>(item, 'title', item.title)}
       introduction={
-        'url' in item ? item.description : convertFieldWithFallback(item, 'metaDescription', '')
+        'url' in item
+          ? item.description
+          : convertFieldWithFallback<'metaDescription'>(item, 'metaDescription', '')
       }
       to={'url' in item ? item.url : toEditArticle(item.id, 'standard')}
       target="_blank"

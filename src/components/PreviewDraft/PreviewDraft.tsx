@@ -12,13 +12,13 @@ import { Remarkable } from 'remarkable';
 //@ts-ignore
 import { ContentTypeBadge } from '@ndla/ui';
 import { Article } from '@ndla/ui';
-import { ArticleType, LocaleType } from '../../interfaces';
-//@ts-ignore
-import { transformArticle } from '../../util/articleUtil';
+import { LocaleType } from '../../interfaces';
 import '../DisplayEmbed/helpers/h5pResizer';
+import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
+import formatDate from '../../util/formatDate';
 
 interface Props {
-  article: ArticleType;
+  article: ArticleConverterApiType;
   label: string;
   language: string;
   contentType?: string;
@@ -57,8 +57,17 @@ class PreviewDraft extends Component<Props, {}> {
       <ContentTypeBadge type={contentType} background size="large" />
     ) : null;
 
-    const formatted = transformArticle(article);
-
+    const requiredLibraries = article.requiredLibraries?.map(lib => {
+      if (lib.url.startsWith('http://')) {
+        return { ...lib, url: lib.url.replace('http://', 'https://') };
+      } else return lib;
+    });
+    const formattedDates = {
+      created: formatDate(article.created),
+      updated: formatDate(article.updated),
+      published: formatDate(article.published),
+    };
+    const formatted: ArticleConverterApiType = { ...article, requiredLibraries, ...formattedDates };
     return (
       <Article
         // @ts-ignore TODO: denne må kanskje fikses i frontend-packages? En draft kan vel være lisensløs?

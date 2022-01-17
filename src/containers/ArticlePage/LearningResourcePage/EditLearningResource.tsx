@@ -28,6 +28,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   const {
     loading,
     article,
+    taxonomy,
     setArticle,
     articleChanged,
     updateArticle,
@@ -35,24 +36,26 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   } = useFetchArticleData(articleId, selectedLanguage);
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
-    'title',
-    'metaDescription',
-    'introduction',
-    'content',
+    'title.title',
+    'metaDescription.metaDescription',
+    'introduction.introduction',
+    'content.content',
   ]);
 
   if (loading || !article || !article.id) {
     return <Spinner withWrapper />;
   }
   if (article.articleType !== 'standard') {
-    const replaceUrl = toEditArticle(article.id, article.articleType, article.language);
+    const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
     return <Navigate replace to={replaceUrl} />;
   }
 
   return (
     <>
-      <HelmetWithTracker title={`${article.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
       <LearningResourceForm
+        articleLanguage={selectedLanguage}
+        articleTaxonomy={taxonomy}
         article={article}
         articleStatus={article.status}
         articleChanged={articleChanged}

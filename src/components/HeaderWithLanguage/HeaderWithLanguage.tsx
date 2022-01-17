@@ -6,6 +6,7 @@
  *
  */
 
+import { useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +15,7 @@ import HeaderActions from './HeaderActions';
 import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { getTaxonomyPathsFromTaxonomy } from './util';
+import { ArticleTaxonomy } from '../../containers/FormikForm/formikDraftHooks';
 
 export const StyledLanguageWrapper = styled.div`
   padding-left: ${spacing.small};
@@ -41,9 +43,9 @@ interface Props {
       other: string[];
     };
     title?: string;
-    taxonomy?: TaxonomyObject;
     supportedLanguages?: string[];
   };
+  taxonomy?: ArticleTaxonomy;
   editUrl?: (url: string) => string;
   getEntity?: () => ConceptApiType | UpdatedDraftApiType;
   isSubmitting?: boolean;
@@ -77,11 +79,14 @@ const HeaderWithLanguage = ({
   type,
   values,
   formIsDirty = false,
+  taxonomy,
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { articleType } = values;
   const { id, title, status } = content;
+  // true by default to disable language deletions until connections are retrieved.
+  const [hasConnections, setHasConnections] = useState(true);
 
   const language = content.language ?? i18n.language;
   const supportedLanguages = values.supportedLanguages ?? [language];
@@ -92,7 +97,7 @@ const HeaderWithLanguage = ({
   const multiType = articleType ?? type;
   const isArticle = multiType === 'standard' || multiType === 'topic-article';
 
-  const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(content?.taxonomy, id) : [];
+  const taxonomyPaths = isArticle ? getTaxonomyPathsFromTaxonomy(taxonomy, id) : [];
 
   const safeValues = { ...values, language, supportedLanguages };
 
@@ -107,10 +112,12 @@ const HeaderWithLanguage = ({
         id={id}
         published={published}
         taxonomyPaths={taxonomyPaths}
+        setHasConnections={setHasConnections}
         {...rest}
       />
       <StyledLanguageWrapper>
         <HeaderActions
+          disableDelete={hasConnections && supportedLanguages.length === 1}
           values={safeValues}
           noStatus={noStatus}
           isNewLanguage={isNewLanguage}

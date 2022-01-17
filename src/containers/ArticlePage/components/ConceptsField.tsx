@@ -5,38 +5,41 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { FormikHelpers, FormikValues } from 'formik';
+import { FieldInputProps, FormikHelpers } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
-import { FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { ConceptApiType, SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
+import { ArticleFormType } from '../../FormikForm/articleFormHooks';
 
-interface ConceptAPiTypeWithArticleType extends ConceptApiType {
+interface ConceptApiTypeWithArticleType extends ConceptApiType {
   articleType?: string;
 }
 interface Props {
-  locale: string;
-  values: {
-    conceptIds: ConceptAPiTypeWithArticleType[];
-  };
-  field: FormikProperties['field'];
-  form: {
-    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  };
+  field: FieldInputProps<ArticleFormType['conceptIds']>;
+  form: FormikHelpers<ArticleFormType>;
 }
 
-const ConceptsField = ({ locale, values, field, form }: Props) => {
-  const { t } = useTranslation();
-  const [concepts, setConcepts] = useState<ConceptAPiTypeWithArticleType[]>(values.conceptIds);
+const ConceptsField = ({ field, form }: Props) => {
+  const { t, i18n } = useTranslation();
+  const [concepts, setConcepts] = useState<ConceptApiTypeWithArticleType[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const conceptPromises = field.value.filter(a => !!a).map(id => fetchConcept(id, ''));
+      const fetchedConcepts = await Promise.all(conceptPromises);
+      setConcepts(fetchedConcepts.map(concept => ({ ...concept, articleType: 'concept' })));
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onAddConceptToList = async (concept: SearchConceptType) => {
     try {
-      const newConcept = await fetchConcept(concept.id, locale);
+      const newConcept = await fetchConcept(concept.id, i18n.language);
       const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
       setConcepts(temp);
       updateFormik(field, temp);
@@ -45,17 +48,17 @@ const ConceptsField = ({ locale, values, field, form }: Props) => {
     }
   };
 
-  const onUpdateElements = (conceptList: ConceptAPiTypeWithArticleType[]) => {
+  const onUpdateElements = (conceptList: ConceptApiTypeWithArticleType[]) => {
     setConcepts(conceptList);
     updateFormik(field, conceptList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: ConceptAPiTypeWithArticleType[]) => {
+  const updateFormik = (formikField: Props['field'], newData: ConceptApiTypeWithArticleType[]) => {
     form.setFieldTouched('conceptIds', true, false);
     formikField.onChange({
       target: {
         name: formikField.name,
-        value: newData || null,
+        value: newData.map(c => c.id) || null,
       },
     });
   };
@@ -64,7 +67,7 @@ const ConceptsField = ({ locale, values, field, form }: Props) => {
     return searchConcepts({
       query,
       page,
-      language: locale,
+      language: i18n.language,
     });
   };
 

@@ -13,7 +13,9 @@ import { SlateSerializer } from '../../interfaces';
 import { LocaleType, Embed } from '../../../../interfaces';
 import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { defaultEmbedBlock } from './utils';
-import { addSurroundingParagraphs } from '../../utils/normalizationHelpers';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
 
 export const TYPE_EMBED = 'embed';
 
@@ -22,6 +24,17 @@ export interface EmbedElement {
   data: Embed;
   children: Descendant[];
 }
+
+const normalizerConfig: NormalizerConfig = {
+  previous: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  next: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+};
 
 export const embedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
@@ -63,10 +76,10 @@ export const embedPlugin = (language: string, locale?: LocaleType, disableNormal
   };
 
   editor.normalizeNode = entry => {
-    const [node, path] = entry;
+    const [node] = entry;
 
     if (Element.isElement(node) && node.type === TYPE_EMBED) {
-      if (!disableNormalize && addSurroundingParagraphs(editor, path)) {
+      if (!disableNormalize && defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }
     }

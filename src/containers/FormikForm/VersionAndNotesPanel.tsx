@@ -24,14 +24,17 @@ import handleError from '../../util/handleError';
 import AddNotesField from './AddNotesField';
 import formatDate from '../../util/formatDate';
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/auth0Api';
-import { transformArticleFromApiVersion } from '../../util/articleUtil';
 import VersionActionbuttons from './VersionActionButtons';
 import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
-import { ConvertedDraftType, Note } from '../../interfaces';
+import { Note } from '../../interfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
-import { LearningResourceFormikType, TopicArticleFormikType } from './articleFormHooks';
+import { ArticleFormType } from './articleFormHooks';
 import { useMessages } from '../Messages/MessagesProvider';
+import {
+  draftApiTypeToLearningResourceFormType,
+  draftApiTypeToTopicArticleFormType,
+} from '../ArticlePage/articleTransformers';
 
 const paddingPanelStyleInside = css`
   background: ${colors.brand.greyLightest};
@@ -44,27 +47,14 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 };
 
 interface Props {
-  articleId: number;
-  article: Partial<ConvertedDraftType>;
-  getInitialValues: (
-    article: Partial<ConvertedDraftType>,
-  ) => LearningResourceFormikType | TopicArticleFormikType;
-  setValues(
-    values: LearningResourceFormikType | TopicArticleFormikType,
-    shouldValidate?: boolean,
-  ): void;
+  article: DraftApiType;
+  setValues(values: ArticleFormType, shouldValidate?: boolean): void;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
   setStatus: (status?: any) => void;
+  type: 'standard' | 'topic-article';
 }
 
-const VersionAndNotesPanel = ({
-  articleId,
-  article,
-  getInitialValues,
-  setValues,
-  getArticle,
-  setStatus,
-}: Props) => {
+const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus, type }: Props) => {
   const { t } = useTranslation();
   const [versions, setVersions] = useState<DraftApiType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -74,7 +64,7 @@ const VersionAndNotesPanel = ({
     const getVersions = async () => {
       try {
         setLoading(true);
-        const versions = await draftApi.fetchDraftHistory(articleId, article.language);
+        const versions = await draftApi.fetchDraftHistory(article.id, article.title?.language);
         setVersions(versions);
         setLoading(false);
       } catch (e) {
@@ -83,7 +73,7 @@ const VersionAndNotesPanel = ({
       }
     };
     getVersions();
-  }, [articleId, article]);
+  }, [article]);
 
   useEffect(() => {
     if (versions.length) {
@@ -104,13 +94,13 @@ const VersionAndNotesPanel = ({
 
   const resetVersion = async (
     version: DraftApiType,
-    language: string | undefined,
+    language: string,
     showFromArticleApi: boolean,
   ) => {
     try {
       let newArticle: DraftApiType = version;
       if (showFromArticleApi) {
-        const articleApiArticle = await articleApi.getArticle(articleId, language);
+        const articleApiArticle = await articleApi.getArticle(article.id, language);
         newArticle = {
           ...articleApiArticle,
           notes: [],
@@ -119,10 +109,11 @@ const VersionAndNotesPanel = ({
           status: { current: 'PUBLISHED', other: [] },
         };
       }
-      const newValues = getInitialValues(
-        await transformArticleFromApiVersion({ ...newArticle, status: version.status }, language),
-      );
-
+      const transform =
+        type === 'standard'
+          ? draftApiTypeToLearningResourceFormType
+          : draftApiTypeToTopicArticleFormType;
+      const newValues = transform({ ...newArticle, status: version.status }, language);
       setValues(newValues);
       setStatus('revertVersion');
       createMessage({
@@ -150,13 +141,7 @@ const VersionAndNotesPanel = ({
         )}
       </FormikField>
       <Accordion openIndexes={[0]} tiny>
-        {({
-          getPanelProps,
-          getBarProps,
-        }: {
-          getPanelProps: (index: number) => object;
-          getBarProps: (index: number) => object;
-        }) => (
+        {({ getPanelProps, getBarProps }) => (
           <AccordionWrapper>
             {versions.map((version, index) => {
               const {
@@ -170,7 +155,7 @@ const VersionAndNotesPanel = ({
               const showFromArticleApi = versions.length === 1 && published;
               return (
                 <Fragment key={revision}>
-                  <AccordionBar {...getBarProps(index)} title={revision}>
+                  <AccordionBar {...getBarProps(index)} title={`${revision}`}>
                     <StyledAccordionsPanelItemsWrapper>
                       <div>{formatDate(updated)}</div>
                       <div>

@@ -59,7 +59,7 @@ export const getPreviewArticle = async (
   locale: string,
 ): Promise<ArticleConverterApiType> => {
   const response = await fetchAuthorized(
-    `${articleConverterUrl}/json/${locale}/transform-article?draftConcept=true&previewH5p=true&showVisualElement=true`,
+    `${articleConverterUrl}/json/${locale}/transform-article?draftConcept=true&previewH5p=true&showVisualElement=true&absoluteUrl=true`,
     {
       headers: {
         'Content-Type': 'application/json',

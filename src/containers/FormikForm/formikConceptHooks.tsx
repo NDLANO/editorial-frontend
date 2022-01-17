@@ -15,7 +15,7 @@ import {
 } from '../../modules/concept/conceptApiInterfaces';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
-import { fetchSearchTags, fetchStatusStateMachine } from '../../modules/concept/conceptApi';
+import { fetchSearchTags } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
@@ -107,7 +107,6 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     concept,
     createConcept,
     fetchSearchTags,
-    fetchStatusStateMachine,
     loading,
     setConcept: (concept: ConceptApiType) => {
       setConcept(concept);

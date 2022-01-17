@@ -10,10 +10,10 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import TopicArticleForm from './components/TopicArticleForm';
 import { toEditArticle } from '../../../util/routeHelpers';
-import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
+import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 
 interface Props {
   isNewlyCreated: boolean;
@@ -26,6 +26,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const {
     loading,
     article,
+    taxonomy,
     setArticle,
     articleChanged,
     updateArticle,
@@ -34,10 +35,10 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
-    'title',
-    'metaDescription',
-    'introduction',
-    'content',
+    'title.title',
+    'metaDescription.metaDescription',
+    'introduction.introduction',
+    'content.content',
   ]);
 
   if (loading || !article || !article.id) {
@@ -45,14 +46,16 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   }
 
   if (article.articleType !== 'topic-article') {
-    const redirectUrl = toEditArticle(article.id, article.articleType, article.language);
+    const redirectUrl = toEditArticle(article.id, article.articleType, article.title?.language);
     return <Navigate replace to={redirectUrl} />;
   }
   return (
     <>
-      <HelmetWithTracker title={`${article.title} ${t('htmlTitles.titleTemplate')}`} />
+      <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
       <TopicArticleForm
+        articleTaxonomy={taxonomy}
         articleStatus={article.status}
+        articleLanguage={selectedLanguage}
         articleChanged={articleChanged}
         article={article}
         translateToNN={translateToNN}

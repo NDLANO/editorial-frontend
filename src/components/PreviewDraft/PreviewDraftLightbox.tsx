@@ -7,24 +7,25 @@
  */
 
 import { ReactElement, useState } from 'react';
-import { useTranslation, withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
+import { OneColumn } from '@ndla/ui';
 import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
-import { transformArticleToApiVersion } from '../../util/articleUtil';
 import { ActionButton } from '../../containers/FormikForm';
 import Spinner from '../Spinner';
 import { Portal } from '../Portal';
 import PreviewDraft from './PreviewDraft';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
-import { ArticleType, LocaleType, PartialRecord, TypeOfPreview } from '../../interfaces';
+import { LocaleType, PartialRecord, TypeOfPreview } from '../../interfaces';
 import { createGuard } from '../../util/guards';
+import { updatedDraftApiTypeToDraftApiType } from '../../containers/ArticlePage/articleTransformers';
 
 const twoArticlesCloseButtonStyle = css`
   position: absolute;
@@ -77,7 +78,7 @@ const toApiVersion = (
 ): DraftApiType & { language?: string } => {
   return isDraftApiType(article)
     ? article
-    : { ...transformArticleToApiVersion(article), language: article.language };
+    : { ...updatedDraftApiTypeToDraftApiType(article), language: article.language };
 };
 
 interface Props {
@@ -191,12 +192,14 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
             onChangePreviewLanguage={onChangePreviewLanguage}
             previewLanguage={previewLanguage!}
             getEntityPreview={(article, label, contentType) => (
-              <PreviewDraft
-                article={article as ArticleType}
-                label={label}
-                contentType={contentType}
-                language={previewLanguage! as LocaleType}
-              />
+              <OneColumn>
+                <PreviewDraft
+                  article={article as ArticleConverterApiType}
+                  label={label}
+                  contentType={contentType}
+                  language={previewLanguage! as LocaleType}
+                />
+              </OneColumn>
             )}
           />
         </Lightbox>
@@ -205,4 +208,4 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
   );
 };
 
-export default withTranslation()(PreviewDraftLightbox);
+export default PreviewDraftLightbox;

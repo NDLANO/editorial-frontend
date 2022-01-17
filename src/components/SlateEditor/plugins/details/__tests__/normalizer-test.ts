@@ -55,7 +55,6 @@ describe('details normalizer tests', () => {
         type: TYPE_SECTION,
         children: [
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
-
           {
             type: TYPE_DETAILS,
             children: [
@@ -64,7 +63,6 @@ describe('details normalizer tests', () => {
             ],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
-
           {
             type: TYPE_DETAILS,
             children: [
@@ -73,7 +71,6 @@ describe('details normalizer tests', () => {
             ],
           },
           { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
-
           {
             type: TYPE_DETAILS,
             children: [
@@ -225,18 +222,18 @@ describe('details normalizer tests', () => {
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: 'upper' }] },
           {
             type: TYPE_DETAILS,
             children: [
               {
                 type: TYPE_SUMMARY,
-                children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
+                children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'title' }] }],
               },
-              { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: 'content' }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: 'lower' }] },
         ],
       },
     ];
@@ -245,15 +242,15 @@ describe('details normalizer tests', () => {
       {
         type: TYPE_SECTION,
         children: [
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: 'upper' }] },
           {
             type: TYPE_DETAILS,
             children: [
-              { type: TYPE_SUMMARY, children: [{ text: 'content' }] },
-              { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+              { type: TYPE_SUMMARY, children: [{ text: 'title' }] },
+              { type: TYPE_PARAGRAPH, children: [{ text: 'content' }] },
             ],
           },
-          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+          { type: TYPE_PARAGRAPH, children: [{ text: 'lower' }] },
         ],
       },
     ];

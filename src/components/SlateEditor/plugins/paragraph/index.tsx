@@ -90,7 +90,7 @@ export const paragraphSerializer: SlateSerializer = {
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
-    if (node.type !== TYPE_PARAGRAPH /*&& node.type !== 'line'*/) return;
+    if (node.type !== TYPE_PARAGRAPH) return;
 
     /**
       We insert empty p tag throughout the document to enable positioning the cursor

@@ -126,18 +126,23 @@ export const paragraphPlugin = (language?: string, blockpickerOptions?: BlockPic
   editor.normalizeNode = entry => {
     const [node, path] = entry;
 
-    if (Element.isElement(node) && node.type === TYPE_PARAGRAPH && node.serializeAsText) {
+    if (Element.isElement(node) && node.type === TYPE_PARAGRAPH) {
       const [parentNode] = Editor.node(editor, Path.parent(path));
+
+      // If paragraph is not in a list or table, make sure it will be rendered with <p>-tag
       if (
         Element.isElement(parentNode) &&
+        parentNode.type !== TYPE_TABLE_CELL &&
         parentNode.type !== TYPE_LIST_ITEM &&
-        parentNode.type !== TYPE_TABLE_CELL
+        node.serializeAsText
       ) {
         return Transforms.unsetNodes(editor, 'serializeAsText', { at: path });
       }
+
+      // If two paragraphs are direct siblings, make sure both will be rendered with <p>-tag
       if (Path.hasPrevious(path)) {
         const [previousNode] = Editor.node(editor, Path.previous(path));
-        if (isParagraph(previousNode)) {
+        if (isParagraph(previousNode) && (previousNode.serializeAsText || node.serializeAsText)) {
           return Transforms.unsetNodes(editor, 'serializeAsText', {
             at: Path.parent(path),
             mode: 'all',
@@ -147,7 +152,7 @@ export const paragraphPlugin = (language?: string, blockpickerOptions?: BlockPic
       }
       if (Editor.hasPath(editor, Path.next(path))) {
         const [nextNode] = Editor.node(editor, Path.next(path));
-        if (isParagraph(nextNode)) {
+        if (isParagraph(nextNode) && (nextNode.serializeAsText || node.serializeAsText)) {
           return Transforms.unsetNodes(editor, 'serializeAsText', {
             at: Path.parent(path),
             mode: 'all',
@@ -157,7 +162,7 @@ export const paragraphPlugin = (language?: string, blockpickerOptions?: BlockPic
       }
     }
 
-    // Unwrap block element children
+    // Unwrap block element children. Only text allowed.
     if (Element.isElement(node) && node.type === TYPE_PARAGRAPH) {
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Element.isElement(child) && !editor.isInline(child)) {

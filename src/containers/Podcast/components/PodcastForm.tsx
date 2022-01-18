@@ -60,6 +60,11 @@ const podcastRules: RulesType<PodcastFormValues> = {
   },
   license: {
     required: true,
+    test: values => {
+      const authors = values.creators.concat(values.rightsholders).concat(values.processors);
+      if (authors.length > 0) return undefined;
+      return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
+    },
   },
   processors: {
     allObjectFieldsRequired: true,

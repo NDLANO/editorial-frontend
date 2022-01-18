@@ -136,6 +136,11 @@ export const formikCommonArticleRules: RulesType<ArticleFormType> = {
   },
   license: {
     required: false,
+    test: values => {
+      const authors = values.creators.concat(values.rightsholders).concat(values.processors);
+      if (values.license === 'N/A' || authors.length > 0) return undefined;
+      return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
+    },
   },
   notes: {
     required: false,

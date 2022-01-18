@@ -15,13 +15,16 @@ import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
 import { ConceptPatchType } from '../../modules/concept/conceptApiInterfaces';
+import { LocaleType } from '../../interfaces';
 
 interface Props {
   isNewlyCreated?: boolean;
 }
 
 const EditConcept = ({ isNewlyCreated }: Props) => {
-  const { id: conceptId, selectedLanguage } = useParams<'id' | 'selectedLanguage'>();
+  const params = useParams<'id' | 'selectedLanguage'>();
+  const conceptId = params.id;
+  const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
   const {
     concept,
@@ -48,6 +51,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
   if (!concept) {
     return <NotFoundPage />;
   }
+  const newLanguage = !concept.supportedLanguages.includes(selectedLanguage);
 
   return (
     <>
@@ -56,7 +60,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         inModal={false}
         concept={concept}
         conceptArticles={conceptArticles}
-        conceptChanged={conceptChanged}
+        conceptChanged={conceptChanged || newLanguage}
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
         onUpdate={async concept => {

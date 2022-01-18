@@ -49,7 +49,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
     return <Navigate replace to={replaceUrl} />;
   }
-
+  const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
   return (
     <>
       <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
@@ -58,7 +58,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         articleTaxonomy={taxonomy}
         article={article}
         articleStatus={article.status}
-        articleChanged={articleChanged}
+        articleChanged={articleChanged || newLanguage}
         translating={translating}
         translateToNN={translateToNN}
         isNewlyCreated={isNewlyCreated}

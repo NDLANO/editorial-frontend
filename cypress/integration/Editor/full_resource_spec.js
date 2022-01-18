@@ -16,6 +16,7 @@ describe('Edit article with everything', () => {
     editorRoutes(ARTICLE_ID);
 
     cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
+    cy.wait(1000);
     cy.apiwait([`@draft-${ARTICLE_ID}`, '@statusMachine', '@licenses']);
   });
 

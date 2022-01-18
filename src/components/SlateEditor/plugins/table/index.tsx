@@ -231,6 +231,10 @@ export const tablePlugin = (editor: Editor) => {
       case TYPE_TABLE:
         return (
           <SlateTable editor={editor} element={element} attributes={attributes}>
+            <colgroup
+              contentEditable={false}
+              dangerouslySetInnerHTML={{ __html: element.colgroups }}
+            />
             {children}
           </SlateTable>
         );

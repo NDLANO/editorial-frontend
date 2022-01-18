@@ -22,6 +22,8 @@ import { isValidURL, urlDomain, getIframeSrcFromHtmlString } from '../../util/ht
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
 import { urlTransformers } from './urlTransformers';
+import { VisualElementChangeReturnType } from './VisualElementSearch';
+import { ExternalEmbed } from '../../interfaces';
 
 const filterWhiteListedURL = (url: string) => {
   const domain = urlDomain(url);
@@ -53,7 +55,7 @@ interface Props {
   selectedResourceUrl?: string;
   selectedResourceType?: string;
   resource?: string;
-  onUrlSave: Function;
+  onUrlSave: (returnType: VisualElementChangeReturnType) => void;
 }
 const StyledPreviewItem = styled('div')`
   width: 50%;
@@ -109,7 +111,10 @@ const VisualElementUrlPreview = ({
           setEmbedUrl(src ?? undefined);
           setShowPreview(true);
         } else {
-          onUrlSave({ resource: 'external', url: src });
+          onUrlSave({
+            value: { resource: 'external', url: src || undefined } as ExternalEmbed,
+            type: 'embed',
+          });
         }
       } catch (err) {
         if (preview) {
@@ -117,10 +122,13 @@ const VisualElementUrlPreview = ({
           setShowPreview(true);
         } else {
           onUrlSave({
-            resource: 'iframe',
-            url,
-            width: '708px',
-            height: whiteListedUrl.height || '486px',
+            type: 'embed',
+            value: {
+              resource: 'iframe',
+              url,
+              width: '708px',
+              height: whiteListedUrl.height || '486px',
+            } as ExternalEmbed,
           });
         }
       }

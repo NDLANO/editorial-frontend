@@ -1114,6 +1114,8 @@ const phrases = {
     minItems: '{{label}} feltet må minst inneholde ein/eitt {{labelLowerCase}}.',
     minItems_plural: '{{label}} feltet må minst inneholde {{count}} ulike {{labelLowerCase}}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
+    noLicenseWithoutCopyrightHolder:
+      'Ein lisens kan ikkje takast i bruk uten å definere minst ein opphavar.',
     maxSizeExceeded:
       'Filen du forsøkar å laste opp er for stor. Maksstorleik: {{maxSize}} MB. Filstorleik: {{fileSize}} MB.',
     grepCodes:

@@ -17,7 +17,6 @@ const isCodeHotKey = isKeyHotkey('mod+k');
 const isConceptBlockHotKey = isCodeHotkey('mod+alt+c');
 const isH2HotKey = isKeyHotkey('mod+2');
 const isH3HotKey = isKeyHotkey('mod+3');
-const isFootnoteHotKey = isCodeHotkey('mod+alt+f');
 const isItalicHotKey = isKeyHotkey('mod+i');
 const isLetteredListHotKey = isCodeHotkey('mod+alt+a');
 const isLinkHotKey = isCodeHotkey('mod+alt+l');
@@ -49,8 +48,6 @@ const toolbarPlugin = (editor: Editor) => {
       mark = 'code';
     } else if (isConceptBlockHotKey(e)) {
       inline = 'concept';
-    } else if (isFootnoteHotKey(e)) {
-      inline = 'footnote';
     } else if (isH2HotKey(e)) {
       block = 'heading-2';
     } else if (isH3HotKey(e)) {

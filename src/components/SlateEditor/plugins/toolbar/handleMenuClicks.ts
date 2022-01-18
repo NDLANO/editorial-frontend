@@ -12,7 +12,6 @@ import toggleBlock from '../../utils/toggleBlock';
 import { toggleHeading } from '../heading/utils';
 import { LIST_TYPES } from '../list/types';
 import { toggleList } from '../list/utils/toggleList';
-import { insertFootnote } from '../footnote/utils';
 import { insertMathml } from '../mathml/utils';
 import { insertConcept } from '../concept/utils';
 
@@ -34,9 +33,6 @@ export function handleClickInline(event: KeyboardEvent, editor: Editor, type: st
     event.preventDefault();
     if (type === 'link') {
       insertLink(editor);
-    }
-    if (type === 'footnote') {
-      insertFootnote(editor);
     }
     if (type === 'mathml') {
       insertMathml(editor);

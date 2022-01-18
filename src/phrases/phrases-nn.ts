@@ -589,6 +589,7 @@ const phrases = {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
       version: 'Versjon {{revision}}',
       current: 'Gjeldende versjon',
+      article: 'Artikkel',
     },
     previewLanguageArticle: {
       button: 'Samanlikn språkversjonar',
@@ -669,7 +670,6 @@ const phrases = {
     availability: {
       everyone: 'Alle',
       teacher: 'Lærarar',
-      student: 'Elevar',
       label: 'Tilgjengelighet',
       description: 'Kven er artikkelen meint for:',
     },

@@ -11,6 +11,7 @@ import LearningResourceContent from './LearningResourceContent';
 import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { DraftApiType, UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
+import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 
 interface Props {
   handleSubmit: (
@@ -18,6 +19,7 @@ interface Props {
     formikHelpers: FormikHelpers<LearningResourceFormType>,
   ) => Promise<void>;
   article?: DraftApiType;
+  taxonomy?: ArticleTaxonomy;
   updateNotes: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
   articleLanguage: string;
@@ -25,6 +27,7 @@ interface Props {
 
 const LearningResourcePanels = ({
   article,
+  taxonomy,
   updateNotes,
   getArticle,
   handleSubmit,
@@ -51,12 +54,16 @@ const LearningResourcePanels = ({
           values={values}
         />
       </AccordionSection>
-      {article && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {article && taxonomy && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
         <AccordionSection
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}>
-          <LearningResourceTaxonomy article={article} updateNotes={updateNotes} />
+          <LearningResourceTaxonomy
+            article={article}
+            updateNotes={updateNotes}
+            taxonomy={taxonomy}
+          />
         </AccordionSection>
       )}
       <AccordionSection

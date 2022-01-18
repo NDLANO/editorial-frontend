@@ -44,7 +44,7 @@ export function createSaveAction(monaco, onSave) {
     contextMenuOrder: 0,
 
     run: async function(editor) {
-      await onSave();
+      await onSave(editor.getValue());
 
       return null;
     },

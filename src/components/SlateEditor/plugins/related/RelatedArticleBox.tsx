@@ -215,7 +215,8 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
             title: t('form.related.title'),
             showMore: t('form.related.showMore'),
             showLess: t('form.related.showLess'),
-          }}>
+          }}
+          articleCount={articles.length}>
           <>
             {articles.map((item, i) =>
               !('id' in item) ? (

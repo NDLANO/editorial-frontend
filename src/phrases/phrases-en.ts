@@ -588,6 +588,7 @@ const phrases = {
       button: 'Compare current version with old version',
       version: 'Version {{revision}}',
       current: 'Current version',
+      article: 'Article',
     },
     previewLanguageArticle: {
       button: 'Compare language versions',
@@ -668,7 +669,6 @@ const phrases = {
     availability: {
       everyone: 'Everyone',
       teacher: 'Teachers',
-      student: 'Students',
       label: 'Availability',
       description: 'Who the article is intended for:',
     },

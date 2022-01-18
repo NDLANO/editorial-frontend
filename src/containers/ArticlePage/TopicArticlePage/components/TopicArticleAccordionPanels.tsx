@@ -20,10 +20,12 @@ import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
 import { DraftApiType, UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
 import { onSaveAsVisualElement } from '../../../FormikForm/utils';
+import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 
 interface Props {
   handleSubmit: () => Promise<void>;
   article?: DraftApiType;
+  taxonomy?: ArticleTaxonomy;
   updateNotes: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   getArticle: () => UpdatedDraftApiType;
   articleLanguage: string;
@@ -35,6 +37,7 @@ const TopicArticleAccordionPanels = ({
   updateNotes,
   getArticle,
   articleLanguage,
+  taxonomy,
 }: Props) => {
   const { t } = useTranslation();
   const { userAccess } = useSession();
@@ -50,12 +53,12 @@ const TopicArticleAccordionPanels = ({
         startOpen>
         <TopicArticleContent handleSubmit={handleSubmit} values={values} />
       </AccordionSection>
-      {article && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {article && taxonomy && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
         <AccordionSection
           id={'topic-article-taxonomy'}
           title={t('form.taxonomySection')}
           className={'u-6/6'}>
-          <TopicArticleTaxonomy article={article} updateNotes={updateNotes} />
+          <TopicArticleTaxonomy article={article} updateNotes={updateNotes} taxonomy={taxonomy} />
         </AccordionSection>
       )}
       <AccordionSection

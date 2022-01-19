@@ -22,8 +22,8 @@ import {
   toggleRowHeaders,
   insertTableHead,
   TYPE_TABLE_CAPTION,
-  TYPE_TABLE,
 } from './utils';
+import { TableElement } from './interfaces';
 import { isTable, isTableHead } from './helpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 
@@ -39,29 +39,29 @@ const tableActionButtonStyle = css`
 
 const StyledTableActions = styled('div')`
   background: ${colors.white};
-  display: ${(p: { show: boolean }) => (p.show ? 'block;' : 'none')};
   box-shadow: 1px 1px 8px 1px ${colors.brand.greyLighter};
   border-radius: 5px;
-  transform: translateY(-100%);
-  top: -10px;
+  bottom: -50px;
   padding: 5px;
   position: absolute;
+`;
+
+const Wrapper = styled('div')`
+  display: ${(p: { show: boolean }) => (p.show ? 'block;' : 'none')};
+  position: relative;
 `;
 
 const supportedTableOperations = ['row-add', 'column-add', 'row-remove', 'column-remove'];
 
 interface Props {
   editor: Editor;
+  element: TableElement;
 }
 
-const TableActions = ({ editor }: Props) => {
+const TableActions = ({ editor, element }: Props) => {
   const { t } = useTranslation();
-  const tableEntry = getCurrentBlock(editor, TYPE_TABLE);
-  if (!tableEntry) {
-    return null;
-  }
-
-  const [table, tablePath] = tableEntry;
+  const tablePath = ReactEditor.findPath(editor, element);
+  const [table] = Editor.node(editor, tablePath);
   const captionEntry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
 
   if (!isTable(table)) {
@@ -79,17 +79,17 @@ const TableActions = ({ editor }: Props) => {
           break;
         }
         case 'row-add':
-          insertRow(editor, table, selectedPath);
+          insertRow(editor, element, selectedPath);
           break;
         case 'head-add':
           insertTableHead(editor);
           break;
         case 'column-remove': {
-          removeColumn(editor, table, selectedPath);
+          removeColumn(editor, element, selectedPath);
           break;
         }
         case 'column-add':
-          insertColumn(editor, table, selectedPath);
+          insertColumn(editor, element, selectedPath);
           break;
         case 'table-remove':
           removeTable(editor, tablePath);
@@ -110,58 +110,60 @@ const TableActions = ({ editor }: Props) => {
     selectedPath && !hasTableHead && Path.isCommon([...tablePath, 1], selectedPath);
   const show =
     Range.isRange(editor.selection) &&
-    Range.includes(editor.selection, tablePath) &&
+    Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&
     ReactEditor.isFocused(editor);
   return (
-    <StyledTableActions show={show} contentEditable={false}>
-      {!captionEntry &&
-        supportedTableOperations.map(operation => (
-          <Button
-            key={operation}
-            data-cy={operation}
-            stripped
-            onMouseDown={(e: Event) => handleOnClick(e, operation)}
-            css={tableActionButtonStyle}>
-            <span>{t(`form.content.table.${operation}`)}</span>
-          </Button>
-        ))}
-      <Button
-        key={'table-remove'}
-        data-cy={'table-remove'}
-        stripped
-        onMouseDown={(e: Event) => handleOnClick(e, 'table-remove')}
-        css={tableActionButtonStyle}>
-        <span>{t(`form.content.table.${'table-remove'}`)}</span>
-      </Button>
-      {!captionEntry && (
-        <>
-          <Button
-            key={'toggle-row-headers'}
-            data-cy={'toggle-row-headers'}
-            stripped
-            onMouseDown={(e: Event) => handleOnClick(e, 'toggle-row-headers')}
-            css={tableActionButtonStyle}>
-            <span>
-              {t(
-                `form.content.table.${
-                  isTable(table) && table.rowHeaders ? 'disableRowHeaders' : 'enableRowHeaders'
-                }`,
-              )}
-            </span>
-          </Button>
-          {showAddHeader && (
+    <Wrapper contentEditable={false} show={show}>
+      <StyledTableActions>
+        {!captionEntry &&
+          supportedTableOperations.map(operation => (
             <Button
-              key={'head-add'}
-              data-cy={'head-add'}
+              key={operation}
+              data-cy={operation}
               stripped
-              onMouseDown={(e: Event) => handleOnClick(e, 'head-add')}
+              onMouseDown={(e: Event) => handleOnClick(e, operation)}
               css={tableActionButtonStyle}>
-              <span>{t(`form.content.table.addHead`)}</span>
+              <span>{t(`form.content.table.${operation}`)}</span>
             </Button>
-          )}
-        </>
-      )}
-    </StyledTableActions>
+          ))}
+        <Button
+          key={'table-remove'}
+          data-cy={'table-remove'}
+          stripped
+          onMouseDown={(e: Event) => handleOnClick(e, 'table-remove')}
+          css={tableActionButtonStyle}>
+          <span>{t(`form.content.table.${'table-remove'}`)}</span>
+        </Button>
+        {!captionEntry && (
+          <>
+            <Button
+              key={'toggle-row-headers'}
+              data-cy={'toggle-row-headers'}
+              stripped
+              onMouseDown={(e: Event) => handleOnClick(e, 'toggle-row-headers')}
+              css={tableActionButtonStyle}>
+              <span>
+                {t(
+                  `form.content.table.${
+                    isTable(table) && table.rowHeaders ? 'disableRowHeaders' : 'enableRowHeaders'
+                  }`,
+                )}
+              </span>
+            </Button>
+            {showAddHeader && (
+              <Button
+                key={'head-add'}
+                data-cy={'head-add'}
+                stripped
+                onMouseDown={(e: Event) => handleOnClick(e, 'head-add')}
+                css={tableActionButtonStyle}>
+                <span>{t(`form.content.table.addHead`)}</span>
+              </Button>
+            )}
+          </>
+        )}
+      </StyledTableActions>
+    </Wrapper>
   );
 };
 

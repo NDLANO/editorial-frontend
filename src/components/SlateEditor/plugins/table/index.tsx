@@ -48,6 +48,7 @@ import { TableElement } from './interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
 import WithPlaceHolder from './../../common/WithPlaceHolder';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import TableActions from './TableActions';
 
 export const KEY_ARROW_UP = 'ArrowUp';
 export const KEY_ARROW_DOWN = 'ArrowDown';
@@ -230,15 +231,17 @@ export const tablePlugin = (editor: Editor) => {
     switch (element.type) {
       case TYPE_TABLE:
         return (
-          <SlateTable editor={editor} element={element} attributes={attributes}>
-            {/* {element.colgroups && (
+          <>
+            <TableActions editor={editor} element={element} />
+            <SlateTable editor={editor} element={element} attributes={attributes}>
               <colgroup
                 contentEditable={false}
-                dangerouslySetInnerHTML={{ __html: element.colgroups }}
+                dangerouslySetInnerHTML={{ __html: element.colgroups || '' }}
               />
-            )} */}
-            {children}
-          </SlateTable>
+
+              {children}
+            </SlateTable>
+          </>
         );
       case TYPE_TABLE_CAPTION:
         return <caption {...attributes}>{children}</caption>;

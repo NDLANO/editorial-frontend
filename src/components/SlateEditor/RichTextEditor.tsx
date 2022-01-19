@@ -27,6 +27,7 @@ import { onDragOver, onDragStart, onDrop } from './plugins/DND';
 import withPlugins from './utils/withPlugins';
 import Spinner from '../Spinner';
 import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
+import TableActions from './plugins/table/TableActions';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -176,6 +177,7 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
               <Spinner />
             ) : (
               <>
+                <TableActions editor={editor} />
                 <SlateToolbar editor={editor} />
                 <Editable
                   decorate={decorations}

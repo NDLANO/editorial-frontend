@@ -22,8 +22,8 @@ import {
   toggleRowHeaders,
   insertTableHead,
   TYPE_TABLE_CAPTION,
+  TYPE_TABLE,
 } from './utils';
-import { TableElement } from './interfaces';
 import { isTable, isTableHead } from './helpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 
@@ -52,13 +52,16 @@ const supportedTableOperations = ['row-add', 'column-add', 'row-remove', 'column
 
 interface Props {
   editor: Editor;
-  element: TableElement;
 }
 
-const TableActions = ({ editor, element }: Props) => {
+const TableActions = ({ editor }: Props) => {
   const { t } = useTranslation();
-  const tablePath = ReactEditor.findPath(editor, element);
-  const [table] = Editor.node(editor, tablePath);
+  const tableEntry = getCurrentBlock(editor, TYPE_TABLE);
+  if (!tableEntry) {
+    return null;
+  }
+
+  const [table, tablePath] = tableEntry;
   const captionEntry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
 
   if (!isTable(table)) {
@@ -76,17 +79,17 @@ const TableActions = ({ editor, element }: Props) => {
           break;
         }
         case 'row-add':
-          insertRow(editor, element, selectedPath);
+          insertRow(editor, table, selectedPath);
           break;
         case 'head-add':
           insertTableHead(editor);
           break;
         case 'column-remove': {
-          removeColumn(editor, element, selectedPath);
+          removeColumn(editor, table, selectedPath);
           break;
         }
         case 'column-add':
-          insertColumn(editor, element, selectedPath);
+          insertColumn(editor, table, selectedPath);
           break;
         case 'table-remove':
           removeTable(editor, tablePath);
@@ -107,7 +110,7 @@ const TableActions = ({ editor, element }: Props) => {
     selectedPath && !hasTableHead && Path.isCommon([...tablePath, 1], selectedPath);
   const show =
     Range.isRange(editor.selection) &&
-    Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&
+    Range.includes(editor.selection, tablePath) &&
     ReactEditor.isFocused(editor);
   return (
     <StyledTableActions show={show} contentEditable={false}>

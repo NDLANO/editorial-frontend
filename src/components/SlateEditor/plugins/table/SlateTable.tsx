@@ -6,11 +6,11 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import { Editor } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { TableElement } from './interfaces';
-import TableActions from './TableActions';
 
 interface Props {
   editor: Editor;
@@ -19,13 +19,26 @@ interface Props {
   children: ReactNode;
 }
 
+const StyledTable = styled.table`
+  margin-left: 50%;
+  transform: TranslateX(-50%);
+  padding: 0 24px;
+  margin-top: 64px;
+  margin-bottom: 64px;
+  &:before {
+    display: none;
+  }
+  &:after {
+    display: none;
+  }
+`;
+
 const SlateTable = (props: Props) => {
-  const { editor, attributes, element, children } = props;
+  const { attributes, children } = props;
   return (
-    <div className="c-table__wrapper c-table__content">
-      <TableActions editor={editor} element={element} />
-      <table {...attributes}>{children}</table>
-    </div>
+    <StyledTable className="c-table" {...attributes}>
+      {children}
+    </StyledTable>
   );
 };
 

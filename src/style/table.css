@@ -11,16 +11,6 @@
   min-width: 29px;
 }
 
-.c-editor table {
-  margin: 0 !important;
-  padding: 0 24px;
-}
-
-.c-editor .c-table__content {
-  margin: 64px 0;
-  padding: 0;
-}
-
 .c-editor td p {
   margin-top: 0;
 }

@@ -46,7 +46,7 @@ const StyledTableActions = styled('div')`
   position: absolute;
 `;
 
-const Wrapper = styled('div')`
+const StyledWrapper = styled('div')`
   display: ${(p: { show: boolean }) => (p.show ? 'block;' : 'none')};
   position: relative;
 `;
@@ -113,7 +113,7 @@ const TableActions = ({ editor, element }: Props) => {
     Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&
     ReactEditor.isFocused(editor);
   return (
-    <Wrapper contentEditable={false} show={show}>
+    <StyledWrapper contentEditable={false} show={show}>
       <StyledTableActions>
         {!captionEntry &&
           supportedTableOperations.map(operation => (
@@ -163,7 +163,7 @@ const TableActions = ({ editor, element }: Props) => {
           </>
         )}
       </StyledTableActions>
-    </Wrapper>
+    </StyledWrapper>
   );
 };
 

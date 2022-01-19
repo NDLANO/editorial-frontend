@@ -19,6 +19,15 @@ const editorRoutes = ARTICLE_ID => {
   cy.intercept('GET', '/learningpath-api/v2/learningpaths/contains-article/*', { body: [] });
   cy.intercept('GET', `${taxonomyApi}/resources/**`, { body: [] });
   cy.intercept('GET', `${taxonomyApi}/topics/**`, { body: [] });
+  cy.intercept('GET', '/search-api/v1/search/editorial/**', {
+    body: {
+      totalCount: 0,
+      page: 0,
+      pageSize: 0,
+      language: 'nb',
+      results: [],
+    },
+  });
 
   cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
   cy.apiroute('GET', '/draft-api/v1/agreements?query=', 'agreements');

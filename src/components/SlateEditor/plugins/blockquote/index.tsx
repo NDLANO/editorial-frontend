@@ -12,8 +12,8 @@ import { Descendant, Editor, Element, Transforms } from 'slate';
 import { SlateSerializer } from '../../interfaces';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
+import { KEY_ENTER } from '../../utils/keys';
 
-const KEY_ENTER = 'Enter';
 export const TYPE_QUOTE = 'quote';
 
 export interface BlockQuoteElement {

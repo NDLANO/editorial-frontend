@@ -49,13 +49,14 @@ import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNor
 import WithPlaceHolder from './../../common/WithPlaceHolder';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import TableActions from './TableActions';
-
-export const KEY_ARROW_UP = 'ArrowUp';
-export const KEY_ARROW_DOWN = 'ArrowDown';
-export const KEY_TAB = 'Tab';
-export const KEY_BACKSPACE = 'Backspace';
-export const KEY_DELETE = 'Delete';
-const KEY_ENTER = 'Enter';
+import {
+  KEY_ARROW_DOWN,
+  KEY_ARROW_UP,
+  KEY_BACKSPACE,
+  KEY_DELETE,
+  KEY_ENTER,
+  KEY_TAB,
+} from '../../utils/keys';
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
 

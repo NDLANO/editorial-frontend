@@ -18,8 +18,7 @@ import { TYPE_LIST_ITEM } from '../list/types';
 import { BlockPickerOptions } from '../blockPicker/options';
 import Paragraph from './Paragraph';
 import { TYPE_TABLE_CELL } from '../table/utils';
-
-const KEY_ENTER = 'Enter';
+import { KEY_ENTER } from '../../utils/keys';
 
 export interface ParagraphElement {
   type: 'paragraph';

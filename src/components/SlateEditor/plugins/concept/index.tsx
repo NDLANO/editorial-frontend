@@ -13,8 +13,8 @@ import hasNodeOfType from '../../utils/hasNodeOfType';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import EditSlateConcept from './EditSlateConcept';
+import { KEY_BACKSPACE } from '../../utils/keys';
 
-const KEY_BACKSPACE = 'Backspace';
 export const TYPE_CONCEPT = 'concept';
 
 export interface ConceptElement {

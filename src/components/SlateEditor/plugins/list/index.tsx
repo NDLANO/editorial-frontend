@@ -15,10 +15,7 @@ import { TYPE_FOOTNOTE } from '../footnote';
 import { TYPE_CONTENT_LINK, TYPE_LINK } from '../link';
 import { TYPE_MATHML } from '../mathml';
 import { TYPE_LIST, TYPE_LIST_ITEM } from './types';
-
-const KEY_ENTER = 'Enter';
-const KEY_TAB = 'Tab';
-const KEY_BACKSPACE = 'Backspace';
+import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from '../../utils/keys';
 
 export interface ListElement {
   type: 'list';

@@ -13,10 +13,9 @@ import { SlateSerializer } from '../../interfaces';
 import Footnote from './Footnote';
 import { reduceElementDataAttributes, createEmbedTag } from '../../../../util/embedTagHelpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
+import { KEY_BACKSPACE, KEY_DELETE } from '../../utils/keys';
 
 export const TYPE_FOOTNOTE = 'footnote';
-const KEY_BACKSPACE = 'Backspace';
-const KEY_DELETE = 'Delete';
 
 export interface FootnoteElement {
   type: 'footnote';

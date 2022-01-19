@@ -23,11 +23,10 @@ import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import Summary from './Summary';
 import WithPlaceHolder from '../../common/WithPlaceHolder';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
 
 export const TYPE_DETAILS = 'details';
 export const TYPE_SUMMARY = 'summary';
-const KEY_ENTER = 'Enter';
-const KEY_BACKSPACE = 'Backspace';
 
 export interface DetailsElement {
   type: 'details';

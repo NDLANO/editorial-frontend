@@ -49,6 +49,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     const redirectUrl = toEditArticle(article.id, article.articleType, article.title?.language);
     return <Navigate replace to={redirectUrl} />;
   }
+  const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
   return (
     <>
       <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
@@ -56,7 +57,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
         articleTaxonomy={taxonomy}
         articleStatus={article.status}
         articleLanguage={selectedLanguage}
-        articleChanged={articleChanged}
+        articleChanged={articleChanged || newLanguage}
         article={article}
         translateToNN={translateToNN}
         translating={translating}

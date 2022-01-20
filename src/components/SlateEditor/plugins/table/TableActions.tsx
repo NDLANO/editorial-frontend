@@ -49,6 +49,7 @@ const StyledTableActions = styled('div')`
 const StyledWrapper = styled('div')`
   display: ${(p: { show: boolean }) => (p.show ? 'block;' : 'none')};
   position: relative;
+  z-index: 1;
 `;
 
 const supportedTableOperations = ['row-add', 'column-add', 'row-remove', 'column-remove'];

@@ -6,11 +6,9 @@
  *
  */
 
-import { setToken } from '../../support';
-
 describe('Search audios', () => {
   beforeEach(() => {
-    setToken();
+    cy.setToken();
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute('GET', '/audio-api/v1/audio/?page=1&page-size=10&sort=-relevance', 'searchAudios');

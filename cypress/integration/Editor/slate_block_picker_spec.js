@@ -6,18 +6,17 @@
  *
  */
 
-import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 describe('can enter both element types SlateBlockPicker and SlateVisualElementPicker and add, remove, open and close them', () => {
   before(() => {
-    setToken();
     editorRoutes();
-    cy.visit('/subject-matter/learning-resource/new');
-    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
   });
 
   beforeEach(() => {
+    cy.setToken();
+    cy.visit('/subject-matter/learning-resource/new');
+    cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
     cy.get('[data-slate-node=element] > p').clear();
     cy.get('[data-slate-node=element] > p').should('exist');
     cy.get('[data-slate-node=element] > p')
@@ -145,7 +144,6 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   });
 
   it('opens and closes related', () => {
-    setToken();
     cy.apiroute('GET', '**/search-api/v1/search/editorial/*', 'search');
 
     cy.get('[data-cy=create-related]').click();

@@ -23,6 +23,7 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+import { expiresIn } from '../../src/util/jwtHelper';
 
 Cypress.Commands.add('apiroute', (method, url, alias) => {
   if (Cypress.env('USE_FIXTURES')) {
@@ -81,6 +82,46 @@ Cypress.Commands.add('apiwait', aliases => {
   }
 
   return cy.wait(aliases);
+});
+
+const expiresAt = (jwt) => {
+  const now = new Date().getTime();
+  return jwt ? expiresIn(jwt) * 1000 + now : now;
+}
+
+Cypress.Commands.add('setToken', () => {
+  const options = {
+    method: 'POST',
+    url: 'https://ndla-test.eu.auth0.com/oauth/token',
+    body: {
+      client_id: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_ID'),
+      client_secret: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_SECRET'),
+      grant_type: Cypress.env('NDLA_END_TO_END_TESTING_GRANT_TYPE'),
+      audience: Cypress.env('NDLA_END_TO_END_TESTING_AUDIENCE'),
+    },
+    json: true,
+  };
+  cy.session('session',() => {
+    const token = localStorage.getItem('access_token');
+    const expires = expiresAt(token);
+    if (!token || expires < new Date().getTime()) {
+      cy.request(options).then(res => {
+        localStorage.setItem('access_token', res.body.access_token);
+        localStorage.setItem(
+          'access_token_expires_at',
+          expiresAt(res.body.access_token),
+        );
+        localStorage.setItem('access_token_personal', true);
+      });    
+    } else {
+      localStorage.setItem('access_token', token);
+      localStorage.setItem(
+        'access_token_expires_at',
+        expires
+      );
+      localStorage.setItem('access_token_personal', true);
+    }    
+  });
 });
 
 const COMMAND_DELAY = Cypress.env('COMMAND_DELAY') || 0;

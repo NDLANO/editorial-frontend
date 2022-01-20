@@ -15,7 +15,6 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands';
-import { expiresIn } from '../../src/util/jwtHelper';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
@@ -24,40 +23,6 @@ import { expiresIn } from '../../src/util/jwtHelper';
     win.fetch = null; //eslint-disable-line
   },
 };*/
-
-let token = '';
-
-export const setToken = () => {
-  if (!token) {
-    const options = {
-      method: 'POST',
-      url: 'https://ndla-test.eu.auth0.com/oauth/token',
-      body: {
-        client_id: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_ID'),
-        client_secret: Cypress.env('NDLA_END_TO_END_TESTING_CLIENT_SECRET'),
-        grant_type: Cypress.env('NDLA_END_TO_END_TESTING_GRANT_TYPE'),
-        audience: Cypress.env('NDLA_END_TO_END_TESTING_AUDIENCE'),
-      },
-      json: true,
-    };
-    cy.request(options).then(res => {
-      localStorage.setItem('access_token', res.body.access_token);
-      localStorage.setItem(
-        'access_token_expires_at',
-        expiresIn(res.body.access_token) * 1000 + new Date().getTime(),
-      );
-      localStorage.setItem('access_token_personal', true);
-      token = res.body.access_token;
-    });
-  } else {
-    localStorage.setItem('access_token', token);
-    localStorage.setItem(
-      'access_token_expires_at',
-      expiresIn(token) * 1000 + new Date().getTime(),
-    );
-    localStorage.setItem('access_token_personal', true);
-  }
-};
 
 // Prevents promts to fix electron hanging: https://github.com/cypress-io/cypress/issues/2118
 Cypress.on('window:before:load', function (win) {
@@ -73,4 +38,5 @@ Cypress.on('window:before:load', function (win) {
     get: function () { },
     set: function () { }
   })
+
 })

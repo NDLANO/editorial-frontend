@@ -6,7 +6,6 @@
  *
  */
 
-import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 // change article ID and run cy-record to add the new fixture data
@@ -14,7 +13,7 @@ const ARTICLE_ID = 533;
 
 describe('Status changes', () => {
   beforeEach(() => {
-    setToken();
+    cy.setToken();
     editorRoutes(ARTICLE_ID);
     cy.apiroute(
       'PUT',

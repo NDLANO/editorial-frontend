@@ -6,11 +6,9 @@
  *
  */
 
-import { setToken } from '../../support';
-
 describe('Search images', () => {
   beforeEach(() => {
-    setToken();
+    cy.setToken();
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');
     cy.apiroute('GET', '/taxonomy/v1/subjects?language=nb', 'allSubjects');
     cy.apiroute(

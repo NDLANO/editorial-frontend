@@ -7,14 +7,13 @@
  */
 
 import { taxonomyApi } from '../../../src/config';
-import { setToken } from '../../support';
 import phrases from '../../../src/phrases/phrases-nb';
 
 const selectSubject = 'urn:subject:20';
 
 describe('Subject editing', () => {
-  before(() => {
-    setToken();
+  beforeEach(() => {
+    cy.setToken();
 
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute(
@@ -30,10 +29,6 @@ describe('Subject editing', () => {
 
     cy.visit(`/structure/${selectSubject}`);
     cy.apiwait(['@allSubjects', '@allSubjectTopics']);
-  });
-
-  beforeEach(() => {
-    setToken();
   });
 
   it('should add a new subject', () => {

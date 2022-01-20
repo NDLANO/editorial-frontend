@@ -7,11 +7,10 @@
  */
 
 import { taxonomyApi } from '../../../src/config';
-import { setToken } from '../../support';
 
 describe('Search concepts', () => {
   beforeEach(() => {
-    setToken();
+    cy.setToken();
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute('GET', '/concept-api/v1/drafts/*', 'searchConcepts');
     cy.apiroute('GET', '/draft-api/v1/drafts/licenses/', 'licenses');

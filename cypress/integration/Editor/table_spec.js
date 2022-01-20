@@ -6,13 +6,12 @@
  *
  */
 
-import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 import t from '../../../src/phrases/phrases-nb';
 
 describe('Table plugin', () => {
   before(() => {
-    setToken();
+    cy.setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
     cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');

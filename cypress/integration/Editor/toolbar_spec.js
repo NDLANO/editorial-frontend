@@ -6,12 +6,11 @@
  *
  */
 
-import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 describe('Selecting text and using the toolbar', () => {
-  before(() => {
-    setToken();
+  beforeEach(() => {
+    cy.setToken();
     editorRoutes();
     cy.visit('/subject-matter/learning-resource/new');
     cy.get('[data-slate-editor=true][contentEditable=true]').should('exist');
@@ -70,15 +69,15 @@ describe('Selecting text and using the toolbar', () => {
   });
 
   it('can create a valid link', () => {
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
-      .first()
-      .focus()
-      .then($el => {
-        cy.wrap($el)
-          .type('This is a test link{leftarrow}{leftarrow}')
-          .blur();
-        cy.wrap($el).type('{selectall}');
-      });
+    cy.get('[data-slate-node=element] > p')
+    .clear()
+    .should('be.visible')
+    .first()
+    .click();
+    cy.get('[data-slate-node=element] > p')
+      .type('This is a test link{leftarrow}{leftarrow}')
+      .contains('This is a test link')
+      .type('{selectall}');
 
     cy.get('[data-testid=toolbar-button-link]')
       .should('be.visible')

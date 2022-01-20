@@ -6,14 +6,13 @@
  *
  */
 
-import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 const ARTICLE_ID = 800;
 
 describe('Language handling', () => {
   beforeEach(() => {
-    setToken();
+    cy.setToken();
     editorRoutes();
     cy.apiroute(
       'GET',

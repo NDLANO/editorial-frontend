@@ -6,14 +6,13 @@
  *
  */
 
-import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 describe('Workflow features', () => {
   const ARTICLE_ID = 532;
   beforeEach(() => {
     // change article ID and run cy-record to add the new fixture data
-    setToken();
+    cy.setToken();
     editorRoutes(ARTICLE_ID);
 
     cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);

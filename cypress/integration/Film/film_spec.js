@@ -6,11 +6,9 @@
  *
  */
 
-import { setToken } from '../../support';
-
 describe('Film editing', () => {
-  before(() => {
-    setToken();
+  beforeEach(() => {
+    cy.setToken();
     cy.apiroute('GET', '**/frontpage-api/v1/filmfrontpage', 'filmFrontpage');
     cy.apiroute('GET', '**/search-api/v1/search/*', 'allMovies');
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
@@ -33,13 +31,13 @@ describe('Film editing', () => {
 
   it('Can remove movie from slideshow', () => {
     cy.get('[data-cy="elementListItem"]')
-      .contains('Page One')
+      .contains('Citizen Kane')
       .parent()
       .parent()
       .find('button[data-cy="elementListItemDeleteButton"]')
       .click();
     cy.get('[data-cy="elementListItem"]')
-      .contains('Page One: A Year Inside the New York Times')
+      .contains('Citizen Kane')
       .should('not.exist');
   });
 

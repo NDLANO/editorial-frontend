@@ -6,14 +6,13 @@
  *
  */
 
-import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 const CONCEPT_ID = 1;
 
 describe('Language handling', () => {
   before(() => {
-    setToken();
+    cy.setToken();
     editorRoutes();
 
     cy.apiroute(

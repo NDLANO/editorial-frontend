@@ -6,13 +6,12 @@
  *
  */
 
-import { setToken } from '../../support';
 import editorRoutes from './editorRoutes';
 
 describe('Edit article with everything', () => {
   const ARTICLE_ID = 532;
   beforeEach(() => {
-    setToken();
+    cy.setToken();
     editorRoutes(ARTICLE_ID);
 
     cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);

@@ -36,12 +36,14 @@ const StyledTable = styled.table`
 
 const StyledWrapper = styled.div`
   display: flex;
+  padding: 0;
+  margin: 0;
 `;
 
 const SlateTable = (props: Props) => {
   const { attributes, children } = props;
   return (
-    <StyledWrapper>
+    <StyledWrapper className="c-table__wrapper">
       <StyledTable className="c-table" {...attributes}>
         {children}
       </StyledTable>

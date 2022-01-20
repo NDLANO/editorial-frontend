@@ -20,8 +20,9 @@ interface Props {
 }
 
 const StyledTable = styled.table`
-  margin-left: 50%;
-  transform: TranslateX(-50%);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0 24px;
   margin-top: 64px;
   margin-bottom: 64px;
@@ -33,12 +34,18 @@ const StyledTable = styled.table`
   }
 `;
 
+const StyledWrapper = styled.div`
+  display: flex;
+`;
+
 const SlateTable = (props: Props) => {
   const { attributes, children } = props;
   return (
-    <StyledTable className="c-table" {...attributes}>
-      {children}
-    </StyledTable>
+    <StyledWrapper>
+      <StyledTable className="c-table" {...attributes}>
+        {children}
+      </StyledTable>
+    </StyledWrapper>
   );
 };
 

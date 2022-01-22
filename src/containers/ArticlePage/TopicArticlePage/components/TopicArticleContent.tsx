@@ -45,6 +45,7 @@ import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
 import { useSession } from '../../../Session/SessionProvider';
+import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 
 const byLineStyle = css`
   display: flex;
@@ -71,6 +72,7 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
   // Plugins are checked from last to first
   return [
     sectionPlugin,
+    spanPlugin,
     divPlugin,
     paragraphPlugin(
       language,

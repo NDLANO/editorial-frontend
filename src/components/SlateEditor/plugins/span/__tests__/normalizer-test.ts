@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2021-present, NDLA.
+ * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -19,8 +19,8 @@ const editor = withHistory(
   withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
 );
 
-describe('paragraph normalizer tests', () => {
-  test('Remove serializeAsText from paragraph that is not placed in list-item', () => {
+describe('span normalizer tests', () => {
+  test('Span with language remains after normalization', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,

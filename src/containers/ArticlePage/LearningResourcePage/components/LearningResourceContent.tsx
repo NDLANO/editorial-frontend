@@ -62,6 +62,7 @@ import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { SessionProps } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
+import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 
 const byLineStyle = css`
   display: flex;
@@ -100,6 +101,7 @@ export const plugins = (
 ): SlatePlugin[] => {
   return [
     sectionPlugin,
+    spanPlugin,
     divPlugin,
     paragraphPlugin(
       articleLanguage,

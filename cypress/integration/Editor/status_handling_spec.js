@@ -44,7 +44,7 @@ describe('Status changes', () => {
       .contains('Utkast')
       .click();
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagrer');
-    cy.apiwait(`@statusChangeToUtkast`);
+    cy.apiwait([`@statusChangeToUtkast`, `@draft-${ARTICLE_ID}`]);
     cy.get('[data-testid=saveLearningResourceButtonWrapper]').contains('Lagret');
 
     cy.get('[data-cy="learning-resource-title"]')

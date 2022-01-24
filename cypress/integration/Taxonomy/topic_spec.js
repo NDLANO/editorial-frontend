@@ -33,6 +33,7 @@ describe('Topic editing', () => {
     cy.intercept('GET', '/draft-api/v1/user-data', {"userId":"user_id","latestEditedArticles":["400","800"]});
 
     cy.visit(`/structure/${selectSubject}/${selectTopic}`);
+    cy.get('[data-cy=settings-button-topic]').should('be.visible');
   });
 
   it('should have a settings menu where everything works', () => {

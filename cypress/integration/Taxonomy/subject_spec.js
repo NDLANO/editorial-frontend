@@ -29,6 +29,7 @@ describe('Subject editing', () => {
 
     cy.visit(`/structure/${selectSubject}`);
     cy.apiwait(['@allSubjects', '@allSubjectTopics']);
+    cy.get('[data-cy=settings-button-subject]').should('be.visible');
   });
 
   it('should add a new subject', () => {

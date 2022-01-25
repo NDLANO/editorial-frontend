@@ -589,6 +589,7 @@ const phrases = {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
       version: 'Versjon {{revision}}',
       current: 'Gjeldende versjon',
+      article: 'Artikkel',
     },
     previewLanguageArticle: {
       button: 'Samanlikn språkversjonar',
@@ -669,7 +670,6 @@ const phrases = {
     availability: {
       everyone: 'Alle',
       teacher: 'Lærarar',
-      student: 'Elevar',
       label: 'Tilgjengelighet',
       description: 'Kven er artikkelen meint for:',
     },
@@ -717,6 +717,7 @@ const phrases = {
       statusLabel: 'Status',
       published: 'Det finst ein publisert versjon av dettet elementet.',
       multipleTaxonomy: 'Artikkelen har fleire oppføringar i taksonomi.',
+      currentStatus: 'Gjeldande status: {{status}}.',
     },
     status: {
       new: 'Ny - Ikke lagret',
@@ -1113,6 +1114,8 @@ const phrases = {
     minItems: '{{label}} feltet må minst inneholde ein/eitt {{labelLowerCase}}.',
     minItems_plural: '{{label}} feltet må minst inneholde {{count}} ulike {{labelLowerCase}}.',
     noEmptyNote: 'Ein merknad kan ikkje være tom',
+    noLicenseWithoutCopyrightHolder:
+      'Ein lisens kan ikkje takast i bruk uten å definere minst ein opphavar.',
     maxSizeExceeded:
       'Filen du forsøkar å laste opp er for stor. Maksstorleik: {{maxSize}} MB. Filstorleik: {{fileSize}} MB.',
     grepCodes:

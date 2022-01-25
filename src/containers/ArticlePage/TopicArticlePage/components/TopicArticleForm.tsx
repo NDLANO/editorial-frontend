@@ -24,16 +24,18 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../../../modules/draft/draftApiInterfaces';
-import { useLicenses } from '../../../../modules/draft/draftQueries';
+import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import {
   draftApiTypeToTopicArticleFormType,
   topicArticleFormTypeToDraftApiType,
 } from '../../articleTransformers';
-import { fetchStatusStateMachine, validateDraft } from '../../../../modules/draft/draftApi';
+import { validateDraft } from '../../../../modules/draft/draftApi';
 import { formikCommonArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
+import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 
 interface Props {
   article?: DraftApiType;
+  articleTaxonomy?: ArticleTaxonomy;
   revision?: number;
   updateArticle: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   articleStatus?: DraftStatus;
@@ -51,6 +53,7 @@ interface Props {
 
 const TopicArticleForm = ({
   article,
+  articleTaxonomy,
   updateArticle,
   articleChanged,
   translating,
@@ -61,6 +64,7 @@ const TopicArticleForm = ({
   updateArticleAndStatus,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
+  const statusStateMachine = useDraftStatusStateMachine({ articleId: article?.id });
 
   const { t } = useTranslation();
 
@@ -98,6 +102,7 @@ const TopicArticleForm = ({
     return (
       <Form {...formClasses()}>
         <HeaderWithLanguage
+          taxonomy={articleTaxonomy}
           values={values}
           content={{ ...article, title: article?.title?.title, language: articleLanguage }}
           getEntity={getArticle}
@@ -112,6 +117,7 @@ const TopicArticleForm = ({
           <Spinner withWrapper />
         ) : (
           <TopicArticleAccordionPanels
+            taxonomy={articleTaxonomy}
             articleLanguage={articleLanguage}
             updateNotes={updateArticle}
             article={article}
@@ -128,7 +134,7 @@ const TopicArticleForm = ({
             handleSubmit(values, formik, saveAsNewVersion ?? false);
           }}
           entityStatus={article?.status}
-          fetchStatusStateMachine={fetchStatusStateMachine}
+          statusStateMachine={statusStateMachine.data}
           validateEntity={validateDraft}
           isArticle
           isNewlyCreated={isNewlyCreated}

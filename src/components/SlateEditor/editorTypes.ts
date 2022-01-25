@@ -1,5 +1,6 @@
 import { Descendant } from 'slate';
-import { ConceptStatusStateMachineType } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
+import { DraftStatusTypes } from '../../modules/draft/draftApiInterfaces';
 
 export interface Values {
   id: number;
@@ -52,24 +53,8 @@ export interface Article {
   supportedLanguages: Array<string>;
 }
 
-// Denne unionen er nødvendig for at ConceptFormFooter skal kunne bruke EditorFooter Når vi utvider til å bruke
-// ts flere steder EditorFooter brukes kan vi utvide denne unionen med en mer nøyaktig union av state machines.
-export type PossibleStatuses =
-  | ConceptStatusStateMachineType
-  | {
-      CREATED: Array<string>;
-      PROPOSAL: Array<string>;
-      AWAITING_QUALITY_ASSURANCE: Array<string>;
-      DRAFT: Array<string>;
-      USER_TEST: Array<string>;
-      IMPORTED: Array<string>;
-      QUALITY_ASSURED: Array<string>;
-      PUBLISHED: Array<string>;
-      AWAITING_UNPUBLISHING: Array<string>;
-      UNPUBLISHED: Array<string>;
-      ARCHIVED: Array<string>;
-      AWAITING_ARCHIVING: Array<string>;
-      QUEUED_FOR_PUBLISHING: Array<string>;
-    };
+type Statuses = ConceptStatusType | DraftStatusTypes;
+
+export type PossibleStatuses = Partial<Record<Statuses, string[]>>;
 
 export type PreviewTypes = 'previewProductionArticle' | 'previewLanguageArticle' | 'preview' | '';

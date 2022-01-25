@@ -588,6 +588,7 @@ const phrases = {
       button: 'Compare current version with old version',
       version: 'Version {{revision}}',
       current: 'Current version',
+      article: 'Article',
     },
     previewLanguageArticle: {
       button: 'Compare language versions',
@@ -668,7 +669,6 @@ const phrases = {
     availability: {
       everyone: 'Everyone',
       teacher: 'Teachers',
-      student: 'Students',
       label: 'Availability',
       description: 'Who the article is intended for:',
     },
@@ -716,6 +716,7 @@ const phrases = {
       statusLabel: 'Status',
       published: 'There exists a published version of this item.',
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
+      currentStatus: 'Current status: {{ status }}.',
     },
     status: {
       new: 'New - unsaved',
@@ -1112,6 +1113,8 @@ const phrases = {
     minItems: '{{label}} must have at least one {{labelLowerCase}}.',
     minItems_plural: '{{label}} must have at least {{count}} unique {{labelLowerCase}}.',
     noEmptyNote: 'A note cannot be empty',
+    noLicenseWithoutCopyrightHolder:
+      'A license cannot be added without providing at least one copyright holder.',
     maxSizeExceeded:
       'The file you are trying to upload is too large. Max size: {{maxSize}}. File size: {{fileSize}}.',
     grepCodes:

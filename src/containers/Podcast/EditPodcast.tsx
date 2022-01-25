@@ -76,13 +76,13 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   if (podcast?.audioType === 'standard') {
     return <Navigate replace to={toEditAudio(podcastId, podcastLanguage)} />;
   }
-
+  const newLanguage = !podcast?.supportedLanguages.includes(podcastLanguage);
   const language = podcastLanguage || locale;
   return (
     <PodcastForm
       audio={podcast}
       language={language}
-      podcastChanged={podcastChanged}
+      podcastChanged={podcastChanged || newLanguage}
       onUpdate={onUpdate}
       isNewlyCreated={isNewlyCreated}
       translating={translating}

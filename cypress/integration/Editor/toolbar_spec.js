@@ -133,35 +133,6 @@ describe('Selecting text and using the toolbar', () => {
       });
   });
 
-  it('Creates footnote', () => {
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
-      .first()
-      .focus()
-      .type('footnote')
-      .blur();
-    cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
-      .first()
-      .focus()
-      .type('{selectall}')
-      .blur();
-    cy.get('[data-testid=toolbar-button-footnote]').click({ force: true });
-    cy.get('input[name=title]')
-      .last()
-      .type('Testnavn')
-      .blur();
-    cy.get('input[name=year]').type('1984');
-    cy.get('[data-testid=multiselect]')
-      .type('Navn navnesen')
-      .blur();
-    cy.get('button')
-      .contains('Opprett ny')
-      .click({ force: true });
-    cy.get('[data-cy=save_footnote]').click({ force: true });
-    cy.get('a > sup').click({ force: true });
-    cy.get('h2').contains('Rediger fotnote');
-    cy.get('[data-cy=save_footnote]').click({ force: true });
-  });
-
   it('Creates math', () => {
     cy.get('[data-cy=slate-editor] [data-slate-editor=true]')
       .first()

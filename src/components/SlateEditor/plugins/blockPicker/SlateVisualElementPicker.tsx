@@ -1,11 +1,12 @@
 import { Element } from 'slate';
 import { FormikContextType, useFormikContext } from 'formik';
-import VisualElementSearch from '../../../../containers/VisualElement/VisualElementSearch';
+import VisualElementSearch, {
+  VisualElementChangeReturnType,
+} from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultEmbedBlock } from '../embed/utils';
 import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
 import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
-import { Embed } from '../../../../interfaces';
 
 export const checkboxAction = (
   image: ImageApiType,
@@ -38,12 +39,12 @@ const SlateVisualElementPicker = ({
 
   const showCheckbox = values.metaImageAlt !== undefined && values.metaImageId !== undefined;
 
-  const onVisualElementAdd = (visualElement: Partial<Embed> | DOMStringMap[], type = 'embed') => {
-    if (type === 'embed') {
-      const blockToInsert = defaultEmbedBlock(visualElement as Partial<Embed>);
+  const onVisualElementAdd = (visualElement: VisualElementChangeReturnType) => {
+    if (visualElement.type === 'embed') {
+      const blockToInsert = defaultEmbedBlock(visualElement.value);
       onInsertBlock(blockToInsert);
-    } else if (type === 'file') {
-      const blockToInsert = defaultFileBlock(visualElement as DOMStringMap[]);
+    } else if (visualElement.type === 'file') {
+      const blockToInsert = defaultFileBlock(visualElement.value);
       onInsertBlock(blockToInsert);
     }
     onVisualElementClose();

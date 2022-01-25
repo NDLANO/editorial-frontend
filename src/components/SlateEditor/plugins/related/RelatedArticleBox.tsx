@@ -215,14 +215,17 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
             title: t('form.related.title'),
             showMore: t('form.related.showMore'),
             showLess: t('form.related.showLess'),
-          }}>
-          {articles.map((item, i) =>
-            !('id' in item) ? (
-              t('form.content.relatedArticle.invalidArticle')
-            ) : (
-              <RelatedArticle key={uuid()} numberInList={i} item={item} />
-            ),
-          )}
+          }}
+          articleCount={articles.length}>
+          <>
+            {articles.map((item, i) =>
+              !('id' in item) ? (
+                t('form.content.relatedArticle.invalidArticle')
+              ) : (
+                <RelatedArticle key={uuid()} numberInList={i} item={item} />
+              ),
+            )}
+          </>
         </RelatedArticleList>
         {children}
       </div>

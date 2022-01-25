@@ -8,9 +8,20 @@
 
 import { useMutation, useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { License } from '../../interfaces';
-import { DRAFT, LICENSES, USER_DATA } from '../../queryKeys';
-import { fetchDraft, fetchLicenses, fetchUserData, updateUserData } from './draftApi';
-import { DraftApiType, UpdatedUserDataApiType, UserDataApiType } from './draftApiInterfaces';
+import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA } from '../../queryKeys';
+import {
+  fetchDraft,
+  fetchLicenses,
+  fetchStatusStateMachine,
+  fetchUserData,
+  updateUserData,
+} from './draftApi';
+import {
+  DraftApiType,
+  DraftStatusStateMachineType,
+  UpdatedUserDataApiType,
+  UserDataApiType,
+} from './draftApiInterfaces';
 
 export const useDraft = (
   id: number | string,
@@ -59,5 +70,19 @@ export const useUpdateUserDataMutation = () => {
       },
       onSettled: () => queryClient.invalidateQueries(USER_DATA),
     },
+  );
+};
+
+interface StatusStateMachineParams {
+  articleId?: number;
+}
+export const useDraftStatusStateMachine = (
+  params: StatusStateMachineParams = {},
+  options?: UseQueryOptions<DraftStatusStateMachineType>,
+) => {
+  return useQuery<DraftStatusStateMachineType>(
+    [DRAFT_STATUS_STATE_MACHINE, params],
+    () => fetchStatusStateMachine(params.articleId),
+    options,
   );
 };

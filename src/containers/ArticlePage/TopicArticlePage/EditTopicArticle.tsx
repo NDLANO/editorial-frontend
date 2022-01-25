@@ -26,6 +26,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const {
     loading,
     article,
+    taxonomy,
     setArticle,
     articleChanged,
     updateArticle,
@@ -34,10 +35,10 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
-    'title',
-    'metaDescription',
-    'introduction',
-    'content',
+    'title.title',
+    'metaDescription.metaDescription',
+    'introduction.introduction',
+    'content.content',
   ]);
 
   if (loading || !article || !article.id) {
@@ -48,13 +49,15 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     const redirectUrl = toEditArticle(article.id, article.articleType, article.title?.language);
     return <Navigate replace to={redirectUrl} />;
   }
+  const newLanguage = !article.supportedLanguages.includes(selectedLanguage);
   return (
     <>
       <HelmetWithTracker title={`${article.title?.title} ${t('htmlTitles.titleTemplate')}`} />
       <TopicArticleForm
+        articleTaxonomy={taxonomy}
         articleStatus={article.status}
         articleLanguage={selectedLanguage}
-        articleChanged={articleChanged}
+        articleChanged={articleChanged || newLanguage}
         article={article}
         translateToNN={translateToNN}
         translating={translating}

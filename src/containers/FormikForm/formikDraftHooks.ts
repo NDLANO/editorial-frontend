@@ -15,9 +15,17 @@ import {
   NewDraftApiType,
   UpdatedDraftApiType,
 } from '../../modules/draft/draftApiInterfaces';
+import { queryResources, queryTopics } from '../../modules/taxonomy';
+import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
+
+export interface ArticleTaxonomy {
+  resources: Resource[];
+  topics: Topic[];
+}
 
 export function useFetchArticleData(articleId: string | undefined, language: string) {
   const [article, setArticle] = useState<DraftApiType | undefined>(undefined);
+  const [taxonomy, setTaxonony] = useState<ArticleTaxonomy>({ resources: [], topics: [] });
   const [articleChanged, setArticleChanged] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -26,13 +34,23 @@ export function useFetchArticleData(articleId: string | undefined, language: str
       if (articleId) {
         setLoading(true);
         const article = await draftApi.fetchDraft(parseInt(articleId, 10), language);
+        const taxonomy = await fetchTaxonomy(articleId, language);
         setArticle(article);
+        setTaxonony(taxonomy);
         setArticleChanged(false);
         setLoading(false);
       }
     };
     fetchArticle();
   }, [articleId, language]);
+
+  const fetchTaxonomy = async (id: string, language: string) => {
+    const [resources, topics] = await Promise.all([
+      queryResources(id, language, 'article'),
+      queryTopics(id, language, 'article'),
+    ]);
+    return { resources, topics };
+  };
 
   const updateArticle = async (updatedArticle: UpdatedDraftApiType): Promise<DraftApiType> => {
     const savedArticle = await draftApi.updateDraft(updatedArticle);
@@ -87,6 +105,7 @@ export function useFetchArticleData(articleId: string | undefined, language: str
 
   return {
     article,
+    taxonomy,
     setArticle: (article: DraftApiType) => {
       setArticle(article);
       setArticleChanged(true);

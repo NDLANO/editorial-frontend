@@ -7,7 +7,6 @@
 
 import { useEffect } from 'react';
 import { Route, useNavigate, useLocation, Routes } from 'react-router-dom';
-//@ts-ignore
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';

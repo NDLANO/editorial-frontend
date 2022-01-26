@@ -1,5 +1,6 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Auth0DecodedHash } from 'auth0-js';
 import {
   clearAccessTokenFromLocalStorage,
   getAccessToken,
@@ -21,7 +22,7 @@ interface Props {
 
 interface UserData {
   name?: string;
-  scope?: string;
+  permissions?: string[];
 }
 
 interface SessionState {
@@ -31,21 +32,21 @@ interface SessionState {
 }
 
 export const initialState: SessionState = {
-  user: {},
+  user: {} as UserData,
   authenticated: false,
   userNotRegistered: true,
 };
 
 export interface SessionProps {
   userName?: string;
-  userAccess?: string;
+  userAccess?: string | string[];
   authenticated: boolean;
   userNotRegistered: boolean;
-  login: (accessToken: string) => void;
+  login: (accessToken: Auth0DecodedHash) => void;
   logout: (federated: boolean, returnToLogin?: boolean) => void;
 }
 
-export const getSessionStateFromLocalStorage = () => {
+export const getSessionStateFromLocalStorage = (): SessionState => {
   const token = getAccessToken();
   const isAccessTokenPersonal = getAccessTokenPersonal();
   if (isValid(token) && isAccessTokenPersonal) {
@@ -53,7 +54,7 @@ export const getSessionStateFromLocalStorage = () => {
     return {
       user: {
         name: decodedToken?.['https://ndla.no/user_name'],
-        scope: decodedToken?.scope,
+        permissions: decodedToken?.permissions,
       },
       authenticated: true,
       userNotRegistered: false,
@@ -80,19 +81,32 @@ export const useSession = (): SessionProps => {
     setSession(s => ({ ...s, userNotRegistered }));
   const setUserData = (user: UserData) => setSession(s => ({ ...s, user }));
 
-  const login = (accessToken: string) => {
+  const login = (authResult: Auth0DecodedHash) => {
     try {
-      const decoded = decodeToken(accessToken);
-      if (!decoded?.scope?.includes(':')) {
-        setUserNotRegistered(true);
+      const decoded =
+        isValid(authResult.accessToken ?? null) && decodeToken(authResult.accessToken!);
+      if (decoded) {
+        const permissions = decoded.permissions ?? [];
+        const scopes = decoded.scope ?? '';
+        const combinedPermissions = [...permissions, ...scopes.split(' ')];
+
+        const uniquePermissions = [...new Set(combinedPermissions)];
+        if (authResult.state) window.location.href = authResult.state;
+        if (!uniquePermissions.some(permission => permission.includes(':'))) {
+          setUserNotRegistered(true);
+        }
+        setAuthenticated(true);
+        setUserData({
+          name: decoded['https://ndla.no/user_name'],
+          permissions: uniquePermissions,
+        });
+        setAccessTokenInLocalStorage(authResult.accessToken!, true);
+        navigate('/', { replace: true });
+      } else {
+        navigate(`${toLogin()}/failure`, { replace: true });
       }
-      setAuthenticated(true);
-      setUserData({ name: decoded?.['https://ndla.no/user_name'], scope: decoded?.scope });
-      setAccessTokenInLocalStorage(accessToken, true);
-      navigate('/', { replace: true });
     } catch (e) {
       console.error(e);
-      navigate(`${toLogin()}/failure`, { replace: true });
     }
   };
 
@@ -109,7 +123,7 @@ export const useSession = (): SessionProps => {
 
   return {
     userName: session.user.name,
-    userAccess: session.user.scope,
+    userAccess: session.user.permissions,
     authenticated: !!session.authenticated,
     userNotRegistered: !!session.userNotRegistered,
     login,

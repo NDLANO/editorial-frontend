@@ -9,7 +9,6 @@
 import { useEffect } from 'react';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
-import { LocationShape } from '../../shapes';
 import { useSession } from '../Session/SessionProvider';
 
 export const LogoutSession = () => {
@@ -21,10 +20,6 @@ export const LogoutSession = () => {
   }, []); //  eslint-disable-line
 
   return null;
-};
-
-LogoutSession.propTypes = {
-  location: LocationShape,
 };
 
 export default LogoutSession;

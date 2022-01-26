@@ -13,13 +13,13 @@ import ContentField from './ContentField';
 import { useSession } from '../../Session/SessionProvider';
 
 const RelatedContentFieldGroup = () => {
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
   return (
     <>
       <FormikField name={'conceptIds'}>
         {({ field, form }) => <ConceptsField field={field} form={form} />}
       </FormikField>
-      {!!userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
+      {!!userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormikField name={'relatedContent'}>
           {({ field, form }) => <ContentField field={field} form={form} />}
         </FormikField>

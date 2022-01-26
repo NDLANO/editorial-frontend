@@ -32,11 +32,11 @@ Object {
   "authenticated": true,
   "login": [Function],
   "logout": [Function],
-  "userAccess": Array [
-    "",
-  ],
   "userName": "Rune Storløpa",
   "userNotRegistered": true,
+  "userPermissions": Array [
+    "",
+  ],
 }
 `;
 
@@ -45,9 +45,9 @@ Object {
   "authenticated": false,
   "login": [Function],
   "logout": [Function],
-  "userAccess": undefined,
   "userName": undefined,
   "userNotRegistered": true,
+  "userPermissions": undefined,
 }
 `;
 
@@ -56,9 +56,9 @@ Object {
   "authenticated": true,
   "login": [Function],
   "logout": [Function],
-  "userAccess": undefined,
   "userName": "Rune Storløpa",
   "userNotRegistered": false,
+  "userPermissions": undefined,
 }
 `;
 
@@ -67,8 +67,8 @@ Object {
   "authenticated": false,
   "login": [Function],
   "logout": [Function],
-  "userAccess": undefined,
   "userName": undefined,
   "userNotRegistered": true,
+  "userPermissions": undefined,
 }
 `;

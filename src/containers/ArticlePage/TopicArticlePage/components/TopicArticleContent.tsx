@@ -108,7 +108,7 @@ const TopicArticleContent = (props: Props) => {
     values: { id, language, creators, published },
     handleSubmit,
   } = props;
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
   const [preview, setPreview] = useState(false);
   const handleSubmitRef = useRef(handleSubmit);
   const plugins = useMemo(() => {
@@ -151,7 +151,7 @@ const TopicArticleContent = (props: Props) => {
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>
             <FieldHeader title={t('form.content.label')}>
-              {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && language && (
+              {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && language && (
                 <EditMarkupLink to={toEditMarkup(id, language)} title={t('editMarkup.linkTitle')} />
               )}
             </FieldHeader>

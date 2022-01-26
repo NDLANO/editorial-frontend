@@ -76,7 +76,7 @@ const FolderItem = ({
   parent,
   structure,
 }: Props) => {
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
   const type = id?.includes('subject') ? 'subject' : 'topic';
   const { t } = useTranslation();
   const showJumpToResources = isMainActive && type === 'topic';
@@ -91,7 +91,7 @@ const FolderItem = ({
           name={name}
           type={type}
           path={pathToString}
-          showAllOptions={!!userAccess?.includes(TAXONOMY_ADMIN_SCOPE)}
+          showAllOptions={!!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE)}
           metadata={metadata}
           setShowAlertModal={setShowAlertModal}
           locale={locale}

@@ -39,7 +39,7 @@ export const initialState: SessionState = {
 
 export interface SessionProps {
   userName?: string;
-  userAccess?: string | string[];
+  userPermissions?: string[];
   authenticated: boolean;
   userNotRegistered: boolean;
   login: (accessToken: Auth0DecodedHash) => void;
@@ -123,7 +123,7 @@ export const useSession = (): SessionProps => {
 
   return {
     userName: session.user.name,
-    userAccess: session.user.permissions,
+    userPermissions: session.user.permissions,
     authenticated: !!session.authenticated,
     userNotRegistered: !!session.userNotRegistered,
     login,

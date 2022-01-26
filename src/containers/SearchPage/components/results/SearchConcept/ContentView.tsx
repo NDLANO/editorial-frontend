@@ -52,8 +52,8 @@ const ContentView = ({
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
   const license = licenses && licenses.find(l => concept.license === l.license);
-  const { userAccess } = useSession();
-  const canEdit = !!userAccess?.includes(CONCEPT_ADMIN_SCOPE);
+  const { userPermissions } = useSession();
+  const canEdit = !!userPermissions?.includes(CONCEPT_ADMIN_SCOPE);
 
   return (
     <StyledConceptView>

@@ -431,7 +431,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
         subtype: rt.subtypes && rt.subtypes.filter(st => !blacklistedResourceTypes.includes(st.id)),
       }));
 
-    const { userAccess, t, article } = this.props;
+    const { userPermissions, t, article } = this.props;
 
     if (status === 'loading') {
       return <Spinner />;
@@ -460,7 +460,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       metadata: taxonomyChanges.metadata,
     };
 
-    const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
+    const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
     return (
       <>

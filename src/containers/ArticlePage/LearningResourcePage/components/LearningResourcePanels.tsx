@@ -34,7 +34,7 @@ const LearningResourcePanels = ({
   articleLanguage,
 }: Props) => {
   const { t } = useTranslation();
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
   const formikContext = useFormikContext<LearningResourceFormType>();
   const { values, setValues, errors, handleBlur, setStatus } = formikContext;
 
@@ -54,7 +54,7 @@ const LearningResourcePanels = ({
           values={values}
         />
       </AccordionSection>
-      {article && taxonomy && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <AccordionSection
           id={'learning-resource-taxonomy'}
           title={t('form.taxonomySection')}

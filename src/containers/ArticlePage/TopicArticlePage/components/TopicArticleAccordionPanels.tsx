@@ -40,7 +40,7 @@ const TopicArticleAccordionPanels = ({
   taxonomy,
 }: Props) => {
   const { t } = useTranslation();
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
   const formikContext = useFormikContext<TopicArticleFormType>();
   const { values, errors, setValues, setStatus } = formikContext;
   return (
@@ -53,7 +53,7 @@ const TopicArticleAccordionPanels = ({
         startOpen>
         <TopicArticleContent handleSubmit={handleSubmit} values={values} />
       </AccordionSection>
-      {article && taxonomy && !!userAccess?.includes(TAXONOMY_WRITE_SCOPE) && (
+      {article && taxonomy && !!userPermissions?.includes(TAXONOMY_WRITE_SCOPE) && (
         <AccordionSection
           id={'topic-article-taxonomy'}
           title={t('form.taxonomySection')}

@@ -5,7 +5,7 @@ Object {
   "authenticated": true,
   "user": Object {
     "name": "Rune Storløpa",
-    "scope": "",
+    "permissions": undefined,
   },
   "userNotRegistered": false,
 }
@@ -32,7 +32,9 @@ Object {
   "authenticated": true,
   "login": [Function],
   "logout": [Function],
-  "userAccess": "",
+  "userAccess": Array [
+    "",
+  ],
   "userName": "Rune Storløpa",
   "userNotRegistered": true,
 }
@@ -54,7 +56,7 @@ Object {
   "authenticated": true,
   "login": [Function],
   "logout": [Function],
-  "userAccess": "",
+  "userAccess": undefined,
   "userName": "Rune Storløpa",
   "userNotRegistered": false,
 }

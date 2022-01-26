@@ -12,8 +12,10 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { getSessionStateFromLocalStorage, SessionProvider, useSession } from '../SessionProvider';
 
-const accessToken =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik9FSTFNVVU0T0RrNU56TTVNekkyTXpaRE9EazFOMFl3UXpkRE1EUXlPRFZDUXpRM1FUSTBNQSJ9.eyJodHRwczovL25kbGEubm8vbmRsYV9pZCI6Im1ObXJ1N1lvU0lqUGVwT3JrTjRNTWhsVSIsImh0dHBzOi8vbmRsYS5uby91c2VyX25hbWUiOiJSdW5lIFN0b3Jsw7hwYSIsImh0dHBzOi8vbmRsYS5uby9jbGllbnRfaWQiOiJXVTBLcjRDRGtyTTB1TDl4WWVGVjRjbDlHYTF2QjNKWSIsImlzcyI6Imh0dHBzOi8vbmRsYS5ldS5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDM2OTA4Njg0ODM2ODgzNzU1MzIiLCJhdWQiOiJuZGxhX3N5c3RlbSIsImlhdCI6MTUwOTk3MDAyNywiZXhwIjoxNTA5OTc3MjI3LCJhenAiOiJXVTBLcjRDRGtyTTB1TDl4WWVGVjRjbDlHYTF2QjNKWSIsInNjb3BlIjoiIn0.suhXIGs7ILtdst0NEDOPeuelfG_JZeOXlwlFTXZEgjwBCnI26e4TfrVSluCttbSuE1BJ6FuXKCtO-CjpJD6zCGj9Z00vytiWLfLq7fMYyHDfipPjUMP05H-j5TQVToTE1wLFVKLco3W9yYBWSWCBzv6GLRWWZiuzyXPyUtF2oLv30e7yAeZBA8JK10sl0DfPKrC4B1eSxrTFtvkZ3WnxeDQpvzbvZ1tHQtnF6hoarC7h9qIJFI1W95h88Mq20Ci-5k8RMILRYc1u5H5XW-RAegxI2H0EhWpCo5T4Iglwc2mUTSuetHqnbgPrxapKohcAL_b3_Nkb49CacajRt9TrQQ';
+const authResult = {
+  accessToken:
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik9FSTFNVVU0T0RrNU56TTVNekkyTXpaRE9EazFOMFl3UXpkRE1EUXlPRFZDUXpRM1FUSTBNQSJ9.eyJodHRwczovL25kbGEubm8vbmRsYV9pZCI6Im1ObXJ1N1lvU0lqUGVwT3JrTjRNTWhsVSIsImh0dHBzOi8vbmRsYS5uby91c2VyX25hbWUiOiJSdW5lIFN0b3Jsw7hwYSIsImh0dHBzOi8vbmRsYS5uby9jbGllbnRfaWQiOiJXVTBLcjRDRGtyTTB1TDl4WWVGVjRjbDlHYTF2QjNKWSIsImlzcyI6Imh0dHBzOi8vbmRsYS5ldS5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDM2OTA4Njg0ODM2ODgzNzU1MzIiLCJhdWQiOiJuZGxhX3N5c3RlbSIsImlhdCI6MTUwOTk3MDAyNywiZXhwIjoxNTA5OTc3MjI3LCJhenAiOiJXVTBLcjRDRGtyTTB1TDl4WWVGVjRjbDlHYTF2QjNKWSIsInNjb3BlIjoiIn0.suhXIGs7ILtdst0NEDOPeuelfG_JZeOXlwlFTXZEgjwBCnI26e4TfrVSluCttbSuE1BJ6FuXKCtO-CjpJD6zCGj9Z00vytiWLfLq7fMYyHDfipPjUMP05H-j5TQVToTE1wLFVKLco3W9yYBWSWCBzv6GLRWWZiuzyXPyUtF2oLv30e7yAeZBA8JK10sl0DfPKrC4B1eSxrTFtvkZ3WnxeDQpvzbvZ1tHQtnF6hoarC7h9qIJFI1W95h88Mq20Ci-5k8RMILRYc1u5H5XW-RAegxI2H0EhWpCo5T4Iglwc2mUTSuetHqnbgPrxapKohcAL_b3_Nkb49CacajRt9TrQQ',
+};
 
 afterEach(() => {
   localStorage.clear();
@@ -34,13 +36,13 @@ describe('getSessionStateFromLocalStorage', () => {
   });
 
   it('returns a default initial state if accessToken is not personal', () => {
-    localStorage.setItem('access_token', accessToken);
+    localStorage.setItem('access_token', authResult.accessToken);
     localStorage.removeItem('access_token_personal');
     expect(getSessionStateFromLocalStorage()).toMatchSnapshot();
   });
 
   it('returns a decoded access token if everything is ok', () => {
-    localStorage.setItem('access_token', accessToken);
+    localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('access_token_personal', 'true');
     const nextState = getSessionStateFromLocalStorage();
 
@@ -54,11 +56,11 @@ describe('useSession', () => {
     const expected = { hash: '', pathname: '/', search: '' };
     const { result } = renderHook(() => useSession(), { wrapper: baseWrapper });
     act(() => {
-      result.current.login(accessToken);
+      result.current.login(authResult);
     });
     expect(replaceSpy).toHaveBeenCalledTimes(1);
     expect(replaceSpy).toHaveBeenCalledWith(expected, undefined);
-    expect(localStorage.getItem('access_token')).toEqual(accessToken);
+    expect(localStorage.getItem('access_token')).toEqual(authResult.accessToken);
     expect(localStorage.getItem('access_token_personal')).toEqual('true');
   });
 
@@ -68,7 +70,7 @@ describe('useSession', () => {
   });
 
   test('returns initial state when called with initial values', () => {
-    localStorage.setItem('access_token', accessToken);
+    localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('access_token_personal', 'true');
     const { result } = renderHook(() => useSession(), {
       wrapper: baseWrapper,
@@ -83,7 +85,7 @@ describe('useSession', () => {
   test('nulls all values when logout is called', () => {
     const { result } = renderHook(() => useSession(), { wrapper: baseWrapper });
     act(() => {
-      result.current.login(accessToken);
+      result.current.login(authResult);
     });
     expect(result.current).toMatchSnapshot();
     act(() => {

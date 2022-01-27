@@ -20,12 +20,9 @@
 }
 
 .c-table .c-table__header {
+  vertical-align: inherit;
   border-bottom: 3px solid #a5bcd3;
   font-weight: 700;
-}
-
-.c-table .c-table__header {
-  vertical-align: inherit;
 }
 
 .c-table tbody .c-table__header:first-child {

@@ -141,7 +141,7 @@ const EditMarkupPage = () => {
 
   useEffect(() => {
     const session = getSessionStateFromLocalStorage();
-    if (!session.user.scope?.includes(DRAFT_HTML_SCOPE)) {
+    if (!session.user.permissions?.includes(DRAFT_HTML_SCOPE)) {
       setStatus('access-error');
       return;
     }

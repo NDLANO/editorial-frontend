@@ -32,7 +32,7 @@ interface SessionState {
 }
 
 export const initialState: SessionState = {
-  user: {} as UserData,
+  user: {},
   authenticated: false,
   userNotRegistered: true,
 };
@@ -83,18 +83,16 @@ export const useSession = (): SessionProps => {
 
   const login = (authResult: Auth0DecodedHash) => {
     try {
-      const decoded =
-        isValid(authResult.accessToken ?? null) && decodeToken(authResult.accessToken!);
-      if (decoded) {
-        const permissions = decoded.permissions ?? [];
-        const scopes = decoded.scope ?? '';
-        const combinedPermissions = [...permissions, ...scopes.split(' ')];
+      const decoded = isValid(authResult.accessToken ?? null)
+        ? decodeToken(authResult.accessToken!)
+        : undefined;
+      const permissions = decoded?.permissions ?? [];
+      const scopes = decoded?.scope ?? '';
+      const combinedPermissions = [...permissions, ...scopes.split(' ')];
+      const uniquePermissions = [...new Set(combinedPermissions)];
 
-        const uniquePermissions = [...new Set(combinedPermissions)];
+      if (decoded && uniquePermissions.some(permission => permission.includes(':'))) {
         if (authResult.state) window.location.href = authResult.state;
-        if (!uniquePermissions.some(permission => permission.includes(':'))) {
-          setUserNotRegistered(true);
-        }
         setAuthenticated(true);
         setUserData({
           name: decoded['https://ndla.no/user_name'],
@@ -103,6 +101,7 @@ export const useSession = (): SessionProps => {
         setAccessTokenInLocalStorage(authResult.accessToken!, true);
         navigate('/', { replace: true });
       } else {
+        setUserNotRegistered(true);
         navigate(`${toLogin()}/failure`, { replace: true });
       }
     } catch (e) {

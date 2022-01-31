@@ -87,8 +87,8 @@ export const useSession = (): SessionProps => {
         ? decodeToken(authResult.accessToken!)
         : undefined;
       const permissions = decoded?.permissions ?? [];
-      const scopes = decoded?.scope ?? '';
-      const combinedPermissions = [...permissions, ...scopes.split(' ')];
+      const scope = decoded?.scope ?? '';
+      const combinedPermissions = [...permissions, ...scope.split(' ')];
       const uniquePermissions = [...new Set(combinedPermissions)];
 
       if (decoded && uniquePermissions.some(permission => permission.includes(':'))) {

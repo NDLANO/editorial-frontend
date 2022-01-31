@@ -107,8 +107,7 @@ const TableActions = ({ editor, element }: Props) => {
   const hasTableHead = isTableHead(tableHead);
   const selectedPath = editor.selection?.anchor.path;
 
-  const showAddHeader =
-    selectedPath && !hasTableHead && Path.isCommon([...tablePath, 1], selectedPath);
+  const showAddHeader = selectedPath && !hasTableHead;
   const show =
     Range.isRange(editor.selection) &&
     Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&

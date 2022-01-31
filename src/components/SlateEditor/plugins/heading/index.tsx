@@ -13,9 +13,8 @@ import { Descendant, Editor, Element, Transforms, Range, Node, Path } from 'slat
 import { SlateSerializer } from '../../interfaces';
 import hasNodeOfType from '../../utils/hasNodeOfType';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
+import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
 
-const KEY_ENTER = 'Enter';
-const KEY_BACKSPACE = 'Backspace';
 export const TYPE_HEADING = 'heading';
 
 export interface HeadingElement {

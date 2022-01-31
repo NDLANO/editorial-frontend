@@ -9,7 +9,6 @@
 import { Element, Descendant, Editor, Path, Transforms, Node, Range, Location } from 'slate';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { colors } from '@ndla/core';
 import { SlateSerializer } from '../../interfaces';
 import Details from './Details';
 import hasNodeOfType from '../../utils/hasNodeOfType';
@@ -22,12 +21,12 @@ import {
 } from '../../utils/normalizationHelpers';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import Summary from './Summary';
+import WithPlaceHolder from '../../common/WithPlaceHolder';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
 
 export const TYPE_DETAILS = 'details';
 export const TYPE_SUMMARY = 'summary';
-const KEY_ENTER = 'Enter';
-const KEY_BACKSPACE = 'Backspace';
 
 export interface DetailsElement {
   type: 'details';
@@ -99,25 +98,27 @@ const onBackspace = (
     if (detailsEntry) {
       const [detailsNode, detailsPath] = detailsEntry;
 
-      const summaryEntry = getCurrentBlock(editor, TYPE_SUMMARY);
+      if (detailsNode) {
+        const summaryEntry = getCurrentBlock(editor, TYPE_SUMMARY);
 
-      if (summaryEntry?.length) {
-        const [summaryNode] = summaryEntry;
-        if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === '') {
+        if (summaryEntry?.length) {
+          const [summaryNode] = summaryEntry;
+          if (Node.string(detailsNode).length > 0 && Node.string(summaryNode) === '') {
+            e.preventDefault();
+            Transforms.move(editor, { reverse: true });
+            return;
+          }
+        }
+        if (
+          Node.string(detailsNode) === '' &&
+          Element.isElement(detailsNode) &&
+          !containsVoid(editor, detailsNode) &&
+          detailsNode.children.length === 2
+        ) {
           e.preventDefault();
-          Transforms.move(editor, { reverse: true });
+          Transforms.removeNodes(editor, { at: detailsPath });
           return;
         }
-      }
-      if (
-        Node.string(detailsNode) === '' &&
-        Element.isElement(detailsNode) &&
-        !containsVoid(editor, detailsNode) &&
-        detailsNode.children.length === 2
-      ) {
-        e.preventDefault();
-        Transforms.removeNodes(editor, { at: detailsPath });
-        return;
       }
     }
   }
@@ -149,6 +150,7 @@ export const detailsPlugin = (editor: Editor) => {
     normalizeNode: nextNormalizeNode,
     onKeyDown: nextOnKeyDown,
     shouldShowToolbar: nextShouldShowToolbar,
+    renderLeaf,
   } = editor;
 
   editor.onKeyDown = event => {
@@ -194,25 +196,12 @@ export const detailsPlugin = (editor: Editor) => {
     const [parent] = Editor.node(editor, Path.parent(path));
     if (Element.isElement(parent) && parent.type === TYPE_SUMMARY && Node.string(leaf) === '') {
       return (
-        <span style={{ position: 'relative' }}>
-          <span {...attributes}>{children}</span>
-          <span
-            style={{
-              position: 'absolute',
-              top: 0,
-              opacity: 0.3,
-              color: `${colors.black}`,
-              pointerEvents: 'none',
-              userSelect: 'none',
-              display: 'inline-block',
-            }}
-            contentEditable={false}>
-            Tittel
-          </span>
-        </span>
+        <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
+          {children}
+        </WithPlaceHolder>
       );
     }
-    return;
+    return renderLeaf && renderLeaf(props);
   };
 
   editor.normalizeNode = entry => {

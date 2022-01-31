@@ -1,12 +1,21 @@
-import { Editor, Path, Transforms } from 'slate';
+import { Editor, Element, Path, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
-import { TableElement, TableRowElement, TableHeadElement, TableBodyElement } from '.';
+import {
+  TableElement,
+  TableRowElement,
+  TableHeadElement,
+  TableBodyElement,
+  TableCellElement,
+  TableCaptionElement,
+} from './interfaces';
+import getCurrentBlock from '../../utils/getCurrentBlock';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
 import { findCellCoordinate, getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
 
 export const TYPE_TABLE = 'table';
+export const TYPE_TABLE_CAPTION = 'table-caption';
 export const TYPE_TABLE_HEAD = 'table-head';
 export const TYPE_TABLE_BODY = 'table-body';
 export const TYPE_TABLE_ROW = 'table-row';
@@ -25,10 +34,15 @@ export const countCells = (row: TableRowElement, stop?: number) => {
 };
 
 export const defaultTableBlock = (height: number, width: number) => {
-  return slatejsx('element', { type: TYPE_TABLE }, [
+  return slatejsx('element', { type: TYPE_TABLE, colgroups: '' }, [
+    defaultTableCaptionBlock(),
     defaultTableHeadBlock(width),
     defaultTableBodyBlock(height - 1, width),
-  ]);
+  ]) as TableElement;
+};
+
+export const defaultTableCaptionBlock = () => {
+  return slatejsx('element', { type: TYPE_TABLE_CAPTION }, [{ text: '' }]) as TableCaptionElement;
 };
 
 export const defaultTableCellBlock = () => {
@@ -42,8 +56,11 @@ export const defaultTableCellBlock = () => {
         rowspan: 1,
       },
     },
-    defaultParagraphBlock(),
-  );
+    {
+      ...defaultParagraphBlock(),
+      serializeAsText: true,
+    },
+  ) as TableCellElement;
 };
 
 export const defaultTableRowBlock = (width: number) => {
@@ -107,7 +124,44 @@ export const createIdenticalRow = (element: TableRowElement) => {
   );
 };
 
+export const toggleRowHeaders = (editor: Editor, path: Path) => {
+  const [table] = Editor.node(editor, path);
+  if (isTable(table)) {
+    Transforms.setNodes(
+      editor,
+      { rowHeaders: !table.rowHeaders },
+      {
+        at: path,
+      },
+    );
+  }
+};
+
 export const removeRow = (editor: Editor, path: Path) => {
+  const [tableBodyEntry] = Editor.nodes(editor, {
+    at: path,
+    match: node => isTableHead(node) || isTableBody(node),
+  });
+
+  if (!tableBodyEntry) {
+    return;
+  }
+
+  const [tableBody, tableBodyPath] = tableBodyEntry;
+
+  // If tableHead only contains one row. Remove it.
+  if (isTableHead(tableBody)) {
+    if (tableBody.children.length === 1) {
+      return Transforms.removeNodes(editor, { at: tableBodyPath });
+    }
+  }
+
+  if (isTableBody(tableBody)) {
+    if (tableBody.children.length === 1) {
+      return;
+    }
+  }
+
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
     match: node => isTableCell(node),
@@ -222,7 +276,139 @@ export const removeRow = (editor: Editor, path: Path) => {
   }
 };
 
+export const insertTableHead = (editor: Editor) => {
+  const tableBodyEntry = getCurrentBlock(editor, TYPE_TABLE_BODY);
+  const tableRowEntry = getCurrentBlock(editor, TYPE_TABLE_ROW);
+
+  if (!tableBodyEntry || !tableRowEntry) {
+    return;
+  }
+  const [bodyElement, bodyPath] = tableBodyEntry;
+  const [rowElement] = tableRowEntry;
+
+  if (
+    bodyPath &&
+    Element.isElement(bodyElement) &&
+    bodyElement.type === TYPE_TABLE_BODY &&
+    Element.isElement(rowElement) &&
+    rowElement.type === TYPE_TABLE_ROW
+  ) {
+    return Transforms.insertNodes(
+      editor,
+      {
+        ...defaultTableHeadBlock(0),
+        children: [
+          {
+            ...defaultTableRowBlock(0),
+            children: rowElement.children.map(cell => {
+              if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
+                return {
+                  ...defaultTableCellBlock(),
+                  data: {
+                    ...cell.data,
+                    rowspan: 1,
+                  },
+                };
+              }
+              return {
+                ...defaultTableCellBlock(),
+                data: {
+                  rowspan: 1,
+                  colspan: 1,
+                  isHeader: true,
+                },
+              };
+            }),
+          },
+        ],
+      },
+      { at: bodyPath },
+    );
+  }
+};
+
 export const insertRow = (editor: Editor, tableElement: TableElement, path: Path) => {
+  const [tableBodyEntry] = Editor.nodes(editor, {
+    at: path,
+    match: node => isTableHead(node) || isTableRow(node),
+  });
+
+  if (!tableBodyEntry) {
+    return;
+  }
+
+  // If tableHead contains two rows. Insert the row in tableBody instead
+  const [tableHead, tableHeadPath] = tableBodyEntry;
+  if (isTableHead(tableHead)) {
+    if (tableHead.children.length === 2) {
+      const tableBodyPath = Path.next(tableHeadPath);
+
+      if (Editor.hasPath(editor, tableBodyPath)) {
+        const [tableBody] = Editor.node(editor, tableBodyPath);
+
+        if (isTableBody(tableBody)) {
+          const firstRow = tableBody.children[0];
+
+          if (isTableRow(firstRow)) {
+            return Transforms.insertNodes(
+              editor,
+              {
+                ...defaultTableRowBlock(0),
+                children: firstRow.children.map(cell => {
+                  if (Element.isElement(cell) && cell.type === TYPE_TABLE_CELL) {
+                    return {
+                      ...defaultTableCellBlock(),
+                      data: {
+                        ...cell.data,
+                        rowspan: 1,
+                      },
+                    };
+                  }
+                  return {
+                    ...defaultTableCellBlock(),
+                    data: {
+                      rowspan: 1,
+                      colspan: 1,
+                      isHeader: false,
+                    },
+                  };
+                }),
+              },
+              { at: [...tableBodyPath, 0] },
+            );
+          }
+        }
+        // If tableBody does not exist. Insert it with rows matching the end of tableHead
+      } else {
+        const headerMatrix = getTableBodyAsMatrix(editor, tableHeadPath);
+        if (headerMatrix) {
+          const lastHeadRow = [...new Set(headerMatrix[headerMatrix.length - 1])];
+          return Transforms.insertNodes(
+            editor,
+            {
+              ...defaultTableBodyBlock(0, 0),
+              children: [
+                {
+                  ...defaultTableRowBlock(0),
+                  children: lastHeadRow.map((cell, index) => ({
+                    ...defaultTableCellBlock(),
+                    data: {
+                      ...cell.data,
+                      isHeader: index === 0 && tableElement.rowHeaders,
+                      rowspan: 1,
+                    },
+                  })),
+                },
+              ],
+            },
+            { at: Path.next(tableHeadPath) },
+          );
+        }
+      }
+      return;
+    }
+  }
+
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
     match: node => isTableCell(node),
@@ -232,10 +418,12 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
   const matrix = getTableAsMatrix(editor, ReactEditor.findPath(editor, tableElement));
 
   if (matrix && isTableCell(cell)) {
-    const selectedPath = findCellCoordinate(matrix, cell);
-    if (selectedPath) {
+    const selectedCoordinate = findCellCoordinate(matrix, cell);
+    if (selectedCoordinate) {
       const selectedRowIndex =
-        selectedPath[0] + matrix[selectedPath[0]][selectedPath[1]].data.rowspan - 1;
+        selectedCoordinate[0] +
+        matrix[selectedCoordinate[0]][selectedCoordinate[1]].data.rowspan -
+        1;
 
       Editor.withoutNormalizing(editor, () => {
         let rowsInserted = 0;
@@ -281,12 +469,11 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
             Transforms.insertNodes(
               editor,
               {
-                type: TYPE_TABLE_CELL,
+                ...defaultTableCellBlock(),
                 data: {
                   ...cell.data,
                   rowspan: 1,
                 },
-                children: [defaultParagraphBlock()],
               },
               {
                 at: [...newRowPath, rowsInserted],
@@ -301,6 +488,15 @@ export const insertRow = (editor: Editor, tableElement: TableElement, path: Path
 };
 
 export const insertColumn = (editor: Editor, tableElement: TableElement, path: Path) => {
+  const [tableBodyEntry] = Editor.nodes(editor, {
+    at: path,
+    match: node => isTableHead(node) || isTableRow(node),
+  });
+
+  if (!tableBodyEntry) {
+    return;
+  }
+
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
     match: node => isTableCell(node),
@@ -346,12 +542,11 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
             Transforms.insertNodes(
               editor,
               {
-                type: TYPE_TABLE_CELL,
+                ...defaultTableCellBlock(),
                 data: {
                   ...cell.data,
                   colspan: 1,
                 },
-                children: [defaultParagraphBlock()],
               },
               { at: Path.next(ReactEditor.findPath(editor, cell)) },
             );
@@ -363,6 +558,15 @@ export const insertColumn = (editor: Editor, tableElement: TableElement, path: P
 };
 
 export const removeColumn = (editor: Editor, tableElement: TableElement, path: Path) => {
+  const [tableBodyEntry] = Editor.nodes(editor, {
+    at: path,
+    match: node => isTableHead(node) || isTableRow(node),
+  });
+
+  if (!tableBodyEntry) {
+    return;
+  }
+
   const [cellEntry] = Editor.nodes(editor, {
     at: path,
     match: node => isTableCell(node),

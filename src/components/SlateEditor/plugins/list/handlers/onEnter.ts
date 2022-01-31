@@ -11,8 +11,15 @@ const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEv
   if (!editor.selection && next) return next(event);
   else if (!editor.selection) return undefined;
 
-  const [currentListItem, currentListItemPath] = getCurrentBlock(editor, TYPE_LIST_ITEM);
-  const [currentParagraph, currentParagraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH);
+  const listItemEntry = getCurrentBlock(editor, TYPE_LIST_ITEM);
+  const paragraphEntry = getCurrentBlock(editor, TYPE_PARAGRAPH);
+
+  if (!listItemEntry || !paragraphEntry) {
+    return next && next(event);
+  }
+
+  const [currentListItem, currentListItemPath] = listItemEntry;
+  const [currentParagraph, currentParagraphPath] = paragraphEntry;
 
   // Check that list and paragraph are of correct type.
   if (!Element.isElement(currentListItem) || currentListItem.type !== TYPE_LIST_ITEM) {

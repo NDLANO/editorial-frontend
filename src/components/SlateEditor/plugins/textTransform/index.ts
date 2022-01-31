@@ -7,8 +7,7 @@
  */
 
 import { Editor, Transforms, Range } from 'slate';
-
-const KEY_ENTER = 'Enter';
+import { KEY_ENTER } from '../../utils/keys';
 
 const replaceConsecutiveChars = (
   event: KeyboardEvent,

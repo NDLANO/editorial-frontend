@@ -12,13 +12,13 @@ import { jsx as slatejsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { TYPE_BREAK } from '../break';
-import { getCurrentParagraph, TYPE_PARAGRAPH } from './utils';
+import { getCurrentParagraph, isParagraph, TYPE_PARAGRAPH } from './utils';
 import containsVoid from '../../utils/containsVoid';
 import { TYPE_LIST_ITEM } from '../list/types';
 import { BlockPickerOptions } from '../blockPicker/options';
 import Paragraph from './Paragraph';
-
-const KEY_ENTER = 'Enter';
+import { TYPE_TABLE_CELL } from '../table/utils';
+import { KEY_ENTER } from '../../utils/keys';
 
 export interface ParagraphElement {
   type: 'paragraph';
@@ -125,14 +125,43 @@ export const paragraphPlugin = (language?: string, blockpickerOptions?: BlockPic
   editor.normalizeNode = entry => {
     const [node, path] = entry;
 
-    if (Element.isElement(node) && node.type === TYPE_PARAGRAPH && node.serializeAsText) {
+    if (Element.isElement(node) && node.type === TYPE_PARAGRAPH) {
       const [parentNode] = Editor.node(editor, Path.parent(path));
-      if (Element.isElement(parentNode) && parentNode.type !== TYPE_LIST_ITEM) {
+
+      // If paragraph is not in a list or table, make sure it will be rendered with <p>-tag
+      if (
+        Element.isElement(parentNode) &&
+        parentNode.type !== TYPE_TABLE_CELL &&
+        parentNode.type !== TYPE_LIST_ITEM &&
+        node.serializeAsText
+      ) {
         return Transforms.unsetNodes(editor, 'serializeAsText', { at: path });
+      }
+
+      // If two paragraphs are direct siblings, make sure both will be rendered with <p>-tag
+      if (Path.hasPrevious(path)) {
+        const [previousNode] = Editor.node(editor, Path.previous(path));
+        if (isParagraph(previousNode) && (previousNode.serializeAsText || node.serializeAsText)) {
+          return Transforms.unsetNodes(editor, 'serializeAsText', {
+            at: Path.parent(path),
+            mode: 'all',
+            match: isParagraph,
+          });
+        }
+      }
+      if (Editor.hasPath(editor, Path.next(path))) {
+        const [nextNode] = Editor.node(editor, Path.next(path));
+        if (isParagraph(nextNode) && (nextNode.serializeAsText || node.serializeAsText)) {
+          return Transforms.unsetNodes(editor, 'serializeAsText', {
+            at: Path.parent(path),
+            mode: 'all',
+            match: isParagraph,
+          });
+        }
       }
     }
 
-    // Unwrap block element children
+    // Unwrap block element children. Only text allowed.
     if (Element.isElement(node) && node.type === TYPE_PARAGRAPH) {
       for (const [child, childPath] of Node.children(editor, path)) {
         if (Element.isElement(child) && !editor.isInline(child)) {

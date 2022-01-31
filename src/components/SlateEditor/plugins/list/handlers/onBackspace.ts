@@ -15,20 +15,19 @@ const onBackspace = (
     return next && next(event);
   }
 
-  const [currentItemNode, currentItemPath] = getCurrentBlock(editor, TYPE_LIST_ITEM);
+  const entry = getCurrentBlock(editor, TYPE_LIST_ITEM);
 
-  if (
-    currentItemNode &&
-    Element.isElement(currentItemNode) &&
-    currentItemNode.type === TYPE_LIST_ITEM
-  ) {
-    // Check that cursor is not expanded.
-    if (Range.isCollapsed(editor.selection)) {
-      const [, firstItemNodePath] = Editor.node(editor, [...currentItemPath, 0]);
-      // If cursor is placed at start of first item child
-      if (Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath))) {
-        event.preventDefault();
-        return Transforms.liftNodes(editor, { at: currentItemPath });
+  if (entry) {
+    const [currentItemNode, currentItemPath] = entry;
+    if (Element.isElement(currentItemNode) && currentItemNode.type === TYPE_LIST_ITEM) {
+      if (Range.isCollapsed(editor.selection)) {
+        // Check that cursor is not expanded.
+        const [, firstItemNodePath] = Editor.node(editor, [...currentItemPath, 0]);
+        // If cursor is placed at start of first item child
+        if (Point.equals(Range.start(editor.selection), Editor.start(editor, firstItemNodePath))) {
+          event.preventDefault();
+          return Transforms.liftNodes(editor, { at: currentItemPath });
+        }
       }
     }
   }

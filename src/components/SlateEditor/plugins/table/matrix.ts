@@ -1,7 +1,7 @@
 import { compact } from 'lodash';
 import { Descendant, Editor, Path, Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { TableBodyElement, TableCellElement, TableHeadElement } from '.';
+import { TableBodyElement, TableCellElement, TableHeadElement } from './interfaces';
 import {
   insertEmptyCells,
   isTable,
@@ -123,14 +123,17 @@ const normalizeRow = (
   editor: Editor,
   matrix: TableCellElement[][],
   rowIndex: number,
+  tableBody: TableHeadElement | TableBodyElement,
   tableBodyPath: Path,
-) => {
+): boolean => {
+  const [table] = Editor.node(editor, Path.parent(tableBodyPath));
+
   // A. If row does not exist in slate => Insert empty row
   if (!Editor.hasPath(editor, [...tableBodyPath, rowIndex])) {
     Transforms.insertNodes(editor, defaultTableRowBlock(1), {
       at: [...tableBodyPath, rowIndex],
     });
-    return;
+    return true;
   }
 
   // B. Insert cells if row has empty positions.
@@ -146,7 +149,132 @@ const normalizeRow = (
     }
   }
 
-  // C. Compare width of previous and current row and insert empty cells if they are of unequal length.
+  // C. Make sure isHeader and scope is set correctly in cells in header and body
+  if (isTable(table)) {
+    const isHead = isTableHead(tableBody);
+    const { rowHeaders } = table;
+    // Check every cell of the row to be normalized
+    for (const [index, cell] of matrix[rowIndex].entries()) {
+      // A. Normalize table head
+      if (isHead) {
+        // i. If table has row headers.
+        //    Make sure scope='col' and isHeader=true
+        if (rowHeaders) {
+          if (cell.data.scope !== 'col' || !cell.data.isHeader) {
+            Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  scope: rowHeaders ? 'col' : undefined,
+                  isHeader: true,
+                },
+              },
+              {
+                at: [...tableBodyPath, rowIndex],
+                match: node => node === cell,
+                mode: 'lowest',
+              },
+            );
+            return true;
+          }
+        } else {
+          // ii. If table does not have rowHeaders
+          // Make sure cells in header has scope=undefined and isHeader=true
+          if (cell.data.scope || !cell.data.isHeader) {
+            Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  scope: undefined,
+                  isHeader: true,
+                },
+              },
+              {
+                at: [...tableBodyPath, rowIndex],
+                match: node => node === cell,
+                mode: 'lowest',
+              },
+            );
+            return true;
+          }
+        }
+      } else {
+        // i. If table has rowHeaders
+        //    First cell in row should be a header
+        //    Other cells should not be a header
+        if (rowHeaders) {
+          if (index === 0 && (cell.data.scope !== 'row' || !cell.data.isHeader)) {
+            Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  scope: 'row',
+                  isHeader: true,
+                },
+              },
+              {
+                at: [...tableBodyPath, rowIndex],
+                match: node => node === cell,
+              },
+            );
+            return true;
+          }
+          if (
+            index !== 0 &&
+            (cell.data.scope || cell.data.isHeader) &&
+            matrix[rowIndex][index - 1] !== cell
+          ) {
+            Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  scope: undefined,
+                  isHeader: false,
+                },
+              },
+              {
+                at: [...tableBodyPath, rowIndex],
+                match: node => node === cell,
+              },
+            );
+            return true;
+          }
+        } else {
+          // ii. If table does not have rowHeaders
+          //     Make sure cells in body has scope=undefined and isHeader=false
+          if (cell.data.scope || cell.data.isHeader) {
+            Transforms.setNodes(
+              editor,
+              {
+                ...cell,
+                data: {
+                  ...cell.data,
+                  scope: undefined,
+                  isHeader: false,
+                },
+              },
+              {
+                at: [...tableBodyPath, rowIndex, index],
+                match: isTableCell,
+                mode: 'lowest',
+              },
+            );
+            return true;
+          }
+        }
+      }
+    }
+  }
+
+  // D. Compare width of previous and current row and insert empty cells if they are of unequal length.
   if (rowIndex > 0) {
     const lengthDiff = compact(matrix[rowIndex]).length - matrix[rowIndex - 1].length;
 
@@ -214,15 +342,17 @@ export const normalizeTableBodyAsMatrix = (
       // ii. Place cell in matrix
       placeCellInMatrix(matrix, rowIndex, colspan, rowspan, cell);
     }
+    if (isTableBody(tableBody)) {
+    }
     // B. Validate insertion of the current row. This will restart the normalization.
-    if (normalizeRow(editor, matrix, rowIndex, tableBodyPath)) {
+    if (normalizeRow(editor, matrix, rowIndex, tableBody, tableBodyPath)) {
       return true;
     }
   }
 
   // B. Rowspan can cause matrix to have more rows than slate. Normalize if needed.
   if (tableBody.children.length < matrix.length) {
-    if (normalizeRow(editor, matrix, tableBody.children.length, tableBodyPath)) {
+    if (normalizeRow(editor, matrix, tableBody.children.length, tableBody, tableBodyPath)) {
       return true;
     }
   }

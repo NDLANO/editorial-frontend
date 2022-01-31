@@ -4,8 +4,10 @@ exports[`getSessionStateFromLocalStorage returns a decoded access token if every
 Object {
   "authenticated": true,
   "user": Object {
-    "name": "Rune Storløpa",
-    "permissions": undefined,
+    "name": "Test user",
+    "permissions": Array [
+      "some:permission",
+    ],
   },
   "userNotRegistered": false,
 }
@@ -32,10 +34,10 @@ Object {
   "authenticated": true,
   "login": [Function],
   "logout": [Function],
-  "userName": "Rune Storløpa",
+  "userName": "Test user",
   "userNotRegistered": true,
   "userPermissions": Array [
-    "",
+    "some:permission",
   ],
 }
 `;
@@ -56,9 +58,11 @@ Object {
   "authenticated": true,
   "login": [Function],
   "logout": [Function],
-  "userName": "Rune Storløpa",
+  "userName": "Test user",
   "userNotRegistered": false,
-  "userPermissions": undefined,
+  "userPermissions": Array [
+    "some:permission",
+  ],
 }
 `;
 

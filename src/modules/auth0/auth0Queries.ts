@@ -19,11 +19,11 @@ export const useAuth0Users = (uniqueUserIds: string, options: UseQueryOptions<Au
   );
 
 export const useAuth0Editors = <ReturnType>(
-  role: string,
+  permission: string,
   options: UseQueryOptions<Auth0UserData[], unknown, ReturnType>,
 ) =>
   useQuery<Auth0UserData[], unknown, ReturnType>(
-    [AUTH0_EDITORS, role],
-    () => fetchAuth0Editors(role),
+    [AUTH0_EDITORS, permission],
+    () => fetchAuth0Editors(permission),
     options,
   );

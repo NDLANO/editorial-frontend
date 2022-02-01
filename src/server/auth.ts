@@ -80,8 +80,8 @@ async function fetchEditors(token: string, query: string, page: number) {
   }).then(res => res.json());
 }
 
-export const getEditors = async (managementToken: ManagementToken, role: string) => {
-  const query = `include_totals=true&q=app_metadata.roles:"${role}"`;
+export const getEditors = async (managementToken: ManagementToken, permission: string) => {
+  const query = `include_totals=true&q=app_metadata.permissions:"${permission}"`;
 
   const firstPage = await fetchEditors(managementToken.access_token, query, 0);
   const numberOfPages = Math.ceil(firstPage.total / firstPage.length);

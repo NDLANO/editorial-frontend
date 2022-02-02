@@ -96,3 +96,8 @@ test('transformUrlIfNeeded returns original if not pen', async () => {
 
   expect(url1).toMatch('https://codepen.io/some-other-url');
 });
+
+test('transformUrlIfNeeded replaces www with embed for ted.com', async () => {
+  const url1 = await transformUrlIfNeeded('https://www.ted.com/talks/some_fancy_talk');
+  expect(url1).toMatch('https://embed.ted.com/talks/some_fancy_talk');
+});

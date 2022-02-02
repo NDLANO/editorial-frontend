@@ -66,6 +66,23 @@ const kahootTransformer: UrlTransformer = {
   },
 };
 
+const tedTransformer: UrlTransformer = {
+  domains: ['www.ted.com'],
+  shouldTransform: (url, domains) => {
+    const aTag = urlAsATag(url);
+
+    if (!domains.includes(aTag.hostname)) {
+      return false;
+    }
+    return true;
+  },
+  transform: async url => {
+    const obj = new URL(url);
+    obj.host = obj.host.replace(/www/, 'embed');
+    return obj.href;
+  },
+};
+
 const codepenTransformer: UrlTransformer = {
   domains: ['codepen.io'],
   shouldTransform: (url, domains) => {
@@ -81,7 +98,7 @@ const codepenTransformer: UrlTransformer = {
   },
   transform: async url => {
     const obj = new URL(url);
-    obj.pathname = obj.pathname.replace('/pen/', '/embed/');
+    obj.pathname = obj.pathname.replace(/pen/, 'embed');
     const penID = obj.pathname.split('/').pop();
     if (penID) {
       return obj.href;
@@ -94,4 +111,5 @@ export const urlTransformers: UrlTransformer[] = [
   nrkTransformer,
   kahootTransformer,
   codepenTransformer,
+  tedTransformer,
 ];

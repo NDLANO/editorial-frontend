@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Auth0DecodedHash } from 'auth0-js';
@@ -42,7 +50,7 @@ export interface SessionProps {
   userPermissions?: string[];
   authenticated: boolean;
   userNotRegistered: boolean;
-  login: (accessToken: Auth0DecodedHash) => void;
+  login: (authResult: Auth0DecodedHash) => void;
   logout: (federated: boolean, returnToLogin?: boolean) => void;
 }
 

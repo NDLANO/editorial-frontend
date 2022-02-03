@@ -181,12 +181,12 @@ app.get(
   }),
   async (req, res) => {
     const {
-      query: { role },
+      query: { permission },
     } = req;
 
     try {
       const managementToken = await getToken(`https://${config.auth0Domain}/api/v2/`);
-      const editors = await getEditors(managementToken, role);
+      const editors = await getEditors(managementToken, permission);
       res.status(OK).json(editors);
     } catch (err) {
       res.status(INTERNAL_SERVER_ERROR).send(err.message);

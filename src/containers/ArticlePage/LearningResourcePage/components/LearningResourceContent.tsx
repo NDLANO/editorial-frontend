@@ -148,7 +148,7 @@ type Props = {
 
 const LearningResourceContent = ({
   t,
-  userAccess,
+  userPermissions,
   articleLanguage,
   values: { id, language, creators, published },
   handleSubmit,
@@ -197,7 +197,7 @@ const LearningResourceContent = ({
         {({ field: { value, name, onChange }, form: { isSubmitting, setFieldValue } }) => (
           <>
             <FieldHeader title={t('form.content.label')}>
-              {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
+              {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
                 <EditMarkupLink
                   to={toEditMarkup(id, language ?? '')}
                   title={t('editMarkup.linkTitle')}

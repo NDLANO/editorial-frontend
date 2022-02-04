@@ -26,16 +26,18 @@ import { FileElement } from './plugins/file';
 import { DetailsElement, SummaryElement } from './plugins/details';
 import {
   TableBodyElement,
+  TableCaptionElement,
   TableCellElement,
   TableElement,
   TableHeadElement,
   TableRowElement,
-} from './plugins/table';
+} from './plugins/table/interfaces';
 import { RelatedElement } from './plugins/related';
 import { EmbedElement } from './plugins/embed';
 import { BodyboxElement } from './plugins/bodybox';
 import { CodeblockElement } from './plugins/codeBlock';
 import { DivElement } from './plugins/div';
+import { SpanElement } from './plugins/span';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -79,6 +81,7 @@ declare module 'slate' {
       | SummaryElement
       | CodeblockElement
       | TableElement
+      | TableCaptionElement
       | TableRowElement
       | TableCellElement
       | TableHeadElement
@@ -86,7 +89,8 @@ declare module 'slate' {
       | RelatedElement
       | EmbedElement
       | BodyboxElement
-      | DivElement;
+      | DivElement
+      | SpanElement;
     Text: CustomTextWithMarks;
   }
 }

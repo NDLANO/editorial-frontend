@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import Modal from '@ndla/modal/lib/Modal';
@@ -91,15 +91,15 @@ const ConceptModal = ({
     setSelectedTabIndex(index);
   };
 
-  const searchConcept = async (searchParam: ConceptQuery) => {
+  const searchConcept = useCallback(async (searchParam: ConceptQuery) => {
     if (!searching) {
       setSearching(true);
       const concepts = await searchConcepts(searchParam);
       setConcepts(concepts);
       setSearching(false);
-      updateSearchObject(searchParam);
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onConceptUpsert = async (upsertedConcept: ConceptPostType | ConceptPatchType) => {
     const savedConcept = isConceptPatchType(upsertedConcept)
@@ -112,6 +112,11 @@ const ConceptModal = ({
   useEffect(() => {
     searchConcept(searchObject);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const debouncedSearchConcept = useMemo(
+    () => debounce((params: ConceptQuery) => searchConcept(params), 400),
+    [searchConcept],
+  );
   return (
     <Portal isOpened>
       <Modal
@@ -144,7 +149,10 @@ const ConceptModal = ({
                         </h2>
                         <SearchForm
                           type={type}
-                          search={debounce(searchConcept, 400)}
+                          search={params => {
+                            updateSearchObject(params);
+                            debouncedSearchConcept(params);
+                          }}
                           searchObject={searchObject}
                           locale={locale}
                           subjects={subjects}

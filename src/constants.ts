@@ -100,6 +100,8 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'VG', url: ['www.vg.no'] },
   { name: 'Trinket', url: ['trinket.io'], height: '700px' },
   { name: 'Codepen', url: ['codepen.io'], height: '500px' },
+  { name: 'Flourish studio', url: ['public.flourish.studio'] },
+  { name: 'Our World in Data', url: ['ourworldindata.org'] },
 ];
 
 export const SearchTypeValues = [

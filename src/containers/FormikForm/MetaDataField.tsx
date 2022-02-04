@@ -27,7 +27,7 @@ interface Props {
 
 const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {
   const { t } = useTranslation();
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
   const plugins = [textTransformPlugin];
 
   return (
@@ -47,7 +47,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
           />
         )}
       </FormikField>
-      {userAccess?.includes(DRAFT_ADMIN_SCOPE) && (
+      {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
         <FormikField name="availability" label={t('form.availability.label')}>
           {({ field }) => <AvailabilityField field={field} />}
         </FormikField>

@@ -52,7 +52,7 @@ interface ContentType {
 
 const SearchContent = ({ content, locale }: Props) => {
   const { t } = useTranslation();
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
   const { contexts, metaImage } = content;
   const { url, alt } = metaImage || {};
   const imageUrl = url ? `${url}?width=200` : '/placeholder.png';
@@ -72,7 +72,7 @@ const SearchContent = ({ content, locale }: Props) => {
   };
   const EditMarkup = (
     <>
-      {content.id && userAccess?.includes(DRAFT_HTML_SCOPE) && (
+      {content.id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
         <EditMarkupLink
           to={toEditMarkup(
             content.id,

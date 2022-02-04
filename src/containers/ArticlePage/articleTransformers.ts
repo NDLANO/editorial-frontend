@@ -179,6 +179,7 @@ export const topicArticleFormTypeToDraftApiType = (
     copyright: copyright,
     articleType: article.articleType,
     notes: article.notes,
+    grepCodes: article.grepCodes,
     conceptIds: article.conceptIds,
     availability: article.availability,
     relatedContent: article.relatedContent,

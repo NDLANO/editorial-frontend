@@ -38,6 +38,7 @@ import { parseEmbedTag, createEmbedTag } from './embedTagHelpers';
 import { Embed } from '../interfaces';
 import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/utils';
 import { divSerializer } from '../components/SlateEditor/plugins/div';
+import { spanSerializer } from '../components/SlateEditor/plugins/span';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -88,6 +89,7 @@ const learningResourceRules: SlateSerializer[] = [
   embedSerializer,
   bodyboxSerializer,
   divSerializer,
+  spanSerializer,
 ];
 
 // Rules are checked from first to last
@@ -105,6 +107,7 @@ const topicArticleRules: SlateSerializer[] = [
   conceptSerializer,
   noEmbedSerializer,
   divSerializer,
+  spanSerializer,
 ];
 
 export const learningResourceContentToEditorValue = (html?: string): Descendant[] => {
@@ -144,7 +147,6 @@ export const learningResourceContentToEditorValue = (html?: string): Descendant[
   };
 
   const document = new DOMParser().parseFromString(html, 'text/html');
-
   const nodes = toArray(document.body.children).map(deserialize);
   const normalizedNodes = compact(nodes.map(n => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
   return normalizedNodes;

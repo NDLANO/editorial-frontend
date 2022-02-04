@@ -12,9 +12,8 @@ import { RenderElementProps } from 'slate-react';
 import Section from './Section';
 import { SlateSerializer } from '../../interfaces';
 import { defaultParagraphBlock } from '../paragraph/utils';
+import { KEY_BACKSPACE, KEY_TAB } from '../../utils/keys';
 export const TYPE_SECTION = 'section';
-const KEY_BACKSPACE = 'Backspace';
-const KEY_TAB = 'Tab';
 
 export interface SectionElement {
   type: 'section';

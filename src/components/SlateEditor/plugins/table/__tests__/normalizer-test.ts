@@ -16,6 +16,7 @@ import { TYPE_SECTION } from '../../section';
 import {
   TYPE_TABLE,
   TYPE_TABLE_BODY,
+  TYPE_TABLE_CAPTION,
   TYPE_TABLE_CELL,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
@@ -26,238 +27,6 @@ const editor = withHistory(
 );
 
 describe('table normalizer tests', () => {
-  test('Make sure cells in first row is marked as header', () => {
-    const editorValue: Descendant[] = [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-          {
-            type: TYPE_TABLE,
-            children: [
-              {
-                type: TYPE_TABLE_HEAD,
-                children: [
-                  {
-                    type: TYPE_TABLE_ROW,
-                    children: [
-                      {
-                        type: TYPE_TABLE_CELL,
-                        data: {
-                          isHeader: false,
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: TYPE_PARAGRAPH,
-                            children: [
-                              {
-                                text: '1',
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                      {
-                        type: TYPE_TABLE_CELL,
-                        data: {
-                          isHeader: true,
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: TYPE_PARAGRAPH,
-                            children: [
-                              {
-                                text: '2',
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                type: TYPE_TABLE_BODY,
-                children: [
-                  {
-                    type: TYPE_TABLE_ROW,
-                    children: [
-                      {
-                        type: TYPE_TABLE_CELL,
-                        data: {
-                          isHeader: false,
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: TYPE_PARAGRAPH,
-                            children: [
-                              {
-                                text: '3',
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                      {
-                        type: TYPE_TABLE_CELL,
-                        data: {
-                          isHeader: false,
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: TYPE_PARAGRAPH,
-                            children: [
-                              {
-                                text: '4',
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-        ],
-      },
-    ];
-
-    const expectedValue: Descendant[] = [
-      {
-        type: TYPE_SECTION,
-        children: [
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-          {
-            type: TYPE_TABLE,
-            children: [
-              {
-                type: TYPE_TABLE_HEAD,
-                children: [
-                  {
-                    type: TYPE_TABLE_ROW,
-                    children: [
-                      {
-                        type: TYPE_TABLE_CELL,
-                        data: {
-                          isHeader: true,
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: TYPE_PARAGRAPH,
-                            children: [
-                              {
-                                text: '1',
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                      {
-                        type: TYPE_TABLE_CELL,
-                        data: {
-                          isHeader: true,
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: TYPE_PARAGRAPH,
-                            children: [
-                              {
-                                text: '2',
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                type: TYPE_TABLE_BODY,
-                children: [
-                  {
-                    type: TYPE_TABLE_ROW,
-                    children: [
-                      {
-                        type: TYPE_TABLE_CELL,
-                        data: {
-                          isHeader: false,
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: TYPE_PARAGRAPH,
-                            children: [
-                              {
-                                text: '3',
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                      {
-                        type: TYPE_TABLE_CELL,
-                        data: {
-                          isHeader: false,
-                          colspan: 1,
-                          rowspan: 1,
-                        },
-                        children: [
-                          {
-                            type: TYPE_PARAGRAPH,
-                            children: [
-                              {
-                                text: '4',
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            type: TYPE_PARAGRAPH,
-            children: [{ text: '' }],
-          },
-        ],
-      },
-    ];
-
-    editor.children = editorValue;
-    Editor.normalize(editor, { force: true });
-    expect(editor.children).toEqual(expectedValue);
-  });
-
   test('Make sure non-row element in table-head or body is wrapped in row', () => {
     const editorValue: Descendant[] = [
       {
@@ -269,7 +38,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            rowHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -349,7 +128,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            rowHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -380,10 +169,12 @@ describe('table normalizer tests', () => {
                           isHeader: true,
                           colspan: 1,
                           rowspan: 1,
+                          scope: undefined,
                         },
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            serializeAsText: true,
                             children: [
                               {
                                 text: '',
@@ -468,7 +259,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            rowHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -571,7 +372,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            rowHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -679,7 +490,7 @@ describe('table normalizer tests', () => {
     expect(editor.children).toEqual(expectedValue);
   });
 
-  test('Add missing cells', () => {
+  test('Add missing cells and caption', () => {
     const editorValue: Descendant[] = [
       {
         type: TYPE_SECTION,
@@ -690,6 +501,8 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            rowHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
               {
                 type: TYPE_TABLE_HEAD,
@@ -785,7 +598,17 @@ describe('table normalizer tests', () => {
           },
           {
             type: TYPE_TABLE,
+            rowHeaders: false,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
             children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
               {
                 type: TYPE_TABLE_HEAD,
                 children: [
@@ -866,9 +689,311 @@ describe('table normalizer tests', () => {
                         children: [
                           {
                             type: TYPE_PARAGRAPH,
+                            serializeAsText: true,
                             children: [
                               {
                                 text: '',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: '' }],
+          },
+        ],
+      },
+    ];
+
+    editor.children = editorValue;
+    Editor.normalize(editor, { force: true });
+    expect(editor.children).toEqual(expectedValue);
+  });
+
+  test('Make sure row headers and table headers are set correctly when rowHeaders=true', () => {
+    const editorValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: '' }],
+          },
+          {
+            type: TYPE_TABLE,
+            rowHeaders: true,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
+            children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
+              {
+                type: TYPE_TABLE_HEAD,
+                children: [
+                  {
+                    type: TYPE_TABLE_ROW,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '1',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: true,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '2',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: TYPE_TABLE_BODY,
+                children: [
+                  {
+                    type: TYPE_TABLE_ROW,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 2,
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '3',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: true,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '4',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    type: TYPE_TABLE_ROW,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '5',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: '' }],
+          },
+        ],
+      },
+    ];
+
+    const expectedValue: Descendant[] = [
+      {
+        type: TYPE_SECTION,
+        children: [
+          {
+            type: TYPE_PARAGRAPH,
+            children: [{ text: '' }],
+          },
+          {
+            type: TYPE_TABLE,
+            rowHeaders: true,
+            colgroups: '<colgroup></colgroup><colgroup span="2"></colgroup>',
+            children: [
+              {
+                type: TYPE_TABLE_CAPTION,
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
+              {
+                type: TYPE_TABLE_HEAD,
+                children: [
+                  {
+                    type: TYPE_TABLE_ROW,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: true,
+                          colspan: 1,
+                          rowspan: 1,
+                          scope: 'col',
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '1',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: true,
+                          colspan: 1,
+                          rowspan: 1,
+                          scope: 'col',
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '2',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: TYPE_TABLE_BODY,
+                children: [
+                  {
+                    type: TYPE_TABLE_ROW,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: true,
+                          colspan: 1,
+                          rowspan: 2,
+                          scope: 'row',
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '3',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '4',
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    type: TYPE_TABLE_ROW,
+                    children: [
+                      {
+                        type: TYPE_TABLE_CELL,
+                        data: {
+                          isHeader: false,
+                          colspan: 1,
+                          rowspan: 1,
+                        },
+                        children: [
+                          {
+                            type: TYPE_PARAGRAPH,
+                            children: [
+                              {
+                                text: '5',
                               },
                             ],
                           },

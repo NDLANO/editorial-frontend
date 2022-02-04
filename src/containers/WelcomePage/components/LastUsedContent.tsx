@@ -24,7 +24,7 @@ interface Props {
 const LastUsedContent = ({ articleId }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
 
   const { data: article } = useDraft(articleId, locale);
 
@@ -36,7 +36,7 @@ const LastUsedContent = ({ articleId }: Props) => {
             {article.title?.title} ({t('article.lastUpdated')}{' '}
             {article && formatDate(article.updated)})
           </Link>
-          {userAccess?.includes(DRAFT_HTML_SCOPE) ? (
+          {userPermissions?.includes(DRAFT_HTML_SCOPE) ? (
             <EditMarkupLink
               to={toEditMarkup(
                 articleId,

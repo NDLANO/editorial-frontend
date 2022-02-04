@@ -17,7 +17,7 @@ exports[`withSession correctly injects and updates session state 2`] = `
     Click
   </button>
   <p>
-    Rune Storløpa
+    test
   </p>
 </div>
 `;

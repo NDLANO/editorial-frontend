@@ -62,6 +62,7 @@ import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { SessionProps } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
+import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 
 const byLineStyle = css`
   display: flex;
@@ -100,6 +101,7 @@ export const plugins = (
 ): SlatePlugin[] => {
   return [
     sectionPlugin,
+    spanPlugin,
     divPlugin,
     paragraphPlugin(
       articleLanguage,
@@ -146,7 +148,7 @@ type Props = {
 
 const LearningResourceContent = ({
   t,
-  userAccess,
+  userPermissions,
   articleLanguage,
   values: { id, language, creators, published },
   handleSubmit,
@@ -195,7 +197,7 @@ const LearningResourceContent = ({
         {({ field: { value, name, onChange }, form: { isSubmitting, setFieldValue } }) => (
           <>
             <FieldHeader title={t('form.content.label')}>
-              {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && (
+              {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && (
                 <EditMarkupLink
                   to={toEditMarkup(id, language ?? '')}
                   title={t('editMarkup.linkTitle')}

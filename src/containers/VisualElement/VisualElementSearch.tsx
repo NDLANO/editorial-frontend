@@ -57,19 +57,20 @@ interface Props {
 interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {
   audioType?: string;
   pageSize?: number;
+  locale?: string;
 }
 
 const searchAudios = (query: LocalAudioSearchParams) => {
   // AudioSearch passes values that are not accepted by the API. They must be altered to have the correct key.
-  const audioType = query.audioType;
-  delete query.audioType;
-  delete query.pageSize;
-  const correctQuery: AudioSearchParams = {
-    ...query,
+  const correctedQuery: AudioSearchParams = {
+    language: query.language ?? query.locale,
+    page: query.page,
+    query: query.query,
+    sort: query.sort,
     'page-size': 16,
-    'audio-type': audioType,
+    'audio-type': query.audioType,
   };
-  return searchAudio(correctQuery);
+  return searchAudio(correctedQuery);
 };
 
 const VisualElementSearch = ({
@@ -209,7 +210,6 @@ const VisualElementSearch = ({
             handleVisualElementChange({
               type: 'embed',
               value: {
-                caption: '', // Caption not supported by audio-api
                 resource: 'audio',
                 resource_id: audio.id.toString(),
                 type: audioType,

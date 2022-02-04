@@ -7,8 +7,9 @@
  *
  */
 
-import { Descendant, Editor, Element, NodeEntry, Path, Transforms } from 'slate';
-import { RenderElementProps } from 'slate-react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from 'slate';
+import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { HistoryEditor } from 'slate-history';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { equals } from 'lodash/fp';
@@ -20,11 +21,13 @@ import {
 import SlateTable from './SlateTable';
 import {
   defaultTableBodyBlock,
+  defaultTableCaptionBlock,
   defaultTableCellBlock,
   defaultTableHeadBlock,
   defaultTableRowBlock,
   TYPE_TABLE,
   TYPE_TABLE_BODY,
+  TYPE_TABLE_CAPTION,
   TYPE_TABLE_CELL,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
@@ -32,51 +35,30 @@ import {
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { normalizeTableBodyAsMatrix } from './matrix';
 import { handleTableKeydown } from './handleKeyDown';
-import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
+import {
+  isTable,
+  isTableBody,
+  isTableCaption,
+  isTableCell,
+  isTableHead,
+  isTableRow,
+} from './helpers';
 import { defaultParagraphBlock, TYPE_PARAGRAPH } from '../paragraph/utils';
+import { TableElement } from './interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
+import WithPlaceHolder from './../../common/WithPlaceHolder';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-
-export const KEY_ARROW_UP = 'ArrowUp';
-export const KEY_ARROW_DOWN = 'ArrowDown';
-export const KEY_TAB = 'Tab';
-export const KEY_BACKSPACE = 'Backspace';
-export const KEY_DELETE = 'Delete';
+import TableActions from './TableActions';
+import {
+  KEY_ARROW_DOWN,
+  KEY_ARROW_UP,
+  KEY_BACKSPACE,
+  KEY_DELETE,
+  KEY_ENTER,
+  KEY_TAB,
+} from '../../utils/keys';
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
-
-export interface TableElement {
-  type: 'table';
-  children: Descendant[];
-}
-
-export interface TableHeadElement {
-  type: 'table-head';
-  children: Descendant[];
-}
-
-export interface TableBodyElement {
-  type: 'table-body';
-  children: Descendant[];
-}
-
-export interface TableRowElement {
-  type: 'table-row';
-  children: Descendant[];
-}
-
-export interface TableCellElement {
-  type: 'table-cell';
-  data: {
-    rowspan: number;
-    colspan: number;
-    align?: string;
-    valign?: string;
-    class?: string;
-    isHeader: boolean;
-  };
-  children: Descendant[];
-}
 
 const normalizerConfig: NormalizerConfig = {
   previous: {
@@ -98,11 +80,37 @@ export const TABLE_TAGS: { [key: string]: string } = {
 export const tableSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     const tagName = el.tagName.toLowerCase();
+
     if (tagName === 'table') {
-      return slatejsx('element', { type: TYPE_TABLE }, children);
+      const rowHeaders = !!el.querySelector('tbody th');
+      const childNodes = Array.from(el.childNodes) as HTMLElement[];
+      const colgroups =
+        childNodes
+          .filter(child =>
+            ['colgroup', 'col'].includes((child as HTMLElement).tagName?.toLowerCase()),
+          )
+          .map(col => col.outerHTML)
+          .join('') || '';
+      return slatejsx(
+        'element',
+        {
+          type: TYPE_TABLE,
+          colgroups,
+          rowHeaders,
+        },
+        children.filter(
+          child =>
+            Element.isElement(child) &&
+            [TYPE_TABLE_HEAD, TYPE_TABLE_BODY, TYPE_TABLE_CAPTION].includes(child.type),
+        ),
+      );
     }
     if (tagName === 'tr') {
       return slatejsx('element', { type: TYPE_TABLE_ROW }, children);
+    }
+
+    if (tagName === 'caption') {
+      return slatejsx('element', { type: TYPE_TABLE_CAPTION }, children);
     }
 
     if (tagName === 'thead') {
@@ -119,28 +127,42 @@ export const tableSerializer: SlateSerializer = {
       isHeader: tagName === 'th',
     };
     if (tagName === 'th' || tagName === 'td') {
-      const filter = ['rowspan', 'colspan', 'align', 'valign', 'class'];
+      const filter = ['rowspan', 'colspan', 'align', 'valign', 'class', 'scope', 'id', 'headers'];
       const attrs = reduceElementDataAttributes(el, filter);
       const colspan = attrs.colspan && parseInt(attrs.colspan);
       const rowspan = attrs.rowspan && parseInt(attrs.rowspan);
+      const id = attrs.id || undefined;
+      const scope = attrs.scope === 'row' || attrs.scope === 'col' ? attrs.scope : undefined;
       data = {
         ...attrs,
         colspan: colspan || 1,
         rowspan: rowspan || 1,
         isHeader: tagName === 'th',
+        scope,
+        id,
       };
     }
     if (equals(children, [{ text: '' }])) {
-      children = [defaultParagraphBlock()];
+      children = [
+        {
+          ...defaultParagraphBlock(),
+          serializeAsText: true,
+        },
+      ];
     }
     return slatejsx('element', { type: tableTag, data }, children);
   },
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
     if (
-      ![TYPE_TABLE, TYPE_TABLE_HEAD, TYPE_TABLE_BODY, TYPE_TABLE_ROW, TYPE_TABLE_CELL].includes(
-        node.type,
-      )
+      ![
+        TYPE_TABLE,
+        TYPE_TABLE_HEAD,
+        TYPE_TABLE_BODY,
+        TYPE_TABLE_ROW,
+        TYPE_TABLE_CELL,
+        TYPE_TABLE_CAPTION,
+      ].includes(node.type)
     )
       return;
 
@@ -152,9 +174,32 @@ export const tableSerializer: SlateSerializer = {
       return <tbody>{children}</tbody>;
     }
 
+    if (node.type === TYPE_TABLE_CAPTION) {
+      if (Node.string(node) === '') {
+        return <></>;
+      }
+      return <caption>{children}</caption>;
+    }
+
     if (node.type === TYPE_TABLE) {
-      const ret = <table>{children}</table>;
-      return ret;
+      const [caption, ...rest] = children;
+      if (caption.type === 'caption') {
+        return (
+          <table
+            dangerouslySetInnerHTML={{
+              __html:
+                renderToStaticMarkup(caption) +
+                node.colgroups +
+                rest.map(e => renderToStaticMarkup(e)).join(''),
+            }}></table>
+        );
+      }
+      return (
+        <table
+          dangerouslySetInnerHTML={{
+            __html: node.colgroups + children.map(e => renderToStaticMarkup(e)).join(''),
+          }}></table>
+      );
     }
     if (node.type === TYPE_TABLE_ROW) {
       return <tr>{children}</tr>;
@@ -181,16 +226,26 @@ export const tableSerializer: SlateSerializer = {
 };
 
 export const tablePlugin = (editor: Editor) => {
-  const { renderElement, normalizeNode, onKeyDown } = editor;
+  const { renderElement, normalizeNode, onKeyDown, renderLeaf } = editor;
 
   editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
     switch (element.type) {
       case TYPE_TABLE:
         return (
-          <SlateTable editor={editor} element={element} attributes={attributes}>
-            {children}
-          </SlateTable>
+          <>
+            <TableActions editor={editor} element={element} />
+            <SlateTable editor={editor} element={element} attributes={attributes}>
+              <colgroup
+                contentEditable={false}
+                dangerouslySetInnerHTML={{ __html: element.colgroups || '' }}
+              />
+
+              {children}
+            </SlateTable>
+          </>
         );
+      case TYPE_TABLE_CAPTION:
+        return <caption {...attributes}>{children}</caption>;
       case TYPE_TABLE_ROW:
         return <tr {...attributes}>{children}</tr>;
       case TYPE_TABLE_CELL:
@@ -211,24 +266,62 @@ export const tablePlugin = (editor: Editor) => {
         return renderElement && renderElement({ attributes, children, element });
     }
   };
+
+  editor.renderLeaf = (props: RenderLeafProps) => {
+    const { attributes, children, leaf, text } = props;
+    const path = ReactEditor.findPath(editor, text);
+
+    const [parent] = Editor.node(editor, Path.parent(path));
+    if (
+      Element.isElement(parent) &&
+      parent.type === TYPE_TABLE_CAPTION &&
+      Node.string(leaf) === ''
+    ) {
+      return (
+        <WithPlaceHolder attributes={attributes} placeholder="form.name.title">
+          {children}
+        </WithPlaceHolder>
+      );
+    }
+    return renderLeaf && renderLeaf(props);
+  };
+
   editor.normalizeNode = entry => {
     const [node, path] = entry;
     // A. Table normalizer
     if (isTable(node)) {
-      // i. If table contains elements other than head or body element, wrap it with head or body element
-      for (const [bodyIndex, child] of node.children.entries()) {
-        if (!isTableHead(child) && !isTableBody(child)) {
-          const wrapAsHeader = bodyIndex === 0;
-          return Transforms.wrapNodes(
-            editor,
-            wrapAsHeader ? defaultTableHeadBlock(0) : defaultTableBodyBlock(0, 0),
-            {
-              at: [...path, bodyIndex],
-            },
-          );
+      const tableChildren = node.children;
+
+      // i. First item must be a caption. Otherwise: Insert one.
+      if (!isTableCaption(tableChildren[0])) {
+        return Transforms.insertNodes(editor, defaultTableCaptionBlock(), {
+          at: [...path, 0],
+        });
+      }
+
+      // ii. Second item must be tableHead or tableBody. Otherwise: Insert tableHead.
+      if (!isTableHead(tableChildren[1]) && !isTableBody(tableChildren[1])) {
+        return Transforms.insertNodes(editor, defaultTableHeadBlock(0), {
+          at: [...path, 1],
+        });
+      }
+
+      // i. Make sure table contains the correct caption, tableHead and tableBody nodes.
+      for (const [index, child] of node.children.entries()) {
+        // Caption can't be placed at any other index than 0. Otherwise: Remote it.
+        if (index !== 0 && isTableCaption(child)) {
+          return Transforms.removeNodes(editor, { at: [...path, index] });
+        }
+
+        // Consecutive items must be tableBody. Otherwise: Wrap as tableBody.
+        if (index === 1 && !isTableHead(child) && !isTableBody(child)) {
+          return Transforms.wrapNodes(editor, defaultTableBodyBlock(1, 0), {
+            at: [...path, index],
+          });
         }
       }
-      // ii. Normalize each tableBody using matrix convertion for help.
+
+      // iii. Normalize each tableBody using matrix convertion for help.
       for (const [index, child] of node.children.entries()) {
         if (isTableHead(child) || isTableBody(child)) {
           if (normalizeTableBodyAsMatrix(editor, child, [...path, index])) {
@@ -280,20 +373,31 @@ export const tablePlugin = (editor: Editor) => {
         }
       }
 
-      const [parent] = Editor.node(editor, Path.parent(path));
+      const [body, bodyPath] = Editor.node(editor, Path.parent(path));
+      const [table] = Editor.node(editor, Path.parent(bodyPath));
 
-      // ii. Make sure cells in TableHead are marked as isHeader. Cells in TableBody are not.
-      if (isTableHead(parent) || isTableBody(parent)) {
-        const isHeader = isTableHead(parent);
+      // ii. Make sure cells in TableHead are marked as isHeader.
+      //     Cells in TableBody will not be altered if rowHeaders=true on Table.
+      if ((isTableHead(body) || isTableBody(body)) && isTable(table)) {
         for (const [index, cell] of node.children.entries()) {
-          if (isTableCell(cell) && cell.data.isHeader !== isHeader) {
+          if (table.rowHeaders && isTableBody(body)) {
+            continue;
+          }
+
+          const shouldBeHeader = isTableHead(body);
+          const expectedScope = shouldBeHeader && table.rowHeaders ? 'col' : undefined;
+          if (
+            isTableCell(cell) &&
+            (cell.data.isHeader !== shouldBeHeader || expectedScope !== cell.data.scope)
+          ) {
             return HistoryEditor.withoutSaving(editor, () => {
               Transforms.setNodes(
                 editor,
                 {
                   data: {
                     ...cell.data,
-                    isHeader: isHeader,
+                    isHeader: shouldBeHeader,
+                    scope: expectedScope,
                   },
                 },
                 { at: [...path, index] },
@@ -304,13 +408,46 @@ export const tablePlugin = (editor: Editor) => {
       }
     }
 
+    // E. TableCaption normalizer
+    if (isTableCaption(node)) {
+      for (const [index, child] of node.children.entries()) {
+        // i. Unwrap if not text
+        if (!Text.isText(child)) {
+          return Transforms.unwrapNodes(editor, {
+            at: [...path, index],
+          });
+          // ii. Remove styling on text
+        } else if (
+          child.bold ||
+          child.code ||
+          child.italic ||
+          child.sub ||
+          child.sup ||
+          child.underlined
+        ) {
+          Transforms.unsetNodes(editor, ['bold', 'code', 'italic', 'sub', 'sup', 'underlined'], {
+            at: path,
+            match: node => Text.isText(node),
+          });
+          return;
+        }
+      }
+    }
+
     normalizeNode(entry);
   };
 
   editor.onKeyDown = event => {
+    // Navigation with arrows and tab
     if (validKeys.includes(event.key)) {
-      const [tableNode, tablePath] = getCurrentBlock(editor, TYPE_TABLE);
+      const entry = getCurrentBlock(editor, TYPE_TABLE);
+      if (!entry) {
+        return onKeyDown && onKeyDown(event);
+      }
+      const [tableNode, tablePath] = entry;
+
       if (
+        tablePath &&
         tableNode &&
         editor.selection &&
         Path.isDescendant(editor.selection.anchor.path, tablePath)
@@ -320,6 +457,18 @@ export const tablePlugin = (editor: Editor) => {
             TableElement
           >);
         }
+      }
+    }
+    // Prevent enter from functioning in caption
+    if (event.key === KEY_ENTER) {
+      const entry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
+      if (!entry) {
+        return onKeyDown && onKeyDown(event);
+      }
+      const [captionNode] = entry;
+
+      if (captionNode) {
+        return event.preventDefault();
       }
     }
     onKeyDown && onKeyDown(event);

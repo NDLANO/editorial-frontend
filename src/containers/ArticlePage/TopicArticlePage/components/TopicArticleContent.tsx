@@ -45,6 +45,7 @@ import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
 import { useSession } from '../../../Session/SessionProvider';
+import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 
 const byLineStyle = css`
   display: flex;
@@ -71,6 +72,7 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
   // Plugins are checked from last to first
   return [
     sectionPlugin,
+    spanPlugin,
     divPlugin,
     paragraphPlugin(
       language,
@@ -108,7 +110,7 @@ const TopicArticleContent = (props: Props) => {
     values: { id, language, creators, published },
     handleSubmit,
   } = props;
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
   const [preview, setPreview] = useState(false);
   const handleSubmitRef = useRef(handleSubmit);
   const plugins = useMemo(() => {
@@ -151,7 +153,7 @@ const TopicArticleContent = (props: Props) => {
         {({ field: { value, name, onChange }, form: { isSubmitting } }) => (
           <>
             <FieldHeader title={t('form.content.label')}>
-              {id && userAccess && userAccess.includes(DRAFT_HTML_SCOPE) && language && (
+              {id && userPermissions?.includes(DRAFT_HTML_SCOPE) && language && (
                 <EditMarkupLink to={toEditMarkup(id, language)} title={t('editMarkup.linkTitle')} />
               )}
             </FieldHeader>

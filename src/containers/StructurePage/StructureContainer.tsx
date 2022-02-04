@@ -59,7 +59,7 @@ export const StructureContainer = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
   const [subjects, setSubjects] = useState<(SubjectType & { topics?: SubjectTopic[] })[]>([]);
   const [topics, setTopics] = useState<SubjectTopic[]>([]);
@@ -233,7 +233,7 @@ export const StructureContainer = () => {
     setShowFavorites(!showFavorites);
   };
 
-  const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
+  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   return (
     <ErrorBoundary>

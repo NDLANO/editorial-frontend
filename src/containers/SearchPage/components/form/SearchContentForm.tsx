@@ -14,7 +14,7 @@ import { getResourceLanguages } from '../../../../util/resourceHelpers';
 import { getTagName } from '../../../../util/formHelper';
 import ArticleStatuses from '../../../../util/constants/index';
 import { SearchParams } from './SearchForm';
-import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
+import { DRAFT_WRITE_SCOPE } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { MinimalTagType } from './SearchTag';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
@@ -42,7 +42,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   const [queryInput, setQueryInput] = useState(search.query ?? '');
   const [isHasPublished, setIsHasPublished] = useState(false);
 
-  const { data: users } = useAuth0Editors(CONCEPT_WRITE_SCOPE, {
+  const { data: users } = useAuth0Editors(DRAFT_WRITE_SCOPE, {
     select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
     placeholderData: [],
   });

@@ -77,7 +77,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
   const [stagedTopicChanges, setStagedTopicChanges] = useState<StagedTopic[]>([]);
   const [showWarning, setShowWarning] = useState(false);
   const { t, i18n } = useTranslation();
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
 
   useEffect(() => {
     (async () => {
@@ -261,7 +261,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
     );
   }
 
-  const isTaxonomyAdmin = userAccess?.includes(TAXONOMY_ADMIN_SCOPE);
+  const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
 
   return (
     <>

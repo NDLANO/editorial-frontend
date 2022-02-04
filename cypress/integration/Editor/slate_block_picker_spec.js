@@ -101,7 +101,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   it('opens and closes podcast', () => {
     cy.apiroute(
       'GET',
-      '/audio-api/v1/audio/?audio-type=podcast&locale=nb&page=1&page-size=16&query=',
+      '/audio-api/v1/audio/?audio-type=podcast&language=nb&page=1&page-size=16&query=',
       'editor/audios/podcastList',
     );
     cy.apiroute('GET', '**/audio-api/v1/audio/*?language=nb', 'editor/audios/audio-1');
@@ -116,7 +116,7 @@ describe('can enter both element types SlateBlockPicker and SlateVisualElementPi
   it('opens and closes audio', () => {
     cy.apiroute(
       'GET',
-      '/audio-api/v1/audio/?audio-type=standard&locale=nb&page=1&page-size=16&query=',
+      '/audio-api/v1/audio/?audio-type=standard&language=nb&page=1&page-size=16&query=',
       'editor/audios/audioList',
     );
     cy.apiroute('GET', '**/audio-api/v1/audio/*?language=nb', 'editor/audios/audio-1');

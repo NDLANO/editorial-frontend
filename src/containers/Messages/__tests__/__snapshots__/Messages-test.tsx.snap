@@ -219,9 +219,6 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
             viewBox="0 0 24 24"
             width="1em"
           >
-            <title>
-              Cross
-            </title>
             <g>
               <path
                 d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
@@ -253,9 +250,6 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
                 viewBox="0 0 24 24"
                 width="1em"
               >
-                <title>
-                  Warning
-                </title>
                 <g>
                   <path
                     d="M0 0h24v24H0V0z"
@@ -522,9 +516,6 @@ exports[`Messages A single message renders correctly 1`] = `
             viewBox="0 0 24 24"
             width="1em"
           >
-            <title>
-              Cross
-            </title>
             <g>
               <path
                 d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
@@ -556,9 +547,6 @@ exports[`Messages A single message renders correctly 1`] = `
                 viewBox="0 0 24 24"
                 width="1em"
               >
-                <title>
-                  Warning
-                </title>
                 <g>
                   <path
                     d="M0 0h24v24H0V0z"
@@ -805,9 +793,6 @@ exports[`Messages Several messages renders correctly 1`] = `
             viewBox="0 0 24 24"
             width="1em"
           >
-            <title>
-              Cross
-            </title>
             <g>
               <path
                 d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
@@ -839,9 +824,6 @@ exports[`Messages Several messages renders correctly 1`] = `
                 viewBox="0 0 24 24"
                 width="1em"
               >
-                <title>
-                  Warning
-                </title>
                 <g>
                   <path
                     d="M0 0h24v24H0V0z"
@@ -888,9 +870,6 @@ exports[`Messages Several messages renders correctly 1`] = `
             viewBox="0 0 24 24"
             width="1em"
           >
-            <title>
-              Cross
-            </title>
             <g>
               <path
                 d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
@@ -922,9 +901,6 @@ exports[`Messages Several messages renders correctly 1`] = `
                 viewBox="0 0 24 24"
                 width="1em"
               >
-                <title>
-                  Warning
-                </title>
                 <g>
                   <path
                     d="M0 0h24v24H0V0z"
@@ -1249,9 +1225,6 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
             viewBox="0 0 24 24"
             width="1em"
           >
-            <title>
-              Cross
-            </title>
             <g>
               <path
                 d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
@@ -1283,9 +1256,6 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
                 viewBox="0 0 24 24"
                 width="1em"
               >
-                <title>
-                  Warning
-                </title>
                 <g>
                   <path
                     d="M0 0h24v24H0V0z"

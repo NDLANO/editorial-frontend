@@ -27,9 +27,9 @@ interface Props {
 }
 
 const FileUploader = ({ onFileSave }: Props) => {
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
   const allowedFiles = allowedFiletypes;
-  if (userAccess?.includes(DRAFT_ADMIN_SCOPE)) {
+  if (userPermissions?.includes(DRAFT_ADMIN_SCOPE)) {
     allowedFiles.push(...adminAllowedFiletypes);
   }
   const { t } = useTranslation();

@@ -44,7 +44,7 @@ const ActiveTopicConnection = ({
   topic,
 }: Props) => {
   const { t } = useTranslation();
-  const { userAccess } = useSession();
+  const { userPermissions } = useSession();
   if (!topic.breadcrumb) {
     return (
       <StyledConnections error>
@@ -73,7 +73,7 @@ const ActiveTopicConnection = ({
     <>
       <StyledConnections>
         <StyledFlexWrapper>
-          {userAccess?.includes(TAXONOMY_ADMIN_SCOPE) && (
+          {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
             <StyledPrimaryConnectionButton
               primary={topic.primary}
               type="button"

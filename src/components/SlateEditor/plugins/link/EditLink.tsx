@@ -138,7 +138,7 @@ const EditLink = (props: Props) => {
 
       Transforms.insertText(editor, text, { at: path });
 
-      Transforms.setNodes(
+      Transforms.setNodes<LinkElement | ContentLinkElement>(
         editor,
         { ...data },
         {

@@ -57,7 +57,7 @@ const MonacoEditor = lazy(() => import('../../components/MonacoEditor'));
 // Also useful for detecting validation issues.
 function standardizeContent(content: string): string {
   const trimmedContent = content
-    .split('>\n')
+    .split(/>\r?\n/)
     .map(s => s.trim())
     .join('>');
   const converted = learningResourceContentToEditorValue(trimmedContent);
@@ -141,7 +141,7 @@ const EditMarkupPage = () => {
 
   useEffect(() => {
     const session = getSessionStateFromLocalStorage();
-    if (!session.user.scope?.includes(DRAFT_HTML_SCOPE)) {
+    if (!session.user.permissions?.includes(DRAFT_HTML_SCOPE)) {
       setStatus('access-error');
       return;
     }

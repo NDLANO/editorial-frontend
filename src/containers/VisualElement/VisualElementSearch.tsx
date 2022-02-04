@@ -210,7 +210,6 @@ const VisualElementSearch = ({
             handleVisualElementChange({
               type: 'embed',
               value: {
-                caption: '', // Caption not supported by audio-api
                 resource: 'audio',
                 resource_id: audio.id.toString(),
                 type: audioType,

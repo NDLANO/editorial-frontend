@@ -45,6 +45,6 @@ describe('Topic editing', () => {
       .contains(phrases.metadata.changeVisibility)
       .click();
     cy.get('input[id="visible"]').click({force: true});
-    cy.wait(['@invisibleMetadata', '@article']);
+    cy.wait(['@invisibleMetadata', '@article'],{timeout: 20000});
   });
 });

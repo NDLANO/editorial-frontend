@@ -6,6 +6,17 @@
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 
+import {
+  IArticleContent,
+  IArticleIntroduction,
+  IArticleMetaDescription,
+  IArticleMetaImage,
+  IArticleTag,
+  IArticleTitle,
+  IVisualElement,
+} from '@ndla/types-draft-api';
+import { IDescription, IManuscript, IPodcastMeta } from '@ndla/types-audio-api';
+import { IImageAltText, IImageCaption } from '@ndla/types-image-api';
 import { AudioApiType } from './modules/audio/audioApiInterfaces';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
@@ -243,3 +254,17 @@ export interface License {
 }
 
 export type SearchType = typeof SearchTypeValues[number];
+
+export type WarningType =
+  | IArticleContent
+  | IArticleIntroduction
+  | IArticleMetaDescription
+  | IArticleMetaImage
+  | IArticleTag
+  | IArticleTitle
+  | IVisualElement
+  | IDescription
+  | IManuscript
+  | IPodcastMeta
+  | IImageAltText
+  | IImageCaption;

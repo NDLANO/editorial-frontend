@@ -2193,10 +2193,35 @@
   dependencies:
     warning "^4.0.3"
 
+"@ndla/types-article-api@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@ndla/types-article-api/-/types-article-api-0.0.4.tgz#5d48b9620b3df8165e9c773a68ec8ee13883b458"
+  integrity sha512-/3042WNFF4URUDMufkCEm+DSMIb+uWkKGWzb1KTTqQ3FhvihFP6Po3ISxphjODdKp/zbxWMH/QCgQYEsqZNNng==
+
+"@ndla/types-audio-api@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@ndla/types-audio-api/-/types-audio-api-0.0.10.tgz#008cbd2c420fb7993133b42489b24dc3b7b034c8"
+  integrity sha512-M40Za9h7L1FIFgw4LYU1CsLWRRJ2QWdnD+22xBAKyhDHrWmaRVg/Vqu5QWRHWjcSmZEtUnT/fs7g6HNKR26Yog==
+
+"@ndla/types-concept-api@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@ndla/types-concept-api/-/types-concept-api-0.0.5.tgz#8ce71e7720baf900a0b40d3c98374d3f59f5200d"
+  integrity sha512-R6RD4pzPykTYzTFJCSpDrby9k3qkchakHJp4bOi9WFlfzP9LX4Wd74Lk6BpwhPp8YMKSbAjDt/i1h2b2QleArA==
+
+"@ndla/types-draft-api@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@ndla/types-draft-api/-/types-draft-api-0.0.18.tgz#759290c4ca78fbfa67c9d90bf371a60bbbfda658"
+  integrity sha512-6C6Qf6oo+8Vl2hCKvnuMqKxRieniAPuPTkNY+RoE83oRvU9ZJiu86gvweg4ytVCgEwdfmNxEYYJ0PqHh1J+Tbg==
+
 "@ndla/types-frontpage-api@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@ndla/types-frontpage-api/-/types-frontpage-api-0.0.3.tgz#31e6b1dba0b8a215c06b2918f34cfb0385192b0e"
   integrity sha512-1sAwf7TyjAElbzvWjfLw1PI4pG9HQ+KArMNY8shDZnY3GiASko2GsJUxbTX/ryU85iTwkA9dPPR+Zuo6C9o9DA==
+
+"@ndla/types-image-api@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@ndla/types-image-api/-/types-image-api-0.0.4.tgz#f5efe62b8cb97e857d07e4f967d246d71d1335c1"
+  integrity sha512-VTdQww63erpGg4tIysNxv1mvbIVMC6/mG5dEqL4xKJPmjgJGuGAoO2iJuBFOCR0m6NXAG7v9bk/qn1/pwPCEsw==
 
 "@ndla/ui@^3.3.5":
   version "3.3.5"

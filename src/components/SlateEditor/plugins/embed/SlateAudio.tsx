@@ -56,7 +56,6 @@ const SlateAudio = ({
         const audio = await fetchAudio(parseInt(embed.resource_id), language);
         setAudio({
           ...audio,
-          caption: embed.caption,
           title: audio.title?.title || '',
         });
       } catch (error) {

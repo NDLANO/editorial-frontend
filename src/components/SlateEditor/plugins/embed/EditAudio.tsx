@@ -9,12 +9,10 @@
 import { useEffect, FormEvent, MouseEvent, createRef } from 'react';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
-import { Input } from '@ndla/forms';
 import { AudioPlayer } from '@ndla/ui';
 import ObjectSelector from '../../../ObjectSelector';
 import Overlay from '../../../Overlay';
 import { Portal } from '../../../Portal';
-import { useSlateContext } from '../../SlateContext';
 import FigureButtons from './FigureButtons';
 import { SlateAudio, AudioEmbed } from '../../../../interfaces';
 
@@ -51,7 +49,6 @@ const EditAudio = ({
   const { t } = useTranslation();
   let placeholderElement: any = createRef();
   let embedElement: any = createRef();
-  const { submitted } = useSlateContext();
 
   useEffect(() => {
     const bodyRect = document.body.getBoundingClientRect();
@@ -106,16 +103,6 @@ const EditAudio = ({
             ]}
           />
           <AudioPlayer src={audio.audioFile.url} title={audio.title} speech={speech} />
-          <Input
-            name="caption"
-            label={t('form.audio.caption.label')}
-            container="div"
-            type="text"
-            value={changes?.caption || embed?.caption}
-            onChange={onAudioFigureInputChange}
-            placeholder={t('form.audio.caption.placeholder')}
-            submitted={submitted}
-          />
           <FigureButtons
             figureType="audio"
             tooltip={t('form.audio.remove')}

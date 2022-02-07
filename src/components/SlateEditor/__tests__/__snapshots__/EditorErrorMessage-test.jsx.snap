@@ -113,9 +113,6 @@ exports[`EditorErrorMessage renders 1`] = `
         viewBox="0 0 24 24"
         width="1em"
       >
-        <title>
-          DeleteForever
-        </title>
         <g>
           <path
             d="M0 0h24v24H0V0z"

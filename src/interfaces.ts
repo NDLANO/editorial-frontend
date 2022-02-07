@@ -157,7 +157,6 @@ export interface BrightcoveEmbed {
 export interface AudioEmbed {
   resource: 'audio';
   resource_id: string;
-  caption: string;
   type: string;
   url: string;
 }
@@ -215,7 +214,6 @@ export interface UnsavedFile {
 
 export interface SlateAudio extends Omit<AudioApiType, 'title'> {
   title: string;
-  caption: string;
 }
 
 export interface FormikInputEvent {

@@ -33,6 +33,9 @@ import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 import { License } from '../../../interfaces';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
+import { getFieldsWithWrongLanguage } from '../../../util/articleUtil';
+import { WarningsProvider } from '../../FormikForm/WarningsProvider';
+import { generateLanguageWarnings } from '../../FormikForm/utils';
 
 const imageRules: RulesType<ImageFormikType> = {
   title: {
@@ -163,101 +166,111 @@ const ImageForm = ({
 
   const initialValues = imageApiTypeToFormType(image, language);
   const initialErrors = validateFormik(initialValues, imageRules, t);
+  const fieldsWithWrongLanguage = getFieldsWithWrongLanguage(image, language);
+  const warnings = generateLanguageWarnings(fieldsWithWrongLanguage, t);
 
   return (
-    <Formik
-      initialValues={initialValues}
-      initialErrors={initialErrors}
-      onSubmit={handleSubmit}
-      validateOnMount
-      enableReinitialize
-      validate={values => validateFormik(values, imageRules, t)}>
-      {({ values, dirty, errors, isSubmitting, submitForm, isValid }) => {
-        const formIsDirty = isFormikFormDirty({
-          values,
-          initialValues,
-          dirty,
-        });
-        const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
-          errorFields.some(field => !!errors[field]);
-        return (
-          <FormWrapper inModal={inModal}>
-            <HeaderWithLanguage
-              noStatus
-              values={values}
-              type="image"
-              content={{
-                ...image,
-                language,
-                title: image?.title.title,
-                id: image?.id ? parseInt(image.id) : undefined,
-              }}
-              editUrl={(lang: string) => {
-                if (values.id) return toEditImage(values.id, lang);
-                else return toCreateImage();
-              }}
-            />
-            <Accordions>
-              <AccordionSection
-                id="image-upload-content"
-                title={t('form.contentSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
-                startOpen>
-                <ImageContent />
-              </AccordionSection>
-              <AccordionSection
-                id="image-upload-metadataSection"
-                title={t('form.metadataSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}>
-                <ImageMetaData
-                  licenses={licenses}
-                  imageLanguage={language}
-                  imageTags={values.tags}
-                />
-              </AccordionSection>
-              <AccordionSection
-                id="image-upload-version-history"
-                title={t('form.workflowSection')}
-                className="u-4/6@desktop u-push-1/6@desktop">
-                <ImageVersionNotes image={image} />
-              </AccordionSection>
-            </Accordions>
-            <Field right>
-              {inModal ? (
-                <ActionButton outline onClick={closeModal}>
-                  {t('form.abort')}
-                </ActionButton>
-              ) : (
-                <AbortButton outline disabled={isSubmitting || isSaving}>
-                  {t('form.abort')}
-                </AbortButton>
-              )}
-              <SaveButton
-                isSaving={isSubmitting || isSaving}
-                disabled={!isValid}
-                showSaved={!dirty && (isNewlyCreated || savedToServer)}
-                formIsDirty={formIsDirty}
-                submit={!inModal}
-                onClick={evt => {
-                  if (inModal) {
-                    evt.preventDefault();
-                    submitForm();
-                  }
+    <WarningsProvider initialValues={warnings}>
+      <Formik
+        initialValues={initialValues}
+        initialErrors={initialErrors}
+        onSubmit={handleSubmit}
+        validateOnMount
+        enableReinitialize
+        validate={values => validateFormik(values, imageRules, t)}>
+        {({ values, dirty, errors, isSubmitting, submitForm, isValid }) => {
+          const formIsDirty = isFormikFormDirty({
+            values,
+            initialValues,
+            dirty,
+          });
+          const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
+            errorFields.some(field => !!errors[field]);
+          return (
+            <FormWrapper inModal={inModal}>
+              <HeaderWithLanguage
+                noStatus
+                values={values}
+                type="image"
+                content={{
+                  ...image,
+                  language,
+                  title: image?.title.title,
+                  id: image?.id ? parseInt(image.id) : undefined,
+                }}
+                editUrl={(lang: string) => {
+                  if (values.id) return toEditImage(values.id, lang);
+                  else return toCreateImage();
                 }}
               />
-            </Field>
-            <AlertModalWrapper
-              isSubmitting={isSubmitting}
-              severity="danger"
-              formIsDirty={formIsDirty}
-              text={t('alertModal.notSaved')}
-            />
-          </FormWrapper>
-        );
-      }}
-    </Formik>
+              <Accordions>
+                <AccordionSection
+                  id="image-upload-content"
+                  title={t('form.contentSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
+                  startOpen>
+                  <ImageContent />
+                </AccordionSection>
+                <AccordionSection
+                  id="image-upload-metadataSection"
+                  title={t('form.metadataSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={hasError([
+                    'tags',
+                    'rightsholders',
+                    'creators',
+                    'processors',
+                    'license',
+                  ])}>
+                  <ImageMetaData
+                    licenses={licenses}
+                    imageLanguage={language}
+                    imageTags={values.tags}
+                  />
+                </AccordionSection>
+                <AccordionSection
+                  id="image-upload-version-history"
+                  title={t('form.workflowSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop">
+                  <ImageVersionNotes image={image} />
+                </AccordionSection>
+              </Accordions>
+              <Field right>
+                {inModal ? (
+                  <ActionButton outline onClick={closeModal}>
+                    {t('form.abort')}
+                  </ActionButton>
+                ) : (
+                  <AbortButton outline disabled={isSubmitting || isSaving}>
+                    {t('form.abort')}
+                  </AbortButton>
+                )}
+                <SaveButton
+                  isSaving={isSubmitting || isSaving}
+                  disabled={!isValid}
+                  showSaved={!dirty && (isNewlyCreated || savedToServer)}
+                  formIsDirty={formIsDirty}
+                  submit={!inModal}
+                  onClick={evt => {
+                    if (inModal) {
+                      evt.preventDefault();
+                      submitForm();
+                    }
+                  }}
+                />
+              </Field>
+              <AlertModalWrapper
+                isSubmitting={isSubmitting}
+                severity="danger"
+                formIsDirty={formIsDirty}
+                text={t('alertModal.notSaved')}
+              />
+            </FormWrapper>
+          );
+        }}
+      </Formik>
+    </WarningsProvider>
   );
 };
 

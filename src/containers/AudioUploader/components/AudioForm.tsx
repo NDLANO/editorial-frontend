@@ -34,6 +34,9 @@ import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import { getFieldsWithWrongLanguage } from '../../../util/articleUtil';
+import { generateLanguageWarnings } from '../../FormikForm/utils';
+import { WarningsProvider } from '../../FormikForm/WarningsProvider';
 
 export interface AudioFormikType extends FormikFormBaseType {
   id?: number;
@@ -166,98 +169,102 @@ const AudioForm = ({
 
   const initialValues = audioApiTypeToFormType(audio, audioLanguage);
   const initialErrors = validateFormik(initialValues, rules, t);
+  const fieldsWithWrongLanguage = getFieldsWithWrongLanguage(audio, audioLanguage);
+  const warnings = generateLanguageWarnings(fieldsWithWrongLanguage, t);
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      enableReinitialize
-      validateOnMount
-      initialErrors={initialErrors}
-      validate={values => validateFormik(values, rules, t)}>
-      {formikProps => {
-        const { values, dirty, isSubmitting, submitForm, errors } = formikProps;
-        const formIsDirty = isFormikFormDirty({
-          values,
-          initialValues,
-          dirty,
-        });
+    <WarningsProvider initialValues={warnings}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        enableReinitialize
+        validateOnMount
+        initialErrors={initialErrors}
+        validate={values => validateFormik(values, rules, t)}>
+        {formikProps => {
+          const { values, dirty, isSubmitting, submitForm, errors } = formikProps;
+          const formIsDirty = isFormikFormDirty({
+            values,
+            initialValues,
+            dirty,
+          });
 
-        const hasError = (errFields: (keyof AudioFormikType)[]): boolean => {
-          return errFields.some(field => !!errors[field]);
-        };
-        return (
-          <FormWrapper>
-            <HeaderWithLanguage
-              noStatus
-              values={values}
-              type="audio"
-              content={{ ...audio, language: audioLanguage, title: audio?.title.title }}
-              editUrl={(lang: string) => {
-                if (values.id) return toEditAudio(values.id, lang);
-                else return toCreateAudioFile();
-              }}
-              translateToNN={translateToNN}
-            />
-            {translating ? (
-              <Spinner withWrapper />
-            ) : (
-              <Accordions>
-                <AccordionSection
-                  id="audio-upload-content"
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  title={t('form.contentSection')}
-                  hasError={hasError(['title', 'audioFile'])}
-                  startOpen>
-                  <AudioContent classes={formClasses} />
-                </AccordionSection>
-                <AccordionSection
-                  id="podcast-upload-podcastmanus"
-                  title={t('podcastForm.fields.manuscript')}
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={[].some(field => field in errors)}>
-                  <AudioManuscript />
-                </AccordionSection>
-                <AccordionSection
-                  id="audio-upload-metadataSection"
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  title={t('form.metadataSection')}
-                  hasError={hasError([
-                    'tags',
-                    'creators',
-                    'rightsholders',
-                    'processors',
-                    'license',
-                  ])}>
-                  <AudioMetaData classes={formClasses} />
-                </AccordionSection>
-              </Accordions>
-            )}
-            <Field right>
-              <AbortButton outline disabled={isSubmitting}>
-                {t('form.abort')}
-              </AbortButton>
-              <SaveButton
-                {...formClasses}
-                isSaving={isSubmitting}
-                formIsDirty={formIsDirty}
-                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-                onClick={evt => {
-                  evt.preventDefault();
-                  submitForm();
+          const hasError = (errFields: (keyof AudioFormikType)[]): boolean => {
+            return errFields.some(field => !!errors[field]);
+          };
+          return (
+            <FormWrapper>
+              <HeaderWithLanguage
+                noStatus
+                values={values}
+                type="audio"
+                content={{ ...audio, language: audioLanguage, title: audio?.title.title }}
+                editUrl={(lang: string) => {
+                  if (values.id) return toEditAudio(values.id, lang);
+                  else return toCreateAudioFile();
                 }}
+                translateToNN={translateToNN}
               />
-            </Field>
-            <AlertModalWrapper
-              {...formikProps}
-              formIsDirty={formIsDirty}
-              severity="danger"
-              text={t('alertModal.notSaved')}
-            />
-          </FormWrapper>
-        );
-      }}
-    </Formik>
+              {translating ? (
+                <Spinner withWrapper />
+              ) : (
+                <Accordions>
+                  <AccordionSection
+                    id="audio-upload-content"
+                    className="u-4/6@desktop u-push-1/6@desktop"
+                    title={t('form.contentSection')}
+                    hasError={hasError(['title', 'audioFile'])}
+                    startOpen>
+                    <AudioContent classes={formClasses} />
+                  </AccordionSection>
+                  <AccordionSection
+                    id="podcast-upload-podcastmanus"
+                    title={t('podcastForm.fields.manuscript')}
+                    className="u-4/6@desktop u-push-1/6@desktop"
+                    hasError={[].some(field => field in errors)}>
+                    <AudioManuscript />
+                  </AccordionSection>
+                  <AccordionSection
+                    id="audio-upload-metadataSection"
+                    className="u-4/6@desktop u-push-1/6@desktop"
+                    title={t('form.metadataSection')}
+                    hasError={hasError([
+                      'tags',
+                      'creators',
+                      'rightsholders',
+                      'processors',
+                      'license',
+                    ])}>
+                    <AudioMetaData classes={formClasses} />
+                  </AccordionSection>
+                </Accordions>
+              )}
+              <Field right>
+                <AbortButton outline disabled={isSubmitting}>
+                  {t('form.abort')}
+                </AbortButton>
+                <SaveButton
+                  {...formClasses}
+                  isSaving={isSubmitting}
+                  formIsDirty={formIsDirty}
+                  showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+                  onClick={evt => {
+                    evt.preventDefault();
+                    submitForm();
+                  }}
+                />
+              </Field>
+              <AlertModalWrapper
+                {...formikProps}
+                formIsDirty={formIsDirty}
+                severity="danger"
+                text={t('alertModal.notSaved')}
+              />
+            </FormWrapper>
+          );
+        }}
+      </Formik>
+    </WarningsProvider>
   );
 };
 

@@ -37,6 +37,9 @@ import ConceptFormFooter from './ConceptFormFooter';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import { getFieldsWithWrongLanguage } from '../../../util/articleUtil';
+import { generateLanguageWarnings } from '../../FormikForm/utils';
+import { WarningsProvider } from '../../FormikForm/WarningsProvider';
 
 interface Props {
   concept?: ConceptApiType;
@@ -163,84 +166,88 @@ const ConceptForm = ({
     initialValues,
     t,
   ]);
+  const fieldsWithWrongLanguage = getFieldsWithWrongLanguage(concept, language);
+  const warnings = generateLanguageWarnings(fieldsWithWrongLanguage, t);
 
   return (
-    <Formik
-      initialValues={initialValues}
-      initialErrors={initialErrors}
-      onSubmit={handleSubmit}
-      enableReinitialize
-      validateOnMount
-      validate={values => validateFormik(values, conceptFormRules, t)}>
-      {formikProps => {
-        const { values, errors }: FormikProps<ConceptFormValues> = formikProps;
-        const { id, revision, status, created, updated } = values;
-        const requirements = id && revision && status && created && updated;
-        const getEntity = requirements
-          ? () => conceptFormTypeToApiType(values, licenses!, concept?.updatedBy)
-          : undefined;
-        const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
-        return (
-          <FormWrapper inModal={inModal} {...formClasses()}>
-            <HeaderWithLanguage
-              content={{ ...concept, title: concept?.title.title, language }}
-              editUrl={editUrl}
-              getEntity={getEntity}
-              translateToNN={translateToNN}
-              type="concept"
-              setTranslateOnContinue={setTranslateOnContinue}
-              values={values}
-            />
-            <Accordions>
-              <AccordionSection
-                id="concept-content"
-                title={t('form.contentSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={!!(errors.title || errors.conceptContent)}
-                startOpen>
-                <ConceptContent />
-              </AccordionSection>
-              <AccordionSection
-                id="concept-copyright"
-                title={t('form.copyrightSection')}
-                className="u-6/6"
-                hasError={!!(errors.creators || errors.license)}>
-                <ConceptCopyright disableAgreements label={t('form.concept.source')} />
-              </AccordionSection>
-              <AccordionSection
-                id="concept-metadataSection"
-                title={t('form.metadataSection')}
-                className="u-6/6"
-                hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}>
-                <ConceptMetaData
-                  fetchTags={fetchConceptTags}
-                  subjects={subjects}
-                  inModal={inModal}
-                />
-              </AccordionSection>
-              <AccordionSection
-                id="concept-articles"
-                title={t('form.articleSection')}
-                className="u-6/6"
-                hasError={!!errors.articles}>
-                <ConceptArticles />
-              </AccordionSection>
-            </Accordions>
-            <ConceptFormFooter
-              entityStatus={concept?.status}
-              conceptChanged={!!conceptChanged}
-              inModal={inModal}
-              savedToServer={savedToServer}
-              isNewlyCreated={isNewlyCreated}
-              showSimpleFooter={!concept?.id}
-              onClose={onClose}
-              onContinue={translateOnContinue && translateToNN ? translateToNN : () => {}}
-              getApiConcept={getEntity}
-            />
-          </FormWrapper>
-        );
-      }}
-    </Formik>
+    <WarningsProvider initialValues={warnings}>
+      <Formik
+        initialValues={initialValues}
+        initialErrors={initialErrors}
+        onSubmit={handleSubmit}
+        enableReinitialize
+        validateOnMount
+        validate={values => validateFormik(values, conceptFormRules, t)}>
+        {formikProps => {
+          const { values, errors }: FormikProps<ConceptFormValues> = formikProps;
+          const { id, revision, status, created, updated } = values;
+          const requirements = id && revision && status && created && updated;
+          const getEntity = requirements
+            ? () => conceptFormTypeToApiType(values, licenses!, concept?.updatedBy)
+            : undefined;
+          const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
+          return (
+            <FormWrapper inModal={inModal} {...formClasses()}>
+              <HeaderWithLanguage
+                content={{ ...concept, title: concept?.title.title, language }}
+                editUrl={editUrl}
+                getEntity={getEntity}
+                translateToNN={translateToNN}
+                type="concept"
+                setTranslateOnContinue={setTranslateOnContinue}
+                values={values}
+              />
+              <Accordions>
+                <AccordionSection
+                  id="concept-content"
+                  title={t('form.contentSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={!!(errors.title || errors.conceptContent)}
+                  startOpen>
+                  <ConceptContent />
+                </AccordionSection>
+                <AccordionSection
+                  id="concept-copyright"
+                  title={t('form.copyrightSection')}
+                  className="u-6/6"
+                  hasError={!!(errors.creators || errors.license)}>
+                  <ConceptCopyright disableAgreements label={t('form.concept.source')} />
+                </AccordionSection>
+                <AccordionSection
+                  id="concept-metadataSection"
+                  title={t('form.metadataSection')}
+                  className="u-6/6"
+                  hasError={!!(errors.tags || errors.metaImageAlt || errors.subjects)}>
+                  <ConceptMetaData
+                    fetchTags={fetchConceptTags}
+                    subjects={subjects}
+                    inModal={inModal}
+                  />
+                </AccordionSection>
+                <AccordionSection
+                  id="concept-articles"
+                  title={t('form.articleSection')}
+                  className="u-6/6"
+                  hasError={!!errors.articles}>
+                  <ConceptArticles />
+                </AccordionSection>
+              </Accordions>
+              <ConceptFormFooter
+                entityStatus={concept?.status}
+                conceptChanged={!!conceptChanged}
+                inModal={inModal}
+                savedToServer={savedToServer}
+                isNewlyCreated={isNewlyCreated}
+                showSimpleFooter={!concept?.id}
+                onClose={onClose}
+                onContinue={translateOnContinue && translateToNN ? translateToNN : () => {}}
+                getApiConcept={getEntity}
+              />
+            </FormWrapper>
+          );
+        }}
+      </Formik>
+    </WarningsProvider>
   );
 };
 

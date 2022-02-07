@@ -27,6 +27,9 @@ import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
 import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
+import { getFieldsWithWrongLanguage } from '../../../util/articleUtil';
+import { generateLanguageWarnings } from '../../FormikForm/utils';
+import { WarningsProvider } from '../../FormikForm/WarningsProvider';
 
 const podcastRules: RulesType<PodcastSeriesFormikType> = {
   title: {
@@ -127,86 +130,97 @@ const PodcastSeriesForm = ({
   };
 
   const initialValues = podcastSeriesTypeToFormType(podcastSeries, language);
+  const fieldsWithWrongLanguage = getFieldsWithWrongLanguage(podcastSeries, language);
+  const warnings = generateLanguageWarnings(fieldsWithWrongLanguage, t);
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validateOnMount
-      enableReinitialize
-      validate={values => {
-        const errors = validateFormik(values, podcastRules, t);
-        const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
-        return { ...errors, ...metaImageErrors };
-      }}>
-      {formikProps => {
-        const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
-        const formIsDirty = isFormikFormDirty({
-          values,
-          initialValues,
-          dirty,
-        });
+    <WarningsProvider initialValues={warnings}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validateOnMount
+        enableReinitialize
+        validate={values => {
+          const errors = validateFormik(values, podcastRules, t);
+          const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
+          return { ...errors, ...metaImageErrors };
+        }}>
+        {formikProps => {
+          const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
+          const formIsDirty = isFormikFormDirty({
+            values,
+            initialValues,
+            dirty,
+          });
 
-        const content = { ...podcastSeries, title: podcastSeries?.title.title ?? '', language };
-        return (
-          <FormWrapper inModal={inModal}>
-            <HeaderWithLanguage
-              noStatus
-              values={values}
-              type="podcast-series"
-              content={content}
-              editUrl={(lang: string) => {
-                if (values.id) return toEditPodcastSeries(values.id, lang);
-                else return toCreatePodcastSeries();
-              }}
-            />
-            <Accordions>
-              <AccordionSection
-                startOpen
-                id="podcast-series-podcastmeta"
-                title={t('form.podcastSeriesSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}>
-                <PodcastSeriesMetaData
-                  onImageLoad={el => {
-                    size.current = [el.currentTarget.naturalWidth, el.currentTarget.naturalHeight];
-                    validateForm();
-                  }}
-                />
-              </AccordionSection>
-              <AccordionSection
-                id="podcast-series-podcastepisodes"
-                title={t('form.podcastEpisodesSection')}
-                className="u-4/6@desktop u-push-1/6@desktop"
-                hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(field => field in errors)}>
-                <PodcastEpisodes />
-              </AccordionSection>
-            </Accordions>
-            <Field right>
-              <AbortButton outline disabled={isSubmitting}>
-                {t('form.abort')}
-              </AbortButton>
-              <SaveButton
-                isSaving={isSubmitting}
-                showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
-                formIsDirty={formIsDirty}
-                submit={!inModal}
-                onClick={evt => {
-                  evt.preventDefault();
-                  submitForm();
+          const content = { ...podcastSeries, title: podcastSeries?.title.title ?? '', language };
+          return (
+            <FormWrapper inModal={inModal}>
+              <HeaderWithLanguage
+                noStatus
+                values={values}
+                type="podcast-series"
+                content={content}
+                editUrl={(lang: string) => {
+                  if (values.id) return toEditPodcastSeries(values.id, lang);
+                  else return toCreatePodcastSeries();
                 }}
               />
-            </Field>
-            <AlertModalWrapper
-              {...formikProps}
-              formIsDirty={formIsDirty}
-              severity="danger"
-              text={t('alertModal.notSaved')}
-            />
-          </FormWrapper>
-        );
-      }}
-    </Formik>
+              <Accordions>
+                <AccordionSection
+                  startOpen
+                  id="podcast-series-podcastmeta"
+                  title={t('form.podcastSeriesSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(
+                    field => field in errors,
+                  )}>
+                  <PodcastSeriesMetaData
+                    onImageLoad={el => {
+                      size.current = [
+                        el.currentTarget.naturalWidth,
+                        el.currentTarget.naturalHeight,
+                      ];
+                      validateForm();
+                    }}
+                  />
+                </AccordionSection>
+                <AccordionSection
+                  id="podcast-series-podcastepisodes"
+                  title={t('form.podcastEpisodesSection')}
+                  className="u-4/6@desktop u-push-1/6@desktop"
+                  hasError={['title', 'coverPhotoId', 'metaImageAlt'].some(
+                    field => field in errors,
+                  )}>
+                  <PodcastEpisodes />
+                </AccordionSection>
+              </Accordions>
+              <Field right>
+                <AbortButton outline disabled={isSubmitting}>
+                  {t('form.abort')}
+                </AbortButton>
+                <SaveButton
+                  isSaving={isSubmitting}
+                  showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}
+                  formIsDirty={formIsDirty}
+                  submit={!inModal}
+                  onClick={evt => {
+                    evt.preventDefault();
+                    submitForm();
+                  }}
+                />
+              </Field>
+              <AlertModalWrapper
+                {...formikProps}
+                formIsDirty={formIsDirty}
+                severity="danger"
+                text={t('alertModal.notSaved')}
+              />
+            </FormWrapper>
+          );
+        }}
+      </Formik>
+    </WarningsProvider>
   );
 };
 

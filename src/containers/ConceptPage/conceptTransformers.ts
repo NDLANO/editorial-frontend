@@ -19,22 +19,8 @@ import {
 import { License } from '../../interfaces';
 import { ConceptFormValues } from './conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
-
-const convertNestedConceptProps = (concept: ConceptApiType | undefined, language: string) => {
-  if (concept) {
-    const conceptLanguage = concept.supportedLanguages.includes(language) ? language : undefined;
-    return {
-      title: convertFieldWithFallback<'title'>(concept, 'title', '', conceptLanguage),
-      content: convertFieldWithFallback<'content'>(concept, 'content', '', conceptLanguage),
-      tags: convertFieldWithFallback<'tags', string[]>(concept, 'tags', [], conceptLanguage),
-      visualElement: convertFieldWithFallback<'visualElement'>(concept, 'visualElement', ''),
-    };
-  }
-  return { title: '', content: '', tags: [] as string[], visualElement: '' };
-};
 
 export const conceptApiTypeToFormType = (
   concept: ConceptApiType | undefined,
@@ -43,12 +29,7 @@ export const conceptApiTypeToFormType = (
   articles: DraftApiType[],
   initialTitle = '',
 ): ConceptFormValues => {
-  const { title: conceptTitle, content, tags, visualElement } = convertNestedConceptProps(
-    concept,
-    language,
-  );
   const conceptSubjects = subjects.filter(s => concept?.subjectIds?.find(id => id === s.id)) ?? [];
-  const title = conceptTitle === '' ? initialTitle : conceptTitle;
   // Make sure to omit the content field from concept. It will crash Slate.
   return {
     id: concept?.id,
@@ -57,10 +38,10 @@ export const conceptApiTypeToFormType = (
     metaImage: concept?.metaImage,
     created: concept?.created,
     updated: concept?.updated,
-    title: plainTextToEditorValue(title || ''),
+    title: plainTextToEditorValue(concept?.title?.title || initialTitle),
     language,
     subjects: conceptSubjects,
-    conceptContent: plainTextToEditorValue(content || ''),
+    conceptContent: plainTextToEditorValue(concept?.content?.content || ''),
     supportedLanguages: concept?.supportedLanguages ?? [language],
     creators: concept?.copyright?.creators ?? [],
     rightsholders: concept?.copyright?.rightsholders ?? [],
@@ -69,9 +50,9 @@ export const conceptApiTypeToFormType = (
     license: concept?.copyright?.license?.license ?? '',
     metaImageId: parseImageUrl(concept?.metaImage),
     metaImageAlt: concept?.metaImage?.alt ?? '',
-    tags,
+    tags: concept?.tags?.tags ?? [],
     articles,
-    visualElement: embedTagToEditorValue(visualElement),
+    visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
   };
 };
 

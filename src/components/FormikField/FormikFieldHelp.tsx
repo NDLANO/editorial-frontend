@@ -7,32 +7,39 @@
  */
 
 import { ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { colors, fonts } from '@ndla/core';
 
 interface Props {
   error?: boolean;
+  warning?: boolean;
   float?: 'left' | 'right' | 'none' | 'inherit';
   children: ReactNode;
 }
 
-export const StyledHelpMessage = styled.span`
+export const StyledHelpMessage = styled.span<Props>`
   display: block;
   font-size: ${fonts.sizes(14, 1.2)};
-  color: ${(p: Props) => (p.error ? colors.support.red : 'black')};
-  float: ${(p: Props) => p.float || 'none'};
+  color: ${p => (p.error ? colors.support.red : 'black')};
+  float: ${p => p.float || 'none'};
 `;
 
-const FormikFieldHelp = ({ error, float, children }: Props) => (
-  <StyledHelpMessage error={error} float={float}>
-    {children}
-  </StyledHelpMessage>
-);
+const StyledWarningMessage = styled.span<Props>`
+  display: block;
+  font-size: ${fonts.sizes(14, 1.2)};
+  color: ${p => (p.warning ? '#cab200' : 'black')};
+  float: ${p => p.float || 'none'};
+`;
 
-FormikFieldHelp.propTypes = {
-  error: PropTypes.bool,
-  float: PropTypes.oneOf(['left', 'right', 'none', 'inherit']),
-};
+const FormikFieldHelp = ({ error, warning, float, children }: Props) =>
+  warning ? (
+    <StyledWarningMessage warning={warning} float={float}>
+      {children}
+    </StyledWarningMessage>
+  ) : (
+    <StyledHelpMessage error={error} float={float}>
+      {children}
+    </StyledHelpMessage>
+  );
 
 export default FormikFieldHelp;

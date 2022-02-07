@@ -6,7 +6,15 @@
  *
  */
 
-import { NewDraftApiType, UpdatedDraftApiType } from '../modules/draft/draftApiInterfaces';
+import {
+  DraftApiType,
+  NewDraftApiType,
+  UpdatedDraftApiType,
+} from '../modules/draft/draftApiInterfaces';
+import { AudioApiType, PodcastSeriesApiType } from '../modules/audio/audioApiInterfaces';
+import { ImageApiType } from '../modules/image/imageApiInterfaces';
+import { ConceptApiType } from '../modules/concept/conceptApiInterfaces';
+import { WarningType } from '../interfaces';
 
 export const convertUpdateToNewDraft = (article: UpdatedDraftApiType): NewDraftApiType => {
   if (!article.language || !article.title || !article.articleType) {
@@ -34,4 +42,25 @@ export const isGrepCodeValid = (grepCode: string) => {
 
 export const nullOrUndefined = (metaImageId?: unknown | null | undefined) => {
   return metaImageId === null ? null : undefined;
+};
+
+export const getFieldsWithWrongLanguage = (
+  content:
+    | DraftApiType
+    | AudioApiType
+    | ImageApiType
+    | ConceptApiType
+    | PodcastSeriesApiType
+    | undefined,
+  language: string,
+): WarningType[] => {
+  if (!content) return [];
+  // @ts-ignore
+  return (
+    (Object.keys(content) as Array<keyof typeof content>)
+      // @ts-ignore
+      .filter(field => content[field]?.language && content[field]?.language !== language)
+      // @ts-ignore
+      .map(field => ({ [field]: content[field].language }))
+  );
 };

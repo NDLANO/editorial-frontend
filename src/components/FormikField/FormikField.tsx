@@ -26,6 +26,7 @@ import FormikFieldDescription from './FormikFieldDescription';
 import { classes } from './';
 import FormikFieldHelp from './FormikFieldHelp';
 import FormikRemainingCharacters from './FormikRemainingCharacters';
+import { useWarnings } from '../../containers/FormikForm/WarningsProvider';
 
 const StyledErrorPreLine = styled.span`
   white-space: pre-line;
@@ -64,6 +65,7 @@ const FormikField = ({
   ...rest
 }: Props & { formik: FormikContextType<FormikValues> }) => {
   const { t } = useTranslation();
+  const { warnings } = useWarnings();
 
   const isSlateValue = Node.isNodeList(values[name]);
   const fieldActions: FieldAttributes<any> = !isSlateValue
@@ -102,6 +104,11 @@ const FormikField = ({
       {showError && get(name, errors) && (
         <FormikFieldHelp error={!!get(name, errors)}>
           <StyledErrorPreLine>{get(name, errors)}</StyledErrorPreLine>
+        </FormikFieldHelp>
+      )}
+      {!!Object.keys(warnings).length && (
+        <FormikFieldHelp warning={!!get(name, warnings)}>
+          <StyledErrorPreLine>{get(name, warnings)}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
     </div>

@@ -35,6 +35,9 @@ import {
   learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
+import { getFieldsWithWrongLanguage } from '../../../../util/articleUtil';
+import { generateLanguageWarnings } from '../../../FormikForm/utils';
+import { WarningsProvider } from '../../../FormikForm/WarningsProvider';
 
 interface Props {
   article?: DraftApiType;
@@ -157,19 +160,23 @@ const LearningResourceForm = ({
     initialValues,
     t,
   ]);
+  const fieldsWithWrongLanguage = getFieldsWithWrongLanguage(article, articleLanguage);
+  const warnings = generateLanguageWarnings(fieldsWithWrongLanguage, t);
 
   return (
-    <Formik
-      enableReinitialize={translating}
-      initialValues={initialValues}
-      initialErrors={initialErrors}
-      innerRef={formikRef}
-      validateOnBlur={false}
-      validateOnMount
-      onSubmit={handleSubmit}
-      validate={values => validateFormik(values, learningResourceRules, t)}>
-      {FormikChild}
-    </Formik>
+    <WarningsProvider initialValues={warnings}>
+      <Formik
+        enableReinitialize={translating}
+        initialValues={initialValues}
+        initialErrors={initialErrors}
+        innerRef={formikRef}
+        validateOnBlur={false}
+        validateOnMount
+        onSubmit={handleSubmit}
+        validate={values => validateFormik(values, learningResourceRules, t)}>
+        {FormikChild}
+      </Formik>
+    </WarningsProvider>
   );
 };
 

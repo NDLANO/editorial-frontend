@@ -32,6 +32,9 @@ import {
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import { formikCommonArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
+import { getFieldsWithWrongLanguage } from '../../../../util/articleUtil';
+import { generateLanguageWarnings } from '../../../FormikForm/utils';
+import { WarningsProvider } from '../../../FormikForm/WarningsProvider';
 
 interface Props {
   article?: DraftApiType;
@@ -156,19 +159,23 @@ const TopicArticleForm = ({
     initialValues,
     t,
   ]);
+  const fieldsWithWrongLanguage = getFieldsWithWrongLanguage(article, articleLanguage);
+  const warnings = generateLanguageWarnings(fieldsWithWrongLanguage, t);
 
   return (
-    <Formik
-      enableReinitialize={translating}
-      validateOnMount
-      initialValues={initialValues}
-      initialErrors={initialErrors}
-      validateOnBlur={false}
-      innerRef={formikRef}
-      onSubmit={handleSubmit}
-      validate={values => validateFormik(values, formikCommonArticleRules, t)}>
-      {FormikChild}
-    </Formik>
+    <WarningsProvider initialValues={warnings}>
+      <Formik
+        enableReinitialize={translating}
+        validateOnMount
+        initialValues={initialValues}
+        initialErrors={initialErrors}
+        validateOnBlur={false}
+        innerRef={formikRef}
+        onSubmit={handleSubmit}
+        validate={values => validateFormik(values, formikCommonArticleRules, t)}>
+        {FormikChild}
+      </Formik>
+    </WarningsProvider>
   );
 };
 

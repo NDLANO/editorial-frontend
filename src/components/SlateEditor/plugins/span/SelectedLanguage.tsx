@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
+import { colors, fonts } from '@ndla/core';
 import { useSelected } from 'slate-react';
 import { SpanElement } from '.';
 
@@ -13,6 +13,7 @@ const StyledLanguagePicker = styled.div<{ selected: boolean }>`
   position: absolute;
   font-family: monospace;
   transform: translateY(100%);
+  ${fonts.sizes(14)}
   left: 0;
   top: 0;
   color: ${colors.brand.tertiary};

@@ -14,12 +14,9 @@ interface Props {
 
 const StyledSpan = styled.span<{ language?: string }>`
   position: relative;
-  ${props =>
-    props.language &&
-    `
-    text-decoration: underline;
-    text-decoration-color: ${colors.brand.tertiary};
-  `}
+
+  text-decoration: underline;
+  text-decoration-color: ${colors.brand.tertiary};
   &:hover > .selected-language {
     display: block;
   }

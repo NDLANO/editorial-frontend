@@ -38,6 +38,9 @@ export const spanSerializer: SlateSerializer = {
   serialize(node: Descendant, children: JSX.Element[]) {
     if (!Element.isElement(node)) return;
     if (node.type !== TYPE_SPAN) return;
+    if (!node.data['data-size'] && !node.data.lang) {
+      return <>{children}</>;
+    }
 
     const props = node.data ? createProps(node.data) : {};
 

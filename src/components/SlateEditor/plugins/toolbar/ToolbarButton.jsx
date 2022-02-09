@@ -29,14 +29,13 @@ import {
 } from '@ndla/icons/editor';
 
 import { css } from '@emotion/core';
+import { NO as FlagNO } from 'country-flag-icons/react/3x2';
+
 import { toolbarClasses } from './SlateToolbar';
 
 // Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
 const IS_MAC =
   typeof window != 'undefined' && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
-// @ndla/ui icon for Link type in toolbar has the same name as a link/anchor element component.
-// Thus triggering a false positive, that we have to disable.
-/* eslint-disable jsx-a11y/anchor-is-valid */
 const options = { ctrl: IS_MAC ? 'cmd' : 'ctrl' };
 const toolbarIcon = t => ({
   bold: <Bold title={t('editorToolbar.bold', options)} />,
@@ -56,8 +55,8 @@ const toolbarIcon = t => ({
   concept: <Concept title={t('editorToolbar.concept', options)} />,
   code: <Code title={t('editorToolbar.code', options)} />,
   'code-block': <Code title={t('editorToolbar.codeblock', options)} />,
+  span: <FlagNO className="c-icon" title={t('editorToolbar.lang', options)} />,
 });
-/* eslint-enable jsx-a11y/anchor-is-valid */
 
 const toolbarButtonStyle = isActive => css`
   display: inline-block;

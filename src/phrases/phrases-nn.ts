@@ -493,6 +493,7 @@ const phrases = {
     headingThree: 'Overskrift 3\n({{ctrl}}+3)',
     headingTwo: 'Overskrift 2\n({{ctrl}}+2)',
     italic: 'Kursiv\n({{ctrl}}+i)',
+    lang: 'Språk',
     letterList: 'Bokstavliste\n({{ctrl}}+alt+a)',
     link: 'Lenke\n({{ctrl}}+alt+l)',
     mathml: 'Matte\n({{ctrl}}+m)',

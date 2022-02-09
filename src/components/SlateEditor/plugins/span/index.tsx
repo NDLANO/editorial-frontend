@@ -6,16 +6,20 @@
  *
  */
 
-import { Dictionary, isEmpty } from 'lodash';
+import { isEmpty } from 'lodash';
 import { Descendant, Editor, Element } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import { createProps, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
+import Span from './Span';
 
 export interface SpanElement {
   type: 'span';
-  data?: Dictionary<string>;
+  data: {
+    lang?: string;
+    'data-size'?: string;
+  };
   children: Descendant[];
 }
 
@@ -44,11 +48,15 @@ export const spanSerializer: SlateSerializer = {
 export const spanPlugin = (editor: Editor) => {
   const { renderElement, isInline } = editor;
 
-  editor.renderElement = ({ attributes, children, element }: RenderElementProps) => {
+  editor.renderElement = ({ element, attributes, children }: RenderElementProps) => {
     if (element.type === TYPE_SPAN) {
-      return <span {...attributes}>{children}</span>;
+      return (
+        <Span element={element} attributes={attributes}>
+          {children}
+        </Span>
+      );
     } else if (renderElement) {
-      return renderElement({ attributes, children, element });
+      return renderElement({ element, attributes, children });
     }
     return undefined;
   };

@@ -28,6 +28,7 @@ const languages: LanguageType[] = [
 
 const Container = styled.div`
   display: flex;
+  z-index: 1;
   flex-direction: row;
   position: absolute;
   user-select: none;

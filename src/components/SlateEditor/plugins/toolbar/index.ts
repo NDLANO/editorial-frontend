@@ -26,6 +26,7 @@ const isNumberedListHotKey = isCodeHotkey('mod+alt+1');
 const isQuoteHotKey = isCodeHotkey('mod+alt+b');
 const isSubHotKey = isCodeHotkey('mod+alt+s');
 const isSupHotKey = isCodeHotkey('mod+alt+h');
+const isSpanHotKey = isCodeHotkey('alt+s');
 
 const toolbarPlugin = (editor: Editor) => {
   const { onKeyDown: nextOnKeyDown, shouldShowToolbar } = editor;
@@ -70,6 +71,8 @@ const toolbarPlugin = (editor: Editor) => {
       mark = 'sub';
     } else if (isSupHotKey(e)) {
       mark = 'sup';
+    } else if (isSpanHotKey(e)) {
+      inline = 'span';
     }
 
     if ((mark || block || inline) && !editor.shouldShowToolbar()) {

@@ -14,6 +14,7 @@ import { LIST_TYPES } from '../list/types';
 import { toggleList } from '../list/utils/toggleList';
 import { insertMathml } from '../mathml/utils';
 import { insertConcept } from '../concept/utils';
+import { toggleSpan } from '../span/utils';
 
 export function handleClickBlock(event: KeyboardEvent, editor: Editor, type: string) {
   event.preventDefault();
@@ -39,6 +40,9 @@ export function handleClickInline(event: KeyboardEvent, editor: Editor, type: st
     }
     if (type === 'concept') {
       insertConcept(editor);
+    }
+    if (type === 'span') {
+      toggleSpan(editor);
     }
   }
 }

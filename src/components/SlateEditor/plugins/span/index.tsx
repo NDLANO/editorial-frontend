@@ -7,11 +7,17 @@
  */
 
 import { isEmpty } from 'lodash';
-import { Descendant, Editor, Element } from 'slate';
+import { Descendant, Editor, Element, Node, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import { createProps, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { TYPE_QUOTE } from '../blockquote';
+import { TYPE_HEADING } from '../heading';
+import { TYPE_LIST_ITEM } from '../list/types';
+import { TYPE_PARAGRAPH } from '../paragraph/utils';
+import { TYPE_TABLE_CELL } from '../table/utils';
 import Span from './Span';
 
 export interface SpanElement {
@@ -24,6 +30,12 @@ export interface SpanElement {
 }
 
 export const TYPE_SPAN = 'span';
+
+const normalizerConfig: NormalizerConfig = {
+  parent: {
+    allowed: [TYPE_HEADING, TYPE_PARAGRAPH, TYPE_QUOTE, TYPE_TABLE_CELL, TYPE_LIST_ITEM],
+  },
+};
 
 export const spanSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -49,7 +61,7 @@ export const spanSerializer: SlateSerializer = {
 };
 
 export const spanPlugin = (editor: Editor) => {
-  const { renderElement, isInline } = editor;
+  const { renderElement, isInline, normalizeNode } = editor;
 
   editor.renderElement = ({ element, attributes, children }: RenderElementProps) => {
     if (element.type === TYPE_SPAN) {
@@ -69,6 +81,21 @@ export const spanPlugin = (editor: Editor) => {
       return true;
     }
     return isInline(element);
+  };
+
+  editor.normalizeNode = entry => {
+    const [node, path] = entry;
+
+    if (Element.isElement(node) && node.type === TYPE_SPAN) {
+      if (Node.string(node) === '') {
+        return Transforms.removeNodes(editor, { at: path });
+      }
+      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+        return;
+      }
+    }
+
+    normalizeNode(entry);
   };
 
   return editor;

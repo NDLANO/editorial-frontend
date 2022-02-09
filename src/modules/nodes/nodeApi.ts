@@ -47,7 +47,11 @@ export const fetchNodes = (params: GetNodeParams): Promise<NodeType[]> =>
   fetchAndResolve({ url: `${baseUrl}${stringifyQuery(params)}` });
 
 export const postNode = (newNode: NodePostPatchType): Promise<string> =>
-  postAndResolve({ url: baseUrl, body: JSON.stringify(newNode) });
+  postAndResolve({
+    url: baseUrl,
+    body: JSON.stringify(newNode),
+    alternateResolve: resolveLocation,
+  });
 
 export const fetchConnectionsForNode = (id: string): Promise<ConnectionForNode[]> =>
   fetchAndResolve({ url: `${baseUrl}/${id}/connections` });

@@ -88,6 +88,7 @@ export interface NodePostPatchType {
   name: string;
   nodeId?: string;
   nodeType: NodeTypeValue;
+  root?: boolean;
 }
 
 export interface ConnectionForNode {

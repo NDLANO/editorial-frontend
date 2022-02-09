@@ -43,7 +43,7 @@ const StructureContainer = () => {
   const userDataQuery = useUserData();
   const favoriteNodes = userDataQuery.data?.favoriteSubjects ?? [];
   const nodesQuery = useNodes(
-    { language: i18n.language, nodeType: 'SUBJECT' },
+    { language: i18n.language, isRoot: true },
     {
       select: nodes => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
       placeholderData: [],
@@ -85,7 +85,7 @@ const StructureContainer = () => {
   };
 
   const addNode = async (name: string) => {
-    await addNodeMutation.mutateAsync({ name, nodeType: 'TOPIC' });
+    await addNodeMutation.mutateAsync({ name, nodeType: 'SUBJECT', root: true });
   };
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
@@ -120,7 +120,7 @@ const StructureContainer = () => {
             {userDataQuery.isLoading || nodesQuery.isLoading ? (
               <Spinner />
             ) : (
-              <StructureWrapper>
+              <StructureWrapper data-cy="structure">
                 {nodes!.map(node => (
                   <RootNode
                     renderBeforeTitle={isTaxonomyAdmin ? StructureErrorIcon : undefined}

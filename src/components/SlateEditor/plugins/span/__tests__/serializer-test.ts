@@ -29,6 +29,7 @@ const editor: Descendant[] = [
 
 const html = '<section><p><span lang="en">test</span></p></section>';
 const htmlWithoutAttributes = '<section><p><span>test</span></p></section>';
+const hmtlWithoutSpan = '<section><p>test</p></section>';
 
 describe('span serializing tests', () => {
   test('serializing', () => {
@@ -36,21 +37,21 @@ describe('span serializing tests', () => {
     expect(res).toMatch(html);
   });
 
-  test('serializing handles spans without attributes', () => {
+  test('serializing unwraps span without attributes', () => {
     const editorWithoutAttributes: Descendant[] = [
       {
         type: TYPE_SECTION,
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ type: TYPE_SPAN, children: [{ text: 'test' }] }],
+            children: [{ type: TYPE_SPAN, data: {}, children: [{ text: 'test' }] }],
           },
         ],
       },
     ];
 
     const res = learningResourceContentToHTML(editorWithoutAttributes);
-    expect(res).toMatch(htmlWithoutAttributes);
+    expect(res).toMatch(hmtlWithoutSpan);
   });
 
   test('deserializing', () => {

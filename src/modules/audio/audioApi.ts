@@ -7,6 +7,10 @@
  */
 
 import queryString from 'query-string';
+import {
+  IAudioMetaInformation as AudioApiType,
+  IAudioSummarySearchResult as AudioSearchResult
+} from "@ndla/types-audio-api";
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 import {
   apiResourceUrl,
@@ -14,11 +18,8 @@ import {
   resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
 import {
-  AudioApiType,
   AudioSearchParams,
-  AudioSearchResult,
   PodcastSeriesPost,
-  PodcastSeriesApiType,
   SeriesSearchParams,
   SeriesSearchResult,
   TagSearchResult,
@@ -35,7 +36,7 @@ export const postAudio = (formData: FormData): Promise<AudioApiType> =>
     body: formData,
   }).then(r => resolveJsonOrRejectWithError<AudioApiType>(r));
 
-export const fetchAudio = (id: string | number, locale?: string): Promise<AudioApiType> => {
+export const fetchAudio = (id: number, locale?: string): Promise<AudioApiType> => {
   const languageParam = locale ? `?language=${locale}` : '';
   return fetchAuthorized(`${baseUrl}/${id}${languageParam}`).then(r =>
     resolveJsonOrRejectWithError<AudioApiType>(r),
@@ -82,7 +83,7 @@ export const fetchSearchTags = async (
 };
 
 export const fetchSeries = (
-  id: number | string,
+  id: number,
   language?: string,
 ): Promise<PodcastSeriesApiType> => {
   const languageParam = language ? `?language=${language}` : '';
@@ -98,7 +99,7 @@ export const postSeries = (newSeries: PodcastSeriesPost): Promise<PodcastSeriesA
   }).then(r => resolveJsonOrRejectWithError<PodcastSeriesApiType>(r));
 
 export const updateSeries = (
-  id: number | string,
+  id: number,
   newSeries: PodcastSeriesPut,
 ): Promise<PodcastSeriesApiType> =>
   fetchAuthorized(`${seriesBaseUrl}/${id}`, {

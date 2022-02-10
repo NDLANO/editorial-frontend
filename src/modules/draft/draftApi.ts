@@ -6,12 +6,12 @@
  *
  */
 import queryString from 'query-string';
+import { ILicense as License } from '@ndla/types-draft-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
-import { License } from '../../interfaces';
 import {
   AgreementApiType,
   AgreementSearchResult,

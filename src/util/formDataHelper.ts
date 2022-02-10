@@ -5,24 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import {INewAudioMetaInformation, IUpdatedAudioMetaInformation} from "@ndla/types-audio-api";
 import { NewImageMetadata, UpdatedImageMetadata } from '../modules/image/imageApiInterfaces';
-
-import {
-  AudioMetaInformationPost,
-  AudioMetaInformationPut,
-  PodcastMetaInformationPost,
-  PodcastMetaInformationPut,
-} from '../modules/audio/audioApiInterfaces';
 
 export const createFormData = (
   file?: string | Blob,
   metadata?:
     | NewImageMetadata
     | UpdatedImageMetadata
-    | AudioMetaInformationPost
-    | AudioMetaInformationPut
-    | PodcastMetaInformationPost
-    | PodcastMetaInformationPut,
+    | INewAudioMetaInformation
+    | IUpdatedAudioMetaInformation
 ): Promise<FormData> =>
   new Promise(resolve => {
     const form = new FormData();

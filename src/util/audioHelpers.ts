@@ -6,15 +6,17 @@
  *
  */
 
+import {
+  IAudioMetaInformation as AudioApiType,
+} from "@ndla/types-audio-api";
 import { convertFieldWithFallback } from './convertFieldWithFallback';
 import {
-  AudioApiType,
   PodcastFormValues,
   PodcastSeriesApiType,
 } from '../modules/audio/audioApiInterfaces';
 import { AudioFormikType } from '../containers/AudioUploader/components/AudioForm';
-import { plainTextToEditorValue } from '../util/articleContentConverter';
-import { DEFAULT_LICENSE } from '../util/formHelper';
+import { plainTextToEditorValue } from './articleContentConverter';
+import { DEFAULT_LICENSE } from './formHelper';
 import { Copyright } from '../interfaces';
 import { PodcastSeriesFormikType } from '../containers/PodcastSeries/components/PodcastSeriesForm';
 

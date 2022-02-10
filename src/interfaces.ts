@@ -234,10 +234,4 @@ export interface H5POembed {
   title: string;
 }
 
-export interface License {
-  license: string;
-  description?: string;
-  url?: string;
-}
-
 export type SearchType = typeof SearchTypeValues[number];

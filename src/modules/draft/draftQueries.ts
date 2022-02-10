@@ -7,7 +7,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient, UseQueryOptions } from 'react-query';
-import { License } from '../../interfaces';
+import { ILicense as License } from '@ndla/types-draft-api';
 import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA } from '../../queryKeys';
 import {
   fetchDraft,

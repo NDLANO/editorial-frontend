@@ -35,54 +35,46 @@ export interface PodcastMeta {
   language: string;
 }
 
-export interface AudioMetaInformationPost {
-  id?: number; // Only used by frontend, ignored by backend
-  title: string;
-  manuscript?: string;
-  language: string;
-  copyright: Copyright;
-  tags: string[];
-  audioType?: string;
-  podcastMeta?: PodcastMetaPost;
-  seriesId?: number;
-}
+// export interface AudioMetaInformationPost {
+//   id?: number; // Only used by frontend, ignored by backend
+//   title: string;
+//   manuscript?: string;
+//   language: string;
+//   copyright: Copyright;
+//   tags: string[];
+//   audioType?: string;
+//   podcastMeta?: PodcastMetaPost;
+//   seriesId?: number;
+// }
+//
+// export interface AudioMetaInformationPut extends AudioMetaInformationPost {
+//   revision?: number;
+// }
 
-export interface AudioMetaInformationPut extends AudioMetaInformationPost {
-  revision?: number;
-}
-
-export interface PodcastMetaInformationPost extends AudioMetaInformationPost {
-  podcastMeta: PodcastMetaPost;
-}
-
-export interface PodcastMetaInformationPut extends PodcastMetaInformationPost {
-  revision?: number;
-}
-
-export interface AudioApiType {
-  id: number;
-  revision: number;
-  title: {
-    title: string;
-    language: string;
-  };
-  manuscript?: {
-    manuscript: string;
-    language: string;
-  };
-  audioFile: AudioFile;
-  copyright: Copyright;
-  tags: {
-    tags: string[];
-    language: string;
-  };
-  supportedLanguages: string[];
-  audioType: AudioType;
-  podcastMeta?: PodcastMeta;
-  series?: PodcastSeriesApiType;
-  created: string;
-  updated: string;
-}
+// export interface AudioApiType {
+//   id: number;
+//   revision: number;
+//   title: {
+//     title: string;
+//     language: string;
+//   };
+//   manuscript?: {
+//     manuscript: string;
+//     language: string;
+//   };
+//   audioFile: AudioFile;
+//   copyright: Copyright;
+//   tags: {
+//     tags: string[];
+//     language: string;
+//   };
+//   supportedLanguages: string[];
+//   audioType: AudioType;
+//   podcastMeta?: PodcastMeta;
+//   series?: PodcastSeriesApiType;
+//   created: string;
+//   updated: string;
+// }
 
 export interface PodcastFormValues extends AudioFormikType {
   filepath: '';
@@ -127,15 +119,15 @@ export interface AudioSearchParams {
   sort?: string;
 }
 
-export interface PodcastSeriesApiType {
-  id: number;
-  revision: number;
-  title: { title: string; language: string };
-  description: { description: string; language: string };
-  coverPhoto: { id: string; altText: string; url: string };
-  episodes?: AudioApiType[];
-  supportedLanguages: string[];
-}
+// export interface PodcastSeriesApiType {
+//   id: number;
+//   revision: number;
+//   title: { title: string; language: string };
+//   description: { description: string; language: string };
+//   coverPhoto: { id: string; altText: string; url: string };
+//   episodes?: AudioApiType[];
+//   supportedLanguages: string[];
+// }
 
 export interface PodcastSeriesPost {
   id?: number;

@@ -9,6 +9,7 @@
 import { TFunction, useTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
+import {IAudioSummary} from "@ndla/types-audio-api";
 import config from '../../config';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
@@ -24,7 +25,7 @@ import {
   searchVideos,
   VideoSearchQuery,
 } from '../../modules/video/brightcoveApi';
-import { AudioSearchParams, AudioSearchResultType } from '../../modules/audio/audioApiInterfaces';
+import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
 import { searchAudio } from '../../modules/audio/audioApi';
 import { Embed } from '../../interfaces';
 import FileUploader from '../../components/FileUploader';
@@ -203,10 +204,9 @@ const VisualElementSearch = ({
       return (
         <AudioSearch
           translations={translations}
-          locale={locale}
           fetchAudio={(id: number) => fetchAudio(id, articleLanguage ?? locale)}
           searchAudios={searchAudios}
-          onAudioSelect={(audio: AudioSearchResultType) =>
+          onAudioSelect={(audio: IAudioSummary) =>
             handleVisualElementChange({
               type: 'embed',
               value: {

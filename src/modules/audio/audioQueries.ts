@@ -8,10 +8,12 @@
 
 import { useQuery, UseQueryOptions } from 'react-query';
 import queryString from 'query-string';
+import {
+  IAudioMetaInformation as AudioApiType,
+  IAudioSummarySearchResult as AudioSearchResult
+} from "@ndla/types-audio-api";
 import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from '../../queryKeys';
 import {
-  AudioApiType,
-  AudioSearchResult,
   PodcastSeriesApiType,
   SeriesSearchParams,
   SeriesSearchResult,

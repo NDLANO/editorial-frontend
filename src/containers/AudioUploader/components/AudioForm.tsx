@@ -11,6 +11,7 @@ import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Formik, FormikHelpers } from 'formik';
 import PropTypes from 'prop-types';
 import { Descendant } from 'slate';
+import {IAudio, IUpdatedAudioMetaInformation, INewAudioMetaInformation, IAudioMetaInformation as AudioApiType} from "@ndla/types-audio-api";
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import Field from '../../../components/Field';
 import Spinner from '../../../components/Spinner';
@@ -25,11 +26,6 @@ import validateFormik, { RulesType } from '../../../components/formikValidationS
 import { AudioShape } from '../../../shapes';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { Author, FormikFormBaseType } from '../../../interfaces';
-import {
-  AudioApiType,
-  AudioMetaInformationPost,
-  AudioMetaInformationPut,
-} from '../../../modules/audio/audioApiInterfaces';
 import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
@@ -43,12 +39,7 @@ export interface AudioFormikType extends FormikFormBaseType {
   title: Descendant[];
   manuscript: Descendant[];
   audioFile: {
-    storedFile?: {
-      url: string;
-      mimeType: string;
-      fileSize: number;
-      language: string;
-    };
+    storedFile?: IAudio;
     newFile?: {
       filepath: string;
       file: File;
@@ -94,11 +85,10 @@ const rules: RulesType<AudioFormikType> = {
   },
 };
 
-type OnCreateFunc = (audio: AudioMetaInformationPost, file?: string | Blob) => void;
-type OnUpdateFunc = (audio: AudioMetaInformationPut, file?: string | Blob) => void;
+type onSubmitFunctionType = (audio: INewAudioMetaInformation | IUpdatedAudioMetaInformation, file?: string | Blob, id?: number) => void;
 
 interface Props {
-  onUpdate: OnCreateFunc | OnUpdateFunc;
+  onSubmitFunction: onSubmitFunctionType;
   audio?: AudioApiType;
   audioLanguage: string;
   revision?: number;
@@ -113,7 +103,7 @@ const AudioForm = ({
   isNewlyCreated,
   translating,
   translateToNN,
-  onUpdate,
+  onSubmitFunction,
   revision,
 }: Props) => {
   const { t } = useTranslation();
@@ -121,6 +111,8 @@ const AudioForm = ({
   const prevAudioLanguage = useRef<string | null>(null);
   const { applicationError } = useMessages();
   const { data: licenses } = useLicenses({ placeholderData: [] });
+
+  console.log("license: ", licenses)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -136,24 +128,23 @@ const AudioForm = ({
   const handleSubmit = async (values: AudioFormikType, actions: FormikHelpers<AudioFormikType>) => {
     try {
       actions.setSubmitting(true);
-      const audioMetaData = {
-        id: values.id,
-        revision: revision,
+      const audioMetaData: INewAudioMetaInformation = {
         title: editorValueToPlainText(values.title),
         manuscript: editorValueToPlainText(values.manuscript),
         language: values.language,
         tags: values.tags,
         audioType: 'standard',
         copyright: {
-          license: licenses!.find(license => license.license === values.license),
+          license: licenses!.find(license => license.license === values.license)!, // TODO: Ask and fix
           origin: values.origin,
           creators: values.creators,
           processors: values.processors,
           rightsholders: values.rightsholders,
         },
       };
+      const asd = revision ? {...audioMetaData, revision: revision } : audioMetaData
 
-      await onUpdate(audioMetaData, values.audioFile.newFile?.file);
+      onSubmitFunction(asd, values.audioFile.newFile?.file, values.id);
 
       actions.setSubmitting(false);
       setSavedToServer(true);
@@ -262,7 +253,7 @@ const AudioForm = ({
 };
 
 AudioForm.propTypes = {
-  onUpdate: PropTypes.func.isRequired,
+  onSubmitFunction: PropTypes.func.isRequired,
   revision: PropTypes.number,
   audio: AudioShape,
   audioLanguage: PropTypes.string.isRequired,

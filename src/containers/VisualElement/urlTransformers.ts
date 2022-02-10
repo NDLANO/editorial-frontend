@@ -1,4 +1,3 @@
-import queryString from 'query-string';
 import { fetchNrkMedia } from '../../modules/video/nrkApi';
 import { urlAsATag } from '../../util/htmlHelpers';
 
@@ -16,7 +15,7 @@ const nrkTransformer: UrlTransformer = {
     if (!domains.includes(aTag.hostname)) {
       return false;
     }
-    const mediaId = queryString.parse(aTag.search).mediaId;
+    const mediaId = Number(aTag.pathname.split('/')[2]);
     if (mediaId) {
       return true;
     }
@@ -24,7 +23,7 @@ const nrkTransformer: UrlTransformer = {
   },
   transform: async url => {
     const aTag = urlAsATag(url);
-    const mediaId = queryString.parse(aTag.search).mediaId;
+    const mediaId = Number(aTag.pathname.split('/')[2]);
     if (!mediaId) {
       return url;
     }

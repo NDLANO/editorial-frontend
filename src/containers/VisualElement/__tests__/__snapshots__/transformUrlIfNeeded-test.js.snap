@@ -16,4 +16,4 @@ exports[`transformUrlIfNeeded returns static nrk url if correct nrk url is used 
 
 exports[`transformUrlIfNeeded returns url sent in if nrk api should return something else 1`] = `"https://www.nrk.no/skole/?mediaId=23618"`;
 
-exports[`transformUrlIfNeeded returns url sent in if nrk api should return undefined 1`] = `"https://www.nrk.no/skole/?mediaId=23618"`;
+exports[`transformUrlIfNeeded returns url sent in if nrk api should return undefined 1`] = `"https://www.nrk.no/skole-deling/23618"`;

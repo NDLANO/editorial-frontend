@@ -1,3 +1,4 @@
+import queryString from 'query-string';
 import { fetchNrkMedia } from '../../modules/video/nrkApi';
 import { urlAsATag } from '../../util/htmlHelpers';
 
@@ -15,7 +16,10 @@ const nrkTransformer: UrlTransformer = {
     if (!domains.includes(aTag.hostname)) {
       return false;
     }
-    const mediaId = Number(aTag.pathname.split('/')[2]);
+
+    const oldMediaId = queryString.parse(aTag.search).mediaId;
+    const newMediaId = Number(aTag.pathname.split('/skole-deling/')[1]);
+    const mediaId = !!newMediaId ? newMediaId : oldMediaId;
     if (mediaId) {
       return true;
     }
@@ -23,7 +27,9 @@ const nrkTransformer: UrlTransformer = {
   },
   transform: async url => {
     const aTag = urlAsATag(url);
-    const mediaId = Number(aTag.pathname.split('/')[2]);
+    const oldMediaId = queryString.parse(aTag.search).mediaId;
+    const newMediaId = Number(aTag.pathname.split('/skole-deling/')[1]);
+    const mediaId = !!newMediaId ? newMediaId : oldMediaId;
     if (!mediaId) {
       return url;
     }

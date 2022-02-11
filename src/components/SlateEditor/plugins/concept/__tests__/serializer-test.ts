@@ -22,6 +22,7 @@ const editor: Descendant[] = [
       {
         type: TYPE_PARAGRAPH,
         children: [
+          { text: '' },
           {
             type: TYPE_CONCEPT,
             data: {
@@ -32,6 +33,7 @@ const editor: Descendant[] = [
             },
             children: [{ text: 'my concept' }],
           },
+          { text: '' },
         ],
       },
     ],

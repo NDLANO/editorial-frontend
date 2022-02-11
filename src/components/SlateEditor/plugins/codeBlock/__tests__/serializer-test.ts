@@ -13,11 +13,13 @@ import {
   learningResourceContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_CODEBLOCK } from '..';
+import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       {
         type: TYPE_CODEBLOCK,
         data: {
@@ -29,6 +31,7 @@ const editor: Descendant[] = [
         children: [{ text: '' }],
         isFirstEdit: false,
       },
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
     ],
   },
 ];

@@ -21,6 +21,7 @@ const editor: Descendant[] = [
     children: [
       {
         children: [
+          { text: '' },
           {
             type: TYPE_MATHML,
             data: {
@@ -33,6 +34,7 @@ const editor: Descendant[] = [
               },
             ],
           },
+          { text: '' },
         ],
         type: TYPE_PARAGRAPH,
       },

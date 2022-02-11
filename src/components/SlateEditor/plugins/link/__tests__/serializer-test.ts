@@ -22,6 +22,7 @@ const editor: Descendant[] = [
       {
         type: TYPE_PARAGRAPH,
         children: [
+          { text: '' },
           {
             type: TYPE_LINK,
             href: 'http://test.url/',
@@ -34,11 +35,13 @@ const editor: Descendant[] = [
               },
             ],
           },
+          { text: '' },
         ],
       },
       {
         type: TYPE_PARAGRAPH,
         children: [
+          { text: '' },
           {
             type: TYPE_CONTENT_LINK,
             'content-id': '123',
@@ -50,6 +53,7 @@ const editor: Descendant[] = [
               },
             ],
           },
+          { text: '' },
         ],
       },
     ],

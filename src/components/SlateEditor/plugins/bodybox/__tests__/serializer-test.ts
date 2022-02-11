@@ -19,10 +19,12 @@ const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       {
         type: TYPE_BODYBOX,
         children: [{ type: TYPE_PARAGRAPH, children: [{ text: 'content' }] }],
       },
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
     ],
   },
 ];

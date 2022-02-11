@@ -30,8 +30,8 @@
   border-bottom: 1px solid rgb(239, 240, 242);
 }
 
-.c-bodybox .c-table__wrapper,
-.c-factbox .c-table__wrapper {
+.c-editor .c-bodybox .c-table__wrapper,
+.c-editor .c-factbox .c-table__wrapper {
   max-width: 100% !important;
   right: unset !important;
   left: unset !important;

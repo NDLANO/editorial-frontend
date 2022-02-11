@@ -12,15 +12,13 @@ import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
+import { IImageMetaInformationV2 as ImageApiType, ISearchResult } from '@ndla/types-image-api';
 import { useTranslation } from 'react-i18next';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
-import {
-  ImageApiType,
-  ImageSearchQuery,
-  UpdatedImageMetadata,
-} from '../modules/image/imageApiInterfaces';
+import { ImageSearchQuery, UpdatedImageMetadata } from '../modules/image/imageApiInterfaces';
 import EditorErrorMessage from './SlateEditor/EditorErrorMessage';
 import { useLicenses } from '../modules/draft/draftQueries';
+import { draftLicensesToImageLicenses } from '../modules/draft/draftApiUtils';
 
 const StyledTitleDiv = styled.div`
   margin-bottom: ${spacing.small};
@@ -31,7 +29,7 @@ interface Props {
   locale: string;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
-  searchImages: (queryObject: ImageSearchQuery) => void;
+  searchImages: (queryObject: ImageSearchQuery) => Promise<ISearchResult>;
   fetchImage: (id: number) => Promise<ImageApiType>;
   image?: ImageApiType;
   updateImage: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
@@ -56,9 +54,10 @@ const ImageSearchAndUploader = ({
   const { t } = useTranslation();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const { data: licenses } = useLicenses({ placeholderData: [] });
-  const searchImagesWithParameters = (query: string, page: number) => {
+  const searchImagesWithParameters = (query?: string, page?: number) => {
     return searchImages({ query, page, 'page-size': 16 });
   };
+  const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 
   return (
     <Tabs
@@ -105,7 +104,7 @@ const ImageSearchAndUploader = ({
               image={image}
               onUpdate={updateImage}
               closeModal={closeModal}
-              licenses={licenses}
+              licenses={imageLicenses}
             />
           ) : (
             <EditorErrorMessage msg={t('errorMessage.description')} />

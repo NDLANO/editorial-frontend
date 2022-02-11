@@ -21,7 +21,8 @@ export type ConceptStatusType =
   | 'QUEUED_FOR_LANGUAGE'
   | 'ARCHIVED'
   | 'TRANSLATED'
-  | 'UNPUBLISHED';
+  | 'UNPUBLISHED'
+  | string;
 
 export interface ConceptStatus {
   current: ConceptStatusType;

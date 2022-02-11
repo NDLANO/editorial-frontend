@@ -35,7 +35,7 @@ const InlineImageSearch = ({ name }: Props) => {
   const [image, setImage] = useState<ImageApiType | undefined>();
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
-  const searchImagesWithParameters = (query: string, page: number) => {
+  const searchImagesWithParameters = (query?: string, page?: number) => {
     return searchImages({ query, page, 'page-size': 16 });
   };
 

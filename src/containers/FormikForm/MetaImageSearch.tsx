@@ -9,6 +9,7 @@
 import { useState, useEffect, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
+import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
 import Button from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { FormikHandlers } from 'formik';
@@ -24,7 +25,7 @@ import HowToHelper from '../../components/HowTo/HowToHelper';
 import ImageSearchAndUploader from '../../components/ControlledImageSearchAndUploader';
 
 import MetaImageField from './components/MetaImageField';
-import { ImageApiType, UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
+import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 
 interface Props {
   metaImageId: string;

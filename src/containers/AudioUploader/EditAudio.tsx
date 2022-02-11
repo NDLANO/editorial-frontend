@@ -7,12 +7,13 @@
 
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
 import AudioForm from './components/AudioForm';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import Spinner from '../../components/Spinner';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
-import { AudioApiType, AudioMetaInformationPut } from '../../modules/audio/audioApiInterfaces';
+import { AudioMetaInformationPut } from '../../modules/audio/audioApiInterfaces';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { fetchAudio, updateAudio } from '../../modules/audio/audioApi';
 

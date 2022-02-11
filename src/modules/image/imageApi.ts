@@ -8,18 +8,16 @@
 
 import queryString from 'query-string';
 import {
+  IImageMetaInformationV2 as ImageApiType,
+  ISearchResult as ImageSearchResult,
+} from '@ndla/types-image-api';
+import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
   createErrorPayload,
 } from '../../util/apiHelpers';
-import {
-  ImageApiType,
-  ImageSearchQuery,
-  ImageSearchResult,
-  TagSearchResult,
-  UpdatedImageMetadata,
-} from './imageApiInterfaces';
+import { ImageSearchQuery, TagSearchResult, UpdatedImageMetadata } from './imageApiInterfaces';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl('/image-api/v2/images');

@@ -8,6 +8,9 @@
 
 import get from 'lodash/fp/get';
 import { TFunction } from 'i18next';
+import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
+import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
 import {
   isUrl,
   isEmpty,
@@ -38,6 +41,7 @@ interface RuleObject<FormikValuesType> {
   url?: boolean;
   urlOrNumber?: boolean;
   maxSize?: number;
+  warnings?: boolean;
   test?: (
     value: FormikValuesType,
   ) =>
@@ -52,6 +56,7 @@ const validateFormik = <FormikValuesType>(
   values: FormikValuesType,
   rules: RulesType<FormikValuesType>,
   t: TFunction,
+  audio?: AudioApiType | ImageApiType | ConceptApiType | undefined,
   formType: string | undefined = undefined,
 ) => {
   const errors: Record<string, string> = {};
@@ -99,6 +104,20 @@ const validateFormik = <FormikValuesType>(
               beforeLabel: t('form.validDate.from.label').toLowerCase(),
             }),
           );
+        }
+      }
+
+      if (rules[ruleKey].warnings) {
+        const prevWarnings = errors['warnings'] ?? {};
+        const formikLanguage = get('language', values);
+        // @ts-ignore
+        const audioLanguage = get('language', audio?.[ruleKey]);
+        if (audio && formikLanguage !== audioLanguage) {
+          errors['warnings'] = {
+            // @ts-ignore
+            ...prevWarnings,
+            [ruleKey]: `values.lang: ${values.language} --- field.lang : ${audio?.title?.title}`,
+          };
         }
       }
 

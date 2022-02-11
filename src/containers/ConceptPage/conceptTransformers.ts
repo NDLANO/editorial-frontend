@@ -5,17 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
   embedTagToEditorValue,
   editorValueToEmbedTag,
 } from '../../util/articleContentConverter';
-import {
-  ConceptApiType,
-  ConceptPostType,
-  ConceptPatchType,
-} from '../../modules/concept/conceptApiInterfaces';
+import { ConceptPostType, ConceptPatchType } from '../../modules/concept/conceptApiInterfaces';
 import { License } from '../../interfaces';
 import { ConceptFormValues } from './conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';

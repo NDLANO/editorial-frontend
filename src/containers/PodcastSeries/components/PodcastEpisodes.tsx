@@ -7,15 +7,15 @@
 
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
+import {
+  IAudioSummarySearchResult as AudioSearchResult,
+  IAudioSummary as AudioSearchResultType,
+} from '@ndla/types-audio-api';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import handleError from '../../../util/handleError';
 
-import {
-  AudioSearchResult,
-  AudioSearchResultType,
-} from '../../../modules/audio/audioApiInterfaces';
 import { PodcastSeriesFormikType } from './PodcastSeriesForm';
 import { fetchAudio, searchAudio } from '../../../modules/audio/audioApi';
 

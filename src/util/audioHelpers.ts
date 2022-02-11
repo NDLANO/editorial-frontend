@@ -7,10 +7,10 @@
  */
 
 import {
-  AudioApiType,
-  PodcastFormValues,
-  PodcastSeriesApiType,
-} from '../modules/audio/audioApiInterfaces';
+  IAudioMetaInformation as AudioApiType,
+  ISeries as PodcastSeriesApiType,
+} from '@ndla/types-audio-api';
+import { PodcastFormValues } from '../modules/audio/audioApiInterfaces';
 import { AudioFormikType } from '../containers/AudioUploader/components/AudioForm';
 import { plainTextToEditorValue } from './articleContentConverter';
 import { DEFAULT_LICENSE } from './formHelper';

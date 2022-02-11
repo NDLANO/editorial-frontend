@@ -35,6 +35,7 @@ import {
   learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
+import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
 
 interface Props {
   article?: DraftApiType;
@@ -83,6 +84,10 @@ const LearningResourceForm = ({
     articleLanguage,
   });
 
+  const initialHTML = useMemo(() => learningResourceContentToHTML(initialValues.content), [
+    initialValues,
+  ]);
+
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
   const FormikChild = (formik: FormikProps<LearningResourceFormType>) => {
@@ -93,6 +98,7 @@ const LearningResourceForm = ({
       initialValues,
       dirty,
       changed: articleChanged,
+      initialHTML,
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = () =>

@@ -13,11 +13,13 @@ import {
   learningResourceContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_RELATED } from '..';
+import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       {
         type: TYPE_RELATED,
         data: {
@@ -39,6 +41,7 @@ const editor: Descendant[] = [
           },
         ],
       },
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
     ],
   },
 ];

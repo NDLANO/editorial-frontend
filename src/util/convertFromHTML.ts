@@ -15,8 +15,55 @@
 
 import { Descendant, Element, Text, Node } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
-import { inlines } from '../components/SlateEditor/helpers';
+import { blocks, inlines } from '../components/SlateEditor/helpers';
 import { ParagraphElement } from '../components/SlateEditor/plugins/paragraph';
+import { defaultParagraphBlock } from '../components/SlateEditor/plugins/paragraph/utils';
+
+const addEmptyTextNodes = (node: Element) => {
+  const { children } = node;
+
+  node.children = children.reduce((acc, cur, index) => {
+    if (!Text.isText(cur)) {
+      if (index === 0) {
+        acc.push({ text: '' });
+      } else if (!Text.isText(acc[acc.length - 1])) {
+        acc.push({ text: '' });
+      }
+    }
+
+    acc.push(cur);
+    return acc;
+  }, [] as Descendant[]);
+  if (!Text.isText(node.children[node.children.length - 1])) {
+    node.children.push({ text: '' });
+  }
+};
+
+const addEmptyParagraphs = (node: Element) => {
+  const { children } = node;
+
+  node.children = children.reduce((acc, cur, index) => {
+    if (Element.isElement(cur)) {
+      if (blocks.includes(cur.type)) {
+        if (index === 0) {
+          acc.push(defaultParagraphBlock());
+        } else {
+          const lastNode = acc[acc.length - 1];
+          if (Element.isElement(lastNode) && blocks.includes(lastNode.type)) {
+            acc.push(defaultParagraphBlock());
+          }
+        }
+      }
+    }
+
+    acc.push(cur);
+    return acc;
+  }, [] as Descendant[]);
+  const lastNode = node.children[node.children.length - 1];
+  if (Element.isElement(lastNode) && blocks.includes(lastNode.type)) {
+    node.children.push(defaultParagraphBlock());
+  }
+};
 
 export function convertFromHTML(root: Descendant | null) {
   const wrapMixedChildren = (node: Descendant): Descendant => {
@@ -29,6 +76,11 @@ export function convertFromHTML(root: Descendant | null) {
       const mixed = blockChildren.length > 0 && blockChildren.length !== children.length;
       if (!mixed) {
         node.children = children.map(wrapMixedChildren);
+        if (blockChildren.length === 0 && children.length > 0) {
+          addEmptyTextNodes(node);
+        } else {
+          addEmptyParagraphs(node);
+        }
         return node;
       }
       const cleanNodes = [];
@@ -51,6 +103,8 @@ export function convertFromHTML(root: Descendant | null) {
           cleanNodes.push(child);
         }
       }
+      addEmptyParagraphs(node);
+
       node.children = cleanNodes.map(wrapMixedChildren);
     }
     return node;

@@ -13,12 +13,15 @@ import {
   learningResourceContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_EMBED } from '..';
+import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 
 describe('embed image serializing tests', () => {
   const editorWithImage: Descendant[] = [
     {
       type: TYPE_SECTION,
       children: [
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+
         {
           type: TYPE_EMBED,
           children: [
@@ -36,6 +39,7 @@ describe('embed image serializing tests', () => {
             url: 'https://test.url',
           },
         },
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       ],
     },
   ];
@@ -58,6 +62,8 @@ describe('embed brightcove video serializing tests', () => {
   const editorWithBrightcove: Descendant[] = [
     {
       children: [
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+
         {
           type: 'embed',
           data: {
@@ -75,6 +81,7 @@ describe('embed brightcove video serializing tests', () => {
             },
           ],
         },
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       ],
       type: 'section',
     },
@@ -96,6 +103,8 @@ describe('embed youtube video serializing tests', () => {
   const editorWithYotube: Descendant[] = [
     {
       children: [
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+
         {
           type: 'embed',
           data: {
@@ -109,6 +118,7 @@ describe('embed youtube video serializing tests', () => {
             },
           ],
         },
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       ],
       type: 'section',
     },
@@ -131,10 +141,11 @@ describe('embed audio serializing tests', () => {
     {
       type: TYPE_SECTION,
       children: [
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+
         {
           type: TYPE_EMBED,
           data: {
-            caption: 'test-caption',
             resource: 'audio',
             resource_id: '123',
             type: 'standard',
@@ -146,12 +157,13 @@ describe('embed audio serializing tests', () => {
             },
           ],
         },
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       ],
     },
   ];
 
   const htmlWithAudio =
-    '<section><embed data-caption="test-caption" data-resource="audio" data-resource_id="123" data-type="standard" data-url="https://test.url"/></section>';
+    '<section><embed data-resource="audio" data-resource_id="123" data-type="standard" data-url="https://test.url"/></section>';
 
   test('serializing audio', () => {
     const res = learningResourceContentToHTML(editorWithAudio);
@@ -169,10 +181,11 @@ describe('embed podcast serializing tests', () => {
     {
       type: TYPE_SECTION,
       children: [
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+
         {
           type: TYPE_EMBED,
           data: {
-            caption: '',
             resource: 'audio',
             resource_id: '123',
             type: 'podcast',
@@ -184,12 +197,13 @@ describe('embed podcast serializing tests', () => {
             },
           ],
         },
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       ],
     },
   ];
 
   const htmlWithPodcast =
-    '<section><embed data-caption="" data-resource="audio" data-resource_id="123" data-type="podcast" data-url="https://test.url"/></section>';
+    '<section><embed data-resource="audio" data-resource_id="123" data-type="podcast" data-url="https://test.url"/></section>';
 
   test('serializing podcast', () => {
     const res = learningResourceContentToHTML(editorWithPodcast);
@@ -207,6 +221,8 @@ describe('embed h5p serializing tests', () => {
     {
       type: TYPE_SECTION,
       children: [
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+
         {
           type: TYPE_EMBED,
           data: {
@@ -220,6 +236,7 @@ describe('embed h5p serializing tests', () => {
             },
           ],
         },
+        { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       ],
     },
   ];

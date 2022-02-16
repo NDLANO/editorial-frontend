@@ -65,7 +65,7 @@ const AddSubjectTranslation = ({
   return (
     <Formik
       initialValues={{ language: availableLanguages[0], name: defaultName }}
-      validate={values => validateFormik(values, rules, t, undefined, 'taxonomy.changeName')}
+      validate={values => validateFormik(values, rules, t, 'taxonomy.changeName')}
       validateOnBlur={false}
       enableReinitialize
       onSubmit={_ => {}}>

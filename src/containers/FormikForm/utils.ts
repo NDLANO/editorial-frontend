@@ -35,11 +35,3 @@ export const onSaveAsVisualElement = <T extends ArticleFormType>(
     }, 0);
   }
 };
-
-export const generateLanguageWarnings = (warnings: any, t: any) => {
-  // @ts-ignore
-  return warnings.reduce((acc, cv) => {
-    const key = Object.keys(cv)[0];
-    return { ...acc, [key]: t('warningMessage.fieldWithWrongLanguage', { language: [cv[key]] }) };
-  }, {});
-};

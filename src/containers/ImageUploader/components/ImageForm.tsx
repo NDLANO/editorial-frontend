@@ -8,11 +8,17 @@
 import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
+import {
+  IImageMetaInformationV2 as ImageApiType,
+  INewImageMetaInformationV2 as NewImageMetadata,
+  IUpdateImageMetaInformation as UpdatedImageMetadata,
+} from '@ndla/types-image-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
+import { ILicense as License } from '@ndla/types-image-api';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import {
@@ -23,32 +29,35 @@ import {
 } from '../../FormikForm';
 import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
-import {
-  ImageApiType,
-  NewImageMetadata,
-  UpdatedImageMetadata,
-} from '../../../modules/image/imageApiInterfaces';
 import ImageVersionNotes from './ImageVersionNotes';
 import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
-import { License } from '../../../interfaces';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
-import { getFieldsWithWrongLanguage } from '../../../util/articleUtil';
-import { WarningsProvider } from '../../FormikForm/WarningsProvider';
-import { generateLanguageWarnings } from '../../FormikForm/utils';
 
-const imageRules: RulesType<ImageFormikType> = {
+const imageRules: RulesType<ImageFormikType, ImageApiType> = {
   title: {
     required: true,
+    warnings: {
+      languageMatch: true,
+    },
   },
   alttext: {
     required: true,
+    warnings: {
+      languageMatch: true,
+    },
   },
   caption: {
     required: true,
+    warnings: {
+      languageMatch: true,
+    },
   },
   tags: {
     minItems: 3,
+    warnings: {
+      languageMatch: true,
+    },
   },
   creators: {
     allObjectFieldsRequired: true,
@@ -82,7 +91,7 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
+type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob, id: number) => void;
 type OnCreateFunc = (imageMetadata: NewImageMetadata, image: string | Blob) => void;
 
 interface Props {
@@ -144,7 +153,6 @@ const ImageForm = ({
 
     actions.setSubmitting(true);
     const imageMetaData: NewImageMetadata = {
-      id: values.id,
       title: editorValueToPlainText(values.title),
       alttext: values.alttext,
       caption: values.caption,
@@ -159,118 +167,110 @@ const ImageForm = ({
       },
       modelReleased: values.modelReleased,
     };
-    await onUpdate(imageMetaData, values.imageFile);
+    await onUpdate(imageMetaData, values.imageFile, values.id!);
     setSavedToServer(true);
     actions.resetForm();
   };
 
   const initialValues = imageApiTypeToFormType(image, language);
   const initialErrors = validateFormik(initialValues, imageRules, t);
-  const fieldsWithWrongLanguage = getFieldsWithWrongLanguage(image, language);
-  const warnings = generateLanguageWarnings(fieldsWithWrongLanguage, t);
+  const initialWarnings = getWarnings(initialValues, imageRules, t, image);
 
   return (
-    <WarningsProvider initialValues={warnings}>
-      <Formik
-        initialValues={initialValues}
-        initialErrors={initialErrors}
-        onSubmit={handleSubmit}
-        validateOnMount
-        enableReinitialize
-        validate={values => validateFormik(values, imageRules, t)}>
-        {({ values, dirty, errors, isSubmitting, submitForm, isValid }) => {
-          const formIsDirty = isFormikFormDirty({
-            values,
-            initialValues,
-            dirty,
-          });
-          const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
-            errorFields.some(field => !!errors[field]);
-          return (
-            <FormWrapper inModal={inModal}>
-              <HeaderWithLanguage
-                noStatus
-                values={values}
-                type="image"
-                content={{
-                  ...image,
-                  language,
-                  title: image?.title.title,
-                  id: image?.id ? parseInt(image.id) : undefined,
-                }}
-                editUrl={(lang: string) => {
-                  if (values.id) return toEditImage(values.id, lang);
-                  else return toCreateImage();
-                }}
-              />
-              <Accordions>
-                <AccordionSection
-                  id="image-upload-content"
-                  title={t('form.contentSection')}
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
-                  startOpen>
-                  <ImageContent />
-                </AccordionSection>
-                <AccordionSection
-                  id="image-upload-metadataSection"
-                  title={t('form.metadataSection')}
-                  className="u-4/6@desktop u-push-1/6@desktop"
-                  hasError={hasError([
-                    'tags',
-                    'rightsholders',
-                    'creators',
-                    'processors',
-                    'license',
-                  ])}>
-                  <ImageMetaData
-                    licenses={licenses}
-                    imageLanguage={language}
-                    imageTags={values.tags}
-                  />
-                </AccordionSection>
-                <AccordionSection
-                  id="image-upload-version-history"
-                  title={t('form.workflowSection')}
-                  className="u-4/6@desktop u-push-1/6@desktop">
-                  <ImageVersionNotes image={image} />
-                </AccordionSection>
-              </Accordions>
-              <Field right>
-                {inModal ? (
-                  <ActionButton outline onClick={closeModal}>
-                    {t('form.abort')}
-                  </ActionButton>
-                ) : (
-                  <AbortButton outline disabled={isSubmitting || isSaving}>
-                    {t('form.abort')}
-                  </AbortButton>
-                )}
-                <SaveButton
-                  isSaving={isSubmitting || isSaving}
-                  disabled={!isValid}
-                  showSaved={!dirty && (isNewlyCreated || savedToServer)}
-                  formIsDirty={formIsDirty}
-                  submit={!inModal}
-                  onClick={evt => {
-                    if (inModal) {
-                      evt.preventDefault();
-                      submitForm();
-                    }
-                  }}
+    <Formik
+      initialValues={initialValues}
+      initialErrors={initialErrors}
+      onSubmit={handleSubmit}
+      validateOnMount
+      enableReinitialize
+      validate={values => validateFormik(values, imageRules, t)}
+      initialStatus={{ warnings: initialWarnings }}>
+      {({ values, dirty, errors, isSubmitting, submitForm, isValid }) => {
+        const formIsDirty = isFormikFormDirty({
+          values,
+          initialValues,
+          dirty,
+        });
+        const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
+          errorFields.some(field => !!errors[field]);
+        return (
+          <FormWrapper inModal={inModal}>
+            <HeaderWithLanguage
+              noStatus
+              values={values}
+              type="image"
+              content={{
+                ...image,
+                language,
+                title: image?.title.title,
+                id: image?.id ? parseInt(image.id) : undefined,
+              }}
+              editUrl={(lang: string) => {
+                if (values.id) return toEditImage(values.id, lang);
+                else return toCreateImage();
+              }}
+            />
+            <Accordions>
+              <AccordionSection
+                id="image-upload-content"
+                title={t('form.contentSection')}
+                className="u-4/6@desktop u-push-1/6@desktop"
+                hasError={hasError(['title', 'imageFile', 'caption', 'alttext'])}
+                startOpen>
+                <ImageContent />
+              </AccordionSection>
+              <AccordionSection
+                id="image-upload-metadataSection"
+                title={t('form.metadataSection')}
+                className="u-4/6@desktop u-push-1/6@desktop"
+                hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}>
+                <ImageMetaData
+                  licenses={licenses}
+                  imageLanguage={language}
+                  imageTags={values.tags}
                 />
-              </Field>
-              <AlertModalWrapper
-                isSubmitting={isSubmitting}
-                severity="danger"
+              </AccordionSection>
+              <AccordionSection
+                id="image-upload-version-history"
+                title={t('form.workflowSection')}
+                className="u-4/6@desktop u-push-1/6@desktop">
+                <ImageVersionNotes image={image} />
+              </AccordionSection>
+            </Accordions>
+            <Field right>
+              {inModal ? (
+                <ActionButton outline onClick={closeModal}>
+                  {t('form.abort')}
+                </ActionButton>
+              ) : (
+                <AbortButton outline disabled={isSubmitting || isSaving}>
+                  {t('form.abort')}
+                </AbortButton>
+              )}
+              <SaveButton
+                isSaving={isSubmitting || isSaving}
+                disabled={!isValid}
+                showSaved={!dirty && (isNewlyCreated || savedToServer)}
                 formIsDirty={formIsDirty}
-                text={t('alertModal.notSaved')}
+                submit={!inModal}
+                onClick={evt => {
+                  if (inModal) {
+                    evt.preventDefault();
+                    submitForm();
+                  }
+                }}
               />
-            </FormWrapper>
-          );
-        }}
-      </Formik>
-    </WarningsProvider>
+            </Field>
+            <AlertModalWrapper
+              isSubmitting={isSubmitting}
+              severity="danger"
+              formIsDirty={formIsDirty}
+              text={t('alertModal.notSaved')}
+            />
+          </FormWrapper>
+        );
+      }}
+    </Formik>
   );
 };
 

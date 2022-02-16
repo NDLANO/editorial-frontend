@@ -10,7 +10,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikProps } from 'formik';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
-import validateFormik from '../../../../components/formikValidationSchema';
+import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
 import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
 import { toEditArticle } from '../../../../util/routeHelpers';
@@ -35,9 +35,6 @@ import {
   learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
-import { getFieldsWithWrongLanguage } from '../../../../util/articleUtil';
-import { generateLanguageWarnings } from '../../../FormikForm/utils';
-import { WarningsProvider } from '../../../FormikForm/WarningsProvider';
 
 interface Props {
   article?: DraftApiType;
@@ -156,27 +153,25 @@ const LearningResourceForm = ({
     );
   };
 
+  const initialWarnings = getWarnings(initialValues, learningResourceRules, t, article);
   const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [
     initialValues,
     t,
   ]);
-  const fieldsWithWrongLanguage = getFieldsWithWrongLanguage(article, articleLanguage);
-  const warnings = generateLanguageWarnings(fieldsWithWrongLanguage, t);
 
   return (
-    <WarningsProvider initialValues={warnings}>
-      <Formik
-        enableReinitialize={translating}
-        initialValues={initialValues}
-        initialErrors={initialErrors}
-        innerRef={formikRef}
-        validateOnBlur={false}
-        validateOnMount
-        onSubmit={handleSubmit}
-        validate={values => validateFormik(values, learningResourceRules, t)}>
-        {FormikChild}
-      </Formik>
-    </WarningsProvider>
+    <Formik
+      enableReinitialize={translating}
+      initialValues={initialValues}
+      initialErrors={initialErrors}
+      innerRef={formikRef}
+      validateOnBlur={false}
+      validateOnMount
+      onSubmit={handleSubmit}
+      validate={values => validateFormik(values, learningResourceRules, t)}
+      initialStatus={{ warnings: initialWarnings }}>
+      {FormikChild}
+    </Formik>
   );
 };
 

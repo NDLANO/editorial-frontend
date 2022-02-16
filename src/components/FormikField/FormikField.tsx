@@ -60,7 +60,7 @@ const FormikField = ({
   description,
   obligatory,
   showError = true,
-  formik: { values, handleBlur, errors },
+  formik: { values, handleBlur, errors, status },
   ...rest
 }: Props & { formik: FormikContextType<FormikValues> }) => {
   const { t } = useTranslation();
@@ -103,9 +103,9 @@ const FormikField = ({
           <StyledErrorPreLine>{get(name, errors)}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
-      {errors.hasOwnProperty('warnings') && (
-        <FormikFieldHelp warning={!!get(name, errors.warnings)}>
-          <StyledErrorPreLine>{get(name, errors.warnings)}</StyledErrorPreLine>
+      {status?.hasOwnProperty('warnings') && (
+        <FormikFieldHelp warning={!!get(name, status.warnings)}>
+          <StyledErrorPreLine>{get(name, status.warnings)}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
     </div>

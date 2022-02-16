@@ -59,28 +59,6 @@ export interface ImageApiType {
   editorNotes?: EditorNote[];
 }
 
-export interface NewImageMetadata {
-  id?: number; // Used only to check if image was newly created. This id is discarded by backend.
-  alttext: string;
-  caption: string;
-  copyright: Copyright;
-  language: string;
-  tags: string[];
-  title: string;
-  modelReleased: string;
-}
-
-export interface UpdatedImageMetadata {
-  id?: number; // Used only as id in endpoint-url. Discarded by backend.
-  alttext?: string;
-  caption?: string;
-  copyright?: Copyright;
-  language: string;
-  tags?: string[];
-  title?: string;
-  modelReleased?: string;
-}
-
 interface SearchResultBase<T> {
   totalCount: number;
   page: number;

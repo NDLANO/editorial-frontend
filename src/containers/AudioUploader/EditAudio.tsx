@@ -69,7 +69,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     <AudioForm
       audio={audio}
       revision={audio && audio.revision}
-      onUpdate={onUpdate}
+      onSubmitFunc={onUpdate}
       audioLanguage={language}
       isNewlyCreated={isNewlyCreated}
       translating={translating}

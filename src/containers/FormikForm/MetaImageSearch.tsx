@@ -9,7 +9,10 @@
 import { useState, useEffect, SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import {
+  IImageMetaInformationV2 as ImageApiType,
+  IUpdateImageMetaInformation as UpdatedImageMetadata,
+} from '@ndla/types-image-api';
 import Button from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import { FormikHandlers } from 'formik';
@@ -25,7 +28,6 @@ import HowToHelper from '../../components/HowTo/HowToHelper';
 import ImageSearchAndUploader from '../../components/ControlledImageSearchAndUploader';
 
 import MetaImageField from './components/MetaImageField';
-import { UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 
 interface Props {
   metaImageId: string;
@@ -90,9 +92,13 @@ const MetaImageSearch = ({
     setShowImageSelect(true);
   };
 
-  const onImageUpdate = async (image: UpdatedImageMetadata, file: string | Blob | undefined) => {
-    if (image.id) {
-      const updatedImage = await updateImage(image);
+  const onImageUpdate = async (
+    image: UpdatedImageMetadata,
+    file: string | Blob | undefined,
+    id?: number,
+  ) => {
+    if (id) {
+      const updatedImage = await updateImage(id, image);
       onImageSet(updatedImage);
     } else {
       const formData = await createFormData(file, image);

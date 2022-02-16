@@ -8,9 +8,6 @@
 
 import get from 'lodash/fp/get';
 import { TFunction } from 'i18next';
-import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
-import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
 import {
   isUrl,
   isEmpty,
@@ -27,7 +24,7 @@ import { bytesToSensibleFormat } from '../util/fileSizeUtil';
 const appendError = (error: string, newError: string): string =>
   error ? `${error} \n ${newError}` : newError;
 
-interface RuleObject<FormikValuesType> {
+interface RuleObject<FormikValuesType, T> {
   minItems?: number;
   minLength?: number;
   maxLength?: number;
@@ -41,7 +38,10 @@ interface RuleObject<FormikValuesType> {
   url?: boolean;
   urlOrNumber?: boolean;
   maxSize?: number;
-  warnings?: boolean;
+  warnings?: {
+    apiField?: keyof T;
+    languageMatch?: boolean;
+  };
   test?: (
     value: FormikValuesType,
   ) =>
@@ -50,13 +50,12 @@ interface RuleObject<FormikValuesType> {
   onlyValidateIf?: (value: FormikValuesType) => boolean;
 }
 
-export type RulesType<FormikValuesType> = Record<string, RuleObject<FormikValuesType>>;
+export type RulesType<FormikValuesType, T> = Record<string, RuleObject<FormikValuesType, T>>;
 
-const validateFormik = <FormikValuesType>(
+const validateFormik = <FormikValuesType, T>(
   values: FormikValuesType,
-  rules: RulesType<FormikValuesType>,
+  rules: RulesType<FormikValuesType, T>,
   t: TFunction,
-  audio?: AudioApiType | ImageApiType | ConceptApiType | undefined,
   formType: string | undefined = undefined,
 ) => {
   const errors: Record<string, string> = {};
@@ -104,20 +103,6 @@ const validateFormik = <FormikValuesType>(
               beforeLabel: t('form.validDate.from.label').toLowerCase(),
             }),
           );
-        }
-      }
-
-      if (rules[ruleKey].warnings) {
-        const prevWarnings = errors['warnings'] ?? {};
-        const formikLanguage = get('language', values);
-        // @ts-ignore
-        const audioLanguage = get('language', audio?.[ruleKey]);
-        if (audio && formikLanguage !== audioLanguage) {
-          errors['warnings'] = {
-            // @ts-ignore
-            ...prevWarnings,
-            [ruleKey]: `values.lang: ${values.language} --- field.lang : ${audio?.title?.title}`,
-          };
         }
       }
 
@@ -195,6 +180,46 @@ const validateFormik = <FormikValuesType>(
     handleError(e);
   }
   return errors;
+};
+
+export const getWarnings = <FormikValuesType, T>(
+  values: FormikValuesType,
+  rules: RulesType<FormikValuesType, T>,
+  t: TFunction,
+  entity?: T,
+) => {
+  let warnings: Record<string, string> = {};
+  try {
+    Object.keys(rules).forEach(ruleKey => {
+      if (rules[ruleKey].warnings) {
+        const warningRules = rules[ruleKey].warnings;
+        if (warningRules?.languageMatch) {
+          const apiField = warningRules.apiField ?? ruleKey;
+          const entityField = get([apiField], entity);
+          const fieldLanguage = get('language', entityField);
+          const formikLanguage = get('language', values);
+          if (entity && fieldLanguage && formikLanguage !== fieldLanguage) {
+            const edgeCaseWarning =
+              apiField !== ruleKey
+                ? {
+                    [apiField]: t('warningMessage.fieldWithWrongLanguage', {
+                      language: [fieldLanguage],
+                    }),
+                  }
+                : {};
+            warnings = {
+              ...warnings,
+              ...edgeCaseWarning,
+              [ruleKey]: t('warningMessage.fieldWithWrongLanguage', { language: [fieldLanguage] }),
+            };
+          }
+        }
+      }
+    });
+  } catch (e) {
+    handleError(e);
+  }
+  return warnings;
 };
 
 export default validateFormik;

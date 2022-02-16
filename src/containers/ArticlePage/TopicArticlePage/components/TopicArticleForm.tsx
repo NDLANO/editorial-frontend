@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikProps } from 'formik';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import { toEditArticle } from '../../../../util/routeHelpers';
-import validateFormik from '../../../../components/formikValidationSchema';
+import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
@@ -30,11 +30,8 @@ import {
   topicArticleFormTypeToDraftApiType,
 } from '../../articleTransformers';
 import { validateDraft } from '../../../../modules/draft/draftApi';
-import { formikCommonArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
+import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
-import { getFieldsWithWrongLanguage } from '../../../../util/articleUtil';
-import { generateLanguageWarnings } from '../../../FormikForm/utils';
-import { WarningsProvider } from '../../../FormikForm/WarningsProvider';
 
 interface Props {
   article?: DraftApiType;
@@ -155,27 +152,25 @@ const TopicArticleForm = ({
     );
   };
 
-  const initialErrors = useMemo(() => validateFormik(initialValues, formikCommonArticleRules, t), [
+  const initialWarnings = getWarnings(initialValues, topicArticleRules, t, article);
+  const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [
     initialValues,
     t,
   ]);
-  const fieldsWithWrongLanguage = getFieldsWithWrongLanguage(article, articleLanguage);
-  const warnings = generateLanguageWarnings(fieldsWithWrongLanguage, t);
 
   return (
-    <WarningsProvider initialValues={warnings}>
-      <Formik
-        enableReinitialize={translating}
-        validateOnMount
-        initialValues={initialValues}
-        initialErrors={initialErrors}
-        validateOnBlur={false}
-        innerRef={formikRef}
-        onSubmit={handleSubmit}
-        validate={values => validateFormik(values, formikCommonArticleRules, t)}>
-        {FormikChild}
-      </Formik>
-    </WarningsProvider>
+    <Formik
+      enableReinitialize={translating}
+      validateOnMount
+      initialValues={initialValues}
+      initialErrors={initialErrors}
+      validateOnBlur={false}
+      innerRef={formikRef}
+      onSubmit={handleSubmit}
+      validate={values => validateFormik(values, topicArticleRules, t)}
+      initialStatus={{ warnings: initialWarnings }}>
+      {FormikChild}
+    </Formik>
   );
 };
 

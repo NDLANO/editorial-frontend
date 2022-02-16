@@ -7,6 +7,7 @@
 
 import isEqual from 'lodash/fp/isEqual';
 import { Descendant } from 'slate';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
 import {
@@ -110,20 +111,32 @@ export const isFormikFormDirty = <T extends FormikFields>({
   return dirtyFields.length > 0 || changed;
 };
 
-export const formikCommonArticleRules: RulesType<ArticleFormType> = {
+export const formikCommonArticleRules: RulesType<ArticleFormType, DraftApiType> = {
   title: {
     required: true,
     maxLength: 256,
+    warnings: {
+      languageMatch: true,
+    },
   },
   introduction: {
     maxLength: 300,
+    warnings: {
+      languageMatch: true,
+    },
   },
   metaDescription: {
     maxLength: 155,
+    warnings: {
+      languageMatch: true,
+    },
   },
   tags: {
     required: true,
     minItems: 3,
+    warnings: {
+      languageMatch: true,
+    },
   },
   creators: {
     allObjectFieldsRequired: true,
@@ -161,11 +174,15 @@ export const formikCommonArticleRules: RulesType<ArticleFormType> = {
   },
 };
 
-export const learningResourceRules: RulesType<LearningResourceFormType> = {
+export const learningResourceRules: RulesType<LearningResourceFormType, DraftApiType> = {
   ...formikCommonArticleRules,
   metaImageAlt: {
     required: true,
     onlyValidateIf: values => !!values.metaImageId,
+    warnings: {
+      languageMatch: true,
+      apiField: 'metaImage',
+    },
   },
   content: {
     required: true,
@@ -180,10 +197,13 @@ export const learningResourceRules: RulesType<LearningResourceFormType> = {
         ? { translationKey: 'learningResourceForm.validation.missingEmbedData' }
         : undefined;
     },
+    warnings: {
+      languageMatch: true,
+    },
   },
 };
 
-export const topicArticleRules: RulesType<TopicArticleFormType> = {
+export const topicArticleRules: RulesType<TopicArticleFormType, DraftApiType> = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
@@ -196,6 +216,21 @@ export const topicArticleRules: RulesType<TopicArticleFormType> = {
       isEmbed(values.visualElement[0]) &&
       (values.visualElement[0].data.resource === 'image' ||
         values.visualElement[0].data.resource === 'brightcove'),
+    warnings: {
+      languageMatch: true,
+      apiField: 'visualElement',
+    },
+  },
+  content: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  metaImageAlt: {
+    warnings: {
+      languageMatch: true,
+      apiField: 'metaImage',
+    },
   },
 };
 

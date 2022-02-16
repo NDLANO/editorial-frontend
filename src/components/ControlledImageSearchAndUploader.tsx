@@ -12,10 +12,14 @@ import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
-import { IImageMetaInformationV2 as ImageApiType, ISearchResult } from '@ndla/types-image-api';
+import {
+  IImageMetaInformationV2 as ImageApiType,
+  IUpdateImageMetaInformation as UpdatedImageMetadata,
+  ISearchResult,
+} from '@ndla/types-image-api';
 import { useTranslation } from 'react-i18next';
 import ImageForm from '../containers/ImageUploader/components/ImageForm';
-import { ImageSearchQuery, UpdatedImageMetadata } from '../modules/image/imageApiInterfaces';
+import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
 import EditorErrorMessage from './SlateEditor/EditorErrorMessage';
 import { useLicenses } from '../modules/draft/draftQueries';
 import { draftLicensesToImageLicenses } from '../modules/draft/draftApiUtils';
@@ -32,7 +36,7 @@ interface Props {
   searchImages: (queryObject: ImageSearchQuery) => Promise<ISearchResult>;
   fetchImage: (id: number) => Promise<ImageApiType>;
   image?: ImageApiType;
-  updateImage: (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
+  updateImage: (imageMetadata: UpdatedImageMetadata, file: string | Blob, id?: number) => void;
   inModal?: boolean;
   showCheckbox?: boolean;
   checkboxAction?: (image: ImageApiType) => void;

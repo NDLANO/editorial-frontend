@@ -1,5 +1,14 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { isEmpty } from 'lodash';
 import { Descendant } from 'slate';
+import { ILicense as DraftApiLicense } from '@ndla/types-draft-api';
 import {
   DraftApiType,
   DraftStatusTypes,
@@ -21,7 +30,6 @@ import {
   TopicArticleFormType,
 } from '../FormikForm/articleFormHooks';
 import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
-import { License } from '../../interfaces';
 import { nullOrUndefined } from '../../util/articleUtil';
 
 const getPublishedDate = (
@@ -112,7 +120,7 @@ export const draftApiTypeToTopicArticleFormType = (
 export const learningResourceFormTypeToDraftApiType = (
   article: LearningResourceFormType,
   initialValues: LearningResourceFormType,
-  licenses: License[],
+  licenses: DraftApiLicense[],
   preview = false,
 ): UpdatedDraftApiType => {
   const metaImage = article.metaImageId
@@ -149,7 +157,7 @@ export const learningResourceFormTypeToDraftApiType = (
 export const topicArticleFormTypeToDraftApiType = (
   article: TopicArticleFormType,
   initialValues: TopicArticleFormType,
-  licenses: License[],
+  licenses: DraftApiLicense[],
   preview = false,
 ): UpdatedDraftApiType => {
   const metaImage = article.metaImageId

@@ -6,6 +6,7 @@
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
+import { ILicense as DraftApiLicense } from '@ndla/types-draft-api';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
 
@@ -57,7 +58,7 @@ export interface Note {
 }
 
 export interface Copyright {
-  license?: License;
+  license?: DraftApiLicense;
   origin?: string;
   creators: Author[];
   processors: Author[];

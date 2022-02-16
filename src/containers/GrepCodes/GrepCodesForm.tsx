@@ -9,6 +9,7 @@
 import { Formik, Form } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { ILicense as DraftApiLicense } from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
 import { ArticleFormType, useArticleFormHooks } from '../FormikForm/articleFormHooks';
 import GrepCodesField from '../FormikForm/GrepCodesField';
@@ -20,7 +21,6 @@ import {
 } from '../../modules/draft/draftApiInterfaces';
 import { isFormikFormDirty } from '../../util/formHelper';
 import { draftApiTypeToTopicArticleFormType } from '../ArticlePage/articleTransformers';
-import { License } from '../../interfaces';
 
 const SaveButtonContainer = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ const SaveButtonContainer = styled.div`
 const getArticle = (
   values: ArticleFormType,
   initialValues: ArticleFormType,
-  licenses: License[],
+  licenses: DraftApiLicense[],
   preview?: boolean,
 ): UpdatedDraftApiType => {
   return {

@@ -8,7 +8,11 @@
 import { useState, ReactNode, useRef, useCallback, useMemo } from 'react';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
+import {
+  IAudioMetaInformation as AudioApiType,
+  IUpdatedAudioMetaInformation,
+  INewAudioMetaInformation,
+} from '@ndla/types-audio-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
@@ -22,11 +26,7 @@ import Field from '../../../components/Field';
 import Spinner from '../../../components/Spinner';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toCreatePodcastFile, toEditPodcast } from '../../../util/routeHelpers';
-import {
-  PodcastMetaInformationPost,
-  PodcastFormValues,
-  PodcastMetaInformationPut,
-} from '../../../modules/audio/audioApiInterfaces';
+import { PodcastFormValues } from '../../../modules/audio/audioApiInterfaces';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
 import handleError from '../../../util/handleError';
@@ -87,8 +87,12 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-type OnCreateFunc = (newPodcast: PodcastMetaInformationPost, file?: string | Blob) => void;
-type OnUpdateFunc = (newPodcast: PodcastMetaInformationPut, file?: string | Blob) => void;
+type OnCreateFunc = (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
+type OnUpdateFunc = (newPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
+// type onSubmitFuncType = (
+//   podcast: IUpdatedAudioMetaInformation | INewAudioMetaInformation,
+//   file?: string | Blob,
+// ) => void;
 
 interface Props {
   audio?: AudioApiType;
@@ -96,7 +100,7 @@ interface Props {
   inModal?: boolean;
   isNewlyCreated?: boolean;
   language: string;
-  onUpdate: OnCreateFunc | OnUpdateFunc;
+  onSubmitFunc: OnCreateFunc | OnUpdateFunc;
   revision?: number;
   translating?: boolean;
   translateToNN?: () => void;
@@ -108,7 +112,7 @@ const PodcastForm = ({
   inModal,
   isNewlyCreated,
   language,
-  onUpdate,
+  onSubmitFunc,
   translating,
   translateToNN,
 }: Props) => {
@@ -143,8 +147,7 @@ const PodcastForm = ({
     }
 
     actions.setSubmitting(true);
-    const podcastMetaData = {
-      id: values.id,
+    const podcastMetaData: INewAudioMetaInformation | IUpdatedAudioMetaInformation = {
       revision: values.revision,
       title: values.title ? editorValueToPlainText(values.title) : '',
       manuscript: values.manuscript ? editorValueToPlainText(values.manuscript) : '',
@@ -165,8 +168,9 @@ const PodcastForm = ({
       },
       seriesId: values.series?.id,
     };
+    // const podcastData = values.revision ? { ...podcastMetaData, revision: values.revision } : podcastMetaData;
     try {
-      await onUpdate(podcastMetaData, values.audioFile.newFile?.file);
+      await onSubmitFunc(podcastMetaData, values.audioFile.newFile?.file);
     } catch (e) {
       handleError(e);
     }

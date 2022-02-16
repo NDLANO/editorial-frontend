@@ -12,6 +12,7 @@ import { TFunction } from 'i18next';
 import { FormikHelpers } from 'formik';
 
 import { Descendant } from 'slate';
+import { ILicense as DraftApiLicense } from '@ndla/types-draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
@@ -22,7 +23,7 @@ import {
   DraftStatusTypes,
   UpdatedDraftApiType,
 } from '../../modules/draft/draftApiInterfaces';
-import { Author, AvailabilityType, License, RelatedContent } from '../../interfaces';
+import { Author, AvailabilityType, RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useLicenses } from '../../modules/draft/draftQueries';
 
@@ -89,11 +90,11 @@ type HooksInputObject<T extends ArticleFormType> = {
     newStatus: DraftStatusTypes;
     dirty: boolean;
   }) => Promise<DraftApiType>;
-  licenses?: License[];
+  licenses?: DraftApiLicense[];
   getArticleFromSlate: (
     values: T,
     initialValues: T,
-    licenses: License[],
+    licenses: DraftApiLicense[],
     preview?: boolean,
   ) => UpdatedDraftApiType;
   articleLanguage: string;

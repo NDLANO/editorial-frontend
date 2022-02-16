@@ -6,14 +6,8 @@
  *
  */
 
-import {
-  Author,
-  AvailabilityType,
-  RelatedContent,
-  License,
-  Note,
-  SearchResultBase,
-} from '../../interfaces';
+import { ILicense as DraftApiLicense } from '@ndla/types-draft-api';
+import { Author, AvailabilityType, RelatedContent, Note, SearchResultBase } from '../../interfaces';
 export type DraftStatusStateMachineType = Record<DraftStatusTypes, string[]>;
 
 export interface UploadedFileType {
@@ -278,7 +272,7 @@ export interface NewDraftApiType {
 }
 
 interface Copyright {
-  license?: License;
+  license?: DraftApiLicense;
   origin?: string;
   creators: Author[];
   processors: Author[];

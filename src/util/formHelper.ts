@@ -7,7 +7,7 @@
 
 import isEqual from 'lodash/fp/isEqual';
 import { Descendant } from 'slate';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IArticle as DraftApiType, ILicense as DraftApiLicense } from '@ndla/types-draft-api';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
 import {
@@ -16,7 +16,7 @@ import {
 } from './articleContentConverter';
 import { diffHTML } from './diffHTML';
 import { isGrepCodeValid } from './articleUtil';
-import { License, MetaImage } from '../interfaces';
+import { MetaImage } from '../interfaces';
 import { RulesType } from '../components/formikValidationSchema';
 import {
   ArticleFormType,
@@ -26,7 +26,7 @@ import {
 import { isEmbed } from '../components/SlateEditor/plugins/embed/utils';
 import { EmbedElement } from '../components/SlateEditor/plugins/embed';
 
-export const DEFAULT_LICENSE: License = {
+export const DEFAULT_LICENSE: DraftApiLicense = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
   license: 'CC-BY-SA-4.0',
   url: 'https://creativecommons.org/licenses/by-sa/4.0/',

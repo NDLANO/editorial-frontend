@@ -7,13 +7,15 @@
 
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
+import {
+  IAudioMetaInformation as AudioApiType,
+  INewAudioMetaInformation,
+} from '@ndla/types-audio-api';
 import AudioForm from './components/AudioForm';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import Spinner from '../../components/Spinner';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
-import { AudioMetaInformationPut } from '../../modules/audio/audioApiInterfaces';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { fetchAudio, updateAudio } from '../../modules/audio/audioApi';
 
@@ -43,7 +45,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
   }, [audioId, audioLanguage]);
 
   const onUpdate = async (
-    newAudio: AudioMetaInformationPut,
+    newAudio: INewAudioMetaInformation,
     file: string | Blob | undefined,
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);

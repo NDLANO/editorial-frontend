@@ -32,7 +32,7 @@ export const postAudio = (formData: FormData): Promise<AudioApiType> =>
     body: formData,
   }).then(r => resolveJsonOrRejectWithError<AudioApiType>(r));
 
-export const fetchAudio = (id: number, locale?: string): Promise<AudioApiType> => {
+export const fetchAudio = (id: number | string, locale?: string): Promise<AudioApiType> => {
   const languageParam = locale ? `?language=${locale}` : '';
   return fetchAuthorized(`${baseUrl}/${id}${languageParam}`).then(r =>
     resolveJsonOrRejectWithError<AudioApiType>(r),
@@ -79,7 +79,7 @@ export const fetchSearchTags = async (
 };
 
 export const fetchSeries = (
-  id: number,
+  id: number | string,
   language?: string,
 ): Promise<PodcastSeriesApiType> => {
   const languageParam = language ? `?language=${language}` : '';
@@ -95,7 +95,7 @@ export const postSeries = (newSeries: INewSeries): Promise<PodcastSeriesApiType>
   }).then(r => resolveJsonOrRejectWithError<PodcastSeriesApiType>(r));
 
 export const updateSeries = (
-  id: number,
+  id: number | string,
   newSeries: INewSeries,
 ): Promise<PodcastSeriesApiType> =>
   fetchAuthorized(`${seriesBaseUrl}/${id}`, {

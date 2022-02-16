@@ -19,11 +19,10 @@ const CreateAudio = () => {
   const onCreateAudio = async (
     newAudio: INewAudioMetaInformation,
     file?: string | Blob,
-    id?: number,
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
     const createdAudio = await postAudio(formData);
-    if (!id) {
+    if (createdAudio.id) {
       navigate(toEditAudio(createdAudio.id, newAudio.language));
     }
   };

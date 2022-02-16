@@ -8,14 +8,16 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
+import {
+  IAudioMetaInformation as AudioApiType,
+  IUpdatedAudioMetaInformation,
+} from '@ndla/types-audio-api';
 import { updateAudio, fetchAudio } from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
 import PodcastForm from './components/PodcastForm';
 import Spinner from '../../components/Spinner';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
-import { PodcastMetaInformationPut } from '../../modules/audio/audioApiInterfaces';
 
 interface Props {
   isNewlyCreated: boolean;
@@ -47,7 +49,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   );
 
   const onUpdate = async (
-    newPodcast: PodcastMetaInformationPut,
+    newPodcast: IUpdatedAudioMetaInformation,
     podcastFile: string | Blob | undefined,
   ) => {
     const formData = await createFormData(podcastFile, newPodcast);
@@ -84,7 +86,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
       audio={podcast}
       language={language}
       podcastChanged={podcastChanged || newLanguage}
-      onUpdate={onUpdate}
+      onSubmitFunc={onUpdate}
       isNewlyCreated={isNewlyCreated}
       translating={translating}
       translateToNN={translateToNN}

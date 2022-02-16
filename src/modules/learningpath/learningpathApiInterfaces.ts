@@ -6,7 +6,8 @@
  *
  */
 
-import { Author, License, SearchResultBase } from '../../interfaces';
+import { ILicense as DraftApiLicense } from '@ndla/types-draft-api';
+import { Author, SearchResultBase } from '../../interfaces';
 
 export type LearningPathSearchResult = SearchResultBase<LearningPathSearchSummary>;
 
@@ -92,7 +93,7 @@ interface LearningStep {
   };
   showTitle: boolean;
   type: 'INTRODUCTION' | 'TEXT' | 'QUIZ' | 'TASK' | 'MULTIMEDIA' | 'SUMMARY' | 'TEST';
-  license?: License;
+  license?: DraftApiLicense;
   metaUrl: string;
   canEdit: boolean;
   status: string;
@@ -101,7 +102,7 @@ interface LearningStep {
 
 export interface Learningpath {
   copyright: {
-    license: License;
+    license: DraftApiLicense;
     contributors: Author[];
   };
   duration?: number;

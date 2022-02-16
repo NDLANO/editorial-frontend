@@ -100,7 +100,9 @@ const ContentField = ({ field, form }: Props) => {
       <FieldHeader title={t('form.relatedContent.articlesTitle')} />
       <ElementList
         elements={relatedContent.filter(
-          (rc: number | DraftApiType | RelatedContentLink): rc is DraftApiType | RelatedContentLink => typeof rc !== 'number',
+          (
+            rc: number | DraftApiType | RelatedContentLink,
+          ): rc is DraftApiType | RelatedContentLink => typeof rc !== 'number',
         )}
         messages={{
           dragElement: t('form.relatedContent.changeOrder'),

@@ -27,7 +27,7 @@ export const StyledHelpMessage = styled.span<Props>`
 const StyledWarningMessage = styled.span<Props>`
   display: block;
   font-size: ${fonts.sizes(14, 1.2)};
-  color: ${p => (p.warning ? '#cab200' : 'black')};
+  color: ${p => (p.warning ? '#8c8c00' : 'black')};
   float: ${p => p.float || 'none'};
 `;
 

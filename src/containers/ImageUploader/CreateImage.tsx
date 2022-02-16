@@ -7,11 +7,14 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import {
+  IImageMetaInformationV2 as ImageApiType,
+  INewImageMetaInformationV2 as NewImageMetadata,
+} from '@ndla/types-image-api';
 import ImageForm from './components/ImageForm';
 import { createFormData } from '../../util/formDataHelper';
-import * as imageApi from '../../modules/image/imageApi';
+import { postImage } from '../../modules/image/imageApi';
 import { toEditImage } from '../../util/routeHelpers';
-import { ImageApiType, NewImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { useLicenses } from '../../modules/draft/draftQueries';
 import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
 
@@ -38,7 +41,7 @@ const CreateImage = ({
 
   const onCreateImage = async (imageMetadata: NewImageMetadata, image: string | Blob) => {
     const formData = await createFormData(image, imageMetadata);
-    const createdImage = await imageApi.postImage(formData);
+    const createdImage = await postImage(formData);
     onImageCreated?.(createdImage);
     if (!editingArticle && createdImage.id) {
       navigate(toEditImage(createdImage.id, imageMetadata.language));

@@ -9,7 +9,7 @@
 import { TFunction, useTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
-import {IAudioSummary} from "@ndla/types-audio-api";
+import { IAudioSummary } from '@ndla/types-audio-api';
 import config from '../../config';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';

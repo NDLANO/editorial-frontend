@@ -7,7 +7,7 @@
 
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { IAudioMetaInformation as AudioApiType} from "@ndla/types-audio-api";
+import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
 import AudioForm from './components/AudioForm';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
@@ -69,7 +69,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     <AudioForm
       audio={audio}
       revision={audio && audio.revision}
-      onUpdate={onUpdate}
+      onSubmitFunc={onUpdate}
       audioLanguage={language}
       isNewlyCreated={isNewlyCreated}
       translating={translating}

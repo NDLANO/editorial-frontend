@@ -118,8 +118,8 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
       }
       editor.lastSelection = undefined;
       editor.lastSelectedBlock = undefined;
-      if (status === 'revertVersion') {
-        setStatus(undefined);
+      if (status?.status === 'revertVersion') {
+        setStatus((prevStatus: any) => ({ ...prevStatus, status: undefined }));
       }
     } else if (submitted && !prevSubmitted.current) {
       ReactEditor.deselect(editor);

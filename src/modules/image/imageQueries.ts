@@ -6,11 +6,15 @@
  *
  */
 
+import {
+  ISearchResult as ImageSearchResult,
+  ISearchParams as ImageSearchQuery,
+  IImageMetaInformationV2 as ImageApiType,
+} from '@ndla/types-image-api';
 import queryString from 'query-string';
 import { useQuery, UseQueryOptions } from 'react-query';
 import { IMAGE, SEARCH_IMAGES } from '../../queryKeys';
 import { fetchImage, searchImages } from './imageApi';
-import { ImageApiType, ImageSearchQuery, ImageSearchResult } from './imageApiInterfaces';
 
 export const useImage = (
   id: string | number,

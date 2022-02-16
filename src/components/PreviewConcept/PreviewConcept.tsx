@@ -19,10 +19,10 @@ import {
 } from '@ndla/notion';
 import { ImageLink } from '@ndla/ui';
 import { Remarkable } from 'remarkable';
+import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchSubject } from '../../modules/taxonomy/subjects';
-import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { Embed } from '../../interfaces';
 
 const StyledBody = styled.div`
@@ -78,7 +78,9 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
 
   useEffect(() => {
     const getSubjects = async () => {
-      const subjects = await Promise.all(concept.subjectIds?.map(id => fetchSubject(id)));
+      const subjects = concept.subjectIds
+        ? await Promise.all(concept.subjectIds.map(id => fetchSubject(id)))
+        : [];
       setSubjects(subjects);
     };
     getSubjects();
@@ -113,7 +115,7 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
 
   return (
     <>
-      <NotionHeaderWithoutExitButton title={concept.title.title} />
+      <NotionHeaderWithoutExitButton title={concept.title?.title ?? ''} />
       <StyledBody>
         <NotionDialogContent>
           <VisualElementWrapper>
@@ -122,7 +124,7 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
           <NotionDialogText>
             <span
               dangerouslySetInnerHTML={{
-                __html: markdown.render(concept.content.content),
+                __html: markdown.render(concept.content?.content ?? ''),
               }}
             />
           </NotionDialogText>

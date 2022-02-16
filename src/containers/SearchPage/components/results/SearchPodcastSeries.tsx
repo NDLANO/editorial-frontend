@@ -8,7 +8,7 @@
 
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { SeriesSearchResultType } from '../../../../modules/audio/audioApiInterfaces';
+import { ISeriesSummary as SeriesSearchResultType } from '@ndla/types-audio-api';
 import { toEditPodcastSeries } from '../../../../util/routeHelpers';
 import { SeriesResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';

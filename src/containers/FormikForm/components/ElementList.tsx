@@ -6,14 +6,13 @@
  *
  */
 
-import { createRef, Component } from 'react';
-import { withTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
+import { createRef, Component, MutableRefObject, MouseEvent as ReactMouseEvent } from 'react';
+import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, spacingUnit, shadows } from '@ndla/core';
-import { ContentResultShape, LocaleShape } from '../../../shapes';
 import ElementListItem from './ElementListItem';
 import ElementListLink from './ElementListLink';
+import { RelatedContentLink } from '../../../interfaces';
 
 const ELEMENT_HEIGHT = 69;
 
@@ -21,7 +20,10 @@ const StyledWrapper = styled.div`
   margin: ${spacing.normal} 0;
 `;
 
-const StyledList = styled.ul`
+interface StyledListProps {
+  draggingIndex: number;
+}
+const StyledList = styled.ul<StyledListProps>`
   overflow: visible;
   margin: 0 0
     ${props => (props.draggingIndex === -1 ? 0 : `${ELEMENT_HEIGHT + spacingUnit * 0.75}px`)};
@@ -30,17 +32,53 @@ const StyledList = styled.ul`
   list-style: none;
 `;
 
-class ElementList extends Component {
-  constructor(props) {
+export interface ElementType {
+  id: number;
+  articleType?: string;
+  metaImage?: { alt?: string; url?: string };
+  title?: { title: string; language: string };
+  supportedLanguages?: string[];
+  contexts?: { learningResourceType: string }[];
+}
+
+interface ElementLink extends RelatedContentLink {}
+
+interface Props extends CustomWithTranslation {
+  elements: (ElementType | ElementLink)[];
+  articleType?: string;
+  isEditable?: boolean;
+  isOrderable?: boolean;
+  messages?: {
+    removeElement: string;
+    dragElement: string;
+  };
+  onUpdateElements?: Function;
+}
+
+interface State {
+  draggingIndex: number;
+  deleteIndex: number;
+}
+
+class ElementList extends Component<Props, State> {
+  static defaultProps: Pick<Props, 'isEditable' | 'isOrderable' | 'elements'>;
+  wrapperRef: MutableRefObject<HTMLUListElement | null>;
+  initialPosition: number;
+  mouseMovement: number;
+  DraggingFile: HTMLLIElement | undefined;
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       draggingIndex: -1,
       deleteIndex: -1,
     };
+    this.initialPosition = -1;
     this.wrapperRef = createRef();
+    this.mouseMovement = 0;
   }
 
-  deleteFile = deleteIndex => {
+  deleteFile = (deleteIndex: number) => {
     this.setState({
       deleteIndex,
     });
@@ -49,12 +87,13 @@ class ElementList extends Component {
   executeDeleteFile = () => {
     const { elements, onUpdateElements } = this.props;
     this.deleteFile(-1);
-    const newElements = elements.filter((element, i) => i !== this.state.deleteIndex);
-    onUpdateElements(newElements);
+    const newElements = elements.filter((_, i) => i !== this.state.deleteIndex);
+    onUpdateElements?.(newElements);
   };
 
-  updateTransforms = dragIndex => {
-    Array.from(this.wrapperRef.current.childNodes.values()).forEach((node, index) => {
+  updateTransforms = (dragIndex: number) => {
+    const childNodes = this.wrapperRef.current?.childNodes as NodeListOf<HTMLLIElement> | undefined;
+    childNodes?.forEach((node, index) => {
       if (index !== this.initialPosition) {
         const value = index >= dragIndex ? ELEMENT_HEIGHT : 0;
         node.style.transform = `translateY(${value}px)`;
@@ -62,20 +101,23 @@ class ElementList extends Component {
     });
   };
 
-  onDragStart = (evt, dragIndex) => {
+  onDragStart = (evt: ReactMouseEvent<HTMLButtonElement>, dragIndex: number) => {
     evt.preventDefault();
     this.mouseMovement = -ELEMENT_HEIGHT + dragIndex * ELEMENT_HEIGHT;
     this.initialPosition = dragIndex;
 
     this.updateTransforms(dragIndex);
 
-    this.DraggingFile = this.wrapperRef.current.childNodes[dragIndex];
-    this.DraggingFile.style.width = `${this.DraggingFile.getBoundingClientRect().width}px`;
-    this.DraggingFile.style.position = 'absolute';
-    this.DraggingFile.style.top = 0;
-    this.DraggingFile.style.zIndex = 9999;
-    this.DraggingFile.style.boxShadow = shadows.levitate1;
-    this.DraggingFile.style.transform = `translateY(${this.mouseMovement + ELEMENT_HEIGHT}px)`;
+    const childNodes = this.wrapperRef.current?.childNodes as NodeListOf<HTMLLIElement> | undefined;
+    this.DraggingFile = childNodes?.[dragIndex];
+    if (this.DraggingFile) {
+      this.DraggingFile.style.width = `${this.DraggingFile.getBoundingClientRect().width}px`;
+      this.DraggingFile.style.position = 'absolute';
+      this.DraggingFile.style.top = '0';
+      this.DraggingFile.style.zIndex = '9999';
+      this.DraggingFile.style.boxShadow = shadows.levitate1;
+      this.DraggingFile.style.transform = `translateY(${this.mouseMovement + ELEMENT_HEIGHT}px)`;
+    }
 
     this.setState(
       {
@@ -83,10 +125,12 @@ class ElementList extends Component {
       },
       () => {
         // Add transitions
-        Array.from(this.wrapperRef.current.childNodes.values()).forEach(node => {
+        childNodes?.forEach(node => {
           node.style.transition = 'transform 100ms ease';
         });
-        this.DraggingFile.style.transition = 'box-shadow 100ms ease';
+        if (this.DraggingFile) {
+          this.DraggingFile.style.transition = 'box-shadow 100ms ease';
+        }
       },
     );
 
@@ -106,22 +150,25 @@ class ElementList extends Component {
     newElements.splice(this.initialPosition, 1);
     newElements.splice(toIndex, 0, elementToMove);
     this.setState({ draggingIndex: -1 });
-    onUpdateElements(newElements);
+    onUpdateElements?.(newElements);
 
     this.deleteFile(-1);
 
-    Array.from(this.wrapperRef.current.childNodes.values()).forEach(node => {
+    const childNodes = this.wrapperRef.current?.childNodes as NodeListOf<HTMLLIElement> | undefined;
+    childNodes?.forEach(node => {
       node.style.transition = 'none';
       node.style.transform = 'none';
     });
 
-    this.DraggingFile.style.width = 'auto';
-    this.DraggingFile.style.position = 'static';
-    this.DraggingFile.style.zIndex = 0;
-    this.DraggingFile.style.boxShadow = 'none';
+    if (this.DraggingFile) {
+      this.DraggingFile.style.width = 'auto';
+      this.DraggingFile.style.position = 'static';
+      this.DraggingFile.style.zIndex = '0';
+      this.DraggingFile.style.boxShadow = 'none';
+    }
   };
 
-  onDragging = evt => {
+  onDragging = (evt: MouseEvent) => {
     this.mouseMovement += evt.movementY;
     const currentPosition = Math.max(
       Math.ceil((this.mouseMovement + ELEMENT_HEIGHT / 2) / ELEMENT_HEIGHT),
@@ -129,11 +176,14 @@ class ElementList extends Component {
     );
     const addToPosition = this.initialPosition < currentPosition ? 1 : 0;
     const dragIndex = Math.min(this.props.elements.length, Math.max(currentPosition, 0));
-    this.DraggingFile.style.transform = `translateY(${this.mouseMovement + ELEMENT_HEIGHT}px)`;
+    if (this.DraggingFile) {
+      this.DraggingFile.style.transform = `translateY(${this.mouseMovement + ELEMENT_HEIGHT}px)`;
+    }
     this.updateTransforms(dragIndex + addToPosition);
     this.setState(prevState => {
       if (prevState.draggingIndex !== dragIndex) {
         return {
+          ...prevState,
           draggingIndex: dragIndex,
         };
       }
@@ -149,13 +199,13 @@ class ElementList extends Component {
           {elements
             .filter(element => !!element)
             .map((element, index) => {
-              if (element.id || !(element.url && element.title)) {
+              if ('id' in element) {
                 return (
                   <ElementListItem
                     articleType={this.props.articleType}
                     key={element.id}
-                    isEditable={isEditable}
-                    isOrderable={isOrderable}
+                    isEditable={!!isEditable}
+                    isOrderable={!!isOrderable}
                     element={element}
                     deleteIndex={deleteIndex}
                     messages={messages}
@@ -172,8 +222,8 @@ class ElementList extends Component {
                 return (
                   <ElementListLink
                     key={element.title + element.url}
-                    isEditable={isEditable}
-                    isOrderable={isOrderable}
+                    isEditable={!!isEditable}
+                    isOrderable={!!isOrderable}
                     element={element}
                     deleteIndex={deleteIndex}
                     messages={messages}
@@ -193,21 +243,6 @@ class ElementList extends Component {
     );
   }
 }
-
-ElementList.propTypes = {
-  elements: PropTypes.arrayOf(ContentResultShape),
-  articleType: PropTypes.string,
-  isEditable: PropTypes.bool,
-  isOrderable: PropTypes.bool,
-  messages: PropTypes.shape({
-    removeElement: PropTypes.string,
-    dragElement: PropTypes.string,
-  }),
-  onUpdateElements: PropTypes.func,
-  i18n: PropTypes.shape({
-    language: LocaleShape.isRequired,
-  }).isRequired,
-};
 
 ElementList.defaultProps = {
   elements: [],

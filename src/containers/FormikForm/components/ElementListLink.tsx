@@ -31,9 +31,9 @@ interface Props {
   executeDeleteFile: () => void;
   index: number;
   locale: string;
-  messages: MessageProps;
+  messages?: MessageProps;
   onDragEnd: () => void;
-  onDragStart: (evt: MouseEvent, dragIndex: number) => void;
+  onDragStart: (evt: MouseEvent<HTMLButtonElement>, dragIndex: number) => void;
   showDragTooltip: boolean;
 }
 

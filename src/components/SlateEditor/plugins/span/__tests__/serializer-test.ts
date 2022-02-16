@@ -21,7 +21,11 @@ const editor: Descendant[] = [
     children: [
       {
         type: TYPE_PARAGRAPH,
-        children: [{ type: TYPE_SPAN, data: { lang: 'en' }, children: [{ text: 'test' }] }],
+        children: [
+          { text: '' },
+          { type: TYPE_SPAN, data: { lang: 'en' }, children: [{ text: 'test' }] },
+          { text: '' },
+        ],
       },
     ],
   },
@@ -43,7 +47,10 @@ describe('span serializing tests', () => {
         children: [
           {
             type: TYPE_PARAGRAPH,
-            children: [{ type: TYPE_SPAN, children: [{ text: 'test' }] }],
+            children: [
+              { text: '' },
+              { type: TYPE_SPAN, children: [{ text: 'test' }, { text: '' }] },
+            ],
           },
         ],
       },

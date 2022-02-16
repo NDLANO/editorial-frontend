@@ -7,10 +7,9 @@
  */
 
 import { Descendant } from 'slate';
+import { ISeries as PodcastSeriesApiType } from '@ndla/types-audio-api';
 import { Copyright, SearchResultBase } from '../../interfaces';
 import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
-
-type AudioType = 'standard' | 'podcast';
 
 export interface AudioFile {
   url: string;
@@ -35,46 +34,25 @@ export interface PodcastMeta {
   language: string;
 }
 
-// export interface AudioMetaInformationPost {
-//   id?: number; // Only used by frontend, ignored by backend
-//   title: string;
-//   manuscript?: string;
-//   language: string;
-//   copyright: Copyright;
-//   tags: string[];
-//   audioType?: string;
-//   podcastMeta?: PodcastMetaPost;
-//   seriesId?: number;
-// }
-//
-// export interface AudioMetaInformationPut extends AudioMetaInformationPost {
-//   revision?: number;
-// }
+export interface AudioMetaInformationPost {
+  id?: number; // Only used by frontend, ignored by backend
+  title: string;
+  manuscript?: string;
+  language: string;
+  copyright: Copyright;
+  tags: string[];
+  audioType?: string;
+  podcastMeta?: PodcastMetaPost;
+  seriesId?: number;
+}
 
-// export interface AudioApiType {
-//   id: number;
-//   revision: number;
-//   title: {
-//     title: string;
-//     language: string;
-//   };
-//   manuscript?: {
-//     manuscript: string;
-//     language: string;
-//   };
-//   audioFile: AudioFile;
-//   copyright: Copyright;
-//   tags: {
-//     tags: string[];
-//     language: string;
-//   };
-//   supportedLanguages: string[];
-//   audioType: AudioType;
-//   podcastMeta?: PodcastMeta;
-//   series?: PodcastSeriesApiType;
-//   created: string;
-//   updated: string;
-// }
+export interface PodcastMetaInformationPost extends AudioMetaInformationPost {
+  podcastMeta: PodcastMetaPost;
+}
+
+export interface PodcastMetaInformationPut extends PodcastMetaInformationPost {
+  revision?: number;
+}
 
 export interface PodcastFormValues extends AudioFormikType {
   filepath: '';
@@ -87,29 +65,6 @@ export interface PodcastFormValues extends AudioFormikType {
   seriesId?: number;
 }
 
-export interface AudioSearchResultType {
-  id: number;
-  title: { title: string; language: string };
-  audioType: AudioType;
-  url: string;
-  supportedLanguages: string[];
-  license: string;
-  podcastMeta?: PodcastMeta;
-  series?: {
-    id: number;
-    title: {
-      title: string;
-      language: string;
-    };
-    supportedLanguages: string[];
-    coverPhoto: {
-      id: string;
-      url: string;
-      altText: string;
-    };
-  };
-}
-
 export interface AudioSearchParams {
   'audio-type'?: string;
   'page-size'?: number;
@@ -119,29 +74,6 @@ export interface AudioSearchParams {
   sort?: string;
 }
 
-// export interface PodcastSeriesApiType {
-//   id: number;
-//   revision: number;
-//   title: { title: string; language: string };
-//   description: { description: string; language: string };
-//   coverPhoto: { id: string; altText: string; url: string };
-//   episodes?: AudioApiType[];
-//   supportedLanguages: string[];
-// }
-
-export interface PodcastSeriesPost {
-  id?: number;
-  title: string;
-  description: string;
-  revision?: number;
-  coverPhotoId: string;
-  coverPhotoAltText: string;
-  episodes: number[];
-  language: string;
-}
-
-export type PodcastSeriesPut = PodcastSeriesPost;
-
 export interface SeriesSearchParams {
   query?: string;
   page?: number;
@@ -149,25 +81,4 @@ export interface SeriesSearchParams {
   language?: string;
 }
 
-export interface SeriesSearchResultType {
-  id: number;
-  title: {
-    title: string;
-    language: string;
-  };
-  description: {
-    description: string;
-    language: string;
-  };
-  supportedLanguages: string[];
-  episodes: AudioSearchResultType[];
-  coverPhoto: {
-    id: string;
-    url: string;
-    altText: string;
-  };
-}
-
-export type AudioSearchResult = SearchResultBase<AudioSearchResultType>;
-export type SeriesSearchResult = SearchResultBase<SeriesSearchResultType>;
 export type TagSearchResult = SearchResultBase<string>;

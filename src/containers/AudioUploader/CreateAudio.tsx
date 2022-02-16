@@ -7,7 +7,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {INewAudioMetaInformation} from "@ndla/types-audio-api";
+import { INewAudioMetaInformation } from '@ndla/types-audio-api';
 import AudioForm from './components/AudioForm';
 import { postAudio } from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
@@ -16,7 +16,6 @@ import { toEditAudio } from '../../util/routeHelpers';
 const CreateAudio = () => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
-
   const onCreateAudio = async (
     newAudio: INewAudioMetaInformation,
     file?: string | Blob,
@@ -29,7 +28,7 @@ const CreateAudio = () => {
     }
   };
 
-  return <AudioForm onSubmitFunction={onCreateAudio} audioLanguage={i18n.language} />;
+  return <AudioForm onSubmitFunc={onCreateAudio} audioLanguage={i18n.language} />;
 };
 
 export default CreateAudio;

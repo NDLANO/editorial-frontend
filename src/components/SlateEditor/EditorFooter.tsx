@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
+import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
 import { useFormikContext } from 'formik';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
@@ -19,7 +20,7 @@ import { PossibleStatuses } from './editorTypes';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
-import { ConceptApiType, ConceptStatus } from '../../modules/concept/conceptApiInterfaces';
+import { ConceptStatus } from '../../modules/concept/conceptApiInterfaces';
 import { DraftStatus, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';

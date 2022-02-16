@@ -115,7 +115,7 @@ const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus, type 
           : draftApiTypeToTopicArticleFormType;
       const newValues = transform({ ...newArticle, status: version.status }, language);
       setValues(newValues);
-      setStatus('revertVersion');
+      setStatus((prevStatus: any) => ({ ...prevStatus, status: 'revertVersion' }));
       createMessage({
         message: t('form.resetToProd.success'),
         severity: 'success',

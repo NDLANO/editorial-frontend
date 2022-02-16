@@ -8,18 +8,17 @@
 
 import queryString from 'query-string';
 import {
+  IImageMetaInformationV2 as ImageApiType,
+  IUpdateImageMetaInformation as UpdatedImageMetadata,
+  ISearchResult as ImageSearchResult,
+} from '@ndla/types-image-api';
+import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
   createErrorPayload,
 } from '../../util/apiHelpers';
-import {
-  ImageApiType,
-  ImageSearchQuery,
-  ImageSearchResult,
-  TagSearchResult,
-  UpdatedImageMetadata,
-} from './imageApiInterfaces';
+import { ImageSearchQuery, TagSearchResult } from './imageApiInterfaces';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl('/image-api/v2/images');
@@ -37,10 +36,11 @@ export const fetchImage = (id: number | string, language?: string): Promise<Imag
   );
 
 export const updateImage = (
+  id: number,
   imageMetadata: UpdatedImageMetadata,
   formData?: FormData,
 ): Promise<ImageApiType> =>
-  fetchAuthorized(`${baseUrl}/${imageMetadata.id}`, {
+  fetchAuthorized(`${baseUrl}/${id}`, {
     method: 'PATCH',
     headers: { 'Content-Type': undefined }, // Without this we're missing a boundary: https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
     body: formData || JSON.stringify(imageMetadata),

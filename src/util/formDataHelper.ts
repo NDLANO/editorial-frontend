@@ -5,8 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import {
+  INewImageMetaInformationV2 as NewImageMetadata,
+  IUpdateImageMetaInformation as UpdatedImageMetadata,
+} from '@ndla/types-image-api';
 import {INewAudioMetaInformation, IUpdatedAudioMetaInformation} from "@ndla/types-audio-api";
-import { NewImageMetadata, UpdatedImageMetadata } from '../modules/image/imageApiInterfaces';
 
 export const createFormData = (
   file?: string | Blob,

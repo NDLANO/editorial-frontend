@@ -9,8 +9,8 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
+import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
-import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { createGuard } from '../../util/guards';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 
@@ -50,7 +50,7 @@ const PreviewLanguage = ({
 }: Props) => {
   const { t } = useTranslation();
   const language = isConceptApiType(firstEntity)
-    ? firstEntity.content.language
+    ? firstEntity.content?.language
     : firstEntity.language;
   return (
     <StyledPreview>

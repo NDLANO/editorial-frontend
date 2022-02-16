@@ -8,6 +8,7 @@
 import { useState, ReactNode, useRef, useCallback, useMemo } from 'react';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
@@ -25,7 +26,6 @@ import {
   PodcastMetaInformationPost,
   PodcastFormValues,
   PodcastMetaInformationPut,
-  AudioApiType,
 } from '../../../modules/audio/audioApiInterfaces';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
@@ -33,9 +33,12 @@ import handleError from '../../../util/handleError';
 import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 
-const podcastRules: RulesType<PodcastFormValues> = {
+const podcastRules: RulesType<PodcastFormValues, AudioApiType> = {
   title: {
     required: true,
+    warnings: {
+      languageMatch: true,
+    },
   },
   manuscript: {
     required: false,

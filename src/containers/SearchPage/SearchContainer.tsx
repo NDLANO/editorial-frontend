@@ -9,6 +9,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UseQueryResult } from 'react-query';
+import { ISearchResult as ImageSearchResult } from '@ndla/types-image-api';
+import {
+  IAudioSummarySearchResult as AudioSearchResult,
+  ISeriesSummarySearchResult as SeriesSearchResult,
+} from '@ndla/types-audio-api';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
@@ -21,9 +26,7 @@ import SearchForm, { parseSearchParams, SearchParams } from './components/form/S
 import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { SearchType } from '../../interfaces';
-import { ImageSearchResult } from '../../modules/image/imageApiInterfaces';
 import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
-import { AudioSearchResult, SeriesSearchResult } from '../../modules/audio/audioApiInterfaces';
 import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
 import SearchSaveButton from './SearchSaveButton';
 import { useSubjects } from '../../modules/taxonomy/subjects';

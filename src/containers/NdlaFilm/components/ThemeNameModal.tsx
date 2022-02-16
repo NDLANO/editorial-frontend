@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { ReactNode, useState } from 'react';
+import { ReactElement, ReactNode, useState } from 'react';
 //@ts-ignore
 import { NdlaFilmThemeEditorModal } from '@ndla/editor';
 import Modal from '@ndla/modal';
@@ -34,7 +34,7 @@ const initialState = (initialTheme = {}) => {
 interface Props {
   onSaveTheme: (newTheme: ThemeNames) => void;
   initialTheme?: { name: ThemeNames['name'] };
-  activateButton: ReactNode;
+  activateButton: ReactElement;
   messages: {
     save: string;
     cancel: string;

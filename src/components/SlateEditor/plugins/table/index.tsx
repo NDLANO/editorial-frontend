@@ -306,7 +306,7 @@ export const tablePlugin = (editor: Editor) => {
         });
       }
 
-      // i. Make sure table contains the correct caption, tableHead and tableBody nodes.
+      // iii. Make sure table contains the correct caption, tableHead and tableBody nodes.
       for (const [index, child] of node.children.entries()) {
         // Caption can't be placed at any other index than 0. Otherwise: Remote it.
         if (index !== 0 && isTableCaption(child)) {
@@ -321,7 +321,7 @@ export const tablePlugin = (editor: Editor) => {
         }
       }
 
-      // iii. Normalize each tableBody using matrix convertion for help.
+      // iv. Normalize each tableBody using matrix convertion for help.
       for (const [index, child] of node.children.entries()) {
         if (isTableHead(child) || isTableBody(child)) {
           if (normalizeTableBodyAsMatrix(editor, child, [...path, index])) {
@@ -329,7 +329,7 @@ export const tablePlugin = (editor: Editor) => {
           }
         }
       }
-      // iii. Add surrounding paragraphs. Must be last since the table itself is not altered.
+      // v. Add surrounding paragraphs. Must be last since the table itself is not altered.
       if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
         return;
       }

@@ -12,6 +12,7 @@ import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { FooterLinkButton } from '@ndla/editor';
 import { FileCompare } from '@ndla/icons/action';
+import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
 import config from '../../config';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
@@ -23,7 +24,6 @@ import { parseEmbedTag } from '../../util/embedTagHelpers';
 import { getYoutubeEmbedUrl } from '../../util/videoUtil';
 import PreviewConcept from './PreviewConcept';
 import { Embed, TypeOfPreview } from '../../interfaces';
-import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { createGuard } from '../../util/guards';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 
@@ -73,8 +73,10 @@ const PreviewConceptLightbox = ({ getConcept, typeOfPreview }: Props) => {
     const concept = getConcept();
     const parsedVisualElement = await getVisualElement(concept?.visualElement?.visualElement);
     setFirstConcept({ ...concept, parsedVisualElement });
-    const secondConceptLang = concept.supportedLanguages.find(l => l !== concept.content.language);
-    onChangePreviewLanguage(secondConceptLang ?? concept.content.language);
+    const secondConceptLang = concept.supportedLanguages.find(
+      l => l !== concept?.content?.language,
+    );
+    onChangePreviewLanguage(secondConceptLang ?? concept?.content?.language!);
     setShowPreview(true);
   };
 

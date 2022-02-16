@@ -36,6 +36,7 @@ const podcastRules: RulesType<PodcastSeriesFormikType, PodcastSeriesApiType> = {
     },
   },
   description: {
+    required: true,
     warnings: {
       languageMatch: true,
     },

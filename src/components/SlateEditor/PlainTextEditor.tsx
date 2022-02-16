@@ -42,10 +42,10 @@ const PlainTextEditor = ({
   const { status, setStatus } = useFormikContext<ArticleFormType>();
 
   useEffect(() => {
-    if (status === 'revertVersion') {
+    if (status?.status === 'revertVersion') {
       ReactEditor.deselect(editor);
       editor.children = value;
-      setStatus(undefined);
+      setStatus((prevStatus: any) => ({ ...prevStatus, status: undefined }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);

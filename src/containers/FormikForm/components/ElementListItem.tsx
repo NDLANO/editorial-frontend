@@ -14,7 +14,7 @@ import { spacing, spacingUnit, colors, fonts, animations } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
 import { resourceToLinkProps } from '../../../util/resourceHelpers';
-import { MetaImage } from '../../../interfaces';
+import { ElementType } from './ElementList';
 
 const ELEMENT_HEIGHT = 69;
 const ELEMENT_MARGIN = 4;
@@ -29,14 +29,6 @@ interface MessageProps {
   dragElement: string;
 }
 
-interface ElementType {
-  id: number;
-  contexts: any;
-  articleType?: string;
-  metaImage?: MetaImage;
-  title: { title: string; language: string };
-}
-
 interface Props {
   deleteFile: (deleteIndex: number) => void;
   articleType?: string;
@@ -49,7 +41,7 @@ interface Props {
   locale: string;
   messages?: MessageProps;
   onDragEnd: () => void;
-  onDragStart: (evt: MouseEvent, dragIndex: number) => void;
+  onDragStart: (evt: MouseEvent<HTMLButtonElement>, dragIndex: number) => void;
   showDragTooltip: boolean;
 }
 
@@ -70,7 +62,7 @@ const ElementListItem = ({
 }: Props) => {
   const linkProps = resourceToLinkProps(
     element,
-    element.articleType ?? (articleType || 'learning-path'),
+    element.articleType ?? articleType ?? 'learning-path',
     locale,
   );
 
@@ -88,11 +80,11 @@ const ElementListItem = ({
         />
         {linkProps.to ? (
           <Link to={linkProps.to} target="_blank" rel="noopener noreferrer">
-            {element.title.title}
+            {element.title?.title}
           </Link>
         ) : (
           <a href={linkProps.href} target={linkProps.target} rel={linkProps.rel}>
-            {element.title.title}
+            {element.title?.title}
           </a>
         )}
       </div>

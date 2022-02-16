@@ -42,6 +42,7 @@ const editor: Descendant[] = [
               },
             ],
           },
+          { text: '' },
         ],
       },
     ],

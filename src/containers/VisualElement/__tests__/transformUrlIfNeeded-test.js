@@ -20,7 +20,7 @@ test('transformUrlIfNeeded returns static nrk url if correct nrk url is used', a
   nock('http://nrk-api')
     .get('/skole/api/media/23618')
     .reply(200, { psId: '33' });
-  const url = await transformUrlIfNeeded('https://www.nrk.no/skole/?mediaId=23618');
+  const url = await transformUrlIfNeeded('https://www.nrk.no/skole-deling/23618');
 
   expect(url).toMatchSnapshot();
 });
@@ -29,8 +29,16 @@ test('transformUrlIfNeeded returns url sent in if nrk api should return undefine
   nock('http://nrk-api')
     .get('/skole/api/media/23618')
     .reply(200);
-  const url = await transformUrlIfNeeded('https://www.nrk.no/skole/?mediaId=23618');
+  const url = await transformUrlIfNeeded('https://www.nrk.no/skole-deling/23618');
 
+  expect(url).toMatchSnapshot();
+});
+
+test('transformurlifNeeded returns static nrk url for old nrk embed format', async () => {
+  nock('http://nrk-api')
+    .get('/skole/api/media/23618')
+    .reply(200, { psId: '33' });
+  const url = await transformUrlIfNeeded('https://www.nrk.no/skole/?mediaId=23618');
   expect(url).toMatchSnapshot();
 });
 

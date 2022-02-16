@@ -28,6 +28,8 @@ describe('table serializing tests', () => {
       {
         type: TYPE_SECTION,
         children: [
+          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+
           {
             type: TYPE_TABLE,
             rowHeaders: false,
@@ -182,6 +184,7 @@ describe('table serializing tests', () => {
               },
             ],
           },
+          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
         ],
       },
     ];
@@ -201,6 +204,8 @@ describe('table serializing tests', () => {
       {
         type: TYPE_SECTION,
         children: [
+          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
+
           {
             type: TYPE_TABLE,
             rowHeaders: true,
@@ -326,6 +331,7 @@ describe('table serializing tests', () => {
               },
             ],
           },
+          { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
         ],
       },
     ];

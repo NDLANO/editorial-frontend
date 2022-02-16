@@ -32,6 +32,7 @@ import {
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
+import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
 
 interface Props {
   article?: DraftApiType;
@@ -82,6 +83,10 @@ const TopicArticleForm = ({
     articleLanguage,
   });
 
+  const initialHTML = useMemo(() => learningResourceContentToHTML(initialValues.content), [
+    initialValues,
+  ]);
+
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
 
   const FormikChild = (formik: FormikProps<TopicArticleFormType>) => {
@@ -92,6 +97,7 @@ const TopicArticleForm = ({
       initialValues,
       dirty,
       changed: articleChanged,
+      initialHTML,
     });
     usePreventWindowUnload(formIsDirty);
     const getArticle = () => topicArticleFormTypeToDraftApiType(values, initialValues, licenses!);

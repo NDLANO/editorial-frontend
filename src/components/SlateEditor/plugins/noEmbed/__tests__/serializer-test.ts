@@ -13,11 +13,13 @@ import {
   topicArticleContentToHTML,
 } from '../../../../../util/articleContentConverter';
 import { TYPE_EMBED } from '../../embed';
+import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 
 const editor: Descendant[] = [
   {
     type: TYPE_SECTION,
     children: [
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
       {
         type: TYPE_EMBED,
         children: [
@@ -35,6 +37,7 @@ const editor: Descendant[] = [
           url: 'https://test123.no',
         },
       },
+      { type: TYPE_PARAGRAPH, children: [{ text: '' }] },
     ],
   },
 ];

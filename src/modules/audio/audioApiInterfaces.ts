@@ -8,7 +8,6 @@
 
 import { Descendant } from 'slate';
 import { ISeries as PodcastSeriesApiType } from '@ndla/types-audio-api';
-import { SearchResultBase } from '../../interfaces';
 import { AudioFormikType } from '../../containers/AudioUploader/components/AudioForm';
 
 export interface PodcastFormValues extends AudioFormikType {
@@ -37,5 +36,3 @@ export interface SeriesSearchParams {
   'page-size'?: number;
   language?: string;
 }
-
-export type TagSearchResult = SearchResultBase<string>;

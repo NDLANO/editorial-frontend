@@ -13,6 +13,7 @@ import {
   ISeriesSummarySearchResult as SeriesSearchResult,
   ISeries as PodcastSeriesApiType,
   INewSeries,
+  ITagsSearchResult
 } from '@ndla/types-audio-api';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 import {
@@ -20,7 +21,7 @@ import {
   fetchAuthorized,
   resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
-import { AudioSearchParams, SeriesSearchParams, TagSearchResult } from './audioApiInterfaces';
+import { AudioSearchParams, SeriesSearchParams } from './audioApiInterfaces';
 
 const baseUrl = apiResourceUrl('/audio-api/v1/audio');
 const seriesBaseUrl = apiResourceUrl('/audio-api/v1/series');
@@ -71,7 +72,7 @@ export const deleteLanguageVersionSeries = (
 export const fetchSearchTags = async (
   input: string,
   language: string,
-): Promise<TagSearchResult> => {
+): Promise<ITagsSearchResult> => {
   const response = await fetchAuthorized(
     `${baseUrl}/tag-search/?language=${language}&query=${input}`,
   );

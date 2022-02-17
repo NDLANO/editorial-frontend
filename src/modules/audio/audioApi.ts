@@ -13,7 +13,7 @@ import {
   ISeriesSummarySearchResult as SeriesSearchResult,
   ISeries as PodcastSeriesApiType,
   INewSeries,
-  ITagsSearchResult
+  ITagsSearchResult,
 } from '@ndla/types-audio-api';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 import {

@@ -5,7 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import queryString from 'query-string';
+import {
+  IConcept as ConceptApiType,
+  IConceptSearchResult as ConceptSearchResult,
+  INewConcept,
+  ITagsSearchResult as ConceptTagsSearchResult,
+  IUpdatedConcept,
+} from '@ndla/types-concept-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -13,13 +21,8 @@ import {
 } from '../../util/apiHelpers';
 import {
   ConceptStatusStateMachineType,
-  ConceptTagsSearchResult,
   ConceptQuery,
-  ConceptPostType,
-  ConceptPatchType,
   ConceptStatusType,
-  ConceptSearchResult,
-  ConceptApiType,
 } from './conceptApiInterfaces';
 
 const draftConceptUrl: string = apiResourceUrl('/concept-api/v1/drafts');
@@ -44,14 +47,17 @@ export const fetchConcept = async (
   );
 };
 
-export const addConcept = async (concept: ConceptPostType): Promise<ConceptApiType> =>
+export const addConcept = async (concept: INewConcept): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/`, {
     method: 'POST',
     body: JSON.stringify(concept),
   }).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));
 
-export const updateConcept = async (concept: ConceptPatchType): Promise<ConceptApiType> =>
-  fetchAuthorized(`${draftConceptUrl}/${concept.id}`, {
+export const updateConcept = async (
+  id: number,
+  concept: IUpdatedConcept,
+): Promise<ConceptApiType> =>
+  fetchAuthorized(`${draftConceptUrl}/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(concept),
   }).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));

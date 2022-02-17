@@ -6,14 +6,18 @@
  *
  */
 
-import { IConcept as ConceptApiType, ILicense as ConceptApiLicense } from '@ndla/types-concept-api';
+import {
+  IConcept as ConceptApiType,
+  ILicense as ConceptApiLicense,
+  INewConcept,
+  IUpdatedConcept,
+} from '@ndla/types-concept-api';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
   embedTagToEditorValue,
   editorValueToEmbedTag,
 } from '../../util/articleContentConverter';
-import { ConceptPostType, ConceptPatchType } from '../../modules/concept/conceptApiInterfaces';
 import { ConceptFormValues } from './conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
@@ -59,7 +63,7 @@ const metaImageFromForm = (v: ConceptFormValues) =>
 export const getConceptPostType = (
   values: ConceptFormValues,
   licenses: ConceptApiLicense[],
-): ConceptPostType => ({
+): INewConcept => ({
   ...values,
   title: editorValueToPlainText(values.title),
   content: editorValueToPlainText(values.conceptContent),
@@ -78,9 +82,8 @@ export const getConceptPostType = (
 export const getConceptPatchType = (
   values: ConceptFormValues,
   licenses: ConceptApiLicense[],
-): ConceptPatchType => ({
+): IUpdatedConcept => ({
   ...getConceptPostType(values, licenses),
-  id: values.id!,
   metaImage: metaImageFromForm(values) ?? null,
 });
 

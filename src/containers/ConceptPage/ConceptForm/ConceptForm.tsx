@@ -8,7 +8,12 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import {
+  IConcept as ConceptApiType,
+  INewConcept,
+  IUpdatedConcept,
+  ITagsSearchResult as ConceptTagsSearchResult,
+} from '@ndla/types-concept-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
@@ -25,12 +30,7 @@ import {
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
 import FormWrapper from './FormWrapper';
-import {
-  ConceptStatusType,
-  ConceptTagsSearchResult,
-  ConceptPostType,
-  ConceptPatchType,
-} from '../../../modules/concept/conceptApiInterfaces';
+import { ConceptStatusType } from '../../../modules/concept/conceptApiInterfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
@@ -48,14 +48,15 @@ interface Props {
   onClose?: () => void;
   language: string;
   onUpdate: (
-    updateConcept: ConceptPostType | ConceptPatchType,
+    updateConcept: INewConcept | IUpdatedConcept,
     revision?: number,
   ) => Promise<ConceptApiType>;
   subjects: SubjectType[];
   initialTitle?: string;
   translateToNN?: () => void;
   updateConceptAndStatus?: (
-    updatedConcept: ConceptPatchType,
+    id: number,
+    updatedConcept: IUpdatedConcept,
     newStatus: ConceptStatusType,
     dirty: boolean,
   ) => Promise<ConceptApiType>;
@@ -153,6 +154,7 @@ const ConceptForm = ({
         const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
         const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !formikDirty;
         savedArticle = await updateConceptAndStatus(
+          concept?.id!,
           getConceptPatchType(values, licenses!),
           newStatus!,
           !skipSaving,

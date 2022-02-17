@@ -8,6 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
+import { ITagsSearchResult as ConceptTagsSearchResult } from '@ndla/types-concept-api';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MetaImageSearch } from '../../FormikForm';
@@ -15,7 +16,6 @@ import { ConceptFormValues } from '../conceptInterfaces';
 import InlineImageSearch from './InlineImageSearch';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import MultiSelectDropdown from '../../../components/Dropdown/MultiSelectDropdown';
-import { ConceptTagsSearchResult } from '../../../modules/concept/conceptApiInterfaces';
 import { onSaveAsVisualElement } from '../../FormikForm/utils';
 
 interface Props {

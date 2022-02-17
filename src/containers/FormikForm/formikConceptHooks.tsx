@@ -7,12 +7,8 @@
  */
 
 import { useState, useEffect } from 'react';
-import {
-  ConceptApiType,
-  ConceptStatusType,
-  ConceptPostType,
-  ConceptPatchType,
-} from '../../modules/concept/conceptApiInterfaces';
+import { IConcept as ConceptApiType, INewConcept, IUpdatedConcept } from '@ndla/types-concept-api';
+import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags } from '../../modules/concept/conceptApi';
@@ -65,8 +61,11 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     return await Promise.all(promises);
   };
 
-  const updateConcept = async (updatedConcept: ConceptPatchType): Promise<ConceptApiType> => {
-    const savedConcept = await conceptApi.updateConcept(updatedConcept);
+  const updateConcept = async (
+    id: number,
+    updatedConcept: IUpdatedConcept,
+  ): Promise<ConceptApiType> => {
+    const savedConcept = await conceptApi.updateConcept(id, updatedConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     setConcept(savedConcept);
     setConceptArticles(convertedArticles);
@@ -74,7 +73,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     return savedConcept;
   };
 
-  const createConcept = async (createdConcept: ConceptPostType) => {
+  const createConcept = async (createdConcept: INewConcept) => {
     const savedConcept = await conceptApi.addConcept(createdConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     setConcept(savedConcept);
@@ -84,15 +83,16 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   };
 
   const updateConceptAndStatus = async (
-    conceptPatch: ConceptPatchType,
+    id: number,
+    conceptPatch: IUpdatedConcept,
     newStatus: ConceptStatusType,
     dirty: boolean,
   ): Promise<ConceptApiType> => {
     const newConcept = dirty
-      ? await conceptApi.updateConcept(conceptPatch)
-      : await conceptApi.fetchConcept(conceptPatch.id, conceptPatch.language);
+      ? await conceptApi.updateConcept(id, conceptPatch)
+      : await conceptApi.fetchConcept(id, conceptPatch.language);
     const convertedArticles = await fetchElementList(newConcept.articleIds);
-    const conceptChangedStatus = await conceptApi.updateConceptStatus(conceptPatch.id, newStatus);
+    const conceptChangedStatus = await conceptApi.updateConceptStatus(id, newStatus);
     const updatedConcept = {
       ...newConcept,
       status: conceptChangedStatus.status,

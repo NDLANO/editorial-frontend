@@ -11,12 +11,12 @@ import SafeLink from '@ndla/safelink';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
+import { IConceptSummary } from '@ndla/types-concept-api';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
 import { Learningpath } from '../../modules/learningpath/learningpathApiInterfaces';
 import { MultiSearchSummary } from '../../modules/search/searchApiInterfaces';
-import { SearchConceptType } from '../../modules/concept/conceptApiInterfaces';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -79,7 +79,7 @@ const HeaderStatusInformation = ({
   const { t } = useTranslation();
   const [learningpaths, setLearningpaths] = useState<Learningpath[]>([]);
   const [articles, setArticles] = useState<MultiSearchSummary[]>([]);
-  const [concepts, setConcepts] = useState<SearchConceptType[]>([]);
+  const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
 
   useEffect(() => {
     const allConnections = [...learningpaths, ...articles, ...concepts];

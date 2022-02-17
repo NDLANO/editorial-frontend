@@ -21,7 +21,7 @@ import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import Field from '../../../components/Field';
 import Spinner from '../../../components/Spinner';
 import SaveButton from '../../../components/SaveButton';
-import { isFormikFormDirty } from '../../../util/formHelper';
+import { DEFAULT_LICENSE, isFormikFormDirty } from '../../../util/formHelper';
 import { AbortButton, formClasses, AlertModalWrapper } from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
@@ -102,7 +102,6 @@ const rules: RulesType<AudioFormikType, AudioApiType> = {
 type onSubmitFuncType = (
   audio: INewAudioMetaInformation | IUpdatedAudioMetaInformation,
   file?: string | Blob,
-  id?: number,
 ) => void;
 
 interface Props {
@@ -151,7 +150,7 @@ const AudioForm = ({
         tags: values.tags,
         audioType: 'standard',
         copyright: {
-          license: licenses?.find(license => license.license === values.license)!,
+          license: licenses?.find(license => license.license === values.license) ?? DEFAULT_LICENSE,
           origin: values.origin,
           creators: values.creators,
           processors: values.processors,
@@ -159,7 +158,7 @@ const AudioForm = ({
         },
       };
       const audioData = revision ? { ...audioMetaData, revision: revision } : audioMetaData;
-      await onSubmitFunc(audioData, values.audioFile.newFile?.file, values.id!);
+      await onSubmitFunc(audioData, values.audioFile.newFile?.file);
 
       actions.setSubmitting(false);
       setSavedToServer(true);

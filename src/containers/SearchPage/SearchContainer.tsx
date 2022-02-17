@@ -14,6 +14,7 @@ import {
   IAudioSummarySearchResult as AudioSearchResult,
   ISeriesSummarySearchResult as SeriesSearchResult,
 } from '@ndla/types-audio-api';
+import { IConceptSearchResult } from '@ndla/types-concept-api';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
@@ -26,7 +27,6 @@ import SearchForm, { parseSearchParams, SearchParams } from './components/form/S
 import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { SearchType } from '../../interfaces';
-import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
 import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
 import SearchSaveButton from './SearchSaveButton';
 import { useSubjects } from '../../modules/taxonomy/subjects';
@@ -38,7 +38,7 @@ export const searchClasses = new BEMHelper({
 
 export type ResultType =
   | ImageSearchResult
-  | ConceptSearchResult
+  | IConceptSearchResult
   | SeriesSearchResult
   | AudioSearchResult
   | MultiSearchResult;

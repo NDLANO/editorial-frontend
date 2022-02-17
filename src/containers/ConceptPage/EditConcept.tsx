@@ -9,12 +9,12 @@
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { IUpdatedConcept } from '@ndla/types-concept-api';
 import ConceptForm from './ConceptForm/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
-import { ConceptPatchType } from '../../modules/concept/conceptApiInterfaces';
 import { LocaleType } from '../../interfaces';
 
 interface Props {
@@ -64,7 +64,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
         onUpdate={async concept => {
-          return updateConcept(concept as ConceptPatchType);
+          return updateConcept(Number(conceptId), concept as IUpdatedConcept);
         }}
         language={selectedLanguage!}
         subjects={subjects}

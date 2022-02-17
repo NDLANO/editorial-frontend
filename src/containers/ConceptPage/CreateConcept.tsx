@@ -9,10 +9,10 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { HelmetWithTracker } from '@ndla/tracker';
+import { INewConcept } from '@ndla/types-concept-api';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { toEditConcept } from '../../util/routeHelpers';
 import ConceptForm from './ConceptForm/ConceptForm';
-import { ConceptPostType } from '../../modules/concept/conceptApiInterfaces';
 
 interface Props {
   inModal?: boolean;
@@ -27,7 +27,7 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
     i18n.language,
   );
 
-  const createConceptAndPushRoute = async (createdConcept: ConceptPostType) => {
+  const createConceptAndPushRoute = async (createdConcept: INewConcept) => {
     const savedConcept = await createConcept(createdConcept);
     if (inModal && addConceptInModal) {
       addConceptInModal(savedConcept);
@@ -42,7 +42,7 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
       <HelmetWithTracker title={t(`conceptform.title`)} />
       <ConceptForm
         language={i18n.language}
-        onUpdate={concept => createConceptAndPushRoute(concept as ConceptPostType)}
+        onUpdate={concept => createConceptAndPushRoute(concept as INewConcept)}
         fetchConceptTags={fetchSearchTags}
         inModal={inModal}
         subjects={subjects}

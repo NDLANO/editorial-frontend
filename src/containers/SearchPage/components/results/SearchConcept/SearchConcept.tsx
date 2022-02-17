@@ -11,16 +11,16 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Concept } from '@ndla/icons/editor';
+import { IConceptSummary } from '@ndla/types-concept-api';
 import { searchClasses } from '../../../SearchContainer';
 import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFallback';
 import ContentView from './ContentView';
 import FormView from './FormView';
-import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../../../interfaces';
 
 interface Props {
-  concept: SearchConceptType;
+  concept: IConceptSummary;
   locale: LocaleType;
   subjects: SubjectType[];
   editingState: [boolean, Dispatch<SetStateAction<boolean>>];
@@ -29,7 +29,7 @@ interface Props {
 const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
   const { t } = useTranslation();
   const [editing, setEditing] = editingState;
-  const [localConcept, setLocalConcept] = useState(concept);
+  const [localConcept, setLocalConcept] = useState<IConceptSummary>(concept);
   const [showForm, setShowForm] = useState(false);
   const toggleShowForm = () => {
     setEditing(true);
@@ -67,11 +67,18 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
           subjects={subjects}
           updateLocalConcept={newConcept => {
             setLocalConcept({
-              ...newConcept,
-              lastUpdated: newConcept.updated,
+              id: newConcept.id,
               title: newConcept.title,
-              content: newConcept.content,
-              updatedBy: newConcept.updatedBy!,
+              content: newConcept.content ?? { content: '', language: 'und' },
+              metaImage: newConcept.metaImage ?? { alt: '', url: '', language: 'und' },
+              tags: newConcept.tags,
+              subjectIds: newConcept.subjectIds,
+              supportedLanguages: newConcept.supportedLanguages,
+              lastUpdated: newConcept.updated,
+              status: newConcept.status,
+              updatedBy: newConcept.updatedBy ?? [],
+              license: newConcept.copyright?.license?.license,
+              visualElement: newConcept.visualElement,
             });
           }}
         />

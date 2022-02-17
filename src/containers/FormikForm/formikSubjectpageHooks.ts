@@ -10,6 +10,7 @@ import {
   IUpdatedSubjectFrontPageData,
   INewSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
+import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
 import { getUrnFromId } from '../../util/subjectHelpers';
 import { LocaleType } from '../../interfaces';
@@ -22,7 +23,6 @@ import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { Learningpath } from '../../modules/learningpath/learningpathApiInterfaces';
 import { fetchImage } from '../../modules/image/imageApi';
 import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
-import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 
 export function useFetchSubjectpageData(
   elementId: string,

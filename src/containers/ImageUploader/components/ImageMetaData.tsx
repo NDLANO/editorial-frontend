@@ -14,17 +14,15 @@ import { fetchSearchTags } from '../../../modules/image/imageApi';
 import FormikField from '../../../components/FormikField';
 import { LicenseField, ContributorsField } from '../../FormikForm';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
-import { ImageApiLicense } from '../../../modules/image/imageApiInterfaces';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
 interface Props {
   imageTags: string[];
-  licenses: ImageApiLicense[];
   imageLanguage?: string;
 }
 
-const ImageMetaData = ({ imageTags, licenses, imageLanguage }: Props) => {
+const ImageMetaData = ({ imageTags, imageLanguage }: Props) => {
   const { t } = useTranslation();
   return (
     <>
@@ -81,12 +79,6 @@ const ImageMetaData = ({ imageTags, licenses, imageLanguage }: Props) => {
 
 ImageMetaData.propTypes = {
   imageTags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  licenses: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.string.isRequired,
-      license: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
   imageLanguage: PropTypes.string,
 };
 

@@ -224,11 +224,7 @@ const ImageForm = ({
                 title={t('form.metadataSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}>
-                <ImageMetaData
-                  licenses={licenses}
-                  imageLanguage={language}
-                  imageTags={values.tags}
-                />
+                <ImageMetaData imageLanguage={language} imageTags={values.tags} />
               </AccordionSection>
               <AccordionSection
                 id="image-upload-version-history"

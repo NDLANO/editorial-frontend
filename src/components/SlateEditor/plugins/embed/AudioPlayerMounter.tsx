@@ -9,12 +9,10 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import css from '@emotion/css';
-import { AudioPlayer } from '@ndla/ui';
-// @ts-ignore
-import { FigureCaption } from '@ndla/ui';
+import { AudioPlayer, FigureCaption } from '@ndla/ui';
+import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { SlateAudio, LocaleType } from '../../../../interfaces';
-import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
 import { fetchImage } from '../../../../modules/image/imageApi';
 
 interface Props {

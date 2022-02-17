@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import ImageSearch from '@ndla/image-search';
@@ -17,7 +18,6 @@ import { FieldHeader } from '@ndla/forms';
 import MetaImageField from '../../FormikForm/components/MetaImageField';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { fetchImage, searchImages, onError } from '../../../modules/image/imageApi';
-import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
 import { LocaleType } from '../../../interfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 

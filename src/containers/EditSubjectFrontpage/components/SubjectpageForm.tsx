@@ -14,6 +14,7 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
+import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
@@ -25,7 +26,6 @@ import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { Learningpath } from '../../../modules/learningpath/learningpathApiInterfaces';
-import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
 import {
   subjectpageApiTypeToFormikType,
   SubjectPageFormikType,

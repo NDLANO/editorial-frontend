@@ -1,12 +1,20 @@
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { Descendant } from 'slate';
 import {
   ISubjectPageData,
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
+import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
 import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
 import { DraftApiType } from '../modules/draft/draftApiInterfaces';
-import { ImageApiType } from '../modules/image/imageApiInterfaces';
 import { Learningpath } from '../modules/learningpath/learningpathApiInterfaces';
 import {
   editorValueToEmbed,

@@ -11,6 +11,7 @@ import {
   IImageMetaInformationV2 as ImageApiType,
   IUpdateImageMetaInformation as UpdatedImageMetadata,
   ISearchResult as ImageSearchResult,
+  ITagsSearchResult as TagSearchResult,
 } from '@ndla/types-image-api';
 import {
   resolveJsonOrRejectWithError,
@@ -18,7 +19,7 @@ import {
   fetchAuthorized,
   createErrorPayload,
 } from '../../util/apiHelpers';
-import { ImageSearchQuery, TagSearchResult } from './imageApiInterfaces';
+import { ImageSearchQuery } from './imageApiInterfaces';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 
 const baseUrl = apiResourceUrl('/image-api/v2/images');

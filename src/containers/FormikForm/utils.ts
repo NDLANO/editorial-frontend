@@ -7,9 +7,9 @@
  */
 
 import { FormikContextType } from 'formik';
+import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
 import { defaultEmbedBlock } from '../../components/SlateEditor/plugins/embed/utils';
 import { ImageEmbed } from '../../interfaces';
-import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
 import { ConceptFormValues } from '../ConceptPage/conceptInterfaces';
 import { ArticleFormType } from './articleFormHooks';

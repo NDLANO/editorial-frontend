@@ -54,6 +54,8 @@
     "@ndla/types-concept-api": "^0.0.7",
     "@ndla/types-frontpage-api": "^0.0.3",
     "@ndla/types-image-api": "^0.0.4",
+    "@ndla/types-learningpath-api": "^0.0.2",
+    "@ndla/types-search-api": "^0.0.4",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",

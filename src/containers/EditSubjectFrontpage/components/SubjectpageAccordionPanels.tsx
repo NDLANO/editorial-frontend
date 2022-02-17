@@ -7,17 +7,17 @@
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useTranslation } from 'react-i18next';
 import { FormikErrors } from 'formik';
+import { ILearningPathV2 as LearningpathApiType } from "@ndla/types-learningpath-api";
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
 import { FormikProperties } from '../../../interfaces';
 import FormikField from '../../../components/FormikField';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { Learningpath } from '../../../modules/learningpath/learningpathApiInterfaces';
 import { SubjectPageFormikType } from '../../../util/subjectHelpers';
 
 interface Props {
-  editorsChoices: (DraftApiType | Learningpath)[];
+  editorsChoices: (DraftApiType | LearningpathApiType)[];
   elementId: string;
   errors: FormikErrors<SubjectPageFormikType>;
 }

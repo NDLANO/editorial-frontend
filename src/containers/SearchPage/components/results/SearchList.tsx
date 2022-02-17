@@ -15,20 +15,20 @@ import {
 } from '@ndla/types-audio-api';
 import { IConceptSummary } from '@ndla/types-concept-api';
 import { IImageMetaSummary as ImageSearchSummaryApiType } from '@ndla/types-image-api';
+import { IMultiSearchSummary } from "@ndla/types-search-api";
 import SearchResult from './SearchResult';
 import Spinner from '../../../../components/Spinner';
 import { ResultType, searchClasses } from '../../SearchContainer';
 import { SearchParams } from '../form/SearchForm';
 import { LocaleType, SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
 
 export type ResultSummaryType =
   | ImageSearchSummaryApiType
   | IConceptSummary
   | SeriesSearchResultType
   | AudioSearchResultType
-  | MultiSearchSummary;
+  | IMultiSearchSummary;
 
 interface Props {
   results: ResultType['results'];

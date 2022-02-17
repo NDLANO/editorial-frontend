@@ -15,6 +15,7 @@ import {
   ISeriesSummarySearchResult as SeriesSearchResult,
 } from '@ndla/types-audio-api';
 import { IConceptSearchResult } from '@ndla/types-concept-api';
+import { IMultiSearchResult } from "@ndla/types-search-api";
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
@@ -27,7 +28,6 @@ import SearchForm, { parseSearchParams, SearchParams } from './components/form/S
 import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { SearchType } from '../../interfaces';
-import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
 import SearchSaveButton from './SearchSaveButton';
 import { useSubjects } from '../../modules/taxonomy/subjects';
 
@@ -41,7 +41,7 @@ export type ResultType =
   | IConceptSearchResult
   | SeriesSearchResult
   | AudioSearchResult
-  | MultiSearchResult;
+  | IMultiSearchResult;
 
 interface Props {
   type: SearchType;

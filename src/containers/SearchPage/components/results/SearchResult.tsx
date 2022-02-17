@@ -15,6 +15,7 @@ import {
 } from '@ndla/types-audio-api';
 import { IConceptSummary } from '@ndla/types-concept-api';
 import { IImageMetaSummary as ImageSearchSummaryApiType } from '@ndla/types-image-api';
+import { IMultiSearchSummary } from "@ndla/types-search-api";
 import { ContentResultShape, ImageResultShape, AudioResultShape } from '../../../../shapes';
 import SearchContent from './SearchContent';
 import SearchConcept from './SearchConcept';
@@ -23,7 +24,6 @@ import SearchAudio from './SearchAudio';
 import SearchPodcastSeries from './SearchPodcastSeries';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ResultSummaryType } from './SearchList';
-import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
 import { LocaleType } from '../../../../interfaces';
 
 interface Props {
@@ -38,7 +38,7 @@ const SearchResult = ({ result, locale, type, subjects, editingState }: Props) =
   const { t } = useTranslation();
   switch (type) {
     case 'content':
-      return <SearchContent content={result as MultiSearchSummary} locale={locale} />;
+      return <SearchContent content={result as IMultiSearchSummary} locale={locale} />;
     case 'concept':
       return (
         <SearchConcept

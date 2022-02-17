@@ -10,9 +10,9 @@ import { sortBy } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useQuery, UseQueryOptions } from 'react-query';
 import { IFilmFrontPageData } from '@ndla/types-frontpage-api';
+import { IMultiSearchResult } from "@ndla/types-search-api";
 import { fetchFilmFrontpage } from './frontpageApi';
 import { searchResources } from '../search/searchApi';
-import { MultiSearchResult } from '../search/searchApiInterfaces';
 import { FILM_FRONTPAGE_QUERY, FILM_SLIDESHOW } from '../../queryKeys';
 import { getIdFromUrn } from '../../util/ndlaFilmHelpers';
 import { sortMoviesByIdList } from '../../containers/NdlaFilm/filmUtil';
@@ -30,13 +30,13 @@ const slideshowArticlesQueryObject = {
 
 export const useMoviesQuery = (
   movieUrns: string[],
-  options: UseQueryOptions<MultiSearchResult> = {},
+  options: UseQueryOptions<IMultiSearchResult> = {},
 ) => {
   const { i18n } = useTranslation();
   const movieIds = movieUrns.map(urn => Number(getIdFromUrn(urn))).filter(id => !isNaN(id));
   const ids = sortBy(movieIds).join(',');
 
-  return useQuery<MultiSearchResult>(
+  return useQuery<IMultiSearchResult>(
     [FILM_SLIDESHOW, ids],
     () => searchResources({ ...slideshowArticlesQueryObject, ids: ids }),
     {

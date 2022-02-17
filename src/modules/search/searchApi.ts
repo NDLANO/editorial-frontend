@@ -7,32 +7,33 @@
  */
 
 import queryString from 'query-string';
+import { IGroupSearchResult, IMultiSearchResult } from "@ndla/types-search-api";
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import { transformQuery } from '../../util/searchHelpers';
-import { MultiSearchResult, GroupSearchResult, MultiSearchApiQuery } from './searchApiInterfaces';
+import { MultiSearchApiQuery } from './searchApiInterfaces';
 
 const baseUrl = apiResourceUrl('/search-api/v1/search');
 const groupUrl = apiResourceUrl('/search-api/v1/search/group/');
 
-export const search = async (query: MultiSearchApiQuery): Promise<MultiSearchResult> => {
+export const search = async (query: MultiSearchApiQuery): Promise<IMultiSearchResult> => {
   const response = await fetchAuthorized(
     `${baseUrl}/editorial/?${queryString.stringify(transformQuery(query))}`,
   );
   return resolveJsonOrRejectWithError(response);
 };
 
-export const searchResources = async (query: MultiSearchApiQuery): Promise<MultiSearchResult> => {
+export const searchResources = async (query: MultiSearchApiQuery): Promise<IMultiSearchResult> => {
   const response = await fetchAuthorized(
     `${baseUrl}/?${queryString.stringify(transformQuery(query))}`,
   );
   return resolveJsonOrRejectWithError(response);
 };
 
-export const groupSearch = (query: MultiSearchApiQuery): Promise<GroupSearchResult[]> =>
+export const groupSearch = (query: MultiSearchApiQuery): Promise<IGroupSearchResult[]> =>
   fetchAuthorized(`${groupUrl}?${queryString.stringify(transformQuery(query))}`).then(r =>
-    resolveJsonOrRejectWithError<GroupSearchResult[]>(r),
+    resolveJsonOrRejectWithError<IGroupSearchResult[]>(r),
   );

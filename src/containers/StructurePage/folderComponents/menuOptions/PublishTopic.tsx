@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Done } from '@ndla/icons/editor';
 import { Spinner } from '@ndla/editor';
 import { colors } from '@ndla/core';
+import { ILearningPathV2 as LearningpathApiType } from "@ndla/types-learningpath-api";
 
 import AlertModal from '../../../../components/AlertModal/AlertModal';
 import MenuItemButton from './MenuItemButton';
@@ -27,7 +28,6 @@ import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 import handleError from '../../../../util/handleError';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
 import { Resource, Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { Learningpath } from '../../../../modules/learningpath/learningpathApiInterfaces';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -109,7 +109,7 @@ const PublishTopic = ({ locale, id, setResourcesUpdated }: Props) => {
           .catch((e: Error) => handlePublishError(e, resource));
       } else if (resourceType === 'learningpath') {
         return fetchLearningpath(idNum)
-          .then((learningpath: Learningpath) => {
+          .then((learningpath: LearningpathApiType) => {
             if (learningpath.status !== PUBLISHED) {
               return updateStatusLearningpath(idNum, PUBLISHED).then(() => {});
             }

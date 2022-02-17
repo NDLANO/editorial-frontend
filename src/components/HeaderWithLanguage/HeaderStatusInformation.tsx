@@ -12,11 +12,11 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { IConceptSummary } from '@ndla/types-concept-api';
+import { IMultiSearchSummary } from "@ndla/types-search-api";
+import { ILearningPathV2 as LearningpathApiType } from "@ndla/types-learningpath-api";
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
-import { Learningpath } from '../../modules/learningpath/learningpathApiInterfaces';
-import { MultiSearchSummary } from '../../modules/search/searchApiInterfaces';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -77,8 +77,8 @@ const HeaderStatusInformation = ({
   setHasConnections,
 }: Props) => {
   const { t } = useTranslation();
-  const [learningpaths, setLearningpaths] = useState<Learningpath[]>([]);
-  const [articles, setArticles] = useState<MultiSearchSummary[]>([]);
+  const [learningpaths, setLearningpaths] = useState<LearningpathApiType[]>([]);
+  const [articles, setArticles] = useState<IMultiSearchSummary[]>([]);
   const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
 
   useEffect(() => {

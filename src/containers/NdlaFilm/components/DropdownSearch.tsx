@@ -6,13 +6,13 @@
  */
 
 import PropTypes from 'prop-types';
+import { IMultiSearchSummary } from "@ndla/types-search-api";
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { ContentResultShape } from '../../../shapes';
 import { searchResources } from '../../../modules/search/searchApi';
-import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 interface Props {
-  selectedElements: MultiSearchSummary[];
+  selectedElements: IMultiSearchSummary[];
   onChange: Function;
   placeholder: string;
   subjectId?: string;

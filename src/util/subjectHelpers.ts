@@ -13,9 +13,9 @@ import {
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
 import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import { ILearningPathV2 as LearningpathApiType } from "@ndla/types-learningpath-api";
 import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
 import { DraftApiType } from '../modules/draft/draftApiInterfaces';
-import { Learningpath } from '../modules/learningpath/learningpathApiInterfaces';
 import {
   editorValueToEmbed,
   editorValueToPlainText,
@@ -45,7 +45,7 @@ export interface SubjectPageFormikType {
   description?: Descendant[];
   metaDescription?: Descendant[];
   desktopBanner?: ImageEmbed;
-  editorsChoices: (Learningpath | DraftApiType)[];
+  editorsChoices: (LearningpathApiType | DraftApiType)[];
   language: string;
   mobileBanner?: number;
   elementId: string;
@@ -108,7 +108,7 @@ export const subjectpageApiTypeToFormikType = (
   elementName: string | undefined,
   elementId: string,
   selectedLanguage: string,
-  editorsChoices?: (Learningpath | DraftApiType)[],
+  editorsChoices?: (LearningpathApiType | DraftApiType)[],
   banner?: ImageApiType, // maybe undefined?
 ): SubjectPageFormikType => {
   const visualElement = subjectpage?.about?.visualElement;

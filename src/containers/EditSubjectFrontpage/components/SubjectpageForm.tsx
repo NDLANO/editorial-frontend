@@ -15,6 +15,7 @@ import {
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
 import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import { ILearningPathV2 as LearningpathApiType } from "@ndla/types-learningpath-api";
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
@@ -25,7 +26,6 @@ import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
 import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { Learningpath } from '../../../modules/learningpath/learningpathApiInterfaces';
 import {
   subjectpageApiTypeToFormikType,
   SubjectPageFormikType,
@@ -40,7 +40,7 @@ import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
 
 interface Props {
   subjectpage?: ISubjectPageData;
-  editorsChoices?: (DraftApiType | Learningpath)[];
+  editorsChoices?: (DraftApiType | LearningpathApiType)[];
   banner?: ImageApiType;
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
@@ -106,8 +106,8 @@ const SubjectpageForm = ({
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
-  const fetchTaxonomyUrns = async (choices: (DraftApiType | Learningpath)[], language: string) => {
-    const fetched = await Promise.all<Topic[] | Learningpath[] | Resource[]>(
+  const fetchTaxonomyUrns = async (choices: (DraftApiType | LearningpathApiType)[], language: string) => {
+    const fetched = await Promise.all<Topic[] | LearningpathApiType[] | Resource[]>(
       choices.map(choice => {
         if ('articleType' in choice && choice.articleType === 'topic-article') {
           return queryTopics(choice.id.toString(), language);

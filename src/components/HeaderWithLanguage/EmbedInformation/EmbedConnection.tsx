@@ -15,20 +15,20 @@ import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import Button from '@ndla/button';
 import { IConceptSummary } from '@ndla/types-concept-api';
+import { IMultiSearchSummary } from "@ndla/types-search-api";
 
 import { normalPaddingCSS } from '../../HowTo';
 import { searchConcepts } from '../../../modules/concept/conceptApi';
 import { search as searchArticles } from '../../../modules/search/searchApi';
 import ElementList from '../../../containers/FormikForm/components/ElementList';
-import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 type EmbedType = 'image' | 'audio' | 'concept' | 'article';
 
 interface Props {
   id?: number;
   type: EmbedType;
-  articles: MultiSearchSummary[];
-  setArticles: (articles: MultiSearchSummary[]) => void;
+  articles: IMultiSearchSummary[];
+  setArticles: (articles: IMultiSearchSummary[]) => void;
   concepts?: IConceptSummary[];
   setConcepts?: (concepts: IConceptSummary[]) => void;
 }

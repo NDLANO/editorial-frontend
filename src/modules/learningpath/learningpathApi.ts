@@ -6,6 +6,9 @@
  *
  */
 
+import { ILearningPathV2 as LearningpathApiType,
+  ISearchResultV2 as LearningPathSearchResult
+} from "@ndla/types-learningpath-api";
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -13,45 +16,43 @@ import {
 } from '../../util/apiHelpers';
 import {
   CopyLearningPathBody,
-  Learningpath,
-  LearningPathSearchResult,
   SearchBody,
 } from './learningpathApiInterfaces';
 
 const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 
-export const fetchLearningpath = (id: number, locale?: string): Promise<Learningpath> => {
+export const fetchLearningpath = (id: number, locale?: string): Promise<LearningpathApiType> => {
   const language = locale ? `?language=${locale}&fallback=true` : '';
   return fetchAuthorized(`${baseUrl}/${id}${language}`).then(res =>
-    resolveJsonOrRejectWithError<Learningpath>(res),
+    resolveJsonOrRejectWithError<LearningpathApiType>(res),
   );
 };
 
-export const fetchLearningpathsWithArticle = (id: number): Promise<Learningpath[]> =>
+export const fetchLearningpathsWithArticle = (id: number): Promise<LearningpathApiType[]> =>
   fetchAuthorized(`${baseUrl}/contains-article/${id}`).then(r =>
-    resolveJsonOrRejectWithError<Learningpath[]>(r),
+    resolveJsonOrRejectWithError<LearningpathApiType[]>(r),
   );
 
 export const updateStatusLearningpath = (
   id: number,
   status: string,
   message?: string,
-): Promise<Learningpath> =>
+): Promise<LearningpathApiType> =>
   fetchAuthorized(`${baseUrl}/${id}/status/`, {
     method: 'PUT',
     body: JSON.stringify({
       status,
       message,
     }),
-  }).then(r => resolveJsonOrRejectWithError<Learningpath>(r));
+  }).then(r => resolveJsonOrRejectWithError<LearningpathApiType>(r));
 
 export const updateLearningPathTaxonomy = (
   id: number,
   createIfMissing: boolean = false,
-): Promise<Learningpath> =>
+): Promise<LearningpathApiType> =>
   fetchAuthorized(`${baseUrl}/${id}/update-taxonomy/?create-if-missing=${createIfMissing}`, {
     method: 'POST',
-  }).then(r => resolveJsonOrRejectWithError<Learningpath>(r));
+  }).then(r => resolveJsonOrRejectWithError<LearningpathApiType>(r));
 
 export const learningpathSearch = (query: SearchBody): Promise<LearningPathSearchResult> =>
   fetchAuthorized(`${baseUrl}/search/`, {
@@ -59,8 +60,8 @@ export const learningpathSearch = (query: SearchBody): Promise<LearningPathSearc
     body: JSON.stringify(query),
   }).then(r => resolveJsonOrRejectWithError<LearningPathSearchResult>(r));
 
-export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promise<Learningpath> =>
+export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promise<LearningpathApiType> =>
   fetchAuthorized(`${baseUrl}/${id}/copy/`, {
     method: 'POST',
     body: JSON.stringify(query),
-  }).then(r => resolveJsonOrRejectWithError<Learningpath>(r));
+  }).then(r => resolveJsonOrRejectWithError<LearningpathApiType>(r));

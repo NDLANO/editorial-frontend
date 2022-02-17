@@ -9,15 +9,15 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { IMultiSearchSummary } from "@ndla/types-search-api";
 import { resourceToLinkProps } from '../../../../util/resourceHelpers';
 import { ContentResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
-import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
 
 const supported = ['en', 'nb', 'nn'];
 
 interface Props {
-  content: MultiSearchSummary;
+  content: IMultiSearchSummary;
   language: string;
   contentType?: string;
 }

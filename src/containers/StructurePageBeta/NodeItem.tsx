@@ -17,6 +17,7 @@ import MakeDndList from './MakeDNDList';
 import { createGuard } from '../../util/guards';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
+import FolderItem from './folderComponents/FolderItem';
 
 export type RenderBeforeFunction = (
   input: ChildNodeType | NodeType,
@@ -240,7 +241,7 @@ const NodeItem = ({
           {renderBeforeTitle?.(item, !!isRoot, articleType)}
           {item.name}
         </ItemTitleButton>
-        {/* {isActive && (
+        {isActive && (
           <FolderItem
             node={item}
             rootNodeId={rootNodeId}
@@ -249,7 +250,7 @@ const NodeItem = ({
             structure={allRootNodes}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
           />
-        )} */}
+        )}
         {isLoading && (
           <span>
             <Spinner size="normal" margin="4px 26px" />

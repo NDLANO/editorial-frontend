@@ -51,16 +51,11 @@ const ToggleVisibility = ({
     setVisible(!visible);
   };
 
-  const toggleEditModes = () => {
-    toggleEditMode('toggleMetadataVisibility');
-  };
+  const toggleEditModes = () => toggleEditMode('toggleMetadataVisibility');
 
   return (
     <>
-      <MenuItemButton
-        stripped
-        data-testid="toggleVisibilityButton"
-        onClick={() => toggleEditModes()}>
+      <MenuItemButton stripped data-testid="toggleVisibilityButton" onClick={toggleEditModes}>
         <RoundIcon small icon={<Eye />} />
         {t('metadata.changeVisibility')}
       </MenuItemButton>

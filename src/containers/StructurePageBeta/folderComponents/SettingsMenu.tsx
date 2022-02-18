@@ -40,9 +40,7 @@ const SettingsMenu = ({ node, rootNodeId, structure }: Props) => {
   const { t } = useTranslation();
   const nodeType = getNodeTypeFromNodeId(node.id);
 
-  const toggleOpenMenu = () => {
-    setOpen(!open);
-  };
+  const toggleOpenMenu = () => setOpen(!open);
 
   return (
     <SettingsMenuWrapper>
@@ -52,7 +50,6 @@ const SettingsMenu = ({ node, rootNodeId, structure }: Props) => {
       {open && (
         <>
           <Overlay modifiers={['zIndex']} onExit={toggleOpenMenu} />
-
           <StyledDivWrapper>
             <div className="header">
               <RoundIcon icon={<Settings />} open />

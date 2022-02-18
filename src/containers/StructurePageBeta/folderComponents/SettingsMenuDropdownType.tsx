@@ -33,7 +33,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Prop
   const toggleEditMode = (mode: EditMode) => setEditMode(prev => (mode === prev ? '' : mode));
   const editModeHandler = { editMode, toggleEditMode };
 
-  if (!!!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE)) {
+  if (!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE)) {
     return null;
   }
 

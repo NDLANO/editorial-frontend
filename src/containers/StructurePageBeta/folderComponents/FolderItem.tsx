@@ -26,7 +26,7 @@ const resourceButtonStyle = css`
   ${fonts.sizes(14, 1.1)};
 `;
 
-interface BaseProps {
+interface Props {
   node: NodeType;
   structure: NodeType[];
   jumpToResources?: () => void;
@@ -34,8 +34,6 @@ interface BaseProps {
   resourcesLoading?: boolean;
   rootNodeId: string;
 }
-
-type Props = BaseProps;
 
 const FolderItem = ({
   node,
@@ -57,9 +55,7 @@ const FolderItem = ({
           css={resourceButtonStyle}
           type="button"
           disabled={resourcesLoading}
-          onClick={() => {
-            jumpToResources!();
-          }}>
+          onClick={() => jumpToResources?.()}>
           <Row>
             {t('taxonomy.jumpToResources')}
             {!!resourcesLoading && <Spinner appearance="small" />}

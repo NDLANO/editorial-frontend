@@ -24,6 +24,7 @@ export const ITUNES_STANDARD_MAXIMUM_WIDTH = 3000;
 export const STORED_LANGUAGE_KEY = 'language';
 
 export const REMEMBER_FAVOURITE_SUBJECTS = 'rememberFavouriteSubjects';
+export const REMEMBER_FAVORITE_NODES = 'rememberFavoriteNodes';
 // Relevances
 export const RESOURCE_FILTER_CORE = 'urn:relevance:core';
 export const RESOURCE_FILTER_SUPPLEMENTARY = 'urn:relevance:supplementary';

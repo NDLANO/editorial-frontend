@@ -1218,6 +1218,8 @@ const phrases = {
       subTitle: 'Id og synlighet for elementet',
       wrongArticleType:
         'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
+      missingArticleType:
+        'Artikkelen med ID {{id}} mangler artikkeltype. Den er sannsynligvis slettet.',
       wrongConnections: 'Feilkoblinger',
       wrongConnectionsSubTitle: 'Denne artikkelen har feilkoblinger, se listen under.',
       canBeFixedInDatabase: 'Artikkeltypen kan endres i databasen for å fikse feilen.',

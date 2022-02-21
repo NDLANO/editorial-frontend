@@ -18,15 +18,19 @@ interface Props {
 }
 
 const StyledLanguagePicker = styled.div<{ selected: boolean }>`
+  display: ${p => (p.selected ? 'block' : 'none')};
   position: absolute;
   font-family: monospace;
   transform: translateY(100%);
   font-size: 0.8rem;
+  background: ${colors.white};
+  padding: 0 2px;
+  border-radius: 4px;
+  border: ${colors.brand.greyLight} solid 1px;
   left: 0;
   top: 0;
   color: ${colors.brand.tertiary};
   user-select: none;
-  display: ${p => (p.selected ? 'block' : 'none')};
   cursor: pointer;
   min-width: 100%;
 `;

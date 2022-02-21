@@ -25,6 +25,7 @@ const StyledSpan = styled.span<{ language?: string }>`
 
   text-decoration: underline;
   text-decoration-color: ${colors.brand.tertiary};
+
   &:hover > .selected-language {
     display: block;
   }

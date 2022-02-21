@@ -46,6 +46,7 @@ const Container = styled.div`
   left: 0;
   top: 0;
   border: ${colors.brand.greyLight} solid 1px;
+  background: ${colors.white};
   overflow: hidden;
   border-radius: 4px;
   border-width: 1px;

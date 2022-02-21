@@ -492,7 +492,7 @@ const phrases = {
     headingThree: 'Heading 3\n({{ctrl}}+3)',
     headingTwo: 'Heading 2\n({{ctrl}}+2)',
     italic: 'Italic\n({{ctrl}}+i)',
-    lang: 'Language',
+    lang: 'Language\n(alt+l)',
     letterList: 'Letter list\n({{ctrl}}+alt+a)',
     link: 'Link\n({{ctrl}}+alt+l)',
     mathml: 'Math\n({{ctrl}}+m)',

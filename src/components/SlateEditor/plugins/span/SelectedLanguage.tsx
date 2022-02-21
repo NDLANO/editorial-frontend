@@ -28,11 +28,10 @@ const StyledLanguagePicker = styled.div<{ selected: boolean }>`
   border-radius: 4px;
   border: ${colors.brand.greyLight} solid 1px;
   left: 0;
-  top: 0;
+  bottom: 0;
   color: ${colors.brand.tertiary};
   user-select: none;
   cursor: pointer;
-  min-width: 100%;
 `;
 
 const SelectedLanguage = ({ language, onClick }: Props) => {

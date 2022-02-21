@@ -21,6 +21,7 @@ import {
   fetchSubject,
 } from '../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
+import { ChildNodeType } from '../modules/nodes/nodeApiTypes';
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getIdFromUrn = (urn?: string) => {
@@ -147,23 +148,37 @@ const groupSortResourceTypesFromTopicResources = (
   return topicResourcesByTypeWithMetaData(resorceTypesByTopic);
 };
 
+const safeConcat = <T>(toAdd: T, existing?: T[]) => (existing ? existing.concat(toAdd) : [toAdd]);
+
 const insertSubTopic = (topics: SubjectTopic[], subTopic: SubjectTopic): SubjectTopic[] => {
   return topics.map(topic => {
     if (topic.id === subTopic.parent) {
-      return {
-        ...topic,
-        subtopics: [...(topic.subtopics || []), subTopic],
-      };
+      return { ...topic, subtopics: safeConcat(subTopic, topic.subtopics) };
     }
     if (topic.subtopics) {
-      return {
-        ...topic,
-        subtopics: insertSubTopic(topic.subtopics, subTopic),
-      };
+      return { ...topic, subtopics: insertSubTopic(topic.subtopics, subTopic) };
     }
     return topic;
   });
 };
+const insertChild = (childNodes: ChildNodeType[], childNode: ChildNodeType): ChildNodeType[] => {
+  return childNodes.map(node => {
+    if (node.id === childNode.parent) {
+      return { ...node, childNodes: safeConcat(childNode, node.childNodes) };
+    }
+    if (node.childNodes) {
+      return { ...node, childNodes: insertChild(node.childNodes, childNode) };
+    }
+    return node;
+  });
+};
+
+const groupChildNodes = (childNodes: ChildNodeType[]) =>
+  childNodes.reduce((acc, curr) => {
+    if (curr.parent.includes('subject')) return acc;
+    const withoutCurrent = acc.filter(node => node.id !== curr.id);
+    return insertChild(withoutCurrent, curr);
+  }, childNodes);
 
 const groupTopics = (allTopics: SubjectTopic[]) =>
   allTopics.reduce((acc, curr) => {
@@ -255,7 +270,10 @@ const getBreadcrumbFromPath = async (
   }));
 };
 
+export const nodePathToUrnPath = (path: string) => path.replace(/\//g, '/urn:').substr(1);
+
 export {
+  groupChildNodes,
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,
   getResourcesGroupedByResourceTypes,

@@ -20,6 +20,8 @@ import {
   toCreatePodcastSeries,
   toEditNdlaFilm,
 } from '../../../util/routeHelpers';
+import { useSession } from '../../Session/SessionProvider';
+import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 
 interface Props {
   close: () => void;
@@ -30,6 +32,7 @@ const OpenMenu = ({ close }: Props) => {
   const StyledLink = StyledListButton.withComponent(Link);
   const StyledHrefLink = StyledListButton.withComponent('a');
   const { contentTypes } = constants;
+  const { userPermissions } = useSession();
   return (
     <StyledMenuContainer>
       <div>
@@ -79,6 +82,13 @@ const OpenMenu = ({ close }: Props) => {
                 <Taxonomy /> {t('subNavigation.structure')}
               </span>
             </StyledLink>
+            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
+              <StyledLink to="/structureBeta" onClick={close}>
+                <span>
+                  <Taxonomy /> {t('subNavigation.structure') + ' BETA'}
+                </span>
+              </StyledLink>
+            )}
             <StyledLink to={toEditNdlaFilm()} onClick={close}>
               <span>
                 <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />{' '}

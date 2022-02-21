@@ -80,6 +80,34 @@ export const fetchWithAuthorization = async (
   });
 };
 
+const defaultHeaders = { 'Content-Type': 'application/json' };
+
+interface DoAndResolveType<Type> extends FetchConfigType {
+  url: string;
+  alternateResolve?: (res: Response) => Promise<Type>;
+}
+
+interface HttpConfig<T> extends Omit<DoAndResolveType<T>, 'method'> {}
+
+const httpResolve = <Type>({
+  url,
+  headers,
+  alternateResolve,
+  ...config
+}: DoAndResolveType<Type>): Promise<Type> => {
+  return fetchAuthorized(url, { ...config, headers: { ...defaultHeaders, ...headers } }).then(r => {
+    return alternateResolve?.(r) ?? resolveJsonOrRejectWithError(r);
+  });
+};
+
+export const httpFunctions = {
+  postAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'POST' }),
+  putAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'PUT' }),
+  patchAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'PATCH' }),
+  deleteAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'DELETE' }),
+  fetchAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'GET' }),
+};
+
 export const fetchAuthorized = (url: string, config: FetchConfigType = {}) =>
   fetchWithAuthorization(url, config, false);
 

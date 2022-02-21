@@ -42,6 +42,7 @@ const NdlaFilm = loadable(() => import('../NdlaFilm/NdlaFilm'));
 const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
 const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
 const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
+const StructurePageBeta = loadable(() => import('../StructurePageBeta/StructurePage'));
 
 interface Props {
   isClient?: boolean;
@@ -102,6 +103,10 @@ const App = ({ isClient }: Props) => {
                   <Route
                     path="/structure/*"
                     element={<PrivateRoute component={<StructurePage />} />}
+                  />
+                  <Route
+                    path="/structureBeta/*"
+                    element={<PrivateRoute component={<StructurePageBeta />} />}
                   />
                   <Route path="/forbidden" element={<ForbiddenPage />} />
                   <Route path="*" element={<NotFoundPage />} />

@@ -1218,6 +1218,8 @@ const phrases = {
       subTitle: 'Id and visibility for the element',
       wrongArticleType:
         'The article is placed as "{{placedAs}}" in the taxonomy, but the article is of "{{isType}}" type.',
+      missingArticleType:
+        'The article with ID {{id}} does not have an article type. It most likely does not exist.',
       wrongConnections: 'Bad connections',
       wrongConnectionsSubTitle: 'This article has bad connections, see the list below.',
       canBeFixedInDatabase: 'The article type can be changed in the database to fix the error.',

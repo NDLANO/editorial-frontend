@@ -28,8 +28,9 @@ import {
   Underline,
 } from '@ndla/icons/editor';
 
+import { Language } from '@ndla/icons/common';
+
 import { css } from '@emotion/core';
-import { NO as FlagNO } from 'country-flag-icons/react/3x2';
 
 import { toolbarClasses } from './SlateToolbar';
 
@@ -55,7 +56,7 @@ const toolbarIcon = t => ({
   concept: <Concept title={t('editorToolbar.concept', options)} />,
   code: <Code title={t('editorToolbar.code', options)} />,
   'code-block': <Code title={t('editorToolbar.codeblock', options)} />,
-  span: <FlagNO className="c-icon" title={t('editorToolbar.lang', options)} />,
+  span: <Language title={t('editorToolbar.lang', options)} />,
 });
 
 const toolbarButtonStyle = isActive => css`

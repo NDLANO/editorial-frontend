@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { Transforms } from 'slate';
 import { useSlateStatic } from 'slate-react';
-import { colors, fonts } from '@ndla/core';
+import { colors } from '@ndla/core';
 import { SpanElement } from '.';
 import LanguageButton from './LanguageButton';
 
@@ -37,7 +37,7 @@ const languages: LanguageType[] = [
 const Container = styled.div`
   display: flex;
   z-index: 1;
-  ${fonts.sizes(14)}
+  font-size: 0.8rem;
   flex-direction: row;
   position: absolute;
   user-select: none;

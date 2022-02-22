@@ -7,7 +7,7 @@
  */
 
 import { useMutation, UseMutationOptions, useQueryClient } from 'react-query';
-import { NODES } from '../../queryKeys';
+import { CHILD_NODES_WITH_ARTICLE_TYPE, NODES } from '../../queryKeys';
 import handleError from '../../util/handleError';
 import { TaxonomyMetadata } from '../taxonomy/taxonomyApiInterfaces';
 import {
@@ -59,10 +59,14 @@ export const useUpdateNodeMetadataMutation = () => {
   return useMutation<
     TaxonomyMetadata,
     unknown,
-    { id: string; metadata: Partial<TaxonomyMetadata> }
+    { id: string; metadata: Partial<TaxonomyMetadata>; rootId?: string }
   >(data => putNodeMetadata(data.id, data.metadata), {
-    onSettled: () => {
-      qc.invalidateQueries(NODES);
+    onSettled: (_, __, variables) => {
+      if (variables.rootId) {
+        qc.invalidateQueries([CHILD_NODES_WITH_ARTICLE_TYPE, variables.rootId, 'nb']);
+      } else {
+        qc.invalidateQueries(NODES);
+      }
     },
   });
 };

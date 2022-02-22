@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { ReactNode, useEffect, useState } from 'react';
 import { colors } from '@ndla/core';
-import { RenderElementProps, useSelected } from 'slate-react';
+import { RenderElementProps, useSelected, useSlateStatic } from 'slate-react';
 import { SpanElement } from '.';
 import SelectedLanguage from './SelectedLanguage';
 import LanguageSelector from './LanguageSelector';
@@ -35,12 +35,17 @@ const Span = ({ element, attributes, children }: Props) => {
   const [showPicker, setShowPicker] = useState(false);
   const language = element.data.lang;
   const selected = useSelected();
+  const { selection } = useSlateStatic();
 
   useEffect(() => {
     if (!selected && showPicker) {
       setShowPicker(false);
     }
-  }, [selected, setShowPicker, showPicker]);
+  }, [selected, showPicker]);
+
+  useEffect(() => {
+    setShowPicker(false);
+  }, [selection]);
 
   return (
     <StyledSpan {...attributes} language={language}>

@@ -12,6 +12,7 @@ import { useSlateStatic } from 'slate-react';
 import { colors } from '@ndla/core';
 import { SpanElement } from '.';
 import LanguageButton from './LanguageButton';
+import DeleteForeverButton from '../../../DeleteForeverButton';
 
 interface Props {
   element: SpanElement;
@@ -52,6 +53,17 @@ const Container = styled.div`
   border-width: 1px;
 `;
 
+const StyledDeleteButton = styled(DeleteForeverButton)`
+  color: ${colors.support.red};
+  padding: 8px 0.5rem 8px 0.5rem;
+  background: ${colors.white};
+  &:hover {
+    background: ${colors.support.redLight};
+
+    color: ${colors.support.red};
+  }
+`;
+
 const LanguageSelector = ({ element, onClose }: Props) => {
   const editor = useSlateStatic();
 
@@ -72,6 +84,12 @@ const LanguageSelector = ({ element, onClose }: Props) => {
     onClose();
   };
 
+  const onDelete = () => {
+    Transforms.removeNodes(editor, {
+      match: node => node === element,
+    });
+  };
+
   return (
     <Container contentEditable={false}>
       {languages.map(lang => (
@@ -82,6 +100,7 @@ const LanguageSelector = ({ element, onClose }: Props) => {
           isActive={lang.short === element.data.lang}
         />
       ))}
+      <StyledDeleteButton stripped onClick={onDelete} />
     </Container>
   );
 };

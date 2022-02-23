@@ -19,21 +19,7 @@ interface Props {
   onClose: () => void;
 }
 
-interface LanguageType {
-  short: string;
-  name: string;
-}
-
-const languages: LanguageType[] = [
-  { short: 'ar', name: 'Arabisk' },
-  { short: 'de', name: 'Tysk' },
-  { short: 'en', name: 'Engelsk' },
-  { short: 'se', name: 'Nordsamisk' },
-  { short: 'sma', name: 'Sørsamisk' },
-  { short: 'so', name: 'Somali' },
-  { short: 'ti', name: 'Tigrinja' },
-  { short: 'zh', name: 'Kinesisk' },
-];
+const languages = ['ar', 'de', 'en', 'se', 'sma', 'so', 'ti', 'zh'];
 
 const Container = styled.div`
   display: flex;
@@ -94,10 +80,10 @@ const LanguageSelector = ({ element, onClose }: Props) => {
     <Container contentEditable={false}>
       {languages.map(lang => (
         <LanguageButton
-          key={lang.short}
+          key={lang}
           language={lang}
           onClick={onClick}
-          isActive={lang.short === element.data.lang}
+          isActive={lang === element.data.lang}
         />
       ))}
       <StyledDeleteButton stripped onClick={onDelete} />

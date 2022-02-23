@@ -1335,6 +1335,16 @@ const phrases = {
     notVisible: 'er ikke synlig',
     changeVisibility: 'Endre synlighet',
   },
+  languages: {
+    ar: 'Arabisk',
+    de: 'Tysk',
+    en: 'Engelsk',
+    se: 'Nordsamisk',
+    sma: 'Sørsamisk',
+    so: 'Somali',
+    ti: 'Tigrinja',
+    zh: 'Kinesisk',
+  },
 };
 
 export default phrases;

@@ -8,14 +8,10 @@
 
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-
-export interface LanguageType {
-  short: string;
-  name: string;
-}
+import { useTranslation } from 'react-i18next';
 
 interface Props {
-  language: LanguageType;
+  language: string;
   onClick: (language: string) => void;
   isActive: boolean;
 }
@@ -34,13 +30,15 @@ const StyledLanguageButton = styled.button<{ isActive: boolean }>`
 `;
 
 const LanguageButton = ({ language, onClick, isActive }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <StyledLanguageButton
       isActive={isActive}
       type="button"
-      onClick={() => onClick(language.short)}
-      title={language.name}>
-      {language.short}
+      onClick={() => onClick(language)}
+      title={t(`languages.${language}`)}>
+      {language}
     </StyledLanguageButton>
   );
 };

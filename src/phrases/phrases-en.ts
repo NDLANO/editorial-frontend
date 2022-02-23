@@ -1333,6 +1333,16 @@ const phrases = {
     notVisible: 'is not visible',
     changeVisibility: 'Change visibility',
   },
+  languages: {
+    ar: 'Arabic',
+    de: 'German',
+    en: 'English',
+    se: 'Northern Sámi',
+    sma: 'Southern Sámi',
+    so: 'Somali',
+    ti: 'Tigrinya',
+    zh: 'Chinese',
+  },
 };
 
 export default phrases;

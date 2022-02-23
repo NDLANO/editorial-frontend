@@ -73,6 +73,7 @@ const LanguageSelector = ({ element, onClose }: Props) => {
   const onDelete = () => {
     Transforms.unwrapNodes(editor, {
       match: node => node === element,
+      at: [],
     });
   };
 

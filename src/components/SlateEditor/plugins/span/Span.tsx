@@ -38,19 +38,15 @@ const Span = ({ element, attributes, children }: Props) => {
   const { selection } = useSlateStatic();
 
   useEffect(() => {
-    if (!selected && showPicker) {
+    if (!selected) {
       setShowPicker(false);
     }
-  }, [selected, showPicker]);
-
-  useEffect(() => {
-    setShowPicker(false);
-  }, [selection]);
+  }, [selection, selected]);
 
   return (
     <StyledSpan {...attributes} language={language}>
       {children}
-      {!language || (showPicker && selected) ? (
+      {!language || showPicker ? (
         <LanguageSelector element={element} onClose={() => setShowPicker(false)} />
       ) : (
         <SelectedLanguage

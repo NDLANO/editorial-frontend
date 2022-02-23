@@ -24,7 +24,7 @@ import { bytesToSensibleFormat } from '../util/fileSizeUtil';
 const appendError = (error: string, newError: string): string =>
   error ? `${error} \n ${newError}` : newError;
 
-interface RuleObject<FormikValuesType, T> {
+interface RuleObject<FormikValuesType, ApiType = any> {
   minItems?: number;
   minLength?: number;
   maxLength?: number;
@@ -39,7 +39,7 @@ interface RuleObject<FormikValuesType, T> {
   urlOrNumber?: boolean;
   maxSize?: number;
   warnings?: {
-    apiField?: keyof T;
+    apiField?: keyof ApiType;
     languageMatch?: boolean;
   };
   test?: (
@@ -50,11 +50,14 @@ interface RuleObject<FormikValuesType, T> {
   onlyValidateIf?: (value: FormikValuesType) => boolean;
 }
 
-export type RulesType<FormikValuesType, T> = Record<string, RuleObject<FormikValuesType, T>>;
+export type RulesType<FormikValuesType, ApiType = any> = Record<
+  string,
+  RuleObject<FormikValuesType, ApiType>
+>;
 
-const validateFormik = <FormikValuesType, T>(
+const validateFormik = <FormikValuesType>(
   values: FormikValuesType,
-  rules: RulesType<FormikValuesType, T>,
+  rules: RulesType<FormikValuesType>,
   t: TFunction,
   formType: string | undefined = undefined,
 ) => {
@@ -182,11 +185,11 @@ const validateFormik = <FormikValuesType, T>(
   return errors;
 };
 
-export const getWarnings = <FormikValuesType, T>(
+export const getWarnings = <FormikValuesType, ApiType>(
   values: FormikValuesType,
-  rules: RulesType<FormikValuesType, T>,
+  rules: RulesType<FormikValuesType, ApiType>,
   t: TFunction,
-  entity?: T,
+  entity?: ApiType,
 ) => {
   let warnings: Record<string, string> = {};
   try {

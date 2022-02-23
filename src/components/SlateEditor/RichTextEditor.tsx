@@ -27,6 +27,7 @@ import { onDragOver, onDragStart, onDrop } from './plugins/DND';
 import withPlugins from './utils/withPlugins';
 import Spinner from '../Spinner';
 import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
+import { FormikStatus } from '../../interfaces';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -119,7 +120,7 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
       editor.lastSelection = undefined;
       editor.lastSelectedBlock = undefined;
       if (status?.status === 'revertVersion') {
-        setStatus((prevStatus: any) => ({ ...prevStatus, status: undefined }));
+        setStatus((prevStatus: FormikStatus) => ({ ...prevStatus, status: undefined }));
       }
     } else if (submitted && !prevSubmitted.current) {
       ReactEditor.deselect(editor);

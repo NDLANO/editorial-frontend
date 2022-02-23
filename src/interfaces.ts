@@ -9,6 +9,11 @@ import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
 
+export interface FormikStatus {
+  status?: string;
+  warnings?: Record<string, string>;
+}
+
 export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type PartialRecord<K extends keyof any, T> = {

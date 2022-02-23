@@ -1145,7 +1145,7 @@ const phrases = {
     grepCodes: 'Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ',
   },
   warningMessage: {
-    fieldWithWrongLanguage: 'OBS! Feltets verdi er hentet fra språkkode: {{language}}',
+    fieldWithWrongLanguage: 'Dette feltet er hentet fra språkkode: {{language}}',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',

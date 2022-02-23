@@ -53,7 +53,7 @@ interface Props {
   isNewlyCreated: boolean;
 }
 
-const subjectpageRules: RulesType<SubjectPageFormikType, {}> = {
+const subjectpageRules: RulesType<SubjectPageFormikType> = {
   title: {
     required: true,
   },

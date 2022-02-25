@@ -63,6 +63,9 @@ import { SessionProps } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
+import { TYPE_BODYBOX } from '../../../../components/SlateEditor/plugins/bodybox/utils';
+import { TYPE_ASIDE } from '../../../../components/SlateEditor/plugins/aside/types';
+import { TYPE_DETAILS } from '../../../../components/SlateEditor/plugins/details/types';
 
 const byLineStyle = css`
   display: flex;
@@ -83,7 +86,16 @@ const findFootnotes = (content: Descendant[]): FootnoteType[] =>
     .filter(footnote => Object.keys(footnote.data).length > 0)
     .map(footnoteElement => footnoteElement.data);
 
-const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
+const actions = [
+  'table',
+  'embed',
+  'code-block',
+  'file',
+  'h5p',
+  TYPE_BODYBOX,
+  TYPE_ASIDE,
+  TYPE_DETAILS,
+];
 const actionsToShowInAreas = {
   details: actions,
   aside: actions,

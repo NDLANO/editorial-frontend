@@ -1,8 +1,8 @@
-import { TYPE_ASIDE } from './plugins/aside';
-import { TYPE_BODYBOX } from './plugins/bodybox';
+import { TYPE_ASIDE } from './plugins/aside/types';
+import { TYPE_BODYBOX } from './plugins/bodybox/utils';
 import { TYPE_CODEBLOCK } from './plugins/codeBlock';
 import { TYPE_CONCEPT } from './plugins/concept';
-import { TYPE_DETAILS } from './plugins/details';
+import { TYPE_DETAILS } from './plugins/details/types';
 import { TYPE_EMBED } from './plugins/embed';
 import { TYPE_FILE } from './plugins/file';
 import { TYPE_FOOTNOTE } from './plugins/footnote';

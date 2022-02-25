@@ -24,9 +24,7 @@ import Summary from './Summary';
 import WithPlaceHolder from '../../common/WithPlaceHolder';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { KEY_BACKSPACE, KEY_ENTER } from '../../utils/keys';
-
-export const TYPE_DETAILS = 'details';
-export const TYPE_SUMMARY = 'summary';
+import { TYPE_DETAILS, TYPE_SUMMARY } from './types';
 
 export interface DetailsElement {
   type: 'details';

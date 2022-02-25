@@ -20,8 +20,7 @@ import SlateAside from './SlateAside';
 import { getAsideType } from './utils';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-
-export const TYPE_ASIDE = 'aside';
+import { TYPE_ASIDE } from './types';
 
 export interface AsideElement {
   type: 'aside';

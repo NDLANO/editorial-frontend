@@ -19,8 +19,7 @@ import { SlateSerializer } from '../../interfaces';
 import SlateBodybox from './SlateBodybox';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_PARAGRAPH } from '../paragraph/utils';
-
-export const TYPE_BODYBOX = 'bodybox';
+import { TYPE_BODYBOX } from './utils';
 
 export interface BodyboxElement {
   type: 'bodybox';

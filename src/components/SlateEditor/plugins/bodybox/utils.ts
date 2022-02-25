@@ -7,6 +7,7 @@
  */
 
 import { jsx as slatejsx } from 'slate-hyperscript';
+import { TYPE_BODYBOX } from './types';
 
 export const defaultBodyboxBlock = () =>
   slatejsx('element', { type: TYPE_BODYBOX }, [{ text: '' }]);

@@ -19,7 +19,7 @@ import { LOCALE_VALUES } from '../constants';
 import { LocaleType } from '../interfaces';
 import { FilmFormikType } from '../containers/NdlaFilm/components/NdlaFilmForm';
 import { ThemeNames } from '../containers/NdlaFilm/components/ThemeEditor';
-import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed';
+import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed/types';
 
 export const getInitialValues = (
   filmFrontpage: IFilmFrontPageData,

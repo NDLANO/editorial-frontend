@@ -2,8 +2,9 @@ import { Editor, Node, Element, Range, Transforms, Path, Point } from 'slate';
 
 import { TYPE_LIST_ITEM } from '../types';
 import getCurrentBlock from '../../../utils/getCurrentBlock';
-import { defaultParagraphBlock, TYPE_PARAGRAPH } from '../../paragraph/utils';
+import { defaultParagraphBlock } from '../../paragraph/utils';
 import { defaultListItemBlock } from '../utils/defaultBlocks';
+import { TYPE_PARAGRAPH } from '../../paragraph/types';
 
 const onEnter = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEvent) => void) => {
   if (event.shiftKey && next) return next(event);

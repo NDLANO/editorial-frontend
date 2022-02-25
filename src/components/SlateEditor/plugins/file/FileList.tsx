@@ -24,7 +24,8 @@ import { File, UnsavedFile } from '../../../../interfaces';
 import { headFileAtRemote } from '../../../../modules/draft/draftApi';
 import { arrMove } from '../../../../util/arrayHelpers';
 import AddFileToList from './AddFileToList';
-import { FileElement, TYPE_FILE } from '.';
+import { FileElement } from '.';
+import { TYPE_FILE } from './types';
 
 const StyledSection = styled.section`
   margin-bottom: ${spacing.normal};

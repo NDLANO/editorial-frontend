@@ -11,7 +11,7 @@ import { ReactEditor, RenderElementProps } from 'slate-react';
 import styled from '@emotion/styled';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
-import { TYPE_BODYBOX } from './utils';
+import { TYPE_BODYBOX } from './types';
 
 const StyledBodybox = styled.div`
   position: relative;

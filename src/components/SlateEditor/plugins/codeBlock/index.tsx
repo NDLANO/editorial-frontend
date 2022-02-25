@@ -14,8 +14,8 @@ import { SlateSerializer } from '../../interfaces';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { TYPE_CODEBLOCK } from './types';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface CodeblockElement {
   type: 'code-block';

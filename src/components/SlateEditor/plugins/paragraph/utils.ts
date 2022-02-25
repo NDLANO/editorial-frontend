@@ -9,8 +9,7 @@
 import { Editor, Element, Node } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { ParagraphElement } from '.';
-
-export const TYPE_PARAGRAPH = 'paragraph';
+import { TYPE_PARAGRAPH } from './types';
 
 export const defaultParagraphBlock = () =>
   slatejsx('element', { type: TYPE_PARAGRAPH }, { text: '' }) as ParagraphElement;

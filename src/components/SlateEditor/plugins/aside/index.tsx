@@ -18,9 +18,9 @@ import {
 import { SlateSerializer } from '../../interfaces';
 import SlateAside from './SlateAside';
 import { getAsideType } from './utils';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { TYPE_ASIDE } from './types';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface AsideElement {
   type: 'aside';

@@ -25,7 +25,6 @@ import { codeblockPlugin } from '../../../../components/SlateEditor/plugins/code
 import {
   FootnoteElement,
   footnotePlugin,
-  TYPE_FOOTNOTE,
 } from '../../../../components/SlateEditor/plugins/footnote';
 import { embedPlugin } from '../../../../components/SlateEditor/plugins/embed';
 import { bodyboxPlugin } from '../../../../components/SlateEditor/plugins/bodybox';
@@ -63,9 +62,10 @@ import { SessionProps } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
-import { TYPE_BODYBOX } from '../../../../components/SlateEditor/plugins/bodybox/utils';
 import { TYPE_ASIDE } from '../../../../components/SlateEditor/plugins/aside/types';
 import { TYPE_DETAILS } from '../../../../components/SlateEditor/plugins/details/types';
+import { TYPE_BODYBOX } from '../../../../components/SlateEditor/plugins/bodybox/types';
+import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote/types';
 
 const byLineStyle = css`
   display: flex;

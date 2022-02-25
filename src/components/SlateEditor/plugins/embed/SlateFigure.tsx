@@ -17,8 +17,9 @@ import SlateAudio from './SlateAudio';
 import SlatePodcast from './SlatePodcast';
 import EditorErrorMessage from '../../EditorErrorMessage';
 import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
-import { EmbedElement, TYPE_EMBED } from '.';
+import { EmbedElement } from '.';
 import { LocaleType } from '../../../../interfaces';
+import { TYPE_EMBED } from './types';
 
 export const editorClasses = new BEMHelper({
   name: 'editor',

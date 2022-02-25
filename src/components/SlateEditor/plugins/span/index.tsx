@@ -13,12 +13,14 @@ import { RenderElementProps } from 'slate-react';
 import { createProps, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
-import { TYPE_QUOTE } from '../blockquote';
-import { TYPE_HEADING } from '../heading';
+import { TYPE_QUOTE } from '../blockquote/types';
+import { TYPE_HEADING } from '../heading/types';
+
 import { TYPE_LIST_ITEM } from '../list/types';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
-import { TYPE_TABLE_CELL } from '../table/utils';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { TYPE_TABLE_CELL } from '../table/types';
 import Span from './Span';
+import { TYPE_SPAN } from './types';
 
 export interface SpanElement {
   type: 'span';
@@ -28,8 +30,6 @@ export interface SpanElement {
   };
   children: Descendant[];
 }
-
-export const TYPE_SPAN = 'span';
 
 const normalizerConfig: NormalizerConfig = {
   parent: {

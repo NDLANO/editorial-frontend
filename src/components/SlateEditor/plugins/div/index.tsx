@@ -10,8 +10,7 @@ import { Editor, Element, Descendant } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
-
-export const TYPE_DIV = 'div';
+import { TYPE_DIV } from './types';
 
 export interface DivElement {
   type: 'div';

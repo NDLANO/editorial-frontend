@@ -21,11 +21,11 @@ import {
   removeTable,
   toggleRowHeaders,
   insertTableHead,
-  TYPE_TABLE_CAPTION,
 } from './utils';
 import { TableElement } from './interfaces';
 import { isTable, isTableHead } from './helpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
+import { TYPE_TABLE_CAPTION } from './types';
 
 const tableActionButtonStyle = css`
   margin: 5px;

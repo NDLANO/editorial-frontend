@@ -9,10 +9,10 @@
 import { Descendant, Editor, Element } from 'slate';
 import NoEmbedMessage from './NoEmbedMessage';
 import { SlateSerializer } from '../../interfaces';
-import { TYPE_EMBED } from '../embed';
 import { defaultEmbedBlock } from '../embed/utils';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import { Embed } from '../../../../interfaces';
+import { TYPE_EMBED } from '../embed/types';
 
 export const noEmbedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {

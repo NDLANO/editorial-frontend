@@ -1,16 +1,16 @@
 import { TYPE_ASIDE } from './plugins/aside/types';
-import { TYPE_BODYBOX } from './plugins/bodybox/utils';
+import { TYPE_BODYBOX } from './plugins/bodybox/types';
 import { TYPE_CODEBLOCK } from './plugins/codeBlock/types';
-import { TYPE_CONCEPT } from './plugins/concept';
+import { TYPE_CONCEPT } from './plugins/concept/types';
 import { TYPE_DETAILS } from './plugins/details/types';
-import { TYPE_EMBED } from './plugins/embed';
-import { TYPE_FILE } from './plugins/file';
-import { TYPE_FOOTNOTE } from './plugins/footnote';
-import { TYPE_CONTENT_LINK, TYPE_LINK } from './plugins/link';
-import { TYPE_MATHML } from './plugins/mathml';
-import { TYPE_RELATED } from './plugins/related';
-import { TYPE_SPAN } from './plugins/span';
-import { TYPE_TABLE } from './plugins/table/utils';
+import { TYPE_EMBED } from './plugins/embed/types';
+import { TYPE_FILE } from './plugins/file/types';
+import { TYPE_FOOTNOTE } from './plugins/footnote/types';
+import { TYPE_LINK, TYPE_CONTENT_LINK } from './plugins/link/types';
+import { TYPE_MATHML } from './plugins/mathml/types';
+import { TYPE_RELATED } from './plugins/related/types';
+import { TYPE_SPAN } from './plugins/span/types';
+import { TYPE_TABLE } from './plugins/table/types';
 
 export const inlines = [
   TYPE_CONCEPT,

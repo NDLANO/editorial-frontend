@@ -4,7 +4,7 @@ import { ElementType } from '../interfaces';
 import { TYPE_ASIDE } from '../plugins/aside/types';
 import { TYPE_QUOTE } from '../plugins/blockquote';
 import { TYPE_BODYBOX } from '../plugins/bodybox/utils';
-import { TYPE_CODEBLOCK } from '../plugins/codeBlock';
+import { TYPE_CODEBLOCK } from '../plugins/codeBlock/types';
 import { TYPE_DETAILS } from '../plugins/details/types';
 import { TYPE_EMBED } from '../plugins/embed';
 import { TYPE_FILE } from '../plugins/file';

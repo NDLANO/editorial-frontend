@@ -1,5 +1,4 @@
 import { isNumber } from 'lodash';
-// @ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import * as resourceTypeConstants from '../../../constants';
 

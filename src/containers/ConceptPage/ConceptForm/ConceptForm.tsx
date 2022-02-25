@@ -14,6 +14,7 @@ import {
   IUpdatedConcept,
   ITagsSearchResult as ConceptTagsSearchResult,
 } from '@ndla/types-concept-api';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
@@ -34,7 +35,6 @@ import { ConceptStatusType } from '../../../modules/concept/conceptApiInterfaces
 import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
-import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 

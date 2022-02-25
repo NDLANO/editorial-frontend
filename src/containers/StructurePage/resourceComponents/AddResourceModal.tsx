@@ -5,12 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { ChangeEvent, useState } from 'react';
 
+import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isArray } from 'lodash';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
+import {
+  ILearningPathSummaryV2 as LearningPathSearchSummary,
+  ISearchResultV2 as LearningPathSearchResult,
+} from '@ndla/types-learningpath-api';
+import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-search-api';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
@@ -29,15 +34,10 @@ import {
   updateLearningPathTaxonomy,
 } from '../../../modules/learningpath/learningpathApi';
 import ArticlePreview from '../../../components/ArticlePreview';
-import {
-  LearningPathSearchResult,
-  LearningPathSearchSummary,
-} from '../../../modules/learningpath/learningpathApiInterfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { GroupSearchResult, GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
+import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
 import AlertModal from '../../../components/AlertModal';
 import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
-import { SearchResultBase } from '../../../interfaces';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -55,12 +55,15 @@ const StyledContent = styled.div`
   }
 `;
 
-const emptySearchResults: SearchResultBase<any> = {
+const emptySearchResults: IGroupSearchResult = {
   totalCount: 0,
   page: 0,
   pageSize: 0,
   language: '',
   results: [],
+  suggestions: [],
+  aggregations: [],
+  resourceType: '',
 };
 
 interface Props {
@@ -87,7 +90,7 @@ interface BaseSelectedType {
   paths?: string[];
 }
 
-type ResultTypes = LearningPathSearchResult | GroupSearchResult | BaseSelectedType;
+type ResultTypes = LearningPathSearchResult | IGroupSearchResult | BaseSelectedType;
 
 const AddResourceModal = ({
   onClose,
@@ -186,18 +189,16 @@ const AddResourceModal = ({
     type: string,
     locale: string,
     page?: number,
-  ): Promise<LearningPathSearchResult | GroupSearchResult> => {
+  ): Promise<LearningPathSearchResult | IGroupSearchResult> => {
     try {
       if (type === RESOURCE_TYPE_LEARNING_PATH) {
-        const res = await searchLearningpath(input, type, locale, page);
-        return res;
+        return searchLearningpath(input, type, locale, page);
       } else {
         const searchResult = await searchGroups(input, type, locale, page);
         return searchResult ?? emptySearchResults;
       }
     } catch (err) {
       handleError(err);
-      //@ts-ignore
       setError(err.message);
       return emptySearchResults;
     }
@@ -349,7 +350,7 @@ const AddResourceModal = ({
         {!pastedUrl && selectedType && (
           <>
             {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
-            <AsyncDropdown<LearningPathSearchSummary | GroupSearchSummary>
+            <AsyncDropdown<LearningPathSearchSummary | IMultiSearchSummary>
               idField="id"
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}

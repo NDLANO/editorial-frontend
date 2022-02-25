@@ -6,18 +6,16 @@
  *
  */
 
-import { ILearningPathV2 as LearningpathApiType,
-  ISearchResultV2 as LearningPathSearchResult
-} from "@ndla/types-learningpath-api";
+import {
+  ILearningPathV2 as LearningpathApiType,
+  ISearchResultV2 as LearningPathSearchResult,
+} from '@ndla/types-learningpath-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
-import {
-  CopyLearningPathBody,
-  SearchBody,
-} from './learningpathApiInterfaces';
+import { CopyLearningPathBody, SearchBody } from './learningpathApiInterfaces';
 
 const baseUrl = apiResourceUrl('/learningpath-api/v2/learningpaths');
 
@@ -60,7 +58,10 @@ export const learningpathSearch = (query: SearchBody): Promise<LearningPathSearc
     body: JSON.stringify(query),
   }).then(r => resolveJsonOrRejectWithError<LearningPathSearchResult>(r));
 
-export const learningpathCopy = (id: number, query: CopyLearningPathBody): Promise<LearningpathApiType> =>
+export const learningpathCopy = (
+  id: number,
+  query: CopyLearningPathBody,
+): Promise<LearningpathApiType> =>
   fetchAuthorized(`${baseUrl}/${id}/copy/`, {
     method: 'POST',
     body: JSON.stringify(query),

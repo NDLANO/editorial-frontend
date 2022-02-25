@@ -10,10 +10,8 @@ import { memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
-import { useLayoutEffect } from 'react';
-import { useEffect } from 'react';
-import { RefObject } from 'react';
-import { useState } from 'react';
+import { useLayoutEffect, useEffect, RefObject, useState } from 'react';
+import { IStatus as DraftStatus } from '@ndla/types-draft-api';
 import ResourceGroup from './ResourceGroup';
 import AllResourcesGroup from './AllResourcesGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
@@ -30,7 +28,6 @@ import {
   SubjectTopic,
   TaxonomyMetadata,
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftStatus, DraftStatusTypes } from '../../../modules/draft/draftApiInterfaces';
 import { LocaleType } from '../../../interfaces';
 
 const StyledDiv = styled('div')`
@@ -181,7 +178,7 @@ const StructureResources = ({
       } else if (resourceType === 'learningpath') {
         const learningpath = await fetchLearningpath(parseInt(id), locale);
         if (learningpath.status) {
-          const status = { current: learningpath.status as DraftStatusTypes, other: [] };
+          const status = { current: learningpath.status, other: [] };
           return { ...resource, status };
         }
       }

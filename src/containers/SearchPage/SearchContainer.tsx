@@ -15,7 +15,7 @@ import {
   ISeriesSummarySearchResult as SeriesSearchResult,
 } from '@ndla/types-audio-api';
 import { IConceptSearchResult } from '@ndla/types-concept-api';
-import { IMultiSearchResult } from "@ndla/types-search-api";
+import { IMultiSearchResult } from '@ndla/types-search-api';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';

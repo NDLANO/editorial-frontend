@@ -9,16 +9,15 @@
 import { Formik, Form } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { ILicense as DraftApiLicense } from '@ndla/types-draft-api';
+import {
+  ILicense as DraftApiLicense,
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+} from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
 import { ArticleFormType, useArticleFormHooks } from '../FormikForm/articleFormHooks';
 import GrepCodesField from '../FormikForm/GrepCodesField';
 import SaveMultiButton from '../../components/SaveMultiButton';
-import {
-  DraftApiType,
-  DraftStatusTypes,
-  UpdatedDraftApiType,
-} from '../../modules/draft/draftApiInterfaces';
 import { isFormikFormDirty } from '../../util/formHelper';
 import { draftApiTypeToTopicArticleFormType } from '../ArticlePage/articleTransformers';
 
@@ -36,9 +35,7 @@ const getArticle = (
 ): UpdatedDraftApiType => {
   return {
     revision: 0,
-    id: values.id,
     grepCodes: values.grepCodes,
-    supportedLanguages: [],
   };
 };
 
@@ -48,7 +45,7 @@ interface Props {
   updateArticle: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   updateArticleAndStatus?: (input: {
     updatedArticle: UpdatedDraftApiType;
-    newStatus: DraftStatusTypes;
+    newStatus: string;
     dirty: boolean;
   }) => Promise<DraftApiType>;
 }

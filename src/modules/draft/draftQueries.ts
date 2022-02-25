@@ -7,7 +7,12 @@
  */
 
 import { useMutation, useQuery, useQueryClient, UseQueryOptions } from 'react-query';
-import { ILicense as License } from '@ndla/types-draft-api';
+import {
+  ILicense as License,
+  IArticle as DraftApiType,
+  IUserData as UserDataApiType,
+  IUpdatedUserData as UpdatedUserDataApiType,
+} from '@ndla/types-draft-api';
 import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA } from '../../queryKeys';
 import {
   fetchDraft,
@@ -16,12 +21,6 @@ import {
   fetchUserData,
   updateUserData,
 } from './draftApi';
-import {
-  DraftApiType,
-  DraftStatusStateMachineType,
-  UpdatedUserDataApiType,
-  UserDataApiType,
-} from './draftApiInterfaces';
 
 export const useDraft = (
   id: number | string,
@@ -78,9 +77,9 @@ interface StatusStateMachineParams {
 }
 export const useDraftStatusStateMachine = (
   params: StatusStateMachineParams = {},
-  options?: UseQueryOptions<DraftStatusStateMachineType>,
+  options?: UseQueryOptions<Record<string, string[]>>,
 ) => {
-  return useQuery<DraftStatusStateMachineType>(
+  return useQuery<Record<string, string[]>>(
     [DRAFT_STATUS_STATE_MACHINE, params],
     () => fetchStatusStateMachine(params.articleId),
     options,

@@ -8,6 +8,7 @@
 
 import { useState, useEffect } from 'react';
 import { IConcept as ConceptApiType, INewConcept, IUpdatedConcept } from '@ndla/types-concept-api';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
@@ -15,7 +16,6 @@ import { fetchSearchTags } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {

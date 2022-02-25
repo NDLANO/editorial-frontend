@@ -10,6 +10,10 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
+import {
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+} from '@ndla/types-draft-api';
 import Field from '../../../../components/Field';
 import {
   fetchSubjects,
@@ -40,7 +44,6 @@ import {
   TaxonomyMetadata,
   TopicConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftApiType, UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 import { useSession } from '../../../Session/SessionProvider';
@@ -159,7 +162,6 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
 
   const handleSubmit = async (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    const { id: articleId, revision, supportedLanguages } = article;
     setStatus('loading');
 
     const stagedNewTopics = stagedTopicChanges.filter(topic => topic.id === 'staged');
@@ -169,11 +171,9 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
       }
 
       updateNotes({
-        id: articleId,
-        revision: revision ?? 0,
+        revision: article.revision ?? 0,
         language: article.title?.language,
         notes: ['Oppdatert taksonomi.'],
-        supportedLanguages: supportedLanguages ?? [],
       });
     } catch (err) {
       handleError(err);

@@ -1,10 +1,21 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { Eye, Restore } from '@ndla/icons/editor';
 import { StyledAccordionsPanelIconButton } from '@ndla/accordion';
+import {
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+} from '@ndla/types-draft-api';
 
 import { PreviewDraftLightbox } from '../../components';
-import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface Props {
   showFromArticleApi: boolean;

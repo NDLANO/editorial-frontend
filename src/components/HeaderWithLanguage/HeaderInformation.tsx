@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 import { css } from '@emotion/react';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
-// @ts-ignore
 import { ContentTypeBadge, constants } from '@ndla/ui';
 import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
@@ -103,7 +102,7 @@ interface Props {
   statusText?: string;
   published?: boolean;
   type: string;
-  getEntity?: () => any;
+  getEntity?: () => any; // TODO:
   isNewLanguage: boolean;
   title?: string;
   formIsDirty?: boolean;

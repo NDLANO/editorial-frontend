@@ -8,13 +8,19 @@
 
 import { useState, useEffect } from 'react';
 import { dropRight, uniq } from 'lodash';
-import * as draftApi from '../../modules/draft/draftApi';
 import {
-  DraftApiType,
-  DraftStatusTypes,
-  NewDraftApiType,
-  UpdatedDraftApiType,
-} from '../../modules/draft/draftApiInterfaces';
+  INewArticle as NewDraftApiType,
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+} from '@ndla/types-draft-api';
+import {
+  fetchDraft,
+  updateDraft,
+  updateStatusDraft,
+  createDraft,
+  fetchUserData,
+  updateUserData as apiUpdateUserData,
+} from '../../modules/draft/draftApi';
 import { queryResources, queryTopics } from '../../modules/taxonomy';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
@@ -33,7 +39,7 @@ export function useFetchArticleData(articleId: string | undefined, language: str
     const fetchArticle = async () => {
       if (articleId) {
         setLoading(true);
-        const article = await draftApi.fetchDraft(parseInt(articleId, 10), language);
+        const article = await fetchDraft(parseInt(articleId, 10), language);
         const taxonomy = await fetchTaxonomy(articleId, language);
         setArticle(article);
         setTaxonony(taxonomy);
@@ -53,7 +59,7 @@ export function useFetchArticleData(articleId: string | undefined, language: str
   };
 
   const updateArticle = async (updatedArticle: UpdatedDraftApiType): Promise<DraftApiType> => {
-    const savedArticle = await draftApi.updateDraft(updatedArticle);
+    const savedArticle = await updateDraft(Number(articleId), updatedArticle);
     await updateUserData(savedArticle.id);
     setArticle(savedArticle);
     setArticleChanged(false);
@@ -66,17 +72,17 @@ export function useFetchArticleData(articleId: string | undefined, language: str
     dirty,
   }: {
     updatedArticle: UpdatedDraftApiType;
-    newStatus: DraftStatusTypes;
+    newStatus: string;
     dirty: boolean;
   }): Promise<DraftApiType> => {
     if (dirty) {
-      await draftApi.updateDraft(updatedArticle);
+      await updateDraft(Number(articleId), updatedArticle);
     }
 
-    if (!updatedArticle.id) throw new Error('Article without id gotten when updating status');
+    if (!articleId) throw new Error('Article without id gotten when updating status');
 
-    const statusChangedDraft = await draftApi.updateStatusDraft(updatedArticle.id, newStatus);
-    const article = await draftApi.fetchDraft(updatedArticle.id, language);
+    const statusChangedDraft = await updateStatusDraft(Number(articleId), newStatus);
+    const article = await fetchDraft(Number(articleId), language);
     const updated: DraftApiType = { ...article, status: statusChangedDraft.status };
     await updateUserData(statusChangedDraft.id);
 
@@ -86,7 +92,7 @@ export function useFetchArticleData(articleId: string | undefined, language: str
   };
 
   const createArticle = async (createdArticle: NewDraftApiType) => {
-    const savedArticle = await draftApi.createDraft(createdArticle);
+    const savedArticle = await createDraft(createdArticle);
     setArticle(savedArticle);
     setArticleChanged(false);
     await updateUserData(savedArticle.id);
@@ -95,12 +101,12 @@ export function useFetchArticleData(articleId: string | undefined, language: str
 
   const updateUserData = async (articleId: number) => {
     const stringId = articleId.toString();
-    const result = await draftApi.fetchUserData();
+    const result = await fetchUserData();
     const latestEdited = uniq(result.latestEditedArticles || []);
     const latestEditedArticles = latestEdited.includes(stringId)
       ? [stringId].concat(latestEdited.filter(id => id !== stringId))
       : [stringId].concat(dropRight(latestEdited, 1));
-    draftApi.updateUserData({ latestEditedArticles });
+    apiUpdateUserData({ latestEditedArticles });
   };
 
   return {

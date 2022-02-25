@@ -6,7 +6,10 @@
  *
  */
 
-import { NewDraftApiType, UpdatedDraftApiType } from '../modules/draft/draftApiInterfaces';
+import {
+  INewArticle as NewDraftApiType,
+  IUpdatedArticle as UpdatedDraftApiType,
+} from '@ndla/types-draft-api';
 
 export const convertUpdateToNewDraft = (article: UpdatedDraftApiType): NewDraftApiType => {
   if (!article.language || !article.title || !article.articleType) {
@@ -16,6 +19,8 @@ export const convertUpdateToNewDraft = (article: UpdatedDraftApiType): NewDraftA
 
   return {
     ...article,
+    requiredLibraries: article.requiredLibraries ?? [],
+    tags: article.tags ?? [],
     language: article.language,
     title: article.title,
     metaImage: article.metaImage ?? undefined,

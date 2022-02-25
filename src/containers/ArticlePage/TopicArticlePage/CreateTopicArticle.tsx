@@ -8,10 +8,13 @@
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import {
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+} from '@ndla/types-draft-api';
 import TopicArticleForm from './components/TopicArticleForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
-import { DraftApiType, UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { convertUpdateToNewDraft } from '../../../util/articleUtil';
 
 const CreateTopicArticle = () => {

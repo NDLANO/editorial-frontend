@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Done } from '@ndla/icons/editor';
 import { Spinner } from '@ndla/editor';
 import { colors } from '@ndla/core';
-import { ILearningPathV2 as LearningpathApiType } from "@ndla/types-learningpath-api";
+import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
 
 import AlertModal from '../../../../components/AlertModal/AlertModal';
 import MenuItemButton from './MenuItemButton';

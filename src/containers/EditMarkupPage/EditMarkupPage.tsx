@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { FieldHeader } from '@ndla/forms';
@@ -28,7 +29,6 @@ import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/Header
 import { toEditMarkup } from '../../util/routeHelpers';
 import { AlertModalWrapper, formClasses } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
-import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import HelpMessage from '../../components/HelpMessage';
 
 declare global {
@@ -160,12 +160,10 @@ const EditMarkupPage = () => {
     try {
       setStatus('saving');
       const content = standardizeContent(editorContent ?? '');
-      const updatedDraft = await updateDraft({
-        id: parseInt(draftId, 10),
+      const updatedDraft = await updateDraft(parseInt(draftId, 10), {
         content,
         revision: draft?.revision ?? -1,
         language,
-        supportedLanguages: draft?.supportedLanguages ?? [],
       });
       setDraft(updatedDraft);
       setStatus('saved');

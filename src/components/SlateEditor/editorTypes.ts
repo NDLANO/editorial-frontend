@@ -1,6 +1,12 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { Descendant } from 'slate';
-import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
-import { DraftStatusTypes } from '../../modules/draft/draftApiInterfaces';
 
 export interface Values {
   id: number;
@@ -52,9 +58,3 @@ export interface Article {
   published: string;
   supportedLanguages: Array<string>;
 }
-
-type Statuses = ConceptStatusType | DraftStatusTypes;
-
-export type PossibleStatuses = Partial<Record<Statuses, string[]>>;
-
-export type PreviewTypes = 'previewProductionArticle' | 'previewLanguageArticle' | 'preview' | '';

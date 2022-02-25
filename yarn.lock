@@ -2180,15 +2180,15 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-audio-api/-/types-audio-api-0.0.10.tgz#008cbd2c420fb7993133b42489b24dc3b7b034c8"
   integrity sha512-M40Za9h7L1FIFgw4LYU1CsLWRRJ2QWdnD+22xBAKyhDHrWmaRVg/Vqu5QWRHWjcSmZEtUnT/fs7g6HNKR26Yog==
 
-"@ndla/types-concept-api@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@ndla/types-concept-api/-/types-concept-api-0.0.7.tgz#f34843faf7290a2c1b293dc6c3705b931e59718d"
-  integrity sha512-U0auO66kf9NxfEM9Pyyn9UBKUo89dBh0rY6ZuagEnkp5WpZ+SaVhvWnYoadQz7j95N7BYHf/q9/emEX0Rt4zOA==
+"@ndla/types-concept-api@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@ndla/types-concept-api/-/types-concept-api-0.0.8.tgz#05438d9d751f6d74b1e9893da8d249c72680d171"
+  integrity sha512-Ze1Ee1yaYe80kageXFxcnqO6mJcH46I3XgONKcBr7aHl2gf5DkYq8h8kmF8gYXeIO7S/jtrW1/1Wb2bTkFm6Mw==
 
-"@ndla/types-draft-api@^0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@ndla/types-draft-api/-/types-draft-api-0.0.19.tgz#b391177ff787aab6813e8262714733bd96d8a74f"
-  integrity sha512-bMyU5egVIntgP0/KQ7f9qE603Kk/GjbzEald1I3u3ginpOCgryDhmdP5ScNbGiTwDfarlHvoQyvxBTBVpoUvaQ==
+"@ndla/types-draft-api@^0.0.21":
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/@ndla/types-draft-api/-/types-draft-api-0.0.21.tgz#7c8591b2e639171a270d5092ef6158f130705063"
+  integrity sha512-QNxLDdD2g1Xzd9pL4ow0NZeXa6QflqwfSbfIL9742vuXNhAw6rSruH92jCb0MooTu9Fx+r49T/Onzrk8r/DXzA==
 
 "@ndla/types-frontpage-api@^0.0.3":
   version "0.0.3"

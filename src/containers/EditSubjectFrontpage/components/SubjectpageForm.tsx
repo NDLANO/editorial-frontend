@@ -15,7 +15,8 @@ import {
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
 import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
-import { ILearningPathV2 as LearningpathApiType } from "@ndla/types-learningpath-api";
+import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
@@ -25,7 +26,6 @@ import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
-import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import {
   subjectpageApiTypeToFormikType,
   SubjectPageFormikType,
@@ -106,7 +106,10 @@ const SubjectpageForm = ({
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
-  const fetchTaxonomyUrns = async (choices: (DraftApiType | LearningpathApiType)[], language: string) => {
+  const fetchTaxonomyUrns = async (
+    choices: (DraftApiType | LearningpathApiType)[],
+    language: string,
+  ) => {
     const fetched = await Promise.all<Topic[] | LearningpathApiType[] | Resource[]>(
       choices.map(choice => {
         if ('articleType' in choice && choice.articleType === 'topic-article') {

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,9 +7,9 @@
  */
 
 import { Descendant } from 'slate';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
-import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { Author } from '../../interfaces';
 
 export interface ConceptFormValues {

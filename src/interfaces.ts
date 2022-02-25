@@ -6,9 +6,8 @@
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
-import { ILicense as DraftApiLicense } from '@ndla/types-draft-api';
+import { ILicense as DraftApiLicense, IArticle as DraftApiType } from '@ndla/types-draft-api';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
-import { DraftApiType } from './modules/draft/draftApiInterfaces';
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 
@@ -16,7 +15,7 @@ export type PartialRecord<K extends keyof any, T> = {
   [P in K]?: T;
 };
 
-export type AvailabilityType = 'everyone' | 'teacher';
+export type AvailabilityType = 'everyone' | 'teacher' | string;
 
 export type EditMode =
   | 'changeSubjectName'

@@ -13,9 +13,9 @@ import { uuid } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { compact } from 'lodash';
-// @ts-ignore
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { queryResources } from '../../../../modules/taxonomy';
@@ -23,7 +23,6 @@ import EditRelated from './EditRelated';
 import handleError from '../../../../util/handleError';
 import RelatedArticle from './RelatedArticle';
 import { RelatedElement } from '.';
-import { DraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { Resource } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ARTICLE_EXTERNAL } from '../../../../constants';
 

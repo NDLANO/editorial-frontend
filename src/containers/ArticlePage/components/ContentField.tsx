@@ -11,6 +11,10 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
+import {
+  IArticle as DraftApiType,
+  IArticleSummary as DraftSearchSummary,
+} from '@ndla/types-draft-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -19,7 +23,6 @@ import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
 import { ArticleFormType } from '../../FormikForm/articleFormHooks';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { DraftApiType, DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   field: FieldInputProps<ArticleFormType['relatedContent']>;

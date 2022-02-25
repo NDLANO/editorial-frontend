@@ -12,17 +12,16 @@ import { TFunction } from 'i18next';
 import { FormikHelpers } from 'formik';
 
 import { Descendant } from 'slate';
-import { ILicense as DraftApiLicense } from '@ndla/types-draft-api';
+import {
+  ILicense as DraftApiLicense,
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+  IStatus as DraftStatus,
+} from '@ndla/types-draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
-import {
-  DraftApiType,
-  DraftStatus,
-  DraftStatusTypes,
-  UpdatedDraftApiType,
-} from '../../modules/draft/draftApiInterfaces';
 import { Author, AvailabilityType, RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useLicenses } from '../../modules/draft/draftQueries';
@@ -87,7 +86,7 @@ type HooksInputObject<T extends ArticleFormType> = {
   updateArticle: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
   updateArticleAndStatus?: (input: {
     updatedArticle: UpdatedDraftApiType;
-    newStatus: DraftStatusTypes;
+    newStatus: string;
     dirty: boolean;
   }) => Promise<DraftApiType>;
   licenses?: DraftApiLicense[];

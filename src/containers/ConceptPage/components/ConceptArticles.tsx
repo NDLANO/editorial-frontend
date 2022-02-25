@@ -8,12 +8,15 @@
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
+import {
+  IArticle as DraftApiType,
+  IArticleSummary as DraftSearchSummary,
+} from '@ndla/types-draft-api';
 import ElementList from '../../FormikForm/components/ElementList';
 import handleError from '../../../util/handleError';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import { ConceptFormValues } from '../conceptInterfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { DraftApiType, DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
 const ConceptArticles = () => {
   const { t } = useTranslation();

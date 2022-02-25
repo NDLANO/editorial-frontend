@@ -11,6 +11,10 @@ import { ChangeEvent, Component, MouseEvent } from 'react';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
+import {
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+} from '@ndla/types-draft-api';
 import Field from '../../../../components/Field';
 import {
   fetchResourceTypes,
@@ -45,7 +49,6 @@ import {
   ParentTopicWithRelevanceAndConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../../interfaces';
-import { DraftApiType, UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { SessionProps } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
@@ -288,7 +291,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     let reassignedResourceId = resourceId;
     const {
       updateNotes,
-      article: { id, title, revision, supportedLanguages },
+      article: { id, title, revision },
     } = this.props;
     if (!title?.language || !id) return;
     this.setState({ status: 'loading' });
@@ -303,11 +306,9 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       if (reassignedResourceId) {
         await updateTaxonomy(reassignedResourceId, resourceTaxonomy, taxonomyChanges);
         updateNotes({
-          id,
           revision: revision ?? 0,
           language: title.language,
           notes: ['Oppdatert taksonomi.'],
-          supportedLanguages: supportedLanguages ?? [],
         });
         this.setState({
           status: 'success',

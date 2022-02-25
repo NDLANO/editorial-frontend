@@ -15,7 +15,7 @@ import {
 } from '@ndla/types-audio-api';
 import { IConceptSummary } from '@ndla/types-concept-api';
 import { IImageMetaSummary as ImageSearchSummaryApiType } from '@ndla/types-image-api';
-import { IMultiSearchSummary } from "@ndla/types-search-api";
+import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { ContentResultShape, ImageResultShape, AudioResultShape } from '../../../../shapes';
 import SearchContent from './SearchContent';
 import SearchConcept from './SearchConcept';

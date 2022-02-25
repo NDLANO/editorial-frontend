@@ -10,8 +10,7 @@ import styled from '@emotion/styled';
 import { fonts } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
-import { IMultiSearchSummary } from "@ndla/types-search-api";
-
+import { IMultiSearchSummary } from '@ndla/types-search-api';
 
 interface Props {
   content: IMultiSearchSummary;

@@ -6,6 +6,7 @@
  *
  */
 
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
@@ -18,7 +19,6 @@ import {
   ArticleSearchResult,
 } from './articleApiInterfaces';
 import { LocaleType } from '../../interfaces';
-import { DraftApiType } from '../draft/draftApiInterfaces';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
 

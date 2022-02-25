@@ -18,6 +18,7 @@ import {
   IUpdatedConcept,
   ITagsSearchResult as ConceptTagsSearchResult,
 } from '@ndla/types-concept-api';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import Tabs from '@ndla/tabs';
@@ -33,7 +34,6 @@ import { ConceptShape, SubjectShape } from '../../../../shapes';
 import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { createGuard } from '../../../../util/guards';
-import { DraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 
 const type = 'concept';
 

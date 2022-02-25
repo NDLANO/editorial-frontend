@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { ContentTypeBadge } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { IMultiSearchSummary } from "@ndla/types-search-api";
+import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { ContentResultShape } from '../../../../shapes';
 import {
   getContentTypeFromResourceTypes,

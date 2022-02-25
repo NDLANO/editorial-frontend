@@ -9,6 +9,11 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikProps } from 'formik';
+import {
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+  IStatus as DraftStatus,
+} from '@ndla/types-draft-api';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
@@ -18,12 +23,6 @@ import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
 import { TopicArticleFormType, useArticleFormHooks } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
-import {
-  DraftApiType,
-  DraftStatus,
-  DraftStatusTypes,
-  UpdatedDraftApiType,
-} from '../../../../modules/draft/draftApiInterfaces';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import {
   draftApiTypeToTopicArticleFormType,
@@ -43,7 +42,7 @@ interface Props {
   articleChanged: boolean;
   updateArticleAndStatus?: (input: {
     updatedArticle: UpdatedDraftApiType;
-    newStatus: DraftStatusTypes;
+    newStatus: string;
     dirty: boolean;
   }) => Promise<DraftApiType>;
   translating: boolean;

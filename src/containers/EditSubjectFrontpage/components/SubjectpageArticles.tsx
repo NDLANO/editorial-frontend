@@ -8,6 +8,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
+import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
+import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
@@ -15,12 +18,9 @@ import { FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { Learningpath } from '../../../modules/learningpath/learningpathApiInterfaces';
-import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 interface Props {
-  editorsChoices: (DraftApiType | Learningpath)[];
+  editorsChoices: (DraftApiType | LearningpathApiType)[];
   elementId: string;
   field: FormikProperties['field'];
   form: {
@@ -37,10 +37,12 @@ const getSubject = (elementId: string) => {
 
 const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) => {
   const { t } = useTranslation();
-  const [resources, setResources] = useState<(DraftApiType | Learningpath)[]>(editorsChoices);
+  const [resources, setResources] = useState<(DraftApiType | LearningpathApiType)[]>(
+    editorsChoices,
+  );
   const subjectId = getSubject(elementId);
 
-  const onAddResultToList = async (result: MultiSearchSummary) => {
+  const onAddResultToList = async (result: IMultiSearchSummary) => {
     try {
       const f = result.learningResourceType === 'learningpath' ? fetchLearningpath : fetchDraft;
       const newResource = await f(result.id);
@@ -52,12 +54,15 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
     }
   };
 
-  const onUpdateElements = (articleList: (DraftApiType | Learningpath)[]) => {
+  const onUpdateElements = (articleList: (DraftApiType | LearningpathApiType)[]) => {
     setResources(articleList);
     updateFormik(field, articleList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: (DraftApiType | Learningpath)[]) => {
+  const updateFormik = (
+    formikField: Props['field'],
+    newData: (DraftApiType | LearningpathApiType)[],
+  ) => {
     form.setFieldTouched('editorsChoices', true, false);
     formikField.onChange({
       target: {
@@ -83,10 +88,9 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
         onUpdateElements={onUpdateElements}
       />
       <DropdownSearch
-        //@ts-ignore This is poorly typed.
         selectedElements={resources}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(result: MultiSearchSummary) => onAddResultToList(result)}
+        onChange={(result: IMultiSearchSummary) => onAddResultToList(result)}
         placeholder={t('subjectpageForm.addArticle')}
         subjectId={subjectId}
         clearInputField

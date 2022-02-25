@@ -8,12 +8,11 @@
 
 import { isEmpty } from 'lodash';
 import { Descendant } from 'slate';
-import { ILicense as DraftApiLicense } from '@ndla/types-draft-api';
 import {
-  DraftApiType,
-  DraftStatusTypes,
-  UpdatedDraftApiType,
-} from '../../modules/draft/draftApiInterfaces';
+  ILicense as DraftApiLicense,
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+} from '@ndla/types-draft-api';
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,
@@ -137,8 +136,6 @@ export const learningResourceFormTypeToDraftApiType = (
       processors: article.processors,
       rightsholders: article.rightsholders,
     },
-    supportedLanguages: article.supportedLanguages,
-    id: article.id,
     introduction: editorValueToPlainText(article.introduction),
     language: article.language,
     metaImage,
@@ -172,10 +169,8 @@ export const topicArticleFormTypeToDraftApiType = (
     agreementId: article.agreementId,
   };
   return {
-    id: article.id,
     revision: article.revision ?? 0,
     language: article.language,
-    supportedLanguages: article.supportedLanguages,
     title: editorValueToPlainText(article.title),
     published: getPublishedDate(article, initialValues, preview) ?? '',
     content: topicArticleContentToHTML(article.content),
@@ -198,9 +193,9 @@ export const updatedDraftApiTypeToDraftApiType = (article: UpdatedDraftApiType):
   const language = article.language!;
 
   return {
-    id: article.id ?? 0,
+    id: 0, // TODO: Check if we can pass id as prop to this function
     revision: article.revision,
-    status: { current: (article.status as DraftStatusTypes) ?? 'DRAFT', other: [] },
+    status: { current: article.status ?? 'DRAFT', other: [] },
     title: article.title ? { title: article.title, language } : undefined,
     content: article.content ? { content: article.content, language } : undefined,
     copyright: article.copyright,
@@ -221,7 +216,7 @@ export const updatedDraftApiTypeToDraftApiType = (article: UpdatedDraftApiType):
     updatedBy: '',
     published: article.published ?? '',
     articleType: article.articleType ?? 'topic-article',
-    supportedLanguages: article.supportedLanguages,
+    supportedLanguages: [],
     notes: [],
     editorLabels: article.editorLabels ?? [],
     grepCodes: article.grepCodes ?? [],

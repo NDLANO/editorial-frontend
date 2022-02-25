@@ -1,13 +1,16 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
 import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IUpdatedArticle as UpdatedDraftApiType } from '@ndla/types-draft-api';
 import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
@@ -17,7 +20,6 @@ import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
-import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { createReturnTypeGuard } from '../../util/guards';
 
 type PreviewTypes = ConceptApiType | UpdatedDraftApiType;

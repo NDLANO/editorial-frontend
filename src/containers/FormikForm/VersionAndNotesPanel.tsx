@@ -17,6 +17,10 @@ import Accordion, {
   AccordionBar,
 } from '@ndla/accordion';
 import { VersionLogTag, VersionHistory } from '@ndla/editor';
+import {
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+} from '@ndla/types-draft-api';
 
 import FormikField from '../../components/FormikField';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -28,7 +32,6 @@ import VersionActionbuttons from './VersionActionButtons';
 import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
 import { Note } from '../../interfaces';
-import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { ArticleFormType } from './articleFormHooks';
 import { useMessages } from '../Messages/MessagesProvider';
 import {

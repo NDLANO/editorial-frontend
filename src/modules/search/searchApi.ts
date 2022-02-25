@@ -7,7 +7,7 @@
  */
 
 import queryString from 'query-string';
-import { IGroupSearchResult, IMultiSearchResult } from "@ndla/types-search-api";
+import { IGroupSearchResult, IMultiSearchResult } from '@ndla/types-search-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,

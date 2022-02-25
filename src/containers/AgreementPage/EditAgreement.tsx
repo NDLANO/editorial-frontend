@@ -7,16 +7,13 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { IUpdatedAgreement, INewAgreement } from '@ndla/types-draft-api';
 import AgreementForm from './components/AgreementForm';
-import * as api from '../../modules/draft/draftApi';
+import { fetchAgreement } from '../../modules/draft/draftApi';
 import { useMessages } from '../Messages/MessagesProvider';
-import {
-  NewAgreementApiType,
-  UpdatedAgreementApiType,
-} from '../../modules/draft/draftApiInterfaces';
 
 interface Props {
-  upsertAgreement: (agreement: UpdatedAgreementApiType | NewAgreementApiType) => Promise<void>;
+  upsertAgreement: (agreement: IUpdatedAgreement | INewAgreement, id?: number) => Promise<void>;
   locale: string;
   isSaving: boolean;
 }
@@ -30,7 +27,7 @@ const EditAgreement = ({ upsertAgreement }: Props) => {
     (async () => {
       if (!agreementId) return;
       try {
-        const fetchedAgreement = await api.fetchAgreement(Number(agreementId));
+        const fetchedAgreement = await fetchAgreement(Number(agreementId));
         setAgreement(fetchedAgreement);
       } catch (e) {
         applicationError(e);

@@ -10,7 +10,7 @@ import { sortBy } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useQuery, UseQueryOptions } from 'react-query';
 import { IFilmFrontPageData } from '@ndla/types-frontpage-api';
-import { IMultiSearchResult } from "@ndla/types-search-api";
+import { IMultiSearchResult } from '@ndla/types-search-api';
 import { fetchFilmFrontpage } from './frontpageApi';
 import { searchResources } from '../search/searchApi';
 import { FILM_FRONTPAGE_QUERY, FILM_SLIDESHOW } from '../../queryKeys';

@@ -9,6 +9,10 @@
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
+import {
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+} from '@ndla/types-draft-api';
 import config from '../../../../config';
 import TopicArticleContent from './TopicArticleContent';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
@@ -17,7 +21,6 @@ import TopicArticleTaxonomy from './TopicArticleTaxonomy';
 import { TAXONOMY_WRITE_SCOPE } from '../../../../constants';
 import GrepCodesField from '../../../FormikForm/GrepCodesField';
 import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
-import { DraftApiType, UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { useSession } from '../../../Session/SessionProvider';
 import { onSaveAsVisualElement } from '../../../FormikForm/utils';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';

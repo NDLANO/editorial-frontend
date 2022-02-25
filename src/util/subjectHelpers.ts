@@ -13,9 +13,9 @@ import {
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
 import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
-import { ILearningPathV2 as LearningpathApiType } from "@ndla/types-learningpath-api";
+import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
-import { DraftApiType } from '../modules/draft/draftApiInterfaces';
 import {
   editorValueToEmbed,
   editorValueToPlainText,

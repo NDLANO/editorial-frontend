@@ -13,6 +13,11 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { OneColumn } from '@ndla/ui';
+import {
+  IUpdatedArticle as UpdatedDraftApiType,
+  IArticle as DraftApiType,
+} from '@ndla/types-draft-api';
+import { useFormikContext } from 'formik';
 import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
@@ -22,10 +27,11 @@ import Spinner from '../Spinner';
 import { Portal } from '../Portal';
 import PreviewDraft from './PreviewDraft';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
-import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { LocaleType, PartialRecord, TypeOfPreview } from '../../interfaces';
 import { createGuard } from '../../util/guards';
 import { updatedDraftApiTypeToDraftApiType } from '../../containers/ArticlePage/articleTransformers';
+import { ConceptFormValues } from '../../containers/ConceptPage/conceptInterfaces';
+import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 
 const twoArticlesCloseButtonStyle = css`
   position: absolute;
@@ -98,6 +104,7 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
   const [showPreview, setShowPreview] = useState(false);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
+  const { values } = useFormikContext<ArticleFormType | ConceptFormValues>();
 
   const onClosePreview = () => {
     setFirstArticle(undefined);
@@ -142,14 +149,13 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
   };
 
   const previewProductionArticle = async () => {
-    const { id, language } = getArticle(true) as UpdatedDraftApiType;
-    const article = await articleApi.getArticleFromArticleConverter(id!, language!);
+    const { language } = getArticle(true) as UpdatedDraftApiType;
+    const article = await articleApi.getArticleFromArticleConverter(values.id ?? -1, language!);
     return article;
   };
 
   const previewLanguageArticle = async (language: string) => {
-    const originalArticle = toApiVersion(getArticle(true));
-    const draftOtherLanguage = await draftApi.fetchDraft(originalArticle.id, language);
+    const draftOtherLanguage = await draftApi.fetchDraft(values.id ?? -1, language);
     const article = await articleApi.getPreviewArticle(draftOtherLanguage, language);
     return article;
   };

@@ -12,6 +12,7 @@ import {
   INewConcept,
   IUpdatedConcept,
 } from '@ndla/types-concept-api';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
@@ -20,7 +21,6 @@ import {
 } from '../../util/articleContentConverter';
 import { ConceptFormValues } from './conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
 
 export const conceptApiTypeToFormType = (

@@ -6,13 +6,15 @@
  */
 
 import PropTypes from 'prop-types';
-import { IMultiSearchSummary } from "@ndla/types-search-api";
+import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { ContentResultShape } from '../../../shapes';
 import { searchResources } from '../../../modules/search/searchApi';
 
 interface Props {
-  selectedElements: IMultiSearchSummary[];
+  selectedElements: (IMultiSearchSummary | DraftApiType | LearningpathApiType)[];
   onChange: Function;
   placeholder: string;
   subjectId?: string;

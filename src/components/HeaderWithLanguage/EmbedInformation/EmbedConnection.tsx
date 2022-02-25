@@ -15,7 +15,7 @@ import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import Button from '@ndla/button';
 import { IConceptSummary } from '@ndla/types-concept-api';
-import { IMultiSearchSummary } from "@ndla/types-search-api";
+import { IMultiSearchSummary } from '@ndla/types-search-api';
 
 import { normalPaddingCSS } from '../../HowTo';
 import { searchConcepts } from '../../../modules/concept/conceptApi';

@@ -1,12 +1,12 @@
 import { RefObject, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
+import { IStatus as DraftStatus } from '@ndla/types-draft-api';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { SubjectTopic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 import { updateRelevanceId } from '../../../util/taxonomyHelpers';
 import { LocaleType } from '../../../interfaces';
 import { TopicResource } from './StructureResources';

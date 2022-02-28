@@ -211,6 +211,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
               <ImageEditorButton
                 stripped
                 tabIndex={-1}
+                isActive={embed['focal-x'] !== undefined}
                 onClick={(evt: MouseEvent) => onEditorTypeSet(evt, 'focalPoint')}>
                 <FocalPoint />
               </ImageEditorButton>
@@ -225,6 +226,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
             <Tooltip tooltip={t('form.image.crop')}>
               <ImageEditorButton
                 stripped
+                isActive={embed['upper-left-x'] !== undefined}
                 onClick={(evt: MouseEvent) => onEditorTypeSet(evt, 'crop')}
                 tabIndex={-1}>
                 <Crop />

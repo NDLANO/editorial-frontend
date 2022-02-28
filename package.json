@@ -6,7 +6,7 @@
     "build": "cross-env NODE_OPTIONS='--max-old-space-size=2048' razzle build --noninteractive",
     "postbuild": "cp build/assets.json build/public/assets.json",
     "clean": "rimraf ./build",
-    "check-all": "yarn lint && yarn test-ci",
+    "check-all": "yarn lint && yarn tsc && yarn test-ci",
     "lint": "yarn lint-css && yarn format-check && yarn lint-es",
     "lint-css": "stylelint src/style/**/*.css",
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --ext .js,.jsx,.ts,.tsx --max-warnings=0 src",

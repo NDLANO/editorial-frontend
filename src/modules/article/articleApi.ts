@@ -8,16 +8,16 @@
 
 import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import {
+  IArticleV2 as ArticleApiType,
+  ISearchResultV2 as ArticleSearchResult,
+} from '@ndla/types-article-api';
+import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import config from '../../config';
-import {
-  ArticleApiType,
-  ArticleConverterApiType,
-  ArticleSearchResult,
-} from './articleApiInterfaces';
+import { ArticleConverterApiType } from './articleApiInterfaces';
 import { LocaleType } from '../../interfaces';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');

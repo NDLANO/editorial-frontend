@@ -9,13 +9,13 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
+import { IArticleSummaryV2 as ArticleSearchSummaryApiType } from '@ndla/types-article-api';
 import { ISeries as PodcastSeriesApiType } from '@ndla/types-audio-api';
 import { isEmptyArray, useFormikContext } from 'formik';
 import { fetchSeries, searchSeries } from '../../../modules/audio/audioApi';
 import ElementList from '../../FormikForm/components/ElementList';
 import { PodcastFormValues } from '../../../modules/audio/audioApiInterfaces';
 import handleError from '../../../util/handleError';
-import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { SearchResultBase } from '../../../interfaces';
 

@@ -1,15 +1,23 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import {
+  ISearchResultV2 as ArticleSearchResult,
+  IArticleSummaryV2 as ArticleSearchSummaryApiType,
+} from '@ndla/types-article-api';
 import { updateTopic } from '../../../modules/taxonomy';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { searchRelatedArticles } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
 import { SubjectTopic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../interfaces';
-import {
-  ArticleSearchResult,
-  ArticleSearchSummaryApiType,
-} from '../../../modules/article/articleApiInterfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 
 const StyledContent = styled.div`

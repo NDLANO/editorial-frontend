@@ -16,6 +16,7 @@ import {
   ISearchResultV2 as LearningPathSearchResult,
 } from '@ndla/types-learningpath-api';
 import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-search-api';
+import { IArticleSummaryV2 as ArticleSearchSummaryApiType } from '@ndla/types-article-api';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
@@ -37,7 +38,6 @@ import ArticlePreview from '../../../components/ArticlePreview';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
 import AlertModal from '../../../components/AlertModal';
-import { ArticleSearchSummaryApiType } from '../../../modules/article/articleApiInterfaces';
 
 const StyledOrDivider = styled.div`
   display: flex;

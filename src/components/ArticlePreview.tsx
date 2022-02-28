@@ -7,7 +7,7 @@
  */
 
 import BEMHelper from 'react-bem-helper';
-import { ArticleSearchSummaryApiType } from '../modules/article/articleApiInterfaces';
+import { IArticleSummaryV2 as ArticleSearchSummaryApiType } from '@ndla/types-article-api';
 
 const classes = new BEMHelper({
   name: 'article-preview',

@@ -27,7 +27,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
 } from '../../../../../constants';
-import GroupNodeResources from '../../topicMenuOptions/GroupTopicResources';
+import GroupTopicResources from '../../topicMenuOptions/GroupTopicResources';
 import TaxonomyMetadataLanguageSelector from '../../subjectMenuOptions/TaxonomyMetadataLanguageSelector';
 import SubjectCategorySelector from '../../subjectMenuOptions/SubjectCategorySelector';
 import ToggleExplanationSubject from '../../subjectMenuOptions/ToggleExplanationSubject';
@@ -82,7 +82,7 @@ const MenuItemCustomField = ({ node }: Props) => {
 
   const topicSettings = (
     <>
-      <GroupNodeResources node={node} />
+      <GroupTopicResources node={node} />
     </>
   );
 

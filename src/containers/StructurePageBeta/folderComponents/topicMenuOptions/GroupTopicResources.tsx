@@ -30,7 +30,7 @@ interface Props {
   onChanged?: (newMeta: Partial<TaxonomyMetadata>) => void;
 }
 
-const GroupNodeResources = ({ node, hideIcon, onChanged }: Props) => {
+const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
   const { t } = useTranslation();
   const updateNodeMetadata = useUpdateNodeMetadataMutation();
   const qc = useQueryClient();
@@ -81,4 +81,4 @@ const GroupNodeResources = ({ node, hideIcon, onChanged }: Props) => {
   );
 };
 
-export default GroupNodeResources;
+export default GroupTopicResources;

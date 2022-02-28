@@ -13,6 +13,7 @@ import { NodeType, SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeA
 import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import { useSession } from '../../Session/SessionProvider';
 import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
+import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
 
 interface Props {
   rootNodeId: string;
@@ -50,9 +51,9 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Prop
           rootNodeId={rootNodeId}
         /> */}
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        {/* <EditGrepCodes node={node} editModeHandler={editModeHandler} />
+        {/* <EditGrepCodes node={node} editModeHandler={editModeHandler} /> */}
         <EditSubjectpageOption node={node} />
-        <DeleteNode node={node} editModeHandler={editModeHandler} /> */}
+        {/* <DeleteNode node={node} editModeHandler={editModeHandler} /> */}
       </>
     );
   } else if (nodeType === TOPIC_NODE) {

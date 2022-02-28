@@ -8,14 +8,18 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import {
+  IImageMetaInformationV2 as ImageApiType,
+  IUpdateImageMetaInformation as UpdatedImageMetadata,
+} from '@ndla/types-image-api';
 import ImageForm from './components/ImageForm';
-import { ImageApiType, UpdatedImageMetadata } from '../../modules/image/imageApiInterfaces';
 import { fetchImage, updateImage } from '../../modules/image/imageApi';
 import { useLicenses } from '../../modules/draft/draftQueries';
 import { useMessages } from '../Messages/MessagesProvider';
 import { createFormData } from '../../util/formDataHelper';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import Spinner from '../../components/Spinner';
+import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils';
 
 interface Props {
   imageId?: string;
@@ -30,6 +34,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
   const [loading, setLoading] = useState(false);
   const { applicationError, createMessage } = useMessages();
   const [image, setImage] = useState<ImageApiType | undefined>(undefined);
+  const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 
   useEffect(() => {
     (async () => {
@@ -42,11 +47,11 @@ const EditImage = ({ isNewlyCreated }: Props) => {
     })();
   }, [imageLanguage, imageId]);
 
-  const onUpdate = async (updatedImage: UpdatedImageMetadata, image: string | Blob) => {
+  const onUpdate = async (updatedImage: UpdatedImageMetadata, image: string | Blob, id: number) => {
     const formData = await createFormData(image, updatedImage);
 
     try {
-      const res = await updateImage(updatedImage, formData);
+      const res = await updateImage(id, updatedImage, formData);
       setImage(res);
     } catch (e) {
       applicationError(e);
@@ -68,7 +73,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
       image={image}
       onUpdate={onUpdate}
       isNewlyCreated={isNewlyCreated}
-      licenses={licenses!}
+      licenses={imageLicenses}
     />
   );
 };

@@ -9,6 +9,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { IAudioSummary as AudioSearchResultType } from '@ndla/types-audio-api';
+import { ISeriesSummary as SeriesSearchResultType } from '@ndla/types-audio-api';
 import { ContentResultShape, ImageResultShape, AudioResultShape } from '../../../../shapes';
 import SearchContent from './SearchContent';
 import SearchConcept from './SearchConcept';
@@ -18,10 +20,6 @@ import SearchPodcastSeries from './SearchPodcastSeries';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ResultSummaryType } from './SearchList';
 import { ImageSearchSummaryApiType } from '../../../../modules/image/imageApiInterfaces';
-import {
-  AudioSearchResultType,
-  SeriesSearchResultType,
-} from '../../../../modules/audio/audioApiInterfaces';
 import { SearchConceptType } from '../../../../modules/concept/conceptApiInterfaces';
 import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
 import { LocaleType } from '../../../../interfaces';

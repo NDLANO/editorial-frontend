@@ -73,7 +73,8 @@ export type DraftStatusTypes =
   | 'AWAITING_UNPUBLISHING'
   | 'UNPUBLISHED'
   | 'ARCHIVED'
-  | 'AWAITING_ARCHIVING';
+  | 'AWAITING_ARCHIVING'
+  | string;
 
 export interface DraftStatus {
   current: DraftStatusTypes;

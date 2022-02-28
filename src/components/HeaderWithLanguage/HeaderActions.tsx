@@ -7,6 +7,7 @@
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
+import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
 import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
@@ -16,7 +17,6 @@ import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
-import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { createReturnTypeGuard } from '../../util/guards';
 

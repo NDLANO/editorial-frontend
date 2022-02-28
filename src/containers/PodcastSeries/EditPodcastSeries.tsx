@@ -8,9 +8,10 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { ISeries as PodcastSeriesApiType, INewSeries } from '@ndla/types-audio-api';
+
 import { fetchSeries, updateSeries } from '../../modules/audio/audioApi';
 import Spinner from '../../components/Spinner';
-import { PodcastSeriesApiType, PodcastSeriesPut } from '../../modules/audio/audioApiInterfaces';
 import PodcastSeriesForm from './components/PodcastSeriesForm';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
@@ -25,7 +26,7 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
   const [podcastSeries, setPodcastSeries] = useState<PodcastSeriesApiType | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const onUpdate = async (newSeries: PodcastSeriesPut): Promise<void> => {
+  const onUpdate = async (newSeries: INewSeries): Promise<void> => {
     const updatedSeries = await updateSeries(seriesId!, newSeries);
     setPodcastSeries(updatedSeries);
   };

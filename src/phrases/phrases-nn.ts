@@ -1145,6 +1145,9 @@ const phrases = {
     },
     grepCodes: 'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
   },
+  warningMessage: {
+    fieldWithWrongLanguage: 'Dette feltet er henta frå språkkode: {{language}}',
+  },
   notFound: {
     description: 'Denne sida finnes ikkje.',
   },

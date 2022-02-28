@@ -8,13 +8,14 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
+import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditConcept } from '../../../util/routeHelpers';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
+import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import { formClasses } from '../../FormikForm';
 import {
   conceptApiTypeToFormType,
@@ -25,7 +26,6 @@ import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } fr
 
 import FormWrapper from './FormWrapper';
 import {
-  ConceptApiType,
   ConceptStatusType,
   ConceptTagsSearchResult,
   ConceptPostType,
@@ -61,12 +61,19 @@ interface Props {
   ) => Promise<ConceptApiType>;
 }
 
-const conceptFormRules: RulesType<ConceptFormValues> = {
+const conceptFormRules: RulesType<ConceptFormValues, ConceptApiType> = {
   title: {
     required: true,
+    warnings: {
+      languageMatch: true,
+    },
   },
   conceptContent: {
     required: true,
+    warnings: {
+      apiField: 'content',
+      languageMatch: true,
+    },
   },
   creators: {
     allObjectFieldsRequired: true,
@@ -74,11 +81,24 @@ const conceptFormRules: RulesType<ConceptFormValues> = {
   metaImageAlt: {
     required: true,
     onlyValidateIf: (values: ConceptFormValues) => !!values.metaImageId,
+    warnings: {
+      apiField: 'metaImage',
+      languageMatch: true,
+    },
   },
   subjects: {
     minItems: 1,
   },
-
+  visualElement: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  tags: {
+    warnings: {
+      languageMatch: true,
+    },
+  },
   license: {
     required: false,
     test: values => {
@@ -159,10 +179,12 @@ const ConceptForm = ({
     conceptArticles,
     initialTitle,
   );
+
   const initialErrors = useMemo(() => validateFormik(initialValues, conceptFormRules, t), [
     initialValues,
     t,
   ]);
+  const initialWarnings = getWarnings(initialValues, conceptFormRules, t, concept);
 
   return (
     <Formik
@@ -171,7 +193,8 @@ const ConceptForm = ({
       onSubmit={handleSubmit}
       enableReinitialize
       validateOnMount
-      validate={values => validateFormik(values, conceptFormRules, t)}>
+      validate={values => validateFormik(values, conceptFormRules, t)}
+      initialStatus={{ warnings: initialWarnings }}>
       {formikProps => {
         const { values, errors }: FormikProps<ConceptFormValues> = formikProps;
         const { id, revision, status, created, updated } = values;
@@ -183,7 +206,7 @@ const ConceptForm = ({
         return (
           <FormWrapper inModal={inModal} {...formClasses()}>
             <HeaderWithLanguage
-              content={{ ...concept, title: concept?.title.title, language }}
+              content={{ ...concept, title: concept?.title?.title, language }}
               editUrl={editUrl}
               getEntity={getEntity}
               translateToNN={translateToNN}

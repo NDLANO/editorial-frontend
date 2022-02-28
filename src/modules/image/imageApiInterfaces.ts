@@ -10,7 +10,7 @@ import { Author } from '../../interfaces';
 
 export interface ImageApiLicense {
   license: string;
-  description?: string;
+  description: string;
   url?: string;
 }
 
@@ -57,28 +57,6 @@ export interface ImageApiType {
   supportedLanguages: string[];
   modelRelease: string;
   editorNotes?: EditorNote[];
-}
-
-export interface NewImageMetadata {
-  id?: number; // Used only to check if image was newly created. This id is discarded by backend.
-  alttext: string;
-  caption: string;
-  copyright: Copyright;
-  language: string;
-  tags: string[];
-  title: string;
-  modelReleased: string;
-}
-
-export interface UpdatedImageMetadata {
-  id?: number; // Used only as id in endpoint-url. Discarded by backend.
-  alttext?: string;
-  caption?: string;
-  copyright?: Copyright;
-  language: string;
-  tags?: string[];
-  title?: string;
-  modelReleased?: string;
 }
 
 interface SearchResultBase<T> {

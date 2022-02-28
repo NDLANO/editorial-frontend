@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikProps } from 'formik';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import { toEditArticle } from '../../../../util/routeHelpers';
-import validateFormik from '../../../../components/formikValidationSchema';
+import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
 import HeaderWithLanguage from '../../../../components/HeaderWithLanguage';
 import EditorFooter from '../../../../components/SlateEditor/EditorFooter';
@@ -30,7 +30,7 @@ import {
   topicArticleFormTypeToDraftApiType,
 } from '../../articleTransformers';
 import { validateDraft } from '../../../../modules/draft/draftApi';
-import { formikCommonArticleRules, isFormikFormDirty } from '../../../../util/formHelper';
+import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
 
@@ -158,7 +158,8 @@ const TopicArticleForm = ({
     );
   };
 
-  const initialErrors = useMemo(() => validateFormik(initialValues, formikCommonArticleRules, t), [
+  const initialWarnings = getWarnings(initialValues, topicArticleRules, t, article);
+  const initialErrors = useMemo(() => validateFormik(initialValues, topicArticleRules, t), [
     initialValues,
     t,
   ]);
@@ -172,7 +173,8 @@ const TopicArticleForm = ({
       validateOnBlur={false}
       innerRef={formikRef}
       onSubmit={handleSubmit}
-      validate={values => validateFormik(values, formikCommonArticleRules, t)}>
+      validate={values => validateFormik(values, topicArticleRules, t)}
+      initialStatus={{ warnings: initialWarnings }}>
       {FormikChild}
     </Formik>
   );

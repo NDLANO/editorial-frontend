@@ -7,27 +7,28 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { INewAudioMetaInformation } from '@ndla/types-audio-api';
 import AudioForm from './components/AudioForm';
-import * as audioApi from '../../modules/audio/audioApi';
+import { postAudio } from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';
-import { AudioMetaInformationPost } from '../../modules/audio/audioApiInterfaces';
 
 const CreateAudio = () => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
   const onCreateAudio = async (
-    newAudio: AudioMetaInformationPost,
+    newAudio: INewAudioMetaInformation,
     file?: string | Blob,
+    id?: number,
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
-    const createdAudio = await audioApi.postAudio(formData);
-    if (!newAudio.id) {
+    const createdAudio = await postAudio(formData);
+    if (!id) {
       navigate(toEditAudio(createdAudio.id, newAudio.language));
     }
   };
 
-  return <AudioForm onUpdate={onCreateAudio} audioLanguage={i18n.language} />;
+  return <AudioForm onSubmitFunc={onCreateAudio} audioLanguage={i18n.language} />;
 };
 
 export default CreateAudio;

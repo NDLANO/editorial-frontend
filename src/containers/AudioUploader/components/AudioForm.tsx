@@ -8,6 +8,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
+import {
+  IAudio,
+  IAudioMetaInformation as AudioApiType,
+  INewAudioMetaInformation,
+  IUpdatedAudioMetaInformation,
+} from '@ndla/types-audio-api';
 import { Formik, FormikHelpers } from 'formik';
 import PropTypes from 'prop-types';
 import { Descendant } from 'slate';
@@ -21,15 +27,10 @@ import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import AudioManuscript from './AudioManuscript';
 import { toCreateAudioFile, toEditAudio } from '../../../util/routeHelpers';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
+import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import { AudioShape } from '../../../shapes';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { Author, FormikFormBaseType } from '../../../interfaces';
-import {
-  AudioApiType,
-  AudioMetaInformationPost,
-  AudioMetaInformationPut,
-} from '../../../modules/audio/audioApiInterfaces';
 import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
@@ -43,12 +44,7 @@ export interface AudioFormikType extends FormikFormBaseType {
   title: Descendant[];
   manuscript: Descendant[];
   audioFile: {
-    storedFile?: {
-      url: string;
-      mimeType: string;
-      fileSize: number;
-      language: string;
-    };
+    storedFile?: IAudio;
     newFile?: {
       filepath: string;
       file: File;
@@ -62,15 +58,24 @@ export interface AudioFormikType extends FormikFormBaseType {
   license: string;
 }
 
-const rules: RulesType<AudioFormikType> = {
+const rules: RulesType<AudioFormikType, AudioApiType> = {
   title: {
     required: true,
+    warnings: {
+      languageMatch: true,
+    },
   },
   manuscript: {
     required: false,
+    warnings: {
+      languageMatch: true,
+    },
   },
   tags: {
     minItems: 3,
+    warnings: {
+      languageMatch: true,
+    },
   },
   creators: {
     allObjectFieldsRequired: true,
@@ -94,11 +99,14 @@ const rules: RulesType<AudioFormikType> = {
   },
 };
 
-type OnCreateFunc = (audio: AudioMetaInformationPost, file?: string | Blob) => void;
-type OnUpdateFunc = (audio: AudioMetaInformationPut, file?: string | Blob) => void;
+type onSubmitFuncType = (
+  audio: INewAudioMetaInformation | IUpdatedAudioMetaInformation,
+  file?: string | Blob,
+  id?: number,
+) => void;
 
 interface Props {
-  onUpdate: OnCreateFunc | OnUpdateFunc;
+  onSubmitFunc: onSubmitFuncType;
   audio?: AudioApiType;
   audioLanguage: string;
   revision?: number;
@@ -113,7 +121,7 @@ const AudioForm = ({
   isNewlyCreated,
   translating,
   translateToNN,
-  onUpdate,
+  onSubmitFunc,
   revision,
 }: Props) => {
   const { t } = useTranslation();
@@ -136,24 +144,22 @@ const AudioForm = ({
   const handleSubmit = async (values: AudioFormikType, actions: FormikHelpers<AudioFormikType>) => {
     try {
       actions.setSubmitting(true);
-      const audioMetaData = {
-        id: values.id,
-        revision: revision,
+      const audioMetaData: INewAudioMetaInformation = {
         title: editorValueToPlainText(values.title),
         manuscript: editorValueToPlainText(values.manuscript),
         language: values.language,
         tags: values.tags,
         audioType: 'standard',
         copyright: {
-          license: licenses!.find(license => license.license === values.license),
+          license: licenses?.find(license => license.license === values.license)!,
           origin: values.origin,
           creators: values.creators,
           processors: values.processors,
           rightsholders: values.rightsholders,
         },
       };
-
-      await onUpdate(audioMetaData, values.audioFile.newFile?.file);
+      const audioData = revision ? { ...audioMetaData, revision: revision } : audioMetaData;
+      await onSubmitFunc(audioData, values.audioFile.newFile?.file, values.id!);
 
       actions.setSubmitting(false);
       setSavedToServer(true);
@@ -166,6 +172,7 @@ const AudioForm = ({
 
   const initialValues = audioApiTypeToFormType(audio, audioLanguage);
   const initialErrors = validateFormik(initialValues, rules, t);
+  const initialWarnings = getWarnings(initialValues, rules, t, audio);
 
   return (
     <Formik
@@ -174,7 +181,8 @@ const AudioForm = ({
       enableReinitialize
       validateOnMount
       initialErrors={initialErrors}
-      validate={values => validateFormik(values, rules, t)}>
+      validate={values => validateFormik(values, rules, t)}
+      initialStatus={{ warnings: initialWarnings }}>
       {formikProps => {
         const { values, dirty, isSubmitting, submitForm, errors } = formikProps;
         const formIsDirty = isFormikFormDirty({
@@ -262,7 +270,7 @@ const AudioForm = ({
 };
 
 AudioForm.propTypes = {
-  onUpdate: PropTypes.func.isRequired,
+  onSubmitFunc: PropTypes.func.isRequired,
   revision: PropTypes.number,
   audio: AudioShape,
   audioLanguage: PropTypes.string.isRequired,

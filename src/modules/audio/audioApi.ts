@@ -7,23 +7,20 @@
  */
 
 import queryString from 'query-string';
+import {
+  IAudioMetaInformation as AudioApiType,
+  IAudioSummarySearchResult as AudioSearchResult,
+  ISeriesSummarySearchResult as SeriesSearchResult,
+  ISeries as PodcastSeriesApiType,
+  INewSeries,
+} from '@ndla/types-audio-api';
 import { resolveJsonOrVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
 import {
   apiResourceUrl,
   fetchAuthorized,
   resolveJsonOrRejectWithError,
 } from '../../util/apiHelpers';
-import {
-  AudioApiType,
-  AudioSearchParams,
-  AudioSearchResult,
-  PodcastSeriesPost,
-  PodcastSeriesApiType,
-  SeriesSearchParams,
-  SeriesSearchResult,
-  TagSearchResult,
-  PodcastSeriesPut,
-} from './audioApiInterfaces';
+import { AudioSearchParams, SeriesSearchParams, TagSearchResult } from './audioApiInterfaces';
 
 const baseUrl = apiResourceUrl('/audio-api/v1/audio');
 const seriesBaseUrl = apiResourceUrl('/audio-api/v1/series');
@@ -91,7 +88,7 @@ export const fetchSeries = (
   );
 };
 
-export const postSeries = (newSeries: PodcastSeriesPost): Promise<PodcastSeriesApiType> =>
+export const postSeries = (newSeries: INewSeries): Promise<PodcastSeriesApiType> =>
   fetchAuthorized(`${seriesBaseUrl}`, {
     method: 'POST',
     body: JSON.stringify(newSeries),
@@ -99,7 +96,7 @@ export const postSeries = (newSeries: PodcastSeriesPost): Promise<PodcastSeriesA
 
 export const updateSeries = (
   id: number | string,
-  newSeries: PodcastSeriesPut,
+  newSeries: INewSeries,
 ): Promise<PodcastSeriesApiType> =>
   fetchAuthorized(`${seriesBaseUrl}/${id}`, {
     method: 'PUT',

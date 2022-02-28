@@ -12,14 +12,14 @@ import { useTranslation } from 'react-i18next';
 import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
 import { colors } from '@ndla/core';
 import { Audio, Podcast } from '@ndla/icons/common';
-import { AudioSearchResultType } from '../../../../modules/audio/audioApiInterfaces';
+import { IAudioSummary } from '@ndla/types-audio-api';
 import { toEditAudio, toEditPodcast } from '../../../../util/routeHelpers';
 import { AudioResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
 
 interface Props {
-  audio: AudioSearchResultType;
+  audio: IAudioSummary;
   locale: string;
 }
 

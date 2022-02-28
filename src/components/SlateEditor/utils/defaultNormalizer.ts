@@ -7,8 +7,13 @@ interface DefaultNodeRule {
   defaultType: ElementType;
 }
 
+interface ParentNodeRule {
+  allowed: ElementType[];
+  defaultType?: ElementType;
+}
+
 export interface NormalizerConfig {
-  parent?: DefaultNodeRule;
+  parent?: ParentNodeRule;
   previous?: DefaultNodeRule;
   next?: DefaultNodeRule;
   firstNode?: DefaultNodeRule;
@@ -172,7 +177,7 @@ const normalizeNext = (editor: Editor, entry: NodeEntry, settings: DefaultNodeRu
   return false;
 };
 
-const normalizeParent = (editor: Editor, entry: NodeEntry, settings: DefaultNodeRule): boolean => {
+const normalizeParent = (editor: Editor, entry: NodeEntry, settings: ParentNodeRule): boolean => {
   const [, path] = entry;
   const { defaultType, allowed } = settings;
 
@@ -180,7 +185,11 @@ const normalizeParent = (editor: Editor, entry: NodeEntry, settings: DefaultNode
 
   // 1. If parent element is incorrect, change current node to default element
   if (!Element.isElement(parent) || !allowed.includes(parent.type)) {
-    Transforms.setNodes<Element>(editor, createNode(defaultType), { at: path });
+    if (defaultType) {
+      Transforms.setNodes<Element>(editor, createNode(defaultType), { at: path });
+    } else {
+      Transforms.unwrapNodes(editor, { at: path });
+    }
     return true;
   }
 

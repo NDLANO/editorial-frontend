@@ -12,12 +12,12 @@ import { spacing } from '@ndla/core';
 import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
-import { useTranslation } from 'react-i18next';
 import {
-  ImageApiType,
-  ImageSearchQuery,
-  ImageSearchResult,
-} from '../modules/image/imageApiInterfaces';
+  IImageMetaInformationV2 as ImageApiType,
+  ISearchResult as ImageSearchResult,
+} from '@ndla/types-image-api';
+import { useTranslation } from 'react-i18next';
+import { ImageSearchQuery } from '../modules/image/imageApiInterfaces';
 import CreateImage from '../containers/ImageUploader/CreateImage';
 
 const StyledTitleDiv = styled.div`
@@ -29,9 +29,9 @@ interface Props {
   inModal?: boolean;
   locale: string;
   closeModal: () => void;
-  onError: Function;
+  onError: (err: any) => void;
   searchImages: (query: ImageSearchQuery) => Promise<ImageSearchResult>;
-  fetchImage: (id: string) => Promise<ImageApiType>;
+  fetchImage: (id: number) => Promise<ImageApiType>;
   showCheckbox?: boolean;
   checkboxAction?: (image: ImageApiType) => void;
 }
@@ -50,7 +50,7 @@ const ImageSearchAndUploader = ({
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const { t } = useTranslation();
 
-  const searchImagesWithParameters = (query: string, page: number) => {
+  const searchImagesWithParameters = (query?: string, page?: number) => {
     return searchImages({ query, page, 'page-size': 16 });
   };
 

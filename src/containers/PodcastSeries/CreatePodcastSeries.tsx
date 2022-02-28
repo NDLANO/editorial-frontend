@@ -7,8 +7,8 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { INewSeries } from '@ndla/types-audio-api';
 import { postSeries } from '../../modules/audio/audioApi';
-import { PodcastSeriesPost } from '../../modules/audio/audioApiInterfaces';
 import { toEditPodcastSeries } from '../../util/routeHelpers';
 import PodcastSeriesForm from './components/PodcastSeriesForm';
 
@@ -17,7 +17,7 @@ const CreatePodcastSeries = () => {
   const navigate = useNavigate();
   const locale = i18n.language;
 
-  const onUpdate = async (newSeries: PodcastSeriesPost): Promise<void> => {
+  const onUpdate = async (newSeries: INewSeries): Promise<void> => {
     const createdSeries = await postSeries(newSeries);
     navigate(toEditPodcastSeries(createdSeries.id, newSeries.language));
   };

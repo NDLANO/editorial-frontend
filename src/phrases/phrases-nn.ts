@@ -493,6 +493,7 @@ const phrases = {
     headingThree: 'Overskrift 3\n({{ctrl}}+3)',
     headingTwo: 'Overskrift 2\n({{ctrl}}+2)',
     italic: 'Kursiv\n({{ctrl}}+i)',
+    lang: 'Språk\n(alt+l)',
     letterList: 'Bokstavliste\n({{ctrl}}+alt+a)',
     link: 'Lenke\n({{ctrl}}+alt+l)',
     mathml: 'Matte\n({{ctrl}}+m)',
@@ -1144,6 +1145,9 @@ const phrases = {
     },
     grepCodes: 'Følgande koder har feil format eller eksisterer ikkje, og blir ikkje lagt til: ',
   },
+  warningMessage: {
+    fieldWithWrongLanguage: 'Dette feltet er henta frå språkkode: {{language}}',
+  },
   notFound: {
     description: 'Denne sida finnes ikkje.',
   },
@@ -1333,6 +1337,16 @@ const phrases = {
     visible: 'er synleg',
     notVisible: 'er ikkje synleg',
     changeVisibility: 'Endre synlegheit',
+  },
+  languages: {
+    ar: 'Arabisk',
+    de: 'Tysk',
+    en: 'Engelsk',
+    se: 'Nordsamisk',
+    sma: 'Sørsamisk',
+    so: 'Somali',
+    ti: 'Tigrinja',
+    zh: 'Kinesisk',
   },
 };
 

@@ -492,6 +492,7 @@ const phrases = {
     headingThree: 'Heading 3\n({{ctrl}}+3)',
     headingTwo: 'Heading 2\n({{ctrl}}+2)',
     italic: 'Italic\n({{ctrl}}+i)',
+    lang: 'Language\n(alt+l)',
     letterList: 'Letter list\n({{ctrl}}+alt+a)',
     link: 'Link\n({{ctrl}}+alt+l)',
     mathml: 'Math\n({{ctrl}}+m)',
@@ -1143,6 +1144,9 @@ const phrases = {
     },
     grepCodes: 'The following codes have wrong format or does not exist, and will not be added: ',
   },
+  warningMessage: {
+    fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',
+  },
   notFound: {
     description: 'The page cannot be found',
   },
@@ -1331,6 +1335,16 @@ const phrases = {
     visible: 'is visible',
     notVisible: 'is not visible',
     changeVisibility: 'Change visibility',
+  },
+  languages: {
+    ar: 'Arabic',
+    de: 'German',
+    en: 'English',
+    se: 'Northern Sámi',
+    sma: 'Southern Sámi',
+    so: 'Somali',
+    ti: 'Tigrinya',
+    zh: 'Chinese',
   },
 };
 

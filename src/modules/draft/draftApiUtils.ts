@@ -6,8 +6,8 @@
  *
  */
 
-import { License } from '../../interfaces';
-import { ImageApiLicense } from '../image/imageApiInterfaces';
+import { ILicense as ImageApiLicense } from '@ndla/types-image-api';
+import { ILicense as DraftApiLicense } from '@ndla/types-draft-api';
 
-export const draftLicensesToImageLicenses = (licenses: License[]): ImageApiLicense[] =>
-  licenses.map(l => ({ license: l.license, description: l.description || '', url: l.url }));
+export const draftLicensesToImageLicenses = (licenses: DraftApiLicense[]): ImageApiLicense[] =>
+  licenses.map(l => ({ license: l.license, description: l.description ?? '', url: l.url }));

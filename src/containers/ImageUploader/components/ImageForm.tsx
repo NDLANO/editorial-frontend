@@ -8,11 +8,17 @@
 import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
+import {
+  IImageMetaInformationV2 as ImageApiType,
+  INewImageMetaInformationV2 as NewImageMetadata,
+  IUpdateImageMetaInformation as UpdatedImageMetadata,
+} from '@ndla/types-image-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
+import { ILicense as License } from '@ndla/types-image-api';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty } from '../../../util/formHelper';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
+import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
 import {
@@ -23,29 +29,35 @@ import {
 } from '../../FormikForm';
 import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
-import {
-  ImageApiType,
-  NewImageMetadata,
-  UpdatedImageMetadata,
-} from '../../../modules/image/imageApiInterfaces';
 import ImageVersionNotes from './ImageVersionNotes';
 import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
-import { License } from '../../../interfaces';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 
-const imageRules: RulesType<ImageFormikType> = {
+const imageRules: RulesType<ImageFormikType, ImageApiType> = {
   title: {
     required: true,
+    warnings: {
+      languageMatch: true,
+    },
   },
   alttext: {
     required: true,
+    warnings: {
+      languageMatch: true,
+    },
   },
   caption: {
     required: true,
+    warnings: {
+      languageMatch: true,
+    },
   },
   tags: {
     minItems: 3,
+    warnings: {
+      languageMatch: true,
+    },
   },
   creators: {
     allObjectFieldsRequired: true,
@@ -79,7 +91,7 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob) => void;
+type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob, id: number) => void;
 type OnCreateFunc = (imageMetadata: NewImageMetadata, image: string | Blob) => void;
 
 interface Props {
@@ -141,7 +153,6 @@ const ImageForm = ({
 
     actions.setSubmitting(true);
     const imageMetaData: NewImageMetadata = {
-      id: values.id,
       title: editorValueToPlainText(values.title),
       alttext: values.alttext,
       caption: values.caption,
@@ -156,13 +167,14 @@ const ImageForm = ({
       },
       modelReleased: values.modelReleased,
     };
-    await onUpdate(imageMetaData, values.imageFile);
+    await onUpdate(imageMetaData, values.imageFile, values.id!);
     setSavedToServer(true);
     actions.resetForm();
   };
 
   const initialValues = imageApiTypeToFormType(image, language);
   const initialErrors = validateFormik(initialValues, imageRules, t);
+  const initialWarnings = getWarnings(initialValues, imageRules, t, image);
 
   return (
     <Formik
@@ -171,7 +183,8 @@ const ImageForm = ({
       onSubmit={handleSubmit}
       validateOnMount
       enableReinitialize
-      validate={values => validateFormik(values, imageRules, t)}>
+      validate={values => validateFormik(values, imageRules, t)}
+      initialStatus={{ warnings: initialWarnings }}>
       {({ values, dirty, errors, isSubmitting, submitForm, isValid }) => {
         const formIsDirty = isFormikFormDirty({
           values,

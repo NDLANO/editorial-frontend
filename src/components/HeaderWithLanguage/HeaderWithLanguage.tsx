@@ -9,10 +9,10 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
-import { ConceptApiType } from '../../modules/concept/conceptApiInterfaces';
 import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { getTaxonomyPathsFromTaxonomy } from './util';
 import { ArticleTaxonomy } from '../../containers/FormikForm/formikDraftHooks';

@@ -5,10 +5,14 @@
  */
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-
-import { AudioApiType } from './modules/audio/audioApiInterfaces';
+import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 import { DraftApiType } from './modules/draft/draftApiInterfaces';
+
+export interface FormikStatus {
+  status?: string;
+  warnings?: Record<string, string>;
+}
 
 export type LocaleType = typeof LOCALE_VALUES[number];
 

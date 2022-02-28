@@ -33,7 +33,6 @@ import VersionActionbuttons from './VersionActionButtons';
 import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
 import { FormikStatus, Note } from '../../interfaces';
-import { ArticleFormType } from './articleFormHooks';
 import { useMessages } from '../Messages/MessagesProvider';
 import {
   draftApiTypeToLearningResourceFormType,

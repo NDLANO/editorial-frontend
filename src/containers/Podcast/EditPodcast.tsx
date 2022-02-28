@@ -84,9 +84,10 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   return (
     <PodcastForm
       audio={podcast}
+      revision={podcast?.revision}
       language={language}
       podcastChanged={podcastChanged || newLanguage}
-      onSubmitFunc={onUpdate}
+      onUpdatePodcast={onUpdate}
       isNewlyCreated={isNewlyCreated}
       translating={translating}
       translateToNN={translateToNN}

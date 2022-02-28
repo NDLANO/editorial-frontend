@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import {
   IAudioMetaInformation as AudioApiType,
-  INewAudioMetaInformation,
+  IUpdatedAudioMetaInformation,
 } from '@ndla/types-audio-api';
 import AudioForm from './components/AudioForm';
 import { createFormData } from '../../util/formDataHelper';
@@ -37,7 +37,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     (async () => {
       if (audioId) {
         setLoading(true);
-        const apiAudio = await fetchAudio(Number(audioId), audioLanguage!);
+        const apiAudio = await fetchAudio(Number(audioId), audioLanguage);
         setAudio(apiAudio);
         setLoading(false);
       }
@@ -45,7 +45,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
   }, [audioId, audioLanguage]);
 
   const onUpdate = async (
-    newAudio: INewAudioMetaInformation,
+    newAudio: IUpdatedAudioMetaInformation,
     file: string | Blob | undefined,
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
@@ -70,8 +70,8 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
   return (
     <AudioForm
       audio={audio}
-      revision={audio && audio.revision}
-      onSubmitFunc={onUpdate}
+      revision={audio?.revision}
+      onUpdateAudio={onUpdate}
       audioLanguage={language}
       isNewlyCreated={isNewlyCreated}
       translating={translating}

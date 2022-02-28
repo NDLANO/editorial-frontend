@@ -106,7 +106,7 @@ const ImageSearchAndUploader = ({
               language={locale}
               inModal={inModal}
               image={image}
-              onUpdate={updateImage}
+              onSubmitFunc={updateImage}
               closeModal={closeModal}
               licenses={imageLicenses}
             />

@@ -29,7 +29,7 @@ const CreatePodcast = () => {
     }
   };
 
-  return <PodcastForm onSubmitFunc={onCreatePodcast} isNewlyCreated={false} language={locale} />;
+  return <PodcastForm onCreatePodcast={onCreatePodcast} isNewlyCreated={false} language={locale} />;
 };
 
 export default CreatePodcast;

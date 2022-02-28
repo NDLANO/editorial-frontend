@@ -27,7 +27,7 @@ const CreateAudio = () => {
     }
   };
 
-  return <AudioForm onSubmitFunc={onCreateAudio} audioLanguage={i18n.language} />;
+  return <AudioForm onCreateAudio={onCreateAudio} audioLanguage={i18n.language} />;
 };
 
 export default CreateAudio;

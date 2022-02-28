@@ -47,11 +47,11 @@ const EditImage = ({ isNewlyCreated }: Props) => {
     })();
   }, [imageLanguage, imageId]);
 
-  const onUpdate = async (updatedImage: UpdatedImageMetadata, image: string | Blob, id: number) => {
+  const onUpdate = async (updatedImage: UpdatedImageMetadata, image: string | Blob) => {
     const formData = await createFormData(image, updatedImage);
 
     try {
-      const res = await updateImage(id, updatedImage, formData);
+      const res = await updateImage(Number(imageId), updatedImage, formData);
       setImage(res);
     } catch (e) {
       applicationError(e);
@@ -71,7 +71,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
     <ImageForm
       language={imageLanguage ?? i18n.language}
       image={image}
-      onUpdate={onUpdate}
+      onSubmitFunc={onUpdate}
       isNewlyCreated={isNewlyCreated}
       licenses={imageLicenses}
     />

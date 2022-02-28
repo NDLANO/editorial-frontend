@@ -54,7 +54,7 @@ const CreateImage = ({
       inModal={inModal}
       isNewlyCreated={isNewlyCreated}
       licenses={imageLicenses}
-      onUpdate={onCreateImage}
+      onSubmitFunc={onCreateImage}
       closeModal={closeModal}
     />
   );

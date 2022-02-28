@@ -87,20 +87,14 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-type OnCreateFunc = (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
-type OnUpdateFunc = (newPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
-// type onSubmitFuncType = (
-//   podcast: IUpdatedAudioMetaInformation | INewAudioMetaInformation,
-//   file?: string | Blob,
-// ) => void;
-
 interface Props {
   audio?: AudioApiType;
   podcastChanged?: boolean;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   language: string;
-  onSubmitFunc: OnCreateFunc | OnUpdateFunc;
+  onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
+  onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
   revision?: number;
   translating?: boolean;
   translateToNN?: () => void;
@@ -112,9 +106,11 @@ const PodcastForm = ({
   inModal,
   isNewlyCreated,
   language,
-  onSubmitFunc,
+  onCreatePodcast,
+  onUpdatePodcast,
   translating,
   translateToNN,
+  revision,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
@@ -147,8 +143,7 @@ const PodcastForm = ({
     }
 
     actions.setSubmitting(true);
-    const podcastMetaData: INewAudioMetaInformation | IUpdatedAudioMetaInformation = {
-      revision: values.revision,
+    const podcastMetaData: INewAudioMetaInformation = {
       title: values.title ? editorValueToPlainText(values.title) : '',
       manuscript: values.manuscript ? editorValueToPlainText(values.manuscript) : '',
       tags: values.tags,
@@ -168,9 +163,13 @@ const PodcastForm = ({
       },
       seriesId: values.series?.id,
     };
-    // const podcastData = values.revision ? { ...podcastMetaData, revision: values.revision } : podcastMetaData;
     try {
-      await onSubmitFunc(podcastMetaData, values.audioFile.newFile?.file);
+      revision
+        ? onUpdatePodcast?.(
+            { ...podcastMetaData, revision: revision },
+            values.audioFile.newFile?.file,
+          )
+        : onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);
     } catch (e) {
       handleError(e);
     }

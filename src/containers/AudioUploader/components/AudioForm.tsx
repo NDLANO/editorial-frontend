@@ -15,7 +15,6 @@ import {
   IUpdatedAudioMetaInformation,
 } from '@ndla/types-audio-api';
 import { Formik, FormikHelpers } from 'formik';
-import PropTypes from 'prop-types';
 import { Descendant } from 'slate';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import Field from '../../../components/Field';
@@ -28,7 +27,6 @@ import AudioContent from './AudioContent';
 import AudioManuscript from './AudioManuscript';
 import { toCreateAudioFile, toEditAudio } from '../../../util/routeHelpers';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
-import { AudioShape } from '../../../shapes';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import { Author, FormikFormBaseType } from '../../../interfaces';
 import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
@@ -99,13 +97,9 @@ const rules: RulesType<AudioFormikType, AudioApiType> = {
   },
 };
 
-type onSubmitFuncType = (
-  audio: INewAudioMetaInformation | IUpdatedAudioMetaInformation,
-  file?: string | Blob,
-) => void;
-
 interface Props {
-  onSubmitFunc: onSubmitFuncType;
+  onCreateAudio?: (audio: INewAudioMetaInformation, file?: string | Blob) => void;
+  onUpdateAudio?: (audio: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
   audio?: AudioApiType;
   audioLanguage: string;
   revision?: number;
@@ -120,7 +114,8 @@ const AudioForm = ({
   isNewlyCreated,
   translating,
   translateToNN,
-  onSubmitFunc,
+  onCreateAudio,
+  onUpdateAudio,
   revision,
 }: Props) => {
   const { t } = useTranslation();
@@ -157,8 +152,9 @@ const AudioForm = ({
           rightsholders: values.rightsholders,
         },
       };
-      const audioData = revision ? { ...audioMetaData, revision: revision } : audioMetaData;
-      await onSubmitFunc(audioData, values.audioFile.newFile?.file);
+      revision
+        ? onUpdateAudio?.({ ...audioMetaData, revision: revision }, values.audioFile.newFile?.file)
+        : onCreateAudio?.(audioMetaData, values.audioFile.newFile?.file);
 
       actions.setSubmitting(false);
       setSavedToServer(true);
@@ -266,16 +262,6 @@ const AudioForm = ({
       }}
     </Formik>
   );
-};
-
-AudioForm.propTypes = {
-  onSubmitFunc: PropTypes.func.isRequired,
-  revision: PropTypes.number,
-  audio: AudioShape,
-  audioLanguage: PropTypes.string.isRequired,
-  isNewlyCreated: PropTypes.bool,
-  translating: PropTypes.bool,
-  translateToNN: PropTypes.func,
 };
 
 export default AudioForm;

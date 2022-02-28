@@ -11,7 +11,6 @@ import { Formik, Form, FormikHelpers } from 'formik';
 import {
   IImageMetaInformationV2 as ImageApiType,
   INewImageMetaInformationV2 as NewImageMetadata,
-  IUpdateImageMetaInformation as UpdatedImageMetadata,
 } from '@ndla/types-image-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { ILicense as License } from '@ndla/types-image-api';
@@ -91,13 +90,10 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob, id: number) => void;
-type OnCreateFunc = (imageMetadata: NewImageMetadata, image: string | Blob) => void;
-
 interface Props {
   image?: ImageApiType;
   licenses: License[];
-  onUpdate: OnCreateFunc | OnUpdateFunc;
+  onSubmitFunc: (imageMetadata: NewImageMetadata, image: string | Blob) => void;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
@@ -118,7 +114,7 @@ export type ImageFormErrorFields =
 
 const ImageForm = ({
   licenses,
-  onUpdate,
+  onSubmitFunc,
   image,
   inModal,
   language,
@@ -167,7 +163,7 @@ const ImageForm = ({
       },
       modelReleased: values.modelReleased,
     };
-    await onUpdate(imageMetaData, values.imageFile, values.id!);
+    await onSubmitFunc(imageMetaData, values.imageFile);
     setSavedToServer(true);
     actions.resetForm();
   };

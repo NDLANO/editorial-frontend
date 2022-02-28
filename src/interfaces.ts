@@ -9,6 +9,11 @@ import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
 import { ILicense as DraftApiLicense, IArticle as DraftApiType } from '@ndla/types-draft-api';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 
+export interface FormikStatus {
+  status?: string;
+  warnings?: Record<string, string>;
+}
+
 export type LocaleType = typeof LOCALE_VALUES[number];
 
 export type PartialRecord<K extends keyof any, T> = {
@@ -26,7 +31,8 @@ export type EditMode =
   | 'editGrepCodes'
   | 'addExistingTopic'
   | 'addTopic'
-  | 'deleteSubject';
+  | 'deleteSubject'
+  | '';
 
 export interface FormikFormBaseType {
   language: string;

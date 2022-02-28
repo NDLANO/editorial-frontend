@@ -493,6 +493,7 @@ const phrases = {
     headingThree: 'Overskrift 3\n({{ctrl}}+3)',
     headingTwo: 'Overskrift 2\n({{ctrl}}+2)',
     italic: 'Kursiv\n({{ctrl}}+i)',
+    lang: 'Språk\n(alt+l)',
     letterList: 'Bokstavliste\n({{ctrl}}+alt+a)',
     link: 'Lenke\n({{ctrl}}+alt+l)',
     mathml: 'Matte\n(ctrl+m)',
@@ -1145,7 +1146,7 @@ const phrases = {
     grepCodes: 'Følgende koder har feil format eller eksisterer ikke, og vil ikke bli lagt til: ',
   },
   warningMessage: {
-    fieldWithWrongLanguage: 'OBS! Feltets verdi er hentet fra språkkode: {{language}}',
+    fieldWithWrongLanguage: 'Dette feltet er hentet fra språkkode: {{language}}',
   },
   notFound: {
     description: 'Denne siden finnes ikke.',
@@ -1221,6 +1222,8 @@ const phrases = {
       subTitle: 'Id og synlighet for elementet',
       wrongArticleType:
         'Artikkelen er plassert som "{{placedAs}}" i taksonomien, men artikkelen er av typen "{{isType}}".',
+      missingArticleType:
+        'Artikkelen med ID {{id}} mangler artikkeltype. Den er sannsynligvis slettet.',
       wrongConnections: 'Feilkoblinger',
       wrongConnectionsSubTitle: 'Denne artikkelen har feilkoblinger, se listen under.',
       canBeFixedInDatabase: 'Artikkeltypen kan endres i databasen for å fikse feilen.',
@@ -1334,6 +1337,16 @@ const phrases = {
     visible: 'er synlig',
     notVisible: 'er ikke synlig',
     changeVisibility: 'Endre synlighet',
+  },
+  languages: {
+    ar: 'Arabisk',
+    de: 'Tysk',
+    en: 'Engelsk',
+    se: 'Nordsamisk',
+    sma: 'Sørsamisk',
+    so: 'Somali',
+    ti: 'Tigrinja',
+    zh: 'Kinesisk',
   },
 };
 

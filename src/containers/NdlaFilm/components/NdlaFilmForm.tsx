@@ -38,7 +38,7 @@ export interface FilmFormikType {
   themes: IMovieTheme[];
 }
 
-const ndlaFilmRules: RulesType<FilmFormikType, {}> = {
+const ndlaFilmRules: RulesType<FilmFormikType> = {
   title: {
     required: true,
   },

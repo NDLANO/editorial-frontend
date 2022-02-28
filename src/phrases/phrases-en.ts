@@ -492,6 +492,7 @@ const phrases = {
     headingThree: 'Heading 3\n({{ctrl}}+3)',
     headingTwo: 'Heading 2\n({{ctrl}}+2)',
     italic: 'Italic\n({{ctrl}}+i)',
+    lang: 'Language\n(alt+l)',
     letterList: 'Letter list\n({{ctrl}}+alt+a)',
     link: 'Link\n({{ctrl}}+alt+l)',
     mathml: 'Math\n({{ctrl}}+m)',
@@ -1144,7 +1145,7 @@ const phrases = {
     grepCodes: 'The following codes have wrong format or does not exist, and will not be added: ',
   },
   warningMessage: {
-    fieldWithWrongLanguage: 'Note! Fields value was fetched from language code: {{language}}',
+    fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',
   },
   notFound: {
     description: 'The page cannot be found',
@@ -1220,6 +1221,8 @@ const phrases = {
       subTitle: 'Id and visibility for the element',
       wrongArticleType:
         'The article is placed as "{{placedAs}}" in the taxonomy, but the article is of "{{isType}}" type.',
+      missingArticleType:
+        'The article with ID {{id}} does not have an article type. It most likely does not exist.',
       wrongConnections: 'Bad connections',
       wrongConnectionsSubTitle: 'This article has bad connections, see the list below.',
       canBeFixedInDatabase: 'The article type can be changed in the database to fix the error.',
@@ -1332,6 +1335,16 @@ const phrases = {
     visible: 'is visible',
     notVisible: 'is not visible',
     changeVisibility: 'Change visibility',
+  },
+  languages: {
+    ar: 'Arabic',
+    de: 'German',
+    en: 'English',
+    se: 'Northern Sámi',
+    sma: 'Southern Sámi',
+    so: 'Somali',
+    ti: 'Tigrinya',
+    zh: 'Chinese',
   },
 };
 

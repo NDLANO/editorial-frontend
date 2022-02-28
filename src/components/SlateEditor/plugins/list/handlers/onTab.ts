@@ -23,8 +23,8 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
     return next && next(event);
   }
 
-  const [currentListNode, currentListPath] = listItemEntry;
-  const [currentItemNode, currentItemPath] = listEntry;
+  const [currentListNode, currentListPath] = listEntry;
+  const [currentItemNode, currentItemPath] = listItemEntry;
   const [[currentTextBlockNode, currentTextBlockPath]] = Editor.nodes(editor, {
     match: n => Element.isElement(n) && firstTextBlockElement.includes(n.type),
     mode: 'lowest',
@@ -43,6 +43,7 @@ const onTab = (event: KeyboardEvent, editor: Editor, next?: (event: KeyboardEven
     if (!editor.selection) {
       return next && next(event);
     }
+
     if (
       Path.isDescendant(editor.selection.anchor.path, currentItemPath) &&
       Path.isDescendant(editor.selection.focus.path, currentItemPath)

@@ -78,9 +78,7 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
 
   useEffect(() => {
     const getSubjects = async () => {
-      const subjects = concept.subjectIds
-        ? await Promise.all(concept.subjectIds.map(id => fetchSubject(id)))
-        : [];
+      const subjects = await Promise.all(concept.subjectIds?.map(id => fetchSubject(id)) ?? []);
       setSubjects(subjects);
     };
     getSubjects();

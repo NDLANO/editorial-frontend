@@ -45,7 +45,7 @@ const TopicArticleAccordionPanels = ({
   const { t } = useTranslation();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<TopicArticleFormType>();
-  const { values, errors, setValues, setStatus } = formikContext;
+  const { values, errors } = formikContext;
   return (
     <Accordions>
       <AccordionSection
@@ -106,13 +106,7 @@ const TopicArticleAccordionPanels = ({
           title={t('form.workflowSection')}
           className={'u-6/6'}
           hasError={!!errors.notes}>
-          <VersionAndNotesPanel
-            article={article}
-            getArticle={getArticle}
-            setValues={setValues}
-            setStatus={setStatus}
-            type="topic-article"
-          />
+          <VersionAndNotesPanel article={article} getArticle={getArticle} type="topic-article" />
         </AccordionSection>
       )}
     </Accordions>

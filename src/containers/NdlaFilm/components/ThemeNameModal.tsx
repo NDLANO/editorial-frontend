@@ -6,7 +6,6 @@
  */
 
 import { ReactElement, ReactNode, useState } from 'react';
-//@ts-ignore
 import { NdlaFilmThemeEditorModal } from '@ndla/editor';
 import Modal from '@ndla/modal';
 import { ThemeNames } from './ThemeEditor';

@@ -14,6 +14,7 @@ import { FormikHandlers, useFormikContext } from 'formik';
 import { SlatePlugin } from './interfaces';
 import withPlugins from './utils/withPlugins';
 import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
+import { FormikStatus } from '../../interfaces';
 
 interface Props {
   id: string;
@@ -45,7 +46,7 @@ const PlainTextEditor = ({
     if (status?.status === 'revertVersion') {
       ReactEditor.deselect(editor);
       editor.children = value;
-      setStatus((prevStatus: any) => ({ ...prevStatus, status: undefined }));
+      setStatus((prevStatus: FormikStatus) => ({ ...prevStatus, status: undefined }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);

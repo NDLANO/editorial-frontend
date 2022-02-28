@@ -12,6 +12,7 @@ import { EditMode } from '../../../interfaces';
 import { NodeType, SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
 import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import { useSession } from '../../Session/SessionProvider';
+import EditCustomFields from './sharedMenuOptions/EditCustomFields';
 import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
 
 interface Props {
@@ -40,9 +41,9 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Prop
   if (nodeType === SUBJECT_NODE) {
     return (
       <>
-        {/* <ChangeNodeName editModeHandler={editModeHandler} node={node} />
+        {/* <ChangeNodeName editModeHandler={editModeHandler} node={node} /> */}
         <EditCustomFields toggleEditMode={toggleEditMode} editMode={editMode} node={node} />
-        <AddExistingToNode
+        {/* <AddExistingToNode
           node={node}
           editModeHandler={editModeHandler}
           onClose={onClose}
@@ -58,9 +59,9 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Prop
   } else if (nodeType === TOPIC_NODE) {
     return (
       <>
-        {/* <PublishChildNode node={node} />
+        {/* <PublishChildNode node={node} /> */}
         <EditCustomFields toggleEditMode={toggleEditMode} editMode={editMode} node={node} />
-        <DeleteChildNode editModeHandler={editModeHandler} node={node} rootNodeId={rootNodeId} />
+        {/* <DeleteChildNode editModeHandler={editModeHandler} node={node} rootNodeId={rootNodeId} />
         <AddExistingToNode
           node={node}
           editModeHandler={editModeHandler}

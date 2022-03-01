@@ -109,3 +109,34 @@ test('transformUrlIfNeeded replaces www with embed for ted.com', async () => {
   const url1 = await transformUrlIfNeeded('https://www.ted.com/talks/some_fancy_talk');
   expect(url1).toMatch('https://embed.ted.com/talks/some_fancy_talk');
 });
+
+test('transformUrlIfNeeded returns original for flourish', async () => {
+  const url1 = await transformUrlIfNeeded(
+    'https://public.flourish.studio/visualisation/8515737/embed',
+  );
+  expect(url1).toMatch('https://public.flourish.studio/visualisation/8515737/embed');
+  const url2 = await transformUrlIfNeeded('https://flo.uri.sh/visualisation/8515737/embed');
+  expect(url2).toMatch('https://flo.uri.sh/visualisation/8515737/embed');
+});
+
+test('transformUrlIfNeeded adds /embed for flourish', async () => {
+  const url1 = await transformUrlIfNeeded('https://public.flourish.studio/visualisation/8515737/');
+  expect(url1).toMatch('https://public.flourish.studio/visualisation/8515737/embed');
+  const url2 = await transformUrlIfNeeded('https://flo.uri.sh/visualisation/8515737');
+  expect(url2).toMatch('https://flo.uri.sh/visualisation/8515737/embed');
+});
+
+test('transformUrlIfNeeded creates embed-url for sketchup model if needed', async () => {
+  const url1 = await transformUrlIfNeeded(
+    'https://3dwarehouse.sketchup.com/model/eb498ef3-3de5-42ca-a621-34ea29cc08c4/Oppbygging-av-ringmur',
+  );
+  expect(url1).toMatch(
+    'https://3dwarehouse.sketchup.com/embed/eb498ef3-3de5-42ca-a621-34ea29cc08c4',
+  );
+  const url2 = await transformUrlIfNeeded(
+    'https://3dwarehouse.sketchup.com/embed/eb498ef3-3de5-42ca-a621-34ea29cc08c4',
+  );
+  expect(url2).toMatch(
+    'https://3dwarehouse.sketchup.com/embed/eb498ef3-3de5-42ca-a621-34ea29cc08c4',
+  );
+});

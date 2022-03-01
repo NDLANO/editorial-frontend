@@ -182,9 +182,9 @@
     "react-transition-group": "^4.2.2",
     "remarkable": "^2.0.0",
     "serialize-javascript": "^3.1.0",
-    "slate": "^0.73.0",
+    "slate": "^0.72.0",
     "slate-history": "^0.66.0",
-    "slate-react": "^0.73.0",
+    "slate-react": "^0.72.1",
     "source-map-support": "^0.5.13",
     "yup": "^0.32.9"
   },

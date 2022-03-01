@@ -21,7 +21,7 @@ import {
   fetchSubject,
 } from '../modules/taxonomy';
 import { getContentTypeFromResourceTypes } from './resourceHelpers';
-import { ChildNodeType } from '../modules/nodes/nodeApiTypes';
+import { ChildNodeType, ResourceWithNodeConnection } from '../modules/nodes/nodeApiTypes';
 
 // Kan hende at id i contentUri fra taxonomy inneholder '#xxx' (revision)
 export const getIdFromUrn = (urn?: string) => {
@@ -61,6 +61,26 @@ const flattenResourceTypesAndAddContextTypes = (
   });
   resourceTypes.push({ name: t('contextTypes.topic'), id: 'topic-article' });
   return resourceTypes;
+};
+
+const groupResourcesByResourceType = (resources: ResourceWithNodeConnection[]) => {
+  return resources
+    .flatMap(res => res.resourceTypes.map<[string, ResourceWithNodeConnection]>(rt => [rt.id, res]))
+    .reduce<Record<string, ResourceWithNodeConnection[]>>(
+      (acc, [id, cur]) => ({ ...acc, [id]: safeConcat(cur, acc[id]) }),
+      {},
+    );
+};
+
+const groupSortResourceTypesFromNodeResources = (
+  resourceTypes: ResourceType[],
+  topicResources: ResourceWithNodeConnection[],
+) => {
+  const groupedByResource = groupResourcesByResourceType(topicResources);
+  return resourceTypes
+    .map(type => ({ ...type, resources: groupedByResource[type.id] ?? [] }))
+    .filter(type => type.resources.length > 0)
+    .map(type => ({ ...type, contentType: getContentTypeFromResourceTypes([type]).contentType }));
 };
 
 const sortIntoCreateDeleteUpdate = <T extends { id: string }>({
@@ -273,6 +293,7 @@ const getBreadcrumbFromPath = async (
 export const nodePathToUrnPath = (path: string) => path.replace(/\//g, '/urn:').substr(1);
 
 export {
+  groupSortResourceTypesFromNodeResources,
   groupChildNodes,
   flattenResourceTypesAndAddContextTypes,
   sortIntoCreateDeleteUpdate,

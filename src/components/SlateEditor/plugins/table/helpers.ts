@@ -8,14 +8,14 @@ import {
   TableRowElement,
 } from './interfaces';
 import {
-  defaultTableCellBlock,
   TYPE_TABLE,
   TYPE_TABLE_BODY,
   TYPE_TABLE_CAPTION,
   TYPE_TABLE_CELL,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
-} from './utils';
+} from './types';
+import { defaultTableCellBlock } from './utils';
 
 // Checks
 export const isTable = (node: Node): node is TableElement => {

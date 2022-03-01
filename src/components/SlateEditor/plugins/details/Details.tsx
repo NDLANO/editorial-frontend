@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
-import { TYPE_DETAILS } from '.';
+import { TYPE_DETAILS } from './types';
 
 const StyledDetailsDiv = styled.div`
   margin: ${spacing.large} 0;

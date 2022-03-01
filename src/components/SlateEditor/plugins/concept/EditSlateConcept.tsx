@@ -18,12 +18,13 @@ import { colors, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Notion from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
-import { ConceptElement, TYPE_CONCEPT } from '.';
+import { ConceptElement } from '.';
 import ConceptModal from './ConceptModal';
 import SlateConceptPreview from './SlateConceptPreview';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../utils/mergeLastUndos';
 import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
+import { TYPE_CONCEPT } from './types';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
   type: TYPE_CONCEPT,

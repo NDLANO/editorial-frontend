@@ -10,7 +10,7 @@ import { Editor, Element, Descendant } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import { SlateSerializer } from '../../interfaces';
-export const TYPE_BREAK = 'br';
+import { TYPE_BREAK } from './types';
 
 export interface BreakElement {
   type: 'br';

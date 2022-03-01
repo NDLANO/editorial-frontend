@@ -1,9 +1,9 @@
 import { Element } from 'slate';
-import { TYPE_QUOTE } from '../blockquote';
-import { TYPE_HEADING } from '../heading';
+import { TYPE_QUOTE } from '../blockquote/types';
+import { TYPE_HEADING } from '../heading/types';
 import { TYPE_LIST } from '../list/types';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
-import { TYPE_TABLE } from '../table/utils';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { TYPE_TABLE } from '../table/types';
 
 export interface BlockPickerOptions {
   allowedPickAreas: Element['type'][];

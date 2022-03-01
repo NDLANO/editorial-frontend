@@ -7,13 +7,13 @@
  */
 
 import { Descendant } from 'slate';
-import { TYPE_SECTION } from '../../section';
 import {
   topicArticleContentToEditorValue,
   topicArticleContentToHTML,
 } from '../../../../../util/articleContentConverter';
-import { TYPE_EMBED } from '../../embed';
-import { TYPE_PARAGRAPH } from '../../paragraph/utils';
+import { TYPE_EMBED } from '../../embed/types';
+import { TYPE_PARAGRAPH } from '../../paragraph/types';
+import { TYPE_SECTION } from '../../section/types';
 
 const editor: Descendant[] = [
   {

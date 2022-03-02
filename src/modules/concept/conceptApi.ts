@@ -20,9 +20,7 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import {
-  ConceptStatusStateMachineType,
   ConceptQuery,
-  ConceptStatusType,
 } from './conceptApiInterfaces';
 
 const draftConceptUrl: string = apiResourceUrl('/concept-api/v1/drafts');
@@ -70,14 +68,14 @@ export const deleteLanguageVersionConcept = async (
     method: 'DELETE',
   }).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));
 
-export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMachineType> =>
+export const fetchStatusStateMachine = async (): Promise<Record<string, string[]>> =>
   fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then(r =>
-    resolveJsonOrRejectWithError<ConceptStatusStateMachineType>(r),
+    resolveJsonOrRejectWithError<Record<string, string[]>>(r),
   );
 
 export const updateConceptStatus = async (
   id: number,
-  status: ConceptStatusType,
+  status: string,
 ): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/${id}/status/${status}`, {
     method: 'PUT',

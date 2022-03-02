@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { ReactNode } from 'react';
+import { ReactNode, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IMovieTheme } from '@ndla/types-frontpage-api';
 import Button from '@ndla/button';
@@ -113,7 +113,7 @@ const ThemeEditor = ({ field, form, onUpdateMovieTheme, selectedLanguage }: Prop
                     stripped
                     css={FieldHeaderIconStyle}
                     tabIndex={-1}
-                    onClick={(e: Event) => e.preventDefault()}>
+                    onClick={(e: MouseEvent) => e.preventDefault()}>
                     <Pencil />
                   </Button>
                 }
@@ -145,7 +145,7 @@ const ThemeEditor = ({ field, form, onUpdateMovieTheme, selectedLanguage }: Prop
                   stripped
                   css={FieldHeaderIconStyle}
                   tabIndex={-1}
-                  onClick={(e: Event) => {
+                  onClick={(e: MouseEvent) => {
                     onMoveTheme(index, -1);
                     e.preventDefault();
                   }}>
@@ -157,7 +157,7 @@ const ThemeEditor = ({ field, form, onUpdateMovieTheme, selectedLanguage }: Prop
                   stripped
                   css={FieldHeaderIconStyle}
                   tabIndex={-1}
-                  onClick={(e: Event) => {
+                  onClick={(e: MouseEvent) => {
                     onMoveTheme(index, 1);
                     e.preventDefault();
                   }}>

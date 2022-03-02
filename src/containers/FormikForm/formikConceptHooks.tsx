@@ -9,7 +9,6 @@
 import { useState, useEffect } from 'react';
 import { IConcept as ConceptApiType, INewConcept, IUpdatedConcept } from '@ndla/types-concept-api';
 import { IArticle as DraftApiType } from '@ndla/types-draft-api';
-import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags } from '../../modules/concept/conceptApi';
@@ -85,7 +84,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   const updateConceptAndStatus = async (
     id: number,
     conceptPatch: IUpdatedConcept,
-    newStatus: ConceptStatusType,
+    newStatus: string,
     dirty: boolean,
   ): Promise<ConceptApiType> => {
     const newConcept = dirty

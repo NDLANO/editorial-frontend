@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+import {MouseEvent} from "react";
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { ImageNormal, ImageSmall, ImageXsmall, ImageXxSmall } from '@ndla/icons/editor';
@@ -19,7 +20,7 @@ const icon: Record<string, JSX.Element> = {
 
 interface Props {
   size: string;
-  onFieldChange: (evt: MouseEvent, field: string, value: string) => void;
+  onFieldChange: (evt: MouseEvent<HTMLButtonElement>, field: string, value: string) => void;
   currentSize?: string;
 }
 

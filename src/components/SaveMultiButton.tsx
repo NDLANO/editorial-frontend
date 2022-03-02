@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { MultiButton } from '@ndla/button';
 import { Check } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
@@ -62,7 +70,7 @@ const SaveMultiButton = ({
             const saveAsNewVersion = value === 'saveAsNew';
             onClick(saveAsNewVersion);
           }}
-          mainButton={{ value: 'save' }}
+          mainButton={{ value: 'save', label: '' }}
           secondaryButtons={
             hideSecondaryButton
               ? []

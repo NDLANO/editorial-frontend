@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+import {MouseEvent} from "react";
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { Copyright, Publicdomain } from '@ndla/icons/licenses';
@@ -17,7 +18,7 @@ const icon = {
 
 interface Props {
   currentSize?: string;
-  onFieldChange: (evt: MouseEvent, field: string, value: string) => void;
+  onFieldChange: (evt: MouseEvent<HTMLButtonElement>, field: string, value: string) => void;
   show: boolean;
 }
 
@@ -28,7 +29,7 @@ const ShowBylineButton = ({ currentSize, onFieldChange, show }: Props) => {
 
   const isActive = (show && !hideByline) || (!show && hideByline);
 
-  const onChange = (evt: MouseEvent) => {
+  const onChange = (evt: MouseEvent<HTMLButtonElement>) => {
     if (!isActive) {
       onFieldChange(
         evt,

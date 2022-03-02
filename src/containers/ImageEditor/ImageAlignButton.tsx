@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
+import {MouseEvent} from "react";
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { AlignLeft, AlignCenter, AlignRight } from '@ndla/icons/editor';
@@ -19,12 +20,12 @@ const icon: Record<string, JSX.Element> = {
 interface Props {
   currentAlign?: string;
   alignType: string;
-  onFieldChange: (evt: MouseEvent, field: string, value: string) => void;
+  onFieldChange: (evt: MouseEvent<HTMLButtonElement>, field: string, value: string) => void;
 }
 
 const ImageAlignButton = ({ currentAlign, alignType, onFieldChange }: Props) => {
   const { t } = useTranslation();
-  const onChange = (evt: MouseEvent) => {
+  const onChange = (evt: MouseEvent<HTMLButtonElement>) => {
     onFieldChange(evt, 'align', alignType);
   };
 

@@ -95,7 +95,6 @@ interface Props {
   language: string;
   onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
   onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
-  revision?: number;
   translating?: boolean;
   translateToNN?: () => void;
 }
@@ -110,7 +109,6 @@ const PodcastForm = ({
   onUpdatePodcast,
   translating,
   translateToNN,
-  revision,
 }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const { t } = useTranslation();
@@ -164,9 +162,9 @@ const PodcastForm = ({
       seriesId: values.series?.id,
     };
     try {
-      revision
+      audio?.revision
         ? onUpdatePodcast?.(
-            { ...podcastMetaData, revision: revision },
+            { ...podcastMetaData, revision: audio.revision },
             values.audioFile.newFile?.file,
           )
         : onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);

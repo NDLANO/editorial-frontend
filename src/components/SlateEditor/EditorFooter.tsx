@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IConcept as ConceptApiType, IStatus } from '@ndla/types-concept-api';
 import {
   IUpdatedArticle as UpdatedDraftApiType,
   IStatus as DraftStatus,
@@ -23,7 +23,6 @@ import { toPreviewDraft } from '../../util/routeHelpers';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
-import { ConceptStatus } from '../../modules/concept/conceptApiInterfaces';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
 
@@ -47,7 +46,7 @@ interface FormValues {
   id: number;
   language: string;
   revision?: number;
-  status: ConceptStatus;
+  status: IStatus
 }
 
 const StyledLine = styled.hr`

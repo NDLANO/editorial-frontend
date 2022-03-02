@@ -7,19 +7,16 @@
  */
 
 import { Descendant } from 'slate';
+import {IStatus} from "@ndla/types-concept-api";
 import { IArticle as DraftApiType } from '@ndla/types-draft-api';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
 import { Author } from '../../interfaces';
 
 export interface ConceptFormValues {
   id?: number;
   language: string;
   revision?: number;
-  status?: {
-    current: ConceptStatusType;
-    other: ConceptStatusType[];
-  };
+  status?: IStatus
   visualElement: Descendant[];
   source?: string;
   metaImage?: {

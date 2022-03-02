@@ -14,7 +14,7 @@ import {
 } from '@ndla/types-concept-api';
 import { CONCEPT, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from '../../queryKeys';
 import { fetchConcept, fetchStatusStateMachine, searchConcepts } from './conceptApi';
-import { ConceptQuery, ConceptStatusStateMachineType } from './conceptApiInterfaces';
+import { ConceptQuery } from './conceptApiInterfaces';
 
 export const useConcept = (
   id: string | number,
@@ -38,9 +38,9 @@ export const useSearchConcepts = (
   );
 
 export const useConceptStateMachine = (
-  options?: UseQueryOptions<ConceptStatusStateMachineType>,
+  options?: UseQueryOptions<Record<string, string[]>>,
 ) => {
-  return useQuery<ConceptStatusStateMachineType>(
+  return useQuery<Record<string, string[]>>(
     [CONCEPT_STATE_MACHINE],
     () => fetchStatusStateMachine(),
     options,

@@ -35,7 +35,7 @@ const MoveContentButton = ({ onMouseDown }: Props) => {
     <Button
       css={moveContentButtonStyle}
       contentEditable={false}
-      tabIndex="-1"
+      tabIndex={-1}
       title={t('learningResourceForm.fields.rightAside.moveContent')}
       stripped
       onMouseDown={onMouseDown}>

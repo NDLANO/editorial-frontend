@@ -19,9 +19,9 @@ import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/As
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
 import { InputField, InputPair } from './SearchStyles';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { ConceptStatusType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
+import {PUBLISHED, QUALITY_ASSURED} from "../../../../../util/constants/ConceptStatus";
 
 export interface InlineFormConcept {
   title: string;
@@ -29,7 +29,7 @@ export interface InlineFormConcept {
   license: string;
   subjects: SubjectType[];
   tags: string[];
-  newStatus?: ConceptStatusType;
+  newStatus?: string;
 }
 interface ErrorsType {
   title?: string;
@@ -163,13 +163,12 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
         </Button>
         <MultiButton
           disabled={!hasChanges || Object.keys(errors).length > 0}
-          className="form-button"
           onClick={(value: string) => {
             const getStatus = (v: string, s: string) => {
               if (v === 'saveAndPublish') {
-                return 'PUBLISHED';
-              } else if (s === 'PUBLISHED') {
-                return 'QUALITY_ASSURED';
+                return PUBLISHED;
+              } else if (s === PUBLISHED) {
+                return QUALITY_ASSURED;
               } else {
                 return undefined;
               }
@@ -177,15 +176,13 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
             const newStatus = getStatus(value, status);
             onSubmit({ ...values, newStatus });
           }}
-          mainButton={{ value: 'save' }}
+          mainButton={{ value: 'save', label: t(`form.save`) }}
           secondaryButtons={[
             {
               label: t('form.saveAndPublish'),
               value: 'saveAndPublish',
             },
-          ]}>
-          <span>{t(`form.save`)}</span>
-        </MultiButton>
+          ]}/>
       </div>
     </form>
   );

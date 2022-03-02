@@ -6,24 +6,6 @@
  *
  */
 
-export type ConceptStatusStateMachineType = Record<ConceptStatusType, string[]>;
-
-// TODO: Check if we can generate enums from backend instead of string
-export type ConceptStatusType =
-  | 'DRAFT'
-  | 'QUALITY_ASSURED'
-  | 'PUBLISHED'
-  | 'QUEUED_FOR_LANGUAGE'
-  | 'ARCHIVED'
-  | 'TRANSLATED'
-  | 'UNPUBLISHED'
-  | string;
-
-export interface ConceptStatus {
-  current: ConceptStatusType;
-  other: ConceptStatusType[];
-}
-
 export interface ConceptQuery {
   query?: string;
   language?: string;

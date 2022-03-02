@@ -17,6 +17,8 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
 import { Podcast } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
+import {IConcept as ConceptApiType} from "@ndla/types-concept-api";
+import {IUpdatedArticle as UpdatedDraftApiType} from "@ndla/types-draft-api";
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -102,7 +104,7 @@ interface Props {
   statusText?: string;
   published?: boolean;
   type: string;
-  getEntity?: () => any; // TODO:
+  getEntity?: () => ConceptApiType | UpdatedDraftApiType;
   isNewLanguage: boolean;
   title?: string;
   formIsDirty?: boolean;

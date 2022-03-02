@@ -31,7 +31,6 @@ import {
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
 import FormWrapper from './FormWrapper';
-import { ConceptStatusType } from '../../../modules/concept/conceptApiInterfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
@@ -57,7 +56,7 @@ interface Props {
   updateConceptAndStatus?: (
     id: number,
     updatedConcept: IUpdatedConcept,
-    newStatus: ConceptStatusType,
+    newStatus: string,
     dirty: boolean,
   ) => Promise<ConceptApiType>;
 }

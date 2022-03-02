@@ -21,7 +21,7 @@ export const inlineConceptSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== 'embed') return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
-    if (embedAttributes.resource !== 'concept') return;
+    if (embedAttributes.resource !== 'concept' || embedAttributes['data-type'] !== 'inline') return;
     return slatejsx(
       'element',
       {

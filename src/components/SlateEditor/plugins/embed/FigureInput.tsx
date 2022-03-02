@@ -6,7 +6,7 @@
  *
  */
 
-import {ChangeEvent, MouseEvent} from "react";
+import { ChangeEvent, MouseEvent } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Input, StyledButtonWrapper } from '@ndla/forms';

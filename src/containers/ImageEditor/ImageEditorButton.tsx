@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import {MouseEvent, ReactNode} from 'react';
+import { MouseEvent, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import Button, {ButtonProps} from '@ndla/button';
+import Button, { ButtonProps } from '@ndla/button';
 
-const EditButton = styled(Button)<ButtonProps & {isActive: boolean}>`
+const EditButton = styled(Button)<ButtonProps & { isActive: boolean }>`
   transition: color 200ms ease;
   color: ${props => (props.isActive ? '#fff' : colors.brand.grey)};
   padding: ${spacing.xsmall};

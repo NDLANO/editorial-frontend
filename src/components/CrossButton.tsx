@@ -6,7 +6,7 @@
  *
  */
 
-import {MouseEvent} from "react";
+import { MouseEvent } from 'react';
 import { Cross } from '@ndla/icons/action';
 import Button from '@ndla/button';
 

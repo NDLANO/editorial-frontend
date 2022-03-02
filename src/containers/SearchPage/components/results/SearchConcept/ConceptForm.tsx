@@ -21,7 +21,7 @@ import { InputField, InputPair } from './SearchStyles';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
-import {PUBLISHED, QUALITY_ASSURED} from "../../../../../util/constants/ConceptStatus";
+import { PUBLISHED, QUALITY_ASSURED } from '../../../../../util/constants/ConceptStatus';
 
 export interface InlineFormConcept {
   title: string;
@@ -182,7 +182,8 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
               label: t('form.saveAndPublish'),
               value: 'saveAndPublish',
             },
-          ]}/>
+          ]}
+        />
       </div>
     </form>
   );

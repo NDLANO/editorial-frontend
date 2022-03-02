@@ -46,7 +46,7 @@ interface FormValues {
   id: number;
   language: string;
   revision?: number;
-  status: IStatus
+  status: IStatus;
 }
 
 const StyledLine = styled.hr`

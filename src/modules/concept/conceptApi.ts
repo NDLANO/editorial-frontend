@@ -19,9 +19,7 @@ import {
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
-import {
-  ConceptQuery,
-} from './conceptApiInterfaces';
+import { ConceptQuery } from './conceptApiInterfaces';
 
 const draftConceptUrl: string = apiResourceUrl('/concept-api/v1/drafts');
 
@@ -73,10 +71,7 @@ export const fetchStatusStateMachine = async (): Promise<Record<string, string[]
     resolveJsonOrRejectWithError<Record<string, string[]>>(r),
   );
 
-export const updateConceptStatus = async (
-  id: number,
-  status: string,
-): Promise<ConceptApiType> =>
+export const updateConceptStatus = async (id: number, status: string): Promise<ConceptApiType> =>
   fetchAuthorized(`${draftConceptUrl}/${id}/status/${status}`, {
     method: 'PUT',
   }).then(r => resolveJsonOrRejectWithError<ConceptApiType>(r));

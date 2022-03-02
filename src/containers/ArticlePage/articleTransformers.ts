@@ -30,7 +30,7 @@ import {
 } from '../FormikForm/articleFormHooks';
 import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
 import { nullOrUndefined } from '../../util/articleUtil';
-import {DRAFT} from "../../util/constants/ArticleStatus";
+import { DRAFT } from '../../util/constants/ArticleStatus';
 
 const getPublishedDate = (
   values: ArticleFormType,

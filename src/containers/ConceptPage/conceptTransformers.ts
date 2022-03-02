@@ -22,7 +22,7 @@ import {
 import { ConceptFormValues } from './conceptInterfaces';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { parseImageUrl } from '../../util/formHelper';
-import {DRAFT} from "../../util/constants/ConceptStatus";
+import { DRAFT } from '../../util/constants/ConceptStatus';
 
 export const conceptApiTypeToFormType = (
   concept: ConceptApiType | undefined,

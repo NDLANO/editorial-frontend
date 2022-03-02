@@ -37,9 +37,7 @@ export const useSearchConcepts = (
     options,
   );
 
-export const useConceptStateMachine = (
-  options?: UseQueryOptions<Record<string, string[]>>,
-) => {
+export const useConceptStateMachine = (options?: UseQueryOptions<Record<string, string[]>>) => {
   return useQuery<Record<string, string[]>>(
     [CONCEPT_STATE_MACHINE],
     () => fetchStatusStateMachine(),

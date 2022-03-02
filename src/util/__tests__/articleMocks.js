@@ -6,7 +6,7 @@
  *
  */
 
-import {DRAFT, IMPORTED} from "../constants/ArticleStatus";
+import { DRAFT, IMPORTED } from '../constants/ArticleStatus';
 
 export const apiArticle = {
   id: 302,

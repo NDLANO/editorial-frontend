@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import {MouseEvent} from "react";
+import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { AlignLeft, AlignCenter, AlignRight } from '@ndla/icons/editor';

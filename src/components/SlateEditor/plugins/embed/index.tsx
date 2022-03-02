@@ -38,7 +38,7 @@ const normalizerConfig: NormalizerConfig = {
 export const embedSerializer: SlateSerializer = {
   deserialize(el: HTMLElement) {
     if (el.tagName.toLowerCase() !== TYPE_EMBED) return;
-    return defaultEmbedBlock((parseEmbedTag(el.outerHTML) as unknown) as Embed);
+    return defaultEmbedBlock(parseEmbedTag(el.outerHTML) as Embed);
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;

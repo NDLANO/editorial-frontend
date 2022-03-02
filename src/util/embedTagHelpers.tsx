@@ -78,7 +78,7 @@ export const createProps = (obj: Dictionary<string>) =>
     .filter(key => obj[key] !== undefined && !isObject(obj[key]))
     .reduce((acc, key) => ({ ...acc, [key]: obj[key] }), {});
 
-export const parseEmbedTag = (embedTag?: string) => {
+export const parseEmbedTag = (embedTag?: string): Embed | undefined => {
   if (!embedTag) {
     return undefined;
   }

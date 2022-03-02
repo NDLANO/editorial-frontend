@@ -20,7 +20,7 @@ import { ParagraphElement } from './plugins/paragraph';
 import { SectionElement } from './plugins/section';
 import { ListElement, ListItemElement } from './plugins/list';
 import { MathmlElement } from './plugins/mathml';
-import { ConceptElement } from './plugins/concept';
+import { ConceptInlineElement } from './plugins/concept/inline/interfaces';
 import { AsideElement } from './plugins/aside';
 import { FileElement } from './plugins/file';
 import { DetailsElement, SummaryElement } from './plugins/details';
@@ -74,7 +74,7 @@ declare module 'slate' {
       | ListItemElement
       | FootnoteElement
       | MathmlElement
-      | ConceptElement
+      | ConceptInlineElement
       | AsideElement
       | FileElement
       | DetailsElement

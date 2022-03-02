@@ -22,7 +22,7 @@ import { headingSerializer } from '../components/SlateEditor/plugins/heading';
 import { listSerializer } from '../components/SlateEditor/plugins/list';
 import { footnoteSerializer } from '../components/SlateEditor/plugins/footnote';
 import { mathmlSerializer } from '../components/SlateEditor/plugins/mathml';
-import { conceptSerializer } from '../components/SlateEditor/plugins/concept';
+import { inlineConceptSerializer } from '../components/SlateEditor/plugins/concept/inline';
 import { asideSerializer } from '../components/SlateEditor/plugins/aside';
 import { fileSerializer } from '../components/SlateEditor/plugins/file';
 import { detailsSerializer } from '../components/SlateEditor/plugins/details';
@@ -80,7 +80,7 @@ const learningResourceRules: SlateSerializer[] = [
   listSerializer,
   footnoteSerializer,
   mathmlSerializer,
-  conceptSerializer,
+  inlineConceptSerializer,
   asideSerializer,
   fileSerializer,
   detailsSerializer,
@@ -105,7 +105,7 @@ const topicArticleRules: SlateSerializer[] = [
   listSerializer,
   footnoteSerializer,
   mathmlSerializer,
-  conceptSerializer,
+  inlineConceptSerializer,
   noEmbedSerializer,
   divSerializer,
   spanSerializer,

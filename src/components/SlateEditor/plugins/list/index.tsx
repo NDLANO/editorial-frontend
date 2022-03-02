@@ -11,7 +11,7 @@ import onBackspace from './handlers/onBackspace';
 import { TYPE_LIST, TYPE_LIST_ITEM } from './types';
 import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from '../../utils/keys';
 import { TYPE_BREAK } from '../break/types';
-import { TYPE_CONCEPT } from '../concept/types';
+import { TYPE_CONCEPT_INLINE } from '../concept/inline/types';
 import { TYPE_FOOTNOTE } from '../footnote/types';
 import { TYPE_LINK, TYPE_CONTENT_LINK } from '../link/types';
 import { TYPE_MATHML } from '../mathml/types';
@@ -32,7 +32,7 @@ export interface ListItemElement {
   moveDown?: boolean;
 }
 
-const inlines = [TYPE_CONCEPT, TYPE_FOOTNOTE, TYPE_LINK, TYPE_CONTENT_LINK, TYPE_MATHML];
+const inlines = [TYPE_CONCEPT_INLINE, TYPE_FOOTNOTE, TYPE_LINK, TYPE_CONTENT_LINK, TYPE_MATHML];
 
 export const listSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: (Descendant | null)[]) {

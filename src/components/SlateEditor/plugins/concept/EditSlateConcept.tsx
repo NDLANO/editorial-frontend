@@ -18,16 +18,16 @@ import { colors, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Notion from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
-import { ConceptElement } from '.';
+import { ConceptInlineElement } from './inline/interfaces';
 import ConceptModal from './ConceptModal';
 import SlateConceptPreview from './SlateConceptPreview';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../utils/mergeLastUndos';
 import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
-import { TYPE_CONCEPT } from './types';
+import { TYPE_CONCEPT_INLINE } from './inline/types';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
-  type: TYPE_CONCEPT,
+  type: TYPE_CONCEPT_INLINE,
   data: {
     'content-id': id,
     'link-text': title,
@@ -51,7 +51,7 @@ const StyledWarnIcon = styled(AlertCircle)`
 `;
 
 interface Props {
-  element: ConceptElement;
+  element: ConceptInlineElement;
   locale: string;
   editor: Editor;
   attributes: RenderElementProps['attributes'];
@@ -101,7 +101,7 @@ const EditSlateConcept = (props: Props) => {
         Transforms.setNodes(
           editor,
           { data: data.data },
-          { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT },
+          { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE },
         );
         mergeLastUndos(editor);
       }
@@ -115,7 +115,7 @@ const EditSlateConcept = (props: Props) => {
       const path = ReactEditor.findPath(editor, element);
       Transforms.unwrapNodes(editor, {
         at: path,
-        match: node => Element.isElement(node) && node.type === TYPE_CONCEPT,
+        match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
       });
     }, 0);
   };

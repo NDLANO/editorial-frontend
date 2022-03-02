@@ -15,7 +15,7 @@ import { css } from '@emotion/core';
 import { compact } from 'lodash';
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-draft-api';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { queryResources } from '../../../../modules/taxonomy';
@@ -42,7 +42,7 @@ export interface ExternalArticle {
   description: string;
 }
 
-interface InternalArticle extends Omit<DraftApiType, 'title' | 'id'> {
+interface InternalArticle extends Omit<IArticle, 'title' | 'id'> {
   resource: Resource[];
   id: string;
   title: string;
@@ -50,7 +50,7 @@ interface InternalArticle extends Omit<DraftApiType, 'title' | 'id'> {
 
 export type RelatedArticleType = InternalArticle | ExternalArticle;
 
-const mapRelatedArticle = (article: DraftApiType, resource: Resource[]): InternalArticle => ({
+const mapRelatedArticle = (article: IArticle, resource: Resource[]): InternalArticle => ({
   ...article,
   resource,
   id: article.id.toString(),

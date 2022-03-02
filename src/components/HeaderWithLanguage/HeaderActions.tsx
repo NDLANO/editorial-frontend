@@ -9,8 +9,8 @@
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
-import { IUpdatedArticle as UpdatedDraftApiType } from '@ndla/types-draft-api';
+import { IConcept } from '@ndla/types-concept-api';
+import { IUpdatedArticle } from '@ndla/types-draft-api';
 import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
@@ -22,7 +22,7 @@ import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import { createReturnTypeGuard } from '../../util/guards';
 
-type PreviewTypes = ConceptApiType | UpdatedDraftApiType;
+type PreviewTypes = IConcept | IUpdatedArticle;
 
 interface PreviewLightBoxProps {
   type: string;
@@ -31,8 +31,8 @@ interface PreviewLightBoxProps {
   supportedLanguages?: string[];
 }
 
-const isConceptReturnType = createReturnTypeGuard<ConceptApiType>('articleIds');
-const isDraftReturnType = (value: () => PreviewTypes): value is () => UpdatedDraftApiType =>
+const isConceptReturnType = createReturnTypeGuard<IConcept>('articleIds');
+const isDraftReturnType = (value: () => PreviewTypes): value is () => IUpdatedArticle =>
   !isConceptReturnType(value);
 
 const PreviewLightBox = ({

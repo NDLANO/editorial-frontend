@@ -12,11 +12,8 @@ import { useTranslation } from 'react-i18next';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
-import { IConcept as ConceptApiType, IStatus } from '@ndla/types-concept-api';
-import {
-  IUpdatedArticle as UpdatedDraftApiType,
-  IStatus as DraftStatus,
-} from '@ndla/types-draft-api';
+import { IConcept, IStatus as ConceptStatus } from '@ndla/types-concept-api';
+import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { useFormikContext } from 'formik';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
@@ -29,12 +26,12 @@ import { NewMessageType, useMessages } from '../../containers/Messages/MessagesP
 interface Props {
   formIsDirty: boolean;
   savedToServer: boolean;
-  getEntity?: () => UpdatedDraftApiType | ConceptApiType;
+  getEntity?: () => IUpdatedArticle | IConcept;
   entityStatus?: DraftStatus;
   showSimpleFooter: boolean;
   onSaveClick: (saveAsNewVersion?: boolean) => void;
   statusStateMachine?: Record<string, string[]>;
-  validateEntity?: (id: number, updatedEntity: UpdatedDraftApiType) => Promise<{ id: number }>;
+  validateEntity?: (id: number, updatedEntity: IUpdatedArticle) => Promise<{ id: number }>;
   isArticle?: boolean;
   isConcept: boolean;
   hideSecondaryButton: boolean;
@@ -46,7 +43,7 @@ interface FormValues {
   id: number;
   language: string;
   revision?: number;
-  status: IStatus;
+  status: ConceptStatus;
 }
 
 const StyledLine = styled.hr`
@@ -106,7 +103,7 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
-  const isDraftApiType = createGuard<UpdatedDraftApiType, ConceptApiType>('subjectIds', {
+  const isDraftApiType = createGuard<IUpdatedArticle, IConcept>('subjectIds', {
     lacksProp: true,
   });
 
@@ -156,7 +153,7 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
-  const isConceptType = createReturnTypeGuard<ConceptApiType>('subjectIds');
+  const isConceptType = createReturnTypeGuard<IConcept>('subjectIds');
 
   return (
     <Footer>

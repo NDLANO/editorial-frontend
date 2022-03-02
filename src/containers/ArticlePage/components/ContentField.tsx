@@ -11,10 +11,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
-import {
-  IArticle as DraftApiType,
-  IArticleSummary as DraftSearchSummary,
-} from '@ndla/types-draft-api';
+import { IArticle, IArticleSummary } from '@ndla/types-draft-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -49,7 +46,7 @@ const ContentField = ({ field, form }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onAddArticleToList = async (article: DraftSearchSummary) => {
+  const onAddArticleToList = async (article: IArticleSummary) => {
     try {
       const newArticle = await fetchDraft(article.id, i18n.language);
       const temp = [...relatedContent, newArticle];
@@ -92,9 +89,8 @@ const ContentField = ({ field, form }: Props) => {
     updateFormik(field, temp);
   };
 
-  const isDraftApiType = (
-    relatedContent: ConvertedRelatedContent,
-  ): relatedContent is DraftApiType => (relatedContent as DraftApiType).id !== undefined;
+  const isDraftApiType = (relatedContent: ConvertedRelatedContent): relatedContent is IArticle =>
+    (relatedContent as IArticle).id !== undefined;
 
   const selectedItems = relatedContent.filter(isDraftApiType);
 
@@ -103,9 +99,8 @@ const ContentField = ({ field, form }: Props) => {
       <FieldHeader title={t('form.relatedContent.articlesTitle')} />
       <ElementList
         elements={relatedContent.filter(
-          (
-            rc: number | DraftApiType | RelatedContentLink,
-          ): rc is DraftApiType | RelatedContentLink => typeof rc !== 'number',
+          (rc: number | IArticle | RelatedContentLink): rc is IArticle | RelatedContentLink =>
+            typeof rc !== 'number',
         )}
         messages={{
           dragElement: t('form.relatedContent.changeOrder'),

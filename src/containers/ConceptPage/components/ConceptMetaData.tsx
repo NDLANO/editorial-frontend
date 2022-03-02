@@ -8,7 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
-import { ITagsSearchResult as ConceptTagsSearchResult } from '@ndla/types-concept-api';
+import { ITagsSearchResult } from '@ndla/types-concept-api';
 import FormikField from '../../../components/FormikField';
 import AsyncSearchTags from '../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MetaImageSearch } from '../../FormikForm';
@@ -20,7 +20,7 @@ import { onSaveAsVisualElement } from '../../FormikForm/utils';
 
 interface Props {
   subjects: SubjectType[];
-  fetchTags: (input: string, language: string) => Promise<ConceptTagsSearchResult>;
+  fetchTags: (input: string, language: string) => Promise<ITagsSearchResult>;
   inModal: boolean;
 }
 

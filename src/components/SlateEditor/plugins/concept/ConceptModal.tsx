@@ -12,13 +12,13 @@ import PropTypes from 'prop-types';
 import Modal from '@ndla/modal/lib/Modal';
 import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import {
-  IConcept as ConceptApiType,
+  IConcept,
   IConceptSearchResult,
   INewConcept,
   IUpdatedConcept,
-  ITagsSearchResult as ConceptTagsSearchResult,
+  ITagsSearchResult,
 } from '@ndla/types-concept-api';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import Tabs from '@ndla/tabs';
@@ -38,18 +38,18 @@ import { createGuard } from '../../../../util/guards';
 const type = 'concept';
 
 interface Props {
-  addConcept: (concept: ConceptApiType) => void;
-  concept?: ConceptApiType;
-  createConcept: (createdConcept: INewConcept) => Promise<ConceptApiType>;
-  fetchSearchTags: (input: string, language: string) => Promise<ConceptTagsSearchResult>;
+  addConcept: (concept: IConcept) => void;
+  concept?: IConcept;
+  createConcept: (createdConcept: INewConcept) => Promise<IConcept>;
+  fetchSearchTags: (input: string, language: string) => Promise<ITagsSearchResult>;
   handleRemove: () => void;
   isOpen: boolean;
   onClose: () => void;
   locale: string;
   selectedText: string;
   subjects: SubjectType[];
-  updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<ConceptApiType>;
-  conceptArticles: DraftApiType[];
+  updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
+  conceptArticles: IArticle[];
 }
 
 const isConceptPatchType = createGuard<IUpdatedConcept>('status');

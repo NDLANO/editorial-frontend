@@ -9,11 +9,7 @@
 import { Formik, Form } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import {
-  ILicense as DraftApiLicense,
-  IUpdatedArticle as UpdatedDraftApiType,
-  IArticle as DraftApiType,
-} from '@ndla/types-draft-api';
+import { ILicense, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
 import { ArticleFormType, useArticleFormHooks } from '../FormikForm/articleFormHooks';
 import GrepCodesField from '../FormikForm/GrepCodesField';
@@ -30,9 +26,9 @@ const SaveButtonContainer = styled.div`
 const getArticle = (
   values: ArticleFormType,
   initialValues: ArticleFormType,
-  licenses: DraftApiLicense[],
+  licenses: ILicense[],
   preview?: boolean,
-): UpdatedDraftApiType => {
+): IUpdatedArticle => {
   return {
     revision: 0,
     grepCodes: values.grepCodes,
@@ -40,14 +36,14 @@ const getArticle = (
 };
 
 interface Props {
-  article: DraftApiType;
+  article: IArticle;
   articleChanged: boolean;
-  updateArticle: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
+  updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
   updateArticleAndStatus?: (input: {
-    updatedArticle: UpdatedDraftApiType;
+    updatedArticle: IUpdatedArticle;
     newStatus: string;
     dirty: boolean;
-  }) => Promise<DraftApiType>;
+  }) => Promise<IArticle>;
 }
 
 const GrepCodesForm = ({

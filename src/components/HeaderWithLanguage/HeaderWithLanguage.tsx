@@ -9,8 +9,8 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
-import { IUpdatedArticle as UpdatedDraftApiType } from '@ndla/types-draft-api';
+import { IConcept } from '@ndla/types-concept-api';
+import { IUpdatedArticle } from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
 import HeaderInformation from './HeaderInformation';
 import HeaderActions from './HeaderActions';
@@ -47,7 +47,7 @@ interface Props {
   };
   taxonomy?: ArticleTaxonomy;
   editUrl?: (url: string) => string;
-  getEntity?: () => ConceptApiType | UpdatedDraftApiType;
+  getEntity?: () => IConcept | IUpdatedArticle;
   isSubmitting?: boolean;
   noStatus?: boolean;
   setTranslateOnContinue?: (translateOnContinue: boolean) => void;

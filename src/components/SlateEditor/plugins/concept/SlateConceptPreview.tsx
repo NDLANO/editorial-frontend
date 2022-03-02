@@ -14,7 +14,7 @@ import { spacing, spacingUnit } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { ImageLink } from '@ndla/ui';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
@@ -40,7 +40,7 @@ const StyledFigureButtons = styled('span')`
 `;
 
 interface Props {
-  concept: ConceptApiType;
+  concept: IConcept;
   handleRemove: () => void;
   id: number | string;
 }

@@ -8,11 +8,7 @@
 
 import { isEmpty } from 'lodash';
 import { Descendant } from 'slate';
-import {
-  ILicense as DraftApiLicense,
-  IUpdatedArticle as UpdatedDraftApiType,
-  IArticle as DraftApiType,
-} from '@ndla/types-draft-api';
+import { ILicense, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,
@@ -52,7 +48,7 @@ const getPublishedDate = (
 };
 
 const draftApiTypeToArticleFormType = (
-  article: DraftApiType | undefined,
+  article: IArticle | undefined,
   language: string,
   articleType: string,
   contentFunc: (html: string) => Descendant[],
@@ -88,7 +84,7 @@ const draftApiTypeToArticleFormType = (
 };
 
 export const draftApiTypeToLearningResourceFormType = (
-  article: DraftApiType | undefined,
+  article: IArticle | undefined,
   language: string,
 ): LearningResourceFormType => {
   return {
@@ -103,7 +99,7 @@ export const draftApiTypeToLearningResourceFormType = (
 };
 
 export const draftApiTypeToTopicArticleFormType = (
-  article: DraftApiType | undefined,
+  article: IArticle | undefined,
   language: string,
 ): TopicArticleFormType => {
   return {
@@ -120,9 +116,9 @@ export const draftApiTypeToTopicArticleFormType = (
 export const learningResourceFormTypeToDraftApiType = (
   article: LearningResourceFormType,
   initialValues: LearningResourceFormType,
-  licenses: DraftApiLicense[],
+  licenses: ILicense[],
   preview = false,
-): UpdatedDraftApiType => {
+): IUpdatedArticle => {
   const metaImage = article.metaImageId
     ? { id: article.metaImageId, alt: article.metaImageAlt ?? '' }
     : nullOrUndefined(article.metaImageId);
@@ -155,9 +151,9 @@ export const learningResourceFormTypeToDraftApiType = (
 export const topicArticleFormTypeToDraftApiType = (
   article: TopicArticleFormType,
   initialValues: TopicArticleFormType,
-  licenses: DraftApiLicense[],
+  licenses: ILicense[],
   preview = false,
-): UpdatedDraftApiType => {
+): IUpdatedArticle => {
   const metaImage = article.metaImageId
     ? { id: article.metaImageId, alt: article.metaImageAlt ?? '' }
     : nullOrUndefined(article.metaImageId);
@@ -190,7 +186,7 @@ export const topicArticleFormTypeToDraftApiType = (
   };
 };
 
-export const updatedDraftApiTypeToDraftApiType = (article: UpdatedDraftApiType): DraftApiType => {
+export const updatedDraftApiTypeToDraftApiType = (article: IUpdatedArticle): IArticle => {
   const language = article.language!;
 
   return {

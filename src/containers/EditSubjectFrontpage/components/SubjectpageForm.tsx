@@ -16,7 +16,7 @@ import {
 } from '@ndla/types-frontpage-api';
 import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
 import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
@@ -40,7 +40,7 @@ import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types'
 
 interface Props {
   subjectpage?: ISubjectPageData;
-  editorsChoices?: (DraftApiType | LearningpathApiType)[];
+  editorsChoices?: (IArticle | LearningpathApiType)[];
   banner?: ImageApiType;
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
@@ -107,7 +107,7 @@ const SubjectpageForm = ({
   usePreventWindowUnload(unsaved);
 
   const fetchTaxonomyUrns = async (
-    choices: (DraftApiType | LearningpathApiType)[],
+    choices: (IArticle | LearningpathApiType)[],
     language: string,
   ) => {
     const fetched = await Promise.all<Topic[] | LearningpathApiType[] | Resource[]>(

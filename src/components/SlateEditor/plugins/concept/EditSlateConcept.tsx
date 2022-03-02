@@ -18,7 +18,7 @@ import { colors, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Notion from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-concept-api';
 import { ConceptElement } from '.';
 import ConceptModal from './ConceptModal';
 import SlateConceptPreview from './SlateConceptPreview';
@@ -88,7 +88,7 @@ const EditSlateConcept = (props: Props) => {
     }
   };
 
-  const addConcept = (addedConcept: ConceptApiType) => {
+  const addConcept = (addedConcept: IConcept) => {
     toggleConceptModal();
     setTimeout(() => {
       handleSelectionChange(true);

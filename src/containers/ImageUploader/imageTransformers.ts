@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import { IImageMetaInformationV2 as ImageApiType, IAuthor } from '@ndla/types-image-api';
 import { Descendant } from 'slate';
-import { Author } from '../../interfaces';
 import { plainTextToEditorValue } from '../../util/articleContentConverter';
 
 export interface ImageFormikType {
@@ -19,9 +18,9 @@ export interface ImageFormikType {
   caption: string;
   imageFile?: string;
   tags: string[];
-  creators: Author[];
-  processors: Author[];
-  rightsholders: Author[];
+  creators: IAuthor[];
+  processors: IAuthor[];
+  rightsholders: IAuthor[];
   origin: string;
   license?: string;
   modelReleased: string;

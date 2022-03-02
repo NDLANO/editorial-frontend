@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { useLayoutEffect, useEffect, RefObject, useState } from 'react';
-import { IStatus as DraftStatus } from '@ndla/types-draft-api';
+import { IStatus } from '@ndla/types-draft-api';
 import ResourceGroup from './ResourceGroup';
 import AllResourcesGroup from './AllResourcesGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
@@ -38,7 +38,7 @@ const StyledDiv = styled('div')`
 
 export interface TopicResource extends ResourceWithTopicConnection {
   articleType?: string;
-  status?: DraftStatus;
+  status?: IStatus;
 }
 
 interface Props {
@@ -70,7 +70,7 @@ const StructureResources = ({
   const [resourceTypes, setResourceTypes] = useState<(ResourceType & { disabled?: boolean })[]>([]);
   const [topicResources, setTopicResources] = useState<TopicResource[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [topicStatus, setTopicStatus] = useState<DraftStatus | undefined>(undefined);
+  const [topicStatus, setTopicStatus] = useState<IStatus | undefined>(undefined);
   const [topicArticleType, setTopicArticleType] = useState<string | undefined>(undefined);
   const [topicGrepCodes, setTopicGrepCodes] = useState<string[]>([]);
   const prevCurrentTopic = useRef<SubjectTopic | null>(null);

@@ -8,7 +8,7 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IUpdatedArticle as UpdatedDraftApiType } from '@ndla/types-draft-api';
+import { IUpdatedArticle } from '@ndla/types-draft-api';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import { getIdFromUrn } from '../../util/taxonomyHelpers';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
@@ -35,7 +35,7 @@ const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
     updateArticleAndStatus,
   } = useFetchArticleData(articleId?.toString(), locale);
 
-  const onUpdateArticle = async (updated: UpdatedDraftApiType) => {
+  const onUpdateArticle = async (updated: IUpdatedArticle) => {
     const res = await updateArticle(updated);
     setNewGrepCodes(updated.grepCodes);
     return res;

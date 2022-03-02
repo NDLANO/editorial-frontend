@@ -12,7 +12,7 @@ import {
 } from '@ndla/types-frontpage-api';
 import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
 import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-draft-api';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
 import { getUrnFromId } from '../../util/subjectHelpers';
 import { LocaleType } from '../../interfaces';
@@ -30,7 +30,7 @@ export function useFetchSubjectpageData(
   subjectpageId: string | undefined,
 ) {
   const [subjectpage, setSubjectpage] = useState<ISubjectPageData>();
-  const [editorsChoices, setEditorsChoices] = useState<(DraftApiType | LearningpathApiType)[]>([]);
+  const [editorsChoices, setEditorsChoices] = useState<(IArticle | LearningpathApiType)[]>([]);
   const [banner, setBanner] = useState<ImageApiType | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);

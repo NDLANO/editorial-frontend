@@ -7,10 +7,9 @@
  */
 
 import { Descendant } from 'slate';
-import { IStatus } from '@ndla/types-concept-api';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IStatus, IAuthor } from '@ndla/types-concept-api';
+import { IArticle } from '@ndla/types-draft-api';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { Author } from '../../interfaces';
 
 export interface ConceptFormValues {
   id?: number;
@@ -26,16 +25,16 @@ export interface ConceptFormValues {
     language?: string;
   };
   tags: string[];
-  articles: DraftApiType[];
+  articles: IArticle[];
   title: Descendant[];
   conceptContent: Descendant[];
   created?: string;
-  creators: Author[];
+  creators: IAuthor[];
   license?: string;
   metaImageAlt: string;
   metaImageId: string;
-  processors: Author[];
-  rightsholders: Author[];
+  processors: IAuthor[];
+  rightsholders: IAuthor[];
   subjects: SubjectType[];
   supportedLanguages: string[];
   updated?: string;

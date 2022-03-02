@@ -18,10 +18,7 @@ import Accordion, {
   AccordionBar,
 } from '@ndla/accordion';
 import { VersionLogTag, VersionHistory } from '@ndla/editor';
-import {
-  IUpdatedArticle as UpdatedDraftApiType,
-  IArticle as DraftApiType,
-} from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 
 import FormikField from '../../components/FormikField';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -50,14 +47,14 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 };
 
 interface Props {
-  article: DraftApiType;
-  getArticle: (preview: boolean) => UpdatedDraftApiType;
+  article: IArticle;
+  getArticle: (preview: boolean) => IUpdatedArticle;
   type: 'standard' | 'topic-article';
 }
 
 const VersionAndNotesPanel = ({ article, getArticle, type }: Props) => {
   const { t } = useTranslation();
-  const [versions, setVersions] = useState<DraftApiType[]>([]);
+  const [versions, setVersions] = useState<IArticle[]>([]);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<SimpleUserType[]>([]);
   const { createMessage } = useMessages();
@@ -95,13 +92,9 @@ const VersionAndNotesPanel = ({ article, getArticle, type }: Props) => {
       status: t(`form.status.${note.status.current.toLowerCase()}`),
     }));
 
-  const resetVersion = async (
-    version: DraftApiType,
-    language: string,
-    showFromArticleApi: boolean,
-  ) => {
+  const resetVersion = async (version: IArticle, language: string, showFromArticleApi: boolean) => {
     try {
-      let newArticle: DraftApiType = version;
+      let newArticle: IArticle = version;
       if (showFromArticleApi) {
         const articleApiArticle = await articleApi.getArticle(article.id, language);
         newArticle = {

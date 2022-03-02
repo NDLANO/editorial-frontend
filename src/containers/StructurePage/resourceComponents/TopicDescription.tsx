@@ -1,7 +1,7 @@
 import { RefObject, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { IStatus as DraftStatus } from '@ndla/types-draft-api';
+import { IStatus } from '@ndla/types-draft-api';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
@@ -16,7 +16,7 @@ interface Props {
   locale: LocaleType;
   refreshTopics: () => Promise<void>;
   currentTopic: SubjectTopic;
-  status?: DraftStatus;
+  status?: IStatus;
   resourceRef: RefObject<HTMLDivElement>;
   grepCodes: string[];
   onUpdateResource: (updatedResource: TopicResource) => void;

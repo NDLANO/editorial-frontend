@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-draft-api';
 import { FormikHelpers, FormikValues } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
@@ -20,7 +20,7 @@ import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
 
 interface Props {
-  editorsChoices: (DraftApiType | LearningpathApiType)[];
+  editorsChoices: (IArticle | LearningpathApiType)[];
   elementId: string;
   field: FormikProperties['field'];
   form: {
@@ -37,9 +37,7 @@ const getSubject = (elementId: string) => {
 
 const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) => {
   const { t } = useTranslation();
-  const [resources, setResources] = useState<(DraftApiType | LearningpathApiType)[]>(
-    editorsChoices,
-  );
+  const [resources, setResources] = useState<(IArticle | LearningpathApiType)[]>(editorsChoices);
   const subjectId = getSubject(elementId);
 
   const onAddResultToList = async (result: IMultiSearchSummary) => {
@@ -54,14 +52,14 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
     }
   };
 
-  const onUpdateElements = (articleList: (DraftApiType | LearningpathApiType)[]) => {
+  const onUpdateElements = (articleList: (IArticle | LearningpathApiType)[]) => {
     setResources(articleList);
     updateFormik(field, articleList);
   };
 
   const updateFormik = (
     formikField: Props['field'],
-    newData: (DraftApiType | LearningpathApiType)[],
+    newData: (IArticle | LearningpathApiType)[],
   ) => {
     form.setFieldTouched('editorsChoices', true, false);
     formikField.onChange({

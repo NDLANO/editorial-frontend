@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import {
   IAudio,
+  IAuthor,
   IAudioMetaInformation as AudioApiType,
   INewAudioMetaInformation,
   IUpdatedAudioMetaInformation,
@@ -28,7 +29,7 @@ import AudioManuscript from './AudioManuscript';
 import { toCreateAudioFile, toEditAudio } from '../../../util/routeHelpers';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { Author, FormikFormBaseType } from '../../../interfaces';
+import { FormikFormBaseType } from '../../../interfaces';
 import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
@@ -49,9 +50,9 @@ export interface AudioFormikType extends FormikFormBaseType {
     };
   };
   tags: string[];
-  creators: Author[];
-  processors: Author[];
-  rightsholders: Author[];
+  creators: IAuthor[];
+  processors: IAuthor[];
+  rightsholders: IAuthor[];
   origin: string;
   license: string;
 }

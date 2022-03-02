@@ -10,10 +10,7 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
-import {
-  IUpdatedArticle as UpdatedDraftApiType,
-  IArticle as DraftApiType,
-} from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import Field from '../../../../components/Field';
 import {
   fetchSubjects,
@@ -50,9 +47,9 @@ import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 
 type Props = {
-  article: DraftApiType;
+  article: IArticle;
   setIsOpen?: (open: boolean) => void;
-  updateNotes: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
+  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   taxonomy: ArticleTaxonomy;
 };
 

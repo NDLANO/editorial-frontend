@@ -10,23 +10,16 @@ import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { Eye, Restore } from '@ndla/icons/editor';
 import { StyledAccordionsPanelIconButton } from '@ndla/accordion';
-import {
-  IUpdatedArticle as UpdatedDraftApiType,
-  IArticle as DraftApiType,
-} from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 
 import { PreviewDraftLightbox } from '../../components';
 
 interface Props {
   showFromArticleApi: boolean;
-  article: DraftApiType;
-  getArticle: (preview: boolean) => UpdatedDraftApiType;
-  resetVersion: (
-    version: DraftApiType,
-    language: string,
-    showFromArticleApi: boolean,
-  ) => Promise<void>;
-  version: DraftApiType;
+  article: IArticle;
+  getArticle: (preview: boolean) => IUpdatedArticle;
+  resetVersion: (version: IArticle, language: string, showFromArticleApi: boolean) => Promise<void>;
+  version: IArticle;
   current: boolean;
 }
 

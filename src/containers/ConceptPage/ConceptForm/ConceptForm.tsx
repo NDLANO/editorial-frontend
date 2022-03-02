@@ -8,13 +8,8 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import {
-  IConcept as ConceptApiType,
-  INewConcept,
-  IUpdatedConcept,
-  ITagsSearchResult as ConceptTagsSearchResult,
-} from '@ndla/types-concept-api';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IConcept, INewConcept, IUpdatedConcept, ITagsSearchResult } from '@ndla/types-concept-api';
+import { IArticle } from '@ndla/types-draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
@@ -38,18 +33,15 @@ import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 
 interface Props {
-  concept?: ConceptApiType;
+  concept?: IConcept;
   conceptChanged?: boolean;
-  fetchConceptTags: (input: string, language: string) => Promise<ConceptTagsSearchResult>;
+  fetchConceptTags: (input: string, language: string) => Promise<ITagsSearchResult>;
   inModal: boolean;
   isNewlyCreated?: boolean;
-  conceptArticles: DraftApiType[];
+  conceptArticles: IArticle[];
   onClose?: () => void;
   language: string;
-  onUpdate: (
-    updateConcept: INewConcept | IUpdatedConcept,
-    revision?: number,
-  ) => Promise<ConceptApiType>;
+  onUpdate: (updateConcept: INewConcept | IUpdatedConcept, revision?: number) => Promise<IConcept>;
   subjects: SubjectType[];
   initialTitle?: string;
   translateToNN?: () => void;
@@ -58,10 +50,10 @@ interface Props {
     updatedConcept: IUpdatedConcept,
     newStatus: string,
     dirty: boolean,
-  ) => Promise<ConceptApiType>;
+  ) => Promise<IConcept>;
 }
 
-const conceptFormRules: RulesType<ConceptFormValues, ConceptApiType> = {
+const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
   title: {
     required: true,
     warnings: {

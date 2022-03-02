@@ -6,7 +6,7 @@
  *
  */
 
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-draft-api';
 import {
   IArticleV2 as ArticleApiType,
   ISearchResultV2 as ArticleSearchResult,
@@ -55,7 +55,7 @@ export const getArticleFromArticleConverter = (
   );
 
 export const getPreviewArticle = async (
-  article: DraftApiType,
+  article: IArticle,
   locale: string,
 ): Promise<ArticleConverterApiType> => {
   const response = await fetchAuthorized(

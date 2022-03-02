@@ -6,12 +6,9 @@
  *
  */
 
-import {
-  INewArticle as NewDraftApiType,
-  IUpdatedArticle as UpdatedDraftApiType,
-} from '@ndla/types-draft-api';
+import { INewArticle, IUpdatedArticle } from '@ndla/types-draft-api';
 
-export const convertUpdateToNewDraft = (article: UpdatedDraftApiType): NewDraftApiType => {
+export const convertUpdateToNewDraft = (article: IUpdatedArticle): INewArticle => {
   if (!article.language || !article.title || !article.articleType) {
     // This should probably never happen, but will satisfy typescript
     throw new Error('Error when converting `UpdatedDraftApiType` to `NewDraftApiType`');

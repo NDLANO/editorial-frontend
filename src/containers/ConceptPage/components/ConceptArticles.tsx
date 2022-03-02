@@ -8,10 +8,7 @@
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import { useFormikContext } from 'formik';
-import {
-  IArticle as DraftApiType,
-  IArticleSummary as DraftSearchSummary,
-} from '@ndla/types-draft-api';
+import { IArticle, IArticleSummary } from '@ndla/types-draft-api';
 import ElementList from '../../FormikForm/components/ElementList';
 import handleError from '../../../util/handleError';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
@@ -25,7 +22,7 @@ const ConceptArticles = () => {
     setFieldValue,
   } = useFormikContext<ConceptFormValues>();
 
-  const onAddArticleToList = async (article: DraftSearchSummary) => {
+  const onAddArticleToList = async (article: IArticleSummary) => {
     try {
       const newArticle = await fetchDraft(article.id);
       const temp = [...articles, newArticle];
@@ -37,7 +34,7 @@ const ConceptArticles = () => {
     }
   };
 
-  const onUpdateElements = (articleList: DraftApiType[]) => {
+  const onUpdateElements = (articleList: IArticle[]) => {
     setFieldValue('articles', articleList);
   };
 

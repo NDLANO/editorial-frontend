@@ -9,7 +9,7 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-concept-api';
 import StyledPreviewTwoArticles from './StyledPreviewTwoArticles';
 import { createGuard } from '../../util/guards';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
@@ -26,18 +26,18 @@ const StyledPreview = styled.div`
 interface Props {
   label: string;
   contentType?: string;
-  firstEntity: ArticleConverterApiType | ConceptApiType;
-  secondEntity: ArticleConverterApiType | ConceptApiType;
+  firstEntity: ArticleConverterApiType | IConcept;
+  secondEntity: ArticleConverterApiType | IConcept;
   previewLanguage: string;
   onChangePreviewLanguage(language: string): void;
   getEntityPreview: (
-    entity: ArticleConverterApiType | ConceptApiType,
+    entity: ArticleConverterApiType | IConcept,
     label: string,
     contentType?: string,
   ) => ReactNode;
 }
 
-const isConceptApiType = createGuard<ConceptApiType>('articleIds');
+const isConceptApiType = createGuard<IConcept>('articleIds');
 
 const PreviewLanguage = ({
   firstEntity,

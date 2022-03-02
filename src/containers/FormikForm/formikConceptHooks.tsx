@@ -7,8 +7,8 @@
  */
 
 import { useState, useEffect } from 'react';
-import { IConcept as ConceptApiType, INewConcept, IUpdatedConcept } from '@ndla/types-concept-api';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IConcept, INewConcept, IUpdatedConcept } from '@ndla/types-concept-api';
+import { IArticle } from '@ndla/types-draft-api';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags } from '../../modules/concept/conceptApi';
@@ -18,8 +18,8 @@ import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
-  const [concept, setConcept] = useState<ConceptApiType>();
-  const [conceptArticles, setConceptArticles] = useState<DraftApiType[]>([]);
+  const [concept, setConcept] = useState<IConcept>();
+  const [conceptArticles, setConceptArticles] = useState<IArticle[]>([]);
   const [conceptChanged, setConceptChanged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
@@ -55,15 +55,12 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     fetchSubjects();
   }, [locale]);
 
-  const fetchElementList = async (articleIds?: number[]): Promise<DraftApiType[]> => {
+  const fetchElementList = async (articleIds?: number[]): Promise<IArticle[]> => {
     const promises = articleIds?.map(id => fetchDraft(id)) ?? [];
     return await Promise.all(promises);
   };
 
-  const updateConcept = async (
-    id: number,
-    updatedConcept: IUpdatedConcept,
-  ): Promise<ConceptApiType> => {
+  const updateConcept = async (id: number, updatedConcept: IUpdatedConcept): Promise<IConcept> => {
     const savedConcept = await conceptApi.updateConcept(id, updatedConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     setConcept(savedConcept);
@@ -86,7 +83,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     conceptPatch: IUpdatedConcept,
     newStatus: string,
     dirty: boolean,
-  ): Promise<ConceptApiType> => {
+  ): Promise<IConcept> => {
     const newConcept = dirty
       ? await conceptApi.updateConcept(id, conceptPatch)
       : await conceptApi.fetchConcept(id, conceptPatch.language);
@@ -107,7 +104,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     createConcept,
     fetchSearchTags,
     loading,
-    setConcept: (concept: ConceptApiType) => {
+    setConcept: (concept: IConcept) => {
       setConcept(concept);
       setConceptChanged(true);
     },

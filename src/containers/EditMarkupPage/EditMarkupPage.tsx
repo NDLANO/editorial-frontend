@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IArticle } from '@ndla/types-draft-api';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { FieldHeader } from '@ndla/forms';
@@ -64,10 +64,7 @@ function standardizeContent(content: string): string {
   return learningResourceContentToHTML(converted);
 }
 
-function updateContentInDraft(
-  draft: DraftApiType | undefined,
-  content: string,
-): DraftApiType | undefined {
+function updateContentInDraft(draft: IArticle | undefined, content: string): IArticle | undefined {
   if (draft === undefined || draft.content === undefined) {
     return undefined;
   }
@@ -136,7 +133,7 @@ const EditMarkupPage = () => {
   const draftId = params.draftId!;
   const language = params.language!;
   const [status, setStatus] = useState<Status>('initial');
-  const [draft, setDraft] = useState<DraftApiType | undefined>(undefined);
+  const [draft, setDraft] = useState<IArticle | undefined>(undefined);
   const location = useLocation();
 
   useEffect(() => {

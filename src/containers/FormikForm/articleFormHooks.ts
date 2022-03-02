@@ -8,21 +8,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { TFunction } from 'i18next';
-
 import { FormikHelpers } from 'formik';
-
 import { Descendant } from 'slate';
-import {
-  ILicense as DraftApiLicense,
-  IUpdatedArticle as UpdatedDraftApiType,
-  IArticle as DraftApiType,
-  IStatus as DraftStatus,
-} from '@ndla/types-draft-api';
+import { IArticle, ILicense, IStatus, IUpdatedArticle, IAuthor } from '@ndla/types-draft-api';
 import { deleteFile } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
-import { Author, AvailabilityType, RelatedContent } from '../../interfaces';
+import { RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useLicenses } from '../../modules/draft/draftQueries';
 
@@ -44,10 +37,10 @@ const deleteRemovedFiles = async (oldArticleContent: string, newArticleContent: 
 export interface ArticleFormType {
   agreementId?: number;
   articleType: string;
-  availability: AvailabilityType;
+  availability: string;
   conceptIds: number[];
   content: Descendant[];
-  creators: Author[];
+  creators: IAuthor[];
   grepCodes: string[];
   id?: number;
   introduction: Descendant[];
@@ -57,12 +50,12 @@ export interface ArticleFormType {
   metaImageAlt: string;
   metaImageId: string;
   notes: string[];
-  processors: Author[];
+  processors: IAuthor[];
   published?: string;
   relatedContent: RelatedContent[];
   revision?: number;
-  rightsholders: Author[];
-  status?: DraftStatus;
+  rightsholders: IAuthor[];
+  status?: IStatus;
   supportedLanguages: string[];
   tags: string[];
   title: Descendant[];
@@ -79,23 +72,23 @@ export interface TopicArticleFormType extends ArticleFormType {
 }
 
 type HooksInputObject<T extends ArticleFormType> = {
-  getInitialValues: (article: DraftApiType | undefined, language: string) => T;
-  article?: DraftApiType;
+  getInitialValues: (article: IArticle | undefined, language: string) => T;
+  article?: IArticle;
   t: TFunction;
-  articleStatus?: DraftStatus;
-  updateArticle: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
+  articleStatus?: IStatus;
+  updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
   updateArticleAndStatus?: (input: {
-    updatedArticle: UpdatedDraftApiType;
+    updatedArticle: IUpdatedArticle;
     newStatus: string;
     dirty: boolean;
-  }) => Promise<DraftApiType>;
-  licenses?: DraftApiLicense[];
+  }) => Promise<IArticle>;
+  licenses?: ILicense[];
   getArticleFromSlate: (
     values: T,
     initialValues: T,
-    licenses: DraftApiLicense[],
+    licenses: ILicense[],
     preview?: boolean,
-  ) => UpdatedDraftApiType;
+  ) => IUpdatedArticle;
   articleLanguage: string;
 };
 
@@ -138,7 +131,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
 
     const newArticle = saveAsNew ? { ...slateArticle, createNewVersion: true } : slateArticle;
 
-    let savedArticle: DraftApiType;
+    let savedArticle: IArticle;
     try {
       if (statusChange && newStatus && updateArticleAndStatus) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status

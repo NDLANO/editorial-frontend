@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { FooterLinkButton } from '@ndla/editor';
 import { FileCompare } from '@ndla/icons/action';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-concept-api';
 import config from '../../config';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import { fetchConcept } from '../../modules/concept/conceptApi';
@@ -28,7 +28,7 @@ import { createGuard } from '../../util/guards';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 
 interface Props {
-  getConcept: () => ConceptApiType;
+  getConcept: () => IConcept;
   typeOfPreview: TypeOfPreview;
 }
 
@@ -47,7 +47,7 @@ const closeButtonStyle = css`
   margin-top: -15px;
 `;
 
-export interface ConceptPreviewType extends ConceptApiType {
+export interface ConceptPreviewType extends IConcept {
   parsedVisualElement?: Embed;
 }
 

@@ -9,10 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useFormikContext } from 'formik';
-import {
-  IUpdatedArticle as UpdatedDraftApiType,
-  IArticle as DraftApiType,
-} from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import config from '../../../../config';
 import TopicArticleContent from './TopicArticleContent';
 import RelatedContentFieldGroup from '../../components/RelatedContentFieldGroup';
@@ -27,10 +24,10 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 
 interface Props {
   handleSubmit: () => Promise<void>;
-  article?: DraftApiType;
+  article?: IArticle;
   taxonomy?: ArticleTaxonomy;
-  updateNotes: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
-  getArticle: () => UpdatedDraftApiType;
+  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
+  getArticle: () => IUpdatedArticle;
   articleLanguage: string;
 }
 

@@ -8,11 +8,7 @@
 
 import { useState, useEffect } from 'react';
 import { RadioButtonGroup } from '@ndla/ui';
-import {
-  IConcept as ConceptApiType,
-  IConceptSummary,
-  IUpdatedConcept,
-} from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary, IUpdatedConcept } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import {
@@ -30,7 +26,7 @@ interface Props {
   concept: IConceptSummary;
   cancel: () => void;
   subjects: SubjectType[];
-  updateLocalConcept: (concept: ConceptApiType) => void;
+  updateLocalConcept: (concept: IConcept) => void;
 }
 
 const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
@@ -43,7 +39,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
   const [language, setLanguage] = useState<string>(
     concept.supportedLanguages.find(l => l === i18n.language) ?? concept.supportedLanguages[0],
   );
-  const [fullConcept, setFullConcept] = useState<ConceptApiType | undefined>();
+  const [fullConcept, setFullConcept] = useState<IConcept | undefined>();
   const { data: licenses, isLoading: licensesLoading } = useLicenses({ placeholderData: [] });
 
   useEffect(() => {

@@ -9,11 +9,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikProps } from 'formik';
-import {
-  IUpdatedArticle as UpdatedDraftApiType,
-  IArticle as DraftApiType,
-  IStatus as DraftStatus,
-} from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle, IStatus } from '@ndla/types-draft-api';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
@@ -34,17 +30,17 @@ import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
 
 interface Props {
-  article?: DraftApiType;
+  article?: IArticle;
   articleTaxonomy?: ArticleTaxonomy;
   revision?: number;
-  updateArticle: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
-  articleStatus?: DraftStatus;
+  updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
+  articleStatus?: IStatus;
   articleChanged: boolean;
   updateArticleAndStatus?: (input: {
-    updatedArticle: UpdatedDraftApiType;
+    updatedArticle: IUpdatedArticle;
     newStatus: string;
     dirty: boolean;
-  }) => Promise<DraftApiType>;
+  }) => Promise<IArticle>;
   translating: boolean;
   translateToNN?: () => void;
   isNewlyCreated: boolean;

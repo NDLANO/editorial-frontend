@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { IConcept as ConceptApiType, IConceptSummary } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import handleError from '../../../util/handleError';
@@ -16,7 +16,7 @@ import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptAp
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { ArticleFormType } from '../../FormikForm/articleFormHooks';
 
-interface ConceptApiTypeWithArticleType extends ConceptApiType {
+interface ConceptApiTypeWithArticleType extends IConcept {
   articleType?: string;
 }
 interface Props {

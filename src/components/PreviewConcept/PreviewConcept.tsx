@@ -19,7 +19,7 @@ import {
 } from '@ndla/notion';
 import { ImageLink } from '@ndla/ui';
 import { Remarkable } from 'remarkable';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-concept-api';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchSubject } from '../../modules/taxonomy/subjects';
@@ -66,7 +66,7 @@ const VisualElementWrapper = styled.div`
 `;
 
 interface Props {
-  concept: ConceptApiType;
+  concept: IConcept;
   visualElement?: Embed;
 }
 

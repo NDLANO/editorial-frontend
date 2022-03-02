@@ -6,13 +6,8 @@
  *
  */
 
-import {
-  IConcept as ConceptApiType,
-  ILicense as ConceptApiLicense,
-  INewConcept,
-  IUpdatedConcept,
-} from '@ndla/types-concept-api';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IConcept, ILicense, INewConcept, IUpdatedConcept } from '@ndla/types-concept-api';
+import { IArticle } from '@ndla/types-draft-api';
 import {
   plainTextToEditorValue,
   editorValueToPlainText,
@@ -25,10 +20,10 @@ import { parseImageUrl } from '../../util/formHelper';
 import { DRAFT } from '../../util/constants/ConceptStatus';
 
 export const conceptApiTypeToFormType = (
-  concept: ConceptApiType | undefined,
+  concept: IConcept | undefined,
   language: string,
   subjects: SubjectType[],
-  articles: DraftApiType[],
+  articles: IArticle[],
   initialTitle = '',
 ): ConceptFormValues => {
   const conceptSubjects = subjects.filter(s => concept?.subjectIds?.find(id => id === s.id)) ?? [];
@@ -63,7 +58,7 @@ const metaImageFromForm = (v: ConceptFormValues) =>
 
 export const getConceptPostType = (
   values: ConceptFormValues,
-  licenses: ConceptApiLicense[],
+  licenses: ILicense[],
 ): INewConcept => ({
   ...values,
   title: editorValueToPlainText(values.title),
@@ -82,7 +77,7 @@ export const getConceptPostType = (
 
 export const getConceptPatchType = (
   values: ConceptFormValues,
-  licenses: ConceptApiLicense[],
+  licenses: ILicense[],
 ): IUpdatedConcept => ({
   ...getConceptPostType(values, licenses),
   metaImage: metaImageFromForm(values) ?? null,
@@ -90,9 +85,9 @@ export const getConceptPatchType = (
 
 export const conceptFormTypeToApiType = (
   values: ConceptFormValues,
-  licenses: ConceptApiLicense[],
+  licenses: ILicense[],
   updatedBy?: string[],
-): ConceptApiType => {
+): IConcept => {
   return {
     id: values.id ?? -1,
     revision: values.revision ?? -1,

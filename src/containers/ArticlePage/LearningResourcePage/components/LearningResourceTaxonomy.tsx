@@ -11,10 +11,7 @@ import { ChangeEvent, Component, MouseEvent } from 'react';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
-import {
-  IUpdatedArticle as UpdatedDraftApiType,
-  IArticle as DraftApiType,
-} from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import Field from '../../../../components/Field';
 import {
   fetchResourceTypes,
@@ -70,9 +67,9 @@ interface FullResource {
 }
 
 type Props = {
-  article: DraftApiType;
+  article: IArticle;
   taxonomy: ArticleTaxonomy;
-  updateNotes: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
+  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   setIsOpen?: (open: boolean) => void;
 } & CustomWithTranslation &
   SessionProps;

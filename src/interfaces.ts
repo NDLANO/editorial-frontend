@@ -6,7 +6,7 @@
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
-import { ILicense as DraftApiLicense, IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IArticle, IRelatedContentLink } from '@ndla/types-draft-api';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 
 export interface FormikStatus {
@@ -47,11 +47,6 @@ export interface SearchResultBase<T> {
   results: T[];
 }
 
-export interface Author {
-  name: string;
-  type: string;
-}
-
 export interface Note {
   note: string;
   user: string;
@@ -60,17 +55,6 @@ export interface Note {
     other: string[];
   };
   timestamp: string;
-}
-
-export interface Copyright {
-  license?: DraftApiLicense;
-  origin?: string;
-  creators: Author[];
-  processors: Author[];
-  rightsholders: Author[];
-  agreementId?: number;
-  validFrom?: string;
-  validTo?: string;
 }
 
 export interface CodeBlockType {
@@ -114,9 +98,9 @@ export type TypeOfPreview =
   | 'previewVersion'
   | 'previewProductionArticle';
 
-export type RelatedContent = RelatedContentLink | number;
+export type RelatedContent = IRelatedContentLink | number;
 
-export type ConvertedRelatedContent = RelatedContent | DraftApiType;
+export type ConvertedRelatedContent = RelatedContent | IArticle;
 
 export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface ImageEmbed {

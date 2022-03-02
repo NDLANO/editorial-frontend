@@ -13,10 +13,7 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { OneColumn } from '@ndla/ui';
-import {
-  IUpdatedArticle as UpdatedDraftApiType,
-  IArticle as DraftApiType,
-} from '@ndla/types-draft-api';
+import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
 import { useFormikContext } from 'formik';
 import * as articleApi from '../../modules/article/articleApi';
 import * as draftApi from '../../modules/draft/draftApi';
@@ -76,12 +73,10 @@ const customSpinnerStyle = css`
   margin-right: ${spacing.xsmall};
 `;
 
-const isDraftApiType = createGuard<DraftApiType>('title', { type: 'object' });
+const isDraftApiType = createGuard<IArticle>('title', { type: 'object' });
 
 // Transform article if title is a string. If not it's probably an api compatible article
-const toApiVersion = (
-  article: DraftApiType | UpdatedDraftApiType,
-): DraftApiType & { language?: string } => {
+const toApiVersion = (article: IArticle | IUpdatedArticle): IArticle & { language?: string } => {
   return isDraftApiType(article)
     ? article
     : { ...updatedDraftApiTypeToDraftApiType(article), language: article.language };
@@ -89,10 +84,10 @@ const toApiVersion = (
 
 interface Props {
   children?: (openPreview: () => Promise<void>) => ReactElement;
-  getArticle: (preview: boolean) => UpdatedDraftApiType | DraftApiType;
+  getArticle: (preview: boolean) => IUpdatedArticle | IArticle;
   label: string;
   typeOfPreview: TypeOfPreview;
-  version?: DraftApiType;
+  version?: IArticle;
 }
 
 const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, children }: Props) => {
@@ -149,7 +144,7 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
   };
 
   const previewProductionArticle = async () => {
-    const { language } = getArticle(true) as UpdatedDraftApiType;
+    const { language } = getArticle(true) as IUpdatedArticle;
     const article = await articleApi.getArticleFromArticleConverter(values.id ?? -1, language!);
     return article;
   };

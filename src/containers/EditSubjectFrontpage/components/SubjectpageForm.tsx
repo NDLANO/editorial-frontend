@@ -36,7 +36,7 @@ import { useMessages } from '../../Messages/MessagesProvider';
 import { formatErrorMessage } from '../../../util/apiHelpers';
 import { queryLearningPathResource, queryResources, queryTopics } from '../../../modules/taxonomy';
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
+import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
 
 interface Props {
   subjectpage?: ISubjectPageData;

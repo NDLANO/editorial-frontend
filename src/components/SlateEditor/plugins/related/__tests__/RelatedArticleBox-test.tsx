@@ -13,8 +13,8 @@ import { withHistory } from 'slate-history';
 import { render, fireEvent, cleanup, act } from '@testing-library/react';
 import RelatedArticleBox from '../RelatedArticleBox';
 import IntlWrapper from '../../../../../util/__tests__/IntlWrapper';
-import { TYPE_SECTION } from '../../section';
-import { TYPE_RELATED } from '..';
+import { TYPE_RELATED } from '../types';
+import { TYPE_SECTION } from '../../section/types';
 
 jest.mock('slate-react', () => {
   const slatereact = jest.requireActual('slate-react');

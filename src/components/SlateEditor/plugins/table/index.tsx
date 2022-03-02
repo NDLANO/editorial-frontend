@@ -25,12 +25,6 @@ import {
   defaultTableCellBlock,
   defaultTableHeadBlock,
   defaultTableRowBlock,
-  TYPE_TABLE,
-  TYPE_TABLE_BODY,
-  TYPE_TABLE_CAPTION,
-  TYPE_TABLE_CELL,
-  TYPE_TABLE_HEAD,
-  TYPE_TABLE_ROW,
 } from './utils';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { normalizeTableBodyAsMatrix } from './matrix';
@@ -43,7 +37,7 @@ import {
   isTableHead,
   isTableRow,
 } from './helpers';
-import { defaultParagraphBlock, TYPE_PARAGRAPH } from '../paragraph/utils';
+import { defaultParagraphBlock } from '../paragraph/utils';
 import { TableElement } from './interfaces';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
 import WithPlaceHolder from './../../common/WithPlaceHolder';
@@ -57,6 +51,15 @@ import {
   KEY_ENTER,
   KEY_TAB,
 } from '../../utils/keys';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+import {
+  TYPE_TABLE,
+  TYPE_TABLE_HEAD,
+  TYPE_TABLE_BODY,
+  TYPE_TABLE_CAPTION,
+  TYPE_TABLE_ROW,
+  TYPE_TABLE_CELL,
+} from './types';
 
 const validKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_TAB, KEY_BACKSPACE, KEY_DELETE];
 

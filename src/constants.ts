@@ -101,8 +101,9 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'VG', url: ['www.vg.no'] },
   { name: 'Trinket', url: ['trinket.io'], height: '700px' },
   { name: 'Codepen', url: ['codepen.io'], height: '500px' },
-  { name: 'Flourish studio', url: ['public.flourish.studio'] },
+  { name: 'Flourish studio', url: ['public.flourish.studio', 'flo.uri.sh'], height: '650px' },
   { name: 'Our World in Data', url: ['ourworldindata.org'] },
+  { name: 'SketchUp 3D Warehouse', url: ['3dwarehouse.sketchup.com'] },
 ];
 
 export const SearchTypeValues = [

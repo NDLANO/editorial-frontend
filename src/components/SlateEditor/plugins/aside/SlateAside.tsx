@@ -11,7 +11,8 @@ import { Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import SlateRightAside from './SlateRightAside';
 import SlateFactAside from './SlateFactAside';
-import { AsideElement, TYPE_ASIDE } from '.';
+import { AsideElement } from '.';
+import { TYPE_ASIDE } from './types';
 
 interface Props {
   element: AsideElement;

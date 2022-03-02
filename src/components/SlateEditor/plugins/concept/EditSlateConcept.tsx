@@ -19,11 +19,12 @@ import { Check, AlertCircle } from '@ndla/icons/editor';
 import Notion from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
-import { ConceptElement, TYPE_CONCEPT } from '.';
+import { ConceptElement } from '.';
 import ConceptModal from './ConceptModal';
 import SlateConceptPreview from './SlateConceptPreview';
 import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../utils/mergeLastUndos';
+import { TYPE_CONCEPT } from './types';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
   type: TYPE_CONCEPT,

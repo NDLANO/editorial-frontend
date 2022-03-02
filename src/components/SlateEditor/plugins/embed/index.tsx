@@ -15,9 +15,8 @@ import { createEmbedTag, parseEmbedTag } from '../../../../util/embedTagHelpers'
 import { defaultEmbedBlock } from './utils';
 import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
-
-export const TYPE_EMBED = 'embed';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { TYPE_EMBED } from './types';
 
 export interface EmbedElement {
   type: 'embed';

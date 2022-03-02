@@ -19,7 +19,7 @@ import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleL
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
-import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed';
+import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
 
 interface Props {
   filmFrontpage: IFilmFrontPageData;

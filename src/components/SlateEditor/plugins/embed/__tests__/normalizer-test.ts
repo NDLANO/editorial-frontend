@@ -9,11 +9,11 @@
 import { createEditor, Descendant, Editor } from 'slate';
 import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
-import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 import withPlugins from '../../../utils/withPlugins';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
-import { TYPE_SECTION } from '../../section';
-import { TYPE_EMBED } from '..';
+import { TYPE_PARAGRAPH } from '../../paragraph/types';
+import { TYPE_SECTION } from '../../section/types';
+import { TYPE_EMBED } from '../types';
 
 const editor = withHistory(
   withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),
@@ -65,7 +65,6 @@ describe('embed normalizer tests', () => {
             data: {
               resource: 'audio',
               resource_id: '123',
-              caption: 'test-caption',
               type: 'standard',
               url: 'https://test.url',
             },
@@ -130,7 +129,6 @@ describe('embed normalizer tests', () => {
             data: {
               resource: 'audio',
               resource_id: '123',
-              caption: 'test-caption',
               type: 'standard',
               url: 'https://test.url',
             },

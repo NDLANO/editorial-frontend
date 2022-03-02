@@ -8,8 +8,9 @@
 
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { Element, Node } from 'slate';
-import { EmbedElement, TYPE_EMBED } from '.';
+import { EmbedElement } from '.';
 import { Embed } from '../../../../interfaces';
+import { TYPE_EMBED } from './types';
 
 export const defaultEmbedBlock = (data: Partial<Embed>) => {
   return slatejsx('element', { type: TYPE_EMBED, data }, { text: '' });

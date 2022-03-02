@@ -217,7 +217,15 @@ export class DisplayExternal extends Component<Props, State> {
           embed={embed}
           providerName={providerName}
           figureType="external"
-          onEdit={allowedProvider.name ? evt => this.openEditEmbed(evt) : undefined}
+          onEdit={
+            allowedProvider.name
+              ? evt => {
+                  evt.preventDefault();
+                  evt.stopPropagation();
+                  this.openEditEmbed(evt);
+                }
+              : undefined
+          }
         />
         <iframe
           contentEditable={false}

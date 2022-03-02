@@ -13,13 +13,14 @@ import getCurrentBlock from '../../utils/getCurrentBlock';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { isTable, isTableBody, isTableCell, isTableHead, isTableRow } from './helpers';
 import { findCellCoordinate, getTableAsMatrix, getTableBodyAsMatrix } from './matrix';
-
-export const TYPE_TABLE = 'table';
-export const TYPE_TABLE_CAPTION = 'table-caption';
-export const TYPE_TABLE_HEAD = 'table-head';
-export const TYPE_TABLE_BODY = 'table-body';
-export const TYPE_TABLE_ROW = 'table-row';
-export const TYPE_TABLE_CELL = 'table-cell';
+import {
+  TYPE_TABLE,
+  TYPE_TABLE_CAPTION,
+  TYPE_TABLE_CELL,
+  TYPE_TABLE_ROW,
+  TYPE_TABLE_HEAD,
+  TYPE_TABLE_BODY,
+} from './types';
 
 export const countCells = (row: TableRowElement, stop?: number) => {
   return row.children

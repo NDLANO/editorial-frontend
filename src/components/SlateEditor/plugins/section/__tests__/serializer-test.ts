@@ -7,12 +7,12 @@
  */
 
 import { Descendant } from 'slate';
-import { TYPE_SECTION } from '..';
-import { TYPE_PARAGRAPH } from '../../paragraph/utils';
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } from '../../../../../util/articleContentConverter';
+import { TYPE_PARAGRAPH } from '../../paragraph/types';
+import { TYPE_SECTION } from '../types';
 
 const editor: Descendant[] = [
   {

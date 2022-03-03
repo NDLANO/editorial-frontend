@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Done } from '@ndla/icons/editor';
 import { Spinner } from '@ndla/editor';
 import { colors } from '@ndla/core';
-import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 
 import AlertModal from '../../../../components/AlertModal/AlertModal';
 import MenuItemButton from './MenuItemButton';
@@ -109,7 +109,7 @@ const PublishTopic = ({ locale, id, setResourcesUpdated }: Props) => {
           .catch((e: Error) => handlePublishError(e, resource));
       } else if (resourceType === 'learningpath') {
         return fetchLearningpath(idNum)
-          .then((learningpath: LearningpathApiType) => {
+          .then((learningpath: ILearningPathV2) => {
             if (learningpath.status !== PUBLISHED) {
               return updateStatusLearningpath(idNum, PUBLISHED).then(() => {});
             }

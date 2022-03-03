@@ -11,10 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { isArray } from 'lodash';
 import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
-import {
-  ILearningPathSummaryV2 as LearningPathSearchSummary,
-  ISearchResultV2 as LearningPathSearchResult,
-} from '@ndla/types-learningpath-api';
+import { ILearningPathSummaryV2, ISearchResultV2 } from '@ndla/types-learningpath-api';
 import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-search-api';
 import { IArticleSummaryV2 as ArticleSearchSummaryApiType } from '@ndla/types-article-api';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
@@ -90,7 +87,7 @@ interface BaseSelectedType {
   paths?: string[];
 }
 
-type ResultTypes = LearningPathSearchResult | IGroupSearchResult | BaseSelectedType;
+type ResultTypes = ISearchResultV2 | IGroupSearchResult | BaseSelectedType;
 
 const AddResourceModal = ({
   onClose,
@@ -117,7 +114,7 @@ const AddResourceModal = ({
 
   const paste = allowPaste || selectedType !== RESOURCE_TYPE_LEARNING_PATH;
 
-  const isLearningPathSearchSummary = (obj: any): obj is LearningPathSearchSummary => {
+  const isLearningPathSearchSummary = (obj: any): obj is ILearningPathSummaryV2 => {
     return obj.metaUrl !== undefined;
   };
 
@@ -189,7 +186,7 @@ const AddResourceModal = ({
     type: string,
     locale: string,
     page?: number,
-  ): Promise<LearningPathSearchResult | IGroupSearchResult> => {
+  ): Promise<ISearchResultV2 | IGroupSearchResult> => {
     try {
       if (type === RESOURCE_TYPE_LEARNING_PATH) {
         return searchLearningpath(input, type, locale, page);
@@ -209,7 +206,7 @@ const AddResourceModal = ({
     type: string,
     locale: string,
     page?: number,
-  ): Promise<LearningPathSearchResult> => {
+  ): Promise<ISearchResultV2> => {
     const query = {
       query: input,
       pageSize: 10,
@@ -248,7 +245,7 @@ const AddResourceModal = ({
     description,
     title,
     coverPhotoUrl,
-  }: LearningPathSearchSummary) => {
+  }: ILearningPathSummaryV2) => {
     setContent({
       id,
       metaDescription: {
@@ -350,7 +347,7 @@ const AddResourceModal = ({
         {!pastedUrl && selectedType && (
           <>
             {paste && <StyledOrDivider>{t('taxonomy.or')}</StyledOrDivider>}
-            <AsyncDropdown<LearningPathSearchSummary | IMultiSearchSummary>
+            <AsyncDropdown<ILearningPathSummaryV2 | IMultiSearchSummary>
               idField="id"
               labelField="title"
               placeholder={t('form.content.relatedArticle.placeholder')}

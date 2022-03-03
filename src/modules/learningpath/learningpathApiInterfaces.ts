@@ -6,7 +6,7 @@
  *
  */
 
-import { ICopyright as LearningPathCopyright } from '@ndla/types-learningpath-api';
+import { ICopyright } from '@ndla/types-learningpath-api';
 
 export interface SearchBody {
   query?: string;
@@ -24,5 +24,5 @@ export interface CopyLearningPathBody {
   coverPhotoMetaUrl?: string;
   duration?: number;
   tags?: string[];
-  copyright?: LearningPathCopyright;
+  copyright?: ICopyright;
 }

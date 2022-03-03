@@ -14,15 +14,15 @@ import { LearningPath } from '@ndla/icons/contentType';
 import Modal, { ModalHeader, ModalCloseButton, ModalBody } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import Button from '@ndla/button';
-import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import { normalPaddingCSS } from '../HowTo';
 import ElementList from '../../containers/FormikForm/components/ElementList';
 import { fetchLearningpathsWithArticle } from '../../modules/learningpath/learningpathApi';
 
 interface Props {
   id?: number;
-  learningpaths: LearningpathApiType[];
-  setLearningpaths: (lps: LearningpathApiType[]) => void;
+  learningpaths: ILearningPathV2[];
+  setLearningpaths: (lps: ILearningPathV2[]) => void;
 }
 
 const LearningpathIcon = styled(LearningPath)`

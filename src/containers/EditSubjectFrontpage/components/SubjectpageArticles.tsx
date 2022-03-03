@@ -8,7 +8,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { IArticle } from '@ndla/types-draft-api';
 import { FormikHelpers, FormikValues } from 'formik';
@@ -20,7 +20,7 @@ import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
 
 interface Props {
-  editorsChoices: (IArticle | LearningpathApiType)[];
+  editorsChoices: (IArticle | ILearningPathV2)[];
   elementId: string;
   field: FormikProperties['field'];
   form: {
@@ -37,7 +37,7 @@ const getSubject = (elementId: string) => {
 
 const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) => {
   const { t } = useTranslation();
-  const [resources, setResources] = useState<(IArticle | LearningpathApiType)[]>(editorsChoices);
+  const [resources, setResources] = useState<(IArticle | ILearningPathV2)[]>(editorsChoices);
   const subjectId = getSubject(elementId);
 
   const onAddResultToList = async (result: IMultiSearchSummary) => {
@@ -52,15 +52,12 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
     }
   };
 
-  const onUpdateElements = (articleList: (IArticle | LearningpathApiType)[]) => {
+  const onUpdateElements = (articleList: (IArticle | ILearningPathV2)[]) => {
     setResources(articleList);
     updateFormik(field, articleList);
   };
 
-  const updateFormik = (
-    formikField: Props['field'],
-    newData: (IArticle | LearningpathApiType)[],
-  ) => {
+  const updateFormik = (formikField: Props['field'], newData: (IArticle | ILearningPathV2)[]) => {
     form.setFieldTouched('editorsChoices', true, false);
     formikField.onChange({
       target: {

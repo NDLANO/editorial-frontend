@@ -8,13 +8,13 @@
 import PropTypes from 'prop-types';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { IArticle } from '@ndla/types-draft-api';
-import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { ContentResultShape } from '../../../shapes';
 import { searchResources } from '../../../modules/search/searchApi';
 
 interface Props {
-  selectedElements: (IMultiSearchSummary | IArticle | LearningpathApiType)[];
+  selectedElements: (IMultiSearchSummary | IArticle | ILearningPathV2)[];
   onChange: Function;
   placeholder: string;
   subjectId?: string;

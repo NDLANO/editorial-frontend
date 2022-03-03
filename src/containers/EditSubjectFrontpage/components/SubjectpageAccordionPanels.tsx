@@ -8,7 +8,7 @@ import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useTranslation } from 'react-i18next';
 import { FormikErrors } from 'formik';
 import { IArticle } from '@ndla/types-draft-api';
-import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
@@ -17,7 +17,7 @@ import FormikField from '../../../components/FormikField';
 import { SubjectPageFormikType } from '../../../util/subjectHelpers';
 
 interface Props {
-  editorsChoices: (IArticle | LearningpathApiType)[];
+  editorsChoices: (IArticle | ILearningPathV2)[];
   elementId: string;
   errors: FormikErrors<SubjectPageFormikType>;
 }

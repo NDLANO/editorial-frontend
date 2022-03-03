@@ -15,7 +15,7 @@ import {
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
-import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import { IArticle } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
@@ -40,7 +40,7 @@ import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types'
 
 interface Props {
   subjectpage?: ISubjectPageData;
-  editorsChoices?: (IArticle | LearningpathApiType)[];
+  editorsChoices?: (IArticle | ILearningPathV2)[];
   banner?: IImageMetaInformationV2;
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
@@ -106,11 +106,8 @@ const SubjectpageForm = ({
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
-  const fetchTaxonomyUrns = async (
-    choices: (IArticle | LearningpathApiType)[],
-    language: string,
-  ) => {
-    const fetched = await Promise.all<Topic[] | LearningpathApiType[] | Resource[]>(
+  const fetchTaxonomyUrns = async (choices: (IArticle | ILearningPathV2)[], language: string) => {
+    const fetched = await Promise.all<Topic[] | ILearningPathV2[] | Resource[]>(
       choices.map(choice => {
         if ('articleType' in choice && choice.articleType === 'topic-article') {
           return queryTopics(choice.id.toString(), language);

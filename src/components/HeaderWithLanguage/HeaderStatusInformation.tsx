@@ -13,7 +13,7 @@ import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { IConceptSummary } from '@ndla/types-concept-api';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
-import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
@@ -77,7 +77,7 @@ const HeaderStatusInformation = ({
   setHasConnections,
 }: Props) => {
   const { t } = useTranslation();
-  const [learningpaths, setLearningpaths] = useState<LearningpathApiType[]>([]);
+  const [learningpaths, setLearningpaths] = useState<ILearningPathV2[]>([]);
   const [articles, setArticles] = useState<IMultiSearchSummary[]>([]);
   const [concepts, setConcepts] = useState<IConceptSummary[]>([]);
 

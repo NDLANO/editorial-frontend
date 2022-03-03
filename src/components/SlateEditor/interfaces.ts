@@ -38,6 +38,7 @@ import { BodyboxElement } from './plugins/bodybox';
 import { CodeblockElement } from './plugins/codeBlock';
 import { DivElement } from './plugins/div';
 import { SpanElement } from './plugins/span';
+import { ConceptBlockElement } from './plugins/concept/block/interfaces';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -75,6 +76,7 @@ declare module 'slate' {
       | FootnoteElement
       | MathmlElement
       | ConceptInlineElement
+      | ConceptBlockElement
       | AsideElement
       | FileElement
       | DetailsElement

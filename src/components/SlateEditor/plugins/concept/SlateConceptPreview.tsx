@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
@@ -61,7 +61,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
 
-  const VisualElement = () => {
+  const visualElement = useMemo(() => {
     const visualElement: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
     if (!visualElement) return null;
     switch (visualElement?.resource) {
@@ -111,12 +111,12 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
       default:
         return null;
     }
-  };
+  }, [concept.visualElement]);
 
   return (
     <>
       <NotionDialogContent>
-        <VisualElement />
+        {visualElement}
         <NotionDialogText>
           <span
             dangerouslySetInnerHTML={{

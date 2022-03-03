@@ -11,7 +11,7 @@ import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import hasNodeOfType from '../../../utils/hasNodeOfType';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../../util/embedTagHelpers';
-import EditSlateConcept from './../EditSlateConcept';
+import InlineConcept from './InlineConcept';
 import { KEY_BACKSPACE } from '../../../utils/keys';
 import { SlateSerializer } from '../../../interfaces';
 import { TYPE_CONCEPT_INLINE } from './types';
@@ -21,7 +21,7 @@ export const inlineConceptSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== 'embed') return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
-    if (embedAttributes.resource !== 'concept' || embedAttributes['data-type'] !== 'inline') return;
+    if (embedAttributes.resource !== 'concept' || embedAttributes.type !== 'inline') return;
     return slatejsx(
       'element',
       {
@@ -86,9 +86,9 @@ export const inlineConceptPlugin = (locale: string) => (editor: Editor) => {
     const { element, attributes, children } = props;
     if (element.type === TYPE_CONCEPT_INLINE) {
       return (
-        <EditSlateConcept element={element} attributes={attributes} editor={editor} locale={locale}>
+        <InlineConcept element={element} attributes={attributes} editor={editor} locale={locale}>
           {children}
-        </EditSlateConcept>
+        </InlineConcept>
       );
     }
     return nextRenderElement && nextRenderElement(props);

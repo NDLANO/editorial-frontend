@@ -63,6 +63,7 @@ import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote/types';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
+import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
 
 const byLineStyle = css`
   display: flex;
@@ -117,6 +118,7 @@ export const plugins = (
     blockQuotePlugin,
     linkPlugin(articleLanguage),
     inlineConceptPlugin(articleLanguage),
+    blockConceptPlugin(articleLanguage),
     headingPlugin,
     // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
     // // Blockquote and editList actions need to be triggered before paragraph action, else

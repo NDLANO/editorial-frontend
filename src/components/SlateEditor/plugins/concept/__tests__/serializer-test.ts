@@ -13,7 +13,7 @@ import {
 } from '../../../../../util/articleContentConverter';
 import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import { TYPE_SECTION } from '../../section/types';
-import { TYPE_CONCEPT } from '../types';
+import { TYPE_CONCEPT_INLINE } from '../inline/types';
 
 const editor: Descendant[] = [
   {
@@ -24,7 +24,7 @@ const editor: Descendant[] = [
         children: [
           { text: '' },
           {
-            type: TYPE_CONCEPT,
+            type: TYPE_CONCEPT_INLINE,
             data: {
               'content-id': '123',
               'link-text': 'my concept',

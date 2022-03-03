@@ -18,13 +18,13 @@ import { colors, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Notion from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
-import { ConceptInlineElement } from './inline/interfaces';
-import ConceptModal from './ConceptModal';
-import SlateConceptPreview from './SlateConceptPreview';
-import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
-import mergeLastUndos from '../../utils/mergeLastUndos';
-import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
-import { TYPE_CONCEPT_INLINE } from './inline/types';
+import { ConceptInlineElement } from '../inline/interfaces';
+import ConceptModal from '../ConceptModal';
+import SlateConceptPreview from '../SlateConceptPreview';
+import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
+import mergeLastUndos from '../../../utils/mergeLastUndos';
+import { ConceptApiType } from '../../../../../modules/concept/conceptApiInterfaces';
+import { TYPE_CONCEPT_INLINE } from './types';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
   type: TYPE_CONCEPT_INLINE,
@@ -58,7 +58,7 @@ interface Props {
   children: ReactNode;
 }
 
-const EditSlateConcept = (props: Props) => {
+const InlineConcept = (props: Props) => {
   const { children, element, locale, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
 
@@ -194,4 +194,4 @@ const EditSlateConcept = (props: Props) => {
   );
 };
 
-export default EditSlateConcept;
+export default InlineConcept;

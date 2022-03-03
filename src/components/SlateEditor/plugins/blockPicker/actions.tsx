@@ -3,6 +3,7 @@ import {
   ArrowExpand,
   Camera,
   Code,
+  Concept,
   FactBoxMaterial,
   Framed,
   Link as LinkIcon,
@@ -13,6 +14,7 @@ import {
 } from '@ndla/icons/editor';
 import { Download, Podcast, VolumeUp } from '@ndla/icons/common';
 import HowToHelper from '../../../HowTo/HowToHelper';
+import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -92,6 +94,11 @@ const actions: Action[] = [
     data: { type: 'code-block', object: 'code' },
     icon: <Code />,
     helpIcon: renderArticleInModal('CodeBlock'),
+  },
+  {
+    data: { type: TYPE_CONCEPT_BLOCK, object: 'concept' },
+    icon: <Concept />,
+    helpIcon: renderArticleInModal('Concept'),
   },
 ];
 

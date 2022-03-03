@@ -520,6 +520,7 @@ const phrases = {
       file: 'File',
       code: 'Codeblock',
       podcast: 'Podcast episode',
+      concept: 'Concept',
     },
   },
   form: {

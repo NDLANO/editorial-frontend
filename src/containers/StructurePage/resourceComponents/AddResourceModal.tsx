@@ -13,7 +13,7 @@ import { Input } from '@ndla/forms';
 import styled from '@emotion/styled';
 import { ILearningPathSummaryV2, ISearchResultV2 } from '@ndla/types-learningpath-api';
 import { IGroupSearchResult, IMultiSearchSummary } from '@ndla/types-search-api';
-import { IArticleSummaryV2 as ArticleSearchSummaryApiType } from '@ndla/types-article-api';
+import { IArticleSummaryV2 } from '@ndla/types-article-api';
 import ResourceTypeSelect from '../../ArticlePage/components/ResourceTypeSelect';
 import handleError from '../../../util/handleError';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
@@ -77,7 +77,7 @@ interface Props {
   locale: string;
 }
 
-type ContentType = Pick<ArticleSearchSummaryApiType, 'title' | 'metaDescription' | 'id'> & {
+type ContentType = Pick<IArticleSummaryV2, 'title' | 'metaDescription' | 'id'> & {
   metaUrl?: string;
   paths?: string[];
 };

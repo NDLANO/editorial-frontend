@@ -8,10 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import {
-  ISearchResultV2 as ArticleSearchResult,
-  IArticleSummaryV2 as ArticleSearchSummaryApiType,
-} from '@ndla/types-article-api';
+import { ISearchResultV2, IArticleSummaryV2 } from '@ndla/types-article-api';
 import { updateTopic } from '../../../modules/taxonomy';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { searchRelatedArticles } from '../../../modules/article/articleApi';
@@ -41,7 +38,7 @@ interface Props {
 
 const AddArticleModal = ({ locale, toggleAddModal, refreshTopics, currentTopic }: Props) => {
   const { t } = useTranslation();
-  const onArticleSearch = async (input: string): Promise<ArticleSearchResult> => {
+  const onArticleSearch = async (input: string): Promise<ISearchResultV2> => {
     try {
       const results = await searchRelatedArticles(input, locale as LocaleType, 'topic-article');
       return results;
@@ -57,7 +54,7 @@ const AddArticleModal = ({ locale, toggleAddModal, refreshTopics, currentTopic }
     };
   };
 
-  const onSelect = async (article: ArticleSearchSummaryApiType) => {
+  const onSelect = async (article: IArticleSummaryV2) => {
     try {
       await updateTopic({
         id: currentTopic.id,

@@ -6,10 +6,10 @@
  *
  */
 
-import { IArticleV2 as ArticleApiType } from '@ndla/types-article-api';
+import { IArticleV2 } from '@ndla/types-article-api';
 
 type TransformedFields = 'title' | 'content' | 'tags' | 'introduction' | 'metaDescription';
-export interface ArticleConverterApiType extends Omit<ArticleApiType, TransformedFields> {
+export interface ArticleConverterApiType extends Omit<IArticleV2, TransformedFields> {
   title: string;
   content: string;
   metaData: { copyText: string };

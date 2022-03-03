@@ -10,11 +10,7 @@ import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Descendant } from 'slate';
-import {
-  IAudioMetaInformation,
-  INewSeries,
-  ISeries,
-} from '@ndla/types-audio-api';
+import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-audio-api';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';

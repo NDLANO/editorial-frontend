@@ -9,12 +9,9 @@
 import { Dispatch, SetStateAction } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import {
-  IAudioSummary,
-  ISeriesSummary,
-} from '@ndla/types-audio-api';
+import { IAudioSummary, ISeriesSummary } from '@ndla/types-audio-api';
 import { IConceptSummary } from '@ndla/types-concept-api';
-import { IImageMetaSummary as ImageSearchSummaryApiType } from '@ndla/types-image-api';
+import { IImageMetaSummary } from '@ndla/types-image-api';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { ContentResultShape, ImageResultShape, AudioResultShape } from '../../../../shapes';
 import SearchContent from './SearchContent';
@@ -49,7 +46,7 @@ const SearchResult = ({ result, locale, type, subjects, editingState }: Props) =
         />
       );
     case 'image':
-      return <SearchImage image={result as ImageSearchSummaryApiType} locale={locale} />;
+      return <SearchImage image={result as IImageMetaSummary} locale={locale} />;
     case 'audio':
       return <SearchAudio audio={result as IAudioSummary} locale={locale} />;
     case 'podcast-series':

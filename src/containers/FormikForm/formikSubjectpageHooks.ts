@@ -10,7 +10,7 @@ import {
   IUpdatedSubjectFrontPageData,
   INewSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
-import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
 import { IArticle } from '@ndla/types-draft-api';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
@@ -31,7 +31,7 @@ export function useFetchSubjectpageData(
 ) {
   const [subjectpage, setSubjectpage] = useState<ISubjectPageData>();
   const [editorsChoices, setEditorsChoices] = useState<(IArticle | LearningpathApiType)[]>([]);
-  const [banner, setBanner] = useState<ImageApiType | undefined>(undefined);
+  const [banner, setBanner] = useState<IImageMetaInformationV2 | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
 

@@ -22,18 +22,14 @@ export const useAudio = (
   id: string | number,
   language: string | undefined,
   options?: UseQueryOptions<IAudioMetaInformation>,
-) => useQuery<IAudioMetaInformation>([AUDIO, id, language], () => fetchAudio(id, language), options);
+) =>
+  useQuery<IAudioMetaInformation>([AUDIO, id, language], () => fetchAudio(id, language), options);
 
 export const useSeries = (
   id: string | number,
   language: string | undefined,
   options?: UseQueryOptions<ISeries>,
-) =>
-  useQuery<ISeries>(
-    [PODCAST_SERIES, id, language],
-    () => fetchSeries(id, language),
-    options,
-  );
+) => useQuery<ISeries>([PODCAST_SERIES, id, language], () => fetchSeries(id, language), options);
 
 export const useSearchSeries = (
   query: SeriesSearchParams,
@@ -45,7 +41,10 @@ export const useSearchSeries = (
     options,
   );
 
-export const useSearchAudio = (query: object, options?: UseQueryOptions<IAudioSummarySearchResult>) =>
+export const useSearchAudio = (
+  query: object,
+  options?: UseQueryOptions<IAudioSummarySearchResult>,
+) =>
   useQuery<IAudioSummarySearchResult>(
     [SEARCH_AUDIO, queryString.stringify(query)],
     () => searchAudio(query),

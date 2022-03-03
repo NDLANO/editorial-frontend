@@ -7,10 +7,7 @@
 
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import {
-  IAudioMetaInformation,
-  IUpdatedAudioMetaInformation,
-} from '@ndla/types-audio-api';
+import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-audio-api';
 import AudioForm from './components/AudioForm';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';

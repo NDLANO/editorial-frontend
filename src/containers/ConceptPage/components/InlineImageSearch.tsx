@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { useFormikContext } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
-import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import ImageSearch from '@ndla/image-search';
@@ -32,7 +32,7 @@ interface Props {
 const InlineImageSearch = ({ name }: Props) => {
   const { t, i18n } = useTranslation();
   const { setFieldValue, values } = useFormikContext<ConceptFormValues>();
-  const [image, setImage] = useState<ImageApiType | undefined>();
+  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>();
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
   const searchImagesWithParameters = (query?: string, page?: number) => {
@@ -78,7 +78,7 @@ const InlineImageSearch = ({ name }: Props) => {
         searchPlaceholder={t('imageSearch.placeholder')}
         searchButtonTitle={t('imageSearch.buttonTitle')}
         useImageTitle={t('imageSearch.useImage')}
-        onImageSelect={(image: ImageApiType) => {
+        onImageSelect={(image: IImageMetaInformationV2) => {
           setFieldValue(name, image.id);
           setImage(image);
         }}

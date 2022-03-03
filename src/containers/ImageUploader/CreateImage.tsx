@@ -7,10 +7,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-  IImageMetaInformationV2 as ImageApiType,
-  INewImageMetaInformationV2 as NewImageMetadata,
-} from '@ndla/types-image-api';
+import { IImageMetaInformationV2, INewImageMetaInformationV2 } from '@ndla/types-image-api';
 import ImageForm from './components/ImageForm';
 import { createFormData } from '../../util/formDataHelper';
 import { postImage } from '../../modules/image/imageApi';
@@ -21,7 +18,7 @@ import { draftLicensesToImageLicenses } from '../../modules/draft/draftApiUtils'
 interface Props {
   isNewlyCreated?: boolean;
   editingArticle?: boolean;
-  onImageCreated?: (image: ImageApiType) => void;
+  onImageCreated?: (image: IImageMetaInformationV2) => void;
   closeModal?: () => void;
   inModal?: boolean;
 }
@@ -39,7 +36,7 @@ const CreateImage = ({
   const imageLicenses = draftLicensesToImageLicenses(licenses!);
   const navigate = useNavigate();
 
-  const onCreateImage = async (imageMetadata: NewImageMetadata, image: string | Blob) => {
+  const onCreateImage = async (imageMetadata: INewImageMetaInformationV2, image: string | Blob) => {
     const formData = await createFormData(image, imageMetadata);
     const createdImage = await postImage(formData);
     onImageCreated?.(createdImage);

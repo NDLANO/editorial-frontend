@@ -13,8 +13,8 @@ import ImageSearch from '@ndla/image-search';
 import Tabs from '@ndla/tabs';
 import styled from '@emotion/styled';
 import {
-  IImageMetaInformationV2 as ImageApiType,
-  IUpdateImageMetaInformation as UpdatedImageMetadata,
+  IImageMetaInformationV2,
+  IUpdateImageMetaInformation,
   ISearchResult,
 } from '@ndla/types-image-api';
 import { useTranslation } from 'react-i18next';
@@ -29,17 +29,21 @@ const StyledTitleDiv = styled.div`
 `;
 
 interface Props {
-  onImageSelect: (image: ImageApiType) => void;
+  onImageSelect: (image: IImageMetaInformationV2) => void;
   locale: string;
   closeModal: () => void;
   onError: (err: Error & Response) => void;
   searchImages: (queryObject: ImageSearchQuery) => Promise<ISearchResult>;
-  fetchImage: (id: number) => Promise<ImageApiType>;
-  image?: ImageApiType;
-  updateImage: (imageMetadata: UpdatedImageMetadata, file: string | Blob, id?: number) => void;
+  fetchImage: (id: number) => Promise<IImageMetaInformationV2>;
+  image?: IImageMetaInformationV2;
+  updateImage: (
+    imageMetadata: IUpdateImageMetaInformation,
+    file: string | Blob,
+    id?: number,
+  ) => void;
   inModal?: boolean;
   showCheckbox?: boolean;
-  checkboxAction?: (image: ImageApiType) => void;
+  checkboxAction?: (image: IImageMetaInformationV2) => void;
 }
 
 const ImageSearchAndUploader = ({

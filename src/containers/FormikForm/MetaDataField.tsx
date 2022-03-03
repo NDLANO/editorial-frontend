@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
@@ -21,7 +21,7 @@ import { fetchSearchTags } from '../../modules/draft/draftApi';
 interface Props {
   articleLanguage: string;
   showCheckbox?: boolean;
-  checkboxAction?: (image: ImageApiType) => void;
+  checkboxAction?: (image: IImageMetaInformationV2) => void;
 }
 
 const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {

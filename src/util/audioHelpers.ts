@@ -6,11 +6,7 @@
  *
  */
 
-import {
-  IAudioMetaInformation,
-  ISeries,
-  ICopyright,
-} from '@ndla/types-audio-api';
+import { IAudioMetaInformation, ISeries, ICopyright } from '@ndla/types-audio-api';
 import { PodcastFormValues } from '../modules/audio/audioApiInterfaces';
 import { AudioFormikType } from '../containers/AudioUploader/components/AudioForm';
 import { plainTextToEditorValue } from './articleContentConverter';

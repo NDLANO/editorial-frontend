@@ -10,7 +10,7 @@ import { TFunction, useTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import { IAudioSummary } from '@ndla/types-audio-api';
-import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import config from '../../config';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
@@ -52,7 +52,7 @@ interface Props {
   articleLanguage?: string;
   closeModal: () => void;
   showCheckbox?: boolean;
-  checkboxAction?: (image: ImageApiType) => void;
+  checkboxAction?: (image: IImageMetaInformationV2) => void;
 }
 
 interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {

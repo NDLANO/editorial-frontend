@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from 'react';
-import {ButtonProps} from "@ndla/button";
+import { ButtonProps } from '@ndla/button';
 import { useNavigate } from 'react-router-dom';
 import ActionButton from './ActionButton';
 

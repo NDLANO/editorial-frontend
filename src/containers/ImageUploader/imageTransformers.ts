@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { IImageMetaInformationV2 as ImageApiType, IAuthor } from '@ndla/types-image-api';
+import { IImageMetaInformationV2, IAuthor } from '@ndla/types-image-api';
 import { Descendant } from 'slate';
 import { plainTextToEditorValue } from '../../util/articleContentConverter';
 
@@ -28,7 +28,7 @@ export interface ImageFormikType {
 }
 
 export const imageApiTypeToFormType = (
-  image: ImageApiType | undefined,
+  image: IImageMetaInformationV2 | undefined,
   language: string,
 ): ImageFormikType => {
   return {

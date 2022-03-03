@@ -8,7 +8,7 @@
 
 import { Element } from 'slate';
 import { FormikContextType, useFormikContext } from 'formik';
-import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import VisualElementSearch, {
   VisualElementChangeReturnType,
 } from '../../../../containers/VisualElement/VisualElementSearch';
@@ -17,7 +17,7 @@ import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
 
 export const checkboxAction = (
-  image: ImageApiType,
+  image: IImageMetaInformationV2,
   formikContext: FormikContextType<{ metaImageId?: string; metaImageAlt?: string }>,
 ) => {
   const { setFieldValue } = formikContext;
@@ -67,7 +67,7 @@ const SlateVisualElementPicker = ({
           closeModal={onVisualElementClose}
           setH5pFetchFail={setH5pFetchFail}
           showCheckbox={showCheckbox}
-          checkboxAction={(image: ImageApiType) => checkboxAction(image, formikContext)}
+          checkboxAction={(image: IImageMetaInformationV2) => checkboxAction(image, formikContext)}
         />
       )}
     </VisualElementModalWrapper>

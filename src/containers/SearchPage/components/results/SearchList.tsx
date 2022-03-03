@@ -9,12 +9,9 @@
 import { useState, useEffect } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { useTranslation } from 'react-i18next';
-import {
-  IAudioSummary,
-  ISeriesSummary,
-} from '@ndla/types-audio-api';
+import { IAudioSummary, ISeriesSummary } from '@ndla/types-audio-api';
 import { IConceptSummary } from '@ndla/types-concept-api';
-import { IImageMetaSummary as ImageSearchSummaryApiType } from '@ndla/types-image-api';
+import { IImageMetaSummary } from '@ndla/types-image-api';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import SearchResult from './SearchResult';
 import Spinner from '../../../../components/Spinner';
@@ -24,7 +21,7 @@ import { LocaleType, SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 export type ResultSummaryType =
-  | ImageSearchSummaryApiType
+  | IImageMetaSummary
   | IConceptSummary
   | ISeriesSummary
   | IAudioSummary

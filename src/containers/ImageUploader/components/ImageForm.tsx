@@ -9,11 +9,11 @@ import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import {
-  IImageMetaInformationV2 as ImageApiType,
-  INewImageMetaInformationV2 as NewImageMetadata,
+  IImageMetaInformationV2,
+  INewImageMetaInformationV2,
+  ILicense,
 } from '@ndla/types-image-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { ILicense as License } from '@ndla/types-image-api';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty } from '../../../util/formHelper';
@@ -33,7 +33,7 @@ import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 
-const imageRules: RulesType<ImageFormikType, ImageApiType> = {
+const imageRules: RulesType<ImageFormikType, IImageMetaInformationV2> = {
   title: {
     required: true,
     warnings: {
@@ -91,9 +91,9 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
 };
 
 interface Props {
-  image?: ImageApiType;
-  licenses: License[];
-  onSubmitFunc: (imageMetadata: NewImageMetadata, image: string | Blob) => void;
+  image?: IImageMetaInformationV2;
+  licenses: ILicense[];
+  onSubmitFunc: (imageMetadata: INewImageMetaInformationV2, image: string | Blob) => void;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
@@ -148,7 +148,7 @@ const ImageForm = ({
     }
 
     actions.setSubmitting(true);
-    const imageMetaData: NewImageMetadata = {
+    const imageMetaData: INewImageMetaInformationV2 = {
       title: editorValueToPlainText(values.title),
       alttext: values.alttext,
       caption: values.caption,

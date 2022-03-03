@@ -7,10 +7,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import {
-  IAudioSummarySearchResult,
-  IAudioSummary,
-} from '@ndla/types-audio-api';
+import { IAudioSummarySearchResult, IAudioSummary } from '@ndla/types-audio-api';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
@@ -39,7 +36,10 @@ const PodcastEpisodes = () => {
     setFieldValue('episodes', eps);
   };
 
-  const searchForPodcasts = async (input: string, page?: number): Promise<IAudioSummarySearchResult> => {
+  const searchForPodcasts = async (
+    input: string,
+    page?: number,
+  ): Promise<IAudioSummarySearchResult> => {
     const searchResult = await searchAudio({
       query: input,
       page,

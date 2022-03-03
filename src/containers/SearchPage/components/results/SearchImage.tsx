@@ -11,14 +11,14 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
 import { colors } from '@ndla/core';
-import { IImageMetaSummary as ImageSearchSummaryApiType } from '@ndla/types-image-api';
+import { IImageMetaSummary } from '@ndla/types-image-api';
 import { toEditImage } from '../../../../util/routeHelpers';
 import { ImageResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
 
 interface Props {
-  image: ImageSearchSummaryApiType;
+  image: IImageMetaSummary;
   locale: string;
 }
 

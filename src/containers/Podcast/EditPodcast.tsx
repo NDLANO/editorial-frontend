@@ -8,10 +8,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-  IAudioMetaInformation,
-  IUpdatedAudioMetaInformation,
-} from '@ndla/types-audio-api';
+import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-audio-api';
 import { updateAudio, fetchAudio } from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditAudio } from '../../util/routeHelpers';

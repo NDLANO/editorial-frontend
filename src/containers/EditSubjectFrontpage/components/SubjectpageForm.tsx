@@ -14,7 +14,7 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
-import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { ILearningPathV2 as LearningpathApiType } from '@ndla/types-learningpath-api';
 import { IArticle } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
@@ -41,7 +41,7 @@ import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types'
 interface Props {
   subjectpage?: ISubjectPageData;
   editorsChoices?: (IArticle | LearningpathApiType)[];
-  banner?: ImageApiType;
+  banner?: IImageMetaInformationV2;
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
   updateSubjectpage?: (

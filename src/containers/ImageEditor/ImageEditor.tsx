@@ -8,7 +8,7 @@
 
 import { useEffect, useState, MouseEvent } from 'react';
 import BEMHelper from 'react-bem-helper';
-import { IImageMetaInformationV2 as ImageApiType } from '@ndla/types-image-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -87,7 +87,7 @@ type StateProp = 'crop' | 'focalPoint' | undefined;
 const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => {
   const { t } = useTranslation();
   const [editType, setEditType] = useState<StateProp>(undefined);
-  const [image, setImage] = useState<ImageApiType | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
 
   useEffect(() => {
     const getImage = async () => {

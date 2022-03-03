@@ -11,7 +11,7 @@ import { Accordions, AccordionSection } from '@ndla/accordion';
 import {
   IAudio,
   IAuthor,
-  IAudioMetaInformation as AudioApiType,
+  IAudioMetaInformation,
   INewAudioMetaInformation,
   IUpdatedAudioMetaInformation,
 } from '@ndla/types-audio-api';
@@ -57,7 +57,7 @@ export interface AudioFormikType extends FormikFormBaseType {
   license: string;
 }
 
-const rules: RulesType<AudioFormikType, AudioApiType> = {
+const rules: RulesType<AudioFormikType, IAudioMetaInformation> = {
   title: {
     required: true,
     warnings: {
@@ -101,7 +101,7 @@ const rules: RulesType<AudioFormikType, AudioApiType> = {
 interface Props {
   onCreateAudio?: (audio: INewAudioMetaInformation, file?: string | Blob) => void;
   onUpdateAudio?: (audio: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
-  audio?: AudioApiType;
+  audio?: IAudioMetaInformation;
   audioLanguage: string;
   revision?: number;
   isNewlyCreated?: boolean;

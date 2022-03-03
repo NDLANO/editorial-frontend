@@ -8,8 +8,8 @@
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
 import {
-  IAudioSummarySearchResult as AudioSearchResult,
-  IAudioSummary as AudioSearchResultType,
+  IAudioSummarySearchResult,
+  IAudioSummary,
 } from '@ndla/types-audio-api';
 import { useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
@@ -24,7 +24,7 @@ const PodcastEpisodes = () => {
   const { values, setFieldValue } = useFormikContext<PodcastSeriesFormikType>();
   const { episodes, language } = values;
 
-  const onAddEpisodeToList = async (audio: AudioSearchResultType) => {
+  const onAddEpisodeToList = async (audio: IAudioSummary) => {
     try {
       const newAudio = await fetchAudio(audio.id, language);
       if (newAudio !== undefined) {
@@ -35,11 +35,11 @@ const PodcastEpisodes = () => {
     }
   };
 
-  const onUpdateElements = (eps: AudioSearchResultType[]) => {
+  const onUpdateElements = (eps: IAudioSummary[]) => {
     setFieldValue('episodes', eps);
   };
 
-  const searchForPodcasts = async (input: string, page?: number): Promise<AudioSearchResult> => {
+  const searchForPodcasts = async (input: string, page?: number): Promise<IAudioSummarySearchResult> => {
     const searchResult = await searchAudio({
       query: input,
       page,

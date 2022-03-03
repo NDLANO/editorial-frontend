@@ -9,7 +9,7 @@ import { useState, ReactNode, useRef, useCallback, useMemo } from 'react';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import {
-  IAudioMetaInformation as AudioApiType,
+  IAudioMetaInformation,
   IUpdatedAudioMetaInformation,
   INewAudioMetaInformation,
 } from '@ndla/types-audio-api';
@@ -33,7 +33,7 @@ import handleError from '../../../util/handleError';
 import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 
-const podcastRules: RulesType<PodcastFormValues, AudioApiType> = {
+const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   title: {
     required: true,
     warnings: {
@@ -88,7 +88,7 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
 };
 
 interface Props {
-  audio?: AudioApiType;
+  audio?: IAudioMetaInformation;
   podcastChanged?: boolean;
   inModal?: boolean;
   isNewlyCreated?: boolean;

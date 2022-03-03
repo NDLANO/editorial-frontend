@@ -11,8 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { UseQueryResult } from 'react-query';
 import { ISearchResult as ImageSearchResult } from '@ndla/types-image-api';
 import {
-  IAudioSummarySearchResult as AudioSearchResult,
-  ISeriesSummarySearchResult as SeriesSearchResult,
+  IAudioSummarySearchResult,
+  ISeriesSummarySearchResult,
 } from '@ndla/types-audio-api';
 import { IConceptSearchResult } from '@ndla/types-concept-api';
 import { IMultiSearchResult } from '@ndla/types-search-api';
@@ -39,8 +39,8 @@ export const searchClasses = new BEMHelper({
 export type ResultType =
   | ImageSearchResult
   | IConceptSearchResult
-  | SeriesSearchResult
-  | AudioSearchResult
+  | ISeriesSummarySearchResult
+  | IAudioSummarySearchResult
   | IMultiSearchResult;
 
 interface Props {

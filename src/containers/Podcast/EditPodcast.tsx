@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  IAudioMetaInformation as AudioApiType,
+  IAudioMetaInformation,
   IUpdatedAudioMetaInformation,
 } from '@ndla/types-audio-api';
 import { updateAudio, fetchAudio } from '../../modules/audio/audioApi';
@@ -29,16 +29,16 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
   const podcastLanguage = params.selectedLanguage!;
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const [podcast, setPodcast] = useState<AudioApiType | undefined>(undefined);
+  const [podcast, setPodcast] = useState<IAudioMetaInformation | undefined>(undefined);
   const [podcastChanged, setPodcastChanged] = useState(false);
-  const setPodcastWithFlag = (podcast: AudioApiType | undefined, changed: boolean) => {
+  const setPodcastWithFlag = (podcast: IAudioMetaInformation | undefined, changed: boolean) => {
     setPodcast(podcast);
     setPodcastChanged(changed);
   };
   const [loading, setLoading] = useState<boolean>(false);
   const { translating, translateToNN } = useTranslateApi(
     podcast,
-    (podcast: AudioApiType) => setPodcastWithFlag(podcast, true),
+    (podcast: IAudioMetaInformation) => setPodcastWithFlag(podcast, true),
     [
       'id',
       'manuscript.manuscript',

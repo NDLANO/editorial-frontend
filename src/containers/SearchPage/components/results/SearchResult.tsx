@@ -10,8 +10,8 @@ import { Dispatch, SetStateAction } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import {
-  IAudioSummary as AudioSearchResultType,
-  ISeriesSummary as SeriesSearchResultType,
+  IAudioSummary,
+  ISeriesSummary,
 } from '@ndla/types-audio-api';
 import { IConceptSummary } from '@ndla/types-concept-api';
 import { IImageMetaSummary as ImageSearchSummaryApiType } from '@ndla/types-image-api';
@@ -51,9 +51,9 @@ const SearchResult = ({ result, locale, type, subjects, editingState }: Props) =
     case 'image':
       return <SearchImage image={result as ImageSearchSummaryApiType} locale={locale} />;
     case 'audio':
-      return <SearchAudio audio={result as AudioSearchResultType} locale={locale} />;
+      return <SearchAudio audio={result as IAudioSummary} locale={locale} />;
     case 'podcast-series':
-      return <SearchPodcastSeries series={result as SeriesSearchResultType} />;
+      return <SearchPodcastSeries series={result as ISeriesSummary} />;
     default:
       return <p>{t('searchForm.resultError', { type })}</p>;
   }

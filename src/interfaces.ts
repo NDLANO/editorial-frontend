@@ -5,7 +5,7 @@
  */
 
 import { FieldProps, FormikHelpers, FormikValues } from 'formik';
-import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
+import { IAudioMetaInformation } from '@ndla/types-audio-api';
 import { IArticle, IRelatedContentLink } from '@ndla/types-draft-api';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
 
@@ -190,7 +190,7 @@ export interface UnsavedFile {
   type: string;
 }
 
-export interface SlateAudio extends Omit<AudioApiType, 'title'> {
+export interface SlateAudio extends Omit<IAudioMetaInformation, 'title'> {
   title: string;
 }
 

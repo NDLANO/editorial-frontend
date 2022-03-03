@@ -11,9 +11,9 @@ import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Descendant } from 'slate';
 import {
-  IAudioMetaInformation as AudioApiType,
+  IAudioMetaInformation,
   INewSeries,
-  ISeries as PodcastSeriesApiType,
+  ISeries,
 } from '@ndla/types-audio-api';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
@@ -28,7 +28,7 @@ import PodcastEpisodes from './PodcastEpisodes';
 import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
 
-const podcastRules: RulesType<PodcastSeriesFormikType, PodcastSeriesApiType> = {
+const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   title: {
     required: true,
     warnings: {
@@ -58,7 +58,7 @@ export interface PodcastSeriesFormikType {
   language: string;
   coverPhotoId?: string;
   metaImageAlt?: string;
-  episodes: AudioApiType[];
+  episodes: IAudioMetaInformation[];
   supportedLanguages: string[];
 }
 
@@ -70,7 +70,7 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
 };
 
 interface Props {
-  podcastSeries?: PodcastSeriesApiType;
+  podcastSeries?: ISeries;
   language: string;
   inModal?: boolean;
   isNewlyCreated: boolean;

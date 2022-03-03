@@ -6,10 +6,10 @@
  *
  */
 
-import Button from '@ndla/button';
+import Button, {ButtonProps} from '@ndla/button';
 import { css } from '@emotion/core';
 import { fonts, spacing } from '@ndla/core';
-import { HTMLProps, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 const buttonStyle = css`
   margin-right: 1rem;
@@ -32,7 +32,7 @@ const linkStyle = css`
   }
 `;
 
-interface Props extends HTMLProps<HTMLButtonElement> {
+interface Props extends ButtonProps {
   children?: ReactNode;
   outline?: boolean;
   link?: boolean;

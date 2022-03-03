@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import {
-  IAudioMetaInformation as AudioApiType,
+  IAudioMetaInformation,
   IUpdatedAudioMetaInformation,
 } from '@ndla/types-audio-api';
 import AudioForm from './components/AudioForm';
@@ -25,11 +25,11 @@ interface Props {
 
 const EditAudio = ({ isNewlyCreated }: Props) => {
   const { id: audioId, selectedLanguage: audioLanguage } = useParams<'id' | 'selectedLanguage'>();
-  const [audio, setAudio] = useState<AudioApiType | undefined>(undefined);
+  const [audio, setAudio] = useState<IAudioMetaInformation | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const { translating, translateToNN } = useTranslateApi(
     audio,
-    (audio: AudioApiType) => setAudio(audio),
+    (audio: IAudioMetaInformation) => setAudio(audio),
     ['id', 'manuscript.manuscript', 'title.title'],
   );
 

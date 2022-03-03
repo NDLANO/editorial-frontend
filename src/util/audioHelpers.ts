@@ -7,8 +7,8 @@
  */
 
 import {
-  IAudioMetaInformation as AudioApiType,
-  ISeries as PodcastSeriesApiType,
+  IAudioMetaInformation,
+  ISeries,
   ICopyright,
 } from '@ndla/types-audio-api';
 import { PodcastFormValues } from '../modules/audio/audioApiInterfaces';
@@ -18,7 +18,7 @@ import { DEFAULT_LICENSE } from './formHelper';
 import { PodcastSeriesFormikType } from '../containers/PodcastSeries/components/PodcastSeriesForm';
 
 export const audioApiTypeToFormType = (
-  audio: AudioApiType | undefined,
+  audio: IAudioMetaInformation | undefined,
   language: string,
 ): AudioFormikType => {
   const copyright: ICopyright = audio?.copyright ?? {
@@ -43,7 +43,7 @@ export const audioApiTypeToFormType = (
 };
 
 export const audioApiTypeToPodcastFormType = (
-  audio: AudioApiType | undefined,
+  audio: IAudioMetaInformation | undefined,
   language: string,
 ): PodcastFormValues => {
   return {
@@ -57,7 +57,7 @@ export const audioApiTypeToPodcastFormType = (
 };
 
 export const podcastSeriesTypeToFormType = (
-  series: PodcastSeriesApiType | undefined,
+  series: ISeries | undefined,
   language: string,
 ): PodcastSeriesFormikType => {
   return {

@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { ISeries as PodcastSeriesApiType, INewSeries } from '@ndla/types-audio-api';
+import { ISeries, INewSeries } from '@ndla/types-audio-api';
 
 import { fetchSeries, updateSeries } from '../../modules/audio/audioApi';
 import Spinner from '../../components/Spinner';
@@ -23,7 +23,7 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
   const { id: seriesId, selectedLanguage: seriesLanguage } = useParams<'id' | 'selectedLanguage'>();
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const [podcastSeries, setPodcastSeries] = useState<PodcastSeriesApiType | undefined>(undefined);
+  const [podcastSeries, setPodcastSeries] = useState<ISeries | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
   const onUpdate = async (newSeries: INewSeries): Promise<void> => {

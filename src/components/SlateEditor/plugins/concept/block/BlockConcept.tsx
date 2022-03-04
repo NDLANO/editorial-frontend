@@ -58,10 +58,6 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
 
   const [showConcept, setShowConcept] = useState(false);
 
-  const toggleConceptModal = () => {
-    setShowConcept(!showConcept);
-  };
-
   const { concept, subjects, ...conceptHooks } = useFetchConceptData(
     parseInt(element.data['content-id']),
     locale,
@@ -79,7 +75,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   };
 
   const addConcept = (addedConcept: ConceptApiType) => {
-    toggleConceptModal();
+    setShowConcept(false);
     setTimeout(() => {
       handleSelectionChange(true);
       const data = getConceptDataAttributes(addedConcept);
@@ -96,11 +92,11 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   };
 
   const handleRemove = () => {
-    toggleConceptModal();
+    setShowConcept(false);
     setTimeout(() => {
       handleSelectionChange(false);
       const path = ReactEditor.findPath(editor, element);
-      Transforms.unwrapNodes(editor, {
+      Transforms.removeNodes(editor, {
         at: path,
         match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK,
       });
@@ -111,7 +107,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
     if (!element.data['content-id']) {
       handleRemove();
     } else {
-      toggleConceptModal();
+      setShowConcept(false);
       handleSelectionChange(false);
     }
   };
@@ -123,12 +119,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   }, [element]);
 
   return (
-    <StyledWrapper
-      {...attributes}
-      onClick={toggleConceptModal}
-      tabIndex={1}
-      isSelected={isSelected}
-      draggable={true}>
+    <StyledWrapper {...attributes} tabIndex={1} isSelected={isSelected} draggable={true}>
       {concept && (
         <div contentEditable={false}>
           <StyledNotionHeaderWrapper>

@@ -5,8 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { NewImageMetadata, UpdatedImageMetadata } from '../modules/image/imageApiInterfaces';
 
+import {
+  INewImageMetaInformationV2 as NewImageMetadata,
+  IUpdateImageMetaInformation as UpdatedImageMetadata,
+} from '@ndla/types-image-api';
 import {
   AudioMetaInformationPost,
   AudioMetaInformationPut,

@@ -10,6 +10,7 @@ import { useEffect, useState, Fragment } from 'react';
 import { spacing, colors } from '@ndla/core';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
+import { useFormikContext } from 'formik';
 import Accordion, {
   AccordionWrapper,
   AccordionPanel,
@@ -27,9 +28,8 @@ import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/
 import VersionActionbuttons from './VersionActionButtons';
 import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
-import { Note } from '../../interfaces';
+import { FormikStatus, Note } from '../../interfaces';
 import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
-import { ArticleFormType } from './articleFormHooks';
 import { useMessages } from '../Messages/MessagesProvider';
 import {
   draftApiTypeToLearningResourceFormType,
@@ -48,18 +48,18 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 
 interface Props {
   article: DraftApiType;
-  setValues(values: ArticleFormType, shouldValidate?: boolean): void;
   getArticle: (preview: boolean) => UpdatedDraftApiType;
-  setStatus: (status?: any) => void;
   type: 'standard' | 'topic-article';
 }
 
-const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus, type }: Props) => {
+const VersionAndNotesPanel = ({ article, getArticle, type }: Props) => {
   const { t } = useTranslation();
   const [versions, setVersions] = useState<DraftApiType[]>([]);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<SimpleUserType[]>([]);
   const { createMessage } = useMessages();
+  const { setStatus, setValues } = useFormikContext();
+
   useEffect(() => {
     const getVersions = async () => {
       try {
@@ -115,7 +115,7 @@ const VersionAndNotesPanel = ({ article, setValues, getArticle, setStatus, type 
           : draftApiTypeToTopicArticleFormType;
       const newValues = transform({ ...newArticle, status: version.status }, language);
       setValues(newValues);
-      setStatus('revertVersion');
+      setStatus((prevStatus: FormikStatus) => ({ ...prevStatus, status: 'revertVersion' }));
       createMessage({
         message: t('form.resetToProd.success'),
         severity: 'success',

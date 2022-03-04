@@ -10,7 +10,7 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikProps } from 'formik';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
-import validateFormik from '../../../../components/formikValidationSchema';
+import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
 import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
 import { toEditArticle } from '../../../../util/routeHelpers';
@@ -159,6 +159,7 @@ const LearningResourceForm = ({
     );
   };
 
+  const initialWarnings = getWarnings(initialValues, learningResourceRules, t, article);
   const initialErrors = useMemo(() => validateFormik(initialValues, learningResourceRules, t), [
     initialValues,
     t,
@@ -173,7 +174,8 @@ const LearningResourceForm = ({
       validateOnBlur={false}
       validateOnMount
       onSubmit={handleSubmit}
-      validate={values => validateFormik(values, learningResourceRules, t)}>
+      validate={values => validateFormik(values, learningResourceRules, t)}
+      initialStatus={{ warnings: initialWarnings }}>
       {FormikChild}
     </Formik>
   );

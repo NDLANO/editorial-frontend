@@ -5,17 +5,17 @@ import { Dictionary } from 'lodash';
 import { SlateSerializer } from '../../interfaces';
 import onEnter from './handlers/onEnter';
 import { firstTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
 import { defaultListBlock } from './utils/defaultBlocks';
 import onTab from './handlers/onTab';
 import onBackspace from './handlers/onBackspace';
-import { TYPE_BREAK } from '../break';
-import { TYPE_CONCEPT } from '../concept';
-import { TYPE_FOOTNOTE } from '../footnote';
-import { TYPE_CONTENT_LINK, TYPE_LINK } from '../link';
-import { TYPE_MATHML } from '../mathml';
 import { TYPE_LIST, TYPE_LIST_ITEM } from './types';
 import { KEY_BACKSPACE, KEY_ENTER, KEY_TAB } from '../../utils/keys';
+import { TYPE_BREAK } from '../break/types';
+import { TYPE_CONCEPT } from '../concept/types';
+import { TYPE_FOOTNOTE } from '../footnote/types';
+import { TYPE_LINK, TYPE_CONTENT_LINK } from '../link/types';
+import { TYPE_MATHML } from '../mathml/types';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
 
 export interface ListElement {
   type: 'list';

@@ -129,7 +129,6 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
   const stageTaxonomyChanges = async ({ path, locale }: { path: string; locale?: LocaleType }) => {
     if (path) {
       const breadcrumb = await getBreadcrumbFromPath(path, locale);
-      const allStatuses = article.status ? article.status.other.concat(article.status.current) : [];
       const newTopic: StagedTopic = {
         id: 'staged',
         name: article.title?.title ?? '',
@@ -137,7 +136,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
         breadcrumb,
         metadata: {
           grepCodes: [],
-          visible: allStatuses.some(s => s === 'PUBLISHED'),
+          visible: false,
           customFields: {},
         },
       };

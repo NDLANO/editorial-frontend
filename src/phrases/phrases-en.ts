@@ -1144,6 +1144,9 @@ const phrases = {
     },
     grepCodes: 'The following codes have wrong format or does not exist, and will not be added: ',
   },
+  warningMessage: {
+    fieldWithWrongLanguage: 'This value is fetched from language code: {{language}}',
+  },
   notFound: {
     description: 'The page cannot be found',
   },

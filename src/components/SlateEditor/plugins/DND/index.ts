@@ -9,12 +9,12 @@
 import { DragEventHandler } from 'react';
 import { Editor, Element, Node, Text } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { TYPE_QUOTE } from '../blockquote';
-import { TYPE_HEADING } from '../heading';
+import { TYPE_QUOTE } from '../blockquote/types';
+import { TYPE_HEADING } from '../heading/types';
 import { TYPE_LIST, TYPE_LIST_ITEM } from '../list/types';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
-import { TYPE_SECTION } from '../section';
-import { TYPE_TABLE_CAPTION } from '../table/utils';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { TYPE_SECTION } from '../section/types';
+import { TYPE_TABLE_CAPTION } from '../table/types';
 import onDrop from './onDrop';
 import { getTopNode } from './utils';
 

@@ -6,36 +6,21 @@
  *
  */
 
-import { convertFieldWithFallback } from './convertFieldWithFallback';
 import {
-  AudioApiType,
-  PodcastFormValues,
-  PodcastSeriesApiType,
-} from '../modules/audio/audioApiInterfaces';
+  IAudioMetaInformation as AudioApiType,
+  ISeries as PodcastSeriesApiType,
+} from '@ndla/types-audio-api';
+import { PodcastFormValues } from '../modules/audio/audioApiInterfaces';
 import { AudioFormikType } from '../containers/AudioUploader/components/AudioForm';
-import { plainTextToEditorValue } from '../util/articleContentConverter';
-import { DEFAULT_LICENSE } from '../util/formHelper';
+import { plainTextToEditorValue } from './articleContentConverter';
+import { DEFAULT_LICENSE } from './formHelper';
 import { Copyright } from '../interfaces';
 import { PodcastSeriesFormikType } from '../containers/PodcastSeries/components/PodcastSeriesForm';
-
-const convertNestedAudioProps = (audio: AudioApiType | undefined, language: string) => {
-  if (audio) {
-    const audioLanguage = audio.supportedLanguages.includes(language) ? language : undefined;
-    return {
-      title: convertFieldWithFallback<'title'>(audio, 'title', '', audioLanguage),
-      manuscript: convertFieldWithFallback<'manuscript'>(audio, 'manuscript', '', audioLanguage),
-      tags: convertFieldWithFallback<'tags', string[]>(audio, 'tags', [], audioLanguage),
-    };
-  }
-  return { title: '', manuscript: '', tags: [] as string[] };
-};
 
 export const audioApiTypeToFormType = (
   audio: AudioApiType | undefined,
   language: string,
 ): AudioFormikType => {
-  const { title, manuscript, tags } = convertNestedAudioProps(audio, language);
-
   const copyright: Copyright = audio?.copyright ?? {
     creators: [],
     processors: [],
@@ -44,9 +29,9 @@ export const audioApiTypeToFormType = (
 
   return {
     ...audio,
-    title: plainTextToEditorValue(title),
-    manuscript: plainTextToEditorValue(manuscript),
-    tags: Array.from(new Set(tags)),
+    title: plainTextToEditorValue(audio?.title?.title ?? ''),
+    manuscript: plainTextToEditorValue(audio?.manuscript?.manuscript ?? ''),
+    tags: audio?.tags.tags ?? [],
     ...copyright,
     origin: audio?.copyright.origin ?? '',
     license: audio?.copyright?.license?.license || DEFAULT_LICENSE.license,
@@ -74,17 +59,13 @@ export const podcastSeriesTypeToFormType = (
   series: PodcastSeriesApiType | undefined,
   language: string,
 ): PodcastSeriesFormikType => {
-  const title = series ? convertFieldWithFallback<'title'>(series, 'title', '', language) : '';
-  const description = series
-    ? convertFieldWithFallback<'description'>(series, 'description', '', language)
-    : '';
   return {
     ...series,
     language,
     coverPhotoId: series?.coverPhoto.id,
     metaImageAlt: series?.coverPhoto.altText,
-    title: plainTextToEditorValue(title),
-    description: plainTextToEditorValue(description),
+    title: plainTextToEditorValue(series?.title.title ?? ''),
+    description: plainTextToEditorValue(series?.description.description ?? ''),
     episodes: series?.episodes ?? [],
     supportedLanguages: series?.supportedLanguages ?? [language],
   };

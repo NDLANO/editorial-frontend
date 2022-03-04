@@ -10,27 +10,36 @@ import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Descendant } from 'slate';
+import {
+  IAudioMetaInformation as AudioApiType,
+  INewSeries,
+  ISeries as PodcastSeriesApiType,
+} from '@ndla/types-audio-api';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
+import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toCreatePodcastSeries, toEditPodcastSeries } from '../../../util/routeHelpers';
-import {
-  PodcastSeriesPost,
-  AudioApiType,
-  PodcastSeriesApiType,
-} from '../../../modules/audio/audioApiInterfaces';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
 import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
 
-const podcastRules: RulesType<PodcastSeriesFormikType> = {
+const podcastRules: RulesType<PodcastSeriesFormikType, PodcastSeriesApiType> = {
   title: {
     required: true,
+    warnings: {
+      languageMatch: true,
+    },
+  },
+  description: {
+    required: true,
+    warnings: {
+      languageMatch: true,
+    },
   },
   coverPhotoId: {
     required: true,
@@ -66,7 +75,7 @@ interface Props {
   inModal?: boolean;
   isNewlyCreated: boolean;
   formikProps?: FormikProps<PodcastSeriesFormikType>;
-  onUpdate: (newPodcastSeries: PodcastSeriesPost) => void;
+  onUpdate: (newPodcastSeries: INewSeries) => void;
   revision?: number;
 }
 
@@ -99,8 +108,7 @@ const PodcastSeriesForm = ({
     actions.setSubmitting(true);
     const title: string = editorValueToPlainText(values.title);
     const description: string = editorValueToPlainText(values.description);
-    const newPodcastSeries: PodcastSeriesPost = {
-      id: values.id,
+    const newPodcastSeries: INewSeries = {
       revision: values.revision,
       title,
       description,
@@ -127,6 +135,7 @@ const PodcastSeriesForm = ({
   };
 
   const initialValues = podcastSeriesTypeToFormType(podcastSeries, language);
+  const initialWarnings = getWarnings(initialValues, podcastRules, t, podcastSeries);
 
   return (
     <Formik
@@ -138,7 +147,8 @@ const PodcastSeriesForm = ({
         const errors = validateFormik(values, podcastRules, t);
         const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
         return { ...errors, ...metaImageErrors };
-      }}>
+      }}
+      initialStatus={{ warnings: initialWarnings }}>
       {formikProps => {
         const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
         const formIsDirty = isFormikFormDirty({

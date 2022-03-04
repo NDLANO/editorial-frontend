@@ -14,8 +14,7 @@ import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/em
 import { SlateSerializer } from '../../interfaces';
 import EditSlateConcept from './EditSlateConcept';
 import { KEY_BACKSPACE } from '../../utils/keys';
-
-export const TYPE_CONCEPT = 'concept';
+import { TYPE_CONCEPT } from './types';
 
 export interface ConceptElement {
   type: 'concept';

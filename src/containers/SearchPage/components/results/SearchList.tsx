@@ -9,6 +9,10 @@
 import { useState, useEffect } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { useTranslation } from 'react-i18next';
+import {
+  IAudioSummary as AudioSearchResultType,
+  ISeriesSummary as SeriesSearchResultType,
+} from '@ndla/types-audio-api';
 import SearchResult from './SearchResult';
 import Spinner from '../../../../components/Spinner';
 import { ResultType, searchClasses } from '../../SearchContainer';
@@ -17,10 +21,6 @@ import { LocaleType, SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ImageSearchSummaryApiType } from '../../../../modules/image/imageApiInterfaces';
 import { SearchConceptType } from '../../../../modules/concept/conceptApiInterfaces';
-import {
-  AudioSearchResultType,
-  SeriesSearchResultType,
-} from '../../../../modules/audio/audioApiInterfaces';
 import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
 
 export type ResultSummaryType =

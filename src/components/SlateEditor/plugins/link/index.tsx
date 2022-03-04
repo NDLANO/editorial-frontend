@@ -12,9 +12,7 @@ import { Descendant, Editor, Element, Text, Node, Transforms } from 'slate';
 import { SlateSerializer } from '../../interfaces';
 import Link from './Link';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
-
-export const TYPE_LINK = 'link';
-export const TYPE_CONTENT_LINK = 'content-link';
+import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
 
 export interface LinkElement {
   type: 'link';

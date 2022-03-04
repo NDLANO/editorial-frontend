@@ -24,7 +24,7 @@ import { bytesToSensibleFormat } from '../util/fileSizeUtil';
 const appendError = (error: string, newError: string): string =>
   error ? `${error} \n ${newError}` : newError;
 
-interface RuleObject<FormikValuesType> {
+interface RuleObject<FormikValuesType, ApiType = any> {
   minItems?: number;
   minLength?: number;
   maxLength?: number;
@@ -38,6 +38,10 @@ interface RuleObject<FormikValuesType> {
   url?: boolean;
   urlOrNumber?: boolean;
   maxSize?: number;
+  warnings?: {
+    apiField?: keyof ApiType;
+    languageMatch?: boolean;
+  };
   test?: (
     value: FormikValuesType,
   ) =>
@@ -46,7 +50,10 @@ interface RuleObject<FormikValuesType> {
   onlyValidateIf?: (value: FormikValuesType) => boolean;
 }
 
-export type RulesType<FormikValuesType> = Record<string, RuleObject<FormikValuesType>>;
+export type RulesType<FormikValuesType, ApiType = any> = Record<
+  string,
+  RuleObject<FormikValuesType, ApiType>
+>;
 
 const validateFormik = <FormikValuesType>(
   values: FormikValuesType,
@@ -176,6 +183,46 @@ const validateFormik = <FormikValuesType>(
     handleError(e);
   }
   return errors;
+};
+
+export const getWarnings = <FormikValuesType, ApiType>(
+  values: FormikValuesType,
+  rules: RulesType<FormikValuesType, ApiType>,
+  t: TFunction,
+  entity?: ApiType,
+) => {
+  let warnings: Record<string, string> = {};
+  try {
+    Object.keys(rules).forEach(ruleKey => {
+      if (rules[ruleKey].warnings) {
+        const warningRules = rules[ruleKey].warnings;
+        if (warningRules?.languageMatch) {
+          const apiField = warningRules.apiField ?? ruleKey;
+          const entityField = get([apiField], entity);
+          const fieldLanguage = get('language', entityField);
+          const formikLanguage = get('language', values);
+          if (entity && fieldLanguage && formikLanguage !== fieldLanguage) {
+            const edgeCaseWarning =
+              apiField !== ruleKey
+                ? {
+                    [apiField]: t('warningMessage.fieldWithWrongLanguage', {
+                      language: [fieldLanguage],
+                    }),
+                  }
+                : {};
+            warnings = {
+              ...warnings,
+              ...edgeCaseWarning,
+              [ruleKey]: t('warningMessage.fieldWithWrongLanguage', { language: [fieldLanguage] }),
+            };
+          }
+        }
+      }
+    });
+  } catch (e) {
+    handleError(e);
+  }
+  return warnings;
 };
 
 export default validateFormik;

@@ -60,11 +60,10 @@ const FormikField = ({
   description,
   obligatory,
   showError = true,
-  formik: { values, handleBlur, errors },
+  formik: { values, handleBlur, errors, status },
   ...rest
 }: Props & { formik: FormikContextType<FormikValues> }) => {
   const { t } = useTranslation();
-
   const isSlateValue = Node.isNodeList(values[name]);
   const fieldActions: FieldAttributes<any> = !isSlateValue
     ? {
@@ -102,6 +101,11 @@ const FormikField = ({
       {showError && get(name, errors) && (
         <FormikFieldHelp error={!!get(name, errors)}>
           <StyledErrorPreLine>{get(name, errors)}</StyledErrorPreLine>
+        </FormikFieldHelp>
+      )}
+      {status?.hasOwnProperty('warnings') && (
+        <FormikFieldHelp warning={!!get(name, status.warnings)}>
+          <StyledErrorPreLine>{get(name, status.warnings)}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
     </div>

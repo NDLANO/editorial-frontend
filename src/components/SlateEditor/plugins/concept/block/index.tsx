@@ -11,8 +11,22 @@ import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../../interfaces';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../../utils/defaultNormalizer';
+import { afterOrBeforeTextBlockElement } from '../../../utils/normalizationHelpers';
+import { TYPE_PARAGRAPH } from '../../paragraph/types';
 import BlockConcept from './BlockConcept';
 import { TYPE_CONCEPT_BLOCK } from './types';
+
+const normalizerConfig: NormalizerConfig = {
+  previous: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  next: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+};
 
 export const blockConceptSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -42,7 +56,7 @@ export const blockConceptSerializer: SlateSerializer = {
 };
 
 export const blockConceptPlugin = (locale: string) => (editor: Editor) => {
-  const { renderElement, isVoid } = editor;
+  const { renderElement, isVoid, normalizeNode } = editor;
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;
@@ -54,6 +68,17 @@ export const blockConceptPlugin = (locale: string) => (editor: Editor) => {
       );
     }
     return renderElement && renderElement(props);
+  };
+
+  editor.normalizeNode = entry => {
+    const [node] = entry;
+
+    if (Element.isElement(node) && node.type === TYPE_CONCEPT_BLOCK) {
+      if (defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+        return;
+      }
+    }
+    normalizeNode(entry);
   };
 
   editor.isVoid = element => {

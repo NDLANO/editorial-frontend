@@ -10,7 +10,7 @@ import { ReactNode, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
-import { spacing, spacingUnit } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { ImageLink } from '@ndla/ui';
@@ -26,12 +26,12 @@ import config from '../../../../config';
 import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
 import { Embed } from '../../../../interfaces';
 
-const StyledFigureButtons = styled('span')`
+const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
   position: absolute;
   top: 0;
   z-index: 1;
-  right: -${spacingUnit * 1.5}px;
-  margin-right: 40px;
+  right: 0;
+  ${p => (p.isBlockView ? 'transform: translateX(100%);' : '')}
   margin-top: ${spacing.xsmall};
 
   > * {
@@ -41,6 +41,7 @@ const StyledFigureButtons = styled('span')`
 
 interface Props {
   concept: ConceptApiType;
+  isBlockView?: boolean;
   handleRemove: () => void;
   id: number | string;
 }
@@ -52,7 +53,7 @@ interface ImageWrapperProps {
 const ImageWrapper = ({ children, url }: ImageWrapperProps) =>
   url ? <ImageLink src={url}>{children}</ImageLink> : <>{children}</>;
 
-const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
+const SlateConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
   const { t } = useTranslation();
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
@@ -131,7 +132,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
         authors={concept.copyright?.creators.map(creator => creator.name)}
       />
 
-      <StyledFigureButtons>
+      <StyledFigureButtons isBlockView={isBlockView}>
         <Tooltip tooltip={t('form.concept.removeConcept')} align="right">
           <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
             <DeleteForever />

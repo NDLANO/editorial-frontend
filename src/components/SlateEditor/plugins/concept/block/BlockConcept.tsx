@@ -125,7 +125,12 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
           <StyledNotionHeaderWrapper>
             <NotionHeaderWithoutExitButton title={concept.title.title ?? ''} />
           </StyledNotionHeaderWrapper>
-          <SlateConceptPreview concept={concept} handleRemove={handleRemove} id={concept.id} />
+          <SlateConceptPreview
+            concept={concept}
+            handleRemove={handleRemove}
+            id={concept.id}
+            isBlockView
+          />
         </div>
       )}
       <ConceptModal
@@ -137,6 +142,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
         concept={concept}
         subjects={subjects}
         handleRemove={handleRemove}
+        selectedText={''}
         {...conceptHooks}
       />
       {children}

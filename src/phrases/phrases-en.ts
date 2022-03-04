@@ -701,6 +701,7 @@ const phrases = {
       addConcept: 'Add existing concept',
       removeConcept: 'Remove concept',
       source: 'Source',
+      markdown: 'The field supports markdown.',
       subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
     },
     workflow: {

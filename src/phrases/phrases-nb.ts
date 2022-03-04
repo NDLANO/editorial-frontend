@@ -608,6 +608,7 @@ const phrases = {
       addConcept: 'Legg til eksisterende forklaring',
       removeConcept: 'Ta bort forklaring',
       source: 'Kilde',
+      markdown: 'Feltet støtter markdown.',
       subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
     },
     abort: 'Avbryt',

@@ -702,6 +702,7 @@ const phrases = {
       addConcept: 'Legg til eksisterande forklaring',
       removeConcept: 'Ta bort forklaring',
       source: 'Kjelde',
+      markdown: 'Feltet støttar markdown.',
       subjects: 'Berre fag markert som forklaringsfag vil visast i lista.',
     },
     workflow: {

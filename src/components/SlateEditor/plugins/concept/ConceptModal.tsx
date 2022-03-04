@@ -46,7 +46,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   locale: string;
-  selectedText: string;
+  selectedText?: string;
   subjects: SubjectType[];
   updateConcept: (updatedConcept: ConceptPatchType) => Promise<ConceptApiType>;
   conceptArticles: DraftApiType[];

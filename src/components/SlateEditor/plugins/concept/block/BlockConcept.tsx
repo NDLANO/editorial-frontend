@@ -7,9 +7,9 @@
  */
 
 import { useState, useEffect, ReactNode } from 'react';
-import { spacing } from '@ndla/core';
-import { Editor, Element, Node, Transforms, Path } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
+import { spacing, colors } from '@ndla/core';
+import { Editor, Element, Transforms, Path } from 'slate';
+import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import { Dictionary } from 'lodash';
 import styled from '@emotion/styled';
 import { NotionHeaderWithoutExitButton } from '@ndla/notion';
@@ -21,11 +21,10 @@ import { ConceptApiType } from '../../../../../modules/concept/conceptApiInterfa
 import { TYPE_CONCEPT_BLOCK } from './types';
 import { ConceptBlockElement } from './interfaces';
 
-const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
+const getConceptDataAttributes = ({ id }: Dictionary<any>) => ({
   type: TYPE_CONCEPT_BLOCK,
   data: {
     'content-id': id,
-    'link-text': title,
     resource: 'concept',
     type: 'inline',
   },
@@ -39,12 +38,13 @@ interface Props {
   children: ReactNode;
 }
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.div<{ isSelected: boolean }>`
   position: relative;
   white-space: normal;
   ul {
     margin-top: 0;
   }
+  box-shadow: ${p => (p.isSelected ? `${colors.brand.primary} 0 0 0 2px` : 'none')};
 `;
 
 const StyledNotionHeaderWrapper = styled.div`
@@ -54,7 +54,7 @@ const StyledNotionHeaderWrapper = styled.div`
 `;
 
 const BlockConcept = ({ element, locale, editor, attributes, children }: Props) => {
-  const nodeText = Node.string(element).trim();
+  const isSelected = useSelected();
 
   const [showConcept, setShowConcept] = useState(false);
 
@@ -82,10 +82,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
     toggleConceptModal();
     setTimeout(() => {
       handleSelectionChange(true);
-      const data = getConceptDataAttributes({
-        ...addedConcept,
-        title: { title: nodeText },
-      });
+      const data = getConceptDataAttributes(addedConcept);
       if (element && true) {
         const path = ReactEditor.findPath(editor, element);
         Transforms.setNodes(
@@ -126,14 +123,19 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   }, [element]);
 
   return (
-    <StyledWrapper {...attributes} onClick={toggleConceptModal} contentEditable={false}>
+    <StyledWrapper
+      {...attributes}
+      onClick={toggleConceptModal}
+      tabIndex={1}
+      isSelected={isSelected}
+      draggable={true}>
       {concept && (
-        <>
+        <div contentEditable={false}>
           <StyledNotionHeaderWrapper>
             <NotionHeaderWithoutExitButton title={concept.title.title ?? ''} />
           </StyledNotionHeaderWrapper>
           <SlateConceptPreview concept={concept} handleRemove={handleRemove} id={concept.id} />
-        </>
+        </div>
       )}
       <ConceptModal
         id={conceptId}
@@ -144,7 +146,6 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
         concept={concept}
         subjects={subjects}
         handleRemove={handleRemove}
-        selectedText={nodeText}
         {...conceptHooks}
       />
       {children}

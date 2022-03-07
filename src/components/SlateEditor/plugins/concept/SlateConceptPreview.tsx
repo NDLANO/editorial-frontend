@@ -127,7 +127,13 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
       </NotionDialogContent>
       <NotionDialogLicenses
         license={concept.copyright?.license?.license}
-        source={concept.source}
+        source={
+          <span
+            dangerouslySetInnerHTML={{
+              __html: markdown.render(concept.source),
+            }}
+          />
+        }
         authors={concept.copyright?.creators.map(creator => creator.name)}
       />
 

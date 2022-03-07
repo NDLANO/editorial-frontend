@@ -15,6 +15,7 @@ import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
+import NotFound from '../../NotFoundPage/NotFoundPage';
 
 interface Props {
   isNewlyCreated: boolean;
@@ -33,7 +34,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     articleChanged,
     updateArticle,
     updateArticleAndStatus,
-  } = useFetchArticleData(articleId, selectedLanguage);
+  } = useFetchArticleData(Number(articleId), selectedLanguage);
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
     'title.title',
@@ -45,6 +46,11 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   if (loading || !article || !article.id) {
     return <Spinner withWrapper />;
   }
+
+  if (!article || !articleId) {
+    return <NotFound />;
+  }
+
   if (article.articleType !== 'standard') {
     const replaceUrl = toEditArticle(article.id, article.articleType, selectedLanguage);
     return <Navigate replace to={replaceUrl} />;

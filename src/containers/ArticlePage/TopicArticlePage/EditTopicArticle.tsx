@@ -14,6 +14,7 @@ import { useTranslateApi } from '../../FormikForm/translateFormHooks';
 import Spinner from '../../../components/Spinner';
 import { LocaleType } from '../../../interfaces';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
+import NotFound from '../../NotFoundPage/NotFoundPage';
 
 interface Props {
   isNewlyCreated: boolean;
@@ -31,7 +32,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     articleChanged,
     updateArticle,
     updateArticleAndStatus,
-  } = useFetchArticleData(articleId, selectedLanguage);
+  } = useFetchArticleData(Number(articleId), selectedLanguage);
   const { t } = useTranslation();
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
@@ -43,6 +44,10 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
 
   if (loading || !article || !article.id) {
     return <Spinner withWrapper />;
+  }
+
+  if (!article || !articleId) {
+    return <NotFound />;
   }
 
   if (article.articleType !== 'topic-article') {

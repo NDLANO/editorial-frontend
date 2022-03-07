@@ -126,10 +126,10 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     setNodeData(newArticles);
   };
 
-  const onInsertBlock = (newArticle: number) => {
-    if (!articles.find(it => 'id' in it && it.id === newArticle)) {
+  const onInsertBlock = (newArticle: string) => {
+    if (!articles.find(it => 'id' in it && it.id === newArticle) && Number(newArticle)) {
       // get resource and add to state
-      fetchArticle(newArticle).then(article => {
+      fetchArticle(Number(newArticle)).then(article => {
         if (article) {
           const newArticles = [...articles, article];
           setArticles(newArticles);

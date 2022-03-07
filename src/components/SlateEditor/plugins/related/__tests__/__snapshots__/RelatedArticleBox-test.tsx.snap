@@ -772,11 +772,11 @@ exports[`it goes in and out of edit mode 1`] = `
     <section
       class="c-related-articles"
     >
-      <h1
+      <h2
         class="c-section-heading c-related-articles__component-title"
       >
         Relatert innhold
-      </h1>
+      </h2>
       <div
         class="c-related-articles__articles"
       />
@@ -1249,7 +1249,7 @@ exports[`it goes in and out of edit mode 2`] = `
               <article
                 class="c-related-articles__item c-related-articles__item--external-learning-resources"
               >
-                <h1
+                <h3
                   class="c-related-articles__title"
                 >
                   <div
@@ -1301,7 +1301,7 @@ exports[`it goes in and out of edit mode 2`] = `
                       Verdens gang
                     </a>
                   </span>
-                </h1>
+                </h3>
                 <p
                   class="c-related-articles__description"
                 />
@@ -1501,18 +1501,18 @@ exports[`it goes in and out of edit mode 2`] = `
     <section
       class="c-related-articles"
     >
-      <h1
+      <h2
         class="c-section-heading c-related-articles__component-title"
       >
         Relatert innhold
-      </h1>
+      </h2>
       <div
         class="c-related-articles__articles"
       >
         <article
           class="c-related-articles__item c-related-articles__item--external-learning-resources"
         >
-          <h1
+          <h3
             class="c-related-articles__title"
           >
             <div
@@ -1564,7 +1564,7 @@ exports[`it goes in and out of edit mode 2`] = `
                 Verdens gang
               </a>
             </span>
-          </h1>
+          </h3>
           <p
             class="c-related-articles__description"
           />

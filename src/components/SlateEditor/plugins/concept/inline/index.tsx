@@ -21,21 +21,22 @@ export const inlineConceptSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== 'embed') return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
-    if (embedAttributes.resource !== 'concept' || embedAttributes.type !== 'inline') return;
-    return slatejsx(
-      'element',
-      {
-        type: TYPE_CONCEPT_INLINE,
-        data: embedAttributes,
-      },
-      [
+    if (embedAttributes.resource === 'concept' && embedAttributes.type === 'inline') {
+      return slatejsx(
+        'element',
         {
-          text: embedAttributes['link-text']
-            ? embedAttributes['link-text']
-            : 'Ukjent forklaringstekst',
+          type: TYPE_CONCEPT_INLINE,
+          data: embedAttributes,
         },
-      ],
-    );
+        [
+          {
+            text: embedAttributes['link-text']
+              ? embedAttributes['link-text']
+              : 'Ukjent forklaringstekst',
+          },
+        ],
+      );
+    }
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;

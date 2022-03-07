@@ -33,15 +33,16 @@ export const blockConceptSerializer: SlateSerializer = {
     if (el.tagName.toLowerCase() !== 'embed') return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
-    if (embedAttributes.resource !== 'concept' || embedAttributes.type !== 'block') return;
-    return slatejsx(
-      'element',
-      {
-        type: TYPE_CONCEPT_BLOCK,
-        data: embedAttributes,
-      },
-      { text: '' },
-    );
+    if (embedAttributes.resource === 'concept' && embedAttributes.type === 'block') {
+      return slatejsx(
+        'element',
+        {
+          type: TYPE_CONCEPT_BLOCK,
+          data: embedAttributes,
+        },
+        { text: '' },
+      );
+    }
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;

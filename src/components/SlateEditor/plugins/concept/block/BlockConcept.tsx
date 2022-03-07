@@ -26,7 +26,7 @@ const getConceptDataAttributes = ({ id }: Dictionary<any>) => ({
   data: {
     'content-id': id,
     resource: 'concept',
-    type: 'inline',
+    type: 'block',
   },
 });
 

@@ -38,4 +38,5 @@ export interface ConceptFormValues {
   subjects: SubjectType[];
   supportedLanguages: string[];
   updated?: string;
+  origin?: string;
 }

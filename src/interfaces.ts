@@ -20,8 +20,6 @@ export type PartialRecord<K extends keyof any, T> = {
   [P in K]?: T;
 };
 
-export type AvailabilityType = 'everyone' | 'teacher' | string;
-
 export type EditMode =
   | 'changeSubjectName'
   | 'deleteTopic'
@@ -224,3 +222,8 @@ export interface H5POembed {
 }
 
 export type SearchType = typeof SearchTypeValues[number];
+
+export interface ReturnType<TType, TReturnType> {
+  type: TType;
+  value: TReturnType;
+}

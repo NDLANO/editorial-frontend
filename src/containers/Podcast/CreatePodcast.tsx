@@ -24,9 +24,7 @@ const CreatePodcast = () => {
   ) => {
     const formData = await createFormData(podcastFile, newPodcast);
     const createdPodcast = await postAudio(formData);
-    if (createdPodcast.id) {
-      navigate(toEditPodcast(createdPodcast.id, newPodcast.language));
-    }
+    navigate(toEditPodcast(createdPodcast.id, newPodcast.language));
   };
 
   return <PodcastForm onCreatePodcast={onCreatePodcast} isNewlyCreated={false} language={locale} />;

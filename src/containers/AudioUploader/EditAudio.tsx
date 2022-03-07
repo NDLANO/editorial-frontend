@@ -67,7 +67,6 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
   return (
     <AudioForm
       audio={audio}
-      revision={audio?.revision}
       onUpdateAudio={onUpdate}
       audioLanguage={language}
       isNewlyCreated={isNewlyCreated}

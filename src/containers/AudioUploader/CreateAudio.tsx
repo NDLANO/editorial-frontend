@@ -22,9 +22,7 @@ const CreateAudio = () => {
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
     const createdAudio = await postAudio(formData);
-    if (createdAudio.id) {
-      navigate(toEditAudio(createdAudio.id, newAudio.language));
-    }
+    navigate(toEditAudio(createdAudio.id, newAudio.language));
   };
 
   return <AudioForm onCreateAudio={onCreateAudio} audioLanguage={i18n.language} />;

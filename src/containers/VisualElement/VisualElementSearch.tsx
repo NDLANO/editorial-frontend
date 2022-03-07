@@ -27,17 +27,12 @@ import {
 } from '../../modules/video/brightcoveApi';
 import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
 import { searchAudio } from '../../modules/audio/audioApi';
-import { Embed } from '../../interfaces';
+import { Embed, ReturnType } from '../../interfaces';
 import FileUploader from '../../components/FileUploader';
 
 const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
 });
-
-interface ReturnType<TType, TReturnType> {
-  type: TType;
-  value: TReturnType;
-}
 
 type EmbedReturnType = ReturnType<'embed', Embed>;
 type FileReturnType = ReturnType<'file', DOMStringMap[]>;

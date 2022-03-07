@@ -103,7 +103,6 @@ interface Props {
   onUpdateAudio?: (audio: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
   audio?: IAudioMetaInformation;
   audioLanguage: string;
-  revision?: number;
   isNewlyCreated?: boolean;
   translating?: boolean;
   translateToNN?: () => void;
@@ -117,7 +116,6 @@ const AudioForm = ({
   translateToNN,
   onCreateAudio,
   onUpdateAudio,
-  revision,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -153,8 +151,11 @@ const AudioForm = ({
           rightsholders: values.rightsholders,
         },
       };
-      revision
-        ? onUpdateAudio?.({ ...audioMetaData, revision: revision }, values.audioFile.newFile?.file)
+      audio?.revision
+        ? onUpdateAudio?.(
+            { ...audioMetaData, revision: audio.revision },
+            values.audioFile.newFile?.file,
+          )
         : onCreateAudio?.(audioMetaData, values.audioFile.newFile?.file);
 
       actions.setSubmitting(false);

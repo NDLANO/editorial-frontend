@@ -9,6 +9,7 @@
 import { ReactChild, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useFormikContext } from 'formik';
 import { css } from '@emotion/react';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
@@ -17,14 +18,14 @@ import { colors, fonts, spacing } from '@ndla/core';
 import { Camera, Concept, Filter, SquareAudio } from '@ndla/icons/editor';
 import { Podcast } from '@ndla/icons/common';
 import { List } from '@ndla/icons/action';
-import { IConcept } from '@ndla/types-concept-api';
-import { IUpdatedArticle } from '@ndla/types-draft-api';
 import HeaderStatusInformation from './HeaderStatusInformation';
 import { toEditArticle } from '../../util/routeHelpers';
 import * as draftApi from '../../modules/draft/draftApi';
 import Spinner from '../Spinner';
 import handleError from '../../util/handleError';
 import { useMessages } from '../../containers/Messages/MessagesProvider';
+import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
+import { ConceptFormValues } from '../../containers/ConceptPage/conceptInterfaces';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -104,7 +105,6 @@ interface Props {
   statusText?: string;
   published?: boolean;
   type: string;
-  getEntity?: () => IConcept | IUpdatedArticle;
   isNewLanguage: boolean;
   title?: string;
   formIsDirty?: boolean;
@@ -122,7 +122,6 @@ const HeaderInformation = ({
   isNewLanguage,
   title,
   formIsDirty,
-  getEntity,
   taxonomyPaths,
   setHasConnections,
 }: Props) => {
@@ -130,8 +129,10 @@ const HeaderInformation = ({
   const [loading, setLoading] = useState(false);
   const { createMessage } = useMessages();
   const navigate = useNavigate();
+  const { values } = useFormikContext<ArticleFormType | ConceptFormValues>();
+
   const onSaveAsNew = async () => {
-    if (!getEntity) return;
+    if (!values.id) return;
     try {
       if (formIsDirty) {
         createMessage({
@@ -141,10 +142,9 @@ const HeaderInformation = ({
         });
       } else {
         setLoading(true);
-        const article = getEntity();
-        const newArticle = await draftApi.cloneDraft(article.id, article.language);
+        const newArticle = await draftApi.cloneDraft(values.id, values.language);
         // we don't set loading to false as the redirect will unmount this component anyway
-        navigate(toEditArticle(newArticle.id, newArticle.articleType, article.language));
+        navigate(toEditArticle(newArticle.id, newArticle.articleType, values.language));
       }
     } catch (e) {
       handleError(e);

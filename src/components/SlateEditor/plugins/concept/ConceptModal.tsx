@@ -33,7 +33,6 @@ import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptF
 import { ConceptShape, SubjectShape } from '../../../../shapes';
 import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { createGuard } from '../../../../util/guards';
 
 const type = 'concept';
 
@@ -49,10 +48,9 @@ interface Props {
   selectedText: string;
   subjects: SubjectType[];
   updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
+  updateConceptAndStatus: any;
   conceptArticles: IArticle[];
 }
-
-const isConceptPatchType = createGuard<IUpdatedConcept>('status');
 
 const ConceptModal = ({
   onClose,
@@ -67,6 +65,7 @@ const ConceptModal = ({
   concept,
   fetchSearchTags,
   conceptArticles,
+  updateConceptAndStatus,
 }: Props) => {
   const { t } = useTranslation();
   const [searchObject, updateSearchObject] = useState<ConceptQuery>({
@@ -101,13 +100,12 @@ const ConceptModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onConceptUpsert = async (upsertedConcept: INewConcept | IUpdatedConcept) => {
-    const savedConcept = isConceptPatchType(upsertedConcept)
-      ? await updateConcept(concept?.id!, upsertedConcept)
-      : await createConcept(upsertedConcept);
-    addConcept(savedConcept);
-    return savedConcept;
-  };
+  const upsertProps = concept
+    ? {
+        onUpdate: (updatedConcept: IUpdatedConcept) => updateConcept(concept.id, updatedConcept),
+        updateConceptAndStatus,
+      }
+    : { onCreate: createConcept };
 
   useEffect(() => {
     searchConcept(searchObject);
@@ -183,7 +181,7 @@ const ConceptModal = ({
                         inModal
                         onClose={onClose}
                         subjects={subjects}
-                        onUpdate={onConceptUpsert}
+                        upsertProps={upsertProps}
                         language={locale}
                         fetchConceptTags={fetchSearchTags}
                         concept={concept}

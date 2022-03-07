@@ -13,7 +13,7 @@ import { IAudioSummary, ISeriesSummary } from '@ndla/types-audio-api';
 import { IConceptSummary } from '@ndla/types-concept-api';
 import { IImageMetaSummary } from '@ndla/types-image-api';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
-import SearchResult from './SearchResult';
+import SearchResult, { SearchResultReturnType } from './SearchResult';
 import Spinner from '../../../../components/Spinner';
 import { ResultType, searchClasses } from '../../SearchContainer';
 import { SearchParams } from '../form/SearchForm';
@@ -36,7 +36,13 @@ interface Props {
   subjects: SubjectType[];
 }
 
-const SearchList = ({ results, searchObject, type, searching, locale, subjects }: Props) => {
+const toResultReturnType = (
+  results: ResultType['results'],
+  type: SearchType,
+): SearchResultReturnType[] =>
+  results.map((result: ResultSummaryType) => ({ type: type, value: result }));
+
+const SearchList = ({ results, searchObject, type, searching = true, locale, subjects }: Props) => {
   const { t } = useTranslation();
   const editingState = useState(false);
   const setEditing = editingState[1];
@@ -50,19 +56,18 @@ const SearchList = ({ results, searchObject, type, searching, locale, subjects }
   return (
     <div {...searchClasses('results')}>
       <TransitionGroup>
-        {results.map((result: ResultSummaryType) => {
+        {toResultReturnType(results, type).map(result => {
           const learningResourceType =
-            'learningResourceType' in result ? result.learningResourceType : '';
+            'learningResourceType' in result.value ? result.value.learningResourceType : '';
           return (
             <CSSTransition
-              key={`transition-${result.id}-${learningResourceType}`}
+              key={`transition-${result.value.id}-${learningResourceType}`}
               classNames={searchClasses('transition').className}
               timeout={{ enter: 500, exit: 0 }}>
               <SearchResult
-                key={`${result.id}-${learningResourceType}`}
+                key={`${result.value.id}-${learningResourceType}`}
                 result={result}
-                type={type}
-                locale={locale || result.title.language}
+                locale={locale || result.value.title.language}
                 subjects={subjects}
                 editingState={editingState}
               />
@@ -72,10 +77,6 @@ const SearchList = ({ results, searchObject, type, searching, locale, subjects }
       </TransitionGroup>
     </div>
   );
-};
-
-SearchList.defaultProps = {
-  searching: true,
 };
 
 export default SearchList;

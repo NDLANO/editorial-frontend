@@ -42,7 +42,7 @@ const CreateConcept = ({ inModal = false, addConceptInModal }: Props) => {
       <HelmetWithTracker title={t(`conceptform.title`)} />
       <ConceptForm
         language={i18n.language}
-        onUpdate={concept => createConceptAndPushRoute(concept as INewConcept)}
+        upsertProps={{ onCreate: createConceptAndPushRoute }}
         fetchConceptTags={fetchSearchTags}
         inModal={inModal}
         subjects={subjects}

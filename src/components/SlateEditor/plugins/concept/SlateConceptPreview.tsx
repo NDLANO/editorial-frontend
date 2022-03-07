@@ -53,7 +53,7 @@ const ImageWrapper = ({ children, url }: ImageWrapperProps) =>
   url ? <ImageLink src={url}>{children}</ImageLink> : <>{children}</>;
 
 const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);
@@ -140,7 +140,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
         <Tooltip tooltip={t('form.concept.edit')} align="right">
           <IconButton
             as={Link}
-            to={`/concept/${id}/edit/${concept.content?.language}`}
+            to={`/concept/${id}/edit/${concept.content?.language ?? i18n.language}`}
             target="_blank"
             title={t('form.concept.edit')}
             tabIndex={-1}>

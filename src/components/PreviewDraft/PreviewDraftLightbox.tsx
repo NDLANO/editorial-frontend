@@ -12,11 +12,14 @@ import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import { OneColumn } from '@ndla/ui';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
 import { useFormikContext } from 'formik';
-import * as articleApi from '../../modules/article/articleApi';
-import * as draftApi from '../../modules/draft/draftApi';
+import {
+  getPreviewArticle,
+  getArticleFromArticleConverter,
+} from '../../modules/article/articleApi';
+import { fetchDraft } from '../../modules/draft/draftApi';
 import Lightbox, { closeLightboxButtonStyle, StyledCross } from '../Lightbox';
 import PreviewLightboxContent from './PreviewLightboxContent';
 import { ActionButton } from '../../containers/FormikForm';
@@ -76,10 +79,8 @@ const customSpinnerStyle = css`
 const isDraftApiType = createGuard<IArticle>('title', { type: 'object' });
 
 // Transform article if title is a string. If not it's probably an api compatible article
-const toApiVersion = (article: IArticle | IUpdatedArticle): IArticle & { language?: string } => {
-  return isDraftApiType(article)
-    ? article
-    : { ...updatedDraftApiTypeToDraftApiType(article), language: article.language };
+const toApiVersion = (article: IArticle | IUpdatedArticle, id: number): IArticle => {
+  return isDraftApiType(article) ? article : updatedDraftApiTypeToDraftApiType(article, id);
 };
 
 interface Props {
@@ -98,6 +99,7 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
   const [previewLanguage, setPreviewLanguage] = useState<string | undefined>(undefined);
   const [showPreview, setShowPreview] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isMissingValues, setIsMissingValues] = useState(false);
   const { t } = useTranslation();
   const { values } = useFormikContext<ArticleFormType | ConceptFormValues>();
 
@@ -110,24 +112,27 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
   };
 
   const onChangePreviewLanguage = async (language: string) => {
-    const secondArticle = await previewLanguageArticle(language);
+    if (!values.id) return setIsMissingValues(true);
+    const secondArticle = await previewLanguageArticle(values.id, language);
     setPreviewLanguage(language);
     setSecondArticle(secondArticle);
   };
 
   const openPreview = async () => {
-    const article = toApiVersion(getArticle(true));
+    const id = values.id;
+    const language = values.language;
+    if (!id || !language) return setIsMissingValues(true);
+    const article = toApiVersion(getArticle(true), id);
 
-    const secondArticleLanguage =
-      article.supportedLanguages?.find(l => l !== article.language) ?? article.language;
+    const secondArticleLanguage = article.supportedLanguages?.find(l => l !== language) ?? language;
 
     const types: PartialRecord<TypeOfPreview, () => Promise<ArticleConverterApiType>> = {
-      previewLanguageArticle: () => previewLanguageArticle(secondArticleLanguage!),
-      previewVersion: () => previewVersion(article.language!),
-      previewProductionArticle: previewProductionArticle,
+      previewLanguageArticle: () => previewLanguageArticle(id, secondArticleLanguage!),
+      previewVersion: () => previewVersion(language),
+      previewProductionArticle: () => previewProductionArticle(id, language),
     };
     setLoading(true);
-    const firstArticle = await articleApi.getPreviewArticle(article, article.language!);
+    const firstArticle = await getPreviewArticle(article, language);
 
     const secondArticle = await types[typeOfPreview]?.();
     setFirstArticle(firstArticle);
@@ -139,20 +144,16 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
 
   const previewVersion = async (language: string) => {
     // version is not null if typeOfPreview === 'previewVersion'.
-    const article = await articleApi.getPreviewArticle(version!, language);
-    return article;
+    return getPreviewArticle(version!, language);
   };
 
-  const previewProductionArticle = async () => {
-    const { language } = getArticle(true) as IUpdatedArticle;
-    const article = await articleApi.getArticleFromArticleConverter(values.id ?? -1, language!);
-    return article;
+  const previewProductionArticle = async (id: number, language: string) => {
+    return getArticleFromArticleConverter(id, language);
   };
 
-  const previewLanguageArticle = async (language: string) => {
-    const draftOtherLanguage = await draftApi.fetchDraft(values.id ?? -1, language);
-    const article = await articleApi.getPreviewArticle(draftOtherLanguage, language);
-    return article;
+  const previewLanguageArticle = async (id: number, language: string) => {
+    const draftOtherLanguage = await fetchDraft(id, language);
+    return getPreviewArticle(draftOtherLanguage, language);
   };
 
   if (!showPreview) {
@@ -180,30 +181,34 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
   return (
     <Portal isOpened>
       <StyledPreviewDraft typeOfPreview={typeOfPreview}>
-        <Lightbox
-          display
-          onClose={onClosePreview}
-          closeButton={closeButton}
-          contentCss={lightboxContentStyle(typeOfPreview)}>
-          <PreviewLightboxContent
-            firstEntity={firstArticle!}
-            secondEntity={secondArticle!}
-            label={label}
-            typeOfPreview={typeOfPreview}
-            onChangePreviewLanguage={onChangePreviewLanguage}
-            previewLanguage={previewLanguage!}
-            getEntityPreview={(article, label, contentType) => (
-              <OneColumn>
-                <PreviewDraft
-                  article={article as ArticleConverterApiType}
-                  label={label}
-                  contentType={contentType}
-                  language={previewLanguage! as LocaleType}
-                />
-              </OneColumn>
-            )}
-          />
-        </Lightbox>
+        {isMissingValues ? (
+          <ErrorMessage messages={{ title: 'Id or Language is missing from Formik Values' }} />
+        ) : (
+          <Lightbox
+            display
+            onClose={onClosePreview}
+            closeButton={closeButton}
+            contentCss={lightboxContentStyle(typeOfPreview)}>
+            <PreviewLightboxContent
+              firstEntity={firstArticle!}
+              secondEntity={secondArticle!}
+              label={label}
+              typeOfPreview={typeOfPreview}
+              onChangePreviewLanguage={onChangePreviewLanguage}
+              previewLanguage={previewLanguage!}
+              getEntityPreview={(article, label, contentType) => (
+                <OneColumn>
+                  <PreviewDraft
+                    article={article as ArticleConverterApiType}
+                    label={label}
+                    contentType={contentType}
+                    language={previewLanguage! as LocaleType}
+                  />
+                </OneColumn>
+              )}
+            />
+          </Lightbox>
+        )}
       </StyledPreviewDraft>
     </Portal>
   );

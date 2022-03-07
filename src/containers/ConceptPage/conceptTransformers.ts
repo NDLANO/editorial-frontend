@@ -50,37 +50,42 @@ export const conceptApiTypeToFormType = (
     tags: concept?.tags?.tags ?? [],
     articles,
     visualElement: embedTagToEditorValue(concept?.visualElement?.visualElement ?? ''),
+    origin: concept?.copyright?.origin,
   };
 };
 
 const metaImageFromForm = (v: ConceptFormValues) =>
   v.metaImageId ? { id: v.metaImageId, alt: v.metaImageAlt } : undefined;
 
-export const getConceptPostType = (
+export const getNewConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
 ): INewConcept => ({
-  ...values,
+  language: values.language,
   title: editorValueToPlainText(values.title),
   content: editorValueToPlainText(values.conceptContent),
   copyright: {
     license: licenses.find(license => license.license === values.license),
+    origin: values.origin,
     creators: values.creators ?? [],
     processors: values.processors ?? [],
     rightsholders: values.rightsholders ?? [],
   },
+  source: values.source,
+  tags: values.tags,
   metaImage: metaImageFromForm(values),
   subjectIds: values.subjects.map(subject => subject.id),
   articleIds: values.articles.map(a => a.id),
   visualElement: editorValueToEmbedTag(values.visualElement),
 });
 
-export const getConceptPatchType = (
+export const getUpdatedConceptType = (
   values: ConceptFormValues,
   licenses: ILicense[],
 ): IUpdatedConcept => ({
-  ...getConceptPostType(values, licenses),
+  ...getNewConceptType(values, licenses),
   metaImage: metaImageFromForm(values) ?? null,
+  status: values.status?.current,
 });
 
 export const conceptFormTypeToApiType = (

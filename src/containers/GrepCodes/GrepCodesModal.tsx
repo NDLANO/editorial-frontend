@@ -33,7 +33,7 @@ const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
     articleChanged,
     updateArticle,
     updateArticleAndStatus,
-  } = useFetchArticleData(articleId?.toString(), locale);
+  } = useFetchArticleData(articleId, locale);
 
   const onUpdateArticle = async (updated: IUpdatedArticle) => {
     const res = await updateArticle(updated);

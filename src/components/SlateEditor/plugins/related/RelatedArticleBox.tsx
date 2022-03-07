@@ -81,7 +81,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
   }, [editMode, articles]);
 
   const fetchArticle = useCallback(
-    async (id: string) => {
+    async (id: number) => {
       try {
         const [article, resource] = await Promise.all([
           fetchDraft(id, i18n.language),
@@ -104,7 +104,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
       }
       const articleList = nodes.map(node => {
         if ('article-id' in node) {
-          return fetchArticle(node['article-id']);
+          return fetchArticle(Number(node['article-id']));
         } else {
           return Promise.resolve(structureExternal(node.url, node.title));
         }
@@ -126,7 +126,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
     setNodeData(newArticles);
   };
 
-  const onInsertBlock = (newArticle: string) => {
+  const onInsertBlock = (newArticle: number) => {
     if (!articles.find(it => 'id' in it && it.id === newArticle)) {
       // get resource and add to state
       fetchArticle(newArticle).then(article => {

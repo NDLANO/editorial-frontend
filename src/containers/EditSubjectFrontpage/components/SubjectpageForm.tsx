@@ -110,11 +110,11 @@ const SubjectpageForm = ({
     const fetched = await Promise.all<Topic[] | ILearningPathV2[] | Resource[]>(
       choices.map(choice => {
         if ('articleType' in choice && choice.articleType === 'topic-article') {
-          return queryTopics(choice.id.toString(), language);
+          return queryTopics(choice.id, language);
         } else if ('learningsteps' in choice && typeof choice.id === 'number') {
           return queryLearningPathResource(choice.id);
         }
-        return queryResources(choice.id.toString(), language);
+        return queryResources(choice.id, language);
       }),
     );
 

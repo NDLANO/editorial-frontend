@@ -9,7 +9,6 @@
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { IUpdatedConcept } from '@ndla/types-concept-api';
 import ConceptForm from './ConceptForm/ConceptForm';
 import { useFetchConceptData } from '../FormikForm/formikConceptHooks';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
@@ -63,13 +62,13 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         conceptChanged={conceptChanged || newLanguage}
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
-        onUpdate={async concept => {
-          return updateConcept(Number(conceptId), concept as IUpdatedConcept);
+        upsertProps={{
+          onUpdate: concept => updateConcept(Number(conceptId), concept),
+          updateConceptAndStatus: updateConceptAndStatus,
         }}
         language={selectedLanguage!}
         subjects={subjects}
         translateToNN={translateToNN}
-        updateConceptAndStatus={updateConceptAndStatus}
       />
     </>
   );

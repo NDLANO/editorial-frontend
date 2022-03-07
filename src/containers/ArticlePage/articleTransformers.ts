@@ -186,11 +186,14 @@ export const topicArticleFormTypeToDraftApiType = (
   };
 };
 
-export const updatedDraftApiTypeToDraftApiType = (article: IUpdatedArticle): IArticle => {
+export const updatedDraftApiTypeToDraftApiType = (
+  article: IUpdatedArticle,
+  id: number,
+): IArticle => {
   const language = article.language!;
 
   return {
-    id: 0, // TODO: Check if we can pass id as prop to this function
+    id: id,
     revision: article.revision,
     status: { current: article.status ?? DRAFT, other: [] },
     title: article.title ? { title: article.title, language } : undefined,

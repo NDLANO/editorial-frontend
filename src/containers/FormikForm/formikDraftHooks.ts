@@ -25,7 +25,7 @@ export interface ArticleTaxonomy {
   topics: Topic[];
 }
 
-export function useFetchArticleData(articleId: string | undefined, language: string) {
+export function useFetchArticleData(articleId: number | undefined, language: string) {
   const [article, setArticle] = useState<IArticle | undefined>(undefined);
   const [taxonomy, setTaxonony] = useState<ArticleTaxonomy>({ resources: [], topics: [] });
   const [articleChanged, setArticleChanged] = useState(false);
@@ -35,7 +35,7 @@ export function useFetchArticleData(articleId: string | undefined, language: str
     const fetchArticle = async () => {
       if (articleId) {
         setLoading(true);
-        const article = await fetchDraft(parseInt(articleId, 10), language);
+        const article = await fetchDraft(articleId, language);
         const taxonomy = await fetchTaxonomy(articleId, language);
         setArticle(article);
         setTaxonony(taxonomy);
@@ -46,7 +46,7 @@ export function useFetchArticleData(articleId: string | undefined, language: str
     fetchArticle();
   }, [articleId, language]);
 
-  const fetchTaxonomy = async (id: string, language: string) => {
+  const fetchTaxonomy = async (id: number, language: string) => {
     const [resources, topics] = await Promise.all([
       queryResources(id, language, 'article'),
       queryTopics(id, language, 'article'),
@@ -55,7 +55,8 @@ export function useFetchArticleData(articleId: string | undefined, language: str
   };
 
   const updateArticle = async (updatedArticle: IUpdatedArticle): Promise<IArticle> => {
-    const savedArticle = await updateDraft(Number(articleId), updatedArticle);
+    if (!articleId) throw new Error('Article without id gotten when updating status');
+    const savedArticle = await updateDraft(articleId, updatedArticle);
     await updateUserData(savedArticle.id);
     setArticle(savedArticle);
     setArticleChanged(false);
@@ -71,14 +72,13 @@ export function useFetchArticleData(articleId: string | undefined, language: str
     newStatus: string;
     dirty: boolean;
   }): Promise<IArticle> => {
+    if (!articleId) throw new Error('Article without id gotten when updating status');
     if (dirty) {
-      await updateDraft(Number(articleId), updatedArticle);
+      await updateDraft(articleId, updatedArticle);
     }
 
-    if (!articleId) throw new Error('Article without id gotten when updating status');
-
-    const statusChangedDraft = await updateStatusDraft(Number(articleId), newStatus);
-    const article = await fetchDraft(Number(articleId), language);
+    const statusChangedDraft = await updateStatusDraft(articleId, newStatus);
+    const article = await fetchDraft(articleId, language);
     const updated: IArticle = { ...article, status: statusChangedDraft.status };
     await updateUserData(statusChangedDraft.id);
 

@@ -233,7 +233,11 @@ const ConceptForm = ({
                 title={t('form.copyrightSection')}
                 className="u-6/6"
                 hasError={!!(errors.creators || errors.license)}>
-                <ConceptCopyright disableAgreements label={t('form.concept.source')} />
+                <ConceptCopyright
+                  disableAgreements
+                  label={t('form.concept.source')}
+                  description={t('form.concept.markdown')}
+                />
               </AccordionSection>
               <AccordionSection
                 id="concept-metadataSection"

@@ -6,11 +6,10 @@
  *
  */
 
-import { memo, useRef } from 'react';
+import { memo, useRef, useLayoutEffect, useEffect, RefObject, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
-import { useLayoutEffect, useEffect, RefObject, useState } from 'react';
 import { IStatus } from '@ndla/types-draft-api';
 import ResourceGroup from './ResourceGroup';
 import AllResourcesGroup from './AllResourcesGroup';

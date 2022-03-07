@@ -55,7 +55,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
   };
 
   const updateArticle = async (updatedArticle: IUpdatedArticle): Promise<IArticle> => {
-    if (!articleId) throw new Error('Article without id gotten when updating status');
+    if (!articleId) throw new Error('Received article without id when updating');
     const savedArticle = await updateDraft(articleId, updatedArticle);
     await updateUserData(savedArticle.id);
     setArticle(savedArticle);
@@ -72,7 +72,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     newStatus: string;
     dirty: boolean;
   }): Promise<IArticle> => {
-    if (!articleId) throw new Error('Article without id gotten when updating status');
+    if (!articleId) throw new Error('Received Article without id when updating status');
     if (dirty) {
       await updateDraft(articleId, updatedArticle);
     }

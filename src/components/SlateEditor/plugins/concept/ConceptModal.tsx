@@ -48,7 +48,12 @@ interface Props {
   selectedText: string;
   subjects: SubjectType[];
   updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
-  updateConceptAndStatus: any;
+  updateConceptAndStatus: (
+    id: number,
+    conceptPath: IUpdatedConcept,
+    newStatus: string,
+    dirty: boolean,
+  ) => Promise<IConcept>;
   conceptArticles: IArticle[];
 }
 

@@ -1939,11 +1939,12 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@ndla/accordion@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@ndla/accordion/-/accordion-1.0.7.tgz#128091e60071476ba8d6c7f86e95e00b9577ce5a"
-  integrity sha512-Qtx+cNSwzcmcOq+jwdI/y6BzPBaaVdWFhoTKF/cnaDEQUGzknBxDQGt2Q4BHuXNx6gOaeuwSWmdAGuapQS0QgA==
+"@ndla/accordion@^1.0.9":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@ndla/accordion/-/accordion-1.0.11.tgz#2109bf2c977ff1adf7123cb861569608007846b0"
+  integrity sha512-lb2pxHvVsdDZWuyR+2Uf3IcM/C+qk22d7LOCBUO+jkR6kBmQdt679KcH8vKOCcasjJDh8bJJvmEG63LW3s8Aeg==
   dependencies:
+    "@ndla/button" "^2.0.0"
     "@ndla/core" "^0.7.3"
     "@ndla/icons" "^1.5.0"
 
@@ -1972,6 +1973,14 @@
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/@ndla/button/-/button-1.1.9.tgz#0597388cd0e2ebba4253db804b3735557b03f852"
   integrity sha512-olsacd2WxYNfV/8GLIC1eG2i1f/cDoRUrCWQ3ZC9QQA3HtjpFnzn4WuyT2+MRjVDtINbt0Iw90/KOMmaxGc7OQ==
+  dependencies:
+    "@ndla/core" "^0.7.3"
+    "@ndla/icons" "^1.5.0"
+
+"@ndla/button@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@ndla/button/-/button-2.0.0.tgz#cb3329d02741b6f6202d6181b87dd12cdfa13321"
+  integrity sha512-BadAVZVFQ0+aSSIqj0xZ1z1xYGnBh1Yj1CwIsoEWzst/s8kKeQLlecHOMln+wILHZvYxGVibsJ72O/6mAR8+3Q==
   dependencies:
     "@ndla/core" "^0.7.3"
     "@ndla/icons" "^1.5.0"
@@ -2164,10 +2173,10 @@
   dependencies:
     "@ndla/core" "^0.7.3"
 
-"@ndla/tracker@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.5.0.tgz#0b7d0453108f649bcb40f517e1c18f6c96e569e5"
-  integrity sha512-I8Q5U6DipL8+EHj7j1rZwPTTNh59oT92fLnp1DtYG1Dh4BcWQNUiD8WuIzQgVuhD/K+47ybgL3paQQTL1uvvjQ==
+"@ndla/tracker@^0.5.1":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@ndla/tracker/-/tracker-0.5.2.tgz#e1f400804be369f9409c0d5deb19b078bf08aa0b"
+  integrity sha512-UtPdmFGxlaSQNOsq/Sw9UCOJT6aRtWN76e0oJ/+/0a1Yp6TQCwEhyxVTG86xUA704MftEZJFsYkTKc3J/GE7lA==
   dependencies:
     warning "^4.0.3"
 

@@ -22,7 +22,7 @@ interface Props {
 
 const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const params = useParams<'id' | 'selectedLanguage'>();
-  const articleId = Number(params.id!) ?? undefined;
+  const articleId = Number(params.id!) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const {
     loading,

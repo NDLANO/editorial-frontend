@@ -25,7 +25,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
   const params = useParams<'selectedLanguage' | 'id'>();
   const selectedLanguage = params.selectedLanguage as LocaleType;
-  const articleId = Number(params.id!) ?? undefined;
+  const articleId = Number(params.id!) || undefined;
   const {
     loading,
     article,

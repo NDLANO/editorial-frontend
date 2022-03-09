@@ -79,7 +79,7 @@ export const fetchSearchTags = async (
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchSeries = (id: number | string, language?: string): Promise<ISeries> => {
+export const fetchSeries = (id: number, language?: string): Promise<ISeries> => {
   const languageParam = language ? `?language=${language}` : '';
   return fetchAuthorized(`${seriesBaseUrl}/${id}${languageParam}`).then(r =>
     resolveJsonOrRejectWithError<ISeries>(r),
@@ -92,7 +92,7 @@ export const postSeries = (newSeries: INewSeries): Promise<ISeries> =>
     body: JSON.stringify(newSeries),
   }).then(r => resolveJsonOrRejectWithError<ISeries>(r));
 
-export const updateSeries = (id: number | string, newSeries: INewSeries): Promise<ISeries> =>
+export const updateSeries = (id: number, newSeries: INewSeries): Promise<ISeries> =>
   fetchAuthorized(`${seriesBaseUrl}/${id}`, {
     method: 'PUT',
     body: JSON.stringify(newSeries),

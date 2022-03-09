@@ -30,6 +30,7 @@ import { toEditMarkup } from '../../util/routeHelpers';
 import { AlertModalWrapper, formClasses } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
 import HelpMessage from '../../components/HelpMessage';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 declare global {
   interface Window {
@@ -93,7 +94,7 @@ const LanguageWrapper = styled.div`
 `;
 
 interface ErrorMessageProps {
-  draftId: string;
+  draftId: number;
   language: string;
   messageId: string;
 }
@@ -130,7 +131,7 @@ type Status =
 const EditMarkupPage = () => {
   const { t } = useTranslation();
   const params = useParams<'draftId' | 'language'>();
-  const draftId = params.draftId!;
+  const draftId = Number(params.draftId) || undefined;
   const language = params.language!;
   const [status, setStatus] = useState<Status>('initial');
   const [draft, setDraft] = useState<IArticle | undefined>(undefined);
@@ -140,6 +141,10 @@ const EditMarkupPage = () => {
     const session = getSessionStateFromLocalStorage();
     if (!session.user.permissions?.includes(DRAFT_HTML_SCOPE)) {
       setStatus('access-error');
+      return;
+    }
+    if (!draftId) {
+      setStatus('fetch-error');
       return;
     }
     (async () => {
@@ -153,11 +158,15 @@ const EditMarkupPage = () => {
     })();
   }, [draftId, language]);
 
+  if (!draftId) {
+    return <NotFoundPage />;
+  }
+
   const saveChanges = async (editorContent: string) => {
     try {
       setStatus('saving');
       const content = standardizeContent(editorContent ?? '');
-      const updatedDraft = await updateDraft(parseInt(draftId, 10), {
+      const updatedDraft = await updateDraft(draftId, {
         content,
         revision: draft?.revision ?? -1,
         language,
@@ -199,7 +208,7 @@ const EditMarkupPage = () => {
           supportedLanguages={draft?.supportedLanguages}
           language={language}
           editUrl={(lang: string) => toEditMarkup(draftId, lang)}
-          id={parseInt(draftId)}
+          id={draftId}
           isSubmitting={isSubmitting}
           replace={true}
         />

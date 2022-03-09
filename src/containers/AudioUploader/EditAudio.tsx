@@ -21,7 +21,7 @@ interface Props {
 }
 
 const EditAudio = ({ isNewlyCreated }: Props) => {
-  const { id: aId, selectedLanguage: audioLanguage } = useParams<'id' | 'selectedLanguage'>();
+  const params = useParams<'id' | 'selectedLanguage'>();
   const [audio, setAudio] = useState<IAudioMetaInformation | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const { translating, translateToNN } = useTranslateApi(
@@ -29,7 +29,8 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     (audio: IAudioMetaInformation) => setAudio(audio),
     ['id', 'manuscript.manuscript', 'title.title'],
   );
-  const audioId = Number(aId) ?? undefined;
+  const audioId = Number(params.id) || undefined;
+  const audioLanguage = params.selectedLanguage!;
 
   useEffect(() => {
     (async () => {
@@ -42,6 +43,14 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     })();
   }, [audioId, audioLanguage]);
 
+  if (loading) {
+    return <Spinner withWrapper />;
+  }
+
+  if (!audioId || !audio) {
+    return <NotFoundPage />;
+  }
+
   const onUpdate = async (
     newAudio: IUpdatedAudioMetaInformation,
     file: string | Blob | undefined,
@@ -51,25 +60,15 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     setAudio(updatedAudio);
   };
 
-  if (loading) {
-    return <Spinner withWrapper />;
-  }
-
-  if (audioId && !audio?.id) {
-    return <NotFoundPage />;
-  }
-
   if (audio?.audioType === 'podcast') {
-    return <Navigate replace to={toEditPodcast(audioId, audioLanguage!)} />;
+    return <Navigate replace to={toEditPodcast(audioId, audioLanguage)} />;
   }
-
-  const language = audioLanguage!;
 
   return (
     <AudioForm
       audio={audio}
       onUpdateAudio={onUpdate}
-      audioLanguage={language}
+      audioLanguage={audioLanguage}
       isNewlyCreated={isNewlyCreated}
       translating={translating}
       translateToNN={translateToNN}

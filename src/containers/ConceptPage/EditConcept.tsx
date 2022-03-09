@@ -22,7 +22,7 @@ interface Props {
 
 const EditConcept = ({ isNewlyCreated }: Props) => {
   const params = useParams<'id' | 'selectedLanguage'>();
-  const conceptId = params.id;
+  const conceptId = Number(params.id) || undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const { t } = useTranslation();
   const {
@@ -35,7 +35,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
     subjects,
     updateConcept,
     updateConceptAndStatus,
-  } = useFetchConceptData(Number(conceptId), selectedLanguage!);
+  } = useFetchConceptData(conceptId, selectedLanguage!);
 
   const { translating, translateToNN } = useTranslateApi(concept, setConcept, [
     'id',
@@ -47,7 +47,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
     return <Spinner withWrapper />;
   }
 
-  if (!concept) {
+  if (!concept || !conceptId) {
     return <NotFoundPage />;
   }
   const newLanguage = !concept.supportedLanguages.includes(selectedLanguage);
@@ -63,7 +63,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
         fetchConceptTags={fetchSearchTags}
         isNewlyCreated={isNewlyCreated}
         upsertProps={{
-          onUpdate: concept => updateConcept(Number(conceptId), concept),
+          onUpdate: concept => updateConcept(conceptId, concept),
           updateConceptAndStatus: updateConceptAndStatus,
         }}
         language={selectedLanguage!}

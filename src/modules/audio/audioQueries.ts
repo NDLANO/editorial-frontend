@@ -26,7 +26,7 @@ export const useAudio = (
   useQuery<IAudioMetaInformation>([AUDIO, id, language], () => fetchAudio(id, language), options);
 
 export const useSeries = (
-  id: string | number,
+  id: number,
   language: string | undefined,
   options?: UseQueryOptions<ISeries>,
 ) => useQuery<ISeries>([PODCAST_SERIES, id, language], () => fetchSeries(id, language), options);

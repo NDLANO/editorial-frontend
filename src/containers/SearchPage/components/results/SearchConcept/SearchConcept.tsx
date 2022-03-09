@@ -11,7 +11,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Concept } from '@ndla/icons/editor';
-import { IConceptSummary } from '@ndla/types-concept-api';
+import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
 import { searchClasses } from '../../../SearchContainer';
 import { convertFieldWithFallback } from '../../../../../util/convertFieldWithFallback';
 import ContentView from './ContentView';
@@ -48,6 +48,24 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
   );
   const breadcrumbs = subjects.filter(s => localConcept.subjectIds?.includes(s.id));
 
+  const updateLocalConcept = (newConcept: IConcept): void => {
+    const localConcept: IConceptSummary = {
+      id: newConcept.id,
+      title: newConcept.title,
+      content: newConcept.content ?? { content: '', language: 'und' },
+      metaImage: newConcept.metaImage ?? { alt: '', url: '', language: 'und' },
+      tags: newConcept.tags,
+      subjectIds: newConcept.subjectIds,
+      supportedLanguages: newConcept.supportedLanguages,
+      lastUpdated: newConcept.updated,
+      status: newConcept.status,
+      updatedBy: newConcept.updatedBy ?? [],
+      license: newConcept.copyright?.license?.license,
+      visualElement: newConcept.visualElement,
+    };
+    setLocalConcept(localConcept);
+  };
+
   return (
     <div {...searchClasses('result')}>
       <div {...searchClasses('image')}>
@@ -65,22 +83,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
             setEditing(false);
           }}
           subjects={subjects}
-          updateLocalConcept={newConcept => {
-            setLocalConcept({
-              id: newConcept.id,
-              title: newConcept.title,
-              content: newConcept.content ?? { content: '', language: 'und' },
-              metaImage: newConcept.metaImage ?? { alt: '', url: '', language: 'und' },
-              tags: newConcept.tags,
-              subjectIds: newConcept.subjectIds,
-              supportedLanguages: newConcept.supportedLanguages,
-              lastUpdated: newConcept.updated,
-              status: newConcept.status,
-              updatedBy: newConcept.updatedBy ?? [],
-              license: newConcept.copyright?.license?.license,
-              visualElement: newConcept.visualElement,
-            });
-          }}
+          updateLocalConcept={updateLocalConcept}
         />
       ) : (
         <ContentView

@@ -2172,10 +2172,10 @@
   resolved "https://registry.yarnpkg.com/@ndla/types-audio-api/-/types-audio-api-0.0.10.tgz#008cbd2c420fb7993133b42489b24dc3b7b034c8"
   integrity sha512-M40Za9h7L1FIFgw4LYU1CsLWRRJ2QWdnD+22xBAKyhDHrWmaRVg/Vqu5QWRHWjcSmZEtUnT/fs7g6HNKR26Yog==
 
-"@ndla/types-concept-api@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@ndla/types-concept-api/-/types-concept-api-0.0.8.tgz#05438d9d751f6d74b1e9893da8d249c72680d171"
-  integrity sha512-Ze1Ee1yaYe80kageXFxcnqO6mJcH46I3XgONKcBr7aHl2gf5DkYq8h8kmF8gYXeIO7S/jtrW1/1Wb2bTkFm6Mw==
+"@ndla/types-concept-api@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@ndla/types-concept-api/-/types-concept-api-0.0.9.tgz#7911acd45587c76d856dbdf71b74a03a33897068"
+  integrity sha512-cVFa2IBUWd0Qf2mUrs950i6g/eABXo5GHiISt9dL3YDi7PNVS7pGWzPAt6VBdDvfFO4ttb85OotVQKyCYKRWHg==
 
 "@ndla/types-draft-api@^0.0.21":
   version "0.0.21"

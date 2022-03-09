@@ -127,7 +127,7 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
     const secondArticleLanguage = article.supportedLanguages?.find(l => l !== language) ?? language;
 
     const types: PartialRecord<TypeOfPreview, () => Promise<ArticleConverterApiType>> = {
-      previewLanguageArticle: () => previewLanguageArticle(id, secondArticleLanguage!),
+      previewLanguageArticle: () => previewLanguageArticle(id, secondArticleLanguage),
       previewVersion: () => previewVersion(language),
       previewProductionArticle: () => previewProductionArticle(id, language),
     };

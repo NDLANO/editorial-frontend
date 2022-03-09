@@ -29,7 +29,7 @@ interface BaseResource {
 interface Props<T extends BaseResource> {
   CreateComponent: ComponentType;
   EditComponent: ComponentType<ResourceComponentProps>;
-  useHook: (id: string, language?: string, options?: UseQueryOptions<T>) => UseQueryResult<T>;
+  useHook: (id: number, language?: string, options?: UseQueryOptions<T>) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
 }
@@ -69,7 +69,7 @@ const ResourcePage = <T extends BaseResource>({
 
 interface EditResourceRedirectProps<T extends BaseResource> {
   isNewlyCreated: boolean;
-  useHook: (id: string, language?: string, options?: UseQueryOptions<T>) => UseQueryResult<T>;
+  useHook: (id: number, language?: string, options?: UseQueryOptions<T>) => UseQueryResult<T>;
   Component: ComponentType<ResourceComponentProps>;
 }
 
@@ -82,9 +82,10 @@ const EditResourceRedirect = <T extends BaseResource>({
   const { pathname } = useLocation();
   const locale = i18n.language;
   const { id } = useParams<'id'>();
-  const { data, error, isLoading } = useHook(id!, undefined, { enabled: !!id });
+  const parsedId = Number(id);
+  const { data, error, isLoading } = useHook(parsedId, undefined, { enabled: !!parsedId });
   if (isLoading) return <Spinner />;
-  if (error || !data || !id) return <NotFoundPage />;
+  if (error || !data || !parsedId) return <NotFoundPage />;
   const supportedLanguage =
     data.supportedLanguages.find(l => l === locale) ?? data.supportedLanguages[0];
 

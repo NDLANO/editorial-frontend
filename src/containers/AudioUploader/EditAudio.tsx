@@ -21,7 +21,7 @@ interface Props {
 }
 
 const EditAudio = ({ isNewlyCreated }: Props) => {
-  const { id: audioId, selectedLanguage: audioLanguage } = useParams<'id' | 'selectedLanguage'>();
+  const { id: aId, selectedLanguage: audioLanguage } = useParams<'id' | 'selectedLanguage'>();
   const [audio, setAudio] = useState<IAudioMetaInformation | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const { translating, translateToNN } = useTranslateApi(
@@ -29,12 +29,13 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     (audio: IAudioMetaInformation) => setAudio(audio),
     ['id', 'manuscript.manuscript', 'title.title'],
   );
+  const audioId = Number(aId) ?? undefined;
 
   useEffect(() => {
     (async () => {
       if (audioId) {
         setLoading(true);
-        const apiAudio = await fetchAudio(Number(audioId), audioLanguage);
+        const apiAudio = await fetchAudio(audioId, audioLanguage);
         setAudio(apiAudio);
         setLoading(false);
       }
@@ -46,7 +47,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     file: string | Blob | undefined,
   ): Promise<void> => {
     const formData = await createFormData(file, newAudio);
-    const updatedAudio = await updateAudio(Number(audioId), formData);
+    const updatedAudio = await updateAudio(audioId, formData);
     setAudio(updatedAudio);
   };
 
@@ -59,7 +60,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
   }
 
   if (audio?.audioType === 'podcast') {
-    return <Navigate replace to={toEditPodcast(Number(audioId), audioLanguage!)} />;
+    return <Navigate replace to={toEditPodcast(audioId, audioLanguage!)} />;
   }
 
   const language = audioLanguage!;

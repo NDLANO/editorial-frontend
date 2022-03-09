@@ -167,7 +167,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
       }
 
       updateNotes({
-        revision: article.revision ?? 0,
+        revision: article.revision,
         language: article.title?.language,
         notes: ['Oppdatert taksonomi.'],
       });

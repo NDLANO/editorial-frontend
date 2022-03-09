@@ -99,8 +99,8 @@ const rules: RulesType<AudioFormikType, IAudioMetaInformation> = {
 };
 
 interface Props {
-  onCreateAudio?: (audio: INewAudioMetaInformation, file?: string | Blob) => void;
-  onUpdateAudio?: (audio: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
+  onCreateAudio?: (audio: INewAudioMetaInformation, file?: string | Blob) => Promise<IAudio>;
+  onUpdateAudio?: (audio: IUpdatedAudioMetaInformation, file?: string | Blob) => Promise<IAudio>;
   audio?: IAudioMetaInformation;
   audioLanguage: string;
   isNewlyCreated?: boolean;
@@ -151,12 +151,14 @@ const AudioForm = ({
           rightsholders: values.rightsholders,
         },
       };
-      audio?.revision
-        ? onUpdateAudio?.(
-            { ...audioMetaData, revision: audio.revision },
-            values.audioFile.newFile?.file,
-          )
-        : onCreateAudio?.(audioMetaData, values.audioFile.newFile?.file);
+      if (audio?.revision) {
+        await onUpdateAudio?.(
+          { ...audioMetaData, revision: audio.revision },
+          values.audioFile.newFile?.file,
+        );
+      } else {
+        await onCreateAudio?.(audioMetaData, values.audioFile.newFile?.file);
+      }
 
       actions.setSubmitting(false);
       setSavedToServer(true);

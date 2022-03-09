@@ -22,7 +22,7 @@ interface Props {
 
 const EditTopicArticle = ({ isNewlyCreated }: Props) => {
   const params = useParams<'id' | 'selectedLanguage'>();
-  const articleId = params.id!;
+  const articleId = Number(params.id!) ?? undefined;
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const {
     loading,
@@ -32,7 +32,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     articleChanged,
     updateArticle,
     updateArticleAndStatus,
-  } = useFetchArticleData(Number(articleId), selectedLanguage);
+  } = useFetchArticleData(articleId, selectedLanguage);
   const { t } = useTranslation();
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',

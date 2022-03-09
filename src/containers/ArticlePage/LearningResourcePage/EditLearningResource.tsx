@@ -25,7 +25,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
   const { t } = useTranslation();
   const params = useParams<'selectedLanguage' | 'id'>();
   const selectedLanguage = params.selectedLanguage as LocaleType;
-  const articleId = params.id!;
+  const articleId = Number(params.id!) ?? undefined;
   const {
     loading,
     article,
@@ -34,7 +34,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
     articleChanged,
     updateArticle,
     updateArticleAndStatus,
-  } = useFetchArticleData(Number(articleId), selectedLanguage);
+  } = useFetchArticleData(articleId, selectedLanguage);
   const { translating, translateToNN } = useTranslateApi(article, setArticle, [
     'id',
     'title.title',

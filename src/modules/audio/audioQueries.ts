@@ -19,7 +19,7 @@ import { SeriesSearchParams } from './audioApiInterfaces';
 import { fetchAudio, fetchSeries, searchAudio, searchSeries } from './audioApi';
 
 export const useAudio = (
-  id: string | number,
+  id: number,
   language: string | undefined,
   options?: UseQueryOptions<IAudioMetaInformation>,
 ) =>

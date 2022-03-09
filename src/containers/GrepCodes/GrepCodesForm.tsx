@@ -16,6 +16,7 @@ import GrepCodesField from '../FormikForm/GrepCodesField';
 import SaveMultiButton from '../../components/SaveMultiButton';
 import { isFormikFormDirty } from '../../util/formHelper';
 import { draftApiTypeToTopicArticleFormType } from '../ArticlePage/articleTransformers';
+import { DraftStatusType } from '../../interfaces';
 
 const SaveButtonContainer = styled.div`
   display: flex;
@@ -41,7 +42,7 @@ interface Props {
   updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
   updateArticleAndStatus?: (input: {
     updatedArticle: IUpdatedArticle;
-    newStatus: string;
+    newStatus: DraftStatusType;
     dirty: boolean;
   }) => Promise<IArticle>;
 }

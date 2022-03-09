@@ -12,6 +12,7 @@ import { IConcept, IConceptSearchResult } from '@ndla/types-concept-api';
 import { CONCEPT, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from '../../queryKeys';
 import { fetchConcept, fetchStatusStateMachine, searchConcepts } from './conceptApi';
 import { ConceptQuery } from './conceptApiInterfaces';
+import { ConceptStatusStateMachineType } from '../../interfaces';
 
 export const useConcept = (
   id: string | number,
@@ -30,8 +31,10 @@ export const useSearchConcepts = (
     options,
   );
 
-export const useConceptStateMachine = (options?: UseQueryOptions<Record<string, string[]>>) => {
-  return useQuery<Record<string, string[]>>(
+export const useConceptStateMachine = (
+  options?: UseQueryOptions<ConceptStatusStateMachineType>,
+) => {
+  return useQuery<ConceptStatusStateMachineType>(
     [CONCEPT_STATE_MACHINE],
     () => fetchStatusStateMachine(),
     options,

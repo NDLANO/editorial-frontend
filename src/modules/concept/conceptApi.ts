@@ -20,6 +20,7 @@ import {
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import { ConceptQuery } from './conceptApiInterfaces';
+import { ConceptStatusStateMachineType } from '../../interfaces';
 
 const draftConceptUrl: string = apiResourceUrl('/concept-api/v1/drafts');
 
@@ -63,9 +64,9 @@ export const deleteLanguageVersionConcept = async (
     method: 'DELETE',
   }).then(r => resolveJsonOrRejectWithError<IConcept>(r));
 
-export const fetchStatusStateMachine = async (): Promise<Record<string, string[]>> =>
+export const fetchStatusStateMachine = async (): Promise<ConceptStatusStateMachineType> =>
   fetchAuthorized(`${draftConceptUrl}/status-state-machine/`).then(r =>
-    resolveJsonOrRejectWithError<Record<string, string[]>>(r),
+    resolveJsonOrRejectWithError<ConceptStatusStateMachineType>(r),
   );
 
 export const updateConceptStatus = async (id: number, status: string): Promise<IConcept> =>

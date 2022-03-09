@@ -16,6 +16,7 @@ import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
+import { ConceptStatusType } from '../../interfaces';
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
   const [concept, setConcept] = useState<IConcept>();
@@ -81,7 +82,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   const updateConceptAndStatus = async (
     id: number,
     conceptPatch: IUpdatedConcept,
-    newStatus: string,
+    newStatus: ConceptStatusType,
     dirty: boolean,
   ): Promise<IConcept> => {
     const newConcept = dirty

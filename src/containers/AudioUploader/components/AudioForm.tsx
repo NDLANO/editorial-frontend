@@ -99,8 +99,8 @@ const rules: RulesType<AudioFormikType, IAudioMetaInformation> = {
 };
 
 interface Props {
-  onCreateAudio?: (audio: INewAudioMetaInformation, file?: string | Blob) => Promise<IAudio>;
-  onUpdateAudio?: (audio: IUpdatedAudioMetaInformation, file?: string | Blob) => Promise<IAudio>;
+  onCreateAudio?: (audio: INewAudioMetaInformation, file?: string | Blob) => Promise<void>;
+  onUpdateAudio?: (audio: IUpdatedAudioMetaInformation, file?: string | Blob) => Promise<void>;
   audio?: IAudioMetaInformation;
   audioLanguage: string;
   isNewlyCreated?: boolean;

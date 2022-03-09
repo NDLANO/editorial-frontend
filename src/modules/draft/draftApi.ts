@@ -30,6 +30,7 @@ import {
 } from '../../util/apiHelpers';
 import { DraftSearchQuery } from './draftApiInterfaces';
 import { resolveVoidOrRejectWithError } from '../../util/resolveJsonOrRejectWithError';
+import { DraftStatusType, DraftStatusStateMachineType } from '../../interfaces';
 
 const baseUrl: string = apiResourceUrl('/draft-api/v1/drafts');
 const baseAgreementsUrl: string = apiResourceUrl('/draft-api/v1/agreements');
@@ -100,7 +101,7 @@ export const validateDraft = async (id: number, draft: IUpdatedArticle): Promise
     body: JSON.stringify(draft),
   }).then(r => resolveJsonOrRejectWithError<{ id: number }>(r));
 
-export const updateStatusDraft = async (id: number, status: string): Promise<IArticle> =>
+export const updateStatusDraft = async (id: number, status: DraftStatusType): Promise<IArticle> =>
   fetchAuthorized(`${baseUrl}/${id}/status/${status}`, {
     method: 'PUT',
   }).then(r => resolveJsonOrRejectWithError<IArticle>(r));
@@ -162,10 +163,12 @@ export const updateUserData = async (userData: IUpdatedUserData): Promise<IUserD
     body: JSON.stringify(userData),
   }).then(r => resolveJsonOrRejectWithError<IUserData>(r));
 
-export const fetchStatusStateMachine = async (id?: number): Promise<Record<string, string[]>> => {
+export const fetchStatusStateMachine = async (
+  id?: number,
+): Promise<DraftStatusStateMachineType> => {
   const idParam = id ? `?articleId=${id}` : '';
   return fetchAuthorized(`${baseUrl}/status-state-machine/${idParam}`).then(r =>
-    resolveJsonOrRejectWithError<Record<string, string[]>>(r),
+    resolveJsonOrRejectWithError<DraftStatusStateMachineType>(r),
   );
 };
 

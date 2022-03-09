@@ -15,7 +15,7 @@ import { deleteFile } from '../../modules/draft/draftApi';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import * as articleStatuses from '../../util/constants/ArticleStatus';
 import { isFormikFormDirty } from '../../util/formHelper';
-import { RelatedContent } from '../../interfaces';
+import { DraftStatusType, RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useLicenses } from '../../modules/draft/draftQueries';
 
@@ -79,7 +79,7 @@ type HooksInputObject<T extends ArticleFormType> = {
   updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
   updateArticleAndStatus?: (input: {
     updatedArticle: IUpdatedArticle;
-    newStatus: string;
+    newStatus: DraftStatusType;
     dirty: boolean;
   }) => Promise<IArticle>;
   licenses?: ILicense[];

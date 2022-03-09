@@ -19,6 +19,7 @@ import {
 } from '../../modules/draft/draftApi';
 import { queryResources, queryTopics } from '../../modules/taxonomy';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { DraftStatusType } from '../../interfaces';
 
 export interface ArticleTaxonomy {
   resources: Resource[];
@@ -69,7 +70,7 @@ export function useFetchArticleData(articleId: number | undefined, language: str
     dirty,
   }: {
     updatedArticle: IUpdatedArticle;
-    newStatus: string;
+    newStatus: DraftStatusType;
     dirty: boolean;
   }): Promise<IArticle> => {
     if (!articleId) throw new Error('Received Article without id when updating status');

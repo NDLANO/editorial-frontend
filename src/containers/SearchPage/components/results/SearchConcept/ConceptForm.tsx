@@ -22,6 +22,7 @@ import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfac
 import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
 import { PUBLISHED, QUALITY_ASSURED } from '../../../../../util/constants/ConceptStatus';
+import { ConceptStatusType } from '../../../../../interfaces';
 
 export interface InlineFormConcept {
   title: string;
@@ -29,7 +30,7 @@ export interface InlineFormConcept {
   license: string;
   subjects: SubjectType[];
   tags: string[];
-  newStatus?: string;
+  newStatus?: ConceptStatusType;
 }
 interface ErrorsType {
   title?: string;

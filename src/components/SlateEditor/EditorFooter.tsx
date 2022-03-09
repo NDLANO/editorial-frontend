@@ -22,6 +22,7 @@ import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
+import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 
 interface Props {
   formIsDirty: boolean;
@@ -30,7 +31,7 @@ interface Props {
   entityStatus?: DraftStatus;
   showSimpleFooter: boolean;
   onSaveClick: (saveAsNewVersion?: boolean) => void;
-  statusStateMachine?: Record<string, string[]>;
+  statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
   validateEntity?: (id: number, updatedEntity: IUpdatedArticle) => Promise<{ id: number }>;
   isArticle?: boolean;
   isConcept: boolean;

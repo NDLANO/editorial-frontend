@@ -31,6 +31,7 @@ import {
 } from '../../articleTransformers';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
+import { DraftStatusType } from '../../../../interfaces';
 
 interface Props {
   article?: IArticle;
@@ -43,7 +44,7 @@ interface Props {
   updateArticle: (updatedArticle: IUpdatedArticle) => Promise<IArticle>;
   updateArticleAndStatus: (input: {
     updatedArticle: IUpdatedArticle;
-    newStatus: string;
+    newStatus: DraftStatusType;
     dirty: boolean;
   }) => Promise<IArticle>;
   articleLanguage: string;

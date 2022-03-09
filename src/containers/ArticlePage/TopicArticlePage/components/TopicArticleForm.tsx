@@ -28,6 +28,7 @@ import { validateDraft } from '../../../../modules/draft/draftApi';
 import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelper';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
+import { DraftStatusType } from '../../../../interfaces';
 
 interface Props {
   article?: IArticle;
@@ -38,7 +39,7 @@ interface Props {
   articleChanged: boolean;
   updateArticleAndStatus?: (input: {
     updatedArticle: IUpdatedArticle;
-    newStatus: string;
+    newStatus: DraftStatusType;
     dirty: boolean;
   }) => Promise<IArticle>;
   translating: boolean;

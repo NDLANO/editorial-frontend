@@ -16,6 +16,7 @@ import {
   fetchUserData,
   updateUserData,
 } from './draftApi';
+import { DraftStatusStateMachineType } from '../../interfaces';
 
 export const useDraft = (
   id: number | string,
@@ -72,9 +73,9 @@ interface StatusStateMachineParams {
 }
 export const useDraftStatusStateMachine = (
   params: StatusStateMachineParams = {},
-  options?: UseQueryOptions<Record<string, string[]>>,
+  options?: UseQueryOptions<DraftStatusStateMachineType>,
 ) => {
-  return useQuery<Record<string, string[]>>(
+  return useQuery<DraftStatusStateMachineType>(
     [DRAFT_STATUS_STATE_MACHINE, params],
     () => fetchStatusStateMachine(params.articleId),
     options,

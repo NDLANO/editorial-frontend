@@ -32,13 +32,14 @@ import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import { ConceptStatusType } from '../../../interfaces';
 
 interface UpdateProps {
   onUpdate: (updatedConcept: IUpdatedConcept, revision?: number) => Promise<IConcept>;
   updateConceptAndStatus: (
     id: number,
     updatedConcept: IUpdatedConcept,
-    newStatus: string,
+    newStatus: ConceptStatusType,
     dirty: boolean,
   ) => Promise<IConcept>;
 }

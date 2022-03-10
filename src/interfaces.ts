@@ -4,7 +4,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { FieldProps, FormikHelpers, FormikValues } from 'formik';
 import { IAudioMetaInformation } from '@ndla/types-audio-api';
 import { IArticle, IRelatedContentLink } from '@ndla/types-draft-api';
 import { SearchTypeValues, LOCALE_VALUES } from './constants';
@@ -40,11 +39,6 @@ export type EditMode =
   | 'deleteSubject'
   | '';
 
-export interface FormikFormBaseType {
-  language: string;
-  supportedLanguages: string[];
-}
-
 export interface SearchResultBase<T> {
   totalCount: number;
   page?: number;
@@ -53,26 +47,10 @@ export interface SearchResultBase<T> {
   results: T[];
 }
 
-export interface Note {
-  note: string;
-  user: string;
-  status: {
-    current: string;
-    other: string[];
-  };
-  timestamp: string;
-}
-
 export interface CodeBlockType {
   code: string;
   title: string;
   format: string;
-}
-
-export interface MetaImage {
-  alt: string;
-  url: string;
-  language: string;
 }
 
 export interface FlattenedResourceType {
@@ -93,11 +71,6 @@ export interface ZendeskToken {
   token: string;
 }
 
-export interface RelatedContentLink {
-  title: string;
-  url: string;
-}
-
 export type TypeOfPreview =
   | 'preview'
   | 'previewLanguageArticle'
@@ -111,7 +84,6 @@ export type ConvertedRelatedContent = RelatedContent | IArticle;
 export type MessageSeverity = 'danger' | 'info' | 'success' | 'warning';
 export interface ImageEmbed {
   resource: 'image';
-
   resource_id: string;
   size?: string;
   align?: string;
@@ -198,19 +170,6 @@ export interface UnsavedFile {
 
 export interface SlateAudio extends Omit<IAudioMetaInformation, 'title'> {
   title: string;
-}
-
-export interface FormikInputEvent {
-  preventDefault: Function;
-  target: {
-    value: string;
-    name: string;
-  };
-}
-
-export interface FormikProperties {
-  field: FieldProps<FormikValues>['field'];
-  form: FormikHelpers<FormikValues>;
 }
 
 export interface BrightcoveAccessToken {

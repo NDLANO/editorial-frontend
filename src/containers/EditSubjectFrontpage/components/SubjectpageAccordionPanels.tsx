@@ -12,7 +12,6 @@ import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import SubjectpageAbout from './SubjectpageAbout';
 import SubjectpageMetadata from './SubjectpageMetadata';
 import SubjectpageArticles from './SubjectpageArticles';
-import { FormikProperties } from '../../../interfaces';
 import FormikField from '../../../components/FormikField';
 import { SubjectPageFormikType } from '../../../util/subjectHelpers';
 
@@ -24,6 +23,15 @@ interface Props {
 
 const SubjectpageAccordionPanels = ({ editorsChoices, elementId, errors }: Props) => {
   const { t } = useTranslation();
+
+  const SubjectPageArticle = () => (
+    <SubjectpageArticles
+      editorsChoices={editorsChoices}
+      elementId={elementId}
+      fieldName={'editorsChoices'}
+    />
+  );
+
   return (
     <Accordions>
       <AccordionSection
@@ -46,16 +54,7 @@ const SubjectpageAccordionPanels = ({ editorsChoices, elementId, errors }: Props
         title={t('subjectpageForm.articles')}
         className="u-6/6"
         hasError={['editorsChoices'].some(field => field in errors)}>
-        <FormikField name={'editorsChoices'}>
-          {({ field, form }: FormikProperties) => (
-            <SubjectpageArticles
-              editorsChoices={editorsChoices}
-              elementId={elementId}
-              field={field}
-              form={form}
-            />
-          )}
-        </FormikField>
+        <FormikField name={'editorsChoices'}>{SubjectPageArticle}</FormikField>
       </AccordionSection>
     </Accordions>
   );

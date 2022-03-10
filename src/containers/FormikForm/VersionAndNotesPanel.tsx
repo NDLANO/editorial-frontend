@@ -18,10 +18,10 @@ import Accordion, {
   AccordionBar,
 } from '@ndla/accordion';
 import { VersionLogTag, VersionHistory } from '@ndla/editor';
-import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { IUpdatedArticle, IArticle, IEditorNote } from '@ndla/types-draft-api';
 
 import FormikField from '../../components/FormikField';
-import * as draftApi from '../../modules/draft/draftApi';
+import { fetchDraftHistory } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import AddNotesField from './AddNotesField';
 import formatDate from '../../util/formatDate';
@@ -29,7 +29,7 @@ import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/
 import VersionActionbuttons from './VersionActionButtons';
 import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
-import { FormikStatus, Note } from '../../interfaces';
+import { FormikStatus } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import {
   draftApiTypeToLearningResourceFormType,
@@ -64,7 +64,7 @@ const VersionAndNotesPanel = ({ article, getArticle, type }: Props) => {
     const getVersions = async () => {
       try {
         setLoading(true);
-        const versions = await draftApi.fetchDraftHistory(article.id, article.title?.language);
+        const versions = await fetchDraftHistory(article.id, article.title?.language);
         setVersions(versions);
         setLoading(false);
       } catch (e) {
@@ -77,13 +77,13 @@ const VersionAndNotesPanel = ({ article, getArticle, type }: Props) => {
 
   useEffect(() => {
     if (versions.length) {
-      const notes = versions.reduce((acc: Note[], v) => [...acc, ...v.notes], []);
+      const notes = versions.reduce((acc: IEditorNote[], v) => [...acc, ...v.notes], []);
       const userIds = notes.map(note => note.user).filter(user => user !== 'System');
       fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
   }, [versions]);
 
-  const cleanupNotes = (notes: Note[]) =>
+  const cleanupNotes = (notes: IEditorNote[]) =>
     notes.map((note, idx) => ({
       ...note,
       id: idx,

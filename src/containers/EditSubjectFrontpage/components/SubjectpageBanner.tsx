@@ -7,7 +7,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { FieldProps, FormikHelpers, FormikValues } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import Button from '@ndla/button';
 import { ImageEmbed } from '../../../interfaces';
 import VisualElementSearch from '../../VisualElement/VisualElementSearch';
@@ -15,15 +15,15 @@ import SubjectpageBannerImage from './SubjectpageBannerImage';
 import Lightbox from '../../../components/Lightbox';
 
 interface Props {
-  field: FieldProps<ImageEmbed | undefined>['field'];
-  form: {
-    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  };
   title: string;
+  fieldName: string;
 }
 
-const SubjectpageBanner = ({ field, form, title }: Props) => {
+const SubjectpageBanner = ({ title, fieldName }: Props) => {
   const { t } = useTranslation();
+  const { setFieldTouched } = useFormikContext();
+  const [FieldInputProps] = useField(fieldName);
+  const { onChange, value: fieldValue } = FieldInputProps;
   const [showImageSelect, setShowImageSelect] = useState(false);
 
   const onImageChange = (image: ImageEmbed) => {
@@ -32,8 +32,8 @@ const SubjectpageBanner = ({ field, form, title }: Props) => {
   };
 
   const updateFormik = (value?: ImageEmbed) => {
-    field.onChange({ target: { name: field.name, value: value } });
-    form.setFieldTouched(field.name, true, false);
+    onChange({ target: { name: fieldName, value: value } });
+    setFieldTouched(fieldName, true, false);
   };
 
   const onImageSelectClose = () => {
@@ -58,8 +58,8 @@ const SubjectpageBanner = ({ field, form, title }: Props) => {
           />
         </Lightbox>
       )}
-      {field.value ? (
-        <SubjectpageBannerImage image={field.value} onImageSelectOpen={onImageSelectOpen} />
+      {fieldValue ? (
+        <SubjectpageBannerImage image={fieldValue} onImageSelectOpen={onImageSelectOpen} />
       ) : (
         <Button onClick={onImageSelectOpen}>{t('subjectpageForm.addBanner')}</Button>
       )}

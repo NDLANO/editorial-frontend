@@ -12,7 +12,7 @@ import { spacing, spacingUnit, colors } from '@ndla/core';
 import { Link } from '@ndla/icons/common';
 import Tooltip from '@ndla/tooltip';
 import { DragHorizontal, DeleteForever } from '@ndla/icons/editor';
-import { RelatedContentLink } from '../../../interfaces';
+import { IRelatedContentLink } from '@ndla/types-draft-api';
 import { StyledButtonIcons, StyledListItem } from './ElementListItem';
 
 const ELEMENT_HEIGHT = 69;
@@ -27,7 +27,7 @@ interface Props {
   deleteIndex: number;
   isEditable: boolean;
   isOrderable: boolean;
-  element: RelatedContentLink;
+  element: IRelatedContentLink;
   executeDeleteFile: () => void;
   index: number;
   locale: string;

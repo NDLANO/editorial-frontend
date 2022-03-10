@@ -7,7 +7,7 @@
 
 import isEqual from 'lodash/fp/isEqual';
 import { Descendant } from 'slate';
-import { IArticle, ILicense } from '@ndla/types-draft-api';
+import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-draft-api';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
 import {
@@ -16,7 +16,6 @@ import {
 } from './articleContentConverter';
 import { diffHTML } from './diffHTML';
 import { isGrepCodeValid } from './articleUtil';
-import { MetaImage } from '../interfaces';
 import { RulesType } from '../components/formikValidationSchema';
 import {
   ArticleFormType,
@@ -243,7 +242,7 @@ export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   },
 };
 
-export const parseImageUrl = (metaImage?: MetaImage) => {
+export const parseImageUrl = (metaImage?: IArticleMetaImage) => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
     return '';
   }

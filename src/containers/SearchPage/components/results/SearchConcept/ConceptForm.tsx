@@ -66,6 +66,7 @@ const validate = (values: InlineFormConcept): ErrorsType => {
 const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, cancel }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses({ placeholderData: [] });
+  const licensesWithTranslations = getLicensesWithTranslations(licenses!, language);
   const formik = useFormik<InlineFormConcept>({
     initialValues,
     validate,
@@ -77,7 +78,20 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
   }, [initialValues]); // eslint-disable-line react-hooks/exhaustive-deps
   const hasChanges = !isEqual(initialValues, values);
 
-  const licensesWithTranslations = getLicensesWithTranslations(licenses!, language);
+  const getStatus = (value: string, status: string) => {
+    if (value === 'saveAndPublish') {
+      return PUBLISHED;
+    } else if (status === PUBLISHED) {
+      return QUALITY_ASSURED;
+    } else {
+      return undefined;
+    }
+  };
+
+  const handleClick = (value: string) => {
+    const newStatus = getStatus(value, status);
+    onSubmit({ ...values, newStatus });
+  };
 
   return (
     <form>
@@ -164,19 +178,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
         </Button>
         <MultiButton
           disabled={!hasChanges || Object.keys(errors).length > 0}
-          onClick={(value: string) => {
-            const getStatus = (v: string, s: string) => {
-              if (v === 'saveAndPublish') {
-                return PUBLISHED;
-              } else if (s === PUBLISHED) {
-                return QUALITY_ASSURED;
-              } else {
-                return undefined;
-              }
-            };
-            const newStatus = getStatus(value, status);
-            onSubmit({ ...values, newStatus });
-          }}
+          onClick={value => handleClick(value)}
           mainButton={{ value: 'save', label: t(`form.save`) }}
           secondaryButtons={[
             {

@@ -11,11 +11,11 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
-import { IArticle, IArticleSummary } from '@ndla/types-draft-api';
+import { IArticle, IArticleSummary, IRelatedContentLink } from '@ndla/types-draft-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
-import { ConvertedRelatedContent, RelatedContent, RelatedContentLink } from '../../../interfaces';
+import { ConvertedRelatedContent, RelatedContent } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
 import { ArticleFormType } from '../../FormikForm/articleFormHooks';
@@ -33,7 +33,7 @@ const ContentField = ({ field, form }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const promises = field.value.map<Promise<ConvertedRelatedContent> | RelatedContentLink>(
+      const promises = field.value.map<Promise<ConvertedRelatedContent> | IRelatedContentLink>(
         element => {
           if (typeof element === 'number') {
             return fetchDraft(element);
@@ -99,7 +99,7 @@ const ContentField = ({ field, form }: Props) => {
       <FieldHeader title={t('form.relatedContent.articlesTitle')} />
       <ElementList
         elements={relatedContent.filter(
-          (rc: number | IArticle | RelatedContentLink): rc is IArticle | RelatedContentLink =>
+          (rc: number | IArticle | IRelatedContentLink): rc is IArticle | IRelatedContentLink =>
             typeof rc !== 'number',
         )}
         messages={{

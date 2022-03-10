@@ -29,13 +29,12 @@ import AudioManuscript from './AudioManuscript';
 import { toCreateAudioFile, toEditAudio } from '../../../util/routeHelpers';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import { FormikFormBaseType } from '../../../interfaces';
 import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 
-export interface AudioFormikType extends FormikFormBaseType {
+export interface AudioFormikType {
   id?: number;
   revision?: number;
   language: string;

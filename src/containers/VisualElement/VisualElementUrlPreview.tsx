@@ -125,6 +125,7 @@ const VisualElementUrlPreview = ({
             type: 'embed',
             value: {
               resource: 'iframe',
+              type: 'iframe',
               url,
               width: '708px',
               height: whiteListedUrl.height || '486px',

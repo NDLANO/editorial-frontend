@@ -65,6 +65,7 @@ const SearchConcept = ({ concept, locale, subjects, editingState }: Props) => {
       articleIds: newConcept.articleIds ?? [],
       created: newConcept.created,
       copyright: newConcept.copyright,
+      source: newConcept.source,
     };
     setLocalConcept(localConcept);
   };

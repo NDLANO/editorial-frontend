@@ -14,9 +14,8 @@ import { SlateSerializer } from '../../interfaces';
 import { createEmbedTag, reduceChildElements } from '../../../../util/embedTagHelpers';
 import { NormalizerConfig, defaultBlockNormalizer } from '../../utils/defaultNormalizer';
 import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
-import { TYPE_PARAGRAPH } from '../paragraph/utils';
-
-export const TYPE_RELATED = 'related';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { TYPE_RELATED } from './types';
 
 export const defaultRelatedBlock = () => {
   return slatejsx('element', { type: TYPE_RELATED, data: {} }, { text: '' });

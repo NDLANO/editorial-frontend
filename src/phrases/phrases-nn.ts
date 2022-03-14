@@ -102,6 +102,7 @@ const phrases = {
     unknown: 'Ukjent',
     und: 'Udefinert',
     de: 'Tysk',
+    ukr: 'Ukrainsk',
     empty: 'Ingen fleire språk',
     change: 'Bytt til {{language}} versjon',
   },
@@ -702,6 +703,7 @@ const phrases = {
       addConcept: 'Legg til eksisterande forklaring',
       removeConcept: 'Ta bort forklaring',
       source: 'Kjelde',
+      markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Berre fag markert som forklaringsfag vil visast i lista.',
     },
     workflow: {

@@ -103,7 +103,11 @@ const SlateImage = ({
           css={buttonStyle}
           stripped
           data-label={t('imageEditor.editImage')}
-          onClick={() => setEditMode(true)}>
+          onClick={evt => {
+            evt.preventDefault();
+            evt.stopPropagation();
+            setEditMode(true);
+          }}>
           <figure {...figureClass}>
             <img
               src={`${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`}

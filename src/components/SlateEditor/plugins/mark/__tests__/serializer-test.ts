@@ -7,11 +7,11 @@
  */
 
 import { Descendant } from 'slate';
-import { TYPE_SECTION } from '../../section';
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } from '../../../../../util/articleContentConverter';
+import { TYPE_SECTION } from '../../section/types';
 
 const editor: Descendant[] = [
   {

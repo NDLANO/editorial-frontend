@@ -101,6 +101,7 @@ const phrases = {
     unknown: 'Unknown',
     und: 'Undetermined',
     de: 'German',
+    ukr: 'Ukranian',
     empty: 'No languages left',
     change: 'Change to {{language}} version',
   },
@@ -701,6 +702,7 @@ const phrases = {
       addConcept: 'Add existing concept',
       removeConcept: 'Remove concept',
       source: 'Source',
+      markdown: 'The field supports markdown. Use the format [Text](https://url) to create a link.',
       subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
     },
     workflow: {

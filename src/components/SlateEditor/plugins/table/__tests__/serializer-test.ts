@@ -7,20 +7,20 @@
  */
 
 import { Descendant } from 'slate';
-import { TYPE_SECTION } from '../../section';
 import {
   learningResourceContentToEditorValue,
   learningResourceContentToHTML,
 } from '../../../../../util/articleContentConverter';
+import { TYPE_PARAGRAPH } from '../../paragraph/types';
+import { TYPE_SECTION } from '../../section/types';
 import {
   TYPE_TABLE,
-  TYPE_TABLE_BODY,
   TYPE_TABLE_CAPTION,
-  TYPE_TABLE_CELL,
   TYPE_TABLE_HEAD,
   TYPE_TABLE_ROW,
-} from '../utils';
-import { TYPE_PARAGRAPH } from '../../paragraph/utils';
+  TYPE_TABLE_CELL,
+  TYPE_TABLE_BODY,
+} from '../types';
 
 describe('table serializing tests', () => {
   test('serializing and deserialize table', () => {

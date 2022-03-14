@@ -9,13 +9,13 @@
 import { createEditor, Descendant, Editor } from 'slate';
 import { withHistory } from 'slate-history';
 import { withReact } from 'slate-react';
-import { TYPE_PARAGRAPH } from '../../paragraph/utils';
-import { TYPE_ASIDE } from '..';
 import withPlugins from '../../../utils/withPlugins';
 import { plugins } from '../../../../../containers/ArticlePage/LearningResourcePage/components/LearningResourceContent';
-import { TYPE_SECTION } from '../../section';
-import { TYPE_HEADING } from '../../heading';
-import { TYPE_LINK } from '../../link';
+import { TYPE_HEADING } from '../../heading/types';
+import { TYPE_LINK } from '../../link/types';
+import { TYPE_PARAGRAPH } from '../../paragraph/types';
+import { TYPE_SECTION } from '../../section/types';
+import { TYPE_ASIDE } from '../types';
 
 const editor = withHistory(
   withReact(withPlugins(createEditor(), plugins('nb', 'nb', { current: () => {} }))),

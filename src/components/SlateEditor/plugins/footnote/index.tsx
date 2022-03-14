@@ -14,8 +14,7 @@ import Footnote from './Footnote';
 import { reduceElementDataAttributes, createEmbedTag } from '../../../../util/embedTagHelpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { KEY_BACKSPACE, KEY_DELETE } from '../../utils/keys';
-
-export const TYPE_FOOTNOTE = 'footnote';
+import { TYPE_FOOTNOTE } from './types';
 
 export interface FootnoteElement {
   type: 'footnote';

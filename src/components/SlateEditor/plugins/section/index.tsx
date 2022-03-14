@@ -13,7 +13,7 @@ import Section from './Section';
 import { SlateSerializer } from '../../interfaces';
 import { defaultParagraphBlock } from '../paragraph/utils';
 import { KEY_BACKSPACE, KEY_TAB } from '../../utils/keys';
-export const TYPE_SECTION = 'section';
+import { TYPE_SECTION } from './types';
 
 export interface SectionElement {
   type: 'section';

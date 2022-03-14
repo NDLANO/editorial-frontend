@@ -63,6 +63,7 @@ export const getResourceLanguages = (t: TFunction) => [
   { id: 'en', name: t('language.en') },
   { id: 'sma', name: t('language.sma') },
   { id: 'se', name: t('language.se') },
+  { id: 'ukr', name: t('language.ukr') },
   { id: 'und', name: t('language.und') },
   { id: 'unknown', name: t('language.unknown') },
 ];

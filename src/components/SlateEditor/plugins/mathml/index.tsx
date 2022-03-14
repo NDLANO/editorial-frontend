@@ -12,8 +12,7 @@ import { jsx as slatejsx } from 'slate-hyperscript';
 import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import MathEditor from './MathEditor';
-
-export const TYPE_MATHML = 'mathml';
+import { TYPE_MATHML } from './types';
 
 export interface MathmlElement {
   type: 'mathml';

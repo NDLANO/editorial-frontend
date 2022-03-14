@@ -13,10 +13,11 @@ import Url from 'url-parse';
 import { isValidLocale } from '../../../../i18n';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
-import { TYPE_LINK, TYPE_CONTENT_LINK, LinkElement, ContentLinkElement } from '.';
+import { LinkElement, ContentLinkElement } from '.';
 import LinkForm from './LinkForm';
 import { resolveUrls } from '../../../../modules/taxonomy/taxonomyApi';
 import { Model } from './Link';
+import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
 
 const newTabAttributes = {
   target: '_blank',

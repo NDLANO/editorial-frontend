@@ -35,7 +35,7 @@ const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) =>
   const { t } = useTranslation();
   const [resources, setResources] = useState<(IArticle | ILearningPathV2)[]>(editorsChoices);
   const { setFieldTouched } = useFormikContext();
-  const [FieldInputProps] = useField(fieldName);
+  const [FieldInputProps] = useField<(IArticle | ILearningPathV2)[]>(fieldName);
   const { onChange } = FieldInputProps;
   const subjectId = getSubject(elementId);
 

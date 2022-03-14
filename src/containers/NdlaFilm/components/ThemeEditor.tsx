@@ -25,7 +25,6 @@ import { LocaleType } from '../../../interfaces';
 interface Props {
   onUpdateMovieTheme: Function;
   selectedLanguage: string;
-  fieldName: string;
 }
 
 export interface ThemeNames {
@@ -33,11 +32,11 @@ export interface ThemeNames {
   warnings: Record<LocaleType, boolean>;
 }
 
-const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage, fieldName }: Props) => {
+const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
   const { t } = useTranslation();
   const form = useFormikContext();
-  const [field] = useField(fieldName);
-  const themes: IMovieTheme[] = field.value;
+  const [field] = useField<IMovieTheme[]>('themes');
+  const themes = field.value;
 
   const onAddMovieToTheme = (movies: string[], index: number) => {
     const newThemes = themes.map((theme, i) => (i === index ? { ...theme, movies } : theme));

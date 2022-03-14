@@ -18,7 +18,7 @@ interface Props {
 const SlideshowEditor = ({ onUpdateSlideshow, fieldName }: Props) => {
   const { t } = useTranslation();
   const form = useFormikContext();
-  const [field] = useField(fieldName);
+  const [field] = useField<string[]>(fieldName);
   const slideshowMovies = field.value;
 
   return (

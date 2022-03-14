@@ -22,7 +22,7 @@ interface Props {
 const SubjectpageBanner = ({ title, fieldName }: Props) => {
   const { t } = useTranslation();
   const { setFieldTouched } = useFormikContext();
-  const [FieldInputProps] = useField(fieldName);
+  const [FieldInputProps] = useField<ImageEmbed>(fieldName);
   const { onChange, value: fieldValue } = FieldInputProps;
   const [showImageSelect, setShowImageSelect] = useState(false);
 

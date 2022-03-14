@@ -23,15 +23,15 @@ import { useResourceType } from './resourceTypesQueries';
 const baseUrl = apiResourceUrl(taxonomyApi);
 
 const fetchAllResourceTypes = (language: string): Promise<ResourceType[]> => {
-  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(r =>
-    resolveJsonOrRejectWithError<ResourceType[]>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<ResourceType[]>(r));
 };
 
 const fetchResourceType = (id: string, locale: string): Promise<ResourceType> => {
-  return fetchAuthorized(`${baseUrl}/resource-types/${id}?language=${locale}`).then(r =>
-    resolveJsonOrRejectWithError<ResourceType>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/resource-types/${id}?language=${locale}`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<ResourceType>(r));
 };
 
 const createResourceResourceType = (resourceType: {
@@ -41,6 +41,7 @@ const createResourceResourceType = (resourceType: {
   return fetchAuthorized(`${baseUrl}/resource-resourcetypes`, {
     headers: {
       'Content-Type': 'application/json',
+      VersionHash: 'default',
     },
     method: 'POST',
     body: JSON.stringify(resourceType),
@@ -51,6 +52,7 @@ const deleteResourceResourceType = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/resource-resourcetypes/${id}`, {
     headers: {
       'Content-Type': 'application/json',
+      VersionHash: 'default',
     },
     method: 'DELETE',
   }).then(resolveVoidOrRejectWithError);

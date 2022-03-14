@@ -38,28 +38,32 @@ const fetchSubjects = (
     value: metadataFilter?.value,
   });
 
-  return fetchAuthorized(`${baseUrl}/subjects?` + query).then(r =>
-    resolveJsonOrRejectWithError<SubjectType[]>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/subjects?` + query, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<SubjectType[]>(r));
 };
 
 const fetchSubject = (id: string, language?: string): Promise<SubjectType> => {
   const lng = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/subjects/${id}${lng}`).then(r =>
-    resolveJsonOrRejectWithError<SubjectType>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/subjects/${id}${lng}`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<SubjectType>(r));
 };
 
 const fetchSubjectTopics = (subject: string, language: string): Promise<SubjectTopic[]> => {
   return fetchAuthorized(
     `${baseUrl}/subjects/${subject}/topics?recursive=true&language=${language}`,
+    { headers: { VersionHash: 'default' } },
   ).then(r => resolveJsonOrRejectWithError<SubjectTopic[]>(r));
 };
 
 const addSubject = (body: { contentUri?: string; id?: string; name: string }): Promise<string> => {
   return fetchAuthorized(`${baseUrl}/subjects`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
     body: JSON.stringify(body),
   }).then(resolveLocation);
 };
@@ -73,7 +77,10 @@ const addSubjectTopic = (body: {
 }): Promise<string> => {
   return fetchAuthorized(`${baseUrl}/subject-topics`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
     body: JSON.stringify(body),
   }).then(resolveLocation);
 };
@@ -89,7 +96,10 @@ const updateSubjectTopic = (
 ): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/subject-topics/${connectionId}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
     body: JSON.stringify(body),
   }).then(resolveVoidOrRejectWithError);
 };
@@ -97,7 +107,10 @@ const updateSubjectTopic = (
 const updateSubject = (id: string, name?: string, contentUri?: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
     body: JSON.stringify({ name, contentUri }),
   }).then(resolveVoidOrRejectWithError);
 };
@@ -105,7 +118,10 @@ const updateSubject = (id: string, name?: string, contentUri?: string): Promise<
 const deleteSubject = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
   }).then(resolveVoidOrRejectWithError);
 };
 
@@ -119,15 +135,18 @@ const updateSubjectMetadata = (
 ): Promise<TaxonomyMetadata> => {
   return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/metadata`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
     body: JSON.stringify(body),
   }).then(r => resolveJsonOrRejectWithError<TaxonomyMetadata>(r));
 };
 
 const fetchSubjectNameTranslations = (subjectId: string): Promise<TaxNameTranslation[]> => {
-  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/translations`).then(r =>
-    resolveJsonOrRejectWithError<TaxNameTranslation[]>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/translations`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<TaxNameTranslation[]>(r));
 };
 
 const updateSubjectNameTranslation = (
@@ -137,7 +156,10 @@ const updateSubjectNameTranslation = (
 ): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/translations/${language}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
     body: JSON.stringify({ name }),
   }).then(resolveVoidOrRejectWithError);
 };
@@ -145,7 +167,10 @@ const updateSubjectNameTranslation = (
 const deleteSubjectNameTranslation = (subjectId: string, language: LocaleType): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/translations/${language}`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      VersionHash: 'default',
+    },
   }).then(resolveVoidOrRejectWithError);
 };
 

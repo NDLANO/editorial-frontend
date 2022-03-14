@@ -27,6 +27,7 @@ const createTopicResource = (topicResource: {
   return fetchAuthorized(`${baseUrl}/topic-resources`, {
     headers: {
       'Content-Type': 'application/json',
+      VersionHash: 'default',
     },
     method: 'POST',
     body: JSON.stringify(topicResource),
@@ -44,6 +45,7 @@ const updateTopicResource = (
   return fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
     headers: {
       'Content-Type': 'application/json',
+      VersionHash: 'default',
     },
     method: 'PUT',
     body: JSON.stringify(topicResource),
@@ -54,6 +56,7 @@ const deleteTopicResource = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topic-resources/${id}`, {
     headers: {
       'Content-Type': 'application/json',
+      VersionHash: 'default',
     },
     method: 'DELETE',
   }).then(resolveVoidOrRejectWithError);

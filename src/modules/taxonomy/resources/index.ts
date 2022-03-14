@@ -29,9 +29,9 @@ const baseUrl = apiResourceUrl(taxonomyApi);
 
 export const fetchResource = (id: string, language?: string): Promise<Resource> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}${lang}`).then(r =>
-    resolveJsonOrRejectWithError<Resource>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/resources/${id}${lang}`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<Resource>(r));
 };
 
 export const fetchFullResource = (
@@ -39,9 +39,9 @@ export const fetchFullResource = (
   language?: string,
 ): Promise<ResourceWithParentTopics> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}/full${lang}`).then(r =>
-    resolveJsonOrRejectWithError<ResourceWithParentTopics>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/resources/${id}/full${lang}`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<ResourceWithParentTopics>(r));
 };
 
 export const createResource = (resource: {
@@ -52,6 +52,7 @@ export const createResource = (resource: {
   return fetchAuthorized(`${baseUrl}/resources`, {
     headers: {
       'Content-Type': 'application/json',
+      VersionHash: 'default',
     },
     method: 'POST',
     body: JSON.stringify(resource),
@@ -63,9 +64,9 @@ export const fetchResourceResourceType = (
   language?: string,
 ): Promise<ResourceResourceType[]> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}/resource-types/${lang}`).then(r =>
-    resolveJsonOrRejectWithError<ResourceResourceType[]>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/resources/${id}/resource-types/${lang}`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<ResourceResourceType[]>(r));
 };
 
 export const updateResourceMetadata = (
@@ -74,7 +75,10 @@ export const updateResourceMetadata = (
 ): Promise<TaxonomyMetadata> => {
   return fetchAuthorized(`${baseUrl}/resources/${resourceId}/metadata`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
     body: JSON.stringify(body),
   }).then(r => resolveJsonOrRejectWithError<TaxonomyMetadata>(r));
 };
@@ -106,6 +110,9 @@ export const queryResources = (
     `${baseUrl}/resources/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
     )}&language=${language}`,
+    {
+      headers: { VersionHash: 'default' },
+    },
   ).then(r => resolveJsonOrRejectWithError<Resource[]>(r));
 };
 
@@ -118,12 +125,14 @@ export const queryTopics = (
     `${baseUrl}/topics/?contentURI=${encodeURIComponent(
       `urn:${contentType}:${contentId}`,
     )}&language=${language}`,
+    { headers: { VersionHash: 'default' } },
   ).then(r => resolveJsonOrRejectWithError<Topic[]>(r));
 };
 
 export const queryLearningPathResource = (learningpathId: number): Promise<Resource[]> => {
   return fetchAuthorized(
     `${baseUrl}/resources/?contentURI=${encodeURIComponent(`urn:learningpath:${learningpathId}`)}`,
+    { headers: { VersionHash: 'default' } },
   ).then(r => resolveJsonOrRejectWithError<Resource[]>(r));
 };
 
@@ -144,9 +153,9 @@ export async function queryContent(id: string, language: string, contentType?: s
 }
 
 export const fetchResourceTranslations = (id: string): Promise<ResourceTranslation[]> => {
-  return fetchAuthorized(`${baseUrl}/resources/${id}/translations`).then(r =>
-    resolveJsonOrRejectWithError<ResourceTranslation[]>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/resources/${id}/translations`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<ResourceTranslation[]>(r));
 };
 
 export const setResourceTranslation = (
@@ -160,6 +169,7 @@ export const setResourceTranslation = (
   return fetchAuthorized(url, {
     headers: {
       'Content-Type': 'application/json',
+      VersionHash: 'default',
     },
     method: 'PUT',
     body: JSON.stringify(body),

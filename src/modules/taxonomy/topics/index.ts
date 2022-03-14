@@ -27,16 +27,16 @@ const baseUrl = apiResourceUrl(taxonomyApi);
 
 const fetchTopics = (language?: string): Promise<Topic[]> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/topics${lang}`).then(r =>
-    resolveJsonOrRejectWithError<Topic[]>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/topics${lang}`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<Topic[]>(r));
 };
 
 const fetchTopic = (urn: string, language?: string): Promise<Topic> => {
   const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/topics/${urn}${lang}`).then(r =>
-    resolveJsonOrRejectWithError<Topic>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/topics/${urn}${lang}`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<Topic>(r));
 };
 
 const fetchTopicResources = (
@@ -49,6 +49,7 @@ const fetchTopicResources = (
   if (relevance) query.push(`relevance=${relevance}`);
   return fetchAuthorized(
     `${baseUrl}/topics/${topicUrn}/resources/${query.length ? `?${query.join('&')}` : ''}`,
+    { headers: { VersionHash: 'default' } },
   ).then(r => resolveJsonOrRejectWithError<ResourceWithTopicConnection[]>(r));
 };
 
@@ -57,6 +58,7 @@ const addTopic = (body: { contentUri?: string; id?: string; name: string }): Pro
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
     },
     body: JSON.stringify(body),
   }).then(resolveLocation);
@@ -72,7 +74,10 @@ const updateTopic = ({
 }): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topics/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
     body: JSON.stringify({ ...params }),
   }).then(resolveVoidOrRejectWithError);
 };
@@ -80,7 +85,10 @@ const updateTopic = ({
 const deleteTopic = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topics/${id}`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
   }).then(resolveVoidOrRejectWithError);
 };
 
@@ -93,7 +101,10 @@ const addTopicToTopic = (body: {
 }): Promise<string> => {
   return fetchAuthorized(`${baseUrl}/topic-subtopics`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
     body: JSON.stringify(body),
   }).then(resolveLocation);
 };
@@ -109,7 +120,10 @@ const updateTopicSubtopic = (
 ): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topic-subtopics/${connectionId}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
     body: JSON.stringify(body),
   }).then(resolveVoidOrRejectWithError);
 };
@@ -117,19 +131,21 @@ const updateTopicSubtopic = (
 const deleteTopicConnection = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/subject-topics/${id}`, {
     method: 'DELETE',
+    headers: { VersionHash: 'default' },
   }).then(resolveVoidOrRejectWithError);
 };
 
 const deleteSubTopicConnection = (id: string): Promise<void> => {
   return fetchAuthorized(`${baseUrl}/topic-subtopics/${id}`, {
     method: 'DELETE',
+    headers: { VersionHash: 'default' },
   }).then(resolveVoidOrRejectWithError);
 };
 
 const fetchTopicConnections = (id: string): Promise<TopicConnections[]> => {
-  return fetchAuthorized(`${baseUrl}/topics/${id}/connections`).then(r =>
-    resolveJsonOrRejectWithError<TopicConnections[]>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/topics/${id}/connections`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<TopicConnections[]>(r));
 };
 
 const updateTopicMetadata = (
@@ -138,7 +154,10 @@ const updateTopicMetadata = (
 ): Promise<TaxonomyMetadata> => {
   return fetchAuthorized(`${baseUrl}/topics/${subjectId}/metadata`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      VersionHash: 'default',
+    },
     body: JSON.stringify(body),
   }).then(r => resolveJsonOrRejectWithError<TaxonomyMetadata>(r));
 };

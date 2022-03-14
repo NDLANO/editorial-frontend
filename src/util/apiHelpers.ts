@@ -31,6 +31,7 @@ export const formatErrorMessage = (error: {
 
 export interface HttpHeadersType {
   'Content-Type': string;
+  VersionHash: string;
   Authorization: string;
 }
 

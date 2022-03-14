@@ -27,15 +27,15 @@ const baseUrl = apiResourceUrl(taxonomyApi);
 
 /* Option items */
 const fetchResourceTypes = (language: string): Promise<ResourceType[]> => {
-  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(r =>
-    resolveJsonOrRejectWithError<ResourceType[]>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<ResourceType[]>(r));
 };
 
 const resolveUrls = (path: string): Promise<ResolvedUrl> => {
-  return fetchAuthorized(`${baseUrl}/url/resolve?path=${path}`).then(r =>
-    resolveJsonOrRejectWithError<ResolvedUrl>(r),
-  );
+  return fetchAuthorized(`${baseUrl}/url/resolve?path=${path}`, {
+    headers: { VersionHash: 'default' },
+  }).then(r => resolveJsonOrRejectWithError<ResolvedUrl>(r));
 };
 
 /* Queries */

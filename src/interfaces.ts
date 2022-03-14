@@ -127,6 +127,7 @@ export interface H5pEmbed {
 export interface ExternalEmbed {
   resource: 'external' | 'iframe';
   url: string;
+  type?: string;
   metaData?: any;
   caption?: string;
   title?: string;

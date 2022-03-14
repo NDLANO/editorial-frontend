@@ -102,6 +102,7 @@ const phrases = {
     unknown: 'Ukjent',
     und: 'Udefinert',
     de: 'Tysk',
+    ukr: 'Ukrainsk',
     empty: 'Ingen fleire språk',
     change: 'Bytt til {{language}} versjon',
   },

@@ -105,7 +105,13 @@ const RouterComponent = ({ base }: { base: string }) => {
   );
 };
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const renderApp = () => {
   render(

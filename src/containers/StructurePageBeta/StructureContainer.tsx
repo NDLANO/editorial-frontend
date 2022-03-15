@@ -143,7 +143,11 @@ const StructureContainer = () => {
           </div>
         </Accordion>
         {currentNode && (
-          <StructureResources currentChildNode={currentNode} resourceRef={resourceSection} />
+          <StructureResources
+            currentChildNode={currentNode}
+            resourceRef={resourceSection}
+            onCurrentNodeChanged={setCurrentNode}
+          />
         )}
       </OneColumn>
       <Footer showLocaleSelector />

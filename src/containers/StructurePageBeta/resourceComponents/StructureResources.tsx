@@ -24,6 +24,7 @@ import handleError from '../../../util/handleError';
 import AllResourcesGroup from './AllResourcesGroup';
 import ResourceGroup from './ResourceGroup';
 import { groupSortResourceTypesFromNodeResources } from '../../../util/taxonomyHelpers';
+import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDiv = styled('div')`
@@ -35,6 +36,7 @@ const StyledDiv = styled('div')`
 interface Props {
   currentChildNode: ChildNodeType;
   resourceRef: RefObject<HTMLDivElement>;
+  onCurrentNodeChanged: (changedNode: ChildNodeType) => void;
 }
 
 const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boolean } => ({
@@ -49,7 +51,7 @@ const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection 
   resourceTypes: [missingObject],
 });
 
-const StructureResources = ({ currentChildNode, resourceRef }: Props) => {
+const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChanged }: Props) => {
   const { t, i18n } = useTranslation();
   const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
 
@@ -75,20 +77,20 @@ const StructureResources = ({ currentChildNode, resourceRef }: Props) => {
 
   return (
     <div ref={resourceRef}>
-      {/* {currentChildNode && currentChildNode.id && (
+      {currentChildNode && currentChildNode.id && (
         <StyledDiv>
-          <GroupNodeResources
+          <GroupTopicResources
             node={currentChildNode}
-            onChanged={partialMeta =>
-              updateCurrentChildNode({
+            hideIcon
+            onChanged={partialMeta => {
+              onCurrentNodeChanged({
                 ...currentChildNode,
                 metadata: { ...currentChildNode.metadata, ...partialMeta },
-              })
-            }
-            hideIcon
+              });
+            }}
           />
         </StyledDiv>
-      )} */}
+      )}
       <NodeDescription currentNode={currentChildNode} />
       {grouped === 'ungrouped' && (
         <AllResourcesGroup

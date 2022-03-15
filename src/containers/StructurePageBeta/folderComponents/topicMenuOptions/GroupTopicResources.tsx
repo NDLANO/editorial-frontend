@@ -31,7 +31,7 @@ interface Props {
 }
 
 const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const updateNodeMetadata = useUpdateNodeMetadataMutation();
   const qc = useQueryClient();
   const updateMetadata = async () => {
@@ -48,7 +48,9 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
         rootId: isRootNode(node) ? undefined : getRootIdForNode(node),
       },
       {
-        onSettled: () => qc.invalidateQueries(CHILD_NODES_WITH_ARTICLE_TYPE),
+        onSettled: () => {
+          qc.invalidateQueries([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, i18n.language]);
+        },
         onSuccess: () => onChanged?.({ customFields }),
       },
     );

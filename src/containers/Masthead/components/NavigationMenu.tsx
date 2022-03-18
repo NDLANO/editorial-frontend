@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Launch } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { colors, spacing, animations } from '@ndla/core';
-import { Camera, Concept, H5P, Taxonomy } from '@ndla/icons/editor';
+import { Camera, Concept, H5P, Taxonomy, Video } from '@ndla/icons/editor';
 import { List } from '@ndla/icons/action';
 import { Audio, Podcast } from '@ndla/icons/common';
 //@ts-ignore
@@ -100,6 +100,15 @@ const OpenMenu = ({ close }: Props) => {
                 <H5P /> {t('subNavigation.h5p')}
               </span>
             </StyledLink>
+            <StyledHrefLink
+              href={config.brightcoveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={close}>
+              <span>
+                <Video /> {t('subNavigation.brightcoveLink')} <Launch />
+              </span>
+            </StyledHrefLink>
             <StyledHrefLink
               href={config.learningpathFrontendDomain}
               target="_blank"

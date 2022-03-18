@@ -158,6 +158,7 @@ const phrases = {
     media: 'Media',
     learningPath: 'Learningpath',
     learningPathLink: 'Go to learningpath',
+    brightcoveLink: 'Go to Brightcove',
     subjectMatter: 'Subject matter',
     detailSearch: 'Detail search',
     topicArticle: 'Create new topic',

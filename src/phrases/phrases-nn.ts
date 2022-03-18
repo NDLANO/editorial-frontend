@@ -159,6 +159,7 @@ const phrases = {
     media: 'Media',
     learningPath: 'Læringssti',
     learningPathLink: 'Gå til læringssti',
+    brightcoveLink: 'Gå til Brightcove',
     subjectMatter: 'Opprett læringsressurs',
     detailSearch: 'Detaljsøk',
     topicArticle: 'Opprett emne',

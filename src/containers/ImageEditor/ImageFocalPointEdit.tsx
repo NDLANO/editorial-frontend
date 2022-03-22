@@ -6,7 +6,7 @@
  *
  */
 
-import { useRef, useState } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -65,7 +65,7 @@ const ImageFocalPointEdit = ({ embed, onFocalPointChange, transformData }: Props
   });
   let focalImgRef = useRef<HTMLImageElement | null>(null);
 
-  const onImageClick = (evt: MouseEvent) => {
+  const onImageClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     const imageOffset = getElementOffset(focalImgRef.current);
     const dimensions = getImageDimensions(focalImgRef.current);

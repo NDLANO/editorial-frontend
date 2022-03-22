@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactElement, MouseEvent } from 'react';
+import { MouseEvent, ReactElement } from 'react';
 import { Warning } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
@@ -44,7 +44,11 @@ interface Props {
   text: string;
   onCancel: () => void;
   component?: ReactElement[] | ReactElement;
-  actions?: { text: string; onClick: (event: MouseEvent) => void; 'data-testid'?: string }[];
+  actions?: {
+    text: string;
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+    'data-testid'?: string;
+  }[];
   show?: boolean;
   severity?: MessageSeverity;
 }

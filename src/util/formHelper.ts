@@ -129,9 +129,6 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   },
   introduction: {
     maxLength: 300,
-    warnings: {
-      languageMatch: true,
-    },
   },
   metaDescription: {
     maxLength: 155,

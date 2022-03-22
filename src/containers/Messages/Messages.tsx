@@ -64,7 +64,7 @@ const Message = ({ message }: MessageProps) => {
     },
     {
       text: t('alertModal.loginAgain'),
-      onClick: (evt: MouseEvent) => {
+      onClick: (evt: MouseEvent<HTMLButtonElement>) => {
         evt.preventDefault();
         const lastPath = `${window.location.pathname}${
           window.location.search ? window.location.search : ''

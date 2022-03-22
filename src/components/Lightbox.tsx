@@ -6,7 +6,7 @@
  *
  */
 
-import { PureComponent, ReactNode, MouseEvent } from 'react';
+import { MouseEvent, PureComponent, ReactNode } from 'react';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import styled from '@emotion/styled';
@@ -137,7 +137,7 @@ class Lightbox extends PureComponent<Props, State> {
     this.onCloseButtonClick = this.onCloseButtonClick.bind(this);
   }
 
-  onCloseButtonClick(evt: MouseEvent) {
+  onCloseButtonClick(evt: MouseEvent<HTMLButtonElement>) {
     this.setState({ display: false }, () => this.props.onClose());
     evt.preventDefault();
   }

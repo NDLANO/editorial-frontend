@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState, MouseEvent } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import Button from '@ndla/button';

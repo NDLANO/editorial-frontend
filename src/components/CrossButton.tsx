@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 
 interface Props {
   stripped?: boolean;
-  onClick?: (event: MouseEvent) => void;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const CrossButton = ({ ...rest }: Props) => (

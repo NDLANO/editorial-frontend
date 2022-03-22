@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactElement, MouseEvent } from 'react';
+import { MouseEvent, ReactElement } from 'react';
 import Button from '@ndla/button';
 import { uuid } from '@ndla/util';
 import styled from '@emotion/styled';
@@ -29,7 +29,7 @@ interface Props {
   component?: ReactElement[] | ReactElement;
   actions?: {
     text: string;
-    onClick: (event: MouseEvent) => void;
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
     'data-testid'?: string;
   }[];
 }

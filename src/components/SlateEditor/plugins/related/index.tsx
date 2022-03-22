@@ -91,7 +91,7 @@ export const relatedPlugin = (editor: Editor) => {
           attributes={attributes}
           element={element}
           editor={editor}
-          onRemoveClick={(e: MouseEvent) => {
+          onRemoveClick={(e: MouseEvent<HTMLButtonElement>) => {
             e.stopPropagation();
             e.preventDefault();
             const path = ReactEditor.findPath(editor, element);

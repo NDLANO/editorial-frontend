@@ -6,7 +6,7 @@
  *
  */
 
-import { useRef, useState, MouseEvent } from 'react';
+import { MouseEvent, useRef, useState } from 'react';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';

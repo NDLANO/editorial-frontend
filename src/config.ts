@@ -155,6 +155,7 @@ export type ConfigType = {
   googleSearchApiKey: string | undefined;
   localConverter: boolean;
   brightcoveApiUrl: string;
+  brightcoveUrl: string;
   logglyApiKey: string | undefined;
   taxonomyApi: string;
   h5pApiUrl: string | undefined;
@@ -193,6 +194,7 @@ const config: ConfigType = {
   brightcovePlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_ID', 'Ab1234'),
   brightcove360PlayerId: getEnvironmentVariabel('BRIGHTCOVE_PLAYER_360_ID', 'Ab1234'),
   brightcoveApiUrl: 'https://cms.api.brightcove.com',
+  brightcoveUrl: 'https://studio.brightcove.com/products/videocloud/home',
   h5pApiUrl: getEnvironmentVariabel('H5P_API_URL', h5pApiUrl()),
   googleSearchApiUrl: getEnvironmentVariabel('NDLA_GOOGLE_API_URL', 'https://www.googleapis.com'),
   googleSearchApiKey: getEnvironmentVariabel('NDLA_GOOGLE_API_KEY'),

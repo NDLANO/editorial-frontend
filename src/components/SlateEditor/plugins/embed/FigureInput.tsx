@@ -6,7 +6,7 @@
  *
  */
 
-import { ChangeEvent, MouseEvent } from 'react';
+import { ChangeEvent, MouseEventHandler } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
@@ -27,8 +27,8 @@ interface Props {
   alt: string;
   madeChanges: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onAbort: (evt: MouseEvent) => void;
-  onSave: (evt: MouseEvent) => void;
+  onAbort: MouseEventHandler<HTMLButtonElement>;
+  onSave: MouseEventHandler<HTMLButtonElement>;
 }
 
 const FigureInput = ({ caption, alt, madeChanges, onChange, onAbort, onSave }: Props) => {

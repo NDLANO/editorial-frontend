@@ -53,13 +53,16 @@ const draftApiTypeToArticleFormType = (
   articleType: string,
   contentFunc: (html: string) => Descendant[],
 ): ArticleFormType => {
+  // Ingress field value should be allowed to be empty, instead of getting fallback value from backend
+  const newIntroduction =
+    article?.introduction?.language === language ? article.introduction.introduction : '';
   return {
     agreementId: article?.copyright?.agreementId,
     articleType,
     content: contentFunc(article?.content?.content ?? ''),
     creators: article?.copyright?.creators ?? [],
     id: article?.id,
-    introduction: plainTextToEditorValue(article?.introduction?.introduction ?? ''),
+    introduction: plainTextToEditorValue(newIntroduction),
     language,
     license: article?.copyright?.license?.license ?? DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article?.metaDescription?.metaDescription ?? ''),

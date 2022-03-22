@@ -6,7 +6,7 @@
  *
  */
 
-import { ChangeEvent, useState, MouseEvent } from 'react';
+import { ChangeEvent, MouseEvent, useState } from 'react';
 
 import BEMHelper from 'react-bem-helper';
 

@@ -20,7 +20,7 @@ import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
+import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import Spinner from '../../../components/Spinner';
@@ -42,6 +42,9 @@ const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   },
   manuscript: {
     required: false,
+    warnings: {
+      languageMatch: true,
+    },
   },
   audioFile: {
     required: true,
@@ -49,6 +52,10 @@ const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   introduction: {
     required: true,
     maxLength: 1000,
+    warnings: {
+      languageMatch: true,
+      apiField: 'podcastMeta',
+    },
   },
   coverPhotoId: {
     required: true,
@@ -57,9 +64,15 @@ const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
     // coverPhotoAltText
     required: true,
     onlyValidateIf: (values: PodcastFormValues) => !!values.coverPhotoId,
+    warnings: {
+      languageMatch: true,
+    },
   },
   tags: {
     minItems: 3,
+    warnings: {
+      languageMatch: true,
+    },
   },
   license: {
     required: true,
@@ -197,6 +210,7 @@ const PodcastForm = ({
   );
 
   const initialValues = audioApiTypeToPodcastFormType(audio, language);
+  const initialWarnings = getWarnings(initialValues, podcastRules, t, audio);
   const initialErrors = useMemo(() => validateFunction(initialValues), [
     initialValues,
     validateFunction,
@@ -209,7 +223,8 @@ const PodcastForm = ({
       validateOnMount
       initialErrors={initialErrors}
       enableReinitialize
-      validate={validateFunction}>
+      validate={validateFunction}
+      initialStatus={{ warnings: initialWarnings }}>
       {formikProps => {
         const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
         const formIsDirty = isFormikFormDirty({

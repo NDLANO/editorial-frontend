@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEvent } from 'react';
+import { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
@@ -23,7 +23,7 @@ const bannerImageButtonStyle = css`
 
 interface Props {
   image: ImageEmbed;
-  onImageSelectOpen: (evt: MouseEvent<HTMLButtonElement>) => void;
+  onImageSelectOpen: MouseEventHandler<HTMLButtonElement>;
 }
 
 const SubjectpageBannerImage = ({ image, onImageSelectOpen }: Props) => {

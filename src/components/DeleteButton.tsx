@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, MouseEvent } from 'react';
+import { MouseEvent, ReactNode } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import darken from 'polished/lib/color/darken';
 import { colors } from '@ndla/core';
@@ -30,7 +30,7 @@ interface Props {
   stripped?: boolean;
   onMouseDown?: (event: MouseEvent) => void;
   'data-cy'?: string;
-  onClick?: (event: MouseEvent) => void;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   title?: string;
   tabIndex?: string;
 }

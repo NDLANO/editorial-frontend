@@ -46,6 +46,7 @@ const SimpleLanguageHeader = ({
     { key: 'unknown', title: t('language.unknown'), include: false },
     { key: 'und', title: t('language.und'), include: false },
     { key: 'de', title: t('language.de'), include: false },
+    { key: 'ukr', title: t('language.ukr'), include: true },
   ];
   const emptyLanguages = languages.filter(
     lang => lang.key !== language && !supportedLanguages.includes(lang.key) && lang.include,

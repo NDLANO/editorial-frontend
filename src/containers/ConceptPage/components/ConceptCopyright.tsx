@@ -15,9 +15,10 @@ import { ConceptFormValues } from '../conceptInterfaces';
 interface Props {
   disableAgreements: boolean;
   label: string;
+  description: string;
 }
 
-const ConceptCopyright = ({ disableAgreements, label }: Props) => {
+const ConceptCopyright = ({ disableAgreements, label, description }: Props) => {
   const { values } = useFormikContext<ConceptFormValues>();
 
   return (
@@ -27,7 +28,7 @@ const ConceptCopyright = ({ disableAgreements, label }: Props) => {
         values={values}
         enableLicenseNA={true}
       />
-      <FormikField label={label} name="source" />
+      <FormikField label={label} name="source" description={description} />
     </>
   );
 };

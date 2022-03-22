@@ -8,6 +8,7 @@
 
 import { css, SerializedStyles } from '@emotion/core';
 import styled from '@emotion/styled';
+import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import AlertModal from '../../components/AlertModal';
@@ -63,7 +64,7 @@ const Message = ({ message }: MessageProps) => {
     },
     {
       text: t('alertModal.loginAgain'),
-      onClick: (evt: Event) => {
+      onClick: (evt: MouseEvent<HTMLButtonElement>) => {
         evt.preventDefault();
         const lastPath = `${window.location.pathname}${
           window.location.search ? window.location.search : ''

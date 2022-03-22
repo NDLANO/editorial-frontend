@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
@@ -79,7 +79,7 @@ const StyledDropZone = styled('div')`
 `;
 
 interface Props {
-  onRemoveClick: (e: Event) => void;
+  onRemoveClick: (e: MouseEvent<HTMLButtonElement>) => void;
   updateArticles: (newArticles: RelatedArticleType[]) => void;
   onExit: () => void;
   articles: RelatedArticleType[];
@@ -135,7 +135,7 @@ const EditRelated = ({
     toggleAddExternal();
   };
 
-  const deleteRelatedArticle = (e: Event, articleKey: string) => {
+  const deleteRelatedArticle = (e: MouseEvent<HTMLButtonElement>, articleKey: string) => {
     e.stopPropagation();
 
     const newArticles = articles.filter(filterArticle =>

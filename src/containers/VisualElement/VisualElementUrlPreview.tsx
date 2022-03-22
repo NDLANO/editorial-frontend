@@ -226,7 +226,7 @@ const VisualElementUrlPreview = ({
           {t('form.content.link.preview')}
         </Button>
         <Button
-          disabled={url === '' || url === selectedResourceUrl || error}
+          disabled={url === '' || url === selectedResourceUrl || !!error}
           outline
           onClick={() => handleSaveUrl(url ?? '')}>
           {isChangedUrl ? t('form.content.link.insert') : t('form.content.link.update')}

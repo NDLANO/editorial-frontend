@@ -163,7 +163,6 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
         </Button>
         <MultiButton
           disabled={!hasChanges || Object.keys(errors).length > 0}
-          className="form-button"
           onClick={(value: string) => {
             const getStatus = (v: string, s: string) => {
               if (v === 'saveAndPublish') {
@@ -177,7 +176,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
             const newStatus = getStatus(value, status);
             onSubmit({ ...values, newStatus });
           }}
-          mainButton={{ value: 'save' }}
+          mainButton={{ value: 'save', label: 'save' }}
           secondaryButtons={[
             {
               label: t('form.saveAndPublish'),

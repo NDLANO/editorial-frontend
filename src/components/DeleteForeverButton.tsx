@@ -9,13 +9,14 @@
 import { DeleteForever } from '@ndla/icons/editor';
 import Button from '@ndla/button';
 import { SerializedStyles } from '@emotion/core';
+import { MouseEvent } from 'react';
 
 interface Props {
   'data-cy'?: string;
   stripped?: boolean;
   css?: (SerializedStyles | string | undefined)[];
-  onMouseDown?: (event: MouseEvent) => void;
-  onClick?: (event: MouseEvent) => void;
+  onMouseDown?: (event: MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   title?: string;
 }
 

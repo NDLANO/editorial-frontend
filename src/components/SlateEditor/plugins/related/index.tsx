@@ -6,6 +6,7 @@
  *
  */
 
+import { MouseEvent } from 'react';
 import { Descendant, Editor, Element, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { jsx as slatejsx } from 'slate-hyperscript';
@@ -90,7 +91,7 @@ export const relatedPlugin = (editor: Editor) => {
           attributes={attributes}
           element={element}
           editor={editor}
-          onRemoveClick={(e: Event) => {
+          onRemoveClick={(e: MouseEvent<HTMLButtonElement>) => {
             e.stopPropagation();
             e.preventDefault();
             const path = ReactEditor.findPath(editor, element);

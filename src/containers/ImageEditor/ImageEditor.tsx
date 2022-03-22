@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
@@ -126,7 +126,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
     }
   };
 
-  const onFieldChange = (evt: MouseEvent, field: string, value: string) => {
+  const onFieldChange = (evt: MouseEvent<HTMLButtonElement>, field: string, value: string) => {
     evt.stopPropagation();
     onUpdatedImageSettings({ [field]: value });
   };
@@ -212,13 +212,17 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
                 stripped
                 tabIndex={-1}
                 isActive={embed['focal-x'] !== undefined}
-                onClick={(evt: MouseEvent) => onEditorTypeSet(evt, 'focalPoint')}>
+                onClick={(evt: MouseEvent<HTMLButtonElement>) =>
+                  onEditorTypeSet(evt, 'focalPoint')
+                }>
                 <FocalPoint />
               </ImageEditorButton>
             </Tooltip>
           )}
           {imageCancelButtonNeeded && (
-            <Button onClick={(evt: MouseEvent) => onRemoveData(evt, editType)} stripped>
+            <Button
+              onClick={(evt: MouseEvent<HTMLButtonElement>) => onRemoveData(evt, editType)}
+              stripped>
               {t(`imageEditor.remove.${editType}`)}
             </Button>
           )}
@@ -227,7 +231,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
               <ImageEditorButton
                 stripped
                 isActive={embed['upper-left-x'] !== undefined}
-                onClick={(evt: MouseEvent) => onEditorTypeSet(evt, 'crop')}
+                onClick={(evt: MouseEvent<HTMLButtonElement>) => onEditorTypeSet(evt, 'crop')}
                 tabIndex={-1}>
                 <Crop />
               </ImageEditorButton>

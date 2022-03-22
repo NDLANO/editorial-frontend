@@ -62,7 +62,7 @@ const SaveMultiButton = ({
             const saveAsNewVersion = value === 'saveAsNew';
             onClick(saveAsNewVersion);
           }}
-          mainButton={{ value: 'save' }}
+          mainButton={{ value: 'save', label: '' }}
           secondaryButtons={
             hideSecondaryButton
               ? []

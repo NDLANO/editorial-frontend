@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, SyntheticEvent, useCallback, useEffect, useState } from 'react';
+import { MouseEvent, ReactNode, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
 import { uuid } from '@ndla/util';
@@ -32,7 +32,7 @@ interface Props {
   editor: Editor;
   element: RelatedElement;
   locale?: string;
-  onRemoveClick: (e: Event) => void;
+  onRemoveClick: (e: MouseEvent<HTMLButtonElement>) => void;
   children: ReactNode;
 }
 export interface ExternalArticle {

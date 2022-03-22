@@ -176,11 +176,11 @@ const PodcastForm = ({
     };
     try {
       audio?.revision
-        ? onUpdatePodcast?.(
+        ? await onUpdatePodcast?.(
             { ...podcastMetaData, revision: audio.revision },
             values.audioFile.newFile?.file,
           )
-        : onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);
+        : await onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);
     } catch (e) {
       handleError(e);
     }

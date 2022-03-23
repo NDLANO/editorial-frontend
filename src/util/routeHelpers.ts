@@ -37,8 +37,9 @@ export function toEditNdlaFilm(language?: string) {
   return `/film/${language ? language : 'nb'}`;
 }
 
-export function toEditConcept(conceptId: number, locale: string) {
-  return `/concept/${conceptId}/edit/${locale}`;
+export function toEditConcept(conceptId: number, locale?: string) {
+  const path = `/concept/${conceptId}/edit`;
+  return locale ? `${path}/${locale}` : path;
 }
 
 export function toEditMarkup(id: number | string, language: string) {

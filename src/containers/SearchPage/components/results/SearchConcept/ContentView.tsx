@@ -58,7 +58,7 @@ const ContentView = ({
   return (
     <StyledConceptView>
       <h2>
-        <StyledLink noShadow to={toEditConcept(concept.id, locale)}>
+        <StyledLink noShadow to={toEditConcept(concept.id)}>
           {title}
         </StyledLink>
         {canEdit && !editing && (

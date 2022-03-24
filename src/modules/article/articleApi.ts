@@ -45,18 +45,18 @@ const articleConverterUrl = config.localConverter
 
 export const getArticleFromArticleConverter = (
   id: number,
-  locale: string,
+  language: string,
 ): Promise<ArticleConverterApiType> =>
-  fetchAuthorized(`${articleConverterUrl}/json/${locale}/${id}`).then(r =>
+  fetchAuthorized(`${articleConverterUrl}/json/${language}/${id}`).then(r =>
     resolveJsonOrRejectWithError<ArticleConverterApiType>(r),
   );
 
 export const getPreviewArticle = async (
   article: IArticle,
-  locale: string,
+  language: string,
 ): Promise<ArticleConverterApiType> => {
   const response = await fetchAuthorized(
-    `${articleConverterUrl}/json/${locale}/transform-article?draftConcept=true&previewH5p=true&showVisualElement=true&absoluteUrl=true&previewAlt=true`,
+    `${articleConverterUrl}/json/${language}/transform-article?draftConcept=true&previewH5p=true&showVisualElement=true&absoluteUrl=true&previewAlt=true`,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -65,5 +65,6 @@ export const getPreviewArticle = async (
       body: JSON.stringify({ article }),
     },
   );
-  return resolveJsonOrRejectWithError<ArticleConverterApiType>(response);
+  const converted = await resolveJsonOrRejectWithError<ArticleConverterApiType>(response);
+  return { ...converted, language };
 };

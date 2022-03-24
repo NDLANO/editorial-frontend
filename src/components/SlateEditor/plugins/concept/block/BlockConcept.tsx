@@ -12,7 +12,6 @@ import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import { Dictionary } from 'lodash';
 import styled from '@emotion/styled';
-import { NotionHeaderWithoutExitButton } from '@ndla/notion';
 import ConceptModal from '../ConceptModal';
 import SlateConceptPreview from '../SlateConceptPreview';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
@@ -45,12 +44,6 @@ const StyledWrapper = styled.div<{ isSelected: boolean }>`
     margin-top: 0;
   }
   box-shadow: ${p => (p.isSelected ? `${colors.brand.primary} 0 0 0 2px` : 'none')};
-`;
-
-const StyledNotionHeaderWrapper = styled.div`
-  div {
-    margin: ${spacing.small} 0;
-  }
 `;
 
 const BlockConcept = ({ element, locale, editor, attributes, children }: Props) => {
@@ -122,9 +115,6 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
     <StyledWrapper {...attributes} tabIndex={1} isSelected={isSelected} draggable={true}>
       {concept && (
         <div contentEditable={false}>
-          <StyledNotionHeaderWrapper>
-            <NotionHeaderWithoutExitButton title={concept.title.title ?? ''} />
-          </StyledNotionHeaderWrapper>
           <SlateConceptPreview
             concept={concept}
             handleRemove={handleRemove}

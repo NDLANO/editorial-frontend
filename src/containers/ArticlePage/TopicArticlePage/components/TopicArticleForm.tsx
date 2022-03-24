@@ -106,7 +106,12 @@ const TopicArticleForm = ({
         <HeaderWithLanguage
           taxonomy={articleTaxonomy}
           values={values}
-          content={{ ...article, title: article?.title?.title, language: articleLanguage }}
+          content={{
+            ...article,
+            title: article?.title?.title,
+            language: articleLanguage,
+            supportedLanguages: values.supportedLanguages,
+          }}
           getEntity={getArticle}
           editUrl={editUrl}
           formIsDirty={formIsDirty}

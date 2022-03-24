@@ -14,6 +14,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
+import { uniq } from 'lodash';
 import { useFormikContext } from 'formik';
 import {
   getPreviewArticle,
@@ -89,9 +90,17 @@ interface Props {
   label: string;
   typeOfPreview: TypeOfPreview;
   version?: IArticle;
+  supportedLanguages?: string[];
 }
 
-const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, children }: Props) => {
+const PreviewDraftLightbox = ({
+  getArticle,
+  typeOfPreview,
+  version,
+  label,
+  children,
+  supportedLanguages = [],
+}: Props) => {
   const [firstArticle, setFirstArticle] = useState<ArticleConverterApiType | undefined>(undefined);
   const [secondArticle, setSecondArticle] = useState<ArticleConverterApiType | undefined>(
     undefined,
@@ -124,7 +133,9 @@ const PreviewDraftLightbox = ({ getArticle, typeOfPreview, version, label, child
     if (!id || !language) return setIsMissingValues(true);
     const article = toApiVersion(getArticle(true), id);
 
-    const secondArticleLanguage = article.supportedLanguages?.find(l => l !== language) ?? language;
+    const allSupportedLanguages = uniq(supportedLanguages.concat(article.supportedLanguages ?? []));
+
+    const secondArticleLanguage = allSupportedLanguages?.find(l => l !== language) ?? language;
 
     const types: PartialRecord<TypeOfPreview, () => Promise<ArticleConverterApiType>> = {
       previewLanguageArticle: () => previewLanguageArticle(id, secondArticleLanguage),

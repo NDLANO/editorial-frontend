@@ -49,6 +49,7 @@ const PreviewLightBox = ({
       <PreviewDraftLightbox
         label={t(`articleType.${articleType!}`)}
         typeOfPreview="previewLanguageArticle"
+        supportedLanguages={supportedLanguages}
         getArticle={_ => getEntity()}>
         {(openPreview: () => void) => (
           <StyledFilledButton type="button" onClick={openPreview}>

@@ -13,8 +13,6 @@ import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
 import { colors } from '@ndla/core';
 import { css } from '@emotion/core';
 import { IConceptSummary } from '@ndla/types-concept-api';
-import { CONCEPT_ADMIN_SCOPE } from '../../../../../constants';
-import { useSession } from '../../../../Session/SessionProvider';
 import {
   StyledInfo,
   StyledConceptView,
@@ -52,16 +50,14 @@ const ContentView = ({
   const { t } = useTranslation();
   const { data: licenses } = useLicenses();
   const license = licenses && licenses.find(l => concept.license === l.license);
-  const { userPermissions } = useSession();
-  const canEdit = !!userPermissions?.includes(CONCEPT_ADMIN_SCOPE);
 
   return (
     <StyledConceptView>
       <h2>
-        <StyledLink noShadow to={toEditConcept(concept.id, locale)}>
+        <StyledLink noShadow to={toEditConcept(concept.id)}>
           {title}
         </StyledLink>
-        {canEdit && !editing && (
+        {!editing && (
           <Button
             css={css`
               line-height: 1;

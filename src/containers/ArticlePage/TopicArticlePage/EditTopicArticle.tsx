@@ -17,7 +17,7 @@ import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 
 interface Props {
-  isNewlyCreated: boolean;
+  isNewlyCreated?: boolean;
 }
 
 const EditTopicArticle = ({ isNewlyCreated }: Props) => {
@@ -66,7 +66,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
         article={article}
         translateToNN={translateToNN}
         translating={translating}
-        isNewlyCreated={isNewlyCreated}
+        isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
       />

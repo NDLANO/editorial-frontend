@@ -17,7 +17,7 @@ import Spinner from '../../components/Spinner';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
 
 interface Props {
-  isNewlyCreated: boolean;
+  isNewlyCreated?: boolean;
 }
 
 const EditPodcast = ({ isNewlyCreated }: Props) => {

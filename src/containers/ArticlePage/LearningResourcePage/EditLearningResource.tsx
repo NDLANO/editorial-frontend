@@ -18,7 +18,7 @@ import { LocaleType } from '../../../interfaces';
 import NotFound from '../../NotFoundPage/NotFoundPage';
 
 interface Props {
-  isNewlyCreated: boolean;
+  isNewlyCreated?: boolean;
 }
 
 const EditLearningResource = ({ isNewlyCreated }: Props) => {
@@ -67,7 +67,7 @@ const EditLearningResource = ({ isNewlyCreated }: Props) => {
         articleChanged={articleChanged || newLanguage}
         translating={translating}
         translateToNN={translateToNN}
-        isNewlyCreated={isNewlyCreated}
+        isNewlyCreated={!!isNewlyCreated}
         updateArticle={updateArticle}
         updateArticleAndStatus={updateArticleAndStatus}
       />

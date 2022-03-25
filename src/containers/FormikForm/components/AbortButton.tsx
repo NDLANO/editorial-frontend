@@ -6,11 +6,11 @@
  *
  */
 
-import { HTMLProps, ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ActionButton from './ActionButton';
 
-interface Props extends HTMLProps<HTMLButtonElement> {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
   outline?: boolean;
 }

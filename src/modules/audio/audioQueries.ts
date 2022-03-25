@@ -9,44 +9,43 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 import queryString from 'query-string';
 import {
-  IAudioMetaInformation as AudioApiType,
-  IAudioSummarySearchResult as AudioSearchResult,
-  ISeriesSummarySearchResult as SeriesSearchResult,
-  ISeries as PodcastSeriesApiType,
+  IAudioMetaInformation,
+  IAudioSummarySearchResult,
+  ISeriesSummarySearchResult,
+  ISeries,
 } from '@ndla/types-audio-api';
 import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from '../../queryKeys';
 import { SeriesSearchParams } from './audioApiInterfaces';
 import { fetchAudio, fetchSeries, searchAudio, searchSeries } from './audioApi';
 
 export const useAudio = (
-  id: string | number,
+  id: number,
   language: string | undefined,
-  options?: UseQueryOptions<AudioApiType>,
-) => useQuery<AudioApiType>([AUDIO, id, language], () => fetchAudio(id, language), options);
+  options?: UseQueryOptions<IAudioMetaInformation>,
+) =>
+  useQuery<IAudioMetaInformation>([AUDIO, id, language], () => fetchAudio(id, language), options);
 
 export const useSeries = (
-  id: string | number,
+  id: number,
   language: string | undefined,
-  options?: UseQueryOptions<PodcastSeriesApiType>,
-) =>
-  useQuery<PodcastSeriesApiType>(
-    [PODCAST_SERIES, id, language],
-    () => fetchSeries(id, language),
-    options,
-  );
+  options?: UseQueryOptions<ISeries>,
+) => useQuery<ISeries>([PODCAST_SERIES, id, language], () => fetchSeries(id, language), options);
 
 export const useSearchSeries = (
   query: SeriesSearchParams,
-  options?: UseQueryOptions<SeriesSearchResult>,
+  options?: UseQueryOptions<ISeriesSummarySearchResult>,
 ) =>
-  useQuery<SeriesSearchResult>(
+  useQuery<ISeriesSummarySearchResult>(
     [SEARCH_SERIES, queryString.stringify(query)],
     () => searchSeries(query),
     options,
   );
 
-export const useSearchAudio = (query: object, options?: UseQueryOptions<AudioSearchResult>) =>
-  useQuery<AudioSearchResult>(
+export const useSearchAudio = (
+  query: object,
+  options?: UseQueryOptions<IAudioSummarySearchResult>,
+) =>
+  useQuery<IAudioSummarySearchResult>(
     [SEARCH_AUDIO, queryString.stringify(query)],
     () => searchAudio(query),
     options,

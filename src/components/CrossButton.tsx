@@ -6,12 +6,13 @@
  *
  */
 
+import { MouseEvent } from 'react';
 import { Cross } from '@ndla/icons/action';
 import Button from '@ndla/button';
 
 interface Props {
   stripped?: boolean;
-  onClick?: Function;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const CrossButton = ({ ...rest }: Props) => (

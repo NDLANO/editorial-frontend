@@ -6,7 +6,7 @@
  *
  */
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, MouseEvent, useState } from 'react';
 
 import BEMHelper from 'react-bem-helper';
 
@@ -68,7 +68,7 @@ const SaveSearchUrl = () => {
     setIsValidUrl(isNDLAEdSearchUrl(inputFieldValue));
   };
 
-  const createSaveSearchUrl = (event: ChangeEvent<HTMLInputElement>) => {
+  const createSaveSearchUrl = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (
       isNDLAEdSearchUrl(inputFieldValue) &&

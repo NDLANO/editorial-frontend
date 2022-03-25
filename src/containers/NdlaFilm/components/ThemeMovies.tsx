@@ -10,12 +10,12 @@ import { useState } from 'react';
 import { isEqual } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
+import { IMultiSearchSummary } from '@ndla/types-search-api';
 import ElementList from '../../FormikForm/components/ElementList';
 import { getUrnFromId } from '../../../util/ndlaFilmHelpers';
 import DropdownSearch from './DropdownSearch';
 import { NDLA_FILM_SUBJECT } from '../../../constants';
 import { useMoviesQuery } from '../../../modules/frontpage/filmQueries';
-import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 interface Props {
   movies: string[];
@@ -26,20 +26,20 @@ interface Props {
 export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => {
   const { t } = useTranslation();
   const [localMovies, setLocalMovies] = useState<string[]>([]);
-  const [apiMovies, setApiMovies] = useState<MultiSearchSummary[]>([]);
+  const [apiMovies, setApiMovies] = useState<IMultiSearchSummary[]>([]);
   const moviesQuery = useMoviesQuery(movies, {
     enabled: !isEqual(movies, localMovies),
     onSuccess: movies => setApiMovies(movies.results),
   });
 
-  const onUpdateMovies = (updates: MultiSearchSummary[]) => {
+  const onUpdateMovies = (updates: IMultiSearchSummary[]) => {
     const updated = updates.map(u => getUrnFromId(u.id));
     setApiMovies(updates);
     setLocalMovies(updated);
     onMoviesUpdated(updated);
   };
 
-  const onAddMovieToTheme = (movie: MultiSearchSummary) => {
+  const onAddMovieToTheme = (movie: IMultiSearchSummary) => {
     setLocalMovies([...movies, getUrnFromId(movie.id)]);
     setApiMovies(prevMovies => [...prevMovies, movie]);
     onMoviesUpdated([...movies, getUrnFromId(movie.id)]);
@@ -57,13 +57,13 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
             dragElement: t('ndlaFilm.editor.changeOrder'),
             removeElement: t('ndlaFilm.editor.removeMovieFromGroup'),
           }}
-          onUpdateElements={(elements: MultiSearchSummary[]) => onUpdateMovies(elements)}
+          onUpdateElements={(elements: IMultiSearchSummary[]) => onUpdateMovies(elements)}
         />
       )}
 
       <DropdownSearch
         selectedElements={apiMovies}
-        onChange={(movie: MultiSearchSummary) => onAddMovieToTheme(movie)}
+        onChange={(movie: IMultiSearchSummary) => onAddMovieToTheme(movie)}
         subjectId={NDLA_FILM_SUBJECT}
         contextTypes={'standard'}
         placeholder={placeholder}

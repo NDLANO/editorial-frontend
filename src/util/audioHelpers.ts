@@ -6,25 +6,22 @@
  *
  */
 
-import {
-  IAudioMetaInformation as AudioApiType,
-  ISeries as PodcastSeriesApiType,
-} from '@ndla/types-audio-api';
+import { IAudioMetaInformation, ISeries, ICopyright } from '@ndla/types-audio-api';
 import { PodcastFormValues } from '../modules/audio/audioApiInterfaces';
 import { AudioFormikType } from '../containers/AudioUploader/components/AudioForm';
 import { plainTextToEditorValue } from './articleContentConverter';
 import { DEFAULT_LICENSE } from './formHelper';
-import { Copyright } from '../interfaces';
 import { PodcastSeriesFormikType } from '../containers/PodcastSeries/components/PodcastSeriesForm';
 
 export const audioApiTypeToFormType = (
-  audio: AudioApiType | undefined,
+  audio: IAudioMetaInformation | undefined,
   language: string,
 ): AudioFormikType => {
-  const copyright: Copyright = audio?.copyright ?? {
+  const copyright: ICopyright = audio?.copyright ?? {
     creators: [],
     processors: [],
     rightsholders: [],
+    license: DEFAULT_LICENSE,
   };
 
   return {
@@ -42,7 +39,7 @@ export const audioApiTypeToFormType = (
 };
 
 export const audioApiTypeToPodcastFormType = (
-  audio: AudioApiType | undefined,
+  audio: IAudioMetaInformation | undefined,
   language: string,
 ): PodcastFormValues => {
   return {
@@ -56,7 +53,7 @@ export const audioApiTypeToPodcastFormType = (
 };
 
 export const podcastSeriesTypeToFormType = (
-  series: PodcastSeriesApiType | undefined,
+  series: ISeries | undefined,
   language: string,
 ): PodcastSeriesFormikType => {
   return {

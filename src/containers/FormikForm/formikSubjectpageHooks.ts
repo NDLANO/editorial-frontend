@@ -10,6 +10,9 @@ import {
   IUpdatedSubjectFrontPageData,
   INewSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
+import { IArticle } from '@ndla/types-draft-api';
 import * as frontpageApi from '../../modules/frontpage/frontpageApi';
 import { getUrnFromId } from '../../util/subjectHelpers';
 import { LocaleType } from '../../interfaces';
@@ -19,10 +22,7 @@ import { updateSubject } from '../../modules/taxonomy/subjects';
 import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { Learningpath } from '../../modules/learningpath/learningpathApiInterfaces';
 import { fetchImage } from '../../modules/image/imageApi';
-import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
-import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 
 export function useFetchSubjectpageData(
   elementId: string,
@@ -30,8 +30,8 @@ export function useFetchSubjectpageData(
   subjectpageId: string | undefined,
 ) {
   const [subjectpage, setSubjectpage] = useState<ISubjectPageData>();
-  const [editorsChoices, setEditorsChoices] = useState<(DraftApiType | Learningpath)[]>([]);
-  const [banner, setBanner] = useState<ImageApiType | undefined>(undefined);
+  const [editorsChoices, setEditorsChoices] = useState<(IArticle | ILearningPathV2)[]>([]);
+  const [banner, setBanner] = useState<IImageMetaInformationV2 | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
 

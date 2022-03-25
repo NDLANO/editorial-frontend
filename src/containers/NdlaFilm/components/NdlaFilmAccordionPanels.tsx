@@ -7,9 +7,7 @@
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { useTranslation } from 'react-i18next';
 import { FieldProps, FormikErrors, FormikHelpers, FormikValues } from 'formik';
-import { IMovieTheme } from '@ndla/types-frontpage-api';
 import SubjectpageAbout from '../../EditSubjectFrontpage/components/SubjectpageAbout';
-import { FormikProperties } from '../../../interfaces';
 import { Values } from '../../../components/SlateEditor/editorTypes';
 import ThemeEditor from './ThemeEditor';
 import SlideshowEditor from './SlideshowEditor';
@@ -22,16 +20,6 @@ interface Props {
 interface ComponentProps extends Props {
   errors: FormikErrors<Values>;
   formIsDirty: boolean;
-}
-
-interface FormikSlideshowProps {
-  field: FieldProps<string[]>['field'];
-  form: FormikProperties['form'];
-}
-
-interface FormikThemeProps {
-  field: FieldProps<IMovieTheme[]>['field'];
-  form: FormikProperties['form'];
 }
 
 const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps) => {
@@ -66,9 +54,7 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
         hasError={['metaDescription', 'mobileBannerId'].some(field => field in errors)}
         startOpen>
         <FormikField name={'slideShow'}>
-          {({ field, form }: FormikSlideshowProps) => (
-            <SlideshowEditor field={field} form={form} onUpdateSlideshow={onUpdateMovieList} />
-          )}
+          {() => <SlideshowEditor onUpdateSlideshow={onUpdateMovieList} fieldName={'slideShow'} />}
         </FormikField>
       </AccordionSection>
       <AccordionSection
@@ -78,10 +64,8 @@ const SubjectpageAccordionPanels = ({ errors, selectedLanguage }: ComponentProps
         hasError={['editorsChoices'].some(field => field in errors)}
         startOpen>
         <FormikField name={'themes'}>
-          {({ field, form }: FormikThemeProps) => (
+          {() => (
             <ThemeEditor
-              field={field}
-              form={form}
               onUpdateMovieTheme={onUpdateMovieList}
               selectedLanguage={selectedLanguage}
             />

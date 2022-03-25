@@ -10,9 +10,9 @@ import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { VersionHistory } from '@ndla/editor';
-//@ts-ignore
 import { ContentTypeBadge } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
+import { IEditorNote } from '@ndla/types-draft-api';
 
 import Lightbox from './Lightbox';
 import Spinner from './Spinner';
@@ -21,7 +21,7 @@ import { fetchDraftHistory } from '../modules/draft/draftApi';
 import { fetchAuth0Users } from '../modules/auth0/auth0Api';
 import formatDate from '../util/formatDate';
 import { getIdFromUrn } from '../util/taxonomyHelpers';
-import { Note, Auth0UserData } from '../interfaces';
+import { Auth0UserData } from '../interfaces';
 
 const StyledResourceLinkContainer = styled.div`
   display: flex;
@@ -61,7 +61,7 @@ const VersionHistoryLightBox = ({
   const { t } = useTranslation();
 
   useEffect(() => {
-    const cleanupNotes = (notes: Note[], users: Auth0UserData[]) =>
+    const cleanupNotes = (notes: IEditorNote[], users: Auth0UserData[]) =>
       notes.map((note, index) => ({
         id: index,
         note: note.note,
@@ -72,7 +72,7 @@ const VersionHistoryLightBox = ({
 
     const fetchHistory = async (id: number) => {
       const versions = await fetchDraftHistory(id);
-      const notes: Note[] = versions?.[0]?.notes;
+      const notes: IEditorNote[] = versions?.[0]?.notes;
       if (notes?.length) {
         const userIds = notes.map(note => note.user).filter(user => user !== 'System');
         const uniqueUserIds = Array.from(new Set(userIds)).join(',');

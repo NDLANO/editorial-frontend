@@ -6,11 +6,13 @@
  *
  */
 
+import { DRAFT, IMPORTED } from '../constants/ArticleStatus';
+
 export const apiArticle = {
   id: 302,
   oldNdlaUrl: '//red.ndla.no/node/116160',
   revision: 48,
-  status: { current: 'DRAFT', other: ['IMPORTED'] },
+  status: { current: DRAFT, other: [IMPORTED] },
   title: { title: 'Bildekomposisjon og kamerabevegelser', language: 'nb' },
   content: {
     content:

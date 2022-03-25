@@ -9,12 +9,10 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import css from '@emotion/css';
-import { AudioPlayer } from '@ndla/ui';
-// @ts-ignore
-import { FigureCaption } from '@ndla/ui';
+import { AudioPlayer, FigureCaption } from '@ndla/ui';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { SlateAudio, LocaleType } from '../../../../interfaces';
-import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
 import { fetchImage } from '../../../../modules/image/imageApi';
 
 interface Props {
@@ -23,7 +21,13 @@ interface Props {
   speech: boolean;
 }
 
-const ImageLicense = ({ image, locale }: { locale: LocaleType; image: ImageApiType }) => {
+const ImageLicense = ({
+  image,
+  locale,
+}: {
+  locale: LocaleType;
+  image: IImageMetaInformationV2;
+}) => {
   const { t } = useTranslation();
   const { copyright, id } = image;
   const {
@@ -39,7 +43,8 @@ const ImageLicense = ({ image, locale }: { locale: LocaleType; image: ImageApiTy
         reuseLabel={t('image.reuse')}
         licenseRights={license.rights}
         authors={copyright.creators || copyright.rightsholders || copyright.processors}
-        locale={locale}></FigureCaption>
+        locale={locale}
+      />
     </>
   );
 };
@@ -47,7 +52,7 @@ const ImageLicense = ({ image, locale }: { locale: LocaleType; image: ImageApiTy
 const AudioPlayerMounter = ({ audio, locale, speech }: Props) => {
   const { t } = useTranslation();
   const { copyright, podcastMeta } = audio;
-  const [image, setImage] = useState<ImageApiType>();
+  const [image, setImage] = useState<IImageMetaInformationV2>();
 
   const license = getLicenseByAbbreviation(copyright.license?.license || '', locale);
   const figureLicenseDialogId = `audio-${audio.id}`;

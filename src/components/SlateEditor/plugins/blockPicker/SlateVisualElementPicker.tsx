@@ -1,15 +1,23 @@
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { Element } from 'slate';
 import { FormikContextType, useFormikContext } from 'formik';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import VisualElementSearch, {
   VisualElementChangeReturnType,
 } from '../../../../containers/VisualElement/VisualElementSearch';
 import { defaultEmbedBlock } from '../embed/utils';
 import { defaultFileBlock } from '../file/utils';
 import VisualElementModalWrapper from '../../../../containers/VisualElement/VisualElementModalWrapper';
-import { ImageApiType } from '../../../../modules/image/imageApiInterfaces';
 
 export const checkboxAction = (
-  image: ImageApiType,
+  image: IImageMetaInformationV2,
   formikContext: FormikContextType<{ metaImageId?: string; metaImageAlt?: string }>,
 ) => {
   const { setFieldValue } = formikContext;
@@ -59,7 +67,7 @@ const SlateVisualElementPicker = ({
           closeModal={onVisualElementClose}
           setH5pFetchFail={setH5pFetchFail}
           showCheckbox={showCheckbox}
-          checkboxAction={(image: ImageApiType) => checkboxAction(image, formikContext)}
+          checkboxAction={(image: IImageMetaInformationV2) => checkboxAction(image, formikContext)}
         />
       )}
     </VisualElementModalWrapper>

@@ -6,7 +6,7 @@
  *
  */
 
-import { PureComponent, KeyboardEvent, ChangeEvent } from 'react';
+import { PureComponent, KeyboardEvent, ChangeEvent, SyntheticEvent } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
@@ -91,7 +91,7 @@ export class InlineAddButton extends PureComponent<Props & CustomWithTranslation
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  async handleClick(e: KeyboardEvent<HTMLInputElement>) {
+  async handleClick(e: SyntheticEvent) {
     e.stopPropagation();
 
     this.setState(

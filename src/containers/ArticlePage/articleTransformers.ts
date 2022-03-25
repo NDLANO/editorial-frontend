@@ -1,10 +1,14 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { isEmpty } from 'lodash';
 import { Descendant } from 'slate';
-import {
-  DraftApiType,
-  DraftStatusTypes,
-  UpdatedDraftApiType,
-} from '../../modules/draft/draftApiInterfaces';
+import { ILicense, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,
@@ -21,8 +25,8 @@ import {
   TopicArticleFormType,
 } from '../FormikForm/articleFormHooks';
 import { DEFAULT_LICENSE, parseImageUrl } from '../../util/formHelper';
-import { License } from '../../interfaces';
 import { nullOrUndefined } from '../../util/articleUtil';
+import { DRAFT } from '../../util/constants/ArticleStatus';
 
 const getPublishedDate = (
   values: ArticleFormType,
@@ -44,18 +48,21 @@ const getPublishedDate = (
 };
 
 const draftApiTypeToArticleFormType = (
-  article: DraftApiType | undefined,
+  article: IArticle | undefined,
   language: string,
   articleType: string,
   contentFunc: (html: string) => Descendant[],
 ): ArticleFormType => {
+  // Ingress field value should be allowed to be empty, instead of getting fallback value from backend
+  const newIntroduction =
+    article?.introduction?.language === language ? article.introduction.introduction : '';
   return {
     agreementId: article?.copyright?.agreementId,
     articleType,
     content: contentFunc(article?.content?.content ?? ''),
     creators: article?.copyright?.creators ?? [],
     id: article?.id,
-    introduction: plainTextToEditorValue(article?.introduction?.introduction ?? ''),
+    introduction: plainTextToEditorValue(newIntroduction),
     language,
     license: article?.copyright?.license?.license ?? DEFAULT_LICENSE.license,
     metaDescription: plainTextToEditorValue(article?.metaDescription?.metaDescription ?? ''),
@@ -80,7 +87,7 @@ const draftApiTypeToArticleFormType = (
 };
 
 export const draftApiTypeToLearningResourceFormType = (
-  article: DraftApiType | undefined,
+  article: IArticle | undefined,
   language: string,
 ): LearningResourceFormType => {
   return {
@@ -95,7 +102,7 @@ export const draftApiTypeToLearningResourceFormType = (
 };
 
 export const draftApiTypeToTopicArticleFormType = (
-  article: DraftApiType | undefined,
+  article: IArticle | undefined,
   language: string,
 ): TopicArticleFormType => {
   return {
@@ -112,9 +119,9 @@ export const draftApiTypeToTopicArticleFormType = (
 export const learningResourceFormTypeToDraftApiType = (
   article: LearningResourceFormType,
   initialValues: LearningResourceFormType,
-  licenses: License[],
+  licenses: ILicense[],
   preview = false,
-): UpdatedDraftApiType => {
+): IUpdatedArticle => {
   const metaImage = article.metaImageId
     ? { id: article.metaImageId, alt: article.metaImageAlt ?? '' }
     : nullOrUndefined(article.metaImageId);
@@ -129,8 +136,6 @@ export const learningResourceFormTypeToDraftApiType = (
       processors: article.processors,
       rightsholders: article.rightsholders,
     },
-    supportedLanguages: article.supportedLanguages,
-    id: article.id,
     introduction: editorValueToPlainText(article.introduction),
     language: article.language,
     metaImage,
@@ -149,9 +154,9 @@ export const learningResourceFormTypeToDraftApiType = (
 export const topicArticleFormTypeToDraftApiType = (
   article: TopicArticleFormType,
   initialValues: TopicArticleFormType,
-  licenses: License[],
+  licenses: ILicense[],
   preview = false,
-): UpdatedDraftApiType => {
+): IUpdatedArticle => {
   const metaImage = article.metaImageId
     ? { id: article.metaImageId, alt: article.metaImageAlt ?? '' }
     : nullOrUndefined(article.metaImageId);
@@ -164,10 +169,8 @@ export const topicArticleFormTypeToDraftApiType = (
     agreementId: article.agreementId,
   };
   return {
-    id: article.id,
     revision: article.revision ?? 0,
     language: article.language,
-    supportedLanguages: article.supportedLanguages,
     title: editorValueToPlainText(article.title),
     published: getPublishedDate(article, initialValues, preview) ?? '',
     content: topicArticleContentToHTML(article.content),
@@ -186,13 +189,16 @@ export const topicArticleFormTypeToDraftApiType = (
   };
 };
 
-export const updatedDraftApiTypeToDraftApiType = (article: UpdatedDraftApiType): DraftApiType => {
+export const updatedDraftApiTypeToDraftApiType = (
+  article: IUpdatedArticle,
+  id: number,
+): IArticle => {
   const language = article.language!;
 
   return {
-    id: article.id ?? 0,
+    id: id,
     revision: article.revision,
-    status: { current: (article.status as DraftStatusTypes) ?? 'DRAFT', other: [] },
+    status: { current: article.status ?? DRAFT, other: [] },
     title: article.title ? { title: article.title, language } : undefined,
     content: article.content ? { content: article.content, language } : undefined,
     copyright: article.copyright,
@@ -213,7 +219,7 @@ export const updatedDraftApiTypeToDraftApiType = (article: UpdatedDraftApiType):
     updatedBy: '',
     published: article.published ?? '',
     articleType: article.articleType ?? 'topic-article',
-    supportedLanguages: article.supportedLanguages,
+    supportedLanguages: [],
     notes: [],
     editorLabels: article.editorLabels ?? [],
     grepCodes: article.grepCodes ?? [],

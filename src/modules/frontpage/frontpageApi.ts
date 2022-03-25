@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import * as queryString from 'query-string';
+import queryString from 'query-string';
 import {
   ISubjectPageData,
   IFilmFrontPageData,

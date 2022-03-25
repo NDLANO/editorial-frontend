@@ -19,9 +19,10 @@ import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/As
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
 import { InputField, InputPair } from './SearchStyles';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { ConceptStatusType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
+import { PUBLISHED, QUALITY_ASSURED } from '../../../../../util/constants/ConceptStatus';
+import { ConceptStatusType } from '../../../../../interfaces';
 
 export interface InlineFormConcept {
   title: string;
@@ -65,6 +66,7 @@ const validate = (values: InlineFormConcept): ErrorsType => {
 const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, cancel }: Props) => {
   const { t } = useTranslation();
   const { data: licenses } = useLicenses({ placeholderData: [] });
+  const licensesWithTranslations = getLicensesWithTranslations(licenses!, language);
   const formik = useFormik<InlineFormConcept>({
     initialValues,
     validate,
@@ -76,7 +78,20 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
   }, [initialValues]); // eslint-disable-line react-hooks/exhaustive-deps
   const hasChanges = !isEqual(initialValues, values);
 
-  const licensesWithTranslations = getLicensesWithTranslations(licenses!, language);
+  const getStatus = (value: string, status: string) => {
+    if (value === 'saveAndPublish') {
+      return PUBLISHED;
+    } else if (status === PUBLISHED) {
+      return QUALITY_ASSURED;
+    } else {
+      return undefined;
+    }
+  };
+
+  const handleClick = (value: string) => {
+    const newStatus = getStatus(value, status);
+    onSubmit({ ...values, newStatus });
+  };
 
   return (
     <form>
@@ -163,29 +178,15 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
         </Button>
         <MultiButton
           disabled={!hasChanges || Object.keys(errors).length > 0}
-          className="form-button"
-          onClick={(value: string) => {
-            const getStatus = (v: string, s: string) => {
-              if (v === 'saveAndPublish') {
-                return 'PUBLISHED';
-              } else if (s === 'PUBLISHED') {
-                return 'QUALITY_ASSURED';
-              } else {
-                return undefined;
-              }
-            };
-            const newStatus = getStatus(value, status);
-            onSubmit({ ...values, newStatus });
-          }}
-          mainButton={{ value: 'save' }}
+          onClick={value => handleClick(value)}
+          mainButton={{ value: 'save', label: t(`form.save`) }}
           secondaryButtons={[
             {
               label: t('form.saveAndPublish'),
               value: 'saveAndPublish',
             },
-          ]}>
-          <span>{t(`form.save`)}</span>
-        </MultiButton>
+          ]}
+        />
       </div>
     </form>
   );

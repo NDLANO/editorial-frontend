@@ -18,9 +18,10 @@ import Accordion, {
   AccordionBar,
 } from '@ndla/accordion';
 import { VersionLogTag, VersionHistory } from '@ndla/editor';
+import { IUpdatedArticle, IArticle, IEditorNote } from '@ndla/types-draft-api';
 
 import FormikField from '../../components/FormikField';
-import * as draftApi from '../../modules/draft/draftApi';
+import { fetchDraftHistory } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import AddNotesField from './AddNotesField';
 import formatDate from '../../util/formatDate';
@@ -28,8 +29,7 @@ import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../modules/auth0/
 import VersionActionbuttons from './VersionActionButtons';
 import * as articleApi from '../../modules/article/articleApi';
 import Spinner from '../../components/Spinner';
-import { FormikStatus, Note } from '../../interfaces';
-import { DraftApiType, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
+import { FormikStatus } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import {
   draftApiTypeToLearningResourceFormType,
@@ -47,14 +47,14 @@ const getUser = (userId: string, allUsers: SimpleUserType[]) => {
 };
 
 interface Props {
-  article: DraftApiType;
-  getArticle: (preview: boolean) => UpdatedDraftApiType;
+  article: IArticle;
+  getArticle: (preview: boolean) => IUpdatedArticle;
   type: 'standard' | 'topic-article';
 }
 
 const VersionAndNotesPanel = ({ article, getArticle, type }: Props) => {
   const { t } = useTranslation();
-  const [versions, setVersions] = useState<DraftApiType[]>([]);
+  const [versions, setVersions] = useState<IArticle[]>([]);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<SimpleUserType[]>([]);
   const { createMessage } = useMessages();
@@ -64,7 +64,7 @@ const VersionAndNotesPanel = ({ article, getArticle, type }: Props) => {
     const getVersions = async () => {
       try {
         setLoading(true);
-        const versions = await draftApi.fetchDraftHistory(article.id, article.title?.language);
+        const versions = await fetchDraftHistory(article.id, article.title?.language);
         setVersions(versions);
         setLoading(false);
       } catch (e) {
@@ -77,13 +77,13 @@ const VersionAndNotesPanel = ({ article, getArticle, type }: Props) => {
 
   useEffect(() => {
     if (versions.length) {
-      const notes = versions.reduce((acc: Note[], v) => [...acc, ...v.notes], []);
+      const notes = versions.reduce((acc: IEditorNote[], v) => [...acc, ...v.notes], []);
       const userIds = notes.map(note => note.user).filter(user => user !== 'System');
       fetchAuth0UsersFromUserIds(userIds, setUsers);
     }
   }, [versions]);
 
-  const cleanupNotes = (notes: Note[]) =>
+  const cleanupNotes = (notes: IEditorNote[]) =>
     notes.map((note, idx) => ({
       ...note,
       id: idx,
@@ -92,13 +92,9 @@ const VersionAndNotesPanel = ({ article, getArticle, type }: Props) => {
       status: t(`form.status.${note.status.current.toLowerCase()}`),
     }));
 
-  const resetVersion = async (
-    version: DraftApiType,
-    language: string,
-    showFromArticleApi: boolean,
-  ) => {
+  const resetVersion = async (version: IArticle, language: string, showFromArticleApi: boolean) => {
     try {
-      let newArticle: DraftApiType = version;
+      let newArticle: IArticle = version;
       if (showFromArticleApi) {
         const articleApiArticle = await articleApi.getArticle(article.id, language);
         newArticle = {

@@ -7,7 +7,7 @@
 
 import isEqual from 'lodash/fp/isEqual';
 import { Descendant } from 'slate';
-import { IArticle as DraftApiType } from '@ndla/types-draft-api';
+import { IArticle, ILicense, IArticleMetaImage } from '@ndla/types-draft-api';
 import { isUserProvidedEmbedDataValid } from './embedTagHelpers';
 import { findNodesByType } from './slateHelpers';
 import {
@@ -16,7 +16,6 @@ import {
 } from './articleContentConverter';
 import { diffHTML } from './diffHTML';
 import { isGrepCodeValid } from './articleUtil';
-import { License, MetaImage } from '../interfaces';
 import { RulesType } from '../components/formikValidationSchema';
 import {
   ArticleFormType,
@@ -26,7 +25,7 @@ import {
 import { isEmbed } from '../components/SlateEditor/plugins/embed/utils';
 import { EmbedElement } from '../components/SlateEditor/plugins/embed';
 
-export const DEFAULT_LICENSE: License = {
+export const DEFAULT_LICENSE: ILicense = {
   description: 'Creative Commons Attribution-ShareAlike 4.0 International',
   license: 'CC-BY-SA-4.0',
   url: 'https://creativecommons.org/licenses/by-sa/4.0/',
@@ -120,7 +119,7 @@ export const isFormikFormDirty = <T extends FormikFields>({
   return dirtyFields.length > 0 || changed;
 };
 
-export const formikCommonArticleRules: RulesType<ArticleFormType, DraftApiType> = {
+export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
   title: {
     required: true,
     maxLength: 256,
@@ -130,9 +129,6 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, DraftApiType> 
   },
   introduction: {
     maxLength: 300,
-    warnings: {
-      languageMatch: true,
-    },
   },
   metaDescription: {
     maxLength: 155,
@@ -183,7 +179,7 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, DraftApiType> 
   },
 };
 
-export const learningResourceRules: RulesType<LearningResourceFormType, DraftApiType> = {
+export const learningResourceRules: RulesType<LearningResourceFormType, IArticle> = {
   ...formikCommonArticleRules,
   metaImageAlt: {
     required: true,
@@ -212,7 +208,7 @@ export const learningResourceRules: RulesType<LearningResourceFormType, DraftApi
   },
 };
 
-export const topicArticleRules: RulesType<TopicArticleFormType, DraftApiType> = {
+export const topicArticleRules: RulesType<TopicArticleFormType, IArticle> = {
   ...formikCommonArticleRules,
   visualElementAlt: {
     required: false,
@@ -243,7 +239,7 @@ export const topicArticleRules: RulesType<TopicArticleFormType, DraftApiType> = 
   },
 };
 
-export const parseImageUrl = (metaImage?: MetaImage) => {
+export const parseImageUrl = (metaImage?: IArticleMetaImage) => {
   if (!metaImage || !metaImage.url || metaImage.url.length === 0) {
     return '';
   }

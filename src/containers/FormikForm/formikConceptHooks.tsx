@@ -7,24 +7,20 @@
  */
 
 import { useState, useEffect } from 'react';
-import {
-  ConceptApiType,
-  ConceptStatusType,
-  ConceptPostType,
-  ConceptPatchType,
-} from '../../modules/concept/conceptApiInterfaces';
+import { IConcept, INewConcept, IUpdatedConcept } from '@ndla/types-concept-api';
+import { IArticle } from '@ndla/types-draft-api';
 import * as conceptApi from '../../modules/concept/conceptApi';
 import * as taxonomyApi from '../../modules/taxonomy';
 import { fetchSearchTags } from '../../modules/concept/conceptApi';
 import { fetchDraft } from '../../modules/draft/draftApi';
 import handleError from '../../util/handleError';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
+import { ConceptStatusType } from '../../interfaces';
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
-  const [concept, setConcept] = useState<ConceptApiType>();
-  const [conceptArticles, setConceptArticles] = useState<DraftApiType[]>([]);
+  const [concept, setConcept] = useState<IConcept>();
+  const [conceptArticles, setConceptArticles] = useState<IArticle[]>([]);
   const [conceptChanged, setConceptChanged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
@@ -60,13 +56,13 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     fetchSubjects();
   }, [locale]);
 
-  const fetchElementList = async (articleIds?: number[]): Promise<DraftApiType[]> => {
+  const fetchElementList = async (articleIds?: number[]): Promise<IArticle[]> => {
     const promises = articleIds?.map(id => fetchDraft(id)) ?? [];
     return await Promise.all(promises);
   };
 
-  const updateConcept = async (updatedConcept: ConceptPatchType): Promise<ConceptApiType> => {
-    const savedConcept = await conceptApi.updateConcept(updatedConcept);
+  const updateConcept = async (id: number, updatedConcept: IUpdatedConcept): Promise<IConcept> => {
+    const savedConcept = await conceptApi.updateConcept(id, updatedConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     setConcept(savedConcept);
     setConceptArticles(convertedArticles);
@@ -74,7 +70,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     return savedConcept;
   };
 
-  const createConcept = async (createdConcept: ConceptPostType) => {
+  const createConcept = async (createdConcept: INewConcept) => {
     const savedConcept = await conceptApi.addConcept(createdConcept);
     const convertedArticles = await fetchElementList(savedConcept.articleIds);
     setConcept(savedConcept);
@@ -84,15 +80,16 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   };
 
   const updateConceptAndStatus = async (
-    conceptPatch: ConceptPatchType,
+    id: number,
+    conceptPatch: IUpdatedConcept,
     newStatus: ConceptStatusType,
     dirty: boolean,
-  ): Promise<ConceptApiType> => {
+  ): Promise<IConcept> => {
     const newConcept = dirty
-      ? await conceptApi.updateConcept(conceptPatch)
-      : await conceptApi.fetchConcept(conceptPatch.id, conceptPatch.language);
+      ? await conceptApi.updateConcept(id, conceptPatch)
+      : await conceptApi.fetchConcept(id, conceptPatch.language);
     const convertedArticles = await fetchElementList(newConcept.articleIds);
-    const conceptChangedStatus = await conceptApi.updateConceptStatus(conceptPatch.id, newStatus);
+    const conceptChangedStatus = await conceptApi.updateConceptStatus(id, newStatus);
     const updatedConcept = {
       ...newConcept,
       status: conceptChangedStatus.status,
@@ -108,7 +105,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
     createConcept,
     fetchSearchTags,
     loading,
-    setConcept: (concept: ConceptApiType) => {
+    setConcept: (concept: IConcept) => {
       setConcept(concept);
       setConceptChanged(true);
     },

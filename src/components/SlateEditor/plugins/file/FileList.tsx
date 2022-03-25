@@ -14,7 +14,6 @@ import { DebouncedFunc } from 'lodash';
 import styled from '@emotion/styled';
 import { withTranslation, TFunction } from 'react-i18next';
 import { FieldHeader, FieldHeaderIconStyle } from '@ndla/forms';
-// @ts-ignore
 import { FileListEditor } from '@ndla/editor';
 import { Cross, Plus } from '@ndla/icons/action';
 import Tooltip from '@ndla/tooltip';

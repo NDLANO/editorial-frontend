@@ -10,14 +10,7 @@ import { FieldProps } from 'formik';
 import FormikField from '../../../components/FormikField';
 import PlainTextEditor from '../../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../../components/SlateEditor/plugins/textTransform';
-
-import { FormikProperties, ImageEmbed } from '../../../interfaces';
 import SubjectpageBanner from './SubjectpageBanner';
-
-interface FormikProps {
-  field: FieldProps<ImageEmbed | undefined>['field'];
-  form: FormikProperties['form'];
-}
 
 const SubjectpageMetadata = () => {
   const { t } = useTranslation();
@@ -41,8 +34,8 @@ const SubjectpageMetadata = () => {
         )}
       </FormikField>
       <FormikField name="desktopBanner">
-        {({ field, form }: FormikProps) => (
-          <SubjectpageBanner field={field} form={form} title={t('form.name.desktopBanner')} />
+        {() => (
+          <SubjectpageBanner title={t('form.name.desktopBanner')} fieldName={'desktopBanner'} />
         )}
       </FormikField>
     </>

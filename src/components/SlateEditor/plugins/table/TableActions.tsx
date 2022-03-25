@@ -6,6 +6,7 @@
  *
  */
 
+import { MouseEvent } from 'react';
 import styled from '@emotion/styled';
 import { Editor, Path, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
@@ -69,7 +70,7 @@ const TableActions = ({ editor, element }: Props) => {
     return null;
   }
 
-  const handleOnClick = (e: Event, operation: string) => {
+  const handleOnClick = (e: MouseEvent<HTMLButtonElement>, operation: string) => {
     e.preventDefault();
     const selectedPath = editor.selection?.anchor.path;
 
@@ -121,7 +122,7 @@ const TableActions = ({ editor, element }: Props) => {
               key={operation}
               data-cy={operation}
               stripped
-              onMouseDown={(e: Event) => handleOnClick(e, operation)}
+              onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, operation)}
               css={tableActionButtonStyle}>
               <span>{t(`form.content.table.${operation}`)}</span>
             </Button>
@@ -130,7 +131,7 @@ const TableActions = ({ editor, element }: Props) => {
           key={'table-remove'}
           data-cy={'table-remove'}
           stripped
-          onMouseDown={(e: Event) => handleOnClick(e, 'table-remove')}
+          onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'table-remove')}
           css={tableActionButtonStyle}>
           <span>{t(`form.content.table.${'table-remove'}`)}</span>
         </Button>
@@ -140,7 +141,9 @@ const TableActions = ({ editor, element }: Props) => {
               key={'toggle-row-headers'}
               data-cy={'toggle-row-headers'}
               stripped
-              onMouseDown={(e: Event) => handleOnClick(e, 'toggle-row-headers')}
+              onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
+                handleOnClick(e, 'toggle-row-headers')
+              }
               css={tableActionButtonStyle}>
               <span>
                 {t(
@@ -155,7 +158,7 @@ const TableActions = ({ editor, element }: Props) => {
                 key={'head-add'}
                 data-cy={'head-add'}
                 stripped
-                onMouseDown={(e: Event) => handleOnClick(e, 'head-add')}
+                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}
                 css={tableActionButtonStyle}>
                 <span>{t(`form.content.table.addHead`)}</span>
               </Button>

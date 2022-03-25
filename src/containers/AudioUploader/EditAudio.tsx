@@ -7,13 +7,12 @@
 
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
+import { IAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-audio-api';
 import AudioForm from './components/AudioForm';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import Spinner from '../../components/Spinner';
 import { useTranslateApi } from '../FormikForm/translateFormHooks';
-import { AudioMetaInformationPut } from '../../modules/audio/audioApiInterfaces';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import { fetchAudio, updateAudio } from '../../modules/audio/audioApi';
 
@@ -22,55 +21,54 @@ interface Props {
 }
 
 const EditAudio = ({ isNewlyCreated }: Props) => {
-  const { id: audioId, selectedLanguage: audioLanguage } = useParams<'id' | 'selectedLanguage'>();
-  const [audio, setAudio] = useState<AudioApiType | undefined>(undefined);
+  const params = useParams<'id' | 'selectedLanguage'>();
+  const [audio, setAudio] = useState<IAudioMetaInformation | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const { translating, translateToNN } = useTranslateApi(
     audio,
-    (audio: AudioApiType) => setAudio(audio),
+    (audio: IAudioMetaInformation) => setAudio(audio),
     ['id', 'manuscript.manuscript', 'title.title'],
   );
+  const audioId = Number(params.id) || undefined;
+  const audioLanguage = params.selectedLanguage!;
 
   useEffect(() => {
     (async () => {
       if (audioId) {
         setLoading(true);
-        const apiAudio = await fetchAudio(Number(audioId), audioLanguage!);
+        const apiAudio = await fetchAudio(audioId, audioLanguage);
         setAudio(apiAudio);
         setLoading(false);
       }
     })();
   }, [audioId, audioLanguage]);
 
-  const onUpdate = async (
-    newAudio: AudioMetaInformationPut,
-    file: string | Blob | undefined,
-  ): Promise<void> => {
-    const formData = await createFormData(file, newAudio);
-    const updatedAudio = await updateAudio(Number(audioId), formData);
-    setAudio(updatedAudio);
-  };
-
   if (loading) {
     return <Spinner withWrapper />;
   }
 
-  if (audioId && !audio?.id) {
+  if (!audioId || !audio) {
     return <NotFoundPage />;
   }
 
-  if (audio?.audioType === 'podcast') {
-    return <Navigate replace to={toEditPodcast(Number(audioId), audioLanguage!)} />;
-  }
+  const onUpdate = async (
+    newAudio: IUpdatedAudioMetaInformation,
+    file: string | Blob | undefined,
+  ): Promise<void> => {
+    const formData = await createFormData(file, newAudio);
+    const updatedAudio = await updateAudio(audioId, formData);
+    setAudio(updatedAudio);
+  };
 
-  const language = audioLanguage!;
+  if (audio?.audioType === 'podcast') {
+    return <Navigate replace to={toEditPodcast(audioId, audioLanguage)} />;
+  }
 
   return (
     <AudioForm
       audio={audio}
-      revision={audio && audio.revision}
-      onSubmitFunc={onUpdate}
-      audioLanguage={language}
+      onUpdateAudio={onUpdate}
+      audioLanguage={audioLanguage}
       isNewlyCreated={isNewlyCreated}
       translating={translating}
       translateToNN={translateToNN}

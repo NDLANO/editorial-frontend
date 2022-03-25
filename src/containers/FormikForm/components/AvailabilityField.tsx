@@ -9,15 +9,14 @@
 import { RadioButtonGroup } from '@ndla/ui';
 import { FieldInputProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { AvailabilityType } from '../../../interfaces';
 
 interface Props {
-  field: FieldInputProps<AvailabilityType>;
+  field: FieldInputProps<string>;
 }
 
 const AvailabilityField = ({ field }: Props) => {
   const { t } = useTranslation();
-  const availabilityValues: AvailabilityType[] = ['everyone', 'teacher'];
+  const availabilityValues: string[] = ['everyone', 'teacher'];
 
   return (
     <RadioButtonGroup

@@ -7,7 +7,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient, UseQueryOptions } from 'react-query';
-import { License } from '../../interfaces';
+import { ILicense, IArticle, IUserData, IUpdatedUserData } from '@ndla/types-draft-api';
 import { DRAFT, DRAFT_STATUS_STATE_MACHINE, LICENSES, USER_DATA } from '../../queryKeys';
 import {
   fetchDraft,
@@ -16,25 +16,20 @@ import {
   fetchUserData,
   updateUserData,
 } from './draftApi';
-import {
-  DraftApiType,
-  DraftStatusStateMachineType,
-  UpdatedUserDataApiType,
-  UserDataApiType,
-} from './draftApiInterfaces';
+import { DraftStatusStateMachineType } from '../../interfaces';
 
 export const useDraft = (
   id: number | string,
   language?: string,
-  options?: UseQueryOptions<DraftApiType>,
+  options?: UseQueryOptions<IArticle>,
 ) => {
-  return useQuery<DraftApiType>([DRAFT, id, language], () => fetchDraft(id, language), options);
+  return useQuery<IArticle>([DRAFT, id, language], () => fetchDraft(id, language), options);
 };
 
-export const useLicenses = <ReturnType = License[]>(
-  options?: UseQueryOptions<License[], unknown, ReturnType>,
+export const useLicenses = <ReturnType = ILicense[]>(
+  options?: UseQueryOptions<ILicense[], unknown, ReturnType>,
 ) =>
-  useQuery<License[], unknown, ReturnType>(LICENSES, fetchLicenses, {
+  useQuery<ILicense[], unknown, ReturnType>(LICENSES, fetchLicenses, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -43,20 +38,20 @@ export const useLicenses = <ReturnType = License[]>(
     ...options,
   });
 
-export const useUserData = (options?: UseQueryOptions<UserDataApiType>) =>
-  useQuery<UserDataApiType>(USER_DATA, fetchUserData, options);
+export const useUserData = (options?: UseQueryOptions<IUserData>) =>
+  useQuery<IUserData>(USER_DATA, fetchUserData, options);
 
 export const useUpdateUserDataMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<UserDataApiType, unknown, UpdatedUserDataApiType, UserDataApiType>(
+  return useMutation<IUserData, unknown, IUpdatedUserData, IUserData>(
     data => {
       return updateUserData(data);
     },
     {
       onMutate: async newUserData => {
         await queryClient.cancelQueries(USER_DATA);
-        const previousUserData = queryClient.getQueryData<UserDataApiType>(USER_DATA);
-        queryClient.setQueryData<UserDataApiType>(USER_DATA, {
+        const previousUserData = queryClient.getQueryData<IUserData>(USER_DATA);
+        queryClient.setQueryData<IUserData>(USER_DATA, {
           ...previousUserData,
           userId: previousUserData?.userId!,
           ...newUserData,

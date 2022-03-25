@@ -8,7 +8,11 @@
 import { useState, ReactNode, useRef, useCallback, useMemo } from 'react';
 import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { IAudioMetaInformation as AudioApiType } from '@ndla/types-audio-api';
+import {
+  IAudioMetaInformation,
+  IUpdatedAudioMetaInformation,
+  INewAudioMetaInformation,
+} from '@ndla/types-audio-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
@@ -16,24 +20,20 @@ import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
+import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import Spinner from '../../../components/Spinner';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toCreatePodcastFile, toEditPodcast } from '../../../util/routeHelpers';
-import {
-  PodcastMetaInformationPost,
-  PodcastFormValues,
-  PodcastMetaInformationPut,
-} from '../../../modules/audio/audioApiInterfaces';
+import { PodcastFormValues } from '../../../modules/audio/audioApiInterfaces';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 import PodcastSeriesInformation from './PodcastSeriesInformation';
 import handleError from '../../../util/handleError';
 import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 
-const podcastRules: RulesType<PodcastFormValues, AudioApiType> = {
+const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   title: {
     required: true,
     warnings: {
@@ -42,6 +42,9 @@ const podcastRules: RulesType<PodcastFormValues, AudioApiType> = {
   },
   manuscript: {
     required: false,
+    warnings: {
+      languageMatch: true,
+    },
   },
   audioFile: {
     required: true,
@@ -49,6 +52,10 @@ const podcastRules: RulesType<PodcastFormValues, AudioApiType> = {
   introduction: {
     required: true,
     maxLength: 1000,
+    warnings: {
+      languageMatch: true,
+      apiField: 'podcastMeta',
+    },
   },
   coverPhotoId: {
     required: true,
@@ -57,9 +64,15 @@ const podcastRules: RulesType<PodcastFormValues, AudioApiType> = {
     // coverPhotoAltText
     required: true,
     onlyValidateIf: (values: PodcastFormValues) => !!values.coverPhotoId,
+    warnings: {
+      languageMatch: true,
+    },
   },
   tags: {
     minItems: 3,
+    warnings: {
+      languageMatch: true,
+    },
   },
   license: {
     required: true,
@@ -87,17 +100,14 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-type OnCreateFunc = (newPodcast: PodcastMetaInformationPost, file?: string | Blob) => void;
-type OnUpdateFunc = (newPodcast: PodcastMetaInformationPut, file?: string | Blob) => void;
-
 interface Props {
-  audio?: AudioApiType;
+  audio?: IAudioMetaInformation;
   podcastChanged?: boolean;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   language: string;
-  onUpdate: OnCreateFunc | OnUpdateFunc;
-  revision?: number;
+  onCreatePodcast?: (newPodcast: INewAudioMetaInformation, file?: string | Blob) => void;
+  onUpdatePodcast?: (updatedPodcast: IUpdatedAudioMetaInformation, file?: string | Blob) => void;
   translating?: boolean;
   translateToNN?: () => void;
 }
@@ -108,7 +118,8 @@ const PodcastForm = ({
   inModal,
   isNewlyCreated,
   language,
-  onUpdate,
+  onCreatePodcast,
+  onUpdatePodcast,
   translating,
   translateToNN,
 }: Props) => {
@@ -143,9 +154,7 @@ const PodcastForm = ({
     }
 
     actions.setSubmitting(true);
-    const podcastMetaData = {
-      id: values.id,
-      revision: values.revision,
+    const podcastMetaData: INewAudioMetaInformation = {
       title: values.title ? editorValueToPlainText(values.title) : '',
       manuscript: values.manuscript ? editorValueToPlainText(values.manuscript) : '',
       tags: values.tags,
@@ -166,7 +175,12 @@ const PodcastForm = ({
       seriesId: values.series?.id,
     };
     try {
-      await onUpdate(podcastMetaData, values.audioFile.newFile?.file);
+      audio?.revision
+        ? await onUpdatePodcast?.(
+            { ...podcastMetaData, revision: audio.revision },
+            values.audioFile.newFile?.file,
+          )
+        : await onCreatePodcast?.(podcastMetaData, values.audioFile.newFile?.file);
     } catch (e) {
       handleError(e);
     }
@@ -196,6 +210,7 @@ const PodcastForm = ({
   );
 
   const initialValues = audioApiTypeToPodcastFormType(audio, language);
+  const initialWarnings = getWarnings(initialValues, podcastRules, t, audio);
   const initialErrors = useMemo(() => validateFunction(initialValues), [
     initialValues,
     validateFunction,
@@ -208,7 +223,8 @@ const PodcastForm = ({
       validateOnMount
       initialErrors={initialErrors}
       enableReinitialize
-      validate={validateFunction}>
+      validate={validateFunction}
+      initialStatus={{ warnings: initialWarnings }}>
       {formikProps => {
         const { values, dirty, isSubmitting, errors, submitForm, validateForm } = formikProps;
         const formIsDirty = isFormikFormDirty({

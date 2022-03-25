@@ -78,6 +78,7 @@ const LearningResourceForm = ({
     updateArticleAndStatus,
     getArticleFromSlate: learningResourceFormTypeToDraftApiType,
     articleLanguage,
+    rules: learningResourceRules,
   });
 
   const initialHTML = useMemo(() => learningResourceContentToHTML(initialValues.content), [

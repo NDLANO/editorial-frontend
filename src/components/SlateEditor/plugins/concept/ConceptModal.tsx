@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -11,6 +11,14 @@ import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import Modal from '@ndla/modal/lib/Modal';
 import { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
+import {
+  IConcept,
+  IConceptSearchResult,
+  INewConcept,
+  IUpdatedConcept,
+  ITagsSearchResult,
+} from '@ndla/types-concept-api';
+import { IArticle } from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import Tabs from '@ndla/tabs';
@@ -23,36 +31,31 @@ import { Portal } from '../../../Portal';
 import SearchConceptResults from './SearchConceptResults';
 import ConceptForm from '../../../../containers/ConceptPage/ConceptForm/ConceptForm';
 import { ConceptShape, SubjectShape } from '../../../../shapes';
-import {
-  ConceptApiType,
-  ConceptPatchType,
-  ConceptPostType,
-  ConceptQuery,
-  ConceptSearchResult,
-  ConceptTagsSearchResult,
-} from '../../../../modules/concept/conceptApiInterfaces';
+import { ConceptQuery } from '../../../../modules/concept/conceptApiInterfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { createGuard } from '../../../../util/guards';
-import { DraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 
 const type = 'concept';
 
 interface Props {
-  addConcept: (concept: ConceptApiType) => void;
-  concept?: ConceptApiType;
-  createConcept: (createdConcept: ConceptPostType) => Promise<ConceptApiType>;
-  fetchSearchTags: (input: string, language: string) => Promise<ConceptTagsSearchResult>;
+  addConcept: (concept: IConcept) => void;
+  concept?: IConcept;
+  createConcept: (createdConcept: INewConcept) => Promise<IConcept>;
+  fetchSearchTags: (input: string, language: string) => Promise<ITagsSearchResult>;
   handleRemove: () => void;
   isOpen: boolean;
   onClose: () => void;
   locale: string;
   selectedText: string;
   subjects: SubjectType[];
-  updateConcept: (updatedConcept: ConceptPatchType) => Promise<ConceptApiType>;
-  conceptArticles: DraftApiType[];
+  updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
+  updateConceptAndStatus: (
+    id: number,
+    conceptPath: IUpdatedConcept,
+    newStatus: string,
+    dirty: boolean,
+  ) => Promise<IConcept>;
+  conceptArticles: IArticle[];
 }
-
-const isConceptPatchType = createGuard<ConceptPatchType>('id');
 
 const ConceptModal = ({
   onClose,
@@ -67,6 +70,7 @@ const ConceptModal = ({
   concept,
   fetchSearchTags,
   conceptArticles,
+  updateConceptAndStatus,
 }: Props) => {
   const { t } = useTranslation();
   const [searchObject, updateSearchObject] = useState<ConceptQuery>({
@@ -76,7 +80,7 @@ const ConceptModal = ({
     language: locale,
     query: `${selectedText}`,
   });
-  const [results, setConcepts] = useState<ConceptSearchResult>({
+  const [results, setConcepts] = useState<IConceptSearchResult>({
     language: locale,
     page: 1,
     pageSize: 10,
@@ -101,13 +105,12 @@ const ConceptModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onConceptUpsert = async (upsertedConcept: ConceptPostType | ConceptPatchType) => {
-    const savedConcept = isConceptPatchType(upsertedConcept)
-      ? await updateConcept(upsertedConcept)
-      : await createConcept(upsertedConcept);
-    addConcept(savedConcept);
-    return savedConcept;
-  };
+  const upsertProps = concept
+    ? {
+        onUpdate: (updatedConcept: IUpdatedConcept) => updateConcept(concept.id, updatedConcept),
+        updateConceptAndStatus,
+      }
+    : { onCreate: createConcept };
 
   useEffect(() => {
     searchConcept(searchObject);
@@ -183,7 +186,7 @@ const ConceptModal = ({
                         inModal
                         onClose={onClose}
                         subjects={subjects}
-                        onUpdate={onConceptUpsert}
+                        upsertProps={upsertProps}
                         language={locale}
                         fetchConceptTags={fetchSearchTags}
                         concept={concept}

@@ -9,11 +9,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UseQueryResult } from 'react-query';
-import { ISearchResult as ImageSearchResult } from '@ndla/types-image-api';
-import {
-  IAudioSummarySearchResult as AudioSearchResult,
-  ISeriesSummarySearchResult as SeriesSearchResult,
-} from '@ndla/types-audio-api';
+import { ISearchResult } from '@ndla/types-image-api';
+import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from '@ndla/types-audio-api';
+import { IConceptSearchResult } from '@ndla/types-concept-api';
+import { IMultiSearchResult } from '@ndla/types-search-api';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
@@ -26,8 +25,6 @@ import SearchForm, { parseSearchParams, SearchParams } from './components/form/S
 import SearchSort from './components/sort/SearchSort';
 import { toSearch } from '../../util/routeHelpers';
 import { SearchType } from '../../interfaces';
-import { ConceptSearchResult } from '../../modules/concept/conceptApiInterfaces';
-import { MultiSearchResult } from '../../modules/search/searchApiInterfaces';
 import SearchSaveButton from './SearchSaveButton';
 import { useSubjects } from '../../modules/taxonomy/subjects';
 
@@ -37,11 +34,11 @@ export const searchClasses = new BEMHelper({
 });
 
 export type ResultType =
-  | ImageSearchResult
-  | ConceptSearchResult
-  | SeriesSearchResult
-  | AudioSearchResult
-  | MultiSearchResult;
+  | ISearchResult
+  | IConceptSearchResult
+  | ISeriesSummarySearchResult
+  | IAudioSummarySearchResult
+  | IMultiSearchResult;
 
 interface Props {
   type: SearchType;

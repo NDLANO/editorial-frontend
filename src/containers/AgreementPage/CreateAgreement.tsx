@@ -5,14 +5,13 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import {
-  NewAgreementApiType,
-  UpdatedAgreementApiType,
-} from '../../modules/draft/draftApiInterfaces';
+import { IUpdatedAgreement, INewAgreement } from '@ndla/types-draft-api';
 import AgreementForm from './components/AgreementForm';
+
 interface Props {
-  upsertAgreement: (agreement: UpdatedAgreementApiType | NewAgreementApiType) => Promise<void>;
+  upsertAgreement: (agreement: IUpdatedAgreement | INewAgreement, id?: number) => Promise<void>;
 }
+
 const CreateAgreement = ({ upsertAgreement }: Props) => (
   <AgreementForm onUpsert={upsertAgreement} />
 );

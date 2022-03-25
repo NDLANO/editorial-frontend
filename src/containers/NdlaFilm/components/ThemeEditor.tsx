@@ -16,15 +16,13 @@ import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';
 import { ChevronUp, ChevronDown } from '@ndla/icons/common';
 import { DeleteForever } from '@ndla/icons/editor';
-import { FieldProps, FormikHelpers, FormikValues } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import ThemeNameModal from './ThemeNameModal';
 import { findName, convertThemeNames, changeThemeNames } from '../../../util/ndlaFilmHelpers';
 import { ThemeMovies } from './ThemeMovies';
 import { LocaleType } from '../../../interfaces';
 
 interface Props {
-  field: FieldProps<IMovieTheme[]>['field'];
-  form: FormikHelpers<FormikValues>;
   onUpdateMovieTheme: Function;
   selectedLanguage: string;
 }
@@ -34,10 +32,12 @@ export interface ThemeNames {
   warnings: Record<LocaleType, boolean>;
 }
 
-const ThemeEditor = ({ field, form, onUpdateMovieTheme, selectedLanguage }: Props) => {
+const ThemeEditor = ({ onUpdateMovieTheme, selectedLanguage }: Props) => {
   const { t } = useTranslation();
-
+  const form = useFormikContext();
+  const [field] = useField<IMovieTheme[]>('themes');
   const themes = field.value;
+
   const onAddMovieToTheme = (movies: string[], index: number) => {
     const newThemes = themes.map((theme, i) => (i === index ? { ...theme, movies } : theme));
     onUpdateMovieTheme(field, form, newThemes);

@@ -14,6 +14,9 @@ import {
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
+import { IArticle } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { AlertModalWrapper, formClasses } from '../../FormikForm';
@@ -23,9 +26,6 @@ import { toEditSubjectpage } from '../../../util/routeHelpers';
 import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import SubjectpageAccordionPanels from './SubjectpageAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
-import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { Learningpath } from '../../../modules/learningpath/learningpathApiInterfaces';
-import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
 import {
   subjectpageApiTypeToFormikType,
   SubjectPageFormikType,
@@ -40,8 +40,8 @@ import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types'
 
 interface Props {
   subjectpage?: ISubjectPageData;
-  editorsChoices?: (DraftApiType | Learningpath)[];
-  banner?: ImageApiType;
+  editorsChoices?: (IArticle | ILearningPathV2)[];
+  banner?: IImageMetaInformationV2;
   elementName?: string;
   createSubjectpage?: (subjectpage: INewSubjectFrontPageData) => Promise<ISubjectPageData>;
   updateSubjectpage?: (
@@ -106,15 +106,15 @@ const SubjectpageForm = ({
   const [unsaved, setUnsaved] = useState(false);
   usePreventWindowUnload(unsaved);
 
-  const fetchTaxonomyUrns = async (choices: (DraftApiType | Learningpath)[], language: string) => {
-    const fetched = await Promise.all<Topic[] | Learningpath[] | Resource[]>(
+  const fetchTaxonomyUrns = async (choices: (IArticle | ILearningPathV2)[], language: string) => {
+    const fetched = await Promise.all<Topic[] | ILearningPathV2[] | Resource[]>(
       choices.map(choice => {
         if ('articleType' in choice && choice.articleType === 'topic-article') {
-          return queryTopics(choice.id.toString(), language);
+          return queryTopics(choice.id, language);
         } else if ('learningsteps' in choice && typeof choice.id === 'number') {
           return queryLearningPathResource(choice.id);
         }
-        return queryResources(choice.id.toString(), language);
+        return queryResources(choice.id, language);
       }),
     );
 

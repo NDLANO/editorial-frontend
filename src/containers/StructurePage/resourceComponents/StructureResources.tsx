@@ -6,14 +6,11 @@
  *
  */
 
-import { memo, useRef } from 'react';
+import { memo, useRef, useLayoutEffect, useEffect, RefObject, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
-import { useLayoutEffect } from 'react';
-import { useEffect } from 'react';
-import { RefObject } from 'react';
-import { useState } from 'react';
+import { IStatus } from '@ndla/types-draft-api';
 import ResourceGroup from './ResourceGroup';
 import AllResourcesGroup from './AllResourcesGroup';
 import { groupSortResourceTypesFromTopicResources } from '../../../util/taxonomyHelpers';
@@ -30,7 +27,6 @@ import {
   SubjectTopic,
   TaxonomyMetadata,
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftStatus, DraftStatusTypes } from '../../../modules/draft/draftApiInterfaces';
 import { LocaleType } from '../../../interfaces';
 
 const StyledDiv = styled('div')`
@@ -41,7 +37,7 @@ const StyledDiv = styled('div')`
 
 export interface TopicResource extends ResourceWithTopicConnection {
   articleType?: string;
-  status?: DraftStatus;
+  status?: IStatus;
 }
 
 interface Props {
@@ -73,7 +69,7 @@ const StructureResources = ({
   const [resourceTypes, setResourceTypes] = useState<(ResourceType & { disabled?: boolean })[]>([]);
   const [topicResources, setTopicResources] = useState<TopicResource[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [topicStatus, setTopicStatus] = useState<DraftStatus | undefined>(undefined);
+  const [topicStatus, setTopicStatus] = useState<IStatus | undefined>(undefined);
   const [topicArticleType, setTopicArticleType] = useState<string | undefined>(undefined);
   const [topicGrepCodes, setTopicGrepCodes] = useState<string[]>([]);
   const prevCurrentTopic = useRef<SubjectTopic | null>(null);
@@ -181,7 +177,7 @@ const StructureResources = ({
       } else if (resourceType === 'learningpath') {
         const learningpath = await fetchLearningpath(parseInt(id), locale);
         if (learningpath.status) {
-          const status = { current: learningpath.status as DraftStatusTypes, other: [] };
+          const status = { current: learningpath.status, other: [] };
           return { ...resource, status };
         }
       }

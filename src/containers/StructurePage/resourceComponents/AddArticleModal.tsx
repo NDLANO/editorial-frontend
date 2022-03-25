@@ -1,15 +1,20 @@
+/**
+ * Copyright (c) 2021-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { ISearchResultV2, IArticleSummaryV2 } from '@ndla/types-article-api';
 import { updateTopic } from '../../../modules/taxonomy';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { searchRelatedArticles } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
 import { SubjectTopic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../interfaces';
-import {
-  ArticleSearchResult,
-  ArticleSearchSummaryApiType,
-} from '../../../modules/article/articleApiInterfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 
 const StyledContent = styled.div`
@@ -33,7 +38,7 @@ interface Props {
 
 const AddArticleModal = ({ locale, toggleAddModal, refreshTopics, currentTopic }: Props) => {
   const { t } = useTranslation();
-  const onArticleSearch = async (input: string): Promise<ArticleSearchResult> => {
+  const onArticleSearch = async (input: string): Promise<ISearchResultV2> => {
     try {
       const results = await searchRelatedArticles(input, locale as LocaleType, 'topic-article');
       return results;
@@ -49,7 +54,7 @@ const AddArticleModal = ({ locale, toggleAddModal, refreshTopics, currentTopic }
     };
   };
 
-  const onSelect = async (article: ArticleSearchSummaryApiType) => {
+  const onSelect = async (article: IArticleSummaryV2) => {
     try {
       await updateTopic({
         id: currentTopic.id,

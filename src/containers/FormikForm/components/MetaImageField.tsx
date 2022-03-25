@@ -10,11 +10,11 @@ import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import Button from '@ndla/button';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import { formClasses } from '..';
 import MetaInformation from '../../../components/MetaInformation';
 import FormikField from '../../../components/FormikField';
-import { ImageApiType } from '../../../modules/image/imageApiInterfaces';
 
 const metaImageButtonStyle = css`
   display: block;
@@ -40,7 +40,7 @@ const metaImageDeleteButtonStyle = css`
 `;
 
 interface Props {
-  image: ImageApiType;
+  image: IImageMetaInformationV2;
   onImageSelectOpen: () => void;
   onImageRemove: () => void;
   showRemoveButton: boolean;

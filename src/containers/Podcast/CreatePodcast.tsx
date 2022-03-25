@@ -7,8 +7,8 @@
 
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import * as audioApi from '../../modules/audio/audioApi';
-import { PodcastMetaInformationPost } from '../../modules/audio/audioApiInterfaces';
+import { INewAudioMetaInformation } from '@ndla/types-audio-api';
+import { postAudio } from '../../modules/audio/audioApi';
 import { createFormData } from '../../util/formDataHelper';
 import { toEditPodcast } from '../../util/routeHelpers';
 import PodcastForm from './components/PodcastForm';
@@ -19,17 +19,15 @@ const CreatePodcast = () => {
   const navigate = useNavigate();
 
   const onCreatePodcast = async (
-    newPodcast: PodcastMetaInformationPost,
+    newPodcast: INewAudioMetaInformation,
     podcastFile: string | Blob | undefined,
   ) => {
     const formData = await createFormData(podcastFile, newPodcast);
-    const createdPodcast = await audioApi.postAudio(formData);
-    if (!newPodcast.id) {
-      navigate(toEditPodcast(createdPodcast.id, newPodcast.language));
-    }
+    const createdPodcast = await postAudio(formData);
+    navigate(toEditPodcast(createdPodcast.id, newPodcast.language));
   };
 
-  return <PodcastForm onUpdate={onCreatePodcast} isNewlyCreated={false} language={locale} />;
+  return <PodcastForm onCreatePodcast={onCreatePodcast} isNewlyCreated={false} language={locale} />;
 };
 
 export default CreatePodcast;

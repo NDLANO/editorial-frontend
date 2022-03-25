@@ -8,10 +8,7 @@
 
 import { Component } from 'react';
 import { Remarkable } from 'remarkable';
-
-//@ts-ignore
-import { ContentTypeBadge } from '@ndla/ui';
-import { Article } from '@ndla/ui';
+import { ContentTypeBadge, Article } from '@ndla/ui';
 import { LocaleType } from '../../interfaces';
 import '../DisplayEmbed/helpers/h5pResizer';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';

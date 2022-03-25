@@ -8,7 +8,7 @@
 
 import { useMutation, useQueryClient } from 'react-query';
 import { IFilmFrontPageData, INewOrUpdatedFilmFrontPageData } from '@ndla/types-frontpage-api';
-import { updateFilmFrontpage } from '../../modules/frontpage/frontpageApi';
+import { updateFilmFrontpage } from './frontpageApi';
 import { FILM_FRONTPAGE_QUERY } from '../../queryKeys';
 
 export const useUpdateFilmFrontpageMutation = () => {

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import FormikField from '../../components/FormikField';
 import PlainTextEditor from '../../components/SlateEditor/PlainTextEditor';
 import { textTransformPlugin } from '../../components/SlateEditor/plugins/textTransform';
@@ -17,12 +17,11 @@ import AvailabilityField from './components/AvailabilityField';
 import { DRAFT_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
 import { fetchSearchTags } from '../../modules/draft/draftApi';
-import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 
 interface Props {
   articleLanguage: string;
   showCheckbox?: boolean;
-  checkboxAction?: (image: ImageApiType) => void;
+  checkboxAction?: (image: IImageMetaInformationV2) => void;
 }
 
 const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props) => {

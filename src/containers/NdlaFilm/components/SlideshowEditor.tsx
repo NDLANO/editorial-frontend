@@ -7,17 +7,18 @@
 
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { FieldProps, FormikHelpers, FormikValues } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import { ThemeMovies } from './ThemeMovies';
 
 interface Props {
   onUpdateSlideshow: Function;
-  field: FieldProps<string[]>['field'];
-  form: FormikHelpers<FormikValues>;
+  fieldName: string;
 }
 
-const SlideshowEditor = ({ onUpdateSlideshow, field, form }: Props) => {
+const SlideshowEditor = ({ onUpdateSlideshow, fieldName }: Props) => {
   const { t } = useTranslation();
+  const form = useFormikContext();
+  const [field] = useField<string[]>(fieldName);
   const slideshowMovies = field.value;
 
   return (

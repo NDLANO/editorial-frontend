@@ -9,7 +9,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
-//@ts-ignore
 import { Hero, OneColumn } from '@ndla/ui';
 import { css } from '@emotion/core';
 import { useParams } from 'react-router-dom';
@@ -24,15 +23,16 @@ import { Resource } from '../../modules/taxonomy/taxonomyApiInterfaces';
 
 const PreviewDraftPage = () => {
   const params = useParams<'draftId' | 'language'>();
-  const draftId = params.draftId!;
+  const draftId = Number(params.draftId!);
   const language = params.language!;
   const { t } = useTranslation();
   const [draft, setDraft] = useState<ArticleConverterApiType | undefined>(undefined);
   const [resources, setResources] = useState<Resource[]>([]);
 
   useEffect(() => {
+    if (!draftId) return;
     const fetchDraft = async () => {
-      const fetchedDraft = await draftApi.fetchDraft(parseInt(draftId), language);
+      const fetchedDraft = await draftApi.fetchDraft(draftId, language);
       const convertedArticle = await articleApi.getPreviewArticle(fetchedDraft, language);
       setDraft(convertedArticle);
     };

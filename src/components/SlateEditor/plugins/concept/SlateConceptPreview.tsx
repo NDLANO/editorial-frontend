@@ -14,6 +14,7 @@ import { spacing, spacingUnit } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { ImageLink } from '@ndla/ui';
+import { IConcept } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
 import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
@@ -23,7 +24,6 @@ import { getSrcSets } from '../../../../util/imageEditorUtil';
 import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import config from '../../../../config';
-import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
 import { Embed } from '../../../../interfaces';
 
 const StyledFigureButtons = styled('span')`
@@ -40,7 +40,7 @@ const StyledFigureButtons = styled('span')`
 `;
 
 interface Props {
-  concept: ConceptApiType;
+  concept: IConcept;
   handleRemove: () => void;
   id: number | string;
 }
@@ -53,7 +53,7 @@ const ImageWrapper = ({ children, url }: ImageWrapperProps) =>
   url ? <ImageLink src={url}>{children}</ImageLink> : <>{children}</>;
 
 const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);
@@ -120,7 +120,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
         <NotionDialogText>
           <span
             dangerouslySetInnerHTML={{
-              __html: markdown.render(concept.content.content),
+              __html: markdown.render(concept.content?.content),
             }}
           />
         </NotionDialogText>
@@ -146,7 +146,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
         <Tooltip tooltip={t('form.concept.edit')} align="right">
           <IconButton
             as={Link}
-            to={`/concept/${id}/edit/${concept.content.language}`}
+            to={`/concept/${id}/edit/${concept.content?.language ?? i18n.language}`}
             target="_blank"
             title={t('form.concept.edit')}
             tabIndex={-1}>

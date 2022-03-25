@@ -83,12 +83,11 @@ export async function getResourceId({
   id,
   language,
 }: {
-  id: string | number;
+  id: number;
   language: string;
 }): Promise<string> {
   let resourceId = '';
-  const strId = typeof id === 'number' ? id.toString() : id;
-  const resource = await queryResources(strId, language);
+  const resource = await queryResources(id, language);
   if (resource.length > 0) {
     if (resource.length > 1)
       throw new Error('More than one resource with this articleId, unable to process taxonomy');
@@ -98,7 +97,7 @@ export async function getResourceId({
 }
 
 export const queryResources = (
-  contentId: string | number,
+  contentId: number,
   language: string,
   contentType = 'article',
 ): Promise<Resource[]> => {
@@ -110,7 +109,7 @@ export const queryResources = (
 };
 
 export const queryTopics = (
-  contentId: string | number,
+  contentId: number,
   language: string,
   contentType = 'article',
 ): Promise<Topic[]> => {
@@ -127,7 +126,7 @@ export const queryLearningPathResource = (learningpathId: number): Promise<Resou
   ).then(r => resolveJsonOrRejectWithError<Resource[]>(r));
 };
 
-export async function queryContent(id: string, language: string, contentType?: string) {
+export async function queryContent(id: number, language: string, contentType?: string) {
   const resources = await queryResources(id, language, contentType);
 
   if (resources[0]) {

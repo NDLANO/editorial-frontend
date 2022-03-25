@@ -8,7 +8,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { ISeries as PodcastSeriesApiType, INewSeries } from '@ndla/types-audio-api';
+import { ISeries, INewSeries } from '@ndla/types-audio-api';
 
 import { fetchSeries, updateSeries } from '../../modules/audio/audioApi';
 import Spinner from '../../components/Spinner';
@@ -20,22 +20,19 @@ interface Props {
 }
 
 const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
-  const { id: seriesId, selectedLanguage: seriesLanguage } = useParams<'id' | 'selectedLanguage'>();
+  const params = useParams<'id' | 'selectedLanguage'>();
   const { i18n } = useTranslation();
   const locale = i18n.language;
-  const [podcastSeries, setPodcastSeries] = useState<PodcastSeriesApiType | undefined>(undefined);
+  const [podcastSeries, setPodcastSeries] = useState<ISeries | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
-
-  const onUpdate = async (newSeries: INewSeries): Promise<void> => {
-    const updatedSeries = await updateSeries(seriesId!, newSeries);
-    setPodcastSeries(updatedSeries);
-  };
+  const seriesId = Number(params.id) || undefined;
+  const seriesLanguage = params.selectedLanguage ?? locale;
 
   useEffect(() => {
     (async () => {
       if (seriesId) {
         setLoading(true);
-        const apiSeries = await fetchSeries(seriesId!, seriesLanguage!);
+        const apiSeries = await fetchSeries(seriesId, seriesLanguage);
         setPodcastSeries(apiSeries);
         setLoading(false);
       }
@@ -46,16 +43,19 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
     return <Spinner />;
   }
 
-  if (!podcastSeries) {
+  if (!podcastSeries || !seriesId) {
     return <NotFoundPage />;
   }
 
-  const language = seriesLanguage ?? locale;
+  const onUpdate = async (newSeries: INewSeries): Promise<void> => {
+    const updatedSeries = await updateSeries(seriesId, newSeries);
+    setPodcastSeries(updatedSeries);
+  };
 
   return (
     <PodcastSeriesForm
       podcastSeries={podcastSeries}
-      language={language}
+      language={seriesLanguage}
       onUpdate={onUpdate}
       isNewlyCreated={isNewlyCreated}
     />

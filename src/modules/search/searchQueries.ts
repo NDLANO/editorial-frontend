@@ -8,12 +8,17 @@
 
 import queryString from 'query-string';
 import { useQuery, UseQueryOptions } from 'react-query';
+import { IMultiSearchResult } from '@ndla/types-search-api';
 import { SEARCH } from '../../queryKeys';
 import { search } from './searchApi';
-import { MultiSearchApiQuery, MultiSearchResult } from './searchApiInterfaces';
+import { MultiSearchApiQuery } from './searchApiInterfaces';
 
 export const useSearch = (
   query: MultiSearchApiQuery,
-  options?: UseQueryOptions<MultiSearchResult>,
+  options?: UseQueryOptions<IMultiSearchResult>,
 ) =>
-  useQuery<MultiSearchResult>([SEARCH, queryString.stringify(query)], () => search(query), options);
+  useQuery<IMultiSearchResult>(
+    [SEARCH, queryString.stringify(query)],
+    () => search(query),
+    options,
+  );

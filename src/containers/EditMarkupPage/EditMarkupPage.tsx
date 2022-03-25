@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { spacing, colors } from '@ndla/core';
+import { IArticle } from '@ndla/types-draft-api';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { FieldHeader } from '@ndla/forms';
@@ -28,8 +29,8 @@ import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/Header
 import { toEditMarkup } from '../../util/routeHelpers';
 import { AlertModalWrapper, formClasses } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
-import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
 import HelpMessage from '../../components/HelpMessage';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 declare global {
   interface Window {
@@ -64,10 +65,7 @@ function standardizeContent(content: string): string {
   return learningResourceContentToHTML(converted);
 }
 
-function updateContentInDraft(
-  draft: DraftApiType | undefined,
-  content: string,
-): DraftApiType | undefined {
+function updateContentInDraft(draft: IArticle | undefined, content: string): IArticle | undefined {
   if (draft === undefined || draft.content === undefined) {
     return undefined;
   }
@@ -96,7 +94,7 @@ const LanguageWrapper = styled.div`
 `;
 
 interface ErrorMessageProps {
-  draftId: string;
+  draftId: number;
   language: string;
   messageId: string;
 }
@@ -133,16 +131,20 @@ type Status =
 const EditMarkupPage = () => {
   const { t } = useTranslation();
   const params = useParams<'draftId' | 'language'>();
-  const draftId = params.draftId!;
+  const draftId = Number(params.draftId) || undefined;
   const language = params.language!;
   const [status, setStatus] = useState<Status>('initial');
-  const [draft, setDraft] = useState<DraftApiType | undefined>(undefined);
+  const [draft, setDraft] = useState<IArticle | undefined>(undefined);
   const location = useLocation();
 
   useEffect(() => {
     const session = getSessionStateFromLocalStorage();
     if (!session.user.permissions?.includes(DRAFT_HTML_SCOPE)) {
       setStatus('access-error');
+      return;
+    }
+    if (!draftId) {
+      setStatus('fetch-error');
       return;
     }
     (async () => {
@@ -156,16 +158,18 @@ const EditMarkupPage = () => {
     })();
   }, [draftId, language]);
 
+  if (!draftId) {
+    return <NotFoundPage />;
+  }
+
   const saveChanges = async (editorContent: string) => {
     try {
       setStatus('saving');
       const content = standardizeContent(editorContent ?? '');
-      const updatedDraft = await updateDraft({
-        id: parseInt(draftId, 10),
+      const updatedDraft = await updateDraft(draftId, {
         content,
         revision: draft?.revision ?? -1,
         language,
-        supportedLanguages: draft?.supportedLanguages ?? [],
       });
       setDraft(updatedDraft);
       setStatus('saved');
@@ -204,7 +208,7 @@ const EditMarkupPage = () => {
           supportedLanguages={draft?.supportedLanguages}
           language={language}
           editUrl={(lang: string) => toEditMarkup(draftId, lang)}
-          id={parseInt(draftId)}
+          id={draftId}
           isSubmitting={isSubmitting}
           replace={true}
         />

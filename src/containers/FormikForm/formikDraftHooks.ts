@@ -8,23 +8,26 @@
 
 import { useState, useEffect } from 'react';
 import { dropRight, uniq } from 'lodash';
-import * as draftApi from '../../modules/draft/draftApi';
+import { INewArticle, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import {
-  DraftApiType,
-  DraftStatusTypes,
-  NewDraftApiType,
-  UpdatedDraftApiType,
-} from '../../modules/draft/draftApiInterfaces';
+  fetchDraft,
+  updateDraft,
+  updateStatusDraft,
+  createDraft,
+  fetchUserData,
+  updateUserData as apiUpdateUserData,
+} from '../../modules/draft/draftApi';
 import { queryResources, queryTopics } from '../../modules/taxonomy';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { DraftStatusType } from '../../interfaces';
 
 export interface ArticleTaxonomy {
   resources: Resource[];
   topics: Topic[];
 }
 
-export function useFetchArticleData(articleId: string | undefined, language: string) {
-  const [article, setArticle] = useState<DraftApiType | undefined>(undefined);
+export function useFetchArticleData(articleId: number | undefined, language: string) {
+  const [article, setArticle] = useState<IArticle | undefined>(undefined);
   const [taxonomy, setTaxonony] = useState<ArticleTaxonomy>({ resources: [], topics: [] });
   const [articleChanged, setArticleChanged] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,7 +36,7 @@ export function useFetchArticleData(articleId: string | undefined, language: str
     const fetchArticle = async () => {
       if (articleId) {
         setLoading(true);
-        const article = await draftApi.fetchDraft(parseInt(articleId, 10), language);
+        const article = await fetchDraft(articleId, language);
         const taxonomy = await fetchTaxonomy(articleId, language);
         setArticle(article);
         setTaxonony(taxonomy);
@@ -44,7 +47,7 @@ export function useFetchArticleData(articleId: string | undefined, language: str
     fetchArticle();
   }, [articleId, language]);
 
-  const fetchTaxonomy = async (id: string, language: string) => {
+  const fetchTaxonomy = async (id: number, language: string) => {
     const [resources, topics] = await Promise.all([
       queryResources(id, language, 'article'),
       queryTopics(id, language, 'article'),
@@ -52,8 +55,9 @@ export function useFetchArticleData(articleId: string | undefined, language: str
     return { resources, topics };
   };
 
-  const updateArticle = async (updatedArticle: UpdatedDraftApiType): Promise<DraftApiType> => {
-    const savedArticle = await draftApi.updateDraft(updatedArticle);
+  const updateArticle = async (updatedArticle: IUpdatedArticle): Promise<IArticle> => {
+    if (!articleId) throw new Error('Received article without id when updating');
+    const savedArticle = await updateDraft(articleId, updatedArticle);
     await updateUserData(savedArticle.id);
     setArticle(savedArticle);
     setArticleChanged(false);
@@ -65,19 +69,18 @@ export function useFetchArticleData(articleId: string | undefined, language: str
     newStatus,
     dirty,
   }: {
-    updatedArticle: UpdatedDraftApiType;
-    newStatus: DraftStatusTypes;
+    updatedArticle: IUpdatedArticle;
+    newStatus: DraftStatusType;
     dirty: boolean;
-  }): Promise<DraftApiType> => {
+  }): Promise<IArticle> => {
+    if (!articleId) throw new Error('Received Article without id when updating status');
     if (dirty) {
-      await draftApi.updateDraft(updatedArticle);
+      await updateDraft(articleId, updatedArticle);
     }
 
-    if (!updatedArticle.id) throw new Error('Article without id gotten when updating status');
-
-    const statusChangedDraft = await draftApi.updateStatusDraft(updatedArticle.id, newStatus);
-    const article = await draftApi.fetchDraft(updatedArticle.id, language);
-    const updated: DraftApiType = { ...article, status: statusChangedDraft.status };
+    const statusChangedDraft = await updateStatusDraft(articleId, newStatus);
+    const article = await fetchDraft(articleId, language);
+    const updated: IArticle = { ...article, status: statusChangedDraft.status };
     await updateUserData(statusChangedDraft.id);
 
     setArticle(updated);
@@ -85,8 +88,8 @@ export function useFetchArticleData(articleId: string | undefined, language: str
     return updated;
   };
 
-  const createArticle = async (createdArticle: NewDraftApiType) => {
-    const savedArticle = await draftApi.createDraft(createdArticle);
+  const createArticle = async (createdArticle: INewArticle) => {
+    const savedArticle = await createDraft(createdArticle);
     setArticle(savedArticle);
     setArticleChanged(false);
     await updateUserData(savedArticle.id);
@@ -95,18 +98,18 @@ export function useFetchArticleData(articleId: string | undefined, language: str
 
   const updateUserData = async (articleId: number) => {
     const stringId = articleId.toString();
-    const result = await draftApi.fetchUserData();
+    const result = await fetchUserData();
     const latestEdited = uniq(result.latestEditedArticles || []);
     const latestEditedArticles = latestEdited.includes(stringId)
       ? [stringId].concat(latestEdited.filter(id => id !== stringId))
       : [stringId].concat(dropRight(latestEdited, 1));
-    draftApi.updateUserData({ latestEditedArticles });
+    apiUpdateUserData({ latestEditedArticles });
   };
 
   return {
     article,
     taxonomy,
-    setArticle: (article: DraftApiType) => {
+    setArticle: (article: IArticle) => {
       setArticle(article);
       setArticleChanged(true);
     },

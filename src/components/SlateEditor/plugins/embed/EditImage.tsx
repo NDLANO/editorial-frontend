@@ -10,11 +10,12 @@ import { css } from '@emotion/core';
 import { createRef, useEffect, useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
 import { shadows, spacingUnit } from '@ndla/core';
+import { FormikValues } from 'formik';
 import FigureInput from './FigureInput';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
-import { FormikInputEvent, ImageEmbed } from '../../../../interfaces';
+import { ImageEmbed } from '../../../../interfaces';
 
 const editorContentCSS = css`
   box-shadow: ${shadows.levitate1};
@@ -125,7 +126,7 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
     setEditModus(false);
   };
 
-  const onChange = (e: FormikInputEvent) => {
+  const onChange = (e: FormikValues) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,

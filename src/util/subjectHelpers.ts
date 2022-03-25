@@ -1,13 +1,21 @@
+/**
+ * Copyright (c) 2020-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import { Descendant } from 'slate';
 import {
   ISubjectPageData,
   INewSubjectFrontPageData,
   IUpdatedSubjectFrontPageData,
 } from '@ndla/types-frontpage-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
+import { IArticle } from '@ndla/types-draft-api';
 import { BrightcoveEmbed, ImageEmbed } from '../interfaces';
-import { DraftApiType } from '../modules/draft/draftApiInterfaces';
-import { ImageApiType } from '../modules/image/imageApiInterfaces';
-import { Learningpath } from '../modules/learningpath/learningpathApiInterfaces';
 import {
   editorValueToEmbed,
   editorValueToPlainText,
@@ -37,7 +45,7 @@ export interface SubjectPageFormikType {
   description?: Descendant[];
   metaDescription?: Descendant[];
   desktopBanner?: ImageEmbed;
-  editorsChoices: (Learningpath | DraftApiType)[];
+  editorsChoices: (ILearningPathV2 | IArticle)[];
   language: string;
   mobileBanner?: number;
   elementId: string;
@@ -100,8 +108,8 @@ export const subjectpageApiTypeToFormikType = (
   elementName: string | undefined,
   elementId: string,
   selectedLanguage: string,
-  editorsChoices?: (Learningpath | DraftApiType)[],
-  banner?: ImageApiType, // maybe undefined?
+  editorsChoices?: (ILearningPathV2 | IArticle)[],
+  banner?: IImageMetaInformationV2, // maybe undefined?
 ): SubjectPageFormikType => {
   const visualElement = subjectpage?.about?.visualElement;
   const desktopBanner = banner ? imageToVisualElement(banner) : undefined;

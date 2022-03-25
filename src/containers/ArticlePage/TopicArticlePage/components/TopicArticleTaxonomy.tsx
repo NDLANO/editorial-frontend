@@ -10,6 +10,7 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import { ErrorMessage } from '@ndla/ui';
+import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import Field from '../../../../components/Field';
 import {
   fetchSubjects,
@@ -40,16 +41,15 @@ import {
   TaxonomyMetadata,
   TopicConnections,
 } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftApiType, UpdatedDraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 
 type Props = {
-  article: DraftApiType;
+  article: IArticle;
   setIsOpen?: (open: boolean) => void;
-  updateNotes: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
+  updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   taxonomy: ArticleTaxonomy;
 };
 
@@ -158,7 +158,6 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
 
   const handleSubmit = async (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    const { id: articleId, revision, supportedLanguages } = article;
     setStatus('loading');
 
     const stagedNewTopics = stagedTopicChanges.filter(topic => topic.id === 'staged');
@@ -168,11 +167,9 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
       }
 
       updateNotes({
-        id: articleId,
-        revision: revision ?? 0,
+        revision: article.revision,
         language: article.title?.language,
         notes: ['Oppdatert taksonomi.'],
-        supportedLanguages: supportedLanguages ?? [],
       });
     } catch (err) {
       handleError(err);

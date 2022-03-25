@@ -9,18 +9,14 @@
 import { Formik, Form } from 'formik';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { ILicense, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import { useTranslation } from 'react-i18next';
 import { ArticleFormType, useArticleFormHooks } from '../FormikForm/articleFormHooks';
 import GrepCodesField from '../FormikForm/GrepCodesField';
 import SaveMultiButton from '../../components/SaveMultiButton';
-import {
-  DraftApiType,
-  DraftStatusTypes,
-  UpdatedDraftApiType,
-} from '../../modules/draft/draftApiInterfaces';
 import { isFormikFormDirty } from '../../util/formHelper';
 import { draftApiTypeToTopicArticleFormType } from '../ArticlePage/articleTransformers';
-import { License } from '../../interfaces';
+import { DraftStatusType } from '../../interfaces';
 
 const SaveButtonContainer = styled.div`
   display: flex;
@@ -31,26 +27,24 @@ const SaveButtonContainer = styled.div`
 const getArticle = (
   values: ArticleFormType,
   initialValues: ArticleFormType,
-  licenses: License[],
+  licenses: ILicense[],
   preview?: boolean,
-): UpdatedDraftApiType => {
+): IUpdatedArticle => {
   return {
     revision: 0,
-    id: values.id,
     grepCodes: values.grepCodes,
-    supportedLanguages: [],
   };
 };
 
 interface Props {
-  article: DraftApiType;
+  article: IArticle;
   articleChanged: boolean;
-  updateArticle: (art: UpdatedDraftApiType) => Promise<DraftApiType>;
+  updateArticle: (art: IUpdatedArticle) => Promise<IArticle>;
   updateArticleAndStatus?: (input: {
-    updatedArticle: UpdatedDraftApiType;
-    newStatus: DraftStatusTypes;
+    updatedArticle: IUpdatedArticle;
+    newStatus: DraftStatusType;
     dirty: boolean;
-  }) => Promise<DraftApiType>;
+  }) => Promise<IArticle>;
 }
 
 const GrepCodesForm = ({

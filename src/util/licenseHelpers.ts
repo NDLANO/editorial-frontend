@@ -7,10 +7,10 @@
  */
 
 import { getLicenseByAbbreviation } from '@ndla/licenses';
-import { License } from '../interfaces';
+import { ILicense } from '@ndla/types-draft-api';
 
 export const getLicensesWithTranslations = (
-  licenses: License[],
+  licenses: ILicense[],
   language: string,
   enableLicenseNA: boolean = false,
 ) =>

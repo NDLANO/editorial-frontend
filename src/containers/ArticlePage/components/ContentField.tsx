@@ -11,15 +11,15 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { FieldHeader } from '@ndla/forms';
 import Button from '@ndla/button';
+import { IArticle, IArticleSummary, IRelatedContentLink } from '@ndla/types-draft-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import { fetchDraft, searchDrafts } from '../../../modules/draft/draftApi';
 import ElementList from '../../FormikForm/components/ElementList';
-import { ConvertedRelatedContent, RelatedContent, RelatedContentLink } from '../../../interfaces';
+import { ConvertedRelatedContent, RelatedContent } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import ContentLink from './ContentLink';
 import { ArticleFormType } from '../../FormikForm/articleFormHooks';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { DraftApiType, DraftSearchSummary } from '../../../modules/draft/draftApiInterfaces';
 
 interface Props {
   field: FieldInputProps<ArticleFormType['relatedContent']>;
@@ -33,7 +33,7 @@ const ContentField = ({ field, form }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const promises = field.value.map<Promise<ConvertedRelatedContent> | RelatedContentLink>(
+      const promises = field.value.map<Promise<ConvertedRelatedContent> | IRelatedContentLink>(
         element => {
           if (typeof element === 'number') {
             return fetchDraft(element);
@@ -46,7 +46,7 @@ const ContentField = ({ field, form }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onAddArticleToList = async (article: DraftSearchSummary) => {
+  const onAddArticleToList = async (article: IArticleSummary) => {
     try {
       const newArticle = await fetchDraft(article.id, i18n.language);
       const temp = [...relatedContent, newArticle];
@@ -89,9 +89,8 @@ const ContentField = ({ field, form }: Props) => {
     updateFormik(field, temp);
   };
 
-  const isDraftApiType = (
-    relatedContent: ConvertedRelatedContent,
-  ): relatedContent is DraftApiType => (relatedContent as DraftApiType).id !== undefined;
+  const isDraftApiType = (relatedContent: ConvertedRelatedContent): relatedContent is IArticle =>
+    (relatedContent as IArticle).id !== undefined;
 
   const selectedItems = relatedContent.filter(isDraftApiType);
 
@@ -100,9 +99,8 @@ const ContentField = ({ field, form }: Props) => {
       <FieldHeader title={t('form.relatedContent.articlesTitle')} />
       <ElementList
         elements={relatedContent.filter(
-          (
-            rc: number | DraftApiType | RelatedContentLink,
-          ): rc is DraftApiType | RelatedContentLink => typeof rc !== 'number',
+          (rc: number | IArticle | IRelatedContentLink): rc is IArticle | IRelatedContentLink =>
+            typeof rc !== 'number',
         )}
         messages={{
           dragElement: t('form.relatedContent.changeOrder'),

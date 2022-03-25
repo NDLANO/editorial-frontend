@@ -8,33 +8,28 @@
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Agreement } from '@ndla/icons/editor';
+import { IAgreement, IUpdatedAgreement, INewAgreement, IAuthor } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
 import { DEFAULT_LICENSE } from '../../../util/formHelper';
 import AgreementFields from './AgreementFields';
 import { formClasses, ActionButton, AbortButton } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
-import {
-  AgreementApiType,
-  NewAgreementApiType,
-  UpdatedAgreementApiType,
-} from '../../../modules/draft/draftApiInterfaces';
-import { Author } from '../../../interfaces';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 
 interface AgreementFormValues {
   id?: number;
   title: string;
   content: string;
-  creators: Author[];
-  processors: Author[];
-  rightsholders: Author[];
+  creators: IAuthor[];
+  processors: IAuthor[];
+  rightsholders: IAuthor[];
   origin: string;
   license: string;
   validFrom?: string;
   validTo?: string;
 }
 
-const getInitialValues = (agreement?: AgreementApiType): AgreementFormValues => ({
+const getInitialValues = (agreement?: IAgreement): AgreementFormValues => ({
   id: agreement?.id,
   title: agreement?.title || '',
   content: agreement?.content || '',
@@ -77,8 +72,8 @@ const rules = {
 };
 
 interface Props {
-  onUpsert: (agreement: UpdatedAgreementApiType | NewAgreementApiType) => Promise<void>;
-  agreement?: AgreementApiType;
+  onUpsert: (agreement: IUpdatedAgreement | INewAgreement, id?: number) => Promise<void>;
+  agreement?: IAgreement;
 }
 const AgreementForm = ({ onUpsert, agreement }: Props) => {
   const { t } = useTranslation();
@@ -89,8 +84,7 @@ const AgreementForm = ({ onUpsert, agreement }: Props) => {
   ) => {
     actions.setSubmitting(true);
 
-    const agreementMetaData: UpdatedAgreementApiType = {
-      id: values.id,
+    const agreementMetaData: IUpdatedAgreement = {
       title: values.title,
       content: values.content,
       copyright: {
@@ -103,7 +97,7 @@ const AgreementForm = ({ onUpsert, agreement }: Props) => {
         validTo: values.validTo,
       },
     };
-    await onUpsert(agreementMetaData);
+    await onUpsert(agreementMetaData, values.id);
     actions.setSubmitting(false);
   };
 

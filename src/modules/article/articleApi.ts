@@ -6,40 +6,37 @@
  *
  */
 
+import { IArticle } from '@ndla/types-draft-api';
+import { IArticleV2, ISearchResultV2 } from '@ndla/types-article-api';
 import {
   resolveJsonOrRejectWithError,
   apiResourceUrl,
   fetchAuthorized,
 } from '../../util/apiHelpers';
 import config from '../../config';
-import {
-  ArticleApiType,
-  ArticleConverterApiType,
-  ArticleSearchResult,
-} from './articleApiInterfaces';
+import { ArticleConverterApiType } from './articleApiInterfaces';
 import { LocaleType } from '../../interfaces';
-import { DraftApiType } from '../draft/draftApiInterfaces';
 
 const articleUrl = apiResourceUrl('/article-api/v2/articles');
 
-export const searchArticles = (locale: string, queryString = ''): Promise<ArticleSearchResult> =>
+export const searchArticles = (locale: string, queryString = ''): Promise<ISearchResultV2> =>
   fetchAuthorized(`${articleUrl}/?language=${locale}&fallback=true${queryString}`).then(r =>
-    resolveJsonOrRejectWithError<ArticleSearchResult>(r),
+    resolveJsonOrRejectWithError<ISearchResultV2>(r),
   );
 
 export const searchRelatedArticles = async (
   input: string,
   locale: LocaleType,
   contentType: string,
-): Promise<ArticleSearchResult> => {
+): Promise<ISearchResultV2> => {
   await new Promise(resolve => setTimeout(resolve, 50));
   const query = `&type=articles&query=${input}${contentType ? `&content-type=${contentType}` : ''}`;
   return await searchArticles(locale, query);
 };
 
-export const getArticle = (id: number, locale: string = 'nb'): Promise<ArticleApiType> =>
+export const getArticle = (id: number, locale: string = 'nb'): Promise<IArticleV2> =>
   fetchAuthorized(`${articleUrl}/${id}?language=${locale}&fallback=true`).then(r =>
-    resolveJsonOrRejectWithError<ArticleApiType>(r),
+    resolveJsonOrRejectWithError<IArticleV2>(r),
   );
 
 const articleConverterUrl = config.localConverter
@@ -48,18 +45,18 @@ const articleConverterUrl = config.localConverter
 
 export const getArticleFromArticleConverter = (
   id: number,
-  locale: string,
+  language: string,
 ): Promise<ArticleConverterApiType> =>
-  fetchAuthorized(`${articleConverterUrl}/json/${locale}/${id}`).then(r =>
+  fetchAuthorized(`${articleConverterUrl}/json/${language}/${id}`).then(r =>
     resolveJsonOrRejectWithError<ArticleConverterApiType>(r),
   );
 
 export const getPreviewArticle = async (
-  article: DraftApiType,
-  locale: string,
+  article: IArticle,
+  language: string,
 ): Promise<ArticleConverterApiType> => {
   const response = await fetchAuthorized(
-    `${articleConverterUrl}/json/${locale}/transform-article?draftConcept=true&previewH5p=true&showVisualElement=true&absoluteUrl=true&previewAlt=true`,
+    `${articleConverterUrl}/json/${language}/transform-article?draftConcept=true&previewH5p=true&showVisualElement=true&absoluteUrl=true&previewAlt=true`,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -68,5 +65,6 @@ export const getPreviewArticle = async (
       body: JSON.stringify({ article }),
     },
   );
-  return resolveJsonOrRejectWithError<ArticleConverterApiType>(response);
+  const converted = await resolveJsonOrRejectWithError<ArticleConverterApiType>(response);
+  return { ...converted, language };
 };

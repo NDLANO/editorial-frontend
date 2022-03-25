@@ -1,13 +1,16 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-concept-api';
+import { IUpdatedArticle } from '@ndla/types-draft-api';
 import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
@@ -17,10 +20,9 @@ import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
-import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { createReturnTypeGuard } from '../../util/guards';
 
-type PreviewTypes = ConceptApiType | UpdatedDraftApiType;
+type PreviewTypes = IConcept | IUpdatedArticle;
 
 interface PreviewLightBoxProps {
   type: string;
@@ -29,8 +31,8 @@ interface PreviewLightBoxProps {
   supportedLanguages?: string[];
 }
 
-const isConceptReturnType = createReturnTypeGuard<ConceptApiType>('articleIds');
-const isDraftReturnType = (value: () => PreviewTypes): value is () => UpdatedDraftApiType =>
+const isConceptReturnType = createReturnTypeGuard<IConcept>('articleIds');
+const isDraftReturnType = (value: () => PreviewTypes): value is () => IUpdatedArticle =>
   !isConceptReturnType(value);
 
 const PreviewLightBox = ({
@@ -47,6 +49,7 @@ const PreviewLightBox = ({
       <PreviewDraftLightbox
         label={t(`articleType.${articleType!}`)}
         typeOfPreview="previewLanguageArticle"
+        supportedLanguages={supportedLanguages}
         getArticle={_ => getEntity()}>
         {(openPreview: () => void) => (
           <StyledFilledButton type="button" onClick={openPreview}>

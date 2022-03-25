@@ -12,6 +12,7 @@ import Button from '@ndla/button';
 import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
 import { colors } from '@ndla/core';
 import { css } from '@emotion/core';
+import { IConceptSummary } from '@ndla/types-concept-api';
 import {
   StyledInfo,
   StyledConceptView,
@@ -23,13 +24,12 @@ import {
 import formatDate from '../../../../../util/formatDate';
 import { toEditConcept } from '../../../../../util/routeHelpers';
 import HeaderStatusInformation from '../../../../../components/HeaderWithLanguage/HeaderStatusInformation';
-import { SearchConceptType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { LocaleType } from '../../../../../interfaces';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
 
 interface Props {
-  concept: SearchConceptType;
+  concept: IConceptSummary;
   locale: LocaleType;
   title: string;
   content: string;

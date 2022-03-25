@@ -241,6 +241,8 @@ const EditMarkupPage = () => {
           <PreviewDraftLightbox
             label={t('form.previewProductionArticle.article')}
             typeOfPreview="preview"
+            articleId={draft?.id}
+            currentArticleLanguage={language}
             getArticle={() => {
               const content = standardizeContent(draft?.content?.content ?? '');
               const update = updateContentInDraft(draft, content)!;

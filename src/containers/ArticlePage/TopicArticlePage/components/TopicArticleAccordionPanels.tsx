@@ -103,7 +103,12 @@ const TopicArticleAccordionPanels = ({
           title={t('form.workflowSection')}
           className={'u-6/6'}
           hasError={!!errors.notes}>
-          <VersionAndNotesPanel article={article} getArticle={getArticle} type="topic-article" />
+          <VersionAndNotesPanel
+            article={article}
+            getArticle={getArticle}
+            type="topic-article"
+            currentLanguage={values.language}
+          />
         </AccordionSection>
       )}
     </Accordions>

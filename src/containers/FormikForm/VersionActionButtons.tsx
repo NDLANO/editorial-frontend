@@ -21,6 +21,7 @@ interface Props {
   resetVersion: (version: IArticle, language: string, showFromArticleApi: boolean) => Promise<void>;
   version: IArticle;
   current: boolean;
+  currentLanguage: string;
 }
 
 const VersionActionButtons = ({
@@ -30,6 +31,7 @@ const VersionActionButtons = ({
   getArticle,
   resetVersion,
   version,
+  currentLanguage,
 }: Props) => {
   const { t } = useTranslation();
   // we only show preview and reset for current versions if they are the ONLY version
@@ -38,6 +40,8 @@ const VersionActionButtons = ({
   return (
     <>
       <PreviewDraftLightbox
+        articleId={article.id}
+        currentArticleLanguage={currentLanguage}
         label={t(`articleType.${article.articleType}`)}
         typeOfPreview={showFromArticleApi ? 'previewProductionArticle' : 'previewVersion'}
         getArticle={getArticle}

@@ -73,6 +73,7 @@ interface Props {
   formikProps?: FormikProps<PodcastSeriesFormikType>;
   onUpdate: (newPodcastSeries: INewSeries) => void;
   revision?: number;
+  isNewLanguage?: boolean;
 }
 
 const PodcastSeriesForm = ({
@@ -81,6 +82,7 @@ const PodcastSeriesForm = ({
   isNewlyCreated,
   onUpdate,
   language,
+  isNewLanguage,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -151,6 +153,7 @@ const PodcastSeriesForm = ({
           values,
           initialValues,
           dirty,
+          changed: isNewLanguage,
         });
 
         const content = { ...podcastSeries, title: podcastSeries?.title.title ?? '', language };

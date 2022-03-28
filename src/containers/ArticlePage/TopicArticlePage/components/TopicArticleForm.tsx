@@ -77,6 +77,7 @@ const TopicArticleForm = ({
     licenses,
     getArticleFromSlate: topicArticleFormTypeToDraftApiType,
     articleLanguage,
+    rules: topicArticleRules,
   });
 
   const initialHTML = useMemo(() => learningResourceContentToHTML(initialValues.content), [

@@ -23,7 +23,6 @@ import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
 } from '../../../modules/nodes/nodeApiTypes';
-import { DraftStatus, DraftStatusTypes } from '../../../modules/draft/draftApiInterfaces';
 import {
   usePutResourceForNodeMutation,
   useUpdateNodeConnectionMutation,
@@ -109,7 +108,7 @@ const getArticleTypeFromId = (id?: string) => {
 
 interface ResourceMeta {
   grepCodes?: string[];
-  status?: DraftStatus;
+  status?: { current: string; other: string[] };
   articleType?: string;
 }
 
@@ -151,7 +150,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     } else if (id && resourceType === 'learningpath') {
       const learningpath = await fetchLearningpath(parseInt(id), i18n.language);
       if (learningpath.status) {
-        const status = { current: learningpath.status as DraftStatusTypes, other: [] };
+        const status = { current: learningpath.status, other: [] };
         return { ...resource, status };
       }
     }

@@ -17,19 +17,25 @@ describe('Edit article with everything', () => {
 
     cy.visit(`/subject-matter/learning-resource/${ARTICLE_ID}/edit/nb`);
     cy.get('.c-editor');
-    cy.apiwait([`@draft-${ARTICLE_ID}`, '@statusMachine', '@licenses']);
+    cy.apiwait([`@draft-${ARTICLE_ID}`, '@statusMachine', '@licenses', '@taxonomyTopics']);
+    cy.get('article span')
+      .contains('Cypress test')
+      .should('exist');
   });
 
   it('Can change language and fetch the new article', () => {
-    cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}?language=nn&fallback=true`, 'draftNN');
+    cy.apiroute('GET', `/draft-api/v1/drafts/${ARTICLE_ID}?language=en&fallback=true`, 'draftEN');
     cy.get('header button')
       .contains('Legg til språk')
-      .click({ force: true })
+      .click()
       .wait(200);
     cy.get('header a')
-      .contains('Nynorsk')
-      .click({ force: true });
-    cy.apiwait(['@draftNN', '@statusMachine']);
+      .contains('Engelsk')
+      .click();
+    cy.apiwait(['@draftEN', '@statusMachine', '@taxonomyTopics', '@taxonomyResources']);
+    cy.get('article span')
+      .contains('Water english')
+      .should('exist');
   });
 
   it('Can edit the published date', () => {

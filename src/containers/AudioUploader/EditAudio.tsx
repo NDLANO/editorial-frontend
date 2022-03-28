@@ -64,6 +64,8 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
     return <Navigate replace to={toEditPodcast(audioId, audioLanguage)} />;
   }
 
+  const isNewLanguage = !!audioLanguage && !audio.supportedLanguages.includes(audioLanguage);
+
   return (
     <AudioForm
       audio={audio}
@@ -72,6 +74,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
       isNewlyCreated={isNewlyCreated}
       translating={translating}
       translateToNN={translateToNN}
+      isNewLanguage={isNewLanguage}
     />
   );
 };

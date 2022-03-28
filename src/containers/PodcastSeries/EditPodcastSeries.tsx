@@ -52,12 +52,16 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
     setPodcastSeries(updatedSeries);
   };
 
+  const isNewLanguage =
+    !!seriesLanguage && !podcastSeries.supportedLanguages.includes(seriesLanguage);
+
   return (
     <PodcastSeriesForm
       podcastSeries={podcastSeries}
       language={seriesLanguage}
       onUpdate={onUpdate}
       isNewlyCreated={!!isNewlyCreated}
+      isNewLanguage={isNewLanguage}
     />
   );
 };

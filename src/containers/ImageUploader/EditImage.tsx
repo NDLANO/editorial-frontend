@@ -60,9 +60,11 @@ const EditImage = ({ isNewlyCreated }: Props) => {
     return <Spinner withWrapper />;
   }
 
-  if (imageId && !image?.id) {
+  if (!imageId || !image?.id) {
     return <NotFoundPage />;
   }
+
+  const isNewLanguage = !!imageLanguage && !image?.supportedLanguages.includes(imageLanguage);
 
   return (
     <ImageForm
@@ -71,6 +73,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
       onSubmitFunc={onUpdate}
       isNewlyCreated={isNewlyCreated}
       licenses={imageLicenses}
+      isNewLanguage={isNewLanguage}
     />
   );
 };

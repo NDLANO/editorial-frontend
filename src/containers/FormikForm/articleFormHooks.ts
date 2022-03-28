@@ -18,6 +18,7 @@ import { isFormikFormDirty } from '../../util/formHelper';
 import { DraftStatusType, RelatedContent } from '../../interfaces';
 import { useMessages } from '../Messages/MessagesProvider';
 import { useLicenses } from '../../modules/draft/draftQueries';
+import { getWarnings, RulesType } from '../../components/formikValidationSchema';
 
 const getFilePathsFromHtml = (htmlString: string): string[] => {
   const parsed = new DOMParser().parseFromString(htmlString, 'text/html');
@@ -90,6 +91,7 @@ type HooksInputObject<T extends ArticleFormType> = {
     preview?: boolean,
   ) => IUpdatedArticle;
   articleLanguage: string;
+  rules?: RulesType<T, IArticle>;
 };
 
 export function useArticleFormHooks<T extends ArticleFormType>({
@@ -101,6 +103,7 @@ export function useArticleFormHooks<T extends ArticleFormType>({
   updateArticleAndStatus,
   getArticleFromSlate,
   articleLanguage,
+  rules,
 }: HooksInputObject<T>) {
   const { id, revision } = article ?? {};
   const formikRef: any = useRef<any>(null); // TODO: Formik bruker any for denne ref'en men kanskje vi skulle gjort noe kulere?
@@ -160,7 +163,12 @@ export function useArticleFormHooks<T extends ArticleFormType>({
       await deleteRemovedFiles(article?.content?.content ?? '', newArticle.content ?? '');
 
       setSavedToServer(true);
-      formikHelpers.resetForm({ values: getInitialValues(savedArticle, articleLanguage) });
+      const newInitialValues = getInitialValues(savedArticle, articleLanguage);
+      formikHelpers.resetForm({ values: newInitialValues });
+      if (rules) {
+        const newInitialWarnings = getWarnings(newInitialValues, rules, t, savedArticle);
+        formikHelpers.setStatus({ warnings: newInitialWarnings });
+      }
       formikHelpers.setFieldValue('notes', [], false);
     } catch (e) {
       const err = e as any;

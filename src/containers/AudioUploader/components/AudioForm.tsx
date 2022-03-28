@@ -105,6 +105,7 @@ interface Props {
   isNewlyCreated?: boolean;
   translating?: boolean;
   translateToNN?: () => void;
+  isNewLanguage?: boolean;
 }
 
 const AudioForm = ({
@@ -115,6 +116,7 @@ const AudioForm = ({
   translateToNN,
   onCreateAudio,
   onUpdateAudio,
+  isNewLanguage,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -187,6 +189,7 @@ const AudioForm = ({
           values,
           initialValues,
           dirty,
+          changed: isNewLanguage,
         });
 
         const hasError = (errFields: (keyof AudioFormikType)[]): boolean => {

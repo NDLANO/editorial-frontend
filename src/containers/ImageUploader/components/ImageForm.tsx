@@ -98,6 +98,7 @@ interface Props {
   isNewlyCreated?: boolean;
   closeModal?: () => void;
   isSaving?: boolean;
+  isNewLanguage?: boolean;
   language: string;
 }
 
@@ -121,6 +122,7 @@ const ImageForm = ({
   closeModal,
   isNewlyCreated,
   isSaving,
+  isNewLanguage,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -186,6 +188,7 @@ const ImageForm = ({
           values,
           initialValues,
           dirty,
+          changed: isNewLanguage,
         });
         const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
           errorFields.some(field => !!errors[field]);

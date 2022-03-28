@@ -50,9 +50,10 @@ interface Props {
   article: IArticle;
   getArticle: (preview: boolean) => IUpdatedArticle;
   type: 'standard' | 'topic-article';
+  currentLanguage: string;
 }
 
-const VersionAndNotesPanel = ({ article, getArticle, type }: Props) => {
+const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Props) => {
   const { t } = useTranslation();
   const [versions, setVersions] = useState<IArticle[]>([]);
   const [loading, setLoading] = useState(false);
@@ -162,6 +163,7 @@ const VersionAndNotesPanel = ({ article, getArticle, type }: Props) => {
                           resetVersion={resetVersion}
                           article={article}
                           getArticle={getArticle}
+                          currentLanguage={currentLanguage}
                         />
                         {isLatestVersion && (
                           <VersionLogTag color="yellow" label={t('form.notes.areHere')} />

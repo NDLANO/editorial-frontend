@@ -25,10 +25,12 @@ import { createReturnTypeGuard } from '../../util/guards';
 type PreviewTypes = IConcept | IUpdatedArticle;
 
 interface PreviewLightBoxProps {
+  articleId: number;
   type: string;
   getEntity: () => PreviewTypes;
   articleType?: string;
   supportedLanguages?: string[];
+  currentLanguage: string;
 }
 
 const isConceptReturnType = createReturnTypeGuard<IConcept>('articleIds');
@@ -40,6 +42,8 @@ const PreviewLightBox = ({
   getEntity,
   articleType,
   supportedLanguages = [],
+  currentLanguage,
+  articleId,
 }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
   if (type === 'concept' && isConceptReturnType(getEntity) && supportedLanguages.length > 1) {
@@ -47,6 +51,8 @@ const PreviewLightBox = ({
   } else if (isDraftReturnType(getEntity) && (type === 'standard' || type === 'topic-article')) {
     return (
       <PreviewDraftLightbox
+        articleId={articleId}
+        currentArticleLanguage={currentLanguage}
         label={t(`articleType.${articleType!}`)}
         typeOfPreview="previewLanguageArticle"
         supportedLanguages={supportedLanguages}
@@ -129,13 +135,15 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
-        {!noStatus && getEntity && (
+        {!noStatus && getEntity && values.id && (
           <>
             <PreviewLightBox
+              articleId={values.id}
               type={type}
               getEntity={getEntity!}
               articleType={articleType}
               supportedLanguages={supportedLanguages}
+              currentLanguage={values.language}
             />
             <StyledSplitter />
           </>

@@ -15,7 +15,6 @@ import { css } from '@emotion/core';
 import { OneColumn, ErrorMessage } from '@ndla/ui';
 import { IArticle, IUpdatedArticle } from '@ndla/types-draft-api';
 import { uniq } from 'lodash';
-import { useFormikContext } from 'formik';
 import {
   getPreviewArticle,
   getArticleFromArticleConverter,
@@ -31,8 +30,6 @@ import { ArticleConverterApiType } from '../../modules/article/articleApiInterfa
 import { LocaleType, PartialRecord, TypeOfPreview } from '../../interfaces';
 import { createGuard } from '../../util/guards';
 import { updatedDraftApiTypeToDraftApiType } from '../../containers/ArticlePage/articleTransformers';
-import { ConceptFormValues } from '../../containers/ConceptPage/conceptInterfaces';
-import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 
 const twoArticlesCloseButtonStyle = css`
   position: absolute;
@@ -91,6 +88,8 @@ interface Props {
   typeOfPreview: TypeOfPreview;
   version?: IArticle;
   supportedLanguages?: string[];
+  articleId?: number;
+  currentArticleLanguage?: string;
 }
 
 const PreviewDraftLightbox = ({
@@ -100,6 +99,8 @@ const PreviewDraftLightbox = ({
   label,
   children,
   supportedLanguages = [],
+  articleId,
+  currentArticleLanguage,
 }: Props) => {
   const [firstArticle, setFirstArticle] = useState<ArticleConverterApiType | undefined>(undefined);
   const [secondArticle, setSecondArticle] = useState<ArticleConverterApiType | undefined>(
@@ -110,7 +111,6 @@ const PreviewDraftLightbox = ({
   const [loading, setLoading] = useState(false);
   const [isMissingValues, setIsMissingValues] = useState(false);
   const { t } = useTranslation();
-  const { values } = useFormikContext<ArticleFormType | ConceptFormValues>();
 
   const onClosePreview = () => {
     setFirstArticle(undefined);
@@ -121,29 +121,28 @@ const PreviewDraftLightbox = ({
   };
 
   const onChangePreviewLanguage = async (language: string) => {
-    if (!values.id) return setIsMissingValues(true);
-    const secondArticle = await previewLanguageArticle(values.id, language);
+    if (!articleId) return setIsMissingValues(true);
+    const secondArticle = await previewLanguageArticle(articleId, language);
     setPreviewLanguage(language);
     setSecondArticle(secondArticle);
   };
 
   const openPreview = async () => {
-    const id = values.id;
-    const language = values.language;
-    if (!id || !language) return setIsMissingValues(true);
-    const article = toApiVersion(getArticle(true), id);
+    if (!articleId || !currentArticleLanguage) return setIsMissingValues(true);
+    const article = toApiVersion(getArticle(true), articleId);
 
     const allSupportedLanguages = uniq(supportedLanguages.concat(article.supportedLanguages ?? []));
 
-    const secondArticleLanguage = allSupportedLanguages?.find(l => l !== language) ?? language;
+    const secondArticleLanguage =
+      allSupportedLanguages?.find(l => l !== currentArticleLanguage) ?? currentArticleLanguage;
 
     const types: PartialRecord<TypeOfPreview, () => Promise<ArticleConverterApiType>> = {
-      previewLanguageArticle: () => previewLanguageArticle(id, secondArticleLanguage),
-      previewVersion: () => previewVersion(language),
-      previewProductionArticle: () => previewProductionArticle(id, language),
+      previewLanguageArticle: () => previewLanguageArticle(articleId, secondArticleLanguage),
+      previewVersion: () => previewVersion(currentArticleLanguage),
+      previewProductionArticle: () => previewProductionArticle(articleId, currentArticleLanguage),
     };
     setLoading(true);
-    const firstArticle = await getPreviewArticle(article, language);
+    const firstArticle = await getPreviewArticle(article, currentArticleLanguage);
 
     const secondArticle = await types[typeOfPreview]?.();
     setFirstArticle(firstArticle);

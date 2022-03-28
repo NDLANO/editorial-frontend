@@ -19,7 +19,7 @@ import Spinner from './Spinner';
 const NotFoundPage = loadable(() => import('../containers/NotFoundPage/NotFoundPage'));
 
 interface ResourceComponentProps {
-  isNewlyCreated: boolean;
+  isNewlyCreated?: boolean;
 }
 
 interface BaseResource {

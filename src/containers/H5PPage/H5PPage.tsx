@@ -3,7 +3,6 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import H5PElement from '../../components/H5PElement/H5PElement';
-import { HistoryShape } from '../../shapes';
 
 const H5PPage = () => {
   const { t, i18n } = useTranslation();
@@ -31,10 +30,6 @@ const H5PPage = () => {
       />
     </>
   );
-};
-
-H5PPage.propTypes = {
-  history: HistoryShape,
 };
 
 export default H5PPage;

@@ -52,16 +52,7 @@ const AgreementPage = () => {
       <HelmetWithTracker title={t('htmlTitles.agreementPage')} />
       <OneColumn>
         <Routes>
-          <Route
-            path="new"
-            element={
-              <CreateAgreement
-                locale={locale}
-                isSaving={isSaving}
-                upsertAgreement={upsertAgreement}
-              />
-            }
-          />
+          <Route path="new" element={<CreateAgreement upsertAgreement={upsertAgreement} />} />
           <Route
             path=":agreementId/edit"
             element={

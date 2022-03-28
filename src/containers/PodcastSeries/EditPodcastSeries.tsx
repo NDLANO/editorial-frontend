@@ -16,7 +16,7 @@ import PodcastSeriesForm from './components/PodcastSeriesForm';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 interface Props {
-  isNewlyCreated: boolean;
+  isNewlyCreated?: boolean;
 }
 
 const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
@@ -60,7 +60,7 @@ const EditPodcastSeries = ({ isNewlyCreated }: Props) => {
       podcastSeries={podcastSeries}
       language={seriesLanguage}
       onUpdate={onUpdate}
-      isNewlyCreated={isNewlyCreated}
+      isNewlyCreated={!!isNewlyCreated}
       isNewLanguage={isNewLanguage}
     />
   );

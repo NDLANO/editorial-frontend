@@ -588,6 +588,7 @@ const phrases = {
       header: 'Overskrift',
       manuscript: 'Tekstversjon',
       coverPhotoId: 'Metabilde',
+      revisions: 'Revisjoner',
     },
     previewProductionArticle: {
       button: 'Sammenlign gjeldende versjon med gammel versjon',
@@ -1106,6 +1107,12 @@ const phrases = {
     },
     section: {
       remove: 'Ta bort seksjon',
+    },
+    revisions: {
+      add: 'Ny revisjon',
+      remove: 'Fjern revisjon',
+      description:
+        'Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren bestemmer hvorvidt en revisjon er utført eller ikke. Lagrede revisjoner kan ikke slettes, bare oppdateres.',
     },
   },
   validation: {

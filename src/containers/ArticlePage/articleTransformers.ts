@@ -83,6 +83,7 @@ const draftApiTypeToArticleFormType = (
     conceptIds: article?.conceptIds ?? [],
     availability: article?.availability ?? 'everyone',
     relatedContent: article?.relatedContent ?? [],
+    revisionMeta: article?.revisions ?? [],
   };
 };
 
@@ -148,6 +149,7 @@ export const learningResourceFormTypeToDraftApiType = (
     conceptIds: article.conceptIds,
     availability: article.availability,
     relatedContent: article.relatedContent,
+    revisionMeta: article.revisionMeta,
   };
 };
 
@@ -186,6 +188,7 @@ export const topicArticleFormTypeToDraftApiType = (
     conceptIds: article.conceptIds,
     availability: article.availability,
     relatedContent: article.relatedContent,
+    revisionMeta: article.revisionMeta,
   };
 };
 
@@ -226,5 +229,6 @@ export const updatedDraftApiTypeToDraftApiType = (
     conceptIds: article.conceptIds ?? [],
     availability: article.availability ?? 'everyone',
     relatedContent: article.relatedContent ?? [],
+    revisions: article.revisionMeta ?? [],
   };
 };

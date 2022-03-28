@@ -17,11 +17,12 @@ const locales = {
 };
 
 const StyledCalendarIcon = styled(Calendar)`
-  margin-left: -1.5rem;
+  margin-left: -1.7rem;
   margin-top: -2px;
-  height: 25px;
+  height: 100%;
   width: 25px;
   fill: ${colors.brand.tertiary};
+  pointer-events: none;
 `;
 
 const StyledDateTimeInput = styled.div`
@@ -29,8 +30,8 @@ const StyledDateTimeInput = styled.div`
 `;
 
 class DateTimeInput extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.onChange = this.onChange.bind(this);
     this.getOptions = this.getOptions.bind(this);
   }

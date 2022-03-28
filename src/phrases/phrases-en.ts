@@ -586,6 +586,7 @@ const phrases = {
       header: 'Header',
       manuscript: 'Text version',
       coverPhotoId: 'Meta image',
+      revisions: 'Revisions',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1105,6 +1106,12 @@ const phrases = {
     },
     section: {
       remove: 'Remove section',
+    },
+    revisions: {
+      add: 'New revision',
+      remove: 'Remove revision',
+      description:
+        'Revisions requires a description and an expiration date for the article. The switch decides whether a revision is performed or not. Saved revisions can not be deleted, just updated.',
     },
   },
   validation: {

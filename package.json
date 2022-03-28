@@ -51,7 +51,7 @@
     "@ndla/types-article-api": "^0.0.5",
     "@ndla/types-audio-api": "^0.0.10",
     "@ndla/types-concept-api": "^0.0.10",
-    "@ndla/types-draft-api": "^0.0.21",
+    "@ndla/types-draft-api": "^0.0.22",
     "@ndla/types-frontpage-api": "^0.0.3",
     "@ndla/types-image-api": "^0.0.4",
     "@ndla/types-learningpath-api": "^0.0.2",

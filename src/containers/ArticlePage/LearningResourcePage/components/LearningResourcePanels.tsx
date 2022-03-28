@@ -20,6 +20,7 @@ import LearningResourceContent from './LearningResourceContent';
 import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
+import RevisionNotes from '../../components/RevisionNotes';
 
 interface Props {
   handleSubmit: (
@@ -106,6 +107,13 @@ const LearningResourcePanels = ({
           <RelatedContentFieldGroup />
         </AccordionSection>
       )}
+      <AccordionSection
+        id={'learning-resource-revisions'}
+        title={t('form.name.revisions')}
+        className={'u-6/6'}
+        hasError={false}>
+        <RevisionNotes />
+      </AccordionSection>
       {article && (
         <AccordionSection
           id={'learning-resource-workflow'}

@@ -137,9 +137,21 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
+    onSettled: () =>
+      qc.invalidateQueries([
+        RESOURCES_WITH_NODE_CONNECTION,
+        currentNodeId,
+        { language: i18n.language },
+      ]),
   });
   const { mutateAsync: updateResourceConnection } = usePutResourceForNodeMutation({
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
+    onSettled: () =>
+      qc.invalidateQueries([
+        RESOURCES_WITH_NODE_CONNECTION,
+        currentNodeId,
+        { language: i18n.language },
+      ]),
   });
 
   const getArticleMeta = async (resource: ResourceWithNodeConnection): Promise<ResourceMeta> => {
@@ -190,9 +202,9 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
 
   const updateRelevanceId = async (relevanceId: string) => {
     const { connectionId, primary, rank } = resource;
-    const func = connectionId.includes('topic-resource')
-      ? updateResourceConnection
-      : updateNodeConnection;
+    const func = connectionId.includes('subject-topic')
+      ? updateNodeConnection
+      : updateResourceConnection;
     await func({ id: connectionId, body: { relevanceId, primary, rank: rank } });
   };
 

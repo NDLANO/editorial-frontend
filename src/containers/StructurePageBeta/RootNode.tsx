@@ -4,11 +4,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { MutableRefObject } from 'react';
+import { memo, MutableRefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DropResult } from 'react-beautiful-dnd';
 import { useQueryClient } from 'react-query';
-import { partition, sortBy } from 'lodash';
+import { isEqual, partition, sortBy } from 'lodash';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import { useChildNodesWithArticleType } from '../../modules/nodes/nodeQueries';
 import { groupChildNodes } from '../../util/taxonomyHelpers';
@@ -20,7 +20,7 @@ interface Props {
   node: NodeType;
   toggleOpen: (path: string) => void;
   openedPaths: string[];
-  favoriteNodeIds?: string[];
+  isFavorite: boolean;
   toggleFavorite: () => void;
   onChildNodeSelected: (node?: ChildNodeType) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
@@ -29,7 +29,7 @@ interface Props {
 }
 
 const RootNode = ({
-  favoriteNodeIds,
+  isFavorite,
   node,
   openedPaths,
   toggleOpen,
@@ -93,10 +93,25 @@ const RootNode = ({
       parentActive={true}
       allRootNodes={allRootNodes}
       isRoot={true}
-      favoriteNodeIds={favoriteNodeIds}
+      isFavorite={isFavorite}
       isLoading={childNodesQuery.isLoading}
     />
   );
 };
 
-export default RootNode;
+const propsAreEqual = (prevProps: Props, props: Props) => {
+  const isInPath = props.openedPaths[0] === props.node.id;
+  const noLongerInPath = prevProps.openedPaths[0] === prevProps.node.id && !isInPath;
+  if (isInPath) {
+    return false;
+  } else if (noLongerInPath) {
+    return false;
+  }
+
+  if (prevProps.isFavorite !== props.isFavorite) {
+    return false;
+  }
+  return isEqual(prevProps.node, props.node);
+};
+
+export default memo(RootNode, propsAreEqual);

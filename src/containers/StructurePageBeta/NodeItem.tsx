@@ -166,7 +166,7 @@ interface Props {
   parentActive: boolean;
   allRootNodes: NodeType[];
   isRoot?: boolean;
-  favoriteNodeIds?: string[];
+  isFavorite: boolean;
   toggleFavorite?: () => void;
   nodes?: ChildNodeType[];
   isLoading?: boolean;
@@ -185,7 +185,7 @@ const NodeItem = ({
   parentActive,
   allRootNodes,
   isRoot,
-  favoriteNodeIds,
+  isFavorite,
   toggleFavorite,
   isLoading,
   nodes,
@@ -217,16 +217,10 @@ const NodeItem = ({
       key={path}
       greyedOut={!parentActive && !isActive}>
       <StyledItemBar level={level} highlight={isActive}>
-        {favoriteNodeIds && (
+        {isRoot && (
           <RoundIcon
             onClick={toggleFavorite}
-            smallIcon={
-              <Star
-                color={
-                  favoriteNodeIds.includes(item.id) ? colors.favoriteColor : colors.brand.greyDark
-                }
-              />
-            }
+            smallIcon={<Star color={isFavorite ? colors.favoriteColor : colors.brand.greyDark} />}
           />
         )}
         <ItemTitleButton
@@ -267,6 +261,7 @@ const NodeItem = ({
               onDragEnd={res => onDragEnd(res, nodes!)}>
               {nodes.map(t => (
                 <NodeItem
+                  isFavorite={false}
                   renderBeforeTitle={renderBeforeTitle}
                   key={`${path}/${t.id}`}
                   allRootNodes={allRootNodes}

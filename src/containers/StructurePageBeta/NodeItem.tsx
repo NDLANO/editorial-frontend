@@ -248,6 +248,7 @@ const NodeItem = ({
             key={item.id}
             isMainActive={isOpen}
             structure={allRootNodes}
+            onCurrentNodeChanged={node => (isChildNode(node) ? onChildNodeSelected(node) : null)}
             jumpToResources={() => resourceSectionRef?.current?.scrollIntoView()}
           />
         )}

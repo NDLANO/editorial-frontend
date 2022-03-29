@@ -21,6 +21,7 @@ interface Props {
   node: NodeType;
   onClose: () => void;
   structure: NodeType[];
+  onCurrentNodeChanged: (node: NodeType) => void;
 }
 
 export interface EditModeHandler {
@@ -28,7 +29,13 @@ export interface EditModeHandler {
   toggleEditMode: (editMode: EditMode) => void;
 }
 
-const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Props) => {
+const SettingsMenuDropdownType = ({
+  rootNodeId,
+  node,
+  onClose,
+  structure,
+  onCurrentNodeChanged,
+}: Props) => {
   const { userPermissions } = useSession();
   const [editMode, setEditMode] = useState<EditMode>('');
   const nodeType = getNodeTypeFromNodeId(node.id);
@@ -43,7 +50,12 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Prop
     return (
       <>
         {/* <ChangeNodeName editModeHandler={editModeHandler} node={node} /> */}
-        <EditCustomFields toggleEditMode={toggleEditMode} editMode={editMode} node={node} />
+        <EditCustomFields
+          toggleEditMode={toggleEditMode}
+          editMode={editMode}
+          node={node}
+          onCurrentNodeChanged={onCurrentNodeChanged}
+        />
         {/* <AddExistingToNode
           node={node}
           editModeHandler={editModeHandler}
@@ -61,7 +73,12 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Prop
     return (
       <>
         {/* <PublishChildNode node={node} /> */}
-        <EditCustomFields toggleEditMode={toggleEditMode} editMode={editMode} node={node} />
+        <EditCustomFields
+          toggleEditMode={toggleEditMode}
+          editMode={editMode}
+          node={node}
+          onCurrentNodeChanged={onCurrentNodeChanged}
+        />
         {/* <DeleteChildNode editModeHandler={editModeHandler} node={node} rootNodeId={rootNodeId} />
         <AddExistingToNode
           node={node}

@@ -19,13 +19,16 @@ import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import RootNode from './RootNode';
 import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
+import StructureResources from './resourceComponents/StructureResources';
+import Footer from '../App/components/Footer';
+
 const StructureWrapper = styled.ul`
   margin: 0;
   padding: 0;
 `;
 const StructureContainer = () => {
   const location = useLocation();
-  const [subject, topic, ...rest] = location.pathname.replace('/structure/', '').split('/');
+  const [subject, topic, ...rest] = location.pathname.replace('/structureBeta/', '').split('/');
   const joinedRest = rest.join('/');
   const subtopics = joinedRest.length > 0 ? joinedRest : undefined;
   const params = { subject, topic, subtopics };
@@ -139,7 +142,15 @@ const StructureContainer = () => {
             )}
           </div>
         </Accordion>
+        {currentNode && (
+          <StructureResources
+            currentChildNode={currentNode}
+            resourceRef={resourceSection}
+            onCurrentNodeChanged={setCurrentNode}
+          />
+        )}
       </OneColumn>
+      <Footer showLocaleSelector />
     </ErrorBoundary>
   );
 };

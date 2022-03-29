@@ -6,6 +6,7 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import { useMutation, UseMutationOptions, useQueryClient } from 'react-query';
 import { CHILD_NODES_WITH_ARTICLE_TYPE, NODES } from '../../queryKeys';
 import handleError from '../../util/handleError';
@@ -56,17 +57,26 @@ export const useAddNodeMutation = () => {
 
 export const useUpdateNodeMetadataMutation = () => {
   const qc = useQueryClient();
+  const { i18n } = useTranslation();
   return useMutation<
     TaxonomyMetadata,
     unknown,
     { id: string; metadata: Partial<TaxonomyMetadata>; rootId?: string }
   >(data => putNodeMetadata(data.id, data.metadata), {
-    onSettled: (_, __, variables) => {
-      if (variables.rootId) {
-        qc.invalidateQueries([CHILD_NODES_WITH_ARTICLE_TYPE, variables.rootId, 'nb']);
-      } else {
-        qc.invalidateQueries(NODES);
-      }
+    onMutate: async ({ id, metadata, rootId }) => {
+      const key = rootId ? [CHILD_NODES_WITH_ARTICLE_TYPE, rootId, i18n.language] : NODES;
+      await qc.cancelQueries(key);
+      const prevNodes = qc.getQueryData<NodeType[]>(key) ?? [];
+      const newNodes = prevNodes.map(node => {
+        if (node.id === id) {
+          return { ...node, metadata: { ...node.metadata, ...metadata } };
+        } else return node;
+      });
+      qc.setQueryData<NodeType[]>(key, newNodes);
+    },
+    onSettled: (_, __, { rootId }) => {
+      const key = rootId ? [CHILD_NODES_WITH_ARTICLE_TYPE, rootId, i18n.language] : NODES;
+      qc.invalidateQueries(key);
     },
   });
 };

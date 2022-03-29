@@ -12,12 +12,12 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { RefObject } from 'react';
 import { TFunction } from 'i18next';
-import { ChildNodeType, ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
+import { ChildNodeType, StructureResource } from '../../../modules/nodes/nodeApiTypes';
 import {
   ResourceResourceType,
   ResourceType,
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { useResourcesWithNodeConnection } from '../../../modules/nodes/nodeQueries';
+import { useStructureResources } from '../../../modules/nodes/nodeQueries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import NodeDescription from './NodeDescription';
 import handleError from '../../../util/handleError';
@@ -46,7 +46,7 @@ const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boole
 });
 
 const missingObject: ResourceResourceType = { id: 'missing', name: '', connectionId: '' };
-const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection => ({
+const withMissing = (r: StructureResource): StructureResource => ({
   ...r,
   resourceTypes: [missingObject],
 });
@@ -55,7 +55,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
   const { t, i18n } = useTranslation();
   const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
 
-  const { data: nodeResources } = useResourcesWithNodeConnection(
+  const { data: resources } = useStructureResources(
     currentChildNode.id,
     { language: i18n.language },
     {
@@ -72,7 +72,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
 
   const groupedNodeResources = groupSortResourceTypesFromNodeResources(
     resourceTypes ?? [],
-    nodeResources ?? [],
+    resources ?? [],
   );
 
   return (
@@ -95,7 +95,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
       {grouped === 'ungrouped' && (
         <AllResourcesGroup
           key="ungrouped"
-          nodeResources={nodeResources ?? []}
+          nodeResources={resources ?? []}
           resourceTypes={resourceTypes ?? []}
           currentNodeId={currentChildNode.id}
         />

@@ -73,6 +73,12 @@ export interface ResourceWithNodeConnection {
   }[];
 }
 
+export interface StructureResource extends ResourceWithNodeConnection {
+  grepCodes?: string[];
+  status?: { current: string; other: string[] };
+  articleType?: string;
+}
+
 export interface ChildNodeType extends NodeType {
   connectionId: string;
   isPrimary: boolean;

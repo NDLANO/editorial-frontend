@@ -18,7 +18,7 @@ import ResourceItems from './ResourceItems';
 // import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
+import { StructureResource } from '../../../modules/nodes/nodeApiTypes';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -26,7 +26,7 @@ export const classes = new BEMHelper({
 });
 
 interface Props {
-  resources?: ResourceWithNodeConnection[];
+  resources?: StructureResource[];
   resourceType: ResourceType & {
     disabled?: boolean;
   };

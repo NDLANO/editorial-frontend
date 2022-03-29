@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
-import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
+import { StructureResource } from '../../../modules/nodes/nodeApiTypes';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import Accordion from '../../../components/Accordion';
 import { ButtonAppearance } from '../../../components/Accordion/types';
@@ -24,7 +24,7 @@ export const classes = new BEMHelper({
 
 interface Props {
   currentNodeId: string;
-  nodeResources: ResourceWithNodeConnection[];
+  nodeResources: StructureResource[];
   resourceTypes: ResourceType[];
 }
 

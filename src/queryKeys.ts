@@ -49,3 +49,4 @@ export const CONNECTIONS_FOR_NODE = 'connectionsForNode';
 export const NODE_RESOURCES = 'resourcesForNode';
 export const RESOURCES_WITH_NODE_CONNECTION = 'resourcesWithNodeConnection';
 export const RESOURCE_META = 'resourceMeta';
+export const STRUCTURE_RESOURCES = 'structureResources';

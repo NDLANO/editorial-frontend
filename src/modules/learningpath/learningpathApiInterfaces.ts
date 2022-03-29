@@ -15,6 +15,7 @@ export interface SearchBody {
   language?: string;
   fallback?: boolean;
   verificationStatus?: string;
+  ids?: number[];
 }
 
 export interface CopyLearningPathBody {

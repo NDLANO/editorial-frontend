@@ -18,8 +18,8 @@ import {
   useDeleteResourceForNodeMutation,
   usePutResourceForNodeMutation,
 } from '../../../modules/nodes/nodeMutations';
-import { RESOURCES_WITH_NODE_CONNECTION } from '../../../queryKeys';
-import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
+import { STRUCTURE_RESOURCES } from '../../../queryKeys';
+import { StructureResource } from '../../../modules/nodes/nodeApiTypes';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import MakeDndList from '../../../components/MakeDndList';
@@ -35,7 +35,7 @@ const StyledErrorMessage = styled.div`
 `;
 
 interface Props {
-  resources: ResourceWithNodeConnection[];
+  resources: StructureResource[];
   currentNodeId: string;
 }
 
@@ -46,13 +46,13 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   const [deleteId, setDeleteId] = useState<string>('');
 
   const qc = useQueryClient();
-  const compKey = [RESOURCES_WITH_NODE_CONNECTION, currentNodeId, { language: i18n.language }];
+  const compKey = [STRUCTURE_RESOURCES, currentNodeId, { language: i18n.language }];
   const deleteNodeResource = useDeleteResourceForNodeMutation({
     onMutate: async variables => {
       await qc.cancelQueries(compKey);
-      const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
+      const prevData = qc.getQueryData<StructureResource[]>(compKey) ?? [];
       const withoutDeleted = prevData.filter(res => res.connectionId !== variables.id);
-      qc.setQueryData<ResourceWithNodeConnection[]>(compKey, withoutDeleted);
+      qc.setQueryData<StructureResource[]>(compKey, withoutDeleted);
       return prevData;
     },
   });
@@ -60,12 +60,12 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   const onUpdateRank = async (id: string, newRank: number) => {
     await qc.cancelQueries(compKey);
     const [toUpdate, other] = partition(resources, t => t.connectionId === id);
-    const updatedRes: ResourceWithNodeConnection = { ...toUpdate[0], rank: newRank };
-    const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
+    const updatedRes: StructureResource = { ...toUpdate[0], rank: newRank };
+    const prevData = qc.getQueryData<StructureResource[]>(compKey) ?? [];
     const updated = other.map(t => (t.rank >= updatedRes.rank ? { ...t, rank: t.rank + 1 } : t));
     const newArr = sortBy([...updated, updatedRes], 'rank');
-    const allResources = uniqBy<ResourceWithNodeConnection>([...newArr, ...prevData], 'id');
-    qc.setQueryData<ResourceWithNodeConnection[]>(compKey, allResources);
+    const allResources = uniqBy<StructureResource>([...newArr, ...prevData], 'id');
+    qc.setQueryData<StructureResource[]>(compKey, allResources);
     return resources;
   };
 

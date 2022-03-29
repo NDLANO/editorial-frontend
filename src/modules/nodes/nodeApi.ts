@@ -6,6 +6,9 @@
  *
  */
 
+import { IArticleSummary } from '@ndla/types-draft-api';
+import { ILearningPathSummaryV2 } from '@ndla/types-learningpath-api';
+import { keyBy } from 'lodash';
 import queryString from 'query-string';
 import { taxonomyApi } from '../../config';
 import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
@@ -13,6 +16,8 @@ import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../util/resolveJsonOrRejectWithError';
+import { searchDrafts } from '../draft/draftApi';
+import { learningpathSearch } from '../learningpath/learningpathApi';
 import { TaxonomyMetadata } from '../taxonomy/taxonomyApiInterfaces';
 import {
   GetChildNodesParams,
@@ -29,6 +34,7 @@ import {
   NodeResourcePostType,
   NodeResourcePutType,
   ResourceWithNodeConnection,
+  StructureResource,
 } from './nodeApiTypes';
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/nodes`);
@@ -94,6 +100,71 @@ export const fetchNodeResources = (
   params?: GetNodeResourcesParams,
 ): Promise<ResourceWithNodeConnection[]> => {
   return fetchAndResolve({ url: `${baseUrl}/${id}/resources${stringifyQuery(params)}` });
+};
+
+const getDraftAndLearningpathIds = (resources: ResourceWithNodeConnection[]) => {
+  return resources.reduce<{
+    draftIds: number[];
+    learningpathIds: number[];
+  }>(
+    (acc, curr) => {
+      const [, resourceType, idString] = curr.contentUri?.split(':') ?? [];
+      const id = Number(idString);
+      if (id && resourceType === 'article') {
+        acc.draftIds = acc.draftIds.concat(id);
+      } else if (id && resourceType === 'learningpath') {
+        acc.learningpathIds = acc.learningpathIds.concat(id);
+      }
+      return acc;
+    },
+    { draftIds: [], learningpathIds: [] },
+  );
+};
+
+const addLearningResourcesToResources = (
+  resources: ResourceWithNodeConnection[],
+  drafts: IArticleSummary[],
+  learningpaths: ILearningPathSummaryV2[],
+): StructureResource[] => {
+  const draftsById = keyBy(drafts, 'id');
+  const learningpathsById = keyBy(learningpaths, 'id');
+  return resources.map(res => {
+    const [, resourceType, idString] = res.contentUri?.split(':') ?? [];
+    const id = Number(idString);
+    if (id && resourceType === 'article') {
+      const draft = draftsById[id];
+      return {
+        ...res,
+        articleType: draft?.articleType,
+        grepCodes: draft?.grepCodes,
+        status: draft?.status,
+      };
+    } else if (id && resourceType === 'learningpath') {
+      const learningpath = learningpathsById[id];
+      return {
+        ...res,
+        status: { current: learningpath.status, other: [] },
+      };
+    } else return res;
+  });
+};
+
+export const fetchStructureResources = async (
+  id: string,
+  params?: GetNodeResourcesParams,
+): Promise<StructureResource[]> => {
+  const resources = await fetchAndResolve<ResourceWithNodeConnection[]>({
+    url: `${baseUrl}/${id}/resources${stringifyQuery(params)}`,
+  });
+  const { draftIds, learningpathIds } = getDraftAndLearningpathIds(resources);
+  const drafts = draftIds.length
+    ? await searchDrafts({ idList: draftIds }).then(r => r.results)
+    : [];
+  const learningpaths = learningpathIds.length
+    ? await learningpathSearch({ ids: learningpathIds }).then(r => r.results)
+    : [];
+  const structureResources = addLearningResourcesToResources(resources, drafts, learningpaths);
+  return structureResources;
 };
 
 export const deleteNodeConnection = (id: string): Promise<void> =>

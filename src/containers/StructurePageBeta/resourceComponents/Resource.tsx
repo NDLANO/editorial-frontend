@@ -17,19 +17,14 @@ import { colors, spacing, breakpoints } from '@ndla/core';
 import { AlertCircle, Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
-import {
-  NodeConnectionPutType,
-  ResourceWithNodeConnection,
-} from '../../../modules/nodes/nodeApiTypes';
+import { NodeConnectionPutType, StructureResource } from '../../../modules/nodes/nodeApiTypes';
 import {
   usePutResourceForNodeMutation,
   useUpdateNodeConnectionMutation,
 } from '../../../modules/nodes/nodeMutations';
-import { fetchDraft } from '../../../modules/draft/draftApi';
-import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import { RESOURCES_WITH_NODE_CONNECTION, RESOURCE_META } from '../../../queryKeys';
+import { STRUCTURE_RESOURCES } from '../../../queryKeys';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import config from '../../../config';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
@@ -60,9 +55,9 @@ interface Props {
   currentNodeId: string;
   connectionId?: string; // required for MakeDndList, otherwise ignored
   id?: string; // required for MakeDndList, otherwise ignored
-  resource: ResourceWithNodeConnection;
+  resource: StructureResource;
   onDelete?: (connectionId: string) => void;
-  updateResource?: (resource: ResourceWithNodeConnection) => void;
+  updateResource?: (resource: StructureResource) => void;
   dragHandleProps?: DraggableProvidedDragHandleProps;
 }
 const grepButtonStyle = css`
@@ -106,12 +101,6 @@ const getArticleTypeFromId = (id?: string) => {
   return undefined;
 };
 
-interface ResourceMeta {
-  grepCodes?: string[];
-  status?: { current: string; other: string[] };
-  articleType?: string;
-}
-
 const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -121,16 +110,16 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const qc = useQueryClient();
 
   const onUpdateConnection = async (id: string, { relevanceId }: NodeConnectionPutType) => {
-    const key = [RESOURCES_WITH_NODE_CONNECTION, currentNodeId, { language: i18n.language }];
+    const key = [STRUCTURE_RESOURCES, currentNodeId, { language: i18n.language }];
     await qc.cancelQueries(key);
-    const resources = qc.getQueryData<ResourceWithNodeConnection[]>(key) ?? [];
+    const resources = qc.getQueryData<StructureResource[]>(key) ?? [];
     if (relevanceId) {
       const newResources = resources.map(res => {
         if (res.id === id) {
           return { ...res, relevanceId: relevanceId };
         } else return res;
       });
-      qc.setQueryData<ResourceWithNodeConnection[]>(key, newResources);
+      qc.setQueryData<StructureResource[]>(key, newResources);
     }
     return resources;
   };
@@ -138,42 +127,13 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
     onSettled: () =>
-      qc.invalidateQueries([
-        RESOURCES_WITH_NODE_CONNECTION,
-        currentNodeId,
-        { language: i18n.language },
-      ]),
+      qc.invalidateQueries([STRUCTURE_RESOURCES, currentNodeId, { language: i18n.language }]),
   });
   const { mutateAsync: updateResourceConnection } = usePutResourceForNodeMutation({
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
     onSettled: () =>
-      qc.invalidateQueries([
-        RESOURCES_WITH_NODE_CONNECTION,
-        currentNodeId,
-        { language: i18n.language },
-      ]),
+      qc.invalidateQueries([STRUCTURE_RESOURCES, currentNodeId, { language: i18n.language }]),
   });
-
-  const getArticleMeta = async (resource: ResourceWithNodeConnection): Promise<ResourceMeta> => {
-    const [, resourceType, id] = resource.contentUri?.split(':') ?? [];
-    if (id && resourceType === 'article') {
-      const { status, grepCodes, articleType } = await fetchDraft(id, i18n.language);
-      return { status, grepCodes, articleType };
-    } else if (id && resourceType === 'learningpath') {
-      const learningpath = await fetchLearningpath(parseInt(id), i18n.language);
-      if (learningpath.status) {
-        const status = { current: learningpath.status, other: [] };
-        return { ...resource, status };
-      }
-    }
-    return {};
-  };
-
-  const resourceMetaQuery = useQuery<ResourceMeta>(
-    [RESOURCE_META, resource.id],
-    () => getArticleMeta(resource),
-    { retry: false, initialData: {} },
-  );
 
   const contentType =
     resource.resourceTypes.length > 0
@@ -226,18 +186,17 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
           isVisible={resource.metadata?.visible}
         />
       </StyledResourceBody>
-      {resourceMetaQuery.data?.status?.current && (
+      {resource.status?.current && (
         <Button
           lighter
           css={statusButtonStyle}
           onClick={() => setShowVersionHistory(true)}
           disabled={contentType === 'learning-path'}>
-          {t(`form.status.${resourceMetaQuery.data.status.current.toLowerCase()}`)}
+          {t(`form.status.${resource.status.current.toLowerCase()}`)}
         </Button>
       )}
-      <WrongTypeError resource={resource} articleType={resourceMetaQuery.data?.articleType} />
-      {(resourceMetaQuery.data?.status?.current === PUBLISHED ||
-        resourceMetaQuery.data?.status?.other?.includes(PUBLISHED)) && (
+      <WrongTypeError resource={resource} articleType={resource.articleType} />
+      {(resource.status?.current === PUBLISHED || resource.status?.other?.includes(PUBLISHED)) && (
         <PublishedWrapper path={path}>
           <Tooltip tooltip={t('form.workflow.published')}>
             <StyledCheckIcon />
@@ -246,7 +205,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
       )}
       {contentType !== 'learning-path' && (
         <Button lighter css={grepButtonStyle} onClick={() => setShowGrepCodes(true)}>
-          {`GREP (${resourceMetaQuery.data?.grepCodes?.length || 0})`}
+          {`GREP (${resource.grepCodes?.length || 0})`}
         </Button>
       )}
       <RelevanceOption relevanceId={resource.relevanceId} onChange={updateRelevanceId} />
@@ -284,7 +243,7 @@ const WrongTypeError = ({
   resource,
   articleType,
 }: {
-  resource: ResourceWithNodeConnection;
+  resource: StructureResource;
   articleType?: string;
 }) => {
   const { t } = useTranslation();

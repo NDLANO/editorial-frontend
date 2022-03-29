@@ -14,6 +14,7 @@ import {
   NODE,
   NODE_TRANSLATIONS,
   RESOURCES_WITH_NODE_CONNECTION,
+  STRUCTURE_RESOURCES,
 } from '../../queryKeys';
 import { searchDrafts } from '../draft/draftApi';
 import {
@@ -23,6 +24,7 @@ import {
   fetchNodeResources,
   fetchNodes,
   fetchNodeTranslations,
+  fetchStructureResources,
 } from './nodeApi';
 import {
   ChildNodeType,
@@ -32,6 +34,7 @@ import {
   NodeTranslation,
   NodeType,
   ResourceWithNodeConnection,
+  StructureResource,
 } from './nodeApiTypes';
 
 export const useNodes = (params: GetNodeParams, options?: UseQueryOptions<NodeType[]>) => {
@@ -110,6 +113,18 @@ export const useResourcesWithNodeConnection = (
   return useQuery<ResourceWithNodeConnection[]>(
     [RESOURCES_WITH_NODE_CONNECTION, id, params],
     () => fetchNodeResources(id, params),
+    options,
+  );
+};
+
+export const useStructureResources = (
+  id: string,
+  params: GetNodeResourcesParams,
+  options?: UseQueryOptions<StructureResource[]>,
+) => {
+  return useQuery<StructureResource[]>(
+    [STRUCTURE_RESOURCES, id, params],
+    () => fetchStructureResources(id, params),
     options,
   );
 };

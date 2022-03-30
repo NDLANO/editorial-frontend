@@ -55,6 +55,7 @@ const StyledSwitch = styled(Switch)`
 const StyledRemoveButton = styled(FieldRemoveButton)<{ visible: boolean }>`
   width: 15%;
   visible: ${({ visible }) => (visible ? 'visible' : 'hidden')};
+  height: 100%;
 `;
 
 const AddRevisionDateField = ({ formikField }: Props) => {

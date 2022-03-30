@@ -43,7 +43,9 @@ const StyledWrapper = styled.div<{ isSelected: boolean }>`
   ul {
     margin-top: 0;
   }
-  box-shadow: ${p => (p.isSelected ? `${colors.brand.primary} 0 0 0 2px` : 'none')};
+  padding: 5px;
+  border: ${p =>
+    p.isSelected ? `2px solid ${colors.brand.primary}` : `2px dashed ${colors.brand.greyLighter}`};
 `;
 
 const BlockConcept = ({ element, locale, editor, attributes, children }: Props) => {

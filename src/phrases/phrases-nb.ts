@@ -735,6 +735,10 @@ const phrases = {
       published: 'Det finnes en publisert versjon av dette elementet.',
       multipleTaxonomy: 'Artikkelen har flere oppføringer i taksonomi.',
       currentStatus: 'Gjeldende status: {{status}}.',
+      expiration: {
+        warn: 'En av revisjonene utløper snart.',
+        expired: 'En av revisjonene har utløpt.',
+      },
     },
     status: {
       new: 'Ny - Ikke lagret',

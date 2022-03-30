@@ -68,6 +68,7 @@ interface Props {
     supportedLanguages?: string[];
   };
   formIsDirty?: boolean;
+  expirationDate?: string;
 }
 
 const HeaderWithLanguage = ({
@@ -80,6 +81,7 @@ const HeaderWithLanguage = ({
   values,
   formIsDirty = false,
   taxonomy,
+  expirationDate,
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
@@ -113,6 +115,7 @@ const HeaderWithLanguage = ({
         published={published}
         taxonomyPaths={taxonomyPaths}
         setHasConnections={setHasConnections}
+        expirationDate={expirationDate}
         {...rest}
       />
       <StyledLanguageWrapper>

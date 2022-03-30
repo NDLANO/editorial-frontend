@@ -734,6 +734,10 @@ const phrases = {
       published: 'There exists a published version of this item.',
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
       currentStatus: 'Current status: {{ status }}.',
+      expiration: {
+        warn: 'One of the revisions expires soon.',
+        expired: 'One of the revisions has expired.',
+      },
     },
     status: {
       new: 'New - unsaved',

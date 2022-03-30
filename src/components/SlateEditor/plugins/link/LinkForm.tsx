@@ -80,10 +80,6 @@ export const getInitialValues = (link = {}) => ({
 });
 
 class LinkForm extends Component {
-  constructor() {
-    super();
-    this.handleSave = this.handleSave.bind(this);
-  }
 
   async handleSave(values, actions) {
     const { onSave } = this.props;
@@ -111,6 +107,7 @@ class LinkForm extends Component {
               name="href"
               description={t('form.content.link.description', {
                 url: config.ndlaFrontendDomain,
+                interpolation: {escapeValue: false}
               })}
               label={t('form.content.link.href')}
               css={getLinkFieldStyle(values.href)}

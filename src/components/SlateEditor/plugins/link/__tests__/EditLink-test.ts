@@ -6,7 +6,7 @@
  *
  */
 
-import { isNDLAArticleUrl, isNDLALearningPathUrl, isNDLATaxonomyUrl, isPlainId } from '../EditLink';
+import { isNDLAArticleUrl, isNDLALearningPathUrl, isNDLATaxonomyUrl, isPlainId, isNDLAEdPathUrl } from '../EditLink';
 
 test('urls are parsed correctly', async () => {
   const articleUrls = [

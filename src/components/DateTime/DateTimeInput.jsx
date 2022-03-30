@@ -7,6 +7,7 @@ import { english } from 'flatpickr/dist/l10n/default';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import NyNorsk from './NyNorsk';
+import { formatDateForBackend } from '../../util/formatDate';
 
 const FORMAT_PATTERN = 'd/m/Y';
 
@@ -57,11 +58,7 @@ class DateTimeInput extends Component {
       onChange({
         target: {
           name,
-          value:
-            selectedDateValue
-              .toISOString()
-              .split('.')
-              .shift() + 'Z',
+          value: formatDateForBackend(selectedDateValue),
           type: 'DateTime',
         },
       });

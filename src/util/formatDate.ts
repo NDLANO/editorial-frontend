@@ -21,3 +21,12 @@ export default function formatDate(date: string | number): string {
 
   return format(date, NORWEGIAN_FORMAT);
 }
+
+export function formatDateForBackend(date: Date): string {
+  return (
+    date
+      .toISOString()
+      .split('.')
+      .shift() + 'Z'
+  );
+}

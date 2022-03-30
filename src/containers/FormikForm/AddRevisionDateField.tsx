@@ -16,6 +16,7 @@ import styled from '@emotion/styled';
 import { Switch } from '@ndla/switch';
 import { ArticleFormType } from './articleFormHooks';
 import InlineDatePicker from './components/InlineDatePicker';
+import { formatDateForBackend } from '../../util/formatDate';
 
 type RevisionMetaFormType = ArticleFormType['revisionMeta'];
 
@@ -74,7 +75,7 @@ const AddRevisionDateField = ({ formikField }: Props) => {
       ...formikField.value,
       {
         note: '',
-        revisionDate: new Date().toISOString(),
+        revisionDate: formatDateForBackend(new Date()),
         status: 'needs-revision',
         new: true,
       },

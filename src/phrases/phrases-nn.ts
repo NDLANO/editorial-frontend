@@ -260,6 +260,7 @@ const phrases = {
       relevance: 'Relevans',
       title: 'Tittel',
       lastUpdated: 'Sist oppdatert',
+      revisionDate: 'Neste revisjon',
     },
     resultError: 'Noko gjekk feil med innlasting av type: {{type}}',
   },

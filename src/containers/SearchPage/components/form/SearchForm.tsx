@@ -41,6 +41,8 @@ export interface SearchParams {
   type?: string;
   license?: string;
   'model-released'?: string;
+  'revision-date-from'?: string;
+  'revision-date-to'?: string;
 }
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
@@ -67,6 +69,8 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     subjects: queryStringObject.subjects,
     type: queryStringObject.type,
     users: queryStringObject.users,
+    'revision-date-from': queryStringObject['revision-date-from'],
+    'revision-date-to': queryStringObject['revision-date-to'],
   };
 };
 

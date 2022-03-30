@@ -259,6 +259,7 @@ const phrases = {
       relevance: 'Relevance',
       title: 'Title',
       lastUpdated: 'Last updated',
+      revisionDate: 'Next revision',
     },
     resultError: 'Something went wrong with type: {{type}}',
   },

@@ -8,6 +8,7 @@
 
 import { MouseEvent, useEffect, useState } from 'react';
 import BEMHelper from 'react-bem-helper';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
 import styled from '@emotion/styled';
@@ -20,7 +21,6 @@ import ImageSizeButton from './ImageSizeButton';
 import ImageEditorButton from './ImageEditorButton';
 import { ImageEmbed } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
-import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 import ShowBylineButton from './ShowBylineButton';
 
 export const classes = new BEMHelper({
@@ -87,7 +87,7 @@ type StateProp = 'crop' | 'focalPoint' | undefined;
 const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => {
   const { t } = useTranslation();
   const [editType, setEditType] = useState<StateProp>(undefined);
-  const [image, setImage] = useState<ImageApiType | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
 
   useEffect(() => {
     const getImage = async () => {
@@ -131,11 +131,11 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
     onUpdatedImageSettings({ [field]: value });
   };
 
-  const onEditorTypeSet = (evt: MouseEvent, type: StateProp) => {
+  const onEditorTypeSet = (evt: MouseEvent<HTMLButtonElement>, type: StateProp) => {
     setEditType(type);
   };
 
-  const onRemoveData = (evt: MouseEvent, field: StateProp) => {
+  const onRemoveData = (evt: MouseEvent<HTMLButtonElement>, field: StateProp) => {
     evt.stopPropagation();
     setEditType(undefined);
     onUpdatedImageSettings({

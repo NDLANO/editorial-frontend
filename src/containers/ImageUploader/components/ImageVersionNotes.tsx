@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { VersionHistory } from '@ndla/editor';
-import { EditorNote, ImageApiType } from '../../../modules/image/imageApiInterfaces';
+import { IImageMetaInformationV2, IEditorNote } from '@ndla/types-image-api';
 import { fetchAuth0UsersFromUserIds, SimpleUserType } from '../../../modules/auth0/auth0Api';
 import Spinner from '../../../components/Spinner';
 import formatDate from '../../../util/formatDate';
@@ -19,7 +19,7 @@ const getUser = (userId: string, allUsers: SimpleUserType[]): string => {
 };
 
 interface Props {
-  image?: ImageApiType;
+  image?: IImageMetaInformationV2;
 }
 
 const ImageVersionNotes = ({ image }: Props) => {
@@ -29,7 +29,7 @@ const ImageVersionNotes = ({ image }: Props) => {
   const [loading, setLoading] = useState(numNotes > 0);
 
   const cleanupNotes = useCallback(
-    (notes: EditorNote[]) =>
+    (notes: IEditorNote[]) =>
       notes.map((note, idx) => ({
         ...note,
         author: getUser(note.updatedBy, users),

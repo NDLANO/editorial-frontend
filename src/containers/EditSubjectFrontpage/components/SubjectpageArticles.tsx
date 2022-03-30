@@ -8,24 +8,20 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
-import { FormikHelpers, FormikValues } from 'formik';
+import { ILearningPathV2 } from '@ndla/types-learningpath-api';
+import { IMultiSearchSummary } from '@ndla/types-search-api';
+import { IArticle } from '@ndla/types-draft-api';
+import { useField, useFormikContext } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import DropdownSearch from '../../NdlaFilm/components/DropdownSearch';
-import { FormikProperties } from '../../../interfaces';
 import handleError from '../../../util/handleError';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
-import { Learningpath } from '../../../modules/learningpath/learningpathApiInterfaces';
-import { MultiSearchSummary } from '../../../modules/search/searchApiInterfaces';
 
 interface Props {
-  editorsChoices: (DraftApiType | Learningpath)[];
+  editorsChoices: (IArticle | ILearningPathV2)[];
   elementId: string;
-  field: FormikProperties['field'];
-  form: {
-    setFieldTouched: FormikHelpers<FormikValues>['setFieldTouched'];
-  };
+  fieldName: string;
 }
 
 const getSubject = (elementId: string) => {
@@ -35,33 +31,36 @@ const getSubject = (elementId: string) => {
   return undefined;
 };
 
-const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) => {
+const SubjectpageArticles = ({ editorsChoices, elementId, fieldName }: Props) => {
   const { t } = useTranslation();
-  const [resources, setResources] = useState<(DraftApiType | Learningpath)[]>(editorsChoices);
+  const [resources, setResources] = useState<(IArticle | ILearningPathV2)[]>(editorsChoices);
+  const { setFieldTouched } = useFormikContext();
+  const [FieldInputProps] = useField<(IArticle | ILearningPathV2)[]>(fieldName);
+  const { onChange } = FieldInputProps;
   const subjectId = getSubject(elementId);
 
-  const onAddResultToList = async (result: MultiSearchSummary) => {
+  const onAddResultToList = async (result: IMultiSearchSummary) => {
     try {
       const f = result.learningResourceType === 'learningpath' ? fetchLearningpath : fetchDraft;
       const newResource = await f(result.id);
-      const temp = [...resources, { ...newResource, metaImage: result.metaImage }];
-      setResources(temp);
-      updateFormik(field, temp);
+      const updatedResource = [...resources, { ...newResource, metaImage: result.metaImage }];
+      setResources(updatedResource);
+      updateFormik(updatedResource);
     } catch (e) {
       handleError(e);
     }
   };
 
-  const onUpdateElements = (articleList: (DraftApiType | Learningpath)[]) => {
+  const onUpdateElements = (articleList: (IArticle | ILearningPathV2)[]) => {
     setResources(articleList);
-    updateFormik(field, articleList);
+    updateFormik(articleList);
   };
 
-  const updateFormik = (formikField: Props['field'], newData: (DraftApiType | Learningpath)[]) => {
-    form.setFieldTouched('editorsChoices', true, false);
-    formikField.onChange({
+  const updateFormik = (newData: (IArticle | ILearningPathV2)[]) => {
+    setFieldTouched(fieldName, true, false);
+    onChange({
       target: {
-        name: formikField.name,
+        name: fieldName,
         value: newData || null,
       },
     });
@@ -83,10 +82,9 @@ const SubjectpageArticles = ({ editorsChoices, elementId, field, form }: Props) 
         onUpdateElements={onUpdateElements}
       />
       <DropdownSearch
-        //@ts-ignore This is poorly typed.
         selectedElements={resources}
         onClick={(event: Event) => event.stopPropagation()}
-        onChange={(result: MultiSearchSummary) => onAddResultToList(result)}
+        onChange={(result: IMultiSearchSummary) => onAddResultToList(result)}
         placeholder={t('subjectpageForm.addArticle')}
         subjectId={subjectId}
         clearInputField

@@ -19,13 +19,16 @@ import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import RootNode from './RootNode';
 import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
+import StructureResources from './resourceComponents/StructureResources';
+import Footer from '../App/components/Footer';
+
 const StructureWrapper = styled.ul`
   margin: 0;
   padding: 0;
 `;
 const StructureContainer = () => {
   const location = useLocation();
-  const [subject, topic, ...rest] = location.pathname.replace('/structure/', '').split('/');
+  const [subject, topic, ...rest] = location.pathname.replace('/structureBeta/', '').split('/');
   const joinedRest = rest.join('/');
   const subtopics = joinedRest.length > 0 ? joinedRest : undefined;
   const params = { subject, topic, subtopics };
@@ -41,7 +44,12 @@ const StructureContainer = () => {
 
   const addNodeMutation = useAddNodeMutation();
   const userDataQuery = useUserData();
-  const favoriteNodes = userDataQuery.data?.favoriteSubjects ?? [];
+  const favoriteNodes =
+    userDataQuery.data?.favoriteSubjects?.reduce<{ [x: string]: boolean }>((acc, curr) => {
+      acc[curr] = true;
+      return acc;
+    }, {}) ?? {};
+  const favoriteNodeIds = Object.keys(favoriteNodes);
   const nodesQuery = useNodes(
     { language: i18n.language, isRoot: true },
     {
@@ -63,15 +71,17 @@ const StructureContainer = () => {
   };
 
   const updateUserDataMutation = useUpdateUserDataMutation();
-  const nodes = showFavorites ? getFavoriteNodes(nodesQuery.data, favoriteNodes) : nodesQuery.data!;
+  const nodes = showFavorites
+    ? getFavoriteNodes(nodesQuery.data, favoriteNodeIds)
+    : nodesQuery.data!;
 
   const toggleFavorite = (nodeId: string) => {
     if (!favoriteNodes) {
       return;
     }
-    const updatedFavorites = favoriteNodes.includes(nodeId)
-      ? favoriteNodes.filter(s => s !== nodeId)
-      : [...favoriteNodes, nodeId];
+    const updatedFavorites = favoriteNodeIds.includes(nodeId)
+      ? favoriteNodeIds.filter(s => s !== nodeId)
+      : [...favoriteNodeIds, nodeId];
     updateUserDataMutation.mutate({ favoriteSubjects: updatedFavorites });
   };
 
@@ -128,7 +138,7 @@ const StructureContainer = () => {
                     openedPaths={getPathsFromUrl(location.pathname)}
                     resourceSectionRef={resourceSection}
                     onChildNodeSelected={setCurrentNode}
-                    favoriteNodeIds={favoriteNodes}
+                    isFavorite={!!favoriteNodes[node.id]}
                     key={node.id}
                     node={node}
                     toggleOpen={handleStructureToggle}
@@ -139,7 +149,15 @@ const StructureContainer = () => {
             )}
           </div>
         </Accordion>
+        {currentNode && (
+          <StructureResources
+            currentChildNode={currentNode}
+            resourceRef={resourceSection}
+            onCurrentNodeChanged={setCurrentNode}
+          />
+        )}
       </OneColumn>
+      <Footer showLocaleSelector />
     </ErrorBoundary>
   );
 };

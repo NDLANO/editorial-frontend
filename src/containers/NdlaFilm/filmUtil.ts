@@ -7,13 +7,13 @@
  */
 
 import { i18n } from 'i18next';
-import { MultiSearchSummary } from '../../modules/search/searchApiInterfaces';
+import { IMultiSearchSummary } from '@ndla/types-search-api';
 
 export const sortMoviesByIdList = (
   idList: number[],
-  movieList: MultiSearchSummary[],
+  movieList: IMultiSearchSummary[],
   i18n: i18n,
-): MultiSearchSummary[] => {
+): IMultiSearchSummary[] => {
   const notFoundMovie = {
     title: { title: i18n.t('ndlaFilm.editor.notFound'), language: i18n.language },
     supportedLanguages: [],
@@ -28,6 +28,7 @@ export const sortMoviesByIdList = (
     score: -1,
     highlights: [],
     paths: [],
+    lastUpdated: '',
   };
   return idList.map(
     id =>

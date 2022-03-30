@@ -33,6 +33,7 @@ interface Props {
   isMainActive?: boolean;
   resourcesLoading?: boolean;
   rootNodeId: string;
+  onCurrentNodeChanged: (node: NodeType) => void;
 }
 
 const FolderItem = ({
@@ -42,13 +43,21 @@ const FolderItem = ({
   resourcesLoading,
   rootNodeId,
   structure,
+  onCurrentNodeChanged,
 }: Props) => {
   const { t } = useTranslation();
   const showJumpToResources = isMainActive && node.id.includes('topic');
 
   return (
     <div data-cy="folderWrapper" {...classes('wrapper')}>
-      {isMainActive && <SettingsMenu node={node} rootNodeId={rootNodeId} structure={structure} />}
+      {isMainActive && (
+        <SettingsMenu
+          node={node}
+          rootNodeId={rootNodeId}
+          structure={structure}
+          onCurrentNodeChanged={onCurrentNodeChanged}
+        />
+      )}
       {showJumpToResources && (
         <Button
           outline

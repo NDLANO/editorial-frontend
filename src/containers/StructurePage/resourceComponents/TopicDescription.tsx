@@ -1,12 +1,12 @@
 import { RefObject, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
+import { IStatus } from '@ndla/types-draft-api';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { SubjectTopic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
-import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 import { updateRelevanceId } from '../../../util/taxonomyHelpers';
 import { LocaleType } from '../../../interfaces';
 import { TopicResource } from './StructureResources';
@@ -16,7 +16,7 @@ interface Props {
   locale: LocaleType;
   refreshTopics: () => Promise<void>;
   currentTopic: SubjectTopic;
-  status?: DraftStatus;
+  status?: IStatus;
   resourceRef: RefObject<HTMLDivElement>;
   grepCodes: string[];
   onUpdateResource: (updatedResource: TopicResource) => void;

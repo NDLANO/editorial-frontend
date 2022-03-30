@@ -13,7 +13,12 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
+<<<<<<< HEAD
 import { ConceptNotion } from '@ndla/ui';
+=======
+import { ImageLink } from '@ndla/ui';
+import { IConcept } from '@ndla/types-concept-api';
+>>>>>>> 110080578674a71d95badfa1dbd92a99a9b85068
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
@@ -21,7 +26,6 @@ import IconButton from '../../../IconButton';
 import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import config from '../../../../config';
-import { ConceptApiType } from '../../../../modules/concept/conceptApiInterfaces';
 import { Embed } from '../../../../interfaces';
 
 const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
@@ -38,14 +42,23 @@ const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
 `;
 
 interface Props {
+<<<<<<< HEAD
   concept: ConceptApiType;
   isBlockView?: boolean;
+=======
+  concept: IConcept;
+>>>>>>> 110080578674a71d95badfa1dbd92a99a9b85068
   handleRemove: () => void;
   id: number | string;
 }
 
+<<<<<<< HEAD
 const SlateConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
   const { t } = useTranslation();
+=======
+const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
+  const { t, i18n } = useTranslation();
+>>>>>>> 110080578674a71d95badfa1dbd92a99a9b85068
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);
@@ -119,7 +132,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
         <Tooltip tooltip={t('form.concept.edit')} align="right">
           <IconButton
             as={Link}
-            to={`/concept/${id}/edit/${concept.content.language}`}
+            to={`/concept/${id}/edit/${concept.content?.language ?? i18n.language}`}
             target="_blank"
             title={t('form.concept.edit')}
             tabIndex={-1}>

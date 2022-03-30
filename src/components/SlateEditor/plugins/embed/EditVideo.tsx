@@ -11,11 +11,12 @@ import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Button from '@ndla/button';
+import { FormikValues } from 'formik';
 import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
 import { StyledInputWrapper } from './FigureInput';
 import EditVideoTime from './EditVideoTime';
-import { BrightcoveEmbed, ExternalEmbed, FormikInputEvent } from '../../../../interfaces';
+import { BrightcoveEmbed, ExternalEmbed } from '../../../../interfaces';
 import {
   addYoutubeTimeStamps,
   addBrightCoveTimeStampVideoid,
@@ -77,7 +78,7 @@ const EditVideo = ({
     placeholderElement.style.height = `${embedRect.height}px`;
   }, [embedElement, placeholderElement]);
 
-  const onCaptionChange = (e: FormikInputEvent) => {
+  const onCaptionChange = (e: FormikValues) => {
     setCaption(e.target.value);
   };
 

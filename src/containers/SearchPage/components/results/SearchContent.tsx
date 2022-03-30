@@ -8,10 +8,10 @@
 
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-//@ts-ignore
 import { ContentTypeBadge } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
+import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { ContentResultShape } from '../../../../shapes';
 import {
   getContentTypeFromResourceTypes,
@@ -26,7 +26,6 @@ import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/H
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import SearchHighlight from './SearchHighlight';
 import { useSession } from '../../../Session/SessionProvider';
-import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
 
 const FlexBoxWrapper = styled.div`
   display: flex;
@@ -42,7 +41,7 @@ const ContentTypeWrapper = styled.div`
 `;
 
 interface Props {
-  content: MultiSearchSummary;
+  content: IMultiSearchSummary;
   locale: string;
 }
 

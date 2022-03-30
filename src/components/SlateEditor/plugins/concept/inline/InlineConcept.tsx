@@ -18,13 +18,14 @@ import { colors, spacing } from '@ndla/core';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Notion from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
+import { IConcept } from '@ndla/types-concept-api';
 import { ConceptInlineElement } from '../inline/interfaces';
 import ConceptModal from '../ConceptModal';
 import SlateConceptPreview from '../SlateConceptPreview';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../../utils/mergeLastUndos';
-import { ConceptApiType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { TYPE_CONCEPT_INLINE } from './types';
+import { PUBLISHED } from '../../../../util/constants/ConceptStatus';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
   type: TYPE_CONCEPT_INLINE,
@@ -61,22 +62,23 @@ interface Props {
 const InlineConcept = (props: Props) => {
   const { children, element, locale, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
-
   const uuid = useMemo(() => uniqueId(), []);
-
   const { t } = useTranslation();
-
   const [showConcept, setShowConcept] = useState(false);
 
   const toggleConceptModal = () => {
     setShowConcept(!showConcept);
   };
 
-  const { concept, subjects, ...conceptHooks } = useFetchConceptData(
-    parseInt(element.data['content-id']),
-    locale,
-  );
-  const conceptId = concept && concept.id ? concept.id : undefined;
+  const {
+    concept,
+    subjects,
+    fetchSearchTags,
+    conceptArticles,
+    createConcept,
+    updateConcept,
+    updateConceptAndStatus,
+  } = useFetchConceptData(parseInt(element.data['content-id']), locale);
 
   const handleSelectionChange = (isNewConcept: boolean) => {
     ReactEditor.focus(editor);
@@ -88,7 +90,7 @@ const InlineConcept = (props: Props) => {
     }
   };
 
-  const addConcept = (addedConcept: ConceptApiType) => {
+  const addConcept = (addedConcept: IConcept) => {
     toggleConceptModal();
     setTimeout(() => {
       handleSelectionChange(true);
@@ -149,8 +151,8 @@ const InlineConcept = (props: Props) => {
                 flex: 1;
                 flex-direction: inherit;
               `}>
-              {(concept?.status.current === 'PUBLISHED' ||
-                concept?.status.other.includes('PUBLISHED')) && (
+              {(concept?.status.current === PUBLISHED ||
+                concept?.status.other.includes(PUBLISHED)) && (
                 <Tooltip
                   tooltip={t('form.workflow.published')}
                   css={css`
@@ -159,7 +161,7 @@ const InlineConcept = (props: Props) => {
                   <StyledCheckIcon />
                 </Tooltip>
               )}
-              {concept?.status.current !== 'PUBLISHED' && (
+              {concept?.status.current !== PUBLISHED && (
                 <Tooltip
                   tooltip={t('form.workflow.currentStatus', {
                     status: t(`form.status.${concept?.status.current.toLowerCase()}`),
@@ -179,8 +181,7 @@ const InlineConcept = (props: Props) => {
         </Notion>
       </span>
       <ConceptModal
-        id={conceptId}
-        isOpen={!conceptId && showConcept}
+        isOpen={!concept?.id && showConcept}
         onClose={onClose}
         addConcept={addConcept}
         locale={locale}
@@ -188,7 +189,11 @@ const InlineConcept = (props: Props) => {
         subjects={subjects}
         handleRemove={handleRemove}
         selectedText={nodeText}
-        {...conceptHooks}
+        fetchSearchTags={fetchSearchTags}
+        createConcept={createConcept}
+        updateConcept={updateConcept}
+        conceptArticles={conceptArticles}
+        updateConceptAndStatus={updateConceptAndStatus}
       />
     </>
   );

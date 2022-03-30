@@ -8,7 +8,6 @@
 
 import { ReactNode, useEffect, useState, MouseEvent } from 'react';
 import { RenderElementProps } from 'slate-react';
-// @ts-ignore
 import { Figure } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { fetchAudio } from '../../../../modules/audio/audioApi';

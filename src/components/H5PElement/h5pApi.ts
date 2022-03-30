@@ -6,12 +6,12 @@
  *
  */
 
-import { Author } from '../../interfaces';
+import { IAuthor } from '@ndla/types-draft-api';
 import config from '../../config';
 import { fetchReAuthorized, resolveJsonOrRejectWithError } from '../../util/apiHelpers';
 
 export interface H5PData {
-  authors: Author[];
+  authors: IAuthor[];
   contentType: string;
   license: string;
   licenseExtras: string;

@@ -8,9 +8,9 @@
 import { MouseEvent, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import Button from '@ndla/button';
+import Button, { ButtonProps } from '@ndla/button';
 
-const EditButton = styled(Button)<{ isActive?: boolean }>`
+const EditButton = styled(Button)<ButtonProps & { isActive: boolean }>`
   transition: color 200ms ease;
   color: ${props => (props.isActive ? '#fff' : colors.brand.grey)};
   padding: ${spacing.xsmall};
@@ -32,7 +32,7 @@ interface Props {
 }
 
 const ImageEditorButton = ({ isActive, children, ...rest }: Props) => (
-  <EditButton isActive={isActive} {...rest}>
+  <EditButton isActive={!!isActive} {...rest}>
     {children}
   </EditButton>
 );

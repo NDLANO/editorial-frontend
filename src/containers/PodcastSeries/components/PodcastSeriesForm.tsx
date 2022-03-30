@@ -10,11 +10,7 @@ import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Descendant } from 'slate';
-import {
-  IAudioMetaInformation as AudioApiType,
-  INewSeries,
-  ISeries as PodcastSeriesApiType,
-} from '@ndla/types-audio-api';
+import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-audio-api';
 import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
@@ -28,7 +24,7 @@ import PodcastEpisodes from './PodcastEpisodes';
 import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
 
-const podcastRules: RulesType<PodcastSeriesFormikType, PodcastSeriesApiType> = {
+const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   title: {
     required: true,
     warnings: {
@@ -58,7 +54,7 @@ export interface PodcastSeriesFormikType {
   language: string;
   coverPhotoId?: string;
   metaImageAlt?: string;
-  episodes: AudioApiType[];
+  episodes: IAudioMetaInformation[];
   supportedLanguages: string[];
 }
 
@@ -70,13 +66,14 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
 };
 
 interface Props {
-  podcastSeries?: PodcastSeriesApiType;
+  podcastSeries?: ISeries;
   language: string;
   inModal?: boolean;
   isNewlyCreated: boolean;
   formikProps?: FormikProps<PodcastSeriesFormikType>;
   onUpdate: (newPodcastSeries: INewSeries) => void;
   revision?: number;
+  isNewLanguage?: boolean;
 }
 
 const PodcastSeriesForm = ({
@@ -85,6 +82,7 @@ const PodcastSeriesForm = ({
   isNewlyCreated,
   onUpdate,
   language,
+  isNewLanguage,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -155,6 +153,7 @@ const PodcastSeriesForm = ({
           values,
           initialValues,
           dirty,
+          changed: isNewLanguage,
         });
 
         const content = { ...podcastSeries, title: podcastSeries?.title.title ?? '', language };

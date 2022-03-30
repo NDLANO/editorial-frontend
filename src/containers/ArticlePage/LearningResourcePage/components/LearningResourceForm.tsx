@@ -9,6 +9,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikProps } from 'formik';
+import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-draft-api';
 import { AlertModalWrapper, formClasses } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
@@ -22,12 +23,6 @@ import {
 } from '../../../FormikForm/articleFormHooks';
 import usePreventWindowUnload from '../../../FormikForm/preventWindowUnloadHook';
 import Spinner from '../../../../components/Spinner';
-import {
-  DraftApiType,
-  DraftStatus,
-  DraftStatusTypes,
-  UpdatedDraftApiType,
-} from '../../../../modules/draft/draftApiInterfaces';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import {
@@ -36,21 +31,22 @@ import {
 } from '../../articleTransformers';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
+import { DraftStatusType } from '../../../../interfaces';
 
 interface Props {
-  article?: DraftApiType;
+  article?: IArticle;
   articleTaxonomy?: ArticleTaxonomy;
   translating: boolean;
   translateToNN?: () => void;
-  articleStatus?: DraftStatus;
+  articleStatus?: IStatus;
   isNewlyCreated: boolean;
   articleChanged: boolean;
-  updateArticle: (updatedArticle: UpdatedDraftApiType) => Promise<DraftApiType>;
+  updateArticle: (updatedArticle: IUpdatedArticle) => Promise<IArticle>;
   updateArticleAndStatus: (input: {
-    updatedArticle: UpdatedDraftApiType;
-    newStatus: DraftStatusTypes;
+    updatedArticle: IUpdatedArticle;
+    newStatus: DraftStatusType;
     dirty: boolean;
-  }) => Promise<DraftApiType>;
+  }) => Promise<IArticle>;
   articleLanguage: string;
 }
 
@@ -82,6 +78,7 @@ const LearningResourceForm = ({
     updateArticleAndStatus,
     getArticleFromSlate: learningResourceFormTypeToDraftApiType,
     articleLanguage,
+    rules: learningResourceRules,
   });
 
   const initialHTML = useMemo(() => learningResourceContentToHTML(initialValues.content), [

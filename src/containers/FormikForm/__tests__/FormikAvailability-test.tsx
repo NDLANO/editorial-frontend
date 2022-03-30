@@ -11,9 +11,8 @@ import { act, fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import IntlWrapper from '../../../util/__tests__/IntlWrapper';
 import AvailabilityField from '../components/AvailabilityField';
-import { AvailabilityType } from '../../../interfaces';
 
-const mockField: FieldInputProps<AvailabilityType> = {
+const mockField: FieldInputProps<string> = {
   name: 'asd',
   value: 'everyone',
   onBlur: () => {},

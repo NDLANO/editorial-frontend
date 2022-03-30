@@ -12,28 +12,27 @@ import { useTranslation } from 'react-i18next';
 import { Footer, FooterStatus, FooterLinkButton } from '@ndla/editor';
 import { colors, spacing } from '@ndla/core';
 import { Launch } from '@ndla/icons/common';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IConcept, IStatus as ConceptStatus } from '@ndla/types-concept-api';
+import { IUpdatedArticle, IStatus as DraftStatus } from '@ndla/types-draft-api';
 import { useFormikContext } from 'formik';
 
 import { toPreviewDraft } from '../../util/routeHelpers';
-import { PossibleStatuses } from './editorTypes';
 import { formatErrorMessage } from '../../util/apiHelpers';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
 import SaveMultiButton from '../SaveMultiButton';
-import { ConceptStatus } from '../../modules/concept/conceptApiInterfaces';
-import { DraftStatus, UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { createGuard, createReturnTypeGuard } from '../../util/guards';
 import { NewMessageType, useMessages } from '../../containers/Messages/MessagesProvider';
+import { ConceptStatusStateMachineType, DraftStatusStateMachineType } from '../../interfaces';
 
 interface Props {
   formIsDirty: boolean;
   savedToServer: boolean;
-  getEntity?: () => UpdatedDraftApiType | ConceptApiType;
+  getEntity?: () => IUpdatedArticle | IConcept;
   entityStatus?: DraftStatus;
   showSimpleFooter: boolean;
   onSaveClick: (saveAsNewVersion?: boolean) => void;
-  statusStateMachine?: PossibleStatuses;
-  validateEntity?: (id: number, updatedEntity: UpdatedDraftApiType) => Promise<{ id: number }>;
+  statusStateMachine?: ConceptStatusStateMachineType | DraftStatusStateMachineType;
+  validateEntity?: (id: number, updatedEntity: IUpdatedArticle) => Promise<{ id: number }>;
   isArticle?: boolean;
   isConcept: boolean;
   hideSecondaryButton: boolean;
@@ -105,7 +104,7 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
-  const isDraftApiType = createGuard<UpdatedDraftApiType, ConceptApiType>('subjectIds', {
+  const isDraftApiType = createGuard<IUpdatedArticle, IConcept>('subjectIds', {
     lacksProp: true,
   });
 
@@ -155,7 +154,7 @@ function EditorFooter<T extends FormValues>({
     }
   };
 
-  const isConceptType = createReturnTypeGuard<ConceptApiType>('subjectIds');
+  const isConceptType = createReturnTypeGuard<IConcept>('subjectIds');
 
   return (
     <Footer>

@@ -9,12 +9,11 @@ import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Form, FormikHelpers } from 'formik';
 import {
-  IImageMetaInformationV2 as ImageApiType,
-  INewImageMetaInformationV2 as NewImageMetadata,
-  IUpdateImageMetaInformation as UpdatedImageMetadata,
+  IImageMetaInformationV2,
+  INewImageMetaInformationV2,
+  ILicense,
 } from '@ndla/types-image-api';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { ILicense as License } from '@ndla/types-image-api';
 import Field from '../../../components/Field';
 import SaveButton from '../../../components/SaveButton';
 import { isFormikFormDirty } from '../../../util/formHelper';
@@ -34,7 +33,7 @@ import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
 
-const imageRules: RulesType<ImageFormikType, ImageApiType> = {
+const imageRules: RulesType<ImageFormikType, IImageMetaInformationV2> = {
   title: {
     required: true,
     warnings: {
@@ -91,17 +90,15 @@ const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: React
   return <Form>{children}</Form>;
 };
 
-type OnUpdateFunc = (imageMetadata: UpdatedImageMetadata, image: string | Blob, id: number) => void;
-type OnCreateFunc = (imageMetadata: NewImageMetadata, image: string | Blob) => void;
-
 interface Props {
-  image?: ImageApiType;
-  licenses: License[];
-  onUpdate: OnCreateFunc | OnUpdateFunc;
+  image?: IImageMetaInformationV2;
+  licenses: ILicense[];
+  onSubmitFunc: (imageMetadata: INewImageMetaInformationV2, image: string | Blob) => void;
   inModal?: boolean;
   isNewlyCreated?: boolean;
   closeModal?: () => void;
   isSaving?: boolean;
+  isNewLanguage?: boolean;
   language: string;
 }
 
@@ -118,13 +115,14 @@ export type ImageFormErrorFields =
 
 const ImageForm = ({
   licenses,
-  onUpdate,
+  onSubmitFunc,
   image,
   inModal,
   language,
   closeModal,
   isNewlyCreated,
   isSaving,
+  isNewLanguage,
 }: Props) => {
   const { t } = useTranslation();
   const [savedToServer, setSavedToServer] = useState(false);
@@ -152,7 +150,7 @@ const ImageForm = ({
     }
 
     actions.setSubmitting(true);
-    const imageMetaData: NewImageMetadata = {
+    const imageMetaData: INewImageMetaInformationV2 = {
       title: editorValueToPlainText(values.title),
       alttext: values.alttext,
       caption: values.caption,
@@ -167,7 +165,7 @@ const ImageForm = ({
       },
       modelReleased: values.modelReleased,
     };
-    await onUpdate(imageMetaData, values.imageFile, values.id!);
+    await onSubmitFunc(imageMetaData, values.imageFile);
     setSavedToServer(true);
     actions.resetForm();
   };
@@ -190,6 +188,7 @@ const ImageForm = ({
           values,
           initialValues,
           dirty,
+          changed: isNewLanguage,
         });
         const hasError = (errorFields: ImageFormErrorFields[]): boolean =>
           errorFields.some(field => !!errors[field]);
@@ -224,11 +223,7 @@ const ImageForm = ({
                 title={t('form.metadataSection')}
                 className="u-4/6@desktop u-push-1/6@desktop"
                 hasError={hasError(['tags', 'rightsholders', 'creators', 'processors', 'license'])}>
-                <ImageMetaData
-                  licenses={licenses}
-                  imageLanguage={language}
-                  imageTags={values.tags}
-                />
+                <ImageMetaData imageLanguage={language} imageTags={values.tags} />
               </AccordionSection>
               <AccordionSection
                 id="image-upload-version-history"

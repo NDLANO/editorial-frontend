@@ -8,6 +8,7 @@
 
 import { useState, useEffect } from 'react';
 import { RadioButtonGroup } from '@ndla/ui';
+import { IConcept, IConceptSummary, IUpdatedConcept } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
 import {
@@ -15,10 +16,6 @@ import {
   updateConcept,
   updateConceptStatus,
 } from '../../../../../modules/concept/conceptApi';
-import {
-  ConceptApiType,
-  SearchConceptType,
-} from '../../../../../modules/concept/conceptApiInterfaces';
 import { StyledConceptView } from './SearchStyles';
 import ConceptForm, { InlineFormConcept } from './ConceptForm';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../../../../constants';
@@ -26,10 +23,10 @@ import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfac
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
 
 interface Props {
-  concept: SearchConceptType;
+  concept: IConceptSummary;
   cancel: () => void;
   subjects: SubjectType[];
-  updateLocalConcept: (concept: ConceptApiType) => void;
+  updateLocalConcept: (concept: IConcept) => void;
 }
 
 const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
@@ -42,7 +39,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
   const [language, setLanguage] = useState<string>(
     concept.supportedLanguages.find(l => l === i18n.language) ?? concept.supportedLanguages[0],
   );
-  const [fullConcept, setFullConcept] = useState<ConceptApiType | undefined>();
+  const [fullConcept, setFullConcept] = useState<IConcept | undefined>();
   const { data: licenses, isLoading: licensesLoading } = useLicenses({ placeholderData: [] });
 
   useEffect(() => {
@@ -89,10 +86,8 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
     };
     const creators = getCreators(fullConcept.copyright?.creators || [], formConcept.author);
 
-    const newConcept = {
-      id: fullConcept.id,
-      supportedLanguages: fullConcept.supportedLanguages,
-      content: fullConcept.content.content,
+    const newConcept: IUpdatedConcept = {
+      content: fullConcept.content?.content,
       source: fullConcept.source,
       language: language,
       subjectIds: formConcept.subjects.map(s => s.id),
@@ -106,7 +101,7 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
         processors: [],
       },
     };
-    const updatedConcept = await updateConcept(newConcept);
+    const updatedConcept = await updateConcept(fullConcept.id, newConcept);
     if (formConcept.newStatus) {
       await updateConceptStatus(updatedConcept.id, formConcept.newStatus);
     }

@@ -7,62 +7,63 @@
  */
 
 import { Dispatch, SetStateAction } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { IAudioSummary as AudioSearchResultType } from '@ndla/types-audio-api';
-import { ISeriesSummary as SeriesSearchResultType } from '@ndla/types-audio-api';
-import { ContentResultShape, ImageResultShape, AudioResultShape } from '../../../../shapes';
+import { IAudioSummary, ISeriesSummary } from '@ndla/types-audio-api';
+import { IConceptSummary } from '@ndla/types-concept-api';
+import { IImageMetaSummary } from '@ndla/types-image-api';
+import { IMultiSearchSummary } from '@ndla/types-search-api';
 import SearchContent from './SearchContent';
 import SearchConcept from './SearchConcept';
 import SearchImage from './SearchImage';
 import SearchAudio from './SearchAudio';
 import SearchPodcastSeries from './SearchPodcastSeries';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { ResultSummaryType } from './SearchList';
-import { ImageSearchSummaryApiType } from '../../../../modules/image/imageApiInterfaces';
-import { SearchConceptType } from '../../../../modules/concept/conceptApiInterfaces';
-import { MultiSearchSummary } from '../../../../modules/search/searchApiInterfaces';
-import { LocaleType } from '../../../../interfaces';
+import { LocaleType, ReturnType } from '../../../../interfaces';
+
+type ContentReturnType = ReturnType<'content', IMultiSearchSummary>;
+type ConceptReturnType = ReturnType<'concept', IConceptSummary>;
+type ImageReturnType = ReturnType<'image', IImageMetaSummary>;
+type AudioReturnType = ReturnType<'audio', IAudioSummary>;
+type PodcastReturnType = ReturnType<'podcast-series', ISeriesSummary>;
+type MissingReturnType = ReturnType<string, any>;
+export type SearchResultReturnType =
+  | MissingReturnType
+  | ContentReturnType
+  | ConceptReturnType
+  | ImageReturnType
+  | AudioReturnType
+  | PodcastReturnType;
 
 interface Props {
-  result: ResultSummaryType;
-  type: string;
+  result: SearchResultReturnType;
   locale: string;
   subjects: SubjectType[];
   editingState: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 
-const SearchResult = ({ result, locale, type, subjects, editingState }: Props) => {
+const SearchResult = ({ result, locale, subjects, editingState }: Props) => {
   const { t } = useTranslation();
-  switch (type) {
+  switch (result.type) {
     case 'content':
-      return <SearchContent content={result as MultiSearchSummary} locale={locale} />;
+      return <SearchContent content={result.value} locale={locale} />;
     case 'concept':
       return (
         <SearchConcept
-          concept={result as SearchConceptType}
+          concept={result.value}
           locale={locale as LocaleType}
           subjects={subjects}
           editingState={editingState}
         />
       );
     case 'image':
-      return <SearchImage image={result as ImageSearchSummaryApiType} locale={locale} />;
+      return <SearchImage image={result.value} locale={locale} />;
     case 'audio':
-      return <SearchAudio audio={result as AudioSearchResultType} locale={locale} />;
+      return <SearchAudio audio={result.value} locale={locale} />;
     case 'podcast-series':
-      return <SearchPodcastSeries series={result as SeriesSearchResultType} />;
+      return <SearchPodcastSeries series={result.value} />;
     default:
-      return <p>{t('searchForm.resultError', { type })}</p>;
+      return <p>{t('searchForm.resultError', { type: result.type })}</p>;
   }
-};
-
-SearchResult.propTypes = {
-  result: PropTypes.oneOfType([ContentResultShape, ImageResultShape, AudioResultShape]),
-  type: PropTypes.string.isRequired,
-  locale: PropTypes.string.isRequired,
-  subjects: PropTypes.array,
-  editingState: PropTypes.array,
 };
 
 export default SearchResult;

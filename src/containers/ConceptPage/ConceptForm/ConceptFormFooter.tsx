@@ -8,18 +8,17 @@
 
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IConcept, IStatus } from '@ndla/types-concept-api';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
 import { AlertModalWrapper, formClasses, ActionButton } from '../../FormikForm';
 import { ConceptFormValues } from '../conceptInterfaces';
-import { DraftStatus } from '../../../modules/draft/draftApiInterfaces';
 import { useConceptStateMachine } from '../../../modules/concept/conceptQueries';
 
 interface Props {
-  entityStatus?: DraftStatus;
+  entityStatus?: IStatus;
   conceptChanged: boolean;
   inModal?: boolean;
   savedToServer: boolean;
@@ -27,7 +26,7 @@ interface Props {
   showSimpleFooter: boolean;
   onClose?: () => void;
   onContinue: () => void;
-  getApiConcept?: () => ConceptApiType;
+  getApiConcept?: () => IConcept;
 }
 
 const ConceptFormFooter = ({

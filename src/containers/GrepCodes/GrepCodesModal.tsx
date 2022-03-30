@@ -8,13 +8,13 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { IUpdatedArticle } from '@ndla/types-draft-api';
 import { useFetchArticleData } from '../FormikForm/formikDraftHooks';
 import { getIdFromUrn } from '../../util/taxonomyHelpers';
 import TaxonomyLightbox from '../../components/Taxonomy/TaxonomyLightbox';
 import Spinner from '../../components/Spinner';
 import GrepCodesForm from './GrepCodesForm';
 import { LocaleType } from '../../interfaces';
-import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 
 interface Props {
   contentUri?: string;
@@ -33,9 +33,9 @@ const GrepCodesModal = ({ contentUri, onClose, locale }: Props) => {
     articleChanged,
     updateArticle,
     updateArticleAndStatus,
-  } = useFetchArticleData(articleId?.toString(), locale);
+  } = useFetchArticleData(articleId, locale);
 
-  const onUpdateArticle = async (updated: UpdatedDraftApiType) => {
+  const onUpdateArticle = async (updated: IUpdatedArticle) => {
     const res = await updateArticle(updated);
     setNewGrepCodes(updated.grepCodes);
     return res;

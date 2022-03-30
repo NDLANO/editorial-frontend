@@ -15,7 +15,7 @@ import {
   NODE_TRANSLATIONS,
   RESOURCES_WITH_NODE_CONNECTION,
 } from '../../queryKeys';
-import { fetchDraft } from '../draft/draftApi';
+import { searchDrafts } from '../draft/draftApi';
 import {
   fetchChildNodes,
   fetchConnectionsForNode,
@@ -54,20 +54,21 @@ const fetchChildNodesWithArticleType = async (
   articleType?: string;
 })[]> => {
   const childNodes = await fetchChildNodes(id, { language, recursive: true });
-  return await Promise.all(
-    childNodes.map(async t => {
-      const articleId = t.contentUri?.split(':').pop();
-      if (articleId) {
-        try {
-          const draft = await fetchDraft(parseInt(articleId));
-          return { ...t, articleType: draft.articleType };
-        } catch (e) {
-          return t;
-        }
-      }
-      return t;
-    }),
-  );
+  if (childNodes.length === 0) return [];
+
+  const childIds = childNodes.map(n => Number(n.contentUri?.split(':').pop())).filter(id => !!id);
+  const searchRes = await searchDrafts({ idList: childIds });
+
+  const articleTypeMap = searchRes.results.reduce<Record<number, string>>((acc, curr) => {
+    acc[curr.id] = curr.articleType;
+    return acc;
+  }, {});
+
+  return childNodes.map(node => {
+    const draftId = Number(node.contentUri?.split(':').pop());
+    const articleType = articleTypeMap[draftId];
+    return { ...node, articleType };
+  });
 };
 
 export const useChildNodesWithArticleType = (

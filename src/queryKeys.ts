@@ -49,3 +49,6 @@ export const CONNECTIONS_FOR_NODE = 'connectionsForNode';
 export const NODE_RESOURCES = 'resourcesForNode';
 export const RESOURCES_WITH_NODE_CONNECTION = 'resourcesWithNodeConnection';
 export const NODE_RESOURCE_STATUS_GREP_QUERY = 'nodeResourceWithStatusAndGrep';
+
+export const GREP_CODE = 'grepCode';
+export const RESOURCE_META = 'resourceMeta';

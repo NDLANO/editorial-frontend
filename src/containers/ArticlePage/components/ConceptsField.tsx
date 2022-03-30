@@ -8,15 +8,15 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FieldHeader } from '@ndla/forms';
+import { IConcept, IConceptSummary } from '@ndla/types-concept-api';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import ElementList from '../../FormikForm/components/ElementList';
 import handleError from '../../../util/handleError';
 import { fetchConcept, searchConcepts } from '../../../modules/concept/conceptApi';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
-import { ConceptApiType, SearchConceptType } from '../../../modules/concept/conceptApiInterfaces';
 import { ArticleFormType } from '../../FormikForm/articleFormHooks';
 
-interface ConceptApiTypeWithArticleType extends ConceptApiType {
+interface ConceptApiTypeWithArticleType extends IConcept {
   articleType?: string;
 }
 interface Props {
@@ -37,7 +37,7 @@ const ConceptsField = ({ field, form }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onAddConceptToList = async (concept: SearchConceptType) => {
+  const onAddConceptToList = async (concept: IConceptSummary) => {
     try {
       const newConcept = await fetchConcept(concept.id, i18n.language);
       const temp = [...concepts, { ...newConcept, articleType: 'concept' }];
@@ -82,7 +82,7 @@ const ConceptsField = ({ field, form }: Props) => {
         }}
         onUpdateElements={onUpdateElements}
       />
-      <AsyncDropdown<SearchConceptType>
+      <AsyncDropdown<IConceptSummary>
         selectedItems={concepts}
         idField="id"
         labelField="title"

@@ -8,7 +8,8 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Accordions, AccordionSection } from '@ndla/accordion';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IConcept, INewConcept, IUpdatedConcept, ITagsSearchResult } from '@ndla/types-concept-api';
+import { IArticle } from '@ndla/types-draft-api';
 import { Formik, FormikProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { isFormikFormDirty } from '../../../util/formHelper';
@@ -20,48 +21,49 @@ import { formClasses } from '../../FormikForm';
 import {
   conceptApiTypeToFormType,
   conceptFormTypeToApiType,
-  getConceptPatchType,
+  getNewConceptType,
+  getUpdatedConceptType,
 } from '../conceptTransformers';
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
 import FormWrapper from './FormWrapper';
-import {
-  ConceptStatusType,
-  ConceptTagsSearchResult,
-  ConceptPostType,
-  ConceptPatchType,
-} from '../../../modules/concept/conceptApiInterfaces';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
-import { DraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import { ConceptStatusType } from '../../../interfaces';
+
+interface UpdateProps {
+  onUpdate: (updatedConcept: IUpdatedConcept, revision?: number) => Promise<IConcept>;
+  updateConceptAndStatus: (
+    id: number,
+    updatedConcept: IUpdatedConcept,
+    newStatus: ConceptStatusType,
+    dirty: boolean,
+  ) => Promise<IConcept>;
+}
+
+interface CreateProps {
+  onCreate: (newConcept: INewConcept) => Promise<IConcept>;
+}
 
 interface Props {
-  concept?: ConceptApiType;
+  upsertProps: CreateProps | UpdateProps;
+  concept?: IConcept;
   conceptChanged?: boolean;
-  fetchConceptTags: (input: string, language: string) => Promise<ConceptTagsSearchResult>;
+  fetchConceptTags: (input: string, language: string) => Promise<ITagsSearchResult>;
   inModal: boolean;
   isNewlyCreated?: boolean;
-  conceptArticles: DraftApiType[];
+  conceptArticles: IArticle[];
   onClose?: () => void;
   language: string;
-  onUpdate: (
-    updateConcept: ConceptPostType | ConceptPatchType,
-    revision?: number,
-  ) => Promise<ConceptApiType>;
   subjects: SubjectType[];
   initialTitle?: string;
   translateToNN?: () => void;
-  updateConceptAndStatus?: (
-    updatedConcept: ConceptPatchType,
-    newStatus: ConceptStatusType,
-    dirty: boolean,
-  ) => Promise<ConceptApiType>;
 }
 
-const conceptFormRules: RulesType<ConceptFormValues, ConceptApiType> = {
+const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
   title: {
     required: true,
     warnings: {
@@ -119,8 +121,7 @@ const ConceptForm = ({
   subjects,
   translateToNN,
   language,
-  updateConceptAndStatus,
-  onUpdate,
+  upsertProps,
   conceptArticles,
   initialTitle,
 }: Props) => {
@@ -128,7 +129,7 @@ const ConceptForm = ({
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
   const { t } = useTranslation();
   const { applicationError } = useMessages();
-  const { data: licenses } = useLicenses({ placeholderData: [] });
+  const { data: licenses = [] } = useLicenses({ placeholderData: [] });
 
   useEffect(() => {
     setSavedToServer(false);
@@ -148,17 +149,23 @@ const ConceptForm = ({
     let savedArticle;
 
     try {
-      if (statusChange && updateConceptAndStatus) {
+      if ('onCreate' in upsertProps) {
+        savedArticle = await upsertProps.onCreate(getNewConceptType(values, licenses));
+      } else if (statusChange && concept?.id) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
         const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
         const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !formikDirty;
-        savedArticle = await updateConceptAndStatus(
-          getConceptPatchType(values, licenses!),
+        savedArticle = await upsertProps.updateConceptAndStatus(
+          concept.id,
+          getUpdatedConceptType(values, licenses),
           newStatus!,
           !skipSaving,
         );
       } else {
-        savedArticle = await onUpdate(getConceptPatchType(values, licenses!), revision!);
+        savedArticle = await upsertProps.onUpdate(
+          getUpdatedConceptType(values, licenses),
+          revision!,
+        );
       }
       formikHelpers.resetForm({
         values: conceptApiTypeToFormType(savedArticle, language, subjects, conceptArticles),
@@ -179,12 +186,11 @@ const ConceptForm = ({
     conceptArticles,
     initialTitle,
   );
-
+  const initialWarnings = getWarnings(initialValues, conceptFormRules, t, concept);
   const initialErrors = useMemo(() => validateFormik(initialValues, conceptFormRules, t), [
     initialValues,
     t,
   ]);
-  const initialWarnings = getWarnings(initialValues, conceptFormRules, t, concept);
 
   return (
     <Formik
@@ -200,7 +206,7 @@ const ConceptForm = ({
         const { id, revision, status, created, updated } = values;
         const requirements = id && revision && status && created && updated;
         const getEntity = requirements
-          ? () => conceptFormTypeToApiType(values, licenses!, concept?.updatedBy)
+          ? () => conceptFormTypeToApiType(values, licenses, concept?.updatedBy)
           : undefined;
         const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
         return (

@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEventHandler } from 'react';
+import { ChangeEvent, MouseEventHandler } from 'react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
@@ -26,7 +26,7 @@ interface Props {
   caption?: string;
   alt: string;
   madeChanges: boolean;
-  onChange: Function;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onAbort: MouseEventHandler<HTMLButtonElement>;
   onSave: MouseEventHandler<HTMLButtonElement>;
 }

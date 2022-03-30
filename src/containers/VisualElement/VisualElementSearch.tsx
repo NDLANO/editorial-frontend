@@ -10,13 +10,13 @@ import { TFunction, useTranslation } from 'react-i18next';
 import VideoSearch from '@ndla/video-search';
 import AudioSearch from '@ndla/audio-search';
 import { IAudioSummary } from '@ndla/types-audio-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import config from '../../config';
 import H5PElement from '../../components/H5PElement/H5PElement';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import VisualElementUrlPreview from './VisualElementUrlPreview';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
 import { convertFieldWithFallback } from '../../util/convertFieldWithFallback';
-import { ImageApiType } from '../../modules/image/imageApiInterfaces';
 import { fetchImage, searchImages } from '../../modules/image/imageApi';
 import { fetchAudio } from '../../modules/audio/audioApi';
 import { onError } from '../../util/resolveJsonOrRejectWithError';
@@ -27,17 +27,12 @@ import {
 } from '../../modules/video/brightcoveApi';
 import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
 import { searchAudio } from '../../modules/audio/audioApi';
-import { Embed } from '../../interfaces';
+import { Embed, ReturnType } from '../../interfaces';
 import FileUploader from '../../components/FileUploader';
 
 const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
 });
-
-interface ReturnType<TType, TReturnType> {
-  type: TType;
-  value: TReturnType;
-}
 
 type EmbedReturnType = ReturnType<'embed', Embed>;
 type FileReturnType = ReturnType<'file', DOMStringMap[]>;
@@ -52,7 +47,7 @@ interface Props {
   articleLanguage?: string;
   closeModal: () => void;
   showCheckbox?: boolean;
-  checkboxAction?: (image: ImageApiType) => void;
+  checkboxAction?: (image: IImageMetaInformationV2) => void;
 }
 
 interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {

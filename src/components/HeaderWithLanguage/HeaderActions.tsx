@@ -1,13 +1,16 @@
-/*
+/**
  * Copyright (c) 2019-present, NDLA.
+ *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
+ *
  */
 
 import { Check } from '@ndla/icons/editor';
 import { FileCompare } from '@ndla/icons/action';
 import { useTranslation } from 'react-i18next';
-import { IConcept as ConceptApiType } from '@ndla/types-concept-api';
+import { IConcept } from '@ndla/types-concept-api';
+import { IUpdatedArticle } from '@ndla/types-draft-api';
 import StyledFilledButton from '../StyledFilledButton';
 import PreviewDraftLightbox from '../PreviewDraft/PreviewDraftLightbox';
 import { StyledSplitter } from './HeaderInformation';
@@ -17,20 +20,21 @@ import DeleteLanguageVersion from './DeleteLanguageVersion';
 import HeaderSupportedLanguages from './HeaderSupportedLanguages';
 import HeaderLanguagePill from './HeaderLanguagePill';
 import PreviewConceptLightbox from '../PreviewConcept/PreviewConceptLightbox';
-import { UpdatedDraftApiType } from '../../modules/draft/draftApiInterfaces';
 import { createReturnTypeGuard } from '../../util/guards';
 
-type PreviewTypes = ConceptApiType | UpdatedDraftApiType;
+type PreviewTypes = IConcept | IUpdatedArticle;
 
 interface PreviewLightBoxProps {
+  articleId: number;
   type: string;
   getEntity: () => PreviewTypes;
   articleType?: string;
   supportedLanguages?: string[];
+  currentLanguage: string;
 }
 
-const isConceptReturnType = createReturnTypeGuard<ConceptApiType>('articleIds');
-const isDraftReturnType = (value: () => PreviewTypes): value is () => UpdatedDraftApiType =>
+const isConceptReturnType = createReturnTypeGuard<IConcept>('articleIds');
+const isDraftReturnType = (value: () => PreviewTypes): value is () => IUpdatedArticle =>
   !isConceptReturnType(value);
 
 const PreviewLightBox = ({
@@ -38,6 +42,8 @@ const PreviewLightBox = ({
   getEntity,
   articleType,
   supportedLanguages = [],
+  currentLanguage,
+  articleId,
 }: PreviewLightBoxProps) => {
   const { t } = useTranslation();
   if (type === 'concept' && isConceptReturnType(getEntity) && supportedLanguages.length > 1) {
@@ -45,8 +51,11 @@ const PreviewLightBox = ({
   } else if (isDraftReturnType(getEntity) && (type === 'standard' || type === 'topic-article')) {
     return (
       <PreviewDraftLightbox
+        articleId={articleId}
+        currentArticleLanguage={currentLanguage}
         label={t(`articleType.${articleType!}`)}
         typeOfPreview="previewLanguageArticle"
+        supportedLanguages={supportedLanguages}
         getArticle={_ => getEntity()}>
         {(openPreview: () => void) => (
           <StyledFilledButton type="button" onClick={openPreview}>
@@ -126,13 +135,15 @@ const HeaderActions = ({
           </HeaderLanguagePill>
         )}
         <StyledSplitter />
-        {!noStatus && getEntity && (
+        {!noStatus && getEntity && values.id && (
           <>
             <PreviewLightBox
+              articleId={values.id}
               type={type}
               getEntity={getEntity!}
               articleType={articleType}
               supportedLanguages={supportedLanguages}
+              currentLanguage={values.language}
             />
             <StyledSplitter />
           </>

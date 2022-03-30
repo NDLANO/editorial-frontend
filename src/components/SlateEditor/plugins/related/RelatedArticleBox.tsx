@@ -13,9 +13,9 @@ import { uuid } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { compact } from 'lodash';
-// @ts-ignore
 import { RelatedArticleList } from '@ndla/ui';
 import { toggleRelatedArticles } from '@ndla/article-scripts';
+import { IArticle } from '@ndla/types-draft-api';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
 import { fetchDraft } from '../../../../modules/draft/draftApi';
 import { queryResources } from '../../../../modules/taxonomy';
@@ -23,7 +23,6 @@ import EditRelated from './EditRelated';
 import handleError from '../../../../util/handleError';
 import RelatedArticle from './RelatedArticle';
 import { RelatedElement } from '.';
-import { DraftApiType } from '../../../../modules/draft/draftApiInterfaces';
 import { Resource } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ARTICLE_EXTERNAL } from '../../../../constants';
 
@@ -43,7 +42,7 @@ export interface ExternalArticle {
   description: string;
 }
 
-interface InternalArticle extends Omit<DraftApiType, 'title' | 'id'> {
+interface InternalArticle extends Omit<IArticle, 'title' | 'id'> {
   resource: Resource[];
   id: string;
   title: string;
@@ -51,7 +50,7 @@ interface InternalArticle extends Omit<DraftApiType, 'title' | 'id'> {
 
 export type RelatedArticleType = InternalArticle | ExternalArticle;
 
-const mapRelatedArticle = (article: DraftApiType, resource: Resource[]): InternalArticle => ({
+const mapRelatedArticle = (article: IArticle, resource: Resource[]): InternalArticle => ({
   ...article,
   resource,
   id: article.id.toString(),
@@ -82,7 +81,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
   }, [editMode, articles]);
 
   const fetchArticle = useCallback(
-    async (id: string) => {
+    async (id: number) => {
       try {
         const [article, resource] = await Promise.all([
           fetchDraft(id, i18n.language),
@@ -105,7 +104,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
       }
       const articleList = nodes.map(node => {
         if ('article-id' in node) {
-          return fetchArticle(node['article-id']);
+          return fetchArticle(Number(node['article-id']));
         } else {
           return Promise.resolve(structureExternal(node.url, node.title));
         }
@@ -128,9 +127,9 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
   };
 
   const onInsertBlock = (newArticle: string) => {
-    if (!articles.find(it => 'id' in it && it.id === newArticle)) {
+    if (!articles.find(it => 'id' in it && it.id === newArticle) && Number(newArticle)) {
       // get resource and add to state
-      fetchArticle(newArticle).then(article => {
+      fetchArticle(Number(newArticle)).then(article => {
         if (article) {
           const newArticles = [...articles, article];
           setArticles(newArticles);

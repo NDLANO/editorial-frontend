@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2021-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
@@ -7,19 +7,15 @@
  */
 
 import { Descendant } from 'slate';
+import { IStatus, IAuthor } from '@ndla/types-concept-api';
+import { IArticle } from '@ndla/types-draft-api';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
-import { ConceptStatusType } from '../../modules/concept/conceptApiInterfaces';
-import { DraftApiType } from '../../modules/draft/draftApiInterfaces';
-import { Author } from '../../interfaces';
 
 export interface ConceptFormValues {
   id?: number;
   language: string;
   revision?: number;
-  status?: {
-    current: ConceptStatusType;
-    other: ConceptStatusType[];
-  };
+  status?: IStatus;
   visualElement: Descendant[];
   source?: string;
   metaImage?: {
@@ -29,17 +25,18 @@ export interface ConceptFormValues {
     language?: string;
   };
   tags: string[];
-  articles: DraftApiType[];
+  articles: IArticle[];
   title: Descendant[];
   conceptContent: Descendant[];
   created?: string;
-  creators: Author[];
+  creators: IAuthor[];
   license?: string;
   metaImageAlt: string;
   metaImageId: string;
-  processors: Author[];
-  rightsholders: Author[];
+  processors: IAuthor[];
+  rightsholders: IAuthor[];
   subjects: SubjectType[];
   supportedLanguages: string[];
   updated?: string;
+  origin?: string;
 }

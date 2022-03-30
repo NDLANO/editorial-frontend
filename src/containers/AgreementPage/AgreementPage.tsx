@@ -11,14 +11,11 @@ import { HelmetWithTracker } from '@ndla/tracker';
 import { useTranslation } from 'react-i18next';
 import { OneColumn } from '@ndla/ui';
 import loadable from '@loadable/component';
+import { IUpdatedAgreement, INewAgreement } from '@ndla/types-draft-api';
 import { createAgreement, updateAgreement } from '../../modules/draft/draftApi';
 import { toEditAgreement } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
 import { useMessages } from '../Messages/MessagesProvider';
-import {
-  NewAgreementApiType,
-  UpdatedAgreementApiType,
-} from '../../modules/draft/draftApiInterfaces';
 const EditAgreement = loadable(() => import('./EditAgreement'));
 const CreateAgreement = loadable(() => import('./CreateAgreement'));
 const NotFoundPage = loadable(() => import('../NotFoundPage/NotFoundPage'));
@@ -29,13 +26,13 @@ const AgreementPage = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
-  const upsertAgreement = async (agreement: UpdatedAgreementApiType | NewAgreementApiType) => {
+  const upsertAgreement = async (agreement: IUpdatedAgreement | INewAgreement, id?: number) => {
     try {
       setIsSaving(true);
-      if ('id' in agreement) {
-        await updateAgreement(agreement);
+      if (id) {
+        await updateAgreement(id, agreement);
       } else {
-        const newAgreement = await createAgreement(agreement as NewAgreementApiType);
+        const newAgreement = await createAgreement(agreement as INewAgreement);
         navigate(toEditAgreement(newAgreement.id));
       }
       setIsSaving(false);
@@ -55,16 +52,7 @@ const AgreementPage = () => {
       <HelmetWithTracker title={t('htmlTitles.agreementPage')} />
       <OneColumn>
         <Routes>
-          <Route
-            path="new"
-            element={
-              <CreateAgreement
-                locale={locale}
-                isSaving={isSaving}
-                upsertAgreement={upsertAgreement}
-              />
-            }
-          />
+          <Route path="new" element={<CreateAgreement upsertAgreement={upsertAgreement} />} />
           <Route
             path=":agreementId/edit"
             element={

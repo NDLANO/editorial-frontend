@@ -6,26 +6,16 @@
  *
  */
 
-import {
-  INewImageMetaInformationV2 as NewImageMetadata,
-  IUpdateImageMetaInformation as UpdatedImageMetadata,
-} from '@ndla/types-image-api';
-import {
-  AudioMetaInformationPost,
-  AudioMetaInformationPut,
-  PodcastMetaInformationPost,
-  PodcastMetaInformationPut,
-} from '../modules/audio/audioApiInterfaces';
+import { INewImageMetaInformationV2, IUpdateImageMetaInformation } from '@ndla/types-image-api';
+import { INewAudioMetaInformation, IUpdatedAudioMetaInformation } from '@ndla/types-audio-api';
 
 export const createFormData = (
   file?: string | Blob,
   metadata?:
-    | NewImageMetadata
-    | UpdatedImageMetadata
-    | AudioMetaInformationPost
-    | AudioMetaInformationPut
-    | PodcastMetaInformationPost
-    | PodcastMetaInformationPut,
+    | INewImageMetaInformationV2
+    | IUpdateImageMetaInformation
+    | INewAudioMetaInformation
+    | IUpdatedAudioMetaInformation,
 ): Promise<FormData> =>
   new Promise(resolve => {
     const form = new FormData();

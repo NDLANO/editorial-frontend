@@ -18,9 +18,10 @@ interface Props {
   node: NodeType;
   toggleEditMode: (state: EditMode) => void;
   editMode: string;
+  onCurrentNodeChanged: (node: NodeType) => void;
 }
 
-const EditCustomFields = ({ node, toggleEditMode, editMode }: Props) => {
+const EditCustomFields = ({ node, toggleEditMode, editMode, onCurrentNodeChanged }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -32,7 +33,9 @@ const EditCustomFields = ({ node, toggleEditMode, editMode }: Props) => {
         {t('taxonomy.metadata.customFields.alterFields')}
       </MenuItemButton>
 
-      {editMode === 'openCustomFields' && <MenuItemCustomField node={node} />}
+      {editMode === 'openCustomFields' && (
+        <MenuItemCustomField node={node} onCurrentNodeChanged={onCurrentNodeChanged} />
+      )}
     </div>
   );
 };

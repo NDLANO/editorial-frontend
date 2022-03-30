@@ -10,9 +10,9 @@ import { createRef, Component, MutableRefObject, MouseEvent as ReactMouseEvent }
 import { CustomWithTranslation, withTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, spacingUnit, shadows } from '@ndla/core';
+import { IRelatedContentLink } from '@ndla/types-draft-api';
 import ElementListItem from './ElementListItem';
 import ElementListLink from './ElementListLink';
-import { RelatedContentLink } from '../../../interfaces';
 
 const ELEMENT_HEIGHT = 69;
 
@@ -41,7 +41,7 @@ export interface ElementType {
   contexts?: { learningResourceType: string }[];
 }
 
-interface ElementLink extends RelatedContentLink {}
+interface ElementLink extends IRelatedContentLink {}
 
 interface Props extends CustomWithTranslation {
   elements: (ElementType | ElementLink)[];

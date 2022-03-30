@@ -8,10 +8,10 @@
 import { HelmetWithTracker } from '@ndla/tracker';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { IUpdatedArticle } from '@ndla/types-draft-api';
 import LearningResourceForm from './components/LearningResourceForm';
 import { useFetchArticleData } from '../../FormikForm/formikDraftHooks';
 import { toEditArticle } from '../../../util/routeHelpers';
-import { UpdatedDraftApiType } from '../../../modules/draft/draftApiInterfaces';
 import { convertUpdateToNewDraft } from '../../../util/articleUtil';
 
 const CreateLearningResource = () => {
@@ -20,7 +20,7 @@ const CreateLearningResource = () => {
   const locale = i18n.language;
   const { createArticle } = useFetchArticleData(undefined, locale);
 
-  const createArticleAndPushRoute = async (createdArticle: UpdatedDraftApiType) => {
+  const createArticleAndPushRoute = async (createdArticle: IUpdatedArticle) => {
     const savedArticle = await createArticle(convertUpdateToNewDraft(createdArticle));
     navigate(toEditArticle(savedArticle.id, savedArticle.articleType, createdArticle.language));
     return savedArticle;

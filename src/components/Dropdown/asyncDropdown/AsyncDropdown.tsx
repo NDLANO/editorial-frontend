@@ -8,10 +8,8 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 import Downshift, { StateChangeOptions } from 'downshift';
 import debounce from 'lodash/debounce';
-// @ts-ignore
 import { DropdownMenu, Input } from '@ndla/forms';
 import { Search } from '@ndla/icons/common';
-// @ts-ignore
 import { Spinner } from '@ndla/editor';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import { itemToString } from '../../../util/downShiftHelpers';

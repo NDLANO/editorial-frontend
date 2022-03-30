@@ -10,14 +10,12 @@ import { ReactNode, useEffect, useState, MouseEvent } from 'react';
 import { css } from '@emotion/core';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
-// @ts-ignore
 import { Figure } from '@ndla/ui';
-//@ts-ignore
 import { parseMarkdown } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
-import { isNumeric } from '../../../../components/validators';
+import { isNumeric } from '../../../validators';
 import FigureButtons from './FigureButtons';
 import EditVideo from './EditVideo';
 import IconButton from '../../../IconButton';

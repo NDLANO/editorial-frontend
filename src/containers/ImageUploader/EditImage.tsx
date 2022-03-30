@@ -8,10 +8,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import {
-  IImageMetaInformationV2 as ImageApiType,
-  IUpdateImageMetaInformation as UpdatedImageMetadata,
-} from '@ndla/types-image-api';
+import { IImageMetaInformationV2, IUpdateImageMetaInformation } from '@ndla/types-image-api';
 import ImageForm from './components/ImageForm';
 import { fetchImage, updateImage } from '../../modules/image/imageApi';
 import { useLicenses } from '../../modules/draft/draftQueries';
@@ -33,7 +30,7 @@ const EditImage = ({ isNewlyCreated }: Props) => {
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const [loading, setLoading] = useState(false);
   const { applicationError, createMessage } = useMessages();
-  const [image, setImage] = useState<ImageApiType | undefined>(undefined);
+  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
   const imageLicenses = draftLicensesToImageLicenses(licenses ?? []);
 
   useEffect(() => {
@@ -47,11 +44,11 @@ const EditImage = ({ isNewlyCreated }: Props) => {
     })();
   }, [imageLanguage, imageId]);
 
-  const onUpdate = async (updatedImage: UpdatedImageMetadata, image: string | Blob, id: number) => {
+  const onUpdate = async (updatedImage: IUpdateImageMetaInformation, image: string | Blob) => {
     const formData = await createFormData(image, updatedImage);
 
     try {
-      const res = await updateImage(id, updatedImage, formData);
+      const res = await updateImage(Number(imageId), updatedImage, formData);
       setImage(res);
     } catch (e) {
       applicationError(e);
@@ -63,17 +60,20 @@ const EditImage = ({ isNewlyCreated }: Props) => {
     return <Spinner withWrapper />;
   }
 
-  if (imageId && !image?.id) {
+  if (!imageId || !image?.id) {
     return <NotFoundPage />;
   }
+
+  const isNewLanguage = !!imageLanguage && !image?.supportedLanguages.includes(imageLanguage);
 
   return (
     <ImageForm
       language={imageLanguage ?? i18n.language}
       image={image}
-      onUpdate={onUpdate}
+      onSubmitFunc={onUpdate}
       isNewlyCreated={isNewlyCreated}
       licenses={imageLicenses}
+      isNewLanguage={isNewLanguage}
     />
   );
 };

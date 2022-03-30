@@ -25,7 +25,7 @@ import SlateConceptPreview from '../SlateConceptPreview';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../../utils/mergeLastUndos';
 import { TYPE_CONCEPT_INLINE } from './types';
-import { PUBLISHED } from '../../../../util/constants/ConceptStatus';
+import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
   type: TYPE_CONCEPT_INLINE,

@@ -12,11 +12,11 @@ import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import { Dictionary } from 'lodash';
 import styled from '@emotion/styled';
+import { IConcept } from '@ndla/types-concept-api';
 import ConceptModal from '../ConceptModal';
 import SlateConceptPreview from '../SlateConceptPreview';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../../utils/mergeLastUndos';
-import { ConceptApiType } from '../../../../../modules/concept/conceptApiInterfaces';
 import { TYPE_CONCEPT_BLOCK } from './types';
 import { ConceptBlockElement } from './interfaces';
 
@@ -67,7 +67,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
     }
   };
 
-  const addConcept = (addedConcept: ConceptApiType) => {
+  const addConcept = (addedConcept: IConcept) => {
     setShowConcept(false);
     setTimeout(() => {
       handleSelectionChange(true);

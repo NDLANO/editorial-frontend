@@ -7,7 +7,7 @@
  */
 
 import { useState, useEffect, ReactNode } from 'react';
-import { spacing, colors } from '@ndla/core';
+import { colors } from '@ndla/core';
 import { Editor, Element, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps, useSelected } from 'slate-react';
 import { Dictionary } from 'lodash';

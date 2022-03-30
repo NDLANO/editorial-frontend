@@ -107,6 +107,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
           image,
           visualElement,
         }}
+        disableScripts={true}
       />
 
       <StyledFigureButtons isBlockView={isBlockView}>

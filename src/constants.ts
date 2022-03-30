@@ -91,6 +91,11 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
     name: 'NDLA Statisk',
     url: [`statisk.${config.ndlaBaseUrl}`],
   },
+  {
+    name: 'NDLA Liste',
+    url: [`liste.${config.ndlaBaseUrl}`],
+    height: '398px',
+  },
   { name: 'Ebok', url: ['ebok.no'] },
   { name: 'VG', url: ['www.vg.no'] },
   { name: 'Trinket', url: ['trinket.io'], height: '700px' },

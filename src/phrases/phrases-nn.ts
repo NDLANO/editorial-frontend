@@ -1112,7 +1112,7 @@ const phrases = {
       add: 'Ny revisjon',
       remove: 'Fjern revisjon',
       description:
-        'Revisjonar krev ei skildring og ein dato artikkelen går ut på. Brytaren bestemmer i kva grad ein revisjon er utført eller ikkje. Lagra revisjonar kan ikkje slettes, berre oppdateres.',
+        'Revisjonar krev ei skildring og ein dato artikkelen går ut på. Bryteren bestemmer i kva grad ein revisjon er utført eller ikkje. Lagra revisjonar kan ikkje slettast, berre oppdaterast.',
     },
   },
   validation: {

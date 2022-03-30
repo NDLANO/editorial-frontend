@@ -6,16 +6,13 @@
  *
  */
 
-import { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import { Formik, Form } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { Formik, Form, FormikHelpers } from 'formik';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Field from '../../../Field';
 import config from '../../../../config';
-import { LinkShape } from '../../../../shapes';
 import validateFormik from '../../../formikValidationSchema';
 import FormikField from '../../../FormikField';
 import { Checkbox } from '../../../../containers/FormikForm';
@@ -27,6 +24,7 @@ import {
   isPlainId,
 } from './EditLink';
 import { isUrl } from '../../../validators';
+import { Model } from './Link';
 
 const marginLeftStyle = css`
   margin-left: 0.2rem;
@@ -37,7 +35,7 @@ const linkValidationRules = {
   href: { required: true, urlOrNumber: true },
 };
 
-const getLinkFieldStyle = input => {
+const getLinkFieldStyle = (input: string) => {
   if (
     isNDLAArticleUrl(input) ||
     isNDLAEdPathUrl(input) ||
@@ -73,69 +71,65 @@ const getLinkFieldStyle = input => {
   }
 };
 
-export const getInitialValues = (link = {}) => ({
+export const getInitialValues = (link: Partial<Model> = {}): Model => ({
   text: link.text || '',
   href: link.href || '',
   checkbox: link.checkbox || false,
 });
 
-class LinkForm extends Component {
+interface Props {
+  onSave: (model: Model) => void;
+  link: Partial<Model>;
+  isEdit: boolean;
+  onRemove: () => void;
+  onClose: () => void;
+}
 
-  async handleSave(values, actions) {
-    const { onSave } = this.props;
+const LinkForm = ({ onSave, link, isEdit, onRemove, onClose }: Props) => {
+  const { t } = useTranslation();
+
+  const handleSave = async (values: Model, actions: FormikHelpers<Model>) => {
     actions.setSubmitting(true);
     onSave(values);
     actions.setSubmitting(false);
-  }
+  };
 
-  render() {
-    const { t, isEdit, link, onRemove, onClose } = this.props;
-    return (
-      <Formik
-        initialValues={getInitialValues(link)}
-        onSubmit={this.handleSave}
-        validate={values => validateFormik(values, linkValidationRules, t, 'linkForm')}>
-        {({ submitForm, values }) => (
-          <Form data-cy="link_form">
-            <FormikField
-              name="text"
-              type="text"
-              label={t('form.content.link.text')}
-              autoFocus={true}
-            />
-            <FormikField
-              name="href"
-              description={t('form.content.link.description', {
-                url: config.ndlaFrontendDomain,
-                interpolation: {escapeValue: false}
-              })}
-              label={t('form.content.link.href')}
-              css={getLinkFieldStyle(values.href)}
-            />
-            <Checkbox name="checkbox" label={t('form.content.link.newTab')} />
-            <Field right>
-              {isEdit ? <Button onClick={onRemove}>{t('form.content.link.remove')}</Button> : ''}
-              <Button css={marginLeftStyle} outline onClick={onClose}>
-                {t('form.abort')}
-              </Button>
-              <Button css={marginLeftStyle} onClick={submitForm}>
-                {isEdit ? t('form.content.link.update') : t('form.content.link.insert')}
-              </Button>
-            </Field>
-          </Form>
-        )}
-      </Formik>
-    );
-  }
-}
-
-LinkForm.propTypes = {
-  link: LinkShape.isRequired,
-  isEdit: PropTypes.bool.isRequired,
-  onSave: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  node: PropTypes.any,
+  return (
+    <Formik
+      initialValues={getInitialValues(link)}
+      onSubmit={handleSave}
+      validate={values => validateFormik(values, linkValidationRules, t, 'linkForm')}>
+      {({ submitForm, values }) => (
+        <Form data-cy="link_form">
+          <FormikField
+            name="text"
+            type="text"
+            label={t('form.content.link.text')}
+            autoFocus={true}
+          />
+          <FormikField
+            name="href"
+            description={t('form.content.link.description', {
+              url: config.ndlaFrontendDomain,
+              interpolation: { escapeValue: false },
+            })}
+            label={t('form.content.link.href')}
+            css={getLinkFieldStyle(values.href)}
+          />
+          <Checkbox name="checkbox" label={t('form.content.link.newTab')} />
+          <Field right>
+            {isEdit ? <Button onClick={onRemove}>{t('form.content.link.remove')}</Button> : ''}
+            <Button css={marginLeftStyle} outline onClick={onClose}>
+              {t('form.abort')}
+            </Button>
+            <Button css={marginLeftStyle} onClick={submitForm}>
+              {isEdit ? t('form.content.link.update') : t('form.content.link.insert')}
+            </Button>
+          </Field>
+        </Form>
+      )}
+    </Formik>
+  );
 };
 
-export default withTranslation()(LinkForm);
+export default LinkForm;

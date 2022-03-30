@@ -13,12 +13,8 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
-<<<<<<< HEAD
 import { ConceptNotion } from '@ndla/ui';
-=======
-import { ImageLink } from '@ndla/ui';
 import { IConcept } from '@ndla/types-concept-api';
->>>>>>> 110080578674a71d95badfa1dbd92a99a9b85068
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
@@ -42,23 +38,14 @@ const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
 `;
 
 interface Props {
-<<<<<<< HEAD
-  concept: ConceptApiType;
-  isBlockView?: boolean;
-=======
   concept: IConcept;
->>>>>>> 110080578674a71d95badfa1dbd92a99a9b85068
+  isBlockView?: boolean;
   handleRemove: () => void;
   id: number | string;
 }
 
-<<<<<<< HEAD
 const SlateConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
-  const { t } = useTranslation();
-=======
-const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
   const { t, i18n } = useTranslation();
->>>>>>> 110080578674a71d95badfa1dbd92a99a9b85068
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
   }, []);
@@ -115,7 +102,7 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
       <ConceptNotion
         concept={{
           ...concept,
-          text: concept.content.content,
+          text: concept.content?.content || '',
           title: concept.title.title,
           image,
           visualElement,

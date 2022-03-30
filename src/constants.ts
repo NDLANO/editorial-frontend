@@ -64,11 +64,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'Norgesfilm', url: ['ndla.filmiundervisning.no'] },
   { name: 'TED', url: ['ted.com', 'embed.ted.com'] },
   { name: 'TV2 Skole', url: ['www.tv2skole.no'], height: '431px' },
-  {
-    name: 'Khan Academy',
-    url: ['nb.khanacademy.org', 'www.khanacademy.org'],
-    height: '486px',
-  },
+  { name: 'Khan Academy', url: ['nb.khanacademy.org', 'www.khanacademy.org'], height: '486px' },
   { name: 'Prezi', url: ['prezi.com'] },
   { name: 'SlideShare', url: ['www.slideshare.net'], height: '500px' },
   { name: 'Scribd', url: ['scribd.com'] },
@@ -104,11 +100,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'VG', url: ['www.vg.no'] },
   { name: 'Trinket', url: ['trinket.io'], height: '700px' },
   { name: 'Codepen', url: ['codepen.io'], height: '500px' },
-  {
-    name: 'Flourish studio',
-    url: ['public.flourish.studio', 'flo.uri.sh'],
-    height: '650px',
-  },
+  { name: 'Flourish studio', url: ['public.flourish.studio', 'flo.uri.sh'], height: '650px' },
   { name: 'Our World in Data', url: ['ourworldindata.org'] },
   { name: 'SketchUp 3D Warehouse', url: ['3dwarehouse.sketchup.com'] },
 ];

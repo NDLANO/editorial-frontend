@@ -52,6 +52,11 @@ const StyledSwitch = styled(Switch)`
   outline: none;
 `;
 
+const StyledRemoveButton = styled(FieldRemoveButton)<{ visible: boolean }>`
+  width: 15%;
+  visible: ${({ visible }) => (visible ? 'visible' : 'hidden')};
+`;
+
 const AddRevisionDateField = ({ formikField }: Props) => {
   const { t } = useTranslation();
   type RevisionMetaType = typeof formikField.value[number];
@@ -120,10 +125,7 @@ const AddRevisionDateField = ({ formikField }: Props) => {
                 label={''}
                 id={`revision_switch_${index}`}
               />
-              <FieldRemoveButton
-                css={{ visibility: revisionMeta.new ? 'visible' : 'hidden', width: '15%' }}
-                onClick={() => removeRevision(index)}
-              />
+              <StyledRemoveButton onClick={() => removeRevision(index)} />
             </Wrapper>
           </div>
         );

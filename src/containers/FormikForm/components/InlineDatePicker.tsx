@@ -22,6 +22,7 @@ interface Props {
   name: string;
   onChange: (changeObject: ChangeObject) => void;
   value?: string;
+  placeholder?: string;
 }
 
 const StyledDTI = styled(DateTimeInput)`
@@ -31,9 +32,17 @@ const StyledDTI = styled(DateTimeInput)`
   padding-left: 1rem;
 `;
 
-const InlineDatePicker = ({ onChange, value, name }: Props) => {
+const InlineDatePicker = ({ onChange, value, name, placeholder }: Props) => {
   const { i18n } = useTranslation();
-  return <StyledDTI onChange={onChange} name={name} value={value} locale={i18n.language} />;
+  return (
+    <StyledDTI
+      placeholder={placeholder}
+      onChange={onChange}
+      name={name}
+      value={value}
+      locale={i18n.language}
+    />
+  );
 };
 
 export default InlineDatePicker;

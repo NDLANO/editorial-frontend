@@ -63,8 +63,7 @@ const SearchImageForm = ({
     doSearch({ ...search, query: evt.currentTarget.value });
   };
 
-  const onFieldChange = (evt: FormEvent<HTMLSelectElement>) => {
-    const { value, name } = evt.currentTarget;
+  const onFieldChange = (name: string, value: string) => {
     doSearch({ ...search, [name]: value });
   };
 

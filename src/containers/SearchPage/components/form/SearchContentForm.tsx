@@ -72,8 +72,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     doSearch({ ...search, query: evt.currentTarget.value });
   };
 
-  const onFieldChange = (evt: FormEvent<HTMLSelectElement>) => {
-    const { name, value } = evt.currentTarget;
+  const onFieldChange = (name: string, value: string) => {
     let includeOtherStatuses: boolean | undefined;
     let status: string | undefined;
     if (name === 'draft-status') {
@@ -133,7 +132,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     {
       name: getTagName(search.subjects, subjects),
       type: 'subjects',
-      width: 25,
+      width: 50,
       options: subjects.sort(sortByProperty('name')),
     },
     {
@@ -162,6 +161,18 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       type: 'language',
       width: 25,
       options: getResourceLanguages(t),
+    },
+    {
+      name: search['revision-date-from'],
+      type: 'revision-date-from',
+      width: 25,
+      options: [],
+    },
+    {
+      name: search['revision-date-to'],
+      type: 'revision-date-to',
+      width: 25,
+      options: [],
     },
   ];
 

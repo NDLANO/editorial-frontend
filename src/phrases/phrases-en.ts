@@ -223,6 +223,8 @@ const phrases = {
       'draft-status': 'Select status',
       'audio-type': 'Select audio file type',
       license: 'Select license',
+      'revision-date-from': 'Revisiondate from',
+      'revision-date-to': 'Revisjonsdato to',
     },
     tagType: {
       query: 'Query',
@@ -235,6 +237,8 @@ const phrases = {
       'audio-type': 'Audio file type',
       license: 'License',
       'model-released': 'Model released',
+      'revision-date-from': 'Revisiondate from',
+      'revision-date-to': 'Revisjonsdato to',
     },
     btn: 'Search',
     empty: 'Empty',

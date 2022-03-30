@@ -75,7 +75,10 @@ export const fetchNodeTranslations = (id: string): Promise<NodeTranslation[]> =>
   fetchAndResolve({ url: `${baseUrl}/${id}/translations` });
 
 export const deleteNodeTranslation = (id: string, language: string): Promise<void> => {
-  return deleteAndResolve({ url: `${baseUrl}/${id}/translations/${language}` });
+  return deleteAndResolve({
+    url: `${baseUrl}/${id}/translations/${language}`,
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
 };
 
 export const putNodeTranslation = (

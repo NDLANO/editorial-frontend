@@ -53,9 +53,9 @@ const StyledSwitch = styled(Switch)`
   outline: none;
 `;
 
-const StyledRemoveButton = styled(FieldRemoveButton)<{ visible: boolean }>`
+const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
   width: 15%;
-  visible: ${({ visible }) => (visible ? 'visible' : 'hidden')};
+  visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
   height: 100%;
 `;
 
@@ -127,7 +127,10 @@ const AddRevisionDateField = ({ formikField }: Props) => {
                 label={''}
                 id={`revision_switch_${index}`}
               />
-              <StyledRemoveButton onClick={() => removeRevision(index)} />
+              <StyledRemoveButton
+                visible={revisionMeta.new}
+                onClick={() => removeRevision(index)}
+              />
             </Wrapper>
           </div>
         );

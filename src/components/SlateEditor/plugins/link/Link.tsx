@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { colors, spacing } from '@ndla/core';
 import config from '../../../../config';
-import { toEditArticle, toLearningpathFull } from '../../../../util/routeHelpers';
+import { toEditGenericArticle, toLearningpathFull } from '../../../../util/routeHelpers';
 import { Portal } from '../../../Portal';
 import isNodeInCurrentSelection from '../../utils/isNodeInCurrentSelection';
 import { classes } from '../../RichTextEditor';
@@ -47,7 +47,7 @@ const fetchResourcePath = (data: ContentLinkElement, language: string, contentTy
   const id = data['content-id'];
   return contentType === 'learningpath'
     ? toLearningpathFull(id, language)
-    : `${config.editorialFrontendDomain}${toEditArticle(id, contentType)}`;
+    : `${config.editorialFrontendDomain}${toEditGenericArticle(id)}`;
 };
 
 function hasHrefOrContentId(node: LinkElement | ContentLinkElement) {

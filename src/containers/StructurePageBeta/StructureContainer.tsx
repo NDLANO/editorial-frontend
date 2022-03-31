@@ -1,7 +1,7 @@
 import { Taxonomy } from '@ndla/icons/lib/editor';
 import { OneColumn, Spinner } from '@ndla/ui';
 import { colors } from '@ndla/core';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Switch } from '@ndla/switch';
@@ -39,7 +39,9 @@ const StructureContainer = () => {
 
   const { userPermissions } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
-  const [showFavorites, setShowFavorites] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(
+    window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
+  );
   const resourceSection = useRef<HTMLDivElement>(null);
 
   const addNodeMutation = useAddNodeMutation();

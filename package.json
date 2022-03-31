@@ -120,7 +120,7 @@
     "@ndla/editor": "^1.2.3",
     "@ndla/error-reporter": "^1.0.10",
     "@ndla/forms": "^1.1.11",
-    "@ndla/howto": "^1.2.11",
+    "@ndla/howto": "^1.3.0",
     "@ndla/icons": "^1.6.1",
     "@ndla/image-search": "^2.1.11",
     "@ndla/licenses": "^4.0.2",

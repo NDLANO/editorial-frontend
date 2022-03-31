@@ -46,14 +46,14 @@ export const conceptListSerializer: SlateSerializer = {
   },
 };
 
-export const conceptListPlugin = (locale: string) => (editor: Editor) => {
+export const conceptListPlugin = (language: string) => (editor: Editor) => {
   const { renderElement, isVoid } = editor;
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;
     if (element.type === TYPE_CONCEPT_LIST) {
       return (
-        <ConceptList attributes={attributes} element={element} locale={locale} editor={editor}>
+        <ConceptList attributes={attributes} element={element} language={language} editor={editor}>
           {children}
         </ConceptList>
       );

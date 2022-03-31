@@ -11,6 +11,7 @@ import {
   IConcept,
   IConceptSearchResult,
   INewConcept,
+  ISubjectTags,
   ITagsSearchResult,
   IUpdatedConcept,
 } from '@ndla/types-concept-api';
@@ -30,6 +31,13 @@ export const fetchSearchTags = async (
 ): Promise<ITagsSearchResult> => {
   const response = await fetchAuthorized(
     `${draftConceptUrl}/tag-search/?language=${language}&query=${input}&fallback=true`,
+  );
+  return resolveJsonOrRejectWithError(response);
+};
+
+export const fetchAllTags = async (language: string): Promise<string[]> => {
+  const response = await fetchAuthorized(
+    `${draftConceptUrl}/tags/?language=${language}&fallback=true`,
   );
   return resolveJsonOrRejectWithError(response);
 };

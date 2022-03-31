@@ -6,13 +6,13 @@ import ConceptTagSearch from './ConceptTagSearch';
 
 interface Props {
   element: ConceptListElement;
-  locale: string;
+  language: string;
   editor: Editor;
   attributes: RenderElementProps['attributes'];
   children: ReactNode;
 }
 
-const ConceptList = ({ element, locale, editor, attributes, children }: Props) => {
+const ConceptList = ({ element, language, editor, attributes, children }: Props) => {
   const [editMode, setEditMode] = useState(!!element.isFirstEdit);
 
   const onClose = () => {
@@ -26,7 +26,7 @@ const ConceptList = ({ element, locale, editor, attributes, children }: Props) =
   return (
     <>
       <div {...attributes}>{children}</div>
-      <ConceptTagSearch element={element} isOpen={editMode} onClose={onClose} />
+      <ConceptTagSearch element={element} isOpen={editMode} onClose={onClose} language={language} />
     </>
   );
 };

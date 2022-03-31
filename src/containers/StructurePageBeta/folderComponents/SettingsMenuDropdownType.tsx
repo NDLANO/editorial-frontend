@@ -15,6 +15,7 @@ import { useSession } from '../../Session/SessionProvider';
 import EditCustomFields from './sharedMenuOptions/EditCustomFields';
 import EditGrepCodes from './sharedMenuOptions/EditGrepCodes';
 import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
+import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
 import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
 
 interface Props {
@@ -50,7 +51,7 @@ const SettingsMenuDropdownType = ({
   if (nodeType === SUBJECT_NODE) {
     return (
       <>
-        {/* <ChangeNodeName editModeHandler={editModeHandler} node={node} /> */}
+        <ChangeNodeName editModeHandler={editModeHandler} node={node} />
         <EditCustomFields
           toggleEditMode={toggleEditMode}
           editMode={editMode}

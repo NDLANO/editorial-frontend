@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react';
-import { Editor } from 'slate';
-import { RenderElementProps } from 'slate-react';
+import { Editor, Transforms } from 'slate';
+import { RenderElementProps, ReactEditor } from 'slate-react';
 import { ConceptListElement } from '.';
 import ConceptTagSearch from './ConceptTagSearch';
 
@@ -16,6 +16,10 @@ const ConceptList = ({ element, locale, editor, attributes, children }: Props) =
   const [editMode, setEditMode] = useState(!!element.isFirstEdit);
 
   const onClose = () => {
+    ReactEditor.focus(editor);
+    if (element.isFirstEdit) {
+      Transforms.removeNodes(editor, { at: [], match: node => element === node });
+    }
     setEditMode(false);
   };
 

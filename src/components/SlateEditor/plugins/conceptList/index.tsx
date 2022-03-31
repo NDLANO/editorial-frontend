@@ -17,8 +17,8 @@ import { defaultConceptListBlock } from './utils';
 export interface ConceptListElement {
   type: 'concept-list';
   data: {
-    tag: string;
-    title: string;
+    tag?: string;
+    title?: string;
   };
   isFirstEdit?: boolean;
   children: Descendant[];

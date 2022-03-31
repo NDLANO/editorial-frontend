@@ -2,7 +2,8 @@ import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConceptListElement } from '.';
-import { fetchAllTags } from '../../../../modules/concept/conceptApi';
+import { fetchAllTags, fetchSearchTags } from '../../../../modules/concept/conceptApi';
+import AsyncSearchTags from '../../../Dropdown/asyncDropdown/AsyncSearchTags';
 import { Portal } from '../../../Portal';
 
 interface Props {
@@ -14,15 +15,7 @@ interface Props {
 
 const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
   const { t } = useTranslation();
-  const [tags, setTags] = useState<string[]>([]);
-
-  useEffect(() => {
-    const initialize = async () => {
-      const data = await fetchAllTags(language);
-      setTags(data);
-    };
-    initialize();
-  }, [setTags, language]);
+  const [selectedTag, setSelectedTag] = useState<string>();
 
   return (
     <Portal isOpened>
@@ -38,7 +31,17 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
             <ModalHeader>
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
-            <ModalBody></ModalBody>
+            <ModalBody>
+              <AsyncSearchTags
+                updateValue={value => {
+                  setSelectedTag(value[1]);
+                }}
+                disableCreate
+                fetchTags={fetchSearchTags}
+                language={language}
+                initialTags={selectedTag ? [selectedTag] : []}
+              />
+            </ModalBody>
           </div>
         )}
       </Modal>

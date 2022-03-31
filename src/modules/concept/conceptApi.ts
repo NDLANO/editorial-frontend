@@ -11,7 +11,6 @@ import {
   IConcept,
   IConceptSearchResult,
   INewConcept,
-  ISubjectTags,
   ITagsSearchResult,
   IUpdatedConcept,
 } from '@ndla/types-concept-api';

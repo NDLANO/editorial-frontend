@@ -66,6 +66,7 @@ const ConceptMetaData = ({ subjects, fetchTags, inModal }: Props) => {
         description={t('form.categories.description')}>
         {({ field, form }) => (
           <AsyncSearchTags
+            multiSelect
             language={values.language}
             initialTags={values.tags}
             field={field}

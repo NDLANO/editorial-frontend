@@ -59,8 +59,7 @@ interface Props {
   children: ReactNode;
 }
 
-const EditSlateConcept = (props: Props) => {
-  const { children, element, locale, editor, attributes } = props;
+const EditSlateConcept = ({ children, element, locale, editor, attributes }: Props) => {
   const nodeText = Node.string(element).trim();
   const uuid = useMemo(() => uniqueId(), []);
   const { t } = useTranslation();

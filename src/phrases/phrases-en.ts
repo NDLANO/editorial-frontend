@@ -522,6 +522,7 @@ const phrases = {
       file: 'File',
       code: 'Codeblock',
       podcast: 'Podcast episode',
+      conceptList: 'Concept list',
     },
   },
   form: {

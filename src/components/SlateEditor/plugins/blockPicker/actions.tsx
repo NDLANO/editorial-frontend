@@ -3,6 +3,7 @@ import {
   ArrowExpand,
   Camera,
   Code,
+  Concept,
   FactBoxMaterial,
   Framed,
   Link as LinkIcon,
@@ -92,6 +93,11 @@ const actions: Action[] = [
     data: { type: 'code-block', object: 'code' },
     icon: <Code />,
     helpIcon: renderArticleInModal('CodeBlock'),
+  },
+  {
+    data: { type: 'concept-list', object: 'conceptList' },
+    icon: <Concept />,
+    helpIcon: renderArticleInModal('ConceptList'),
   },
 ];
 

@@ -38,6 +38,7 @@ import { BodyboxElement } from './plugins/bodybox';
 import { CodeblockElement } from './plugins/codeBlock';
 import { DivElement } from './plugins/div';
 import { SpanElement } from './plugins/span';
+import { ConceptListElement } from './plugins/conceptList';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -90,7 +91,8 @@ declare module 'slate' {
       | EmbedElement
       | BodyboxElement
       | DivElement
-      | SpanElement;
+      | SpanElement
+      | ConceptListElement;
     Text: CustomTextWithMarks;
   }
 }

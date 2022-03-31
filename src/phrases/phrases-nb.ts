@@ -523,6 +523,7 @@ const phrases = {
       file: 'Fil',
       code: 'Kodevisning',
       podcast: 'Podkastepisode',
+      conceptList: 'Forklaringsliste',
     },
   },
   form: {

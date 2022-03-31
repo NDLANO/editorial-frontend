@@ -121,7 +121,7 @@ const SlateBlockPicker = ({
         break;
       }
       case 'concept-list': {
-        onInsertBlock({ ...defaultConceptListBlock(), startEditMode: true });
+        onInsertBlock({ ...defaultConceptListBlock(), isFirstEdit: true });
         break;
       }
       default:

@@ -20,7 +20,7 @@ export interface ConceptListElement {
     tag: string;
     title: string;
   };
-  startEditMode?: boolean;
+  isFirstEdit?: boolean;
   children: Descendant[];
 }
 

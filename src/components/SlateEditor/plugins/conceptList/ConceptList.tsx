@@ -13,7 +13,7 @@ interface Props {
 }
 
 const ConceptList = ({ element, locale, editor, attributes, children }: Props) => {
-  const [editMode, setEditMode] = useState(!!element.startEditMode);
+  const [editMode, setEditMode] = useState(!!element.isFirstEdit);
 
   const onClose = () => {
     setEditMode(false);

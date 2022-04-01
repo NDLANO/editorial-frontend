@@ -6,6 +6,7 @@ import Downshift, { StateChangeOptions } from 'downshift';
 import { ConceptListElement } from '.';
 import { fetchAllTags } from '../../../../modules/concept/conceptApi';
 import { Portal } from '../../../Portal';
+import ConceptSearchResult from './ConceptSearchResult';
 
 interface Props {
   isOpen: boolean;
@@ -62,8 +63,6 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
     setSelectedTag(undefined);
   };
 
-  console.log(selectedTag);
-
   const onFocus = () => {
     setDropdownOpen(true);
   };
@@ -76,8 +75,6 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
 
     initialize();
   }, [language, setTags]);
-
-  console.log(selectedTag);
 
   return (
     <Portal isOpened>
@@ -117,6 +114,7 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
                         maxRender={10}
                         hideTotalSearchCount
                       />
+                      <ConceptSearchResult tag={selectedTag} language={language} />
                     </div>
                   );
                 }}

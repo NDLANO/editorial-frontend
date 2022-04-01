@@ -66,8 +66,6 @@ const ConceptSearchResult = ({ tag, language }: Props) => {
         alt: concept.metaImage.alt,
       };
 
-      console.log(visualElement);
-
       return {
         ...concept,
         visualElement: visualElement,

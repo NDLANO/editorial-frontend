@@ -1,3 +1,6 @@
+import Button from '@ndla/button';
+import { Transforms } from 'slate';
+import { ReactEditor, useSlateStatic } from 'slate-react';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { DropdownInput, DropdownMenu } from '@ndla/forms';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -18,19 +21,22 @@ interface Props {
 const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
   const { t } = useTranslation();
   const [selectedTag, setSelectedTag] = useState<string>();
-  const [input, setInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [titleInput, setTitleInput] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
 
+  const editor = useSlateStatic();
+
   const filteredTags = tags.filter(tag => {
-    return tag.toLowerCase().includes(input.toLowerCase());
+    return tag.toLowerCase().includes(searchInput.toLowerCase());
   });
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
     } = e;
-    setInput(value);
+    setSearchInput(value);
   };
 
   const onSelectTag = (selectedItem: string) => {
@@ -50,12 +56,12 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
     if (type === Downshift.stateChangeTypes.mouseUp) {
       setDropdownOpen(!!isOpen);
       if (!isOpen) {
-        setInput('');
+        setSearchInput('');
       }
     }
 
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
-      setInput('');
+      setSearchInput('');
     }
   };
 
@@ -65,6 +71,19 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
 
   const onFocus = () => {
     setDropdownOpen(true);
+  };
+
+  const onSave = () => {
+    ReactEditor.focus(editor);
+    Transforms.setNodes<ConceptListElement>(
+      editor,
+      { data: { tag: selectedTag, title: titleInput }, isFirstEdit: false },
+      {
+        match: node => node === element,
+        at: [],
+      },
+    );
+    onClose();
   };
 
   useEffect(() => {
@@ -91,6 +110,9 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
             <ModalBody>
+              <Button type="button" onClick={onSave} disabled={!selectedTag}>
+                {t('form.save')}
+              </Button>
               <Downshift isOpen={dropdownOpen} onSelect={onSelectTag} onStateChange={onStateChange}>
                 {({ getInputProps, getMenuProps, getItemProps }): JSX.Element => {
                   return (
@@ -98,7 +120,7 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
                       <DropdownInput
                         multiSelect
                         {...getInputProps({
-                          value: input,
+                          value: searchInput,
                           onChange: onChangeInput,
                           onFocus: onFocus,
                           onClick: onFocus,

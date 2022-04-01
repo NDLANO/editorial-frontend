@@ -33,6 +33,7 @@ import SubjectCategorySelector from '../../subjectMenuOptions/SubjectCategorySel
 import ToggleExplanationSubject from '../../subjectMenuOptions/ToggleExplanationSubject';
 import ConstantMetaField from './ConstantMetaField';
 import CustomFieldComponent from './CustomFieldComponent';
+import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   node: NodeType;
@@ -50,6 +51,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
   const { id, metadata } = node;
   const nodeType = getNodeTypeFromNodeId(id);
   const [isOpen, setOpen] = useState<boolean>(false);
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [customFields, setCustomFields] = useState<TaxonomyMetadata['customFields']>(
     metadata.customFields,
   );
@@ -59,9 +61,12 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
   useEffect(() => {
     if (customFields !== metadata.customFields) {
       updateMetadata({
-        id,
-        metadata: { customFields },
-        rootId: isRootNode(node) ? undefined : getRootIdForNode(node),
+        vars: {
+          id,
+          metadata: { customFields },
+          rootId: isRootNode(node) ? undefined : getRootIdForNode(node),
+        },
+        taxonomyVersion,
       });
     }
   }, [customFields]); // eslint-disable-line react-hooks/exhaustive-deps

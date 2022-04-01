@@ -23,6 +23,7 @@ import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes'
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import MakeDndList from '../../../components/MakeDndList';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledResourceItems = styled.ul`
   list-style: none;
@@ -44,14 +45,15 @@ const isError = (error: unknown): error is Error => (error as Error).message !==
 const ResourceItems = ({ resources, currentNodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const [deleteId, setDeleteId] = useState<string>('');
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   const qc = useQueryClient();
   const compKey = [RESOURCES_WITH_NODE_CONNECTION, currentNodeId, { language: i18n.language }];
   const deleteNodeResource = useDeleteResourceForNodeMutation({
-    onMutate: async variables => {
+    onMutate: async ({ vars }) => {
       await qc.cancelQueries(compKey);
       const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
-      const withoutDeleted = prevData.filter(res => res.connectionId !== variables.id);
+      const withoutDeleted = prevData.filter(res => res.connectionId !== vars.id);
       qc.setQueryData<ResourceWithNodeConnection[]>(compKey, withoutDeleted);
       return prevData;
     },
@@ -70,7 +72,7 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   };
 
   const { mutateAsync: updateNodeResource } = usePutResourceForNodeMutation({
-    onMutate: data => onUpdateRank(data.id, data.body.rank as number),
+    onMutate: ({ vars }) => onUpdateRank(vars.id, vars.body.rank as number),
     onError: e => handleError(e),
     onSuccess: () => qc.invalidateQueries(compKey),
   });
@@ -78,7 +80,7 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   const onDelete = async (deleteId: string) => {
     setDeleteId('');
     await deleteNodeResource.mutateAsync(
-      { id: deleteId },
+      { vars: { id: deleteId }, taxonomyVersion },
       { onSuccess: () => qc.invalidateQueries(compKey) },
     );
   };
@@ -91,12 +93,15 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
       return;
     }
     await updateNodeResource({
-      id: connectionId,
-      body: {
-        primary,
-        rank: currentRank > rank ? rank : rank + 1,
-        relevanceId,
+      vars: {
+        id: connectionId,
+        body: {
+          primary,
+          rank: currentRank > rank ? rank : rank + 1,
+          relevanceId,
+        },
       },
+      taxonomyVersion,
     });
   };
 

@@ -21,6 +21,7 @@ import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers'
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 import StructureResources from './resourceComponents/StructureResources';
 import Footer from '../App/components/Footer';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -34,6 +35,7 @@ const StructureContainer = () => {
   const params = { subject, topic, subtopics };
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [currentNode, setCurrentNode] = useState<ChildNodeType | undefined>(undefined);
 
@@ -52,13 +54,10 @@ const StructureContainer = () => {
       return acc;
     }, {}) ?? {};
   const favoriteNodeIds = Object.keys(favoriteNodes);
-  const nodesQuery = useNodes(
-    { language: i18n.language, isRoot: true },
-    {
-      select: nodes => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
-      placeholderData: [],
-    },
-  );
+  const nodesQuery = useNodes({ language: i18n.language, isRoot: true }, taxonomyVersion, {
+    select: nodes => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
+    placeholderData: [],
+  });
   const handleStructureToggle = (path: string) => {
     const { search } = location;
     const currentPath = location.pathname.replace('/structureBeta/', '');
@@ -97,7 +96,10 @@ const StructureContainer = () => {
   };
 
   const addNode = async (name: string) => {
-    await addNodeMutation.mutateAsync({ name, nodeType: 'SUBJECT', root: true });
+    await addNodeMutation.mutateAsync({
+      vars: { name, nodeType: 'SUBJECT', root: true },
+      taxonomyVersion,
+    });
   };
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);

@@ -35,6 +35,7 @@ import { getArticle } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
 import { usePostResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
 import { RESOURCES_WITH_NODE_CONNECTION } from '../../../queryKeys';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -99,6 +100,7 @@ const AddResourceModal = ({
   const [selectedType, setSelectedType] = useState(type);
   const [pastedUrl, setPastedUrl] = useState('');
   const qc = useQueryClient();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
     onSuccess: _ => {
       qc.invalidateQueries([RESOURCES_WITH_NODE_CONNECTION, nodeId, { language: i18n.language }]);
@@ -138,7 +140,7 @@ const AddResourceModal = ({
       return;
     }
 
-    await createNodeResource({ body: { resourceId, nodeId } })
+    await createNodeResource({ vars: { body: { resourceId, nodeId } }, taxonomyVersion })
       .then(_ => onClose())
       .catch(err => setError('taxonomy.resource.creationFailed'));
     setLoading(false);

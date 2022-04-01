@@ -15,6 +15,7 @@ import { groupChildNodes } from '../../util/taxonomyHelpers';
 import { CHILD_NODES_WITH_ARTICLE_TYPE } from '../../queryKeys';
 import NodeItem, { RenderBeforeFunction } from './NodeItem';
 import { useUpdateNodeConnectionMutation } from '../../modules/nodes/nodeMutations';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   node: NodeType;
@@ -40,8 +41,9 @@ const RootNode = ({
   renderBeforeTitle,
 }: Props) => {
   const { i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
-  const childNodesQuery = useChildNodesWithArticleType(node.id, locale, {
+  const childNodesQuery = useChildNodesWithArticleType(node.id, locale, taxonomyVersion, {
     enabled: openedPaths[0] === node.id,
     select: childNodes => groupChildNodes(childNodes),
   });
@@ -61,7 +63,7 @@ const RootNode = ({
   };
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
-    onMutate: data => onUpdateRank(data.id, data.body.rank!),
+    onMutate: ({ vars }) => onUpdateRank(vars.id, vars.body.rank!),
     onSettled: () => qc.invalidateQueries([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale]),
   });
 
@@ -72,7 +74,10 @@ const RootNode = ({
     const destinationRank = nodes[destination.index].rank;
     if (currentRank === destinationRank) return;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
-    await updateNodeConnection({ id: draggableId, body: { rank: newRank } });
+    await updateNodeConnection({
+      vars: { id: draggableId, body: { rank: newRank } },
+      taxonomyVersion,
+    });
   };
 
   return (

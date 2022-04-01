@@ -22,6 +22,7 @@ import MenuItemButton from './components/MenuItemButton';
 import { useGrepCodes } from '../../../../modules/grep/grepQueries';
 import MenuItemEditField from './components/MenuItemEditField';
 import { getRootIdForNode, isRootNode } from '../../../../modules/nodes/nodeUtil';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   editModeHandler: EditModeHandler;
@@ -46,14 +47,18 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
   const { id, metadata } = node;
   const [grepCodes, setGrepCodes] = useState<string[]>(metadata?.grepCodes ?? []);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
+  const { taxonomyVersion } = useTaxonomyVersion();
   const { mutateAsync: patchMetadata } = useUpdateNodeMetadataMutation();
   const grepCodesWithName = useGrepCodes(grepCodes, editMode === 'editGrepCodes');
 
   const updateMetadata = async (codes: string[]) => {
     await patchMetadata({
-      id,
-      metadata: { grepCodes: codes, visible: metadata.visible },
-      rootId: isRootNode(node) ? undefined : rootId,
+      vars: {
+        id,
+        metadata: { grepCodes: codes, visible: metadata.visible },
+        rootId: isRootNode(node) ? undefined : rootId,
+      },
+      taxonomyVersion,
     });
     setGrepCodes(codes);
   };

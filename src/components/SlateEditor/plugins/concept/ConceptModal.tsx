@@ -45,7 +45,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   locale: string;
-  selectedText: string;
+  selectedText?: string;
   subjects: SubjectType[];
   updateConcept: (id: number, updatedConcept: IUpdatedConcept) => Promise<IConcept>;
   updateConceptAndStatus: (

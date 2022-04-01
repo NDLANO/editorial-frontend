@@ -13,7 +13,7 @@ import { toggleHeading } from '../heading/utils';
 import { LIST_TYPES } from '../list/types';
 import { toggleList } from '../list/utils/toggleList';
 import { insertMathml } from '../mathml/utils';
-import { insertConcept } from '../concept/utils';
+import { insertInlineConcept } from '../concept/inline/utils';
 import { toggleSpan } from '../span/utils';
 
 export function handleClickBlock(event: KeyboardEvent, editor: Editor, type: string) {
@@ -39,7 +39,7 @@ export function handleClickInline(event: KeyboardEvent, editor: Editor, type: st
       insertMathml(editor);
     }
     if (type === 'concept') {
-      insertConcept(editor);
+      insertInlineConcept(editor);
     }
     if (type === 'span') {
       toggleSpan(editor);

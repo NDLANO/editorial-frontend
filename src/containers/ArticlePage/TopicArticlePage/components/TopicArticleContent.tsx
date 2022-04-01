@@ -23,7 +23,7 @@ import HowToHelper from '../../../../components/HowTo/HowToHelper';
 
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { listPlugin } from '../../../../components/SlateEditor/plugins/list';
-import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concept';
+import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import { linkPlugin } from '../../../../components/SlateEditor/plugins/link';
 import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
@@ -88,7 +88,7 @@ const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>)
     // unwrapping (jumping out of block) will not work.
     blockQuotePlugin,
     listPlugin,
-    conceptPlugin(language),
+    inlineConceptPlugin(language),
     mathmlPlugin,
     markPlugin,
     dndPlugin,

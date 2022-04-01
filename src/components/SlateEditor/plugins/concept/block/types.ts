@@ -6,4 +6,4 @@
  *
  */
 
-export const TYPE_RELATED = 'related';
+export const TYPE_CONCEPT_BLOCK = 'concept-block';

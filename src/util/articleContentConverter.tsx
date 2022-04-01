@@ -22,7 +22,7 @@ import { headingSerializer } from '../components/SlateEditor/plugins/heading';
 import { listSerializer } from '../components/SlateEditor/plugins/list';
 import { footnoteSerializer } from '../components/SlateEditor/plugins/footnote';
 import { mathmlSerializer } from '../components/SlateEditor/plugins/mathml';
-import { conceptSerializer } from '../components/SlateEditor/plugins/concept';
+import { inlineConceptSerializer } from '../components/SlateEditor/plugins/concept/inline';
 import { asideSerializer } from '../components/SlateEditor/plugins/aside';
 import { fileSerializer } from '../components/SlateEditor/plugins/file';
 import { detailsSerializer } from '../components/SlateEditor/plugins/details';
@@ -40,6 +40,7 @@ import { spanSerializer } from '../components/SlateEditor/plugins/span';
 import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed/types';
 import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/types';
 import { TYPE_SECTION } from '../components/SlateEditor/plugins/section/types';
+import { blockConceptSerializer } from '../components/SlateEditor/plugins/concept/block';
 
 export const sectionSplitter = (html: string) => {
   const node = document.createElement('div');
@@ -80,7 +81,8 @@ const learningResourceRules: SlateSerializer[] = [
   listSerializer,
   footnoteSerializer,
   mathmlSerializer,
-  conceptSerializer,
+  inlineConceptSerializer,
+  blockConceptSerializer,
   asideSerializer,
   fileSerializer,
   detailsSerializer,
@@ -105,7 +107,7 @@ const topicArticleRules: SlateSerializer[] = [
   listSerializer,
   footnoteSerializer,
   mathmlSerializer,
-  conceptSerializer,
+  inlineConceptSerializer,
   noEmbedSerializer,
   divSerializer,
   spanSerializer,

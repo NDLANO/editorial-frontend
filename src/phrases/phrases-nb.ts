@@ -1238,6 +1238,8 @@ const phrases = {
       copyError:
         'Det oppsto en feil ved kopiering av ressurser. Dobbeltsjekk de kopierte ressursene og prøv å fikse mangler manuelt, eller slett de kopierte ressursene og prøv å kopiere på nytt',
       addResourceConflict: 'Ressursen du forsøkte å legge til finnes allerede på emnet.',
+      noResourceId: 'Klarte ikke hente ut ID fra den valgte ressursen',
+      creationFailed: 'Klarte ikke å opprette kobling',
     },
     removeLink: 'Fjern link',
     resourceTypes: {

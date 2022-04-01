@@ -4,17 +4,31 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import PropTypes from 'prop-types';
 import { FieldHeader, Select } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
-import { selectedResourceTypeValue } from '../../../util/taxonomyHelpers';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
+import { selectedResourceTypeValue } from '../../../util/taxonomyHelpers';
 
+interface ResourceType {
+  id: string;
+  name: string;
+  parentId?: string;
+}
+
+interface ResourceTypeWithSubtypes extends ResourceType {
+  subtypes?: ResourceType[];
+}
+
+interface Props {
+  onChangeSelectedResource: Function;
+  resourceTypes?: ResourceType[];
+  availableResourceTypes: ResourceTypeWithSubtypes[];
+}
 const ResourceTypeSelect = ({
-  resourceTypes,
   availableResourceTypes,
   onChangeSelectedResource,
-}) => {
+  resourceTypes,
+}: Props) => {
   const { t } = useTranslation();
   return (
     <>
@@ -26,7 +40,9 @@ const ResourceTypeSelect = ({
           tooltip={t('taxonomy.resourceTypes.helpLabel')}
         />
       </FieldHeader>
-      <Select value={selectedResourceTypeValue(resourceTypes)} onChange={onChangeSelectedResource}>
+      <Select
+        value={selectedResourceTypeValue(resourceTypes ?? [])}
+        onChange={onChangeSelectedResource}>
         <option value="">{t('taxonomy.resourceTypes.placeholder')}</option>
         {availableResourceTypes.map(resourceType =>
           resourceType.subtypes ? (
@@ -44,29 +60,6 @@ const ResourceTypeSelect = ({
       </Select>
     </>
   );
-};
-
-ResourceTypeSelect.propTypes = {
-  onChangeSelectedResource: PropTypes.func.isRequired,
-  resourceTypes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      parentId: PropTypes.string,
-    }),
-  ).isRequired,
-  availableResourceTypes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      subtypes: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.string,
-          name: PropTypes.string,
-        }),
-      ),
-    }),
-  ).isRequired,
 };
 
 export default ResourceTypeSelect;

@@ -13,7 +13,7 @@ interface Props {
 }
 
 const ConceptList = ({ element, language, editor, attributes, children }: Props) => {
-  const [editMode, setEditMode] = useState(!!element.isFirstEdit);
+  const [editMode, setEditMode] = useState<boolean>(!!element.isFirstEdit || true); // Temp. Remove true
 
   const onClose = () => {
     ReactEditor.focus(editor);

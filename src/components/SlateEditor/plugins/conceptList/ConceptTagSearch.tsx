@@ -2,11 +2,10 @@ import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { DropdownInput, DropdownMenu } from '@ndla/forms';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Downshift, { StateChangeOptions } from 'downshift';
 import { ConceptListElement } from '.';
-import { fetchAllTags, fetchSearchTags } from '../../../../modules/concept/conceptApi';
-import AsyncSearchTags from '../../../Dropdown/asyncDropdown/AsyncSearchTags';
+import { fetchAllTags } from '../../../../modules/concept/conceptApi';
 import { Portal } from '../../../Portal';
-import Downshift from 'downshift';
 
 interface Props {
   isOpen: boolean;
@@ -33,6 +32,38 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
     setInput(value);
   };
 
+  const onSelectTag = (selectedItem: string) => {
+    setSelectedTag(selectedItem);
+    setDropdownOpen(false);
+  };
+
+  const onStateChange = (changes: StateChangeOptions<string>) => {
+    const { isOpen, type } = changes;
+
+    if (
+      type === Downshift.stateChangeTypes.keyDownArrowUp ||
+      type === Downshift.stateChangeTypes.keyDownArrowDown
+    ) {
+      setDropdownOpen(true);
+    }
+    if (type === Downshift.stateChangeTypes.mouseUp) {
+      setDropdownOpen(!!isOpen);
+      if (!isOpen) {
+        setInput('');
+      }
+    }
+
+    if (type === Downshift.stateChangeTypes.keyDownEnter) {
+      setInput('');
+    }
+  };
+
+  const onRemoveTag = () => {
+    setSelectedTag(undefined);
+  };
+
+  console.log(selectedTag);
+
   const onFocus = () => {
     setDropdownOpen(true);
   };
@@ -46,7 +77,7 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
     initialize();
   }, [language, setTags]);
 
-  console.log(filteredTags.length);
+  console.log(selectedTag);
 
   return (
     <Portal isOpened>
@@ -63,18 +94,20 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
             <ModalBody>
-              <Downshift isOpen={dropdownOpen}>
+              <Downshift isOpen={dropdownOpen} onSelect={onSelectTag} onStateChange={onStateChange}>
                 {({ getInputProps, getMenuProps, getItemProps }): JSX.Element => {
                   return (
                     <div>
                       <DropdownInput
-                        values={selectedTag ? [selectedTag] : []}
+                        multiSelect
                         {...getInputProps({
-                          onChange: onChangeInput,
                           value: input,
+                          onChange: onChangeInput,
                           onFocus: onFocus,
                           onClick: onFocus,
                         })}
+                        values={selectedTag ? [selectedTag] : []}
+                        removeItem={onRemoveTag}
                       />
                       <DropdownMenu
                         getMenuProps={getMenuProps}
@@ -83,7 +116,6 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
                         items={filteredTags}
                         maxRender={10}
                         hideTotalSearchCount
-                        positionAbsolute
                       />
                     </div>
                   );

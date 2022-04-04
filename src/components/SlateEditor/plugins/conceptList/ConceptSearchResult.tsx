@@ -1,6 +1,7 @@
 import { ConceptNotion, Spinner } from '@ndla/ui';
 import { ConceptNotionType } from '@ndla/ui/lib/Notion/ConceptNotion';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import config from '../../../../config';
 import { Embed } from '../../../../interfaces';
 import { searchPublishedConcepts } from '../../../../modules/concept/conceptApi';
@@ -53,11 +54,14 @@ const getVisualElement = (embed: Embed) => {
 const ConceptSearchResult = ({ tag, language }: Props) => {
   const [concepts, setConcepts] = useState<ConceptNotionType[]>([]);
   const [loading, setLoading] = useState(false);
+  const [resultCount, setResultCount] = useState<number>();
+
+  const { t } = useTranslation();
 
   const search = async (query: ConceptQuery) => {
     searchPublishedConcepts(query)
       .then(data => {
-        const { results } = data;
+        const { results, totalCount } = data;
         const parsedConcepts = results.map(concept => {
           const embed = concept.visualElement?.visualElement;
           const embedData = parseEmbedTag(embed);
@@ -78,6 +82,7 @@ const ConceptSearchResult = ({ tag, language }: Props) => {
         });
 
         setLoading(false);
+        setResultCount(totalCount);
         setConcepts(parsedConcepts);
       })
       .catch(() => {
@@ -102,9 +107,12 @@ const ConceptSearchResult = ({ tag, language }: Props) => {
       {loading ? (
         <Spinner />
       ) : (
-        concepts.map(concept => {
-          return <ConceptNotion concept={concept}></ConceptNotion>;
-        })
+        <>
+          {resultCount && <div>{`${t('searchPage.totalCount')}: ${resultCount}`}</div>}
+          {concepts.map(concept => {
+            return <ConceptNotion concept={concept}></ConceptNotion>;
+          })}
+        </>
       )}
     </div>
   );

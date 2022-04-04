@@ -1,15 +1,27 @@
 import Button from '@ndla/button';
 import { Transforms } from 'slate';
+import { spacing } from '@ndla/core';
 import { ReactEditor, useSlateStatic } from 'slate-react';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { DropdownInput, DropdownMenu, Input } from '@ndla/forms';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Downshift, { StateChangeOptions } from 'downshift';
+import styled from '@emotion/styled';
 import { ConceptListElement } from '.';
 import { fetchAllTags } from '../../../../modules/concept/conceptApi';
 import { Portal } from '../../../Portal';
 import ConceptSearchResult from './ConceptSearchResult';
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-row-gap: ${spacing.small};
+`;
+
+const StyledButton = styled(Button)`
+  margin-left: auto;
+`;
 
 interface Props {
   isOpen: boolean;
@@ -117,39 +129,48 @@ const ConceptTagPicker = ({ isOpen, element, onClose, language }: Props) => {
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
             <ModalBody>
-              <Input value={titleInput} onChange={onChangeTitleInput} />
-
-              <Button type="button" onClick={onSave} disabled={!selectedTag}>
-                {t('form.save')}
-              </Button>
-              <Downshift isOpen={dropdownOpen} onSelect={onSelectTag} onStateChange={onStateChange}>
-                {({ getInputProps, getMenuProps, getItemProps }): JSX.Element => {
-                  return (
-                    <div>
-                      <DropdownInput
-                        multiSelect
-                        {...getInputProps({
-                          value: searchInput,
-                          onChange: onChangeSearchInput,
-                          onFocus: onFocus,
-                          onClick: onFocus,
-                        })}
-                        values={selectedTag ? [selectedTag] : []}
-                        removeItem={onRemoveTag}
-                      />
-                      <DropdownMenu
-                        getMenuProps={getMenuProps}
-                        getItemProps={getItemProps}
-                        isOpen={dropdownOpen}
-                        items={filteredTags}
-                        maxRender={10}
-                        hideTotalSearchCount
-                      />
-                      <ConceptSearchResult tag={selectedTag} language={language} />
-                    </div>
-                  );
-                }}
-              </Downshift>
+              <Grid>
+                <Input
+                  value={titleInput}
+                  onChange={onChangeTitleInput}
+                  placeholder={t('form.name.title')}
+                />
+                <StyledButton type="button" onClick={onSave} disabled={!selectedTag}>
+                  {t('form.save')}
+                </StyledButton>
+                <Downshift
+                  isOpen={dropdownOpen}
+                  onSelect={onSelectTag}
+                  onStateChange={onStateChange}>
+                  {({ getInputProps, getMenuProps, getItemProps }): JSX.Element => {
+                    return (
+                      <div>
+                        <DropdownInput
+                          multiSelect
+                          {...getInputProps({
+                            value: searchInput,
+                            onChange: onChangeSearchInput,
+                            onFocus: onFocus,
+                            onClick: onFocus,
+                          })}
+                          placeholder={t('form.name.tags')}
+                          values={selectedTag ? [selectedTag] : []}
+                          removeItem={onRemoveTag}
+                        />
+                        <DropdownMenu
+                          getMenuProps={getMenuProps}
+                          getItemProps={getItemProps}
+                          isOpen={dropdownOpen}
+                          items={filteredTags}
+                          maxRender={10}
+                          hideTotalSearchCount
+                        />
+                        <ConceptSearchResult tag={selectedTag} language={language} />
+                      </div>
+                    );
+                  }}
+                </Downshift>
+              </Grid>
             </ModalBody>
           </div>
         )}

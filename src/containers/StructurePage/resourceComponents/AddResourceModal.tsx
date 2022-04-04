@@ -327,8 +327,7 @@ const AddResourceModal = ({
       <StyledContent>
         {!type && (
           <ResourceTypeSelect
-            availableResourceTypes={resourceTypes}
-            resourceTypes={selectedType ? [selectedType] : []}
+            availableResourceTypes={resourceTypes ?? []}
             onChangeSelectedResource={(e: { target: { value: string } }) => {
               setSelectedType(e.target.value);
             }}

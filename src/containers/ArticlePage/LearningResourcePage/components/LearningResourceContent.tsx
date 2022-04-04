@@ -35,7 +35,6 @@ import { headingPlugin } from '../../../../components/SlateEditor/plugins/headin
 import { blockPickerPlugin } from '../../../../components/SlateEditor/plugins/blockPicker';
 import { relatedPlugin } from '../../../../components/SlateEditor/plugins/related';
 import { filePlugin } from '../../../../components/SlateEditor/plugins/file';
-import { conceptPlugin } from '../../../../components/SlateEditor/plugins/concept';
 import { blockQuotePlugin } from '../../../../components/SlateEditor/plugins/blockquote';
 import { paragraphPlugin } from '../../../../components/SlateEditor/plugins/paragraph';
 import { mathmlPlugin } from '../../../../components/SlateEditor/plugins/mathml';
@@ -64,6 +63,8 @@ import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote/types';
 import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
+import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
+import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
 
 const byLineStyle = css`
   display: flex;
@@ -117,8 +118,9 @@ export const plugins = (
     detailsPlugin,
     blockQuotePlugin,
     linkPlugin(articleLanguage),
-    conceptPlugin(articleLanguage),
     conceptListPlugin(articleLanguage),
+    inlineConceptPlugin(articleLanguage),
+    blockConceptPlugin(articleLanguage),
     headingPlugin,
     // // Paragraph-, blockquote- and editList-plugin listens for Enter press on empty lines.
     // // Blockquote and editList actions need to be triggered before paragraph action, else

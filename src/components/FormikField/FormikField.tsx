@@ -45,6 +45,8 @@ interface Props {
   className?: string;
   children?: (props: FieldProps & FieldAttributes<any>) => ReactElement;
   placeholder?: string;
+  type?: string;
+  autoFocus?: boolean;
 }
 
 const FormikField = ({

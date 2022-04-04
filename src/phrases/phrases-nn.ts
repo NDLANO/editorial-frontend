@@ -524,6 +524,7 @@ const phrases = {
       code: 'Kodevisning',
       podcast: 'Podkastepisode',
       conceptList: 'Forklaringsliste',
+      concept: 'Forklaring',
     },
   },
   form: {
@@ -1238,6 +1239,8 @@ const phrases = {
       copyError:
         'Det oppstod ein feil ved kopiering av ressursar. Dobbeltsjekk dei kopierte ressursane og prøv å fikse manglar manuelt, eller slett dei kopierte ressursane og prøv å kopiere på nytt',
       addResourceConflict: 'Ressursen du forsøkte å legge til finnes allerede på emnet.',
+      noResourceId: 'Klarte ikkje hente ut ID frå den valde ressursen',
+      creationFailed: 'Klarte ikkje å opprette kobling',
     },
     removeLink: 'Fjern lenke',
     resourceTypes: {

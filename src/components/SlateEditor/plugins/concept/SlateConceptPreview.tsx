@@ -6,32 +6,30 @@
  *
  */
 
-import { ReactNode, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
-import { spacing, spacingUnit } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
-import { ImageLink } from '@ndla/ui';
+import { ConceptNotion } from '@ndla/ui';
 import { IConcept } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
-import { NotionDialogContent, NotionDialogText, NotionDialogLicenses } from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
 import IconButton from '../../../IconButton';
-import { getSrcSets } from '../../../../util/imageEditorUtil';
 import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 import config from '../../../../config';
 import { Embed } from '../../../../interfaces';
 
-const StyledFigureButtons = styled('span')`
+const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
   position: absolute;
   top: 0;
   z-index: 1;
-  right: -${spacingUnit * 1.5}px;
-  margin-right: 40px;
+  right: 0;
+  ${p => (p.isBlockView ? 'transform: translateX(100%);' : '')}
   margin-top: ${spacing.xsmall};
 
   > * {
@@ -41,18 +39,12 @@ const StyledFigureButtons = styled('span')`
 
 interface Props {
   concept: IConcept;
+  isBlockView?: boolean;
   handleRemove: () => void;
   id: number | string;
 }
-interface ImageWrapperProps {
-  children: ReactNode;
-  url?: string;
-}
 
-const ImageWrapper = ({ children, url }: ImageWrapperProps) =>
-  url ? <ImageLink src={url}>{children}</ImageLink> : <>{children}</>;
-
-const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
+const SlateConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
   const { t, i18n } = useTranslation();
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
@@ -61,83 +53,64 @@ const SlateConceptPreview = ({ concept, handleRemove, id }: Props) => {
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
 
-  const VisualElement = () => {
-    const visualElement: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
-    if (!visualElement) return null;
-    switch (visualElement?.resource) {
+  const visualElement = useMemo(() => {
+    const embed: Embed | undefined = parseEmbedTag(concept.visualElement?.visualElement);
+    if (!embed) return;
+    switch (embed?.resource) {
       case 'image':
-        const wrapperUrl = `${config.ndlaApiUrl}/image-api/raw/id/${visualElement.resource_id}`;
-        const srcSet = getSrcSets(visualElement.resource_id, visualElement);
-        return (
-          <ImageWrapper url={wrapperUrl}>
-            <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />
-          </ImageWrapper>
-        );
+        const imageUrl = `${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`;
+        return {
+          resource: embed.resource,
+          url: embed.url,
+          image: {
+            src: imageUrl,
+            alt: embed.alt,
+          },
+        };
       case 'external':
-        return (
-          <iframe
-            title={visualElement?.title}
-            src={
-              visualElement?.url?.includes('youtube')
-                ? getYoutubeEmbedUrl(visualElement?.url)
-                : visualElement?.url
-            }
-            frameBorder="0"
-            scrolling="no"
-            height={400}
-          />
-        );
+        return {
+          resource: embed.resource,
+          url: embed.url ?? '',
+          title: embed.title,
+        };
       case 'brightcove':
-        return (
-          <iframe
-            title={visualElement?.title}
-            src={`https://players.brightcove.net/${config.brightCoveAccountId}/${config.brightcovePlayerId}_default/index.html?videoId=${visualElement?.videoid}`}
-            frameBorder="0"
-            scrolling="no"
-            height={400}
-          />
-        );
+        return {
+          resource: embed.resource,
+          url: embed.url ?? '',
+          title: embed.title,
+        };
+
       case 'video':
       case 'h5p':
-        return (
-          <iframe
-            title={visualElement?.title}
-            src={visualElement?.url}
-            frameBorder="0"
-            scrolling="no"
-            height={400}
-          />
-        );
+        return {
+          resource: embed.resource,
+          url: embed?.url?.includes('youtube') ? getYoutubeEmbedUrl(embed?.url) : embed.url,
+          title: embed.title,
+        };
       default:
-        return null;
+        return;
     }
+  }, [concept.visualElement]);
+
+  const image = concept.metaImage && {
+    src: concept.metaImage.url,
+    alt: concept.metaImage.alt,
   };
 
   return (
     <>
-      <NotionDialogContent>
-        <VisualElement />
-        <NotionDialogText>
-          <span
-            dangerouslySetInnerHTML={{
-              __html: markdown.render(concept.content?.content),
-            }}
-          />
-        </NotionDialogText>
-      </NotionDialogContent>
-      <NotionDialogLicenses
-        license={concept.copyright?.license?.license}
-        source={
-          <span
-            dangerouslySetInnerHTML={{
-              __html: markdown.render(concept.source),
-            }}
-          />
-        }
-        authors={concept.copyright?.creators.map(creator => creator.name)}
+      <ConceptNotion
+        concept={{
+          ...concept,
+          text: concept.content?.content || '',
+          title: concept.title.title,
+          image,
+          visualElement,
+        }}
+        disableScripts={true}
       />
 
-      <StyledFigureButtons>
+      <StyledFigureButtons isBlockView={isBlockView}>
         <Tooltip tooltip={t('form.concept.removeConcept')} align="right">
           <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
             <DeleteForever />

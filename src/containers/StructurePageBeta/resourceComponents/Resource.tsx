@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { css } from '@emotion/core';
@@ -19,6 +19,7 @@ import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 import { useQuery, useQueryClient } from 'react-query';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
+import { isEqual } from 'lodash';
 import {
   NodeConnectionPutType,
   ResourceWithNodeConnection,
@@ -39,6 +40,7 @@ import RelevanceOption from '../components/RelevanceOption';
 import RemoveButton from '../../../components/RemoveButton';
 import { classes } from './ResourceGroup';
 import ResourceItemLink from './ResourceItemLink';
+import GrepCodesModal from './GrepCodesModal';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -116,7 +118,6 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showGrepCodes, setShowGrepCodes] = useState(false);
   const qc = useQueryClient();
 
@@ -191,14 +192,15 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
     return pathWithoutResource === currentPath;
   });
 
-  // const onGrepModalClosed = async (newGrepCodes?: string[]) => {
-  //   setShowGrepCodes(false);
-  //   const compKey = [NODE_RESOURCE_STATUS_GREP_QUERY, resource.id];
-  //   qc.cancelQueries(compKey);
-  //   const resourceWithNewGrep: ResourceWithGrepAndStatus = { ...resource, grepCodes: newGrepCodes };
-  //   qc.setQueryData<ResourceWithGrepAndStatus>(compKey, resourceWithNewGrep);
-  //   await qc.invalidateQueries(compKey);
-  // };
+  const onGrepModalClosed = async (newGrepCodes?: string[]) => {
+    setShowGrepCodes(false);
+    if (!newGrepCodes || isEqual(newGrepCodes, resourceMetaQuery.data?.grepCodes)) return;
+    const compKey = [RESOURCE_META, resource.id];
+    qc.cancelQueries(compKey);
+    const resourceWithNewGrep: ResourceMeta = { ...resource, grepCodes: newGrepCodes };
+    qc.setQueryData<ResourceMeta>(compKey, resourceWithNewGrep);
+    await qc.invalidateQueries(compKey);
+  };
 
   const updateRelevanceId = async (relevanceId: string) => {
     const { connectionId, primary, rank } = resource;
@@ -262,9 +264,9 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
           locale={i18n.language}
         />
       )}
-      {/* {showGrepCodes && (
+      {showGrepCodes && resource.contentUri && (
         <GrepCodesModal onClose={onGrepModalClosed} contentUri={resource.contentUri} />
-      )} */}
+      )}
     </StyledText>
   );
 };

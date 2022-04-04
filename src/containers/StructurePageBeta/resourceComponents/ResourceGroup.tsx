@@ -13,12 +13,11 @@ import BEMHelper from 'react-bem-helper';
 import AddResourceButton from './AddResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
-// import AddResourceModal from './AddResourceModal';
-
-// import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
+import AddResourceModal from './AddResourceModal';
+import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -35,7 +34,6 @@ interface Props {
 const ResourceGroup = ({ resourceType, resources, currentNodeId }: Props) => {
   const { t } = useTranslation();
   const [displayResource, setDisplayResource] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showAddModal, setShowAddModal] = useState(false);
 
   const handleToggle = () => setDisplayResource(prev => !prev);
@@ -57,7 +55,7 @@ const ResourceGroup = ({ resourceType, resources, currentNodeId }: Props) => {
         hidden={resources ? displayResource : true}>
         {resources && <ResourceItems resources={resources} currentNodeId={currentNodeId} />}
       </Accordion>
-      {/* {showAddModal && (
+      {showAddModal && (
         <AddResourceModal
           type={resourceType.id}
           allowPaste={resourceType.id !== RESOURCE_TYPE_LEARNING_PATH}
@@ -65,7 +63,7 @@ const ResourceGroup = ({ resourceType, resources, currentNodeId }: Props) => {
           onClose={toggleAddModal}
           existingResourceIds={resources?.map(r => r.id) ?? []}
         />
-      )} */}
+      )}
     </>
   );
 };

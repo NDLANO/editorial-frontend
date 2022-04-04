@@ -20,7 +20,7 @@ import { ParagraphElement } from './plugins/paragraph';
 import { SectionElement } from './plugins/section';
 import { ListElement, ListItemElement } from './plugins/list';
 import { MathmlElement } from './plugins/mathml';
-import { ConceptElement } from './plugins/concept';
+import { ConceptInlineElement } from './plugins/concept/inline/interfaces';
 import { AsideElement } from './plugins/aside';
 import { FileElement } from './plugins/file';
 import { DetailsElement, SummaryElement } from './plugins/details';
@@ -39,6 +39,7 @@ import { CodeblockElement } from './plugins/codeBlock';
 import { DivElement } from './plugins/div';
 import { SpanElement } from './plugins/span';
 import { ConceptListElement } from './plugins/conceptList';
+import { ConceptBlockElement } from './plugins/concept/block/interfaces';
 
 export type SlatePlugin = (editor: Editor) => Editor;
 
@@ -75,7 +76,8 @@ declare module 'slate' {
       | ListItemElement
       | FootnoteElement
       | MathmlElement
-      | ConceptElement
+      | ConceptInlineElement
+      | ConceptBlockElement
       | AsideElement
       | FileElement
       | DetailsElement

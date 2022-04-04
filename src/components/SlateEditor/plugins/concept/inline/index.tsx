@@ -9,43 +9,38 @@
 import { Descendant, Editor, Element, Node, Range, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { RenderElementProps } from 'slate-react';
-import hasNodeOfType from '../../utils/hasNodeOfType';
-import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
-import { SlateSerializer } from '../../interfaces';
-import EditSlateConcept from './EditSlateConcept';
-import { KEY_BACKSPACE } from '../../utils/keys';
-import { TYPE_CONCEPT } from './types';
+import hasNodeOfType from '../../../utils/hasNodeOfType';
+import { createEmbedTag, reduceElementDataAttributes } from '../../../../../util/embedTagHelpers';
+import InlineConcept from './InlineConcept';
+import { KEY_BACKSPACE } from '../../../utils/keys';
+import { SlateSerializer } from '../../../interfaces';
+import { TYPE_CONCEPT_INLINE } from './types';
 
-export interface ConceptElement {
-  type: 'concept';
-  data: { [key: string]: string };
-  children: Descendant[];
-}
-
-export const conceptSerializer: SlateSerializer = {
+export const inlineConceptSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
     if (el.tagName.toLowerCase() !== 'embed') return;
     const embed = el as HTMLEmbedElement;
     const embedAttributes = reduceElementDataAttributes(embed);
-    if (embedAttributes.resource !== 'concept') return;
-    return slatejsx(
-      'element',
-      {
-        type: TYPE_CONCEPT,
-        data: embedAttributes,
-      },
-      [
+    if (embedAttributes.resource === 'concept' && embedAttributes.type === 'inline') {
+      return slatejsx(
+        'element',
         {
-          text: embedAttributes['link-text']
-            ? embedAttributes['link-text']
-            : 'Ukjent forklaringstekst',
+          type: TYPE_CONCEPT_INLINE,
+          data: embedAttributes,
         },
-      ],
-    );
+        [
+          {
+            text: embedAttributes['link-text']
+              ? embedAttributes['link-text']
+              : 'Ukjent forklaringstekst',
+          },
+        ],
+      );
+    }
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
-    if (node.type !== TYPE_CONCEPT) return;
+    if (node.type !== TYPE_CONCEPT_INLINE) return;
 
     const data = {
       ...node.data,
@@ -61,7 +56,7 @@ const onBackspace = (
   editor: Editor,
   nextOnKeyDown?: (event: KeyboardEvent) => void,
 ) => {
-  if (hasNodeOfType(editor, TYPE_CONCEPT)) {
+  if (hasNodeOfType(editor, TYPE_CONCEPT_INLINE)) {
     if (Range.isRange(editor.selection)) {
       // Replace heading with paragraph if last character is removed
       if (
@@ -72,7 +67,7 @@ const onBackspace = (
         e.preventDefault();
         editor.deleteBackward('character');
         Transforms.unwrapNodes(editor, {
-          match: node => Element.isElement(node) && node.type === TYPE_CONCEPT,
+          match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
         });
         return;
       }
@@ -81,7 +76,7 @@ const onBackspace = (
   return nextOnKeyDown && nextOnKeyDown(e);
 };
 
-export const conceptPlugin = (locale: string) => (editor: Editor) => {
+export const inlineConceptPlugin = (locale: string) => (editor: Editor) => {
   const {
     renderElement: nextRenderElement,
     isInline: nextIsInline,
@@ -90,18 +85,18 @@ export const conceptPlugin = (locale: string) => (editor: Editor) => {
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;
-    if (element.type === TYPE_CONCEPT) {
+    if (element.type === TYPE_CONCEPT_INLINE) {
       return (
-        <EditSlateConcept element={element} attributes={attributes} editor={editor} locale={locale}>
+        <InlineConcept element={element} attributes={attributes} editor={editor} locale={locale}>
           {children}
-        </EditSlateConcept>
+        </InlineConcept>
       );
     }
     return nextRenderElement && nextRenderElement(props);
   };
 
   editor.isInline = (element: Element) => {
-    if (element.type === TYPE_CONCEPT) {
+    if (element.type === TYPE_CONCEPT_INLINE) {
       return true;
     } else {
       return nextIsInline(element);

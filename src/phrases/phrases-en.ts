@@ -523,6 +523,7 @@ const phrases = {
       code: 'Codeblock',
       podcast: 'Podcast episode',
       conceptList: 'Concept list',
+      concept: 'Concept',
     },
   },
   form: {
@@ -1237,6 +1238,8 @@ const phrases = {
       copyError:
         'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
       addResourceConflict: 'The resource you attempted to add already exists on the topic.',
+      noResourceId: 'Failed to extract the ID from the chosen resource',
+      creationFailed: 'Failed to create connection',
     },
     resourceTypes: {
       title: 'Content type',

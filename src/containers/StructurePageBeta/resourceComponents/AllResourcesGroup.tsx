@@ -16,6 +16,7 @@ import Accordion from '../../../components/Accordion';
 import { ButtonAppearance } from '../../../components/Accordion/types';
 import ResourceItems from './ResourceItems';
 import AddResourceButton from './AddResourceButton';
+import AddResourceModal from './AddResourceModal';
 
 export const classes = new BEMHelper({
   name: 'topic-resource',
@@ -33,7 +34,9 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNodeId }: Prop
   const [displayResource, setDisplayResource] = useState<boolean>(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
-  // const resourceTypesWithoutMissing = resourceTypes.filter(rt => rt.id !== 'missing');
+  const resourceTypesWithoutMissing = resourceTypes
+    .filter(rt => rt.id !== 'missing')
+    .map(rt => ({ id: rt.id, name: rt.name }));
 
   const toggleDisplayResource = () => setDisplayResource(prev => !prev);
 
@@ -54,14 +57,14 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNodeId }: Prop
         hidden={!displayResource}>
         <ResourceItems resources={nodeResources} currentNodeId={currentNodeId} />
       </Accordion>
-      {/* {showAddModal && (
+      {showAddModal && (
         <AddResourceModal
           resourceTypes={resourceTypesWithoutMissing}
           nodeId={currentNodeId}
           onClose={() => setShowAddModal(false)}
           existingResourceIds={nodeResources.map(r => r.id)}
         />
-      )} */}
+      )}
     </>
   );
 };

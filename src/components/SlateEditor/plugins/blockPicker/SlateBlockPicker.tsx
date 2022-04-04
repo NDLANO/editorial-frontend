@@ -22,6 +22,8 @@ import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
 import { TYPE_LIST_ITEM } from '../list/types';
 import { defaultConceptListBlock } from '../conceptList/utils';
+import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
+import { defaultConceptBlock } from '../concept/block/utils';
 
 interface Props {
   editor: Editor;
@@ -122,6 +124,10 @@ const SlateBlockPicker = ({
       }
       case 'concept-list': {
         onInsertBlock({ ...defaultConceptListBlock(), isFirstEdit: true });
+        break;
+      }
+      case TYPE_CONCEPT_BLOCK: {
+        onInsertBlock(defaultConceptBlock());
         break;
       }
       default:

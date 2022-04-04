@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2019-present, NDLA.
+ * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -19,16 +19,16 @@ import { Check, AlertCircle } from '@ndla/icons/editor';
 import Notion from '@ndla/notion';
 import Tooltip from '@ndla/tooltip';
 import { IConcept } from '@ndla/types-concept-api';
-import { ConceptElement } from '.';
-import ConceptModal from './ConceptModal';
-import SlateConceptPreview from './SlateConceptPreview';
-import { useFetchConceptData } from '../../../../containers/FormikForm/formikConceptHooks';
-import mergeLastUndos from '../../utils/mergeLastUndos';
-import { TYPE_CONCEPT } from './types';
-import { PUBLISHED } from '../../../../util/constants/ConceptStatus';
+import { ConceptInlineElement } from '../inline/interfaces';
+import ConceptModal from '../ConceptModal';
+import SlateConceptPreview from '../SlateConceptPreview';
+import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
+import mergeLastUndos from '../../../utils/mergeLastUndos';
+import { TYPE_CONCEPT_INLINE } from './types';
+import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
-  type: TYPE_CONCEPT,
+  type: TYPE_CONCEPT_INLINE,
   data: {
     'content-id': id,
     'link-text': title,
@@ -52,14 +52,15 @@ const StyledWarnIcon = styled(AlertCircle)`
 `;
 
 interface Props {
-  element: ConceptElement;
+  element: ConceptInlineElement;
   locale: string;
   editor: Editor;
   attributes: RenderElementProps['attributes'];
   children: ReactNode;
 }
 
-const EditSlateConcept = ({ children, element, locale, editor, attributes }: Props) => {
+const InlineConcept = (props: Props) => {
+  const { children, element, locale, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
   const uuid = useMemo(() => uniqueId(), []);
   const { t } = useTranslation();
@@ -102,7 +103,7 @@ const EditSlateConcept = ({ children, element, locale, editor, attributes }: Pro
         Transforms.setNodes(
           editor,
           { data: data.data },
-          { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT },
+          { at: path, match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE },
         );
         mergeLastUndos(editor);
       }
@@ -116,7 +117,7 @@ const EditSlateConcept = ({ children, element, locale, editor, attributes }: Pro
       const path = ReactEditor.findPath(editor, element);
       Transforms.unwrapNodes(editor, {
         at: path,
-        match: node => Element.isElement(node) && node.type === TYPE_CONCEPT,
+        match: node => Element.isElement(node) && node.type === TYPE_CONCEPT_INLINE,
       });
     }, 0);
   };
@@ -198,4 +199,4 @@ const EditSlateConcept = ({ children, element, locale, editor, attributes }: Pro
   );
 };
 
-export default EditSlateConcept;
+export default InlineConcept;

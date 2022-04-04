@@ -2,7 +2,7 @@ import Button from '@ndla/button';
 import { Transforms } from 'slate';
 import { ReactEditor, useSlateStatic } from 'slate-react';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
-import { DropdownInput, DropdownMenu } from '@ndla/forms';
+import { DropdownInput, DropdownMenu, Input } from '@ndla/forms';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Downshift, { StateChangeOptions } from 'downshift';
@@ -32,7 +32,14 @@ const ConceptTagPicker = ({ isOpen, element, onClose, language }: Props) => {
     return tag.toLowerCase().includes(searchInput.toLowerCase());
   });
 
-  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeTitleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = e;
+    setTitleInput(value);
+  };
+
+  const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
     } = e;
@@ -110,6 +117,8 @@ const ConceptTagPicker = ({ isOpen, element, onClose, language }: Props) => {
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
             <ModalBody>
+              <Input value={titleInput} onChange={onChangeTitleInput} />
+
               <Button type="button" onClick={onSave} disabled={!selectedTag}>
                 {t('form.save')}
               </Button>
@@ -121,7 +130,7 @@ const ConceptTagPicker = ({ isOpen, element, onClose, language }: Props) => {
                         multiSelect
                         {...getInputProps({
                           value: searchInput,
-                          onChange: onChangeInput,
+                          onChange: onChangeSearchInput,
                           onFocus: onFocus,
                           onClick: onFocus,
                         })}

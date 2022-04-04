@@ -26,10 +26,6 @@ const StyledCalendarIcon = styled(Calendar)`
   pointer-events: none;
 `;
 
-const StyledDateTimeInput = styled.div`
-  width: 100%;
-`;
-
 class DateTimeInput extends Component {
   constructor(props) {
     super(props);
@@ -88,7 +84,7 @@ class DateTimeInput extends Component {
   render() {
     const { className, value, onChange, name, placeholder } = this.props;
     return (
-      <StyledDateTimeInput>
+      <div>
         <input
           className={className || ''}
           onChange={onChange}
@@ -100,7 +96,7 @@ class DateTimeInput extends Component {
           }}
         />
         <StyledCalendarIcon />
-      </StyledDateTimeInput>
+      </div>
     );
   }
 }

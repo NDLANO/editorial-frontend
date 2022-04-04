@@ -45,7 +45,7 @@ const Wrapper = styled.div`
 `;
 
 const InputWrapper = styled.div`
-  min-width: 65%;
+  flex: 1;
 `;
 
 const StyledSwitch = styled(Switch)`
@@ -54,7 +54,6 @@ const StyledSwitch = styled(Switch)`
 `;
 
 const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
-  width: 15%;
   visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
   height: 100%;
 `;

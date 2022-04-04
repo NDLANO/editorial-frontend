@@ -1,9 +1,11 @@
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import { ReactNode, useState } from 'react';
 import { Editor, Transforms } from 'slate';
-import { RenderElementProps, ReactEditor } from 'slate-react';
+import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import { ConceptListElement } from '.';
 import ConceptSearchResult from './ConceptSearchResult';
-import ConceptTagSearch from './ConceptTagSearch';
+import ConceptTagPicker from './ConceptTagPicker';
 
 interface Props {
   element: ConceptListElement;
@@ -13,9 +15,15 @@ interface Props {
   children: ReactNode;
 }
 
-const ConceptList = ({ element, language, editor, attributes, children }: Props) => {
-  const [editMode, setEditMode] = useState<boolean>(!!element.isFirstEdit); // Temp. Remove true
+const StyledWrapper = styled.div<{ isSelected: boolean }>`
+  padding: 5px;
+  border: ${p =>
+    p.isSelected ? `2px solid ${colors.brand.primary}` : `2px dashed ${colors.brand.greyLighter}`};
+`;
 
+const ConceptList = ({ element, language, editor, attributes, children }: Props) => {
+  const [editMode, setEditMode] = useState<boolean>(!!element.isFirstEdit);
+  const isSelected = useSelected();
   const onClose = () => {
     ReactEditor.focus(editor);
     if (element.isFirstEdit) {
@@ -28,12 +36,12 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
 
   return (
     <>
-      <div {...attributes} contentEditable={false}>
+      <StyledWrapper {...attributes} contentEditable={false} isSelected={isSelected}>
         {title && <h2>{title}</h2>}
         {tag && <ConceptSearchResult tag={tag} language={language} />}
         {children}
-      </div>
-      <ConceptTagSearch element={element} isOpen={editMode} onClose={onClose} language={language} />
+      </StyledWrapper>
+      <ConceptTagPicker element={element} isOpen={editMode} onClose={onClose} language={language} />
     </>
   );
 };

@@ -18,7 +18,7 @@ interface Props {
   language: string;
 }
 
-const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
+const ConceptTagPicker = ({ isOpen, element, onClose, language }: Props) => {
   const { t } = useTranslation();
   const [selectedTag, setSelectedTag] = useState<string>();
   const [searchInput, setSearchInput] = useState('');
@@ -149,4 +149,4 @@ const ConceptTagSearch = ({ isOpen, element, onClose, language }: Props) => {
   );
 };
 
-export default ConceptTagSearch;
+export default ConceptTagPicker;

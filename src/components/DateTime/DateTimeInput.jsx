@@ -84,7 +84,7 @@ class DateTimeInput extends Component {
   render() {
     const { className, value, onChange, name, placeholder } = this.props;
     return (
-      <div>
+      <>
         <input
           className={className || ''}
           onChange={onChange}
@@ -96,7 +96,7 @@ class DateTimeInput extends Component {
           }}
         />
         <StyledCalendarIcon />
-      </div>
+      </>
     );
   }
 }

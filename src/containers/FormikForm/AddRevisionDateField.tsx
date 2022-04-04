@@ -14,6 +14,7 @@ import { FieldInputProps } from 'formik';
 import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Switch } from '@ndla/switch';
+import Tooltip from '@ndla/tooltip';
 import { ArticleFormType } from './articleFormHooks';
 import InlineDatePicker from './components/InlineDatePicker';
 import { formatDateForBackend } from '../../util/formatDate';
@@ -51,6 +52,10 @@ const InputWrapper = styled.div`
 const StyledSwitch = styled(Switch)`
   margin-top: ${spacing.small};
   outline: none;
+`;
+
+const StyledTooltip = styled(Tooltip)`
+  height: 100%;
 `;
 
 const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
@@ -100,6 +105,7 @@ const AddRevisionDateField = ({ formikField }: Props) => {
               <InputWrapper>
                 <Input
                   container="div"
+                  placeholder={t('form.revisions.inputPlaceholder')}
                   type="text"
                   focusOnMount
                   value={revisionMeta.note}
@@ -110,22 +116,26 @@ const AddRevisionDateField = ({ formikField }: Props) => {
                   white
                 />
               </InputWrapper>
-              <InlineDatePicker
-                value={revisionMeta.revisionDate}
-                name={`revision_date_${index}`}
-                onChange={date => {
-                  editRevision(old => ({ ...old, revisionDate: date.target.value }));
-                }}
-              />
-              <StyledSwitch
-                checked={revisionMeta.status === 'revised'}
-                onChange={e => {
-                  const status = e.currentTarget.checked ? 'revised' : 'needs-revision';
-                  editRevision(old => ({ ...old, status }));
-                }}
-                label={''}
-                id={`revision_switch_${index}`}
-              />
+              <StyledTooltip tooltip={t('form.revisions.datePickerTooltip')}>
+                <InlineDatePicker
+                  value={revisionMeta.revisionDate}
+                  name={`revision_date_${index}`}
+                  onChange={date => {
+                    editRevision(old => ({ ...old, revisionDate: date.target.value }));
+                  }}
+                />
+              </StyledTooltip>
+              <StyledTooltip tooltip={t('form.revisions.switchTooltip')}>
+                <StyledSwitch
+                  checked={revisionMeta.status === 'revised'}
+                  onChange={e => {
+                    const status = e.currentTarget.checked ? 'revised' : 'needs-revision';
+                    editRevision(old => ({ ...old, status }));
+                  }}
+                  label={''}
+                  id={`revision_switch_${index}`}
+                />
+              </StyledTooltip>
               <StyledRemoveButton
                 visible={revisionMeta.new}
                 onClick={() => removeRevision(index)}

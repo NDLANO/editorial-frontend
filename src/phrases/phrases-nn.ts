@@ -1113,6 +1113,10 @@ const phrases = {
       remove: 'Fjern revisjon',
       description:
         'Revisjonar krev ei skildring og ein dato artikkelen går ut på. Bryteren bestemmer i kva grad ein revisjon er utført eller ikkje. Lagra revisjonar kan ikkje slettast, berre oppdaterast.',
+      datePickerTooltip:
+        'Dato artikkelen går ut dersom revisjonen ikkje blir markert som revidert.',
+      switchTooltip: 'I kva grad artikkelen er revidert eller ikkje.',
+      inputPlaceholder: 'Beskrivelse av revisjonen',
     },
   },
   validation: {

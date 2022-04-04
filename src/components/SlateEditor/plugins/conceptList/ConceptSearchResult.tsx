@@ -1,9 +1,9 @@
-import { ConceptNotion } from '@ndla/ui';
+import { ConceptNotion, Spinner } from '@ndla/ui';
 import { ConceptNotionType } from '@ndla/ui/lib/Notion/ConceptNotion';
 import { useEffect, useState } from 'react';
 import config from '../../../../config';
 import { Embed } from '../../../../interfaces';
-import { searchConcepts } from '../../../../modules/concept/conceptApi';
+import { searchPublishedConcepts } from '../../../../modules/concept/conceptApi';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 
 interface Props {
@@ -52,30 +52,37 @@ const getVisualElement = (embed: Embed) => {
 
 const ConceptSearchResult = ({ tag, language }: Props) => {
   const [concepts, setConcepts] = useState<ConceptNotionType[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const search = async (query: ConceptQuery) => {
-    const data = await searchConcepts(query);
-    const { results } = data;
-    const parsedConcepts = results.map(concept => {
-      const embed = concept.visualElement?.visualElement;
-      const embedData = parseEmbedTag(embed);
-      const visualElement = embedData ? getVisualElement(embedData) : {};
+    searchPublishedConcepts(query)
+      .then(data => {
+        const { results } = data;
+        const parsedConcepts = results.map(concept => {
+          const embed = concept.visualElement?.visualElement;
+          const embedData = parseEmbedTag(embed);
+          const visualElement = embedData ? getVisualElement(embedData) : {};
 
-      const image = concept.metaImage && {
-        src: concept.metaImage.url,
-        alt: concept.metaImage.alt,
-      };
+          const image = concept.metaImage && {
+            src: concept.metaImage.url,
+            alt: concept.metaImage.alt,
+          };
 
-      return {
-        ...concept,
-        visualElement: visualElement,
-        image,
-        text: concept.content.content,
-        title: concept.title.title,
-      };
-    });
+          return {
+            ...concept,
+            visualElement: visualElement,
+            image,
+            text: concept.content.content,
+            title: concept.title.title,
+          };
+        });
 
-    setConcepts(parsedConcepts);
+        setLoading(false);
+        setConcepts(parsedConcepts);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -85,15 +92,20 @@ const ConceptSearchResult = ({ tag, language }: Props) => {
         language: language,
         'page-size': 8,
       };
+      setLoading(true);
       search(query);
     }
   }, [tag, language]);
 
   return (
     <div>
-      {concepts.map(concept => {
-        return <ConceptNotion concept={concept}></ConceptNotion>;
-      })}
+      {loading ? (
+        <Spinner />
+      ) : (
+        concepts.map(concept => {
+          return <ConceptNotion concept={concept}></ConceptNotion>;
+        })
+      )}
     </div>
   );
 };

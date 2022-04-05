@@ -57,6 +57,10 @@ mjx-container.MathJax[jax='CHTML'][display='true'] {
   padding: 1px 4px;
   margin: 0;
   max-width: -webkit-stretch;
+
+  &::after {
+    display: inline;  
+  }
 }
 
 /* Override @ndla/ui styles */

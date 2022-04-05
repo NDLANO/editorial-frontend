@@ -8,12 +8,12 @@
 
 import { useMutation, UseMutationOptions } from 'react-query';
 import { deleteVersion, postVersion, publishVersion, putVersion } from './versionApi';
-import type { VersionPostBody, VersionPutBody } from './versionApiTypes';
+import { VersionPostBody, VersionPutBody } from './versionApiTypes';
 
 export const usePostVersionMutation = (
-  options?: UseMutationOptions<string, unknown, { body: VersionPostBody; sourceId?: string}>,
+  options?: UseMutationOptions<string, unknown, { body: VersionPostBody; sourceId?: string }>,
 ) => {
-  return useMutation<string, unknown, { body: VersionPostBody; sourceId?: string}>(
+  return useMutation<string, unknown, { body: VersionPostBody; sourceId?: string }>(
     data => postVersion(data.body, data.sourceId),
     options,
   );
@@ -35,7 +35,7 @@ export const useDeleteVersionMutation = (
 };
 
 export const usePublishVersionMutation = (
-    options?: UseMutationOptions<void, unknown, {id: string}>,
+  options?: UseMutationOptions<void, unknown, { id: string }>,
 ) => {
-    return useMutation<void, unknown, {id: string}>(data => publishVersion(data.id), options);
-}
+  return useMutation<void, unknown, { id: string }>(data => publishVersion(data.id), options);
+};

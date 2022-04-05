@@ -7,11 +7,14 @@
  */
 
 import { useQuery, UseQueryOptions } from 'react-query';
-import type { GetVersionsParams, VersionType } from './versionApiTypes';
 import { VERSION, VERSIONS } from '../../../queryKeys';
 import { fetchVersion, fetchVersions } from './versionApi';
+import { GetVersionsParams, VersionType } from './versionApiTypes';
 
-export const useVersions = (params?: GetVersionsParams, options?: UseQueryOptions<VersionType[]>) => {
+export const useVersions = (
+  params?: GetVersionsParams,
+  options?: UseQueryOptions<VersionType[]>,
+) => {
   return useQuery<VersionType[]>([VERSIONS, params], () => fetchVersions(params), options);
 };
 

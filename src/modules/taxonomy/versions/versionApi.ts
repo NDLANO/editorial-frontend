@@ -10,9 +10,10 @@ import queryString from 'query-string';
 import { taxonomyApi } from '../../../config';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import {
-  resolveLocation, resolveVoidOrRejectWithError,
+  resolveLocation,
+  resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
-import type { GetVersionsParams, VersionType, VersionPostBody, VersionPutBody } from './versionApiTypes';
+import { GetVersionsParams, VersionPostBody, VersionPutBody, VersionType } from './versionApiTypes';
 
 const baseUrl = apiResourceUrl(`${taxonomyApi}/versions`);
 
@@ -37,7 +38,11 @@ export const postVersion = (body: VersionPostBody, sourceId?: string): Promise<s
 };
 
 export const putVersion = (id: string, body: VersionPutBody): Promise<void> => {
-  return putAndResolve({ url: `${baseUrl}/${id}`, body: JSON.stringify(body), alternateResolve: resolveVoidOrRejectWithError });
+  return putAndResolve({
+    url: `${baseUrl}/${id}`,
+    body: JSON.stringify(body),
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
 };
 
 export const deleteVersion = (id: string): Promise<void> => {
@@ -48,5 +53,8 @@ export const deleteVersion = (id: string): Promise<void> => {
 };
 
 export const publishVersion = (id: string): Promise<void> => {
-  return putAndResolve({url: `${baseUrl}/${id}/publish`, alternateResolve: resolveVoidOrRejectWithError});
-}
+  return putAndResolve({
+    url: `${baseUrl}/${id}/publish`,
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
+};

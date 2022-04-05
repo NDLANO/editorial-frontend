@@ -1372,6 +1372,7 @@ const phrases = {
     putError: 'Klarte ikkje å oppdatere versjonen',
     publishError: 'Klarte ikkje å publisere versjonen',
     deleteError: 'Klarte ikkje å slette versjonen',
+    noOtherVersions: 'Det finnes ingen andre versjonar!',
     form: {
       name: {
         label: 'Namn',

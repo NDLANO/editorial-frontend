@@ -1370,6 +1370,7 @@ const phrases = {
     putError: 'Failed to update version',
     publishError: 'Failed to publish version',
     deleteError: 'Failed to delete version',
+    noOtherVersions: 'No other versions exist!',
     form: {
       name: {
         label: 'Name',

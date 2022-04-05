@@ -8,6 +8,7 @@
 
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
 import { VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
 import Version from './Version';
 
@@ -21,6 +22,10 @@ interface Props {
   versions: VersionType[];
 }
 const VersionList = ({ versions }: Props) => {
+  const { t } = useTranslation();
+  if (versions.length === 0) {
+    return <div>{t('taxonomyVersions.noOtherVersions')}</div>;
+  }
   return (
     <StyledVersionList>
       {versions.map(version => (

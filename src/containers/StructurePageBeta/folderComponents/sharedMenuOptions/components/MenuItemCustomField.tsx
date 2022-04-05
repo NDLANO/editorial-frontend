@@ -61,7 +61,7 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
   useEffect(() => {
     if (customFields !== metadata.customFields) {
       updateMetadata({
-        vars: {
+        params: {
           id,
           metadata: { customFields },
           rootId: isRootNode(node) ? undefined : getRootIdForNode(node),

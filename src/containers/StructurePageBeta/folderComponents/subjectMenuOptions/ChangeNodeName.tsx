@@ -127,11 +127,11 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
     const toUpdate = Object.entries(newValues).filter(([key, value]) => value !== initial[key]);
 
     const deleteCalls = deleted.map(([, d]) =>
-      deleteNodeTranslation({ vars: { subjectId: id, locale: d.language }, taxonomyVersion }),
+      deleteNodeTranslation({ params: { subjectId: id, locale: d.language }, taxonomyVersion }),
     );
     const updateCalls = toUpdate.map(([, u]) =>
       updateNodeTranslation({
-        vars: { id, locale: u.language, newTranslation: { name: u.name } },
+        params: { id, locale: u.language, newTranslation: { name: u.name } },
         taxonomyVersion,
       }),
     );

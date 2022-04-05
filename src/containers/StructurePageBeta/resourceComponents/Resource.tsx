@@ -139,7 +139,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   };
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
-    onMutate: async ({ vars: { id, body } }) => onUpdateConnection(id, body),
+    onMutate: async ({ params: { id, body } }) => onUpdateConnection(id, body),
     onSettled: () =>
       qc.invalidateQueries([
         RESOURCES_WITH_NODE_CONNECTION,
@@ -148,7 +148,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
       ]),
   });
   const { mutateAsync: updateResourceConnection } = usePutResourceForNodeMutation({
-    onMutate: async ({ vars: { id, body } }) => onUpdateConnection(id, body),
+    onMutate: async ({ params: { id, body } }) => onUpdateConnection(id, body),
     onSettled: () =>
       qc.invalidateQueries([
         RESOURCES_WITH_NODE_CONNECTION,
@@ -211,7 +211,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
         ? updateNodeConnection
         : updateResourceConnection;
     await func({
-      vars: { id: connectionId, body: { relevanceId, primary, rank: rank } },
+      params: { id: connectionId, body: { relevanceId, primary, rank: rank } },
       taxonomyVersion,
     });
   };

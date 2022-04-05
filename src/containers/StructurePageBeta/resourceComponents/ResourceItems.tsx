@@ -50,10 +50,10 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   const qc = useQueryClient();
   const compKey = [RESOURCES_WITH_NODE_CONNECTION, currentNodeId, { language: i18n.language }];
   const deleteNodeResource = useDeleteResourceForNodeMutation({
-    onMutate: async ({ vars }) => {
+    onMutate: async ({ params }) => {
       await qc.cancelQueries(compKey);
       const prevData = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
-      const withoutDeleted = prevData.filter(res => res.connectionId !== vars.id);
+      const withoutDeleted = prevData.filter(res => res.connectionId !== params.id);
       qc.setQueryData<ResourceWithNodeConnection[]>(compKey, withoutDeleted);
       return prevData;
     },
@@ -72,7 +72,7 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   };
 
   const { mutateAsync: updateNodeResource } = usePutResourceForNodeMutation({
-    onMutate: ({ vars }) => onUpdateRank(vars.id, vars.body.rank as number),
+    onMutate: ({ params }) => onUpdateRank(params.id, params.body.rank as number),
     onError: e => handleError(e),
     onSuccess: () => qc.invalidateQueries(compKey),
   });
@@ -80,7 +80,7 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   const onDelete = async (deleteId: string) => {
     setDeleteId('');
     await deleteNodeResource.mutateAsync(
-      { vars: { id: deleteId }, taxonomyVersion },
+      { params: { id: deleteId }, taxonomyVersion },
       { onSuccess: () => qc.invalidateQueries(compKey) },
     );
   };
@@ -93,7 +93,7 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
       return;
     }
     await updateNodeResource({
-      vars: {
+      params: {
         id: connectionId,
         body: {
           primary,

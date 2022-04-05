@@ -53,7 +53,7 @@ const EditGrepCodes = ({ node, editModeHandler: { editMode, toggleEditMode } }: 
 
   const updateMetadata = async (codes: string[]) => {
     await patchMetadata({
-      vars: {
+      params: {
         id,
         metadata: { grepCodes: codes, visible: metadata.visible },
         rootId: isRootNode(node) ? undefined : rootId,

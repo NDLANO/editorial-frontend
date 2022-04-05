@@ -46,7 +46,7 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
     };
     updateNodeMetadata.mutate(
       {
-        vars: {
+        params: {
           id: node.id,
           metadata: { customFields },
           rootId: isRootNode(node) ? undefined : rootNodeId,

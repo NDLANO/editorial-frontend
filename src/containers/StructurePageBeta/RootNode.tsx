@@ -63,7 +63,7 @@ const RootNode = ({
   };
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
-    onMutate: ({ vars }) => onUpdateRank(vars.id, vars.body.rank!),
+    onMutate: ({ params }) => onUpdateRank(params.id, params.body.rank!),
     onSettled: () => qc.invalidateQueries([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale]),
   });
 
@@ -75,7 +75,7 @@ const RootNode = ({
     if (currentRank === destinationRank) return;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
     await updateNodeConnection({
-      vars: { id: draggableId, body: { rank: newRank } },
+      params: { id: draggableId, body: { rank: newRank } },
       taxonomyVersion,
     });
   };

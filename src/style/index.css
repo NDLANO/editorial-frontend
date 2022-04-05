@@ -59,7 +59,7 @@ mjx-container.MathJax[jax='CHTML'][display='true'] {
   max-width: -webkit-stretch;
 
   &::after {
-    display: inline;  
+    display: inline;
   }
 }
 

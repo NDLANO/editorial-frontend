@@ -170,6 +170,7 @@ const phrases = {
     podcastSeries: 'Ny podkastserie',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
+    taxonomyVersions: 'Taksonomiversjonar',
     searchContent: 'Søk innhald',
     searchAudio: 'Søk lyd',
     searchPodcastSeries: 'Søk serie',
@@ -588,6 +589,7 @@ const phrases = {
       header: 'Overskrift',
       manuscript: 'Tekstversjon',
       coverPhotoId: 'Metabilde',
+      name: 'Namn',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
@@ -1338,6 +1340,59 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+  },
+  taxonomyVersions: {
+    title: 'Taksonomiversjonar',
+    publishedVersion: 'Publisert Versjon',
+    otherVersions: 'Øvrige Versjonar',
+    deleteLocked: 'Denne versjonen kan ikkje slettes fordi den er låst',
+    deletePublished: 'Denne versjonen kan ikkje slettes fordi den er publisert',
+    delete: 'Slett versjon',
+    locked: 'Denne versjonen er låst',
+    status: {
+      PUBLISHED: 'Publisert',
+      ARCHIVED: 'Arkivert',
+      BETA: 'Beta',
+    },
+    about:
+      'Denne siden brukast til å sjå på og administrere taksonomiversjonar. Vær varsom: Å publisere ein ny taksonomiversjon vil føre til at alt innhald i den vil være umiddelbart tilgjengeleg for sluttbrukarar på ndla.no',
+    noPublished:
+      'Det finnes ingen publisert versjon. Standardversjonen av taksonomi vil tas i bruk inntil ein versjon blir publisert',
+    editVersionTooltip: 'Rediger versjon',
+    newVersionTitle: 'Opprett Ny Versjon',
+    editVersionTitle: 'Rediger Versjon',
+    newVersionButton: 'Ny Versjon',
+    publishButton: 'Publiser',
+    publishWarning:
+      'Er du sikker på at du ønskjar å publisera denne versjonen? Den nåværanda versjonen vil bli arkivert, og alle nye endringar i denne versjonen vil umiddelbart være tilgjengelege på ndla.no',
+    deleteWarning: 'Er du sikker på at du ønsker å slette denne versjonen?',
+    deleteWarningPublished:
+      'Er du sikker på at du ønsker å slette den publiserte versjonen? Taksonomi vil revertere tilbake til standard-versjonen.',
+    postError: 'Klarte ikkje å opprette ny versjon',
+    putError: 'Klarte ikkje å oppdatere versjonen',
+    publishError: 'Klarte ikkje å publisere versjonen',
+    deleteError: 'Klarte ikkje å slette versjonen',
+    form: {
+      name: {
+        label: 'Namn',
+        placeholder: 'Eksempelversjon',
+      },
+      source: {
+        title: 'Kildeversjon',
+        subTitle: 'Velg ei anna versjon å basere denne på',
+        defaultOption: 'N/A',
+      },
+      locked: {
+        title: 'Låst',
+        subTitle: 'Er versjonen låst?',
+        locked: 'Låst',
+        unlocked: 'Ulåst',
+      },
+      versionType: {
+        title: 'Versjonstype',
+        label: 'Type',
+      },
+    },
   },
   metadata: {
     visible: 'er synleg',

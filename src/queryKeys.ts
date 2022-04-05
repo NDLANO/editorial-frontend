@@ -52,3 +52,6 @@ export const NODE_RESOURCE_STATUS_GREP_QUERY = 'nodeResourceWithStatusAndGrep';
 
 export const GREP_CODE = 'grepCode';
 export const RESOURCE_META = 'resourceMeta';
+
+export const VERSION = 'version';
+export const VERSIONS = 'versions';

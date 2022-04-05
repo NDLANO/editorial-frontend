@@ -169,6 +169,7 @@ const phrases = {
     podcastSeries: 'New Podcast series',
     agreement: 'New Agreement',
     structure: 'Structure',
+    taxonomyVersions: 'Taxonomy Versions',
     searchContent: 'Search content',
     searchAudio: 'Search audio',
     searchPodcastSeries: 'Search series',
@@ -587,6 +588,7 @@ const phrases = {
       header: 'Header',
       manuscript: 'Text version',
       coverPhotoId: 'Meta image',
+      name: 'Name',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1336,6 +1338,59 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
+  },
+  taxonomyVersions: {
+    title: 'Taxonomy Versions',
+    publishedVersion: 'Published Version',
+    otherVersions: 'Other Versions',
+    deleteLocked: 'This version cannot be deleted because it is locked',
+    deletePublished: 'This version cannot be deleted because it is published',
+    delete: 'Delete version',
+    locked: 'This version is locked',
+    publishButton: 'Publish',
+    publishWarning:
+      'Are you sure you want to publish this version? The currently published version will be archived, and all new changes within this version will be immediately available on ndla.no',
+    status: {
+      PUBLISHED: 'Published',
+      ARCHIVED: 'Archived',
+      BETA: 'Beta',
+    },
+    about:
+      'This page is used for viewing and administering taxonomy versions. Be wary: Publishing a new version will immediately make it available for ndla.no end users.',
+    noPublished:
+      'No versions have been published! The standard version of taxonomy will be used until a version is published.',
+    editVersionTooltip: 'Edit version',
+    newVersionTitle: 'Create New Version',
+    newVersionButton: 'New Version',
+    editVersionTitle: 'Edit Version',
+    deleteWarning: 'Are you sure you want to delete this version?',
+    deleteWarningPublished:
+      'Are you sure you want to delete the currently published version? Taxonomy will revert back to the default schema',
+    postError: 'Failed to create version',
+    putError: 'Failed to update version',
+    publishError: 'Failed to publish version',
+    deleteError: 'Failed to delete version',
+    form: {
+      name: {
+        label: 'Name',
+        placeholder: 'Example Version',
+      },
+      source: {
+        title: 'Source version',
+        subTitle: 'Base this version on an existing version',
+        defaultOption: 'N/A',
+      },
+      locked: {
+        title: 'Locked',
+        subTitle: 'Is the version locked:',
+        locked: 'Locked',
+        unlocked: 'Unlocked',
+      },
+      versionType: {
+        title: 'Version Type',
+        subTitle: 'Publish and archive versions',
+      },
+    },
   },
   metadata: {
     visible: 'is visible',

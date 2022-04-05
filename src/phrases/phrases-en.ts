@@ -1386,10 +1386,6 @@ const phrases = {
         locked: 'Locked',
         unlocked: 'Unlocked',
       },
-      versionType: {
-        title: 'Version Type',
-        subTitle: 'Publish and archive versions',
-      },
     },
   },
   metadata: {

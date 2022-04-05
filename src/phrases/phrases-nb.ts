@@ -1388,10 +1388,6 @@ const phrases = {
         locked: 'Låst',
         unlocked: 'Ulåst',
       },
-      versionType: {
-        title: 'Versjonstype',
-        subTitle: 'Publiser og arkiver versjoner',
-      },
     },
   },
   metadata: {

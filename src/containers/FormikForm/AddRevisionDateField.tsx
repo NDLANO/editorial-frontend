@@ -11,7 +11,7 @@ import Button from '@ndla/button';
 import { Input, FieldRemoveButton } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
 import { FieldInputProps } from 'formik';
-import { spacing } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 import { Switch } from '@ndla/switch';
 import Tooltip from '@ndla/tooltip';
@@ -61,6 +61,10 @@ const StyledTooltip = styled(Tooltip)`
 const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
   visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
   height: 100%;
+  padding-top: 0;
+  .c-icon {
+    fill: ${colors.support.red};
+  }
 `;
 
 const AddRevisionDateField = ({ formikField }: Props) => {
@@ -136,10 +140,13 @@ const AddRevisionDateField = ({ formikField }: Props) => {
                   id={`revision_switch_${index}`}
                 />
               </StyledTooltip>
-              <StyledRemoveButton
-                visible={revisionMeta.new}
-                onClick={() => removeRevision(index)}
-              />
+              <StyledTooltip tooltip={t('form.revisions.deleteTooltip')}>
+                <StyledRemoveButton
+                  stripped
+                  visible={revisionMeta.new}
+                  onClick={() => removeRevision(index)}
+                />
+              </StyledTooltip>
             </Wrapper>
           </div>
         );

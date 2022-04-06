@@ -1117,6 +1117,7 @@ const phrases = {
         'Dato artikkelen går ut dersom revisjonen ikkje blir markert som revidert.',
       switchTooltip: 'I kva grad artikkelen er revidert eller ikkje.',
       inputPlaceholder: 'Beskrivelse av revisjonen',
+      deleteTooltip: 'Fjern denne revisjonen',
     },
   },
   validation: {

@@ -1117,6 +1117,7 @@ const phrases = {
         'Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.',
       switchTooltip: 'Hvorvidt artikkelen er revidert eller ikke.',
       inputPlaceholder: 'Beskrivelse av revisjonen',
+      deleteTooltip: 'Fjern denne revisjonen',
     },
   },
   validation: {

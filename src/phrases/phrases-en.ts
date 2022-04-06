@@ -1115,6 +1115,7 @@ const phrases = {
       datePickerTooltip: 'The date the article expires if the revision is not marked as revised.',
       switchTooltip: 'Whether the article is revised or not.',
       inputPlaceholder: 'Description of the revision',
+      deleteTooltip: 'Remove this revision',
     },
   },
   validation: {

@@ -16,9 +16,10 @@ const RevisionNotes = () => {
       label={t('form.name.revisions')}
       description={t('form.revisions.description')}
       showError={false}>
-      {({ field }) => {
+      {({ field, form: { errors } }) => {
         return (
           <AddRevisionDateField
+            showError={!!errors[field.name]}
             formikField={field}
             name={field.name}
             onChange={field.onChange}

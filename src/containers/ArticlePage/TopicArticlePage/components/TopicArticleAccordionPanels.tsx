@@ -102,7 +102,7 @@ const TopicArticleAccordionPanels = ({
         id={'topic-article-revisions'}
         title={t('form.name.revisions')}
         className={'u-6/6'}
-        hasError={false}>
+        hasError={!!errors.revisionMeta}>
         <RevisionNotes />
       </AccordionSection>
       {article && (

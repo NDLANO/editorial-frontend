@@ -50,12 +50,14 @@ const InputWrapper = styled.div`
 `;
 
 const StyledSwitch = styled(Switch)`
-  margin-top: ${spacing.small};
   outline: none;
 `;
 
-const StyledTooltip = styled(Tooltip)`
-  height: 100%;
+const StyledTooltip = styled(Tooltip)<{ hide?: boolean }>`
+  height: ${spacing.large};
+  visibility: ${({ hide }) => (hide ? 'hidden' : 'visible')};
+  display: flex;
+  align-items: center;
 `;
 
 const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
@@ -67,7 +69,7 @@ const StyledRemoveButton = styled(FieldRemoveButton)<{ visible?: boolean }>`
   }
 `;
 
-const AddRevisionDateField = ({ formikField }: Props) => {
+const AddRevisionDateField = ({ formikField, showError }: Props) => {
   const { t } = useTranslation();
   type RevisionMetaType = typeof formikField.value[number];
   const onRevisionChange = (newMetas: RevisionMetaFormType) => {
@@ -108,6 +110,9 @@ const AddRevisionDateField = ({ formikField }: Props) => {
             <Wrapper>
               <InputWrapper>
                 <Input
+                  warningText={
+                    showError && revisionMeta.note === '' ? t('validation.noEmptyRevision') : ''
+                  }
                   container="div"
                   placeholder={t('form.revisions.inputPlaceholder')}
                   type="text"
@@ -140,7 +145,7 @@ const AddRevisionDateField = ({ formikField }: Props) => {
                   id={`revision_switch_${index}`}
                 />
               </StyledTooltip>
-              <StyledTooltip tooltip={t('form.revisions.deleteTooltip')}>
+              <StyledTooltip hide={!revisionMeta.new} tooltip={t('form.revisions.deleteTooltip')}>
                 <StyledRemoveButton
                   stripped
                   visible={revisionMeta.new}

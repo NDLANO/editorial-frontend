@@ -28,6 +28,7 @@ import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 import handleError from '../../../../util/handleError';
 import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
 import { Resource, Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -61,6 +62,7 @@ type LocalTopic = Pick<Topic, 'contentUri' | 'name'>;
 
 const PublishTopic = ({ locale, id, setResourcesUpdated }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [showDisplay, setShowDisplay] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [publishedCount, setPublishedCount] = useState(0);
@@ -77,11 +79,11 @@ const PublishTopic = ({ locale, id, setResourcesUpdated }: Props) => {
 
   const publishTopic = () => {
     if (!done) {
-      fetchTopic(id, locale)
+      fetchTopic({ id, language: locale, taxonomyVersion })
         .then((topic: Topic) => publishResource(topic))
         .catch((e: Error) => handleError(e));
 
-      fetchTopicResources(id)
+      fetchTopicResources({ topicUrn: id, taxonomyVersion })
         .then((resources: Resource[]) => {
           setArticleCount(resources.length + 1);
           setShowDisplay(true);

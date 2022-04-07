@@ -23,6 +23,7 @@ import MenuItemDropdown from './MenuItemDropdown';
 import retrieveBreadCrumbs, { PathArray } from '../../../../util/retrieveBreadCrumbs';
 import { Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { EditMode } from '../../../../interfaces';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   path: string;
@@ -48,11 +49,12 @@ const AddExistingToTopic = ({
   id,
 }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [topics, setTopics] = useState<(Topic & { description?: string })[]>([]);
 
   useEffect(() => {
     (async () => {
-      const topics = await fetchTopics(locale || 'nb');
+      const topics = await fetchTopics({ language: locale || 'nb', taxonomyVersion });
       const alteredTopics = topics
         .filter(topic => topic.path)
         .filter(topic => !topic.paths?.find(p => path.includes(p)))
@@ -76,22 +78,25 @@ const AddExistingToTopic = ({
   };
 
   const onAddExistingSubTopic = async (topic: { id: string }) => {
-    const connections = await fetchTopicConnections(topic.id);
+    const connections = await fetchTopicConnections({ id: topic.id, taxonomyVersion });
 
     if (connections && connections.length > 0) {
       const connectionId = connections[0].connectionId;
       if (connectionId.includes('topic-subtopic')) {
-        await deleteSubTopicConnection(connectionId);
+        await deleteSubTopicConnection({ id: connectionId, taxonomyVersion });
       } else {
-        await deleteTopicConnection(connectionId);
+        await deleteTopicConnection({ id: connectionId, taxonomyVersion });
       }
     }
 
     await addTopicToTopic({
-      subtopicid: topic.id,
-      topicid: id,
-      primary: false,
-      rank: numberOfSubtopics + 1,
+      body: {
+        subtopicid: topic.id,
+        topicid: id,
+        primary: false,
+        rank: numberOfSubtopics + 1,
+      },
+      taxonomyVersion,
     });
     refreshTopics();
   };

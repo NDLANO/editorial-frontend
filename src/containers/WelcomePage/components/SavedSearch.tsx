@@ -17,6 +17,7 @@ import Tooltip from '@ndla/tooltip';
 import IconButton from '../../../components/IconButton';
 import { transformQuery } from '../../../util/searchHelpers';
 import { useSavedSearchUrl } from '../hooks/savedSearchHook';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   deleteSearch: Function;
@@ -31,6 +32,7 @@ export const classes = new BEMHelper({
 
 const SavedSearch = ({ deleteSearch, search, index }: Props) => {
   const { t, i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
   const [searchUrl, searchParams] = search.split('?');
 
@@ -46,7 +48,7 @@ const SavedSearch = ({ deleteSearch, search, index }: Props) => {
   if (searchObject['type'] === 'content' && searchObject['language']) {
     searchObject['language'] = locale;
   }
-  const { data, loading } = useSavedSearchUrl(searchObject, locale);
+  const { data, loading } = useSavedSearchUrl(searchObject, locale, taxonomyVersion);
 
   const linkText = (searchObject: Record<string, string>) => {
     const query = searchObject.query || undefined;

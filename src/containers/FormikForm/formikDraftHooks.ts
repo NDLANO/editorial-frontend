@@ -20,6 +20,7 @@ import {
 import { queryResources, queryTopics } from '../../modules/taxonomy';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { DraftStatusType } from '../../interfaces';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 export interface ArticleTaxonomy {
   resources: Resource[];
@@ -31,13 +32,14 @@ export function useFetchArticleData(articleId: number | undefined, language: str
   const [taxonomy, setTaxonony] = useState<ArticleTaxonomy>({ resources: [], topics: [] });
   const [articleChanged, setArticleChanged] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   useEffect(() => {
     const fetchArticle = async () => {
       if (articleId) {
         setLoading(true);
         const article = await fetchDraft(articleId, language);
-        const taxonomy = await fetchTaxonomy(articleId, language);
+        const taxonomy = await fetchTaxonomy(articleId, language, taxonomyVersion);
         setArticle(article);
         setTaxonony(taxonomy);
         setArticleChanged(false);
@@ -45,12 +47,12 @@ export function useFetchArticleData(articleId: number | undefined, language: str
       }
     };
     fetchArticle();
-  }, [articleId, language]);
+  }, [articleId, language, taxonomyVersion]);
 
-  const fetchTaxonomy = async (id: number, language: string) => {
+  const fetchTaxonomy = async (id: number, language: string, taxonomyVersion: string) => {
     const [resources, topics] = await Promise.all([
-      queryResources(id, language, 'article'),
-      queryTopics(id, language, 'article'),
+      queryResources({ contentId: id, language, contentType: 'article', taxonomyVersion }),
+      queryTopics({ contentId: id, language, contentType: 'article', taxonomyVersion }),
     ]);
     return { resources, topics };
   };

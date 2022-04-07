@@ -28,6 +28,7 @@ import {
   TaxonomyMetadata,
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../interfaces';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledDiv = styled('div')`
   width: calc(${spacing.large} * 5);
@@ -66,6 +67,7 @@ const StructureResources = ({
   grouped,
 }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [resourceTypes, setResourceTypes] = useState<(ResourceType & { disabled?: boolean })[]>([]);
   const [topicResources, setTopicResources] = useState<TopicResource[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -104,7 +106,7 @@ const StructureResources = ({
 
   const getAllResourceTypes = async () => {
     try {
-      const resourceTypes = await fetchAllResourceTypes(locale);
+      const resourceTypes = await fetchAllResourceTypes({ language: locale, taxonomyVersion });
       setResourceTypes([
         ...resourceTypes,
         {
@@ -129,7 +131,11 @@ const StructureResources = ({
     setLoading(true);
     if (topicId) {
       try {
-        const initialTopicResources = await fetchTopicResources(topicId, locale);
+        const initialTopicResources = await fetchTopicResources({
+          topicUrn: topicId,
+          language: locale,
+          taxonomyVersion,
+        });
         const allTopicResources: TopicResource[] = initialTopicResources.map(r =>
           r.resourceTypes.length > 0
             ? r

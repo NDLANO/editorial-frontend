@@ -40,6 +40,7 @@ import DeleteButton from '../../../../components/DeleteButton';
 import AddSubjectTranslation from './AddSubjectTranslation';
 import handleError from '../../../../util/handleError';
 import { StyledErrorMessage } from '../styles';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 const buttonStyle = css`
   flex-grow: 1;
@@ -124,6 +125,7 @@ const ChangeSubjectNameModal = ({
   getAllSubjects,
 }: ModalProps) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
   const [updateError, setUpdateError] = useState('');
@@ -132,7 +134,7 @@ const ChangeSubjectNameModal = ({
   useEffect(() => {
     (async () => {
       try {
-        const translations = await fetchSubjectNameTranslations(id);
+        const translations = await fetchSubjectNameTranslations({ subjectId: id, taxonomyVersion });
         setTranslations(translations);
       } catch (e) {
         handleError(e);
@@ -140,7 +142,7 @@ const ChangeSubjectNameModal = ({
       }
       setLoading(false);
     })();
-  }, [id, t]);
+  }, [id, t, taxonomyVersion]);
 
   const toRecord = (translations: TaxNameTranslation[]): Record<string, TaxNameTranslation> =>
     translations.reduce((prev, curr) => ({ ...prev, [curr.language]: curr }), {});
@@ -153,9 +155,16 @@ const ChangeSubjectNameModal = ({
     const deleted = Object.entries(initial).filter(([key]) => !newValues[key]);
     const toUpdate = Object.entries(newValues).filter(([key, value]) => value !== initial[key]);
 
-    const deleteCalls = deleted.map(([, d]) => deleteSubjectNameTranslation(id, d.language));
+    const deleteCalls = deleted.map(([, d]) =>
+      deleteSubjectNameTranslation({ subjectId: id, language: d.language, taxonomyVersion }),
+    );
     const updateCalls = toUpdate.map(([, u]) =>
-      updateSubjectNameTranslation(id, u.language, u.name),
+      updateSubjectNameTranslation({
+        subjectId: id,
+        language: u.language,
+        body: { name: u.name },
+        taxonomyVersion,
+      }),
     );
     const promises = [...deleteCalls, ...updateCalls];
     try {

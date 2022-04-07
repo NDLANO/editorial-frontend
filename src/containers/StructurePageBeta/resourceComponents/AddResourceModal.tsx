@@ -149,7 +149,7 @@ const AddResourceModal = ({
   const findResourceIdLearningPath = async (learningpathId: number) => {
     await updateLearningPathTaxonomy(learningpathId, true);
     try {
-      const resource = await queryLearningPathResource(learningpathId);
+      const resource = await queryLearningPathResource({ learningpathId, taxonomyVersion });
       if (resource.length > 0) {
         return resource[0].id;
       } else throw Error(`Could not find resource after updating for ${learningpathId}`);
@@ -172,8 +172,8 @@ const AddResourceModal = ({
     }
     try {
       const [resource, resourceType] = await Promise.all([
-        fetchResource(resourceId),
-        fetchResourceResourceType(resourceId),
+        fetchResource({ id: resourceId, taxonomyVersion }),
+        fetchResourceResourceType({ id: resourceId, taxonomyVersion }),
       ]);
       const pastedType = resourceType.length > 0 && resourceType[0].id;
       const typeError =

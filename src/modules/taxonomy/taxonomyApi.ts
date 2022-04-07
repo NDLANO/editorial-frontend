@@ -6,11 +6,7 @@
  *
  */
 
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-} from '../../util/apiHelpers';
+import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
 import { updateResourceMetadata } from './resources';
 import { createDeleteResourceTypes } from './resourcetypes';
 import { createDeleteUpdateTopicResources } from './topicresouces';
@@ -22,48 +18,79 @@ import {
   ResourceType,
   TaxonomyMetadata,
 } from './taxonomyApiInterfaces';
+import { WithTaxonomyVersion } from '../../interfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
 
+const { fetchAndResolve } = httpFunctions;
+
+interface ResourceTypesGetParams extends WithTaxonomyVersion {
+  language: string;
+}
 /* Option items */
-const fetchResourceTypes = (language: string): Promise<ResourceType[]> => {
-  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(r =>
-    resolveJsonOrRejectWithError<ResourceType[]>(r),
-  );
+const fetchResourceTypes = ({
+  language,
+  taxonomyVersion,
+}: ResourceTypesGetParams): Promise<ResourceType[]> => {
+  return fetchAndResolve({
+    url: `${baseUrl}/resource-types`,
+    taxonomyVersion,
+    queryParams: { language },
+  });
 };
 
-const resolveUrls = (path: string): Promise<ResolvedUrl> => {
-  return fetchAuthorized(`${baseUrl}/url/resolve?path=${path}`).then(r =>
-    resolveJsonOrRejectWithError<ResolvedUrl>(r),
-  );
+interface ResolveUrlsParams extends WithTaxonomyVersion {
+  path: string;
+}
+
+const resolveUrls = ({ path, taxonomyVersion }: ResolveUrlsParams): Promise<ResolvedUrl> => {
+  return fetchAndResolve({
+    url: `${baseUrl}/url/resolve`,
+    taxonomyVersion,
+    queryParams: { path },
+  });
 };
 
 /* Queries */
 
-/* Taxonomy actions */
-async function updateTaxonomy(
-  resourceId: string,
+interface UpdateTaxonomyParams extends WithTaxonomyVersion {
+  resourceId: string;
   resourceTaxonomy: {
     resourceTypes: ResourceResourceType[];
     topics: ParentTopicWithRelevanceAndConnections[];
-  },
+  };
   taxonomyChanges: {
     resourceTypes: ResourceResourceType[];
     topics: ParentTopicWithRelevanceAndConnections[];
     metadata?: TaxonomyMetadata;
-  },
-): Promise<boolean> {
+  };
+}
+
+/* Taxonomy actions */
+async function updateTaxonomy({
+  resourceId,
+  resourceTaxonomy,
+  taxonomyChanges,
+  taxonomyVersion,
+}: UpdateTaxonomyParams): Promise<boolean> {
   try {
     await Promise.all([
-      createDeleteResourceTypes(
+      createDeleteResourceTypes({
         resourceId,
-        taxonomyChanges.resourceTypes,
-        resourceTaxonomy.resourceTypes,
-      ),
+        resourceTypes: taxonomyChanges.resourceTypes,
+        originalResourceTypes: resourceTaxonomy.resourceTypes,
+        taxonomyVersion,
+      }),
 
-      taxonomyChanges.metadata && updateResourceMetadata(resourceId, taxonomyChanges.metadata),
+      taxonomyChanges.metadata &&
+        updateResourceMetadata({ resourceId, body: taxonomyChanges.metadata, taxonomyVersion }),
 
-      createDeleteUpdateTopicResources(resourceId, taxonomyChanges.topics, resourceTaxonomy.topics),
+      createDeleteUpdateTopicResources({
+        resourceId,
+        topics: taxonomyChanges.topics,
+        originalTopics: resourceTaxonomy.topics,
+        taxonomyVersion,
+      }),
     ]);
     return true;
   } catch (e) {

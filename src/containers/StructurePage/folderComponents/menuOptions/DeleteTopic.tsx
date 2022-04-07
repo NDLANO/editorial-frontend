@@ -42,6 +42,7 @@ interface BaseProps {
   id: string;
   refreshTopics: () => Promise<void>;
   locale: string;
+  taxonomyVersion: string;
 }
 
 type Props = BaseProps & CustomWithTranslation;
@@ -60,19 +61,19 @@ class DeleteTopic extends PureComponent<Props, State> {
   }
 
   async onDeleteTopic() {
-    const { parent, toggleEditMode, refreshTopics, t, id, locale } = this.props;
+    const { parent, toggleEditMode, refreshTopics, t, id, locale, taxonomyVersion } = this.props;
     toggleEditMode('deleteTopic');
     this.setState({ loading: true, error: '' });
     const subTopic = parent?.includes('topic');
-    const [{ connectionId }] = await fetchTopicConnections(id);
+    const [{ connectionId }] = await fetchTopicConnections({ id, taxonomyVersion });
     try {
       if (subTopic) {
-        await deleteSubTopicConnection(connectionId);
+        await deleteSubTopicConnection({ id: connectionId, taxonomyVersion });
       } else {
-        await deleteTopicConnection(connectionId);
+        await deleteTopicConnection({ id: connectionId, taxonomyVersion });
       }
       await this.setTopicArticleArchived(id, locale);
-      await deleteTopic(id);
+      await deleteTopic({ id, taxonomyVersion });
       refreshTopics();
       this.setState({ loading: false });
     } catch (err) {
@@ -89,8 +90,8 @@ class DeleteTopic extends PureComponent<Props, State> {
   }
 
   async getConnections() {
-    const { id } = this.props;
-    const connections = await fetchTopicConnections(id);
+    const { id, taxonomyVersion } = this.props;
+    const connections = await fetchTopicConnections({ id, taxonomyVersion });
     this.setState(prevState => ({
       ...prevState,
       connections,
@@ -98,9 +99,10 @@ class DeleteTopic extends PureComponent<Props, State> {
   }
 
   async setTopicArticleArchived(topicId: string, locale: string) {
-    let article = await fetchTopic(topicId, locale);
+    const { taxonomyVersion } = this.props;
+    let article = await fetchTopic({ id: topicId, language: locale, taxonomyVersion });
     let articleId = Number(article.contentUri.split(':')[2]);
-    const topics = await queryTopics(articleId, locale);
+    const topics = await queryTopics({ contentId: articleId, language: locale, taxonomyVersion });
     // Only topics with paths are relevant here.
     if (topics.filter(t => t.path).length === 1) {
       await updateStatusDraft(articleId, ARCHIVED);

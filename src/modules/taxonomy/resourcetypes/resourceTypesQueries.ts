@@ -8,22 +8,35 @@
 
 import { useQuery, UseQueryOptions } from 'react-query';
 import { fetchAllResourceTypes, fetchResourceType } from '.';
+import { WithTaxonomyVersion } from '../../../interfaces';
 import { RESOURCE_TYPE, RESOURCE_TYPES } from '../../../queryKeys';
 import { ResourceType } from '../taxonomyApiInterfaces';
 
+interface UseResourceTypeParams extends WithTaxonomyVersion {
+  id: string;
+  language: string;
+}
+
 export const useResourceType = (
-  id: string,
-  locale: string,
+  { id, language, taxonomyVersion }: UseResourceTypeParams,
   options?: UseQueryOptions<ResourceType>,
 ) =>
-  useQuery<ResourceType>([RESOURCE_TYPE, id, locale], () => fetchResourceType(id, locale), options);
+  useQuery<ResourceType>(
+    [RESOURCE_TYPE, id, language],
+    () => fetchResourceType({ id, language, taxonomyVersion }),
+    options,
+  );
+
+interface UseAllResourceTypesParams extends WithTaxonomyVersion {
+  locale: string;
+}
 
 export const useAllResourceTypes = <ReturnType>(
-  locale: string,
+  { locale, taxonomyVersion }: UseAllResourceTypesParams,
   options?: UseQueryOptions<ResourceType[], unknown, ReturnType>,
 ) =>
   useQuery<ResourceType[], unknown, ReturnType>(
     [RESOURCE_TYPES, locale],
-    () => fetchAllResourceTypes(locale),
+    () => fetchAllResourceTypes({ language: locale, taxonomyVersion }),
     options,
   );

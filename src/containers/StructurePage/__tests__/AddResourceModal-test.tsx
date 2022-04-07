@@ -99,7 +99,7 @@ test('Can paste a valid url and add it to topic', async () => {
     .get(`${taxonomyApi}/resources/urn:resource:1:168388`)
     .reply(200, resourceMock);
   nock('http://ndla-api')
-    .get(`${taxonomyApi}/resources/urn:resource:1:168388/resource-types/`)
+    .get(`${taxonomyApi}/resources/urn:resource:1:168388/resource-types`)
     .reply(200, resourceTypeMock);
   nock('http://ndla-api')
     .post(

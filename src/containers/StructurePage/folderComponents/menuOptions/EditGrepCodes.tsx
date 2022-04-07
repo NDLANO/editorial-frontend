@@ -20,6 +20,7 @@ import { convertGrepCodesToObject } from '../../../FormikForm/GrepCodesFieldCont
 import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from '../menuOptions/MenuItemEditField';
 import { EditMode } from '../../../../interfaces';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   editMode: string;
@@ -51,6 +52,7 @@ const StyledGrepItem = styled('div')`
 
 const EditGrepCodes = ({ editMode, id, menuType, metadata, toggleEditMode }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [grepCodes, setGrepCodes] = useState<string[]>(metadata?.grepCodes ?? []);
   const [addingNewGrepCode, setAddingNewGrepCode] = useState(false);
   const [grepCodesWithName, setGrepCodesWithName] = useState<GrepCode[]>([]);
@@ -58,9 +60,13 @@ const EditGrepCodes = ({ editMode, id, menuType, metadata, toggleEditMode }: Pro
   const updateMetadata = async (codes: string[]) => {
     switch (menuType) {
       case 'subject': {
-        await updateSubjectMetadata(id, {
-          grepCodes: codes,
-          visible: metadata.visible,
+        await updateSubjectMetadata({
+          subjectId: id,
+          body: {
+            grepCodes: codes,
+            visible: metadata.visible,
+          },
+          taxonomyVersion,
         });
         setGrepCodes(codes);
         grepCodeDescriptionTitle();
@@ -68,9 +74,13 @@ const EditGrepCodes = ({ editMode, id, menuType, metadata, toggleEditMode }: Pro
       }
 
       case 'topic': {
-        await updateTopicMetadata(id, {
-          grepCodes: codes,
-          visible: metadata.visible,
+        await updateTopicMetadata({
+          topicId: id,
+          body: {
+            grepCodes: codes,
+            visible: metadata.visible,
+          },
+          taxonomyVersion,
         });
         setGrepCodes(codes);
         grepCodeDescriptionTitle();

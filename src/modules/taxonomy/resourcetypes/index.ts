@@ -6,11 +6,7 @@
  *
  */
 
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-} from '../../../util/apiHelpers';
+import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { taxonomyApi } from '../../../config';
 import { ResourceResourceType, ResourceType } from '../taxonomyApiInterfaces';
@@ -19,48 +15,85 @@ import {
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
 import { useResourceType } from './resourceTypesQueries';
+import { WithTaxonomyVersion } from '../../../interfaces';
+import { ResourceResourceTypePostBody } from './resourceTypesApiInterfaces';
 
-const baseUrl = apiResourceUrl(taxonomyApi);
+const resourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-types`);
+const resourceResourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-resourcetypes`);
 
-const fetchAllResourceTypes = (language: string): Promise<ResourceType[]> => {
-  return fetchAuthorized(`${baseUrl}/resource-types/?language=${language}`).then(r =>
-    resolveJsonOrRejectWithError<ResourceType[]>(r),
-  );
+const { fetchAndResolve, postAndResolve, deleteAndResolve } = httpFunctions;
+
+interface ResourceTypesGetParams extends WithTaxonomyVersion {
+  language: string;
+}
+
+const fetchAllResourceTypes = ({
+  language,
+  taxonomyVersion,
+}: ResourceTypesGetParams): Promise<ResourceType[]> => {
+  return fetchAndResolve({ url: resourceTypesUrl, taxonomyVersion, queryParams: { language } });
 };
 
-const fetchResourceType = (id: string, locale: string): Promise<ResourceType> => {
-  return fetchAuthorized(`${baseUrl}/resource-types/${id}?language=${locale}`).then(r =>
-    resolveJsonOrRejectWithError<ResourceType>(r),
-  );
+interface ResourceTypeGetParams extends WithTaxonomyVersion {
+  id: string;
+  language: string;
+}
+
+const fetchResourceType = ({
+  id,
+  language,
+  taxonomyVersion,
+}: ResourceTypeGetParams): Promise<ResourceType> => {
+  return fetchAndResolve({
+    url: `${resourceTypesUrl}/${id}`,
+    queryParams: { language },
+    taxonomyVersion,
+  });
 };
 
-const createResourceResourceType = (resourceType: {
+interface ResourceResourceTypePostParams extends WithTaxonomyVersion {
+  body: ResourceResourceTypePostBody;
+}
+
+const createResourceResourceType = ({
+  body,
+  taxonomyVersion,
+}: ResourceResourceTypePostParams): Promise<string> => {
+  return postAndResolve({
+    url: resourceResourceTypesUrl,
+    body: JSON.stringify(body),
+    taxonomyVersion,
+    alternateResolve: resolveLocation,
+  });
+};
+
+interface ResourceResourceTypeDeleteParams extends WithTaxonomyVersion {
+  id: string;
+}
+
+const deleteResourceResourceType = ({
+  id,
+  taxonomyVersion,
+}: ResourceResourceTypeDeleteParams): Promise<void> => {
+  return deleteAndResolve({
+    url: `${resourceResourceTypesUrl}/${id}`,
+    taxonomyVersion,
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
+};
+
+interface CreateDeleteResourceTypesParams extends WithTaxonomyVersion {
   resourceId: string;
-  resourceTypeId: string;
-}): Promise<string> => {
-  return fetchAuthorized(`${baseUrl}/resource-resourcetypes`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(resourceType),
-  }).then(resolveLocation);
-};
+  resourceTypes: ResourceResourceType[];
+  originalResourceTypes: ResourceResourceType[];
+}
 
-const deleteResourceResourceType = (id: string): Promise<void> => {
-  return fetchAuthorized(`${baseUrl}/resource-resourcetypes/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'DELETE',
-  }).then(resolveVoidOrRejectWithError);
-};
-
-const createDeleteResourceTypes = async (
-  resourceId: string,
-  resourceTypes: ResourceResourceType[],
-  originalResourceTypes: ResourceResourceType[],
-): Promise<void> => {
+const createDeleteResourceTypes = async ({
+  resourceId,
+  resourceTypes,
+  originalResourceTypes,
+  taxonomyVersion,
+}: CreateDeleteResourceTypesParams): Promise<void> => {
   try {
     const [createItems, deleteItems]: ResourceResourceType[][] = sortIntoCreateDeleteUpdate({
       changedItems: resourceTypes,
@@ -70,14 +103,17 @@ const createDeleteResourceTypes = async (
     await Promise.all(
       createItems.map(item =>
         createResourceResourceType({
-          resourceTypeId: item.id,
-          resourceId,
+          body: {
+            resourceTypeId: item.id,
+            resourceId,
+          },
+          taxonomyVersion,
         }),
       ),
     );
 
     deleteItems.forEach(item => {
-      deleteResourceResourceType(item.connectionId);
+      deleteResourceResourceType({ id: item.connectionId, taxonomyVersion });
     });
   } catch (e) {
     throw new Error(e);

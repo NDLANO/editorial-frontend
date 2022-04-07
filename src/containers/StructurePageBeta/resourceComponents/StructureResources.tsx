@@ -58,9 +58,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
   const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
 
   const { data: nodeResources } = useResourcesWithNodeConnection(
-    currentChildNode.id,
-    { language: i18n.language },
-    taxonomyVersion,
+    { id: currentChildNode.id, language: i18n.language, taxonomyVersion },
     {
       select: resources => resources.map(r => (r.resourceTypes.length > 0 ? r : withMissing(r))),
       onError: e => handleError(e),
@@ -68,10 +66,13 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
-  const { data: resourceTypes } = useAllResourceTypes(i18n.language, {
-    select: resourceTypes => resourceTypes.concat(getMissingResourceType(t)),
-    onError: e => handleError(e),
-  });
+  const { data: resourceTypes } = useAllResourceTypes(
+    { locale: i18n.language, taxonomyVersion },
+    {
+      select: resourceTypes => resourceTypes.concat(getMissingResourceType(t)),
+      onError: e => handleError(e),
+    },
+  );
 
   const groupedNodeResources = groupSortResourceTypesFromNodeResources(
     resourceTypes ?? [],

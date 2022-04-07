@@ -102,8 +102,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   const { id, name } = node;
 
   const { data: translations, isLoading: loading, refetch } = useNodeTranslations(
-    id,
-    taxonomyVersion,
+    { id, taxonomyVersion },
     {
       onError: e => {
         handleError(e);

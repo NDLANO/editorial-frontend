@@ -45,6 +45,7 @@ import {
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 import { useSession } from '../Session/SessionProvider';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 interface RouteProps {
   params: Params<'subject' | 'topic' | 'subtopics'>;
@@ -58,6 +59,7 @@ export const StructureContainer = () => {
   const params = { subject, topic, subtopics };
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
   const { userPermissions } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
@@ -79,7 +81,7 @@ export const StructureContainer = () => {
 
   useEffect(() => {
     (async () => {
-      const subjects = await fetchSubjects(locale);
+      const subjects = await fetchSubjects({ language: locale, taxonomyVersion });
       setSubjects(subjects.sort((a, b) => a.name?.localeCompare(b.name)));
       const { subject } = params;
       if (subject) {
@@ -109,7 +111,7 @@ export const StructureContainer = () => {
 
   const getAllSubjects = async () => {
     try {
-      const subjects = await fetchSubjects(locale);
+      const subjects = await fetchSubjects({ language: locale, taxonomyVersion });
       setSubjects(subjects.sort((a, b) => a.name?.localeCompare(b.name)));
     } catch (e) {
       handleError(e);
@@ -119,7 +121,11 @@ export const StructureContainer = () => {
   const getSubjectTopics = async (subjectid: string, locale: string) => {
     try {
       saveSubjectItems(subjectid, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectid, locale);
+      const allTopics = await fetchSubjectTopics({
+        subject: subjectid,
+        language: locale,
+        taxonomyVersion,
+      });
       setTopics(allTopics);
       const topics = groupTopics(allTopics);
       saveSubjectItems(subjectid, { topics, loading: false });
@@ -152,7 +158,7 @@ export const StructureContainer = () => {
   };
 
   const addSubject = async (name: string) => {
-    const newPath = await addSubjectApi({ name });
+    const newPath = await addSubjectApi({ body: { name }, taxonomyVersion });
     getAllSubjects();
     return newPath;
   };
@@ -197,11 +203,19 @@ export const StructureContainer = () => {
     saveSubjectItems(params.subject!, { loading: true });
 
     if (draggableId.includes('topic-subtopic')) {
-      await updateTopicSubtopic(draggableId, {
-        rank: newRank,
+      await updateTopicSubtopic({
+        connectionId: draggableId,
+        body: {
+          rank: newRank,
+        },
+        taxonomyVersion,
       });
     } else {
-      await updateSubjectTopic(draggableId, { rank: newRank });
+      await updateSubjectTopic({
+        connectionId: draggableId,
+        body: { rank: newRank },
+        taxonomyVersion,
+      });
     }
     refreshTopics();
   };

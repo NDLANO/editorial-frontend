@@ -15,6 +15,7 @@ import {
 import { Download, Podcast, VolumeUp } from '@ndla/icons/common';
 import HowToHelper from '../../../HowTo/HowToHelper';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
+import { DRAFT_ADMIN_SCOPE } from '../../../../constants';
 
 const renderArticleInModal = (pageId: string) => <HowToHelper pageId={pageId} extraIconPadding />;
 
@@ -27,6 +28,7 @@ export interface Action {
   data: ActionData;
   icon: JSX.Element;
   helpIcon: JSX.Element;
+  requiredScope?: string;
 }
 
 const actions: Action[] = [
@@ -99,6 +101,7 @@ const actions: Action[] = [
     data: { type: TYPE_CONCEPT_BLOCK, object: 'concept' },
     icon: <Concept />,
     helpIcon: renderArticleInModal('Concept'),
+    requiredScope: DRAFT_ADMIN_SCOPE,
   },
 ];
 

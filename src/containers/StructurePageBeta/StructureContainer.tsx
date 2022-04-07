@@ -54,10 +54,13 @@ const StructureContainer = () => {
       return acc;
     }, {}) ?? {};
   const favoriteNodeIds = Object.keys(favoriteNodes);
-  const nodesQuery = useNodes({ language: i18n.language, isRoot: true }, taxonomyVersion, {
-    select: nodes => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
-    placeholderData: [],
-  });
+  const nodesQuery = useNodes(
+    { language: i18n.language, isRoot: true, taxonomyVersion },
+    {
+      select: nodes => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
+      placeholderData: [],
+    },
+  );
   const handleStructureToggle = (path: string) => {
     const { search } = location;
     const currentPath = location.pathname.replace('/structureBeta/', '');

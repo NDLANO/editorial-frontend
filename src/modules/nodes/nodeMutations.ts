@@ -38,7 +38,7 @@ import {
 export const useAddNodeMutation = () => {
   const queryClient = useQueryClient();
   return useMutation<string, undefined, TaxonomyParameters<NodePostPatchType>>(
-    data => postNode(data.params, data.taxonomyVersion),
+    ({ params, taxonomyVersion }) => postNode({ body: params, taxonomyVersion }),
     {
       onMutate: async ({ params }) => {
         const newNode = params;
@@ -67,32 +67,36 @@ export const useUpdateNodeMetadataMutation = () => {
     TaxonomyMetadata,
     unknown,
     TaxonomyParameters<{ id: string; metadata: Partial<TaxonomyMetadata>; rootId?: string }>
-  >(({ params, taxonomyVersion }) => putNodeMetadata(params.id, params.metadata, taxonomyVersion), {
-    onMutate: async ({ params }) => {
-      const { id, metadata, rootId } = params;
-      const key = rootId ? [CHILD_NODES_WITH_ARTICLE_TYPE, rootId, i18n.language] : NODES;
-      await qc.cancelQueries(key);
-      const prevNodes = qc.getQueryData<NodeType[]>(key) ?? [];
-      const newNodes = prevNodes.map(node => {
-        if (node.id === id) {
-          return { ...node, metadata: { ...node.metadata, ...metadata } };
-        } else return node;
-      });
-      qc.setQueryData<NodeType[]>(key, newNodes);
+  >(
+    ({ params, taxonomyVersion }) =>
+      putNodeMetadata({ id: params.id, meta: params.metadata, taxonomyVersion }),
+    {
+      onMutate: async ({ params }) => {
+        const { id, metadata, rootId } = params;
+        const key = rootId ? [CHILD_NODES_WITH_ARTICLE_TYPE, rootId, i18n.language] : NODES;
+        await qc.cancelQueries(key);
+        const prevNodes = qc.getQueryData<NodeType[]>(key) ?? [];
+        const newNodes = prevNodes.map(node => {
+          if (node.id === id) {
+            return { ...node, metadata: { ...node.metadata, ...metadata } };
+          } else return node;
+        });
+        qc.setQueryData<NodeType[]>(key, newNodes);
+      },
+      onSettled: (_, __, { params }) => {
+        const key = params.rootId
+          ? [CHILD_NODES_WITH_ARTICLE_TYPE, params.rootId, i18n.language]
+          : NODES;
+        qc.invalidateQueries(key);
+      },
     },
-    onSettled: (_, __, { params }) => {
-      const key = params.rootId
-        ? [CHILD_NODES_WITH_ARTICLE_TYPE, params.rootId, i18n.language]
-        : NODES;
-      qc.invalidateQueries(key);
-    },
-  });
+  );
 };
 
 export const useDeleteNodeMutation = () => {
   const qc = useQueryClient();
   return useMutation<void, unknown, TaxonomyParameters<{ id: string }>>(
-    ({ params, taxonomyVersion }) => deleteNode(params.id, taxonomyVersion),
+    ({ params, taxonomyVersion }) => deleteNode({ id: params.id, taxonomyVersion }),
     {
       onMutate: async ({ params }) => {
         const id = params.id;
@@ -109,7 +113,7 @@ export const useDeleteNodeMutation = () => {
 export const useDeleteNodeTranslationMutation = () => {
   return useMutation<void, unknown, TaxonomyParameters<{ subjectId: string; locale: string }>>(
     ({ params, taxonomyVersion }) =>
-      deleteNodeTranslation(params.subjectId, params.locale, taxonomyVersion),
+      deleteNodeTranslation({ id: params.subjectId, language: params.locale, taxonomyVersion }),
   );
 };
 
@@ -119,7 +123,12 @@ export const useUpdateNodeTranslationMutation = () => {
     unknown,
     TaxonomyParameters<{ id: string; locale: string; newTranslation: NodeTranslationPutType }>
   >(({ taxonomyVersion, params }) =>
-    putNodeTranslation(params.id, params.locale, params.newTranslation, taxonomyVersion),
+    putNodeTranslation({
+      id: params.id,
+      language: params.locale,
+      body: params.newTranslation,
+      taxonomyVersion,
+    }),
   );
 };
 
@@ -127,7 +136,7 @@ export const useDeleteNodeConnectionMutation = (
   options?: UseMutationOptions<void, unknown, TaxonomyParameters<{ id: string }>>,
 ) => {
   return useMutation<void, unknown, TaxonomyParameters<{ id: string }>>(
-    ({ params, taxonomyVersion }) => deleteNodeConnection(params.id, taxonomyVersion),
+    ({ params, taxonomyVersion }) => deleteNodeConnection({ id: params.id, taxonomyVersion }),
     options,
   );
 };
@@ -144,7 +153,8 @@ export const useUpdateNodeConnectionMutation = (
     unknown,
     TaxonomyParameters<{ id: string; body: NodeConnectionPutType }>
   >(
-    ({ params, taxonomyVersion }) => putNodeConnection(params.id, params.body, taxonomyVersion),
+    ({ params, taxonomyVersion }) =>
+      putNodeConnection({ id: params.id, body: params.body, taxonomyVersion }),
     options,
   );
 };
@@ -157,7 +167,7 @@ export const usePostNodeConnectionMutation = (
   >,
 ) => {
   return useMutation<string, unknown, TaxonomyParameters<{ body: NodeConnectionPostType }>>(
-    ({ params, taxonomyVersion }) => postNodeConnection(params.body, taxonomyVersion),
+    ({ params, taxonomyVersion }) => postNodeConnection({ body: params.body, taxonomyVersion }),
     options,
   );
 };
@@ -166,7 +176,7 @@ export const usePostResourceForNodeMutation = (
   options?: UseMutationOptions<void, unknown, TaxonomyParameters<{ body: NodeResourcePostType }>>,
 ) => {
   return useMutation<void, unknown, TaxonomyParameters<{ body: NodeResourcePostType }>>(
-    ({ params, taxonomyVersion }) => postResourceForNode(params.body, taxonomyVersion),
+    ({ params, taxonomyVersion }) => postResourceForNode({ body: params.body, taxonomyVersion }),
     options,
   );
 };
@@ -175,7 +185,7 @@ export const useDeleteResourceForNodeMutation = (
   options?: UseMutationOptions<void, unknown, TaxonomyParameters<{ id: string }>>,
 ) => {
   return useMutation<void, unknown, TaxonomyParameters<{ id: string }>>(
-    ({ params, taxonomyVersion }) => deleteResourceForNode(params.id, taxonomyVersion),
+    ({ params, taxonomyVersion }) => deleteResourceForNode({ id: params.id, taxonomyVersion }),
     options,
   );
 };
@@ -188,7 +198,8 @@ export const usePutResourceForNodeMutation = (
   >,
 ) => {
   return useMutation<void, unknown, TaxonomyParameters<{ id: string; body: NodeResourcePutType }>>(
-    ({ params, taxonomyVersion }) => putResourceForNode(params.id, params.body, taxonomyVersion),
+    ({ params, taxonomyVersion }) =>
+      putResourceForNode({ id: params.id, body: params.body, taxonomyVersion }),
     options,
   );
 };

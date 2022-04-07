@@ -43,10 +43,13 @@ const RootNode = ({
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
-  const childNodesQuery = useChildNodesWithArticleType(node.id, locale, taxonomyVersion, {
-    enabled: openedPaths[0] === node.id,
-    select: childNodes => groupChildNodes(childNodes),
-  });
+  const childNodesQuery = useChildNodesWithArticleType(
+    { id: node.id, language: locale, taxonomyVersion },
+    {
+      enabled: openedPaths[0] === node.id,
+      select: childNodes => groupChildNodes(childNodes),
+    },
+  );
 
   const qc = useQueryClient();
 

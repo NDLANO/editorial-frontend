@@ -58,9 +58,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
   const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
 
   const { data: nodeResources } = useResourcesWithNodeConnection(
-    currentChildNode.id,
-    { language: i18n.language },
-    taxonomyVersion,
+    { id: currentChildNode.id, language: i18n.language, taxonomyVersion },
     {
       select: resources => resources.map(r => (r.resourceTypes.length > 0 ? r : withMissing(r))),
       onError: e => handleError(e),

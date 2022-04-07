@@ -68,10 +68,13 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
-  const { data: resourceTypes } = useAllResourceTypes(i18n.language, {
-    select: resourceTypes => resourceTypes.concat(getMissingResourceType(t)),
-    onError: e => handleError(e),
-  });
+  const { data: resourceTypes } = useAllResourceTypes(
+    { locale: i18n.language, taxonomyVersion },
+    {
+      select: resourceTypes => resourceTypes.concat(getMissingResourceType(t)),
+      onError: e => handleError(e),
+    },
+  );
 
   const groupedNodeResources = groupSortResourceTypesFromNodeResources(
     resourceTypes ?? [],

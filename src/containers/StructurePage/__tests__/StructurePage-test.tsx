@@ -35,7 +35,7 @@ const wrapper = () =>
 beforeEach(() => {
   nock('http://ndla-api')
     .persist()
-    .get(`${taxonomyApi}/resource-types/?language=nb`)
+    .get(`${taxonomyApi}/resource-types?language=nb`)
     .reply(200, resourceTypesMock);
 
   nock('http://ndla-api')
@@ -54,7 +54,7 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
 
   nock('http://ndla-api')
     .persist()
-    .get(`${taxonomyApi}/subjects/${subjectsMock[0].id}/topics?recursive=true&language=nb`)
+    .get(`${taxonomyApi}/subjects/${subjectsMock[0].id}/topics?language=nb&recursive=true`)
     .reply(200, subjectTopicsMock);
   nock('http://ndla-api')
     .get(`${taxonomyApi}/subjects/${subjectsMock[0].id}/filters`)
@@ -79,10 +79,6 @@ test('fetches and renders a list of subjects and topics based on pathname', asyn
     .persist()
     .get('/article-api/v2/articles/3592')
     .reply(200, {});
-  nock('http://ndla-api')
-    .persist()
-    .get(`${taxonomyApi}/filters/?language=nb`)
-    .reply(200, []);
   nock('http://ndla-api')
     .persist()
     .get('/draft-api/v1/user-data')

@@ -200,3 +200,7 @@ export interface TaxonomyParameters<T> {
   taxonomyVersion: string;
   params: T;
 }
+
+export interface WithTaxonomyVersion {
+  taxonomyVersion: string;
+}

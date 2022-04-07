@@ -45,6 +45,7 @@ import TaxonomyConnectionErrors from '../../components/TaxonomyConnectionErrors'
 import { TAXONOMY_ADMIN_SCOPE } from '../../../../constants';
 import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 type Props = {
   article: IArticle;
@@ -78,22 +79,27 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
   const [showWarning, setShowWarning] = useState(false);
   const { t, i18n } = useTranslation();
   const { userPermissions } = useSession();
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   useEffect(() => {
     (async () => {
       try {
-        const subjects = await fetchSubjects(i18n.language);
+        const subjects = await fetchSubjects({ language: i18n.language, taxonomyVersion });
 
         const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
         const activeTopics = taxonomy.topics.filter(t => t.path) ?? [];
         const sortedTopics = activeTopics.sort((a, b) => (a.id < b.id ? -1 : 1));
 
         const topicConnections = await Promise.all(
-          sortedTopics.map(topic => fetchTopicConnections(topic.id)),
+          sortedTopics.map(topic => fetchTopicConnections({ id: topic.id, taxonomyVersion })),
         );
 
         const topicsWithConnections = sortedTopics.map(async (topic, index) => {
-          const breadcrumb = await getBreadcrumbFromPath(topic.path, i18n.language);
+          const breadcrumb = await getBreadcrumbFromPath(
+            topic.path,
+            taxonomyVersion,
+            i18n.language,
+          );
           return {
             ...topic,
             topicConnections: topicConnections[index],
@@ -110,7 +116,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
         setStatus('error');
       }
     })();
-  }, [i18n.language, taxonomy]);
+  }, [i18n.language, taxonomy, taxonomyVersion]);
 
   const getSubjectTopics = async (subjectId: string, locale: LocaleType) => {
     if (structure.some(subject => subject.id === subjectId && subject.topics)) {
@@ -118,7 +124,11 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
     }
     try {
       updateSubject(subjectId);
-      const allTopics = await fetchSubjectTopics(subjectId, locale);
+      const allTopics = await fetchSubjectTopics({
+        subject: subjectId,
+        language: locale,
+        taxonomyVersion,
+      });
       const groupedTopics = groupTopics(allTopics);
       updateSubject(subjectId, { topics: groupedTopics });
     } catch (e) {
@@ -128,7 +138,7 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
 
   const stageTaxonomyChanges = async ({ path, locale }: { path: string; locale?: LocaleType }) => {
     if (path) {
-      const breadcrumb = await getBreadcrumbFromPath(path, locale);
+      const breadcrumb = await getBreadcrumbFromPath(path, taxonomyVersion, locale);
       const newTopic: StagedTopic = {
         id: 'staged',
         name: article.title?.title ?? '',
@@ -202,8 +212,11 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
     locale?: LocaleType,
   ): Promise<StagedTopic> => {
     const newTopicPath = await addTopic({
-      name: topic.name,
-      contentUri: `urn:article:${articleId}`,
+      body: {
+        name: topic.name,
+        contentUri: `urn:article:${articleId}`,
+      },
+      taxonomyVersion,
     });
 
     const paths = pathToUrnArray(topic.path);
@@ -213,21 +226,31 @@ const TopicArticleTaxonomy = ({ article, setIsOpen, updateNotes, taxonomy }: Pro
       // we are placing it under a topic
       const parentTopicId = paths.slice(-2)[0];
       await addTopicToTopic({
-        subtopicid: newTopicId,
-        topicid: parentTopicId,
+        body: {
+          subtopicid: newTopicId,
+          topicid: parentTopicId,
+        },
+        taxonomyVersion,
       });
     } else {
       // we are placing it under a subject
       await addSubjectTopic({
-        topicid: newTopicId,
-        subjectid: paths[0],
+        body: {
+          topicid: newTopicId,
+          subjectid: paths[0],
+        },
+        taxonomyVersion,
       });
     }
     if (!topic.metadata.visible) {
-      await updateTopicMetadata(newTopicId, { visible: topic.metadata.visible });
+      await updateTopicMetadata({
+        topicId: newTopicId,
+        body: { visible: topic.metadata.visible },
+        taxonomyVersion,
+      });
     }
     const newPath = topic.path.replace('staged', newTopicId.replace('urn:', ''));
-    const breadcrumb = await getBreadcrumbFromPath(newPath, locale);
+    const breadcrumb = await getBreadcrumbFromPath(newPath, taxonomyVersion, locale);
     return {
       name: topic.name,
       id: newTopicId,

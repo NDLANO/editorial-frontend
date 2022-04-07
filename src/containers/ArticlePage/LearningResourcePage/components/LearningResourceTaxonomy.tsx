@@ -71,6 +71,7 @@ type Props = {
   taxonomy: ArticleTaxonomy;
   updateNotes: (art: IUpdatedArticle) => Promise<IArticle>;
   setIsOpen?: (open: boolean) => void;
+  taxonomyVersion: string;
 } & CustomWithTranslation &
   SessionProps;
 
@@ -176,7 +177,12 @@ class LearningResourceTaxonomy extends Component<Props, State> {
       return;
     }
     try {
-      const allTopics = await fetchSubjectTopics(subjectid, this.props.i18n.language);
+      const { taxonomyVersion } = this.props;
+      const allTopics = await fetchSubjectTopics({
+        subject: subjectid,
+        language: this.props.i18n.language,
+        taxonomyVersion,
+      });
       const groupedTopics = groupTopics(allTopics);
       this.updateSubject(subjectid, { topics: groupedTopics });
     } catch (err) {
@@ -249,11 +255,11 @@ class LearningResourceTaxonomy extends Component<Props, State> {
   };
 
   fetchTaxonomyChoices = async () => {
-    const { i18n } = this.props;
+    const { i18n, taxonomyVersion } = this.props;
     try {
       const [allResourceTypes, subjects] = await Promise.all([
-        fetchResourceTypes(i18n.language),
-        fetchSubjects(i18n.language),
+        fetchResourceTypes({ language: i18n.language, taxonomyVersion }),
+        fetchSubjects({ language: i18n.language, taxonomyVersion }),
       ]);
 
       const sortedSubjects = subjects.filter(subject => subject.name).sort(sortByName);
@@ -284,6 +290,7 @@ class LearningResourceTaxonomy extends Component<Props, State> {
 
   handleSubmit = async (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
+    const { taxonomyVersion } = this.props;
     const { resourceTaxonomy, taxonomyChanges, resourceId } = this.state;
     let reassignedResourceId = resourceId;
     const {
@@ -294,14 +301,26 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     this.setState({ status: 'loading' });
     try {
       if (!reassignedResourceId) {
-        await createResource({ contentUri: `urn:article:${id}`, name: title.title });
-        reassignedResourceId = await getResourceId({ id, language: title.language });
+        await createResource({
+          body: { contentUri: `urn:article:${id}`, name: title.title },
+          taxonomyVersion,
+        });
+        reassignedResourceId = await getResourceId({
+          id,
+          language: title.language,
+          taxonomyVersion,
+        });
         this.setState({
           resourceId: reassignedResourceId,
         });
       }
       if (reassignedResourceId) {
-        await updateTaxonomy(reassignedResourceId, resourceTaxonomy, taxonomyChanges);
+        await updateTaxonomy({
+          resourceId: reassignedResourceId,
+          resourceTaxonomy,
+          taxonomyChanges,
+          taxonomyVersion,
+        });
         updateNotes({
           revision: revision ?? 0,
           language: title.language,
@@ -333,22 +352,24 @@ class LearningResourceTaxonomy extends Component<Props, State> {
   };
 
   fetchFullResource = async (resourceId: string, locale: LocaleType): Promise<FullResource> => {
-    const { resourceTypes, metadata, parentTopics, name } = await fetchFullResource(
-      resourceId,
-      locale,
-    );
+    const { taxonomyVersion } = this.props;
+    const { resourceTypes, metadata, parentTopics, name } = await fetchFullResource({
+      id: resourceId,
+      language: locale,
+      taxonomyVersion,
+    });
     const sortedParents = parentTopics.filter(pt => pt.path).sort((a, b) => (a.id < b.id ? -1 : 1));
 
     const topicConnections = await Promise.all(
-      sortedParents.map(topic => fetchTopicConnections(topic.id)),
+      sortedParents.map(topic => fetchTopicConnections({ id: topic.id, taxonomyVersion })),
     );
     const topicResources = await Promise.all(
-      sortedParents.map(topic => fetchTopicResources(topic.id)),
+      sortedParents.map(topic => fetchTopicResources({ topicUrn: topic.id, taxonomyVersion })),
     );
     const topicsWithConnectionsAndRelevanceId = sortedParents.map(async (topic, index) => {
       const foundRelevanceId = topicResources[index]?.find(resource => resource.id === resourceId)
         ?.relevanceId;
-      const breadcrumb = await getBreadcrumbFromPath(topic.path, locale);
+      const breadcrumb = await getBreadcrumbFromPath(topic.path, taxonomyVersion, locale);
       return {
         ...topic,
         topicConnections: topicConnections[index],

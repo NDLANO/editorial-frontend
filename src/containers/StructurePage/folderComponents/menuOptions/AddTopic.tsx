@@ -8,6 +8,7 @@ import MenuItemButton from './MenuItemButton';
 import MenuItemEditField from './MenuItemEditField';
 
 import { EditMode } from '../../../../interfaces';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 type Props = {
   id: string;
@@ -26,19 +27,23 @@ const AddTopic = ({
   toggleEditMode,
 }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   const onAddSubTopic = async (name: string) => {
-    const newPath = await addTopic({ name });
+    const newPath = await addTopic({ body: { name }, taxonomyVersion });
     if (!newPath) {
       throw Error('Invalid topic path returned');
     }
 
     const newId = newPath.replace('/v1/topics/', '');
     await addTopicToTopic({
-      subtopicid: newId,
-      topicid: id,
-      primary: true,
-      rank: numberOfSubtopics + 1,
+      body: {
+        subtopicid: newId,
+        topicid: id,
+        primary: true,
+        rank: numberOfSubtopics + 1,
+      },
+      taxonomyVersion,
     });
     refreshTopics();
   };

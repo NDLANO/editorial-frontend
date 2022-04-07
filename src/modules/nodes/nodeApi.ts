@@ -37,7 +37,10 @@ const resUrl = apiResourceUrl(`${taxonomyApi}/node-resources`);
 
 const { postAndResolve, fetchAndResolve, putAndResolve, deleteAndResolve } = httpFunctions;
 
-const stringifyQuery = (object: Record<string, any> = {}) => `?${queryString.stringify(object)}`;
+const stringifyQuery = (object: Record<string, any> = {}) => {
+  const stringified = `?${queryString.stringify(object)}`;
+  return stringified === '?' ? '' : stringified;
+};
 
 export const fetchNode = (
   id: string,

@@ -260,15 +260,16 @@ const updateRelevanceId = (
     primary?: boolean;
     rank?: number;
   },
+  taxonomyVersion: string,
 ): Promise<void> => {
   const [, connectionType] = connectionId.split(':');
   switch (connectionType) {
     case 'topic-resource':
-      return updateTopicResource(connectionId, body);
+      return updateTopicResource({ id: connectionId, body, taxonomyVersion });
     case 'topic-subtopic':
-      return updateTopicSubtopic(connectionId, body);
+      return updateTopicSubtopic({ connectionId, body, taxonomyVersion });
     case 'subject-topic':
-      return updateSubjectTopic(connectionId, body);
+      return updateSubjectTopic({ connectionId, body, taxonomyVersion });
     default:
       return new Promise(() => {});
   }
@@ -276,12 +277,13 @@ const updateRelevanceId = (
 
 const getBreadcrumbFromPath = async (
   path: string,
+  taxonomyVersion: string,
   language?: string,
 ): Promise<TaxonomyElement[]> => {
   const [subjectPath, ...topicPaths] = pathToUrnArray(path);
   const subjectAndTopics = await Promise.all([
-    fetchSubject(subjectPath, language),
-    ...topicPaths.map(id => fetchTopic(id, language)),
+    fetchSubject({ id: subjectPath, language, taxonomyVersion }),
+    ...topicPaths.map(id => fetchTopic({ id, language, taxonomyVersion })),
   ]);
   return subjectAndTopics.map(element => ({
     id: element.id,

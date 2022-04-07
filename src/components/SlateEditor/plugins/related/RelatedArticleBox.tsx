@@ -25,6 +25,7 @@ import RelatedArticle from './RelatedArticle';
 import { RelatedElement } from '.';
 import { Resource } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ARTICLE_EXTERNAL } from '../../../../constants';
+import { useTaxonomyVersion } from '../../../../containers/StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -59,6 +60,7 @@ const mapRelatedArticle = (article: IArticle, resource: Resource[]): InternalArt
 
 const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, children }: Props) => {
   const { t, i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [articles, setArticles] = useState<RelatedArticleType[]>([]);
   const [editMode, setEditMode] = useState(false);
 
@@ -85,7 +87,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
       try {
         const [article, resource] = await Promise.all([
           fetchDraft(id, i18n.language),
-          queryResources(id, i18n.language),
+          queryResources({ contentId: id, language: i18n.language, taxonomyVersion }),
         ]);
         if (article) {
           return mapRelatedArticle(article, resource);
@@ -94,7 +96,7 @@ const RelatedArticleBox = ({ attributes, editor, element, onRemoveClick, childre
         handleError(error);
       }
     },
-    [i18n.language],
+    [i18n.language, taxonomyVersion],
   );
 
   const fetchArticles = useCallback(

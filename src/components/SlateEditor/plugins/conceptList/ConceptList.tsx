@@ -21,6 +21,10 @@ const StyledWrapper = styled.div<{ isSelected: boolean }>`
     p.isSelected ? `2px solid ${colors.brand.primary}` : `2px dashed ${colors.brand.greyLighter}`};
 `;
 
+const StyledHeader = styled.h2`
+  margin-bottom: 0;
+`;
+
 const ConceptList = ({ element, language, editor, attributes, children }: Props) => {
   const [editMode, setEditMode] = useState<boolean>(!!element.isFirstEdit);
   const isSelected = useSelected();
@@ -37,7 +41,7 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
   return (
     <>
       <StyledWrapper {...attributes} contentEditable={false} isSelected={isSelected}>
-        {title && <h2>{title}</h2>}
+        {title && <StyledHeader>{title}</StyledHeader>}
         {tag && <ConceptSearchResult tag={tag} language={language} />}
         {children}
       </StyledWrapper>

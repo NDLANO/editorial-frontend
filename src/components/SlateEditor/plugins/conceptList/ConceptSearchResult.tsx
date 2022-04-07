@@ -1,4 +1,6 @@
+import styled from '@emotion/styled';
 import { ConceptNotion, Spinner } from '@ndla/ui';
+import { spacing } from '@ndla/core';
 import { ConceptNotionType } from '@ndla/ui/lib/Notion/ConceptNotion';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +12,7 @@ import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 interface Props {
   tag?: string;
   language: string;
+  showResultCount?: boolean;
 }
 
 interface ConceptQuery {
@@ -17,6 +20,12 @@ interface ConceptQuery {
   language: string;
   'page-size': number;
 }
+
+const StyledContentWrapper = styled.div`
+  & figure:first-of-type {
+    margin-top: ${spacing.medium};
+  }
+`;
 
 const getVisualElement = (embed: Embed) => {
   if (embed.resource === 'h5p') {
@@ -51,7 +60,7 @@ const getVisualElement = (embed: Embed) => {
   }
 };
 
-const ConceptSearchResult = ({ tag, language }: Props) => {
+const ConceptSearchResult = ({ tag, language, showResultCount }: Props) => {
   const [concepts, setConcepts] = useState<ConceptNotionType[]>([]);
   const [loading, setLoading] = useState(false);
   const [resultCount, setResultCount] = useState<number>();
@@ -95,7 +104,7 @@ const ConceptSearchResult = ({ tag, language }: Props) => {
       const query = {
         tags: tag,
         language: language,
-        'page-size': 8,
+        'page-size': 200,
       };
       setLoading(true);
       search(query);
@@ -103,18 +112,18 @@ const ConceptSearchResult = ({ tag, language }: Props) => {
   }, [tag, language]);
 
   return (
-    <div>
+    <StyledContentWrapper>
       {loading ? (
         <Spinner />
       ) : (
         <>
-          {resultCount && <div>{`${t('searchPage.totalCount')}: ${resultCount}`}</div>}
+          {showResultCount && <div>{`${t('searchPage.totalCount')}: ${resultCount}`}</div>}
           {concepts.map(concept => {
-            return <ConceptNotion concept={concept}></ConceptNotion>;
+            return <ConceptNotion concept={concept} disableScripts={true}></ConceptNotion>;
           })}
         </>
       )}
-    </div>
+    </StyledContentWrapper>
   );
 };
 

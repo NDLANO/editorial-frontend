@@ -165,7 +165,11 @@ const ConceptTagPicker = ({ isOpen, element, onClose, language }: Props) => {
                           maxRender={10}
                           hideTotalSearchCount
                         />
-                        <ConceptSearchResult tag={selectedTag} language={language} />
+                        <ConceptSearchResult
+                          tag={selectedTag}
+                          language={language}
+                          showResultCount
+                        />
                       </div>
                     );
                   }}

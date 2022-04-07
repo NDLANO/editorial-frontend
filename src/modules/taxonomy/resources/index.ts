@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from 'query-string';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
 import {
@@ -29,11 +28,6 @@ const resourcesUrl = apiResourceUrl(`${taxonomyApi}/resources`);
 
 const { fetchAndResolve, postAndResolve, putAndResolve } = httpFunctions;
 
-const stringifyQuery = (object: Record<string, any> = {}) => {
-  const stringified = `?${queryString.stringify(object)}`;
-  return stringified === '?' ? '' : stringified;
-};
-
 interface ResourceGetParams extends WithTaxonomyVersion {
   id: string;
   language?: string;
@@ -44,8 +38,9 @@ export const fetchResource = ({
   taxonomyVersion,
 }: ResourceGetParams): Promise<Resource> => {
   return fetchAndResolve({
-    url: `${resourcesUrl}/${id}${stringifyQuery({ language })}`,
+    url: `${resourcesUrl}/${id}`,
     taxonomyVersion,
+    queryParams: { language },
   });
 };
 
@@ -60,8 +55,9 @@ export const fetchFullResource = ({
   taxonomyVersion,
 }: FullResourceGetParams): Promise<ResourceWithParentTopics> => {
   return fetchAndResolve({
-    url: `${resourcesUrl}/${id}/full${stringifyQuery({ language })}`,
+    url: `${resourcesUrl}/${id}/full`,
     taxonomyVersion,
+    queryParams: { language },
   });
 };
 
@@ -89,8 +85,9 @@ export const fetchResourceResourceType = ({
   taxonomyVersion,
 }: ResourceResourceTypeGetParams): Promise<ResourceResourceType[]> => {
   return fetchAndResolve({
-    url: `${resourcesUrl}/${id}/resource-types${stringifyQuery({ language })}`,
+    url: `${resourcesUrl}/${id}/resource-types`,
     taxonomyVersion,
+    queryParams: { language },
   });
 };
 
@@ -144,11 +141,12 @@ export const queryResources = ({
   taxonomyVersion,
 }: ResourcesQueryParams): Promise<Resource[]> => {
   return fetchAndResolve({
-    url: `${resourcesUrl}${stringifyQuery({
+    url: resourcesUrl,
+    taxonomyVersion,
+    queryParams: {
       language,
       contentURI: encodeURIComponent(`urn:${contentType}:${contentId}`),
-    })}`,
-    taxonomyVersion,
+    },
   });
 };
 
@@ -165,11 +163,12 @@ export const queryTopics = ({
   taxonomyVersion,
 }: TopicsQueryParams): Promise<Topic[]> => {
   return fetchAndResolve({
-    url: `${baseUrl}/topics${stringifyQuery({
+    url: `${baseUrl}/topics`,
+    taxonomyVersion,
+    queryParams: {
       language,
       contentURI: encodeURIComponent(`urn:${contentType}:${contentId}`),
-    })}`,
-    taxonomyVersion,
+    },
   });
 };
 

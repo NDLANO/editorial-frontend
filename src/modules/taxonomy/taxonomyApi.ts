@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from 'query-string';
 import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
 import { updateResourceMetadata } from './resources';
 import { createDeleteResourceTypes } from './resourcetypes';
@@ -25,10 +24,6 @@ const baseUrl = apiResourceUrl(taxonomyApi);
 
 const { fetchAndResolve } = httpFunctions;
 
-const stringifyQuery = (object: Record<string, any> = {}) => {
-  const stringified = `?${queryString.stringify(object)}`;
-  return stringified === '?' ? '' : stringified;
-};
 interface ResourceTypesGetParams extends WithTaxonomyVersion {
   language: string;
 }
@@ -38,8 +33,9 @@ const fetchResourceTypes = ({
   taxonomyVersion,
 }: ResourceTypesGetParams): Promise<ResourceType[]> => {
   return fetchAndResolve({
-    url: `${baseUrl}/resource-types?${stringifyQuery({ language })}`,
+    url: `${baseUrl}/resource-types`,
     taxonomyVersion,
+    queryParams: { language },
   });
 };
 
@@ -49,8 +45,9 @@ interface ResolveUrlsParams extends WithTaxonomyVersion {
 
 const resolveUrls = ({ path, taxonomyVersion }: ResolveUrlsParams): Promise<ResolvedUrl> => {
   return fetchAndResolve({
-    url: `${baseUrl}/url/resolve${stringifyQuery({ path })}`,
+    url: `${baseUrl}/url/resolve`,
     taxonomyVersion,
+    queryParams: { path },
   });
 };
 

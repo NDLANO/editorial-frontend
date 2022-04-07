@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from 'query-string';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
 import {
@@ -34,11 +33,6 @@ const subjectsUrl = apiResourceUrl(`${taxonomyApi}/subjects`);
 const subjectTopicsUrl = apiResourceUrl(`${taxonomyApi}/subject-topics`);
 const { fetchAndResolve, postAndResolve, putAndResolve, deleteAndResolve } = httpFunctions;
 
-const stringifyQuery = (object: Record<string, any> = {}) => {
-  const stringified = `?${queryString.stringify(object)}`;
-  return stringified === '?' ? '' : stringified;
-};
-
 interface FetchSubjectsParams extends WithTaxonomyVersion {
   language: string;
   metadataFilter?: { key: string; value?: string };
@@ -50,8 +44,11 @@ const fetchSubjects = ({
   metadataFilter,
 }: FetchSubjectsParams): Promise<SubjectType[]> => {
   const { key, value } = metadataFilter ?? {};
-  const query = stringifyQuery({ key, value, language });
-  return fetchAndResolve({ url: `${subjectsUrl}${query}`, taxonomyVersion });
+  return fetchAndResolve({
+    url: subjectsUrl,
+    taxonomyVersion,
+    queryParams: { key, value, language },
+  });
 };
 
 interface FetchSubjectParams extends WithTaxonomyVersion {
@@ -65,7 +62,8 @@ const fetchSubject = ({
   taxonomyVersion,
 }: FetchSubjectParams): Promise<SubjectType> => {
   return fetchAndResolve({
-    url: `${subjectsUrl}/${id}${stringifyQuery({ language })}`,
+    url: `${subjectsUrl}/${id}`,
+    queryParams: { language },
     taxonomyVersion,
   });
 };
@@ -80,8 +78,11 @@ const fetchSubjectTopics = ({
   language,
   taxonomyVersion,
 }: FetchSubjectTopicsParams): Promise<SubjectTopic[]> => {
-  const query = stringifyQuery({ language, recursive: true });
-  return fetchAndResolve({ url: `${subjectsUrl}/${subject}/topics${query}`, taxonomyVersion });
+  return fetchAndResolve({
+    url: `${subjectsUrl}/${subject}/topics`,
+    taxonomyVersion,
+    queryParams: { language, recursive: true },
+  });
 };
 
 interface SubjectPostParams extends WithTaxonomyVersion {

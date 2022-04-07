@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from 'query-string';
 import {
   resolveLocation,
   resolveVoidOrRejectWithError,
@@ -33,17 +32,12 @@ const baseSubjectTopicsUrl = apiResourceUrl(`${taxonomyApi}/subject-topics`);
 
 const { fetchAndResolve, postAndResolve, deleteAndResolve, putAndResolve } = httpFunctions;
 
-const stringifyQuery = (object: Record<string, any> = {}) => {
-  const stringified = `?${queryString.stringify(object)}`;
-  return stringified === '?' ? '' : stringified;
-};
-
 interface TopicsGetParams extends WithTaxonomyVersion {
   language?: string;
 }
 
 const fetchTopics = ({ language, taxonomyVersion }: TopicsGetParams): Promise<Topic[]> => {
-  return fetchAndResolve({ url: `${baseUrl}${stringifyQuery({ language })}`, taxonomyVersion });
+  return fetchAndResolve({ url: baseUrl, taxonomyVersion, queryParams: { language } });
 };
 
 interface TopicGetParams extends WithTaxonomyVersion {
@@ -53,8 +47,9 @@ interface TopicGetParams extends WithTaxonomyVersion {
 
 const fetchTopic = ({ id, language, taxonomyVersion }: TopicGetParams): Promise<Topic> => {
   return fetchAndResolve({
-    url: `${baseUrl}/${id}${stringifyQuery({ language })}`,
+    url: `${baseUrl}/${id}`,
     taxonomyVersion,
+    queryParams: { language },
   });
 };
 
@@ -70,8 +65,9 @@ const fetchTopicResources = ({
   taxonomyVersion,
 }: TopicResourcesGetParams): Promise<ResourceWithTopicConnection[]> => {
   return fetchAndResolve({
-    url: `${baseUrl}/${topicUrn}/resources${stringifyQuery({ language, relevance })}`,
+    url: `${baseUrl}/${topicUrn}/resources`,
     taxonomyVersion,
+    queryParams: { language, relevance },
   });
 };
 

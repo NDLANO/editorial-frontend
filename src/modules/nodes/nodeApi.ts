@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from 'query-string';
 import { taxonomyApi } from '../../config';
 import { WithTaxonomyVersion } from '../../interfaces';
 import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
@@ -38,11 +37,6 @@ const resUrl = apiResourceUrl(`${taxonomyApi}/node-resources`);
 
 const { postAndResolve, fetchAndResolve, putAndResolve, deleteAndResolve } = httpFunctions;
 
-const stringifyQuery = (object: Record<string, any> = {}) => {
-  const stringified = `?${queryString.stringify(object)}`;
-  return stringified === '?' ? '' : stringified;
-};
-
 interface NodeGetParams extends WithTaxonomyVersion {
   id: string;
   language?: string;
@@ -50,18 +44,19 @@ interface NodeGetParams extends WithTaxonomyVersion {
 
 export const fetchNode = ({ id, language, taxonomyVersion }: NodeGetParams): Promise<NodeType> => {
   return fetchAndResolve({
-    url: `${baseUrl}/${id}${stringifyQuery({ language })}`,
+    url: `${baseUrl}/${id}`,
     taxonomyVersion,
+    queryParams: { language },
   });
 };
 
 interface NodesGetParams extends WithTaxonomyVersion, GetNodeParams {}
 
-export const fetchNodes = ({ taxonomyVersion, ...params }: NodesGetParams): Promise<NodeType[]> =>
-  fetchAndResolve({
-    url: `${baseUrl}${stringifyQuery(params)}`,
-    taxonomyVersion,
-  });
+export const fetchNodes = ({
+  taxonomyVersion,
+  ...queryParams
+}: NodesGetParams): Promise<NodeType[]> =>
+  fetchAndResolve({ url: baseUrl, taxonomyVersion, queryParams });
 
 interface NodePostParams extends WithTaxonomyVersion {
   body: NodePostPatchType;
@@ -119,8 +114,9 @@ export const fetchChildNodes = ({
   taxonomyVersion,
 }: ChildNodesGetParams): Promise<ChildNodeType[]> =>
   fetchAndResolve({
-    url: `${baseUrl}/${id}/nodes${stringifyQuery({ recursive, language })}`,
+    url: `${baseUrl}/${id}/nodes`,
     taxonomyVersion,
+    queryParams: { recursive, language },
   });
 
 interface NodeTranslationsGetParams extends WithTaxonomyVersion {
@@ -176,12 +172,9 @@ interface NodeResourcesGetParams extends WithTaxonomyVersion, GetNodeResourcesPa
 export const fetchNodeResources = ({
   id,
   taxonomyVersion,
-  ...params
+  ...queryParams
 }: NodeResourcesGetParams): Promise<ResourceWithNodeConnection[]> => {
-  return fetchAndResolve({
-    url: `${baseUrl}/${id}/resources${stringifyQuery(params)}`,
-    taxonomyVersion,
-  });
+  return fetchAndResolve({ url: `${baseUrl}/${id}/resources`, taxonomyVersion, queryParams });
 };
 
 interface NodeConnectionDeleteParams extends WithTaxonomyVersion {

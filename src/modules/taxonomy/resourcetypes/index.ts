@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from 'query-string';
 import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { sortIntoCreateDeleteUpdate } from '../../../util/taxonomyHelpers';
 import { taxonomyApi } from '../../../config';
@@ -24,11 +23,6 @@ const resourceResourceTypesUrl = apiResourceUrl(`${taxonomyApi}/resource-resourc
 
 const { fetchAndResolve, postAndResolve, deleteAndResolve } = httpFunctions;
 
-const stringifyQuery = (object: Record<string, any> = {}) => {
-  const stringified = `?${queryString.stringify(object)}`;
-  return stringified === '?' ? '' : stringified;
-};
-
 interface ResourceTypesGetParams extends WithTaxonomyVersion {
   language: string;
 }
@@ -37,10 +31,7 @@ const fetchAllResourceTypes = ({
   language,
   taxonomyVersion,
 }: ResourceTypesGetParams): Promise<ResourceType[]> => {
-  return fetchAndResolve({
-    url: `${resourceTypesUrl}${stringifyQuery({ language })}`,
-    taxonomyVersion,
-  });
+  return fetchAndResolve({ url: resourceTypesUrl, taxonomyVersion, queryParams: { language } });
 };
 
 interface ResourceTypeGetParams extends WithTaxonomyVersion {
@@ -54,7 +45,8 @@ const fetchResourceType = ({
   taxonomyVersion,
 }: ResourceTypeGetParams): Promise<ResourceType> => {
   return fetchAndResolve({
-    url: `${resourceTypesUrl}/${id}${stringifyQuery({ language })}`,
+    url: `${resourceTypesUrl}/${id}`,
+    queryParams: { language },
     taxonomyVersion,
   });
 };

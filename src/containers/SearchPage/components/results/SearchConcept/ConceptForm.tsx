@@ -23,6 +23,8 @@ import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers'
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
 import { PUBLISHED, QUALITY_ASSURED } from '../../../../../util/constants/ConceptStatus';
 import { ConceptStatusType } from '../../../../../interfaces';
+import { CONCEPT_ADMIN_SCOPE } from '../../../../../constants';
+import { useSession } from '../../../../Session/SessionProvider';
 
 export interface InlineFormConcept {
   title: string;
@@ -65,6 +67,8 @@ const validate = (values: InlineFormConcept): ErrorsType => {
 
 const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, cancel }: Props) => {
   const { t } = useTranslation();
+  const { userPermissions } = useSession();
+  const canPublish = !!userPermissions?.includes(CONCEPT_ADMIN_SCOPE);
   const { data: licenses } = useLicenses({ placeholderData: [] });
   const licensesWithTranslations = getLicensesWithTranslations(licenses!, language);
   const formik = useFormik<InlineFormConcept>({
@@ -92,6 +96,15 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
     const newStatus = getStatus(value, status);
     onSubmit({ ...values, newStatus });
   };
+
+  const secondaryButtons = canPublish
+    ? [
+        {
+          label: t('form.saveAndPublish'),
+          value: 'saveAndPublish',
+        },
+      ]
+    : [];
 
   return (
     <form>
@@ -181,12 +194,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
           disabled={!hasChanges || Object.keys(errors).length > 0}
           onClick={value => handleClick(value)}
           mainButton={{ value: 'save', label: t(`form.save`) }}
-          secondaryButtons={[
-            {
-              label: t('form.saveAndPublish'),
-              value: 'saveAndPublish',
-            },
-          ]}
+          secondaryButtons={secondaryButtons}
         />
       </div>
     </form>

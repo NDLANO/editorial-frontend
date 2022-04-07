@@ -17,6 +17,7 @@ import { EditModeHandler } from '../SettingsMenuDropdownType';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './components/MenuItemButton';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   node: NodeType;
@@ -40,13 +41,17 @@ const ToggleVisibility = ({
   const { t } = useTranslation();
   const { name, id, metadata } = node;
   const [visible, setVisible] = useState(metadata?.visible);
+  const { taxonomyVersion } = useTaxonomyVersion();
   const { mutateAsync: updateMetadata } = useUpdateNodeMetadataMutation();
 
   const toggleVisibility = async () => {
     await updateMetadata({
-      id,
-      metadata: { grepCodes: metadata.grepCodes, visible: !visible },
-      rootId: rootNodeId !== node.id ? rootNodeId : undefined,
+      params: {
+        id,
+        metadata: { grepCodes: metadata.grepCodes, visible: !visible },
+        rootId: rootNodeId !== node.id ? rootNodeId : undefined,
+      },
+      taxonomyVersion,
     });
     setVisible(!visible);
   };

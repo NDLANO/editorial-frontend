@@ -23,6 +23,7 @@ import { CHILD_NODES_WITH_ARTICLE_TYPE } from '../../../../queryKeys';
 import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
 import { getRootIdForNode, isRootNode } from '../../../../modules/nodes/nodeUtil';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   node: NodeType;
@@ -35,6 +36,7 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
   const updateNodeMetadata = useUpdateNodeMetadataMutation();
   const qc = useQueryClient();
   const rootNodeId = getRootIdForNode(node);
+  const { taxonomyVersion } = useTaxonomyVersion();
   const updateMetadata = async () => {
     const customFields = {
       ...node.metadata.customFields,
@@ -44,9 +46,12 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
     };
     updateNodeMetadata.mutate(
       {
-        id: node.id,
-        metadata: { customFields },
-        rootId: isRootNode(node) ? undefined : rootNodeId,
+        params: {
+          id: node.id,
+          metadata: { customFields },
+          rootId: isRootNode(node) ? undefined : rootNodeId,
+        },
+        taxonomyVersion,
       },
       {
         onSettled: () => {

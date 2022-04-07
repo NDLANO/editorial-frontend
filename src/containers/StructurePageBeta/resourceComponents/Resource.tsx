@@ -41,6 +41,7 @@ import RemoveButton from '../../../components/RemoveButton';
 import { classes } from './ResourceGroup';
 import ResourceItemLink from './ResourceItemLink';
 import GrepCodesModal from './GrepCodesModal';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -120,6 +121,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
   const qc = useQueryClient();
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   const onUpdateConnection = async (id: string, { relevanceId }: NodeConnectionPutType) => {
     const key = [RESOURCES_WITH_NODE_CONNECTION, currentNodeId, { language: i18n.language }];
@@ -137,7 +139,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   };
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
-    onMutate: async ({ id, body }) => onUpdateConnection(id, body),
+    onMutate: async ({ params: { id, body } }) => onUpdateConnection(id, body),
     onSettled: () =>
       qc.invalidateQueries([
         RESOURCES_WITH_NODE_CONNECTION,
@@ -146,7 +148,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
       ]),
   });
   const { mutateAsync: updateResourceConnection } = usePutResourceForNodeMutation({
-    onMutate: async ({ id, body }) => onUpdateConnection(id, body),
+    onMutate: async ({ params: { id, body } }) => onUpdateConnection(id, body),
     onSettled: () =>
       qc.invalidateQueries([
         RESOURCES_WITH_NODE_CONNECTION,
@@ -208,7 +210,10 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
       connectionId.includes('subject-topic') || connectionId.includes('topic-subtopic')
         ? updateNodeConnection
         : updateResourceConnection;
-    await func({ id: connectionId, body: { relevanceId, primary, rank: rank } });
+    await func({
+      params: { id: connectionId, body: { relevanceId, primary, rank: rank } },
+      taxonomyVersion,
+    });
   };
 
   return (

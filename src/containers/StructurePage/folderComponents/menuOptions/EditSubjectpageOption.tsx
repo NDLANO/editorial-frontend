@@ -17,6 +17,7 @@ import { fetchSubject as apiFetchSubject } from '../../../../modules/taxonomy/su
 import { getIdFromUrn } from '../../../../util/subjectHelpers';
 import '../../../../style/link.css';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   id: string;
@@ -25,15 +26,16 @@ interface Props {
 
 const EditSubjectpageOption = ({ id, locale }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [subject, setSubject] = useState<SubjectType>();
 
   useEffect(() => {
     const fetchSubject = async () => {
-      const fetchedSubject = await apiFetchSubject(id);
+      const fetchedSubject = await apiFetchSubject({ id, taxonomyVersion });
       setSubject(fetchedSubject);
     };
     fetchSubject();
-  }, [id]);
+  }, [id, taxonomyVersion]);
 
   const link = subject?.contentUri
     ? toEditSubjectpage(id, locale, getIdFromUrn(subject.contentUri))

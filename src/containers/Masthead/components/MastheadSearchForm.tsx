@@ -23,6 +23,7 @@ import { fetchResource, fetchTopic } from '../../../modules/taxonomy';
 
 import { fetchNewArticleId } from '../../../modules/draft/draftApi';
 import { resolveUrls } from '../../../modules/taxonomy/taxonomyApi';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const formCSS = css`
   display: flex;
@@ -82,6 +83,7 @@ interface Props {
 export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit }: Props) => {
   const [query, setQuery] = useState(initQuery);
   const { t, i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const navigate = useNavigate();
 
   const handleQueryChange = (evt: FormEvent<HTMLInputElement>) => setQuery(evt.currentTarget.value);
@@ -98,7 +100,7 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
   const handleTaxonomyId = async (taxId: string) => {
     const taxonomyFunction = taxId.includes('urn:resource:') ? fetchResource : fetchTopic;
     try {
-      const taxElement = await taxonomyFunction(taxId);
+      const taxElement = await taxonomyFunction({ id: taxId, taxonomyVersion });
       const arr = taxElement.contentUri?.split(':');
       if (arr) {
         const id = arr[arr.length - 1];
@@ -141,7 +143,11 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
 
   const handleTopicUrl = async (urlId: string) => {
     try {
-      const topicArticle = await fetchTopic(urlId, i18n.language);
+      const topicArticle = await fetchTopic({
+        id: urlId,
+        language: i18n.language,
+        taxonomyVersion,
+      });
       const arr = topicArticle.contentUri.split(':');
       const id = arr[arr.length - 1];
       navigate(toEditArticle(parseInt(id), 'topic-article'));

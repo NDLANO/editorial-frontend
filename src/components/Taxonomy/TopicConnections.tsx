@@ -25,6 +25,7 @@ import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 import { getBreadcrumbFromPath } from '../../util/taxonomyHelpers';
 import { LocaleType } from '../../interfaces';
+import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
 
 const StyledTitleModal = styled('h1')`
   color: ${colors.text.primary};
@@ -62,6 +63,7 @@ const TopicConnections = ({
   setRelevance,
 }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [openedPaths, setOpenedPaths] = useState<string[]>([]);
   const [showFavorites, setShowFavorites] = useState(true);
   const [favoriteSubjectIds, setFavoriteSubjectIds] = useState<string[]>([]);
@@ -108,9 +110,9 @@ const TopicConnections = ({
 
   const addTopic = async (id: string | undefined, closeModal: () => void, locale?: LocaleType) => {
     if (id) {
-      const topicToAdd = await fetchTopic(id);
-      const topicConnections = await fetchTopicConnections(topicToAdd.id);
-      const breadcrumb = await getBreadcrumbFromPath(topicToAdd.path, locale);
+      const topicToAdd = await fetchTopic({ id, taxonomyVersion });
+      const topicConnections = await fetchTopicConnections({ id: topicToAdd.id, taxonomyVersion });
+      const breadcrumb = await getBreadcrumbFromPath(topicToAdd.path, taxonomyVersion, locale);
       stageTaxonomyChanges({
         topics: [
           ...activeTopics,

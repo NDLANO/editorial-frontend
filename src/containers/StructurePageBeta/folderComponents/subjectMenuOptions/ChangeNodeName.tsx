@@ -41,6 +41,7 @@ import DeleteButton from '../../../../components/DeleteButton';
 import AddNodeTranslation from './AddNodeTranslation';
 import SaveButton from '../../../../components/SaveButton';
 import UIField from '../../../../components/Field';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 const buttonStyle = css`
   flex-grow: 1;
@@ -97,14 +98,18 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   const [loadError, setLoadError] = useState('');
   const [updateError, setUpdateError] = useState('');
   const [saved, setSaved] = useState(false);
+  const { taxonomyVersion } = useTaxonomyVersion();
   const { id, name } = node;
 
-  const { data: translations, isLoading: loading, refetch } = useNodeTranslations(id, {
-    onError: e => {
-      handleError(e);
-      setLoadError(t('taxonomy.changeName.loadError'));
+  const { data: translations, isLoading: loading, refetch } = useNodeTranslations(
+    { id, taxonomyVersion },
+    {
+      onError: e => {
+        handleError(e);
+        setLoadError(t('taxonomy.changeName.loadError'));
+      },
     },
-  });
+  );
   const { mutateAsync: deleteNodeTranslation } = useDeleteNodeTranslationMutation();
   const { mutateAsync: updateNodeTranslation } = useUpdateNodeTranslationMutation();
   const qc = useQueryClient();
@@ -121,10 +126,13 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
     const toUpdate = Object.entries(newValues).filter(([key, value]) => value !== initial[key]);
 
     const deleteCalls = deleted.map(([, d]) =>
-      deleteNodeTranslation({ subjectId: id, locale: d.language }),
+      deleteNodeTranslation({ params: { subjectId: id, locale: d.language }, taxonomyVersion }),
     );
     const updateCalls = toUpdate.map(([, u]) =>
-      updateNodeTranslation({ id, locale: u.language, newTranslation: { name: u.name } }),
+      updateNodeTranslation({
+        params: { id, locale: u.language, newTranslation: { name: u.name } },
+        taxonomyVersion,
+      }),
     );
     const promises = [...deleteCalls, ...updateCalls];
     try {

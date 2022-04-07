@@ -6,12 +6,7 @@
  *
  */
 
-import queryString from 'query-string';
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-} from '../../../util/apiHelpers';
+import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
 import {
   TaxNameTranslation,
@@ -23,130 +18,206 @@ import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
-import { LocaleType } from '../../../interfaces';
+import { LocaleType, WithTaxonomyVersion } from '../../../interfaces';
 import { useSubject, useSubjects } from './subjectsQueries';
+import {
+  SubjectMetadataPutBody,
+  SubjectNameTranslationPutBody,
+  SubjectPostBody,
+  SubjectPutBody,
+  SubjectTopicPostBody,
+  SubjectTopicPutBody,
+} from './subjectApiInterfaces';
 
-const baseUrl = apiResourceUrl(taxonomyApi);
+const subjectsUrl = apiResourceUrl(`${taxonomyApi}/subjects`);
+const subjectTopicsUrl = apiResourceUrl(`${taxonomyApi}/subject-topics`);
+const { fetchAndResolve, postAndResolve, putAndResolve, deleteAndResolve } = httpFunctions;
 
-const fetchSubjects = (
-  locale: string,
-  metadataFilter?: { key: string; value?: string },
-): Promise<SubjectType[]> => {
-  const query = queryString.stringify({
-    language: locale,
-    key: metadataFilter?.key,
-    value: metadataFilter?.value,
+interface FetchSubjectsParams extends WithTaxonomyVersion {
+  language: string;
+  metadataFilter?: { key: string; value?: string };
+}
+
+const fetchSubjects = ({
+  language,
+  taxonomyVersion,
+  metadataFilter,
+}: FetchSubjectsParams): Promise<SubjectType[]> => {
+  const { key, value } = metadataFilter ?? {};
+  return fetchAndResolve({
+    url: subjectsUrl,
+    taxonomyVersion,
+    queryParams: { key, value, language },
   });
-
-  return fetchAuthorized(`${baseUrl}/subjects?` + query).then(r =>
-    resolveJsonOrRejectWithError<SubjectType[]>(r),
-  );
 };
 
-const fetchSubject = (id: string, language?: string): Promise<SubjectType> => {
-  const lng = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/subjects/${id}${lng}`).then(r =>
-    resolveJsonOrRejectWithError<SubjectType>(r),
-  );
+interface FetchSubjectParams extends WithTaxonomyVersion {
+  id: string;
+  language?: string;
+}
+
+const fetchSubject = ({
+  id,
+  language,
+  taxonomyVersion,
+}: FetchSubjectParams): Promise<SubjectType> => {
+  return fetchAndResolve({
+    url: `${subjectsUrl}/${id}`,
+    queryParams: { language },
+    taxonomyVersion,
+  });
 };
 
-const fetchSubjectTopics = (subject: string, language: string): Promise<SubjectTopic[]> => {
-  return fetchAuthorized(
-    `${baseUrl}/subjects/${subject}/topics?recursive=true&language=${language}`,
-  ).then(r => resolveJsonOrRejectWithError<SubjectTopic[]>(r));
+interface FetchSubjectTopicsParams extends WithTaxonomyVersion {
+  subject: string;
+  language: string;
+}
+
+const fetchSubjectTopics = ({
+  subject,
+  language,
+  taxonomyVersion,
+}: FetchSubjectTopicsParams): Promise<SubjectTopic[]> => {
+  return fetchAndResolve({
+    url: `${subjectsUrl}/${subject}/topics`,
+    taxonomyVersion,
+    queryParams: { language, recursive: true },
+  });
 };
 
-const addSubject = (body: { contentUri?: string; id?: string; name: string }): Promise<string> => {
-  return fetchAuthorized(`${baseUrl}/subjects`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+interface SubjectPostParams extends WithTaxonomyVersion {
+  body: SubjectPostBody;
+}
+
+const addSubject = ({ body, taxonomyVersion }: SubjectPostParams): Promise<string> => {
+  return postAndResolve({
+    url: subjectsUrl,
+    taxonomyVersion,
     body: JSON.stringify(body),
-  }).then(resolveLocation);
+    alternateResolve: resolveLocation,
+  });
 };
 
-const addSubjectTopic = (body: {
-  primary?: boolean;
-  rank?: number;
-  relevanceId?: string;
-  subjectid: string;
-  topicid: string;
-}): Promise<string> => {
-  return fetchAuthorized(`${baseUrl}/subject-topics`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+interface SubjectTopicPostParams extends WithTaxonomyVersion {
+  body: SubjectTopicPostBody;
+}
+
+const addSubjectTopic = ({ body, taxonomyVersion }: SubjectTopicPostParams): Promise<string> => {
+  return postAndResolve({
+    url: subjectTopicsUrl,
+    taxonomyVersion,
     body: JSON.stringify(body),
-  }).then(resolveLocation);
+    alternateResolve: resolveLocation,
+  });
 };
 
-const updateSubjectTopic = (
-  connectionId: string,
-  body: {
-    id?: string;
-    rank?: number;
-    primary?: boolean;
-    relevanceId?: string;
-  },
-): Promise<void> => {
-  return fetchAuthorized(`${baseUrl}/subject-topics/${connectionId}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+interface SubjectTopicPutParams extends WithTaxonomyVersion {
+  connectionId: string;
+  body: SubjectTopicPutBody;
+}
+
+const updateSubjectTopic = ({
+  connectionId,
+  taxonomyVersion,
+  body,
+}: SubjectTopicPutParams): Promise<void> => {
+  return putAndResolve({
+    url: `${subjectTopicsUrl}/${connectionId}`,
+    taxonomyVersion,
     body: JSON.stringify(body),
-  }).then(resolveVoidOrRejectWithError);
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
 };
 
-const updateSubject = (id: string, name?: string, contentUri?: string): Promise<void> => {
-  return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify({ name, contentUri }),
-  }).then(resolveVoidOrRejectWithError);
+interface SubjectPutParams extends WithTaxonomyVersion {
+  id: string;
+  body: SubjectPutBody;
+}
+
+const updateSubject = ({ id, body, taxonomyVersion }: SubjectPutParams): Promise<void> => {
+  return putAndResolve({
+    url: `${subjectsUrl}/${id}`,
+    taxonomyVersion,
+    body: JSON.stringify({ name: body.name, contentUri: body.contentUri }),
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
 };
 
-const deleteSubject = (id: string): Promise<void> => {
-  return fetchAuthorized(`${baseUrl}/subjects/${id}`, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-  }).then(resolveVoidOrRejectWithError);
+interface SubjectDeleteParams extends WithTaxonomyVersion {
+  id: string;
+}
+
+const deleteSubject = ({ id, taxonomyVersion }: SubjectDeleteParams): Promise<void> => {
+  return deleteAndResolve({
+    url: `${subjectsUrl}/${id}`,
+    taxonomyVersion,
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
 };
 
-const updateSubjectMetadata = (
-  subjectId: string,
-  body: {
-    grepCodes?: string[];
-    visible?: boolean;
-    customFields?: Record<string, string>;
-  },
-): Promise<TaxonomyMetadata> => {
-  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/metadata`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+interface SubjectMetadataPutParams extends WithTaxonomyVersion {
+  subjectId: string;
+  body: SubjectMetadataPutBody;
+}
+
+const updateSubjectMetadata = ({
+  subjectId,
+  body,
+  taxonomyVersion,
+}: SubjectMetadataPutParams): Promise<TaxonomyMetadata> => {
+  return putAndResolve({
+    url: `${subjectsUrl}/${subjectId}/metadata`,
+    taxonomyVersion,
     body: JSON.stringify(body),
-  }).then(r => resolveJsonOrRejectWithError<TaxonomyMetadata>(r));
+  });
 };
 
-const fetchSubjectNameTranslations = (subjectId: string): Promise<TaxNameTranslation[]> => {
-  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/translations`).then(r =>
-    resolveJsonOrRejectWithError<TaxNameTranslation[]>(r),
-  );
+interface SubjectNameTranslationsGetParams extends WithTaxonomyVersion {
+  subjectId: string;
+}
+
+const fetchSubjectNameTranslations = ({
+  subjectId,
+  taxonomyVersion,
+}: SubjectNameTranslationsGetParams): Promise<TaxNameTranslation[]> => {
+  return fetchAndResolve({ url: `${subjectsUrl}/${subjectId}/translations`, taxonomyVersion });
 };
 
-const updateSubjectNameTranslation = (
-  subjectId: string,
-  language: LocaleType,
-  name: string,
-): Promise<void> => {
-  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/translations/${language}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-    body: JSON.stringify({ name }),
-  }).then(resolveVoidOrRejectWithError);
+interface SubjectNameTranslationPutParams extends WithTaxonomyVersion {
+  subjectId: string;
+  language: LocaleType;
+  body: SubjectNameTranslationPutBody;
+}
+
+const updateSubjectNameTranslation = ({
+  subjectId,
+  language,
+  body,
+  taxonomyVersion,
+}: SubjectNameTranslationPutParams): Promise<void> => {
+  return putAndResolve({
+    url: `${subjectsUrl}/${subjectId}/translations/${language}`,
+    taxonomyVersion,
+    body: JSON.stringify({ name: body.name }),
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
 };
 
-const deleteSubjectNameTranslation = (subjectId: string, language: LocaleType): Promise<void> => {
-  return fetchAuthorized(`${baseUrl}/subjects/${subjectId}/translations/${language}`, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
-  }).then(resolveVoidOrRejectWithError);
+interface SubjectNameTranslationDeleteParams extends WithTaxonomyVersion {
+  subjectId: string;
+  language: LocaleType;
+}
+
+const deleteSubjectNameTranslation = ({
+  subjectId,
+  language,
+  taxonomyVersion,
+}: SubjectNameTranslationDeleteParams): Promise<void> => {
+  return deleteAndResolve({
+    url: `${subjectsUrl}/${subjectId}/translations/${language}`,
+    taxonomyVersion,
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
 };
 
 export {

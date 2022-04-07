@@ -21,6 +21,7 @@ import { StyledErrorMessage } from '../styles';
 import { SubjectTopic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 import { EditMode } from '../../../../interfaces';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   id: string;
@@ -32,6 +33,7 @@ interface Props {
 
 const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode, getAllSubjects }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [subjectTopics, setSubjectTopics] = useState<SubjectTopic[] | undefined>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -40,18 +42,22 @@ const DeleteSubjectOption = ({ id, locale, editMode, toggleEditMode, getAllSubje
 
   useEffect(() => {
     const fetchSubject = async () => {
-      const fetchedSubjectTopics = await fetchSubjectTopics(id, locale);
+      const fetchedSubjectTopics = await fetchSubjectTopics({
+        subject: id,
+        language: locale,
+        taxonomyVersion,
+      });
       setSubjectTopics(fetchedSubjectTopics);
     };
     fetchSubject();
-  }, [id, locale]);
+  }, [id, locale, taxonomyVersion]);
 
   const onDeleteSubject = async () => {
     toggleEditMode('deleteTopic');
     setLoading(true);
     setError('');
     try {
-      await deleteSubject(id);
+      await deleteSubject({ id, taxonomyVersion });
       getAllSubjects();
       setLoading(false);
     } catch (err) {

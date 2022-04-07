@@ -23,6 +23,7 @@ import Spinner from '../../../components/Spinner';
 import { TopicResource } from './StructureResources';
 import { classes } from './ResourceGroup';
 import { LocaleType } from '../../../interfaces';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledResourceItems = styled.ul`
   list-style: none;
@@ -53,12 +54,13 @@ const ResourceItems = ({
   const [deleteId, setDeleteId] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   const onDelete = async (deleteId: string) => {
     try {
       setDeleteId('');
       setError('');
-      await deleteTopicResource(deleteId);
+      await deleteTopicResource({ id: deleteId, taxonomyVersion });
       onDeleteResource(deleteId);
     } catch (e) {
       handleError(e);
@@ -84,10 +86,14 @@ const ResourceItems = ({
       }
 
       setLoading(true);
-      await updateTopicResource(connectionId, {
-        primary,
-        rank: currentRank > rank ? rank : rank + 1,
-        relevanceId,
+      await updateTopicResource({
+        id: connectionId,
+        body: {
+          primary,
+          rank: currentRank > rank ? rank : rank + 1,
+          relevanceId,
+        },
+        taxonomyVersion,
       });
       await refreshResources();
     } catch (e) {
@@ -111,13 +117,13 @@ const ResourceItems = ({
     const [, connectionType] = connectionId.split(':');
     switch (connectionType) {
       case 'topic-resource':
-        updateTopicResource(connectionId, body);
+        updateTopicResource({ id: connectionId, body, taxonomyVersion });
         break;
       case 'topic-subtopic':
-        updateTopicSubtopic(connectionId, body);
+        updateTopicSubtopic({ connectionId, body, taxonomyVersion });
         break;
       case 'subject-topic':
-        updateSubjectTopic(connectionId, { ...body, rank: body.rank! });
+        updateSubjectTopic({ connectionId, body: { ...body, rank: body.rank! }, taxonomyVersion });
         break;
       default:
         return;

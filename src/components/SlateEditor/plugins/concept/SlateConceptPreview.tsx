@@ -68,15 +68,17 @@ const SlateConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
           },
         };
       case 'external':
+      case 'iframe':
         return {
           resource: embed.resource,
           url: embed.url ?? '',
           title: embed.title,
         };
       case 'brightcove':
+        const videoUrl = `https://players.brightcove.net/${embed.account}/${embed.player}_default/index.html?videoId=${embed.videoid}`;
         return {
           resource: embed.resource,
-          url: embed.url ?? '',
+          url: videoUrl,
           title: embed.title,
         };
 

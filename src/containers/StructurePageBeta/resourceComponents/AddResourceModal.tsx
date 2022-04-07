@@ -35,6 +35,7 @@ import { getArticle } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
 import { usePostResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
 import { RESOURCES_WITH_NODE_CONNECTION } from '../../../queryKeys';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -99,6 +100,7 @@ const AddResourceModal = ({
   const [selectedType, setSelectedType] = useState(type);
   const [pastedUrl, setPastedUrl] = useState('');
   const qc = useQueryClient();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
     onSuccess: _ => {
       qc.invalidateQueries([RESOURCES_WITH_NODE_CONNECTION, nodeId, { language: i18n.language }]);
@@ -138,7 +140,7 @@ const AddResourceModal = ({
       return;
     }
 
-    await createNodeResource({ body: { resourceId, nodeId } })
+    await createNodeResource({ params: { body: { resourceId, nodeId } }, taxonomyVersion })
       .then(_ => onClose())
       .catch(err => setError('taxonomy.resource.creationFailed'));
     setLoading(false);
@@ -147,7 +149,7 @@ const AddResourceModal = ({
   const findResourceIdLearningPath = async (learningpathId: number) => {
     await updateLearningPathTaxonomy(learningpathId, true);
     try {
-      const resource = await queryLearningPathResource(learningpathId);
+      const resource = await queryLearningPathResource({ learningpathId, taxonomyVersion });
       if (resource.length > 0) {
         return resource[0].id;
       } else throw Error(`Could not find resource after updating for ${learningpathId}`);
@@ -170,8 +172,8 @@ const AddResourceModal = ({
     }
     try {
       const [resource, resourceType] = await Promise.all([
-        fetchResource(resourceId),
-        fetchResourceResourceType(resourceId),
+        fetchResource({ id: resourceId, taxonomyVersion }),
+        fetchResourceResourceType({ id: resourceId, taxonomyVersion }),
       ]);
       const pastedType = resourceType.length > 0 && resourceType[0].id;
       const typeError =

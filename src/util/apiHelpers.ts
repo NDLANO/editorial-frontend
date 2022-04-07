@@ -32,6 +32,7 @@ export const formatErrorMessage = (error: {
 export interface HttpHeadersType {
   'Content-Type': string;
   Authorization: string;
+  VersionHash: string;
 }
 
 export interface FetchConfigType {
@@ -71,6 +72,7 @@ export const fetchWithAuthorization = async (
   const headers: HeadersInit = {
     ...extraHeaders,
     ...cacheControl,
+    VersionHash: config.headers?.VersionHash ?? 'default',
     Authorization: `Bearer ${getAccessToken()}`,
   };
 
@@ -85,19 +87,33 @@ const defaultHeaders = { 'Content-Type': 'application/json' };
 interface DoAndResolveType<Type> extends FetchConfigType {
   url: string;
   alternateResolve?: (res: Response) => Promise<Type>;
+  taxonomyVersion: string;
 }
 
 interface HttpConfig<T> extends Omit<DoAndResolveType<T>, 'method'> {}
+
+interface FetchConfig<T> extends HttpConfig<T> {
+  queryParams?: Record<string, any>;
+}
 
 const httpResolve = <Type>({
   url,
   headers,
   alternateResolve,
+  taxonomyVersion,
   ...config
 }: DoAndResolveType<Type>): Promise<Type> => {
-  return fetchAuthorized(url, { ...config, headers: { ...defaultHeaders, ...headers } }).then(r => {
+  return fetchAuthorized(url, {
+    ...config,
+    headers: { ...defaultHeaders, VersionHash: taxonomyVersion, ...headers },
+  }).then(r => {
     return alternateResolve?.(r) ?? resolveJsonOrRejectWithError(r);
   });
+};
+
+const stringifyQuery = (object: Record<string, any> = {}) => {
+  const stringified = `?${queryString.stringify(object)}`;
+  return stringified === '?' ? '' : stringified;
 };
 
 export const httpFunctions = {
@@ -105,7 +121,12 @@ export const httpFunctions = {
   putAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'PUT' }),
   patchAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'PATCH' }),
   deleteAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'DELETE' }),
-  fetchAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'GET' }),
+  fetchAndResolve: <T>(conf: FetchConfig<T>) =>
+    httpResolve<T>({
+      ...conf,
+      method: 'GET',
+      url: `${conf.url}${stringifyQuery(conf.queryParams)}`,
+    }),
 };
 
 export const fetchAuthorized = (url: string, config: FetchConfigType = {}) =>

@@ -19,7 +19,7 @@ describe('Subject editing', () => {
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute(
       'GET',
-      `${taxonomyApi}/subjects/${selectSubject}/topics?recursive=true&language=nb`,
+      `${taxonomyApi}/subjects/${selectSubject}/topics?language=nb&recursive=true`,
       'allSubjectTopics',
     );
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');

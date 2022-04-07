@@ -19,6 +19,7 @@ import RoundIcon from '../../../components/RoundIcon';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import { TaxonomyMetadata } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { updateTopicMetadata } from '../../../modules/taxonomy/topics';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   topicId: string;
@@ -36,6 +37,7 @@ const GroupTopicResources = ({
   hideIcon,
 }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const updateMetadata = async () => {
     const customFields = {
       ...metadata.customFields,
@@ -43,7 +45,11 @@ const GroupTopicResources = ({
         ? TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE
         : TAXONOMY_CUSTOM_FIELD_GROUPED_RESOURCE,
     };
-    const response = await updateTopicMetadata(topicId, { customFields });
+    const response = await updateTopicMetadata({
+      topicId,
+      body: { customFields },
+      taxonomyVersion,
+    });
     updateLocalTopics(topicId, {
       metadata: { ...metadata, customFields: response.customFields },
     });

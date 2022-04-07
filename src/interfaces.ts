@@ -195,3 +195,8 @@ export interface ReturnType<TType, TReturnType> {
   type: TType;
   value: TReturnType;
 }
+
+export interface TaxonomyParameters<T> {
+  taxonomyVersion: string;
+  params: T;
+}

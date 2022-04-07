@@ -32,6 +32,7 @@ export const formatErrorMessage = (error: {
 export interface HttpHeadersType {
   'Content-Type': string;
   Authorization: string;
+  VersionHash: string;
 }
 
 export interface FetchConfigType {
@@ -71,6 +72,7 @@ export const fetchWithAuthorization = async (
   const headers: HeadersInit = {
     ...extraHeaders,
     ...cacheControl,
+    VersionHash: config.headers?.VersionHash ?? 'default',
     Authorization: `Bearer ${getAccessToken()}`,
   };
 
@@ -85,6 +87,7 @@ const defaultHeaders = { 'Content-Type': 'application/json' };
 interface DoAndResolveType<Type> extends FetchConfigType {
   url: string;
   alternateResolve?: (res: Response) => Promise<Type>;
+  taxonomyVersion: string;
 }
 
 interface HttpConfig<T> extends Omit<DoAndResolveType<T>, 'method'> {}
@@ -93,9 +96,13 @@ const httpResolve = <Type>({
   url,
   headers,
   alternateResolve,
+  taxonomyVersion,
   ...config
 }: DoAndResolveType<Type>): Promise<Type> => {
-  return fetchAuthorized(url, { ...config, headers: { ...defaultHeaders, ...headers } }).then(r => {
+  return fetchAuthorized(url, {
+    ...config,
+    headers: { ...defaultHeaders, VersionHash: taxonomyVersion, ...headers },
+  }).then(r => {
     return alternateResolve?.(r) ?? resolveJsonOrRejectWithError(r);
   });
 };

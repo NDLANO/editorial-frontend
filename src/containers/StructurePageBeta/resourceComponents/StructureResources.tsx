@@ -25,6 +25,7 @@ import AllResourcesGroup from './AllResourcesGroup';
 import ResourceGroup from './ResourceGroup';
 import { groupSortResourceTypesFromNodeResources } from '../../../util/taxonomyHelpers';
 import GroupTopicResources from '../folderComponents/topicMenuOptions/GroupTopicResources';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledDiv = styled('div')`
@@ -53,11 +54,13 @@ const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection 
 
 const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChanged }: Props) => {
   const { t, i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
 
   const { data: nodeResources } = useResourcesWithNodeConnection(
     currentChildNode.id,
     { language: i18n.language },
+    taxonomyVersion,
     {
       select: resources => resources.map(r => (r.resourceTypes.length > 0 ? r : withMissing(r))),
       onError: e => handleError(e),

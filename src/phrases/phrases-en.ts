@@ -1131,7 +1131,7 @@ const phrases = {
     minItems: '{{label}} must have at least one {{labelLowerCase}}.',
     minItems_plural: '{{label}} must have at least {{count}} unique {{labelLowerCase}}.',
     noEmptyNote: 'A note cannot be empty',
-    noEmptyRevision: 'A revision description cannot be empty',
+    noEmptyRevision: 'A description cannot be empty',
     noLicenseWithoutCopyrightHolder:
       'A license cannot be added without providing at least one copyright holder.',
     maxSizeExceeded:

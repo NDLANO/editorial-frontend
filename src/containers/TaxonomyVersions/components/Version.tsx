@@ -22,6 +22,7 @@ import { useDeleteVersionMutation } from '../../../modules/taxonomy/versions/ver
 import { VERSIONS } from '../../../queryKeys';
 import AlertModal from '../../../components/AlertModal';
 import { StyledErrorMessage } from '../../StructurePage/folderComponents/styles';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   version: VersionType;
@@ -87,17 +88,18 @@ const iconCss = css`
 
 const Version = ({ version }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
   const qc = useQueryClient();
 
   const deleteVersionMutation = useDeleteVersionMutation({
-    onMutate: async data => {
+    onMutate: async ({ id }) => {
       setError(undefined);
       await qc.cancelQueries([VERSIONS]);
       const existingVersions = qc.getQueryData<VersionType[]>([VERSIONS]) ?? [];
-      const withoutDeleted = existingVersions.filter(version => version.id !== data.id);
+      const withoutDeleted = existingVersions.filter(version => version.id !== id);
       qc.setQueryData<VersionType[]>([VERSIONS], withoutDeleted);
     },
     onSuccess: () => qc.invalidateQueries([VERSIONS]),
@@ -105,7 +107,7 @@ const Version = ({ version }: Props) => {
   });
 
   const onDelete = async () => {
-    await deleteVersionMutation.mutateAsync({ id: version.id });
+    await deleteVersionMutation.mutateAsync({ id: version.id, taxonomyVersion });
   };
 
   const deleteTooltip = version.locked

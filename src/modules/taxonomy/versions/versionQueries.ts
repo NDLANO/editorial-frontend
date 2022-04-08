@@ -7,17 +7,30 @@
  */
 
 import { useQuery, UseQueryOptions } from 'react-query';
+import { WithTaxonomyVersion } from '../../../interfaces';
 import { VERSION, VERSIONS } from '../../../queryKeys';
 import { fetchVersion, fetchVersions } from './versionApi';
 import { GetVersionsParams, VersionType } from './versionApiTypes';
 
+interface UseVersionsParams extends WithTaxonomyVersion, GetVersionsParams {}
 export const useVersions = (
-  params?: GetVersionsParams,
+  { taxonomyVersion, ...params }: UseVersionsParams,
   options?: UseQueryOptions<VersionType[]>,
 ) => {
-  return useQuery<VersionType[]>([VERSIONS, params], () => fetchVersions(params), options);
+  return useQuery<VersionType[]>(
+    [VERSIONS, params],
+    () => fetchVersions({ ...params, taxonomyVersion }),
+    options,
+  );
 };
 
-export const useVersion = (id: string, options?: UseQueryOptions<VersionType>) => {
-  return useQuery<VersionType>([VERSION, id], () => fetchVersion(id), options);
+interface UseVersionParams extends WithTaxonomyVersion {
+  id: string;
+}
+
+export const useVersion = (
+  { id, taxonomyVersion }: UseVersionParams,
+  options?: UseQueryOptions<VersionType>,
+) => {
+  return useQuery<VersionType>([VERSION, id], () => fetchVersion({ id, taxonomyVersion }), options);
 };

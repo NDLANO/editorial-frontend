@@ -111,7 +111,7 @@ const httpResolve = <Type>({
   });
 };
 
-const stringifyQuery = (object: Record<string, any> = {}) => {
+export const stringifyQuery = (object: Record<string, any> = {}) => {
   const stringified = `?${queryString.stringify(object)}`;
   return stringified === '?' ? '' : stringified;
 };

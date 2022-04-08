@@ -98,15 +98,15 @@ const actions: Action[] = [
     helpIcon: renderArticleInModal('CodeBlock'),
   },
   {
-    data: { type: 'concept-list', object: 'conceptList' },
-    icon: <Concept />,
-    helpIcon: renderArticleInModal('ConceptList'),
-  },
-  {
     data: { type: TYPE_CONCEPT_BLOCK, object: 'concept' },
     icon: <Concept />,
     helpIcon: renderArticleInModal('Concept'),
     requiredScope: DRAFT_ADMIN_SCOPE,
+  },
+  {
+    data: { type: 'concept-list', object: 'conceptList' },
+    icon: <Concept />,
+    helpIcon: renderArticleInModal('ConceptList'),
   },
 ];
 

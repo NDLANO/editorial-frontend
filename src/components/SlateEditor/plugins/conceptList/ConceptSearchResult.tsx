@@ -122,7 +122,7 @@ const ConceptSearchResult = ({ tag, language, showResultCount }: Props) => {
             <div>{`${t('searchPage.totalCount')}: ${resultCount}`}</div>
           )}
           {concepts.map(concept => {
-            return <ConceptNotion concept={concept} disableScripts={true}></ConceptNotion>;
+            return <ConceptNotion concept={concept} disableScripts={true} />;
           })}
         </>
       )}

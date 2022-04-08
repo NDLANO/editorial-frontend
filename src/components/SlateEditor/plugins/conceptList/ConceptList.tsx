@@ -1,9 +1,14 @@
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
+import { Pencil } from '@ndla/icons/lib/action';
+import { DeleteForever } from '@ndla/icons/lib/editor';
+import Tooltip from '@ndla/tooltip';
 import { ReactNode, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor, Transforms } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
 import { ConceptListElement } from '.';
+import IconButton from '../../../IconButton';
 import ConceptSearchResult from './ConceptSearchResult';
 import ConceptTagPicker from './ConceptTagPicker';
 
@@ -16,6 +21,7 @@ interface Props {
 }
 
 const StyledWrapper = styled.div<{ isSelected: boolean }>`
+  position: relative;
   padding: 5px;
   border: ${p =>
     p.isSelected ? `2px solid ${colors.brand.primary}` : `2px dashed ${colors.brand.greyLighter}`};
@@ -25,9 +31,18 @@ const StyledHeader = styled.h2`
   margin-bottom: 0;
 `;
 
+const ButtonContainer = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-left: 5px;
+  transform: translateX(100%);
+`;
+
 const ConceptList = ({ element, language, editor, attributes, children }: Props) => {
   const [editMode, setEditMode] = useState<boolean>(!!element.isFirstEdit);
   const isSelected = useSelected();
+  const { t } = useTranslation();
   const onClose = () => {
     ReactEditor.focus(editor);
     if (element.isFirstEdit) {
@@ -36,16 +51,36 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
     setEditMode(false);
   };
 
+  const onRemoveClick = () => {
+    Transforms.removeNodes(editor, { at: [], match: node => element === node });
+  };
+
+  const onEditClick = () => {
+    setEditMode(true);
+  };
+
   const { tag, title } = element.data;
 
   return (
     <>
       <StyledWrapper {...attributes} contentEditable={false} isSelected={isSelected}>
+        <ButtonContainer>
+          <Tooltip tooltip={t('form.remove')} align="right">
+            <IconButton color="red" type="button" onClick={onRemoveClick} tabIndex={-1}>
+              <DeleteForever />
+            </IconButton>
+          </Tooltip>
+          <Tooltip tooltip={t('form.edit')} align="right">
+            <IconButton type="button" onClick={onEditClick} tabIndex={-1}>
+              <Pencil />
+            </IconButton>
+          </Tooltip>
+        </ButtonContainer>
         {title && <StyledHeader>{title}</StyledHeader>}
         {tag && <ConceptSearchResult tag={tag} language={language} />}
         {children}
       </StyledWrapper>
-      <ConceptTagPicker element={element} isOpen={editMode} onClose={onClose} language={language} />
+      {editMode && <ConceptTagPicker element={element} onClose={onClose} language={language} />}
     </>
   );
 };

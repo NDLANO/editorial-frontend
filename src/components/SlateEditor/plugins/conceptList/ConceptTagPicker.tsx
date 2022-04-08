@@ -24,17 +24,16 @@ const StyledButton = styled(Button)`
 `;
 
 interface Props {
-  isOpen: boolean;
   element: ConceptListElement;
   onClose: () => void;
   language: string;
 }
 
-const ConceptTagPicker = ({ isOpen, element, onClose, language }: Props) => {
+const ConceptTagPicker = ({ element, onClose, language }: Props) => {
   const { t } = useTranslation();
-  const [selectedTag, setSelectedTag] = useState<string>();
+  const [selectedTag, setSelectedTag] = useState<string | undefined>(element.data.tag);
   const [searchInput, setSearchInput] = useState('');
-  const [titleInput, setTitleInput] = useState('');
+  const [titleInput, setTitleInput] = useState(element.data.title || '');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
 
@@ -118,7 +117,7 @@ const ConceptTagPicker = ({ isOpen, element, onClose, language }: Props) => {
     <Portal isOpened>
       <Modal
         controllable
-        isOpen={isOpen}
+        isOpen
         onClose={onClose}
         size="large"
         backgroundColor="white"

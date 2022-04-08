@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { ConceptNotion, Spinner } from '@ndla/ui';
 import { spacing } from '@ndla/core';
 import { ConceptNotionType } from '@ndla/ui/lib/Notion/ConceptNotion';
+import { isNumber } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import config from '../../../../config';
@@ -22,7 +23,7 @@ interface ConceptQuery {
 }
 
 const StyledContentWrapper = styled.div`
-  & figure:first-of-type {
+  & > figure:first-of-type {
     margin-top: ${spacing.medium};
   }
 `;
@@ -117,7 +118,9 @@ const ConceptSearchResult = ({ tag, language, showResultCount }: Props) => {
         <Spinner />
       ) : (
         <>
-          {showResultCount && <div>{`${t('searchPage.totalCount')}: ${resultCount}`}</div>}
+          {showResultCount && isNumber(resultCount) && (
+            <div>{`${t('searchPage.totalCount')}: ${resultCount}`}</div>
+          )}
           {concepts.map(concept => {
             return <ConceptNotion concept={concept} disableScripts={true}></ConceptNotion>;
           })}

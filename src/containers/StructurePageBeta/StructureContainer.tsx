@@ -100,7 +100,11 @@ const StructureContainer = () => {
 
   const addNode = async (name: string) => {
     await addNodeMutation.mutateAsync({
-      params: { name, nodeType: 'SUBJECT', root: true },
+      body: {
+        name,
+        nodeType: 'SUBJECT',
+        root: true,
+      },
       taxonomyVersion,
     });
   };

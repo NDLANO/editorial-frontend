@@ -6,11 +6,17 @@
  *
  */
 
-import { ReactNode, MouseEvent } from 'react';
+import { ReactNode, MouseEvent, HTMLProps } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
+import { css } from '@emotion/react';
 
-export const StyledButton = styled.button<{ color?: keyof typeof colors.support }>`
+interface StyledButtonProps {
+  color?: keyof typeof colors.support;
+  isDisabled?: boolean;
+}
+
+export const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,18 +51,21 @@ export const StyledButton = styled.button<{ color?: keyof typeof colors.support 
     transition: all 200ms ease;
   }
 
-  &:hover,
-  &:focus {
-    color: ${({ color }) => (color ? `${colors.support[color]}` : colors.brand.primary)};
-
-    &::before {
-      transform: scale(1.25);
-      opacity: 1;
-    }
-  }
+  ${props =>
+    !props.isDisabled &&
+    css`
+      &:hover,
+      &:focus {
+        color: ${props.color ? colors.support[props.color] : colors.brand.primary};
+        &::before {
+          transform: scale(1.25);
+          opacity: 1;
+        }
+      }
+    `}
 `;
 
-interface Props {
+interface Props extends Omit<HTMLProps<HTMLButtonElement>, 'as'> {
   as?: ReactNode;
   to?: string;
   target?: string;
@@ -67,6 +76,7 @@ interface Props {
   children: ReactNode;
   color?: 'red' | 'green';
   tag?: string | ReactNode;
+  isDisabled?: boolean;
 }
 
 export const IconButton = ({ children, tag = 'button', ...rest }: Props) => (

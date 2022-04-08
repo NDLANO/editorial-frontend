@@ -24,8 +24,6 @@ import { ConceptStatusStateMachineType } from '../../interfaces';
 
 const draftConceptUrl: string = apiResourceUrl('/concept-api/v1/drafts');
 
-const publishedConceptUrl: string = apiResourceUrl('/concept-api/v1/concepts');
-
 export const fetchSearchTags = async (
   input: string,
   language: string,
@@ -85,10 +83,5 @@ export const updateConceptStatus = async (id: number, status: string): Promise<I
 
 export const searchConcepts = async (query: ConceptQuery): Promise<IConceptSearchResult> =>
   fetchAuthorized(`${draftConceptUrl}/?${queryString.stringify(query)}`).then(r =>
-    resolveJsonOrRejectWithError<IConceptSearchResult>(r),
-  );
-
-export const searchPublishedConcepts = async (query: ConceptQuery): Promise<IConceptSearchResult> =>
-  fetch(`${publishedConceptUrl}/?${queryString.stringify(query)}`).then(r =>
     resolveJsonOrRejectWithError<IConceptSearchResult>(r),
   );

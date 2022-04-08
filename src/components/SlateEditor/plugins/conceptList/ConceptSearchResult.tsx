@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import config from '../../../../config';
 import { Embed } from '../../../../interfaces';
-import { searchPublishedConcepts } from '../../../../modules/concept/conceptApi';
+import { searchConcepts } from '../../../../modules/concept/conceptApi';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 
 interface Props {
@@ -69,7 +69,7 @@ const ConceptSearchResult = ({ tag, language, showResultCount }: Props) => {
   const { t } = useTranslation();
 
   const search = async (query: ConceptQuery) => {
-    searchPublishedConcepts(query)
+    searchConcepts(query)
       .then(data => {
         const { results, totalCount } = data;
         const parsedConcepts = results.map(concept => {

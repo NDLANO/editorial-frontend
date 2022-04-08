@@ -1343,8 +1343,8 @@ const phrases = {
   },
   taxonomyVersions: {
     title: 'Taksonomiversjoner',
-    publishedVersion: 'Publisert Versjon',
-    otherVersions: 'Øvrige Versjoner',
+    publishedVersion: 'Publisert versjon',
+    otherVersions: 'Øvrige versjoner',
     deleteLocked: 'Denne versjonen kan ikke slettes fordi den er låst',
     deletePublished: 'Denne versjonen kan ikke slettes fordi den er publisert',
     delete: 'Slett versjon',
@@ -1357,11 +1357,11 @@ const phrases = {
     about:
       'Denne siden brukes til å se på og administrere taksonomiversjoner. Vær varsom: Å publisere en ny taksonomiversjon vil føre til at alt innhold i den vil være umiddelbart tilgjengelig for sluttbrukere på ndla.no',
     noPublished:
-      'Det finnes ingen publisert versjon. Standardversjonen av taksonomi vil tas i bruk inntil en versjon blir publisert',
+      'Det finnes ingen publisert versjon. Standard-versjonen av taksonomi brukes inntil en versjon blir publisert',
     editVersionTooltip: 'Rediger versjon',
-    newVersionTitle: 'Opprett Ny Versjon',
-    newVersionButton: 'Ny Versjon',
-    editVersionTitle: 'Rediger Versjon',
+    newVersionTitle: 'Opprett ny versjon',
+    newVersionButton: 'Ny versjon',
+    editVersionTitle: 'Rediger versjon',
     publishButton: 'Publiser',
     publishWarning:
       'Er du sikker på at du ønsker å publisere denne versjonen? Den nåværende versjonen vil bli arkivert, og alle nye endringer i denne versjonen vil umiddelbart være tilgjengelige på ndla.no',

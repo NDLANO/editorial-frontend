@@ -16,6 +16,7 @@ import handleError from '../../../util/handleError';
 import { SubjectTopic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { LocaleType } from '../../../interfaces';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledContent = styled.div`
   width: 100%;
@@ -38,6 +39,7 @@ interface Props {
 
 const AddArticleModal = ({ locale, toggleAddModal, refreshTopics, currentTopic }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const onArticleSearch = async (input: string): Promise<ISearchResultV2> => {
     try {
       const results = await searchRelatedArticles(input, locale as LocaleType, 'topic-article');
@@ -58,8 +60,11 @@ const AddArticleModal = ({ locale, toggleAddModal, refreshTopics, currentTopic }
     try {
       await updateTopic({
         id: currentTopic.id,
-        name: currentTopic.name,
-        contentUri: `urn:article:${article.id}`,
+        body: {
+          name: currentTopic.name,
+          contentUri: `urn:article:${article.id}`,
+        },
+        taxonomyVersion,
       });
       await refreshTopics();
       toggleAddModal();

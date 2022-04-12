@@ -21,6 +21,9 @@ import { defaultBodyboxBlock } from '../bodybox/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
 import { TYPE_LIST_ITEM } from '../list/types';
+import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
+import { defaultConceptBlock } from '../concept/block/utils';
+import { useSession } from '../../../../containers/Session/SessionProvider';
 
 interface Props {
   editor: Editor;
@@ -53,6 +56,7 @@ const SlateBlockPicker = ({
   const [visualElementPickerOpen, setVisualElementPickerOpen] = useState(false);
   const [type, setType] = useState('');
 
+  const { userPermissions } = useSession();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -119,9 +123,12 @@ const SlateBlockPicker = ({
         onInsertBlock(defaultCodeblockBlock());
         break;
       }
+      case TYPE_CONCEPT_BLOCK: {
+        onInsertBlock(defaultConceptBlock());
+        break;
+      }
       default:
         setBlockPickerOpen(false);
-
         break;
     }
   };
@@ -167,7 +174,7 @@ const SlateBlockPicker = ({
     for (const entry of nodes) {
       const [node] = entry;
       if (!Element.isElement(node)) return actions;
-      if (node.type === 'section' /*|| node.type === 'document'*/) {
+      if (node.type === 'section') {
         return actions;
       }
       if (actionsToShowInAreas[node.type]) {
@@ -201,10 +208,14 @@ const SlateBlockPicker = ({
             cy="slate-block-picker"
             isOpen={blockPickerOpen}
             heading={t('editorBlockpicker.heading')}
-            actions={getActionsForArea().map(action => ({
-              ...action,
-              label: t(`editorBlockpicker.actions.${action.data.object}`),
-            }))}
+            actions={getActionsForArea()
+              .filter(action => {
+                return !action.requiredScope || userPermissions?.includes(action.requiredScope);
+              })
+              .map(action => ({
+                ...action,
+                label: t(`editorBlockpicker.actions.${action.data.object}`),
+              }))}
             onToggleOpen={setBlockPickerOpen}
             clickItem={(data: ActionData) => {
               onElementAdd(data);

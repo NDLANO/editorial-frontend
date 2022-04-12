@@ -4,23 +4,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { MutableRefObject } from 'react';
+import { memo, MutableRefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DropResult } from 'react-beautiful-dnd';
 import { useQueryClient } from 'react-query';
-import { partition, sortBy } from 'lodash';
+import { isEqual, partition, sortBy } from 'lodash';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import { useChildNodesWithArticleType } from '../../modules/nodes/nodeQueries';
 import { groupChildNodes } from '../../util/taxonomyHelpers';
 import { CHILD_NODES_WITH_ARTICLE_TYPE } from '../../queryKeys';
 import NodeItem, { RenderBeforeFunction } from './NodeItem';
 import { useUpdateNodeConnectionMutation } from '../../modules/nodes/nodeMutations';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   node: NodeType;
   toggleOpen: (path: string) => void;
   openedPaths: string[];
-  favoriteNodeIds?: string[];
+  isFavorite: boolean;
   toggleFavorite: () => void;
   onChildNodeSelected: (node?: ChildNodeType) => void;
   resourceSectionRef: MutableRefObject<HTMLDivElement | null>;
@@ -29,7 +30,7 @@ interface Props {
 }
 
 const RootNode = ({
-  favoriteNodeIds,
+  isFavorite,
   node,
   openedPaths,
   toggleOpen,
@@ -40,11 +41,15 @@ const RootNode = ({
   renderBeforeTitle,
 }: Props) => {
   const { i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
-  const childNodesQuery = useChildNodesWithArticleType(node.id, locale, {
-    enabled: openedPaths[0] === node.id,
-    select: childNodes => groupChildNodes(childNodes),
-  });
+  const childNodesQuery = useChildNodesWithArticleType(
+    { id: node.id, language: locale, taxonomyVersion },
+    {
+      enabled: openedPaths[0] === node.id,
+      select: childNodes => groupChildNodes(childNodes),
+    },
+  );
 
   const qc = useQueryClient();
 
@@ -61,7 +66,7 @@ const RootNode = ({
   };
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
-    onMutate: data => onUpdateRank(data.id, data.body.rank!),
+    onMutate: ({ id, body }) => onUpdateRank(id, body.rank!),
     onSettled: () => qc.invalidateQueries([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale]),
   });
 
@@ -72,7 +77,11 @@ const RootNode = ({
     const destinationRank = nodes[destination.index].rank;
     if (currentRank === destinationRank) return;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
-    await updateNodeConnection({ id: draggableId, body: { rank: newRank } });
+    await updateNodeConnection({
+      id: draggableId,
+      body: { rank: newRank },
+      taxonomyVersion,
+    });
   };
 
   return (
@@ -93,10 +102,25 @@ const RootNode = ({
       parentActive={true}
       allRootNodes={allRootNodes}
       isRoot={true}
-      favoriteNodeIds={favoriteNodeIds}
+      isFavorite={isFavorite}
       isLoading={childNodesQuery.isLoading}
     />
   );
 };
 
-export default RootNode;
+const propsAreEqual = (prevProps: Props, props: Props) => {
+  const isInPath = props.openedPaths[0] === props.node.id;
+  const noLongerInPath = prevProps.openedPaths[0] === prevProps.node.id && !isInPath;
+  if (isInPath) {
+    return false;
+  } else if (noLongerInPath) {
+    return false;
+  }
+
+  if (prevProps.isFavorite !== props.isFavorite) {
+    return false;
+  }
+  return isEqual(prevProps.node, props.node);
+};
+
+export default memo(RootNode, propsAreEqual);

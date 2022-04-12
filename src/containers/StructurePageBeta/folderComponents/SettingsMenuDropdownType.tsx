@@ -13,7 +13,9 @@ import { NodeType, SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeA
 import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import { useSession } from '../../Session/SessionProvider';
 import EditCustomFields from './sharedMenuOptions/EditCustomFields';
+import EditGrepCodes from './sharedMenuOptions/EditGrepCodes';
 import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
+import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
 import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
 
 interface Props {
@@ -21,6 +23,7 @@ interface Props {
   node: NodeType;
   onClose: () => void;
   structure: NodeType[];
+  onCurrentNodeChanged: (node: NodeType) => void;
 }
 
 export interface EditModeHandler {
@@ -28,7 +31,13 @@ export interface EditModeHandler {
   toggleEditMode: (editMode: EditMode) => void;
 }
 
-const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Props) => {
+const SettingsMenuDropdownType = ({
+  rootNodeId,
+  node,
+  onClose,
+  structure,
+  onCurrentNodeChanged,
+}: Props) => {
   const { userPermissions } = useSession();
   const [editMode, setEditMode] = useState<EditMode>('');
   const nodeType = getNodeTypeFromNodeId(node.id);
@@ -42,8 +51,13 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Prop
   if (nodeType === SUBJECT_NODE) {
     return (
       <>
-        {/* <ChangeNodeName editModeHandler={editModeHandler} node={node} /> */}
-        <EditCustomFields toggleEditMode={toggleEditMode} editMode={editMode} node={node} />
+        <ChangeNodeName editModeHandler={editModeHandler} node={node} />
+        <EditCustomFields
+          toggleEditMode={toggleEditMode}
+          editMode={editMode}
+          node={node}
+          onCurrentNodeChanged={onCurrentNodeChanged}
+        />
         {/* <AddExistingToNode
           node={node}
           editModeHandler={editModeHandler}
@@ -52,7 +66,7 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Prop
           rootNodeId={rootNodeId}
         /> */}
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        {/* <EditGrepCodes node={node} editModeHandler={editModeHandler} /> */}
+        <EditGrepCodes node={node} editModeHandler={editModeHandler} />
         <EditSubjectpageOption node={node} />
         {/* <DeleteNode node={node} editModeHandler={editModeHandler} /> */}
       </>
@@ -61,7 +75,12 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Prop
     return (
       <>
         {/* <PublishChildNode node={node} /> */}
-        <EditCustomFields toggleEditMode={toggleEditMode} editMode={editMode} node={node} />
+        <EditCustomFields
+          toggleEditMode={toggleEditMode}
+          editMode={editMode}
+          node={node}
+          onCurrentNodeChanged={onCurrentNodeChanged}
+        />
         {/* <DeleteChildNode editModeHandler={editModeHandler} node={node} rootNodeId={rootNodeId} />
         <AddExistingToNode
           node={node}
@@ -71,8 +90,8 @@ const SettingsMenuDropdownType = ({ rootNodeId, node, onClose, structure }: Prop
           structure={structure}
         /> */}
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        {/* <EditGrepCodes node={node} editModeHandler={editModeHandler} />
-        <CopyResources toNode={node} structure={structure} onClose={onClose} /> */}
+        <EditGrepCodes node={node} editModeHandler={editModeHandler} />
+        {/* <CopyResources toNode={node} structure={structure} onClose={onClose} /> */}
       </>
     );
   } else return null;

@@ -169,6 +169,7 @@ const phrases = {
     podcastSeries: 'New Podcast series',
     agreement: 'New Agreement',
     structure: 'Structure',
+    taxonomyVersions: 'Taxonomy Versions',
     searchContent: 'Search content',
     searchAudio: 'Search audio',
     searchPodcastSeries: 'Search series',
@@ -522,6 +523,7 @@ const phrases = {
       file: 'File',
       code: 'Codeblock',
       podcast: 'Podcast episode',
+      concept: 'Concept',
     },
   },
   form: {
@@ -587,6 +589,7 @@ const phrases = {
       manuscript: 'Text version',
       coverPhotoId: 'Meta image',
       revisions: 'Revisions',
+      name: 'Name',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -1248,6 +1251,8 @@ const phrases = {
       copyError:
         'An error occurred while copying resources. Double check the copied resources and try to fix deficiencies manually, or delete the copied resources and try to copy again',
       addResourceConflict: 'The resource you attempted to add already exists on the topic.',
+      noResourceId: 'Failed to extract the ID from the chosen resource',
+      creationFailed: 'Failed to create connection',
     },
     resourceTypes: {
       title: 'Content type',
@@ -1345,6 +1350,56 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
+  },
+  taxonomyVersions: {
+    title: 'Taxonomy Versions',
+    publishedVersion: 'Published version',
+    otherVersions: 'Other versions',
+    deleteLocked: 'This version cannot be deleted because it is locked',
+    deletePublished: 'This version cannot be deleted because it is published',
+    delete: 'Delete version',
+    locked: 'This version is locked',
+    publishButton: 'Publish',
+    publishWarning:
+      'Are you sure you want to publish this version? The currently published version will be archived, and all new changes within this version will be immediately available on ndla.no',
+    status: {
+      PUBLISHED: 'Published',
+      ARCHIVED: 'Archived',
+      BETA: 'Beta',
+    },
+    about:
+      'This page is used for viewing and administering taxonomy versions. Be wary: Publishing a new version will immediately make it available for ndla.no end users.',
+    noPublished:
+      'No versions have been published! The standard version of taxonomy is in use until a version is published.',
+    editVersionTooltip: 'Edit version',
+    newVersionTitle: 'Create new version',
+    newVersionButton: 'New version',
+    editVersionTitle: 'Edit version',
+    deleteWarning: 'Are you sure you want to delete this version?',
+    deleteWarningPublished:
+      'Are you sure you want to delete the currently published version? Taxonomy will revert back to the default version',
+    postError: 'Failed to create version',
+    putError: 'Failed to update version',
+    publishError: 'Failed to publish version',
+    deleteError: 'Failed to delete version',
+    noOtherVersions: 'No other versions exist!',
+    form: {
+      name: {
+        label: 'Name',
+        placeholder: 'Example Version',
+      },
+      source: {
+        title: 'Source version',
+        subTitle: 'Base this version on an existing version',
+        defaultOption: 'N/A',
+      },
+      locked: {
+        title: 'Locked',
+        subTitle: 'Is the version locked:',
+        locked: 'Locked',
+        unlocked: 'Unlocked',
+      },
+    },
   },
   metadata: {
     visible: 'is visible',

@@ -17,6 +17,7 @@ import { updateSubjectMetadata, updateTopicMetadata } from '../../../../modules/
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemButton from './MenuItemButton';
 import { EditMode } from '../../../../interfaces';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   editMode: string;
@@ -50,14 +51,19 @@ const ToggleVisibility = ({
   toggleEditMode,
 }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [visible, setVisible] = useState(metadata?.visible);
 
   const toggleVisibility = async () => {
     switch (menuType) {
       case 'subject': {
-        await updateSubjectMetadata(id, {
-          grepCodes: metadata.grepCodes,
-          visible: !visible,
+        await updateSubjectMetadata({
+          subjectId: id,
+          body: {
+            grepCodes: metadata.grepCodes,
+            visible: !visible,
+          },
+          taxonomyVersion,
         });
         setVisible(!visible);
         getAllSubjects();
@@ -67,9 +73,13 @@ const ToggleVisibility = ({
       }
 
       case 'topic': {
-        await updateTopicMetadata(id, {
-          grepCodes: metadata.grepCodes,
-          visible: !visible,
+        await updateTopicMetadata({
+          topicId: id,
+          body: {
+            grepCodes: metadata.grepCodes,
+            visible: !visible,
+          },
+          taxonomyVersion,
         });
         setVisible(!visible);
         refreshTopics();

@@ -38,6 +38,7 @@ export const DRAFT_WRITE_SCOPE = 'drafts:write';
 export const DRAFT_HTML_SCOPE = 'drafts:html';
 export const DRAFT_PUBLISH_SCOPE = 'drafts:publish';
 
+export const CONCEPT_ADMIN_SCOPE = 'concept:admin';
 export const CONCEPT_WRITE_SCOPE = 'concept:write';
 
 export const TAXONOMY_WRITE_SCOPE = 'taxonomy:write';
@@ -90,6 +91,11 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   {
     name: 'NDLA Statisk',
     url: [`statisk.${config.ndlaBaseUrl}`],
+  },
+  {
+    name: 'NDLA Liste',
+    url: [`liste.${config.ndlaBaseUrl}`],
+    height: '398px',
   },
   { name: 'Ebok', url: ['ebok.no'] },
   { name: 'VG', url: ['www.vg.no'] },

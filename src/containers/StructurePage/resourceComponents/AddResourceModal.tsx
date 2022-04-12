@@ -35,6 +35,7 @@ import ArticlePreview from '../../../components/ArticlePreview';
 import AsyncDropdown from '../../../components/Dropdown/asyncDropdown/AsyncDropdown';
 import { GroupSearchSummary } from '../../../modules/search/searchApiInterfaces';
 import AlertModal from '../../../components/AlertModal';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -106,6 +107,7 @@ const AddResourceModal = ({
   const [pastedUrl, setPastedUrl] = useState('');
   const [error, setError] = useState<string | undefined | null>(undefined);
   const [loading, setLoading] = useState(false);
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   const setNoSelection = () => {
     setSelected(null);
@@ -155,8 +157,8 @@ const AddResourceModal = ({
     if (resourceId) {
       try {
         const [resource, resourceType] = await Promise.all([
-          fetchResource(resourceId),
-          fetchResourceResourceType(resourceId),
+          fetchResource({ id: resourceId, taxonomyVersion }),
+          fetchResourceResourceType({ id: resourceId, taxonomyVersion }),
         ]);
         if (resource.contentUri) {
           articleToState(parseInt(resource.contentUri.split(':').pop()!));
@@ -281,8 +283,11 @@ const AddResourceModal = ({
         }
 
         await createTopicResource({
-          resourceId,
-          topicid: topicId,
+          body: {
+            resourceId,
+            topicid: topicId,
+          },
+          taxonomyVersion,
         });
         refreshResources();
         setLoading(false);
@@ -301,7 +306,7 @@ const AddResourceModal = ({
     await updateLearningPathTaxonomy(learningpathId, true);
 
     try {
-      const resource = await queryLearningPathResource(learningpathId);
+      const resource = await queryLearningPathResource({ learningpathId, taxonomyVersion });
       if (resource.length > 0) {
         return resource[0].id;
       } else {
@@ -327,8 +332,7 @@ const AddResourceModal = ({
       <StyledContent>
         {!type && (
           <ResourceTypeSelect
-            availableResourceTypes={resourceTypes}
-            resourceTypes={selectedType ? [selectedType] : []}
+            availableResourceTypes={resourceTypes ?? []}
             onChangeSelectedResource={(e: { target: { value: string } }) => {
               setSelectedType(e.target.value);
             }}

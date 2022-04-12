@@ -1,7 +1,7 @@
 import { Taxonomy } from '@ndla/icons/lib/editor';
 import { OneColumn, Spinner } from '@ndla/ui';
 import { colors } from '@ndla/core';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Switch } from '@ndla/switch';
@@ -19,31 +19,43 @@ import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import RootNode from './RootNode';
 import { getPathsFromUrl, removeLastItemFromUrl } from '../../util/routeHelpers';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
+import StructureResources from './resourceComponents/StructureResources';
+import Footer from '../App/components/Footer';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+
 const StructureWrapper = styled.ul`
   margin: 0;
   padding: 0;
 `;
 const StructureContainer = () => {
   const location = useLocation();
-  const [subject, topic, ...rest] = location.pathname.replace('/structure/', '').split('/');
+  const [subject, topic, ...rest] = location.pathname.replace('/structureBeta/', '').split('/');
   const joinedRest = rest.join('/');
   const subtopics = joinedRest.length > 0 ? joinedRest : undefined;
   const params = { subject, topic, subtopics };
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [currentNode, setCurrentNode] = useState<ChildNodeType | undefined>(undefined);
 
   const { userPermissions } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
-  const [showFavorites, setShowFavorites] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(
+    window.localStorage.getItem(REMEMBER_FAVORITE_NODES) === 'true',
+  );
   const resourceSection = useRef<HTMLDivElement>(null);
 
   const addNodeMutation = useAddNodeMutation();
   const userDataQuery = useUserData();
-  const favoriteNodes = userDataQuery.data?.favoriteSubjects ?? [];
+  const favoriteNodes =
+    userDataQuery.data?.favoriteSubjects?.reduce<{ [x: string]: boolean }>((acc, curr) => {
+      acc[curr] = true;
+      return acc;
+    }, {}) ?? {};
+  const favoriteNodeIds = Object.keys(favoriteNodes);
   const nodesQuery = useNodes(
-    { language: i18n.language, isRoot: true },
+    { language: i18n.language, isRoot: true, taxonomyVersion },
     {
       select: nodes => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
       placeholderData: [],
@@ -63,15 +75,17 @@ const StructureContainer = () => {
   };
 
   const updateUserDataMutation = useUpdateUserDataMutation();
-  const nodes = showFavorites ? getFavoriteNodes(nodesQuery.data, favoriteNodes) : nodesQuery.data!;
+  const nodes = showFavorites
+    ? getFavoriteNodes(nodesQuery.data, favoriteNodeIds)
+    : nodesQuery.data!;
 
   const toggleFavorite = (nodeId: string) => {
     if (!favoriteNodes) {
       return;
     }
-    const updatedFavorites = favoriteNodes.includes(nodeId)
-      ? favoriteNodes.filter(s => s !== nodeId)
-      : [...favoriteNodes, nodeId];
+    const updatedFavorites = favoriteNodeIds.includes(nodeId)
+      ? favoriteNodeIds.filter(s => s !== nodeId)
+      : [...favoriteNodeIds, nodeId];
     updateUserDataMutation.mutate({ favoriteSubjects: updatedFavorites });
   };
 
@@ -85,7 +99,14 @@ const StructureContainer = () => {
   };
 
   const addNode = async (name: string) => {
-    await addNodeMutation.mutateAsync({ name, nodeType: 'SUBJECT', root: true });
+    await addNodeMutation.mutateAsync({
+      body: {
+        name,
+        nodeType: 'SUBJECT',
+        root: true,
+      },
+      taxonomyVersion,
+    });
   };
 
   const isTaxonomyAdmin = userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
@@ -128,7 +149,7 @@ const StructureContainer = () => {
                     openedPaths={getPathsFromUrl(location.pathname)}
                     resourceSectionRef={resourceSection}
                     onChildNodeSelected={setCurrentNode}
-                    favoriteNodeIds={favoriteNodes}
+                    isFavorite={!!favoriteNodes[node.id]}
                     key={node.id}
                     node={node}
                     toggleOpen={handleStructureToggle}
@@ -139,7 +160,15 @@ const StructureContainer = () => {
             )}
           </div>
         </Accordion>
+        {currentNode && (
+          <StructureResources
+            currentChildNode={currentNode}
+            resourceRef={resourceSection}
+            onCurrentNodeChanged={setCurrentNode}
+          />
+        )}
       </OneColumn>
+      <Footer showLocaleSelector />
     </ErrorBoundary>
   );
 };

@@ -1,7 +1,7 @@
 import { TYPE_ASIDE } from './plugins/aside/types';
 import { TYPE_BODYBOX } from './plugins/bodybox/types';
 import { TYPE_CODEBLOCK } from './plugins/codeBlock/types';
-import { TYPE_CONCEPT } from './plugins/concept/types';
+import { TYPE_CONCEPT_INLINE } from './plugins/concept/inline/types';
 import { TYPE_DETAILS } from './plugins/details/types';
 import { TYPE_EMBED } from './plugins/embed/types';
 import { TYPE_FILE } from './plugins/file/types';
@@ -13,7 +13,7 @@ import { TYPE_SPAN } from './plugins/span/types';
 import { TYPE_TABLE } from './plugins/table/types';
 
 export const inlines = [
-  TYPE_CONCEPT,
+  TYPE_CONCEPT_INLINE,
   TYPE_FOOTNOTE,
   TYPE_LINK,
   TYPE_CONTENT_LINK,

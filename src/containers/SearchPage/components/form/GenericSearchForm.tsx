@@ -48,7 +48,12 @@ const GenericSearchForm = ({
   const { t } = useTranslation();
   const tags = [{ type: 'query', name: query }, ...selectors];
   return (
-    <form onSubmit={e => e.preventDefault()} {...searchFormClasses()}>
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+      {...searchFormClasses()}>
       <div {...searchFormClasses('field', '50-width')}>
         <input
           name="query"

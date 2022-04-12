@@ -8,6 +8,7 @@
 
 import queryString from 'query-string';
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
+import { WithTaxonomyVersion } from '../../interfaces';
 import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
   CONNECTIONS_FOR_NODE,
@@ -15,7 +16,7 @@ import {
   NODE_TRANSLATIONS,
   RESOURCES_WITH_NODE_CONNECTION,
 } from '../../queryKeys';
-import { fetchDraft } from '../draft/draftApi';
+import { searchDrafts } from '../draft/draftApi';
 import {
   fetchChildNodes,
   fetchConnectionsForNode,
@@ -34,81 +35,127 @@ import {
   ResourceWithNodeConnection,
 } from './nodeApiTypes';
 
-export const useNodes = (params: GetNodeParams, options?: UseQueryOptions<NodeType[]>) => {
+interface UseNodesParams extends WithTaxonomyVersion, GetNodeParams {}
+
+export const useNodes = (
+  { taxonomyVersion, ...params }: UseNodesParams,
+  options?: UseQueryOptions<NodeType[]>,
+) => {
   const query = queryString.stringify(params);
-  return useQuery<NodeType[]>(['nodes', query], () => fetchNodes(params), options);
-};
-
-export const useNode = (id: string, language?: string, options?: UseQueryOptions<NodeType>) => {
-  const qc = useQueryClient();
-  return useQuery<NodeType>([NODE, id, language], () => fetchNode(id, language), {
-    placeholderData: qc.getQueryData<NodeType[]>(NODE)?.find(s => s.id === id),
-    ...options,
-  });
-};
-
-const fetchChildNodesWithArticleType = async (
-  id: string,
-  language: string,
-): Promise<(ChildNodeType & {
-  articleType?: string;
-})[]> => {
-  const childNodes = await fetchChildNodes(id, { language, recursive: true });
-  return await Promise.all(
-    childNodes.map(async t => {
-      const articleId = t.contentUri?.split(':').pop();
-      if (articleId) {
-        try {
-          const draft = await fetchDraft(parseInt(articleId));
-          return { ...t, articleType: draft.articleType };
-        } catch (e) {
-          return t;
-        }
-      }
-      return t;
-    }),
+  return useQuery<NodeType[]>(
+    ['nodes', query],
+    () => fetchNodes({ ...params, taxonomyVersion }),
+    options,
   );
 };
 
+interface UseNodeParams extends WithTaxonomyVersion {
+  id: string;
+  language?: string;
+}
+
+export const useNode = (
+  { id, language, taxonomyVersion }: UseNodeParams,
+  options?: UseQueryOptions<NodeType>,
+) => {
+  const qc = useQueryClient();
+  return useQuery<NodeType>(
+    [NODE, id, language],
+    () => fetchNode({ id, taxonomyVersion, language }),
+    {
+      placeholderData: qc.getQueryData<NodeType[]>(NODE)?.find(s => s.id === id),
+      ...options,
+    },
+  );
+};
+
+interface ChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
+  id: string;
+  language: string;
+}
+
+const fetchChildNodesWithArticleType = async ({
+  id,
+  language,
+  taxonomyVersion,
+}: ChildNodesWithArticleTypeParams): Promise<(ChildNodeType & {
+  articleType?: string;
+})[]> => {
+  const childNodes = await fetchChildNodes({ id, taxonomyVersion, language, recursive: true });
+  if (childNodes.length === 0) return [];
+
+  const childIds = childNodes.map(n => Number(n.contentUri?.split(':').pop())).filter(id => !!id);
+  const searchRes = await searchDrafts({ idList: childIds });
+
+  const articleTypeMap = searchRes.results.reduce<Record<number, string>>((acc, curr) => {
+    acc[curr.id] = curr.articleType;
+    return acc;
+  }, {});
+
+  return childNodes.map(node => {
+    const draftId = Number(node.contentUri?.split(':').pop());
+    const articleType = articleTypeMap[draftId];
+    return { ...node, articleType };
+  });
+};
+
+interface UseChildNodesWithArticleTypeParams extends WithTaxonomyVersion {
+  id: string;
+  language: string;
+}
+
 export const useChildNodesWithArticleType = (
-  id: string,
-  language: string,
+  { id, language, taxonomyVersion }: UseChildNodesWithArticleTypeParams,
   options?: UseQueryOptions<(ChildNodeType & { articleType?: string })[]>,
 ) => {
   return useQuery<ChildNodeType[]>(
     [CHILD_NODES_WITH_ARTICLE_TYPE, id, language],
-    () => fetchChildNodesWithArticleType(id, language),
+    () => fetchChildNodesWithArticleType({ id, language, taxonomyVersion }),
     options,
   );
 };
 
+interface UseConnectionsForNodeParams extends WithTaxonomyVersion {
+  id: string;
+}
+
 export const useConnectionsForNode = (
-  id: string,
+  { id, taxonomyVersion }: UseConnectionsForNodeParams,
   options?: UseQueryOptions<ConnectionForNode[]>,
 ) => {
   return useQuery<ConnectionForNode[]>(
     [CONNECTIONS_FOR_NODE, id],
-    () => fetchConnectionsForNode(id),
+    () => fetchConnectionsForNode({ id, taxonomyVersion }),
     options,
   );
 };
 
-export const useNodeTranslations = (id: string, options?: UseQueryOptions<NodeTranslation[]>) => {
+interface UseNodeTranslationParams extends WithTaxonomyVersion {
+  id: string;
+}
+
+export const useNodeTranslations = (
+  { id, taxonomyVersion }: UseNodeTranslationParams,
+  options?: UseQueryOptions<NodeTranslation[]>,
+) => {
   return useQuery<NodeTranslation[]>(
     [NODE_TRANSLATIONS, id],
-    () => fetchNodeTranslations(id),
+    () => fetchNodeTranslations({ id, taxonomyVersion }),
     options,
   );
 };
 
+interface UseResourcesWithNodeConnectionParams extends WithTaxonomyVersion, GetNodeResourcesParams {
+  id: string;
+}
+
 export const useResourcesWithNodeConnection = (
-  id: string,
-  params: GetNodeResourcesParams,
+  { id, taxonomyVersion, ...params }: UseResourcesWithNodeConnectionParams,
   options?: UseQueryOptions<ResourceWithNodeConnection[]>,
 ) => {
   return useQuery<ResourceWithNodeConnection[]>(
     [RESOURCES_WITH_NODE_CONNECTION, id, params],
-    () => fetchNodeResources(id, params),
+    () => fetchNodeResources({ id, taxonomyVersion, ...params }),
     options,
   );
 };

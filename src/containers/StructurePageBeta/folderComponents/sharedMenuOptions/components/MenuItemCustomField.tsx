@@ -33,9 +33,11 @@ import SubjectCategorySelector from '../../subjectMenuOptions/SubjectCategorySel
 import ToggleExplanationSubject from '../../subjectMenuOptions/ToggleExplanationSubject';
 import ConstantMetaField from './ConstantMetaField';
 import CustomFieldComponent from './CustomFieldComponent';
+import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   node: NodeType;
+  onCurrentNodeChanged: (node: NodeType) => void;
 }
 
 const filterWrapper = css`
@@ -44,11 +46,12 @@ const filterWrapper = css`
   position: relative;
 `;
 
-const MenuItemCustomField = ({ node }: Props) => {
+const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
   const { t } = useTranslation();
   const { id, metadata } = node;
   const nodeType = getNodeTypeFromNodeId(id);
   const [isOpen, setOpen] = useState<boolean>(false);
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [customFields, setCustomFields] = useState<TaxonomyMetadata['customFields']>(
     metadata.customFields,
   );
@@ -61,6 +64,7 @@ const MenuItemCustomField = ({ node }: Props) => {
         id,
         metadata: { customFields },
         rootId: isRootNode(node) ? undefined : getRootIdForNode(node),
+        taxonomyVersion,
       });
     }
   }, [customFields]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -82,7 +86,12 @@ const MenuItemCustomField = ({ node }: Props) => {
 
   const topicSettings = (
     <>
-      <GroupTopicResources node={node} />
+      <GroupTopicResources
+        node={node}
+        onChanged={partialMeta =>
+          onCurrentNodeChanged({ ...node, metadata: { ...node.metadata, ...partialMeta } })
+        }
+      />
     </>
   );
 

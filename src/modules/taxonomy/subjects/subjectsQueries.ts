@@ -9,12 +9,17 @@
 import queryString from 'query-string';
 import { useQuery, UseQueryOptions } from 'react-query';
 import { fetchSubject, fetchSubjects } from '.';
+import { WithTaxonomyVersion } from '../../../interfaces';
 import { SUBJECT, SUBJECTS } from '../../../queryKeys';
 import { SubjectType } from '../taxonomyApiInterfaces';
 
+interface UseSubjectsParams extends WithTaxonomyVersion {
+  locale: string;
+  metadataFilter?: { key: string; value?: string };
+}
+
 export const useSubjects = (
-  locale: string,
-  metadataFilter?: { key: string; value?: string },
+  { metadataFilter, locale, taxonomyVersion }: UseSubjectsParams,
   options?: UseQueryOptions<SubjectType[]>,
 ) => {
   const query = queryString.stringify({
@@ -24,10 +29,22 @@ export const useSubjects = (
   });
   return useQuery<SubjectType[]>(
     [SUBJECTS, query],
-    () => fetchSubjects(locale, metadataFilter),
+    () => fetchSubjects({ language: locale, metadataFilter: metadataFilter, taxonomyVersion }),
     options,
   );
 };
 
-export const useSubject = (id: string, language?: string, options?: UseQueryOptions<SubjectType>) =>
-  useQuery<SubjectType>([SUBJECT, id, language], () => fetchSubject(id, language), options);
+interface UseSubjectParams extends WithTaxonomyVersion {
+  id: string;
+  language?: string;
+}
+
+export const useSubject = (
+  { id, language, taxonomyVersion }: UseSubjectParams,
+  options: UseQueryOptions<SubjectType>,
+) =>
+  useQuery<SubjectType>(
+    [SUBJECT, id, language],
+    () => fetchSubject({ id, language, taxonomyVersion }),
+    options,
+  );

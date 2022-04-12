@@ -22,6 +22,10 @@ export function toEditArticle(articleId: number | string, articleType: string, l
   return locale ? `${path}/${locale}` : path;
 }
 
+export const toEditGenericArticle = (articleId: number | string) => {
+  return `/subject-matter/article/${articleId}`;
+};
+
 export function toEditSubjectpage(
   subjectId: string,
   locale: string,

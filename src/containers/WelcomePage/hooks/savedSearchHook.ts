@@ -25,20 +25,22 @@ interface SearchUrlQueryData {
   loading: boolean;
 }
 
-export const useSavedSearchUrl = (searchObject: any, locale: string): SearchUrlQueryData => {
+export const useSavedSearchUrl = (
+  searchObject: any,
+  locale: string,
+  taxonomyVersion: string,
+): SearchUrlQueryData => {
   const subject = searchObject['subjects'] || '';
   const resourceType = searchObject['resource-types'] || '';
   const userId = searchObject['users'] || '';
   const searchHook = getSearchHookFromType(searchObject['type']);
-  const { data: subjectData, isLoading: subjectLoading } = useSubject(subject, locale, {
-    enabled: !!subject,
-  });
+  const { data: subjectData, isLoading: subjectLoading } = useSubject(
+    { id: subject, language: locale, taxonomyVersion },
+    { enabled: !!subject },
+  );
   const { data: resourceTypeData, isLoading: resourceTypeLoading } = useResourceType(
-    resourceType,
-    locale,
-    {
-      enabled: !!resourceType,
-    },
+    { id: resourceType, language: locale, taxonomyVersion },
+    { enabled: !!resourceType },
   );
   const { data: userData, isLoading: auth0UsersLoading } = useAuth0Users(userId, {
     enabled: !!userId,

@@ -12,7 +12,7 @@ import { setToken } from '../../support';
 describe('Search content', () => {
   beforeEach(() => {
     setToken();
-    cy.apiroute('GET', `${taxonomyApi}/resource-types/?language=nb`, 'resourceTypes');
+    cy.apiroute('GET', `${taxonomyApi}/resource-types?language=nb`, 'resourceTypes');
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute('GET', '/search-api/v1/search/editorial/*', 'search');
     cy.intercept('GET', '/get_editors*', [

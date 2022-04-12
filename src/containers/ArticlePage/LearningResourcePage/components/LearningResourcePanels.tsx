@@ -21,6 +21,7 @@ import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { useSession } from '../../../Session/SessionProvider';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import RevisionNotes from '../../components/RevisionNotes';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   handleSubmit: (
@@ -43,6 +44,7 @@ const LearningResourcePanels = ({
   articleLanguage,
 }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const { userPermissions } = useSession();
   const formikContext = useFormikContext<LearningResourceFormType>();
   const { values, errors, handleBlur } = formikContext;
@@ -72,6 +74,7 @@ const LearningResourcePanels = ({
             article={article}
             updateNotes={updateNotes}
             taxonomy={taxonomy}
+            taxonomyVersion={taxonomyVersion}
           />
         </AccordionSection>
       )}

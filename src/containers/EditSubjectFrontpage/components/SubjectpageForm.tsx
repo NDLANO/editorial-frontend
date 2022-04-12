@@ -37,6 +37,7 @@ import { formatErrorMessage } from '../../../util/apiHelpers';
 import { queryLearningPathResource, queryResources, queryTopics } from '../../../modules/taxonomy';
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   subjectpage?: ISubjectPageData;
@@ -93,6 +94,7 @@ const SubjectpageForm = ({
   banner,
 }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [savedToServer, setSavedToServer] = useState(false);
   const { createMessage, applicationError } = useMessages();
   const initialValues = subjectpageApiTypeToFormikType(
@@ -110,11 +112,11 @@ const SubjectpageForm = ({
     const fetched = await Promise.all<Topic[] | ILearningPathV2[] | Resource[]>(
       choices.map(choice => {
         if ('articleType' in choice && choice.articleType === 'topic-article') {
-          return queryTopics(choice.id, language);
+          return queryTopics({ contentId: choice.id, language, taxonomyVersion });
         } else if ('learningsteps' in choice && typeof choice.id === 'number') {
-          return queryLearningPathResource(choice.id);
+          return queryLearningPathResource({ learningpathId: choice.id, taxonomyVersion });
         }
-        return queryResources(choice.id, language);
+        return queryResources({ contentId: choice.id, language, taxonomyVersion });
       }),
     );
 

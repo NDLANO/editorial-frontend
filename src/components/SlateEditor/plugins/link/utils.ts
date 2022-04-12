@@ -8,6 +8,9 @@
 
 import { Editor, Element, Range, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
+import Url from 'url-parse';
+import { isValidLocale } from '../../../../i18n';
+import { resolveUrls } from '../../../../modules/taxonomy/taxonomyApi';
 
 export const insertLink = (editor: Editor) => {
   if (editor.selection) {
@@ -54,4 +57,44 @@ const wrapLink = (editor: Editor) => {
     Transforms.wrapNodes(editor, link, { split: true });
     Transforms.collapse(editor, { edge: 'end' });
   }
+};
+
+export const splitArticleUrl = (href: string) => {
+  const splittedHref = href.split('/');
+  return {
+    resourceId: splittedHref.pop(),
+    resourceType: 'article',
+  };
+};
+
+export const splitLearningPathUrl = (href: string) => {
+  const splittedHref = href.split('learningpaths/');
+  return {
+    resourceId: splittedHref[1],
+    resourceType: 'learningpath',
+  };
+};
+
+export const splitPlainUrl = (href: string) => ({
+  resourceId: href,
+  resourceType: 'article',
+});
+
+export const splitTaxonomyUrl = async (href: string) => {
+  const { pathname } = new Url(href.replace('/subjects', ''));
+  const paths = pathname.split('/');
+  const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
+  const resolvedTaxonomy = await resolveUrls(path);
+  const contentUriSplit = resolvedTaxonomy && resolvedTaxonomy.contentUri.split(':');
+  const resourceId = contentUriSplit.pop();
+  const resourceType = contentUriSplit.pop();
+  return { resourceId, resourceType };
+};
+
+export const splitEdPathUrl = (href: string) => {
+  const id = href.split('subject-matter/')[1].split('/')[1];
+  return {
+    resourceId: id,
+    resourceType: 'article',
+  };
 };

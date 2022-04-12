@@ -24,6 +24,7 @@ import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchSubject } from '../../modules/taxonomy/subjects';
 import { Embed } from '../../interfaces';
+import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
 
 const StyledBody = styled.div`
   margin: 0 ${spacing.normal} ${spacing.small};
@@ -72,17 +73,20 @@ interface Props {
 
 const PreviewConcept = ({ concept, visualElement }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
 
   useEffect(() => {
     const getSubjects = async () => {
-      const subjects = await Promise.all(concept.subjectIds?.map(id => fetchSubject(id)) ?? []);
+      const subjects = await Promise.all(
+        concept.subjectIds?.map(id => fetchSubject({ id, taxonomyVersion })) ?? [],
+      );
       setSubjects(subjects);
     };
     getSubjects();
-  }, [concept]);
+  }, [concept, taxonomyVersion]);
 
   const VisualElement = () => {
     switch (visualElement?.resource) {

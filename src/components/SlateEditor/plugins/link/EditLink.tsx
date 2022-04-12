@@ -9,15 +9,19 @@
 import { Editor, Transforms, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
-import Url from 'url-parse';
-import { isValidLocale } from '../../../../i18n';
 import { Portal } from '../../../Portal';
 import Lightbox from '../../../Lightbox';
 import { LinkElement, ContentLinkElement } from '.';
 import LinkForm from './LinkForm';
-import { resolveUrls } from '../../../../modules/taxonomy/taxonomyApi';
 import { Model } from './Link';
 import { TYPE_CONTENT_LINK, TYPE_LINK } from './types';
+import {
+  splitLearningPathUrl,
+  splitEdPathUrl,
+  splitArticleUrl,
+  splitPlainUrl,
+  splitTaxonomyUrl,
+} from './utils';
 
 const newTabAttributes = {
   target: '_blank',
@@ -49,7 +53,7 @@ const createLinkData = (
 export const isNDLAArticleUrl = (url: string) =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?article\/\d*/.test(url);
 export const isNDLATaxonomyUrl = (url: string) =>
-  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?(.*)\/topic(.*)/.test(url);
+  /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?subject:(.*)\/topic(.*)/.test(url);
 export const isNDLALearningPathUrl = (url: string) =>
   /^http(s)?:\/\/((.*)\.)?ndla.no\/((.*)\/)?learningpaths\/(.*)/.test(url);
 export const isNDLAEdPathUrl = (url: string) =>
@@ -60,50 +64,21 @@ const getIdAndTypeFromUrl = async (href: string) => {
   // Removes search queries before split
   const baseHref = href.split(/\?/)[0];
   if (isNDLAArticleUrl(baseHref)) {
-    const splittedHref = baseHref.split('/');
-    return {
-      resourceId: splittedHref.pop(),
-      resourceType: 'article',
-    };
+    return splitArticleUrl(baseHref);
   } else if (isNDLALearningPathUrl(baseHref)) {
-    const splittedHref = baseHref.split('learningpaths/');
-    return {
-      resourceId: splittedHref[1],
-      resourceType: 'learningpath',
-    };
+    return splitLearningPathUrl(baseHref);
   } else if (isPlainId(baseHref)) {
-    return {
-      resourceId: baseHref,
-      resourceType: 'article',
-    };
+    return splitPlainUrl(baseHref);
   } else if (isNDLATaxonomyUrl(baseHref)) {
-    const { pathname } = new Url(baseHref.replace('/subjects', ''));
-    const paths = pathname.split('/');
-    const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
-    const resolvedTaxonomy = await resolveUrls(path);
-
-    const contentUriSplit = resolvedTaxonomy && resolvedTaxonomy.contentUri.split(':');
-
-    const resourceId = contentUriSplit.pop();
-    const resourceType = contentUriSplit.pop();
-
-    return { resourceId, resourceType };
+    return await splitTaxonomyUrl(baseHref);
   } else if (isNDLAEdPathUrl(baseHref)) {
-    const splittedHref = baseHref.split('/');
-    return {
-      resourceId: splittedHref[5],
-      resourceType: 'article',
-    };
+    return splitEdPathUrl(baseHref);
   }
-  return { resourceId: null };
+  return { resourceId: null, resourceType: '' };
 };
 
 interface Props {
-  model: {
-    href?: string;
-    text?: string;
-    checkbox?: boolean;
-  };
+  model: Partial<Model>;
   closeEditMode: () => void;
   onChange: () => void;
   editor: Editor;
@@ -184,7 +159,6 @@ const EditLink = (props: Props) => {
           <LinkForm
             onClose={onClose}
             link={model}
-            node={element}
             isEdit={isEdit}
             onRemove={handleRemove}
             onSave={handleSave}

@@ -1180,6 +1180,7 @@ const phrases = {
     resources: 'Resources',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
+    currentVersion: 'Current version',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',
@@ -1386,6 +1387,88 @@ const phrases = {
         subTitle: 'Is the version locked:',
         locked: 'Locked',
         unlocked: 'Unlocked',
+      },
+    },
+  },
+  diff: {
+    equalNodes: 'These nodes are equal!',
+    defaultVersion: 'Default version',
+    error: {
+      originalHashRequired: 'The originalHash parameter has to be present in the URL!',
+    },
+    options: {
+      originalHashLabel: 'Original version',
+      otherHashLabel: 'Other version',
+      viewLabel: 'View type',
+      nodeViewLabel: 'Node view',
+      fieldViewLabel: 'Field view',
+      allNodes: 'All nodes',
+      changedNodes: 'Only changed',
+      allFields: 'All fields',
+      changedFields: 'Only changed',
+      flat: 'Flat',
+      tree: 'Tree',
+    },
+    childrenChanged: 'Children changed',
+    diffTypes: {
+      ADDED: 'Added',
+      DELETED: 'Deleted',
+      MODIFIED: 'Modified',
+      NONE: 'None',
+    },
+    fields: {
+      id: {
+        title: 'ID',
+      },
+      name: {
+        title: 'Name',
+      },
+      contentUri: {
+        title: 'Content URI',
+      },
+      parent: {
+        title: 'Parent',
+      },
+      path: {
+        title: 'Path',
+      },
+      paths: {
+        title: 'Paths',
+      },
+      connectionId: {
+        title: 'Connection ID',
+      },
+      isPrimary: {
+        title: 'Is Primary',
+        isOn: 'This node is currently a primary resource',
+        isOff: 'This node is not currently a primary resource',
+      },
+      primary: {
+        title: 'Primary',
+        isOn: 'This node is currently a primary resource',
+        isOff: 'This node is not currently a primary resource',
+      },
+      rank: {
+        title: 'Rank',
+      },
+      relevance: {
+        title: 'Relevance',
+      },
+      translations: {
+        title: 'Translations',
+      },
+      articleType: {
+        title: 'Article Type',
+      },
+      visible: {
+        title: 'Visible',
+        isOn: 'Visible',
+        isOff: 'Not visible',
+      },
+      'topic-resources': {
+        title: 'Resource Grouping',
+        isOn: 'Grouped',
+        isOff: 'Ungrouped',
       },
     },
   },

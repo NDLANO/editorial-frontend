@@ -22,6 +22,7 @@ import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 import StructureResources from './resourceComponents/StructureResources';
 import Footer from '../App/components/Footer';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import StickyVersionSelector from './StickyVersionSelector';
 
 const StructureWrapper = styled.ul`
   margin: 0;
@@ -160,6 +161,7 @@ const StructureContainer = () => {
             )}
           </div>
         </Accordion>
+        <StickyVersionSelector />
         {currentNode && (
           <StructureResources
             currentChildNode={currentNode}

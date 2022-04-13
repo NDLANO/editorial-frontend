@@ -15,6 +15,7 @@ import { useSession } from '../../Session/SessionProvider';
 import EditCustomFields from './sharedMenuOptions/EditCustomFields';
 import EditGrepCodes from './sharedMenuOptions/EditGrepCodes';
 import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
+import ToNodeDiff from './sharedMenuOptions/ToNodeDiff';
 import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
 import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
 
@@ -68,6 +69,7 @@ const SettingsMenuDropdownType = ({
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
         <EditSubjectpageOption node={node} />
+        <ToNodeDiff node={node} />
         {/* <DeleteNode node={node} editModeHandler={editModeHandler} /> */}
       </>
     );
@@ -91,6 +93,7 @@ const SettingsMenuDropdownType = ({
         /> */}
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
+        <ToNodeDiff node={node} />
         {/* <CopyResources toNode={node} structure={structure} onClose={onClose} /> */}
       </>
     );

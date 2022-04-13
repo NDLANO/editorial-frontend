@@ -1181,6 +1181,7 @@ const phrases = {
     newTopic: 'Nytt emne',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
+    currentVersion: 'Noverande versjon',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',
@@ -1388,6 +1389,88 @@ const phrases = {
         subTitle: 'Er versjonen låst?',
         locked: 'Låst',
         unlocked: 'Ulåst',
+      },
+    },
+  },
+  diff: {
+    equalNodes: 'Disse nodene er like!',
+    defaultVersion: 'Standardsversjon',
+    error: {
+      originalHashRequired: "originalHash-parameteret er påkrevd i URL'en!",
+    },
+    options: {
+      originalHashLabel: 'Original-versjon',
+      otherHashLabel: 'Annen versjon',
+      viewLabel: 'Visningstype',
+      nodeViewLabel: 'Nodevisning',
+      fieldViewLabel: 'Feltvisning',
+      allNodes: 'Alle noder',
+      changedNodes: 'Kun endrede',
+      allFields: 'Alle felter',
+      changedFields: 'Kun endrede',
+      flat: 'Flat',
+      tree: 'Tre',
+    },
+    childrenChanged: 'Barn endret',
+    diffTypes: {
+      ADDED: 'Lagt til',
+      DELETED: 'Slettet',
+      MODIFIED: 'Endret',
+      NONE: 'Ingen',
+    },
+    fields: {
+      id: {
+        title: 'ID',
+      },
+      name: {
+        title: 'Namn',
+      },
+      contentUri: {
+        title: 'Innholds-URI',
+      },
+      parent: {
+        title: 'Forelder',
+      },
+      path: {
+        title: 'Sti',
+      },
+      paths: {
+        title: 'Stier',
+      },
+      connectionId: {
+        title: 'Koblings-ID',
+      },
+      isPrimary: {
+        title: 'Er primær',
+        isOn: 'Denne noden er ein primærressurs',
+        isOff: 'Denne noden er ikkje ein primærressurs',
+      },
+      primary: {
+        title: 'Er primær',
+        isOn: 'Denne noden er ein primærressurs',
+        isOff: 'Denne noden er ikkje ein primærressurs',
+      },
+      rank: {
+        title: 'Kjerneressurs',
+      },
+      relevance: {
+        title: 'Relevans',
+      },
+      translations: {
+        title: 'Oversetjinger',
+      },
+      articleType: {
+        title: 'Artikkel-type',
+      },
+      visible: {
+        title: 'Visible',
+        isOn: 'Synleg',
+        isOff: 'Usynleg',
+      },
+      'topic-resources': {
+        title: 'Gruppering av ressurser',
+        isOn: 'Gruppert',
+        isOff: 'Ugruppert',
       },
     },
   },

@@ -54,20 +54,21 @@ const RootNode = ({
   const qc = useQueryClient();
 
   const onUpdateRank = async (id: string, newRank: number) => {
-    await qc.cancelQueries([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale]);
-    const compositeKey = [CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale];
+    const compositeKey = [CHILD_NODES_WITH_ARTICLE_TYPE, taxonomyVersion, node.id, locale];
+    await qc.cancelQueries(compositeKey);
     const prevData = qc.getQueryData<ChildNodeType[]>(compositeKey);
     const [toUpdate, other] = partition(prevData, t => t.connectionId === id);
     const updatedNode: ChildNodeType = { ...toUpdate[0], rank: newRank };
     const updated = other.map(t => (t.rank >= updatedNode.rank ? { ...t, rank: t.rank + 1 } : t));
     const newArr = sortBy([...updated, updatedNode], 'rank');
-    qc.setQueryData<ChildNodeType[]>([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale], newArr);
+    qc.setQueryData<ChildNodeType[]>(compositeKey, newArr);
     return prevData;
   };
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
     onMutate: ({ id, body }) => onUpdateRank(id, body.rank!),
-    onSettled: () => qc.invalidateQueries([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale]),
+    onSettled: () =>
+      qc.invalidateQueries([CHILD_NODES_WITH_ARTICLE_TYPE, taxonomyVersion, node.id, locale]),
   });
 
   const onDragEnd = async (dropResult: DropResult, nodes: ChildNodeType[]) => {

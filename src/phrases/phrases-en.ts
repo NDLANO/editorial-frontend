@@ -1342,8 +1342,8 @@ const phrases = {
   },
   taxonomyVersions: {
     title: 'Taxonomy Versions',
-    publishedVersion: 'Published Version',
-    otherVersions: 'Other Versions',
+    publishedVersion: 'Published version',
+    otherVersions: 'Other versions',
     deleteLocked: 'This version cannot be deleted because it is locked',
     deletePublished: 'This version cannot be deleted because it is published',
     delete: 'Delete version',
@@ -1359,14 +1359,14 @@ const phrases = {
     about:
       'This page is used for viewing and administering taxonomy versions. Be wary: Publishing a new version will immediately make it available for ndla.no end users.',
     noPublished:
-      'No versions have been published! The standard version of taxonomy will be used until a version is published.',
+      'No versions have been published! The standard version of taxonomy is in use until a version is published.',
     editVersionTooltip: 'Edit version',
-    newVersionTitle: 'Create New Version',
-    newVersionButton: 'New Version',
-    editVersionTitle: 'Edit Version',
+    newVersionTitle: 'Create new version',
+    newVersionButton: 'New version',
+    editVersionTitle: 'Edit version',
     deleteWarning: 'Are you sure you want to delete this version?',
     deleteWarningPublished:
-      'Are you sure you want to delete the currently published version? Taxonomy will revert back to the default schema',
+      'Are you sure you want to delete the currently published version? Taxonomy will revert back to the default version',
     postError: 'Failed to create version',
     putError: 'Failed to update version',
     publishError: 'Failed to publish version',

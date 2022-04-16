@@ -3,7 +3,7 @@ import { spacing } from '@ndla/core';
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router-dom';
-import Footer from '../app/components/Footer';
+import FooterWrapper from '../App/components/Footer';
 import DiffOptions from './DiffOptions';
 import NodeDiffcontainer from './NodeDiffContainer';
 
@@ -41,7 +41,7 @@ const NodeDiffPage = () => {
           />
         </StyledNodeContainer>
       </OneColumn>
-      <Footer />
+      <FooterWrapper />
     </>
   );
 };

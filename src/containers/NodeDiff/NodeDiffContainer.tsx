@@ -9,6 +9,7 @@
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { ContentLoader, MessageBox } from '@ndla/ui';
+import { isEqual } from 'lodash';
 import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
@@ -106,18 +107,24 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     fieldView: params.get('fieldView'),
   });
 
-  const isEqual =
+  const equal =
     diff.root.changed.diffType === 'NONE' && diff.root.childrenChanged?.diffType === 'NONE';
   return (
     <div id="diffContainer">
-      {isEqual && <MessageBox>{t('diff.equalNodes')}</MessageBox>}
+      {equal && <MessageBox>{t('diff.equalNodes')}</MessageBox>}
       {view === 'tree' && (
         <RootNode tree={diff} onNodeSelected={setSelectedNode} selectedNode={selectedNode} />
       )}
-      {view === 'tree' && selectedNode && <NodeDiff node={selectedNode} />}
+      {view === 'tree' && selectedNode && (
+        <NodeDiff node={selectedNode} isRoot={isEqual(selectedNode.id, diff.root.id)} />
+      )}
       {view === 'flat' && (
         <StyledNodeList>
-          <NodeDiff node={diff.root} key={diff.root.id.original ?? diff.root.id.other!} />
+          <NodeDiff
+            node={diff.root}
+            key={diff.root.id.original ?? diff.root.id.other!}
+            isRoot={true}
+          />
           {nodes.map(node => (
             <NodeDiff node={node} key={node.id.original ?? node.id.other} />
           ))}

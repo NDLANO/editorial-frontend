@@ -1420,6 +1420,11 @@ const phrases = {
       MODIFIED: 'Endret',
       NONE: 'Ingen',
     },
+    isRoot: 'Rotnode',
+    nodeTypeTooltips: {
+      SUBJECT: 'Dette er et fag',
+      TOPIC: 'Dette er et emne',
+    },
     fields: {
       id: {
         title: 'ID',

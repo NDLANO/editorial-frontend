@@ -1418,6 +1418,11 @@ const phrases = {
       MODIFIED: 'Modified',
       NONE: 'None',
     },
+    isRoot: 'Root node',
+    nodeTypeTooltips: {
+      SUBJECT: 'This is a subject',
+      TOPIC: 'This is a topic',
+    },
     fields: {
       id: {
         title: 'ID',

@@ -7,7 +7,6 @@
  */
 
 import styled from '@emotion/styled';
-import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/react';

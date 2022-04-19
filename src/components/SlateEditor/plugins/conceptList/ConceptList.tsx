@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { colors } from '@ndla/core';
+import { colors, spacing } from '@ndla/core';
 import { Pencil } from '@ndla/icons/lib/action';
 import { DeleteForever } from '@ndla/icons/lib/editor';
 import Tooltip from '@ndla/tooltip';
@@ -25,6 +25,13 @@ const StyledWrapper = styled.div<{ isSelected: boolean }>`
   padding: 5px;
   border: ${p =>
     p.isSelected ? `2px solid ${colors.brand.primary}` : `2px dashed ${colors.brand.greyLighter}`};
+
+  & > h2 {
+    margin-bottom: 0;
+  }
+  & p {
+    margin-top: 0;
+  }
 `;
 
 const StyledHeader = styled.h2`

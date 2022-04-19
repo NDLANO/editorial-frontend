@@ -26,6 +26,9 @@ const StyledContentWrapper = styled.div`
   & > figure:first-of-type {
     margin-top: ${spacing.medium};
   }
+  & li {
+    display: block;
+  }
 `;
 
 const getVisualElement = (embed: Embed) => {
@@ -121,9 +124,15 @@ const ConceptSearchResult = ({ tag, language, showResultCount }: Props) => {
           {showResultCount && isNumber(resultCount) && (
             <div>{`${t('searchPage.totalCount')}: ${resultCount}`}</div>
           )}
-          {concepts.map(concept => {
-            return <ConceptNotion concept={concept} disableScripts={true} />;
-          })}
+          <ul>
+            {concepts.map(concept => {
+              return (
+                <li key={concept.id}>
+                  <ConceptNotion concept={concept} disableScripts={true} />
+                </li>
+              );
+            })}
+          </ul>
         </>
       )}
     </StyledContentWrapper>

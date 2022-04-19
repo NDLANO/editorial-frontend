@@ -195,7 +195,7 @@ export function topicArticleContentToEditorValue(html: string) {
   if (!html) {
     return createEmptyValue();
   }
-  const deserialize = (el: HTMLElement | ChildNode) => {
+  const deserialize = (el: HTMLElement | ChildNode): Descendant | Descendant[] => {
     if (el.nodeType === 3) {
       return { text: el.textContent || '' };
     } else if (el.nodeType !== 1) {
@@ -224,13 +224,13 @@ export function topicArticleContentToEditorValue(html: string) {
       }
     }
 
-    return { text: el.textContent || '' };
+    return children;
   };
 
   const document = new DOMParser().parseFromString(html, 'text/html');
-  const nodes = deserialize(document.body.children[0]);
-  const normalizedNodes = convertFromHTML(Node.isNodeList(nodes) ? nodes[0] : nodes);
-  return normalizedNodes ? [normalizedNodes] : [];
+  const nodes = toArray(document.body.children).map(deserialize);
+  const normalizedNodes = compact(nodes.map(n => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
+  return normalizedNodes;
 }
 
 export function topicArticleContentToHTML(value: Descendant[]) {

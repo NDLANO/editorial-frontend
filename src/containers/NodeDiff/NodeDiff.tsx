@@ -1,13 +1,12 @@
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import { createGuard } from '../../util/guards';
 import ArrayDiffField from './ArrayDiffField';
-import BooleanDiffField from './BooleanDiffField';
 import { DiffType, removeType } from './diffUtils';
-import NumberDiffField from './NumberDiffField';
-import TextDiffField from './TextDiffField';
+import FieldDiff from './FieldDiff';
 import TranslationsDiff from './TranslationsDiff';
 
 interface Props {
@@ -27,6 +26,7 @@ const isChildNode = createGuard<DiffType<ChildNodeType>>('rank');
 
 const NodeDiff = ({ node }: Props) => {
   const [params] = useSearchParams();
+  const { t } = useTranslation();
 
   const fieldFilter = params.get('fieldView') ?? 'changed';
   const filteredNode = fieldFilter === 'changed' ? removeType(node, 'NONE') : node;
@@ -37,10 +37,16 @@ const NodeDiff = ({ node }: Props) => {
   if (Object.keys(filteredNode).length === 1) return null;
   return (
     <DiffContainer>
-      <TextDiffField fieldName="name" result={node.name} />
-      {filteredNode.id && <TextDiffField fieldName="id" result={filteredNode.id} />}
+      <FieldDiff fieldName="name" result={node.name} toDisplayValue={v => v} />
+      {filteredNode.id && (
+        <FieldDiff fieldName="id" result={filteredNode.id} toDisplayValue={v => v} />
+      )}
       {filteredNode.contentUri && (
-        <TextDiffField fieldName="contentUri" result={filteredNode.contentUri} />
+        <FieldDiff
+          fieldName="contentUri"
+          result={filteredNode.contentUri}
+          toDisplayValue={v => v}
+        />
       )}
       {filteredNode.translations && <TranslationsDiff translations={filteredNode.translations} />}
       {filteredNode.supportedLanguages && (
@@ -54,27 +60,59 @@ const NodeDiff = ({ node }: Props) => {
         <ArrayDiffField fieldName="paths" result={filteredNode.paths} toDisplayValue={val => val} />
       )}
       {filteredNode.relevanceId && (
-        <TextDiffField fieldName="relevance" result={filteredNode.relevanceId} />
+        <FieldDiff
+          fieldName="relevance"
+          result={filteredNode.relevanceId}
+          toDisplayValue={v => v}
+        />
       )}
       {isChildNode(filteredNode) && (
         <>
           {filteredNode.connectionId && (
-            <TextDiffField fieldName="connectionId" result={filteredNode.connectionId} />
+            <FieldDiff
+              fieldName="connectionId"
+              result={filteredNode.connectionId}
+              toDisplayValue={v => v}
+            />
           )}
           {filteredNode.primary && (
-            <BooleanDiffField fieldName="primary" result={filteredNode.primary} />
+            <FieldDiff
+              fieldName="primary"
+              result={filteredNode.primary}
+              toDisplayValue={v => t(`diff.fields.primary.${v ? 'isOn' : 'isOff'}`)}
+            />
           )}
           {filteredNode.isPrimary && (
-            <BooleanDiffField fieldName="isPrimary" result={filteredNode.isPrimary} />
+            <FieldDiff
+              fieldName="isPrimary"
+              result={filteredNode.isPrimary}
+              toDisplayValue={v => t(`diff.fields.isPrimary.${v ? 'isOn' : 'isOff'}`)}
+            />
           )}
-          {filteredNode.rank && <NumberDiffField fieldName="rank" result={filteredNode.rank} />}
-          {filteredNode.parent && <TextDiffField fieldName="parent" result={filteredNode.parent} />}
+          {filteredNode.rank && (
+            <FieldDiff
+              fieldName="rank"
+              result={filteredNode.rank}
+              toDisplayValue={v => v.toString()}
+            />
+          )}
+          {filteredNode.parent && (
+            <FieldDiff fieldName="parent" result={filteredNode.parent} toDisplayValue={v => v} />
+          )}
         </>
       )}
-      {filteredNode.path && <TextDiffField fieldName="path" result={filteredNode.path} />}
+      {filteredNode.path && (
+        <FieldDiff fieldName="path" result={filteredNode.path} toDisplayValue={v => v} />
+      )}
       {metadata && (
         <>
-          {metadata.visible && <BooleanDiffField fieldName="visible" result={metadata.visible} />}
+          {metadata.visible && (
+            <FieldDiff
+              fieldName="visible"
+              result={metadata.visible}
+              toDisplayValue={v => t(`diff.fields.visible.${v ? 'isOn' : 'isOff'}`)}
+            />
+          )}
           {metadata.grepCodes && (
             <ArrayDiffField
               fieldName="grepCodes"
@@ -85,9 +123,10 @@ const NodeDiff = ({ node }: Props) => {
           {customFields && (
             <>
               {customFields['topic-resources'] && (
-                <TextDiffField
+                <FieldDiff
                   fieldName="topic-resources"
                   result={customFields['topic-resources']}
+                  toDisplayValue={v => v}
                 />
               )}
             </>

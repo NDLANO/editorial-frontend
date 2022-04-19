@@ -10,6 +10,9 @@ import { Descendant, Editor, Element } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { createEmbedTag, reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import { SlateSerializer } from '../../interfaces';
+import { defaultBlockNormalizer, NormalizerConfig } from '../../utils/defaultNormalizer';
+import { afterOrBeforeTextBlockElement } from '../../utils/normalizationHelpers';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
 import ConceptList from './ConceptList';
 import { TYPE_CONCEPT_LIST } from './types';
 import { defaultConceptListBlock } from './utils';
@@ -23,6 +26,17 @@ export interface ConceptListElement {
   isFirstEdit?: boolean;
   children: Descendant[];
 }
+
+const normalizerConfig: NormalizerConfig = {
+  previous: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+  next: {
+    allowed: afterOrBeforeTextBlockElement,
+    defaultType: TYPE_PARAGRAPH,
+  },
+};
 
 export const conceptListSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -47,7 +61,7 @@ export const conceptListSerializer: SlateSerializer = {
 };
 
 export const conceptListPlugin = (language: string) => (editor: Editor) => {
-  const { renderElement, isVoid } = editor;
+  const { renderElement, isVoid, normalizeNode } = editor;
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;
@@ -66,6 +80,18 @@ export const conceptListPlugin = (language: string) => (editor: Editor) => {
       return true;
     }
     return isVoid(element);
+  };
+
+  editor.normalizeNode = entry => {
+    const [node] = entry;
+
+    if (Element.isElement(node) && node.type === TYPE_CONCEPT_LIST) {
+      if (!defaultBlockNormalizer(editor, entry, normalizerConfig)) {
+        return normalizeNode(entry);
+      }
+    } else {
+      normalizeNode(entry);
+    }
   };
 
   return editor;

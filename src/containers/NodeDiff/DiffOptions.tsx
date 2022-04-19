@@ -6,10 +6,11 @@
  *
  */
 
-import { FormEvent } from 'react';
+import { FormEvent, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
+import { ContentLoader } from '@ndla/ui';
 import { spacing } from '@ndla/core';
 import ObjectSelector from '../../components/ObjectSelector';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
@@ -81,6 +82,14 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
   const options =
     taxonomyVersions.data?.map(version => ({ id: version.hash, label: version.name })) ?? [];
 
+  useEffect(() => {
+    if (!otherHash && taxonomyVersions.data) {
+      const publishedVersion = taxonomyVersions.data.find(v => v.versionType === 'PUBLISHED');
+      params.set('otherHash', publishedVersion?.hash ?? 'default');
+      setParams(params);
+    }
+  }, [otherHash, params, setParams, taxonomyVersions.data]);
+
   const nodeViewOptions = [
     { id: 'all', label: t('diff.options.allNodes') },
     { id: 'changed', label: t('diff.options.changedNodes') },
@@ -109,6 +118,24 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
     params.set(name, value);
     setParams(params);
   };
+
+  if (taxonomyVersions.isLoading) {
+    return (
+      <ContentLoader width={800} height={150}>
+        <rect x="0" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-1" />
+        <rect x="0" y="26" rx="3" ry="3" width="260" height="32" key="rect-1-1" />
+        <rect x="270" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-1" />
+        <rect x="270" y="26" rx="3" ry="3" width="255" height="32" key="rect-1-1" />
+        <rect x="535" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-1" />
+        <rect x="535" y="26" rx="3" ry="3" width="100" height="32" key="rect-1-1" />
+
+        <rect x="0" y="76" rx="3" ry="3" width="80" height="23" key="rect-1-1" />
+        <rect x="0" y="102" rx="3" ry="3" width="120" height="32" key="rect-1-1" />
+        <rect x="130" y="76" rx="3" ry="3" width="80" height="23" key="rect-1-1" />
+        <rect x="130" y="102" rx="3" ry="3" width="120" height="32" key="rect-1-1" />
+      </ContentLoader>
+    );
+  }
 
   return (
     <StyledDiffOptions>

@@ -74,7 +74,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
       language: i18n.language,
       taxonomyVersion: otherHash || originalHash,
     },
-    { enabled: !!nodeId },
+    { enabled: !!nodeId && !!otherHash },
   );
 
   const shownNodes = Math.max(

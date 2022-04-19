@@ -25,6 +25,7 @@ const phrases = {
     podcastUploaderPage: `Podcast episode ${titleTemplate}`,
     podcastSeriesPage: `Podcast series ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    nodeDiffPage: `Compare Nodes ${titleTemplate}`,
     search: {
       'podcast-series': `Search podcast series ${titleTemplate}`,
       audio: `Search audio files ${titleTemplate}`,
@@ -1393,6 +1394,7 @@ const phrases = {
   diff: {
     equalNodes: 'These nodes are equal!',
     defaultVersion: 'Default version',
+    compareVersions: 'Compare versions',
     error: {
       originalHashRequired: 'The originalHash parameter has to be present in the URL!',
     },

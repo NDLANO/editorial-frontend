@@ -6,6 +6,7 @@
  *
  */
 
+import { useTranslation } from 'react-i18next';
 import { colors } from '@ndla/core';
 import { Taxonomy } from '@ndla/icons/editor';
 import styled from '@emotion/styled';
@@ -27,11 +28,12 @@ const StyledLink = styled(Link)`
 `;
 const ToNodeDiff = ({ node }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
+  const { t } = useTranslation();
   return (
     <StyledLink to={`/nodeDiff/${node.id}?originalHash=${taxonomyVersion}`}>
       <MenuItemButton stripped data-testid="toNodeDiff">
         <RoundIcon small icon={<Taxonomy />} />
-        Diff
+        {t('diff.compareVersions')}
       </MenuItemButton>
     </StyledLink>
   );

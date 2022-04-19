@@ -30,18 +30,19 @@ const StickyDiv = styled.div`
   padding: ${spacing.small};
 `;
 
-const fakeDefault: VersionType = {
-  id: '',
-  versionType: 'BETA',
-  name: 'Default',
-  hash: 'default',
-  locked: false,
-};
 const StickyVersionSelector = () => {
   const { t } = useTranslation();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
   const { data } = useVersions({ taxonomyVersion });
   const qc = useQueryClient();
+
+  const fakeDefault: VersionType = {
+    id: '',
+    versionType: 'BETA',
+    name: t('diff.defaultVersion'),
+    hash: 'default',
+    locked: false,
+  };
 
   if (!data) return <></>;
   const currentVersion = data.find(version => version.hash === taxonomyVersion) ?? fakeDefault;

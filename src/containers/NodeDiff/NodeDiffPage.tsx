@@ -8,6 +8,7 @@
 
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
+import { HelmetWithTracker } from '@ndla/tracker';
 import { OneColumn } from '@ndla/ui';
 import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router-dom';
@@ -32,6 +33,7 @@ const NodeDiffPage = () => {
   if (!originalHash || !nodeId) {
     return (
       <OneColumn>
+        <HelmetWithTracker title={t('htmlTitles.nodeDiffPage')} />
         <h1>{t('diff.error.originalHashRequired')}</h1>
       </OneColumn>
     );
@@ -40,6 +42,7 @@ const NodeDiffPage = () => {
   return (
     <>
       <OneColumn>
+        <HelmetWithTracker title={t('htmlTitles.nodeDiffPage')} />
         <StyledNodeContainer>
           <DiffOptions originalHash={originalHash} otherHash={otherHash} />
           <NodeDiffcontainer

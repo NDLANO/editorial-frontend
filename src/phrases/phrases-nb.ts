@@ -25,6 +25,7 @@ const phrases = {
     podcastUploaderPage: `Podkastepisode ${titleTemplate}`,
     podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    nodeDiffPage: `Sammenlign noder ${titleTemplate}`,
     search: {
       'podcast-series': `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -1395,6 +1396,7 @@ const phrases = {
   diff: {
     equalNodes: 'Disse nodene er like!',
     defaultVersion: 'Standardsversjon',
+    compareVersions: 'Sammenlign versjoner',
     error: {
       originalHashRequired: "originalHash-parameteret er påkrevd i URL'en!",
     },

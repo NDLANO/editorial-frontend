@@ -117,7 +117,6 @@ export const TreeNode = ({
   level,
 }: Props) => {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(true);
   const path = nodePathToUrnPath(node.path.other ?? node.path?.original!);
   const isActive =
     (selectedNode?.id.other ?? selectedNode?.id.original) === (node.id.other ?? node.id.original);
@@ -130,7 +129,6 @@ export const TreeNode = ({
   //     : undefined;
 
   const onItemClick = () => {
-    setIsOpen(prev => !prev);
     onNodeSelected(node);
   };
 
@@ -147,7 +145,7 @@ export const TreeNode = ({
           hasChildNodes={hasChildNodes}
           isRootNode={false}
           lastItemClickable={true}
-          arrowDirection={isOpen ? 90 : 0}
+          arrowDirection={90}
           onClick={onItemClick}
           isVisible={node.metadata?.visible.other ?? node.metadata?.visible.original}>
           {node.name.other ?? node.name.original}
@@ -160,7 +158,6 @@ export const TreeNode = ({
         {node.changed.diffType !== 'NONE' && <DiffTypePill diffType={node.changed.diffType} />}
       </StyledItemBar>
       {hasChildNodes &&
-        isOpen &&
         nodes &&
         nodes.map(node => (
           <StructureWrapper key={`${path}/${node.id.other ?? node.id.original}`}>

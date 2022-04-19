@@ -70,7 +70,17 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   if (defaultQuery.isLoading || otherRootQuery.isLoading) {
     const rows: ReactNode[] = [];
     for (let i = 0; i < shownNodes; i++) {
-      rows.push(<rect x="0" y={(i * 45).toString()} rx="3" ry="3" width="800" height="40" />);
+      rows.push(
+        <rect
+          x="0"
+          y={(i * 45).toString()}
+          rx="3"
+          ry="3"
+          width="800"
+          height="40"
+          key={`rect-${i}`}
+        />,
+      );
     }
     return (
       <ContentLoader width={800} height={shownNodes * 50}>

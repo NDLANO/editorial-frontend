@@ -10,7 +10,11 @@ export interface DiffResult<TType> {
 }
 
 export type DiffType<T> = {
-  [key in keyof T]: T[key] extends object ? DiffType<T[key]> : DiffResult<T[key]>;
+  [key in keyof T]: T[key] extends Array<infer ArrType>
+    ? DiffResult<ArrType[]>
+    : T[key] extends object
+    ? DiffType<T[key]>
+    : DiffResult<T[key]>;
 } & { changed: DiffResult<null>; childrenChanged?: DiffResult<null> };
 
 export interface RootNodeWithChildren extends NodeType {
@@ -127,7 +131,7 @@ const diffObject = <T>(original: T | undefined, other: T | undefined): DiffType<
   let hasChanged = false;
   const allKeys = Object.keys({ ...original, ...other }) as Array<keyof T>;
   const test = allKeys.reduce<Record<keyof T, any>>((acc, key) => {
-    if (Array.isArray(original?.[key])) {
+    if (Array.isArray(original?.[key]) || Array.isArray(other?.[key])) {
       const res = diffField(original?.[key], other?.[key]);
       if (res.diffType !== 'NONE') {
         hasChanged = true;
@@ -160,7 +164,7 @@ const diffObject = <T>(original: T | undefined, other: T | undefined): DiffType<
   } as DiffType<T>;
 };
 
-const diffField = <T>(
+export const diffField = <T>(
   original: T | undefined,
   other: T | undefined,
   skipEqualityCheck?: boolean,

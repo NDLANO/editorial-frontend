@@ -52,6 +52,8 @@ export interface NodeType {
   path: string;
   paths?: string[];
   relevanceId?: string;
+  translations: NodeTranslation[];
+  supportedLanguages: string[];
 }
 
 export interface ResourceWithNodeConnection {

@@ -52,6 +52,8 @@ export const useAddNodeMutation = () => {
           contentUri: newNode.contentUri ?? '',
           id: newNode.id ?? '',
           path: '',
+          translations: [],
+          supportedLanguages: [],
           metadata: { visible: true, grepCodes: [], customFields: {} },
         };
         queryClient.setQueryData<NodeType[]>(NODES, [...previousNodes, optimisticNode]);

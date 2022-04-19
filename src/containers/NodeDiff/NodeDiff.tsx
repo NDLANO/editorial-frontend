@@ -3,10 +3,12 @@ import { spacing } from '@ndla/core';
 import { useSearchParams } from 'react-router-dom';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
 import { createGuard } from '../../util/guards';
+import ArrayDiffField from './ArrayDiffField';
 import BooleanDiffField from './BooleanDiffField';
 import { DiffType, removeType } from './diffUtils';
 import NumberDiffField from './NumberDiffField';
 import TextDiffField from './TextDiffField';
+import TranslationsDiff from './TranslationsDiff';
 
 interface Props {
   node: DiffType<ChildNodeType> | DiffType<NodeType>;
@@ -40,6 +42,17 @@ const NodeDiff = ({ node }: Props) => {
       {filteredNode.contentUri && (
         <TextDiffField fieldName="contentUri" result={filteredNode.contentUri} />
       )}
+      {filteredNode.translations && <TranslationsDiff translations={filteredNode.translations} />}
+      {filteredNode.supportedLanguages && (
+        <ArrayDiffField
+          fieldName="supportedLanguages"
+          result={filteredNode.supportedLanguages}
+          toDisplayValue={value => value}
+        />
+      )}
+      {filteredNode.paths && (
+        <ArrayDiffField fieldName="paths" result={filteredNode.paths} toDisplayValue={val => val} />
+      )}
       {filteredNode.relevanceId && (
         <TextDiffField fieldName="relevance" result={filteredNode.relevanceId} />
       )}
@@ -54,7 +67,7 @@ const NodeDiff = ({ node }: Props) => {
           {filteredNode.isPrimary && (
             <BooleanDiffField fieldName="isPrimary" result={filteredNode.isPrimary} />
           )}
-          {filteredNode.rank && <NumberDiffField label="rank" result={filteredNode.rank} />}
+          {filteredNode.rank && <NumberDiffField fieldName="rank" result={filteredNode.rank} />}
           {filteredNode.parent && <TextDiffField fieldName="parent" result={filteredNode.parent} />}
         </>
       )}
@@ -62,6 +75,13 @@ const NodeDiff = ({ node }: Props) => {
       {metadata && (
         <>
           {metadata.visible && <BooleanDiffField fieldName="visible" result={metadata.visible} />}
+          {metadata.grepCodes && (
+            <ArrayDiffField
+              fieldName="grepCodes"
+              result={metadata.grepCodes}
+              toDisplayValue={val => val}
+            />
+          )}
           {customFields && (
             <>
               {customFields['topic-resources'] && (

@@ -1470,6 +1470,12 @@ const phrases = {
         isOn: 'Grouped',
         isOff: 'Ungrouped',
       },
+      supportedLanguages: {
+        title: 'Supported Languages',
+      },
+      grepCodes: {
+        title: 'Grep Codes',
+      },
     },
   },
   metadata: {

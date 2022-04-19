@@ -1451,7 +1451,7 @@ const phrases = {
         isOff: 'Denne noden er ikke en primærressurs',
       },
       rank: {
-        title: 'Kjerneressurs',
+        title: 'Rangering',
       },
       relevance: {
         title: 'Relevans',
@@ -1471,6 +1471,12 @@ const phrases = {
         title: 'Gruppering av ressurser',
         isOn: 'Gruppert',
         isOff: 'Ugruppert',
+      },
+      supportedLanguages: {
+        title: 'Støttede språk',
+      },
+      grepCodes: {
+        title: 'Grep-koder',
       },
     },
   },

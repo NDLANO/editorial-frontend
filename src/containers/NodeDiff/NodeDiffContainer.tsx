@@ -31,6 +31,12 @@ const StyledNodeList = styled.div`
   gap: ${spacing.normal};
 `;
 
+const DiffContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
+
 interface NodeOptions {
   nodeView: string | null;
   fieldView: string | null;
@@ -110,7 +116,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const equal =
     diff.root.changed.diffType === 'NONE' && diff.root.childrenChanged?.diffType === 'NONE';
   return (
-    <div id="diffContainer">
+    <DiffContainer id="diffContainer">
       {equal && <MessageBox>{t('diff.equalNodes')}</MessageBox>}
       {view === 'tree' && (
         <RootNode tree={diff} onNodeSelected={setSelectedNode} selectedNode={selectedNode} />
@@ -130,7 +136,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
           ))}
         </StyledNodeList>
       )}
-    </div>
+    </DiffContainer>
   );
 };
 

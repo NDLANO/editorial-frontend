@@ -113,11 +113,7 @@ const topicArticleRules: SlateSerializer[] = [
   spanSerializer,
 ];
 
-export const learningResourceContentToEditorValue = (html: string): Descendant[] => {
-  return articleContentToEditorValue(html, learningResourceRules);
-};
-
-export function learningResourceContentToHTML(contentValues: Descendant[]) {
+const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => {
   const serialize = (node: Descendant): JSX.Element | null => {
     let children: JSX.Element[];
     if (Text.isText(node)) {
@@ -126,7 +122,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[]) {
       children = compact(node.children.map((n: Descendant) => serialize(n)));
     }
 
-    for (const rule of learningResourceRules) {
+    for (const rule of rules) {
       if (!rule.serialize) {
         continue;
       }
@@ -143,7 +139,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[]) {
     return <>{children}</>;
   };
 
-  const elements = contentValues
+  const elements = value
     .map((descendant: Descendant) => {
       const html = serialize(descendant);
       return html ? renderToStaticMarkup(html) : '';
@@ -151,11 +147,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[]) {
     .join('');
 
   return elements.replace(/<deleteme><\/deleteme>/g, '');
-}
-
-export function topicArticleContentToEditorValue(html: string) {
-  return articleContentToEditorValue(html, topicArticleRules);
-}
+};
 
 const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => {
   if (!html) {
@@ -197,40 +189,20 @@ const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => 
   return normalizedNodes;
 };
 
+export const learningResourceContentToEditorValue = (html: string): Descendant[] => {
+  return articleContentToEditorValue(html, learningResourceRules);
+};
+
+export function learningResourceContentToHTML(contentValues: Descendant[]) {
+  return articleContentToHTML(contentValues, learningResourceRules);
+}
+
+export function topicArticleContentToEditorValue(html: string) {
+  return articleContentToEditorValue(html, topicArticleRules);
+}
+
 export function topicArticleContentToHTML(value: Descendant[]) {
-  const serialize = (node: Descendant): JSX.Element | null => {
-    let children: JSX.Element[];
-    if (Text.isText(node)) {
-      children = [escapeHtml(node.text)];
-    } else {
-      children = compact(node.children.map((n: Descendant) => serialize(n)));
-    }
-
-    for (const rule of topicArticleRules) {
-      if (!rule.serialize) {
-        continue;
-      }
-      const ret = rule.serialize(node, children);
-
-      if (ret === undefined) {
-        continue;
-      } else if (ret === null) {
-        return null;
-      } else {
-        return ret;
-      }
-    }
-    return <>{children}</>;
-  };
-
-  const elements = value
-    .map((descendant: Descendant) => {
-      const html = serialize(descendant);
-      return html ? renderToStaticMarkup(html) : '';
-    })
-    .join('');
-
-  return elements.replace(/<deleteme><\/deleteme>/g, '');
+  return articleContentToHTML(value, topicArticleRules);
 }
 
 export function plainTextToEditorValue(text: string): Descendant[] {

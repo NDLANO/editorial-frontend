@@ -50,7 +50,12 @@ export const RootNode = ({ tree, onNodeSelected, selectedNode }: RootNodeProps) 
   const [params] = useSearchParams();
 
   const nodeView = params.get('nodeView') ?? 'changed';
-  if (root.changed.diffType === 'NONE' && nodeView === 'changed') return null;
+  if (
+    root.changed.diffType === 'NONE' &&
+    root.childrenChanged?.diffType === 'NONE' &&
+    nodeView === 'changed'
+  )
+    return null;
   const children = nodeView === 'changed' ? removeUnchangedFromTree(tree.children) : tree.children;
 
   return (

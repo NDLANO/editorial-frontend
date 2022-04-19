@@ -63,8 +63,8 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
 
   return (
     <>
-      <StyledWrapper {...attributes} contentEditable={false} isSelected={isSelected}>
-        <ButtonContainer>
+      <StyledWrapper {...attributes} isSelected={isSelected} tabIndex={1} draggable>
+        <ButtonContainer contentEditable={false}>
           <Tooltip tooltip={t('form.remove')} align="right">
             <IconButton color="red" type="button" onClick={onRemoveClick} tabIndex={-1}>
               <DeleteForever />
@@ -76,7 +76,7 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
             </IconButton>
           </Tooltip>
         </ButtonContainer>
-        {title && <StyledHeader>{title}</StyledHeader>}
+        {title && <StyledHeader contentEditable={false}>{title}</StyledHeader>}
         {tag && <ConceptSearchResult tag={tag} language={language} />}
         {children}
       </StyledWrapper>

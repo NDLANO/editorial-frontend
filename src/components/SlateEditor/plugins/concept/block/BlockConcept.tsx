@@ -114,7 +114,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
   }, [element]);
 
   return (
-    <StyledWrapper {...attributes} tabIndex={1} isSelected={isSelected} draggable={true}>
+    <StyledWrapper {...attributes} tabIndex={1} isSelected={isSelected} draggable>
       {concept && (
         <div contentEditable={false}>
           <SlateConceptPreview

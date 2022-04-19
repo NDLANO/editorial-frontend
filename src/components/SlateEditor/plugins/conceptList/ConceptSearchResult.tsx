@@ -113,7 +113,7 @@ const ConceptSearchResult = ({ tag, language, showResultCount }: Props) => {
   }, [tag, language]);
 
   return (
-    <StyledContentWrapper>
+    <StyledContentWrapper contentEditable={false}>
       {loading ? (
         <Spinner />
       ) : (

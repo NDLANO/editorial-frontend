@@ -11,12 +11,29 @@ import { spacing, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from 'react-query';
 import ObjectSelector from '../../components/ObjectSelector';
-import { VersionType } from '../../modules/taxonomy/versions/versionApiTypes';
+import { VersionStatusType, VersionType } from '../../modules/taxonomy/versions/versionApiTypes';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
-const StickyDiv = styled.div`
-  background-color: ${colors.brand.primary};
+type PossibleVersionTypes = VersionStatusType | 'default';
+
+interface VersionTypeWithDefault extends Omit<VersionType, 'versionType'> {
+  versionType: PossibleVersionTypes;
+}
+
+const versionTypeToColorMap: Record<PossibleVersionTypes, string> = {
+  default: colors.brand.primary,
+  PUBLISHED: colors.support.green,
+  BETA: colors.support.yellow,
+  ARCHIVED: colors.brand.grey,
+};
+
+interface StickyDivProps {
+  color: string;
+}
+
+const StickyDiv = styled.div<StickyDivProps>`
+  background-color: ${props => props.color};
   display: flex;
   position: sticky;
   bottom: ${spacing.normal};
@@ -36,9 +53,9 @@ const StickyVersionSelector = () => {
   const { data } = useVersions({ taxonomyVersion });
   const qc = useQueryClient();
 
-  const fakeDefault: VersionType = {
+  const fakeDefault: VersionTypeWithDefault = {
     id: '',
-    versionType: 'BETA',
+    versionType: 'default',
     name: t('diff.defaultVersion'),
     hash: 'default',
     locked: false,
@@ -57,7 +74,7 @@ const StickyVersionSelector = () => {
     .map(version => ({ id: version.hash, label: version.name }));
 
   return (
-    <StickyDiv>
+    <StickyDiv color={versionTypeToColorMap[currentVersion.versionType]}>
       {t('taxonomy.currentVersion')}
       <ObjectSelector
         options={options}

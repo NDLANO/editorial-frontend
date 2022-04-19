@@ -113,46 +113,8 @@ const topicArticleRules: SlateSerializer[] = [
   spanSerializer,
 ];
 
-export const learningResourceContentToEditorValue = (html?: string): Descendant[] => {
-  if (!html) {
-    return createEmptyValue();
-  }
-
-  const deserialize = (el: HTMLElement | ChildNode): Descendant | Descendant[] => {
-    if (el.nodeType === 3) {
-      return { text: el.textContent || '' };
-    } else if (el.nodeType !== 1) {
-      return { text: '' };
-    }
-
-    let children = Array.from(el.childNodes).flatMap(deserialize);
-    if (children.length === 0) {
-      children = [{ text: '' }];
-    }
-
-    for (const rule of learningResourceRules) {
-      if (!rule.deserialize) {
-        continue;
-      }
-
-      // Already checked that nodeType === 1 -> el must be of type Element.
-      // HTMLElement is a subset of Element.
-      // https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
-      const ret = rule.deserialize(el as HTMLElement, children);
-
-      if (ret === undefined) {
-        continue;
-      } else {
-        return ret;
-      }
-    }
-    return children;
-  };
-
-  const document = new DOMParser().parseFromString(html, 'text/html');
-  const nodes = toArray(document.body.children).map(deserialize);
-  const normalizedNodes = compact(nodes.map(n => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
-  return normalizedNodes;
+export const learningResourceContentToEditorValue = (html: string): Descendant[] => {
+  return articleContentToEditorValue(html, learningResourceRules);
 };
 
 export function learningResourceContentToHTML(contentValues: Descendant[]) {
@@ -192,6 +154,10 @@ export function learningResourceContentToHTML(contentValues: Descendant[]) {
 }
 
 export function topicArticleContentToEditorValue(html: string) {
+  return articleContentToEditorValue(html, topicArticleRules);
+}
+
+const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => {
   if (!html) {
     return createEmptyValue();
   }
@@ -207,14 +173,12 @@ export function topicArticleContentToEditorValue(html: string) {
       children = [{ text: '' }];
     }
 
-    for (const rule of topicArticleRules) {
+    for (const rule of rules) {
       if (!rule.deserialize) {
         continue;
       }
 
-      // Already checked that nodeType === 1 -> el must be of type Element.
-      // HTMLElement is a subset of Element.
-      // https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
+      // Already checked that nodeType === 1 -> el must be of type HTMLElement.
       const ret = rule.deserialize(el as HTMLElement, children);
 
       if (ret === undefined) {
@@ -231,7 +195,7 @@ export function topicArticleContentToEditorValue(html: string) {
   const nodes = toArray(document.body.children).map(deserialize);
   const normalizedNodes = compact(nodes.map(n => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
   return normalizedNodes;
-}
+};
 
 export function topicArticleContentToHTML(value: Descendant[]) {
   const serialize = (node: Descendant): JSX.Element | null => {

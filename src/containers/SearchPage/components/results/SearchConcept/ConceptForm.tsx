@@ -70,7 +70,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
   const { userPermissions } = useSession();
   const canPublish = !!userPermissions?.includes(CONCEPT_ADMIN_SCOPE);
   const { data: licenses } = useLicenses({ placeholderData: [] });
-  const licensesWithTranslations = getLicensesWithTranslations(licenses!, language);
+  const licensesWithTranslations = getLicensesWithTranslations(licenses!, language, true);
   const formik = useFormik<InlineFormConcept>({
     initialValues,
     validate,

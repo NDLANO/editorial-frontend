@@ -87,18 +87,20 @@ export interface DiffTree {
 }
 
 export const diffTrees = (
-  originalTree: NodeTree,
-  otherTree: NodeTree,
+  originalTree: NodeTree | undefined,
+  otherTree: NodeTree | undefined,
   viewType: 'flat' | 'tree',
 ): DiffTree => {
-  const { children: originalChildren, root: originalRoot } = originalTree;
-  const { children: otherChildren, root: otherRoot } = otherTree;
+  const originalChildren = originalTree?.children ?? [];
+  const originalRoot = originalTree?.root;
+  const otherChildren = otherTree?.children ?? [];
+  const otherRoot = otherTree?.root;
   const originals: NodeWithTag[] = originalChildren.map(node => ({ node, tag: 'original' }));
   const others: NodeWithTag[] = otherChildren.map(node => ({ node, tag: 'other' }));
   const allChildren = originals.concat(others);
   const grouping = allChildren.reduce<Record<string, NodeGrouping<ChildNodeType>>>((acc, curr) => {
     // The root node is returned from the recursive endpoint as well, filter it out.
-    if (curr.node.id === originalTree.root.id || curr.node.id === otherTree.root.id) {
+    if (curr.node.id === originalTree?.root.id || curr.node.id === otherTree?.root.id) {
       return acc;
     }
     if (acc[curr.node.id]) {

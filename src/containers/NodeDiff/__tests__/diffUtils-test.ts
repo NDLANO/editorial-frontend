@@ -1,5 +1,7 @@
 import { diffField, DiffResult, diffTrees } from '../diffUtils';
 import {
+  nodeTreeInOriginalVersionDiff,
+  nodeTreeInOtherVersionDiff,
   nodeTreeWithDirectChildren,
   nodeTreeWithDirectChildrenDiff,
   nodeTreeWithDirectChildrenUpdated,
@@ -137,6 +139,20 @@ describe('diffTrees', () => {
     const other = nodeTreeWithNestedChildrenUpdated;
     const expected = nodeTreeWithNestedChildrenDiff;
     const res = diffTrees(original, other, 'tree');
+    expect(res).toEqual(expected);
+  });
+
+  test('correctly diffs original tree if other tree does not exist', () => {
+    const original = nodeTreeWithNoChildren;
+    const expected = nodeTreeInOriginalVersionDiff;
+    const res = diffTrees(original, undefined, 'tree');
+    expect(res).toEqual(expected);
+  });
+
+  test('correcly diffs other tree if original tree does not exist', () => {
+    const other = nodeTreeWithNoChildren;
+    const expected = nodeTreeInOtherVersionDiff;
+    const res = diffTrees(undefined, other, 'tree');
     expect(res).toEqual(expected);
   });
 });

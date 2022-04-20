@@ -1471,3 +1471,177 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
     },
   ],
 };
+
+export const nodeTreeInOriginalVersionDiff: DiffTree = {
+  root: {
+    changed: { diffType: 'DELETED' },
+    childrenChanged: { diffType: 'NONE' },
+    id: {
+      original: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      other: undefined,
+      diffType: 'DELETED',
+    },
+    name: {
+      original: 'Samfunnskunnskap',
+      other: undefined,
+      diffType: 'DELETED',
+    },
+    contentUri: {
+      original: 'urn:frontpage:62',
+      other: undefined,
+      diffType: 'DELETED',
+    },
+    path: {
+      original: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      other: undefined,
+      diffType: 'DELETED',
+    },
+    paths: {
+      original: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
+      other: undefined,
+      diffType: 'DELETED',
+    },
+    metadata: {
+      changed: { diffType: 'DELETED' },
+      grepCodes: {
+        original: ['KV48'],
+        other: undefined,
+        diffType: 'DELETED',
+      },
+      visible: {
+        original: true,
+        other: undefined,
+        diffType: 'DELETED',
+      },
+      customFields: {
+        changed: { diffType: 'DELETED' },
+        'old-subject-id': {
+          original: 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
+          other: undefined,
+          diffType: 'DELETED',
+        },
+        subjectCategory: {
+          original: 'active',
+          other: undefined,
+          diffType: 'DELETED',
+        },
+      },
+    },
+    relevanceId: {
+      original: undefined,
+      other: undefined,
+      diffType: 'DELETED',
+    },
+    translations: {
+      original: [
+        {
+          name: 'Social Science',
+          language: 'en',
+        },
+        {
+          name: 'Samfunnskunnskap',
+          language: 'nb',
+        },
+        {
+          name: 'Samfunnskunnskap',
+          language: 'nn',
+        },
+      ],
+      other: undefined,
+      diffType: 'DELETED',
+    },
+    supportedLanguages: {
+      original: ['en', 'nb', 'nn'],
+      other: undefined,
+      diffType: 'DELETED',
+    },
+  },
+  children: [],
+};
+
+export const nodeTreeInOtherVersionDiff: DiffTree = {
+  root: {
+    changed: { diffType: 'ADDED' },
+    childrenChanged: { diffType: 'NONE' },
+    id: {
+      original: undefined,
+      other: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      diffType: 'ADDED',
+    },
+    name: {
+      original: undefined,
+      other: 'Samfunnskunnskap',
+      diffType: 'ADDED',
+    },
+    contentUri: {
+      original: undefined,
+      other: 'urn:frontpage:62',
+      diffType: 'ADDED',
+    },
+    path: {
+      original: undefined,
+      other: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+      diffType: 'ADDED',
+    },
+    paths: {
+      original: undefined,
+      other: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
+      diffType: 'ADDED',
+    },
+    metadata: {
+      changed: { diffType: 'ADDED' },
+      grepCodes: {
+        original: undefined,
+        other: ['KV48'],
+        diffType: 'ADDED',
+      },
+      visible: {
+        original: undefined,
+        other: true,
+        diffType: 'ADDED',
+      },
+      customFields: {
+        changed: { diffType: 'ADDED' },
+        'old-subject-id': {
+          original: undefined,
+          other: 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
+          diffType: 'ADDED',
+        },
+        subjectCategory: {
+          original: undefined,
+          other: 'active',
+          diffType: 'ADDED',
+        },
+      },
+    },
+    relevanceId: {
+      original: undefined,
+      other: undefined,
+      diffType: 'ADDED',
+    },
+    translations: {
+      original: undefined,
+      other: [
+        {
+          name: 'Social Science',
+          language: 'en',
+        },
+        {
+          name: 'Samfunnskunnskap',
+          language: 'nb',
+        },
+        {
+          name: 'Samfunnskunnskap',
+          language: 'nn',
+        },
+      ],
+      diffType: 'ADDED',
+    },
+    supportedLanguages: {
+      original: undefined,
+      other: ['en', 'nb', 'nn'],
+      diffType: 'ADDED',
+    },
+  },
+  children: [],
+};

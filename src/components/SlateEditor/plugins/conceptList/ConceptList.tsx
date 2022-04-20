@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
+import { colors } from '@ndla/core';
 import { Pencil } from '@ndla/icons/lib/action';
 import { DeleteForever } from '@ndla/icons/lib/editor';
 import Tooltip from '@ndla/tooltip';

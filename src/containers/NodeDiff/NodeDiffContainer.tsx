@@ -56,33 +56,57 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const view = params.get('view') === 'flat' ? 'flat' : 'tree';
   const { t, i18n } = useTranslation();
   const [selectedNode, setSelectedNode] = useState<DiffType<NodeType> | undefined>(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     setSelectedNode(undefined);
   }, [originalHash, otherHash]);
+
   const defaultQuery = useNodeTree(
     {
       id: nodeId,
       language: i18n.language,
       taxonomyVersion: originalHash,
     },
-    { enabled: !!nodeId },
+    {
+      enabled: !!nodeId,
+      //@ts-ignore
+      retry: (_, err) => err.status !== 404,
+    },
   );
-  const otherRootQuery = useNodeTree(
+  const otherQuery = useNodeTree(
     {
       id: nodeId,
       language: i18n.language,
       taxonomyVersion: otherHash || originalHash,
     },
-    { enabled: !!nodeId && !!otherHash },
+    {
+      enabled: !!nodeId && !!otherHash,
+      //@ts-ignore
+      retry: (_, err) => err.status !== 404,
+    },
   );
+
+  useEffect(() => {
+    if (defaultQuery.isLoading || otherQuery.isLoading || (defaultQuery.data && otherQuery.data)) {
+      setError(undefined);
+      return;
+    }
+    if (!defaultQuery.data && !otherQuery.data) {
+      setError('diff.error.doesNotExist');
+    } else if (!defaultQuery.data) {
+      setError('diff.error.onlyExistsInOther');
+    } else {
+      setError('diff.error.onlyExistsInOriginal');
+    }
+  }, [defaultQuery, otherQuery]);
 
   const shownNodes = Math.max(
     (defaultQuery.data?.children.length ?? 0) + 1,
-    (otherRootQuery.data?.children.length ?? 0) + 1,
+    (otherQuery.data?.children.length ?? 0) + 1,
   );
 
-  if (defaultQuery.isLoading || otherRootQuery.isLoading) {
+  if (defaultQuery.isLoading || otherQuery.isLoading) {
     const rows: ReactNode[] = [];
     for (let i = 0; i < shownNodes; i++) {
       rows.push(
@@ -104,7 +128,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     );
   }
 
-  const diff = diffTrees(defaultQuery.data!, otherRootQuery.data!, view);
+  const diff = diffTrees(defaultQuery.data!, otherQuery.data!, view);
 
   const test: DiffType<ChildNodeType>[] = diff.children;
 
@@ -114,10 +138,13 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   });
 
   const equal =
-    diff.root.changed.diffType === 'NONE' && diff.root.childrenChanged?.diffType === 'NONE';
+    (defaultQuery.data || otherQuery.data) &&
+    diff.root.changed.diffType === 'NONE' &&
+    diff.root.childrenChanged?.diffType === 'NONE';
   return (
     <DiffContainer id="diffContainer">
       {equal && <MessageBox>{t('diff.equalNodes')}</MessageBox>}
+      {error && <MessageBox>{t(error)}</MessageBox>}
       {view === 'tree' && (
         <RootNode tree={diff} onNodeSelected={setSelectedNode} selectedNode={selectedNode} />
       )}

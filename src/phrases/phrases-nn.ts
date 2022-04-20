@@ -1399,6 +1399,9 @@ const phrases = {
     compareVersions: 'Samanlikne versjonar',
     error: {
       originalHashRequired: "originalHash-parameteret er påkrevd i URL'en!",
+      doesNotExist: 'Denne noden finnast ikkje i nokon av desse versjonane',
+      onlyExistsInOriginal: 'Denne noden finnast berre i originalversjonen',
+      onlyExistsInOther: 'Denne noden finnast berre i versjonen du samanliknar med',
     },
     options: {
       originalHashLabel: 'Original-versjon',

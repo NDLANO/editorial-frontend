@@ -17,7 +17,7 @@ import Button, { MultiButton } from '@ndla/button';
 import { fetchSearchTags } from '../../../../../modules/concept/conceptApi';
 import AsyncSearchTags from '../../../../../components/Dropdown/asyncDropdown/AsyncSearchTags';
 import { MultiSelectDropdown } from '../../../../../components/Dropdown/MultiSelectDropdown';
-import { InputField, InputPair } from './SearchStyles';
+import { InputField } from './SearchStyles';
 import { SubjectType } from '../../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { getLicensesWithTranslations } from '../../../../../util/licenseHelpers';
 import { useLicenses } from '../../../../../modules/draft/draftQueries';
@@ -28,7 +28,6 @@ import { useSession } from '../../../../Session/SessionProvider';
 
 export interface InlineFormConcept {
   title: string;
-  author: string;
   license: string;
   subjects: SubjectType[];
   tags: string[];
@@ -108,37 +107,23 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
 
   return (
     <form>
-      <InputPair>
-        <InputField>
-          <label htmlFor="title">{t('form.name.title')}</label>
-          <input
-            id="title"
-            name="title"
-            type="text"
-            aria-label={t('form.name.title')}
-            value={values.title}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.title ? (
-            <StyledHelpMessage>
-              {t('validation.isRequired', { label: t('form.name.title') })}
-            </StyledHelpMessage>
-          ) : null}
-        </InputField>
-        <InputField>
-          <label htmlFor="author">{t('writer')}</label>
-          <input
-            id="author"
-            name="author"
-            type="text"
-            aria-label={t('writer')}
-            value={values.author}
-            onChange={handleChange}
-          />
-        </InputField>
-      </InputPair>
-
+      <InputField>
+        <label htmlFor="title">{t('form.name.title')}</label>
+        <input
+          id="title"
+          name="title"
+          type="text"
+          aria-label={t('form.name.title')}
+          value={values.title}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        {errors.title ? (
+          <StyledHelpMessage>
+            {t('validation.isRequired', { label: t('form.name.title') })}
+          </StyledHelpMessage>
+        ) : null}
+      </InputField>
       <InputField>
         <label htmlFor="license">{t('form.name.license')}</label>
         <Select

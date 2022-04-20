@@ -25,7 +25,8 @@ export type DiffType<T> = {
     : DiffResult<T[key]>;
 } & { changed: DiffResult<null>; childrenChanged?: DiffResult<null> };
 
-export interface RootNodeWithChildren extends NodeType {
+export interface NodeTree {
+  root: NodeType;
   children: ChildNodeType[];
 }
 
@@ -86,18 +87,18 @@ export interface DiffTree {
 }
 
 export const diffTrees = (
-  originalTree: RootNodeWithChildren,
-  otherTree: RootNodeWithChildren,
+  originalTree: NodeTree,
+  otherTree: NodeTree,
   viewType: 'flat' | 'tree',
 ): DiffTree => {
-  const { children: originalChildren, ...originalRoot } = originalTree;
-  const { children: otherChildren, ...otherRoot } = otherTree;
+  const { children: originalChildren, root: originalRoot } = originalTree;
+  const { children: otherChildren, root: otherRoot } = otherTree;
   const originals: NodeWithTag[] = originalChildren.map(node => ({ node, tag: 'original' }));
   const others: NodeWithTag[] = otherChildren.map(node => ({ node, tag: 'other' }));
   const allChildren = originals.concat(others);
   const grouping = allChildren.reduce<Record<string, NodeGrouping<ChildNodeType>>>((acc, curr) => {
     // The root node is returned from the recursive endpoint as well, filter it out.
-    if (curr.node.id === originalTree.id || curr.node.id === otherTree.id) {
+    if (curr.node.id === originalTree.root.id || curr.node.id === otherTree.root.id) {
       return acc;
     }
     if (acc[curr.node.id]) {

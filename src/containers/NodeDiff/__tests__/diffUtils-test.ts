@@ -1,14 +1,14 @@
 import { diffField, DiffResult, diffTrees } from '../diffUtils';
 import {
-  rootNodeWithDirectChildren,
-  rootNodeWithDirectChildrenDiff,
-  rootNodeWithDirectChildrenUpdated,
-  rootNodeWithNestedChildren,
-  rootNodeWithNestedChildrenDiff,
-  rootNodeWithNestedChildrenUpdated,
-  rootNodeWithNoChildren,
-  rootNodeWithNoChildrenDiff,
-  rootNodeWithNoChildrenUpdated,
+  nodeTreeWithDirectChildren,
+  nodeTreeWithDirectChildrenDiff,
+  nodeTreeWithDirectChildrenUpdated,
+  nodeTreeWithNestedChildren,
+  nodeTreeWithNestedChildrenDiff,
+  nodeTreeWithNestedChildrenUpdated,
+  nodeTreeWithNoChildren,
+  nodeTreeWithNoChildrenDiff,
+  nodeTreeWithNoChildrenUpdated,
 } from './diffTestData';
 
 describe('diffField', () => {
@@ -117,25 +117,25 @@ describe('diffField', () => {
 
 describe('diffTrees', () => {
   test('correctly diffs trees with only root', () => {
-    const original = rootNodeWithNoChildren;
-    const other = rootNodeWithNoChildrenUpdated;
-    const expected = rootNodeWithNoChildrenDiff;
+    const original = nodeTreeWithNoChildren;
+    const other = nodeTreeWithNoChildrenUpdated;
+    const expected = nodeTreeWithNoChildrenDiff;
     const res = diffTrees(original, other, 'flat');
     expect(res).toEqual(expected);
   });
 
   test('correctly diffs direct children', () => {
-    const original = rootNodeWithDirectChildren;
-    const other = rootNodeWithDirectChildrenUpdated;
-    const expected = rootNodeWithDirectChildrenDiff;
+    const original = nodeTreeWithDirectChildren;
+    const other = nodeTreeWithDirectChildrenUpdated;
+    const expected = nodeTreeWithDirectChildrenDiff;
     const res = diffTrees(original, other, 'tree');
     expect(res).toEqual(expected);
   });
 
   test('correctly diffs nested children', () => {
-    const original = rootNodeWithNestedChildren;
-    const other = rootNodeWithNestedChildrenUpdated;
-    const expected = rootNodeWithNestedChildrenDiff;
+    const original = nodeTreeWithNestedChildren;
+    const other = nodeTreeWithNestedChildrenUpdated;
+    const expected = nodeTreeWithNestedChildrenDiff;
     const res = diffTrees(original, other, 'tree');
     expect(res).toEqual(expected);
   });

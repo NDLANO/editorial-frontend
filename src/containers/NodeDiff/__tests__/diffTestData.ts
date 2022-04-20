@@ -1,69 +1,73 @@
-import { DiffTree, RootNodeWithChildren } from '../diffUtils';
+import { DiffTree, NodeTree } from '../diffUtils';
 
-export const rootNodeWithNoChildren: RootNodeWithChildren = {
-  id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  name: 'Samfunnskunnskap',
-  contentUri: 'urn:frontpage:62',
-  path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
-  metadata: {
-    grepCodes: ['KV48'],
-    visible: true,
-    customFields: {
-      'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
-      subjectCategory: 'active',
+export const nodeTreeWithNoChildren: NodeTree = {
+  root: {
+    id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    name: 'Samfunnskunnskap',
+    contentUri: 'urn:frontpage:62',
+    path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
+    metadata: {
+      grepCodes: ['KV48'],
+      visible: true,
+      customFields: {
+        'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
+        subjectCategory: 'active',
+      },
     },
+    relevanceId: undefined,
+    translations: [
+      {
+        name: 'Social Science',
+        language: 'en',
+      },
+      {
+        name: 'Samfunnskunnskap',
+        language: 'nb',
+      },
+      {
+        name: 'Samfunnskunnskap',
+        language: 'nn',
+      },
+    ],
+    supportedLanguages: ['en', 'nb', 'nn'],
   },
-  relevanceId: undefined,
-  translations: [
-    {
-      name: 'Social Science',
-      language: 'en',
-    },
-    {
-      name: 'Samfunnskunnskap',
-      language: 'nb',
-    },
-    {
-      name: 'Samfunnskunnskap',
-      language: 'nn',
-    },
-  ],
-  supportedLanguages: ['en', 'nb', 'nn'],
   children: [],
 };
 
-export const rootNodeWithNoChildrenUpdated: RootNodeWithChildren = {
-  id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  name: 'Samfunnskunnskap oppdatert',
-  contentUri: undefined,
-  path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
-  metadata: {
-    grepCodes: ['KV48', 'KV49'],
-    visible: false,
-    customFields: {
-      'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
-      subjectCategory: 'inactive',
-      testProp: 'test',
+export const nodeTreeWithNoChildrenUpdated: NodeTree = {
+  root: {
+    id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    name: 'Samfunnskunnskap oppdatert',
+    contentUri: undefined,
+    path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
+    metadata: {
+      grepCodes: ['KV48', 'KV49'],
+      visible: false,
+      customFields: {
+        'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
+        subjectCategory: 'inactive',
+        testProp: 'test',
+      },
     },
+    relevanceId: 'urn:relevance:core',
+    translations: [
+      {
+        name: 'Samfunnskunnskap oppdatert',
+        language: 'nb',
+      },
+      {
+        name: 'Samfunnskunnskap',
+        language: 'nn',
+      },
+    ],
+    supportedLanguages: ['nb', 'nn'],
   },
-  relevanceId: 'urn:relevance:core',
-  translations: [
-    {
-      name: 'Samfunnskunnskap oppdatert',
-      language: 'nb',
-    },
-    {
-      name: 'Samfunnskunnskap',
-      language: 'nn',
-    },
-  ],
-  supportedLanguages: ['nb', 'nn'],
   children: [],
 };
 
-export const rootNodeWithNoChildrenDiff: DiffTree = {
+export const nodeTreeWithNoChildrenDiff: DiffTree = {
   root: {
     changed: { diffType: 'MODIFIED' },
     childrenChanged: { diffType: 'NONE' },
@@ -164,36 +168,38 @@ export const rootNodeWithNoChildrenDiff: DiffTree = {
   children: [],
 };
 
-export const rootNodeWithDirectChildren: RootNodeWithChildren = {
-  id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  name: 'Samfunnskunnskap',
-  contentUri: 'urn:frontpage:62',
-  path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
-  metadata: {
-    grepCodes: ['KV48'],
-    visible: true,
-    customFields: {
-      'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
-      subjectCategory: 'active',
+export const nodeTreeWithDirectChildren: NodeTree = {
+  root: {
+    id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    name: 'Samfunnskunnskap',
+    contentUri: 'urn:frontpage:62',
+    path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
+    metadata: {
+      grepCodes: ['KV48'],
+      visible: true,
+      customFields: {
+        'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
+        subjectCategory: 'active',
+      },
     },
+    relevanceId: 'urn:relevance:core',
+    translations: [
+      {
+        name: 'Social Science',
+        language: 'en',
+      },
+      {
+        name: 'Samfunnskunnskap',
+        language: 'nb',
+      },
+      {
+        name: 'Samfunnskunnskap',
+        language: 'nn',
+      },
+    ],
+    supportedLanguages: ['en', 'nb', 'nn'],
   },
-  relevanceId: 'urn:relevance:core',
-  translations: [
-    {
-      name: 'Social Science',
-      language: 'en',
-    },
-    {
-      name: 'Samfunnskunnskap',
-      language: 'nb',
-    },
-    {
-      name: 'Samfunnskunnskap',
-      language: 'nn',
-    },
-  ],
-  supportedLanguages: ['en', 'nb', 'nn'],
   children: [
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -262,36 +268,38 @@ export const rootNodeWithDirectChildren: RootNodeWithChildren = {
   ],
 };
 
-export const rootNodeWithDirectChildrenUpdated: RootNodeWithChildren = {
-  id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  name: 'Samfunnskunnskap',
-  contentUri: 'urn:frontpage:62',
-  path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
-  metadata: {
-    grepCodes: ['KV48'],
-    visible: true,
-    customFields: {
-      'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
-      subjectCategory: 'active',
+export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
+  root: {
+    id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    name: 'Samfunnskunnskap',
+    contentUri: 'urn:frontpage:62',
+    path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
+    metadata: {
+      grepCodes: ['KV48'],
+      visible: true,
+      customFields: {
+        'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
+        subjectCategory: 'active',
+      },
     },
+    relevanceId: 'urn:relevance:core',
+    translations: [
+      {
+        name: 'Social Science',
+        language: 'en',
+      },
+      {
+        name: 'Samfunnskunnskap',
+        language: 'nb',
+      },
+      {
+        name: 'Samfunnskunnskap',
+        language: 'nn',
+      },
+    ],
+    supportedLanguages: ['en', 'nb', 'nn'],
   },
-  relevanceId: 'urn:relevance:core',
-  translations: [
-    {
-      name: 'Social Science',
-      language: 'en',
-    },
-    {
-      name: 'Samfunnskunnskap',
-      language: 'nb',
-    },
-    {
-      name: 'Samfunnskunnskap',
-      language: 'nn',
-    },
-  ],
-  supportedLanguages: ['en', 'nb', 'nn'],
   children: [
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -360,7 +368,7 @@ export const rootNodeWithDirectChildrenUpdated: RootNodeWithChildren = {
   ],
 };
 
-export const rootNodeWithDirectChildrenDiff: DiffTree = {
+export const nodeTreeWithDirectChildrenDiff: DiffTree = {
   root: {
     changed: { diffType: 'NONE' },
     childrenChanged: { diffType: 'MODIFIED' },
@@ -768,36 +776,38 @@ export const rootNodeWithDirectChildrenDiff: DiffTree = {
   ],
 };
 
-export const rootNodeWithNestedChildren: RootNodeWithChildren = {
-  id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  name: 'Samfunnskunnskap',
-  contentUri: 'urn:frontpage:62',
-  path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
-  metadata: {
-    grepCodes: ['KV48'],
-    visible: true,
-    customFields: {
-      'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
-      subjectCategory: 'active',
+export const nodeTreeWithNestedChildren: NodeTree = {
+  root: {
+    id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    name: 'Samfunnskunnskap',
+    contentUri: 'urn:frontpage:62',
+    path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
+    metadata: {
+      grepCodes: ['KV48'],
+      visible: true,
+      customFields: {
+        'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
+        subjectCategory: 'active',
+      },
     },
+    relevanceId: 'urn:relevance:core',
+    translations: [
+      {
+        name: 'Social Science',
+        language: 'en',
+      },
+      {
+        name: 'Samfunnskunnskap',
+        language: 'nb',
+      },
+      {
+        name: 'Samfunnskunnskap',
+        language: 'nn',
+      },
+    ],
+    supportedLanguages: ['en', 'nb', 'nn'],
   },
-  relevanceId: 'urn:relevance:core',
-  translations: [
-    {
-      name: 'Social Science',
-      language: 'en',
-    },
-    {
-      name: 'Samfunnskunnskap',
-      language: 'nb',
-    },
-    {
-      name: 'Samfunnskunnskap',
-      language: 'nn',
-    },
-  ],
-  supportedLanguages: ['en', 'nb', 'nn'],
   children: [
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -898,36 +908,38 @@ export const rootNodeWithNestedChildren: RootNodeWithChildren = {
   ],
 };
 
-export const rootNodeWithNestedChildrenUpdated: RootNodeWithChildren = {
-  id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  name: 'Samfunnskunnskap',
-  contentUri: 'urn:frontpage:62',
-  path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
-  paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
-  metadata: {
-    grepCodes: ['KV48'],
-    visible: true,
-    customFields: {
-      'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
-      subjectCategory: 'active',
+export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
+  root: {
+    id: 'urn:subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    name: 'Samfunnskunnskap',
+    contentUri: 'urn:frontpage:62',
+    path: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
+    paths: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
+    metadata: {
+      grepCodes: ['KV48'],
+      visible: true,
+      customFields: {
+        'old-subject-id': 'urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3',
+        subjectCategory: 'active',
+      },
     },
+    relevanceId: 'urn:relevance:core',
+    translations: [
+      {
+        name: 'Social Science',
+        language: 'en',
+      },
+      {
+        name: 'Samfunnskunnskap',
+        language: 'nb',
+      },
+      {
+        name: 'Samfunnskunnskap',
+        language: 'nn',
+      },
+    ],
+    supportedLanguages: ['en', 'nb', 'nn'],
   },
-  relevanceId: 'urn:relevance:core',
-  translations: [
-    {
-      name: 'Social Science',
-      language: 'en',
-    },
-    {
-      name: 'Samfunnskunnskap',
-      language: 'nb',
-    },
-    {
-      name: 'Samfunnskunnskap',
-      language: 'nn',
-    },
-  ],
-  supportedLanguages: ['en', 'nb', 'nn'],
   children: [
     {
       id: 'urn:topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
@@ -1028,7 +1040,7 @@ export const rootNodeWithNestedChildrenUpdated: RootNodeWithChildren = {
   ],
 };
 
-export const rootNodeWithNestedChildrenDiff: DiffTree = {
+export const nodeTreeWithNestedChildrenDiff: DiffTree = {
   root: {
     changed: { diffType: 'NONE' },
     childrenChanged: { diffType: 'MODIFIED' },

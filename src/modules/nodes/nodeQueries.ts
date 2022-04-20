@@ -8,7 +8,7 @@
 
 import queryString from 'query-string';
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
-import { RootNodeWithChildren } from '../../containers/NodeDiff/diffUtils';
+import { NodeTree } from '../../containers/NodeDiff/diffUtils';
 import { WithTaxonomyVersion } from '../../interfaces';
 import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
@@ -108,9 +108,9 @@ interface UseNodeTree extends WithTaxonomyVersion {
 
 export const useNodeTree = (
   { id, language, taxonomyVersion }: UseNodeTree,
-  options?: UseQueryOptions<RootNodeWithChildren>,
+  options?: UseQueryOptions<NodeTree>,
 ) => {
-  return useQuery<RootNodeWithChildren>(
+  return useQuery<NodeTree>(
     [ROOT_NODE_WITH_CHILDREN, id, language, taxonomyVersion],
     () => fetchNodeTree({ id, language, taxonomyVersion }),
     options,
@@ -125,12 +125,12 @@ const fetchNodeTree = async ({
   id,
   language,
   taxonomyVersion,
-}: NodeTreeGetParams): Promise<RootNodeWithChildren> => {
-  const [node, children] = await Promise.all([
+}: NodeTreeGetParams): Promise<NodeTree> => {
+  const [root, children] = await Promise.all([
     fetchNode({ id, language, taxonomyVersion }),
     fetchChildNodesWithArticleType({ id, language, taxonomyVersion }),
   ]);
-  return { ...node, children };
+  return { root, children };
 };
 
 interface UseChildNodesWithArticleTypeParams extends WithTaxonomyVersion {

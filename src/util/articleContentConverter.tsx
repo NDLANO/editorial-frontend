@@ -113,49 +113,7 @@ const topicArticleRules: SlateSerializer[] = [
   spanSerializer,
 ];
 
-export const learningResourceContentToEditorValue = (html?: string): Descendant[] => {
-  if (!html) {
-    return createEmptyValue();
-  }
-
-  const deserialize = (el: HTMLElement | ChildNode): Descendant | Descendant[] => {
-    if (el.nodeType === 3) {
-      return { text: el.textContent || '' };
-    } else if (el.nodeType !== 1) {
-      return { text: '' };
-    }
-
-    let children = Array.from(el.childNodes).flatMap(deserialize);
-    if (children.length === 0) {
-      children = [{ text: '' }];
-    }
-
-    for (const rule of learningResourceRules) {
-      if (!rule.deserialize) {
-        continue;
-      }
-
-      // Already checked that nodeType === 1 -> el must be of type Element.
-      // HTMLElement is a subset of Element.
-      // https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
-      const ret = rule.deserialize(el as HTMLElement, children);
-
-      if (ret === undefined) {
-        continue;
-      } else {
-        return ret;
-      }
-    }
-    return children;
-  };
-
-  const document = new DOMParser().parseFromString(html, 'text/html');
-  const nodes = toArray(document.body.children).map(deserialize);
-  const normalizedNodes = compact(nodes.map(n => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
-  return normalizedNodes;
-};
-
-export function learningResourceContentToHTML(contentValues: Descendant[]) {
+const articleContentToHTML = (value: Descendant[], rules: SlateSerializer[]) => {
   const serialize = (node: Descendant): JSX.Element | null => {
     let children: JSX.Element[];
     if (Text.isText(node)) {
@@ -164,85 +122,7 @@ export function learningResourceContentToHTML(contentValues: Descendant[]) {
       children = compact(node.children.map((n: Descendant) => serialize(n)));
     }
 
-    for (const rule of learningResourceRules) {
-      if (!rule.serialize) {
-        continue;
-      }
-      const ret = rule.serialize(node, children);
-
-      if (ret === undefined) {
-        continue;
-      } else if (ret === null) {
-        return null;
-      } else {
-        return ret;
-      }
-    }
-    return <>{children}</>;
-  };
-
-  const elements = contentValues
-    .map((descendant: Descendant) => {
-      const html = serialize(descendant);
-      return html ? renderToStaticMarkup(html) : '';
-    })
-    .join('');
-
-  return elements.replace(/<deleteme><\/deleteme>/g, '');
-}
-
-export function topicArticleContentToEditorValue(html: string) {
-  if (!html) {
-    return createEmptyValue();
-  }
-  const deserialize = (el: HTMLElement | ChildNode) => {
-    if (el.nodeType === 3) {
-      return { text: el.textContent || '' };
-    } else if (el.nodeType !== 1) {
-      return { text: '' };
-    }
-
-    let children = Array.from(el.childNodes).flatMap(deserialize);
-    if (children.length === 0) {
-      children = [{ text: '' }];
-    }
-
-    for (const rule of topicArticleRules) {
-      if (!rule.deserialize) {
-        continue;
-      }
-
-      // Already checked that nodeType === 1 -> el must be of type Element.
-      // HTMLElement is a subset of Element.
-      // https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
-      const ret = rule.deserialize(el as HTMLElement, children);
-
-      if (ret === undefined) {
-        continue;
-      } else {
-        return ret;
-      }
-    }
-
-    return { text: el.textContent || '' };
-  };
-
-  const document = new DOMParser().parseFromString(html, 'text/html');
-  const nodes = deserialize(document.body.children[0]);
-  const normalizedNodes = convertFromHTML(Node.isNodeList(nodes) ? nodes[0] : nodes);
-  return normalizedNodes ? [normalizedNodes] : [];
-}
-
-export function topicArticleContentToHTML(value: Descendant[]) {
-  const serialize = (node: Descendant): JSX.Element | null => {
-    let children: JSX.Element[];
-    if (Text.isText(node)) {
-      children = [escapeHtml(node.text)];
-    } else {
-      children = compact(node.children.map((n: Descendant) => serialize(n)));
-    }
-
-    for (const rule of topicArticleRules) {
+    for (const rule of rules) {
       if (!rule.serialize) {
         continue;
       }
@@ -267,6 +147,62 @@ export function topicArticleContentToHTML(value: Descendant[]) {
     .join('');
 
   return elements.replace(/<deleteme><\/deleteme>/g, '');
+};
+
+const articleContentToEditorValue = (html: string, rules: SlateSerializer[]) => {
+  if (!html) {
+    return createEmptyValue();
+  }
+  const deserialize = (el: HTMLElement | ChildNode): Descendant | Descendant[] => {
+    if (el.nodeType === 3) {
+      return { text: el.textContent || '' };
+    } else if (el.nodeType !== 1) {
+      return { text: '' };
+    }
+
+    let children = Array.from(el.childNodes).flatMap(deserialize);
+    if (children.length === 0) {
+      children = [{ text: '' }];
+    }
+
+    for (const rule of rules) {
+      if (!rule.deserialize) {
+        continue;
+      }
+
+      // Already checked that nodeType === 1 -> el must be of type HTMLElement.
+      const ret = rule.deserialize(el as HTMLElement, children);
+
+      if (ret === undefined) {
+        continue;
+      } else {
+        return ret;
+      }
+    }
+
+    return children;
+  };
+
+  const document = new DOMParser().parseFromString(html, 'text/html');
+  const nodes = toArray(document.body.children).map(deserialize);
+  const normalizedNodes = compact(nodes.map(n => convertFromHTML(Node.isNodeList(n) ? n[0] : n)));
+  return normalizedNodes;
+};
+
+export const learningResourceContentToEditorValue = (html: string): Descendant[] => {
+  return articleContentToEditorValue(html, learningResourceRules);
+};
+
+export function learningResourceContentToHTML(contentValues: Descendant[]) {
+  return articleContentToHTML(contentValues, learningResourceRules);
+}
+
+export function topicArticleContentToEditorValue(html: string) {
+  return articleContentToEditorValue(html, topicArticleRules);
+}
+
+export function topicArticleContentToHTML(value: Descendant[]) {
+  return articleContentToHTML(value, topicArticleRules);
 }
 
 export function plainTextToEditorValue(text: string): Descendant[] {

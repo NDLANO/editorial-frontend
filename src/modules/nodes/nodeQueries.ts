@@ -14,6 +14,7 @@ import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
   CONNECTIONS_FOR_NODE,
   NODE,
+  NODES,
   NODE_TRANSLATIONS,
   RESOURCES_WITH_NODE_CONNECTION,
   ROOT_NODE_WITH_CHILDREN,
@@ -45,7 +46,7 @@ export const useNodes = (
 ) => {
   const query = queryString.stringify(params);
   return useQuery<NodeType[]>(
-    ['nodes', query],
+    [NODES, query, taxonomyVersion],
     () => fetchNodes({ ...params, taxonomyVersion }),
     options,
   );
@@ -62,7 +63,7 @@ export const useNode = (
 ) => {
   const qc = useQueryClient();
   return useQuery<NodeType>(
-    [NODE, id, language],
+    [NODE, id, language, taxonomyVersion],
     () => fetchNode({ id, taxonomyVersion, language }),
     {
       placeholderData: qc.getQueryData<NodeType[]>(NODE)?.find(s => s.id === id),
@@ -158,7 +159,7 @@ export const useConnectionsForNode = (
   options?: UseQueryOptions<ConnectionForNode[]>,
 ) => {
   return useQuery<ConnectionForNode[]>(
-    [CONNECTIONS_FOR_NODE, id],
+    [CONNECTIONS_FOR_NODE, id, taxonomyVersion],
     () => fetchConnectionsForNode({ id, taxonomyVersion }),
     options,
   );
@@ -173,7 +174,7 @@ export const useNodeTranslations = (
   options?: UseQueryOptions<NodeTranslation[]>,
 ) => {
   return useQuery<NodeTranslation[]>(
-    [NODE_TRANSLATIONS, id],
+    [NODE_TRANSLATIONS, id, taxonomyVersion],
     () => fetchNodeTranslations({ id, taxonomyVersion }),
     options,
   );
@@ -188,7 +189,7 @@ export const useResourcesWithNodeConnection = (
   options?: UseQueryOptions<ResourceWithNodeConnection[]>,
 ) => {
   return useQuery<ResourceWithNodeConnection[]>(
-    [RESOURCES_WITH_NODE_CONNECTION, id, params],
+    [RESOURCES_WITH_NODE_CONNECTION, id, params, taxonomyVersion],
     () => fetchNodeResources({ id, taxonomyVersion, ...params }),
     options,
   );

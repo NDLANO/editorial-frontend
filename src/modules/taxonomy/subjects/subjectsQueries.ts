@@ -28,7 +28,7 @@ export const useSubjects = (
     value: metadataFilter?.value,
   });
   return useQuery<SubjectType[]>(
-    [SUBJECTS, query],
+    [SUBJECTS, query, taxonomyVersion],
     () => fetchSubjects({ language: locale, metadataFilter: metadataFilter, taxonomyVersion }),
     options,
   );
@@ -44,7 +44,7 @@ export const useSubject = (
   options: UseQueryOptions<SubjectType>,
 ) =>
   useQuery<SubjectType>(
-    [SUBJECT, id, language],
+    [SUBJECT, id, language, taxonomyVersion],
     () => fetchSubject({ id, language, taxonomyVersion }),
     options,
   );

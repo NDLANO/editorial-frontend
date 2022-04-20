@@ -22,7 +22,7 @@ export const useResourceType = (
   options?: UseQueryOptions<ResourceType>,
 ) =>
   useQuery<ResourceType>(
-    [RESOURCE_TYPE, id, language],
+    [RESOURCE_TYPE, id, language, taxonomyVersion],
     () => fetchResourceType({ id, language, taxonomyVersion }),
     options,
   );
@@ -36,7 +36,7 @@ export const useAllResourceTypes = <ReturnType>(
   options?: UseQueryOptions<ResourceType[], unknown, ReturnType>,
 ) =>
   useQuery<ResourceType[], unknown, ReturnType>(
-    [RESOURCE_TYPES, locale],
+    [RESOURCE_TYPES, locale, taxonomyVersion],
     () => fetchAllResourceTypes({ language: locale, taxonomyVersion }),
     options,
   );

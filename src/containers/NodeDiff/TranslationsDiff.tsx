@@ -45,7 +45,7 @@ const TranslationsDiff = ({ translations }: Props) => {
 
   const diff: DiffedTranslations = Object.entries(keyedTranslations).reduce<DiffedTranslations>(
     (acc, [key, entry]) => {
-      acc[key] = diffField(entry.original, entry.other);
+      acc[key] = diffField(entry.original, entry.other, undefined);
       return acc;
     },
     {},

@@ -42,10 +42,10 @@ interface NodeGrouping<T extends NodeType = NodeType> {
 }
 
 export interface DiffTypeWithChildren extends DiffType<ChildNodeType> {
-  children?: DiffType<ChildNodeType>[];
+  children?: DiffTypeWithChildren[];
 }
 
-export const diffAndGroupChildren = <T extends NodeType = NodeType>(
+const diffAndGroupChildren = <T extends NodeType = NodeType>(
   parentNode: NodeGrouping<T>,
   remainingChildren: NodeGrouping<ChildNodeType>[],
 ): DiffTypeWithChildren[] => {
@@ -137,10 +137,11 @@ const isObject = <T>(original: T | undefined, other: T | undefined) => {
 
 const diffObject = <T>(original: T | undefined, other: T | undefined): DiffType<T> => {
   let hasChanged = false;
+  const objDiff = diffField(original, other, undefined, true);
   const allKeys = Object.keys({ ...original, ...other }) as Array<keyof T>;
   const test = allKeys.reduce<Record<keyof T, any>>((acc, key) => {
     if (Array.isArray(original?.[key]) || Array.isArray(other?.[key])) {
-      const res = diffField(original?.[key], other?.[key]);
+      const res = diffField(original?.[key], other?.[key], objDiff.diffType);
       if (res.diffType !== 'NONE') {
         hasChanged = true;
       }
@@ -152,7 +153,7 @@ const diffObject = <T>(original: T | undefined, other: T | undefined): DiffType<
       }
       acc[key] = res;
     } else {
-      const res = diffField(original?.[key], other?.[key]);
+      const res = diffField(original?.[key], other?.[key], objDiff.diffType);
       if (res.diffType !== 'NONE') {
         hasChanged = true;
       }
@@ -161,12 +162,10 @@ const diffObject = <T>(original: T | undefined, other: T | undefined): DiffType<
     return acc;
     //@ts-ignore
   }, {});
-  const objDiff = diffField(original, other, true);
   return {
     //@ts-ignore
     ...test,
     changed: {
-      ...objDiff,
       diffType: !hasChanged && objDiff.diffType === 'MODIFIED' ? 'NONE' : objDiff.diffType,
     },
   } as DiffType<T>;
@@ -175,14 +174,21 @@ const diffObject = <T>(original: T | undefined, other: T | undefined): DiffType<
 export const diffField = <T>(
   original: T | undefined,
   other: T | undefined,
+  parentDiff: DiffResultType | undefined,
   skipEqualityCheck?: boolean,
 ): DiffResult<T> => {
+  if (parentDiff === 'ADDED' || parentDiff === 'DELETED') {
+    return { diffType: parentDiff, original, other };
+  }
   if (original == null && other != null) {
     return { diffType: 'ADDED', original, other };
   } else if (original != null && other == null) {
     return { diffType: 'DELETED', original, other };
     // Skip equality check for cheap diffType in diffObject.
-  } else if (!skipEqualityCheck && isEqual(original, other)) {
+  } else if (
+    !skipEqualityCheck &&
+    (isEqual(original, other) || (original == null && other == null))
+  ) {
     return { diffType: 'NONE', original, other };
   } else {
     return { diffType: 'MODIFIED', original, other };

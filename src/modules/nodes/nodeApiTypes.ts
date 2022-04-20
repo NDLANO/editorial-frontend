@@ -45,7 +45,7 @@ export interface GetNodeResourcesParams {
 }
 
 export interface NodeType {
-  contentUri: string;
+  contentUri?: string;
   id: string;
   metadata: TaxonomyMetadata;
   name: string;

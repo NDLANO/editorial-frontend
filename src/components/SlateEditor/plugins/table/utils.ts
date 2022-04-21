@@ -138,6 +138,19 @@ export const toggleRowHeaders = (editor: Editor, path: Path) => {
   }
 };
 
+export const editColgroups = (editor: Editor, path: Path) => {
+  const [table] = Editor.node(editor, path);
+  if (isTable(table)) {
+    Transforms.setNodes(
+      editor,
+      { showEditColgroups: true },
+      {
+        at: path,
+      },
+    );
+  }
+};
+
 export const removeRow = (editor: Editor, path: Path) => {
   const [tableBodyEntry] = Editor.nodes(editor, {
     at: path,

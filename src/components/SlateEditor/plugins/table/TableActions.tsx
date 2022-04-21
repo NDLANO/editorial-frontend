@@ -22,11 +22,14 @@ import {
   removeTable,
   toggleRowHeaders,
   insertTableHead,
+  editColgroups,
 } from './utils';
 import { TableElement } from './interfaces';
 import { isTable, isTableHead } from './helpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CAPTION } from './types';
+import { useSession } from '../../../../containers/Session/SessionProvider';
+import { DRAFT_ADMIN_SCOPE } from '../../../../constants';
 
 const tableActionButtonStyle = css`
   margin: 5px;
@@ -62,6 +65,8 @@ interface Props {
 
 const TableActions = ({ editor, element }: Props) => {
   const { t } = useTranslation();
+  const { userPermissions } = useSession();
+
   const tablePath = ReactEditor.findPath(editor, element);
   const [table] = Editor.node(editor, tablePath);
   const captionEntry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
@@ -99,6 +104,9 @@ const TableActions = ({ editor, element }: Props) => {
         case 'toggle-row-headers':
           toggleRowHeaders(editor, tablePath);
           break;
+        case 'edit-colgroups':
+          editColgroups(editor, tablePath);
+          break;
         default:
       }
     }
@@ -109,6 +117,7 @@ const TableActions = ({ editor, element }: Props) => {
   const selectedPath = editor.selection?.anchor.path;
 
   const showAddHeader = selectedPath && !hasTableHead;
+  const showEditColgroups = !captionEntry && userPermissions?.includes(DRAFT_ADMIN_SCOPE);
   const show =
     Range.isRange(editor.selection) &&
     Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&
@@ -127,6 +136,16 @@ const TableActions = ({ editor, element }: Props) => {
               <span>{t(`form.content.table.${operation}`)}</span>
             </Button>
           ))}
+        {showEditColgroups && (
+          <Button
+            key={'edit-colgroups'}
+            data-cy={'edit-colgroups'}
+            stripped
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'edit-colgroups')}
+            css={tableActionButtonStyle}>
+            <span>{t(`form.content.table.edit-colgroups`)}</span>
+          </Button>
+        )}
         <Button
           key={'table-remove'}
           data-cy={'table-remove'}

@@ -847,6 +847,7 @@ const phrases = {
         'column-add': 'Add column',
         'column-remove': 'Remove column',
         'table-remove': 'Remove table',
+        'edit-colgroups': 'Edit colgroups',
         addHead: 'Add header-row',
         disableRowHeaders: 'Disable horizontal headers',
         enableRowHeaders: 'Enable horizontal headers',

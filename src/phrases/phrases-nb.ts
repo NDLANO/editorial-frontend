@@ -848,6 +848,7 @@ const phrases = {
         'column-add': 'Legg til kolonne',
         'column-remove': 'Fjern kolonne',
         'table-remove': 'Fjern tabell',
+        'edit-colgroups': 'Endre colgroups',
         addHead: 'Legg til kolonne-overskrift',
         disableRowHeaders: 'Deaktiver rad-overskrift',
         enableRowHeaders: 'Aktiver rad-overskrift',

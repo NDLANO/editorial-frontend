@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import { Editor } from 'slate';
 import { RenderElementProps } from 'slate-react';
+import EditColgroupsModal from './EditColgroupsModal';
 import { TableElement } from './interfaces';
 
 interface Props {
@@ -41,12 +42,13 @@ const StyledWrapper = styled.div`
 `;
 
 const SlateTable = (props: Props) => {
-  const { attributes, children } = props;
+  const { attributes, children, element } = props;
   return (
     <StyledWrapper className="c-table__wrapper">
       <StyledTable className="c-table" {...attributes}>
         {children}
       </StyledTable>
+      <EditColgroupsModal element={element} />
     </StyledWrapper>
   );
 };

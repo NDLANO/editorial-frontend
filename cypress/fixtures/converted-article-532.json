@@ -31,6 +31,13 @@
     "vanninjeksjon"
   ],
   "requiredLibraries": [],
+  "revisions": [
+    {
+      "revisionDate": "2030-01-01T00:00:00Z",
+      "note": "Automatisk revisjonsdato satt av systemet.",
+      "status": "needs-revision"
+    }
+  ],
   "metaImage": {
     "url": "https://api.test.ndla.no/image-api/raw/id/4379",
     "alt": "Vanninjeksjon i reservoar. Illustrasjon.",

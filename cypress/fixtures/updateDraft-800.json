@@ -82,5 +82,12 @@
       "timestamp": "2019-10-09T17:39:47Z"
     }
   ],
-  "conceptIds": []
+  "conceptIds": [],
+  "revisions": [
+    {
+      "revisionDate": "2030-01-01T00:00:00Z",
+      "note": "Automatisk revisjonsdato satt av systemet.",
+      "status": "needs-revision"
+    }
+  ]
 }

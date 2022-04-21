@@ -1,1 +1,812 @@
-{"totalCount":30346,"page":1,"pageSize":10,"language":"nb","results":[{"id":105,"title":{"title":"Forbruk","language":"nb"},"metaDescription":{"metaDescription":"Dersom du velger å spare penger, har du mindre til forbruk i øyeblikket, men til gjengjeld har du mer å rutte med litt lenger fram i tid.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/40545","alt":"Lommebok med kredittkort ved siden av en pc. Foto. ","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/105","contexts":[{"id":"urn:resource:1:168453","subject":"Samfunnsfag YF Vg2","subjectId":"urn:subject:3","path":"/subject:3/topic:1:55163/topic:1:171500/resource:1:168453","breadcrumbs":["Samfunnsfag YF Vg2","Individ, samfunn og kultur","Personlig økonomi og forbruk"],"filters":[{"id":"urn:filter:19dae192-699d-488f-8218-d81535ce3ae3","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:168453","subject":"Samfunnskunnskap","subjectId":"urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3","path":"/subject:5e750140-7d01-4b52-88ec-1daa007eeab3/topic:c70254d4-b914-42dc-8867-de34e415407e/topic:e9660de5-e1b4-4acf-bd78-888af4f219ee/resource:1:168453","breadcrumbs":["Samfunnskunnskap","Økonomi, arbeids- og samfunnsliv","Personlig økonomi og forbruk"],"filters":[{"id":"urn:filter:470720f9-6b03-40cb-ab58-e3e130803578","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"PUBLISHED","other":["IMPORTED"]},"traits":[],"score":0.0,"highlights":[],"paths":["/subject:3/topic:1:55163/topic:1:171500/resource:1:168453","/subject:5e750140-7d01-4b52-88ec-1daa007eeab3/topic:c70254d4-b914-42dc-8867-de34e415407e/topic:e9660de5-e1b4-4acf-bd78-888af4f219ee/resource:1:168453"]},{"id":108,"title":{"title":"Handel og forbruk for framtida","language":"nb"},"metaDescription":{"metaDescription":"Hvis alle mennesker i verden skulle forbruke like mye som vi gjør i dag, vil utslippene øke og økosystemet raskt komme i ubalanse.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/28268","alt":"Tekstilfabrikk i Kambodsja. Foto. ","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/108","contexts":[{"id":"urn:resource:1:168459","subject":"Samfunnsfag YF Vg2","subjectId":"urn:subject:3","path":"/subject:3/topic:1:55163/topic:1:171500/resource:1:168459","breadcrumbs":["Samfunnsfag YF Vg2","Individ, samfunn og kultur","Personlig økonomi og forbruk"],"filters":[{"id":"urn:filter:19dae192-699d-488f-8218-d81535ce3ae3","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:168459","subject":"Samfunnskunnskap","subjectId":"urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3","path":"/subject:5e750140-7d01-4b52-88ec-1daa007eeab3/topic:c70254d4-b914-42dc-8867-de34e415407e/topic:e9660de5-e1b4-4acf-bd78-888af4f219ee/resource:1:168459","breadcrumbs":["Samfunnskunnskap","Økonomi, arbeids- og samfunnsliv","Personlig økonomi og forbruk"],"filters":[{"id":"urn:filter:470720f9-6b03-40cb-ab58-e3e130803578","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"PUBLISHED","other":["IMPORTED"]},"traits":[],"score":0.0,"highlights":[],"paths":["/subject:3/topic:1:55163/topic:1:171500/resource:1:168459","/subject:5e750140-7d01-4b52-88ec-1daa007eeab3/topic:c70254d4-b914-42dc-8867-de34e415407e/topic:e9660de5-e1b4-4acf-bd78-888af4f219ee/resource:1:168459"]},{"id":110,"title":{"title":"Budsjettkalkulator","language":"nb"},"metaDescription":{"metaDescription":"Her kan du simulere din personlige økonomi.","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/110","contexts":[{"id":"urn:resource:1:127561","subject":"Samfunnsfag YF Vg2","subjectId":"urn:subject:3","path":"/subject:3/topic:1:55163/topic:1:171500/resource:1:127561","breadcrumbs":["Samfunnsfag YF Vg2","Individ, samfunn og kultur","Personlig økonomi og forbruk"],"filters":[{"id":"urn:filter:19dae192-699d-488f-8218-d81535ce3ae3","name":"SF VG1/YF VG2","relevance":"Tilleggsstoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:simulation","name":"Simulering","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:127561","subject":"Service og samferdsel Vg1 2019-20","subjectId":"urn:subject:12","path":"/subject:12/topic:1:184105/topic:1:184119/resource:1:127561","breadcrumbs":["Service og samferdsel Vg1 2019-20","Økonomi","Budsjettering"],"filters":[{"id":"urn:filter:df8344b6-ad86-44be-b6b2-d61b3526ed29","name":"Administrasjon og økonomi","relevance":"Tilleggsstoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:simulation","name":"Simulering","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:127561","subject":"Praktisk matematikk","subjectId":"urn:subject:29","path":"/subject:29/topic:1:163965/resource:1:127561","breadcrumbs":["Praktisk matematikk","Økonomi"],"filters":[{"id":"urn:filter:3fa5baa7-d8d8-4b50-98a0-411bbcef13fa","name":"1P","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:simulation","name":"Simulering","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:127561","subject":"Matematikk for yrkesfaglige programmer","subjectId":"urn:subject:30","path":"/subject:30/topic:2:1:163965/resource:1:127561","breadcrumbs":["Matematikk for yrkesfaglige programmer","Økonomi"],"filters":[{"id":"urn:filter:04ad8a02-856c-417c-8a58-d2f293bf788d","name":"1P-Y","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:simulation","name":"Simulering","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"PUBLISHED","other":["IMPORTED"]},"traits":["H5P"],"score":0.0,"highlights":[],"paths":["/subject:3/topic:1:55163/topic:1:171500/resource:1:127561","/subject:12/topic:1:184105/topic:1:184119/resource:1:127561","/subject:29/topic:1:163965/resource:1:127561","/subject:30/topic:2:1:163965/resource:1:127561"]},{"id":119,"title":{"title":"Hva styrer partiene etter?","language":"nb"},"metaDescription":{"metaDescription":"De politiske partiene har to typer programmer: prinsipprogrammer og valgprogrammer.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/5472","alt":"Norske partiledere. Fotokollasj.","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/119","contexts":[{"id":"urn:resource:1:84623","subject":"Samfunnsfag YF Vg2","subjectId":"urn:subject:3","path":"/subject:3/topic:1:168542/topic:1:173292/resource:1:84623","breadcrumbs":["Samfunnsfag YF Vg2","Politikk og demokrati","Det demokratiske systemet i Norge"],"filters":[{"id":"urn:filter:19dae192-699d-488f-8218-d81535ce3ae3","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"PUBLISHED","other":["IMPORTED"]},"traits":[],"score":0.0,"highlights":[],"paths":["/subject:3/topic:1:168542/topic:1:173292/resource:1:84623"]},{"id":120,"title":{"title":"Regjeringa","language":"nb"},"metaDescription":{"metaDescription":"Etter et stortingsvalg er det formelt sett kongen som peker ut hvem som skal danne regjering.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/40549","alt":"  ","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/120","contexts":[{"id":"urn:resource:1:168552","subject":"Samfunnsfag YF Vg2","subjectId":"urn:subject:3","path":"/subject:3/topic:1:168542/topic:1:173292/resource:1:168552","breadcrumbs":["Samfunnsfag YF Vg2","Politikk og demokrati","Det demokratiske systemet i Norge"],"filters":[{"id":"urn:filter:19dae192-699d-488f-8218-d81535ce3ae3","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:168552","subject":"Samfunnskunnskap","subjectId":"urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3","path":"/subject:5e750140-7d01-4b52-88ec-1daa007eeab3/topic:3d26f57e-a8c9-45e5-bc57-2d31df53f969/topic:27f37dfa-783e-4c3e-a52e-406ab0741b25/resource:1:168552","breadcrumbs":["Samfunnskunnskap","Demokrati og medborgerskap","Det norske demokratiet"],"filters":[{"id":"urn:filter:470720f9-6b03-40cb-ab58-e3e130803578","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"PUBLISHED","other":["IMPORTED"]},"traits":[],"score":0.0,"highlights":[],"paths":["/subject:3/topic:1:168542/topic:1:173292/resource:1:168552","/subject:5e750140-7d01-4b52-88ec-1daa007eeab3/topic:3d26f57e-a8c9-45e5-bc57-2d31df53f969/topic:27f37dfa-783e-4c3e-a52e-406ab0741b25/resource:1:168552"]},{"id":123,"title":{"title":"Året 2030 \u2013 valget er ditt","language":"nb"},"metaDescription":{"metaDescription":"Tenk deg inn i framtida til året 2030. Hvordan tror du Norge og verden ser ut da?","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/40551","alt":"Noen av bygningene i Barcode-rekken i Operakvarteret i Oslo. Foto. ","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/123","contexts":[{"id":"urn:resource:1:11531","subject":"Samfunnsfag YF Vg2","subjectId":"urn:subject:3","path":"/subject:3/topic:1:168542/topic:1:126082/resource:1:11531","breadcrumbs":["Samfunnsfag YF Vg2","Politikk og demokrati","Valgstoff på NDLA"],"filters":[{"id":"urn:filter:19dae192-699d-488f-8218-d81535ce3ae3","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:tasksAndActivities","name":"Oppgaver og aktiviteter","language":"nb"},{"id":"urn:resourcetype:task","name":"Oppgave","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:11531","subject":"Samfunnskunnskap","subjectId":"urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3","path":"/subject:5e750140-7d01-4b52-88ec-1daa007eeab3/topic:3d26f57e-a8c9-45e5-bc57-2d31df53f969/topic:41d1aefe-880f-4f59-873f-c983f34b8a26/resource:1:11531","breadcrumbs":["Samfunnskunnskap","Demokrati og medborgerskap","Medborgerskap og makt"],"filters":[{"id":"urn:filter:470720f9-6b03-40cb-ab58-e3e130803578","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:tasksAndActivities","name":"Oppgaver og aktiviteter","language":"nb"},{"id":"urn:resourcetype:task","name":"Oppgave","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"PUBLISHED","other":["IMPORTED"]},"traits":[],"score":0.0,"highlights":[],"paths":["/subject:3/topic:1:168542/topic:1:126082/resource:1:11531","/subject:5e750140-7d01-4b52-88ec-1daa007eeab3/topic:3d26f57e-a8c9-45e5-bc57-2d31df53f969/topic:41d1aefe-880f-4f59-873f-c983f34b8a26/resource:1:11531"]},{"id":126,"title":{"title":"Oppgave: Den viktige sperregrensa","language":"nb"},"metaDescription":{"metaDescription":"Spørsmål til teksten «Den viktige sperregrensa».","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/126","contexts":[],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"PUBLISHED","other":["IMPORTED"]},"traits":[],"score":0.0,"highlights":[],"paths":[]},{"id":129,"title":{"title":"Skolevalget","language":"nb"},"metaDescription":{"metaDescription":"Før skolevalget møtes unge politikere til debatt og valgtorg ved landets videregående skoler. Deretter holdes det et skolevalg.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/12103","alt":"Skoledebatt Oslo katedralskole. Foto.","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/129","contexts":[{"id":"urn:resource:1:126300","subject":"Samfunnsfag YF Vg2","subjectId":"urn:subject:3","path":"/subject:3/topic:1:168542/topic:1:126082/resource:1:126300","breadcrumbs":["Samfunnsfag YF Vg2","Politikk og demokrati","Valgstoff på NDLA"],"filters":[{"id":"urn:filter:19dae192-699d-488f-8218-d81535ce3ae3","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:126300","subject":"Samfunnskunnskap","subjectId":"urn:subject:5e750140-7d01-4b52-88ec-1daa007eeab3","path":"/subject:5e750140-7d01-4b52-88ec-1daa007eeab3/topic:3d26f57e-a8c9-45e5-bc57-2d31df53f969/topic:27f37dfa-783e-4c3e-a52e-406ab0741b25/resource:1:126300","breadcrumbs":["Samfunnskunnskap","Demokrati og medborgerskap","Det norske demokratiet"],"filters":[{"id":"urn:filter:470720f9-6b03-40cb-ab58-e3e130803578","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"PUBLISHED","other":["IMPORTED"]},"traits":[],"score":0.0,"highlights":[],"paths":["/subject:3/topic:1:168542/topic:1:126082/resource:1:126300","/subject:5e750140-7d01-4b52-88ec-1daa007eeab3/topic:3d26f57e-a8c9-45e5-bc57-2d31df53f969/topic:27f37dfa-783e-4c3e-a52e-406ab0741b25/resource:1:126300"]},{"id":130,"title":{"title":"Politikk er påvirkning","language":"nb"},"metaDescription":{"metaDescription":"Det er vi som bor i landet, som skaper politikk gjennom det engasjementet vi viser. Vi har flere kanaler for slik politisk innflytelse.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/29125","alt":"","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/130","contexts":[{"id":"urn:topic:1:172420","subject":"Samfunnsfag YF Vg2","subjectId":"urn:subject:3","path":"/subject:3/topic:1:168542/topic:1:172420","breadcrumbs":["Samfunnsfag YF Vg2","Politikk og demokrati"],"filters":[{"id":"urn:filter:19dae192-699d-488f-8218-d81535ce3ae3","name":"SF VG1/YF VG2","relevance":"Kjernestoff"}],"learningResourceType":"topic-article","resourceTypes":[],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"topic-article","status":{"current":"PUBLISHED","other":["IMPORTED"]},"traits":[],"score":0.0,"highlights":[],"paths":["/subject:3/topic:1:168542/topic:1:172420"]},{"id":132,"title":{"title":"Riksforsamlinga med Are Kalvø: om folkeaksjonar, del 1","language":"nb"},"metaDescription":{"metaDescription":"Video","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/132","contexts":[{"id":"urn:resource:1:121328","subject":"Samfunnsfag YF Vg2","subjectId":"urn:subject:3","path":"/subject:3/topic:1:168542/topic:1:172420/resource:1:121328","breadcrumbs":["Samfunnsfag YF Vg2","Politikk og demokrati","Politikk er påvirkning"],"filters":[{"id":"urn:filter:19dae192-699d-488f-8218-d81535ce3ae3","name":"SF VG1/YF VG2","relevance":"Tilleggsstoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:movieAndClip","name":"Film og filmklipp","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb"],"learningResourceType":"standard","status":{"current":"PUBLISHED","other":["IMPORTED"]},"traits":["VIDEO"],"score":0.0,"highlights":[],"paths":["/subject:3/topic:1:168542/topic:1:172420/resource:1:121328"]}],"suggestions":[],"aggregations":[]}
+{
+  "totalCount": 31023,
+  "page": 1,
+  "pageSize": 10,
+  "language": "*",
+  "results": [
+    {
+      "id": 1119,
+      "title": {
+        "title": "Praktisk salgskurs",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Her får du et praktisk og nyttig kurs i salg og salgstrening med vekt på behov og motiv, Maslows behovspyramide, salgssamtalen og kjøpsatferd.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/41151",
+        "alt": "Team som tar en high-five. Foto.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/1119",
+      "contexts": [
+        {
+          "id": "urn:topic:2:183935:2",
+          "subject": "UTGÅTT - Salg, service og sikkerhet Vg2  (SS-SSS vg2) (LK06)",
+          "subjectId": "urn:subject:1:3687db4f-b3c9-471b-b0e6-9e36c39cc445",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:3687db4f-b3c9-471b-b0e6-9e36c39cc445/topic:2:183935:2",
+          "breadcrumbs": [
+            "UTGÅTT - Salg, service og sikkerhet Vg2  (SS-SSS vg2) (LK06)"
+          ],
+          "filters": [],
+          "learningResourceType": "topic-article",
+          "resourceTypes": [],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "topic-article",
+      "status": {
+        "current": "PUBLISHED",
+        "other": [
+          "IMPORTED"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [],
+      "paths": [
+        "/subject:1:3687db4f-b3c9-471b-b0e6-9e36c39cc445/topic:2:183935:2"
+      ],
+      "lastUpdated": "2018-08-24T10:37:08Z",
+      "license": "CC-BY-SA-4.0",
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 1130,
+      "title": {
+        "title": "Manus kunderoller ",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Oppgaver til salgssamtalen - manus til kunderoller.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/1130",
+      "contexts": [
+        {
+          "id": "urn:resource:1:110268",
+          "subject": "Marknadsføring og innovasjon (SR-SSR vg1)",
+          "subjectId": "urn:subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082",
+          "relevance": "Tilleggsstoff",
+          "path": "/subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082/topic:1:7df2950d-3af9-462e-b27f-cf3df147eaa3/topic:1:5ddfd357-2efe-4e25-b48a-2204f725029e/resource:1:110268",
+          "breadcrumbs": [
+            "Marknadsføring og innovasjon (SR-SSR vg1)",
+            "Markedsføring og salg",
+            "Salg"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:workAssignment",
+              "name": "Arbeidsoppdrag",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:tasksAndActivities",
+              "name": "Oppgaver og aktiviteter",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "PUBLISHED",
+        "other": [
+          "IMPORTED"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [],
+      "paths": [
+        "/subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082/topic:1:7df2950d-3af9-462e-b27f-cf3df147eaa3/topic:1:5ddfd357-2efe-4e25-b48a-2204f725029e/resource:1:110268"
+      ],
+      "lastUpdated": "2020-07-14T06:11:54Z",
+      "license": "CC-BY-SA-4.0",
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 1134,
+      "title": {
+        "title": "Behov og motiv",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Her får du en innføring i Maslows behovspyramide. De tre motivgrunnene som ligger bak et kjøp blir også behandlet.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/5063",
+        "alt": "Ungdommer som er opptatt med hver sin mobiltelefon. Fotografi.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/1134",
+      "contexts": [
+        {
+          "id": "urn:topic:2:110002",
+          "subject": "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+          "subjectId": "urn:subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:183935/topic:2:110002",
+          "breadcrumbs": [
+            "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+            "Salg og service",
+            "Praktisk salgskurs"
+          ],
+          "filters": [],
+          "learningResourceType": "topic-article",
+          "resourceTypes": [],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "topic-article",
+      "status": {
+        "current": "PUBLISHED",
+        "other": [
+          "IMPORTED"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [],
+      "paths": [
+        "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:183935/topic:2:110002"
+      ],
+      "lastUpdated": "2018-09-10T07:25:49Z",
+      "license": "CC-BY-SA-4.0",
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 1140,
+      "title": {
+        "title": "Forbrukerrådet",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Forbrukerrådet er en interesse- og serviceorganisasjon for alle forbrukere av varer og tjenester i Norge. Lær mer om Forbrukerrådet her.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/22126",
+        "alt": "Bildet av Forbrukerrådets logo. Foto.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/1140",
+      "contexts": [
+        {
+          "id": "urn:resource:1:95339",
+          "subject": "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+          "subjectId": "urn:subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:183936/resource:1:95339",
+          "breadcrumbs": [
+            "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+            "Salg og service",
+            "Regelverk for markedsføring og salg"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "PUBLISHED",
+        "other": [
+          "IMPORTED"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [],
+      "paths": [
+        "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:183936/resource:1:95339"
+      ],
+      "lastUpdated": "2017-11-10T10:48:25Z",
+      "license": "CC-BY-SA-4.0",
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 1141,
+      "title": {
+        "title": "Markedsføringsloven",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Markedsføringsloven skal sørge for at all markedsføring er i tråd med god forretnings- og markedsføringsskikk. Lær mer om markedsføringsloven her.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/22160",
+        "alt": "",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/1141",
+      "contexts": [
+        {
+          "id": "urn:resource:1:95349",
+          "subject": "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+          "subjectId": "urn:subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:183936/resource:1:95349",
+          "breadcrumbs": [
+            "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+            "Salg og service",
+            "Regelverk for markedsføring og salg"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "PUBLISHED",
+        "other": [
+          "IMPORTED"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [],
+      "paths": [
+        "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:183936/resource:1:95349"
+      ],
+      "lastUpdated": "2018-06-11T15:59:00Z",
+      "license": "CC-BY-SA-4.0",
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 1146,
+      "title": {
+        "title": "Angrerettloven",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Angrerettloven sier at forbrukeren kan oppheve kjøpet innen 14 dager etter at han inngikk avtalen. Hva er de viktigste momentene i angrerettloven?",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/22160",
+        "alt": "Oslo tinghus. Foto.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/1146",
+      "contexts": [
+        {
+          "id": "urn:resource:1:95372",
+          "subject": "Markedsføring og ledelse 1",
+          "subjectId": "urn:subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105/topic:1:5f17ad9d-d824-4c30-9c01-b916949ad312/resource:1:95372",
+          "breadcrumbs": [
+            "Markedsføring og ledelse 1",
+            "Lovverk i markedsføring"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:1:95372",
+          "subject": "Marknadsføring og innovasjon (SR-SSR vg1)",
+          "subjectId": "urn:subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082/topic:1:7df2950d-3af9-462e-b27f-cf3df147eaa3/topic:1:8ee68974-a713-44e6-8b82-36c1406bfa13/resource:1:95372",
+          "breadcrumbs": [
+            "Marknadsføring og innovasjon (SR-SSR vg1)",
+            "Markedsføring og salg",
+            "Regelverk for markedsføring og salg"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:1:95372",
+          "subject": "Forretningsdrift (SR-SSR vg1)",
+          "subjectId": "urn:subject:1:792414c5-896f-470a-9558-6101d7266237",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:792414c5-896f-470a-9558-6101d7266237/topic:1:81f107a9-4c52-4110-8f8a-e1bf89114097/topic:1:db439c1e-7d9d-441a-9067-fb0804997703/resource:1:95372",
+          "breadcrumbs": [
+            "Forretningsdrift (SR-SSR vg1)",
+            "Lover og regler",
+            "Regelverk for markedsføring og salg"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "PUBLISHED",
+        "other": [
+          "IMPORTED"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [],
+      "paths": [
+        "/subject:1:47678c7b-bc09-4fc8-b2d9-a2e3d709e105/topic:1:5f17ad9d-d824-4c30-9c01-b916949ad312/resource:1:95372",
+        "/subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082/topic:1:7df2950d-3af9-462e-b27f-cf3df147eaa3/topic:1:8ee68974-a713-44e6-8b82-36c1406bfa13/resource:1:95372",
+        "/subject:1:792414c5-896f-470a-9558-6101d7266237/topic:1:81f107a9-4c52-4110-8f8a-e1bf89114097/topic:1:db439c1e-7d9d-441a-9067-fb0804997703/resource:1:95372"
+      ],
+      "lastUpdated": "2021-04-30T14:16:27Z",
+      "license": "CC-BY-SA-4.0",
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 1152,
+      "title": {
+        "title": "Blogging og reklame",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Mange bloggere oppgir ikke til leserne at de tjener penger på produktomtale og lenking. Slik skjult markedsføring er ulovlig. I denne oppgaven skal du finne eksempler på dette.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/1152",
+      "contexts": [
+        {
+          "id": "urn:resource:1:159383",
+          "subject": "Mediesamfunnet 1",
+          "subjectId": "urn:subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643/topic:1:138f7f8e-5b7f-42e3-8e48-d4177b5647b7/resource:1:159383",
+          "breadcrumbs": [
+            "Mediesamfunnet 1",
+            "Markedskommunikasjon 1"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:task",
+              "name": "Oppgave",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:tasksAndActivities",
+              "name": "Oppgaver og aktiviteter",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:1:159383",
+          "subject": "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+          "subjectId": "urn:subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:183936/resource:1:159383",
+          "breadcrumbs": [
+            "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+            "Salg og service",
+            "Regelverk for markedsføring og salg"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:task",
+              "name": "Oppgave",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:tasksAndActivities",
+              "name": "Oppgaver og aktiviteter",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "PUBLISHED",
+        "other": [
+          "IMPORTED"
+        ]
+      },
+      "traits": [
+        "H5P"
+      ],
+      "score": 0,
+      "highlights": [],
+      "paths": [
+        "/subject:1:e7b9fcee-cb8b-4e0e-a16d-d7dddbe0b643/topic:1:138f7f8e-5b7f-42e3-8e48-d4177b5647b7/resource:1:159383",
+        "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:183936/resource:1:159383"
+      ],
+      "lastUpdated": "2020-11-10T11:38:35Z",
+      "license": "CC-BY-SA-4.0",
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 1153,
+      "title": {
+        "title": "Forbrukerkjøp eller privatkjøp?",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Kan du reglene for forbrukerkjøp og privatkjøp?",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/24583",
+        "alt": "Riksvåpnet på rød bunn. Foto.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/1153",
+      "contexts": [
+        {
+          "id": "urn:resource:1:160524",
+          "subject": "Marknadsføring og innovasjon (SR-SSR vg1)",
+          "subjectId": "urn:subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082/topic:1:7df2950d-3af9-462e-b27f-cf3df147eaa3/topic:1:8ee68974-a713-44e6-8b82-36c1406bfa13/resource:1:160524",
+          "breadcrumbs": [
+            "Marknadsføring og innovasjon (SR-SSR vg1)",
+            "Markedsføring og salg",
+            "Regelverk for markedsføring og salg"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:task",
+              "name": "Oppgave",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:tasksAndActivities",
+              "name": "Oppgaver og aktiviteter",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:1:160524",
+          "subject": "Forretningsdrift (SR-SSR vg1)",
+          "subjectId": "urn:subject:1:792414c5-896f-470a-9558-6101d7266237",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:792414c5-896f-470a-9558-6101d7266237/topic:1:81f107a9-4c52-4110-8f8a-e1bf89114097/topic:1:db439c1e-7d9d-441a-9067-fb0804997703/resource:1:160524",
+          "breadcrumbs": [
+            "Forretningsdrift (SR-SSR vg1)",
+            "Lover og regler",
+            "Regelverk for markedsføring og salg"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:task",
+              "name": "Oppgave",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:tasksAndActivities",
+              "name": "Oppgaver og aktiviteter",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "PUBLISHED",
+        "other": [
+          "IMPORTED"
+        ]
+      },
+      "traits": [
+        "H5P"
+      ],
+      "score": 0,
+      "highlights": [],
+      "paths": [
+        "/subject:1:f18ad41e-d9c3-4428-8cb6-5eb852e45082/topic:1:7df2950d-3af9-462e-b27f-cf3df147eaa3/topic:1:8ee68974-a713-44e6-8b82-36c1406bfa13/resource:1:160524",
+        "/subject:1:792414c5-896f-470a-9558-6101d7266237/topic:1:81f107a9-4c52-4110-8f8a-e1bf89114097/topic:1:db439c1e-7d9d-441a-9067-fb0804997703/resource:1:160524"
+      ],
+      "lastUpdated": "2020-05-22T07:24:10Z",
+      "license": "CC-BY-SA-4.0",
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 1159,
+      "title": {
+        "title": "Evaluering av tiltak - Internett",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Etter at du har gjennomført en aktivitet, bør du kontrollere om målet ble nådd. Du må evaluere prosessen og bruke lærdommen til å forbedre deg.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/26139",
+        "alt": "Ung kvinne med laptop. Foto.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/1159",
+      "contexts": [
+        {
+          "id": "urn:resource:1:162637",
+          "subject": "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+          "subjectId": "urn:subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:162528/resource:1:162637",
+          "breadcrumbs": [
+            "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+            "Salg og service",
+            "Salgskanaler og salgsmiljø"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "PUBLISHED",
+        "other": [
+          "IMPORTED"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [],
+      "paths": [
+        "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:162528/resource:1:162637"
+      ],
+      "lastUpdated": "2017-03-07T17:59:20Z",
+      "license": "CC-BY-SA-4.0",
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 1161,
+      "title": {
+        "title": "Gjennomføring",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "En salgsaktivitet må følge virksomhetens visuelle profil og ha som mål å skape størst mulig kundetilfredshet og kundelojalitet. Her lærer du mer om dette.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/2083",
+        "alt": "Ansatte i et firma som jobber. Foto.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/1161",
+      "contexts": [
+        {
+          "id": "urn:resource:1:162618",
+          "subject": "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+          "subjectId": "urn:subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32",
+          "relevance": "Kjernestoff",
+          "path": "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:162528/resource:1:162618",
+          "breadcrumbs": [
+            "UTGÅTT - Markedsføring og salg (SS-SSS vg1) (LK06)",
+            "Salg og service",
+            "Salgskanaler og salgsmiljø"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "PUBLISHED",
+        "other": [
+          "IMPORTED"
+        ]
+      },
+      "traits": [
+        "H5P"
+      ],
+      "score": 0,
+      "highlights": [],
+      "paths": [
+        "/subject:1:6b35c125-5a82-4a30-9d60-0646c31dce32/topic:2:183846/topic:2:162528/resource:1:162618"
+      ],
+      "lastUpdated": "2018-07-12T08:16:56Z",
+      "license": "CC-BY-SA-4.0",
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    }
+  ],
+  "suggestions": [],
+  "aggregations": []
+}

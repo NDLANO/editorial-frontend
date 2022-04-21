@@ -153,7 +153,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     {
       name: getTagName(search.users, users),
       type: 'users',
-      width: 25,
+      width: 50,
       options: users!.sort(sortByProperty('name')),
     },
     {

@@ -7,6 +7,7 @@
  *
  */
 
+import { TdHTMLAttributes } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Text, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps, RenderLeafProps } from 'slate-react';
@@ -252,11 +253,16 @@ export const tablePlugin = (editor: Editor) => {
       case TYPE_TABLE_ROW:
         return <tr {...attributes}>{children}</tr>;
       case TYPE_TABLE_CELL:
+        const align = element.data.align || '';
+        const parsedAlign = (['left', 'center', 'right'].includes(align)
+          ? align
+          : undefined) as TdHTMLAttributes<HTMLTableCellElement>['align'];
         return (
           <td
             className={element.data.isHeader ? 'c-table__header' : ''}
             rowSpan={element.data.rowspan}
             colSpan={element.data.colspan}
+            align={parsedAlign}
             {...attributes}>
             {children}
           </td>

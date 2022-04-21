@@ -224,7 +224,7 @@ const phrases = {
       'audio-type': 'Select audio file type',
       license: 'Select license',
       'revision-date-from': 'Revisiondate from',
-      'revision-date-to': 'Revisjonsdato to',
+      'revision-date-to': 'Revisiondate to',
     },
     tagType: {
       query: 'Query',
@@ -238,7 +238,7 @@ const phrases = {
       license: 'License',
       'model-released': 'Model released',
       'revision-date-from': 'Revisiondate from',
-      'revision-date-to': 'Revisjonsdato to',
+      'revision-date-to': 'Revisiondate to',
     },
     btn: 'Search',
     empty: 'Empty',

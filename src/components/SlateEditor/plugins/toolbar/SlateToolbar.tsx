@@ -108,8 +108,9 @@ const SlateToolbar = (props: Props) => {
 
     menu.style.opacity = '1';
     const left = rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2;
+
     menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
-    menu.style.left = `${left}px`;
+    menu.style.left = `${left > 10 ? left : 10}px`;
   };
 
   const { editor } = props;

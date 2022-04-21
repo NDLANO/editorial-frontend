@@ -29,7 +29,7 @@ import { isTable, isTableHead } from './helpers';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CAPTION } from './types';
 import { useSession } from '../../../../containers/Session/SessionProvider';
-import { DRAFT_ADMIN_SCOPE } from '../../../../constants';
+import { DRAFT_HTML_SCOPE } from '../../../../constants';
 
 const tableActionButtonStyle = css`
   margin: 5px;
@@ -117,7 +117,7 @@ const TableActions = ({ editor, element }: Props) => {
   const selectedPath = editor.selection?.anchor.path;
 
   const showAddHeader = selectedPath && !hasTableHead;
-  const showEditColgroups = !captionEntry && userPermissions?.includes(DRAFT_ADMIN_SCOPE);
+  const showEditColgroups = !captionEntry && userPermissions?.includes(DRAFT_HTML_SCOPE);
   const show =
     Range.isRange(editor.selection) &&
     Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&

@@ -100,6 +100,7 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
             Transforms.select(editor, editor.lastSelection);
             editor.lastSelection = undefined;
             editor.lastSelectedBlock = undefined;
+            prevSubmitted.current = submitted;
             return;
           }
         }

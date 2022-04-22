@@ -123,9 +123,6 @@ export const TreeNode = ({
   const connectionId = isChildNode(node)
     ? node.connectionId.other ?? node.connectionId.original
     : undefined;
-  //   const articleType = isChildNode(node)
-  //     ? node.articleType.other ?? node.articleType.original
-  //     : undefined;
 
   const onItemClick = () => {
     onNodeSelected(node);

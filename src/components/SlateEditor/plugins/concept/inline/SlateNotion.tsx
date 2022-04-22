@@ -3,19 +3,16 @@ import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
 import { NotionDialog } from '@ndla/notion';
 import { IConcept } from '@ndla/types-concept-api';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 import { Editor } from 'slate';
-import { RenderElementProps, useSelected } from 'slate-react';
-import { ConceptInlineElement } from './interfaces';
-import { Portal } from '../../../../Portal';
-import Tooltip from '@ndla/tooltip';
-import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
+import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
+import Tooltip from '@ndla/tooltip';
 import { AlertCircle, Check } from '@ndla/icons/lib/editor';
+import { ConceptInlineElement } from './interfaces';
 import SlateConceptPreview from '../SlateConceptPreview';
-import { NotionDialogStyledWrapper } from '@ndla/notion/lib/NotionDialog';
-import NotionHeader from '@ndla/notion/lib/NotionHeader';
-import NotionBody from '@ndla/notion/lib/NotionBody';
+import { Portal } from '../../../../Portal';
+import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
 
 const StyledCheckIcon = styled(Check)`
   margin-left: 10px;

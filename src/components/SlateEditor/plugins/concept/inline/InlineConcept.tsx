@@ -10,22 +10,13 @@ import { useState, useEffect, ReactNode, useMemo } from 'react';
 
 import { Editor, Element, Node, Transforms, Path } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
-import { useTranslation } from 'react-i18next';
 import { Dictionary, uniqueId } from 'lodash';
-import { css } from '@emotion/core';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Check, AlertCircle } from '@ndla/icons/editor';
-import Notion from '@ndla/notion';
-import Tooltip from '@ndla/tooltip';
 import { IConcept } from '@ndla/types-concept-api';
 import { ConceptInlineElement } from '../inline/interfaces';
 import ConceptModal from '../ConceptModal';
-import SlateConceptPreview from '../SlateConceptPreview';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../../utils/mergeLastUndos';
 import { TYPE_CONCEPT_INLINE } from './types';
-import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
 import SlateNotion from './SlateNotion';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
@@ -50,7 +41,6 @@ const InlineConcept = (props: Props) => {
   const { children, element, locale, editor, attributes } = props;
   const nodeText = Node.string(element).trim();
   const uuid = useMemo(() => uniqueId(), []);
-  const { t } = useTranslation();
   const [showConcept, setShowConcept] = useState(false);
 
   const toggleConceptModal = () => {
@@ -127,6 +117,7 @@ const InlineConcept = (props: Props) => {
   return (
     <>
       <SlateNotion
+        handleRemove={handleRemove}
         attributes={attributes}
         element={element}
         locale={locale}
@@ -135,45 +126,6 @@ const InlineConcept = (props: Props) => {
         id={uuid}>
         {children}
       </SlateNotion>
-      {/* <Notion
-          id={uuid}
-          title={concept?.title.title ?? ''}
-          subTitle={t('conceptform.title')}
-          headerContent={
-            <div
-              css={css`
-                display: flex;
-                flex: 1;
-                flex-direction: inherit;
-              `}>
-              {(concept?.status.current === PUBLISHED ||
-                concept?.status.other.includes(PUBLISHED)) && (
-                <Tooltip
-                  tooltip={t('form.workflow.published')}
-                  css={css`
-                    margin-right: auto;
-                  `}>
-                  <StyledCheckIcon />
-                </Tooltip>
-              )}
-              {concept?.status.current !== PUBLISHED && (
-                <Tooltip
-                  tooltip={t('form.workflow.currentStatus', {
-                    status: t(`form.status.${concept?.status.current.toLowerCase()}`),
-                  })}>
-                  <StyledWarnIcon />
-                </Tooltip>
-              )}
-            </div>
-          }
-          content={
-            concept && (
-              <SlateConceptPreview concept={concept} handleRemove={handleRemove} id={concept.id} />
-            )
-          }
-          ariaLabel={t('notions.edit')}>
-          {children}
-        </Notion> */}
       <ConceptModal
         isOpen={!concept?.id && showConcept}
         onClose={onClose}

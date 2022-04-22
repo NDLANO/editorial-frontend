@@ -54,7 +54,7 @@ export const onArrowUp = (
 
   if (isMathml(mathml)) {
     e.preventDefault();
-    Transforms.move(editor, { unit: 'line', distance: 1, reverse: true });
+    Transforms.move(editor, { unit: 'line', reverse: true });
     return;
   }
   onKeyDown?.(e);

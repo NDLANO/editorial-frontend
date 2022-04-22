@@ -14,7 +14,7 @@ import { TYPE_PARAGRAPH } from './types';
 export const defaultParagraphBlock = () =>
   slatejsx('element', { type: TYPE_PARAGRAPH }, { text: '' }) as ParagraphElement;
 
-export const isParagraph = (node: Node): node is ParagraphElement => {
+export const isParagraph = (node: Node | undefined): node is ParagraphElement => {
   return Element.isElement(node) && node.type === TYPE_PARAGRAPH;
 };
 

@@ -26,6 +26,7 @@ import { useFetchConceptData } from '../../../../../containers/FormikForm/formik
 import mergeLastUndos from '../../../utils/mergeLastUndos';
 import { TYPE_CONCEPT_INLINE } from './types';
 import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
+import SlateNotion from './SlateNotion';
 
 const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => ({
   type: TYPE_CONCEPT_INLINE,
@@ -36,20 +37,6 @@ const getConceptDataAttributes = ({ id, title: { title } }: Dictionary<any>) => 
     type: 'inline',
   },
 });
-
-const StyledCheckIcon = styled(Check)`
-  margin-left: 10px;
-  width: ${spacing.normal};
-  height: ${spacing.normal};
-  fill: ${colors.support.green};
-`;
-
-const StyledWarnIcon = styled(AlertCircle)`
-  margin-left: 5px;
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  fill: ${colors.brand.grey};
-`;
 
 interface Props {
   element: ConceptInlineElement;
@@ -139,8 +126,16 @@ const InlineConcept = (props: Props) => {
 
   return (
     <>
-      <span {...attributes} onClick={toggleConceptModal}>
-        <Notion
+      <SlateNotion
+        attributes={attributes}
+        element={element}
+        locale={locale}
+        editor={editor}
+        concept={concept}
+        id={uuid}>
+        {children}
+      </SlateNotion>
+      {/* <Notion
           id={uuid}
           title={concept?.title.title ?? ''}
           subTitle={t('conceptform.title')}
@@ -178,8 +173,7 @@ const InlineConcept = (props: Props) => {
           }
           ariaLabel={t('notions.edit')}>
           {children}
-        </Notion>
-      </span>
+        </Notion> */}
       <ConceptModal
         isOpen={!concept?.id && showConcept}
         onClose={onClose}

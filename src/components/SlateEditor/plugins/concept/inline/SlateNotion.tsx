@@ -70,15 +70,6 @@ const NotionCSS = css`
   }
 `;
 
-const SlateNotionModal = styled.div`
-  position: absolute;
-  z-index: 1;
-  min-width: 600px;
-  background: white;
-  bottom: -10px;
-  transform: translate(50%, 100%);
-`;
-
 interface Props {
   element: ConceptInlineElement;
   locale: string;
@@ -100,68 +91,53 @@ const SlateNotion = ({
   concept,
   handleRemove,
 }: Props) => {
-  const [open, setOpen] = useState(false);
-  const selected = useSelected();
   const { t } = useTranslation();
 
-  const onToggleOpen = () => {
-    setOpen(prev => !prev);
-  };
-
-  useEffect(() => {
-    if (!selected && open) {
-      setOpen(false);
-    }
-  }, [selected, open]);
   return (
-    <>
-      <span css={NotionCSS} {...attributes} onClick={onToggleOpen}>
+    <span data-notion id={id}>
+      <span css={NotionCSS} data-notion-link {...attributes}>
         <div contentEditable={false} css={afterCSS} />
-        {open && (
-          <SlateNotionModal>
-            <NotionDialogStyledWrapper className="visible" contentEditable={false}>
-              <NotionHeader title={concept?.title.title || ''}>
-                <div
-                  css={css`
-                    display: flex;
-                    flex: 1;
-                    flex-direction: inherit;
-                  `}>
-                  {(concept?.status.current === PUBLISHED ||
-                    concept?.status.other.includes(PUBLISHED)) && (
-                    <Tooltip
-                      tooltip={t('form.workflow.published')}
-                      css={css`
-                        margin-right: auto;
-                      `}>
-                      <StyledCheckIcon />
-                    </Tooltip>
-                  )}
-                  {concept?.status.current !== PUBLISHED && (
-                    <Tooltip
-                      tooltip={t('form.workflow.currentStatus', {
-                        status: t(`form.status.${concept?.status.current.toLowerCase()}`),
-                      })}>
-                      <StyledWarnIcon />
-                    </Tooltip>
-                  )}
-                </div>
-              </NotionHeader>
-              <NotionBody>
-                {concept && (
-                  <SlateConceptPreview
-                    concept={concept}
-                    handleRemove={handleRemove}
-                    id={concept.id}
-                  />
+        <Portal isOpened>
+          <NotionDialog
+            title={concept?.title.title ?? ''}
+            subTitle={t('conceptform.title')}
+            id={id}
+            customCSS={''}
+            headerContent={
+              <div
+                css={css`
+                  display: flex;
+                  flex: 1;
+                  flex-direction: inherit;
+                `}>
+                {(concept?.status.current === PUBLISHED ||
+                  concept?.status.other.includes(PUBLISHED)) && (
+                  <Tooltip
+                    tooltip={t('form.workflow.published')}
+                    css={css`
+                      margin-right: auto;
+                    `}>
+                    <StyledCheckIcon />
+                  </Tooltip>
                 )}
-              </NotionBody>
-            </NotionDialogStyledWrapper>
-          </SlateNotionModal>
-        )}
+                {concept?.status.current !== PUBLISHED && (
+                  <Tooltip
+                    tooltip={t('form.workflow.currentStatus', {
+                      status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+                    })}>
+                    <StyledWarnIcon />
+                  </Tooltip>
+                )}
+              </div>
+            }>
+            {concept && (
+              <SlateConceptPreview concept={concept} handleRemove={handleRemove} id={concept.id} />
+            )}
+          </NotionDialog>
+        </Portal>
         {children}
       </span>
-    </>
+    </span>
   );
 };
 

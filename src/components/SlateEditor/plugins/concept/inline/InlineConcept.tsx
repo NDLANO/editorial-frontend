@@ -116,14 +116,7 @@ const InlineConcept = (props: Props) => {
 
   return (
     <>
-      <SlateNotion
-        handleRemove={handleRemove}
-        attributes={attributes}
-        element={element}
-        locale={locale}
-        editor={editor}
-        concept={concept}
-        id={uuid}>
+      <SlateNotion handleRemove={handleRemove} attributes={attributes} concept={concept} id={uuid}>
         {children}
       </SlateNotion>
       <ConceptModal

@@ -4,12 +4,10 @@ import { colors, spacing } from '@ndla/core';
 import { NotionDialog } from '@ndla/notion';
 import { IConcept } from '@ndla/types-concept-api';
 import { ReactNode } from 'react';
-import { Editor } from 'slate';
 import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { AlertCircle, Check } from '@ndla/icons/lib/editor';
-import { ConceptInlineElement } from './interfaces';
 import SlateConceptPreview from '../SlateConceptPreview';
 import { Portal } from '../../../../Portal';
 import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
@@ -28,7 +26,7 @@ const StyledWarnIcon = styled(AlertCircle)`
   fill: ${colors.brand.grey};
 `;
 
-const afterCSS = css`
+const NotionArrow = styled.div`
   display: inline-block;
   position: absolute;
   margin: calc(1em + 4px) auto 0;
@@ -45,15 +43,11 @@ const afterCSS = css`
 
 const NotionCSS = css`
   display: inline;
-  background: none;
-  border: none;
   font-family: inherit;
   font-style: inherit;
   line-height: 1em;
   padding: 0 0 4px 0;
   margin-bottom: -4px;
-  text-decoration: none;
-  color: #000;
   border-bottom: 1px solid ${colors.brand.tertiary};
   position: relative;
   cursor: pointer;
@@ -68,9 +62,6 @@ const NotionCSS = css`
 `;
 
 interface Props {
-  element: ConceptInlineElement;
-  locale: string;
-  editor: Editor;
   attributes: RenderElementProps['attributes'];
   concept?: IConcept;
   id: string;
@@ -78,22 +69,13 @@ interface Props {
   children: ReactNode;
 }
 
-const SlateNotion = ({
-  children,
-  element,
-  locale,
-  editor,
-  attributes,
-  id,
-  concept,
-  handleRemove,
-}: Props) => {
+const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props) => {
   const { t } = useTranslation();
 
   return (
     <span data-notion id={id}>
       <span css={NotionCSS} data-notion-link {...attributes}>
-        <div contentEditable={false} css={afterCSS} />
+        <NotionArrow contentEditable={false} />
         <Portal isOpened>
           <NotionDialog
             title={concept?.title.title ?? ''}

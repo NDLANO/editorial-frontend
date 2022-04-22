@@ -122,17 +122,17 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
   if (taxonomyVersions.isLoading) {
     return (
       <ContentLoader width={800} height={150}>
-        <rect x="0" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-1" />
-        <rect x="0" y="26" rx="3" ry="3" width="260" height="32" key="rect-1-1" />
-        <rect x="270" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-1" />
-        <rect x="270" y="26" rx="3" ry="3" width="255" height="32" key="rect-1-1" />
-        <rect x="535" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-1" />
-        <rect x="535" y="26" rx="3" ry="3" width="100" height="32" key="rect-1-1" />
+        <rect x="0" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-2" />
+        <rect x="0" y="26" rx="3" ry="3" width="260" height="32" key="rect-1-3" />
+        <rect x="270" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-4" />
+        <rect x="270" y="26" rx="3" ry="3" width="255" height="32" key="rect-1-5" />
+        <rect x="535" y="0" rx="3" ry="3" width="100" height="23" key="rect-1-6" />
+        <rect x="535" y="26" rx="3" ry="3" width="100" height="32" key="rect-1-7" />
 
-        <rect x="0" y="76" rx="3" ry="3" width="80" height="23" key="rect-1-1" />
-        <rect x="0" y="102" rx="3" ry="3" width="120" height="32" key="rect-1-1" />
-        <rect x="130" y="76" rx="3" ry="3" width="80" height="23" key="rect-1-1" />
-        <rect x="130" y="102" rx="3" ry="3" width="120" height="32" key="rect-1-1" />
+        <rect x="0" y="76" rx="3" ry="3" width="80" height="23" key="rect-2-1" />
+        <rect x="0" y="102" rx="3" ry="3" width="120" height="32" key="rect-2-2" />
+        <rect x="130" y="76" rx="3" ry="3" width="80" height="23" key="rect-2-3" />
+        <rect x="130" y="102" rx="3" ry="3" width="120" height="32" key="rect-2-4" />
       </ContentLoader>
     );
   }

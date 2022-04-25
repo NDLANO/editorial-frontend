@@ -1417,6 +1417,7 @@ const phrases = {
       tree: 'Tre',
     },
     childrenChanged: 'Barn endra',
+    resourcesChanged: 'Ressurser endret',
     diffTypes: {
       ADDED: 'Lagt til',
       DELETED: 'Sletta',
@@ -1487,6 +1488,9 @@ const phrases = {
       },
       grepCodes: {
         title: 'Grep-koder',
+      },
+      resourceTypes: {
+        title: 'Ressurstypar',
       },
     },
   },

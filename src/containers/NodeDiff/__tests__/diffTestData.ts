@@ -232,6 +232,7 @@ export const nodeTreeWithDirectChildren: NodeTree = {
         customFields: {},
       },
       primary: true,
+      resources: [],
     },
     {
       id: 'urn:topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
@@ -264,6 +265,7 @@ export const nodeTreeWithDirectChildren: NodeTree = {
         customFields: {},
       },
       primary: true,
+      resources: [],
     },
   ],
 };
@@ -332,6 +334,7 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
         customFields: {},
       },
       primary: true,
+      resources: [],
     },
     {
       id: 'urn:topic:1:00018b29-3b51-478d-a691-20732e0601fd',
@@ -364,6 +367,7 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
         customFields: {},
       },
       primary: true,
+      resources: [],
     },
   ],
 };
@@ -840,6 +844,7 @@ export const nodeTreeWithNestedChildren: NodeTree = {
         customFields: {},
       },
       primary: true,
+      resources: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -872,6 +877,7 @@ export const nodeTreeWithNestedChildren: NodeTree = {
         customFields: {},
       },
       primary: true,
+      resources: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -904,6 +910,7 @@ export const nodeTreeWithNestedChildren: NodeTree = {
         customFields: {},
       },
       primary: true,
+      resources: [],
     },
   ],
 };
@@ -972,6 +979,7 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
         customFields: {},
       },
       primary: true,
+      resources: [],
     },
     {
       id: 'urn:topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
@@ -1004,6 +1012,7 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
         customFields: {},
       },
       primary: false,
+      resources: [],
     },
     {
       id: 'urn:topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
@@ -1036,6 +1045,7 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
         customFields: {},
       },
       primary: true,
+      resources: [],
     },
   ],
 };

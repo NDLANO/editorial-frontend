@@ -64,10 +64,13 @@ export interface ResourceWithNodeConnection {
   name: string;
   nodeId: string;
   path: string;
+  parentId?: string;
   paths: string[];
   primary: boolean;
   rank: number;
   relevanceId: string;
+  translations: NodeTranslation[];
+  supportedLanguages: string[];
   resourceTypes: {
     id: string;
     name: string;

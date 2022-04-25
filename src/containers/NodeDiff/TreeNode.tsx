@@ -80,6 +80,12 @@ const StyledChangedPill = styled.div<StyledChangedPillProps>`
   border-radius: 5px;
 `;
 
+const DiffPills = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${spacing.small};
+`;
+
 interface DiffTypePillProps {
   diffType: DiffResultType;
 }
@@ -91,7 +97,7 @@ const diffTypeToColorMap: Record<DiffResultType, string> = {
   DELETED: colors.support.red,
 };
 
-const DiffTypePill = ({ diffType }: DiffTypePillProps) => {
+export const DiffTypePill = ({ diffType }: DiffTypePillProps) => {
   const { t } = useTranslation();
   if (diffType === 'NONE') return null;
   return (
@@ -146,12 +152,22 @@ export const TreeNode = ({
           isVisible={node.metadata?.visible.other ?? node.metadata?.visible.original}>
           {node.name.other ?? node.name.original}
         </ItemTitleButton>
-        {node.childrenChanged?.diffType !== 'NONE' && node.changed.diffType === 'NONE' && (
-          <StyledChangedPill color={colors.brand.primary} textColor={'white'}>
-            {t('diff.childrenChanged')}
-          </StyledChangedPill>
-        )}
-        {node.changed.diffType !== 'NONE' && <DiffTypePill diffType={node.changed.diffType} />}
+        <DiffPills>
+          {node.resourcesChanged &&
+            node.resourcesChanged?.diffType !== 'NONE' &&
+            node.changed.diffType !== 'DELETED' &&
+            node.changed.diffType !== 'ADDED' && (
+              <StyledChangedPill color={colors.tasksAndActivities.dark} textColor={'white'}>
+                {t('diff.resourcesChanged')}
+              </StyledChangedPill>
+            )}
+          {node.childrenChanged && node.childrenChanged?.diffType !== 'NONE' && (
+            <StyledChangedPill color={colors.brand.primary} textColor={'white'}>
+              {t('diff.childrenChanged')}
+            </StyledChangedPill>
+          )}
+          {node.changed.diffType !== 'NONE' && <DiffTypePill diffType={node.changed.diffType} />}
+        </DiffPills>
       </StyledItemBar>
       {hasChildNodes &&
         nodes &&

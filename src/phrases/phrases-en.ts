@@ -1415,6 +1415,7 @@ const phrases = {
       tree: 'Tree',
     },
     childrenChanged: 'Children changed',
+    resourcesChanged: 'Resources changed',
     diffTypes: {
       ADDED: 'Added',
       DELETED: 'Deleted',
@@ -1485,6 +1486,9 @@ const phrases = {
       },
       grepCodes: {
         title: 'Grep Codes',
+      },
+      resourceTypes: {
+        title: 'Resource Types',
       },
     },
   },

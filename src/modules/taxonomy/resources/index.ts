@@ -181,8 +181,11 @@ export const queryLearningPathResource = ({
   taxonomyVersion,
 }: LearningpathResourceQueryParams): Promise<Resource[]> => {
   return fetchAndResolve({
-    url: `${resourcesUrl}${`urn:learningpath:${learningpathId}`}`,
+    url: resourcesUrl,
     taxonomyVersion,
+    queryParams: {
+      contentURI: `urn:learningpath:${learningpathId}`,
+    },
   });
 };
 

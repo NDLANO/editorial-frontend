@@ -25,6 +25,7 @@ const phrases = {
     podcastUploaderPage: `Podkastepisode ${titleTemplate}`,
     podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
     search: {
       'podcast-series': `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -171,6 +172,7 @@ const phrases = {
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
     taxonomyVersions: 'Taksonomiversjoner',
+    publishRequests: 'Publiseringsforespørsler',
     searchContent: 'Søk innhold',
     searchAudio: 'Søk lyd',
     searchPodcastSeries: 'Søk serie',
@@ -1275,6 +1277,9 @@ const phrases = {
     missingResourceType: 'Mangler ressurstype',
     metadata: {
       customFields: {
+        cancelPublishRequest: 'Avlys publiseringsforespørsel',
+        requestPublish: 'Be om publisering',
+        requestVersionError: 'Publiseringsforespørsler kan bare opprettes fra standardversjonen',
         alterFields: 'Legg til/endre metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
@@ -1390,6 +1395,16 @@ const phrases = {
         unlocked: 'Ulåst',
       },
     },
+  },
+  publishRequests: {
+    title: 'Publiseringsforespørsler',
+    nodePublished: 'Noden har blitt publisert!',
+    noPublishedVersion: 'Klarte ikke finne publisert versjon',
+    showInStructure: 'Vis i struktur',
+    compare: 'Sammenlign',
+    publishNode: 'Publiser node',
+    publishWarning:
+      'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil umiddelbart bli tilgjengelige på NDLA.no',
   },
   metadata: {
     visible: 'er synlig',

@@ -25,6 +25,7 @@ const phrases = {
     podcastUploaderPage: `Podcast episode ${titleTemplate}`,
     podcastSeriesPage: `Podcast series ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    publishRequestsPage: `Publish Requests ${titleTemplate}`,
     search: {
       'podcast-series': `Search podcast series ${titleTemplate}`,
       audio: `Search audio files ${titleTemplate}`,
@@ -170,6 +171,7 @@ const phrases = {
     agreement: 'New Agreement',
     structure: 'Structure',
     taxonomyVersions: 'Taxonomy Versions',
+    publishRequests: 'Publish Requests',
     searchContent: 'Search content',
     searchAudio: 'Search audio',
     searchPodcastSeries: 'Search series',
@@ -1273,6 +1275,9 @@ const phrases = {
     missingResourceType: 'Missing resource type',
     metadata: {
       customFields: {
+        cancelPublishRequest: 'Cancel publish request',
+        requestPublish: 'Request publish',
+        requestVersionError: 'Publish requests can only be made from the default version',
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
@@ -1388,6 +1393,16 @@ const phrases = {
         unlocked: 'Unlocked',
       },
     },
+  },
+  publishRequests: {
+    title: 'Publish Requests',
+    nodePublished: 'The node has been published!',
+    showInStructure: 'Show in structure',
+    compare: 'Compare',
+    publishNode: 'Publish node',
+    noPublishedVersion: 'Failed to find a published version',
+    publishWarning:
+      'Are you sure you want to publish this node? Any changes within this version will be immediately available on NDLA.no',
   },
   metadata: {
     visible: 'is visible',

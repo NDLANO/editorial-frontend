@@ -138,6 +138,19 @@ export function toStructure(path: string) {
   return `/structure/${urnPath}`;
 }
 
+export const toStructureBeta = (path: string) => {
+  const urnPath = path
+    .split('/')
+    .slice(1)
+    .map(part => `urn:${part}`)
+    .join('/');
+  return `/structureBeta/${urnPath}`;
+};
+
+export const toNodeDiff = (nodeId: string, originalHash: string, otherHash: string) => {
+  return `/nodeDiff/${nodeId}?originalHash=${originalHash}&otherHash=${otherHash}`;
+};
+
 export function to404() {
   return '/404';
 }

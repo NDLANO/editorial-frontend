@@ -14,6 +14,7 @@ import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import { useSession } from '../../Session/SessionProvider';
 import EditCustomFields from './sharedMenuOptions/EditCustomFields';
 import EditGrepCodes from './sharedMenuOptions/EditGrepCodes';
+import RequestNodePublish from './sharedMenuOptions/RequestNodePublish';
 import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
 import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
 import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
@@ -68,6 +69,7 @@ const SettingsMenuDropdownType = ({
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
         <EditSubjectpageOption node={node} />
+        <RequestNodePublish node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         {/* <DeleteNode node={node} editModeHandler={editModeHandler} /> */}
       </>
     );
@@ -91,6 +93,7 @@ const SettingsMenuDropdownType = ({
         /> */}
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
+        <RequestNodePublish node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         {/* <CopyResources toNode={node} structure={structure} onClose={onClose} /> */}
       </>
     );

@@ -96,6 +96,13 @@ const OpenMenu = ({ close }: Props) => {
                 </span>
               </StyledLink>
             )}
+            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
+              <StyledLink to="publishRequests" onClick={close}>
+                <span>
+                  <Taxonomy /> {t('subNavigation.publishRequests')}
+                </span>
+              </StyledLink>
+            )}
             <StyledLink to={toEditNdlaFilm()} onClick={close}>
               <span>
                 <ContentTypeBadge type={contentTypes.SUBJECT} background size="xx-small" />{' '}

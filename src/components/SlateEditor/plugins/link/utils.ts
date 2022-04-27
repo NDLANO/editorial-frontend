@@ -84,7 +84,7 @@ export const splitTaxonomyUrl = async (href: string) => {
   const { pathname } = new Url(href.replace('/subjects', ''));
   const paths = pathname.split('/');
   const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
-  const resolvedTaxonomy = await resolveUrls(path);
+  const resolvedTaxonomy = await resolveUrls({ path, taxonomyVersion: 'default' });
   const contentUriSplit = resolvedTaxonomy && resolvedTaxonomy.contentUri.split(':');
   const resourceId = contentUriSplit.pop();
   const resourceType = contentUriSplit.pop();

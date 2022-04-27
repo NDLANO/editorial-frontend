@@ -197,7 +197,7 @@ export const StructureContainer = () => {
       ? getSubtopics(currentTopic.id, topics)
       : currentSubject?.topics)!;
     const currentRank = localTopics[source.index].rank;
-    const destinationRank = topics[destination.index].rank;
+    const destinationRank = localTopics[destination.index].rank;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
     if (currentRank === destinationRank) return;
     saveSubjectItems(params.subject!, { loading: true });

@@ -201,6 +201,7 @@ const contentSecurityPolicy = {
       'https://fonts.gstatic.com',
       'https://tagmanager.google.com',
       'https://www.wiris.net',
+      'https://cdn.jsdelivr.net',
     ],
     fontSrc: [
       "'self'",

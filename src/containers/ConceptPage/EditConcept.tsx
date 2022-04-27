@@ -41,6 +41,7 @@ const EditConcept = ({ isNewlyCreated }: Props) => {
     'id',
     'title.title',
     'content.content',
+    'tags.tags',
   ]);
 
   if (loading || translating) {

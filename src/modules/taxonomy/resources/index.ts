@@ -68,7 +68,7 @@ interface ResourcePostParams extends WithTaxonomyVersion {
 export const createResource = ({ body, taxonomyVersion }: ResourcePostParams): Promise<string> => {
   return postAndResolve({
     url: resourcesUrl,
-    body,
+    body: JSON.stringify(body),
     taxonomyVersion,
     alternateResolve: resolveLocation,
   });

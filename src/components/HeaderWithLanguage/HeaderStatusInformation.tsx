@@ -134,7 +134,7 @@ const HeaderStatusInformation = ({
     if (!date) return undefined;
     const parsedDate = new Date(date);
 
-    const daysToWarn = 10;
+    const daysToWarn = 365;
     const errorDate = new Date();
     const warnDate = new Date();
     warnDate.setDate(errorDate.getDate() + daysToWarn);

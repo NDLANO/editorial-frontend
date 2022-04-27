@@ -90,11 +90,13 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
       original: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       other: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       diffType: 'NONE',
+      ignored: true,
     },
     paths: {
       original: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
       other: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
       diffType: 'NONE',
+      ignored: true,
     },
     metadata: {
       changed: { diffType: 'MODIFIED' },
@@ -395,11 +397,13 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       original: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       other: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       diffType: 'NONE',
+      ignored: true,
     },
     paths: {
       original: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
       other: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
       diffType: 'NONE',
+      ignored: true,
     },
     metadata: {
       changed: { diffType: 'NONE' },
@@ -500,6 +504,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other:
           '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
         diffType: 'NONE',
+        ignored: true,
       },
       paths: {
         original: [
@@ -509,6 +514,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
           '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
         ],
         diffType: 'NONE',
+        ignored: true,
       },
       connectionId: {
         original: 'urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155',
@@ -528,6 +534,10 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       relevanceId: {
         original: undefined,
         other: undefined,
+        diffType: 'NONE',
+      },
+      resources: [],
+      resourcesChanged: {
         diffType: 'NONE',
       },
       translations: {
@@ -609,6 +619,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
           '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:d208bf2d-836c-43fe-977b-de4af1771396',
         other: undefined,
         diffType: 'DELETED',
+        ignored: true,
       },
       paths: {
         original: [
@@ -616,6 +627,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         ],
         other: undefined,
         diffType: 'DELETED',
+        ignored: true,
       },
       connectionId: {
         original: 'urn:subject-topic:2b597082-6c36-4fc1-ac60-f7b9aec06cfc',
@@ -636,6 +648,10 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: undefined,
         other: undefined,
         diffType: 'DELETED',
+      },
+      resources: [],
+      resourcesChanged: {
+        diffType: 'NONE',
       },
       translations: {
         original: [
@@ -708,6 +724,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         other:
           '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
         diffType: 'ADDED',
+        ignored: true,
       },
       paths: {
         original: undefined,
@@ -715,6 +732,7 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
           '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:00018b29-3b51-478d-a691-20732e0601fd',
         ],
         diffType: 'ADDED',
+        ignored: true,
       },
       connectionId: {
         original: undefined,
@@ -735,6 +753,10 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
         original: undefined,
         other: undefined,
         diffType: 'ADDED',
+      },
+      resources: [],
+      resourcesChanged: {
+        diffType: 'NONE',
       },
       translations: {
         original: undefined,
@@ -1073,11 +1095,13 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
       original: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       other: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       diffType: 'NONE',
+      ignored: true,
     },
     paths: {
       original: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
       other: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
       diffType: 'NONE',
+      ignored: true,
     },
     metadata: {
       changed: { diffType: 'NONE' },
@@ -1177,6 +1201,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
         other:
           '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
         diffType: 'NONE',
+        ignored: true,
       },
       paths: {
         original: [
@@ -1186,6 +1211,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
           '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6',
         ],
         diffType: 'NONE',
+        ignored: true,
       },
       connectionId: {
         original: 'urn:subject-topic:b5c7dede-f8ec-4a57-909f-940343eb4155',
@@ -1205,6 +1231,10 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
       relevanceId: {
         original: undefined,
         other: undefined,
+        diffType: 'NONE',
+      },
+      resources: [],
+      resourcesChanged: {
         diffType: 'NONE',
       },
       translations: {
@@ -1286,6 +1316,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             other:
               '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
             diffType: 'NONE',
+            ignored: true,
           },
           paths: {
             original: [
@@ -1295,6 +1326,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
               '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:35efa357-acc7-4828-b241-cad5467d1dc6',
             ],
             diffType: 'NONE',
+            ignored: true,
           },
           connectionId: {
             original: 'urn:topic-subtopic:a105eda0-b2db-46c2-af9b-0157d1b764f0',
@@ -1314,6 +1346,10 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
           relevanceId: {
             original: 'urn:relevance:core',
             other: 'urn:relevance:core',
+            diffType: 'NONE',
+          },
+          resources: [],
+          resourcesChanged: {
             diffType: 'NONE',
           },
           translations: {
@@ -1396,6 +1432,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
             other:
               '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
             diffType: 'NONE',
+            ignored: true,
           },
           paths: {
             original: [
@@ -1405,6 +1442,7 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
               '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578/topic:1:a317f589-7995-43aa-8b68-92182c0b23c6/topic:1:8d9885a4-a932-4a98-b8c4-2b89c914c3e8',
             ],
             diffType: 'NONE',
+            ignored: true,
           },
           connectionId: {
             original: 'urn:topic-subtopic:753b00fa-1a18-4aae-b088-29ecc4a1dd1d',
@@ -1424,6 +1462,10 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
           relevanceId: {
             original: 'urn:relevance:core',
             other: 'urn:relevance:core',
+            diffType: 'NONE',
+          },
+          resources: [],
+          resourcesChanged: {
             diffType: 'NONE',
           },
           translations: {
@@ -1505,11 +1547,13 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
       original: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       other: undefined,
       diffType: 'DELETED',
+      ignored: true,
     },
     paths: {
       original: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
       other: undefined,
       diffType: 'DELETED',
+      ignored: true,
     },
     metadata: {
       changed: { diffType: 'DELETED' },
@@ -1592,11 +1636,13 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
       original: undefined,
       other: '/subject:1:470720f9-6b03-40cb-ab58-e3e130803578',
       diffType: 'ADDED',
+      ignored: true,
     },
     paths: {
       original: undefined,
       other: ['/subject:1:470720f9-6b03-40cb-ab58-e3e130803578'],
       diffType: 'ADDED',
+      ignored: true,
     },
     metadata: {
       changed: { diffType: 'ADDED' },

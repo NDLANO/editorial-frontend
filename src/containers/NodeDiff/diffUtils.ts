@@ -201,7 +201,7 @@ const diffObject = <T>(
       acc[key] = {
         original: original?.[key],
         other: other?.[key],
-        diffType: 'NONE',
+        diffType: objDiff.diffType !== 'MODIFIED' ? objDiff.diffType : 'NONE',
         ignored: true,
       };
       return acc;

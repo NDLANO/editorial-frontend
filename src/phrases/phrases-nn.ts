@@ -25,6 +25,7 @@ const phrases = {
     podcastUploaderPage: `Podkastepisode ${titleTemplate}`,
     podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    nodeDiffPage: `Samanlikne nodar ${titleTemplate}`,
     search: {
       'podcast-series': `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -1181,6 +1182,7 @@ const phrases = {
     newTopic: 'Nytt emne',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
+    currentVersion: 'Noverande versjon',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',
@@ -1388,6 +1390,103 @@ const phrases = {
         subTitle: 'Er versjonen låst?',
         locked: 'Låst',
         unlocked: 'Ulåst',
+      },
+    },
+  },
+  diff: {
+    equalNodes: 'Disse nodene er like!',
+    defaultVersion: 'Standardsversjon',
+    compareVersions: 'Samanlikne versjonar',
+    error: {
+      originalHashRequired: "originalHash-parameteret er påkrevd i URL'en!",
+      doesNotExist: 'Denne noden finnast ikkje i nokon av desse versjonane',
+      onlyExistsInOriginal: 'Denne noden finnast berre i originalversjonen',
+      onlyExistsInOther: 'Denne noden finnast berre i versjonen du samanliknar med',
+    },
+    options: {
+      originalHashLabel: 'Original-versjon',
+      otherHashLabel: 'Anna versjon',
+      viewLabel: 'Visningstype',
+      nodeViewLabel: 'Nodevisning',
+      fieldViewLabel: 'Feltvisning',
+      allNodes: 'Alle noder',
+      changedNodes: 'Kun endra',
+      allFields: 'Alle felt',
+      changedFields: 'Kun endra',
+      flat: 'Flat',
+      tree: 'Tre',
+    },
+    childrenChanged: 'Barn endra',
+    diffTypes: {
+      ADDED: 'Lagt til',
+      DELETED: 'Sletta',
+      MODIFIED: 'Endra',
+      NONE: 'Ingen',
+    },
+    isRoot: 'Rotnode',
+    nodeTypeTooltips: {
+      SUBJECT: 'Dette er eit fag',
+      TOPIC: 'Dette er eit emne',
+    },
+    fields: {
+      id: {
+        title: 'ID',
+      },
+      name: {
+        title: 'Namn',
+      },
+      contentUri: {
+        title: 'Innholds-URI',
+      },
+      parent: {
+        title: 'Forelder',
+      },
+      path: {
+        title: 'Sti',
+      },
+      paths: {
+        title: 'Stier',
+      },
+      connectionId: {
+        title: 'Koblings-ID',
+      },
+      isPrimary: {
+        title: 'Er primær',
+        isOn: 'Denne noden er ein primærressurs',
+        isOff: 'Denne noden er ikkje ein primærressurs',
+      },
+      primary: {
+        title: 'Er primær',
+        isOn: 'Denne noden er ein primærressurs',
+        isOff: 'Denne noden er ikkje ein primærressurs',
+      },
+      rank: {
+        title: 'Rangering',
+      },
+      relevance: {
+        title: 'Relevans',
+      },
+      translations: {
+        title: 'Oversetjinger',
+      },
+      articleType: {
+        title: 'Artikkel-type',
+      },
+      visible: {
+        title: 'Synleg',
+        isOn: 'Synleg',
+        isOff: 'Usynleg',
+      },
+      'topic-resources': {
+        title: 'Gruppering av ressurser',
+        isOn: 'Gruppert',
+        isOff: 'Ugruppert',
+      },
+      supportedLanguages: {
+        title: 'Støtta språk',
+      },
+      grepCodes: {
+        title: 'Grep-koder',
       },
     },
   },

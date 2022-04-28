@@ -46,7 +46,13 @@ const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boole
   disabled: true,
 });
 
-const missingObject: ResourceResourceType = { id: 'missing', name: '', connectionId: '' };
+const missingObject = {
+  id: 'missing',
+  name: '',
+  connectionId: '',
+  supportedLanguages: [],
+  translations: [],
+};
 const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection => ({
   ...r,
   resourceTypes: [missingObject],

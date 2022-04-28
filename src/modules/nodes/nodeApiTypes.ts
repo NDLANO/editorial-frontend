@@ -75,9 +75,9 @@ export interface ResourceWithNodeConnection {
     id: string;
     name: string;
     parentId?: string;
-    translations?: { name: string; language: string }[];
-    supportedLanguages?: string[];
-    connectionId?: string;
+    translations: { name: string; language: string }[];
+    supportedLanguages: string[];
+    connectionId: string;
   }[];
 }
 

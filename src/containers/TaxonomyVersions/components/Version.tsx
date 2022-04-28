@@ -84,14 +84,15 @@ const ContentBlock = styled.div`
 
 const StyledLink = styled(SafeLink)`
   box-shadow: inset 0 0;
-  > * {
-    height: 24px;
-    width: 100%;
-    color: ${colors.brand.tertiary};
-    margin-right: ${spacing.xsmall};
-    &:hover {
-      color: ${colors.brand.primary};
-    }
+`;
+
+const linkIconCss = css`
+  height: 24px;
+  width: 100%;
+  color: ${colors.brand.tertiary};
+  margin-right: ${spacing.xsmall};
+  &:hover {
+    color: ${colors.brand.primary};
   }
 `;
 
@@ -153,7 +154,7 @@ const Version = ({ version }: Props) => {
             </StatusWrapper>
             <Tooltip tooltip={t('taxonomyVersions.previewVersion')}>
               <StyledLink target={'_blank'} to={ndlaUrl}>
-                <Launch />
+                <Launch css={linkIconCss} />
               </StyledLink>
             </Tooltip>
             <Tooltip tooltip={t('taxonomyVersions.editVersionTooltip')}>

@@ -122,16 +122,17 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
         match: node => node === element,
       });
     }
-
-    ReactEditor.focus(editor);
-    Transforms.select(editor, {
-      anchor: { path: leafPath, offset: 0 },
-      focus: { path: leafPath, offset: 0 },
-    });
-
     setIsFirstEdit(false);
     setEditMode(false);
     setShowMenu(false);
+
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, {
+        anchor: { path: leafPath, offset: 0 },
+        focus: { path: leafPath, offset: 0 },
+      });
+    }, 0);
   };
 
   const handleRemove = () => {

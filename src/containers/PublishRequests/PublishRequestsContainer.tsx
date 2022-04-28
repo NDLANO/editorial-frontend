@@ -1,19 +1,26 @@
 import styled from '@emotion/styled';
 import Button from '@ndla/button';
-import { spacing } from '@ndla/core';
-import { OneColumn } from '@ndla/ui';
-import { MessageBox } from '@ndla/ui/';
+import { spacing, colors } from '@ndla/core';
+import { OneColumn, MessageBox } from '@ndla/ui';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
+import queryString from 'query-string';
 import AlertModal from '../../components/AlertModal';
 import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
 import { NodeType } from '../../modules/nodes/nodeApiTypes';
 import { usePublishNodeMutation } from '../../modules/nodes/nodeMutations';
 import { useNodes } from '../../modules/nodes/nodeQueries';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
+import { NODES } from '../../queryKeys';
 import { toNodeDiff, toStructureBeta } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
+
+const ErrorMessage = styled.p`
+  color: ${colors.support.red};
+  margin: 0;
+`;
 
 const StyledNodeContainer = styled.div`
   display: flex;
@@ -32,7 +39,7 @@ const StyledButtonRow = styled.div`
 
 const StyledRequestList = styled.div`
   display: flex;
-  padding-top: ${spacing.normal};
+  padding-top: ${spacing.small};
   flex-direction: column;
   gap: ${spacing.small};
 `;
@@ -42,6 +49,7 @@ const PublishRequestsContainer = () => {
   const [nodeToPublish, setShowNodeToPublish] = useState<NodeType | undefined>(undefined);
   const [error, setError] = useState<string | undefined>();
   const [hasPublished, setHasPublished] = useState(false);
+  const qc = useQueryClient();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const nodesQuery = useNodes({
@@ -50,41 +58,66 @@ const PublishRequestsContainer = () => {
     value: 'true',
   });
 
-  const publishNodeMutation = usePublishNodeMutation();
+  const stringifiedParams = queryString.stringify({
+    key: TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
+    value: 'true',
+  });
 
-  const versionsQuery = useVersions({ taxonomyVersion: 'default', type: 'PUBLISHED' });
+  const publishNodeMutation = usePublishNodeMutation({
+    onSettled: () => qc.invalidateQueries([NODES, stringifiedParams, 'default']),
+  });
+
+  const versionsQuery = useVersions(
+    { taxonomyVersion: 'default', type: 'PUBLISHED' },
+    {
+      onSuccess: data => {
+        if (!data[0]) {
+          setError('publishRequests.noPublishedVersion');
+        }
+      },
+    },
+  );
+
+  const publishedVersion = versionsQuery.data?.[0];
 
   const onShowInStructure = (node: NodeType) => {
     navigate(toStructureBeta(node.path));
   };
 
   const onCompare = (node: NodeType) => {
-    const publishedVersion = versionsQuery.data?.[0];
     if (!publishedVersion) {
-      setError('publishRequests.noPublishedVersion');
+      setError('publishRequests.errors.noPublishedVersion');
       return;
     }
     navigate(toNodeDiff(node.id, publishedVersion.hash, 'default'));
   };
 
-  const onPublish = (node: NodeType) => {
+  const onPublish = async (node: NodeType) => {
     setHasPublished(false);
-    const publishedVersion = versionsQuery.data?.[0];
     if (!publishedVersion) {
-      setError('publishRequests.noPublishedVersion');
+      setError('publishRequests.errors.noPublishedVersion');
       return;
     }
-
-    setHasPublished(true);
+    await publishNodeMutation.mutateAsync(
+      { id: node.id, targetId: publishedVersion.hash },
+      {
+        onSuccess: () => setHasPublished(true),
+        onError: () => {
+          setHasPublished(false);
+          setError('publishRequests.errors.publishError');
+        },
+      },
+    );
   };
 
   return (
     <>
       <OneColumn>
         <h1>{t('publishRequests.title')}</h1>
+        {error && <ErrorMessage>{t(error)}</ErrorMessage>}
         {hasPublished && (
           <MessageBox showCloseButton onClose={() => setHasPublished(false)}>
-            {'publishRequests.nodePublished'}
+            {t('publishRequests.nodePublished')}
           </MessageBox>
         )}
         <StyledRequestList>
@@ -95,8 +128,11 @@ const PublishRequestsContainer = () => {
                 <Button onClick={() => onShowInStructure(node)}>
                   {t('publishRequests.showInStructure')}
                 </Button>
-                <Button onClick={() => onCompare(node)}>{t('publishRequests.compare')}</Button>
+                <Button onClick={() => onCompare(node)} disabled={!publishedVersion || !!error}>
+                  {t('publishRequests.compare')}
+                </Button>
                 <Button
+                  disabled={!publishedVersion || !!error}
                   onClick={() => {
                     setShowNodeToPublish(node);
                     setShowAlertModal(true);

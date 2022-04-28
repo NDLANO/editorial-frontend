@@ -1407,6 +1407,10 @@ const phrases = {
     publishNode: 'Publiser node',
     publishWarning:
       'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil umiddelbart bli tilgjengelige på NDLA.no',
+    errors: {
+      noPublishedVersion: 'Klarte ikke finne publisert versjon',
+      publishError: 'En feil oppsto under publisering av noden',
+    },
   },
   diff: {
     equalNodes: 'Disse nodene er like!',

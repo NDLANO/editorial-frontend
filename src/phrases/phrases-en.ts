@@ -1402,9 +1402,12 @@ const phrases = {
     showInStructure: 'Show in structure',
     compare: 'Compare',
     publishNode: 'Publish node',
-    noPublishedVersion: 'Failed to find a published version',
     publishWarning:
       'Are you sure you want to publish this node? Any changes within this version will be immediately available on NDLA.no',
+    errors: {
+      noPublishedVersion: 'Failed to find a published version',
+      publishError: 'Failed to publish node',
+    },
   },
   diff: {
     equalNodes: 'These nodes are equal!',

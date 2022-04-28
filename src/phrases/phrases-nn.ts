@@ -1401,12 +1401,15 @@ const phrases = {
   publishRequests: {
     title: 'Publiseringsforespørsler',
     nodePublished: 'Noden har blitt publisert!',
-    noPublishedVersion: 'Klarte ikkje finne publisert versjon',
     showInStructure: 'Vis i struktur',
     compare: 'Samanlikn',
     publishNode: 'Publiser node',
     publishWarning:
       'Er du sikker på at du ønskjar å publisere denne noden? Alle endringar vil umiddelbart bli tilgjengelege på NDLA.no',
+    errors: {
+      noPublishedVersion: 'Klarte ikkje finne publisert versjon',
+      publishError: 'En feil oppsto under publisering av noden',
+    },
   },
   diff: {
     equalNodes: 'Disse nodene er like!',

@@ -40,8 +40,6 @@ interface Props {
 const StyledBlockPickerWrapper = styled.div`
   position: absolute;
 `;
-/* left: ${props => (props.isList ? -110 : -78)}px;
-  top: -14px; */
 
 const SlateBlockPicker = ({
   editor,

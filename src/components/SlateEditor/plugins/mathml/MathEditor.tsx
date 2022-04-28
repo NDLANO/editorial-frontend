@@ -82,11 +82,13 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       handleRemove();
     } else {
       const nextPath = Path.next(elementPath);
-      ReactEditor.focus(editor);
-      Transforms.select(editor, {
-        anchor: { path: nextPath, offset: 0 },
-        focus: { path: nextPath, offset: 0 },
-      });
+      setTimeout(() => {
+        ReactEditor.focus(editor);
+        Transforms.select(editor, {
+          anchor: { path: nextPath, offset: 0 },
+          focus: { path: nextPath, offset: 0 },
+        });
+      }, 0);
       setEditMode(false);
       setShowMenu(false);
     }

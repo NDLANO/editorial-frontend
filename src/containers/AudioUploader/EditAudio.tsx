@@ -27,7 +27,7 @@ const EditAudio = ({ isNewlyCreated }: Props) => {
   const { translating, translateToNN } = useTranslateApi(
     audio,
     (audio: IAudioMetaInformation) => setAudio(audio),
-    ['id', 'manuscript.manuscript', 'title.title'],
+    ['id', 'manuscript.manuscript', 'title.title', 'tags.tags'],
   );
   const audioId = Number(params.id) || undefined;
   const audioLanguage = params.selectedLanguage!;

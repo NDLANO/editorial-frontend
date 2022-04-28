@@ -27,11 +27,21 @@ export const TaxonomyVersionProvider = ({ children }: Props) => {
 
 interface TaxonomyVersion {
   taxonomyVersion: string;
+  changeVersion: (newHash: string) => void;
 }
 
 export const useTaxonomyVersion = (): TaxonomyVersion => {
   const versionContext = useContext(TaxonomyVersionContext);
+  const changeVersion = (newHash: string) => {
+    if (!versionContext) {
+      throw new Error(
+        'You cannot change the taxonomy version without having a TaxonomyVersionProvider present!',
+      );
+    }
+    versionContext[1](newHash);
+  };
   return {
     taxonomyVersion: versionContext?.[0] ?? 'default',
+    changeVersion,
   };
 };

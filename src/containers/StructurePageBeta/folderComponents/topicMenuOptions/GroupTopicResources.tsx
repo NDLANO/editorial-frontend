@@ -53,7 +53,12 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
       },
       {
         onSettled: () => {
-          qc.invalidateQueries([CHILD_NODES_WITH_ARTICLE_TYPE, rootNodeId, i18n.language]);
+          qc.invalidateQueries([
+            CHILD_NODES_WITH_ARTICLE_TYPE,
+            taxonomyVersion,
+            rootNodeId,
+            i18n.language,
+          ]);
         },
         onSuccess: () => onChanged?.({ customFields }),
       },

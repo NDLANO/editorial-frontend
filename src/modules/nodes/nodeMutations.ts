@@ -53,6 +53,8 @@ export const useAddNodeMutation = () => {
           contentUri: newNode.contentUri ?? '',
           id: newNode.id ?? '',
           path: '',
+          translations: [],
+          supportedLanguages: [],
           metadata: { visible: true, grepCodes: [], customFields: {} },
         };
         queryClient.setQueryData<NodeType[]>(NODES, [...previousNodes, optimisticNode]);
@@ -77,8 +79,10 @@ export const useUpdateNodeMetadataMutation = () => {
     ({ id, metadata, taxonomyVersion }) =>
       putNodeMetadata({ id: id, meta: metadata, taxonomyVersion }),
     {
-      onMutate: async ({ id, metadata, rootId }) => {
-        const key = rootId ? [CHILD_NODES_WITH_ARTICLE_TYPE, rootId, i18n.language] : NODES;
+      onMutate: async ({ id, metadata, rootId, taxonomyVersion }) => {
+        const key = rootId
+          ? [CHILD_NODES_WITH_ARTICLE_TYPE, taxonomyVersion, rootId, i18n.language]
+          : NODES;
         await qc.cancelQueries(key);
         const prevNodes = qc.getQueryData<NodeType[]>(key) ?? [];
         const newNodes = prevNodes.map(node => {
@@ -88,8 +92,10 @@ export const useUpdateNodeMetadataMutation = () => {
         });
         qc.setQueryData<NodeType[]>(key, newNodes);
       },
-      onSettled: (_, __, { rootId }) => {
-        const key = rootId ? [CHILD_NODES_WITH_ARTICLE_TYPE, rootId, i18n.language] : NODES;
+      onSettled: (_, __, { rootId, taxonomyVersion }) => {
+        const key = rootId
+          ? [CHILD_NODES_WITH_ARTICLE_TYPE, taxonomyVersion, rootId, i18n.language]
+          : NODES;
         qc.invalidateQueries(key);
       },
     },

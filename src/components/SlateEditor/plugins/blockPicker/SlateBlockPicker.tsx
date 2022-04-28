@@ -24,6 +24,9 @@ import { TYPE_LIST_ITEM } from '../list/types';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
 import { defaultConceptBlock } from '../concept/block/utils';
 import { useSession } from '../../../../containers/Session/SessionProvider';
+import getCurrentBlock from '../../utils/getCurrentBlock';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { isParagraph } from '../paragraph/utils';
 
 interface Props {
   editor: Editor;
@@ -31,8 +34,6 @@ interface Props {
   illegalAreas: Element['type'][];
   actionsToShowInAreas: { [key: string]: string[] };
   articleLanguage: string;
-  selectedParagraphPath: Path;
-  show: boolean;
 }
 
 const StyledBlockPickerWrapper = styled.div<{ isList: boolean }>`
@@ -45,8 +46,6 @@ const SlateBlockPicker = ({
   editor,
   actionsToShowInAreas,
   articleLanguage,
-  selectedParagraphPath,
-  show,
   illegalAreas,
   allowedPickAreas,
 }: Props) => {
@@ -58,6 +57,19 @@ const SlateBlockPicker = ({
 
   const { userPermissions } = useSession();
   const { t } = useTranslation();
+
+  const [selectedParagraph, selectedParagraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH) || [];
+
+  const selection = editor.selection;
+
+  const show =
+    isParagraph(selectedParagraph) &&
+    Node.string(selectedParagraph) === '' &&
+    selectedParagraph.children.length === 1 &&
+    selectedParagraphPath &&
+    selection &&
+    Path.isDescendant(selection.anchor.path, selectedParagraphPath) &&
+    Range.isCollapsed(selection);
 
   useEffect(() => {
     if (Location.isLocation(editor.selection)) {
@@ -189,7 +201,8 @@ const SlateBlockPicker = ({
     return null;
   }
 
-  const [parent] = Editor.node(editor, Path.parent(selectedParagraphPath));
+  const parent =
+    selectedParagraphPath && Editor.node(editor, Path.parent(selectedParagraphPath))?.[0];
 
   const isListItem = Element.isElement(parent) && parent.type === TYPE_LIST_ITEM;
 

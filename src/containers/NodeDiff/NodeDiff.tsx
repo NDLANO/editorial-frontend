@@ -14,7 +14,11 @@ import { Subject } from '@ndla/icons/lib/contentType';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { NodeType, ResourceWithNodeConnection } from '../../modules/nodes/nodeApiTypes';
+import {
+  ChildNodeType,
+  NodeType,
+  ResourceWithNodeConnection,
+} from '../../modules/nodes/nodeApiTypes';
 import { getNodeTypeFromNodeId } from '../../modules/nodes/nodeUtil';
 import ArrayDiffField from './ArrayDiffField';
 import { diffField, DiffType, DiffTypeWithChildren, removeType } from './diffUtils';
@@ -75,9 +79,8 @@ const DetailsContent = styled.div`
 `;
 
 const isChildNode = (
-  node: Partial<DiffType<NodeType>>,
-  isRoot: boolean | undefined,
-): node is DiffTypeWithChildren => !isRoot;
+  node: Partial<DiffType<NodeType | ChildNodeType>>,
+): node is DiffTypeWithChildren => 'parent' in node;
 
 interface NodeIconProps {
   node: DiffType<NodeType>;
@@ -139,7 +142,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
           toDisplayValue={v => v}
         />
       )}
-      {isChildNode(filteredNode, isRoot) && (
+      {isChildNode(filteredNode) && (
         <>
           {filteredNode.connectionId && (
             <FieldDiff
@@ -203,7 +206,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
           )}
         </>
       )}
-      {isChildNode(filteredNode, isRoot) && (
+      {isChildNode(filteredNode) && (
         <ResourceDiffList resources={filteredNode.resources} fieldFilter={fieldFilter} />
       )}
     </DiffContainer>

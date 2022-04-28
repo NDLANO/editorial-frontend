@@ -35,8 +35,12 @@ export type DiffType<T> = {
 };
 
 export interface NodeTree {
-  root: NodeType;
+  root: NodeTypeWithResources | ChildNodeTypeWithResources;
   children: ChildNodeTypeWithResources[];
+}
+
+export interface NodeTypeWithResources extends NodeType {
+  resources: ResourceWithNodeConnection[];
 }
 
 export interface ChildNodeTypeWithResources extends ChildNodeType {
@@ -57,6 +61,10 @@ interface Grouping<T> {
 
 export interface DiffTypeWithChildren extends DiffType<Omit<ChildNodeType, 'resources'>> {
   children?: DiffTypeWithChildren[];
+  resources?: DiffType<ResourceWithNodeConnection>[];
+}
+
+export interface RootDiffType extends DiffType<Omit<NodeTypeWithResources, 'resources'>> {
   resources?: DiffType<ResourceWithNodeConnection>[];
 }
 
@@ -146,7 +154,7 @@ const diffChildren = (
 };
 
 export interface DiffTree {
-  root: DiffType<NodeType>;
+  root: RootDiffType | Omit<DiffTypeWithChildren, 'children'>;
   children: DiffTypeWithChildren[];
 }
 
@@ -162,7 +170,11 @@ export const diffTrees = (
   const otherRoot = otherTree?.root;
   const grouping = createTagGroupings(originalChildren, otherChildren);
 
-  const rootDiff = diffObject(originalRoot, otherRoot, ['path', 'paths']);
+  const rootDiff = diffObject(originalRoot, otherRoot, ['path', 'paths', 'resources']);
+  const rootResourcesDiff = doDiff(originalRoot?.resources, otherRoot?.resources, [
+    'path',
+    'paths',
+  ]);
   const childrenDiff = diffChildren(
     { original: originalRoot, other: otherRoot },
     Object.values(grouping),
@@ -178,6 +190,8 @@ export const diffTrees = (
   return {
     root: {
       ...rootDiff,
+      resources: rootResourcesDiff.diff,
+      resourcesChanged: rootResourcesDiff.changed,
       childrenChanged: { diffType: childrenChanged ? 'MODIFIED' : 'NONE' },
     },
     children: childrenDiff,

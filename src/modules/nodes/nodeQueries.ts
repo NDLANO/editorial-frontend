@@ -133,6 +133,9 @@ const fetchNodeTree = async ({
     fetchNodeResources({ id, language, taxonomyVersion, recursive: true }),
   ]);
 
+  let rootFromChildren: ChildNodeType | undefined = children.find(child => child.id === id);
+  const childOrRegularRoot = rootFromChildren ?? root;
+
   const resourcesForNodeIdMap = allResources.reduce<Record<string, ResourceWithNodeConnection[]>>(
     (acc, curr) => {
       if (!curr.parentId) {
@@ -152,7 +155,10 @@ const fetchNodeTree = async ({
     ...child,
     resources: resourcesForNodeIdMap[child.id] ?? [],
   }));
-  return { root, children: childrenWithResources };
+  return {
+    root: { ...childOrRegularRoot, resources: resourcesForNodeIdMap[root.id] ?? [] },
+    children: childrenWithResources,
+  };
 };
 
 interface UseChildNodesWithArticleTypeParams extends WithTaxonomyVersion {

@@ -31,6 +31,7 @@ export const nodeTreeWithNoChildren: NodeTree = {
       },
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
+    resources: [],
   },
   children: [],
 };
@@ -63,6 +64,7 @@ export const nodeTreeWithNoChildrenUpdated: NodeTree = {
       },
     ],
     supportedLanguages: ['nb', 'nn'],
+    resources: [],
   },
   children: [],
 };
@@ -166,6 +168,10 @@ export const nodeTreeWithNoChildrenDiff: DiffTree = {
       other: ['nb', 'nn'],
       diffType: 'MODIFIED',
     },
+    resources: [],
+    resourcesChanged: {
+      diffType: 'NONE',
+    },
   },
   children: [],
 };
@@ -201,6 +207,7 @@ export const nodeTreeWithDirectChildren: NodeTree = {
       },
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
+    resources: [],
   },
   children: [
     {
@@ -303,6 +310,7 @@ export const nodeTreeWithDirectChildrenUpdated: NodeTree = {
       },
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
+    resources: [],
   },
   children: [
     {
@@ -472,6 +480,8 @@ export const nodeTreeWithDirectChildrenDiff: DiffTree = {
       other: ['en', 'nb', 'nn'],
       diffType: 'NONE',
     },
+    resources: [],
+    resourcesChanged: { diffType: 'NONE' },
   },
   children: [
     {
@@ -833,6 +843,7 @@ export const nodeTreeWithDirectChildrenAndResources: NodeTree = {
       },
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
+    resources: [],
   },
   children: [
     {
@@ -935,6 +946,7 @@ export const nodeTreeWithNestedChildren: NodeTree = {
       },
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
+    resources: [],
   },
   children: [
     {
@@ -1070,6 +1082,7 @@ export const nodeTreeWithNestedChildrenUpdated: NodeTree = {
       },
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
+    resources: [],
   },
   children: [
     {
@@ -1270,6 +1283,10 @@ export const nodeTreeWithNestedChildrenDiff: DiffTree = {
     supportedLanguages: {
       original: ['en', 'nb', 'nn'],
       other: ['en', 'nb', 'nn'],
+      diffType: 'NONE',
+    },
+    resources: [],
+    resourcesChanged: {
       diffType: 'NONE',
     },
   },
@@ -1711,6 +1728,8 @@ export const nodeTreeInOriginalVersionDiff: DiffTree = {
       other: undefined,
       diffType: 'DELETED',
     },
+    resources: [],
+    resourcesChanged: { diffType: 'NONE' },
   },
   children: [],
 };
@@ -1800,6 +1819,8 @@ export const nodeTreeInOtherVersionDiff: DiffTree = {
       other: ['en', 'nb', 'nn'],
       diffType: 'ADDED',
     },
+    resources: [],
+    resourcesChanged: { diffType: 'NONE' },
   },
   children: [],
 };
@@ -1835,6 +1856,7 @@ export const nodeTreeWithNestedChildrenAndResources: NodeTree = {
       },
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
+    resources: [],
   },
   children: [
     {
@@ -2032,6 +2054,7 @@ export const nodeTreeWithNestedChildrenAndResourcesUpdated: NodeTree = {
       },
     ],
     supportedLanguages: ['en', 'nb', 'nn'],
+    resources: [],
   },
   children: [
     {
@@ -2296,6 +2319,8 @@ export const nodeTreeWithNestedChildrenAndResourcesDiff: DiffTree = {
       other: ['en', 'nb', 'nn'],
       diffType: 'NONE',
     },
+    resources: [],
+    resourcesChanged: { diffType: 'NONE' },
   },
   children: [
     {

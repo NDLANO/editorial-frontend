@@ -96,10 +96,10 @@ const StyledLink = styled(SafeLink)`
 `;
 
 const iconCss = css`
-  /* margin-left: ${spacing.xxsmall};
+  margin-left: ${spacing.xxsmall};
   height: 30px;
   width: 100%;
-  color: ${colors.brand.primary}; */
+  color: ${colors.brand.primary};
 `;
 
 const Version = ({ version }: Props) => {
@@ -153,7 +153,7 @@ const Version = ({ version }: Props) => {
             </StatusWrapper>
             <Tooltip tooltip={t('taxonomyVersions.previewVersion')}>
               <StyledLink target={'_blank'} to={ndlaUrl}>
-                <Launch css={iconCss} />
+                <Launch />
               </StyledLink>
             </Tooltip>
             <Tooltip tooltip={t('taxonomyVersions.editVersionTooltip')}>

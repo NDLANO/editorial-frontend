@@ -9,7 +9,7 @@
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
-import { FieldHeader, FieldSection, Input, FieldSplitter, FieldRemoveButton } from '@ndla/forms';
+import { FieldHeader, FieldSection, Input, CheckboxItem, FieldRemoveButton } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -51,6 +51,27 @@ const StyledPreviewWrapper = styled('div')`
   margin-top: ${spacing.large};
 `;
 
+const RemoveButtonWrapper = styled.div`
+  margin-left: auto;
+`;
+
+const CheckboxWrapper = styled.div`
+  display: flex;
+`;
+
+const FullscreenFormWrapper = styled.div`
+  display: flex;
+  margin-top: ${spacing.medium};
+  flex-direction: row;
+`;
+
+const ContentInputWrapper = styled.div`
+  flex-grow: 1;
+  textarea {
+    min-height: 50px;
+  }
+`;
+
 interface Props {
   selectedResourceUrl?: string;
   selectedResourceType?: string;
@@ -69,12 +90,16 @@ const VisualElementUrlPreview = ({
   onUrlSave,
 }: Props) => {
   const [url, setUrl] = useState(selectedResourceUrl);
+  const [title, setTitle] = useState('');
+  const [imageId, setImageId] = useState<number>();
+  const [description, setDescription] = useState('');
+  const [showFullscreen, setShowFullscreen] = useState(false);
   const [embedUrl, setEmbedUrl] = useState(selectedResourceUrl);
   const [showPreview, setShowPreview] = useState(selectedResourceUrl !== '');
   const [error, setError] = useState<URLError | undefined>(undefined);
   const { t } = useTranslation();
 
-  const getWarningText = () => {
+  const getUrlWarningText = () => {
     if (error === 'invalid') {
       return t('form.content.link.invalid');
     }
@@ -197,34 +222,32 @@ const VisualElementUrlPreview = ({
         </Modal>
       </FieldHeader>
       <FieldSection>
-        <div>
-          <FieldSplitter>
-            <Input
-              focusOnMount
-              iconRight={<LinkIcon />}
-              container="div"
-              warningText={getWarningText()}
-              value={url}
-              type="text"
-              placeholder={t('form.content.link.href')}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </FieldSplitter>
-        </div>
-        <div>
+        <Input
+          focusOnMount
+          iconRight={<LinkIcon />}
+          container="div"
+          warningText={getUrlWarningText()}
+          value={url}
+          type="text"
+          placeholder={t('form.content.link.href')}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <RemoveButtonWrapper>
           <FieldRemoveButton onClick={handleClearInput}>
             {t('form.content.link.remove')}
           </FieldRemoveButton>
-        </div>
+        </RemoveButtonWrapper>
       </FieldSection>
       <StyledButtonWrapper>
-        <Button
-          disabled={url === selectedResourceUrl || url === ''}
-          outline
-          onClick={() => handleSaveUrl(url!, true)}>
-          {t('form.content.link.preview')}
-        </Button>
+        {!showFullscreen && (
+          <Button
+            disabled={url === selectedResourceUrl || url === ''}
+            outline
+            onClick={() => handleSaveUrl(url!, true)}>
+            {t('form.content.link.preview')}
+          </Button>
+        )}
         <Button
           disabled={url === '' || url === selectedResourceUrl || !!error}
           outline
@@ -232,12 +255,44 @@ const VisualElementUrlPreview = ({
           {isChangedUrl ? t('form.content.link.insert') : t('form.content.link.update')}
         </Button>
       </StyledButtonWrapper>
-      {showPreview && (
-        <StyledPreviewWrapper>
-          <StyledPreviewItem>
-            <iframe src={embedUrl} title={resource} height="350px" frameBorder="0" />
-          </StyledPreviewItem>
-        </StyledPreviewWrapper>
+      <CheckboxWrapper>
+        <CheckboxItem
+          checked={showFullscreen}
+          onChange={() => setShowFullscreen(prev => !prev)}
+          label={t('form.content.link.fullscreen')}
+        />
+      </CheckboxWrapper>
+
+      {showFullscreen ? (
+        <FullscreenFormWrapper>
+          <ContentInputWrapper>
+            <h3>{t('form.name.title')}</h3>
+            <Input
+              container="div"
+              value={title}
+              type="text"
+              placeholder={t('form.name.title')}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+            />
+            <h3>{t('form.name.description')}</h3>
+            <Input
+              container="div"
+              value={description}
+              autoExpand
+              type="text"
+              placeholder={t('form.name.description')}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
+            />
+          </ContentInputWrapper>
+        </FullscreenFormWrapper>
+      ) : (
+        showPreview && (
+          <StyledPreviewWrapper>
+            <StyledPreviewItem>
+              <iframe src={embedUrl} title={resource} height="350px" frameBorder="0" />
+            </StyledPreviewItem>
+          </StyledPreviewWrapper>
+        )
       )}
     </>
   );

@@ -156,6 +156,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       role="button"
       tabIndex={0}
       onClick={toggleMenu}
+      contentEditable={false}
       style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
       {...attributes}>
       <MathML model={nodeInfo.model} editor={editor} element={element} />

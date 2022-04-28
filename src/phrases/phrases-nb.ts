@@ -1401,7 +1401,6 @@ const phrases = {
   publishRequests: {
     title: 'Publiseringsforespørsler',
     nodePublished: 'Noden har blitt publisert!',
-    noPublishedVersion: 'Klarte ikke finne publisert versjon',
     showInStructure: 'Vis i struktur',
     compare: 'Sammenlign',
     publishNode: 'Publiser node',

@@ -75,7 +75,9 @@ const SlateBlockPicker = ({
   const portalRef = createRef<HTMLDivElement>();
 
   useEffect(() => {
-    updateMenu();
+    setTimeout(() => {
+      updateMenu();
+    }, 0);
   });
 
   const updateMenu = () => {
@@ -93,11 +95,9 @@ const SlateBlockPicker = ({
       return;
     }
 
-    menu.style.display = 'block';
     const domElement = ReactEditor.toDOMNode(editor, selectedParagraph);
     const rect = domElement.getBoundingClientRect();
 
-    menu.style.opacity = '1';
     const left = rect.left + window.scrollX - (isListItem ? 110 : 78);
     menu.style.top = `${rect.top + window.scrollY - 14}px`;
     menu.style.left = `${left}px`;

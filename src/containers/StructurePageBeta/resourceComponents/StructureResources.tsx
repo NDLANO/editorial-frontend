@@ -13,10 +13,7 @@ import styled from '@emotion/styled';
 import { RefObject } from 'react';
 import { TFunction } from 'i18next';
 import { ChildNodeType, ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
-import {
-  ResourceResourceType,
-  ResourceType,
-} from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useResourcesWithNodeConnection } from '../../../modules/nodes/nodeQueries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import NodeDescription from './NodeDescription';

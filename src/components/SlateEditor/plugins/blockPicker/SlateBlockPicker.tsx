@@ -8,11 +8,11 @@
 
 import { createRef, useEffect, useState } from 'react';
 import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
-import { Portal } from '../../../Portal';
 import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';
 import { SlateBlockMenu } from '@ndla/editor';
 import styled from '@emotion/styled';
+import { Portal } from '../../../Portal';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions, { ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';

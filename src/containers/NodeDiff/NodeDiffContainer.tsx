@@ -127,6 +127,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
       </ContentLoader>
     );
   }
+  console.log(defaultQuery.data);
 
   const diff = diffTrees(defaultQuery.data!, otherQuery.data!, view);
 

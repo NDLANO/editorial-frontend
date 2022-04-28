@@ -62,7 +62,7 @@ export interface ResourceWithNodeConnection {
   id: string;
   metadata: TaxonomyMetadata;
   name: string;
-  nodeId: string;
+  nodeId?: string;
   path: string;
   parentId?: string;
   paths: string[];
@@ -75,6 +75,9 @@ export interface ResourceWithNodeConnection {
     id: string;
     name: string;
     parentId?: string;
+    translations?: { name: string; language: string }[];
+    supportedLanguages?: string[];
+    connectionId?: string;
   }[];
 }
 

@@ -1373,6 +1373,7 @@ const phrases = {
     publishError: 'Failed to publish version',
     deleteError: 'Failed to delete version',
     noOtherVersions: 'No other versions exist!',
+    previewVersion: 'Preview this version on NDLA.no',
     form: {
       name: {
         label: 'Name',

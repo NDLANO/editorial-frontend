@@ -1375,6 +1375,7 @@ const phrases = {
     publishError: 'Klarte ikkje å publisere versjonen',
     deleteError: 'Klarte ikkje å slette versjonen',
     noOtherVersions: 'Det finnes ingen andre versjonar!',
+    previewVersion: 'Forhåndsvis denne versjonen på NDLA.no',
     form: {
       name: {
         label: 'Namn',

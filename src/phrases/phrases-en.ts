@@ -435,6 +435,7 @@ const phrases = {
     title: 'Podcast series',
     alreadyPartOfSeries: 'Part of another series',
     description: 'Description',
+    rss: 'Rss feed',
   },
   podcastForm: {
     title: 'Podcast episode',

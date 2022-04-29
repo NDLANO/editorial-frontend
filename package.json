@@ -184,9 +184,9 @@
     "react-transition-group": "^4.2.2",
     "remarkable": "^2.0.0",
     "serialize-javascript": "^3.1.0",
-    "slate": "0.77.2",
+    "slate": "0.77.0",
     "slate-history": "^0.66.0",
-    "slate-react": "0.77.3",
+    "slate-react": "0.77.0",
     "slate-hyperscript": "^0.77.0",
     "source-map-support": "^0.5.13",
     "yup": "^0.32.9"

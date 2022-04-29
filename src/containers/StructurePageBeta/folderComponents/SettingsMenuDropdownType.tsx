@@ -12,6 +12,7 @@ import { EditMode } from '../../../interfaces';
 import { NodeType, SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
 import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import { useSession } from '../../Session/SessionProvider';
+import DeleteNode from './sharedMenuOptions/DeleteNode';
 import EditCustomFields from './sharedMenuOptions/EditCustomFields';
 import EditGrepCodes from './sharedMenuOptions/EditGrepCodes';
 import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
@@ -24,6 +25,7 @@ interface Props {
   node: NodeType;
   onClose: () => void;
   structure: NodeType[];
+  nodeChildren: NodeType[];
   onCurrentNodeChanged: (node: NodeType) => void;
 }
 
@@ -38,6 +40,7 @@ const SettingsMenuDropdownType = ({
   onClose,
   structure,
   onCurrentNodeChanged,
+  nodeChildren,
 }: Props) => {
   const { userPermissions } = useSession();
   const [editMode, setEditMode] = useState<EditMode>('');
@@ -70,7 +73,12 @@ const SettingsMenuDropdownType = ({
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
         <EditSubjectpageOption node={node} />
         <ToNodeDiff node={node} />
-        {/* <DeleteNode node={node} editModeHandler={editModeHandler} /> */}
+        <DeleteNode
+          node={node}
+          nodeChildren={nodeChildren}
+          editModeHandler={editModeHandler}
+          rootNodeId={rootNodeId}
+        />
       </>
     );
   } else if (nodeType === TOPIC_NODE) {
@@ -94,6 +102,12 @@ const SettingsMenuDropdownType = ({
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
         <ToNodeDiff node={node} />
+        <DeleteNode
+          node={node}
+          nodeChildren={nodeChildren}
+          editModeHandler={editModeHandler}
+          rootNodeId={rootNodeId}
+        />
         {/* <CopyResources toNode={node} structure={structure} onClose={onClose} /> */}
       </>
     );

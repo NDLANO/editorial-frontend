@@ -1182,6 +1182,8 @@ const phrases = {
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     currentVersion: 'Current version',
+    deleteNode: 'Delete',
+    confirmDelete: 'Are you sure you want to delete this node?',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',

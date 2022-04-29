@@ -1183,6 +1183,8 @@ const phrases = {
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Nåværende versjon',
+    deleteNode: 'Slett',
+    confirmDelete: 'Er du sikker på at du vil slette denne noden?',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',

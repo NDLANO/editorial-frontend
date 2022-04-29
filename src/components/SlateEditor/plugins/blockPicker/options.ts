@@ -17,10 +17,10 @@ const defaultOptions: BlockPickerOptions = {
   actionsToShowInAreas: {},
 };
 
-const options = (opts: Partial<BlockPickerOptions>): BlockPickerOptions => ({
+export const createBlockpickerOptions = (
+  opts: Partial<BlockPickerOptions>,
+): BlockPickerOptions => ({
   allowedPickAreas: opts.allowedPickAreas || defaultOptions.allowedPickAreas,
   illegalAreas: opts.illegalAreas || defaultOptions.illegalAreas,
   actionsToShowInAreas: opts.actionsToShowInAreas || defaultOptions.actionsToShowInAreas,
 });
-
-export default options;

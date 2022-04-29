@@ -6,12 +6,13 @@
  *
  */
 
-import { useEffect, useState } from 'react';
+import { createRef, useEffect, useState } from 'react';
 import { Editor, Element, Node, Location, Range, Path, Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
 import { ReactEditor } from 'slate-react';
 import { SlateBlockMenu } from '@ndla/editor';
 import styled from '@emotion/styled';
+import { Portal } from '../../../Portal';
 import SlateVisualElementPicker from './SlateVisualElementPicker';
 import actions, { ActionData } from './actions';
 import { defaultAsideBlock } from '../aside/utils';
@@ -24,6 +25,9 @@ import { TYPE_LIST_ITEM } from '../list/types';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
 import { defaultConceptBlock } from '../concept/block/utils';
 import { useSession } from '../../../../containers/Session/SessionProvider';
+import getCurrentBlock from '../../utils/getCurrentBlock';
+import { TYPE_PARAGRAPH } from '../paragraph/types';
+import { isParagraph } from '../paragraph/utils';
 
 interface Props {
   editor: Editor;
@@ -31,22 +35,16 @@ interface Props {
   illegalAreas: Element['type'][];
   actionsToShowInAreas: { [key: string]: string[] };
   articleLanguage: string;
-  selectedParagraphPath: Path;
-  show: boolean;
 }
 
-const StyledBlockPickerWrapper = styled.div<{ isList: boolean }>`
+const StyledBlockPickerWrapper = styled.div`
   position: absolute;
-  left: ${props => (props.isList ? -110 : -78)}px;
-  top: -14px;
 `;
 
 const SlateBlockPicker = ({
   editor,
   actionsToShowInAreas,
   articleLanguage,
-  selectedParagraphPath,
-  show,
   illegalAreas,
   allowedPickAreas,
 }: Props) => {
@@ -58,6 +56,50 @@ const SlateBlockPicker = ({
 
   const { userPermissions } = useSession();
   const { t } = useTranslation();
+
+  const [selectedParagraph, selectedParagraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH) || [];
+
+  const selection = editor.selection;
+
+  const show =
+    isParagraph(selectedParagraph) &&
+    Node.string(selectedParagraph) === '' &&
+    selectedParagraph.children.length === 1 &&
+    selectedParagraphPath &&
+    selection &&
+    Path.isDescendant(selection.anchor.path, selectedParagraphPath) &&
+    Range.isCollapsed(selection);
+
+  const portalRef = createRef<HTMLDivElement>();
+
+  useEffect(() => {
+    setTimeout(() => {
+      updateMenu();
+    }, 0);
+  });
+
+  const updateMenu = () => {
+    const menu = portalRef.current;
+    if (!menu) {
+      return;
+    }
+    if (!show || !selectedParagraph) {
+      menu.removeAttribute('style');
+      return;
+    }
+
+    if (!editor.shouldShowToolbar()) {
+      menu.removeAttribute('style');
+      return;
+    }
+
+    const domElement = ReactEditor.toDOMNode(editor, selectedParagraph);
+    const rect = domElement.getBoundingClientRect();
+
+    const left = rect.left + window.scrollX - (isListItem ? 110 : 78);
+    menu.style.top = `${rect.top + window.scrollY - 14}px`;
+    menu.style.left = `${left}px`;
+  };
 
   useEffect(() => {
     if (Location.isLocation(editor.selection)) {
@@ -189,21 +231,23 @@ const SlateBlockPicker = ({
     return null;
   }
 
-  const [parent] = Editor.node(editor, Path.parent(selectedParagraphPath));
+  const parent =
+    selectedParagraphPath && Editor.node(editor, Path.parent(selectedParagraphPath))?.[0];
 
   const isListItem = Element.isElement(parent) && parent.type === TYPE_LIST_ITEM;
 
   return (
-    <StyledBlockPickerWrapper isList={isListItem} contentEditable={false}>
-      {visualElementPickerOpen ? (
+    <>
+      <Portal isOpened={visualElementPickerOpen}>
         <SlateVisualElementPicker
           articleLanguage={articleLanguage}
           resource={type || ''}
           onVisualElementClose={onVisualElementClose}
           onInsertBlock={onInsertBlock}
         />
-      ) : (
-        <div data-cy="slate-block-picker-button">
+      </Portal>
+      <Portal isOpened={!visualElementPickerOpen}>
+        <StyledBlockPickerWrapper ref={portalRef} data-cy="slate-block-picker-button">
           <SlateBlockMenu
             cy="slate-block-picker"
             isOpen={blockPickerOpen}
@@ -221,9 +265,9 @@ const SlateBlockPicker = ({
               onElementAdd(data);
             }}
           />
-        </div>
-      )}
-    </StyledBlockPickerWrapper>
+        </StyledBlockPickerWrapper>
+      </Portal>
+    </>
   );
 };
 

@@ -45,13 +45,15 @@ export interface GetNodeResourcesParams {
 }
 
 export interface NodeType {
-  contentUri: string;
+  contentUri?: string;
   id: string;
   metadata: TaxonomyMetadata;
   name: string;
   path: string;
   paths?: string[];
   relevanceId?: string;
+  translations: NodeTranslation[];
+  supportedLanguages: string[];
 }
 
 export interface ResourceWithNodeConnection {

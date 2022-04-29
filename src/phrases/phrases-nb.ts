@@ -25,6 +25,7 @@ const phrases = {
     podcastUploaderPage: `Podkastepisode ${titleTemplate}`,
     podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    nodeDiffPage: `Sammenlign noder ${titleTemplate}`,
     search: {
       'podcast-series': `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -1182,6 +1183,7 @@ const phrases = {
     resources: 'Ressurser',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
+    currentVersion: 'Nåværende versjon',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',
@@ -1374,6 +1376,7 @@ const phrases = {
     publishError: 'Klarte ikke å publisere versjonen',
     deleteError: 'Klarte ikke slette versjonen',
     noOtherVersions: 'Det finnes ingen andre versjoner!',
+    previewVersion: 'Forhåndsvis denne versjonen på NDLA.no',
     form: {
       name: {
         label: 'Navn',
@@ -1389,6 +1392,103 @@ const phrases = {
         subTitle: 'Er versjonen låst?',
         locked: 'Låst',
         unlocked: 'Ulåst',
+      },
+    },
+  },
+  diff: {
+    equalNodes: 'Disse nodene er like!',
+    defaultVersion: 'Standardsversjon',
+    compareVersions: 'Sammenlign versjoner',
+    error: {
+      originalHashRequired: "originalHash-parameteret er påkrevd i URL'en!",
+      doesNotExist: 'Denne noden finnes ikke i noen av versjonene!',
+      onlyExistsInOriginal: 'Denne noden finnes bare i originalversjonen',
+      onlyExistsInOther: 'Denne noden finnes bare i versjonen du sammenligner med',
+    },
+    options: {
+      originalHashLabel: 'Original-versjon',
+      otherHashLabel: 'Annen versjon',
+      viewLabel: 'Visningstype',
+      nodeViewLabel: 'Nodevisning',
+      fieldViewLabel: 'Feltvisning',
+      allNodes: 'Alle noder',
+      changedNodes: 'Kun endrede',
+      allFields: 'Alle felter',
+      changedFields: 'Kun endrede',
+      flat: 'Flat',
+      tree: 'Tre',
+    },
+    childrenChanged: 'Barn endret',
+    diffTypes: {
+      ADDED: 'Lagt til',
+      DELETED: 'Slettet',
+      MODIFIED: 'Endret',
+      NONE: 'Ingen',
+    },
+    isRoot: 'Rotnode',
+    nodeTypeTooltips: {
+      SUBJECT: 'Dette er et fag',
+      TOPIC: 'Dette er et emne',
+    },
+    fields: {
+      id: {
+        title: 'ID',
+      },
+      name: {
+        title: 'Navn',
+      },
+      contentUri: {
+        title: 'Innholds-URI',
+      },
+      parent: {
+        title: 'Forelder',
+      },
+      path: {
+        title: 'Sti',
+      },
+      paths: {
+        title: 'Stier',
+      },
+      connectionId: {
+        title: 'Koblings-ID',
+      },
+      isPrimary: {
+        title: 'Er primær',
+        isOn: 'Denne noden er en primærressurs',
+        isOff: 'Denne noden er ikke en primærressurs',
+      },
+      primary: {
+        title: 'Er primær',
+        isOn: 'Denne noden er en primærressurs',
+        isOff: 'Denne noden er ikke en primærressurs',
+      },
+      rank: {
+        title: 'Rangering',
+      },
+      relevance: {
+        title: 'Relevans',
+      },
+      translations: {
+        title: 'Oversettelser',
+      },
+      articleType: {
+        title: 'Artikkel-type',
+      },
+      visible: {
+        title: 'Synlig',
+        isOn: 'Synlig',
+        isOff: 'Usynlig',
+      },
+      'topic-resources': {
+        title: 'Gruppering av ressurser',
+        isOn: 'Gruppert',
+        isOff: 'Ugruppert',
+      },
+      supportedLanguages: {
+        title: 'Støttede språk',
+      },
+      grepCodes: {
+        title: 'Grep-koder',
       },
     },
   },

@@ -21,7 +21,7 @@ import {
   toEditNdlaFilm,
 } from '../../../util/routeHelpers';
 import { useSession } from '../../Session/SessionProvider';
-import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
+import { DRAFT_ADMIN_SCOPE, TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 
 interface Props {
   close: () => void;
@@ -107,15 +107,17 @@ const OpenMenu = ({ close }: Props) => {
                 <H5P /> {t('subNavigation.h5p')}
               </span>
             </StyledLink>
-            <StyledHrefLink
-              href={config.brightcoveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={close}>
-              <span>
-                <Video /> {t('subNavigation.brightcoveLink')} <Launch />
-              </span>
-            </StyledHrefLink>
+            {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
+              <StyledHrefLink
+                href={config.brightcoveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={close}>
+                <span>
+                  <Video /> {t('subNavigation.brightcoveLink')} <Launch />
+                </span>
+              </StyledHrefLink>
+            )}
             <StyledHrefLink
               href={config.learningpathFrontendDomain}
               target="_blank"

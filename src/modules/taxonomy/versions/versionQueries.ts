@@ -32,5 +32,9 @@ export const useVersion = (
   { id, taxonomyVersion }: UseVersionParams,
   options?: UseQueryOptions<VersionType>,
 ) => {
-  return useQuery<VersionType>([VERSION, id], () => fetchVersion({ id, taxonomyVersion }), options);
+  return useQuery<VersionType>(
+    [VERSION, id, taxonomyVersion],
+    () => fetchVersion({ id, taxonomyVersion }),
+    options,
+  );
 };

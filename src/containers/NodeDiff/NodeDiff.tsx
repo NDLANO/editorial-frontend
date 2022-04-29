@@ -206,8 +206,8 @@ const NodeDiff = ({ node, isRoot }: Props) => {
           )}
         </>
       )}
-      {isChildNode(filteredNode) && (
-        <ResourceDiffList resources={filteredNode.resources} fieldFilter={fieldFilter} />
+      {isChildNode(node) && (
+        <ResourceDiffList resources={node.resources} fieldFilter={fieldFilter} />
       )}
     </DiffContainer>
   );

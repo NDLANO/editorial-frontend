@@ -14,16 +14,20 @@ import { Subject } from '@ndla/icons/lib/contentType';
 import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
+import {
+  ChildNodeType,
+  NodeType,
+  ResourceWithNodeConnection,
+} from '../../modules/nodes/nodeApiTypes';
 import { getNodeTypeFromNodeId } from '../../modules/nodes/nodeUtil';
-import { createGuard } from '../../util/guards';
 import ArrayDiffField from './ArrayDiffField';
-import { DiffType, removeType } from './diffUtils';
+import { diffField, DiffType, DiffTypeWithChildren, removeType } from './diffUtils';
+import { DiffTypePill } from './TreeNode';
 import FieldDiff from './FieldDiff';
 import TranslationsDiff from './TranslationsDiff';
 
 interface Props {
-  node: DiffType<ChildNodeType> | DiffType<NodeType>;
+  node: DiffType<NodeType> | DiffTypeWithChildren;
   isRoot?: boolean;
 }
 
@@ -57,7 +61,26 @@ const iconCSS = css`
   color: ${colors.brand.primary};
 `;
 
-const isChildNode = createGuard<DiffType<ChildNodeType>>('rank');
+const SummaryContent = styled.div`
+  display: inline-flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 97%;
+`;
+
+const StyledDetails = styled.details`
+  margin: 0 !important;
+`;
+
+const DetailsContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
+
+const isChildNode = (
+  node: Partial<DiffType<NodeType | ChildNodeType>>,
+): node is DiffTypeWithChildren => 'parent' in node;
 
 interface NodeIconProps {
   node: DiffType<NodeType>;
@@ -112,9 +135,6 @@ const NodeDiff = ({ node, isRoot }: Props) => {
           toDisplayValue={value => value}
         />
       )}
-      {filteredNode.paths && (
-        <ArrayDiffField fieldName="paths" result={filteredNode.paths} toDisplayValue={val => val} />
-      )}
       {filteredNode.relevanceId && (
         <FieldDiff
           fieldName="relevance"
@@ -157,9 +177,6 @@ const NodeDiff = ({ node, isRoot }: Props) => {
           )}
         </>
       )}
-      {filteredNode.path && (
-        <FieldDiff fieldName="path" result={filteredNode.path} toDisplayValue={v => v} />
-      )}
       {metadata && (
         <>
           {metadata.visible && (
@@ -189,7 +206,119 @@ const NodeDiff = ({ node, isRoot }: Props) => {
           )}
         </>
       )}
+      {isChildNode(node) && (
+        <ResourceDiffList resources={node.resources} fieldFilter={fieldFilter} />
+      )}
     </DiffContainer>
   );
 };
+
+interface ResourceDiffListProps {
+  resources?: DiffType<ResourceWithNodeConnection>[];
+  fieldFilter: string;
+}
+
+const ResourceDiffList = ({ resources, fieldFilter }: ResourceDiffListProps) => {
+  const { t } = useTranslation();
+
+  if (!resources || resources.length === 0) {
+    return null;
+  }
+
+  return (
+    <>
+      <strong>{t('taxonomy.resources')}</strong>
+      {resources.map((res, i) => (
+        <ResourceDiff resource={res} fieldView={fieldFilter} key={`resource-${i}`} />
+      ))}
+    </>
+  );
+};
+
+interface ResourceDiffProps {
+  resource: DiffType<ResourceWithNodeConnection>;
+  fieldView: string;
+}
+
+const ResourceDiff = ({ resource, fieldView }: ResourceDiffProps) => {
+  const { t } = useTranslation();
+  const res = fieldView === 'changed' ? removeType(resource, 'NONE') : resource;
+  const originalResourceTypes = (res.resourceTypes?.original?.map(rt => rt.name) ?? []).sort();
+  const otherResourceTypes = (res.resourceTypes?.other?.map(rt => rt.name) ?? []).sort();
+  const resourceTypeDiff = diffField(
+    originalResourceTypes,
+    otherResourceTypes,
+    resource.changed.diffType,
+  );
+  if (Object.keys(res).length === 1) {
+    return null;
+  }
+  return (
+    <StyledDetails>
+      <summary>
+        <SummaryContent>
+          {resource.name.other ?? resource.name.original}
+          <DiffTypePill diffType={resource.changed.diffType} />
+        </SummaryContent>
+      </summary>
+      <DetailsContent>
+        {res.connectionId && (
+          <FieldDiff fieldName="connectionId" result={res.connectionId} toDisplayValue={v => v} />
+        )}
+        {res.contentUri && (
+          <FieldDiff fieldName="contentUri" result={res.contentUri} toDisplayValue={v => v} />
+        )}
+        {res.id && <FieldDiff fieldName="id" result={res.id} toDisplayValue={v => v} />}
+        {res.name && <FieldDiff fieldName="name" result={res.name} toDisplayValue={v => v} />}
+        {res.nodeId && <FieldDiff fieldName="nodeId" result={res.nodeId} toDisplayValue={v => v} />}
+        {res.parentId && (
+          <FieldDiff fieldName="parent" result={res.parentId} toDisplayValue={v => v} />
+        )}
+        {res.primary && (
+          <FieldDiff
+            fieldName="primary"
+            result={res.primary}
+            toDisplayValue={v => t(`diff.fields.primary.${v ? 'isOn' : 'isOff'}`)}
+          />
+        )}
+        {res.rank && (
+          <FieldDiff fieldName="rank" result={res.rank} toDisplayValue={v => v.toString()} />
+        )}
+        {res.relevanceId && (
+          <FieldDiff fieldName="relevance" result={res.relevanceId} toDisplayValue={v => v} />
+        )}
+        {res.translations && <TranslationsDiff translations={res.translations} />}
+        {res.supportedLanguages && (
+          <ArrayDiffField
+            fieldName="supportedLanguages"
+            result={res.supportedLanguages}
+            toDisplayValue={v => v}
+          />
+        )}
+        {resourceTypeDiff && (
+          <ArrayDiffField
+            fieldName="resourceTypes"
+            result={resourceTypeDiff}
+            toDisplayValue={v => v}
+          />
+        )}
+        {res.metadata?.grepCodes && (
+          <ArrayDiffField
+            fieldName="grepCodes"
+            result={res.metadata.grepCodes}
+            toDisplayValue={v => v}
+          />
+        )}
+        {res.metadata?.visible && (
+          <FieldDiff
+            fieldName="visible"
+            result={res.metadata.visible}
+            toDisplayValue={v => t(`diff.fields.visible.${v ? 'isOn' : 'isOff'}`)}
+          />
+        )}
+      </DetailsContent>
+    </StyledDetails>
+  );
+};
+
 export default NodeDiff;

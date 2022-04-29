@@ -28,6 +28,7 @@ import { useSession } from '../../../../containers/Session/SessionProvider';
 import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_PARAGRAPH } from '../paragraph/types';
 import { isParagraph } from '../paragraph/utils';
+import { isTableCell } from '../table/helpers';
 
 interface Props {
   editor: Editor;
@@ -60,6 +61,19 @@ const SlateBlockPicker = ({
   const [selectedParagraph, selectedParagraphPath] = getCurrentBlock(editor, TYPE_PARAGRAPH) || [];
 
   const selection = editor.selection;
+
+  const getLeftAdjust = () => {
+    const parent =
+      selectedParagraphPath && Editor.node(editor, Path.parent(selectedParagraphPath))?.[0];
+
+    if (Element.isElement(parent) && parent.type === TYPE_LIST_ITEM) {
+      return 110;
+    }
+    if (isTableCell(parent)) {
+      return 100;
+    }
+    return 78;
+  };
 
   const show =
     isParagraph(selectedParagraph) &&
@@ -96,7 +110,7 @@ const SlateBlockPicker = ({
     const domElement = ReactEditor.toDOMNode(editor, selectedParagraph);
     const rect = domElement.getBoundingClientRect();
 
-    const left = rect.left + window.scrollX - (isListItem ? 110 : 78);
+    const left = rect.left + window.scrollX - getLeftAdjust();
     menu.style.top = `${rect.top + window.scrollY - 14}px`;
     menu.style.left = `${left}px`;
   };
@@ -220,7 +234,11 @@ const SlateBlockPicker = ({
         return actions;
       }
       if (actionsToShowInAreas[node.type]) {
-        return actions.filter(action => actionsToShowInAreas[node.type].includes(action.data.type));
+        return actions.filter(
+          action =>
+            actionsToShowInAreas[node.type].includes(action.data.type) ||
+            actionsToShowInAreas[node.type].includes(action.data.object),
+        );
       }
     }
 
@@ -230,11 +248,6 @@ const SlateBlockPicker = ({
   if ((!shouldShowMenuPicker() || !show) && !visualElementPickerOpen) {
     return null;
   }
-
-  const parent =
-    selectedParagraphPath && Editor.node(editor, Path.parent(selectedParagraphPath))?.[0];
-
-  const isListItem = Element.isElement(parent) && parent.type === TYPE_LIST_ITEM;
 
   return (
     <>

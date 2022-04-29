@@ -1405,7 +1405,7 @@ const phrases = {
     compare: 'Samanlikn',
     publishNode: 'Publiser node',
     publishWarning:
-      'Er du sikker på at du ønskjar å publisere denne noden? Alle endringar vil umiddelbart bli tilgjengelege på NDLA.no',
+      'Er du sikker på at du ønskjar å publisere denne noden? Alle endringar vil umiddelbart bli tilgjengelege i målversjonen',
     errors: {
       noPublishedVersion: 'Klarte ikkje finne publisert versjon',
       publishError: 'En feil oppsto under publisering av noden',

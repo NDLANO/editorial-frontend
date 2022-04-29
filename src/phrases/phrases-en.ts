@@ -1403,7 +1403,7 @@ const phrases = {
     compare: 'Compare',
     publishNode: 'Publish node',
     publishWarning:
-      'Are you sure you want to publish this node? Any changes within this version will be immediately available on NDLA.no',
+      'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
     errors: {
       noPublishedVersion: 'Failed to find a published version',
       publishError: 'Failed to publish node',

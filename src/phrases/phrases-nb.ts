@@ -1405,7 +1405,7 @@ const phrases = {
     compare: 'Sammenlign',
     publishNode: 'Publiser node',
     publishWarning:
-      'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil umiddelbart bli tilgjengelige på NDLA.no',
+      'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil umiddelbart bli tilgjengelige i målversjonen',
     errors: {
       noPublishedVersion: 'Klarte ikke finne publisert versjon',
       publishError: 'En feil oppsto under publisering av noden',

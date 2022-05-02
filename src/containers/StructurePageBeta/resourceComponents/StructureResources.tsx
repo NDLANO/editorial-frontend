@@ -70,7 +70,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
   );
 
   const { data: resourceTypes } = useAllResourceTypes(
-    { locale: i18n.language, taxonomyVersion },
+    { language: i18n.language, taxonomyVersion },
     {
       select: resourceTypes => resourceTypes.concat(getMissingResourceType(t)),
       onError: e => handleError(e),

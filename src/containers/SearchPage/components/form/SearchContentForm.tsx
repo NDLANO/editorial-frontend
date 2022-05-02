@@ -50,7 +50,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
   });
 
   const { data: resourceTypes } = useAllResourceTypes(
-    { locale, taxonomyVersion },
+    { language: locale, taxonomyVersion },
     {
       select: resourceTypes => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
       placeholderData: [],

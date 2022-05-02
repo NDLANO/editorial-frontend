@@ -16,27 +16,28 @@ interface UseResourceTypeParams extends WithTaxonomyVersion {
   id: string;
   language: string;
 }
-
+export const resourceTypeQueryKey = (params?: Partial<UseResourceTypeParams>) => [
+  RESOURCE_TYPE,
+  params,
+];
 export const useResourceType = (
-  { id, language, taxonomyVersion }: UseResourceTypeParams,
+  params: UseResourceTypeParams,
   options?: UseQueryOptions<ResourceType>,
-) =>
-  useQuery<ResourceType>(
-    [RESOURCE_TYPE, id, language, taxonomyVersion],
-    () => fetchResourceType({ id, language, taxonomyVersion }),
-    options,
-  );
+) => useQuery<ResourceType>(resourceTypeQueryKey(params), () => fetchResourceType(params), options);
 
 interface UseAllResourceTypesParams extends WithTaxonomyVersion {
-  locale: string;
+  language: string;
 }
-
+export const resourceTypesQueryKey = (params?: Partial<UseAllResourceTypesParams>) => [
+  RESOURCE_TYPES,
+  params,
+];
 export const useAllResourceTypes = <ReturnType>(
-  { locale, taxonomyVersion }: UseAllResourceTypesParams,
+  params: UseAllResourceTypesParams,
   options?: UseQueryOptions<ResourceType[], unknown, ReturnType>,
 ) =>
   useQuery<ResourceType[], unknown, ReturnType>(
-    [RESOURCE_TYPES, locale, taxonomyVersion],
-    () => fetchAllResourceTypes({ language: locale, taxonomyVersion }),
+    resourceTypesQueryKey(params),
+    () => fetchAllResourceTypes(params),
     options,
   );

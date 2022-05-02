@@ -72,7 +72,6 @@ const fetchChildNodesWithArticleType = async ({
 }: ChildNodesWithArticleTypeParams): Promise<(ChildNodeType & {
   articleType?: string;
 })[]> => {
-  console.log('fetching!!');
   const childNodes = await fetchChildNodes({ id, taxonomyVersion, language, recursive: true });
   if (childNodes.length === 0) return [];
 
@@ -96,15 +95,13 @@ interface UseNodeTree extends WithTaxonomyVersion {
   language: string;
 }
 
-export const useNodeTree = (
-  { id, language, taxonomyVersion }: UseNodeTree,
-  options?: UseQueryOptions<NodeTree>,
-) => {
-  return useQuery<NodeTree>(
-    [ROOT_NODE_WITH_CHILDREN, id, language, taxonomyVersion],
-    () => fetchNodeTree({ id, language, taxonomyVersion }),
-    options,
-  );
+export const nodeTreeQueryKeys = (params?: Partial<UseNodeTree>) => [
+  ROOT_NODE_WITH_CHILDREN,
+  params,
+];
+
+export const useNodeTree = (params: UseNodeTree, options?: UseQueryOptions<NodeTree>) => {
+  return useQuery<NodeTree>(nodeTreeQueryKeys(params), () => fetchNodeTree(params), options);
 };
 interface NodeTreeGetParams extends WithTaxonomyVersion {
   id: string;

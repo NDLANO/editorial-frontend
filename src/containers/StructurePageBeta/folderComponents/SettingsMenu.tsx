@@ -33,10 +33,17 @@ interface Props {
   node: NodeType;
   rootNodeId: string;
   structure: NodeType[];
+  nodeChildren: NodeType[];
   onCurrentNodeChanged: (node: NodeType) => void;
 }
 
-const SettingsMenu = ({ node, rootNodeId, structure, onCurrentNodeChanged }: Props) => {
+const SettingsMenu = ({
+  node,
+  rootNodeId,
+  structure,
+  onCurrentNodeChanged,
+  nodeChildren,
+}: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const nodeType = getNodeTypeFromNodeId(node.id);
@@ -68,6 +75,7 @@ const SettingsMenu = ({ node, rootNodeId, structure, onCurrentNodeChanged }: Pro
               rootNodeId={rootNodeId}
               structure={structure}
               onCurrentNodeChanged={onCurrentNodeChanged}
+              nodeChildren={nodeChildren}
             />
           </StyledDivWrapper>
         </>

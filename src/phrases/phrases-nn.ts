@@ -438,6 +438,7 @@ const phrases = {
     title: 'Podkastserie',
     alreadyPartOfSeries: 'Del av ein anna serie',
     description: 'Beskrivelse',
+    rss: 'Rss-feed',
   },
   podcastForm: {
     title: 'Podkastepisode',
@@ -1185,6 +1186,8 @@ const phrases = {
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Noverande versjon',
+    deleteNode: 'Slett',
+    confirmDelete: 'Er du sikker på at du vil slette denne noden?',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',
@@ -1380,6 +1383,7 @@ const phrases = {
     publishError: 'Klarte ikkje å publisere versjonen',
     deleteError: 'Klarte ikkje å slette versjonen',
     noOtherVersions: 'Det finnes ingen andre versjonar!',
+    previewVersion: 'Forhåndsvis denne versjonen på NDLA.no',
     form: {
       name: {
         label: 'Namn',
@@ -1435,6 +1439,7 @@ const phrases = {
       tree: 'Tre',
     },
     childrenChanged: 'Barn endra',
+    resourcesChanged: 'Ressurser endret',
     diffTypes: {
       ADDED: 'Lagt til',
       DELETED: 'Sletta',
@@ -1505,6 +1510,9 @@ const phrases = {
       },
       grepCodes: {
         title: 'Grep-koder',
+      },
+      resourceTypes: {
+        title: 'Ressurstypar',
       },
     },
   },

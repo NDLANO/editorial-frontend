@@ -437,6 +437,7 @@ const phrases = {
     title: 'Podcast series',
     alreadyPartOfSeries: 'Part of another series',
     description: 'Description',
+    rss: 'Rss feed',
   },
   podcastForm: {
     title: 'Podcast episode',
@@ -1184,6 +1185,8 @@ const phrases = {
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
     currentVersion: 'Current version',
+    deleteNode: 'Delete',
+    confirmDelete: 'Are you sure you want to delete this node?',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',
@@ -1378,6 +1381,7 @@ const phrases = {
     publishError: 'Failed to publish version',
     deleteError: 'Failed to delete version',
     noOtherVersions: 'No other versions exist!',
+    previewVersion: 'Preview this version on NDLA.no',
     form: {
       name: {
         label: 'Name',
@@ -1433,6 +1437,7 @@ const phrases = {
       tree: 'Tree',
     },
     childrenChanged: 'Children changed',
+    resourcesChanged: 'Resources changed',
     diffTypes: {
       ADDED: 'Added',
       DELETED: 'Deleted',
@@ -1503,6 +1508,9 @@ const phrases = {
       },
       grepCodes: {
         title: 'Grep Codes',
+      },
+      resourceTypes: {
+        title: 'Resource Types',
       },
     },
   },

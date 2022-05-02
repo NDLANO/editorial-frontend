@@ -87,7 +87,11 @@ interface NodeDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
 export const deleteNode = ({ id, taxonomyVersion }: NodeDeleteParams): Promise<void> =>
-  deleteAndResolve({ url: `${baseUrl}/${id}`, taxonomyVersion });
+  deleteAndResolve({
+    url: `${baseUrl}/${id}`,
+    taxonomyVersion,
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
 
 interface NodeMetadataPutParams extends WithTaxonomyVersion {
   id: string;

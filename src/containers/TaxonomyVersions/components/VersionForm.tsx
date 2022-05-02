@@ -23,7 +23,7 @@ import {
   usePublishVersionMutation,
   usePutVersionMutation,
 } from '../../../modules/taxonomy/versions/versionMutations';
-import { VERSIONS } from '../../../queryKeys';
+import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
 import { ActionButton } from '../../FormikForm';
 import { StyledErrorMessage } from '../../StructurePage/folderComponents/styles';
 import Fade from '../../StructurePageBeta/Fade';
@@ -62,11 +62,12 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const initialValues = versionTypeToVersionFormType(version);
   const qc = useQueryClient();
+  const versionsKey = versionsQueryKey({ taxonomyVersion: 'default' });
 
   const versionPostMutation = usePostVersionMutation({
     onMutate: async ({ body }) => {
       setError(undefined);
-      await qc.cancelQueries([VERSIONS]);
+      await qc.cancelQueries(versionsKey);
       const optimisticVersion: VersionType = {
         id: '',
         versionType: 'BETA',
@@ -74,18 +75,18 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
         hash: '',
         locked: !!body.locked,
       };
-      const existingVersions = qc.getQueryData<VersionType[]>([VERSIONS]) ?? [];
-      qc.setQueryData<VersionType[]>([VERSIONS], existingVersions.concat(optimisticVersion));
+      const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
+      qc.setQueryData<VersionType[]>(versionsKey, existingVersions.concat(optimisticVersion));
     },
-    onSuccess: () => qc.invalidateQueries([VERSIONS]),
+    onSuccess: () => qc.invalidateQueries(versionsKey),
     onError: () => setError(t('taxonomyVersions.postError')),
   });
 
   const versionPutMutation = usePutVersionMutation({
     onMutate: async ({ id, body }) => {
       setError(undefined);
-      await qc.cancelQueries([VERSIONS]);
-      const existingVersions = qc.getQueryData<VersionType[]>([VERSIONS]) ?? [];
+      await qc.cancelQueries(versionsKey);
+      const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
       const newVersions = existingVersions.map(version => {
         if (version.id === id) {
           return {
@@ -95,25 +96,25 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
           };
         } else return version;
       });
-      qc.setQueryData<VersionType[]>([VERSIONS], newVersions);
+      qc.setQueryData<VersionType[]>(versionsKey, newVersions);
     },
-    onSuccess: () => qc.invalidateQueries([VERSIONS]),
+    onSuccess: () => qc.invalidateQueries(versionsKey),
     onError: () => setError(t('taxonomyVersions.putError')),
   });
 
   const publishVersionMutation = usePublishVersionMutation({
     onMutate: async ({ id }) => {
       setError(undefined);
-      await qc.cancelQueries([VERSIONS]);
-      const existingVersions = qc.getQueryData<VersionType[]>([VERSIONS]) ?? [];
+      await qc.cancelQueries(versionsKey);
+      const existingVersions = qc.getQueryData<VersionType[]>(versionsKey) ?? [];
       const updatedVersions: VersionType[] = existingVersions.map(version => {
         if (version.id === id) {
           return { ...version, versionType: 'PUBLISHED' };
         } else return version;
       });
-      qc.setQueryData<VersionType[]>([VERSIONS], updatedVersions);
+      qc.setQueryData<VersionType[]>(versionsKey, updatedVersions);
     },
-    onSuccess: () => qc.invalidateQueries([VERSIONS]),
+    onSuccess: () => qc.invalidateQueries(versionsKey),
     onError: () => setError(t('taxonomyVersions.publishError')),
   });
 

@@ -8,7 +8,7 @@ import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import queryString from 'query-string';
 import AlertModal from '../../components/AlertModal';
-import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
+import { TAXONOMY_ADMIN_SCOPE, TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../constants';
 import { NodeType } from '../../modules/nodes/nodeApiTypes';
 import { usePublishNodeMutation } from '../../modules/nodes/nodeMutations';
 import { useNodes } from '../../modules/nodes/nodeQueries';
@@ -16,6 +16,7 @@ import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
 import { NODES } from '../../queryKeys';
 import { toNodeDiff, toStructureBeta } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
+import { useSession } from '../Session/SessionProvider';
 
 const ErrorMessage = styled.p`
   color: ${colors.support.red};
@@ -49,6 +50,7 @@ const PublishRequestsContainer = () => {
   const [nodeToPublish, setShowNodeToPublish] = useState<NodeType | undefined>(undefined);
   const [error, setError] = useState<string | undefined>();
   const [hasPublished, setHasPublished] = useState(false);
+  const { userPermissions } = useSession();
   const qc = useQueryClient();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -72,7 +74,7 @@ const PublishRequestsContainer = () => {
     {
       onSuccess: data => {
         if (!data[0]) {
-          setError('publishRequests.noPublishedVersion');
+          setError('publishRequests.errors.noPublishedVersion');
         }
       },
     },
@@ -93,6 +95,9 @@ const PublishRequestsContainer = () => {
   };
 
   const onPublish = async (node: NodeType) => {
+    if (!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE)) {
+      return;
+    }
     setHasPublished(false);
     if (!publishedVersion) {
       setError('publishRequests.errors.noPublishedVersion');
@@ -132,7 +137,9 @@ const PublishRequestsContainer = () => {
                   {t('publishRequests.compare')}
                 </Button>
                 <Button
-                  disabled={!publishedVersion || !!error}
+                  disabled={
+                    !publishedVersion || !!error || !userPermissions?.includes(TAXONOMY_ADMIN_SCOPE)
+                  }
                   onClick={() => {
                     setShowNodeToPublish(node);
                     setShowAlertModal(true);

@@ -436,6 +436,7 @@ const phrases = {
     title: 'Podkastserie',
     alreadyPartOfSeries: 'Del av en annen serie',
     description: 'Beskrivelse',
+    rss: 'Rss-feed',
   },
   podcastForm: {
     title: 'Podkastepisode',
@@ -1184,6 +1185,8 @@ const phrases = {
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
     currentVersion: 'Nåværende versjon',
+    deleteNode: 'Slett',
+    confirmDelete: 'Er du sikker på at du vil slette denne noden?',
     changeName: {
       loadError: 'Klarte ikke hente oversettelser',
       updateError: 'Klarte ikke oppdatere oversettelser',
@@ -1419,6 +1422,7 @@ const phrases = {
       tree: 'Tre',
     },
     childrenChanged: 'Barn endret',
+    resourcesChanged: 'Ressurser endret',
     diffTypes: {
       ADDED: 'Lagt til',
       DELETED: 'Slettet',
@@ -1489,6 +1493,9 @@ const phrases = {
       },
       grepCodes: {
         title: 'Grep-koder',
+      },
+      resourceTypes: {
+        title: 'Ressurstyper',
       },
     },
   },

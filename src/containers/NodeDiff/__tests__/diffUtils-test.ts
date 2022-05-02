@@ -11,6 +11,9 @@ import {
   nodeTreeWithNoChildren,
   nodeTreeWithNoChildrenDiff,
   nodeTreeWithNoChildrenUpdated,
+  nodeTreeWithNestedChildrenAndResources,
+  nodeTreeWithNestedChildrenAndResourcesDiff,
+  nodeTreeWithNestedChildrenAndResourcesUpdated,
 } from './diffTestData';
 
 describe('diffField', () => {
@@ -130,6 +133,14 @@ describe('diffTrees', () => {
     const original = nodeTreeWithDirectChildren;
     const other = nodeTreeWithDirectChildrenUpdated;
     const expected = nodeTreeWithDirectChildrenDiff;
+    const res = diffTrees(original, other, 'tree');
+    expect(res).toEqual(expected);
+  });
+
+  test('correctly diffs nested children with resources', () => {
+    const original = nodeTreeWithNestedChildrenAndResources;
+    const other = nodeTreeWithNestedChildrenAndResourcesUpdated;
+    const expected = nodeTreeWithNestedChildrenAndResourcesDiff;
     const res = diffTrees(original, other, 'tree');
     expect(res).toEqual(expected);
   });

@@ -129,10 +129,9 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   }
 
   const diff = diffTrees(defaultQuery.data!, otherQuery.data!, view);
+  const children: DiffType<ChildNodeType>[] = diff.children;
 
-  const test: DiffType<ChildNodeType>[] = diff.children;
-
-  const nodes = filterNodes(test, {
+  const nodes = filterNodes(children, {
     nodeView: params.get('nodeView') ?? 'changed',
     fieldView: params.get('fieldView'),
   });

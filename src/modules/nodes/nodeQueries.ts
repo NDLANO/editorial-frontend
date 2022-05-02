@@ -127,11 +127,38 @@ const fetchNodeTree = async ({
   language,
   taxonomyVersion,
 }: NodeTreeGetParams): Promise<NodeTree> => {
-  const [root, children] = await Promise.all([
+  const [root, children, allResources] = await Promise.all([
     fetchNode({ id, language, taxonomyVersion }),
     fetchChildNodesWithArticleType({ id, language, taxonomyVersion }),
+    fetchNodeResources({ id, language, taxonomyVersion, recursive: true }),
   ]);
-  return { root, children };
+
+  let rootFromChildren: ChildNodeType | undefined = children.find(child => child.id === id);
+  const childOrRegularRoot = rootFromChildren ?? root;
+
+  const resourcesForNodeIdMap = allResources.reduce<Record<string, ResourceWithNodeConnection[]>>(
+    (acc, curr) => {
+      if (!curr.parentId) {
+        return acc;
+      }
+      if (acc[curr.parentId]) {
+        acc[curr.parentId] = acc[curr.parentId].concat([curr]);
+      } else {
+        acc[curr.parentId] = [curr];
+      }
+
+      return acc;
+    },
+    {},
+  );
+  const childrenWithResources = children.map(child => ({
+    ...child,
+    resources: resourcesForNodeIdMap[child.id] ?? [],
+  }));
+  return {
+    root: { ...childOrRegularRoot, resources: resourcesForNodeIdMap[root.id] ?? [] },
+    children: childrenWithResources,
+  };
 };
 
 interface UseChildNodesWithArticleTypeParams extends WithTaxonomyVersion {

@@ -82,11 +82,13 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       handleRemove();
     } else {
       const nextPath = Path.next(elementPath);
-      ReactEditor.focus(editor);
-      Transforms.select(editor, {
-        anchor: { path: nextPath, offset: 0 },
-        focus: { path: nextPath, offset: 0 },
-      });
+      setTimeout(() => {
+        ReactEditor.focus(editor);
+        Transforms.select(editor, {
+          anchor: { path: nextPath, offset: 0 },
+          focus: { path: nextPath, offset: 0 },
+        });
+      }, 0);
       setEditMode(false);
       setShowMenu(false);
     }
@@ -122,16 +124,17 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
         match: node => node === element,
       });
     }
-
-    ReactEditor.focus(editor);
-    Transforms.select(editor, {
-      anchor: { path: leafPath, offset: 0 },
-      focus: { path: leafPath, offset: 0 },
-    });
-
     setIsFirstEdit(false);
     setEditMode(false);
     setShowMenu(false);
+
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      Transforms.select(editor, {
+        anchor: { path: leafPath, offset: 0 },
+        focus: { path: leafPath, offset: 0 },
+      });
+    }, 0);
   };
 
   const handleRemove = () => {
@@ -153,6 +156,7 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       role="button"
       tabIndex={0}
       onClick={toggleMenu}
+      contentEditable={false}
       style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
       {...attributes}>
       <MathML model={nodeInfo.model} editor={editor} element={element} />

@@ -83,7 +83,7 @@ const MenuItemCustomField = ({
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
     TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   ];
-  const [filteredTopicFields] = [
+  const filteredTopicFields = [
     TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
     TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   ];

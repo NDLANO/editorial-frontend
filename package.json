@@ -178,7 +178,7 @@
     "react-helmet": "^5.2.1",
     "react-i18next": "11.11.4",
     "react-image-crop": "^6.0.18",
-    "react-query": "^3.25.1",
+    "react-query": "^3.38.1",
     "react-router-dom": "^6.0.2",
     "react-tabs": "^3.0.0",
     "react-transition-group": "^4.2.2",

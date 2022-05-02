@@ -21,11 +21,11 @@ import { VersionStatusType, VersionType } from '../../../modules/taxonomy/versio
 import IconButton from '../../../components/IconButton';
 import VersionForm from './VersionForm';
 import { useDeleteVersionMutation } from '../../../modules/taxonomy/versions/versionMutations';
-import { VERSIONS } from '../../../queryKeys';
 import AlertModal from '../../../components/AlertModal';
 import { StyledErrorMessage } from '../../StructurePage/folderComponents/styles';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import config from '../../../config';
+import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
 
 interface Props {
   version: VersionType;
@@ -110,16 +110,17 @@ const Version = ({ version }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
   const qc = useQueryClient();
+  const key = versionsQueryKey({ taxonomyVersion: 'default' });
 
   const deleteVersionMutation = useDeleteVersionMutation({
     onMutate: async ({ id }) => {
       setError(undefined);
-      await qc.cancelQueries([VERSIONS]);
-      const existingVersions = qc.getQueryData<VersionType[]>([VERSIONS]) ?? [];
+      await qc.cancelQueries(key);
+      const existingVersions = qc.getQueryData<VersionType[]>(key) ?? [];
       const withoutDeleted = existingVersions.filter(version => version.id !== id);
-      qc.setQueryData<VersionType[]>([VERSIONS], withoutDeleted);
+      qc.setQueryData<VersionType[]>(key, withoutDeleted);
     },
-    onSuccess: () => qc.invalidateQueries([VERSIONS]),
+    onSuccess: () => qc.invalidateQueries(key),
     onError: () => setError(t('taxonomyVersions.deleteError')),
   });
 

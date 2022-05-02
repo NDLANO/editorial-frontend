@@ -22,6 +22,7 @@ import { TaxonomyMetadata } from '../../../../../modules/taxonomy/taxonomyApiInt
 import { useUpdateNodeMetadataMutation } from '../../../../../modules/nodes/nodeMutations';
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
+  TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
@@ -74,8 +75,12 @@ const MenuItemCustomField = ({ node, onCurrentNodeChanged }: Props) => {
     TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+    TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   ];
-  const [filteredChildFields] = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
+  const [filteredChildFields] = [
+    TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
+    TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
+  ];
 
   const filterHardcodedMetadataValues = () => {
     return Object.entries(customFields).filter(([taxonomyMetadataField, _]) => {

@@ -30,7 +30,7 @@ import {
 } from '../../../modules/nodes/nodeMutations';
 import { fetchDraft } from '../../../modules/draft/draftApi';
 import { fetchLearningpath } from '../../../modules/learningpath/learningpathApi';
-import { RESOURCES_WITH_NODE_CONNECTION, RESOURCE_META } from '../../../queryKeys';
+import { RESOURCE_META } from '../../../queryKeys';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import config from '../../../config';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
@@ -42,6 +42,7 @@ import { classes } from './ResourceGroup';
 import ResourceItemLink from './ResourceItemLink';
 import GrepCodesModal from './GrepCodesModal';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -122,39 +123,32 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   const [showGrepCodes, setShowGrepCodes] = useState(false);
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const compKey = resourcesWithNodeConnectionQueryKey({
+    id: currentNodeId,
+    language: i18n.language,
+  });
 
   const onUpdateConnection = async (id: string, { relevanceId }: NodeConnectionPutType) => {
-    const key = [RESOURCES_WITH_NODE_CONNECTION, currentNodeId, { language: i18n.language }];
-    await qc.cancelQueries(key);
-    const resources = qc.getQueryData<ResourceWithNodeConnection[]>(key) ?? [];
+    await qc.cancelQueries(compKey);
+    const resources = qc.getQueryData<ResourceWithNodeConnection[]>(compKey) ?? [];
     if (relevanceId) {
       const newResources = resources.map(res => {
         if (res.id === id) {
           return { ...res, relevanceId: relevanceId };
         } else return res;
       });
-      qc.setQueryData<ResourceWithNodeConnection[]>(key, newResources);
+      qc.setQueryData<ResourceWithNodeConnection[]>(compKey, newResources);
     }
     return resources;
   };
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
-    onSettled: () =>
-      qc.invalidateQueries([
-        RESOURCES_WITH_NODE_CONNECTION,
-        currentNodeId,
-        { language: i18n.language },
-      ]),
+    onSettled: () => qc.invalidateQueries(compKey),
   });
   const { mutateAsync: updateResourceConnection } = usePutResourceForNodeMutation({
     onMutate: async ({ id, body }) => onUpdateConnection(id, body),
-    onSettled: () =>
-      qc.invalidateQueries([
-        RESOURCES_WITH_NODE_CONNECTION,
-        currentNodeId,
-        { language: i18n.language },
-      ]),
+    onSettled: () => qc.invalidateQueries(compKey),
   });
 
   const getArticleMeta = async (resource: ResourceWithNodeConnection): Promise<ResourceMeta> => {

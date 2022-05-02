@@ -18,12 +18,12 @@ import {
   useDeleteResourceForNodeMutation,
   usePutResourceForNodeMutation,
 } from '../../../modules/nodes/nodeMutations';
-import { RESOURCES_WITH_NODE_CONNECTION } from '../../../queryKeys';
 import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
 import AlertModal from '../../../components/AlertModal';
 import { classes } from './ResourceGroup';
 import MakeDndList from '../../../components/MakeDndList';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
 
 const StyledResourceItems = styled.ul`
   list-style: none;
@@ -48,7 +48,10 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   const { taxonomyVersion } = useTaxonomyVersion();
 
   const qc = useQueryClient();
-  const compKey = [RESOURCES_WITH_NODE_CONNECTION, currentNodeId, { language: i18n.language }];
+  const compKey = resourcesWithNodeConnectionQueryKey({
+    id: currentNodeId,
+    language: i18n.language,
+  });
   const deleteNodeResource = useDeleteResourceForNodeMutation({
     onMutate: async ({ id }) => {
       await qc.cancelQueries(compKey);

@@ -84,7 +84,7 @@ interface StatusStateMachineParams {
   articleId?: number;
 }
 
-export const draftStatusStateMachineQueryKey = (params?: StatusStateMachineParams) => [
+export const draftStatusStateMachineQueryKey = (params?: Partial<StatusStateMachineParams>) => [
   DRAFT_STATUS_STATE_MACHINE,
   params,
 ];

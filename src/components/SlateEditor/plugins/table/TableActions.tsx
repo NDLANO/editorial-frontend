@@ -13,6 +13,7 @@ import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { colors, fonts } from '@ndla/core';
+import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/lib/editor';
 import Button from '@ndla/button';
 import { Minus, Pencil, Plus } from '@ndla/icons/lib/action';
 import IconButton from '../../../../components/IconButton';
@@ -33,7 +34,16 @@ import { TYPE_TABLE_CAPTION } from './types';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
 
-const tableActionButtonStyle = css`
+const tableActionButtonStyle = css``;
+
+const StyledButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  gap: 5px;
+`;
+
+const StyledIconButton = styled(IconButton)`
   display: flex;
   align-items: center;
   margin: 5px;
@@ -46,12 +56,19 @@ const StyledTableActions = styled('div')`
   bottom: -50px;
   padding: 10px;
   position: absolute;
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 10px;
 `;
 
-const ActionRow = styled.div`
+const ActionGroup = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+`;
+
+const rightAlign = styled.div`
+  margin-left: auto;
 `;
 
 const StyledWrapper = styled('div')`
@@ -78,7 +95,7 @@ const TableActions = ({ editor, element }: Props) => {
   const [table] = Editor.node(editor, tablePath);
   const captionEntry = getCurrentBlock(editor, TYPE_TABLE_CAPTION);
 
-  if (!isTable(table)) {
+  if (!isTable(table) || captionEntry) {
     return null;
   }
 
@@ -130,7 +147,7 @@ const TableActions = ({ editor, element }: Props) => {
   const selectedPath = editor.selection?.anchor.path;
 
   const showAddHeader = selectedPath && !hasTableHead;
-  const showEditColgroups = !captionEntry && userPermissions?.includes(DRAFT_HTML_SCOPE);
+  const showEditColgroups = userPermissions?.includes(DRAFT_HTML_SCOPE);
   const show =
     Range.isRange(editor.selection) &&
     Range.includes(editor.selection, ReactEditor.findPath(editor, element)) &&
@@ -139,98 +156,106 @@ const TableActions = ({ editor, element }: Props) => {
   return (
     <StyledWrapper contentEditable={false} show={show}>
       <StyledTableActions>
-        <ActionRow>
+        <ActionGroup>
           {showEditColgroups && (
-            <Button
+            <StyledButton
               data-cy={'edit-colgroups'}
               stripped
-              onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'edit-colgroups')}
-              css={tableActionButtonStyle}>
-              <Pencil />
+              onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
+                handleOnClick(e, 'edit-colgroups')
+              }>
               {t('form.content.table.colgroups')}
-            </Button>
+              <Pencil />
+            </StyledButton>
           )}
-        </ActionRow>
-        <ActionRow>
-          {!captionEntry && (
-            <>
-              <StyledRowTitle>rad:</StyledRowTitle>
-              <IconButton
-                type="button"
-                data-cy={'row-add'}
-                title={t('form.content.table.row-add')}
-                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'row-add')}
-                css={tableActionButtonStyle}>
-                <Plus />
-              </IconButton>
-              <IconButton
-                type="button"
-                data-cy={'row-remove'}
-                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'row-remove')}
-                css={tableActionButtonStyle}
-                title={t('form.content.table.row-remove')}>
-                <Minus />
-              </IconButton>
-              {!captionEntry && (
-                <Button
-                  data-cy={'toggle-row-headers'}
-                  stripped
-                  onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
-                    handleOnClick(e, 'toggle-row-headers')
-                  }
-                  css={tableActionButtonStyle}
-                  title={t(
-                    `form.content.table.${
-                      isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
-                    }`,
-                  )}>
-                  <span>
-                    {t(
-                      `form.content.table.${
-                        isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
-                      }`,
-                    )}
-                  </span>
-                </Button>
-              )}
-            </>
+        </ActionGroup>
+        <ActionGroup></ActionGroup>
+        <ActionGroup>
+          <StyledRowTitle>rad:</StyledRowTitle>
+          <StyledIconButton
+            type="button"
+            data-cy={'row-add'}
+            title={t('form.content.table.row-add')}
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'row-add')}>
+            <Plus />
+          </StyledIconButton>
+          <StyledIconButton
+            type="button"
+            data-cy={'row-remove'}
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'row-remove')}
+            title={t('form.content.table.row-remove')}>
+            <Minus />
+          </StyledIconButton>
+        </ActionGroup>
+        <ActionGroup css={rightAlign}>
+          <StyledButton
+            data-cy={'toggle-row-headers'}
+            stripped
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
+              handleOnClick(e, 'toggle-row-headers')
+            }
+            title={t(
+              `form.content.table.${
+                isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
+              }`,
+            )}>
+            {t(
+              `form.content.table.${
+                isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
+              }`,
+            )}
+          </StyledButton>
+        </ActionGroup>
+        <ActionGroup>
+          <StyledRowTitle>kol:</StyledRowTitle>
+          <StyledIconButton
+            type="button"
+            data-cy={'column-add'}
+            title={t(`form.content.table.column-add`)}
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'column-add')}>
+            <Plus />
+          </StyledIconButton>
+          <StyledIconButton
+            type="button"
+            data-cy={'column-remove'}
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'column-remove')}
+            title={t(`form.content.table.column-remove`)}>
+            <Minus />
+          </StyledIconButton>
+          <StyledIconButton
+            type="button"
+            data-cy={'column-left'}
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'column-left')}
+            title={t(`form.content.table.column-left`)}>
+            <AlignLeft />
+          </StyledIconButton>
+          <StyledIconButton
+            type="button"
+            data-cy={'column-center'}
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'column-center')}
+            title={t(`form.content.table.column-center`)}>
+            <AlignCenter />
+          </StyledIconButton>
+          <StyledIconButton
+            type="button"
+            data-cy={'column-right'}
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'column-right')}
+            title={t(`form.content.table.column-right`)}>
+            <AlignRight />
+          </StyledIconButton>
+        </ActionGroup>
+        <ActionGroup>
+          {showAddHeader && (
+            <StyledButton
+              key={'head-add'}
+              data-cy={'head-add'}
+              stripped
+              onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}
+              css={tableActionButtonStyle}>
+              <span>{t(`form.content.table.addHead`)}</span>
+            </StyledButton>
           )}
-        </ActionRow>
-        <ActionRow>
-          {!captionEntry && (
-            <>
-              <StyledRowTitle>kol:</StyledRowTitle>
-              <IconButton
-                type="button"
-                data-cy={'column-add'}
-                title={t(`form.content.table.column-add`)}
-                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'column-add')}
-                css={tableActionButtonStyle}>
-                <Plus />
-              </IconButton>
-              <IconButton
-                type="button"
-                data-cy={'column-remove'}
-                onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
-                  handleOnClick(e, 'column-remove')
-                }
-                css={tableActionButtonStyle}
-                title={t(`form.content.table.column-remove`)}>
-                <Minus />
-              </IconButton>
-              {showAddHeader && (
-                <Button
-                  key={'head-add'}
-                  data-cy={'head-add'}
-                  stripped
-                  onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}
-                  css={tableActionButtonStyle}>
-                  <span>{t(`form.content.table.addHead`)}</span>
-                </Button>
-              )}
-            </>
-          )}
-        </ActionRow>
+        </ActionGroup>
       </StyledTableActions>
     </StyledWrapper>
   );

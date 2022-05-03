@@ -188,23 +188,16 @@ const TableActions = ({ editor, element }: Props) => {
           </StyledIconButton>
         </ActionGroup>
         <ActionGroup css={rightAlign}>
-          <StyledButton
-            data-cy={'toggle-row-headers'}
-            stripped
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
-              handleOnClick(e, 'toggle-row-headers')
-            }
-            title={t(
-              `form.content.table.${
-                isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
-              }`,
-            )}>
-            {t(
-              `form.content.table.${
-                isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
-              }`,
-            )}
-          </StyledButton>
+          {showAddHeader && (
+            <StyledButton
+              key={'head-add'}
+              data-cy={'head-add'}
+              stripped
+              onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}
+              css={tableActionButtonStyle}>
+              {t(`form.content.table.addHeader`)}
+            </StyledButton>
+          )}
         </ActionGroup>
         <ActionGroup>
           <StyledRowTitle>kol:</StyledRowTitle>
@@ -245,16 +238,23 @@ const TableActions = ({ editor, element }: Props) => {
           </StyledIconButton>
         </ActionGroup>
         <ActionGroup>
-          {showAddHeader && (
-            <StyledButton
-              key={'head-add'}
-              data-cy={'head-add'}
-              stripped
-              onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}
-              css={tableActionButtonStyle}>
-              <span>{t(`form.content.table.addHead`)}</span>
-            </StyledButton>
-          )}
+          <StyledButton
+            data-cy={'toggle-row-headers'}
+            stripped
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
+              handleOnClick(e, 'toggle-row-headers')
+            }
+            title={t(
+              `form.content.table.${
+                isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
+              }`,
+            )}>
+            {t(
+              `form.content.table.${
+                isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
+              }`,
+            )}
+          </StyledButton>
         </ActionGroup>
       </StyledTableActions>
     </StyledWrapper>

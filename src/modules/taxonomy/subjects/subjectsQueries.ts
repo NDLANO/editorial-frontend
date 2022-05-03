@@ -17,7 +17,7 @@ interface UseSubjectsParams extends WithTaxonomyVersion {
   metadataFilter?: { key: string; value?: string };
 }
 
-export const subjectsQueryKey = (params?: UseSubjectsParams) => [SUBJECTS, params];
+export const subjectsQueryKey = (params?: Partial<UseSubjectsParams>) => [SUBJECTS, params];
 
 export const useSubjects = (
   params: UseSubjectsParams,

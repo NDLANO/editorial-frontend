@@ -9,7 +9,7 @@
 import { useQuery, UseQueryOptions } from 'react-query';
 import { fetchSubject, fetchSubjects } from '.';
 import { WithTaxonomyVersion } from '../../../interfaces';
-import { SUBJECT } from '../../../queryKeys';
+import { SUBJECT, SUBJECTS } from '../../../queryKeys';
 import { SubjectType } from '../taxonomyApiInterfaces';
 
 interface UseSubjectsParams extends WithTaxonomyVersion {
@@ -17,7 +17,7 @@ interface UseSubjectsParams extends WithTaxonomyVersion {
   metadataFilter?: { key: string; value?: string };
 }
 
-export const subjectsQueryKey = (params?: UseSubjectsParams) => ['SUBJECTS', params];
+export const subjectsQueryKey = (params?: UseSubjectsParams) => [SUBJECTS, params];
 
 export const useSubjects = (
   params: UseSubjectsParams,

@@ -121,14 +121,7 @@ ErrorMessage.propTypes = {
   language: PropTypes.string.isRequired,
 };
 
-type Status =
-  | 'initial'
-  | 'edit'
-  | 'fetch-error'
-  | 'save-error'
-  | 'access-error'
-  | 'saving'
-  | 'saved';
+type Status = 'initial' | 'edit' | 'fetch-error' | 'access-error' | 'saving' | 'saved';
 
 const EditMarkupPage = () => {
   const { t } = useTranslation();
@@ -181,7 +174,6 @@ const EditMarkupPage = () => {
         createMessage(formatErrorMessage(e));
       }
       handleError(e);
-      setStatus('save-error');
     }
   };
 
@@ -230,15 +222,6 @@ const EditMarkupPage = () => {
           onChange={handleChange}
           onSave={saveChanges}
         />
-        {status === 'save-error' && (
-          <StyledErrorMessage
-            css={css`
-              text-align: left;
-              margin: ${spacing.normal};
-            `}>
-            {t('editMarkup.saveError')}
-          </StyledErrorMessage>
-        )}
         <Row
           justifyContent="space-between"
           css={css`

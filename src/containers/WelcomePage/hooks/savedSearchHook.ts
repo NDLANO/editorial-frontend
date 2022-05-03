@@ -42,9 +42,10 @@ export const useSavedSearchUrl = (
     { id: resourceType, language: locale, taxonomyVersion },
     { enabled: !!resourceType },
   );
-  const { data: userData, isLoading: auth0UsersLoading } = useAuth0Users(userId, {
-    enabled: !!userId,
-  });
+  const { data: userData, isLoading: auth0UsersLoading } = useAuth0Users(
+    { uniqueUserIds: userId },
+    { enabled: !!userId },
+  );
   const { data: searchResultData, isLoading: resultsLoading } = searchHook(searchObject);
 
   const loading = subjectLoading && resourceTypeLoading && auth0UsersLoading && resultsLoading;

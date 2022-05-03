@@ -635,9 +635,9 @@ export const removeColumn = (editor: Editor, tableElement: TableElement, path: P
   }
 };
 
-export const removeTable = (editor: Editor, path: Path) => {
+export const removeTable = (editor: Editor, element: TableElement) => {
   Transforms.removeNodes(editor, {
-    at: path,
-    match: node => isTable(node),
+    at: [],
+    match: node => node === element,
   });
 };

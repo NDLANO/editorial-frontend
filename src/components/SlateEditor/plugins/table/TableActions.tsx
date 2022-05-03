@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
 import { colors, fonts } from '@ndla/core';
 import Button from '@ndla/button';
-import { DeleteForever } from '@ndla/icons/lib/editor';
 import { Minus, Pencil, Plus } from '@ndla/icons/lib/action';
 import IconButton from '../../../../components/IconButton';
 import {
@@ -22,7 +21,6 @@ import {
   removeRow,
   insertColumn,
   removeColumn,
-  removeTable,
   toggleRowHeaders,
   insertTableHead,
   editColgroups,
@@ -59,6 +57,7 @@ const StyledWrapper = styled('div')`
   display: ${(p: { show: boolean }) => (p.show ? 'block;' : 'none')};
   position: relative;
   z-index: 1;
+  user-select: none;
 `;
 
 const StyledRowTitle = styled.strong`
@@ -84,6 +83,7 @@ const TableActions = ({ editor, element }: Props) => {
 
   const handleOnClick = (e: MouseEvent<HTMLButtonElement>, operation: string) => {
     e.preventDefault();
+    e.stopPropagation();
     const selectedPath = editor.selection?.anchor.path;
 
     if (selectedPath && Path.isDescendant(selectedPath, tablePath)) {
@@ -104,9 +104,6 @@ const TableActions = ({ editor, element }: Props) => {
         }
         case 'column-add':
           insertColumn(editor, element, selectedPath);
-          break;
-        case 'table-remove':
-          removeTable(editor, tablePath);
           break;
         case 'toggle-row-headers':
           toggleRowHeaders(editor, tablePath);
@@ -134,30 +131,14 @@ const TableActions = ({ editor, element }: Props) => {
     <StyledWrapper contentEditable={false} show={show}>
       <StyledTableActions>
         <ActionRow>
-          <Button
-            data-cy={'table-remove'}
-            stripped
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'table-remove')}
-            css={tableActionButtonStyle}>
-            <span>
-              <DeleteForever
-                css={css`
-                  color: ${colors.support.red};
-                `}
-              />
-              {t(`form.content.table.${'table-remove'}`)}
-            </span>
-          </Button>
           {showEditColgroups && (
             <Button
               data-cy={'edit-colgroups'}
               stripped
               onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'edit-colgroups')}
               css={tableActionButtonStyle}>
-              <span>
-                <Pencil />
-                {t(`form.content.table.edit-colgroups`)}
-              </span>
+              <Pencil />
+              {t('form.content.table.colgroups')}
             </Button>
           )}
         </ActionRow>
@@ -168,7 +149,7 @@ const TableActions = ({ editor, element }: Props) => {
               <IconButton
                 type="button"
                 data-cy={'row-add'}
-                title={t(`form.content.table.row-add`)}
+                title={t('form.content.table.row-add')}
                 onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'row-add')}
                 css={tableActionButtonStyle}>
                 <Plus />
@@ -178,24 +159,26 @@ const TableActions = ({ editor, element }: Props) => {
                 data-cy={'row-remove'}
                 onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'row-remove')}
                 css={tableActionButtonStyle}
-                title={t(`form.content.table.row-remove`)}>
+                title={t('form.content.table.row-remove')}>
                 <Minus />
               </IconButton>
               {!captionEntry && (
                 <Button
-                  key={'toggle-row-headers'}
                   data-cy={'toggle-row-headers'}
                   stripped
                   onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
                     handleOnClick(e, 'toggle-row-headers')
                   }
-                  css={tableActionButtonStyle}>
+                  css={tableActionButtonStyle}
+                  title={t(
+                    `form.content.table.${
+                      isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
+                    }`,
+                  )}>
                   <span>
                     {t(
                       `form.content.table.${
-                        isTable(table) && table.rowHeaders
-                          ? 'disableRowHeaders'
-                          : 'enableRowHeaders'
+                        isTable(table) && table.rowHeaders ? 'disable-header' : 'enable-header'
                       }`,
                     )}
                   </span>
@@ -207,7 +190,7 @@ const TableActions = ({ editor, element }: Props) => {
         <ActionRow>
           {!captionEntry && (
             <>
-              <StyledRowTitle>kolonne:</StyledRowTitle>
+              <StyledRowTitle>kol:</StyledRowTitle>
               <IconButton
                 type="button"
                 data-cy={'column-add'}

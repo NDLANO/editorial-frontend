@@ -18,18 +18,27 @@ import {
 } from './draftApi';
 import { DraftStatusStateMachineType } from '../../interfaces';
 
-export const useDraft = (
-  id: number | string,
-  language?: string,
-  options?: UseQueryOptions<IArticle>,
-) => {
-  return useQuery<IArticle>([DRAFT, id, language], () => fetchDraft(id, language), options);
+export interface UseDraft {
+  id: number;
+  language?: string;
+}
+
+export const draftQueryKey = (params?: Partial<UseDraft>) => [DRAFT, params];
+
+export const useDraft = (params: UseDraft, options?: UseQueryOptions<IArticle>) => {
+  return useQuery<IArticle>(
+    draftQueryKey(params),
+    () => fetchDraft(params.id, params.language),
+    options,
+  );
 };
+
+export const licensesQueryKey = () => [LICENSES];
 
 export const useLicenses = <ReturnType = ILicense[]>(
   options?: UseQueryOptions<ILicense[], unknown, ReturnType>,
 ) =>
-  useQuery<ILicense[], unknown, ReturnType>(LICENSES, fetchLicenses, {
+  useQuery<ILicense[], unknown, ReturnType>(licensesQueryKey(), fetchLicenses, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -38,8 +47,10 @@ export const useLicenses = <ReturnType = ILicense[]>(
     ...options,
   });
 
+export const userDataQueryKey = () => [USER_DATA];
+
 export const useUserData = (options?: UseQueryOptions<IUserData>) =>
-  useQuery<IUserData>(USER_DATA, fetchUserData, options);
+  useQuery<IUserData>(userDataQueryKey(), fetchUserData, options);
 
 export const useUpdateUserDataMutation = () => {
   const queryClient = useQueryClient();
@@ -49,9 +60,10 @@ export const useUpdateUserDataMutation = () => {
     },
     {
       onMutate: async newUserData => {
-        await queryClient.cancelQueries(USER_DATA);
-        const previousUserData = queryClient.getQueryData<IUserData>(USER_DATA);
-        queryClient.setQueryData<IUserData>(USER_DATA, {
+        const key = userDataQueryKey();
+        await queryClient.cancelQueries(key);
+        const previousUserData = queryClient.getQueryData<IUserData>(key);
+        queryClient.setQueryData<IUserData>(key, {
           ...previousUserData,
           userId: previousUserData?.userId!,
           ...newUserData,
@@ -60,10 +72,10 @@ export const useUpdateUserDataMutation = () => {
       },
       onError: (_, __, previousUserData) => {
         if (previousUserData) {
-          queryClient.setQueryData(USER_DATA, previousUserData);
+          queryClient.setQueryData(userDataQueryKey(), previousUserData);
         }
       },
-      onSettled: () => queryClient.invalidateQueries(USER_DATA),
+      onSettled: () => queryClient.invalidateQueries(userDataQueryKey()),
     },
   );
 };
@@ -71,12 +83,17 @@ export const useUpdateUserDataMutation = () => {
 interface StatusStateMachineParams {
   articleId?: number;
 }
+
+export const draftStatusStateMachineQueryKey = (params?: StatusStateMachineParams) => [
+  DRAFT_STATUS_STATE_MACHINE,
+  params,
+];
 export const useDraftStatusStateMachine = (
   params: StatusStateMachineParams = {},
   options?: UseQueryOptions<DraftStatusStateMachineType>,
 ) => {
   return useQuery<DraftStatusStateMachineType>(
-    [DRAFT_STATUS_STATE_MACHINE, params],
+    draftStatusStateMachineQueryKey(params),
     () => fetchStatusStateMachine(params.articleId),
     options,
   );

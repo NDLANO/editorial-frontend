@@ -31,6 +31,8 @@ import { AlertModalWrapper, formClasses } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
 import HelpMessage from '../../components/HelpMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { useMessages } from '../Messages/MessagesProvider';
+import { formatErrorMessage } from '../../util/apiHelpers';
 
 declare global {
   interface Window {
@@ -136,6 +138,7 @@ const EditMarkupPage = () => {
   const [status, setStatus] = useState<Status>('initial');
   const [draft, setDraft] = useState<IArticle | undefined>(undefined);
   const location = useLocation();
+  const { createMessage } = useMessages();
 
   useEffect(() => {
     const session = getSessionStateFromLocalStorage();
@@ -174,6 +177,9 @@ const EditMarkupPage = () => {
       setDraft(updatedDraft);
       setStatus('saved');
     } catch (e) {
+      if (e.json?.messages) {
+        createMessage(formatErrorMessage(e));
+      }
       handleError(e);
       setStatus('save-error');
     }

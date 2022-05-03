@@ -24,6 +24,7 @@ import {
   toggleRowHeaders,
   insertTableHead,
   editColgroups,
+  alignColumn,
 } from './utils';
 import { TableElement } from './interfaces';
 import { isTable, isTableHead } from './helpers';
@@ -98,12 +99,20 @@ const TableActions = ({ editor, element }: Props) => {
         case 'head-add':
           insertTableHead(editor);
           break;
-        case 'column-remove': {
+        case 'column-remove':
           removeColumn(editor, element, selectedPath);
           break;
-        }
         case 'column-add':
           insertColumn(editor, element, selectedPath);
+          break;
+        case 'column-left':
+          alignColumn(editor, tablePath, 'left');
+          break;
+        case 'column-center':
+          alignColumn(editor, tablePath, 'center');
+          break;
+        case 'column-right':
+          alignColumn(editor, tablePath, 'right');
           break;
         case 'toggle-row-headers':
           toggleRowHeaders(editor, tablePath);

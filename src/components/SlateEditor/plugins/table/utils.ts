@@ -1,6 +1,7 @@
 import { Editor, Element, Path, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
 import { ReactEditor } from 'slate-react';
+import { uniq } from 'lodash';
 import {
   TableElement,
   TableRowElement,
@@ -640,4 +641,47 @@ export const removeTable = (editor: Editor, element: TableElement) => {
     at: [],
     match: node => node === element,
   });
+};
+
+export const getMatrixColumn = (matrix: TableCellElement[][], index: number) => {
+  const column = matrix.map(row => row[index]);
+  return uniq(column);
+};
+
+export const alignColumn = (editor: Editor, tablePath: Path, align: string) => {
+  const cellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
+
+  if (!isTableCell(cellElement)) {
+    return;
+  }
+
+  const matrix = getTableAsMatrix(editor, tablePath);
+
+  if (!matrix) {
+    return;
+  }
+
+  const currentPosition = findCellCoordinate(matrix, cellElement);
+
+  if (currentPosition) {
+    const column = getMatrixColumn(matrix, currentPosition[1]);
+    Editor.withoutNormalizing(editor, () => {
+      column.forEach(cell => {
+        Transforms.setNodes(
+          editor,
+          {
+            ...cell,
+            data: {
+              ...cell.data,
+              align: align === 'left' ? undefined : align,
+            },
+          },
+          {
+            at: [],
+            match: node => node === cell,
+          },
+        );
+      });
+    });
+  }
 };

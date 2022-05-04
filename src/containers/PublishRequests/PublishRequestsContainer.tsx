@@ -112,7 +112,7 @@ const PublishRequestsContainer = () => {
       return;
     }
     await publishNodeMutation.mutateAsync(
-      { id: node.id, targetId: publishedVersion.hash },
+      { id: node.id, targetId: publishedVersion.id },
       {
         onSuccess: () => setHasPublished(true),
         onError: () => {

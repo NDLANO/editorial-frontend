@@ -1503,6 +1503,23 @@ const phrases = {
         isOn: 'Grouped',
         isOff: 'Ungrouped',
       },
+      requestPublish: {
+        title: 'Publish requested',
+        true: 'Yes',
+        false: 'No',
+      },
+      language: {
+        title: 'Display language',
+      },
+      subjectCategory: {
+        title: 'Subject category',
+      },
+      explanationSubject: {
+        title: 'Explanation Subject',
+      },
+      oldSubjectId: {
+        title: 'Old Subject ID',
+      },
       supportedLanguages: {
         title: 'Supported Languages',
       },

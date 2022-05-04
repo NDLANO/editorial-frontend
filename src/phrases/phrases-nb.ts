@@ -1505,6 +1505,23 @@ const phrases = {
         isOn: 'Gruppert',
         isOff: 'Ugruppert',
       },
+      requestPublish: {
+        title: 'Forespurt publisering',
+        true: 'Ja',
+        false: 'Nei',
+      },
+      language: {
+        title: 'Visningsspråk',
+      },
+      subjectCategory: {
+        title: 'Fagkategori',
+      },
+      explanationSubject: {
+        title: 'Forklaringsfag',
+      },
+      oldSubjectId: {
+        title: 'Gammel fag-ID',
+      },
       supportedLanguages: {
         title: 'Støttede språk',
       },

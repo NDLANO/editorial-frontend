@@ -25,6 +25,13 @@ import { diffField, DiffType, DiffTypeWithChildren, removeType } from './diffUti
 import { DiffTypePill } from './TreeNode';
 import FieldDiff from './FieldDiff';
 import TranslationsDiff from './TranslationsDiff';
+import {
+  TAXONOMY_CUSTOM_FIELD_LANGUAGE,
+  TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
+} from '../../constants';
 
 interface Props {
   node: DiffType<NodeType> | DiffTypeWithChildren;
@@ -199,6 +206,43 @@ const NodeDiff = ({ node, isRoot }: Props) => {
                 <FieldDiff
                   fieldName="topic-resources"
                   result={customFields['topic-resources']}
+                  toDisplayValue={v => v}
+                />
+              )}
+              {customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH] && (
+                <FieldDiff
+                  fieldName="requestPublish"
+                  result={customFields[TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH]}
+                  toDisplayValue={v =>
+                    t(`diff.fields.requestPublish.${v === 'true' ? 'true' : 'false'}`)
+                  }
+                />
+              )}
+              {customFields[TAXONOMY_CUSTOM_FIELD_LANGUAGE] && (
+                <FieldDiff
+                  fieldName="language"
+                  result={customFields[TAXONOMY_CUSTOM_FIELD_LANGUAGE]}
+                  toDisplayValue={v => v}
+                />
+              )}
+              {customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] && (
+                <FieldDiff
+                  fieldName="subjectCategory"
+                  result={customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY]}
+                  toDisplayValue={v => v}
+                />
+              )}
+              {customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] && (
+                <FieldDiff
+                  fieldName="explanationSubject"
+                  result={customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT]}
+                  toDisplayValue={v => v}
+                />
+              )}
+              {customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID] && (
+                <FieldDiff
+                  fieldName="oldSubjectId"
+                  result={customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID]}
                   toDisplayValue={v => v}
                 />
               )}

@@ -17,8 +17,10 @@ import { FILM_FRONTPAGE_QUERY, FILM_SLIDESHOW } from '../../queryKeys';
 import { getIdFromUrn } from '../../util/ndlaFilmHelpers';
 import { sortMoviesByIdList } from '../../containers/NdlaFilm/filmUtil';
 
+export const filmFrontpageQueryKey = () => [FILM_FRONTPAGE_QUERY];
+
 export const useFilmFrontpageQuery = (options?: UseQueryOptions<IFilmFrontPageData>) => {
-  return useQuery<IFilmFrontPageData>([FILM_FRONTPAGE_QUERY], () => fetchFilmFrontpage(), options);
+  return useQuery<IFilmFrontPageData>(filmFrontpageQueryKey(), () => fetchFilmFrontpage(), options);
 };
 
 const slideshowArticlesQueryObject = {
@@ -28,16 +30,22 @@ const slideshowArticlesQueryObject = {
   'page-size': 10,
 };
 
+export interface UseMovies {
+  movieUrns: string[];
+}
+
+export const moviesQueryKey = (params?: Partial<UseMovies>) => [FILM_SLIDESHOW, params];
+
 export const useMoviesQuery = (
-  movieUrns: string[],
+  params: UseMovies,
   options: UseQueryOptions<IMultiSearchResult> = {},
 ) => {
   const { i18n } = useTranslation();
-  const movieIds = movieUrns.map(urn => Number(getIdFromUrn(urn))).filter(id => !isNaN(id));
+  const movieIds = params.movieUrns.map(urn => Number(getIdFromUrn(urn))).filter(id => !isNaN(id));
   const ids = sortBy(movieIds).join(',');
 
   return useQuery<IMultiSearchResult>(
-    [FILM_SLIDESHOW, ids],
+    [FILM_SLIDESHOW, params],
     () => searchResources({ ...slideshowArticlesQueryObject, ids: ids }),
     {
       select: res => ({ ...res, results: sortMoviesByIdList(movieIds, res.results, i18n) }),

@@ -26,7 +26,7 @@ const LastUsedContent = ({ articleId }: Props) => {
   const locale = i18n.language;
   const { userPermissions } = useSession();
 
-  const { data: article } = useDraft(articleId, locale);
+  const { data: article } = useDraft({ id: articleId, language: locale });
 
   return (
     <div {...classes('result')}>

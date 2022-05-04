@@ -52,7 +52,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   const navigate = useNavigate();
   const locale = i18n.language;
   const { taxonomyVersion } = useTaxonomyVersion();
-  const { data: subjectData } = useSubjects({ locale, taxonomyVersion });
+  const { data: subjectData } = useSubjects({ language: locale, taxonomyVersion });
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
   const { data: results, isLoading: isSearching } = searchHook(searchObject);
   const nextPage = (searchObject?.page ?? 1) + 1;

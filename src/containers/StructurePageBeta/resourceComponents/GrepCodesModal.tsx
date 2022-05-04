@@ -11,8 +11,7 @@ import { useQueryClient } from 'react-query';
 import Spinner from '../../../components/Spinner';
 import TaxonomyLightbox from '../../../components/Taxonomy/TaxonomyLightbox';
 import { useUpdateDraftMutation } from '../../../modules/draft/draftMutations';
-import { useDraft } from '../../../modules/draft/draftQueries';
-import { DRAFT } from '../../../queryKeys';
+import { draftQueryKey, useDraft } from '../../../modules/draft/draftQueries';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import GrepCodesForm from './GrepCodesForm';
 
@@ -23,7 +22,10 @@ interface Props {
 const GrepCodesModal = ({ contentUri, onClose }: Props) => {
   const { t, i18n } = useTranslation();
   const draftId = getIdFromUrn(contentUri);
-  const { data, isLoading } = useDraft(draftId!, i18n.language, { enabled: !!draftId });
+  const { data, isLoading } = useDraft(
+    { id: draftId!, language: i18n.language },
+    { enabled: !!draftId },
+  );
   const updateDraft = useUpdateDraftMutation();
   const qc = useQueryClient();
 
@@ -36,10 +38,10 @@ const GrepCodesModal = ({ contentUri, onClose }: Props) => {
       { id: draftId, body: { grepCodes: newCodes, revision: data.revision } },
       {
         onSuccess: data => {
-          const key = [DRAFT, draftId!, i18n.language];
+          const key = draftQueryKey({ id: draftId!, language: i18n.language! });
           qc.cancelQueries(key);
           qc.setQueryData(key, data);
-          qc.invalidateQueries([DRAFT, draftId!, i18n.language]);
+          qc.invalidateQueries(key);
         },
       },
     );

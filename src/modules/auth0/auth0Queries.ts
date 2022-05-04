@@ -11,19 +11,30 @@ import { Auth0UserData } from '../../interfaces';
 import { AUTH0_EDITORS, AUTH0_USERS } from '../../queryKeys';
 import { fetchAuth0Editors, fetchAuth0Users } from './auth0Api';
 
-export const useAuth0Users = (uniqueUserIds: string, options: UseQueryOptions<Auth0UserData[]>) =>
+export interface Auth0Users {
+  uniqueUserIds: string;
+}
+
+export const auth0UsersQueryKey = (params?: Partial<Auth0Users>) => [AUTH0_USERS, params];
+export const useAuth0Users = (params: Auth0Users, options: UseQueryOptions<Auth0UserData[]>) =>
   useQuery<Auth0UserData[]>(
-    [AUTH0_USERS, uniqueUserIds],
-    () => fetchAuth0Users(uniqueUserIds),
+    auth0UsersQueryKey(params),
+    () => fetchAuth0Users(params.uniqueUserIds),
     options,
   );
 
+export interface Auth0Editors {
+  permission: string;
+}
+
+export const auth0EditorsQueryKey = (params?: Partial<Auth0Editors>) => [AUTH0_EDITORS, params];
+
 export const useAuth0Editors = <ReturnType>(
-  permission: string,
+  params: Auth0Editors,
   options: UseQueryOptions<Auth0UserData[], unknown, ReturnType>,
 ) =>
   useQuery<Auth0UserData[], unknown, ReturnType>(
-    [AUTH0_EDITORS, permission],
-    () => fetchAuth0Editors(permission),
+    auth0EditorsQueryKey(params),
+    () => fetchAuth0Editors(params.permission),
     options,
   );

@@ -19,11 +19,11 @@ import RoundIcon from '../../../../components/RoundIcon';
 import ToggleSwitch from '../../../../components/ToggleSwitch';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 import { TaxonomyMetadata } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { CHILD_NODES_WITH_ARTICLE_TYPE } from '../../../../queryKeys';
 import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
 import { getRootIdForNode, isRootNode } from '../../../../modules/nodes/nodeUtil';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
 
 interface Props {
   node: NodeType;
@@ -37,6 +37,11 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
   const qc = useQueryClient();
   const rootNodeId = getRootIdForNode(node);
   const { taxonomyVersion } = useTaxonomyVersion();
+  const compKey = childNodesWithArticleTypeQueryKey({
+    taxonomyVersion,
+    id: rootNodeId,
+    language: i18n.language,
+  });
   const updateMetadata = async () => {
     const customFields = {
       ...node.metadata.customFields,
@@ -52,14 +57,7 @@ const GroupTopicResources = ({ node, hideIcon, onChanged }: Props) => {
         taxonomyVersion,
       },
       {
-        onSettled: () => {
-          qc.invalidateQueries([
-            CHILD_NODES_WITH_ARTICLE_TYPE,
-            taxonomyVersion,
-            rootNodeId,
-            i18n.language,
-          ]);
-        },
+        onSettled: () => qc.invalidateQueries(compKey),
         onSuccess: () => onChanged?.({ customFields }),
       },
     );

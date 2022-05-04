@@ -9,7 +9,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { IFilmFrontPageData, INewOrUpdatedFilmFrontPageData } from '@ndla/types-frontpage-api';
 import { updateFilmFrontpage } from './frontpageApi';
-import { FILM_FRONTPAGE_QUERY } from '../../queryKeys';
+import { filmFrontpageQueryKey } from './filmQueries';
 
 export const useUpdateFilmFrontpageMutation = () => {
   const queryClient = useQueryClient();
@@ -20,10 +20,10 @@ export const useUpdateFilmFrontpageMutation = () => {
     {
       onError: (_, __, previousFrontpage) => {
         if (previousFrontpage) {
-          queryClient.setQueryData(FILM_FRONTPAGE_QUERY, previousFrontpage);
+          queryClient.setQueryData(filmFrontpageQueryKey(), previousFrontpage);
         }
       },
-      onSettled: () => queryClient.invalidateQueries(FILM_FRONTPAGE_QUERY),
+      onSettled: () => queryClient.invalidateQueries(filmFrontpageQueryKey()),
     },
   );
 };

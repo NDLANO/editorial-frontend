@@ -6,7 +6,7 @@
  *
  */
 
-import { MouseEvent } from 'react';
+import { MouseEvent, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { Editor, Path, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
@@ -81,6 +81,25 @@ const StyledWrapper = styled('div')`
 const StyledRowTitle = styled.strong`
   font-family: ${fonts.sans};
 `;
+
+interface TableIconButtonProps {
+  operation: string;
+  onClick: (e: MouseEvent<HTMLButtonElement>, operation: string) => void;
+  children: ReactNode;
+}
+
+const TableIconButton = ({ operation, onClick, children }: TableIconButtonProps) => {
+  const { t } = useTranslation();
+  return (
+    <StyledIconButton
+      type="button"
+      data-cy={operation}
+      title={t(`form.content.table.${operation}`)}
+      onMouseDown={(e: MouseEvent<HTMLButtonElement>) => onClick(e, operation)}>
+      {children}
+    </StyledIconButton>
+  );
+};
 
 interface Props {
   editor: Editor;
@@ -172,20 +191,12 @@ const TableActions = ({ editor, element }: Props) => {
         <ActionGroup></ActionGroup>
         <ActionGroup>
           <StyledRowTitle>rad:</StyledRowTitle>
-          <StyledIconButton
-            type="button"
-            data-cy={'row-add'}
-            title={t('form.content.table.row-add')}
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'row-add')}>
+          <TableIconButton operation={'row-add'} onClick={handleOnClick}>
             <Plus />
-          </StyledIconButton>
-          <StyledIconButton
-            type="button"
-            data-cy={'row-remove'}
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'row-remove')}
-            title={t('form.content.table.row-remove')}>
+          </TableIconButton>
+          <TableIconButton operation={'row-remove'} onClick={handleOnClick}>
             <Minus />
-          </StyledIconButton>
+          </TableIconButton>
         </ActionGroup>
         <ActionGroup css={rightAlign}>
           {showAddHeader && (
@@ -201,41 +212,21 @@ const TableActions = ({ editor, element }: Props) => {
         </ActionGroup>
         <ActionGroup>
           <StyledRowTitle>kol:</StyledRowTitle>
-          <StyledIconButton
-            type="button"
-            data-cy={'column-add'}
-            title={t(`form.content.table.column-add`)}
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'column-add')}>
+          <TableIconButton operation={'column-add'} onClick={handleOnClick}>
             <Plus />
-          </StyledIconButton>
-          <StyledIconButton
-            type="button"
-            data-cy={'column-remove'}
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'column-remove')}
-            title={t(`form.content.table.column-remove`)}>
+          </TableIconButton>
+          <TableIconButton operation={'column-remove'} onClick={handleOnClick}>
             <Minus />
-          </StyledIconButton>
-          <StyledIconButton
-            type="button"
-            data-cy={'column-left'}
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'column-left')}
-            title={t(`form.content.table.column-left`)}>
+          </TableIconButton>
+          <TableIconButton operation={'column-left'} onClick={handleOnClick}>
             <AlignLeft />
-          </StyledIconButton>
-          <StyledIconButton
-            type="button"
-            data-cy={'column-center'}
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'column-center')}
-            title={t(`form.content.table.column-center`)}>
+          </TableIconButton>
+          <TableIconButton operation={'column-center'} onClick={handleOnClick}>
             <AlignCenter />
-          </StyledIconButton>
-          <StyledIconButton
-            type="button"
-            data-cy={'column-right'}
-            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'column-right')}
-            title={t(`form.content.table.column-right`)}>
+          </TableIconButton>
+          <TableIconButton operation={'column-right'} onClick={handleOnClick}>
             <AlignRight />
-          </StyledIconButton>
+          </TableIconButton>
         </ActionGroup>
         <ActionGroup>
           <StyledButton

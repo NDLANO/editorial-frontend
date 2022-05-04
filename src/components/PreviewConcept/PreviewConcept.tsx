@@ -8,7 +8,8 @@
 
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { spacing, fonts, misc } from '@ndla/core';
+import { css } from '@emotion/core';
+import { spacing, fonts, misc, colors } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import {
   NotionDialogContent,
@@ -18,13 +19,16 @@ import {
   NotionDialogTags,
 } from '@ndla/notion';
 import { ImageLink } from '@ndla/ui';
+import { getLicenseByAbbreviation, LicenseByline } from '@ndla/licenses';
 import { Remarkable } from 'remarkable';
 import { IConcept } from '@ndla/types-concept-api';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { getSrcSets } from '../../util/imageEditorUtil';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchSubject } from '../../modules/taxonomy/subjects';
 import { Embed } from '../../interfaces';
 import { useTaxonomyVersion } from '../../containers/StructureVersion/TaxonomyVersionProvider';
+import { fetchImage } from '../../modules/image/imageApi';
 
 const StyledBody = styled.div`
   margin: 0 ${spacing.normal} ${spacing.small};
@@ -59,11 +63,47 @@ const TagWrapper = styled.div`
     }
   }
 `;
+const LicensesWrapper = styled.div`
+  border-top: 1px solid ${colors.brand.tertiary};
+  padding-top: ${spacing.small};
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  position: aboslute;
+  left: ${spacing.xsmall};
+  width: 100%;
+  > span {
+    margin-right: ${spacing.xsmall};
+    color: ${colors.text.light};
+    ${fonts.sizes('14px', 1.1)};
+    padding-bottom: ${spacing.xsmall};
+    font-family: ${fonts.serif};
+    padding-bottom: 3px;
+    padding-top: 3px;
+    margin-top: -4px;
+    &:not(:last-child) {
+      padding-right: ${spacing.xsmall};
+      border-right: 1px solid ${colors.brand.greyLight};
+    }
+  }
+`;
 
 const VisualElementWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const StyledAltSpan = styled.span`
+  color: grey;
+  font-style: italic;
+`;
+
+const StyledVisualElementImageInfo = styled.div`
+  padding-top: ${spacing.small};
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 `;
 
 interface Props {
@@ -72,9 +112,10 @@ interface Props {
 }
 
 const PreviewConcept = ({ concept, visualElement }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
+  const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
   const markdown = new Remarkable({ breaks: true });
   markdown.inline.ruler.enable(['sub', 'sup']);
 
@@ -88,14 +129,40 @@ const PreviewConcept = ({ concept, visualElement }: Props) => {
     getSubjects();
   }, [concept, taxonomyVersion]);
 
+  useEffect(() => {
+    if (visualElement?.resource !== 'image') return;
+    (async () => {
+      await fetchImage(visualElement.resource_id).then(setImage);
+    })();
+  }, [visualElement]);
+
   const VisualElement = () => {
     switch (visualElement?.resource) {
       case 'image':
         const srcSet = getSrcSets(visualElement.resource_id, visualElement);
+        const license = getLicenseByAbbreviation(
+          image?.copyright.license.license ?? '',
+          i18n.language,
+        );
+        const authors = image?.copyright?.creators || image?.copyright?.rightsholders || [];
         return (
-          <ImageLink src={visualElement.url!}>
-            <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />{' '}
-          </ImageLink>
+          <StyledVisualElementImageInfo>
+            <ImageLink src={visualElement.url!}>
+              <img alt={visualElement?.alt} src={visualElement?.url} srcSet={srcSet} />{' '}
+            </ImageLink>
+            {visualElement?.alt && <StyledAltSpan>{`Alt: ${visualElement.alt}`}</StyledAltSpan>}
+            <LicensesWrapper
+              css={css`
+                border-top: 0;
+                padding-bottom: 12px;
+                border-bottom: 1px solid ${colors.brand.greyLight};
+              `}>
+              <LicenseByline licenseRights={license.rights} />
+              {authors.map((author, i) => (
+                <span key={`author-${i}`}>{author.name}</span>
+              ))}
+            </LicensesWrapper>
+          </StyledVisualElementImageInfo>
         );
       case 'video':
       case 'brightcove':

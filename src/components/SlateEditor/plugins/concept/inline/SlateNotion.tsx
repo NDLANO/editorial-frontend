@@ -8,9 +8,9 @@ import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { AlertCircle, Check } from '@ndla/icons/lib/editor';
-import SlateConceptPreview from '../SlateConceptPreview';
 import { Portal } from '../../../../Portal';
 import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
+import InlineConceptPreview from './InlineConceptPreview';
 
 const StyledCheckIcon = styled(Check)`
   margin-left: 10px;
@@ -110,7 +110,7 @@ const SlateNotion = ({ children, attributes, id, concept, handleRemove }: Props)
               </div>
             }>
             {concept && (
-              <SlateConceptPreview concept={concept} handleRemove={handleRemove} id={concept.id} />
+              <InlineConceptPreview concept={concept} handleRemove={handleRemove} id={concept.id} />
             )}
           </NotionDialog>
         </Portal>

@@ -25,6 +25,7 @@ const phrases = {
     podcastUploaderPage: `Podkastepisode ${titleTemplate}`,
     podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
     nodeDiffPage: `Samanlikne nodar ${titleTemplate}`,
     search: {
       'podcast-series': `Søk podkastserier ${titleTemplate}`,
@@ -172,6 +173,7 @@ const phrases = {
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
     taxonomyVersions: 'Taksonomiversjonar',
+    publishRequests: 'Publiseringsforespørjingar',
     searchContent: 'Søk innhald',
     searchAudio: 'Søk lyd',
     searchPodcastSeries: 'Søk serie',
@@ -1280,6 +1282,9 @@ const phrases = {
     missingResourceType: 'Mangler ressurstype',
     metadata: {
       customFields: {
+        cancelPublishRequest: 'Avlys publiseringsforespørsel',
+        requestPublish: 'Be om publisering',
+        requestVersionError: 'Publiseringsforespørjingar kan bare opprettes fra standardversjonen',
         alterFields: 'Legg til/endra metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
@@ -1397,6 +1402,19 @@ const phrases = {
       },
     },
   },
+  publishRequests: {
+    title: 'Publiseringsforespørsler',
+    nodePublished: 'Noden har blitt publisert!',
+    showInStructure: 'Vis i struktur',
+    compare: 'Samanlikn',
+    publishNode: 'Publiser node',
+    publishWarning:
+      'Er du sikker på at du ønskjar å publisere denne noden? Alle endringar vil umiddelbart bli tilgjengelege i målversjonen',
+    errors: {
+      noPublishedVersion: 'Klarte ikkje finne publisert versjon',
+      publishError: 'En feil oppsto under publisering av noden',
+    },
+  },
   diff: {
     equalNodes: 'Disse nodene er like!',
     defaultVersion: 'Standardsversjon',
@@ -1486,6 +1504,23 @@ const phrases = {
         title: 'Gruppering av ressurser',
         isOn: 'Gruppert',
         isOff: 'Ugruppert',
+      },
+      requestPublish: {
+        title: 'Forespurt publisering',
+        true: 'Ja',
+        false: 'Nei',
+      },
+      language: {
+        title: 'Visningsspråk',
+      },
+      subjectCategory: {
+        title: 'Fagkategori',
+      },
+      explanationSubject: {
+        title: 'Forklaringsfag',
+      },
+      oldSubjectId: {
+        title: 'Gammal fag-ID',
       },
       supportedLanguages: {
         title: 'Støtta språk',

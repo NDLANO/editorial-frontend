@@ -7,6 +7,7 @@
  */
 
 import { useState } from 'react';
+import config from '../../../config';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 import { EditMode } from '../../../interfaces';
 import { NodeType, SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
@@ -15,6 +16,7 @@ import { useSession } from '../../Session/SessionProvider';
 import DeleteNode from './sharedMenuOptions/DeleteNode';
 import EditCustomFields from './sharedMenuOptions/EditCustomFields';
 import EditGrepCodes from './sharedMenuOptions/EditGrepCodes';
+import RequestNodePublish from './sharedMenuOptions/RequestNodePublish';
 import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
 import ToNodeDiff from './sharedMenuOptions/ToNodeDiff';
 import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
@@ -72,7 +74,16 @@ const SettingsMenuDropdownType = ({
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
         <EditSubjectpageOption node={node} />
-        <ToNodeDiff node={node} />
+        {config.versioningEnabled && (
+          <>
+            <RequestNodePublish
+              node={node}
+              editModeHandler={editModeHandler}
+              rootNodeId={rootNodeId}
+            />
+            <ToNodeDiff node={node} />
+          </>
+        )}
         <DeleteNode
           node={node}
           nodeChildren={nodeChildren}
@@ -101,7 +112,16 @@ const SettingsMenuDropdownType = ({
         /> */}
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
-        <ToNodeDiff node={node} />
+        {config.versioningEnabled && (
+          <>
+            <RequestNodePublish
+              node={node}
+              editModeHandler={editModeHandler}
+              rootNodeId={rootNodeId}
+            />
+            <ToNodeDiff node={node} />
+          </>
+        )}
         <DeleteNode
           node={node}
           nodeChildren={nodeChildren}

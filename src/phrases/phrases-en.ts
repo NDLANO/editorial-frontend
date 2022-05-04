@@ -25,6 +25,7 @@ const phrases = {
     podcastUploaderPage: `Podcast episode ${titleTemplate}`,
     podcastSeriesPage: `Podcast series ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    publishRequestsPage: `Publish Requests ${titleTemplate}`,
     nodeDiffPage: `Compare Nodes ${titleTemplate}`,
     search: {
       'podcast-series': `Search podcast series ${titleTemplate}`,
@@ -171,6 +172,7 @@ const phrases = {
     agreement: 'New Agreement',
     structure: 'Structure',
     taxonomyVersions: 'Taxonomy Versions',
+    publishRequests: 'Publish Requests',
     searchContent: 'Search content',
     searchAudio: 'Search audio',
     searchPodcastSeries: 'Search series',
@@ -1278,6 +1280,9 @@ const phrases = {
     missingResourceType: 'Missing resource type',
     metadata: {
       customFields: {
+        cancelPublishRequest: 'Cancel publish request',
+        requestPublish: 'Request publish',
+        requestVersionError: 'Publish requests can only be made from the default version',
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
@@ -1395,6 +1400,19 @@ const phrases = {
       },
     },
   },
+  publishRequests: {
+    title: 'Publish Requests',
+    nodePublished: 'The node has been published!',
+    showInStructure: 'Show in structure',
+    compare: 'Compare',
+    publishNode: 'Publish node',
+    publishWarning:
+      'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
+    errors: {
+      noPublishedVersion: 'Failed to find a published version',
+      publishError: 'Failed to publish node',
+    },
+  },
   diff: {
     equalNodes: 'These nodes are equal!',
     defaultVersion: 'Default version',
@@ -1484,6 +1502,23 @@ const phrases = {
         title: 'Resource Grouping',
         isOn: 'Grouped',
         isOff: 'Ungrouped',
+      },
+      requestPublish: {
+        title: 'Publish requested',
+        true: 'Yes',
+        false: 'No',
+      },
+      language: {
+        title: 'Display language',
+      },
+      subjectCategory: {
+        title: 'Subject category',
+      },
+      explanationSubject: {
+        title: 'Explanation Subject',
+      },
+      oldSubjectId: {
+        title: 'Old Subject ID',
       },
       supportedLanguages: {
         title: 'Supported Languages',

@@ -89,10 +89,17 @@ const OpenMenu = ({ close }: Props) => {
                 </span>
               </StyledLink>
             )}
-            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && (
+            {userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && config.versioningEnabled && (
               <StyledLink to="/taxonomyVersions" onClick={close}>
                 <span>
                   <Taxonomy /> {t('subNavigation.taxonomyVersions')}
+                </span>
+              </StyledLink>
+            )}
+            {config.versioningEnabled && (
+              <StyledLink to="publishRequests" onClick={close}>
+                <span>
+                  <Taxonomy /> {t('subNavigation.publishRequests')}
                 </span>
               </StyledLink>
             )}

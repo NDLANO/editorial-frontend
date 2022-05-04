@@ -37,6 +37,7 @@ export type EditMode =
   | 'addExistingTopic'
   | 'addTopic'
   | 'deleteSubject'
+  | 'requestPublish'
   | 'deleteNode'
   | '';
 

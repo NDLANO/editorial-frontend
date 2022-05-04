@@ -84,7 +84,7 @@ jobs:
           mkdir -p ~/.kube
       - name: 'Install aws-iam-authenticator'
         run: |
-          sudo curl -L https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/linux/amd64/aws-iam-authenticator > aws-iam-authenticator
+          sudo curl -L https://s3.us-west-2.amazonaws.com/amazon-eks/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator > aws-iam-authenticator
           sudo mv aws-iam-authenticator /home/runner/bin/aws-iam-authenticator
           sudo chmod +x /home/runner/bin/aws-iam-authenticator
       - name: 'Install helm /w push-plugin'

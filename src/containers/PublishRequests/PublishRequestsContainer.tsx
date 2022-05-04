@@ -17,6 +17,7 @@ import { NODES } from '../../queryKeys';
 import { toNodeDiff, toStructureBeta } from '../../util/routeHelpers';
 import Footer from '../App/components/Footer';
 import { useSession } from '../Session/SessionProvider';
+import NodeIconType from '../../components/NodeIconType';
 
 const ErrorMessage = styled.p`
   color: ${colors.support.red};
@@ -43,6 +44,13 @@ const StyledRequestList = styled.div`
   padding-top: ${spacing.small};
   flex-direction: column;
   gap: ${spacing.small};
+`;
+
+const StyledTitleRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${spacing.xxsmall};
+  align-items: center;
 `;
 
 const PublishRequestsContainer = () => {
@@ -128,7 +136,10 @@ const PublishRequestsContainer = () => {
         <StyledRequestList>
           {nodesQuery.data?.map((node, i) => (
             <StyledNodeContainer key={`node-request-${i}`}>
-              {node.name}
+              <StyledTitleRow>
+                <NodeIconType node={node} />
+                {node.name}
+              </StyledTitleRow>
               <StyledButtonRow>
                 <Button onClick={() => onShowInStructure(node)}>
                   {t('publishRequests.showInStructure')}

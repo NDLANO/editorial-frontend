@@ -6,12 +6,8 @@
  *
  */
 
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
-import { MenuBook } from '@ndla/icons/lib/action';
-import { Subject } from '@ndla/icons/lib/contentType';
-import Tooltip from '@ndla/tooltip';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -19,7 +15,6 @@ import {
   NodeType,
   ResourceWithNodeConnection,
 } from '../../modules/nodes/nodeApiTypes';
-import { getNodeTypeFromNodeId } from '../../modules/nodes/nodeUtil';
 import ArrayDiffField from './ArrayDiffField';
 import { diffField, DiffType, DiffTypeWithChildren, removeType } from './diffUtils';
 import { DiffTypePill } from './TreeNode';
@@ -32,6 +27,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
 } from '../../constants';
+import NodeIconType from '../../components/NodeIconType';
 
 interface Props {
   node: DiffType<NodeType> | DiffTypeWithChildren;
@@ -62,12 +58,6 @@ const NodeInfoContainer = styled.div`
   flex-direction: row;
 `;
 
-const iconCSS = css`
-  height: 31px;
-  width: 31px;
-  color: ${colors.brand.primary};
-`;
-
 const SummaryContent = styled.div`
   display: inline-flex;
   justify-content: space-between;
@@ -89,23 +79,6 @@ const isChildNode = (
   node: Partial<DiffType<NodeType | ChildNodeType>>,
 ): node is DiffTypeWithChildren => 'parent' in node;
 
-interface NodeIconProps {
-  node: DiffType<NodeType>;
-}
-
-const NodeIcon = ({ node }: NodeIconProps) => {
-  const { t } = useTranslation();
-  const nodeType = getNodeTypeFromNodeId(node.id.other ?? node.id.original!);
-
-  const Icon = nodeType === 'SUBJECT' ? MenuBook : Subject;
-
-  return (
-    <Tooltip tooltip={t(`diff.nodeTypeTooltips.${nodeType}`)}>
-      <Icon css={iconCSS} />
-    </Tooltip>
-  );
-};
-
 const NodeDiff = ({ node, isRoot }: Props) => {
   const [params] = useSearchParams();
   const { t } = useTranslation();
@@ -121,7 +94,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
     <DiffContainer>
       <NodeInfoContainer>
         {isRoot && <RootNodePill>{t('diff.isRoot')}</RootNodePill>}
-        <NodeIcon node={node} />
+        <NodeIconType node={node} />
       </NodeInfoContainer>
       <FieldDiff fieldName="name" result={node.name} toDisplayValue={v => v} />
       {filteredNode.id && (

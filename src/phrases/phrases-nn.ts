@@ -851,6 +851,7 @@ const phrases = {
         'column-remove': 'Fjern kolonne',
         'table-remove': 'Fjern tabell',
         colgroups: 'Colgroups',
+        'edit-colgroups': 'Rediger colgroups',
         'enable-header': 'Aktiver header-kolonne',
         'disable-header': 'Deaktiver header-kolonne',
         addHeader: 'Legg til header-rad',

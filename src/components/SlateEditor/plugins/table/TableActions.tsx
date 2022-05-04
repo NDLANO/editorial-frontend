@@ -177,6 +177,7 @@ const TableActions = ({ editor, element }: Props) => {
             <StyledButton
               data-cy={'edit-colgroups'}
               stripped
+              title={t('form.content.table.edit-colgroups')}
               onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
                 handleOnClick(e, 'edit-colgroups')
               }>
@@ -200,6 +201,7 @@ const TableActions = ({ editor, element }: Props) => {
             <StyledButton
               data-cy={'head-add'}
               stripped
+              title={t(`form.content.table.addHeader`)}
               onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}>
               {t(`form.content.table.addHeader`)}
             </StyledButton>

@@ -7,6 +7,7 @@
  */
 
 import { useState } from 'react';
+import config from '../../../config';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 import { EditMode } from '../../../interfaces';
 import { NodeType, SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
@@ -73,8 +74,16 @@ const SettingsMenuDropdownType = ({
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
         <EditSubjectpageOption node={node} />
-        <RequestNodePublish node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        <ToNodeDiff node={node} />
+        {config.versioningEnabled && (
+          <>
+            <RequestNodePublish
+              node={node}
+              editModeHandler={editModeHandler}
+              rootNodeId={rootNodeId}
+            />
+            <ToNodeDiff node={node} />
+          </>
+        )}
         <DeleteNode
           node={node}
           nodeChildren={nodeChildren}
@@ -103,8 +112,16 @@ const SettingsMenuDropdownType = ({
         /> */}
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
-        <RequestNodePublish node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
-        <ToNodeDiff node={node} />
+        {config.versioningEnabled && (
+          <>
+            <RequestNodePublish
+              node={node}
+              editModeHandler={editModeHandler}
+              rootNodeId={rootNodeId}
+            />
+            <ToNodeDiff node={node} />
+          </>
+        )}
         <DeleteNode
           node={node}
           nodeChildren={nodeChildren}

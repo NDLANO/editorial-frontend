@@ -11,7 +11,6 @@ import styled from '@emotion/styled';
 import { Editor, Path, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import { colors, fonts } from '@ndla/core';
 import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/lib/editor';
 import Button from '@ndla/button';
@@ -33,8 +32,6 @@ import getCurrentBlock from '../../utils/getCurrentBlock';
 import { TYPE_TABLE_CAPTION } from './types';
 import { useSession } from '../../../../containers/Session/SessionProvider';
 import { DRAFT_HTML_SCOPE } from '../../../../constants';
-
-const tableActionButtonStyle = css``;
 
 const StyledButton = styled(Button)`
   display: flex;
@@ -201,11 +198,9 @@ const TableActions = ({ editor, element }: Props) => {
         <ActionGroup css={rightAlign}>
           {showAddHeader && (
             <StyledButton
-              key={'head-add'}
               data-cy={'head-add'}
               stripped
-              onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}
-              css={tableActionButtonStyle}>
+              onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}>
               {t(`form.content.table.addHeader`)}
             </StyledButton>
           )}

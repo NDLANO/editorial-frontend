@@ -11,7 +11,7 @@ import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
-import BEMHelper from 'react-bem-helper';
+import styled from '@emotion/styled';
 import SettingsMenu from './SettingsMenu';
 
 import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
@@ -26,10 +26,11 @@ import Spinner from '../../../components/Spinner';
 import { Row } from '../../../components';
 import { useSession } from '../../Session/SessionProvider';
 
-export const classes = new BEMHelper({
-  name: 'folder',
-  prefix: 'c-',
-});
+const StyledFolderWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  z-index: 2;
+`;
 
 const resourceButtonStyle = css`
   margin: 3px ${spacing.xsmall} 3px auto;
@@ -84,7 +85,7 @@ const FolderItem = ({
   const [showAlertModal, setShowAlertModal] = useState(false);
 
   return (
-    <div data-cy="folderWrapper" {...classes('wrapper')}>
+    <StyledFolderWrapper data-cy="folderWrapper">
       {isMainActive && (
         <SettingsMenu
           id={id}
@@ -133,7 +134,7 @@ const FolderItem = ({
           setShowAlertModal(false);
         }}
       />
-    </div>
+    </StyledFolderWrapper>
   );
 };
 

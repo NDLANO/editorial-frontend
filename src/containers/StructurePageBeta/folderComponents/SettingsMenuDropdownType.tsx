@@ -112,7 +112,7 @@ const SettingsMenuDropdownType = ({
         /> */}
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
-        {config.versioningEnabled && (
+        {config.versioningEnabled === 'true' && (
           <>
             <RequestNodePublish
               node={node}

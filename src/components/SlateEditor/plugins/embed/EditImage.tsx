@@ -16,7 +16,6 @@ import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
 import { ImageEmbed } from '../../../../interfaces';
-import { placeholder } from 'lodash/fp';
 
 const editorContentCSS = css`
   box-shadow: ${shadows.levitate1};

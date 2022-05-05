@@ -14,7 +14,6 @@ import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 //@ts-ignore
 import { parseMarkdown } from '@ndla/util';
-import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';

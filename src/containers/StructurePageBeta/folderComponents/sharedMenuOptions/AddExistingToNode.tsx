@@ -12,19 +12,19 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
-import RoundIcon from '../../../../components/RoundIcon';
-import { EditModeHandler } from '../SettingsMenuDropdownType';
-import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
-import NodeSearchDropdown from './NodeSearchDropdown';
-import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
-import { fetchConnectionsForNode } from '../../../../modules/nodes/nodeApi';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
   useDeleteNodeConnectionMutation,
   usePostNodeConnectionMutation,
 } from '../../../../modules/nodes/nodeMutations';
+import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
+import { fetchConnectionsForNode } from '../../../../modules/nodes/nodeApi';
 import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
+import RoundIcon from '../../../../components/RoundIcon';
 import { StyledErrorMessage } from '../styles';
+import MenuItemButton from './components/MenuItemButton';
+import NodeSearchDropdown from './components/NodeSearchDropdown';
+import { EditModeHandler } from '../SettingsMenuDropdownType';
 
 interface Props {
   editModeHandler: EditModeHandler;

@@ -12,10 +12,10 @@ import { useState } from 'react';
 import { Input, DropdownMenu } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import { Search } from '@ndla/icons/common';
-import { NodeType, NodeTypeValue } from '../../../../modules/nodes/nodeApiTypes';
-import { useSearchNodes } from '../../../../modules/nodes/nodeQueries';
-import useDebounce from '../../../../util/useDebounce';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { NodeType, NodeTypeValue } from '../../../../../modules/nodes/nodeApiTypes';
+import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';
+import useDebounce from '../../../../../util/useDebounce';
+import { useSearchNodes } from '../../../../../modules/nodes/nodeQueries';
 
 const DropdownWrapper = styled.div`
   position: relative;

@@ -19,7 +19,7 @@ import EditGrepCodes from './sharedMenuOptions/EditGrepCodes';
 import RequestNodePublish from './sharedMenuOptions/RequestNodePublish';
 import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
 import ToNodeDiff from './sharedMenuOptions/ToNodeDiff';
-import AddExistingToNode from './subjectMenuOptions/AddExistingToNode';
+import AddExistingToNode from './sharedMenuOptions/AddExistingToNode';
 import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
 import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
 

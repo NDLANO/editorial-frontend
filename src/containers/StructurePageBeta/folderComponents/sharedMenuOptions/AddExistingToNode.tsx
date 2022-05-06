@@ -82,7 +82,7 @@ const AddExistingToNode = ({
       <Wrapper>
         <RoundIcon open small smallIcon icon={<Plus />} />
         <NodeSearchDropdown
-          placeholder="Eksisterende emne"
+          placeholder={t('taxonomy.existingTopic')}
           onChange={handleSubmit}
           searchNodeType={'TOPIC'}
           filter={node => {

@@ -6,8 +6,7 @@ import RoundIcon from '../../../../components/RoundIcon';
 import { TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH } from '../../../../constants';
 import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { useUpdateNodeMetadataMutation } from '../../../../modules/nodes/nodeMutations';
-import MenuItemButton from '../../../StructurePage/folderComponents/menuOptions/MenuItemButton';
-import {} from '../../../StructurePage/folderComponents/styles';
+import MenuItemButton from './components/MenuItemButton';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
 

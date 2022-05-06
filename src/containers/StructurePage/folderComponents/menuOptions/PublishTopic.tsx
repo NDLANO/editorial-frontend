@@ -26,7 +26,7 @@ import {
 import { fetchTopic, fetchTopicResources } from '../../../../modules/taxonomy';
 import { PUBLISHED } from '../../../../util/constants/ArticleStatus';
 import handleError from '../../../../util/handleError';
-import ResourceItemLink from '../../resourceComponents/ResourceItemLink';
+import ResourceItemLink from '../../../../components/Taxonomy/ResourceItemLink';
 import { Resource, Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 

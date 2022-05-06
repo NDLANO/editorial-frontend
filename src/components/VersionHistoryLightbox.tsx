@@ -16,7 +16,7 @@ import { IEditorNote } from '@ndla/types-draft-api';
 
 import Lightbox from './Lightbox';
 import Spinner from './Spinner';
-import ResourceItemLink from '../containers/StructurePage/resourceComponents/ResourceItemLink';
+import ResourceItemLink from './Taxonomy/ResourceItemLink';
 import { fetchDraftHistory } from '../modules/draft/draftApi';
 import { fetchAuth0Users } from '../modules/auth0/auth0Api';
 import formatDate from '../util/formatDate';

@@ -22,10 +22,10 @@ import IconButton from '../../../components/IconButton';
 import VersionForm from './VersionForm';
 import { useDeleteVersionMutation } from '../../../modules/taxonomy/versions/versionMutations';
 import AlertModal from '../../../components/AlertModal';
-import { StyledErrorMessage } from '../../StructurePage/folderComponents/styles';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import config from '../../../config';
 import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
+import { StyledErrorMessage } from './StyledErrorMessage';
 
 interface Props {
   version: VersionType;

@@ -167,7 +167,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   };
 
   const resourceMetaQuery = useQuery<ResourceMeta>(
-    [RESOURCE_META, resource.id],
+    [RESOURCE_META, { id: resource.id }],
     () => getArticleMeta(resource),
     { retry: false, initialData: {} },
   );

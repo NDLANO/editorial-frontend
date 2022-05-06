@@ -1226,6 +1226,7 @@ const phrases = {
     publish: {
       button: 'Publish all',
       waiting: 'Publishing resourses',
+      info: 'Are you sure you want to publish all resources associated with this node?',
       done: 'Resources published',
       error: 'The following resources were not published:',
     },

@@ -21,6 +21,7 @@ import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
 import ToNodeDiff from './sharedMenuOptions/ToNodeDiff';
 import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
 import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
+import PublishChildNodeResources from './topicMenuOptions/PublishChildNodeResources';
 
 interface Props {
   rootNodeId: string;
@@ -95,7 +96,7 @@ const SettingsMenuDropdownType = ({
   } else if (nodeType === TOPIC_NODE) {
     return (
       <>
-        {/* <PublishChildNode node={node} /> */}
+        <PublishChildNodeResources node={node} />
         <EditCustomFields
           toggleEditMode={toggleEditMode}
           editMode={editMode}

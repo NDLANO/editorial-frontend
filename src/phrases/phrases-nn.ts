@@ -1227,6 +1227,8 @@ const phrases = {
     publish: {
       button: 'Publiser alt',
       waiting: 'Publiserar ressurser',
+      info:
+        'Er du sikker på at du ønskjar å publisere alle ressursane som er knytta til denne noden?',
       done: 'Ressurser er publisert',
       error: 'Følgande ressurser blei ikkje publisert:',
     },

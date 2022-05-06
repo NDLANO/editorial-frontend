@@ -27,10 +27,13 @@ export const ThemeMovies = ({ movies, onMoviesUpdated, placeholder }: Props) => 
   const { t } = useTranslation();
   const [localMovies, setLocalMovies] = useState<string[]>([]);
   const [apiMovies, setApiMovies] = useState<IMultiSearchSummary[]>([]);
-  const moviesQuery = useMoviesQuery(movies, {
-    enabled: !isEqual(movies, localMovies),
-    onSuccess: movies => setApiMovies(movies.results),
-  });
+  const moviesQuery = useMoviesQuery(
+    { movieUrns: movies },
+    {
+      enabled: !isEqual(movies, localMovies),
+      onSuccess: movies => setApiMovies(movies.results),
+    },
+  );
 
   const onUpdateMovies = (updates: IMultiSearchSummary[]) => {
     const updated = updates.map(u => getUrnFromId(u.id));

@@ -13,16 +13,19 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import Tooltip from '@ndla/tooltip';
+import SafeLink from '@ndla/safelink';
 import { DeleteForever, Keyhole } from '@ndla/icons/editor';
 import { Pencil } from '@ndla/icons/action';
+import { Launch } from '@ndla/icons/common';
 import { VersionStatusType, VersionType } from '../../../modules/taxonomy/versions/versionApiTypes';
 import IconButton from '../../../components/IconButton';
 import VersionForm from './VersionForm';
 import { useDeleteVersionMutation } from '../../../modules/taxonomy/versions/versionMutations';
-import { VERSIONS } from '../../../queryKeys';
 import AlertModal from '../../../components/AlertModal';
 import { StyledErrorMessage } from '../../StructurePage/folderComponents/styles';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import config from '../../../config';
+import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
 
 interface Props {
   version: VersionType;
@@ -79,6 +82,20 @@ const ContentBlock = styled.div`
   align-items: center;
 `;
 
+const StyledLink = styled(SafeLink)`
+  box-shadow: inset 0 0;
+`;
+
+const linkIconCss = css`
+  height: 24px;
+  width: 100%;
+  color: ${colors.brand.tertiary};
+  margin-right: ${spacing.xsmall};
+  &:hover {
+    color: ${colors.brand.primary};
+  }
+`;
+
 const iconCss = css`
   margin-left: ${spacing.xxsmall};
   height: 30px;
@@ -93,16 +110,17 @@ const Version = ({ version }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
   const qc = useQueryClient();
+  const key = versionsQueryKey({ taxonomyVersion: 'default' });
 
   const deleteVersionMutation = useDeleteVersionMutation({
     onMutate: async ({ id }) => {
       setError(undefined);
-      await qc.cancelQueries([VERSIONS]);
-      const existingVersions = qc.getQueryData<VersionType[]>([VERSIONS]) ?? [];
+      await qc.cancelQueries(key);
+      const existingVersions = qc.getQueryData<VersionType[]>(key) ?? [];
       const withoutDeleted = existingVersions.filter(version => version.id !== id);
-      qc.setQueryData<VersionType[]>([VERSIONS], withoutDeleted);
+      qc.setQueryData<VersionType[]>(key, withoutDeleted);
     },
-    onSuccess: () => qc.invalidateQueries([VERSIONS]),
+    onSuccess: () => qc.invalidateQueries(key),
     onError: () => setError(t('taxonomyVersions.deleteError')),
   });
 
@@ -115,6 +133,8 @@ const Version = ({ version }: Props) => {
     : version.versionType === 'PUBLISHED'
     ? t('taxonomyVersions.deletePublished')
     : t('taxonomyVersions.delete');
+
+  const ndlaUrl = `${config.ndlaFrontendDomain}?versionHash=${version.hash}`;
 
   const deleteDisabled = version.locked || version.versionType === 'PUBLISHED';
   return (
@@ -133,6 +153,11 @@ const Version = ({ version }: Props) => {
             <StatusWrapper color={statusColorMap[version.versionType]}>
               <StyledText>{t(`taxonomyVersions.status.${version.versionType}`)}</StyledText>
             </StatusWrapper>
+            <Tooltip tooltip={t('taxonomyVersions.previewVersion')}>
+              <StyledLink target={'_blank'} to={ndlaUrl}>
+                <Launch css={linkIconCss} />
+              </StyledLink>
+            </Tooltip>
             <Tooltip tooltip={t('taxonomyVersions.editVersionTooltip')}>
               <IconButton onClick={() => setIsEditing(prev => !prev)}>
                 <Pencil />

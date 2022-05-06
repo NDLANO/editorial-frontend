@@ -74,15 +74,15 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
 
   useEffect(() => {
     const bodyRect = document.body.getBoundingClientRect();
-    // Use contenteditable as reference to fetch embed size when previewing.
+
+    const editorRect = placeholderElement.closest('.c-editor').getBoundingClientRect();
+
     const placeholderRect = placeholderElement.closest('div.c-figure').getBoundingClientRect();
 
     embedElement.style.position = 'absolute';
     embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;
-    embedElement.style.left = `${placeholderRect.left +
-      spacingUnit -
-      placeholderRect.width * (0.333 / 2)}px`;
-    embedElement.style.width = `${placeholderRect.width * 1.333 - spacingUnit * 2}px`;
+    embedElement.style.left = `${editorRect.left + spacingUnit - editorRect.width * (0.333 / 2)}px`;
+    embedElement.style.width = `${editorRect.width * 1.333 - spacingUnit * 2}px`;
   }, [embedElement, placeholderElement]);
 
   const onUpdatedImageSettings = (transformedData: NonNullable<StateProps['imageUpdates']>) => {

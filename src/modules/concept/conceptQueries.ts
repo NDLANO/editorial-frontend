@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from 'query-string';
 import { useQuery, UseQueryOptions } from 'react-query';
 import { IConcept, IConceptSearchResult } from '@ndla/types-concept-api';
 import { CONCEPT, CONCEPT_STATE_MACHINE, SEARCH_CONCEPTS } from '../../queryKeys';
@@ -14,28 +13,40 @@ import { fetchConcept, fetchStatusStateMachine, searchConcepts } from './concept
 import { ConceptQuery } from './conceptApiInterfaces';
 import { ConceptStatusStateMachineType } from '../../interfaces';
 
-export const useConcept = (
-  id: string | number,
-  language?: string,
-  options?: UseQueryOptions<IConcept>,
-) => {
-  return useQuery<IConcept>([CONCEPT, id, language], () => fetchConcept(id, language), options);
+export interface UseConcept {
+  id: number;
+  language?: string;
+}
+
+export const conceptQueryKey = (params?: Partial<UseConcept>) => [CONCEPT, params];
+
+export const useConcept = (params: UseConcept, options?: UseQueryOptions<IConcept>) => {
+  return useQuery<IConcept>(
+    conceptQueryKey(params),
+    () => fetchConcept(params.id, params.language),
+    options,
+  );
 };
+
+export const searchConceptsQueryKey = (params?: Partial<ConceptQuery>) => [SEARCH_CONCEPTS, params];
+
 export const useSearchConcepts = (
   query: ConceptQuery,
   options?: UseQueryOptions<IConceptSearchResult>,
 ) =>
   useQuery<IConceptSearchResult>(
-    [SEARCH_CONCEPTS, queryString.stringify(query)],
+    searchConceptsQueryKey(query),
     () => searchConcepts(query),
     options,
   );
+
+export const conceptStateMachineQueryKey = () => [CONCEPT_STATE_MACHINE];
 
 export const useConceptStateMachine = (
   options?: UseQueryOptions<ConceptStatusStateMachineType>,
 ) => {
   return useQuery<ConceptStatusStateMachineType>(
-    [CONCEPT_STATE_MACHINE],
+    conceptStateMachineQueryKey(),
     () => fetchStatusStateMachine(),
     options,
   );

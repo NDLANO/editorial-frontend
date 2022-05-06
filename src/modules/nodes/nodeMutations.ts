@@ -9,7 +9,6 @@
 import { useTranslation } from 'react-i18next';
 import { useMutation, UseMutationOptions, useQueryClient } from 'react-query';
 import { WithTaxonomyVersion } from '../../interfaces';
-import { CHILD_NODES_WITH_ARTICLE_TYPE, NODES } from '../../queryKeys';
 import handleError from '../../util/handleError';
 import { TaxonomyMetadata } from '../taxonomy/taxonomyApiInterfaces';
 import {
@@ -20,6 +19,7 @@ import {
   postNode,
   postNodeConnection,
   postResourceForNode,
+  publishNode,
   putNodeConnection,
   putNodeMetadata,
   putNodeTranslation,
@@ -34,6 +34,7 @@ import {
   NodeTranslationPutType,
   NodeType,
 } from './nodeApiTypes';
+import { childNodesWithArticleTypeQueryKey, nodesQueryKey } from './nodeQueries';
 
 interface UseAddNodeMutation extends WithTaxonomyVersion {
   body: NodePostPatchType;
@@ -44,21 +45,25 @@ export const useAddNodeMutation = () => {
   return useMutation<string, undefined, UseAddNodeMutation>(
     ({ body, taxonomyVersion }) => postNode({ body, taxonomyVersion }),
     {
-      onMutate: async ({ body: newNode }) => {
-        await queryClient.cancelQueries(NODES);
-        const previousNodes = queryClient.getQueryData<NodeType[]>(NODES) ?? [];
+      onMutate: async ({ body: newNode, taxonomyVersion }) => {
+        const key = nodesQueryKey({ taxonomyVersion, isRoot: true });
+        await queryClient.cancelQueries(key);
+        const previousNodes = queryClient.getQueryData<NodeType[]>(key) ?? [];
         const optimisticNode: NodeType = {
           ...newNode,
           contentUri: newNode.contentUri ?? '',
           id: newNode.id ?? '',
           path: '',
+          translations: [],
+          supportedLanguages: [],
           metadata: { visible: true, grepCodes: [], customFields: {} },
         };
-        queryClient.setQueryData<NodeType[]>(NODES, [...previousNodes, optimisticNode]);
+        queryClient.setQueryData<NodeType[]>(key, [...previousNodes, optimisticNode]);
         return previousNodes;
       },
       onError: e => handleError(e),
-      onSettled: () => queryClient.invalidateQueries(NODES),
+      onSettled: (_, __, { taxonomyVersion }) =>
+        queryClient.invalidateQueries(nodesQueryKey({ taxonomyVersion })),
     },
   );
 };
@@ -76,8 +81,14 @@ export const useUpdateNodeMetadataMutation = () => {
     ({ id, metadata, taxonomyVersion }) =>
       putNodeMetadata({ id: id, meta: metadata, taxonomyVersion }),
     {
-      onMutate: async ({ id, metadata, rootId }) => {
-        const key = rootId ? [CHILD_NODES_WITH_ARTICLE_TYPE, rootId, i18n.language] : NODES;
+      onMutate: async ({ id, metadata, rootId, taxonomyVersion }) => {
+        const key = rootId
+          ? childNodesWithArticleTypeQueryKey({
+              taxonomyVersion,
+              id: rootId,
+              language: i18n.language,
+            })
+          : nodesQueryKey({ isRoot: true, taxonomyVersion });
         await qc.cancelQueries(key);
         const prevNodes = qc.getQueryData<NodeType[]>(key) ?? [];
         const newNodes = prevNodes.map(node => {
@@ -87,8 +98,14 @@ export const useUpdateNodeMetadataMutation = () => {
         });
         qc.setQueryData<NodeType[]>(key, newNodes);
       },
-      onSettled: (_, __, { rootId }) => {
-        const key = rootId ? [CHILD_NODES_WITH_ARTICLE_TYPE, rootId, i18n.language] : NODES;
+      onSettled: (_, __, { rootId, taxonomyVersion }) => {
+        const key = rootId
+          ? childNodesWithArticleTypeQueryKey({
+              taxonomyVersion,
+              id: rootId,
+              language: i18n.language,
+            })
+          : nodesQueryKey({ taxonomyVersion, isRoot: true });
         qc.invalidateQueries(key);
       },
     },
@@ -97,20 +114,38 @@ export const useUpdateNodeMetadataMutation = () => {
 
 interface UseDeleteNodeMutation extends WithTaxonomyVersion {
   id: string;
+  rootId?: string;
 }
 
 export const useDeleteNodeMutation = () => {
   const qc = useQueryClient();
+  const { i18n } = useTranslation();
   return useMutation<void, unknown, UseDeleteNodeMutation>(
     ({ id, taxonomyVersion }) => deleteNode({ id, taxonomyVersion }),
     {
-      onMutate: async ({ id }) => {
-        await qc.cancelQueries(NODES);
-        const prevNodes = qc.getQueryData<NodeType[]>(NODES) ?? [];
+      onMutate: async ({ id, rootId, taxonomyVersion }) => {
+        const key = rootId
+          ? childNodesWithArticleTypeQueryKey({
+              taxonomyVersion,
+              id: rootId,
+              language: i18n.language,
+            })
+          : nodesQueryKey({ taxonomyVersion, isRoot: true });
+        await qc.cancelQueries(key);
+        const prevNodes = qc.getQueryData<NodeType[]>(key) ?? [];
         const withoutDeleted = prevNodes.filter(s => s.id !== id);
-        qc.setQueryData<NodeType[]>(NODES, withoutDeleted);
+        qc.setQueryData<NodeType[]>(key, withoutDeleted);
       },
-      onSettled: () => qc.invalidateQueries(NODES),
+      onSettled: (_, __, { rootId, taxonomyVersion }) => {
+        const key = rootId
+          ? childNodesWithArticleTypeQueryKey({
+              taxonomyVersion,
+              id: rootId,
+              language: i18n.language,
+            })
+          : nodesQueryKey({ taxonomyVersion, isRoot: true });
+        qc.invalidateQueries(key);
+      },
     },
   );
 };
@@ -214,6 +249,21 @@ export const usePutResourceForNodeMutation = (
 ) => {
   return useMutation<void, unknown, UsePutResourceForNodeMutation>(
     ({ id, body, taxonomyVersion }) => putResourceForNode({ id, body, taxonomyVersion }),
+    options,
+  );
+};
+
+interface UsePublishNodeMutation {
+  id: string;
+  targetId: string;
+  sourceId?: string;
+}
+
+export const usePublishNodeMutation = (
+  options?: UseMutationOptions<void, unknown, UsePublishNodeMutation>,
+) => {
+  return useMutation<void, unknown, UsePublishNodeMutation>(
+    ({ id, targetId, sourceId }) => publishNode({ id, targetId, sourceId }),
     options,
   );
 };

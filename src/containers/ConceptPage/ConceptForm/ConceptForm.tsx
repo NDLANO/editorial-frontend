@@ -61,6 +61,7 @@ interface Props {
   subjects: SubjectType[];
   initialTitle?: string;
   translateToNN?: () => void;
+  onUpserted?: (concept: IConcept) => void;
 }
 
 const conceptFormRules: RulesType<ConceptFormValues, IConcept> = {
@@ -124,6 +125,7 @@ const ConceptForm = ({
   upsertProps,
   conceptArticles,
   initialTitle,
+  onUpserted,
 }: Props) => {
   const [savedToServer, setSavedToServer] = useState(false);
   const [translateOnContinue, setTranslateOnContinue] = useState(false);
@@ -146,32 +148,32 @@ const ConceptForm = ({
     const newStatus = values.status?.current;
     const statusChange = initialStatus !== newStatus;
 
-    let savedArticle;
-
     try {
+      let savedConcept: IConcept;
       if ('onCreate' in upsertProps) {
-        savedArticle = await upsertProps.onCreate(getNewConceptType(values, licenses));
+        savedConcept = await upsertProps.onCreate(getNewConceptType(values, licenses));
       } else if (statusChange && concept?.id) {
         // if editor is not dirty, OR we are unpublishing, we don't save before changing status
         const formikDirty = isFormikFormDirty({ values, initialValues, dirty: true });
         const skipSaving = newStatus === articleStatuses.UNPUBLISHED || !formikDirty;
-        savedArticle = await upsertProps.updateConceptAndStatus(
+        savedConcept = await upsertProps.updateConceptAndStatus(
           concept.id,
           getUpdatedConceptType(values, licenses),
           newStatus!,
           !skipSaving,
         );
       } else {
-        savedArticle = await upsertProps.onUpdate(
+        savedConcept = await upsertProps.onUpdate(
           getUpdatedConceptType(values, licenses),
           revision!,
         );
       }
       formikHelpers.resetForm({
-        values: conceptApiTypeToFormType(savedArticle, language, subjects, conceptArticles),
+        values: conceptApiTypeToFormType(savedConcept, language, subjects, conceptArticles),
       });
       formikHelpers.setSubmitting(false);
       setSavedToServer(true);
+      onUpserted?.(savedConcept);
     } catch (err) {
       applicationError(err as MessageError);
       formikHelpers.setSubmitting(false);

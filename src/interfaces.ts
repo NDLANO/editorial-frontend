@@ -37,6 +37,8 @@ export type EditMode =
   | 'addExistingTopic'
   | 'addTopic'
   | 'deleteSubject'
+  | 'requestPublish'
+  | 'deleteNode'
   | '';
 
 export interface SearchResultBase<T> {

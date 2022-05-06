@@ -25,6 +25,8 @@ const phrases = {
     podcastUploaderPage: `Podcast episode ${titleTemplate}`,
     podcastSeriesPage: `Podcast series ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    publishRequestsPage: `Publish Requests ${titleTemplate}`,
+    nodeDiffPage: `Compare Nodes ${titleTemplate}`,
     search: {
       'podcast-series': `Search podcast series ${titleTemplate}`,
       audio: `Search audio files ${titleTemplate}`,
@@ -170,6 +172,7 @@ const phrases = {
     agreement: 'New Agreement',
     structure: 'Structure',
     taxonomyVersions: 'Taxonomy Versions',
+    publishRequests: 'Publish Requests',
     searchContent: 'Search content',
     searchAudio: 'Search audio',
     searchPodcastSeries: 'Search series',
@@ -434,6 +437,7 @@ const phrases = {
     title: 'Podcast series',
     alreadyPartOfSeries: 'Part of another series',
     description: 'Description',
+    rss: 'Rss feed',
   },
   podcastForm: {
     title: 'Podcast episode',
@@ -1181,6 +1185,9 @@ const phrases = {
     resources: 'Resources',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
+    currentVersion: 'Current version',
+    deleteNode: 'Delete',
+    confirmDelete: 'Are you sure you want to delete this node?',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',
@@ -1274,6 +1281,9 @@ const phrases = {
     missingResourceType: 'Missing resource type',
     metadata: {
       customFields: {
+        cancelPublishRequest: 'Cancel publish request',
+        requestPublish: 'Request publish',
+        requestVersionError: 'Publish requests can only be made from the default version',
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
@@ -1372,6 +1382,7 @@ const phrases = {
     publishError: 'Failed to publish version',
     deleteError: 'Failed to delete version',
     noOtherVersions: 'No other versions exist!',
+    previewVersion: 'Preview this version on NDLA.no',
     form: {
       name: {
         label: 'Name',
@@ -1387,6 +1398,137 @@ const phrases = {
         subTitle: 'Is the version locked:',
         locked: 'Locked',
         unlocked: 'Unlocked',
+      },
+    },
+  },
+  publishRequests: {
+    title: 'Publish Requests',
+    nodePublished: 'The node has been published!',
+    showInStructure: 'Show in structure',
+    compare: 'Compare',
+    publishNode: 'Publish node',
+    publishWarning:
+      'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
+    errors: {
+      noPublishedVersion: 'Failed to find a published version',
+      publishError: 'Failed to publish node',
+    },
+  },
+  diff: {
+    equalNodes: 'These nodes are equal!',
+    defaultVersion: 'Default version',
+    compareVersions: 'Compare versions',
+    error: {
+      originalHashRequired: 'The originalHash parameter has to be present in the URL!',
+      doesNotExist: 'This node does not exist in any of these versions!',
+      onlyExistsInOriginal: 'This node only exists in the original version',
+      onlyExistsInOther: 'This node only exists in the version you are comparing against',
+    },
+    options: {
+      originalHashLabel: 'Original version',
+      otherHashLabel: 'Other version',
+      viewLabel: 'View type',
+      nodeViewLabel: 'Node view',
+      fieldViewLabel: 'Field view',
+      allNodes: 'All nodes',
+      changedNodes: 'Only changed',
+      allFields: 'All fields',
+      changedFields: 'Only changed',
+      flat: 'Flat',
+      tree: 'Tree',
+    },
+    childrenChanged: 'Children changed',
+    resourcesChanged: 'Resources changed',
+    diffTypes: {
+      ADDED: 'Added',
+      DELETED: 'Deleted',
+      MODIFIED: 'Modified',
+      NONE: 'None',
+    },
+    isRoot: 'Root node',
+    nodeTypeTooltips: {
+      SUBJECT: 'This is a subject',
+      TOPIC: 'This is a topic',
+    },
+    fields: {
+      id: {
+        title: 'ID',
+      },
+      name: {
+        title: 'Name',
+      },
+      contentUri: {
+        title: 'Content URI',
+      },
+      parent: {
+        title: 'Parent',
+      },
+      path: {
+        title: 'Path',
+      },
+      paths: {
+        title: 'Paths',
+      },
+      connectionId: {
+        title: 'Connection ID',
+      },
+      isPrimary: {
+        title: 'Is Primary',
+        isOn: 'This node is currently a primary resource',
+        isOff: 'This node is not currently a primary resource',
+      },
+      primary: {
+        title: 'Primary',
+        isOn: 'This node is currently a primary resource',
+        isOff: 'This node is not currently a primary resource',
+      },
+      rank: {
+        title: 'Rank',
+      },
+      relevance: {
+        title: 'Relevance',
+      },
+      translations: {
+        title: 'Translations',
+      },
+      articleType: {
+        title: 'Article Type',
+      },
+      visible: {
+        title: 'Visible',
+        isOn: 'Visible',
+        isOff: 'Not visible',
+      },
+      'topic-resources': {
+        title: 'Resource Grouping',
+        isOn: 'Grouped',
+        isOff: 'Ungrouped',
+      },
+      requestPublish: {
+        title: 'Publish requested',
+        true: 'Yes',
+        false: 'No',
+      },
+      language: {
+        title: 'Display language',
+      },
+      subjectCategory: {
+        title: 'Subject category',
+      },
+      explanationSubject: {
+        title: 'Explanation Subject',
+      },
+      oldSubjectId: {
+        title: 'Old Subject ID',
+      },
+      supportedLanguages: {
+        title: 'Supported Languages',
+      },
+      grepCodes: {
+        title: 'Grep Codes',
+      },
+      resourceTypes: {
+        title: 'Resource Types',
       },
     },
   },

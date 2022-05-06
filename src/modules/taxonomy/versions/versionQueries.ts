@@ -13,13 +13,14 @@ import { fetchVersion, fetchVersions } from './versionApi';
 import { GetVersionsParams, VersionType } from './versionApiTypes';
 
 interface UseVersionsParams extends WithTaxonomyVersion, GetVersionsParams {}
+export const versionsQueryKey = (params?: Partial<UseVersionParams>) => [VERSIONS, params];
 export const useVersions = (
-  { taxonomyVersion, ...params }: UseVersionsParams,
+  params: UseVersionsParams,
   options?: UseQueryOptions<VersionType[]>,
 ) => {
   return useQuery<VersionType[]>(
-    [VERSIONS, params],
-    () => fetchVersions({ ...params, taxonomyVersion }),
+    versionsQueryKey(params),
+    () => fetchVersions({ ...params }),
     options,
   );
 };
@@ -27,10 +28,14 @@ export const useVersions = (
 interface UseVersionParams extends WithTaxonomyVersion {
   id: string;
 }
-
+export const versionQueryKey = (params?: Partial<UseVersionParams>) => [VERSION, params];
 export const useVersion = (
   { id, taxonomyVersion }: UseVersionParams,
   options?: UseQueryOptions<VersionType>,
 ) => {
-  return useQuery<VersionType>([VERSION, id], () => fetchVersion({ id, taxonomyVersion }), options);
+  return useQuery<VersionType>(
+    [VERSION, id, taxonomyVersion],
+    () => fetchVersion({ id, taxonomyVersion }),
+    options,
+  );
 };

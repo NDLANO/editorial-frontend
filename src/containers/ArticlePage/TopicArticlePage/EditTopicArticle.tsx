@@ -40,6 +40,7 @@ const EditTopicArticle = ({ isNewlyCreated }: Props) => {
     'metaDescription.metaDescription',
     'introduction.introduction',
     'content.content',
+    'tags.tags',
   ]);
 
   if (loading || !article || !article.id) {

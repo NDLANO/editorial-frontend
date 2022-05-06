@@ -34,6 +34,7 @@ interface Props {
   resourcesLoading?: boolean;
   rootNodeId: string;
   onCurrentNodeChanged: (node: NodeType) => void;
+  nodeChildren: NodeType[];
 }
 
 const FolderItem = ({
@@ -44,6 +45,7 @@ const FolderItem = ({
   rootNodeId,
   structure,
   onCurrentNodeChanged,
+  nodeChildren,
 }: Props) => {
   const { t } = useTranslation();
   const showJumpToResources = isMainActive && node.id.includes('topic');
@@ -56,6 +58,7 @@ const FolderItem = ({
           rootNodeId={rootNodeId}
           structure={structure}
           onCurrentNodeChanged={onCurrentNodeChanged}
+          nodeChildren={nodeChildren}
         />
       )}
       {showJumpToResources && (

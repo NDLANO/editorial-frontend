@@ -18,11 +18,11 @@ import { IConcept } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
-import IconButton from '../../../IconButton';
-import { getYoutubeEmbedUrl } from '../../../../util/videoUtil';
-import { parseEmbedTag } from '../../../../util/embedTagHelpers';
-import config from '../../../../config';
-import { Embed } from '../../../../interfaces';
+import IconButton from '../../../../IconButton';
+import { getYoutubeEmbedUrl } from '../../../../../util/videoUtil';
+import { parseEmbedTag } from '../../../../../util/embedTagHelpers';
+import config from '../../../../../config';
+import { Embed } from '../../../../../interfaces';
 
 const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
   position: absolute;
@@ -44,7 +44,7 @@ interface Props {
   id: number | string;
 }
 
-const SlateConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
+const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
   const { t, i18n } = useTranslation();
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
@@ -133,4 +133,4 @@ const SlateConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
   );
 };
 
-export default SlateConceptPreview;
+export default BlockConceptPreview;

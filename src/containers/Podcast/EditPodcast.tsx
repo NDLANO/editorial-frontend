@@ -42,6 +42,7 @@ const EditPodcast = ({ isNewlyCreated }: Props) => {
       'title.title',
       'podcastMeta.introduction',
       'podcastMeta.coverPhoto.altText',
+      'tags.tags',
     ],
   );
 

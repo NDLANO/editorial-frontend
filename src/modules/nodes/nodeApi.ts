@@ -8,7 +8,7 @@
 
 import { taxonomyApi } from '../../config';
 import { WithTaxonomyVersion } from '../../interfaces';
-import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
+import { apiResourceUrl, httpFunctions, stringifyQuery } from '../../util/apiHelpers';
 import {
   resolveLocation,
   resolveVoidOrRejectWithError,
@@ -87,7 +87,11 @@ interface NodeDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
 export const deleteNode = ({ id, taxonomyVersion }: NodeDeleteParams): Promise<void> =>
-  deleteAndResolve({ url: `${baseUrl}/${id}`, taxonomyVersion });
+  deleteAndResolve({
+    url: `${baseUrl}/${id}`,
+    taxonomyVersion,
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
 
 interface NodeMetadataPutParams extends WithTaxonomyVersion {
   id: string;
@@ -267,3 +271,18 @@ export const putResourceForNode = ({
     alternateResolve: resolveVoidOrRejectWithError,
     taxonomyVersion,
   });
+
+interface PublishNodeParams {
+  id: string;
+  targetId: string;
+  sourceId?: string;
+}
+
+export const publishNode = ({ id, targetId, sourceId }: PublishNodeParams) => {
+  const queryParams = stringifyQuery({ targetId, sourceId });
+  return putAndResolve({
+    url: `${baseUrl}/${id}/publish${queryParams}`,
+    alternateResolve: resolveVoidOrRejectWithError,
+    taxonomyVersion: 'default',
+  });
+};

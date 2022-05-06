@@ -15,6 +15,7 @@ import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 
 import UrlAllowList from './UrlAllowList';
 import { fetchExternalOembed } from '../../util/apiHelpers';
@@ -24,6 +25,9 @@ import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
 import { urlTransformers } from './urlTransformers';
 import { VisualElementChangeReturnType } from './VisualElementSearch';
 import { ExternalEmbed } from '../../interfaces';
+import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
+import { fetchImage, searchImages } from '../../modules/image/imageApi';
+import { onError } from '../../util/resolveJsonOrRejectWithError';
 
 const filterWhiteListedURL = (url: string) => {
   const domain = urlDomain(url);
@@ -75,6 +79,7 @@ const ContentInputWrapper = styled.div`
 interface Props {
   selectedResourceUrl?: string;
   selectedResourceType?: string;
+  articleLanguage: string;
   resource?: string;
   onUrlSave: (returnType: VisualElementChangeReturnType) => void;
 }
@@ -86,18 +91,23 @@ type URLError = 'invalid' | 'unsupported';
 const VisualElementUrlPreview = ({
   selectedResourceUrl,
   selectedResourceType,
+  articleLanguage,
   resource,
   onUrlSave,
 }: Props) => {
   const [url, setUrl] = useState(selectedResourceUrl);
   const [title, setTitle] = useState('');
-  const [imageId, setImageId] = useState<number>();
+  const [image, setImage] = useState<IImageMetaInformationV2>();
+  const [imageModalOpen, setImageModalOpen] = useState(false);
   const [description, setDescription] = useState('');
   const [showFullscreen, setShowFullscreen] = useState(false);
   const [embedUrl, setEmbedUrl] = useState(selectedResourceUrl);
   const [showPreview, setShowPreview] = useState(selectedResourceUrl !== '');
   const [error, setError] = useState<URLError | undefined>(undefined);
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
 
   const getUrlWarningText = () => {
     if (error === 'invalid') {
@@ -284,6 +294,41 @@ const VisualElementUrlPreview = ({
               onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
             />
           </ContentInputWrapper>
+          <Modal
+            controllable
+            isOpen={imageModalOpen}
+            onClose={() => setImageModalOpen(false)}
+            size="large"
+            backgroundColor="white"
+            minHeight="90vh">
+            {() => (
+              <>
+                <ModalHeader>
+                  <ModalCloseButton
+                    title={t('dialog.close')}
+                    onClick={() => setImageModalOpen(false)}
+                  />
+                </ModalHeader>
+                <ModalBody>
+                  <ImageSearchAndUploader
+                    inModal={true}
+                    locale={language}
+                    closeModal={() => {}}
+                    fetchImage={id => fetchImage(id, articleLanguage)}
+                    searchImages={searchImages}
+                    onError={onError}
+                    onImageSelect={image => {
+                      setImage(image);
+                      setImageModalOpen(false);
+                    }}
+                  />
+                </ModalBody>
+              </>
+            )}
+          </Modal>
+          {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+          <img src={image?.imageUrl} alt={image?.alttext.alttext} />
+          <Button onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</Button>
         </FullscreenFormWrapper>
       ) : (
         showPreview && (

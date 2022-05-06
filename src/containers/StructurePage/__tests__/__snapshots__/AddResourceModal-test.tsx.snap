@@ -1107,12 +1107,12 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   color: #20588f;
   cursor: pointer;
   border-top: 3px solid #20588f;
-  background-color: 'rgba(222,235,246,0.5)';
+  background-color: rgba(222,235,246,0.5);
 }
 
 .emotion-81:hover {
   border-top: 3px solid #20588f;
-  background-color: 'rgba(222,235,246,0.5)';
+  background-color: rgba(222,235,246,0.5);
 }
 
 .emotion-82 {
@@ -1131,7 +1131,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
 
 .emotion-82:hover {
   border-top: 3px solid #20588f;
-  background-color: 'rgba(222,235,246,0.5)';
+  background-color: rgba(222,235,246,0.5);
 }
 
 .emotion-23 {

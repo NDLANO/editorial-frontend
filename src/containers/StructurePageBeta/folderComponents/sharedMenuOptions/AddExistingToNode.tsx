@@ -6,12 +6,13 @@
  *
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import { Plus } from '@ndla/icons/action';
+import { Done } from '@ndla/icons/editor';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 import {
   useDeleteNodeConnectionMutation,
@@ -31,6 +32,13 @@ interface Props {
   currentNode: NodeType;
 }
 
+const StyledSuccessIcon = styled(Done)`
+  border-radius: 90px;
+  margin: 5px;
+  background-color: green;
+  color: white;
+`;
+
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
@@ -45,7 +53,16 @@ const AddExistingToNode = ({
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
   const addNodeConnectionMutation = usePostNodeConnectionMutation();
   const [error, setError] = useState<string | undefined>(undefined);
+  const [success, setSuccess] = useState(false);
   const qc = useQueryClient();
+
+  useEffect(() => {
+    if (success && editMode === 'addExistingTopic') {
+      setSuccess(false);
+    }
+  }, [editMode, success]);
+
+  const toggleEditModeFunc = () => toggleEditMode('addExistingTopic');
 
   const handleSubmit = async (node: NodeType) => {
     setError(undefined);
@@ -72,6 +89,8 @@ const AddExistingToNode = ({
           language: i18n.language,
         }),
       );
+      toggleEditModeFunc();
+      setSuccess(true);
     } catch (e) {
       setError('taxonomy.errorMessage');
     }
@@ -102,11 +121,11 @@ const AddExistingToNode = ({
     );
   }
 
-  const toggleEditModeFunc = () => toggleEditMode('addExistingTopic');
   return (
     <MenuItemButton stripped onClick={toggleEditModeFunc}>
       <RoundIcon small icon={<Plus />} />
       {t('taxonomy.addExistingTopic')}
+      {success && <StyledSuccessIcon />}
     </MenuItemButton>
   );
 };

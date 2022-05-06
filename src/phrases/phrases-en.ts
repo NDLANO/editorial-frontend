@@ -1224,7 +1224,7 @@ const phrases = {
     copyAndCloneResources: 'Copy and clone resources from topic',
     favorites: 'Show favorites',
     publish: {
-      button: 'Publish all',
+      button: 'Publish all resources',
       waiting: 'Publishing resourses',
       info: 'Are you sure you want to publish all resources associated with this node?',
       done: 'Resources published',
@@ -1281,8 +1281,8 @@ const phrases = {
     missingResourceType: 'Missing resource type',
     metadata: {
       customFields: {
-        cancelPublishRequest: 'Cancel publish request',
-        requestPublish: 'Request publish',
+        cancelPublishRequest: 'Cancel request for partial structure publication',
+        requestPublish: 'Request partial publication of structure',
         requestVersionError: 'Publish requests can only be made from the default version',
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',

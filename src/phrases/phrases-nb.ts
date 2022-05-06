@@ -1225,7 +1225,7 @@ const phrases = {
     copyAndCloneResources: 'Kopier og klon ressurser fra emne',
     favorites: 'Vis favoritter',
     publish: {
-      button: 'Publiser alt',
+      button: 'Publiser alle ressurser',
       waiting: 'Publiserer ressurser',
       info:
         'Er du sikker på at du ønsker å publisere alle ressurser som er knyttet til denne noden?',
@@ -1284,8 +1284,8 @@ const phrases = {
     missingResourceType: 'Mangler ressurstype',
     metadata: {
       customFields: {
-        cancelPublishRequest: 'Avlys publiseringsforespørsel',
-        requestPublish: 'Be om publisering',
+        cancelPublishRequest: 'Avlys forespørsel om delvis publisering av struktur',
+        requestPublish: 'Be om delpublisering av struktur',
         requestVersionError: 'Publiseringsforespørsler kan bare opprettes fra standardversjonen',
         alterFields: 'Legg til/endre metadata',
         addField: 'Nytt metadata felt',

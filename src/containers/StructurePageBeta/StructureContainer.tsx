@@ -162,7 +162,7 @@ const StructureContainer = () => {
             )}
           </div>
         </Accordion>
-        {config.versioningEnabled && <StickyVersionSelector />}
+        {config.versioningEnabled === 'true' && <StickyVersionSelector />}
         {currentNode && (
           <StructureResources
             currentChildNode={currentNode}

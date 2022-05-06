@@ -111,7 +111,7 @@ const App = ({ isClient }: Props) => {
                     path="/structureBeta/*"
                     element={<PrivateRoute component={<StructurePageBeta />} />}
                   />
-                  {config.versioningEnabled && (
+                  {config.versioningEnabled === 'true' && (
                     <>
                       <Route
                         path="/taxonomyVersions/*"

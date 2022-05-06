@@ -75,6 +75,7 @@ const EditColgroupsModal = ({ element }: Props) => {
             </ModalHeader>
             <ModalBody>
               <h2>{t('form.content.table.edit-colgroups')}</h2>
+              <p>{t('form.content.table.colgroupInfo')}</p>
               <Suspense fallback={<Spinner />}>
                 <MonacoEditor
                   onChange={setColgroups}

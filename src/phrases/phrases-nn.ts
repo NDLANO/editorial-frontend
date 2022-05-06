@@ -851,6 +851,8 @@ const phrases = {
         'column-remove': 'Fjern kolonne',
         'table-remove': 'Fjern tabell',
         colgroups: 'Colgroups',
+        colgroupInfo:
+          'Kan bestå av <colgroup> og <col>. Gyldige attributt   på <col> er style og span. OBS: Innholdet valideres ikkje før lagring.',
         'edit-colgroups': 'Rediger colgroups',
         'enable-header': 'Aktiver tittel-kolonne',
         'disable-header': 'Deaktiver tittel-kolonne',

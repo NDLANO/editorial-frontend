@@ -850,6 +850,9 @@ const phrases = {
         'column-remove': 'Remove column',
         'table-remove': 'Remove table',
         colgroups: 'Colgroups',
+        colgroupInfo:
+          'Valid tags are <colgroup> and <col>. Valid attributes for <col> are style and span. IMPORTANT: The content is not validated before saving.',
+
         'edit-colgroups': 'Edit colgroups',
         'enable-header': 'Enable title column',
         'disable-header': 'Disable title column',

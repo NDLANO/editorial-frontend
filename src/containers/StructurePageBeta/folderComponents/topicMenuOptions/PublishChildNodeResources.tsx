@@ -99,8 +99,16 @@ const PublishChildNodeResources = ({ node }: Props) => {
       searchDrafts({ idList: draftIds }),
       learningpathSearch({ ids: learningpathIds }),
     ]);
-    const unpublishedDrafts = drafts.results.filter(draft => draft.status.current !== PUBLISHED);
-    const unpublishedLearningpaths = learningpaths.results.filter(lp => lp.status !== PUBLISHED);
+    const [unpublishedDrafts, publishedDrafts] = partition(
+      drafts.results,
+      draft => draft.status.current !== PUBLISHED,
+    );
+    const [unpublishedLearningpaths, publishedLearningpaths] = partition(
+      learningpaths.results,
+      lp => lp.status !== PUBLISHED,
+    );
+
+    setPublishedCount(prev => prev + publishedDrafts.length + publishedLearningpaths.length);
 
     const draftPromises = unpublishedDrafts.map(draft =>
       updateStatusDraft(draft.id, PUBLISHED)

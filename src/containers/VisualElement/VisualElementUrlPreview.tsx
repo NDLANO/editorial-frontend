@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input, CheckboxItem, FieldRemoveButton } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { spacing, colors } from '@ndla/core';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
@@ -48,6 +48,16 @@ const StyledButtonWrapper = styled('div')`
   }
 `;
 
+const RemoveButton = styled(Button)`
+  background-color: ${colors.support.red};
+  border: ${colors.support.red};
+  :hover,
+  :focus {
+    background-color: ${colors.support.red};
+    border: ${colors.support.red};
+  }
+`;
+
 const StyledPreviewWrapper = styled('div')`
   display: flex;
   align-items: center;
@@ -67,6 +77,7 @@ const FullscreenFormWrapper = styled.div`
   display: flex;
   margin-top: ${spacing.medium};
   flex-direction: row;
+  gap: 10px;
 `;
 
 const ContentInputWrapper = styled.div`
@@ -74,6 +85,17 @@ const ContentInputWrapper = styled.div`
   textarea {
     min-height: 50px;
   }
+`;
+
+const ImageInputWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const ImageWrapper = styled.div`
+  max-width: 160px;
 `;
 
 interface Props {
@@ -294,41 +316,18 @@ const VisualElementUrlPreview = ({
               onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
             />
           </ContentInputWrapper>
-          <Modal
-            controllable
-            isOpen={imageModalOpen}
-            onClose={() => setImageModalOpen(false)}
-            size="large"
-            backgroundColor="white"
-            minHeight="90vh">
-            {() => (
-              <>
-                <ModalHeader>
-                  <ModalCloseButton
-                    title={t('dialog.close')}
-                    onClick={() => setImageModalOpen(false)}
-                  />
-                </ModalHeader>
-                <ModalBody>
-                  <ImageSearchAndUploader
-                    inModal={true}
-                    locale={language}
-                    closeModal={() => {}}
-                    fetchImage={id => fetchImage(id, articleLanguage)}
-                    searchImages={searchImages}
-                    onError={onError}
-                    onImageSelect={image => {
-                      setImage(image);
-                      setImageModalOpen(false);
-                    }}
-                  />
-                </ModalBody>
-              </>
+          <ImageInputWrapper>
+            <ImageWrapper>
+              {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+              <img src={image?.imageUrl} alt={image?.alttext.alttext} />
+            </ImageWrapper>
+            <Button onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</Button>
+            {image && (
+              <RemoveButton onClick={() => setImage(undefined)}>
+                {t('form.metaImage.remove')}
+              </RemoveButton>
             )}
-          </Modal>
-          {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-          <img src={image?.imageUrl} alt={image?.alttext.alttext} />
-          <Button onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</Button>
+          </ImageInputWrapper>
         </FullscreenFormWrapper>
       ) : (
         showPreview && (
@@ -339,6 +338,38 @@ const VisualElementUrlPreview = ({
           </StyledPreviewWrapper>
         )
       )}
+      <Modal
+        controllable
+        isOpen={imageModalOpen}
+        onClose={() => setImageModalOpen(false)}
+        size="large"
+        backgroundColor="white"
+        minHeight="90vh">
+        {() => (
+          <>
+            <ModalHeader>
+              <ModalCloseButton
+                title={t('dialog.close')}
+                onClick={() => setImageModalOpen(false)}
+              />
+            </ModalHeader>
+            <ModalBody>
+              <ImageSearchAndUploader
+                inModal={true}
+                locale={language}
+                closeModal={() => {}}
+                fetchImage={id => fetchImage(id, articleLanguage)}
+                searchImages={searchImages}
+                onError={onError}
+                onImageSelect={image => {
+                  setImage(image);
+                  setImageModalOpen(false);
+                }}
+              />
+            </ModalBody>
+          </>
+        )}
+      </Modal>
     </>
   );
 };

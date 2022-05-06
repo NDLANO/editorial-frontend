@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.emotion-162 {
+.emotion-164 {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -260,13 +260,12 @@ exports[`matches snapshot 1`] = `
 }
 
 <ul
-  class="c-topic-resource__list emotion-162 emotion-163"
+  class="c-topic-resource__list emotion-164 emotion-165"
 >
   <div
-    class="c-dnd-list__drop-zone"
+    class="emotion-162 emotion-163"
   >
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div
@@ -398,7 +397,6 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div
@@ -536,7 +534,6 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div
@@ -674,7 +671,6 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div
@@ -812,7 +808,6 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div
@@ -950,7 +945,6 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div

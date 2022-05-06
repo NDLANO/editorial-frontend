@@ -37,7 +37,7 @@ const StickyDiv = styled.div<StickyDivProps>`
   display: flex;
   position: sticky;
   bottom: ${spacing.normal};
-  z-index: 2;
+  z-index: 1;
   color: white;
   border-radius: 20px;
   flex-direction: column;

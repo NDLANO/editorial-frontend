@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { Children, cloneElement, ReactElement } from 'react';
 import {
   DragDropContext,
@@ -6,12 +7,14 @@ import {
   DropResult,
   ResponderProvided,
 } from 'react-beautiful-dnd';
-import BEMHelper from 'react-bem-helper';
 
-const classes = new BEMHelper({
-  name: 'dnd-list',
-  prefix: 'c-',
-});
+interface StyledDropZoneProps {
+  dragging?: boolean;
+}
+
+const StyledDropZone = styled.div<StyledDropZoneProps>`
+  background-color: ${p => p.dragging && '#ddd'};
+`;
 
 interface Props {
   children: ReactElement[];
@@ -28,9 +31,7 @@ const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }: Props) => 
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
-          <div
-            ref={provided.innerRef}
-            {...classes('drop-zone', snapshot.isDraggingOver ? 'dragging' : '')}>
+          <StyledDropZone ref={provided.innerRef} dragging={snapshot.isDraggingOver}>
             {Children.map(children, (child, index) => {
               if (!child) {
                 return null;
@@ -41,8 +42,7 @@ const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }: Props) => 
                     <div
                       ref={providedInner.innerRef}
                       {...providedInner.draggableProps}
-                      {...(dragHandle ? {} : providedInner.dragHandleProps)}
-                      {...classes('drag-item')}>
+                      {...(dragHandle ? {} : providedInner.dragHandleProps)}>
                       {cloneElement(child, {
                         isDragging: snapshotInner.isDragging,
                         dragHandleProps: providedInner.dragHandleProps,
@@ -53,7 +53,7 @@ const MakeDndList = ({ disableDnd, children, onDragEnd, dragHandle }: Props) => 
               );
             })}
             {provided.placeholder}
-          </div>
+          </StyledDropZone>
         )}
       </Droppable>
     </DragDropContext>

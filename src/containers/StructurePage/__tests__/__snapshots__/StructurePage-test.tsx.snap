@@ -211,19 +211,24 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #184673;
 }
 
-.emotion-10 {
+.emotion-358 {
+  position: relative;
+  z-index: 1;
+}
+
+.emotion-12 {
   margin: 0;
   padding: 0;
 }
 
-.emotion-170 {
+.emotion-206 {
   -webkit-animation-duration: 200ms;
   animation-duration: 200ms;
   -webkit-animation-name: fadeInTop;
   animation-name: fadeInTop;
 }
 
-.emotion-12 {
+.emotion-14 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -235,11 +240,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-12 > div > button {
+.emotion-14 > div > button {
   color: rgb(32,88,143,0.5);
 }
 
-.emotion-8 {
+.emotion-10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -253,7 +258,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-8:hover {
+.emotion-10:hover {
   background: #f1f5f8;
 }
 
@@ -316,7 +321,16 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate(0deg);
 }
 
-.emotion-116 {
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  z-index: 2;
+}
+
+.emotion-138 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -337,7 +351,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-116:before {
+.emotion-138:before {
   content: '';
   display: block;
   width: 0;
@@ -348,7 +362,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-right: 6.5px;
 }
 
-.emotion-116:before {
+.emotion-138:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -357,7 +371,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate(90deg);
 }
 
-.emotion-298 {
+.emotion-360 {
   border: 0.4em solid #e8e3e3;
   border-bottom-color: #20588f;
   border-radius: 50%;
@@ -368,7 +382,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   animation: animation-0 0.7s linear infinite;
 }
 
-.emotion-122 {
+.emotion-148 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -382,11 +396,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-122:hover {
+.emotion-148:hover {
   background: #f1f5f8;
 }
 
-.emotion-120 {
+.emotion-144 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -407,7 +421,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-120:before {
+.emotion-144:before {
   content: '';
   display: block;
   width: 8px;
@@ -419,7 +433,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-left: 7px;
 }
 
-.emotion-120:before {
+.emotion-144:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -428,7 +442,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate(deg);
 }
 
-.emotion-150 {
+.emotion-184 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -442,11 +456,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-150:hover {
+.emotion-184:hover {
   background: #f1f5f8;
 }
 
-.emotion-173 {
+.emotion-209 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -458,7 +472,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-168 {
+.emotion-204 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -473,11 +487,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #ceddea;
 }
 
-.emotion-168:hover {
+.emotion-204:hover {
   background: #ceddea;
 }
 
-.emotion-162 {
+.emotion-196 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -485,11 +499,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   display: flex;
 }
 
-.emotion-162 > button {
+.emotion-196 > button {
   outline: none;
 }
 
-.emotion-160 {
+.emotion-194 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -521,39 +535,39 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   font-weight: 400;
 }
 
-.emotion-160:hover,
-.emotion-160:focus {
+.emotion-194:hover,
+.emotion-194:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-160[disabled] {
+.emotion-194[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-160:focus {
+.emotion-194:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-160:hover,
-.emotion-160:active,
-.emotion-160:disabled,
-.emotion-160:focus {
+.emotion-194:hover,
+.emotion-194:active,
+.emotion-194:disabled,
+.emotion-194:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-160:focus {
+.emotion-194:focus {
   outline-width: medium;
 }
 
-.emotion-158 {
+.emotion-192 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -575,18 +589,18 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin: 0 calc(13px / 2);
 }
 
-.emotion-158 > svg {
+.emotion-192 > svg {
   height: 20px;
   width: 20px;
 }
 
-.emotion-158:hover,
-.emotion-158:focus {
+.emotion-192:hover,
+.emotion-192:focus {
   background-color: #4d4d4d;
   color: #f8f8f8;
 }
 
-.emotion-166 {
+.emotion-200 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -620,53 +634,53 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   line-height: 1.1;
 }
 
-.emotion-166:hover,
-.emotion-166:focus {
+.emotion-200:hover,
+.emotion-200:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-166[disabled] {
+.emotion-200[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-166:focus {
+.emotion-200:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-166:hover,
-.emotion-166:focus {
+.emotion-200:hover,
+.emotion-200:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-166:disabled {
+.emotion-200:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
-.emotion-166:hover,
-.emotion-166:focus {
+.emotion-200:hover,
+.emotion-200:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-166:disabled {
+.emotion-200:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
-.emotion-164 {
+.emotion-198 {
   display: grid;
   grid-auto-flow: column;
   grid-gap: 26px;
@@ -740,19 +754,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
       class="c-accordion__content c-accordion__content--visible c-accordion__content--taxonomy"
     >
       <div
-        id="plumbContainer"
+        class="emotion-358 emotion-359"
       >
         <ul
-          class="emotion-10 emotion-11"
+          class="emotion-12 emotion-13"
         >
           <div
-            class="emotion-170"
+            class="emotion-206"
           >
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -791,19 +805,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Brønnteknikk
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -842,19 +856,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Bygg- og anleggsteknikk
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -893,19 +907,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Elektrofag vg1
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -944,19 +958,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Engelskspråklig litteratur og kultur
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -995,19 +1009,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Historie vg2 og vg3
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1046,19 +1060,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Kinesisk
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1097,19 +1111,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Kommunikasjon og kultur 1, 2, 3
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1148,19 +1162,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Markedsføring og ledelse 1
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1199,19 +1213,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Matematikk fellesfag
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1250,19 +1264,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Matte 101
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1301,19 +1315,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Medie- og informasjonskunnskap
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1345,50 +1359,50 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-116 emotion-7"
+                  class="emotion-138 emotion-7"
                   id="urn:subject:1"
                   type="button"
                 >
                   Medieuttrykk og mediesamfunnet
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               >
                 <div
-                  class="emotion-170"
+                  class="emotion-206"
                 >
                   <li
-                    class="emotion-12 emotion-13"
+                    class="emotion-14 emotion-15"
                   >
                     <div
-                      class="emotion-122 emotion-9"
+                      class="emotion-148 emotion-11"
                     >
                       <button
-                        class="emotion-120 emotion-7"
+                        class="emotion-144 emotion-7"
                         id="urn:subject:1/urn:topic:1:186401"
                         type="button"
                       >
                         Brukertips og årsplaner
                       </button>
                       <div
-                        class="c-folder__wrapper"
+                        class="emotion-8 emotion-9"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-10 emotion-11"
+                      class="emotion-12 emotion-13"
                     />
                   </li>
                   <li
-                    class="emotion-12 emotion-13"
+                    class="emotion-14 emotion-15"
                   >
                     <div
-                      class="emotion-122 emotion-9"
+                      class="emotion-148 emotion-11"
                     >
                       <button
                         class="emotion-6 emotion-7"
@@ -1398,19 +1412,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         Idéskaping og mediedesign
                       </button>
                       <div
-                        class="c-folder__wrapper"
+                        class="emotion-8 emotion-9"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-10 emotion-11"
+                      class="emotion-12 emotion-13"
                     />
                   </li>
                   <li
-                    class="emotion-12 emotion-13"
+                    class="emotion-14 emotion-15"
                   >
                     <div
-                      class="emotion-122 emotion-9"
+                      class="emotion-148 emotion-11"
                     >
                       <button
                         class="emotion-6 emotion-7"
@@ -1420,87 +1434,87 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         Medieproduksjon
                       </button>
                       <div
-                        class="c-folder__wrapper"
+                        class="emotion-8 emotion-9"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-10 emotion-11"
+                      class="emotion-12 emotion-13"
                     />
                   </li>
                   <li
-                    class="emotion-12 emotion-13"
+                    class="emotion-14 emotion-15"
                   >
                     <div
-                      class="emotion-122 emotion-9"
+                      class="emotion-148 emotion-11"
                     >
                       <button
-                        class="emotion-116 emotion-7"
+                        class="emotion-138 emotion-7"
                         id="urn:subject:1/urn:topic:1:186479"
                         type="button"
                       >
                         Mediekommunikasjon
                       </button>
                       <div
-                        class="c-folder__wrapper"
+                        class="emotion-8 emotion-9"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-10 emotion-11"
+                      class="emotion-12 emotion-13"
                     >
                       <div
-                        class="emotion-170"
+                        class="emotion-206"
                       >
                         <li
-                          class="emotion-12 emotion-13"
+                          class="emotion-14 emotion-15"
                         >
                           <div
-                            class="emotion-150 emotion-9"
+                            class="emotion-184 emotion-11"
                           >
                             <button
-                              class="emotion-120 emotion-7"
+                              class="emotion-144 emotion-7"
                               id="urn:topic:1:186479/urn:topic:1:186487"
                               type="button"
                             >
                               Mediekommunikasjon
                             </button>
                             <div
-                              class="c-folder__wrapper"
+                              class="emotion-8 emotion-9"
                               data-cy="folderWrapper"
                             />
                           </div>
                           <ul
-                            class="emotion-10 emotion-11"
+                            class="emotion-12 emotion-13"
                           />
                         </li>
                         <li
-                          class="emotion-173 emotion-13"
+                          class="emotion-209 emotion-15"
                         >
                           <div
-                            class="emotion-168 emotion-9"
+                            class="emotion-204 emotion-11"
                           >
                             <button
-                              class="emotion-120 emotion-7"
+                              class="emotion-144 emotion-7"
                               id="urn:topic:1:186479/urn:topic:1:172650"
                               type="button"
                             >
                               Fortelleteknikker og virkemidler
                             </button>
                             <div
-                              class="c-folder__wrapper"
+                              class="emotion-8 emotion-9"
                               data-cy="folderWrapper"
                             >
                               <div
-                                class="emotion-162 emotion-163"
+                                class="emotion-196 emotion-197"
                               >
                                 <button
-                                  class="emotion-160 emotion-3"
+                                  class="emotion-194 emotion-3"
                                   data-cy="settings-button-topic"
                                   type="button"
                                 >
                                   <div
-                                    class="emotion-158 emotion-159"
+                                    class="emotion-192 emotion-193"
                                   >
                                     <svg
                                       class="c-icon"
@@ -1527,11 +1541,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                                 </button>
                               </div>
                               <button
-                                class="emotion-166 emotion-3"
+                                class="emotion-200 emotion-3"
                                 type="button"
                               >
                                 <div
-                                  class="emotion-164 emotion-165"
+                                  class="emotion-198 emotion-199"
                                   spacing="normal"
                                 >
                                   Hopp til ressurser
@@ -1540,43 +1554,43 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             </div>
                           </div>
                           <ul
-                            class="emotion-10 emotion-11"
+                            class="emotion-12 emotion-13"
                           >
                             <div
-                              class="emotion-170"
+                              class="emotion-206"
                             />
                           </ul>
                         </li>
                         <li
-                          class="emotion-12 emotion-13"
+                          class="emotion-14 emotion-15"
                         >
                           <div
-                            class="emotion-150 emotion-9"
+                            class="emotion-184 emotion-11"
                           >
                             <button
-                              class="emotion-120 emotion-7"
+                              class="emotion-144 emotion-7"
                               id="urn:topic:1:186479/urn:topic:1:185606"
                               type="button"
                             >
                               Medieanalyse
                             </button>
                             <div
-                              class="c-folder__wrapper"
+                              class="emotion-8 emotion-9"
                               data-cy="folderWrapper"
                             />
                           </div>
                           <ul
-                            class="emotion-10 emotion-11"
+                            class="emotion-12 emotion-13"
                           />
                         </li>
                       </div>
                     </ul>
                   </li>
                   <li
-                    class="emotion-12 emotion-13"
+                    class="emotion-14 emotion-15"
                   >
                     <div
-                      class="emotion-122 emotion-9"
+                      class="emotion-148 emotion-11"
                     >
                       <button
                         class="emotion-6 emotion-7"
@@ -1586,19 +1600,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         Mediebransjen – yrker, regelverk og retorikk
                       </button>
                       <div
-                        class="c-folder__wrapper"
+                        class="emotion-8 emotion-9"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-10 emotion-11"
+                      class="emotion-12 emotion-13"
                     />
                   </li>
                   <li
-                    class="emotion-12 emotion-13"
+                    class="emotion-14 emotion-15"
                   >
                     <div
-                      class="emotion-122 emotion-9"
+                      class="emotion-148 emotion-11"
                     >
                       <button
                         class="emotion-6 emotion-7"
@@ -1608,19 +1622,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         Individet og mediene
                       </button>
                       <div
-                        class="c-folder__wrapper"
+                        class="emotion-8 emotion-9"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-10 emotion-11"
+                      class="emotion-12 emotion-13"
                     />
                   </li>
                   <li
-                    class="emotion-12 emotion-13"
+                    class="emotion-14 emotion-15"
                   >
                     <div
-                      class="emotion-122 emotion-9"
+                      class="emotion-148 emotion-11"
                     >
                       <button
                         class="emotion-6 emotion-7"
@@ -1630,19 +1644,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         Mediene i samfunnet
                       </button>
                       <div
-                        class="c-folder__wrapper"
+                        class="emotion-8 emotion-9"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-10 emotion-11"
+                      class="emotion-12 emotion-13"
                     />
                   </li>
                   <li
-                    class="emotion-12 emotion-13"
+                    class="emotion-14 emotion-15"
                   >
                     <div
-                      class="emotion-122 emotion-9"
+                      class="emotion-148 emotion-11"
                     >
                       <button
                         class="emotion-6 emotion-7"
@@ -1652,22 +1666,22 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                         Tverrfaglige arbeidsoppdrag
                       </button>
                       <div
-                        class="c-folder__wrapper"
+                        class="emotion-8 emotion-9"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-10 emotion-11"
+                      class="emotion-12 emotion-13"
                     />
                   </li>
                 </div>
               </ul>
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1706,19 +1720,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Naturbruk vg 1
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1757,19 +1771,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Samfunnsfag
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1808,19 +1822,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Service og samferdsel vg1
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1859,19 +1873,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Sørsamisk vg1 og vg2
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1910,19 +1924,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Testfag
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -1961,19 +1975,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Tysk
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
             <li
-              class="emotion-12 emotion-13"
+              class="emotion-14 emotion-15"
             >
               <div
-                class="emotion-8 emotion-9"
+                class="emotion-10 emotion-11"
               >
                 <button
                   class="emotion-4 emotion-5"
@@ -2012,12 +2026,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   Vg 2 Helsearbeiderfag
                 </button>
                 <div
-                  class="c-folder__wrapper"
+                  class="emotion-8 emotion-9"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-10 emotion-11"
+                class="emotion-12 emotion-13"
               />
             </li>
           </div>
@@ -2026,7 +2040,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     </div>
   </div>
   <div
-    class="emotion-298 emotion-299"
+    class="emotion-360 emotion-361"
   />
 </div>
 `;

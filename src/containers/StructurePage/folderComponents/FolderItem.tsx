@@ -29,7 +29,6 @@ import { useSession } from '../../Session/SessionProvider';
 const StyledFolderWrapper = styled.div`
   display: flex;
   width: 100%;
-  z-index: 2;
 `;
 
 const resourceButtonStyle = css`

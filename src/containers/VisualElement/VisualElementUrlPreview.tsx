@@ -6,7 +6,7 @@
  *
  */
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input, CheckboxItem, FieldRemoveButton } from '@ndla/forms';
@@ -90,20 +90,23 @@ const ContentInputWrapper = styled.div`
 const ImageInputWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;
   flex-direction: column;
   gap: 10px;
 `;
 
 const ImageWrapper = styled.div`
-  max-width: 160px;
+  max-width: 200px;
+  max-height: 160px;
 `;
 
 interface Props {
   selectedResourceUrl?: string;
   selectedResourceType?: string;
-  articleLanguage: string;
+  articleLanguage?: string;
   resource?: string;
   onUrlSave: (returnType: VisualElementChangeReturnType) => void;
+  embed?: ExternalEmbed;
 }
 const StyledPreviewItem = styled('div')`
   width: 50%;
@@ -116,13 +119,16 @@ const VisualElementUrlPreview = ({
   articleLanguage,
   resource,
   onUrlSave,
+  embed,
 }: Props) => {
   const [url, setUrl] = useState(selectedResourceUrl);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(embed?.title || '');
   const [image, setImage] = useState<IImageMetaInformationV2>();
   const [imageModalOpen, setImageModalOpen] = useState(false);
-  const [description, setDescription] = useState('');
-  const [showFullscreen, setShowFullscreen] = useState(false);
+  const [description, setDescription] = useState(embed?.caption || '');
+  const [showFullscreen, setShowFullscreen] = useState(
+    !!(embed?.imageid || embed?.caption || embed?.title),
+  );
   const [embedUrl, setEmbedUrl] = useState(selectedResourceUrl);
   const [showPreview, setShowPreview] = useState(selectedResourceUrl !== '');
   const [error, setError] = useState<URLError | undefined>(undefined);
@@ -157,11 +163,11 @@ const VisualElementUrlPreview = ({
     setEmbedUrl('');
   };
 
-  const handleSaveUrl = async (url: string, preview = false) => {
-    const whiteListedUrl = filterWhiteListedURL(url);
+  const handleSaveUrl = async (preview = false) => {
+    const whiteListedUrl = filterWhiteListedURL(url || '');
     if (whiteListedUrl) {
       try {
-        const data = await fetchExternalOembed(url);
+        const data = await fetchExternalOembed(url || '');
         const src = getIframeSrcFromHtmlString(data.html);
 
         if (preview) {
@@ -178,14 +184,23 @@ const VisualElementUrlPreview = ({
           setEmbedUrl(url);
           setShowPreview(true);
         } else {
+          const data = showFullscreen
+            ? {
+                title,
+                caption: description,
+                imageid: image?.id,
+              }
+            : {
+                width: '708px',
+                height: whiteListedUrl.height || '486px',
+              };
           onUrlSave({
             type: 'embed',
             value: {
+              ...data,
               resource: 'iframe',
               type: 'iframe',
               url,
-              width: '708px',
-              height: whiteListedUrl.height || '486px',
             } as ExternalEmbed,
           });
         }
@@ -221,6 +236,37 @@ const VisualElementUrlPreview = ({
   };
 
   const isChangedUrl = url !== selectedResourceUrl || selectedResourceUrl === undefined;
+
+  const canSave = () => {
+    if (showFullscreen) {
+      if (
+        url === selectedResourceUrl &&
+        title === embed?.title &&
+        embed.caption === description &&
+        embed.imageid === image?.id
+      ) {
+        return false;
+      }
+    } else {
+      if (!isChangedUrl) {
+        return false;
+      }
+    }
+
+    if (url === '' || !!error) {
+      return false;
+    }
+
+    return true;
+  };
+
+  useEffect(() => {
+    if (embed?.imageid) {
+      fetchImage(embed.imageid, articleLanguage).then(image => {
+        setImage(image);
+      });
+    }
+  }, [embed?.imageid, articleLanguage]);
 
   return (
     <>
@@ -276,14 +322,11 @@ const VisualElementUrlPreview = ({
           <Button
             disabled={url === selectedResourceUrl || url === ''}
             outline
-            onClick={() => handleSaveUrl(url!, true)}>
+            onClick={() => handleSaveUrl(true)}>
             {t('form.content.link.preview')}
           </Button>
         )}
-        <Button
-          disabled={url === '' || url === selectedResourceUrl || !!error}
-          outline
-          onClick={() => handleSaveUrl(url ?? '')}>
+        <Button disabled={!canSave()} outline onClick={() => handleSaveUrl()}>
           {isChangedUrl ? t('form.content.link.insert') : t('form.content.link.update')}
         </Button>
       </StyledButtonWrapper>

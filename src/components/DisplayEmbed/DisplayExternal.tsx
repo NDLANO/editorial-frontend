@@ -83,20 +83,14 @@ export class DisplayExternal extends Component<Props, State> {
   }
 
   onEditEmbed(properties: Embed) {
-    const { editor, element, embed } = this.props;
-    const prevUrl = embed.resource === 'external' ? embed.url : undefined;
-    const currentUrl = properties.resource === 'external' ? properties.url : undefined;
-    const prevPath = embed.resource === 'h5p' ? embed.path : undefined;
-    const currentPath = properties.resource === 'h5p' ? properties.path : undefined;
+    const { editor, element } = this.props;
 
-    if (prevUrl !== currentUrl || prevPath !== currentPath) {
-      Transforms.setNodes(
-        editor,
-        { data: { ...properties } },
-        { at: ReactEditor.findPath(editor, element) },
-      );
-      this.closeEditEmbed();
-    }
+    Transforms.setNodes(
+      editor,
+      { data: { ...properties } },
+      { at: ReactEditor.findPath(editor, element) },
+    );
+    this.closeEditEmbed();
   }
 
   async getPropsFromEmbed() {
@@ -237,6 +231,7 @@ export class DisplayExternal extends Component<Props, State> {
           frameBorder="0"
         />
         <DisplayExternalModal
+          embed={embed}
           isEditMode={isEditMode}
           src={src}
           type={type}

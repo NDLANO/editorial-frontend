@@ -133,7 +133,9 @@ export interface ExternalEmbed {
   metaData?: any;
   caption?: string;
   title?: string;
+  width?: string;
   height?: string;
+  imageid?: string;
 }
 
 export interface ErrorEmbed {

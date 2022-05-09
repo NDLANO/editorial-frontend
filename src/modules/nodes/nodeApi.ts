@@ -234,11 +234,11 @@ interface NodeResourcePostParams extends WithTaxonomyVersion {
 export const postResourceForNode = ({
   body,
   taxonomyVersion,
-}: NodeResourcePostParams): Promise<void> =>
+}: NodeResourcePostParams): Promise<string> =>
   postAndResolve({
     url: resUrl,
     body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
+    alternateResolve: resolveLocation,
     taxonomyVersion,
   });
 

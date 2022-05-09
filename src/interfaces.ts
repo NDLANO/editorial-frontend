@@ -39,6 +39,8 @@ export type EditMode =
   | 'deleteSubject'
   | 'requestPublish'
   | 'deleteNode'
+  | 'copyResources'
+  | 'cloneResources'
   | '';
 
 export interface SearchResultBase<T> {

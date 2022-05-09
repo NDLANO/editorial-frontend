@@ -1222,8 +1222,18 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
-    copyResources: 'Reuse resources from topic',
-    copyAndCloneResources: 'Copy and clone resources from topic',
+    copyResources: {
+      error: 'Something went wrong during copying',
+      info: 'Reuse resources from topic',
+      done: 'Resources copied',
+      waiting: 'Copying resources',
+    },
+    cloneResources: {
+      error: 'Something went wrong during cloning',
+      info: 'Copy and clone resources from topic',
+      done: 'Resources cloned',
+      waiting: 'Cloning resources',
+    },
     favorites: 'Show favorites',
     publish: {
       button: 'Publish all resources',

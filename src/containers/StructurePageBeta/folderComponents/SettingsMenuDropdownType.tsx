@@ -23,6 +23,7 @@ import AddExistingToNode from './sharedMenuOptions/AddExistingToNode';
 import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
 import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
 import PublishChildNodeResources from './topicMenuOptions/PublishChildNodeResources';
+import CopyNodeResources from './topicMenuOptions/CopyNodeResources';
 
 interface Props {
   rootNodeId: string;
@@ -117,7 +118,16 @@ const SettingsMenuDropdownType = ({
           editModeHandler={editModeHandler}
           rootNodeId={rootNodeId}
         />
-        {/* <CopyResources toNode={node} structure={structure} onClose={onClose} /> */}
+        <CopyNodeResources
+          currentNode={node}
+          editModeHandler={editModeHandler}
+          type="copyResources"
+        />
+        <CopyNodeResources
+          currentNode={node}
+          editModeHandler={editModeHandler}
+          type="cloneResources"
+        />
       </>
     );
   } else return null;

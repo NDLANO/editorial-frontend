@@ -1223,8 +1223,18 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjøre dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
-    copyResources: 'Gjenbruk ressurser fra emne',
-    copyAndCloneResources: 'Kopier og klon ressurser fra emne',
+    copyResources: {
+      info: 'Gjenbruk ressurser fra emne',
+      done: 'Ressurser ferdigkopiert!',
+      waiting: 'Kopierer ressurser',
+      error: 'Noe gikk galt under kopiering',
+    },
+    cloneResources: {
+      info: 'Kopier og klon ressurser fra emne',
+      done: 'Ressurser ferdigklonet!',
+      waiting: 'Kloner ressurser',
+      error: 'Noe gikk galt under kloning',
+    },
     favorites: 'Vis favoritter',
     publish: {
       button: 'Publiser alle ressurser',

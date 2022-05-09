@@ -96,7 +96,7 @@ const OpenMenu = ({ close }: Props) => {
                 </span>
               </StyledLink>
             )}
-            {config.versioningEnabled && (
+            {config.versioningEnabled === 'true' && (
               <StyledLink to="publishRequests" onClick={close}>
                 <span>
                   <Taxonomy /> {t('subNavigation.publishRequests')}

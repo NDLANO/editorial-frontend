@@ -10,7 +10,8 @@ import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { spacing, colors } from '@ndla/core';
+import { Spinner } from '@ndla/editor';
 import { Plus } from '@ndla/icons/action';
 import { Done } from '@ndla/icons/editor';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
@@ -22,7 +23,6 @@ import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import { fetchConnectionsForNode } from '../../../../modules/nodes/nodeApi';
 import { childNodesWithArticleTypeQueryKey } from '../../../../modules/nodes/nodeQueries';
 import RoundIcon from '../../../../components/RoundIcon';
-import { StyledErrorMessage } from '../styles';
 import MenuItemButton from './components/MenuItemButton';
 import NodeSearchDropdown from './components/NodeSearchDropdown';
 import { EditModeHandler } from '../SettingsMenuDropdownType';
@@ -44,6 +44,27 @@ const Wrapper = styled.div`
   align-items: center;
   margin: calc(${spacing.small} / 2);
 `;
+
+const MenuContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const StyledMenuWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+`;
+
+const StyledErrorMessage = styled.div`
+  color: ${colors.support.red};
+`;
+
+const StyledActionContent = styled.div`
+  padding-left: ${spacing.normal};
+`;
+
 const AddExistingToNode = ({
   editModeHandler: { editMode, toggleEditMode },
   currentNode,
@@ -53,6 +74,7 @@ const AddExistingToNode = ({
   const deleteNodeConnectionMutation = useDeleteNodeConnectionMutation();
   const addNodeConnectionMutation = usePostNodeConnectionMutation();
   const [error, setError] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const qc = useQueryClient();
 
@@ -65,7 +87,9 @@ const AddExistingToNode = ({
   const toggleEditModeFunc = () => toggleEditMode('addExistingTopic');
 
   const handleSubmit = async (node: NodeType) => {
+    setLoading(true);
     setError(undefined);
+    toggleEditModeFunc();
     try {
       const connections = await fetchConnectionsForNode({ id: node.id, taxonomyVersion });
       const parentConnection = connections.find(conn => conn.type === 'parent-topic');
@@ -89,10 +113,11 @@ const AddExistingToNode = ({
           language: i18n.language,
         }),
       );
-      toggleEditModeFunc();
       setSuccess(true);
     } catch (e) {
       setError('taxonomy.errorMessage');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,19 +139,34 @@ const AddExistingToNode = ({
             );
           }}
         />
-        {error && (
-          <StyledErrorMessage data-testid="inlineEditErrorMessage">{t(error)}</StyledErrorMessage>
-        )}
       </Wrapper>
     );
   }
 
   return (
-    <MenuItemButton stripped onClick={toggleEditModeFunc}>
-      <RoundIcon small icon={<Plus />} />
-      {t('taxonomy.addExistingTopic')}
-      {success && <StyledSuccessIcon />}
-    </MenuItemButton>
+    <StyledMenuWrapper>
+      <MenuItemButton stripped onClick={toggleEditModeFunc}>
+        <RoundIcon small icon={<Plus />} />
+        {t('taxonomy.addExistingTopic')}
+      </MenuItemButton>
+      <StyledActionContent>
+        {loading && (
+          <MenuContent>
+            <Spinner size="normal" margin="0px 4px" />
+            {t('taxonomy.addExistingLoading')}
+          </MenuContent>
+        )}
+        {success && (
+          <MenuContent>
+            <StyledSuccessIcon />
+            {t('taxonomy.addExistingSuccess')}
+          </MenuContent>
+        )}
+        {error && (
+          <StyledErrorMessage data-testid="inlineEditErrorMessage">{t(error)}</StyledErrorMessage>
+        )}
+      </StyledActionContent>
+    </StyledMenuWrapper>
   );
 };
 

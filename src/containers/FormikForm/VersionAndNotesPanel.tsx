@@ -104,6 +104,7 @@ const VersionAndNotesPanel = ({ article, getArticle, type, currentLanguage }: Pr
           editorLabels: [],
           relatedContent: [],
           status: { current: 'PUBLISHED', other: [] },
+          revisions: [],
         };
       }
       const transform =

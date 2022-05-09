@@ -1179,6 +1179,8 @@ const phrases = {
     deleteSubject: 'Slett fag',
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterande emne hit',
+    addExistingLoading: 'Flyttar emne',
+    addExistingSuccess: 'Emnet har blitt flytta!',
     newSubject: 'Nytt fag',
     resources: 'Ressurser',
     existingTopic: 'Eksisterande emne',
@@ -1225,8 +1227,10 @@ const phrases = {
     copyAndCloneResources: 'Kopier og klon ressurser fra emne',
     favorites: 'Vis favorittar',
     publish: {
-      button: 'Publiser alt',
+      button: 'Publiser alle ressursar',
       waiting: 'Publiserar ressurser',
+      info:
+        'Er du sikker på at du ønskjar å publisere alle ressursane som er knytta til denne noden?',
       done: 'Ressurser er publisert',
       error: 'Følgande ressurser blei ikkje publisert:',
     },
@@ -1282,8 +1286,8 @@ const phrases = {
     missingResourceType: 'Mangler ressurstype',
     metadata: {
       customFields: {
-        cancelPublishRequest: 'Avlys publiseringsforespørsel',
-        requestPublish: 'Be om publisering',
+        cancelPublishRequest: 'Avlys forespørjing om delvis publisering av struktur',
+        requestPublish: 'Be om delvis publisering av struktur',
         requestVersionError: 'Publiseringsforespørjingar kan bare opprettes fra standardversjonen',
         alterFields: 'Legg til/endra metadata',
         addField: 'Nytt metadata felt',

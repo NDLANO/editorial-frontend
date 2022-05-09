@@ -1178,6 +1178,8 @@ const phrases = {
     deleteSubject: 'Delete subject',
     addSubject: 'Add new subject',
     addExistingTopic: 'Move existing topic here',
+    addExistingLoading: 'Moving topic',
+    addExistingSuccess: 'Topic successfully moved',
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',
@@ -1224,8 +1226,9 @@ const phrases = {
     copyAndCloneResources: 'Copy and clone resources from topic',
     favorites: 'Show favorites',
     publish: {
-      button: 'Publish all',
+      button: 'Publish all resources',
       waiting: 'Publishing resourses',
+      info: 'Are you sure you want to publish all resources associated with this node?',
       done: 'Resources published',
       error: 'The following resources were not published:',
     },
@@ -1280,8 +1283,8 @@ const phrases = {
     missingResourceType: 'Missing resource type',
     metadata: {
       customFields: {
-        cancelPublishRequest: 'Cancel publish request',
-        requestPublish: 'Request publish',
+        cancelPublishRequest: 'Cancel request for partial structure publication',
+        requestPublish: 'Request partial publication of structure',
         requestVersionError: 'Publish requests can only be made from the default version',
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',

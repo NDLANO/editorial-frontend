@@ -8,7 +8,7 @@
 
 import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
 import { NodeTree } from '../../containers/NodeDiff/diffUtils';
-import { WithTaxonomyVersion } from '../../interfaces';
+import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
 import {
   CHILD_NODES_WITH_ARTICLE_TYPE,
   CONNECTIONS_FOR_NODE,
@@ -17,6 +17,7 @@ import {
   NODE_TRANSLATIONS,
   RESOURCES_WITH_NODE_CONNECTION,
   ROOT_NODE_WITH_CHILDREN,
+  SEARCH_NODES,
 } from '../../queryKeys';
 import { searchDrafts } from '../draft/draftApi';
 import {
@@ -26,6 +27,7 @@ import {
   fetchNodeResources,
   fetchNodes,
   fetchNodeTranslations,
+  searchNodes,
 } from './nodeApi';
 import {
   ChildNodeType,
@@ -220,6 +222,27 @@ export const useResourcesWithNodeConnection = (
   return useQuery<ResourceWithNodeConnection[]>(
     resourcesWithNodeConnectionQueryKey(params),
     () => fetchNodeResources(params),
+    options,
+  );
+};
+
+interface UseSearchNodes extends WithTaxonomyVersion {
+  ids?: string[];
+  language?: string;
+  nodeType?: 'NODE' | 'TOPIC' | 'SUBJECT';
+  page?: number;
+  pageSize?: number;
+  query?: string;
+}
+
+export const searchNodesQueryKey = (params: UseSearchNodes) => [SEARCH_NODES, params];
+export const useSearchNodes = (
+  params: UseSearchNodes,
+  options?: UseQueryOptions<SearchResultBase<NodeType>>,
+) => {
+  return useQuery<SearchResultBase<NodeType>>(
+    searchNodesQueryKey(params),
+    () => searchNodes(params),
     options,
   );
 };

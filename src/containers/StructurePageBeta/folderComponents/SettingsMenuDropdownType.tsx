@@ -19,6 +19,7 @@ import EditGrepCodes from './sharedMenuOptions/EditGrepCodes';
 import RequestNodePublish from './sharedMenuOptions/RequestNodePublish';
 import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
 import ToNodeDiff from './sharedMenuOptions/ToNodeDiff';
+import AddExistingToNode from './sharedMenuOptions/AddExistingToNode';
 import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
 import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
 
@@ -64,13 +65,7 @@ const SettingsMenuDropdownType = ({
           node={node}
           onCurrentNodeChanged={onCurrentNodeChanged}
         />
-        {/* <AddExistingToNode
-          node={node}
-          editModeHandler={editModeHandler}
-          onClose={onClose}
-          structure={structure}
-          rootNodeId={rootNodeId}
-        /> */}
+        <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
         <EditSubjectpageOption node={node} />
@@ -102,14 +97,7 @@ const SettingsMenuDropdownType = ({
           node={node}
           onCurrentNodeChanged={onCurrentNodeChanged}
         />
-        {/* <DeleteChildNode editModeHandler={editModeHandler} node={node} rootNodeId={rootNodeId} />
-        <AddExistingToNode
-          node={node}
-          editModeHandler={editModeHandler}
-          onClose={onClose}
-          rootNodeId={rootNodeId}
-          structure={structure}
-        /> */}
+        <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
         {config.versioningEnabled === 'true' && (

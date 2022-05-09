@@ -6,7 +6,6 @@
  *
  */
 
-import BEMHelper from 'react-bem-helper';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 
@@ -24,11 +23,6 @@ interface Props {
   search: string;
   index: number;
 }
-
-export const classes = new BEMHelper({
-  name: 'saved-search',
-  prefix: 'c-',
-});
 
 const SavedSearch = ({ deleteSearch, search, index }: Props) => {
   const { t, i18n } = useTranslation();
@@ -93,7 +87,8 @@ const SavedSearch = ({ deleteSearch, search, index }: Props) => {
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      <Link {...classes('link')} to={localizedSearch}>
+      {/* Not having a className activates undesirable global scss */}
+      <Link className="" to={localizedSearch}>
         {linkText(searchObject)}
       </Link>
     </div>

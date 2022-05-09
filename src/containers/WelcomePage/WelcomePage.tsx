@@ -6,9 +6,8 @@
  *
  */
 
-import BEMHelper from 'react-bem-helper';
-//@ts-ignore
 import { OneColumn } from '@ndla/ui';
+import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { SearchFolder } from '@ndla/icons/editor';
@@ -21,6 +20,7 @@ import SaveSearchUrl from './components/SaveSearchUrl';
 import Footer from '../App/components/Footer';
 import LastUsedItems from './components/LastUsedItems';
 import { useUserData } from '../../modules/draft/draftQueries';
+import { StyledColumnHeader } from './styles';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -30,10 +30,28 @@ const ContentWrapper = styled.div`
   overflow: auto;
 `;
 
-export const classes = new BEMHelper({
-  name: 'welcome',
-  prefix: 'c-',
-});
+const StyledHeader = styled.div`
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledHeaderImage = styled.img`
+  margin-top: -250px;
+`;
+
+const StyledTwoColumn = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 80%;
+  margin-top: ${spacing.large};
+  & > div {
+    flex: 1;
+  }
+`;
 
 export const WelcomePage = () => {
   const { t } = useTranslation();
@@ -48,23 +66,23 @@ export const WelcomePage = () => {
     <ContentWrapper>
       <HelmetWithTracker title={t('htmlTitles.welcomePage')} />
       <OneColumn>
-        <div {...classes('header')}>
+        <StyledHeader>
           {/* <a href="#guidelines" {...classes('header-link')}>
               {t('welcomePage.guidelines')}
               <RightArrow className="c-icon--large" />
             </a> */}
-          <img {...classes('header-image')} src="/welcome-image.jpg" alt="illustration" />
-        </div>
-        <div {...classes('two-column')}>
+          <StyledHeaderImage src="/welcome-image.jpg" alt="illustration" />
+        </StyledHeader>
+        <StyledTwoColumn>
           <LastUsedItems lastUsed={lastUsed} />
           <div>
-            <div {...classes('column-header')}>
+            <StyledColumnHeader>
               <SearchFolder className="c-icon--medium" />
               <span>{t('welcomePage.savedSearch')}</span>
-            </div>
+            </StyledColumnHeader>
             <SaveSearchUrl />
           </div>
-        </div>
+        </StyledTwoColumn>
       </OneColumn>
       <Footer showLocaleSelector />
     </ContentWrapper>

@@ -9,8 +9,7 @@
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { colors, mq, breakpoints } from '@ndla/core';
-import { classes } from './ResourceGroup';
-import { toEditArticle, toLearningpathFull } from '../../../util/routeHelpers';
+import { toEditArticle, toLearningpathFull } from '../../util/routeHelpers';
 
 const StyledH1 = styled.h1<{ isVisible?: boolean }>`
   font-style: ${props => !props.isVisible && 'italic'};
@@ -49,7 +48,7 @@ const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = t
         rel: 'noopener noreferrer',
       };
       return (
-        <StyledH1 isVisible={isVisible} {...classes('title')}>
+        <StyledH1 isVisible={isVisible}>
           <a {...linkProps}>{name}</a>
         </StyledH1>
       );
@@ -59,17 +58,11 @@ const ResourceItemLink = ({ contentType, contentUri, locale, name, isVisible = t
         to={toEditArticle(parseInt(linkTo), contentType!)}
         target="_blank"
         rel="noopener noreferrer">
-        <StyledH1 isVisible={isVisible} {...classes('title')}>
-          {name}
-        </StyledH1>
+        <StyledH1 isVisible={isVisible}>{name}</StyledH1>
       </Link>
     );
   }
-  return (
-    <StyledH1 isVisible={isVisible} {...classes('title')}>
-      {name}
-    </StyledH1>
-  );
+  return <StyledH1 isVisible={isVisible}>{name}</StyledH1>;
 };
 
 export default ResourceItemLink;

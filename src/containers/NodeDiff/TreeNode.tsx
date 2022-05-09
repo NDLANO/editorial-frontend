@@ -14,13 +14,13 @@ import { spacing, colors } from '@ndla/core';
 import { NodeType } from '../../modules/nodes/nodeApiTypes';
 import { createGuard } from '../../util/guards';
 import { nodePathToUrnPath } from '../../util/taxonomyHelpers';
-import Fade from '../StructurePageBeta/Fade';
+import Fade from '../../components/Taxonomy/Fade';
 import {
   ItemTitleButton,
   StructureWrapper,
   StyledItemBar,
   StyledStructureItem,
-} from '../StructurePageBeta/nodeStyles';
+} from '../../components/Taxonomy/nodeStyles';
 import {
   DiffResultType,
   DiffTree,

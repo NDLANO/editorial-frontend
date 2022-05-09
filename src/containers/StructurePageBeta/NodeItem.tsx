@@ -9,8 +9,7 @@ import { DropResult } from 'react-beautiful-dnd';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/ui';
 import { Star } from '@ndla/icons/editor';
-// import FolderItem from './folderComponents/FolderItem';
-import Fade from './Fade';
+import Fade from '../../components/Taxonomy/Fade';
 import MakeDndList from './MakeDNDList';
 import { createGuard } from '../../util/guards';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
@@ -22,7 +21,7 @@ import {
   StyledIcon,
   StyledItemBar,
   StyledStructureItem,
-} from './nodeStyles';
+} from '../../components/Taxonomy/nodeStyles';
 
 export type RenderBeforeFunction = (
   input: ChildNodeType | NodeType,

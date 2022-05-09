@@ -25,8 +25,8 @@ import {
 } from '../../../modules/taxonomy/versions/versionMutations';
 import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
 import { ActionButton } from '../../FormikForm';
-import { StyledErrorMessage } from '../../StructurePage/folderComponents/styles';
-import Fade from '../../StructurePageBeta/Fade';
+import { StyledErrorMessage } from './StyledErrorMessage';
+import Fade from '../../../components/Taxonomy/Fade';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import {
   VersionFormType,

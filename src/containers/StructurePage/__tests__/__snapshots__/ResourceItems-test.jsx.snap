@@ -309,7 +309,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             Kontrast og balanse i grafisk design
           </h1>
@@ -371,7 +371,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -440,7 +440,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/89/first-step"
@@ -508,7 +508,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -577,7 +577,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/78/first-step"
@@ -645,7 +645,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -714,7 +714,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/813/first-step"
@@ -782,7 +782,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -851,7 +851,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/508/first-step"
@@ -919,7 +919,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -988,7 +988,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/401/first-step"
@@ -1056,7 +1056,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"

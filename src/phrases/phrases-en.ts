@@ -1178,6 +1178,8 @@ const phrases = {
     deleteSubject: 'Delete subject',
     addSubject: 'Add new subject',
     addExistingTopic: 'Move existing topic here',
+    addExistingLoading: 'Moving topic',
+    addExistingSuccess: 'Topic successfully moved',
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',

@@ -1179,6 +1179,8 @@ const phrases = {
     deleteSubject: 'Slett fag',
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterande emne hit',
+    addExistingLoading: 'Flyttar emne',
+    addExistingSuccess: 'Emnet har blitt flytta!',
     newSubject: 'Nytt fag',
     resources: 'Ressurser',
     existingTopic: 'Eksisterande emne',

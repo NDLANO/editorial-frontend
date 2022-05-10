@@ -7,12 +7,12 @@
  */
 
 import { useState } from 'react';
+import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import { Cross, Plus } from '@ndla/icons/action';
 import { H5P, Camera, Video, Link } from '@ndla/icons/editor';
-import { visualElementClasses } from '../FormikForm/components/VisualElementField';
 
 const visualElementButtonStyle = css`
   height: 40px;
@@ -30,6 +30,14 @@ const visualElementButtonStyle = css`
   }
 `;
 
+interface StyledDivProps {
+  hidden?: boolean;
+}
+
+const DisplayContainer = styled.div<StyledDivProps>`
+  display: ${p => (p.hidden ? 'none' : 'inline-block')};
+`;
+
 interface Props {
   types?: string[];
   onSelect: Function;
@@ -37,7 +45,6 @@ interface Props {
 
 const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] }: Props) => {
   const [isOpen, setOpen] = useState(false);
-  const typeClassName = isOpen ? '' : 'hidden';
 
   const handleSelect = (type: string) => {
     setOpen(false);
@@ -71,7 +78,7 @@ const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] 
       <Button stripped css={visualElementButtonStyle} onClick={toggleIsOpen}>
         {isOpen ? <Cross /> : <Plus />}
       </Button>
-      <div {...visualElementClasses('type', typeClassName)}>
+      <DisplayContainer hidden={!isOpen}>
         {visualElementButtons
           .filter(button => types.find(type => type === button.type))
           .map(button => {
@@ -85,7 +92,7 @@ const VisualElementMenu = ({ onSelect, types = ['image', 'video', 'h5p', 'url'] 
               </Button>
             );
           })}
-      </div>
+      </DisplayContainer>
     </div>
   );
 };

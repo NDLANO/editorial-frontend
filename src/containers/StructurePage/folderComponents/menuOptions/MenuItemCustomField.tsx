@@ -21,6 +21,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
   TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -32,6 +33,7 @@ import ToggleExplanationSubject from './ToggleExplanationSubject';
 import TaxonomyMetadataLanguageSelector from './TaxonomyMetadataLanguageSelector';
 import ConstantMetaField from './ConstantMetaField';
 import SubjectCategorySelector from './SubjectCategorySelector';
+import SubjectTypeSelector from './SubjectTypeSelector';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props extends TaxonomyElement {
@@ -81,6 +83,7 @@ const MenuItemCustomField = ({
     TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
     TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   ];
   const filteredTopicFields = [
@@ -104,6 +107,10 @@ const MenuItemCustomField = ({
             updateCustomFields={setCustomFields}
           />
           <SubjectCategorySelector
+            customFields={metadata.customFields}
+            updateCustomFields={setCustomFields}
+          />
+          <SubjectTypeSelector
             customFields={metadata.customFields}
             updateCustomFields={setCustomFields}
           />

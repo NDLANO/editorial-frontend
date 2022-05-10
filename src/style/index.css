@@ -24,13 +24,9 @@
 @import './search.css';
 @import './toolbar.css';
 @import './vars.css';
-@import './footnotes.css';
 @import './table.css';
-@import './tag.css';
 @import './topic-resource.css';
-@import './visual-element.css';
 @import './tooltip.css';
-@import './article-preview.css';
 
 .c-audio-search {
   width: 70%;

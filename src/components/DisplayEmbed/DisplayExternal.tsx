@@ -9,12 +9,13 @@
 import { Component, ReactNode, MouseEvent } from 'react';
 import { Editor, Transforms } from 'slate';
 import { ReactEditor, RenderElementProps } from 'slate-react';
+import { ResourceBox } from '@ndla/ui';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
-import { fetchExternalOembed } from '../../util/apiHelpers';
+import { apiResourceUrl, fetchExternalOembed } from '../../util/apiHelpers';
 import { urlOrigin, getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
@@ -22,6 +23,7 @@ import config from '../../config';
 import { getH5pLocale } from '../H5PElement/h5pApi';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
 import { EmbedElement } from '../SlateEditor/plugins/embed';
+import SlateResourceBox from './SlateResourceBox';
 
 interface Props extends CustomWithTranslation {
   element: EmbedElement;
@@ -193,12 +195,13 @@ export class DisplayExternal extends Component<Props, State> {
     if (!src || !type) {
       return <div />;
     }
+
     return (
       <div
-        className="c-figure"
+        className={'c-figure'}
         css={
           showCopyOutline && {
-            boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+            boxShadow: 'rgb(32, 88, 143) 0 0 0 2px',
           }
         }
         {...attributes}>
@@ -221,15 +224,19 @@ export class DisplayExternal extends Component<Props, State> {
               : undefined
           }
         />
-        <iframe
-          contentEditable={false}
-          src={src}
-          height={allowedProvider.height || height}
-          title={title}
-          scrolling={type === 'iframe' ? 'no' : undefined}
-          allowFullScreen={true}
-          frameBorder="0"
-        />
+        {embed.resource === 'iframe' && embed.type === 'fullscreen' ? (
+          <SlateResourceBox embed={embed} language={language} />
+        ) : (
+          <iframe
+            contentEditable={false}
+            src={src}
+            height={allowedProvider.height || height}
+            title={title}
+            scrolling={type === 'iframe' ? 'no' : undefined}
+            allowFullScreen={true}
+            frameBorder="0"
+          />
+        )}
         <DisplayExternalModal
           embed={embed}
           isEditMode={isEditMode}

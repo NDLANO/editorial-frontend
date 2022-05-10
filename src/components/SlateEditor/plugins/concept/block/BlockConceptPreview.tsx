@@ -14,6 +14,7 @@ import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { ConceptNotion } from '@ndla/ui';
+import { getLicenseCredits } from '@ndla/licenses';
 import { IConcept } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
@@ -99,6 +100,13 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
     alt: concept.metaImage.alt,
   };
 
+  const { creators, rightsholders, processors } = getLicenseCredits(concept.copyright);
+
+  const authors = (creators.length || rightsholders.length
+    ? [...creators, ...rightsholders]
+    : [...processors]
+  ).map(contributor => contributor.name);
+
   return (
     <>
       <ConceptNotion
@@ -108,6 +116,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
           title: concept.title.title,
           image,
           visualElement,
+          authors,
         }}
         disableScripts={true}
       />

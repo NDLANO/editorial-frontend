@@ -189,17 +189,18 @@ const VisualElementUrlPreview = ({
                 title,
                 caption: description,
                 imageid: image?.id,
+                type: 'fullscreen',
               }
             : {
                 width: '708px',
                 height: whiteListedUrl.height || '486px',
+                type: 'iframe',
               };
           onUrlSave({
             type: 'embed',
             value: {
               ...data,
               resource: 'iframe',
-              type: 'iframe',
               url,
             } as ExternalEmbed,
           });

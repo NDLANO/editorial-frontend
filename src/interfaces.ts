@@ -37,6 +37,10 @@ export type EditMode =
   | 'addExistingTopic'
   | 'addTopic'
   | 'deleteSubject'
+  | 'requestPublish'
+  | 'deleteNode'
+  | 'copyResources'
+  | 'cloneResources'
   | '';
 
 export interface SearchResultBase<T> {

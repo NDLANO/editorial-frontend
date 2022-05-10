@@ -68,7 +68,7 @@ interface ResourcePostParams extends WithTaxonomyVersion {
 export const createResource = ({ body, taxonomyVersion }: ResourcePostParams): Promise<string> => {
   return postAndResolve({
     url: resourcesUrl,
-    body,
+    body: JSON.stringify(body),
     taxonomyVersion,
     alternateResolve: resolveLocation,
   });
@@ -145,7 +145,7 @@ export const queryResources = ({
     taxonomyVersion,
     queryParams: {
       language,
-      contentURI: encodeURIComponent(`urn:${contentType}:${contentId}`),
+      contentURI: `urn:${contentType}:${contentId}`,
     },
   });
 };
@@ -167,7 +167,7 @@ export const queryTopics = ({
     taxonomyVersion,
     queryParams: {
       language,
-      contentURI: encodeURIComponent(`urn:${contentType}:${contentId}`),
+      contentURI: `urn:${contentType}:${contentId}`,
     },
   });
 };
@@ -181,8 +181,11 @@ export const queryLearningPathResource = ({
   taxonomyVersion,
 }: LearningpathResourceQueryParams): Promise<Resource[]> => {
   return fetchAndResolve({
-    url: `${resourcesUrl}${encodeURIComponent(`urn:learningpath:${learningpathId}`)}`,
+    url: resourcesUrl,
     taxonomyVersion,
+    queryParams: {
+      contentURI: `urn:learningpath:${learningpathId}`,
+    },
   });
 };
 
@@ -241,5 +244,27 @@ export const setResourceTranslation = ({
     taxonomyVersion,
     body: JSON.stringify(body),
     alternateResolve: resolveVoidOrRejectWithError,
+  });
+};
+
+interface CloneResourceParams extends WithTaxonomyVersion {
+  id: string;
+  body: {
+    contentUri?: string;
+    name: string;
+    id?: string;
+  };
+}
+
+export const cloneResource = ({
+  id,
+  body,
+  taxonomyVersion,
+}: CloneResourceParams): Promise<string> => {
+  return postAndResolve({
+    url: `${resourcesUrl}/${id}/clone`,
+    taxonomyVersion,
+    body: JSON.stringify(body),
+    alternateResolve: resolveLocation,
   });
 };

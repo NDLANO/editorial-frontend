@@ -29,14 +29,25 @@ const SettingsMenuWrapper = styled('div')`
   }
 `;
 
+const IndexWrapper = styled.div`
+  z-index: 2;
+`;
+
 interface Props {
   node: NodeType;
   rootNodeId: string;
   structure: NodeType[];
+  nodeChildren: NodeType[];
   onCurrentNodeChanged: (node: NodeType) => void;
 }
 
-const SettingsMenu = ({ node, rootNodeId, structure, onCurrentNodeChanged }: Props) => {
+const SettingsMenu = ({
+  node,
+  rootNodeId,
+  structure,
+  onCurrentNodeChanged,
+  nodeChildren,
+}: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const nodeType = getNodeTypeFromNodeId(node.id);
@@ -49,7 +60,7 @@ const SettingsMenu = ({ node, rootNodeId, structure, onCurrentNodeChanged }: Pro
         <RoundIcon icon={<Settings />} margin open={open} />
       </Button>
       {open && (
-        <>
+        <IndexWrapper>
           <Overlay modifiers={['zIndex']} onExit={toggleOpenMenu} />
           <StyledDivWrapper>
             <div className="header">
@@ -68,9 +79,10 @@ const SettingsMenu = ({ node, rootNodeId, structure, onCurrentNodeChanged }: Pro
               rootNodeId={rootNodeId}
               structure={structure}
               onCurrentNodeChanged={onCurrentNodeChanged}
+              nodeChildren={nodeChildren}
             />
           </StyledDivWrapper>
-        </>
+        </IndexWrapper>
       )}
     </SettingsMenuWrapper>
   );

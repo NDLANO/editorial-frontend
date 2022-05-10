@@ -13,7 +13,6 @@ import { DRAFT_HTML_SCOPE } from '../../../constants';
 import formatDate from '../../../util/formatDate';
 import { toEditArticle, toEditMarkup } from '../../../util/routeHelpers';
 import { EditMarkupLink } from '../../../components/EditMarkupLink';
-import { classes } from '../WelcomePage';
 import { useDraft } from '../../../modules/draft/draftQueries';
 import { useSession } from '../../Session/SessionProvider';
 
@@ -26,13 +25,13 @@ const LastUsedContent = ({ articleId }: Props) => {
   const locale = i18n.language;
   const { userPermissions } = useSession();
 
-  const { data: article } = useDraft(articleId, locale);
+  const { data: article } = useDraft({ id: articleId, language: locale });
 
   return (
-    <div {...classes('result')}>
+    <div>
       {article && (
         <>
-          <Link {...classes('link')} to={toEditArticle(article.id, article.articleType)}>
+          <Link className="" to={toEditArticle(article.id, article.articleType)}>
             {article.title?.title} ({t('article.lastUpdated')}{' '}
             {article && formatDate(article.updated)})
           </Link>

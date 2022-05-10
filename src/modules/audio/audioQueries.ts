@@ -7,7 +7,6 @@
  */
 
 import { useQuery, UseQueryOptions } from 'react-query';
-import queryString from 'query-string';
 import {
   IAudioMetaInformation,
   IAudioSummarySearchResult,
@@ -15,38 +14,54 @@ import {
   ISeries,
 } from '@ndla/types-audio-api';
 import { AUDIO, PODCAST_SERIES, SEARCH_AUDIO, SEARCH_SERIES } from '../../queryKeys';
-import { SeriesSearchParams } from './audioApiInterfaces';
+import { AudioSearchParams, SeriesSearchParams } from './audioApiInterfaces';
 import { fetchAudio, fetchSeries, searchAudio, searchSeries } from './audioApi';
 
-export const useAudio = (
-  id: number,
-  language: string | undefined,
-  options?: UseQueryOptions<IAudioMetaInformation>,
-) =>
-  useQuery<IAudioMetaInformation>([AUDIO, id, language], () => fetchAudio(id, language), options);
+export interface UseAudio {
+  id: number;
+  language?: string;
+}
 
-export const useSeries = (
-  id: number,
-  language: string | undefined,
-  options?: UseQueryOptions<ISeries>,
-) => useQuery<ISeries>([PODCAST_SERIES, id, language], () => fetchSeries(id, language), options);
+export const audioQueryKeys = (params?: Partial<UseAudio>) => [AUDIO, params];
 
+export const useAudio = (params: UseAudio, options?: UseQueryOptions<IAudioMetaInformation>) =>
+  useQuery<IAudioMetaInformation>(
+    audioQueryKeys(params),
+    () => fetchAudio(params.id, params.language),
+    options,
+  );
+
+export interface UseSeries {
+  id: number;
+  language?: string;
+}
+
+export const seriesQueryKey = (params?: Partial<UseSeries>) => [PODCAST_SERIES, params];
+
+export const useSeries = (params: UseSeries, options?: UseQueryOptions<ISeries>) =>
+  useQuery<ISeries>(seriesQueryKey(params), () => fetchSeries(params.id, params.language), options);
+
+export const searchSeriesQueryKey = (params?: Partial<SeriesSearchParams>) => [
+  SEARCH_SERIES,
+  params,
+];
 export const useSearchSeries = (
   query: SeriesSearchParams,
   options?: UseQueryOptions<ISeriesSummarySearchResult>,
 ) =>
   useQuery<ISeriesSummarySearchResult>(
-    [SEARCH_SERIES, queryString.stringify(query)],
+    searchSeriesQueryKey(query),
     () => searchSeries(query),
     options,
   );
 
+export const searchAudioQueryKey = (params?: Partial<AudioSearchParams>) => [SEARCH_AUDIO, params];
 export const useSearchAudio = (
-  query: object,
+  query: AudioSearchParams,
   options?: UseQueryOptions<IAudioSummarySearchResult>,
 ) =>
   useQuery<IAudioSummarySearchResult>(
-    [SEARCH_AUDIO, queryString.stringify(query)],
+    searchAudioQueryKey(query),
     () => searchAudio(query),
     options,
   );

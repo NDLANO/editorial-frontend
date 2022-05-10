@@ -85,7 +85,6 @@ export const getUpdatedConceptType = (
 ): IUpdatedConcept => ({
   ...getNewConceptType(values, licenses),
   metaImage: metaImageFromForm(values) ?? null,
-  status: values.status?.current,
 });
 
 export const conceptFormTypeToApiType = (

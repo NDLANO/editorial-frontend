@@ -6,10 +6,11 @@
  *
  */
 
-import { TopicResource } from '../containers/StructurePage/resourceComponents/StructureResources';
+import { IStatus } from '@ndla/types-draft-api';
 import { FlattenedResourceType } from '../interfaces';
 import {
   ResourceType,
+  ResourceWithTopicConnection,
   SubjectTopic,
   TaxonomyElement,
 } from '../modules/taxonomy/taxonomyApiInterfaces';
@@ -159,6 +160,10 @@ const topicResourcesByTypeWithMetaData = (
   }));
 };
 
+interface TopicResource extends ResourceWithTopicConnection {
+  articleType?: string;
+  status?: IStatus;
+}
 const groupSortResourceTypesFromTopicResources = (
   resourceTypes: ResourceType[],
   topicResources: TopicResource[],

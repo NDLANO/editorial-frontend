@@ -7,22 +7,30 @@
  */
 
 import { useState } from 'react';
+import config from '../../../config';
 import { TAXONOMY_ADMIN_SCOPE } from '../../../constants';
 import { EditMode } from '../../../interfaces';
 import { NodeType, SUBJECT_NODE, TOPIC_NODE } from '../../../modules/nodes/nodeApiTypes';
 import { getNodeTypeFromNodeId } from '../../../modules/nodes/nodeUtil';
 import { useSession } from '../../Session/SessionProvider';
+import DeleteNode from './sharedMenuOptions/DeleteNode';
 import EditCustomFields from './sharedMenuOptions/EditCustomFields';
 import EditGrepCodes from './sharedMenuOptions/EditGrepCodes';
+import RequestNodePublish from './sharedMenuOptions/RequestNodePublish';
 import ToggleVisibility from './sharedMenuOptions/ToggleVisibility';
+import ToNodeDiff from './sharedMenuOptions/ToNodeDiff';
+import AddExistingToNode from './sharedMenuOptions/AddExistingToNode';
 import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
 import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
+import PublishChildNodeResources from './topicMenuOptions/PublishChildNodeResources';
+import CopyNodeResources from './topicMenuOptions/CopyNodeResources';
 
 interface Props {
   rootNodeId: string;
   node: NodeType;
   onClose: () => void;
   structure: NodeType[];
+  nodeChildren: NodeType[];
   onCurrentNodeChanged: (node: NodeType) => void;
 }
 
@@ -37,6 +45,7 @@ const SettingsMenuDropdownType = ({
   onClose,
   structure,
   onCurrentNodeChanged,
+  nodeChildren,
 }: Props) => {
   const { userPermissions } = useSession();
   const [editMode, setEditMode] = useState<EditMode>('');
@@ -58,40 +67,67 @@ const SettingsMenuDropdownType = ({
           node={node}
           onCurrentNodeChanged={onCurrentNodeChanged}
         />
-        {/* <AddExistingToNode
-          node={node}
-          editModeHandler={editModeHandler}
-          onClose={onClose}
-          structure={structure}
-          rootNodeId={rootNodeId}
-        /> */}
+        <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
         <EditSubjectpageOption node={node} />
-        {/* <DeleteNode node={node} editModeHandler={editModeHandler} /> */}
+        {config.versioningEnabled && (
+          <>
+            <RequestNodePublish
+              node={node}
+              editModeHandler={editModeHandler}
+              rootNodeId={rootNodeId}
+            />
+            <ToNodeDiff node={node} />
+          </>
+        )}
+        <DeleteNode
+          node={node}
+          nodeChildren={nodeChildren}
+          editModeHandler={editModeHandler}
+          rootNodeId={rootNodeId}
+        />
       </>
     );
   } else if (nodeType === TOPIC_NODE) {
     return (
       <>
-        {/* <PublishChildNode node={node} /> */}
+        <PublishChildNodeResources node={node} />
         <EditCustomFields
           toggleEditMode={toggleEditMode}
           editMode={editMode}
           node={node}
           onCurrentNodeChanged={onCurrentNodeChanged}
         />
-        {/* <DeleteChildNode editModeHandler={editModeHandler} node={node} rootNodeId={rootNodeId} />
-        <AddExistingToNode
-          node={node}
-          editModeHandler={editModeHandler}
-          onClose={onClose}
-          rootNodeId={rootNodeId}
-          structure={structure}
-        /> */}
+        <AddExistingToNode editModeHandler={editModeHandler} currentNode={node} />
         <ToggleVisibility node={node} editModeHandler={editModeHandler} rootNodeId={rootNodeId} />
         <EditGrepCodes node={node} editModeHandler={editModeHandler} />
-        {/* <CopyResources toNode={node} structure={structure} onClose={onClose} /> */}
+        {config.versioningEnabled === 'true' && (
+          <>
+            <RequestNodePublish
+              node={node}
+              editModeHandler={editModeHandler}
+              rootNodeId={rootNodeId}
+            />
+            <ToNodeDiff node={node} />
+          </>
+        )}
+        <DeleteNode
+          node={node}
+          nodeChildren={nodeChildren}
+          editModeHandler={editModeHandler}
+          rootNodeId={rootNodeId}
+        />
+        <CopyNodeResources
+          currentNode={node}
+          editModeHandler={editModeHandler}
+          type="copyResources"
+        />
+        <CopyNodeResources
+          currentNode={node}
+          editModeHandler={editModeHandler}
+          type="cloneResources"
+        />
       </>
     );
   } else return null;

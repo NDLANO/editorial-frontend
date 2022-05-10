@@ -9,6 +9,7 @@
 
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { OneColumn } from '@ndla/ui';
 import { Params, useLocation, useNavigate } from 'react-router-dom';
 import { Taxonomy } from '@ndla/icons/editor';
@@ -46,6 +47,11 @@ import {
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 import { useSession } from '../Session/SessionProvider';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+
+const StyledStructureContainer = styled.div`
+  position: relative;
+  z-index: 1;
+`;
 
 interface RouteProps {
   params: Params<'subject' | 'topic' | 'subtopics'>;
@@ -197,7 +203,7 @@ export const StructureContainer = () => {
       ? getSubtopics(currentTopic.id, topics)
       : currentSubject?.topics)!;
     const currentRank = localTopics[source.index].rank;
-    const destinationRank = topics[destination.index].rank;
+    const destinationRank = localTopics[destination.index].rank;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
     if (currentRank === destinationRank) return;
     saveSubjectItems(params.subject!, { loading: true });
@@ -277,7 +283,7 @@ export const StructureContainer = () => {
             />
           }
           hidden={editStructureHidden}>
-          <div id="plumbContainer">
+          <StyledStructureContainer>
             <Structure
               DND
               onDragEnd={onDragEnd}
@@ -328,7 +334,7 @@ export const StructureContainer = () => {
                 />
               )}
             />
-          </div>
+          </StyledStructureContainer>
         </Accordion>
         {topicId && currentTopic && (
           <StructureResources

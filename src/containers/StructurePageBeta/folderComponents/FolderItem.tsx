@@ -10,20 +10,20 @@ import { spacing, fonts } from '@ndla/core';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
-import BEMHelper from 'react-bem-helper';
+import styled from '@emotion/styled';
 import { NodeType } from '../../../modules/nodes/nodeApiTypes';
 import { Row } from '../../../components';
 import Spinner from '../../../components/Spinner';
 import SettingsMenu from './SettingsMenu';
 
-export const classes = new BEMHelper({
-  name: 'folder',
-  prefix: 'c-',
-});
-
 const resourceButtonStyle = css`
   margin: 3px ${spacing.xsmall} 3px auto;
   ${fonts.sizes(14, 1.1)};
+`;
+
+const StyledFolderWrapper = styled.div`
+  display: flex;
+  width: 100%;
 `;
 
 interface Props {
@@ -34,6 +34,7 @@ interface Props {
   resourcesLoading?: boolean;
   rootNodeId: string;
   onCurrentNodeChanged: (node: NodeType) => void;
+  nodeChildren: NodeType[];
 }
 
 const FolderItem = ({
@@ -44,18 +45,20 @@ const FolderItem = ({
   rootNodeId,
   structure,
   onCurrentNodeChanged,
+  nodeChildren,
 }: Props) => {
   const { t } = useTranslation();
   const showJumpToResources = isMainActive && node.id.includes('topic');
 
   return (
-    <div data-cy="folderWrapper" {...classes('wrapper')}>
+    <StyledFolderWrapper data-cy="folderWrapper">
       {isMainActive && (
         <SettingsMenu
           node={node}
           rootNodeId={rootNodeId}
           structure={structure}
           onCurrentNodeChanged={onCurrentNodeChanged}
+          nodeChildren={nodeChildren}
         />
       )}
       {showJumpToResources && (
@@ -71,7 +74,7 @@ const FolderItem = ({
           </Row>
         </Button>
       )}
-    </div>
+    </StyledFolderWrapper>
   );
 };
 

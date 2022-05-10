@@ -30,7 +30,6 @@ const StyledDeleteButtonContainer = styled.div`
   position: absolute;
   right: -${spacing.medium};
   transform: translateY(${spacing.normal});
-  z-index: 1;
   display: flex;
   flex-direction: row;
 `;

@@ -44,6 +44,7 @@ const Title = styled.h1`
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.8;
+  color: #444;
 `;
 
 const Description = styled.p`

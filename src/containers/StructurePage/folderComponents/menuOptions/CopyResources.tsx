@@ -250,7 +250,7 @@ const CopyResources = ({
             setShowCloneSearch(false);
           }}>
           <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
-          {t('taxonomy.copyResources')}
+          {t('taxonomy.copyResources.info')}
         </MenuItemButton>
       ) : (
         <MenuItemDropdown
@@ -271,7 +271,7 @@ const CopyResources = ({
             setShowCloneSearch(true);
           }}>
           <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
-          {t('taxonomy.copyAndCloneResources')}
+          {t('taxonomy.cloneResources.info')}
         </MenuItemButton>
       ) : (
         <MenuItemDropdown

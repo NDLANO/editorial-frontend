@@ -218,9 +218,9 @@ interface UsePostResourceForNodeMutation extends WithTaxonomyVersion {
 }
 
 export const usePostResourceForNodeMutation = (
-  options?: UseMutationOptions<void, unknown, UsePostResourceForNodeMutation>,
+  options?: UseMutationOptions<string, unknown, UsePostResourceForNodeMutation>,
 ) => {
-  return useMutation<void, unknown, UsePostResourceForNodeMutation>(
+  return useMutation<string, unknown, UsePostResourceForNodeMutation>(
     ({ body, taxonomyVersion }) => postResourceForNode({ body, taxonomyVersion }),
     options,
   );

@@ -29,6 +29,10 @@ const SettingsMenuWrapper = styled('div')`
   }
 `;
 
+const IndexWrapper = styled.div`
+  z-index: 2;
+`;
+
 interface Props {
   node: NodeType;
   rootNodeId: string;
@@ -56,7 +60,7 @@ const SettingsMenu = ({
         <RoundIcon icon={<Settings />} margin open={open} />
       </Button>
       {open && (
-        <>
+        <IndexWrapper>
           <Overlay modifiers={['zIndex']} onExit={toggleOpenMenu} />
           <StyledDivWrapper>
             <div className="header">
@@ -78,7 +82,7 @@ const SettingsMenu = ({
               nodeChildren={nodeChildren}
             />
           </StyledDivWrapper>
-        </>
+        </IndexWrapper>
       )}
     </SettingsMenuWrapper>
   );

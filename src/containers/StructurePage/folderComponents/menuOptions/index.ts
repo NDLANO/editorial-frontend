@@ -1,6 +1,5 @@
 import DeleteSubjectOption from './DeleteSubjectOption';
 import EditSubjectpageOption from './EditSubjectpageOption';
-import RelevanceOption from './RelevanceOption';
 
 import AddExistingToTopic from './AddExistingToTopic';
 import AddExistingToSubjectTopic from './AddExistingToSubjectTopic';
@@ -15,7 +14,6 @@ import EditCustomFields from './EditCustomFields';
 export {
   DeleteSubjectOption,
   EditSubjectpageOption,
-  RelevanceOption,
   AddExistingToTopic,
   AddExistingToSubjectTopic,
   ChangeSubjectName,

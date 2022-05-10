@@ -7,7 +7,7 @@
  */
 
 import { taxonomyApi } from '../../config';
-import { WithTaxonomyVersion } from '../../interfaces';
+import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
 import { apiResourceUrl, httpFunctions, stringifyQuery } from '../../util/apiHelpers';
 import {
   resolveLocation,
@@ -234,11 +234,11 @@ interface NodeResourcePostParams extends WithTaxonomyVersion {
 export const postResourceForNode = ({
   body,
   taxonomyVersion,
-}: NodeResourcePostParams): Promise<void> =>
+}: NodeResourcePostParams): Promise<string> =>
   postAndResolve({
     url: resUrl,
     body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
+    alternateResolve: resolveLocation,
     taxonomyVersion,
   });
 
@@ -284,5 +284,25 @@ export const publishNode = ({ id, targetId, sourceId }: PublishNodeParams) => {
     url: `${baseUrl}/${id}/publish${queryParams}`,
     alternateResolve: resolveVoidOrRejectWithError,
     taxonomyVersion: 'default',
+  });
+};
+
+interface SearchNodes extends WithTaxonomyVersion {
+  ids?: string[];
+  language?: string;
+  nodeType?: 'NODE' | 'TOPIC' | 'SUBJECT';
+  page?: number;
+  pageSize?: number;
+  query?: string;
+}
+
+export const searchNodes = ({
+  taxonomyVersion,
+  ...queryParams
+}: SearchNodes): Promise<SearchResultBase<NodeType>> => {
+  return fetchAndResolve({
+    url: `${baseUrl}/search`,
+    taxonomyVersion,
+    queryParams,
   });
 };

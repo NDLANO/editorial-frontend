@@ -9,7 +9,7 @@
 import { LastUsed } from '@ndla/icons/editor';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { classes } from '../WelcomePage';
+import { StyledColumnHeader } from '../styles';
 import LastUsedContent from './LastUsedContent';
 
 interface Props {
@@ -20,10 +20,10 @@ const LastUsedItems = ({ lastUsed }: Props) => {
   const { t } = useTranslation();
   return (
     <div>
-      <div {...classes('column-header')}>
+      <StyledColumnHeader>
         <LastUsed className="c-icon--medium" />
         <span>{t('welcomePage.lastUsed')}</span>
-      </div>
+      </StyledColumnHeader>
       {lastUsed?.length ? (
         lastUsed.map((result: string) => {
           return <LastUsedContent key={result} articleId={parseInt(result)} />;

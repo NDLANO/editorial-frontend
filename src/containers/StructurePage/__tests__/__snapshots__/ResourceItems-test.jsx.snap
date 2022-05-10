@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.emotion-162 {
+.emotion-164 {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -260,13 +260,12 @@ exports[`matches snapshot 1`] = `
 }
 
 <ul
-  class="c-topic-resource__list emotion-162 emotion-163"
+  class="c-topic-resource__list emotion-164 emotion-165"
 >
   <div
-    class="c-dnd-list__drop-zone"
+    class="emotion-162 emotion-163"
   >
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div
@@ -310,7 +309,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             Kontrast og balanse i grafisk design
           </h1>
@@ -372,7 +371,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -398,7 +397,6 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div
@@ -442,7 +440,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/89/first-step"
@@ -510,7 +508,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -536,7 +534,6 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div
@@ -580,7 +577,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/78/first-step"
@@ -648,7 +645,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -674,7 +671,6 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div
@@ -718,7 +714,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/813/first-step"
@@ -786,7 +782,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -812,7 +808,6 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div
@@ -856,7 +851,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/508/first-step"
@@ -924,7 +919,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"
@@ -950,7 +945,6 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="c-dnd-list__drag-item"
       data-react-beautiful-dnd-draggable="0"
     >
       <div
@@ -994,7 +988,7 @@ exports[`matches snapshot 1`] = `
           class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
         >
           <h1
-            class="c-topic-resource__title emotion-2 emotion-3"
+            class="emotion-2 emotion-3"
           >
             <a
               href="https://stier.test.ndla.no/nb/learningpaths/401/first-step"
@@ -1062,7 +1056,7 @@ exports[`matches snapshot 1`] = `
               type="button"
             >
               <svg
-                class="c-icon c-topic-resource__deleteIcon emotion-20"
+                class="c-icon emotion-20"
                 data-license="Apache License 2.0"
                 data-source="Material Design"
                 fill="currentColor"

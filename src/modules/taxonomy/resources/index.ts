@@ -246,3 +246,25 @@ export const setResourceTranslation = ({
     alternateResolve: resolveVoidOrRejectWithError,
   });
 };
+
+interface CloneResourceParams extends WithTaxonomyVersion {
+  id: string;
+  body: {
+    contentUri?: string;
+    name: string;
+    id?: string;
+  };
+}
+
+export const cloneResource = ({
+  id,
+  body,
+  taxonomyVersion,
+}: CloneResourceParams): Promise<string> => {
+  return postAndResolve({
+    url: `${resourcesUrl}/${id}/clone`,
+    taxonomyVersion,
+    body: JSON.stringify(body),
+    alternateResolve: resolveLocation,
+  });
+};

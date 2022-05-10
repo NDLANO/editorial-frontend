@@ -48,6 +48,7 @@ export interface NodeType {
   contentUri?: string;
   id: string;
   metadata: TaxonomyMetadata;
+  breadcrumbs?: string[];
   name: string;
   path: string;
   paths?: string[];

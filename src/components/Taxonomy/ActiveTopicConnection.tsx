@@ -17,8 +17,8 @@ import {
 } from '../../style/LearningResourceTaxonomyStyles';
 import SharedTopicConnections from './SharedTopicConnections';
 import Breadcrumb from './Breadcrumb';
-import RelevanceOption from '../../containers/StructurePage/folderComponents/menuOptions/RelevanceOption';
-import RemoveButton from '../RemoveButton';
+import RelevanceOption from './RelevanceOption';
+import RemoveButton from './RemoveButton';
 import { StagedTopic } from '../../containers/ArticlePage/TopicArticlePage/components/TopicArticleTaxonomy';
 import { useSession } from '../../containers/Session/SessionProvider';
 import { TAXONOMY_ADMIN_SCOPE } from '../../constants';

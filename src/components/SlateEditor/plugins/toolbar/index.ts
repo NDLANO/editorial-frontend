@@ -81,10 +81,13 @@ const toolbarPlugin = (editor: Editor) => {
     }
 
     if (mark) {
+      // @ts-ignore React events and native events does not overlap
       toggleMark(e, editor, mark);
     } else if (block) {
+      // @ts-ignore
       handleClickBlock(e, editor, block);
     } else if (inline) {
+      // @ts-ignore
       handleClickInline(e, editor, inline);
     } else if (nextOnKeyDown) {
       nextOnKeyDown(e);

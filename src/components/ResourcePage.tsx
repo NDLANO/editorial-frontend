@@ -29,7 +29,10 @@ interface BaseResource {
 interface Props<T extends BaseResource> {
   CreateComponent: ComponentType;
   EditComponent: ComponentType<ResourceComponentProps>;
-  useHook: (id: number, language?: string, options?: UseQueryOptions<T>) => UseQueryResult<T>;
+  useHook: (
+    params: { id: number; language?: string },
+    options?: UseQueryOptions<T>,
+  ) => UseQueryResult<T>;
   createUrl: string;
   titleTranslationKey?: string;
 }
@@ -69,7 +72,10 @@ const ResourcePage = <T extends BaseResource>({
 
 interface EditResourceRedirectProps<T extends BaseResource> {
   isNewlyCreated: boolean;
-  useHook: (id: number, language?: string, options?: UseQueryOptions<T>) => UseQueryResult<T>;
+  useHook: (
+    params: { id: number; language?: string },
+    options?: UseQueryOptions<T>,
+  ) => UseQueryResult<T>;
   Component: ComponentType<ResourceComponentProps>;
 }
 
@@ -83,7 +89,10 @@ const EditResourceRedirect = <T extends BaseResource>({
   const locale = i18n.language;
   const { id } = useParams<'id'>();
   const parsedId = Number(id);
-  const { data, error, isLoading } = useHook(parsedId, undefined, { enabled: !!parsedId });
+  const { data, error, isLoading } = useHook(
+    { id: parsedId, language: undefined },
+    { enabled: !!parsedId },
+  );
   if (isLoading) return <Spinner />;
   if (error || !data || !parsedId) return <NotFoundPage />;
   const supportedLanguage =

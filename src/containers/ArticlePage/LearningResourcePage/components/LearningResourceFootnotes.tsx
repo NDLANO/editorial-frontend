@@ -6,14 +6,15 @@
  *
  */
 
-import BEMHelper from 'react-bem-helper';
-import { uuid } from '@ndla/util';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { uuid } from '@ndla/util';
+import { colors } from '@ndla/core';
 
-const classes = new BEMHelper({
-  name: 'footnotes',
-  prefix: 'c-',
-});
+const FootnoteId = styled.sup`
+  text-decoration: underline;
+  color: ${colors.brand.primary};
+`;
 
 export interface FootnoteType {
   title: string;
@@ -36,8 +37,8 @@ const Footnote = ({ footnote, id }: FootnoteProps) => {
   const editonLabel = t('learningResourceForm.fields.footnotes.edition');
   const publisherLabel = t('learningResourceForm.fields.footnotes.publisher');
   return (
-    <li {...classes('item')} id={`${id}_cite`}>
-      <sup>{id}</sup>
+    <li className="c-footnotes__item" id={`${id}_cite`}>
+      <FootnoteId>{id}</FootnoteId>
       <cite>{` ${footnote.title} (${footnote.year}), ${authors}, ${editonLabel}: ${footnote.edition}, ${publisherLabel}: ${footnote.publisher}`}</cite>
     </li>
   );
@@ -50,7 +51,7 @@ interface LearningResourceFootnotesProps {
 const LearningResourceFootnotes = ({ footnotes }: LearningResourceFootnotesProps) => {
   if (footnotes.length > 0) {
     return (
-      <ol {...classes()}>
+      <ol className="c-footnotes">
         {footnotes.map((footnote, i) => (
           <Footnote key={uuid()} id={`${i + 1}`} footnote={footnote} />
         ))}

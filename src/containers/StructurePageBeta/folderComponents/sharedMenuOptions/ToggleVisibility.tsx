@@ -46,11 +46,9 @@ const ToggleVisibility = ({
 
   const toggleVisibility = async () => {
     await updateMetadata({
-      params: {
-        id,
-        metadata: { grepCodes: metadata.grepCodes, visible: !visible },
-        rootId: rootNodeId !== node.id ? rootNodeId : undefined,
-      },
+      id,
+      metadata: { grepCodes: metadata.grepCodes, visible: !visible },
+      rootId: rootNodeId !== node.id ? rootNodeId : undefined,
       taxonomyVersion,
     });
     setVisible(!visible);

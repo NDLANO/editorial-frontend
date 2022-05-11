@@ -43,7 +43,6 @@ import { breakPlugin } from '../../../../components/SlateEditor/plugins/break';
 import { TopicArticleFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
-import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
 import { useSession } from '../../../Session/SessionProvider';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 
@@ -60,26 +59,13 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
-const actions = ['table', 'embed', 'code-block', 'file', 'h5p'];
-const actionsToShowInAreas = {
-  details: actions,
-  aside: actions,
-  bodybox: actions,
-  summary: actions,
-};
-
 const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>): SlatePlugin[] => {
   // Plugins are checked from last to first
   return [
     sectionPlugin,
     spanPlugin,
     divPlugin,
-    paragraphPlugin(
-      language,
-      options({
-        actionsToShowInAreas,
-      }),
-    ),
+    paragraphPlugin(language),
     noEmbedPlugin,
     linkPlugin(language),
     headingPlugin,
@@ -158,6 +144,7 @@ const TopicArticleContent = (props: Props) => {
               )}
             </FieldHeader>
             <RichTextEditor
+              language={language}
               placeholder={t('form.content.placeholder')}
               value={value}
               submitted={isSubmitting}

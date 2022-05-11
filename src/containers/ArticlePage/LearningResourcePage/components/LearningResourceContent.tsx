@@ -55,7 +55,6 @@ import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { LocaleType } from '../../../../interfaces';
 import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
-import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { SessionProps } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
@@ -104,12 +103,7 @@ export const plugins = (
     sectionPlugin,
     spanPlugin,
     divPlugin,
-    paragraphPlugin(
-      articleLanguage,
-      options({
-        actionsToShowInAreas,
-      }),
-    ),
+    paragraphPlugin(articleLanguage),
     footnotePlugin,
     embedPlugin(articleLanguage, locale),
     bodyboxPlugin,
@@ -207,6 +201,10 @@ const LearningResourceContent = ({
               )}
             </FieldHeader>
             <RichTextEditor
+              language={articleLanguage}
+              blockpickerOptions={{
+                actionsToShowInAreas,
+              }}
               placeholder={t('form.content.placeholder')}
               value={value}
               submitted={isSubmitting}

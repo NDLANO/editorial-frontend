@@ -13,6 +13,8 @@ import { SlateSerializer } from '../../interfaces';
 import { reduceElementDataAttributes } from '../../../../util/embedTagHelpers';
 import MathEditor from './MathEditor';
 import { TYPE_MATHML } from './types';
+import { KEY_ARROW_DOWN, KEY_ARROW_UP } from '../../utils/keys';
+import { onArrowDown, onArrowUp } from './utils';
 
 export interface MathmlElement {
   type: 'mathml';
@@ -47,7 +49,12 @@ export const mathmlSerializer: SlateSerializer = {
 };
 
 export const mathmlPlugin = (editor: Editor) => {
-  const { renderElement: nextRenderElement, isInline: nextIsInline, isVoid: nextIsVoid } = editor;
+  const {
+    renderElement: nextRenderElement,
+    isInline: nextIsInline,
+    isVoid: nextIsVoid,
+    onKeyDown,
+  } = editor;
 
   editor.renderElement = (props: RenderElementProps) => {
     const { element, attributes, children } = props;
@@ -74,6 +81,16 @@ export const mathmlPlugin = (editor: Editor) => {
       return true;
     }
     return nextIsVoid(element);
+  };
+
+  editor.onKeyDown = e => {
+    if (e.key === KEY_ARROW_UP) {
+      onArrowUp(e, editor, onKeyDown);
+    } else if (e.key === KEY_ARROW_DOWN) {
+      onArrowDown(e, editor, onKeyDown);
+    } else if (onKeyDown) {
+      onKeyDown(e);
+    }
   };
 
   return editor;

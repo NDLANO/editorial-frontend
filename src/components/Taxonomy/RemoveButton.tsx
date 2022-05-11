@@ -12,7 +12,6 @@ import Tooltip from '@ndla/tooltip';
 import { RemoveCircle } from '@ndla/icons/action';
 import { spacing } from '@ndla/core';
 import { useTranslation } from 'react-i18next';
-import { classes } from '../containers/StructurePage/resourceComponents/ResourceGroup';
 
 const deleteButtonStyle = css`
   margin-left: ${spacing.small};
@@ -34,7 +33,7 @@ const RemoveButton = ({ onClick }: Props) => {
   return (
     <Tooltip tooltip={t('taxonomy.removeResource')}>
       <Button css={deleteButtonStyle} onClick={onClick} stripped>
-        <RemoveCircle {...classes('deleteIcon')} css={removeCircleStyle} />
+        <RemoveCircle css={removeCircleStyle} />
       </Button>
     </Tooltip>
   );

@@ -25,6 +25,8 @@ const phrases = {
     podcastUploaderPage: `Podkastepisode ${titleTemplate}`,
     podcastSeriesPage: `Podkastserie ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    publishRequestsPage: `Publiseringsforespørsler ${titleTemplate}`,
+    nodeDiffPage: `Samanlikne nodar ${titleTemplate}`,
     search: {
       'podcast-series': `Søk podkastserier ${titleTemplate}`,
       audio: `Søk lydfiler ${titleTemplate}`,
@@ -170,6 +172,8 @@ const phrases = {
     podcastSeries: 'Ny podkastserie',
     agreement: 'Ny avtale',
     structure: 'Strukturredigering',
+    taxonomyVersions: 'Taksonomiversjonar',
+    publishRequests: 'Publiseringsforespørjingar',
     searchContent: 'Søk innhald',
     searchAudio: 'Søk lyd',
     searchPodcastSeries: 'Søk serie',
@@ -434,6 +438,7 @@ const phrases = {
     title: 'Podkastserie',
     alreadyPartOfSeries: 'Del av ein anna serie',
     description: 'Beskrivelse',
+    rss: 'Rss-feed',
   },
   podcastForm: {
     title: 'Podkastepisode',
@@ -588,6 +593,7 @@ const phrases = {
       header: 'Overskrift',
       manuscript: 'Tekstversjon',
       coverPhotoId: 'Metabilde',
+      name: 'Namn',
     },
     previewProductionArticle: {
       button: 'Samanlikn gjeldande versjon med gamal versjon',
@@ -1173,12 +1179,17 @@ const phrases = {
     deleteSubject: 'Slett fag',
     addSubject: 'Legg til nytt fag',
     addExistingTopic: 'Flytt eksisterande emne hit',
+    addExistingLoading: 'Flyttar emne',
+    addExistingSuccess: 'Emnet har blitt flytta!',
     newSubject: 'Nytt fag',
     resources: 'Ressurser',
     existingTopic: 'Eksisterande emne',
     newTopic: 'Nytt emne',
     subjectSettings: 'Faginnstillinger',
     topicSettings: 'Emneinnstillinger',
+    currentVersion: 'Noverande versjon',
+    deleteNode: 'Slett',
+    confirmDelete: 'Er du sikker på at du vil slette denne noden?',
     changeName: {
       loadError: 'Klarte ikkje hente omsetjingar',
       updateError: 'Klarte ikkje oppdatere omsetjingar',
@@ -1212,12 +1223,24 @@ const phrases = {
     addTopicDescription: 'Endre emnebeskrivelse',
     confirmSetPrimary: 'Vil du gjere dette til hovedplassering?',
     jumpToResources: 'Hopp til ressurser',
-    copyResources: 'Gjenbruk ressurser fra emne',
-    copyAndCloneResources: 'Kopier og klon ressurser fra emne',
+    copyResources: {
+      error: 'Noko gjekk feil med kopiering',
+      info: 'Gjenbruk ressurser fra emne',
+      done: 'Ressurser ferdigkopiert!',
+      waiting: 'Kopierer ressurser',
+    },
+    cloneResources: {
+      error: 'Noko gjekk feil med kloning',
+      info: 'Kopier og klon ressurser fra emne',
+      done: 'Ressurser ferdigklonet!',
+      waiting: 'Kloner ressurser',
+    },
     favorites: 'Vis favorittar',
     publish: {
-      button: 'Publiser alt',
+      button: 'Publiser alle ressursar',
       waiting: 'Publiserar ressurser',
+      info:
+        'Er du sikker på at du ønskjar å publisere alle ressursane som er knytta til denne noden?',
       done: 'Ressurser er publisert',
       error: 'Følgande ressurser blei ikkje publisert:',
     },
@@ -1273,18 +1296,23 @@ const phrases = {
     missingResourceType: 'Mangler ressurstype',
     metadata: {
       customFields: {
+        cancelPublishRequest: 'Avlys forespørjing om delvis publisering av struktur',
+        requestPublish: 'Be om delvis publisering av struktur',
+        requestVersionError: 'Publiseringsforespørjingar kan bare opprettes fra standardversjonen',
         alterFields: 'Legg til/endra metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
         explanationSubject: 'Forklaringsfag',
         oldSubjectId: 'ID for vidaresending',
         subjectCategory: 'Fagkategori',
+        subjectType: 'Fagtype',
         resourceGroupPlaceholder: 'Gruppering av ressursar',
         RGTooltip: 'Vis ressursar Gruppert eller Ugruppert',
       },
       placeholders: {
         category: 'Velg kategori',
         language: 'Velg språkkode',
+        type: 'Velg type',
       },
     },
   },
@@ -1338,6 +1366,188 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Endringer',
     saveAsNew: 'Lagre som kopi',
+  },
+  taxonomyVersions: {
+    title: 'Taksonomiversjonar',
+    publishedVersion: 'Publisert versjon',
+    otherVersions: 'Øvrige versjonar',
+    deleteLocked: 'Denne versjonen kan ikkje slettes fordi den er låst',
+    deletePublished: 'Denne versjonen kan ikkje slettes fordi den er publisert',
+    delete: 'Slett versjon',
+    locked: 'Denne versjonen er låst',
+    status: {
+      PUBLISHED: 'Publisert',
+      ARCHIVED: 'Arkivert',
+      BETA: 'Beta',
+    },
+    about:
+      'Denne siden brukast til å sjå på og administrere taksonomiversjonar. Vær varsom: Å publisere ein ny taksonomiversjon vil føre til at alt innhald i den vil være umiddelbart tilgjengeleg for sluttbrukarar på ndla.no',
+    noPublished:
+      'Det finnes ingen publisert versjon. Standard-versjonen av taksonomi brukast inntil ein versjon blir publisert',
+    editVersionTooltip: 'Rediger versjon',
+    newVersionTitle: 'Opprett ny versjon',
+    editVersionTitle: 'Rediger versjon',
+    newVersionButton: 'Ny versjon',
+    publishButton: 'Publiser',
+    publishWarning:
+      'Er du sikker på at du ønskjar å publisera denne versjonen? Den nåværanda versjonen vil bli arkivert, og alle nye endringar i denne versjonen vil umiddelbart være tilgjengelege på ndla.no',
+    deleteWarning: 'Er du sikker på at du ønsker å slette denne versjonen?',
+    deleteWarningPublished:
+      'Er du sikker på at du ønsker å slette den publiserte versjonen? Taksonomi vil revertere tilbake til standard-versjonen.',
+    postError: 'Klarte ikkje å opprette ny versjon',
+    putError: 'Klarte ikkje å oppdatere versjonen',
+    publishError: 'Klarte ikkje å publisere versjonen',
+    deleteError: 'Klarte ikkje å slette versjonen',
+    noOtherVersions: 'Det finnes ingen andre versjonar!',
+    previewVersion: 'Forhåndsvis denne versjonen på NDLA.no',
+    form: {
+      name: {
+        label: 'Namn',
+        placeholder: 'Eksempelversjon',
+      },
+      source: {
+        title: 'Kildeversjon',
+        subTitle: 'Velg ei anna versjon å basere denne på',
+        defaultOption: 'N/A',
+      },
+      locked: {
+        title: 'Låst',
+        subTitle: 'Er versjonen låst?',
+        locked: 'Låst',
+        unlocked: 'Ulåst',
+      },
+    },
+  },
+  publishRequests: {
+    title: 'Publiseringsforespørsler',
+    nodePublished: 'Noden har blitt publisert!',
+    showInStructure: 'Vis i struktur',
+    compare: 'Samanlikn',
+    publishNode: 'Publiser node',
+    publishWarning:
+      'Er du sikker på at du ønskjar å publisere denne noden? Alle endringar vil umiddelbart bli tilgjengelege i målversjonen',
+    errors: {
+      noPublishedVersion: 'Klarte ikkje finne publisert versjon',
+      publishError: 'En feil oppsto under publisering av noden',
+    },
+  },
+  diff: {
+    equalNodes: 'Disse nodene er like!',
+    defaultVersion: 'Standardsversjon',
+    compareVersions: 'Samanlikne versjonar',
+    error: {
+      originalHashRequired: "originalHash-parameteret er påkrevd i URL'en!",
+      doesNotExist: 'Denne noden finnast ikkje i nokon av desse versjonane',
+      onlyExistsInOriginal: 'Denne noden finnast berre i originalversjonen',
+      onlyExistsInOther: 'Denne noden finnast berre i versjonen du samanliknar med',
+    },
+    options: {
+      originalHashLabel: 'Original-versjon',
+      otherHashLabel: 'Anna versjon',
+      viewLabel: 'Visningstype',
+      nodeViewLabel: 'Nodevisning',
+      fieldViewLabel: 'Feltvisning',
+      allNodes: 'Alle noder',
+      changedNodes: 'Kun endra',
+      allFields: 'Alle felt',
+      changedFields: 'Kun endra',
+      flat: 'Flat',
+      tree: 'Tre',
+    },
+    childrenChanged: 'Barn endra',
+    resourcesChanged: 'Ressurser endret',
+    diffTypes: {
+      ADDED: 'Lagt til',
+      DELETED: 'Sletta',
+      MODIFIED: 'Endra',
+      NONE: 'Ingen',
+    },
+    isRoot: 'Rotnode',
+    nodeTypeTooltips: {
+      SUBJECT: 'Dette er eit fag',
+      TOPIC: 'Dette er eit emne',
+    },
+    fields: {
+      id: {
+        title: 'ID',
+      },
+      name: {
+        title: 'Namn',
+      },
+      contentUri: {
+        title: 'Innholds-URI',
+      },
+      parent: {
+        title: 'Forelder',
+      },
+      path: {
+        title: 'Sti',
+      },
+      paths: {
+        title: 'Stier',
+      },
+      connectionId: {
+        title: 'Koblings-ID',
+      },
+      isPrimary: {
+        title: 'Er primær',
+        isOn: 'Denne noden er ein primærressurs',
+        isOff: 'Denne noden er ikkje ein primærressurs',
+      },
+      primary: {
+        title: 'Er primær',
+        isOn: 'Denne noden er ein primærressurs',
+        isOff: 'Denne noden er ikkje ein primærressurs',
+      },
+      rank: {
+        title: 'Rangering',
+      },
+      relevance: {
+        title: 'Relevans',
+      },
+      translations: {
+        title: 'Oversetjinger',
+      },
+      articleType: {
+        title: 'Artikkel-type',
+      },
+      visible: {
+        title: 'Synleg',
+        isOn: 'Synleg',
+        isOff: 'Usynleg',
+      },
+      'topic-resources': {
+        title: 'Gruppering av ressurser',
+        isOn: 'Gruppert',
+        isOff: 'Ugruppert',
+      },
+      requestPublish: {
+        title: 'Forespurt publisering',
+        true: 'Ja',
+        false: 'Nei',
+      },
+      language: {
+        title: 'Visningsspråk',
+      },
+      subjectCategory: {
+        title: 'Fagkategori',
+      },
+      explanationSubject: {
+        title: 'Forklaringsfag',
+      },
+      oldSubjectId: {
+        title: 'Gammal fag-ID',
+      },
+      supportedLanguages: {
+        title: 'Støtta språk',
+      },
+      grepCodes: {
+        title: 'Grep-koder',
+      },
+      resourceTypes: {
+        title: 'Ressurstypar',
+      },
+    },
   },
   metadata: {
     visible: 'er synleg',

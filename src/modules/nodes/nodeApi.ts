@@ -7,8 +7,8 @@
  */
 
 import { taxonomyApi } from '../../config';
-import { WithTaxonomyVersion } from '../../interfaces';
-import { apiResourceUrl, httpFunctions } from '../../util/apiHelpers';
+import { SearchResultBase, WithTaxonomyVersion } from '../../interfaces';
+import { apiResourceUrl, httpFunctions, stringifyQuery } from '../../util/apiHelpers';
 import {
   resolveLocation,
   resolveVoidOrRejectWithError,
@@ -87,7 +87,11 @@ interface NodeDeleteParams extends WithTaxonomyVersion {
   id: string;
 }
 export const deleteNode = ({ id, taxonomyVersion }: NodeDeleteParams): Promise<void> =>
-  deleteAndResolve({ url: `${baseUrl}/${id}`, taxonomyVersion });
+  deleteAndResolve({
+    url: `${baseUrl}/${id}`,
+    taxonomyVersion,
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
 
 interface NodeMetadataPutParams extends WithTaxonomyVersion {
   id: string;
@@ -230,11 +234,11 @@ interface NodeResourcePostParams extends WithTaxonomyVersion {
 export const postResourceForNode = ({
   body,
   taxonomyVersion,
-}: NodeResourcePostParams): Promise<void> =>
+}: NodeResourcePostParams): Promise<string> =>
   postAndResolve({
     url: resUrl,
     body: JSON.stringify(body),
-    alternateResolve: resolveVoidOrRejectWithError,
+    alternateResolve: resolveLocation,
     taxonomyVersion,
   });
 
@@ -267,3 +271,38 @@ export const putResourceForNode = ({
     alternateResolve: resolveVoidOrRejectWithError,
     taxonomyVersion,
   });
+
+interface PublishNodeParams {
+  id: string;
+  targetId: string;
+  sourceId?: string;
+}
+
+export const publishNode = ({ id, targetId, sourceId }: PublishNodeParams) => {
+  const queryParams = stringifyQuery({ targetId, sourceId });
+  return putAndResolve({
+    url: `${baseUrl}/${id}/publish${queryParams}`,
+    alternateResolve: resolveVoidOrRejectWithError,
+    taxonomyVersion: 'default',
+  });
+};
+
+interface SearchNodes extends WithTaxonomyVersion {
+  ids?: string[];
+  language?: string;
+  nodeType?: 'NODE' | 'TOPIC' | 'SUBJECT';
+  page?: number;
+  pageSize?: number;
+  query?: string;
+}
+
+export const searchNodes = ({
+  taxonomyVersion,
+  ...queryParams
+}: SearchNodes): Promise<SearchResultBase<NodeType>> => {
+  return fetchAndResolve({
+    url: `${baseUrl}/search`,
+    taxonomyVersion,
+    queryParams,
+  });
+};

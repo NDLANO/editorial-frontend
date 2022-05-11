@@ -55,10 +55,8 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
   useEffect(() => {
     if (fullConcept && !licensesLoading && subjects) {
       const subjectIds = concept.subjectIds;
-      const author = fullConcept.copyright?.creators.find(cr => cr.type === 'Writer');
       setFormValues({
         title: fullConcept.title.title,
-        author: author ? author.name : '',
         subjects: subjects.filter(s => subjectIds?.find(id => id === s.id)),
         license:
           licenses!.find(l => l.license === fullConcept.copyright?.license?.license)?.license || '',
@@ -69,22 +67,6 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
 
   const handleSubmit = async (formConcept: InlineFormConcept) => {
     if (!fullConcept || licensesLoading) return;
-    const getCreators = (creators: { type: string; name: string }[], newAuthor: string) => {
-      const author = creators.find(cr => cr.type === 'Writer');
-      if (newAuthor !== '') {
-        if (author) {
-          return creators.map(cr => (cr === author ? { ...cr, name: newAuthor } : cr));
-        } else {
-          return creators.concat({
-            type: 'Writer',
-            name: newAuthor,
-          });
-        }
-      } else {
-        return creators.filter(cr => cr !== author);
-      }
-    };
-    const creators = getCreators(fullConcept.copyright?.creators || [], formConcept.author);
 
     const newConcept: IUpdatedConcept = {
       content: fullConcept.content?.content,
@@ -95,10 +77,10 @@ const FormView = ({ concept, cancel, subjects, updateLocalConcept }: Props) => {
       title: formConcept.title,
       copyright: {
         ...fullConcept.copyright,
-        creators,
+        creators: fullConcept.copyright?.creators || [],
         license: licenses!.find(l => l.license === formConcept.license),
-        rightsholders: [],
-        processors: [],
+        rightsholders: fullConcept.copyright?.rightsholders || [],
+        processors: fullConcept.copyright?.processors || [],
       },
     };
     const updatedConcept = await updateConcept(fullConcept.id, newConcept);

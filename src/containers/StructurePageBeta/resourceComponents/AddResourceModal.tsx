@@ -34,8 +34,8 @@ import ArticlePreview from '../../../components/ArticlePreview';
 import { getArticle } from '../../../modules/article/articleApi';
 import handleError from '../../../util/handleError';
 import { usePostResourceForNodeMutation } from '../../../modules/nodes/nodeMutations';
-import { RESOURCES_WITH_NODE_CONNECTION } from '../../../queryKeys';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
 
 const StyledOrDivider = styled.div`
   display: flex;
@@ -101,10 +101,9 @@ const AddResourceModal = ({
   const [pastedUrl, setPastedUrl] = useState('');
   const qc = useQueryClient();
   const { taxonomyVersion } = useTaxonomyVersion();
+  const compKey = resourcesWithNodeConnectionQueryKey({ id: nodeId, language: i18n.language });
   const { mutateAsync: createNodeResource } = usePostResourceForNodeMutation({
-    onSuccess: _ => {
-      qc.invalidateQueries([RESOURCES_WITH_NODE_CONNECTION, nodeId, { language: i18n.language }]);
-    },
+    onSuccess: _ => qc.invalidateQueries(compKey),
   });
   const canPaste = allowPaste || selectedType !== RESOURCE_TYPE_LEARNING_PATH;
 
@@ -140,7 +139,7 @@ const AddResourceModal = ({
       return;
     }
 
-    await createNodeResource({ params: { body: { resourceId, nodeId } }, taxonomyVersion })
+    await createNodeResource({ body: { resourceId, nodeId }, taxonomyVersion })
       .then(_ => onClose())
       .catch(err => setError('taxonomy.resource.creationFailed'));
     setLoading(false);

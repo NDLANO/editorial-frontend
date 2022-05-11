@@ -43,6 +43,9 @@ const ConceptPage = loadable(() => import('../ConceptPage/ConceptPage'));
 const Subjectpage = loadable(() => import('../EditSubjectFrontpage/Subjectpage'));
 const H5PPage = loadable(() => import('../H5PPage/H5PPage'));
 const StructurePageBeta = loadable(() => import('../StructurePageBeta/StructurePage'));
+const TaxonomyVersionsPage = loadable(() => import('../TaxonomyVersions/TaxonomyVersionsPage'));
+const PublishRequestsPage = loadable(() => import('../PublishRequests/PublishRequestsPage'));
+const NodeDiffPage = loadable(() => import('../NodeDiff/NodeDiffPage'));
 
 interface Props {
   isClient?: boolean;
@@ -108,6 +111,23 @@ const App = ({ isClient }: Props) => {
                     path="/structureBeta/*"
                     element={<PrivateRoute component={<StructurePageBeta />} />}
                   />
+                  {config.versioningEnabled === 'true' && (
+                    <>
+                      <Route
+                        path="/taxonomyVersions/*"
+                        element={<PrivateRoute component={<TaxonomyVersionsPage />} />}
+                      />
+                      <Route
+                        path="/publishRequests/*"
+                        element={<PrivateRoute component={<PublishRequestsPage />} />}
+                      />
+                      <Route
+                        path="/nodeDiff/:nodeId"
+                        element={<PrivateRoute component={<NodeDiffPage />} />}
+                      />
+                    </>
+                  )}
+
                   <Route path="/forbidden" element={<ForbiddenPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>

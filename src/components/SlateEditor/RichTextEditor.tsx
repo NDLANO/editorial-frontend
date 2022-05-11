@@ -28,6 +28,8 @@ import withPlugins from './utils/withPlugins';
 import Spinner from '../Spinner';
 import { ArticleFormType } from '../../containers/FormikForm/articleFormHooks';
 import { FormikStatus } from '../../interfaces';
+import SlateBlockPicker from './plugins/blockPicker/SlateBlockPicker';
+import { BlockPickerOptions, createBlockpickerOptions } from './plugins/blockPicker/options';
 
 export const classes = new BEMHelper({
   name: 'editor',
@@ -45,9 +47,20 @@ interface Props {
   placeholder?: string;
   plugins?: SlatePlugin[];
   submitted: boolean;
+  language: string;
+  blockpickerOptions?: Partial<BlockPickerOptions>;
 }
 
-const RichTextEditor = ({ className, placeholder, plugins, value, onChange, submitted }: Props) => {
+const RichTextEditor = ({
+  className,
+  placeholder,
+  plugins,
+  value,
+  onChange,
+  submitted,
+  language,
+  blockpickerOptions = {},
+}: Props) => {
   const editor = useMemo(
     () => withReact(withHistory(withPlugins(createEditor(), plugins))),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,6 +113,7 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
             Transforms.select(editor, editor.lastSelection);
             editor.lastSelection = undefined;
             editor.lastSelectedBlock = undefined;
+            prevSubmitted.current = submitted;
             return;
           }
         }
@@ -178,6 +192,11 @@ const RichTextEditor = ({ className, placeholder, plugins, value, onChange, subm
             ) : (
               <>
                 <SlateToolbar editor={editor} />
+                <SlateBlockPicker
+                  editor={editor}
+                  articleLanguage={language}
+                  {...createBlockpickerOptions(blockpickerOptions)}
+                />
                 <Editable
                   decorate={decorations}
                   // @ts-ignore is-hotkey and editor.onKeyDown does not have matching types

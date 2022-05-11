@@ -183,6 +183,7 @@ const ConceptModal = ({
                     title: t('form.concept.create'),
                     content: (
                       <ConceptForm
+                        onUpserted={addConcept}
                         inModal
                         onClose={onClose}
                         subjects={subjects}

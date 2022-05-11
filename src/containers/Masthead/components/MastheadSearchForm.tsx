@@ -162,7 +162,7 @@ export const MastheadSearchForm = ({ query: initQuery = '', onSearchQuerySubmit 
     const path = isValidLocale(paths[1]) ? paths.slice(2).join('/') : pathname;
 
     try {
-      const newArticle = await resolveUrls(path);
+      const newArticle = await resolveUrls({ path, taxonomyVersion: 'default' });
       const splittedUri = newArticle.contentUri.split(':');
       const articleId = splittedUri[splittedUri.length - 1];
       navigate(toEditArticle(parseInt(articleId), 'standard'));

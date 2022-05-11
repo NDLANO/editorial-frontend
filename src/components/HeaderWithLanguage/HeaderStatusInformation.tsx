@@ -9,6 +9,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
 import { colors, fonts, spacing } from '@ndla/core';
+import { RssFeed } from '@ndla/icons/common';
 import { Check, AlertCircle } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { IConceptSummary } from '@ndla/types-concept-api';
@@ -115,6 +116,12 @@ const HeaderStatusInformation = ({
     fill: ${colors.support.yellow};
   `;
 
+  const StyledRssIcon = styled(RssFeed)`
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+    fill: ${colors.support.green};
+  `;
+
   const StyledLink = styled(SafeLink)`
     box-shadow: inset 0 0;
   `;
@@ -134,6 +141,12 @@ const HeaderStatusInformation = ({
   const publishedIconLink = (
     <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}${taxonomyPaths?.[0]}`}>
       {publishedIcon}
+    </StyledLink>
+  );
+
+  const rssLink = type === 'podcast-series' && id !== undefined && (
+    <StyledLink target="_blank" to={`${config.ndlaFrontendDomain}/podkast/${id}/feed.xml`}>
+      <StyledRssIcon title={t('podcastSeriesForm.rss')} />
     </StyledLink>
   );
 
@@ -203,6 +216,8 @@ const HeaderStatusInformation = ({
     return <StyledStatusWrapper>{imageConnections}</StyledStatusWrapper>;
   } else if (type === 'audio' || type === 'podcast') {
     return <StyledStatusWrapper>{audioConnections}</StyledStatusWrapper>;
+  } else if (type === 'podcast-series') {
+    return <StyledStatusWrapper>{rssLink}</StyledStatusWrapper>;
   }
   return null;
 };

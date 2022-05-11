@@ -10,9 +10,11 @@ import { lazy, Suspense, useState } from 'react';
 import { Spinner } from '@ndla/editor';
 import Button from '@ndla/button';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
+import { fonts } from '@ndla/core';
 import { useSlateStatic } from 'slate-react';
 import { Transforms } from 'slate';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { TableElement } from './interfaces';
 import { Portal } from '../../../Portal';
 
@@ -31,6 +33,10 @@ const MonacoEditor = lazy(() => import('../../../MonacoEditor'));
 interface Props {
   element: TableElement;
 }
+
+const StyledCode = styled.code`
+  ${fonts.sizes(16)}
+`;
 
 const EditColgroupsModal = ({ element }: Props) => {
   const editor = useSlateStatic();
@@ -74,8 +80,13 @@ const EditColgroupsModal = ({ element }: Props) => {
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
             <ModalBody>
-              <h2>{t('form.content.table.edit-colgroups')}</h2>
-              <p>{t('form.content.table.colgroupInfo')}</p>
+              <h2>{t('form.content.table.colgroupTitle')}</h2>
+              <p>
+                {t('form.content.table.colgroupInfo')}
+                <StyledCode>
+                  {'<colgroup><col><col><col style="width:200px;"></colgroup>'}
+                </StyledCode>
+              </p>
               <Suspense fallback={<Spinner />}>
                 <MonacoEditor
                   onChange={setColgroups}

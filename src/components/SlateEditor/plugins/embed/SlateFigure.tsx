@@ -157,17 +157,18 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
         );
       }
       return (
-        <DisplayExternal
-          attributes={attributes}
-          onRemoveClick={onRemoveClick}
-          editor={editor}
-          element={element}
-          embed={embed}
-          language={language}
-          active={isActive()}
-          isSelectedForCopy={isSelected}>
+        <div {...attributes}>
+          <DisplayExternal
+            onRemoveClick={onRemoveClick}
+            editor={editor}
+            element={element}
+            embed={embed}
+            language={language}
+            active={isActive()}
+            isSelectedForCopy={isSelected}
+          />
           {children}
-        </DisplayExternal>
+        </div>
       );
     case 'error':
       return (

@@ -6,16 +6,15 @@
  *
  */
 
-import { Component, ReactNode, MouseEvent } from 'react';
+import { Component, MouseEvent } from 'react';
 import { Editor, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
-import { ResourceBox } from '@ndla/ui';
+import { ReactEditor } from 'slate-react';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
 import EditorErrorMessage from '../SlateEditor/EditorErrorMessage';
 import DisplayExternalModal from './helpers/DisplayExternalModal';
-import { apiResourceUrl, fetchExternalOembed } from '../../util/apiHelpers';
+import { fetchExternalOembed } from '../../util/apiHelpers';
 import { urlOrigin, getIframeSrcFromHtmlString, urlDomain } from '../../util/htmlHelpers';
 import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
 import FigureButtons from '../SlateEditor/plugins/embed/FigureButtons';
@@ -28,13 +27,11 @@ import SlateResourceBox from './SlateResourceBox';
 interface Props extends CustomWithTranslation {
   element: EmbedElement;
   editor: Editor;
-  attributes: RenderElementProps['attributes'];
   embed: ExternalEmbed | H5pEmbed;
   onRemoveClick: (event: MouseEvent) => void;
   language: string;
   active: boolean;
   isSelectedForCopy: boolean;
-  children: ReactNode;
 }
 
 interface State {
@@ -53,6 +50,7 @@ export class DisplayExternal extends Component<Props, State> {
     super(props);
     this.state = {
       isEditMode: false,
+      type: this.props.embed.resource,
     };
     this.onEditEmbed = this.onEditEmbed.bind(this);
     this.openEditEmbed = this.openEditEmbed.bind(this);
@@ -148,16 +146,7 @@ export class DisplayExternal extends Component<Props, State> {
   }
 
   render() {
-    const {
-      onRemoveClick,
-      embed,
-      t,
-      language,
-      children,
-      isSelectedForCopy,
-      active,
-      attributes,
-    } = this.props;
+    const { onRemoveClick, embed, t, language, isSelectedForCopy, active } = this.props;
     const { isEditMode, title, src, height, error, type, provider, domain } = this.state;
     const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
 
@@ -203,8 +192,7 @@ export class DisplayExternal extends Component<Props, State> {
           showCopyOutline && {
             boxShadow: 'rgb(32, 88, 143) 0 0 0 2px',
           }
-        }
-        {...attributes}>
+        }>
         <FigureButtons
           language={language}
           tooltip={t('form.external.remove', {
@@ -246,7 +234,6 @@ export class DisplayExternal extends Component<Props, State> {
           onClose={this.closeEditEmbed}
           allowedProvider={allowedProvider}
         />
-        {children}
       </div>
     );
   }

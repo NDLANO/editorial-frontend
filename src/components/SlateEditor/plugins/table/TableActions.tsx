@@ -14,9 +14,9 @@ import { useTranslation } from 'react-i18next';
 import { colors, fonts } from '@ndla/core';
 import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/lib/editor';
 import Button from '@ndla/button';
+import { css } from '@emotion/core';
 import { Minus, Pencil, Plus } from '@ndla/icons/lib/action';
 import IconButton from '../../../../components/IconButton';
-import { css } from '@emotion/core';
 import {
   insertRow,
   removeRow,

@@ -16,6 +16,7 @@ import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/lib/editor';
 import Button from '@ndla/button';
 import { Minus, Pencil, Plus } from '@ndla/icons/lib/action';
 import IconButton from '../../../../components/IconButton';
+import { css } from '@emotion/core';
 import {
   insertRow,
   removeRow,
@@ -50,12 +51,16 @@ const StyledTableActions = styled('div')`
   background: ${colors.white};
   box-shadow: 1px 1px 8px 1px ${colors.brand.greyLighter};
   border-radius: 5px;
+  position: absolute;
   bottom: -50px;
   padding: 10px;
-  position: absolute;
+`;
+
+const ActionGrid = styled.div`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: repeat(3, auto);
   column-gap: 10px;
+  align-items: center;
 `;
 
 const ActionGroup = styled.div`
@@ -64,7 +69,7 @@ const ActionGroup = styled.div`
   align-items: center;
 `;
 
-const rightAlign = styled.div`
+const rightAlign = css`
   margin-left: auto;
 `;
 
@@ -77,6 +82,7 @@ const StyledWrapper = styled('div')`
 
 const StyledRowTitle = styled.strong`
   font-family: ${fonts.sans};
+  margin-left: auto;
 `;
 
 interface TableIconButtonProps {
@@ -84,6 +90,40 @@ interface TableIconButtonProps {
   onClick: (e: MouseEvent<HTMLButtonElement>, operation: string) => void;
   children: ReactNode;
 }
+
+const rowActions = [
+  {
+    icon: <Plus />,
+    name: 'row-add',
+  },
+  {
+    icon: <Minus />,
+    name: 'row-remove',
+  },
+];
+
+const columnActions = [
+  {
+    icon: <Plus />,
+    name: 'column-add',
+  },
+  {
+    icon: <Minus />,
+    name: 'column-remove',
+  },
+  {
+    icon: <AlignLeft />,
+    name: 'column-left',
+  },
+  {
+    icon: <AlignCenter />,
+    name: 'column-center',
+  },
+  {
+    icon: <AlignRight />,
+    name: 'column-right',
+  },
+];
 
 const TableIconButton = ({ operation, onClick, children }: TableIconButtonProps) => {
   const { t } = useTranslation();
@@ -172,60 +212,46 @@ const TableActions = ({ editor, element }: Props) => {
   return (
     <StyledWrapper contentEditable={false} show={show}>
       <StyledTableActions>
-        <ActionGroup>
-          {showEditColgroups && (
-            <StyledButton
-              data-cy={'edit-colgroups'}
-              stripped
-              title={t('form.content.table.edit-colgroups')}
-              onMouseDown={(e: MouseEvent<HTMLButtonElement>) =>
-                handleOnClick(e, 'edit-colgroups')
-              }>
-              {t('form.content.table.colgroups')}
-              <Pencil />
-            </StyledButton>
-          )}
-        </ActionGroup>
-        <ActionGroup></ActionGroup>
-        <ActionGroup>
-          <StyledRowTitle>rad:</StyledRowTitle>
-          <TableIconButton operation={'row-add'} onClick={handleOnClick}>
-            <Plus />
-          </TableIconButton>
-          <TableIconButton operation={'row-remove'} onClick={handleOnClick}>
-            <Minus />
-          </TableIconButton>
-        </ActionGroup>
-        <ActionGroup css={rightAlign}>
-          {showAddHeader && (
-            <StyledButton
-              data-cy={'head-add'}
-              stripped
-              title={t(`form.content.table.addHeader`)}
-              onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}>
-              {t(`form.content.table.addHeader`)}
-            </StyledButton>
-          )}
-        </ActionGroup>
-        <ActionGroup>
-          <StyledRowTitle>kol:</StyledRowTitle>
-          <TableIconButton operation={'column-add'} onClick={handleOnClick}>
-            <Plus />
-          </TableIconButton>
-          <TableIconButton operation={'column-remove'} onClick={handleOnClick}>
-            <Minus />
-          </TableIconButton>
-          <TableIconButton operation={'column-left'} onClick={handleOnClick}>
-            <AlignLeft />
-          </TableIconButton>
-          <TableIconButton operation={'column-center'} onClick={handleOnClick}>
-            <AlignCenter />
-          </TableIconButton>
-          <TableIconButton operation={'column-right'} onClick={handleOnClick}>
-            <AlignRight />
-          </TableIconButton>
-        </ActionGroup>
-        <ActionGroup>
+        {showEditColgroups && (
+          <StyledButton
+            data-cy={'edit-colgroups'}
+            stripped
+            title={t('form.content.table.edit-colgroups')}
+            onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'edit-colgroups')}>
+            {t('form.content.table.colgroups')}
+            <Pencil />
+          </StyledButton>
+        )}
+        <ActionGrid>
+          {/* Row 1 - Row actions */}
+          <StyledRowTitle>{`${t('form.content.table.row')}:`}</StyledRowTitle>
+          <ActionGroup>
+            {rowActions.map(action => (
+              <TableIconButton operation={action.name} onClick={handleOnClick}>
+                {action.icon}
+              </TableIconButton>
+            ))}
+          </ActionGroup>
+          <div css={rightAlign}>
+            {showAddHeader && (
+              <StyledButton
+                data-cy={'head-add'}
+                stripped
+                title={t(`form.content.table.addHeader`)}
+                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => handleOnClick(e, 'head-add')}>
+                {t(`form.content.table.addHeader`)}
+              </StyledButton>
+            )}
+          </div>
+          {/* Row 2  - Column actions*/}
+          <StyledRowTitle>{`${t('form.content.table.column')}:`}</StyledRowTitle>
+          <ActionGroup>
+            {columnActions.map(action => (
+              <TableIconButton operation={action.name} onClick={handleOnClick}>
+                {action.icon}
+              </TableIconButton>
+            ))}
+          </ActionGroup>
           <StyledButton
             data-cy={'toggle-row-headers'}
             stripped
@@ -243,7 +269,7 @@ const TableActions = ({ editor, element }: Props) => {
               }`,
             )}
           </StyledButton>
-        </ActionGroup>
+        </ActionGrid>
       </StyledTableActions>
     </StyledWrapper>
   );

@@ -14,7 +14,6 @@ import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
 //@ts-ignore
 import { parseMarkdown } from '@ndla/util';
-import config from '../../../../config';
 import { getSrcSets } from '../../../../util/imageEditorUtil';
 import FigureButtons from './FigureButtons';
 import EditImage from './EditImage';
@@ -110,8 +109,8 @@ const SlateImage = ({
           }}>
           <figure {...figureClass}>
             <img
-              src={`${config.ndlaApiUrl}/image-api/raw/id/${embed.resource_id}`}
               alt={embed.alt}
+              sizes="(min-width: 1024px) 180px, (min-width: 768px) 180px, 100vw"
               srcSet={getSrcSets(embed.resource_id, transformData())}
               css={css`
                 box-shadow: ${showCopyOutline ? 'rgb(32, 88, 143) 0 0 0 2px' : 'none'};

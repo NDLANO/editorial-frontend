@@ -91,6 +91,7 @@ const actionsToShowInAreas = {
   summary: actions,
   list: actions,
   'list-item': actions,
+  table: ['image'],
 };
 
 // Plugins are checked from last to first

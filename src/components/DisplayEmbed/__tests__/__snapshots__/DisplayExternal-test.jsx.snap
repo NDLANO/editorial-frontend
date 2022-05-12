@@ -89,6 +89,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  cursor: pointer;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -151,6 +152,7 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  cursor: pointer;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;

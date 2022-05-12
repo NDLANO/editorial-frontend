@@ -53,6 +53,6 @@ describe('Table plugin', () => {
 
     cy.get('[data-cy=column-remove]').click({ force: true });
     cy.get('[data-cy=row-remove]').click({ force: true });
-    cy.contains(t.form.content.table['table-remove']).click({ force: true });
+    cy.get('[data-cy=table-remove]').click({ force: true });
   });
 });

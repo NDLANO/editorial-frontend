@@ -18,6 +18,7 @@ interface StyledButtonProps {
 
 export const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
   margin: 0;

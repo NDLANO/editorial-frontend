@@ -7,10 +7,14 @@
  */
 
 import styled from '@emotion/styled';
-import { ReactNode } from 'react';
+import { MouseEvent, ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Editor } from 'slate';
 import { RenderElementProps } from 'slate-react';
+import DeleteButton from '../../../DeleteButton';
+import EditColgroupsModal from './EditColgroupsModal';
 import { TableElement } from './interfaces';
+import { removeTable } from './utils';
 
 interface Props {
   editor: Editor;
@@ -21,6 +25,7 @@ interface Props {
 
 const StyledTable = styled.table`
   display: block;
+  position: relative;
   margin-left: auto;
   margin-right: auto;
   padding: 0 24px;
@@ -40,13 +45,21 @@ const StyledWrapper = styled.div`
   margin: 0;
 `;
 
-const SlateTable = (props: Props) => {
-  const { attributes, children } = props;
+const SlateTable = ({ attributes, children, element, editor }: Props) => {
+  const { t } = useTranslation();
   return (
     <StyledWrapper className="c-table__wrapper">
       <StyledTable className="c-table" {...attributes}>
+        <DeleteButton
+          stripped
+          onClick={(e: MouseEvent<HTMLButtonElement>) => removeTable(editor, element)}
+          data-cy="table-remove"
+          title={t('form.content.table.table-remove')}
+          tabIndex="-1"
+        />
         {children}
       </StyledTable>
+      <EditColgroupsModal element={element} />
     </StyledWrapper>
   );
 };

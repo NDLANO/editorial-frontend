@@ -179,7 +179,7 @@
     "react-i18next": "11.11.4",
     "react-image-crop": "^6.0.18",
     "react-query": "^3.38.1",
-    "react-router-dom": "^6.0.2",
+    "react-router-dom": "^6.1.0",
     "react-tabs": "^3.0.0",
     "react-transition-group": "^4.2.2",
     "remarkable": "^2.0.0",

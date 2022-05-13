@@ -22,7 +22,6 @@ import IconButton from '../../../components/IconButton';
 import VersionForm from './VersionForm';
 import { useDeleteVersionMutation } from '../../../modules/taxonomy/versions/versionMutations';
 import AlertModal from '../../../components/AlertModal';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import config from '../../../config';
 import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
 import { StyledErrorMessage } from './StyledErrorMessage';
@@ -105,7 +104,6 @@ const iconCss = css`
 
 const Version = ({ version }: Props) => {
   const { t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
@@ -125,7 +123,7 @@ const Version = ({ version }: Props) => {
   });
 
   const onDelete = async () => {
-    await deleteVersionMutation.mutateAsync({ id: version.id, taxonomyVersion });
+    await deleteVersionMutation.mutateAsync({ id: version.id, taxonomyVersion: 'default' });
   };
 
   const deleteTooltip = version.locked

@@ -125,18 +125,18 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
 
   const onPublish = async (node: NodeType) => {
     setHasPublished(false);
-    if (!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || otherHash === 'default') {
+    if (!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) || originalHash === 'default') {
       setIsLoading(false);
       return;
     }
     setIsLoading(true);
     const targetVersions = await fetchVersions({
-      hash: otherHash,
+      hash: originalHash,
       taxonomyVersion: 'default',
     });
     const sourceVersions =
-      originalHash !== 'default'
-        ? await fetchVersions({ hash: originalHash, taxonomyVersion: 'default' })
+      otherHash !== 'default'
+        ? await fetchVersions({ hash: otherHash, taxonomyVersion: 'default' })
         : undefined;
     if (targetVersions.length !== 1 || (sourceVersions && sourceVersions.length !== 1)) {
       setIsLoading(false);
@@ -200,7 +200,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     diff.root.changed.diffType === 'NONE' &&
     diff.root.childrenChanged?.diffType === 'NONE';
   const publishable =
-    !equal && userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && otherHash !== 'default';
+    !equal && userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && originalHash !== 'default';
   const isPublishing =
     isLoading || defaultQuery.data?.root.metadata.customFields['isPublishing'] === 'true';
   return (

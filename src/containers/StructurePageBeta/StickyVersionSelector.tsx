@@ -50,7 +50,7 @@ const StickyDiv = styled.div<StickyDivProps>`
 const StickyVersionSelector = () => {
   const { t } = useTranslation();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
-  const { data } = useVersions({ taxonomyVersion });
+  const { data } = useVersions({ taxonomyVersion: 'default' });
   const qc = useQueryClient();
 
   const fakeDefault: VersionTypeWithDefault = {

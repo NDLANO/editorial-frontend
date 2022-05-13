@@ -202,7 +202,7 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const publishable =
     !equal && userPermissions?.includes(TAXONOMY_ADMIN_SCOPE) && originalHash !== 'default';
   const isPublishing =
-    isLoading || defaultQuery.data?.root.metadata.customFields['isPublishing'] === 'true';
+    isLoading || otherQuery.data?.root.metadata.customFields['isPublishing'] === 'true';
   return (
     <DiffContainer id="diffContainer">
       {publishable && (

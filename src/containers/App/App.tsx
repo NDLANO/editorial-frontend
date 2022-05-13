@@ -10,7 +10,7 @@
 import '../../style/index.css';
 
 import { ReactElement, useContext, useEffect } from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import loadable from '@loadable/component';
 import { History } from 'history';
 import { Content, PageContainer } from '@ndla/ui';

@@ -48,7 +48,7 @@ const RequestNodePublish = ({ node, rootNodeId }: Props) => {
         stripped
         data-testid="requestPublish"
         onClick={togglePublish}
-        disabled={taxonomyVersion !== 'default'}>
+        disabled={taxonomyVersion !== 'default' || metadata.customFields.isPublishing === 'true'}>
         <RoundIcon small icon={<Check />} />
         {t(
           hasRequested

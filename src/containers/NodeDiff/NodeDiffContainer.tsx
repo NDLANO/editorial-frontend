@@ -7,14 +7,21 @@
  */
 
 import styled from '@emotion/styled';
+import Button from '@ndla/button';
 import { spacing } from '@ndla/core';
 import { ContentLoader, MessageBox } from '@ndla/ui';
 import { isEqual } from 'lodash';
 import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import { useSearchParams } from 'react-router-dom';
+import AlertModal from '../../components/AlertModal';
+import { TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
-import { useNodeTree } from '../../modules/nodes/nodeQueries';
+import { usePublishNodeMutation } from '../../modules/nodes/nodeMutations';
+import { nodeTreeQueryKeys, useNodeTree } from '../../modules/nodes/nodeQueries';
+import { fetchVersions } from '../../modules/taxonomy/versions/versionApi';
+import { useSession } from '../Session/SessionProvider';
 import { diffTrees, DiffType } from './diffUtils';
 import NodeDiff from './NodeDiff';
 import { RootNode } from './TreeNode';
@@ -37,6 +44,11 @@ const DiffContainer = styled.div`
   gap: ${spacing.small};
 `;
 
+const PublishButton = styled(Button)`
+  align-self: flex-end;
+  margin-right: ${spacing.small};
+`;
+
 interface NodeOptions {
   nodeView: string | null;
   fieldView: string | null;
@@ -57,6 +69,16 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
   const { t, i18n } = useTranslation();
   const [selectedNode, setSelectedNode] = useState<DiffType<NodeType> | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [hasPublished, setHasPublished] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { userPermissions } = useSession();
+  const qc = useQueryClient();
+
+  const publishNodeMutation = usePublishNodeMutation({
+    onSettled: () =>
+      qc.invalidateQueries(nodeTreeQueryKeys({ id: nodeId, taxonomyVersion: originalHash })),
+  });
 
   useEffect(() => {
     setSelectedNode(undefined);
@@ -99,7 +121,39 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     } else {
       setError('diff.error.onlyExistsInOriginal');
     }
-  }, [defaultQuery, otherQuery]);
+  }, [defaultQuery.data, defaultQuery.isLoading, otherQuery.data, otherQuery.isLoading]);
+
+  const onPublish = async (node: NodeType) => {
+    setHasPublished(false);
+    setIsLoading(true);
+    const targetVersions = await fetchVersions({
+      hash: originalHash,
+      taxonomyVersion: 'default',
+    });
+    if (!userPermissions?.includes(TAXONOMY_ADMIN_SCOPE)) {
+      setIsLoading(false);
+      return;
+    }
+    if (targetVersions.length !== 1) {
+      setIsLoading(false);
+      setError('diff.publishError');
+      return;
+    }
+
+    const targetVersion = targetVersions[0];
+
+    await publishNodeMutation.mutateAsync(
+      { id: node.id, targetId: targetVersion.id },
+      {
+        onSuccess: () => setHasPublished(true),
+        onError: () => {
+          setHasPublished(false);
+          setError('diff.publishError');
+        },
+      },
+    );
+    setIsLoading(false);
+  };
 
   const shownNodes = Math.max(
     (defaultQuery.data?.children.length ?? 0) + 1,
@@ -140,8 +194,17 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
     (defaultQuery.data || otherQuery.data) &&
     diff.root.changed.diffType === 'NONE' &&
     diff.root.childrenChanged?.diffType === 'NONE';
+  const publishable = !equal && userPermissions?.includes(TAXONOMY_ADMIN_SCOPE);
+  const isPublishing =
+    isLoading || defaultQuery.data?.root.metadata.customFields['isPublishing'] === 'true';
   return (
     <DiffContainer id="diffContainer">
+      {publishable && (
+        <PublishButton onClick={() => setShowAlertModal(true)} disabled={isPublishing}>
+          {t(`diff.${isPublishing ? 'publishing' : 'publish'}`)}
+        </PublishButton>
+      )}
+      {hasPublished && <MessageBox>{t('diff.published')}</MessageBox>}
       {equal && <MessageBox>{t('diff.equalNodes')}</MessageBox>}
       {error && <MessageBox>{t(error)}</MessageBox>}
       {view === 'tree' && (
@@ -162,6 +225,26 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
           ))}
         </StyledNodeList>
       )}
+      <AlertModal
+        show={showAlertModal}
+        text={t('diff.publishWarning')}
+        actions={[
+          {
+            text: t('form.abort'),
+            onClick: () => setShowAlertModal(false),
+          },
+          {
+            text: t('alertModal.continue'),
+            onClick: () => {
+              setShowAlertModal(false);
+              if (otherQuery.data?.root) {
+                onPublish(otherQuery.data.root);
+              }
+            },
+          },
+        ]}
+        onCancel={() => setShowAlertModal(false)}
+      />
     </DiffContainer>
   );
 };

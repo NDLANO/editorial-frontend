@@ -174,6 +174,7 @@ const diffChildren = (
           metadata: {
             customFields: {
               requestPublish: true,
+              isPublishing: true,
             },
           },
         }),
@@ -209,6 +210,7 @@ export const diffTrees = (
     metadata: {
       customFields: {
         requestPublish: true,
+        isPublishing: true,
       },
     },
   });

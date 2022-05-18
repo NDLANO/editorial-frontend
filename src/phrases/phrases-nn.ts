@@ -1432,15 +1432,18 @@ const phrases = {
     nodePublished: 'Noden har blitt publisert!',
     showInStructure: 'Vis i struktur',
     compare: 'Samanlikn',
-    publishNode: 'Publiser node',
-    publishWarning:
-      'Er du sikker på at du ønskjar å publisere denne noden? Alle endringar vil umiddelbart bli tilgjengelege i målversjonen',
     errors: {
       noPublishedVersion: 'Klarte ikkje finne publisert versjon',
-      publishError: 'En feil oppsto under publisering av noden',
     },
   },
   diff: {
+    published:
+      'Nodepublisering har starta. Dette kan ta litt tid. Prosessen er fullført når denne siden viser at dei to versjonane er like',
+    publishing: 'Publiserar node...',
+    publish: 'Publiser node',
+    publishWarning:
+      'Er du sikker på at du ønskjar å publisere denne noden? Alle endringar vil umiddelbart bli tilgjengelege i målversjonen',
+    publishError: 'Publisering av node feilet',
     equalNodes: 'Disse nodene er like!',
     defaultVersion: 'Standardsversjon',
     compareVersions: 'Samanlikne versjonar',

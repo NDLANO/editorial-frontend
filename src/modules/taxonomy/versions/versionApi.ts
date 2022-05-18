@@ -24,8 +24,9 @@ interface VersionGetParams extends WithTaxonomyVersion, GetVersionsParams {}
 export const fetchVersions = ({
   taxonomyVersion,
   type,
+  hash,
 }: VersionGetParams): Promise<VersionType[]> => {
-  return fetchAndResolve({ url: baseUrl, taxonomyVersion, queryParams: { type } });
+  return fetchAndResolve({ url: baseUrl, taxonomyVersion, queryParams: { type, hash } });
 };
 
 interface VersionGetParam extends WithTaxonomyVersion {

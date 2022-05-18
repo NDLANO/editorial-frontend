@@ -34,6 +34,16 @@ export type DiffType<T> = {
   resourcesChanged?: DiffResult<null>;
 };
 
+type Keys<T> = {
+  [key in keyof T]: T[key] extends Array<any>
+    ? boolean
+    : T[key] extends object
+    ? Partial<Keys<T[key]>>
+    : boolean;
+};
+
+type SkipKeys<T> = Partial<Keys<T>>;
+
 export interface NodeTree {
   root: NodeTypeWithResources | ChildNodeTypeWithResources;
   children: ChildNodeTypeWithResources[];
@@ -78,11 +88,21 @@ const diffAndGroupChildren = <T extends NodeType = NodeType>(
     return !!parent && parent === parentId;
   });
   return children.map(child => {
-    const diff = diffObject(child.original, child.other, ['path', 'paths', 'resources']);
-    const resourcesDiff = doDiff(child.original?.resources, child.other?.resources, [
-      'path',
-      'paths',
-    ]);
+    const diff = diffObject(child.original, child.other, {
+      path: true,
+      paths: true,
+      resources: true,
+      metadata: {
+        customFields: {
+          requestPublish: true,
+          isPublishing: true,
+        },
+      },
+    });
+    const resourcesDiff = doDiff(child.original?.resources, child.other?.resources, {
+      path: true,
+      paths: true,
+    });
     const diffedChildren = diffAndGroupChildren(child, other);
     const childrenDiffType = diffedChildren.some(
       child =>
@@ -109,7 +129,7 @@ interface DoDiffResult<T> {
 const doDiff = <T extends { id: string }>(
   original: T[] | undefined,
   other: T[] | undefined,
-  skipFields: (keyof T)[] = [],
+  skipFields: SkipKeys<T>,
 ): DoDiffResult<T> => {
   const grouped = createTagGroupings(original ?? [], other ?? []);
   const diff = Object.values(grouped).map(val => diffObject(val.original, val.other, skipFields));
@@ -142,9 +162,22 @@ const diffChildren = (
   if (viewType === 'flat') {
     return children.map(child => {
       const { original, other } = child;
-      const diffedResources = doDiff(original?.resources, other?.resources, ['path', 'paths']);
+      const diffedResources = doDiff(original?.resources, other?.resources, {
+        path: true,
+        paths: true,
+      });
       return {
-        ...diffObject(original, other, ['path', 'paths', 'resources']),
+        ...diffObject(original, other, {
+          path: true,
+          paths: true,
+          resources: true,
+          metadata: {
+            customFields: {
+              requestPublish: true,
+              isPublishing: true,
+            },
+          },
+        }),
         resources: diffedResources.diff,
         resourcesChanged: diffedResources.changed,
         childrenChanged: { diffType: 'NONE' },
@@ -170,11 +203,21 @@ export const diffTrees = (
   const otherRoot = otherTree?.root;
   const grouping = createTagGroupings(originalChildren, otherChildren);
 
-  const rootDiff = diffObject(originalRoot, otherRoot, ['path', 'paths', 'resources']);
-  const rootResourcesDiff = doDiff(originalRoot?.resources, otherRoot?.resources, [
-    'path',
-    'paths',
-  ]);
+  const rootDiff = diffObject(originalRoot, otherRoot, {
+    path: true,
+    paths: true,
+    resources: true,
+    metadata: {
+      customFields: {
+        requestPublish: true,
+        isPublishing: true,
+      },
+    },
+  });
+  const rootResourcesDiff = doDiff(originalRoot?.resources, otherRoot?.resources, {
+    path: true,
+    paths: true,
+  });
   const childrenDiff = diffChildren(
     { original: originalRoot, other: otherRoot },
     Object.values(grouping),
@@ -205,13 +248,13 @@ const isObject = <T>(original: T | undefined, other: T | undefined) => {
 const diffObject = <T>(
   original: T | undefined,
   other: T | undefined,
-  skipFields: (keyof T)[] = [],
+  skipFields?: SkipKeys<T>,
 ): DiffType<T> => {
   let hasChanged = false;
   const objDiff = diffField(original, other, undefined, true);
   const allKeys = Object.keys({ ...original, ...other }) as Array<keyof T>;
   const test = allKeys.reduce<Record<keyof T, any>>((acc, key) => {
-    if (skipFields.includes(key)) {
+    if (typeof skipFields?.[key] === 'boolean') {
       acc[key] = {
         original: original?.[key],
         other: other?.[key],
@@ -227,7 +270,8 @@ const diffObject = <T>(
       }
       acc[key] = res;
     } else if (isObject(original?.[key], other?.[key])) {
-      const res = diffObject(original?.[key], other?.[key]);
+      //@ts-ignore
+      const res = diffObject(original?.[key], other?.[key], skipFields?.[key]);
       if (res.changed.diffType !== 'NONE') {
         hasChanged = true;
       }

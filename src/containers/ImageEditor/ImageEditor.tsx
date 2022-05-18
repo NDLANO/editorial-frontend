@@ -7,7 +7,6 @@
  */
 
 import { MouseEvent, useEffect, useState } from 'react';
-import BEMHelper from 'react-bem-helper';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import Button from '@ndla/button';
 import { colors } from '@ndla/core';
@@ -22,11 +21,6 @@ import ImageEditorButton from './ImageEditorButton';
 import { ImageEmbed } from '../../interfaces';
 import { fetchImage } from '../../modules/image/imageApi';
 import ShowBylineButton from './ShowBylineButton';
-
-export const classes = new BEMHelper({
-  name: 'image-editor',
-  prefix: 'c-',
-});
 
 const StyledImageEditorMenu = styled('div')`
   color: white;
@@ -157,7 +151,7 @@ const ImageEditor = ({ embed, onUpdatedImageSettings, imageUpdates }: Props) => 
     (editType === 'crop' && imageUpdates?.transformData['upper-left-x']);
 
   return (
-    <div {...classes()}>
+    <div>
       <StyledImageEditorEditMode>
         <div>
           <StyledImageEditorMenu>

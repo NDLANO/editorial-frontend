@@ -6,9 +6,9 @@
  *
  */
 
-import PropTypes from 'prop-types';
+import { MouseEvent } from 'react';
 import { colors } from '@ndla/core';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import {
   Bold,
   Code,
@@ -26,6 +26,9 @@ import {
   Subscript,
   Superscript,
   Underline,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
 } from '@ndla/icons/editor';
 
 import { Language } from '@ndla/icons/common';
@@ -38,7 +41,7 @@ import { toolbarClasses } from './SlateToolbar';
 const IS_MAC =
   typeof window != 'undefined' && /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
 const options = { ctrl: IS_MAC ? 'cmd' : 'ctrl' };
-const toolbarIcon = t => ({
+const toolbarIcon = (t: TFunction): Record<string, JSX.Element | undefined> => ({
   bold: <Bold title={t('editorToolbar.bold', options)} />,
   italic: <Italic title={t('editorToolbar.italic', options)} />,
   underlined: <Underline title={t('editorToolbar.underlined', options)} />,
@@ -57,9 +60,12 @@ const toolbarIcon = t => ({
   code: <Code title={t('editorToolbar.code', options)} />,
   'code-block': <Code title={t('editorToolbar.codeblock', options)} />,
   span: <Language title={t('editorToolbar.lang', options)} />,
+  left: <AlignLeft title={t('editorToolbar.leftAlign', options)} />,
+  center: <AlignCenter title={t('editorToolbar.centerAlign', options)} />,
+  right: <AlignRight title={t('editorToolbar.rightAlign', options)} />,
 });
 
-const toolbarButtonStyle = isActive => css`
+const toolbarButtonStyle = (isActive: boolean) => css`
   display: inline-block;
   background: ${isActive ? colors.brand.lightest : colors.white};
   cursor: pointer;
@@ -96,9 +102,17 @@ const toolbarButtonStyle = isActive => css`
     background: ${colors.brand.lightest};
   }
 `;
-const ToolbarButton = ({ isActive, type, kind, handleOnClick }) => {
+
+interface Props {
+  isActive: boolean;
+  type: string;
+  kind: string;
+  handleOnClick: (event: MouseEvent, kind: string, type: string) => void;
+}
+
+const ToolbarButton = ({ isActive, type, kind, handleOnClick }: Props) => {
   const { t } = useTranslation();
-  const onMouseDown = e => handleOnClick(e, kind, type);
+  const onMouseDown = (e: MouseEvent) => handleOnClick(e, kind, type);
   return (
     <button
       {...toolbarClasses('button', isActive ? 'active' : '')}
@@ -109,13 +123,6 @@ const ToolbarButton = ({ isActive, type, kind, handleOnClick }) => {
       <span {...toolbarClasses('icon', isActive ? 'active' : '')}>{toolbarIcon(t)[type]}</span>
     </button>
   );
-};
-
-ToolbarButton.propTypes = {
-  type: PropTypes.string.isRequired,
-  kind: PropTypes.string.isRequired,
-  isActive: PropTypes.bool,
-  handleOnClick: PropTypes.func.isRequired,
 };
 
 export default ToolbarButton;

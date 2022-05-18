@@ -82,11 +82,13 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       handleRemove();
     } else {
       const nextPath = Path.next(elementPath);
-      ReactEditor.focus(editor);
-      Transforms.select(editor, {
-        anchor: { path: nextPath, offset: 0 },
-        focus: { path: nextPath, offset: 0 },
-      });
+      setTimeout(() => {
+        ReactEditor.focus(editor);
+        Transforms.select(editor, {
+          anchor: { path: nextPath, offset: 0 },
+          focus: { path: nextPath, offset: 0 },
+        });
+      }, 0);
       setEditMode(false);
       setShowMenu(false);
     }
@@ -97,41 +99,43 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
       data: { innerHTML: mathML },
     };
     const path = ReactEditor.findPath(editor, element);
-    const leafPath = Path.next(path);
 
-    if (isFirstEdit) {
-      Transforms.setNodes(editor, properties, {
-        at: path,
-        voids: true,
-        match: node => node === element,
-      });
-
-      const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild
-        ?.textContent;
-
-      Transforms.insertText(editor, mathAsString || '', {
-        at: path,
-        voids: true,
-      });
-
-      mergeLastUndos(editor);
-    } else {
-      Transforms.setNodes(editor, properties, {
-        at: path,
-        voids: true,
-        match: node => node === element,
-      });
-    }
-
-    ReactEditor.focus(editor);
-    Transforms.select(editor, {
-      anchor: { path: leafPath, offset: 0 },
-      focus: { path: leafPath, offset: 0 },
-    });
+    const nextPath = Path.next(path);
 
     setIsFirstEdit(false);
     setEditMode(false);
     setShowMenu(false);
+
+    setTimeout(() => {
+      ReactEditor.focus(editor);
+      if (isFirstEdit) {
+        Transforms.setNodes(editor, properties, {
+          at: path,
+          voids: true,
+          match: node => node === element,
+        });
+
+        const mathAsString = new DOMParser().parseFromString(mathML, 'text/xml').firstChild
+          ?.textContent;
+
+        Transforms.insertText(editor, mathAsString || '', {
+          at: path,
+          voids: true,
+        });
+
+        mergeLastUndos(editor);
+      } else {
+        Transforms.setNodes(editor, properties, {
+          at: path,
+          voids: true,
+          match: node => node === element,
+        });
+      }
+      Transforms.select(editor, {
+        anchor: { path: nextPath, offset: 0 },
+        focus: { path: nextPath, offset: 0 },
+      });
+    }, 0);
   };
 
   const handleRemove = () => {
@@ -148,11 +152,17 @@ const MathEditor = ({ element, children, attributes, editor }: Props & RenderEle
 
   const { top, left } = getMenuPosition();
 
+  useEffect(() => {
+    ReactEditor.blur(editor);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <span
       role="button"
       tabIndex={0}
       onClick={toggleMenu}
+      contentEditable={false}
       style={{ boxShadow: selected && focused ? `0 0 0 1px ${colors.brand.tertiary}` : 'none' }}
       {...attributes}>
       <MathML model={nodeInfo.model} editor={editor} element={element} />

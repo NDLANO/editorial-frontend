@@ -37,6 +37,10 @@ export type EditMode =
   | 'addExistingTopic'
   | 'addTopic'
   | 'deleteSubject'
+  | 'requestPublish'
+  | 'deleteNode'
+  | 'copyResources'
+  | 'cloneResources'
   | '';
 
 export interface SearchResultBase<T> {
@@ -196,7 +200,6 @@ export interface ReturnType<TType, TReturnType> {
   value: TReturnType;
 }
 
-export interface TaxonomyParameters<T> {
+export interface WithTaxonomyVersion {
   taxonomyVersion: string;
-  params: T;
 }

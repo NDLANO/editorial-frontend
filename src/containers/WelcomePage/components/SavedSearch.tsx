@@ -6,7 +6,6 @@
  *
  */
 
-import BEMHelper from 'react-bem-helper';
 import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 
@@ -17,6 +16,7 @@ import Tooltip from '@ndla/tooltip';
 import IconButton from '../../../components/IconButton';
 import { transformQuery } from '../../../util/searchHelpers';
 import { useSavedSearchUrl } from '../hooks/savedSearchHook';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   deleteSearch: Function;
@@ -24,13 +24,9 @@ interface Props {
   index: number;
 }
 
-export const classes = new BEMHelper({
-  name: 'saved-search',
-  prefix: 'c-',
-});
-
 const SavedSearch = ({ deleteSearch, search, index }: Props) => {
   const { t, i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
   const [searchUrl, searchParams] = search.split('?');
 
@@ -46,7 +42,7 @@ const SavedSearch = ({ deleteSearch, search, index }: Props) => {
   if (searchObject['type'] === 'content' && searchObject['language']) {
     searchObject['language'] = locale;
   }
-  const { data, loading } = useSavedSearchUrl(searchObject, locale);
+  const { data, loading } = useSavedSearchUrl(searchObject, locale, taxonomyVersion);
 
   const linkText = (searchObject: Record<string, string>) => {
     const query = searchObject.query || undefined;
@@ -91,7 +87,8 @@ const SavedSearch = ({ deleteSearch, search, index }: Props) => {
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      <Link {...classes('link')} to={localizedSearch}>
+      {/* Not having a className activates undesirable global scss */}
+      <Link className="" to={localizedSearch}>
         {linkText(searchObject)}
       </Link>
     </div>

@@ -26,6 +26,7 @@ import {
 } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { PathArray } from '../../../util/retrieveBreadCrumbs';
 import { EditMode } from '../../../interfaces';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   metadata: TaxonomyMetadata;
@@ -77,6 +78,7 @@ const SettingsMenuDropdownType = ({
   structure,
   parent,
 }: Props) => {
+  const { taxonomyVersion } = useTaxonomyVersion();
   switch (settingsMenuType) {
     case 'subject':
       return showAllOptions ? (
@@ -169,6 +171,7 @@ const SettingsMenuDropdownType = ({
                 id={id}
                 refreshTopics={refreshTopics}
                 locale={locale}
+                taxonomyVersion={taxonomyVersion}
               />
               <AddExistingToTopic
                 path={path}

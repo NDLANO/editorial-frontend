@@ -7,7 +7,6 @@
  */
 
 import { useState } from 'react';
-import BEMHelper from 'react-bem-helper';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import { Logo } from '@ndla/ui';
@@ -22,11 +21,6 @@ import Overlay from '../../../components/Overlay';
 import config from '../../../config';
 import { NAVIGATION_HEADER_MARGIN } from '../../../constants';
 
-export const classes = new BEMHelper({
-  name: 'navigation',
-  prefix: 'c-',
-});
-
 const logoCSS = css`
   transform: translateY(3px);
 `;
@@ -38,9 +32,13 @@ const StyledSplitter = styled.div`
   margin: 0 ${spacing.normal};
 `;
 
-const StyledNavigationWrapper = styled.div`
+interface StyledNavigationWrapperProps {
+  open?: boolean;
+}
+
+const StyledNavigationWrapper = styled.div<StyledNavigationWrapperProps>`
   position: absolute;
-  z-index: 3;
+  z-index: ${props => props.open && '3'};
   top: 0;
   left: 0;
   right: 0;
@@ -84,7 +82,7 @@ const Navigation = () => {
           clickOutsideDeactivates: true,
           escapeDeactivates: true,
         }}>
-        <StyledNavigationWrapper>
+        <StyledNavigationWrapper open={open}>
           <StyledHeaderItems>
             <div>
               <MastheadButton onClick={toggleOpen} open={open} />

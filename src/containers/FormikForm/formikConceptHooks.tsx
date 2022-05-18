@@ -17,6 +17,7 @@ import handleError from '../../util/handleError';
 import { SubjectType } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT } from '../../constants';
 import { ConceptStatusType } from '../../interfaces';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 export function useFetchConceptData(conceptId: number | undefined, locale: string) {
   const [concept, setConcept] = useState<IConcept>();
@@ -24,6 +25,7 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
   const [conceptChanged, setConceptChanged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [subjects, setSubjects] = useState<SubjectType[]>([]);
+  const { taxonomyVersion } = useTaxonomyVersion();
 
   useEffect(() => {
     const fetchConcept = async (): Promise<void> => {
@@ -47,14 +49,18 @@ export function useFetchConceptData(conceptId: number | undefined, locale: strin
 
   useEffect(() => {
     const fetchSubjects = async () => {
-      const fetchedSubjects = await taxonomyApi.fetchSubjects(locale, {
-        key: TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
-        value: 'true',
+      const fetchedSubjects = await taxonomyApi.fetchSubjects({
+        language: locale,
+        metadataFilter: {
+          key: TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
+          value: 'true',
+        },
+        taxonomyVersion,
       });
       setSubjects(fetchedSubjects);
     };
     fetchSubjects();
-  }, [locale]);
+  }, [locale, taxonomyVersion]);
 
   const fetchElementList = async (articleIds?: number[]): Promise<IArticle[]> => {
     const promises = articleIds?.map(id => fetchDraft(id)) ?? [];

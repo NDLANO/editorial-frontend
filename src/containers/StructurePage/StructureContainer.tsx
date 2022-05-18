@@ -9,6 +9,7 @@
 
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
 import { OneColumn } from '@ndla/ui';
 import { Params, useLocation, useNavigate } from 'react-router-dom';
 import { Taxonomy } from '@ndla/icons/editor';
@@ -45,6 +46,12 @@ import {
 } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 import { useSession } from '../Session/SessionProvider';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+
+const StyledStructureContainer = styled.div`
+  position: relative;
+  z-index: 1;
+`;
 
 interface RouteProps {
   params: Params<'subject' | 'topic' | 'subtopics'>;
@@ -58,6 +65,7 @@ export const StructureContainer = () => {
   const params = { subject, topic, subtopics };
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
   const { userPermissions } = useSession();
   const [editStructureHidden, setEditStructureHidden] = useState(false);
@@ -79,7 +87,7 @@ export const StructureContainer = () => {
 
   useEffect(() => {
     (async () => {
-      const subjects = await fetchSubjects(locale);
+      const subjects = await fetchSubjects({ language: locale, taxonomyVersion });
       setSubjects(subjects.sort((a, b) => a.name?.localeCompare(b.name)));
       const { subject } = params;
       if (subject) {
@@ -109,7 +117,7 @@ export const StructureContainer = () => {
 
   const getAllSubjects = async () => {
     try {
-      const subjects = await fetchSubjects(locale);
+      const subjects = await fetchSubjects({ language: locale, taxonomyVersion });
       setSubjects(subjects.sort((a, b) => a.name?.localeCompare(b.name)));
     } catch (e) {
       handleError(e);
@@ -119,7 +127,11 @@ export const StructureContainer = () => {
   const getSubjectTopics = async (subjectid: string, locale: string) => {
     try {
       saveSubjectItems(subjectid, { loading: true });
-      const allTopics = await fetchSubjectTopics(subjectid, locale);
+      const allTopics = await fetchSubjectTopics({
+        subject: subjectid,
+        language: locale,
+        taxonomyVersion,
+      });
       setTopics(allTopics);
       const topics = groupTopics(allTopics);
       saveSubjectItems(subjectid, { topics, loading: false });
@@ -152,7 +164,7 @@ export const StructureContainer = () => {
   };
 
   const addSubject = async (name: string) => {
-    const newPath = await addSubjectApi({ name });
+    const newPath = await addSubjectApi({ body: { name }, taxonomyVersion });
     getAllSubjects();
     return newPath;
   };
@@ -191,17 +203,25 @@ export const StructureContainer = () => {
       ? getSubtopics(currentTopic.id, topics)
       : currentSubject?.topics)!;
     const currentRank = localTopics[source.index].rank;
-    const destinationRank = topics[destination.index].rank;
+    const destinationRank = localTopics[destination.index].rank;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
     if (currentRank === destinationRank) return;
     saveSubjectItems(params.subject!, { loading: true });
 
     if (draggableId.includes('topic-subtopic')) {
-      await updateTopicSubtopic(draggableId, {
-        rank: newRank,
+      await updateTopicSubtopic({
+        connectionId: draggableId,
+        body: {
+          rank: newRank,
+        },
+        taxonomyVersion,
       });
     } else {
-      await updateSubjectTopic(draggableId, { rank: newRank });
+      await updateSubjectTopic({
+        connectionId: draggableId,
+        body: { rank: newRank },
+        taxonomyVersion,
+      });
     }
     refreshTopics();
   };
@@ -263,7 +283,7 @@ export const StructureContainer = () => {
             />
           }
           hidden={editStructureHidden}>
-          <div id="plumbContainer">
+          <StyledStructureContainer>
             <Structure
               DND
               onDragEnd={onDragEnd}
@@ -314,7 +334,7 @@ export const StructureContainer = () => {
                 />
               )}
             />
-          </div>
+          </StyledStructureContainer>
         </Accordion>
         {topicId && currentTopic && (
           <StructureResources

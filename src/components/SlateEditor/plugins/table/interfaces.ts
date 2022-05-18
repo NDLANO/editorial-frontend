@@ -3,6 +3,7 @@ import { Descendant } from 'slate';
 export interface TableElement {
   type: 'table';
   colgroups: string;
+  showEditColgroups?: boolean;
   rowHeaders: boolean;
   children: Descendant[];
 }

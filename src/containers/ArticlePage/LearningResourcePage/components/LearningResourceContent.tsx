@@ -55,7 +55,6 @@ import { divPlugin } from '../../../../components/SlateEditor/plugins/div';
 import { LocaleType } from '../../../../interfaces';
 import { LearningResourceFormType } from '../../../FormikForm/articleFormHooks';
 import { dndPlugin } from '../../../../components/SlateEditor/plugins/DND';
-import options from '../../../../components/SlateEditor/plugins/blockPicker/options';
 import { SlatePlugin } from '../../../../components/SlateEditor/interfaces';
 import { SessionProps } from '../../../Session/SessionProvider';
 import withSession from '../../../Session/withSession';
@@ -79,6 +78,12 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
+const StyledDiv = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`;
+
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
   findNodesByType(content, TYPE_FOOTNOTE)
     .map(e => e as FootnoteElement)
@@ -93,6 +98,7 @@ const actionsToShowInAreas = {
   summary: actions,
   list: actions,
   'list-item': actions,
+  table: ['image'],
 };
 
 // Plugins are checked from last to first
@@ -105,12 +111,7 @@ export const plugins = (
     sectionPlugin,
     spanPlugin,
     divPlugin,
-    paragraphPlugin(
-      articleLanguage,
-      options({
-        actionsToShowInAreas,
-      }),
-    ),
+    paragraphPlugin(articleLanguage),
     footnotePlugin,
     embedPlugin(articleLanguage, locale),
     bodyboxPlugin,
@@ -171,7 +172,7 @@ const LearningResourceContent = ({
       <TitleField handleSubmit={handleSubmit} />
       <FormikField name="published" css={byLineStyle}>
         {({ field, form }) => (
-          <>
+          <StyledDiv>
             <LastUpdatedLine
               name={field.name}
               creators={creators}
@@ -189,7 +190,7 @@ const LearningResourceContent = ({
               </Tooltip>
               <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
             </IconContainer>
-          </>
+          </StyledDiv>
         )}
       </FormikField>
       <IngressField preview={preview} handleSubmit={handleSubmit} />
@@ -209,6 +210,10 @@ const LearningResourceContent = ({
               )}
             </FieldHeader>
             <RichTextEditor
+              language={articleLanguage}
+              blockpickerOptions={{
+                actionsToShowInAreas,
+              }}
               placeholder={t('form.content.placeholder')}
               value={value}
               submitted={isSubmitting}

@@ -33,9 +33,7 @@ const SubjectMatterPage = () => (
 
 const GenericArticleRedirect = () => {
   const parsedId = Number(useParams<'id'>().id);
-  const { data: article, error, isLoading } = useDraft(parsedId, undefined, {
-    enabled: !!parsedId,
-  });
+  const { data: article, error, isLoading } = useDraft({ id: parsedId }, { enabled: !!parsedId });
   if (isLoading) return <Spinner />;
   if (error || !article || !parsedId) return <NotFoundPage />;
 

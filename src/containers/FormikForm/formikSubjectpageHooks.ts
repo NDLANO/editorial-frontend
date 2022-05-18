@@ -23,6 +23,7 @@ import { fetchTopic } from '../../modules/taxonomy/topics';
 import { fetchLearningpath } from '../../modules/learningpath/learningpathApi';
 import { Resource, Topic } from '../../modules/taxonomy/taxonomyApiInterfaces';
 import { fetchImage } from '../../modules/image/imageApi';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 export function useFetchSubjectpageData(
   elementId: string,
@@ -34,11 +35,14 @@ export function useFetchSubjectpageData(
   const [banner, setBanner] = useState<IImageMetaInformationV2 | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
+  const { taxonomyVersion } = useTaxonomyVersion();
 
-  const fetchElementList = async (taxonomyUrns: string[]) => {
+  const fetchElementList = async (taxonomyUrns: string[], taxonomyVersion: string) => {
     const taxonomyElements = await Promise.all<Topic | Resource>(
       taxonomyUrns.map(urn =>
-        urn.split(':')[1] === 'topic' ? fetchTopic(urn) : fetchResource(urn),
+        urn.split(':')[1] === 'topic'
+          ? fetchTopic({ id: urn, taxonomyVersion })
+          : fetchResource({ id: urn, taxonomyVersion }),
       ),
     );
 
@@ -68,7 +72,11 @@ export function useFetchSubjectpageData(
 
   const createSubjectpage = async (subjectPage: INewSubjectFrontPageData) => {
     const savedSubjectpage = await frontpageApi.createSubjectpage(subjectPage);
-    await updateSubject(elementId, savedSubjectpage.name, getUrnFromId(savedSubjectpage.id));
+    await updateSubject({
+      id: elementId,
+      body: { name: savedSubjectpage.name, contentUri: getUrnFromId(savedSubjectpage.id) },
+      taxonomyVersion,
+    });
     setSubjectpage(savedSubjectpage);
     return savedSubjectpage;
   };
@@ -92,7 +100,10 @@ export function useFetchSubjectpageData(
     (async () => {
       if (subjectpage) {
         try {
-          const editorsChoices = await fetchElementList(subjectpage.editorsChoices);
+          const editorsChoices = await fetchElementList(
+            subjectpage.editorsChoices,
+            taxonomyVersion,
+          );
           const banner = await fetchImage(subjectpage.banner.desktopId, selectedLanguage);
           setEditorsChoices(editorsChoices);
           setBanner(banner);
@@ -103,7 +114,7 @@ export function useFetchSubjectpageData(
         }
       }
     })();
-  }, [selectedLanguage, subjectpage]);
+  }, [selectedLanguage, subjectpage, taxonomyVersion]);
 
   return {
     subjectpage,

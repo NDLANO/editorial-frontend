@@ -22,11 +22,18 @@ import StructureErrorIcon from './folderComponents/StructureErrorIcon';
 import StructureResources from './resourceComponents/StructureResources';
 import Footer from '../App/components/Footer';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import StickyVersionSelector from './StickyVersionSelector';
+import config from '../../config';
 
 const StructureWrapper = styled.ul`
   margin: 0;
   padding: 0;
 `;
+
+const StyledStructureContainer = styled.div`
+  position: relative;
+`;
+
 const StructureContainer = () => {
   const location = useLocation();
   const [subject, topic, ...rest] = location.pathname.replace('/structureBeta/', '').split('/');
@@ -54,10 +61,13 @@ const StructureContainer = () => {
       return acc;
     }, {}) ?? {};
   const favoriteNodeIds = Object.keys(favoriteNodes);
-  const nodesQuery = useNodes({ language: i18n.language, isRoot: true }, taxonomyVersion, {
-    select: nodes => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
-    placeholderData: [],
-  });
+  const nodesQuery = useNodes(
+    { language: i18n.language, isRoot: true, taxonomyVersion },
+    {
+      select: nodes => nodes.sort((a, b) => a.name?.localeCompare(b.name)),
+      placeholderData: [],
+    },
+  );
   const handleStructureToggle = (path: string) => {
     const { search } = location;
     const currentPath = location.pathname.replace('/structureBeta/', '');
@@ -97,7 +107,11 @@ const StructureContainer = () => {
 
   const addNode = async (name: string) => {
     await addNodeMutation.mutateAsync({
-      params: { name, nodeType: 'SUBJECT', root: true },
+      body: {
+        name,
+        nodeType: 'SUBJECT',
+        root: true,
+      },
       taxonomyVersion,
     });
   };
@@ -130,7 +144,7 @@ const StructureContainer = () => {
             />
           }
           hidden={editStructureHidden}>
-          <div id="plumbContainer">
+          <StyledStructureContainer>
             {userDataQuery.isLoading || nodesQuery.isLoading ? (
               <Spinner />
             ) : (
@@ -151,8 +165,9 @@ const StructureContainer = () => {
                 ))}
               </StructureWrapper>
             )}
-          </div>
+          </StyledStructureContainer>
         </Accordion>
+        {config.versioningEnabled === 'true' && <StickyVersionSelector />}
         {currentNode && (
           <StructureResources
             currentChildNode={currentNode}

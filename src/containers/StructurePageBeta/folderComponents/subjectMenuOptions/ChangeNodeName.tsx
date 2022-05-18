@@ -23,12 +23,16 @@ import { EditModeHandler } from '../SettingsMenuDropdownType';
 import MenuItemButton from '../sharedMenuOptions/components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
-import { useNodeTranslations } from '../../../../modules/nodes/nodeQueries';
+import {
+  nodeQueryKey,
+  nodesQueryKey,
+  nodeTranslationsQueryKey,
+  useNodeTranslations,
+} from '../../../../modules/nodes/nodeQueries';
 import {
   useDeleteNodeTranslationMutation,
   useUpdateNodeTranslationMutation,
 } from '../../../../modules/nodes/nodeMutations';
-import { NODE, NODES, NODE_TRANSLATIONS } from '../../../../queryKeys';
 import Spinner from '../../../../components/Spinner';
 import { StyledErrorMessage } from '../styles';
 import { supportedLanguages } from '../../../../i18n2';
@@ -102,8 +106,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
   const { id, name } = node;
 
   const { data: translations, isLoading: loading, refetch } = useNodeTranslations(
-    id,
-    taxonomyVersion,
+    { id, taxonomyVersion },
     {
       onError: e => {
         handleError(e);
@@ -127,11 +130,13 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
     const toUpdate = Object.entries(newValues).filter(([key, value]) => value !== initial[key]);
 
     const deleteCalls = deleted.map(([, d]) =>
-      deleteNodeTranslation({ params: { subjectId: id, locale: d.language }, taxonomyVersion }),
+      deleteNodeTranslation({ id, language: d.language, taxonomyVersion }),
     );
     const updateCalls = toUpdate.map(([, u]) =>
       updateNodeTranslation({
-        params: { id, locale: u.language, newTranslation: { name: u.name } },
+        id,
+        language: u.language,
+        body: { name: u.name },
         taxonomyVersion,
       }),
     );
@@ -142,16 +147,16 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
       console.error(e);
       handleError(e);
       setUpdateError(t('taxonomy.changeName.updateError'));
-      qc.invalidateQueries([NODE_TRANSLATIONS, id]);
-      qc.invalidateQueries(NODES);
-      qc.invalidateQueries([NODE, id]);
+      qc.invalidateQueries(nodeTranslationsQueryKey({ id }));
+      qc.invalidateQueries(nodesQueryKey({ isRoot: true, taxonomyVersion }));
+      qc.invalidateQueries(nodeQueryKey({ id }));
       formik.setSubmitting(false);
       return;
     }
 
     if (promises.length > 0) {
-      qc.invalidateQueries(NODES);
-      qc.invalidateQueries([NODE, id]);
+      qc.invalidateQueries(nodesQueryKey({ isRoot: true, taxonomyVersion }));
+      qc.invalidateQueries(nodeQueryKey({ id }));
     }
     await refetch();
     formik.resetForm({ values: formik.values, isSubmitting: false });

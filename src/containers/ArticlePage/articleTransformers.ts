@@ -223,5 +223,6 @@ export const updatedDraftApiTypeToDraftApiType = (
     conceptIds: article.conceptIds ?? [],
     availability: article.availability ?? 'everyone',
     relatedContent: article.relatedContent ?? [],
+    revisions: article.revisionMeta ?? [],
   };
 };

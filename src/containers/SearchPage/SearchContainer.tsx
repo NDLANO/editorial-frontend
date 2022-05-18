@@ -27,6 +27,7 @@ import { toSearch } from '../../util/routeHelpers';
 import { SearchType } from '../../interfaces';
 import SearchSaveButton from './SearchSaveButton';
 import { useSubjects } from '../../modules/taxonomy/subjects';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 export const searchClasses = new BEMHelper({
   name: 'search',
@@ -50,7 +51,8 @@ const SearchContainer = ({ searchHook, type }: Props) => {
   const location = useLocation();
   const navigate = useNavigate();
   const locale = i18n.language;
-  const { data: subjectData } = useSubjects(locale);
+  const { taxonomyVersion } = useTaxonomyVersion();
+  const { data: subjectData } = useSubjects({ language: locale, taxonomyVersion });
   const [searchObject, setSearchObject] = useState(parseSearchParams(location.search));
   const { data: results, isLoading: isSearching } = searchHook(searchObject);
   const nextPage = (searchObject?.page ?? 1) + 1;

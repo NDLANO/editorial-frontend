@@ -23,14 +23,15 @@ import SafeLink from '@ndla/safelink';
 import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import GrepCodesModal from '../../GrepCodes/GrepCodesModal';
-import RemoveButton from '../../../components/RemoveButton';
-import ResourceItemLink from './ResourceItemLink';
-import RelevanceOption from '../folderComponents/menuOptions/RelevanceOption';
+import ResourceItemLink from '../../../components/Taxonomy/ResourceItemLink';
+import RemoveButton from '../../../components/Taxonomy/RemoveButton';
+import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import { getContentTypeFromResourceTypes } from '../../../util/resourceHelpers';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import config from '../../../config';
 import { LocaleType } from '../../../interfaces';
 import { TopicResource } from './StructureResources';
+import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
 const StyledCheckIcon = styled(Check)`
   height: 24px;
@@ -59,6 +60,7 @@ interface Props {
   updateRelevanceId?: (
     connectionId: string,
     body: { primary?: boolean; rank?: number; relevanceId?: string },
+    taxonomyVersion: string,
   ) => Promise<void>;
   primary?: boolean;
   rank?: number;
@@ -118,6 +120,7 @@ const Resource = ({
 }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [showGrepCodes, setShowGrepCodes] = useState(false);
 
@@ -218,11 +221,15 @@ const Resource = ({
       <RelevanceOption
         relevanceId={relevanceId}
         onChange={relevanceIdUpdate =>
-          updateRelevanceId?.(connectionId, {
-            relevanceId: relevanceIdUpdate,
-            primary,
-            rank,
-          })
+          updateRelevanceId?.(
+            connectionId,
+            {
+              relevanceId: relevanceIdUpdate,
+              primary,
+              rank,
+            },
+            taxonomyVersion,
+          )
         }
       />
 

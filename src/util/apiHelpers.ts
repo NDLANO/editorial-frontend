@@ -92,6 +92,10 @@ interface DoAndResolveType<Type> extends FetchConfigType {
 
 interface HttpConfig<T> extends Omit<DoAndResolveType<T>, 'method'> {}
 
+interface FetchConfig<T> extends HttpConfig<T> {
+  queryParams?: Record<string, any>;
+}
+
 const httpResolve = <Type>({
   url,
   headers,
@@ -107,12 +111,22 @@ const httpResolve = <Type>({
   });
 };
 
+export const stringifyQuery = (object: Record<string, any> = {}) => {
+  const stringified = `?${queryString.stringify(object)}`;
+  return stringified === '?' ? '' : stringified;
+};
+
 export const httpFunctions = {
   postAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'POST' }),
   putAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'PUT' }),
   patchAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'PATCH' }),
   deleteAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'DELETE' }),
-  fetchAndResolve: <T>(conf: HttpConfig<T>) => httpResolve<T>({ ...conf, method: 'GET' }),
+  fetchAndResolve: <T>(conf: FetchConfig<T>) =>
+    httpResolve<T>({
+      ...conf,
+      method: 'GET',
+      url: `${conf.url}${stringifyQuery(conf.queryParams)}`,
+    }),
 };
 
 export const fetchAuthorized = (url: string, config: FetchConfigType = {}) =>

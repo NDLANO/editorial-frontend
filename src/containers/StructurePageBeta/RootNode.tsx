@@ -10,9 +10,11 @@ import { DropResult } from 'react-beautiful-dnd';
 import { useQueryClient } from 'react-query';
 import { isEqual, partition, sortBy } from 'lodash';
 import { ChildNodeType, NodeType } from '../../modules/nodes/nodeApiTypes';
-import { useChildNodesWithArticleType } from '../../modules/nodes/nodeQueries';
+import {
+  childNodesWithArticleTypeQueryKey,
+  useChildNodesWithArticleType,
+} from '../../modules/nodes/nodeQueries';
 import { groupChildNodes } from '../../util/taxonomyHelpers';
-import { CHILD_NODES_WITH_ARTICLE_TYPE } from '../../queryKeys';
 import NodeItem, { RenderBeforeFunction } from './NodeItem';
 import { useUpdateNodeConnectionMutation } from '../../modules/nodes/nodeMutations';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
@@ -43,28 +45,35 @@ const RootNode = ({
   const { i18n } = useTranslation();
   const { taxonomyVersion } = useTaxonomyVersion();
   const locale = i18n.language;
-  const childNodesQuery = useChildNodesWithArticleType(node.id, locale, taxonomyVersion, {
-    enabled: openedPaths[0] === node.id,
-    select: childNodes => groupChildNodes(childNodes),
+  const childNodesQuery = useChildNodesWithArticleType(
+    { id: node.id, language: locale, taxonomyVersion },
+    {
+      enabled: openedPaths[0] === node.id,
+      select: childNodes => groupChildNodes(childNodes),
+    },
+  );
+  const compKey = childNodesWithArticleTypeQueryKey({
+    taxonomyVersion,
+    id: node.id,
+    language: locale,
   });
 
   const qc = useQueryClient();
 
   const onUpdateRank = async (id: string, newRank: number) => {
-    await qc.cancelQueries([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale]);
-    const compositeKey = [CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale];
-    const prevData = qc.getQueryData<ChildNodeType[]>(compositeKey);
+    await qc.cancelQueries(compKey);
+    const prevData = qc.getQueryData<ChildNodeType[]>(compKey);
     const [toUpdate, other] = partition(prevData, t => t.connectionId === id);
     const updatedNode: ChildNodeType = { ...toUpdate[0], rank: newRank };
     const updated = other.map(t => (t.rank >= updatedNode.rank ? { ...t, rank: t.rank + 1 } : t));
     const newArr = sortBy([...updated, updatedNode], 'rank');
-    qc.setQueryData<ChildNodeType[]>([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale], newArr);
+    qc.setQueryData<ChildNodeType[]>(compKey, newArr);
     return prevData;
   };
 
   const { mutateAsync: updateNodeConnection } = useUpdateNodeConnectionMutation({
-    onMutate: ({ params }) => onUpdateRank(params.id, params.body.rank!),
-    onSettled: () => qc.invalidateQueries([CHILD_NODES_WITH_ARTICLE_TYPE, node.id, locale]),
+    onMutate: ({ id, body }) => onUpdateRank(id, body.rank!),
+    onSettled: () => qc.invalidateQueries(compKey),
   });
 
   const onDragEnd = async (dropResult: DropResult, nodes: ChildNodeType[]) => {
@@ -75,7 +84,8 @@ const RootNode = ({
     if (currentRank === destinationRank) return;
     const newRank = currentRank > destinationRank ? destinationRank : destinationRank + 1;
     await updateNodeConnection({
-      params: { id: draggableId, body: { rank: newRank } },
+      id: draggableId,
+      body: { rank: newRank },
       taxonomyVersion,
     });
   };

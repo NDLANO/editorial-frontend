@@ -13,10 +13,7 @@ import styled from '@emotion/styled';
 import { RefObject } from 'react';
 import { TFunction } from 'i18next';
 import { ChildNodeType, ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
-import {
-  ResourceResourceType,
-  ResourceType,
-} from '../../../modules/taxonomy/taxonomyApiInterfaces';
+import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useResourcesWithNodeConnection } from '../../../modules/nodes/nodeQueries';
 import { useAllResourceTypes } from '../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import NodeDescription from './NodeDescription';
@@ -46,7 +43,13 @@ const getMissingResourceType = (t: TFunction): ResourceType & { disabled?: boole
   disabled: true,
 });
 
-const missingObject: ResourceResourceType = { id: 'missing', name: '', connectionId: '' };
+const missingObject = {
+  id: 'missing',
+  name: '',
+  connectionId: '',
+  supportedLanguages: [],
+  translations: [],
+};
 const withMissing = (r: ResourceWithNodeConnection): ResourceWithNodeConnection => ({
   ...r,
   resourceTypes: [missingObject],
@@ -58,9 +61,7 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
   const grouped = currentChildNode?.metadata?.customFields['topic-resources'] ?? 'grouped';
 
   const { data: nodeResources } = useResourcesWithNodeConnection(
-    currentChildNode.id,
-    { language: i18n.language },
-    taxonomyVersion,
+    { id: currentChildNode.id, language: i18n.language, taxonomyVersion },
     {
       select: resources => resources.map(r => (r.resourceTypes.length > 0 ? r : withMissing(r))),
       onError: e => handleError(e),
@@ -68,10 +69,13 @@ const StructureResources = ({ currentChildNode, resourceRef, onCurrentNodeChange
     },
   );
 
-  const { data: resourceTypes } = useAllResourceTypes(i18n.language, {
-    select: resourceTypes => resourceTypes.concat(getMissingResourceType(t)),
-    onError: e => handleError(e),
-  });
+  const { data: resourceTypes } = useAllResourceTypes(
+    { language: i18n.language, taxonomyVersion },
+    {
+      select: resourceTypes => resourceTypes.concat(getMissingResourceType(t)),
+      onError: e => handleError(e),
+    },
+  );
 
   const groupedNodeResources = groupSortResourceTypesFromNodeResources(
     resourceTypes ?? [],

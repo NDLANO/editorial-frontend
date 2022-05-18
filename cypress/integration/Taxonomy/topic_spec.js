@@ -20,18 +20,21 @@ describe('Topic editing', () => {
     cy.apiroute('GET', `${taxonomyApi}/subjects?language=nb`, 'allSubjects');
     cy.apiroute(
       'GET',
-      `${taxonomyApi}/subjects/${selectSubject}/topics?recursive=true&language=nb`,
+      `${taxonomyApi}/subjects/${selectSubject}/topics?language=nb&recursive=true`,
       'allSubjectTopics',
     );
     cy.apiroute('GET', `${taxonomyApi}/topics?*language=nb`, 'allTopics');
-    cy.apiroute('GET', `${taxonomyApi}/resource-types/?language=nb`, 'resourceTypes');
+    cy.apiroute('GET', `${taxonomyApi}/resource-types?language=nb`, 'resourceTypes');
     cy.apiroute('GET', `**/draft-api/v1/drafts/**`, 'article');
 
     cy.intercept('POST', `${taxonomyApi}/topics`, []);
     cy.apiroute('GET', `${taxonomyApi}/topics/${selectTopic}/connections`, 'topicConnections');
     cy.apiroute('GET', '/get_zendesk_token', 'zendeskToken');
     cy.intercept('GET', `${taxonomyApi}/topics/${selectTopic}/resources/?language=nb`, []);
-    cy.intercept('GET', '/draft-api/v1/user-data', {"userId":"user_id","latestEditedArticles":["400","800"]});
+    cy.intercept('GET', '/draft-api/v1/user-data', {
+      userId: 'user_id',
+      latestEditedArticles: ['400', '800'],
+    });
 
     cy.visit(`/structure/${selectSubject}/${selectTopic}`);
   });
@@ -44,7 +47,7 @@ describe('Topic editing', () => {
     cy.get('button')
       .contains(phrases.metadata.changeVisibility)
       .click();
-    cy.get('input[id="visible"]').click({force: true});
+    cy.get('input[id="visible"]').click({ force: true });
     cy.wait('@invisibleMetadata');
   });
 });

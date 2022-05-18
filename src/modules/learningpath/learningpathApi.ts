@@ -49,11 +49,23 @@ export const updateLearningPathTaxonomy = (
     method: 'POST',
   }).then(r => resolveJsonOrRejectWithError<ILearningPathV2>(r));
 
-export const learningpathSearch = (query: SearchBody): Promise<ISearchResultV2> =>
-  fetchAuthorized(`${baseUrl}/search/`, {
+export const learningpathSearch = async (
+  query: SearchBody & { ids?: number[] },
+): Promise<ISearchResultV2> => {
+  if (query.ids && query.ids.length === 0) {
+    return {
+      totalCount: 0,
+      page: 1,
+      pageSize: 0,
+      language: 'nb',
+      results: [],
+    };
+  }
+  return fetchAuthorized(`${baseUrl}/search/`, {
     method: 'POST',
     body: JSON.stringify(query),
   }).then(r => resolveJsonOrRejectWithError<ISearchResultV2>(r));
+};
 
 export const learningpathCopy = (
   id: number,

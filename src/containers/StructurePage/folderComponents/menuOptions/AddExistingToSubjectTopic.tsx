@@ -22,6 +22,7 @@ import MenuItemButton from './MenuItemButton';
 import retrieveBreadCrumbs, { PathArray } from '../../../../util/retrieveBreadCrumbs';
 import { Topic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { EditMode } from '../../../../interfaces';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   path: string;
@@ -44,11 +45,12 @@ const AddExistingToSubjectTopic = ({
   editMode,
 }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [topics, setTopics] = useState<(Topic & { description?: string })[]>([]);
 
   useEffect(() => {
     (async () => {
-      const localTopics = await fetchTopics(locale || 'nb');
+      const localTopics = await fetchTopics({ language: locale || 'nb', taxonomyVersion });
       setTopics(
         localTopics
           .filter(t => t.path)
@@ -69,21 +71,24 @@ const AddExistingToSubjectTopic = ({
   };
 
   const onAddExistingTopic = async (topic: { id: string }) => {
-    const connections = await fetchTopicConnections(topic.id);
+    const connections = await fetchTopicConnections({ id: topic.id, taxonomyVersion });
 
     if (connections && connections.length > 0) {
       const connectionId = connections[0].connectionId;
       if (connectionId.includes('topic-subtopic')) {
-        await deleteSubTopicConnection(connectionId);
+        await deleteSubTopicConnection({ id: connectionId, taxonomyVersion });
       } else {
-        await deleteTopicConnection(connectionId);
+        await deleteTopicConnection({ id: connectionId, taxonomyVersion });
       }
     }
 
     await Promise.all([
       addSubjectTopic({
-        subjectid: id,
-        topicid: topic.id,
+        body: {
+          subjectid: id,
+          topicid: topic.id,
+        },
+        taxonomyVersion,
       }),
     ]);
     refreshTopics();

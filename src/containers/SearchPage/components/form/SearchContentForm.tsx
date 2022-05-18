@@ -20,6 +20,7 @@ import { MinimalTagType } from './SearchTag';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -39,18 +40,25 @@ export interface SearchState extends Record<string, string> {
 
 const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
   const [isHasPublished, setIsHasPublished] = useState(false);
 
-  const { data: users } = useAuth0Editors(DRAFT_WRITE_SCOPE, {
-    select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
-    placeholderData: [],
-  });
+  const { data: users } = useAuth0Editors(
+    { permission: DRAFT_WRITE_SCOPE },
+    {
+      select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+      placeholderData: [],
+    },
+  );
 
-  const { data: resourceTypes } = useAllResourceTypes(locale, {
-    select: resourceTypes => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
-    placeholderData: [],
-  });
+  const { data: resourceTypes } = useAllResourceTypes(
+    { language: locale, taxonomyVersion },
+    {
+      select: resourceTypes => flattenResourceTypesAndAddContextTypes(resourceTypes, t),
+      placeholderData: [],
+    },
+  );
 
   useEffect(() => {
     if (search.query !== queryInput) {

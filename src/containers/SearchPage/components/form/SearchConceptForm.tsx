@@ -28,10 +28,13 @@ interface Props {
 const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }: Props) => {
   const { t } = useTranslation();
   const [queryInput, setQueryInput] = useState(search.query ?? '');
-  const { data: users } = useAuth0Editors(CONCEPT_WRITE_SCOPE, {
-    select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
-    placeholderData: [],
-  });
+  const { data: users } = useAuth0Editors(
+    { permission: CONCEPT_WRITE_SCOPE },
+    {
+      select: users => users.map(u => ({ id: `${u.app_metadata.ndla_id}`, name: u.name })),
+      placeholderData: [],
+    },
+  );
 
   const onInputChange = (evt: FormEvent<HTMLInputElement>) => {
     setQueryInput(evt.currentTarget.value);

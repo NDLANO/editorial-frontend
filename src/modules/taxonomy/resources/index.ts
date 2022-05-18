@@ -6,11 +6,7 @@
  *
  */
 
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetchAuthorized,
-} from '../../../util/apiHelpers';
+import { apiResourceUrl, httpFunctions } from '../../../util/apiHelpers';
 import { taxonomyApi } from '../../../config';
 import {
   Resource,
@@ -24,70 +20,106 @@ import {
   resolveLocation,
   resolveVoidOrRejectWithError,
 } from '../../../util/resolveJsonOrRejectWithError';
+import { WithTaxonomyVersion } from '../../../interfaces';
+import { ResourcePostBody, ResourceTranslationPostBody } from './resourceApiInterfaces';
 
 const baseUrl = apiResourceUrl(taxonomyApi);
+const resourcesUrl = apiResourceUrl(`${taxonomyApi}/resources`);
 
-export const fetchResource = (id: string, language?: string): Promise<Resource> => {
-  const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}${lang}`).then(r =>
-    resolveJsonOrRejectWithError<Resource>(r),
-  );
+const { fetchAndResolve, postAndResolve, putAndResolve } = httpFunctions;
+
+interface ResourceGetParams extends WithTaxonomyVersion {
+  id: string;
+  language?: string;
+}
+export const fetchResource = ({
+  id,
+  language,
+  taxonomyVersion,
+}: ResourceGetParams): Promise<Resource> => {
+  return fetchAndResolve({
+    url: `${resourcesUrl}/${id}`,
+    taxonomyVersion,
+    queryParams: { language },
+  });
 };
 
-export const fetchFullResource = (
-  id: string,
-  language?: string,
-): Promise<ResourceWithParentTopics> => {
-  const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}/full${lang}`).then(r =>
-    resolveJsonOrRejectWithError<ResourceWithParentTopics>(r),
-  );
+interface FullResourceGetParams extends WithTaxonomyVersion {
+  id: string;
+  language?: string;
+}
+
+export const fetchFullResource = ({
+  id,
+  language,
+  taxonomyVersion,
+}: FullResourceGetParams): Promise<ResourceWithParentTopics> => {
+  return fetchAndResolve({
+    url: `${resourcesUrl}/${id}/full`,
+    taxonomyVersion,
+    queryParams: { language },
+  });
 };
 
-export const createResource = (resource: {
-  id?: string;
-  contentUri?: string;
-  name: string;
-}): Promise<string> => {
-  return fetchAuthorized(`${baseUrl}/resources`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(resource),
-  }).then(resolveLocation);
-};
+interface ResourcePostParams extends WithTaxonomyVersion {
+  body: ResourcePostBody;
+}
 
-export const fetchResourceResourceType = (
-  id: string,
-  language?: string,
-): Promise<ResourceResourceType[]> => {
-  const lang = language ? `?language=${language}` : '';
-  return fetchAuthorized(`${baseUrl}/resources/${id}/resource-types/${lang}`).then(r =>
-    resolveJsonOrRejectWithError<ResourceResourceType[]>(r),
-  );
-};
-
-export const updateResourceMetadata = (
-  resourceId: string,
-  body: Partial<TaxonomyMetadata>,
-): Promise<TaxonomyMetadata> => {
-  return fetchAuthorized(`${baseUrl}/resources/${resourceId}/metadata`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+export const createResource = ({ body, taxonomyVersion }: ResourcePostParams): Promise<string> => {
+  return postAndResolve({
+    url: resourcesUrl,
     body: JSON.stringify(body),
-  }).then(r => resolveJsonOrRejectWithError<TaxonomyMetadata>(r));
+    taxonomyVersion,
+    alternateResolve: resolveLocation,
+  });
 };
+
+interface ResourceResourceTypeGetParams extends WithTaxonomyVersion {
+  id: string;
+  language?: string;
+}
+
+export const fetchResourceResourceType = ({
+  id,
+  language,
+  taxonomyVersion,
+}: ResourceResourceTypeGetParams): Promise<ResourceResourceType[]> => {
+  return fetchAndResolve({
+    url: `${resourcesUrl}/${id}/resource-types`,
+    taxonomyVersion,
+    queryParams: { language },
+  });
+};
+
+interface ResourceMetadataPutParams extends WithTaxonomyVersion {
+  resourceId: string;
+  body: Partial<TaxonomyMetadata>;
+}
+
+export const updateResourceMetadata = ({
+  resourceId,
+  body,
+  taxonomyVersion,
+}: ResourceMetadataPutParams): Promise<TaxonomyMetadata> => {
+  return putAndResolve({
+    url: `${resourcesUrl}/${resourceId}/metadata`,
+    body: JSON.stringify(body),
+    taxonomyVersion,
+  });
+};
+
+interface ResourceIdParams extends WithTaxonomyVersion {
+  id: number;
+  language: string;
+}
 
 export async function getResourceId({
   id,
   language,
-}: {
-  id: number;
-  language: string;
-}): Promise<string> {
+  taxonomyVersion,
+}: ResourceIdParams): Promise<string> {
   let resourceId = '';
-  const resource = await queryResources(id, language);
+  const resource = await queryResources({ contentId: id, language, taxonomyVersion });
   if (resource.length > 0) {
     if (resource.length > 1)
       throw new Error('More than one resource with this articleId, unable to process taxonomy');
@@ -96,44 +128,86 @@ export async function getResourceId({
   return resourceId;
 }
 
-export const queryResources = (
-  contentId: number,
-  language: string,
+interface ResourcesQueryParams extends WithTaxonomyVersion {
+  contentId: number;
+  language: string;
+  contentType?: string;
+}
+
+export const queryResources = ({
+  contentId,
+  language,
   contentType = 'article',
-): Promise<Resource[]> => {
-  return fetchAuthorized(
-    `${baseUrl}/resources/?contentURI=${encodeURIComponent(
-      `urn:${contentType}:${contentId}`,
-    )}&language=${language}`,
-  ).then(r => resolveJsonOrRejectWithError<Resource[]>(r));
+  taxonomyVersion,
+}: ResourcesQueryParams): Promise<Resource[]> => {
+  return fetchAndResolve({
+    url: resourcesUrl,
+    taxonomyVersion,
+    queryParams: {
+      language,
+      contentURI: `urn:${contentType}:${contentId}`,
+    },
+  });
 };
 
-export const queryTopics = (
-  contentId: number,
-  language: string,
+interface TopicsQueryParams extends WithTaxonomyVersion {
+  contentId: number;
+  language: string;
+  contentType?: string;
+}
+
+export const queryTopics = ({
+  contentId,
+  language,
   contentType = 'article',
-): Promise<Topic[]> => {
-  return fetchAuthorized(
-    `${baseUrl}/topics/?contentURI=${encodeURIComponent(
-      `urn:${contentType}:${contentId}`,
-    )}&language=${language}`,
-  ).then(r => resolveJsonOrRejectWithError<Topic[]>(r));
+  taxonomyVersion,
+}: TopicsQueryParams): Promise<Topic[]> => {
+  return fetchAndResolve({
+    url: `${baseUrl}/topics`,
+    taxonomyVersion,
+    queryParams: {
+      language,
+      contentURI: `urn:${contentType}:${contentId}`,
+    },
+  });
 };
 
-export const queryLearningPathResource = (learningpathId: number): Promise<Resource[]> => {
-  return fetchAuthorized(
-    `${baseUrl}/resources/?contentURI=${encodeURIComponent(`urn:learningpath:${learningpathId}`)}`,
-  ).then(r => resolveJsonOrRejectWithError<Resource[]>(r));
+interface LearningpathResourceQueryParams extends WithTaxonomyVersion {
+  learningpathId: number;
+}
+
+export const queryLearningPathResource = ({
+  learningpathId,
+  taxonomyVersion,
+}: LearningpathResourceQueryParams): Promise<Resource[]> => {
+  return fetchAndResolve({
+    url: resourcesUrl,
+    taxonomyVersion,
+    queryParams: {
+      contentURI: `urn:learningpath:${learningpathId}`,
+    },
+  });
 };
 
-export async function queryContent(id: number, language: string, contentType?: string) {
-  const resources = await queryResources(id, language, contentType);
+interface QueryContentParams extends WithTaxonomyVersion {
+  contentId: number;
+  language: string;
+  contentType?: string;
+}
+
+export async function queryContent({
+  contentId,
+  language,
+  contentType,
+  taxonomyVersion,
+}: QueryContentParams) {
+  const resources = await queryResources({ contentId, language, contentType, taxonomyVersion });
 
   if (resources[0]) {
     return resources[0];
   }
 
-  const topics = await queryTopics(id, language, contentType);
+  const topics = await queryTopics({ contentId, language, contentType, taxonomyVersion });
 
   if (topics[0]) {
     // Add resourceType so that content type is correct
@@ -142,25 +216,55 @@ export async function queryContent(id: number, language: string, contentType?: s
   return undefined;
 }
 
-export const fetchResourceTranslations = (id: string): Promise<ResourceTranslation[]> => {
-  return fetchAuthorized(`${baseUrl}/resources/${id}/translations`).then(r =>
-    resolveJsonOrRejectWithError<ResourceTranslation[]>(r),
-  );
+interface ResourceTranslationsGetParams extends WithTaxonomyVersion {
+  id: string;
+}
+
+export const fetchResourceTranslations = ({
+  id,
+  taxonomyVersion,
+}: ResourceTranslationsGetParams): Promise<ResourceTranslation[]> => {
+  return fetchAndResolve({ url: `${resourcesUrl}/${id}/translations`, taxonomyVersion });
 };
 
-export const setResourceTranslation = (
-  id: string,
-  language: string,
-  body: {
-    name: string;
-  },
-): Promise<void> => {
-  const url = `${baseUrl}/resources/${id}/translations/${language}`;
-  return fetchAuthorized(url, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'PUT',
+interface ResourceTranslationPutParams extends WithTaxonomyVersion {
+  id: string;
+  language: string;
+  body: ResourceTranslationPostBody;
+}
+
+export const setResourceTranslation = ({
+  id,
+  language,
+  body,
+  taxonomyVersion,
+}: ResourceTranslationPutParams): Promise<void> => {
+  return putAndResolve({
+    url: `${resourcesUrl}/${id}/translations/${language}`,
+    taxonomyVersion,
     body: JSON.stringify(body),
-  }).then(resolveVoidOrRejectWithError);
+    alternateResolve: resolveVoidOrRejectWithError,
+  });
+};
+
+interface CloneResourceParams extends WithTaxonomyVersion {
+  id: string;
+  body: {
+    contentUri?: string;
+    name: string;
+    id?: string;
+  };
+}
+
+export const cloneResource = ({
+  id,
+  body,
+  taxonomyVersion,
+}: CloneResourceParams): Promise<string> => {
+  return postAndResolve({
+    url: `${resourcesUrl}/${id}/clone`,
+    taxonomyVersion,
+    body: JSON.stringify(body),
+    alternateResolve: resolveLocation,
+  });
 };

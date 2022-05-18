@@ -19,7 +19,9 @@ import {
 import CustomFieldComponent from './CustomFieldComponent';
 import {
   TAXONOMY_CUSTOM_FIELD_LANGUAGE,
+  TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+  TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -31,6 +33,8 @@ import ToggleExplanationSubject from './ToggleExplanationSubject';
 import TaxonomyMetadataLanguageSelector from './TaxonomyMetadataLanguageSelector';
 import ConstantMetaField from './ConstantMetaField';
 import SubjectCategorySelector from './SubjectCategorySelector';
+import SubjectTypeSelector from './SubjectTypeSelector';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props extends TaxonomyElement {
   subjectId: string;
@@ -48,6 +52,7 @@ const MenuItemCustomField = ({
   updateLocalTopics,
 }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [isOpen, setOpen] = useState<boolean>(false);
   const [customFields, setCustomFields] = useState<TaxonomyMetadata['customFields']>(
     metadata.customFields,
@@ -56,14 +61,19 @@ const MenuItemCustomField = ({
   useEffect(() => {
     const haveFieldsBeenUpdated = customFields !== metadata.customFields;
     if (type === 'subject' && haveFieldsBeenUpdated) {
-      updateSubjectMetadata(id, { customFields }).then((res: TaxonomyMetadata) =>
+      updateSubjectMetadata({
+        subjectId: id,
+        body: { customFields },
+        taxonomyVersion,
+      }).then((res: TaxonomyMetadata) =>
         saveSubjectItems(id, { metadata: { ...metadata, customFields: res.customFields } }),
       );
     } else if (type === 'topic' && haveFieldsBeenUpdated) {
-      updateTopicMetadata(id, { customFields }).then((res: TaxonomyMetadata) =>
-        updateLocalTopics(id, {
-          metadata: { ...metadata, customFields: res.customFields },
-        }),
+      updateTopicMetadata({ topicId: id, body: { customFields }, taxonomyVersion }).then(
+        (res: TaxonomyMetadata) =>
+          updateLocalTopics(id, {
+            metadata: { ...metadata, customFields: res.customFields },
+          }),
       );
     }
   }, [customFields]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -73,8 +83,13 @@ const MenuItemCustomField = ({
     TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_OLD_SUBJECT_ID,
     TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
+    TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
+    TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
   ];
-  const [filteredTopicFields] = [TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES];
+  const filteredTopicFields = [
+    TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
+    TAXONOMY_CUSTOM_FIELD_REQUEST_PUBLISH,
+  ];
 
   const filterHardcodedMetadataValues = () => {
     return Object.entries(customFields).filter(([taxonomyMetadataField, _]) => {
@@ -92,6 +107,10 @@ const MenuItemCustomField = ({
             updateCustomFields={setCustomFields}
           />
           <SubjectCategorySelector
+            customFields={metadata.customFields}
+            updateCustomFields={setCustomFields}
+          />
+          <SubjectTypeSelector
             customFields={metadata.customFields}
             updateCustomFields={setCustomFields}
           />

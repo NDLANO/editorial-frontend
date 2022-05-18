@@ -38,6 +38,7 @@ import MenuItemButton from './MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
 import handleError from '../../../../util/handleError';
 import { getIdFromUrn } from '../../../../util/taxonomyHelpers';
+import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 type PathArray = Array<TaxonomyElement>;
 
@@ -66,12 +67,16 @@ const CopyResources = ({
   setShowAlertModal,
 }: Props) => {
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [topics, setTopics] = useState<Topic[]>([]);
   const [showCopySearch, setShowCopySearch] = useState(false);
   const [showCloneSearch, setShowCloneSearch] = useState(false);
 
   useEffect(() => {
-    Promise.all([fetchTopics(locale || 'nb'), fetchSubjectTopics(subjectId, locale)])
+    Promise.all([
+      fetchTopics({ language: locale || 'nb', taxonomyVersion }),
+      fetchSubjectTopics({ subject: subjectId, language: locale, taxonomyVersion }),
+    ])
       .then(([topics, subjectTopics]: [Topic[], SubjectTopic[]]) => {
         setTopics(
           topics
@@ -102,10 +107,13 @@ const CopyResources = ({
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
     for (let i = 0; i < resources.length; i++) {
       await createTopicResource({
-        primary: resources[i].isPrimary,
-        rank: resources[i].rank,
-        resourceId: resources[i].id,
-        topicid: id,
+        body: {
+          primary: resources[i].isPrimary,
+          rank: resources[i].rank,
+          resourceId: resources[i].id,
+          topicid: id,
+        },
+        taxonomyVersion,
       });
     }
     setResourcesUpdated(true);
@@ -119,8 +127,11 @@ const CopyResources = ({
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
     for (let i = 0; i < resourceTypes.length; i++) {
       await createResourceResourceType({
-        resourceId: `${resourceId}`,
-        resourceTypeId: `${resourceTypes[i].id}`,
+        body: {
+          resourceId: `${resourceId}`,
+          resourceTypeId: `${resourceTypes[i].id}`,
+        },
+        taxonomyVersion,
       });
     }
   };
@@ -132,8 +143,13 @@ const CopyResources = ({
     // This is made so the code runs sequentially and not cause server overflow
     // on topics with plenty of resources. The for-loop can be replaced with reduce().
     for (let i = 0; i < resourceTranslations.length; i++) {
-      await setResourceTranslation(resourceId, resourceTranslations[i].language, {
-        name: resourceTranslations[i].name,
+      await setResourceTranslation({
+        id: resourceId,
+        language: resourceTranslations[i].language,
+        body: {
+          name: resourceTranslations[i].name,
+        },
+        taxonomyVersion,
       });
     }
   };
@@ -142,12 +158,15 @@ const CopyResources = ({
     newResourceBody: { contentUri?: string; name: string },
     oldResource: Resource,
   ) => {
-    const newResourcePath = await createResource(newResourceBody);
+    const newResourcePath = await createResource({ body: newResourceBody, taxonomyVersion });
     const newResourceUrn = newResourcePath.split('/').pop()!;
     cloneResourceResourceTypes(oldResource.resourceTypes, newResourceUrn);
-    const resourceTranslations = await fetchResourceTranslations(oldResource.id);
+    const resourceTranslations = await fetchResourceTranslations({
+      id: oldResource.id,
+      taxonomyVersion,
+    });
     await cloneResourceTranslations(resourceTranslations, newResourceUrn);
-    return await fetchResource(newResourceUrn, locale);
+    return await fetchResource({ id: newResourceUrn, language: locale, taxonomyVersion });
   };
 
   const cloneResource = async (resource: Resource) => {
@@ -196,7 +215,10 @@ const CopyResources = ({
 
   const copyResources = async (topic: Topic) => {
     try {
-      const resources: Resource[] = await fetchTopicResources(topic.id);
+      const resources: Resource[] = await fetchTopicResources({
+        topicUrn: topic.id,
+        taxonomyVersion,
+      });
       await addResourcesToTopic(resources);
     } catch (e) {
       setShowAlertModal(true);
@@ -206,7 +228,10 @@ const CopyResources = ({
 
   const copyAndCloneResources = async (topic: Topic) => {
     try {
-      const resources: Resource[] = await fetchTopicResources(topic.id);
+      const resources: Resource[] = await fetchTopicResources({
+        topicUrn: topic.id,
+        taxonomyVersion,
+      });
       const clonedResources = await cloneResources(resources);
       await addResourcesToTopic(clonedResources);
     } catch (e) {
@@ -225,7 +250,7 @@ const CopyResources = ({
             setShowCloneSearch(false);
           }}>
           <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
-          {t('taxonomy.copyResources')}
+          {t('taxonomy.copyResources.info')}
         </MenuItemButton>
       ) : (
         <MenuItemDropdown
@@ -246,7 +271,7 @@ const CopyResources = ({
             setShowCloneSearch(true);
           }}>
           <RoundIcon small smallIcon icon={<Copy css={iconCss} />} />
-          {t('taxonomy.copyAndCloneResources')}
+          {t('taxonomy.cloneResources.info')}
         </MenuItemButton>
       ) : (
         <MenuItemDropdown

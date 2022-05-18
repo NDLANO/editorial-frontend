@@ -20,12 +20,14 @@ import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
 import LanguageSelector from './LanguageSelector';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
 import { Resource } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 const PreviewDraftPage = () => {
   const params = useParams<'draftId' | 'language'>();
   const draftId = Number(params.draftId!);
   const language = params.language!;
   const { t } = useTranslation();
+  const { taxonomyVersion } = useTaxonomyVersion();
   const [draft, setDraft] = useState<ArticleConverterApiType | undefined>(undefined);
   const [resources, setResources] = useState<Resource[]>([]);
 
@@ -38,11 +40,15 @@ const PreviewDraftPage = () => {
     };
     fetchDraft();
     const fetchResource = async () => {
-      const fetchedResources = await queryResources(draftId, language);
+      const fetchedResources = await queryResources({
+        contentId: draftId,
+        language,
+        taxonomyVersion,
+      });
       setResources(fetchedResources);
     };
     fetchResource();
-  }, [draftId, language]);
+  }, [draftId, language, taxonomyVersion]);
 
   if (!draft) {
     return null;

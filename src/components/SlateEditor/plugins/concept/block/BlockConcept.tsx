@@ -14,11 +14,11 @@ import { Dictionary } from 'lodash';
 import styled from '@emotion/styled';
 import { IConcept } from '@ndla/types-concept-api';
 import ConceptModal from '../ConceptModal';
-import SlateConceptPreview from '../SlateConceptPreview';
 import { useFetchConceptData } from '../../../../../containers/FormikForm/formikConceptHooks';
 import mergeLastUndos from '../../../utils/mergeLastUndos';
 import { TYPE_CONCEPT_BLOCK } from './types';
 import { ConceptBlockElement } from './interfaces';
+import BlockConceptPreview from './BlockConceptPreview';
 
 const getConceptDataAttributes = ({ id }: Dictionary<any>) => ({
   type: TYPE_CONCEPT_BLOCK,
@@ -117,7 +117,7 @@ const BlockConcept = ({ element, locale, editor, attributes, children }: Props) 
     <StyledWrapper {...attributes} tabIndex={1} isSelected={isSelected} draggable>
       {concept && (
         <div contentEditable={false}>
-          <SlateConceptPreview
+          <BlockConceptPreview
             concept={concept}
             handleRemove={handleRemove}
             id={concept.id}

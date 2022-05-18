@@ -6,18 +6,21 @@
  *
  */
 
-import { createRef, useEffect } from 'react';
+import { createRef, MouseEvent, useEffect } from 'react';
 import { Editor, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
 import BEMHelper from 'react-bem-helper';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
-import { handleClickInline, handleClickBlock } from './handleMenuClicks';
+import { handleClickInline, handleClickBlock, handleClickTable } from './handleMenuClicks';
 import hasNodeWithProps from '../../utils/hasNodeWithProps';
 import { isMarkActive } from '../mark';
 import { LIST_TYPES as listTypes } from '../list/types';
 import hasListItem from '../list/utils/hasListItem';
+import getCurrentBlock from '../../utils/getCurrentBlock';
+import { hasCellAlignOfType } from '../table/helpers';
+import { TYPE_TABLE_CELL } from '../table/types';
 
 const topicArticleElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
@@ -29,6 +32,7 @@ const learningResourceElements: { [key: string]: string[] } = {
   mark: ['bold', 'italic', 'code', 'sub', 'sup'],
   block: ['quote', 'heading-2', 'heading-3', ...listTypes],
   inline: ['link', 'mathml', 'concept', 'span'],
+  table: ['left', 'center', 'right'],
 };
 
 const specialRules: { [key: string]: Partial<Element> } = {
@@ -51,13 +55,15 @@ interface Props {
   editor: Editor;
 }
 
-const onButtonClick = (event: KeyboardEvent, editor: Editor, kind: string, type: string) => {
+const onButtonClick = (event: MouseEvent, editor: Editor, kind: string, type: string) => {
   if (kind === 'mark') {
     toggleMark(event, editor, type);
   } else if (kind === 'block') {
     handleClickBlock(event, editor, type);
   } else if (kind === 'inline') {
     handleClickInline(event, editor, type);
+  } else if (kind === 'table') {
+    handleClickTable(event, editor, type);
   }
 };
 
@@ -102,8 +108,9 @@ const SlateToolbar = (props: Props) => {
 
     menu.style.opacity = '1';
     const left = rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2;
+
     menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
-    menu.style.left = `${left}px`;
+    menu.style.left = `${left > 10 ? left : 10}px`;
   };
 
   const { editor } = props;
@@ -118,7 +125,7 @@ const SlateToolbar = (props: Props) => {
       type={type}
       kind={'mark'}
       isActive={isMarkActive(editor, type)}
-      handleOnClick={(event: KeyboardEvent, kind: string, type: string) => {
+      handleOnClick={(event: MouseEvent, kind: string, type: string) => {
         onButtonClick(event, editor, kind, type);
       }}
     />
@@ -134,7 +141,7 @@ const SlateToolbar = (props: Props) => {
           ? hasListItem(editor, type)
           : hasNodeWithProps(editor, specialRules[type] ?? { type })
       }
-      handleOnClick={(event: KeyboardEvent, kind: string, type: string) => {
+      handleOnClick={(event: MouseEvent, kind: string, type: string) => {
         onButtonClick(event, editor, kind, type);
       }}
     />
@@ -145,11 +152,25 @@ const SlateToolbar = (props: Props) => {
       type={type}
       kind={'inline'}
       isActive={hasNodeWithProps(editor, specialRules[type] ?? { type })}
-      handleOnClick={(event: KeyboardEvent, kind: string, type: string) => {
+      handleOnClick={(event: MouseEvent, kind: string, type: string) => {
         onButtonClick(event, editor, kind, type);
       }}
     />
   ));
+
+  const tableCellElement = getCurrentBlock(editor, TYPE_TABLE_CELL)?.[0];
+  const tableButtons =
+    !!tableCellElement &&
+    toolbarElements.table?.map(type => (
+      <ToolbarButton
+        type={type}
+        kind={'table'}
+        isActive={hasCellAlignOfType(editor, type)}
+        handleOnClick={(event: MouseEvent, kind: string, type: string) => {
+          onButtonClick(event, editor, kind, type);
+        }}
+      />
+    ));
 
   return (
     <Portal isOpened>
@@ -157,6 +178,7 @@ const SlateToolbar = (props: Props) => {
         {markButtons}
         {blockButtons}
         {inlineButtons}
+        {tableButtons}
       </div>
     </Portal>
   );

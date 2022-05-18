@@ -9,16 +9,10 @@
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { ErrorMessage, useFormikContext } from 'formik';
-import BEMHelper from 'react-bem-helper';
 import { FieldHeader } from '@ndla/forms';
 import VisualElement from '../../VisualElement/VisualElement';
 import FormikField, { FormikFieldHelp } from '../../../components/FormikField';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
-
-export const visualElementClasses = new BEMHelper({
-  name: 'visual-element',
-  prefix: 'c-',
-});
 
 const StyledErrorPreLine = styled.span`
   white-space: pre-line;

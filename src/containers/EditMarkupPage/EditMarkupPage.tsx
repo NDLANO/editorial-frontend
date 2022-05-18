@@ -31,6 +31,8 @@ import { AlertModalWrapper, formClasses } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
 import HelpMessage from '../../components/HelpMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { useMessages } from '../Messages/MessagesProvider';
+import { formatErrorMessage } from '../../util/apiHelpers';
 
 declare global {
   interface Window {
@@ -119,14 +121,11 @@ ErrorMessage.propTypes = {
   language: PropTypes.string.isRequired,
 };
 
-type Status =
-  | 'initial'
-  | 'edit'
-  | 'fetch-error'
-  | 'save-error'
-  | 'access-error'
-  | 'saving'
-  | 'saved';
+interface LocationState {
+  backUrl?: string;
+}
+
+type Status = 'initial' | 'edit' | 'fetch-error' | 'access-error' | 'saving' | 'saved';
 
 const EditMarkupPage = () => {
   const { t } = useTranslation();
@@ -136,6 +135,8 @@ const EditMarkupPage = () => {
   const [status, setStatus] = useState<Status>('initial');
   const [draft, setDraft] = useState<IArticle | undefined>(undefined);
   const location = useLocation();
+  const locationState = location.state as LocationState | undefined;
+  const { createMessage } = useMessages();
 
   useEffect(() => {
     const session = getSessionStateFromLocalStorage();
@@ -174,8 +175,10 @@ const EditMarkupPage = () => {
       setDraft(updatedDraft);
       setStatus('saved');
     } catch (e) {
+      if (e.json?.messages) {
+        createMessage(formatErrorMessage(e));
+      }
       handleError(e);
-      setStatus('save-error');
     }
   };
 
@@ -224,15 +227,6 @@ const EditMarkupPage = () => {
           onChange={handleChange}
           onSave={saveChanges}
         />
-        {status === 'save-error' && (
-          <StyledErrorMessage
-            css={css`
-              text-align: left;
-              margin: ${spacing.normal};
-            `}>
-            {t('editMarkup.saveError')}
-          </StyledErrorMessage>
-        )}
         <Row
           justifyContent="space-between"
           css={css`
@@ -256,7 +250,7 @@ const EditMarkupPage = () => {
           <Row justifyContent="end" alignItems="baseline">
             <Link
               to={
-                location.state?.backUrl ||
+                locationState?.backUrl ||
                 `/subject-matter/learning-resource/${draftId}/edit/${language}`
               }>
               {t('editMarkup.back')}

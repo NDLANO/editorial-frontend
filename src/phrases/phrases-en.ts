@@ -25,6 +25,8 @@ const phrases = {
     podcastUploaderPage: `Podcast episode ${titleTemplate}`,
     podcastSeriesPage: `Podcast series ${titleTemplate}`,
     h5pPage: `H5P ${titleTemplate}`,
+    publishRequestsPage: `Publish Requests ${titleTemplate}`,
+    nodeDiffPage: `Compare Nodes ${titleTemplate}`,
     search: {
       'podcast-series': `Search podcast series ${titleTemplate}`,
       audio: `Search audio files ${titleTemplate}`,
@@ -169,6 +171,8 @@ const phrases = {
     podcastSeries: 'New Podcast series',
     agreement: 'New Agreement',
     structure: 'Structure',
+    taxonomyVersions: 'Taxonomy Versions',
+    publishRequests: 'Publish Requests',
     searchContent: 'Search content',
     searchAudio: 'Search audio',
     searchPodcastSeries: 'Search series',
@@ -433,6 +437,7 @@ const phrases = {
     title: 'Podcast series',
     alreadyPartOfSeries: 'Part of another series',
     description: 'Description',
+    rss: 'Rss feed',
   },
   podcastForm: {
     title: 'Podcast episode',
@@ -588,6 +593,7 @@ const phrases = {
       header: 'Header',
       manuscript: 'Text version',
       coverPhotoId: 'Meta image',
+      name: 'Name',
     },
     previewProductionArticle: {
       button: 'Compare current version with old version',
@@ -846,9 +852,18 @@ const phrases = {
         'column-add': 'Add column',
         'column-remove': 'Remove column',
         'table-remove': 'Remove table',
-        addHead: 'Add header-row',
-        disableRowHeaders: 'Disable horizontal headers',
-        enableRowHeaders: 'Enable horizontal headers',
+        colgroups: 'Colgroups',
+        colgroupTitle: 'Colgroups to adjust width',
+        colgroupInfo: 'Example: ',
+        'edit-colgroups': 'Edit colgroups',
+        'enable-header': 'Enable title column',
+        'disable-header': 'Disable title column',
+        addHeader: 'Add title row',
+        'column-left': 'Left align column',
+        'column-center': 'Center align column',
+        'column-right': 'Right align column',
+        row: 'row',
+        column: 'column',
       },
     },
     tags: {
@@ -1173,12 +1188,17 @@ const phrases = {
     deleteSubject: 'Delete subject',
     addSubject: 'Add new subject',
     addExistingTopic: 'Move existing topic here',
+    addExistingLoading: 'Moving topic',
+    addExistingSuccess: 'Topic successfully moved',
     newSubject: 'New Subject',
     existingTopic: 'Existing topic',
     newTopic: 'New topic',
     resources: 'Resources',
     errorMessage: 'An error occurred',
     addTopic: 'Add topic',
+    currentVersion: 'Current version',
+    deleteNode: 'Delete',
+    confirmDelete: 'Are you sure you want to delete this node?',
     changeName: {
       loadError: 'Could not fetch translations',
       updateError: 'Could not update translations',
@@ -1212,12 +1232,23 @@ const phrases = {
     confirmSetPrimary: 'Do you want to make this the main location?',
     removeLink: 'Remove link',
     jumpToResources: 'Jump to resources',
-    copyResources: 'Reuse resources from topic',
-    copyAndCloneResources: 'Copy and clone resources from topic',
+    copyResources: {
+      error: 'Something went wrong during copying',
+      info: 'Reuse resources from topic',
+      done: 'Resources copied',
+      waiting: 'Copying resources',
+    },
+    cloneResources: {
+      error: 'Something went wrong during cloning',
+      info: 'Copy and clone resources from topic',
+      done: 'Resources cloned',
+      waiting: 'Cloning resources',
+    },
     favorites: 'Show favorites',
     publish: {
-      button: 'Publish all',
+      button: 'Publish all resources',
       waiting: 'Publishing resourses',
+      info: 'Are you sure you want to publish all resources associated with this node?',
       done: 'Resources published',
       error: 'The following resources were not published:',
     },
@@ -1272,18 +1303,23 @@ const phrases = {
     missingResourceType: 'Missing resource type',
     metadata: {
       customFields: {
+        cancelPublishRequest: 'Cancel request for partial structure publication',
+        requestPublish: 'Request partial publication of structure',
+        requestVersionError: 'Publish requests can only be made from the default version',
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
         explanationSubject: 'Explanation Subject',
         oldSubjectId: 'Old ID for redirecting',
         subjectCategory: 'Subject category',
+        subjectType: 'Subject type',
         resourceGroupPlaceholder: 'Grouping of resources',
         RGTooltip: 'Show resources Grouped or Ungrouped',
       },
       placeholders: {
         category: 'Choose category',
         language: 'Choose language',
+        type: 'Choose type',
       },
     },
   },
@@ -1337,6 +1373,188 @@ const phrases = {
     statusLabel: 'Status:',
     changeHeader: 'Changes',
     saveAsNew: 'Save as copy',
+  },
+  taxonomyVersions: {
+    title: 'Taxonomy Versions',
+    publishedVersion: 'Published version',
+    otherVersions: 'Other versions',
+    deleteLocked: 'This version cannot be deleted because it is locked',
+    deletePublished: 'This version cannot be deleted because it is published',
+    delete: 'Delete version',
+    locked: 'This version is locked',
+    publishButton: 'Publish',
+    publishWarning:
+      'Are you sure you want to publish this version? The currently published version will be archived, and all new changes within this version will be immediately available on ndla.no',
+    status: {
+      PUBLISHED: 'Published',
+      ARCHIVED: 'Archived',
+      BETA: 'Beta',
+    },
+    about:
+      'This page is used for viewing and administering taxonomy versions. Be wary: Publishing a new version will immediately make it available for ndla.no end users.',
+    noPublished:
+      'No versions have been published! The standard version of taxonomy is in use until a version is published.',
+    editVersionTooltip: 'Edit version',
+    newVersionTitle: 'Create new version',
+    newVersionButton: 'New version',
+    editVersionTitle: 'Edit version',
+    deleteWarning: 'Are you sure you want to delete this version?',
+    deleteWarningPublished:
+      'Are you sure you want to delete the currently published version? Taxonomy will revert back to the default version',
+    postError: 'Failed to create version',
+    putError: 'Failed to update version',
+    publishError: 'Failed to publish version',
+    deleteError: 'Failed to delete version',
+    noOtherVersions: 'No other versions exist!',
+    previewVersion: 'Preview this version on NDLA.no',
+    form: {
+      name: {
+        label: 'Name',
+        placeholder: 'Example Version',
+      },
+      source: {
+        title: 'Source version',
+        subTitle: 'Base this version on an existing version',
+        defaultOption: 'N/A',
+      },
+      locked: {
+        title: 'Locked',
+        subTitle: 'Is the version locked:',
+        locked: 'Locked',
+        unlocked: 'Unlocked',
+      },
+    },
+  },
+  publishRequests: {
+    title: 'Publish Requests',
+    nodePublished: 'The node has been published!',
+    showInStructure: 'Show in structure',
+    compare: 'Compare',
+    publishNode: 'Publish node',
+    publishWarning:
+      'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
+    errors: {
+      noPublishedVersion: 'Failed to find a published version',
+      publishError: 'Failed to publish node',
+    },
+  },
+  diff: {
+    equalNodes: 'These nodes are equal!',
+    defaultVersion: 'Default version',
+    compareVersions: 'Compare versions',
+    error: {
+      originalHashRequired: 'The originalHash parameter has to be present in the URL!',
+      doesNotExist: 'This node does not exist in any of these versions!',
+      onlyExistsInOriginal: 'This node only exists in the original version',
+      onlyExistsInOther: 'This node only exists in the version you are comparing against',
+    },
+    options: {
+      originalHashLabel: 'Original version',
+      otherHashLabel: 'Other version',
+      viewLabel: 'View type',
+      nodeViewLabel: 'Node view',
+      fieldViewLabel: 'Field view',
+      allNodes: 'All nodes',
+      changedNodes: 'Only changed',
+      allFields: 'All fields',
+      changedFields: 'Only changed',
+      flat: 'Flat',
+      tree: 'Tree',
+    },
+    childrenChanged: 'Children changed',
+    resourcesChanged: 'Resources changed',
+    diffTypes: {
+      ADDED: 'Added',
+      DELETED: 'Deleted',
+      MODIFIED: 'Modified',
+      NONE: 'None',
+    },
+    isRoot: 'Root node',
+    nodeTypeTooltips: {
+      SUBJECT: 'This is a subject',
+      TOPIC: 'This is a topic',
+    },
+    fields: {
+      id: {
+        title: 'ID',
+      },
+      name: {
+        title: 'Name',
+      },
+      contentUri: {
+        title: 'Content URI',
+      },
+      parent: {
+        title: 'Parent',
+      },
+      path: {
+        title: 'Path',
+      },
+      paths: {
+        title: 'Paths',
+      },
+      connectionId: {
+        title: 'Connection ID',
+      },
+      isPrimary: {
+        title: 'Is Primary',
+        isOn: 'This node is currently a primary resource',
+        isOff: 'This node is not currently a primary resource',
+      },
+      primary: {
+        title: 'Primary',
+        isOn: 'This node is currently a primary resource',
+        isOff: 'This node is not currently a primary resource',
+      },
+      rank: {
+        title: 'Rank',
+      },
+      relevance: {
+        title: 'Relevance',
+      },
+      translations: {
+        title: 'Translations',
+      },
+      articleType: {
+        title: 'Article Type',
+      },
+      visible: {
+        title: 'Visible',
+        isOn: 'Visible',
+        isOff: 'Not visible',
+      },
+      'topic-resources': {
+        title: 'Resource Grouping',
+        isOn: 'Grouped',
+        isOff: 'Ungrouped',
+      },
+      requestPublish: {
+        title: 'Publish requested',
+        true: 'Yes',
+        false: 'No',
+      },
+      language: {
+        title: 'Display language',
+      },
+      subjectCategory: {
+        title: 'Subject category',
+      },
+      explanationSubject: {
+        title: 'Explanation Subject',
+      },
+      oldSubjectId: {
+        title: 'Old Subject ID',
+      },
+      supportedLanguages: {
+        title: 'Supported Languages',
+      },
+      grepCodes: {
+        title: 'Grep Codes',
+      },
+      resourceTypes: {
+        title: 'Resource Types',
+      },
+    },
   },
   metadata: {
     visible: 'is visible',

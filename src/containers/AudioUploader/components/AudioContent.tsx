@@ -10,7 +10,6 @@ import { FormEvent } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { connect, FormikContextType } from 'formik';
-import BEMHelper from 'react-bem-helper';
 import { UploadDropZone, FieldHeader } from '@ndla/forms';
 import styled from '@emotion/styled';
 import Tooltip from '@ndla/tooltip';
@@ -23,9 +22,7 @@ import { TitleField } from '../../FormikForm';
 import AudioCopyInfo from './AudioCopyInfo';
 import AudioFileInfoModal from './AudioFileInfoModal';
 
-interface BaseProps {
-  classes: BEMHelper<BEMHelper.ReturnObject>;
-}
+interface BaseProps {}
 
 interface Props extends BaseProps {
   formik: FormikContextType<AudioFormikType>;

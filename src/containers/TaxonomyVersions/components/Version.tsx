@@ -108,7 +108,7 @@ const Version = ({ version }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
   const qc = useQueryClient();
-  const key = versionsQueryKey({ taxonomyVersion: 'default' });
+  const key = versionsQueryKey();
 
   const deleteVersionMutation = useDeleteVersionMutation({
     onMutate: async ({ id }) => {
@@ -123,7 +123,7 @@ const Version = ({ version }: Props) => {
   });
 
   const onDelete = async () => {
-    await deleteVersionMutation.mutateAsync({ id: version.id, taxonomyVersion: 'default' });
+    await deleteVersionMutation.mutateAsync({ id: version.id });
   };
 
   const deleteTooltip = version.locked

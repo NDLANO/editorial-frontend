@@ -130,14 +130,9 @@ const NodeDiffcontainer = ({ originalHash, otherHash, nodeId }: Props) => {
       return;
     }
     setIsLoading(true);
-    const targetVersions = await fetchVersions({
-      hash: originalHash,
-      taxonomyVersion: 'default',
-    });
+    const targetVersions = await fetchVersions({ hash: originalHash });
     const sourceVersions =
-      otherHash !== 'default'
-        ? await fetchVersions({ hash: otherHash, taxonomyVersion: 'default' })
-        : undefined;
+      otherHash !== 'default' ? await fetchVersions({ hash: otherHash }) : undefined;
     if (targetVersions.length !== 1 || (sourceVersions && sourceVersions.length !== 1)) {
       setIsLoading(false);
       setError('diff.publishError');

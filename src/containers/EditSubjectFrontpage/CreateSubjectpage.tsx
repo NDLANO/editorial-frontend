@@ -13,13 +13,18 @@ import SubjectpageForm from './components/SubjectpageForm';
 import { useFetchSubjectpageData } from '../FormikForm/formikSubjectpageHooks';
 import { toEditSubjectpage } from '../../util/routeHelpers';
 
+interface LocationState {
+  elementName?: string;
+}
+
 const CreateSubjectpage = () => {
   const { t } = useTranslation();
   const params = useParams<'selectedLanguage' | 'elementId'>();
   const selectedLanguage = params.selectedLanguage as LocaleType;
   const elementId = params.elementId!;
   const location = useLocation();
-  const elementName: string | undefined = location?.state?.elementName;
+  const locationState = location.state as LocationState | undefined;
+  const elementName = locationState?.elementName;
   const navigate = useNavigate();
   const { createSubjectpage } = useFetchSubjectpageData(elementId, selectedLanguage, undefined);
 

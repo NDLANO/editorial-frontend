@@ -59,6 +59,12 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
+const StyledDiv = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`;
+
 const createPlugins = (language: string, handleSubmitRef: RefObject<() => void>): SlatePlugin[] => {
   // Plugins are checked from last to first
   return [
@@ -112,7 +118,7 @@ const TopicArticleContent = (props: Props) => {
       <TitleField handleSubmit={handleSubmit} />
       <FormikField name="published" css={byLineStyle}>
         {({ field, form }) => (
-          <>
+          <StyledDiv>
             <LastUpdatedLine
               name={field.name}
               creators={creators}
@@ -130,7 +136,7 @@ const TopicArticleContent = (props: Props) => {
               </Tooltip>
               <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
             </IconContainer>
-          </>
+          </StyledDiv>
         )}
       </FormikField>
       <IngressField preview={preview} handleSubmit={handleSubmit} />

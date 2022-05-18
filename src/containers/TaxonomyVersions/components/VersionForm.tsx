@@ -27,7 +27,6 @@ import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQuer
 import { ActionButton } from '../../FormikForm';
 import { StyledErrorMessage } from './StyledErrorMessage';
 import Fade from '../../../components/Taxonomy/Fade';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import {
   VersionFormType,
   versionFormTypeToVersionPostType,
@@ -57,7 +56,6 @@ const StyledTitle = styled.h2`
 
 const VersionForm = ({ version, existingVersions, onClose }: Props) => {
   const { t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const initialValues = versionTypeToVersionFormType(version);
@@ -120,7 +118,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
 
   const onPublish = async () => {
     if (!version) return;
-    await publishVersionMutation.mutateAsync({ id: version.id, taxonomyVersion });
+    await publishVersionMutation.mutateAsync({ id: version.id, taxonomyVersion: 'default' });
     onClose();
   };
 
@@ -131,11 +129,11 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       await versionPostMutation.mutateAsync({
         body,
         sourceId: values.sourceId,
-        taxonomyVersion,
+        taxonomyVersion: 'default',
       });
     } else {
       const body = versionFormTypeToVersionPutType(values);
-      await versionPutMutation.mutateAsync({ id: version.id, body, taxonomyVersion });
+      await versionPutMutation.mutateAsync({ id: version.id, body, taxonomyVersion: 'default' });
     }
     helpers.setSubmitting(false);
     onClose();

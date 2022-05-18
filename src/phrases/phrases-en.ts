@@ -1429,15 +1429,18 @@ const phrases = {
     nodePublished: 'The node has been published!',
     showInStructure: 'Show in structure',
     compare: 'Compare',
-    publishNode: 'Publish node',
-    publishWarning:
-      'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
     errors: {
       noPublishedVersion: 'Failed to find a published version',
-      publishError: 'Failed to publish node',
     },
   },
   diff: {
+    published:
+      'Node publishing has started! This will take a while. The process is completed once the two versions of this node are marked as identical',
+    publishing: 'Publishing node...',
+    publish: 'Publish node',
+    publishWarning:
+      'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
+    publishError: 'Failed to publish node',
     equalNodes: 'These nodes are equal!',
     defaultVersion: 'Default version',
     compareVersions: 'Compare versions',

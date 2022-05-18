@@ -111,6 +111,8 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       status: '',
       users: '',
       language: '',
+      'revision-date-from': '',
+      'revision-date-to': '',
     });
   };
 

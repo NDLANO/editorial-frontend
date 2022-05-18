@@ -54,7 +54,7 @@ const Selector = ({ selector, onFieldChange, searchObject }: SelectorProps) => {
           onFieldChange(name, value);
         }}
         placeholder={t(`searchForm.types.${selector.type}`)}
-        value={searchObject[selector.type] as string | undefined}
+        value={(searchObject[selector.type] as string | undefined) ?? ''}
       />
     );
   }

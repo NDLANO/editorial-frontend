@@ -8,7 +8,7 @@
 
 import { isEmpty } from 'lodash';
 import { Descendant } from 'slate';
-import { ILicense, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { ILicense, IUpdatedArticle, IArticle, IRevisionMeta } from '@ndla/types-draft-api';
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,
@@ -230,7 +230,7 @@ export const updatedDraftApiTypeToDraftApiType = (
   };
 };
 
-export const getExpirationDate = (article?: IArticle): string | undefined => {
+export const getExpirationDate = (article?: { revisions: IRevisionMeta[] }): string | undefined => {
   if (!article) return undefined;
 
   const withParsed = article.revisions.map(r => {

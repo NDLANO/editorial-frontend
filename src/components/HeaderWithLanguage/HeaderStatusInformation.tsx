@@ -161,7 +161,7 @@ const HeaderStatusInformation = ({
   const expirationColor = getWarnStatus(expirationDate);
   const revisionDateExpiration =
     (type === 'standard' || type === 'topic-article') && expirationColor ? (
-      <Tooltip tooltip={t(`form.workflow.expiration.${expirationColor}`)}>
+      <Tooltip tooltip={t(`form.workflow.expiration.${expirationColor}`, { date: expirationDate })}>
         <StyledTimeIcon status={expirationColor} />
       </Tooltip>
     ) : null;

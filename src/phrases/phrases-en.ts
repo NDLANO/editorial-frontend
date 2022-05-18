@@ -735,8 +735,8 @@ const phrases = {
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
       currentStatus: 'Current status: {{ status }}.',
       expiration: {
-        warn: 'One of the revisions expires soon.',
-        expired: 'One of the revisions has expired.',
+        warn: 'One of the revisions expires soon (Must be revised before {{date}}).',
+        expired: 'One of the revisions has expired (Expired {{date}}).',
       },
     },
     status: {

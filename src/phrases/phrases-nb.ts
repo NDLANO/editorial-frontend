@@ -736,8 +736,8 @@ const phrases = {
       multipleTaxonomy: 'Artikkelen har flere oppføringer i taksonomi.',
       currentStatus: 'Gjeldende status: {{status}}.',
       expiration: {
-        warn: 'En av revisjonene utløper snart.',
-        expired: 'En av revisjonene har utløpt.',
+        warn: 'En av revisjonene utløper snart (Må revideres innen {{date}}).',
+        expired: 'En av revisjonene har utløpt (Utløpte {{date}}).',
       },
     },
     status: {

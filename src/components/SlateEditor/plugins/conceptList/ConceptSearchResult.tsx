@@ -64,6 +64,22 @@ const getVisualElement = (embed: Embed) => {
   }
 };
 
+const getType = (type: string | undefined) => {
+  if (type === 'brightcove') {
+    return 'video';
+  }
+  if (
+    type === 'image' ||
+    type === 'external' ||
+    type === 'iframe' ||
+    type === 'h5p' ||
+    type === 'video'
+  ) {
+    return type;
+  }
+  return undefined;
+};
+
 const ConceptSearchResult = ({ tag, language, showResultCount }: Props) => {
   const [concepts, setConcepts] = useState<ConceptNotionType[]>([]);
   const [loading, setLoading] = useState(false);
@@ -128,7 +144,11 @@ const ConceptSearchResult = ({ tag, language, showResultCount }: Props) => {
             {concepts.map(concept => {
               return (
                 <li key={concept.id}>
-                  <ConceptNotion concept={concept} disableScripts={true} />
+                  <ConceptNotion
+                    concept={concept}
+                    disableScripts={true}
+                    type={getType(concept.visualElement?.resource)}
+                  />
                 </li>
               );
             })}

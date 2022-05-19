@@ -228,10 +228,10 @@ const HeaderStatusInformation = ({
         {articleConnections}
         {conceptConnecions}
         {learningpathConnections}
+        {revisionDateExpiration}
         {published &&
           (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}
-        {revisionDateExpiration}
       </Splitter>
     </>
   );

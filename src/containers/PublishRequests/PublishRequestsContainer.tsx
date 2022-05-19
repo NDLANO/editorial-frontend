@@ -58,7 +58,7 @@ const PublishRequestsContainer = () => {
   });
 
   const versionsQuery = useVersions(
-    { taxonomyVersion: 'default', type: 'PUBLISHED' },
+    { type: 'PUBLISHED' },
     {
       onSuccess: data => {
         if (!data[0]) {

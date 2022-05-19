@@ -60,7 +60,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
   const initialValues = versionTypeToVersionFormType(version);
   const qc = useQueryClient();
-  const versionsKey = versionsQueryKey({ taxonomyVersion: 'default' });
+  const versionsKey = versionsQueryKey();
 
   const versionPostMutation = usePostVersionMutation({
     onMutate: async ({ body }) => {
@@ -118,7 +118,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
 
   const onPublish = async () => {
     if (!version) return;
-    await publishVersionMutation.mutateAsync({ id: version.id, taxonomyVersion: 'default' });
+    await publishVersionMutation.mutateAsync({ id: version.id });
     onClose();
   };
 
@@ -129,11 +129,10 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       await versionPostMutation.mutateAsync({
         body,
         sourceId: values.sourceId,
-        taxonomyVersion: 'default',
       });
     } else {
       const body = versionFormTypeToVersionPutType(values);
-      await versionPutMutation.mutateAsync({ id: version.id, body, taxonomyVersion: 'default' });
+      await versionPutMutation.mutateAsync({ id: version.id, body });
     }
     helpers.setSubmitting(false);
     onClose();

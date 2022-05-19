@@ -43,7 +43,7 @@ const getPublishedAndOther = (
 
 const TaxonomyVersionsPage = () => {
   const [showNewForm, setShowNewForm] = useState(false);
-  const { data } = useVersions({ taxonomyVersion: 'default' });
+  const { data } = useVersions();
 
   const { published, other } = getPublishedAndOther(data ?? []);
 

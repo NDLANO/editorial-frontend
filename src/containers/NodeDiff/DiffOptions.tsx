@@ -78,7 +78,7 @@ const DiffOption = ({
 const DiffOptions = ({ originalHash, otherHash }: Props) => {
   const [params, setParams] = useSearchParams();
   const { t } = useTranslation();
-  const taxonomyVersions = useVersions({ taxonomyVersion: 'default' });
+  const taxonomyVersions = useVersions();
   const options =
     taxonomyVersions.data?.map(version => ({ id: version.hash, label: version.name })) ?? [];
 

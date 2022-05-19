@@ -20,6 +20,7 @@ import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
 import { unreachable } from '../../util/guards';
+import formatDate from '../../util/formatDate';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -160,8 +161,11 @@ const HeaderStatusInformation = ({
 
   const expirationColor = getWarnStatus(expirationDate);
   const revisionDateExpiration =
-    (type === 'standard' || type === 'topic-article') && expirationColor ? (
-      <Tooltip tooltip={t(`form.workflow.expiration.${expirationColor}`, { date: expirationDate })}>
+    (type === 'standard' || type === 'topic-article') && expirationColor && expirationDate ? (
+      <Tooltip
+        tooltip={t(`form.workflow.expiration.${expirationColor}`, {
+          date: formatDate(expirationDate),
+        })}>
         <StyledTimeIcon status={expirationColor} />
       </Tooltip>
     ) : null;

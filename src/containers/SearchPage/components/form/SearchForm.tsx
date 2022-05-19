@@ -18,6 +18,8 @@ import { SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { SearchParamsShape } from '../../../../shapes';
 import { SearchTypeValues } from '../../../../constants';
+import { datePickerTypes } from './GenericSearchForm';
+import formatDate from '../../../../util/formatDate';
 
 export const searchFormClasses = new BEMHelper({
   name: 'search-form',
@@ -44,6 +46,16 @@ export interface SearchParams {
   'revision-date-from'?: string;
   'revision-date-to'?: string;
 }
+
+export const searchParamsFormatter = (
+  key: keyof SearchParams,
+  value?: string | number | boolean,
+): string | number | boolean | undefined => {
+  if (datePickerTypes.includes(key) && typeof value === 'string') {
+    return formatDate(value);
+  }
+  return value;
+};
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);

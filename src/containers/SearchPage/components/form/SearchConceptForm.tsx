@@ -14,9 +14,9 @@ import { SearchParams } from './SearchForm';
 import * as conceptStatuses from '../../../../util/constants/ConceptStatus';
 import { CONCEPT_WRITE_SCOPE } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { MinimalTagType } from './SearchTag';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
+import { TagType } from './SearchTagGroup';
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -60,7 +60,7 @@ const SearchConceptForm = ({ search: doSearch, searchObject: search, subjects }:
 
   const handleSearch = () => doSearch({ ...search, page: 1 });
 
-  const removeTagItem = (tag: MinimalTagType) => {
+  const removeTagItem = (tag: TagType) => {
     if (tag.type === 'query') setQueryInput('');
     doSearch({ ...search, [tag.type]: '' });
   };

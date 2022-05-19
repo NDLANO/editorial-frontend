@@ -16,26 +16,17 @@ import ArticleStatuses from '../../../../util/constants/index';
 import { SearchParams } from './SearchForm';
 import { DRAFT_WRITE_SCOPE } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { MinimalTagType } from './SearchTag';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { TagType } from './SearchTagGroup';
 
 interface Props {
   search: (o: SearchParams) => void;
   subjects: SubjectType[];
   searchObject: SearchParams;
   locale: string;
-}
-
-export interface SearchState extends Record<string, string> {
-  subjects: string;
-  resourceTypes: string;
-  status: string;
-  query: string;
-  users: string;
-  language: string;
 }
 
 const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
@@ -95,7 +86,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
 
   const handleSearch = () => doSearch({ ...search, fallback: false, page: 1 });
 
-  const removeTagItem = (tag: MinimalTagType) => {
+  const removeTagItem = (tag: TagType) => {
     if (tag.type === 'query') setQueryInput('');
     if (tag.type === 'draft-status') setIsHasPublished(tag.name === 'HAS_PUBLISHED');
     doSearch({ ...search, [tag.type]: '' });

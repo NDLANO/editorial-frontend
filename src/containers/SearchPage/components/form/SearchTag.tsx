@@ -8,16 +8,12 @@
 
 import { Component, MouseEvent } from 'react';
 
-import PropTypes from 'prop-types';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import BEMHelper from 'react-bem-helper';
-
-export type MinimalTagType = {
-  name?: string;
-  type: string;
-};
+import { searchParamsFormatter } from './SearchForm';
+import { TagType } from './SearchTagGroup';
 
 export const tagClasses = new BEMHelper({
   name: 'tag',
@@ -25,8 +21,8 @@ export const tagClasses = new BEMHelper({
 });
 
 interface Props {
-  tag: MinimalTagType;
-  onRemoveItem: (tag: MinimalTagType) => void;
+  tag: TagType;
+  onRemoveItem: (tag: TagType) => void;
 }
 
 class SearchTag extends Component<Props & CustomWithTranslation> {
@@ -44,25 +40,18 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
 
   render() {
     const { tag, t } = this.props;
+    const tagValue = searchParamsFormatter(tag.type, tag.name) || '';
 
     return (
       <dl className="c-tag c-tag--search">
         <dt {...tagClasses('label')}>{t(`searchForm.tagType.${tag.type}`)}:</dt>
-        <dd {...tagClasses('description')}>{tag.name || ''}</dd>
+        <dd {...tagClasses('description')}>{tagValue}</dd>
         <Button onClick={this.onRemove} stripped>
           <Cross className="c-icon--small" />
         </Button>
       </dl>
     );
   }
-
-  static propTypes = {
-    tag: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }).isRequired,
-    onRemoveItem: PropTypes.func.isRequired,
-  };
 }
 
 export default withTranslation()(SearchTag);

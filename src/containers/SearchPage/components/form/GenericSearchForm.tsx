@@ -12,8 +12,7 @@ import css from '@emotion/css';
 import Button from '@ndla/button';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import { searchFormClasses, SearchParams } from './SearchForm';
-import { MinimalTagType } from './SearchTag';
-import SearchTagGroup from './SearchTagGroup';
+import SearchTagGroup, { TagType } from './SearchTagGroup';
 import InlineDatePicker from '../../../FormikForm/components/InlineDatePicker';
 
 export interface SearchFormSelector {
@@ -32,10 +31,10 @@ interface Props {
   onSubmit: () => void;
   onFieldChange: (name: string, value: string) => void;
   emptySearch: (evt: MouseEvent<HTMLButtonElement>) => void;
-  removeTag: (tag: MinimalTagType) => void;
+  removeTag: (tag: TagType) => void;
 }
 
-const datePickerTypes: (keyof SearchParams)[] = ['revision-date-from', 'revision-date-to'];
+export const datePickerTypes: (keyof SearchParams)[] = ['revision-date-from', 'revision-date-to'];
 
 interface SelectorProps {
   selector: SearchFormSelector;
@@ -89,7 +88,7 @@ const GenericSearchForm = ({
   removeTag,
 }: Props) => {
   const { t } = useTranslation();
-  const tags = [{ type: 'query', name: query }, ...selectors];
+  const tags: TagType[] = [{ type: 'query', name: query }, ...selectors];
   return (
     <form
       onSubmit={e => {

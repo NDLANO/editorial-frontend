@@ -53,7 +53,6 @@ const getType = (
   return type;
 };
 const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
-
   const { t, i18n } = useTranslation();
   useEffect(() => {
     addShowConceptDefinitionClickListeners();

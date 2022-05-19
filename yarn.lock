@@ -1963,10 +1963,10 @@
     "@ndla/core" "^2.1.1"
     "@ndla/icons" "^1.7.0"
 
-"@ndla/article-scripts@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-2.3.0.tgz#75d8164354899f24215e1074e319b3f0174533e6"
-  integrity sha512-bG6Kun1o4vTrLklO7QnuYwUVWcZpJPX5g/gfaJPckT8/plsZXtfiezphzDKdWxsFc8k+faUguYhzqceWykBXyA==
+"@ndla/article-scripts@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@ndla/article-scripts/-/article-scripts-2.4.1.tgz#7e2b8866debe589aa5227786885ad06c9144406c"
+  integrity sha512-bc97gOQ1IOQ8FUDegyekAN9Ps/1B95IeWxAXmWBT//TKJcHnVeQHesxJyF0MyHLE7e44sAHHgvHctpJV7452DQ==
   dependencies:
     "@ndla/util" "^3.0.0"
     focus-trap "^6.7.3"

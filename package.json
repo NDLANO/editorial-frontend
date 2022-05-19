@@ -114,7 +114,7 @@
     "@fontsource/source-serif-pro": "^4.5.7",
     "@loadable/component": "^5.15.0",
     "@ndla/accordion": "^1.1.6",
-    "@ndla/article-scripts": "^2.3.0",
+    "@ndla/article-scripts": "^2.4.1",
     "@ndla/audio-search": "^1.1.10",
     "@ndla/button": "^2.2.0",
     "@ndla/carousel": "^1.2.6",

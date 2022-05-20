@@ -108,6 +108,7 @@ const actions: Action[] = [
     data: { type: 'concept-list', object: 'conceptList' },
     icon: <List />,
     helpIcon: renderArticleInModal('ConceptList'),
+    requiredScope: DRAFT_ADMIN_SCOPE,
   },
 ];
 

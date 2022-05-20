@@ -70,7 +70,12 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
 
   return (
     <>
-      <StyledWrapper {...attributes} isSelected={isSelected} tabIndex={1} draggable>
+      <StyledWrapper
+        {...attributes}
+        isSelected={isSelected}
+        tabIndex={1}
+        draggable
+        className="c-figure u-float">
         <ButtonContainer contentEditable={false}>
           <Tooltip tooltip={t('form.remove')} align="right">
             <IconButton color="red" type="button" onClick={onRemoveClick} tabIndex={-1}>

@@ -1418,7 +1418,7 @@ const phrases = {
       },
       locked: {
         title: 'Locked',
-        subTitle: 'Lock this version to disable deletion',
+        subTitle: 'Lock this version to prevent deletion',
         locked: 'Locked',
         unlocked: 'Unlocked',
       },

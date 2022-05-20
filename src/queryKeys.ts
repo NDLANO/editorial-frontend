@@ -41,6 +41,7 @@ export const FILM_SLIDESHOW = 'filmSlideshow';
 
 export const NODE = 'node';
 export const NODES = 'nodes';
+export const SEARCH_NODES = 'searchNodes';
 export const CHILD_NODES_WITH_ARTICLE_TYPE = 'childNodesWithArticleType';
 export const NODE_TRANSLATIONS = 'nodeTranslations';
 export const NODE_CONNECTION = 'nodeConnection';

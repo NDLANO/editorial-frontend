@@ -10,8 +10,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
 import styled from '@emotion/styled';
-import ToggleSwitch from '../../../../components/ToggleSwitch';
-import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../../../constants';
+import ToggleSwitch from '../ToggleSwitch';
+import { RESOURCE_FILTER_CORE, RESOURCE_FILTER_SUPPLEMENTARY } from '../../constants';
 
 interface Props {
   relevanceId: string | null | undefined;

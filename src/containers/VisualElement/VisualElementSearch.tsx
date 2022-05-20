@@ -34,7 +34,7 @@ const titles = (t: TFunction, resource: string) => ({
   [resource]: t(`form.visualElement.${resource.toLowerCase()}`),
 });
 
-type EmbedReturnType = ReturnType<'embed', Embed>;
+export type EmbedReturnType = ReturnType<'embed', Embed>;
 type FileReturnType = ReturnType<'file', DOMStringMap[]>;
 export type VisualElementChangeReturnType = EmbedReturnType | FileReturnType;
 

@@ -25,9 +25,8 @@ import {
 } from '../../../modules/taxonomy/versions/versionMutations';
 import { versionsQueryKey } from '../../../modules/taxonomy/versions/versionQueries';
 import { ActionButton } from '../../FormikForm';
-import { StyledErrorMessage } from '../../StructurePage/folderComponents/styles';
-import Fade from '../../StructurePageBeta/Fade';
-import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import { StyledErrorMessage } from './StyledErrorMessage';
+import Fade from '../../../components/Taxonomy/Fade';
 import {
   VersionFormType,
   versionFormTypeToVersionPostType,
@@ -57,12 +56,11 @@ const StyledTitle = styled.h2`
 
 const VersionForm = ({ version, existingVersions, onClose }: Props) => {
   const { t } = useTranslation();
-  const { taxonomyVersion } = useTaxonomyVersion();
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const initialValues = versionTypeToVersionFormType(version);
   const qc = useQueryClient();
-  const versionsKey = versionsQueryKey({ taxonomyVersion: 'default' });
+  const versionsKey = versionsQueryKey();
 
   const versionPostMutation = usePostVersionMutation({
     onMutate: async ({ body }) => {
@@ -120,7 +118,7 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
 
   const onPublish = async () => {
     if (!version) return;
-    await publishVersionMutation.mutateAsync({ id: version.id, taxonomyVersion });
+    await publishVersionMutation.mutateAsync({ id: version.id });
     onClose();
   };
 
@@ -131,11 +129,10 @@ const VersionForm = ({ version, existingVersions, onClose }: Props) => {
       await versionPostMutation.mutateAsync({
         body,
         sourceId: values.sourceId,
-        taxonomyVersion,
       });
     } else {
       const body = versionFormTypeToVersionPutType(values);
-      await versionPutMutation.mutateAsync({ id: version.id, body, taxonomyVersion });
+      await versionPutMutation.mutateAsync({ id: version.id, body });
     }
     helpers.setSubmitting(false);
     onClose();

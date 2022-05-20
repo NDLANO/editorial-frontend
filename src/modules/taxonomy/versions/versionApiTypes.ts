@@ -28,6 +28,7 @@ export interface VersionPutBody {
 
 export interface GetVersionsParams {
   type?: VersionStatusType;
+  hash?: string;
 }
 
 export type VersionStatusType = 'BETA' | 'ARCHIVED' | 'PUBLISHED';

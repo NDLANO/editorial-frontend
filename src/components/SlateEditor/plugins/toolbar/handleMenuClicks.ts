@@ -7,6 +7,7 @@
  */
 
 import { Editor } from 'slate';
+import { SyntheticEvent } from 'react';
 import { insertLink } from '../link/utils';
 import toggleBlock from '../../utils/toggleBlock';
 import { toggleHeading } from '../heading/utils';
@@ -15,8 +16,9 @@ import { toggleList } from '../list/utils/toggleList';
 import { insertMathml } from '../mathml/utils';
 import { insertInlineConcept } from '../concept/inline/utils';
 import { toggleSpan } from '../span/utils';
+import { toggleCellAlign } from '../table/helpers';
 
-export function handleClickBlock(event: KeyboardEvent, editor: Editor, type: string) {
+export function handleClickBlock(event: SyntheticEvent, editor: Editor, type: string) {
   event.preventDefault();
   if (type === 'quote') {
     toggleBlock(editor, type);
@@ -29,7 +31,7 @@ export function handleClickBlock(event: KeyboardEvent, editor: Editor, type: str
   }
 }
 
-export function handleClickInline(event: KeyboardEvent, editor: Editor, type: string) {
+export function handleClickInline(event: SyntheticEvent, editor: Editor, type: string) {
   if (editor.selection) {
     event.preventDefault();
     if (type === 'link') {
@@ -46,3 +48,11 @@ export function handleClickInline(event: KeyboardEvent, editor: Editor, type: st
     }
   }
 }
+
+export const handleClickTable = (event: SyntheticEvent, editor: Editor, type: string) => {
+  event.preventDefault();
+
+  if (['left', 'center', 'right'].includes(type)) {
+    toggleCellAlign(editor, type);
+  }
+};

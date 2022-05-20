@@ -7,9 +7,6 @@
  */
 
 import { ChangeEvent, MouseEvent, useState } from 'react';
-
-import BEMHelper from 'react-bem-helper';
-
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input } from '@ndla/forms';
@@ -22,11 +19,6 @@ import SavedSearch from './SavedSearch';
 import { updateUserData } from '../../../modules/draft/draftApi';
 import { isNDLAEdSearchUrl } from '../../../util/htmlHelpers';
 import { useUpdateUserDataMutation, useUserData } from '../../../modules/draft/draftQueries';
-
-export const classes = new BEMHelper({
-  name: 'save-search',
-  prefix: 'c-',
-});
 
 export const updateUserMetadata = async (searches: string[]) => {
   const userUpdatedMetadata = { savedSearches: searches };

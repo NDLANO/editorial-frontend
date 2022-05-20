@@ -101,7 +101,7 @@ const SearchPage = () => {
 
   return (
     <>
-      <SubNavigation type="media" subtypes={supportedTypes} />
+      <SubNavigation subtypes={supportedTypes} />
       <Routes>
         {supportedTypes.map(type => {
           return (

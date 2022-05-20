@@ -29,6 +29,11 @@ const StructureWrapper = styled.ul`
   margin: 0;
   padding: 0;
 `;
+
+const StyledStructureContainer = styled.div`
+  position: relative;
+`;
+
 const StructureContainer = () => {
   const location = useLocation();
   const [subject, topic, ...rest] = location.pathname.replace('/structureBeta/', '').split('/');
@@ -139,7 +144,7 @@ const StructureContainer = () => {
             />
           }
           hidden={editStructureHidden}>
-          <div id="plumbContainer">
+          <StyledStructureContainer>
             {userDataQuery.isLoading || nodesQuery.isLoading ? (
               <Spinner />
             ) : (
@@ -160,7 +165,7 @@ const StructureContainer = () => {
                 ))}
               </StructureWrapper>
             )}
-          </div>
+          </StyledStructureContainer>
         </Accordion>
         {config.versioningEnabled === 'true' && <StickyVersionSelector />}
         {currentNode && (

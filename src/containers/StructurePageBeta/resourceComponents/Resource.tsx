@@ -36,8 +36,8 @@ import config from '../../../config';
 import { getIdFromUrn } from '../../../util/taxonomyHelpers';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
-import RelevanceOption from '../components/RelevanceOption';
-import RemoveButton from '../../../components/RemoveButton';
+import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
+import RemoveButton from '../../../components/Taxonomy/RemoveButton';
 import { classes } from './ResourceGroup';
 import ResourceItemLink from './ResourceItemLink';
 import GrepCodesModal from './GrepCodesModal';
@@ -167,7 +167,7 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   };
 
   const resourceMetaQuery = useQuery<ResourceMeta>(
-    [RESOURCE_META, resource.id],
+    [RESOURCE_META, { id: resource.id }],
     () => getArticleMeta(resource),
     { retry: false, initialData: {} },
   );

@@ -7,11 +7,10 @@
  */
 
 import { useMutation, UseMutationOptions } from 'react-query';
-import { WithTaxonomyVersion } from '../../../interfaces';
 import { deleteVersion, postVersion, publishVersion, putVersion } from './versionApi';
 import { VersionPostBody, VersionPutBody } from './versionApiTypes';
 
-interface UsePostVersionMutationParams extends WithTaxonomyVersion {
+interface UsePostVersionMutationParams {
   body: VersionPostBody;
   sourceId?: string;
 }
@@ -20,12 +19,12 @@ export const usePostVersionMutation = (
   options?: UseMutationOptions<string, unknown, UsePostVersionMutationParams>,
 ) => {
   return useMutation<string, unknown, UsePostVersionMutationParams>(
-    ({ body, sourceId, taxonomyVersion }) => postVersion({ body, sourceId, taxonomyVersion }),
+    ({ body, sourceId }) => postVersion({ body, sourceId }),
     options,
   );
 };
 
-interface UsePutVersionMutationParams extends WithTaxonomyVersion {
+interface UsePutVersionMutationParams {
   id: string;
   body: VersionPutBody;
 }
@@ -34,12 +33,12 @@ export const usePutVersionMutation = (
   options?: UseMutationOptions<void, unknown, UsePutVersionMutationParams>,
 ) => {
   return useMutation<void, unknown, UsePutVersionMutationParams>(
-    ({ id, body, taxonomyVersion }) => putVersion({ id, body, taxonomyVersion }),
+    ({ id, body }) => putVersion({ id, body }),
     options,
   );
 };
 
-interface UseDeleteVersionMutationParams extends WithTaxonomyVersion {
+interface UseDeleteVersionMutationParams {
   id: string;
 }
 
@@ -47,12 +46,12 @@ export const useDeleteVersionMutation = (
   options?: UseMutationOptions<void, unknown, UseDeleteVersionMutationParams>,
 ) => {
   return useMutation<void, unknown, UseDeleteVersionMutationParams>(
-    ({ id, taxonomyVersion }) => deleteVersion({ id, taxonomyVersion }),
+    ({ id }) => deleteVersion({ id }),
     options,
   );
 };
 
-interface UsePublishVersionMutation extends WithTaxonomyVersion {
+interface UsePublishVersionMutation {
   id: string;
 }
 
@@ -60,7 +59,7 @@ export const usePublishVersionMutation = (
   options?: UseMutationOptions<void, unknown, UsePublishVersionMutation>,
 ) => {
   return useMutation<void, unknown, UsePublishVersionMutation>(
-    ({ id, taxonomyVersion }) => publishVersion({ id, taxonomyVersion }),
+    ({ id }) => publishVersion({ id }),
     options,
   );
 };

@@ -121,6 +121,10 @@ ErrorMessage.propTypes = {
   language: PropTypes.string.isRequired,
 };
 
+interface LocationState {
+  backUrl?: string;
+}
+
 type Status = 'initial' | 'edit' | 'fetch-error' | 'access-error' | 'saving' | 'saved';
 
 const EditMarkupPage = () => {
@@ -131,6 +135,7 @@ const EditMarkupPage = () => {
   const [status, setStatus] = useState<Status>('initial');
   const [draft, setDraft] = useState<IArticle | undefined>(undefined);
   const location = useLocation();
+  const locationState = location.state as LocationState | undefined;
   const { createMessage } = useMessages();
 
   useEffect(() => {
@@ -245,7 +250,7 @@ const EditMarkupPage = () => {
           <Row justifyContent="end" alignItems="baseline">
             <Link
               to={
-                location.state?.backUrl ||
+                locationState?.backUrl ||
                 `/subject-matter/learning-resource/${draftId}/edit/${language}`
               }>
               {t('editMarkup.back')}

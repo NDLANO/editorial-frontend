@@ -218,7 +218,7 @@ const AudioForm = ({
                   title={t('form.contentSection')}
                   hasError={hasError(['title', 'audioFile'])}
                   startOpen>
-                  <AudioContent classes={formClasses} />
+                  <AudioContent />
                 </AccordionSection>
                 <AccordionSection
                   id="podcast-upload-podcastmanus"
@@ -238,7 +238,7 @@ const AudioForm = ({
                     'processors',
                     'license',
                   ])}>
-                  <AudioMetaData classes={formClasses} />
+                  <AudioMetaData />
                 </AccordionSection>
               </Accordions>
             )}

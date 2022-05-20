@@ -37,7 +37,7 @@ const StickyDiv = styled.div<StickyDivProps>`
   display: flex;
   position: sticky;
   bottom: ${spacing.normal};
-  z-index: 2;
+  z-index: 1;
   color: white;
   border-radius: 20px;
   flex-direction: column;
@@ -50,7 +50,7 @@ const StickyDiv = styled.div<StickyDivProps>`
 const StickyVersionSelector = () => {
   const { t } = useTranslation();
   const { taxonomyVersion, changeVersion } = useTaxonomyVersion();
-  const { data } = useVersions({ taxonomyVersion });
+  const { data } = useVersions();
   const qc = useQueryClient();
 
   const fakeDefault: VersionTypeWithDefault = {

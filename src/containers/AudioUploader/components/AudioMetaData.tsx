@@ -6,10 +6,7 @@
  *
  */
 
-import PropTypes from 'prop-types';
-
 import { useTranslation } from 'react-i18next';
-import BEMHelper from 'react-bem-helper';
 import { FieldProps, useFormikContext } from 'formik';
 import { fetchSearchTags } from '../../../modules/audio/audioApi';
 import { LicenseField, ContributorsField } from '../../FormikForm';
@@ -19,11 +16,7 @@ import { AudioFormikType } from './AudioForm';
 
 const contributorTypes = ['creators', 'rightsholders', 'processors'];
 
-interface Props {
-  classes: BEMHelper<BEMHelper.ReturnObject>;
-}
-
-const AudioMetaData = (props: Props) => {
+const AudioMetaData = () => {
   const {
     values: { language, tags },
   } = useFormikContext<AudioFormikType>();
@@ -50,11 +43,6 @@ const AudioMetaData = (props: Props) => {
       <ContributorsField contributorTypes={contributorTypes} />
     </>
   );
-};
-
-AudioMetaData.propTypes = {
-  classes: PropTypes.func.isRequired,
-  values: PropTypes.object,
 };
 
 export default AudioMetaData;

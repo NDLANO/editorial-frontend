@@ -6,10 +6,11 @@
  *
  */
 
+import { SyntheticEvent } from 'react';
 import { Editor } from 'slate';
 import { isMarkActive } from './index';
 
-export const toggleMark = (event: KeyboardEvent, editor: Editor, format: string) => {
+export const toggleMark = (event: SyntheticEvent, editor: Editor, format: string) => {
   event.preventDefault();
   const isActive = isMarkActive(editor, format);
 

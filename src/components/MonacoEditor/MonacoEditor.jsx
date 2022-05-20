@@ -45,7 +45,7 @@ monaco.editor.defineTheme('myCustomTheme', {
   ],
 });
 
-export function MonacoEditor({ value, onChange, onSave }) {
+export function MonacoEditor({ value, onChange, onSave, height }) {
   const divRef = useRef(null);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export function MonacoEditor({ value, onChange, onSave }) {
   return (
     <div
       css={css`
-        height: 75vh;
+        height: ${height || '75vh'};
         margin: ${spacing.normal};
         border: 1px solid ${colors.brand.greyLight};
       `}
@@ -84,6 +84,7 @@ MonacoEditor.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  height: PropTypes.string,
 };
 
 export default MonacoEditor;

@@ -87,7 +87,7 @@ const defaultHeaders = { 'Content-Type': 'application/json' };
 interface DoAndResolveType<Type> extends FetchConfigType {
   url: string;
   alternateResolve?: (res: Response) => Promise<Type>;
-  taxonomyVersion: string;
+  taxonomyVersion?: string;
 }
 
 interface HttpConfig<T> extends Omit<DoAndResolveType<T>, 'method'> {}

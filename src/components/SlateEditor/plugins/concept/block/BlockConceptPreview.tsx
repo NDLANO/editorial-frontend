@@ -44,6 +44,14 @@ interface Props {
   id: number | string;
 }
 
+const getType = (
+  type: 'image' | 'external' | 'iframe' | 'brightcove' | 'video' | 'h5p' | undefined,
+) => {
+  if (type === 'brightcove') {
+    return 'video';
+  }
+  return type;
+};
 const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
   const { t, i18n } = useTranslation();
   useEffect(() => {
@@ -109,6 +117,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
           image,
           visualElement,
         }}
+        type={getType(visualElement?.resource)}
         disableScripts={true}
       />
 

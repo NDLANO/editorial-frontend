@@ -1304,7 +1304,7 @@ const phrases = {
       customFields: {
         cancelPublishRequest: 'Cancel request for partial structure publication',
         requestPublish: 'Request partial publication of structure',
-        requestVersionError: 'Publish requests can only be made from the default version',
+        requestVersionError: 'Publish requests can only be made from Draft',
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
@@ -1380,7 +1380,7 @@ const phrases = {
     deleteLocked: 'This version cannot be deleted because it is locked',
     deletePublished: 'This version cannot be deleted because it is published',
     delete: 'Delete version',
-    locked: 'This version is locked',
+    locked: 'This version is locked and cannot be deleted',
     publishButton: 'Publish',
     publishWarning:
       'Are you sure you want to publish this version? The currently published version will be archived, and all new changes within this version will be immediately available on ndla.no',
@@ -1392,14 +1392,14 @@ const phrases = {
     about:
       'This page is used for viewing and administering taxonomy versions. Be wary: Publishing a new version will immediately make it available for ndla.no end users.',
     noPublished:
-      'No versions have been published! The standard version of taxonomy is in use until a version is published.',
+      'No versions have been published! The Draft version of taxonomy is in use until a version is published.',
     editVersionTooltip: 'Edit version',
     newVersionTitle: 'Create new version',
     newVersionButton: 'New version',
     editVersionTitle: 'Edit version',
     deleteWarning: 'Are you sure you want to delete this version?',
     deleteWarningPublished:
-      'Are you sure you want to delete the currently published version? Taxonomy will revert back to the default version',
+      'Are you sure you want to delete the currently published version? Taxonomy will revert back to the Draft version',
     postError: 'Failed to create version',
     putError: 'Failed to update version',
     publishError: 'Failed to publish version',
@@ -1414,11 +1414,11 @@ const phrases = {
       source: {
         title: 'Source version',
         subTitle: 'Base this version on an existing version',
-        defaultOption: 'N/A',
+        defaultOption: 'Draft',
       },
       locked: {
         title: 'Locked',
-        subTitle: 'Is the version locked:',
+        subTitle: 'Lock this version to disable deletion',
         locked: 'Locked',
         unlocked: 'Unlocked',
       },
@@ -1442,7 +1442,7 @@ const phrases = {
       'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
     publishError: 'Failed to publish node',
     equalNodes: 'These nodes are equal!',
-    defaultVersion: 'Default version',
+    defaultVersion: 'Draft',
     compareVersions: 'Compare versions',
     error: {
       originalHashRequired: 'The originalHash parameter has to be present in the URL!',

@@ -13,6 +13,7 @@ import { UploadDropZone, Input } from '@ndla/forms';
 import SafeLink from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
+import { ImageMeta } from '@ndla/image-search';
 import { animations, spacing, colors } from '@ndla/core';
 import IconButton from '../../../components/IconButton';
 import FormikField from '../../../components/FormikField';
@@ -55,6 +56,9 @@ const ImageContent = ({ formik }: Props) => {
               target.files?.[0] ? URL.createObjectURL(target.files[0]) : undefined,
             );
             setFieldValue('imageFile', target.files?.[0]);
+            setFieldValue('contentType', target.files?.[0].type);
+            setFieldValue('fileSize', target.files?.[0].size);
+            setFieldValue('imageDimensions', undefined);
           }}
           ariaLabel={t('form.image.dragdrop.ariaLabel')}>
           <strong>{t('form.image.dragdrop.main')}</strong>
@@ -76,9 +80,16 @@ const ImageContent = ({ formik }: Props) => {
         </StyledDeleteButtonContainer>
       )}
       {values.imageFile && (
-        <SafeLink target="_blank" to={values.imageFile}>
-          <StyledImage src={values.filepath || values.imageFile} alt="" />
-        </SafeLink>
+        <>
+          <SafeLink target="_blank" to={values.imageFile}>
+            <StyledImage src={values.filepath || values.imageFile} alt="" />
+          </SafeLink>
+          <ImageMeta
+            contentType={values.contentType ?? ''}
+            fileSize={values.fileSize ?? 0}
+            imageDimensions={values.imageDimensions}
+          />
+        </>
       )}
       <FormikField name="imageFile.size" showError={true}>
         {_ => <></>}

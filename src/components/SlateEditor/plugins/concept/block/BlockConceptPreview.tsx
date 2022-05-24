@@ -10,19 +10,34 @@ import { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Remarkable } from 'remarkable';
 import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
+import { css } from '@emotion/core';
+import { colors, spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/editor';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { ConceptNotion } from '@ndla/ui';
 import { IConcept } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
+import { AlertCircle, Check } from '@ndla/icons/lib/editor';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
 import IconButton from '../../../../IconButton';
 import { getYoutubeEmbedUrl } from '../../../../../util/videoUtil';
 import { parseEmbedTag } from '../../../../../util/embedTagHelpers';
 import config from '../../../../../config';
 import { Embed } from '../../../../../interfaces';
+import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
+
+const StyledCheckIcon = styled(Check)`
+  width: ${spacing.normal};
+  height: ${spacing.normal};
+  fill: ${colors.support.green};
+`;
+
+const StyledWarnIcon = styled(AlertCircle)`
+  height: ${spacing.normal};
+  width: ${spacing.normal};
+  fill: ${colors.brand.grey};
+`;
 
 const StyledFigureButtons = styled('span')<{ isBlockView?: boolean }>`
   position: absolute;
@@ -137,6 +152,23 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
             <LinkIcon />
           </IconButton>
         </Tooltip>
+        {(concept?.status.current === PUBLISHED || concept?.status.other.includes(PUBLISHED)) && (
+          <Tooltip
+            tooltip={t('form.workflow.published')}
+            css={css`
+              margin-right: auto;
+            `}>
+            <StyledCheckIcon />
+          </Tooltip>
+        )}
+        {concept?.status.current !== PUBLISHED && (
+          <Tooltip
+            tooltip={t('form.workflow.currentStatus', {
+              status: t(`form.status.${concept?.status.current.toLowerCase()}`),
+            })}>
+            <StyledWarnIcon />
+          </Tooltip>
+        )}
       </StyledFigureButtons>
     </>
   );

@@ -39,9 +39,11 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
 
   const editor = useSlateStatic();
 
-  const filteredTags = tags.filter(tag => {
-    return tag.toLowerCase().includes(searchInput.toLowerCase());
-  });
+  const filteredTags = tags
+    .filter(tag => {
+      return tag.toLowerCase().includes(searchInput.toLowerCase());
+    })
+    .sort();
 
   const onChangeTitleInput = (e: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -161,7 +163,7 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
                           getItemProps={getItemProps}
                           isOpen={dropdownOpen}
                           items={filteredTags}
-                          maxRender={10}
+                          maxRender={1000}
                           hideTotalSearchCount
                         />
                         <ConceptSearchResult

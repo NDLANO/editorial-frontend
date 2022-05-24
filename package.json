@@ -47,7 +47,7 @@
     "@babel/plugin-proposal-optional-chaining": "7.11.0",
     "@babel/register": "^7.8.3",
     "@loadable/babel-plugin": "^5.13.2",
-    "@ndla/scripts": "^0.7.8",
+    "@ndla/scripts": "^1.0.0",
     "@ndla/types-article-api": "^0.0.5",
     "@ndla/types-audio-api": "^0.0.10",
     "@ndla/types-concept-api": "^0.0.10",

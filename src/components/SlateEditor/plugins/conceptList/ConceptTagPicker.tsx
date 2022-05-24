@@ -154,7 +154,7 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
                             onFocus: onFocus,
                             onClick: onFocus,
                           })}
-                          placeholder={t('form.name.tags')}
+                          placeholder={t('form.categories.label')}
                           values={selectedTag ? [selectedTag] : []}
                           removeItem={onRemoveTag}
                         />

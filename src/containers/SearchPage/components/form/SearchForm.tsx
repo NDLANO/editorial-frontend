@@ -18,6 +18,8 @@ import { SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { SearchParamsShape } from '../../../../shapes';
 import { SearchTypeValues } from '../../../../constants';
+import { datePickerTypes } from './GenericSearchForm';
+import formatDate from '../../../../util/formatDate';
 
 export const searchFormClasses = new BEMHelper({
   name: 'search-form',
@@ -41,7 +43,19 @@ export interface SearchParams {
   type?: string;
   license?: string;
   'model-released'?: string;
+  'revision-date-from'?: string;
+  'revision-date-to'?: string;
 }
+
+export const searchParamsFormatter = (
+  key: keyof SearchParams,
+  value?: string | number | boolean,
+): string | number | boolean | undefined => {
+  if (datePickerTypes.includes(key) && typeof value === 'string') {
+    return formatDate(value);
+  }
+  return value;
+};
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
@@ -67,6 +81,8 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     subjects: queryStringObject.subjects,
     type: queryStringObject.type,
     users: queryStringObject.users,
+    'revision-date-from': queryStringObject['revision-date-from'],
+    'revision-date-to': queryStringObject['revision-date-to'],
   };
 };
 

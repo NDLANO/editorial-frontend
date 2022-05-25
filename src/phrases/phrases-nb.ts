@@ -223,6 +223,8 @@ const phrases = {
       'draft-status': 'Velg status',
       'audio-type': 'Velg lydfiltype',
       license: 'Velg lisens',
+      'revision-date-from': 'Revisjonsdato fra',
+      'revision-date-to': 'Revisjonsdato til',
     },
     tagType: {
       query: 'Innhold',
@@ -235,6 +237,8 @@ const phrases = {
       'audio-type': 'Lydfiltype',
       license: 'Lisens',
       'model-released': 'Modellklarering',
+      'revision-date-from': 'Revisjonsdato fra',
+      'revision-date-to': 'Revisjonsdato til',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -259,6 +263,7 @@ const phrases = {
       relevance: 'Relevans',
       title: 'Tittel',
       lastUpdated: 'Sist oppdatert',
+      revisionDate: 'Neste revisjon',
     },
     resultError: 'Noe gikk feil med innlasting av type: {{type}}',
   },
@@ -593,6 +598,7 @@ const phrases = {
       header: 'Overskrift',
       manuscript: 'Tekstversjon',
       coverPhotoId: 'Metabilde',
+      revisions: 'Revisjoner',
       name: 'Navn',
     },
     previewProductionArticle: {
@@ -728,6 +734,10 @@ const phrases = {
       published: 'Det finnes en publisert versjon av dette elementet.',
       multipleTaxonomy: 'Artikkelen har flere oppføringer i taksonomi.',
       currentStatus: 'Gjeldende status: {{status}}.',
+      expiration: {
+        warn: 'En av revisjonene utløper snart (Må revideres innen {{date}}).',
+        expired: 'En av revisjonene har utløpt (Utløpte {{date}}).',
+      },
     },
     status: {
       new: 'Ny - Ikke lagret',
@@ -1122,6 +1132,17 @@ const phrases = {
     section: {
       remove: 'Ta bort seksjon',
     },
+    revisions: {
+      add: 'Ny revisjon',
+      remove: 'Fjern revisjon',
+      description:
+        'Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren bestemmer hvorvidt en revisjon er utført eller ikke. Lagrede revisjoner kan ikke slettes, bare oppdateres.',
+      datePickerTooltip:
+        'Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.',
+      switchTooltip: 'Hvorvidt artikkelen er revidert eller ikke.',
+      inputPlaceholder: 'Beskrivelse av revisjonen',
+      deleteTooltip: 'Fjern denne revisjonen',
+    },
   },
   validation: {
     isRequired: '{{label}} er påkrevd.',
@@ -1136,6 +1157,7 @@ const phrases = {
     minItems: '{{label}} feltet må minst inneholde en/ett {{labelLowerCase}}.',
     minItems_plural: '{{label}} feltet må minst inneholde {{minItems}} ulike {{labelLowerCase}}',
     noEmptyNote: 'En merknad kan ikke være tom',
+    noEmptyRevision: 'En beskrivelse kan ikke være tom',
     noLicenseWithoutCopyrightHolder:
       'En lisens kan ikke tas i bruk uten å definere minst en opphaver.',
     maxSizeExceeded:

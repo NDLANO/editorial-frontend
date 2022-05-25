@@ -13,9 +13,22 @@ import queryString from 'query-string';
 import { searchClasses } from '../../SearchContainer';
 import { LocationShape } from '../../../../shapes';
 
+const customSortOptions = {
+  content: ['revisionDate'],
+};
+
 class SearchSort extends Component {
   constructor(props) {
     super(props);
+
+    this.sortOptions = [
+      'id',
+      'relevance',
+      'title',
+      'lastUpdated',
+      ...(customSortOptions[this.props.type] || []),
+    ];
+
     this.state = {
       sort: props.sort,
       order: props.order,
@@ -55,7 +68,6 @@ class SearchSort extends Component {
 
   render() {
     const { t } = this.props;
-    const sortOptions = ['id', 'relevance', 'title', 'lastUpdated'];
     const orderOptions = ['desc', 'asc'];
 
     return (
@@ -65,7 +77,7 @@ class SearchSort extends Component {
           {...searchClasses('filters-select')}
           onChange={this.handleSortChange}
           value={this.state.sort}>
-          {sortOptions.map(option => (
+          {this.sortOptions.map(option => (
             <option key={`sortoptions_${option}`} value={option}>
               {t(`searchForm.sort.${option}`)}
             </option>
@@ -92,6 +104,7 @@ SearchSort.propTypes = {
   sort: PropTypes.string,
   order: PropTypes.string,
   onSortOrderChange: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 SearchSort.defaultProps = {

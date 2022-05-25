@@ -27,6 +27,7 @@ import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/dra
 import { validateDraft } from '../../../../modules/draft/draftApi';
 import {
   draftApiTypeToLearningResourceFormType,
+  getExpirationDate,
   learningResourceFormTypeToDraftApiType,
 } from '../../articleTransformers';
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
@@ -116,6 +117,7 @@ const LearningResourceForm = ({
           translateToNN={translateToNN}
           setTranslateOnContinue={setTranslateOnContinue}
           type="standard"
+          expirationDate={getExpirationDate(article)}
         />
         {translating ? (
           <Spinner withWrapper />

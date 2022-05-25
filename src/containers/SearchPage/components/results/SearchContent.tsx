@@ -26,6 +26,7 @@ import HeaderStatusInformation from '../../../../components/HeaderWithLanguage/H
 import { EditMarkupLink } from '../../../../components/EditMarkupLink';
 import SearchHighlight from './SearchHighlight';
 import { useSession } from '../../../Session/SessionProvider';
+import { getExpirationDate } from '../../../ArticlePage/articleTransformers';
 
 const FlexBoxWrapper = styled.div`
   display: flex;
@@ -95,6 +96,7 @@ const SearchContent = ({ content, locale }: Props) => {
   );
 
   const metaDescription = convertFieldWithFallback(content, 'metaDescription', '');
+  const expirationDate = getExpirationDate(content);
 
   return (
     <div {...searchClasses('result')}>
@@ -157,6 +159,8 @@ const SearchContent = ({ content, locale }: Props) => {
             }
             indentLeft
             fontSize={10}
+            expirationDate={expirationDate}
+            type={content.learningResourceType}
           />
         </div>
       </div>

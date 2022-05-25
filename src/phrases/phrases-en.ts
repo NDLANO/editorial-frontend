@@ -222,6 +222,8 @@ const phrases = {
       'draft-status': 'Select status',
       'audio-type': 'Select audio file type',
       license: 'Select license',
+      'revision-date-from': 'Revisiondate from',
+      'revision-date-to': 'Revisiondate to',
     },
     tagType: {
       query: 'Query',
@@ -234,6 +236,8 @@ const phrases = {
       'audio-type': 'Audio file type',
       license: 'License',
       'model-released': 'Model released',
+      'revision-date-from': 'Revisiondate from',
+      'revision-date-to': 'Revisiondate to',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -258,6 +262,7 @@ const phrases = {
       relevance: 'Relevance',
       title: 'Title',
       lastUpdated: 'Last updated',
+      revisionDate: 'Next revision',
     },
     resultError: 'Something went wrong with type: {{type}}',
   },
@@ -591,6 +596,7 @@ const phrases = {
       header: 'Header',
       manuscript: 'Text version',
       coverPhotoId: 'Meta image',
+      revisions: 'Revisions',
       name: 'Name',
     },
     previewProductionArticle: {
@@ -727,6 +733,10 @@ const phrases = {
       published: 'There exists a published version of this item.',
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
       currentStatus: 'Current status: {{ status }}.',
+      expiration: {
+        warn: 'One of the revisions expires soon (Must be revised before {{date}}).',
+        expired: 'One of the revisions has expired (Expired {{date}}).',
+      },
     },
     status: {
       new: 'New - unsaved',
@@ -1121,6 +1131,16 @@ const phrases = {
     section: {
       remove: 'Remove section',
     },
+    revisions: {
+      add: 'New revision',
+      remove: 'Remove revision',
+      description:
+        'Revisions requires a description and an expiration date for the article. The switch decides whether a revision is performed or not. Saved revisions can not be deleted, just updated.',
+      datePickerTooltip: 'The date the article expires if the revision is not marked as revised.',
+      switchTooltip: 'Whether the article is revised or not.',
+      inputPlaceholder: 'Description of the revision',
+      deleteTooltip: 'Remove this revision',
+    },
   },
   validation: {
     isRequired: '{{label}} is required.',
@@ -1135,6 +1155,7 @@ const phrases = {
     minItems: '{{label}} must have at least one {{labelLowerCase}}.',
     minItems_plural: '{{label}} must have at least {{count}} unique {{labelLowerCase}}.',
     noEmptyNote: 'A note cannot be empty',
+    noEmptyRevision: 'A description cannot be empty',
     noLicenseWithoutCopyrightHolder:
       'A license cannot be added without providing at least one copyright holder.',
     maxSizeExceeded:

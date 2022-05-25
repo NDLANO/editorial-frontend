@@ -16,26 +16,17 @@ import ArticleStatuses from '../../../../util/constants/index';
 import { SearchParams } from './SearchForm';
 import { DRAFT_WRITE_SCOPE } from '../../../../constants';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { MinimalTagType } from './SearchTag';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
 import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import { TagType } from './SearchTagGroup';
 
 interface Props {
   search: (o: SearchParams) => void;
   subjects: SubjectType[];
   searchObject: SearchParams;
   locale: string;
-}
-
-export interface SearchState extends Record<string, string> {
-  subjects: string;
-  resourceTypes: string;
-  status: string;
-  query: string;
-  users: string;
-  language: string;
 }
 
 const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, locale }: Props) => {
@@ -72,8 +63,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     doSearch({ ...search, query: evt.currentTarget.value });
   };
 
-  const onFieldChange = (evt: FormEvent<HTMLSelectElement>) => {
-    const { name, value } = evt.currentTarget;
+  const onFieldChange = (name: string, value: string) => {
     let includeOtherStatuses: boolean | undefined;
     let status: string | undefined;
     if (name === 'draft-status') {
@@ -96,7 +86,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
 
   const handleSearch = () => doSearch({ ...search, fallback: false, page: 1 });
 
-  const removeTagItem = (tag: MinimalTagType) => {
+  const removeTagItem = (tag: TagType) => {
     if (tag.type === 'query') setQueryInput('');
     if (tag.type === 'draft-status') setIsHasPublished(tag.name === 'HAS_PUBLISHED');
     doSearch({ ...search, [tag.type]: '' });
@@ -112,6 +102,8 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       status: '',
       users: '',
       language: '',
+      'revision-date-from': '',
+      'revision-date-to': '',
     });
   };
 
@@ -133,7 +125,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     {
       name: getTagName(search.subjects, subjects),
       type: 'subjects',
-      width: 25,
+      width: 50,
       options: subjects.sort(sortByProperty('name')),
     },
     {
@@ -154,7 +146,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     {
       name: getTagName(search.users, users),
       type: 'users',
-      width: 25,
+      width: 50,
       options: users!.sort(sortByProperty('name')),
     },
     {
@@ -162,6 +154,18 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       type: 'language',
       width: 25,
       options: getResourceLanguages(t),
+    },
+    {
+      name: search['revision-date-from'],
+      type: 'revision-date-from',
+      width: 25,
+      options: [],
+    },
+    {
+      name: search['revision-date-to'],
+      type: 'revision-date-to',
+      width: 25,
+      options: [],
     },
   ];
 

@@ -6,16 +6,17 @@
  *
  */
 
-import SearchTag, { MinimalTagType } from './SearchTag';
+import SearchTag from './SearchTag';
+import { SearchParams } from './SearchForm';
 
-interface TagType {
-  type: string;
+export interface TagType {
+  type: keyof SearchParams;
   name?: string;
 }
 
 interface Props {
   tagTypes: TagType[];
-  onRemoveItem: (tag: MinimalTagType) => void;
+  onRemoveItem: (tag: TagType) => void;
 }
 
 const SearchTagGroup = ({ tagTypes, onRemoveItem }: Props) => {

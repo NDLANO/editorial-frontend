@@ -110,7 +110,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
           locale={locale}
           subjects={subjects}
         />
-        <SearchSort location={location} onSortOrderChange={onSortOrderChange} />
+        <SearchSort type={type} location={location} onSortOrderChange={onSortOrderChange} />
         <SearchListOptions
           type={type}
           searchObject={searchObject}

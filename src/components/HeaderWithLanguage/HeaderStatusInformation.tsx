@@ -15,9 +15,12 @@ import Tooltip from '@ndla/tooltip';
 import { IConceptSummary } from '@ndla/types-concept-api';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
+import { Time } from '@ndla/icons/common';
 import config from '../../config';
 import LearningpathConnection from './LearningpathConnection';
 import EmbedConnection from './EmbedInformation/EmbedConnection';
+import { unreachable } from '../../util/guards';
+import formatDate from '../../util/formatDate';
 
 export const StyledSplitter = styled.div`
   width: 1px;
@@ -63,6 +66,7 @@ interface Props {
   type?: string;
   id?: number;
   setHasConnections?: (hasConnections: boolean) => void;
+  expirationDate?: string;
 }
 
 const HeaderStatusInformation = ({
@@ -76,6 +80,7 @@ const HeaderStatusInformation = ({
   type,
   id,
   setHasConnections,
+  expirationDate,
 }: Props) => {
   const { t } = useTranslation();
   const [learningpaths, setLearningpaths] = useState<ILearningPathV2[]>([]);
@@ -125,6 +130,45 @@ const HeaderStatusInformation = ({
   const StyledLink = styled(SafeLink)`
     box-shadow: inset 0 0;
   `;
+
+  const getWarnStatus = (date?: string): 'warn' | 'expired' | undefined => {
+    if (!date) return undefined;
+    const parsedDate = new Date(date);
+
+    const daysToWarn = 365;
+    const errorDate = new Date();
+    const warnDate = new Date();
+    warnDate.setDate(errorDate.getDate() + daysToWarn);
+
+    if (errorDate > parsedDate) return 'expired';
+    if (warnDate > parsedDate) return 'warn';
+  };
+
+  const StyledTimeIcon = styled(Time)<{ status: 'warn' | 'expired' }>`
+    height: ${spacing.normal};
+    width: ${spacing.normal};
+    fill: ${p => {
+      switch (p.status) {
+        case 'warn':
+          return colors.support.yellow;
+        case 'expired':
+          return colors.support.red;
+        default:
+          unreachable(p.status);
+      }
+    }};
+  `;
+
+  const expirationColor = getWarnStatus(expirationDate);
+  const revisionDateExpiration =
+    (type === 'standard' || type === 'topic-article') && expirationColor && expirationDate ? (
+      <Tooltip
+        tooltip={t(`form.workflow.expiration.${expirationColor}`, {
+          date: formatDate(expirationDate),
+        })}>
+        <StyledTimeIcon status={expirationColor} />
+      </Tooltip>
+    ) : null;
 
   const multipleTaxonomyIcon = taxonomyPaths && taxonomyPaths?.length > 2 && (
     <Tooltip tooltip={t('form.workflow.multipleTaxonomy')}>
@@ -188,6 +232,7 @@ const HeaderStatusInformation = ({
         {articleConnections}
         {conceptConnecions}
         {learningpathConnections}
+        {revisionDateExpiration}
         {published &&
           (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}

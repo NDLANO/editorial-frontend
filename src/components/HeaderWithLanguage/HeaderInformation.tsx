@@ -111,6 +111,7 @@ interface Props {
   taxonomyPaths?: string[];
   id?: number;
   setHasConnections?: (hasConnections: boolean) => void;
+  expirationDate?: string;
 }
 
 const HeaderInformation = ({
@@ -124,6 +125,7 @@ const HeaderInformation = ({
   formIsDirty,
   taxonomyPaths,
   setHasConnections,
+  expirationDate,
 }: Props) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -181,6 +183,7 @@ const HeaderInformation = ({
         type={type}
         id={id}
         setHasConnections={setHasConnections}
+        expirationDate={expirationDate}
       />
     </StyledHeader>
   );

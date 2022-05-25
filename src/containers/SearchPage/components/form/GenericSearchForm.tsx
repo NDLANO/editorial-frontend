@@ -12,8 +12,8 @@ import css from '@emotion/css';
 import Button from '@ndla/button';
 import ObjectSelector from '../../../../components/ObjectSelector';
 import { searchFormClasses, SearchParams } from './SearchForm';
-import { MinimalTagType } from './SearchTag';
-import SearchTagGroup from './SearchTagGroup';
+import SearchTagGroup, { TagType } from './SearchTagGroup';
+import InlineDatePicker from '../../../FormikForm/components/InlineDatePicker';
 
 export interface SearchFormSelector {
   type: keyof SearchParams;
@@ -29,10 +29,52 @@ interface Props {
   searchObject: SearchParams;
   onQueryChange: (event: FormEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
-  onFieldChange: (evt: FormEvent<HTMLSelectElement>) => void;
+  onFieldChange: (name: string, value: string) => void;
   emptySearch: (evt: MouseEvent<HTMLButtonElement>) => void;
-  removeTag: (tag: MinimalTagType) => void;
+  removeTag: (tag: TagType) => void;
 }
+
+export const datePickerTypes: (keyof SearchParams)[] = ['revision-date-from', 'revision-date-to'];
+
+interface SelectorProps {
+  selector: SearchFormSelector;
+  onFieldChange: (name: string, value: string) => void;
+  searchObject: SearchParams;
+}
+
+const Selector = ({ selector, onFieldChange, searchObject }: SelectorProps) => {
+  const { t } = useTranslation();
+  if (datePickerTypes.includes(selector.type)) {
+    return (
+      <InlineDatePicker
+        name={selector.type}
+        onChange={e => {
+          const { name, value } = e.target;
+          onFieldChange(name, value);
+        }}
+        placeholder={t(`searchForm.types.${selector.type}`)}
+        value={(searchObject[selector.type] as string | undefined) ?? ''}
+      />
+    );
+  }
+  return (
+    <ObjectSelector
+      name={selector.type}
+      // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
+      // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
+      value={(searchObject[selector.type] as string) ?? ''}
+      options={selector.options}
+      idKey="id"
+      labelKey="name"
+      emptyField
+      onChange={evt => {
+        const { name, value } = evt.currentTarget;
+        onFieldChange(name, value);
+      }}
+      placeholder={t(`searchForm.types.${selector.type}`)}
+    />
+  );
+};
 
 const GenericSearchForm = ({
   type,
@@ -46,7 +88,7 @@ const GenericSearchForm = ({
   removeTag,
 }: Props) => {
   const { t } = useTranslation();
-  const tags = [{ type: 'query', name: query }, ...selectors];
+  const tags: TagType[] = [{ type: 'query', name: query }, ...selectors];
   return (
     <form
       onSubmit={e => {
@@ -62,24 +104,19 @@ const GenericSearchForm = ({
           onChange={onQueryChange}
         />
       </div>
-      {selectors.map(selector => (
-        <div
-          key={`search-form-field-${selector.type}`}
-          {...searchFormClasses('field', `${selector.width ?? 50}-width`)}>
-          <ObjectSelector
-            name={selector.type}
-            // The fields in selectFields that are mapped over all correspond to a string value in SearchState.
-            // As such, the value used below will always be a string. TypeScript just needs to be told explicitly.
-            value={(searchObject[selector.type] as string) ?? ''}
-            options={selector.options}
-            idKey="id"
-            labelKey="name"
-            emptyField
-            onChange={onFieldChange}
-            placeholder={t(`searchForm.types.${selector.type}`)}
-          />
-        </div>
-      ))}
+      {selectors.map(selector => {
+        return (
+          <div
+            key={`search-form-field-${selector.type}`}
+            {...searchFormClasses('field', `${selector.width ?? 50}-width`)}>
+            <Selector
+              searchObject={searchObject}
+              selector={selector}
+              onFieldChange={onFieldChange}
+            />
+          </div>
+        );
+      })}
       <div {...searchFormClasses('field', '25-width')}>
         <Button
           css={css`

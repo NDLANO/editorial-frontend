@@ -223,6 +223,8 @@ const phrases = {
       'draft-status': 'Select status',
       'audio-type': 'Select audio file type',
       license: 'Select license',
+      'revision-date-from': 'Revisiondate from',
+      'revision-date-to': 'Revisiondate to',
     },
     tagType: {
       query: 'Query',
@@ -235,6 +237,8 @@ const phrases = {
       'audio-type': 'Audio file type',
       license: 'License',
       'model-released': 'Model released',
+      'revision-date-from': 'Revisiondate from',
+      'revision-date-to': 'Revisiondate to',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -259,6 +263,7 @@ const phrases = {
       relevance: 'Relevance',
       title: 'Title',
       lastUpdated: 'Last updated',
+      revisionDate: 'Next revision',
     },
     resultError: 'Something went wrong with type: {{type}}',
   },
@@ -729,6 +734,10 @@ const phrases = {
       published: 'There exists a published version of this item.',
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
       currentStatus: 'Current status: {{ status }}.',
+      expiration: {
+        warn: 'One of the revisions expires soon (Must be revised before {{date}}).',
+        expired: 'One of the revisions has expired (Expired {{date}}).',
+      },
     },
     status: {
       new: 'New - unsaved',

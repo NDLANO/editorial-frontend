@@ -224,6 +224,8 @@ const phrases = {
       'draft-status': 'Velg status',
       'audio-type': 'Velg lydfiltype',
       license: 'Velg lisens',
+      'revision-date-from': 'Revisjonsdato fra',
+      'revision-date-to': 'Revisjonsdato til',
     },
     tagType: {
       query: 'Innhold',
@@ -236,6 +238,8 @@ const phrases = {
       'audio-type': 'Lydfiltype',
       license: 'Lisens',
       'model-released': 'Modellklarering',
+      'revision-date-from': 'Revisjonsdato fra',
+      'revision-date-to': 'Revisjonsdato til',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -260,6 +264,7 @@ const phrases = {
       relevance: 'Relevans',
       title: 'Tittel',
       lastUpdated: 'Sist oppdatert',
+      revisionDate: 'Neste revisjon',
     },
     resultError: 'Noe gikk feil med innlasting av type: {{type}}',
   },
@@ -730,6 +735,10 @@ const phrases = {
       published: 'Det finnes en publisert versjon av dette elementet.',
       multipleTaxonomy: 'Artikkelen har flere oppføringer i taksonomi.',
       currentStatus: 'Gjeldende status: {{status}}.',
+      expiration: {
+        warn: 'En av revisjonene utløper snart (Må revideres innen {{date}}).',
+        expired: 'En av revisjonene har utløpt (Utløpte {{date}}).',
+      },
     },
     status: {
       new: 'Ny - Ikke lagret',

@@ -1,1 +1,1161 @@
-{"totalCount":1825,"page":1,"pageSize":10,"language":"nb","results":[{"id":20604,"title":{"title":"test 29.10.2019 - versjon 4 nn (Kopi)","language":"nb"},"metaDescription":{"metaDescription":"test","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/20604","contexts":[],"supportedLanguages":["nb","nn","en"],"learningResourceType":"standard","status":{"current":"DRAFT","other":[]},"traits":[],"score":108.81694030761719,"highlights":[{"field":"title.nb","matches":["<em>test</em> 29.10.2019 - versjon 4 nn (Kopi)"]},{"field":"title.nn","matches":["<em>test</em> 29.10.2019 - versjon 4 nn (Kopi)"]},{"field":"metaDescription.nn","matches":["<em>test</em>"]},{"field":"metaDescription.nb","matches":["<em>test</em>"]},{"field":"introduction.nn","matches":["<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"]},{"field":"tags.nn","matches":["<em>test</em>"]},{"field":"tags.nb","matches":["<em>test</em>"]},{"field":"introduction.en","matches":["<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"]},{"field":"metaDescription.en","matches":["<em>test</em>"]},{"field":"title.en","matches":["<em>test</em> 29.10.2019 - versjon 4 eng (Kopi)"]},{"field":"previousVersionsNotes","matches":["<em>test</em>","<em>test</em>"]},{"field":"introduction.nb","matches":["<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"]},{"field":"tags.en","matches":["<em>test</em>","<em>testing</em>"]}],"paths":[]},{"id":20595,"title":{"title":"test 29.10.2019 - versjon 3","language":"nb"},"metaDescription":{"metaDescription":"test","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/20595","contexts":[],"supportedLanguages":["nb","nn","en"],"learningResourceType":"standard","status":{"current":"UNPUBLISHED","other":[]},"traits":[],"score":108.3330307006836,"highlights":[{"field":"title.nb","matches":["<em>test</em> 29.10.2019 - versjon 3"]},{"field":"title.nn","matches":["<em>test</em> 29.10.2019 - versjon 3 nn"]},{"field":"metaDescription.nn","matches":["<em>test</em>"]},{"field":"metaDescription.nb","matches":["<em>test</em>"]},{"field":"introduction.nn","matches":["<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"]},{"field":"tags.nn","matches":["<em>test</em>"]},{"field":"tags.nb","matches":["<em>test</em>"]},{"field":"introduction.en","matches":["<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"]},{"field":"metaDescription.en","matches":["<em>test</em>"]},{"field":"title.en","matches":["<em>test</em> 29.10.2019 - versjon 3 eng"]},{"field":"previousVersionsNotes","matches":["<em>test</em>","<em>test</em>"]},{"field":"introduction.nb","matches":["<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"]},{"field":"tags.en","matches":["<em>test</em>","<em>testing</em>"]}],"paths":[]},{"id":29603,"title":{"title":"marc test kladd\u207d\u2082\u2093 (Kopi)","language":"nb"},"metaDescription":{"metaDescription":"test mvo ekstra 123","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/19296","alt":"test","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/29603","contexts":[],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"DRAFT","other":[]},"traits":[],"score":88.17460632324219,"highlights":[{"field":"embedAttributes.nn","matches":["<em>test</em> lydtekst"]},{"field":"title.nb","matches":["marc <em>test</em> kladd\u207d\u2082\u2093 (Kopi)"]},{"field":"content.nb","matches":["Det vises i både innhold og form. a p1 p2 p3 b <em>test</em> med bilde her er tekst ² <em>test</em> p1 p2 a p1 p2 p3 b","Det viser oss at verdiene i samfunnet har endret seg. <em>test</em> kodevisning Naturen Mennesket lever av og"]},{"field":"metaDescription.nn","matches":["<em>test</em>"]},{"field":"metaDescription.nb","matches":["<em>test</em> mvo ekstra 123"]},{"field":"content.nn","matches":["Det viser oss at verdiene i samfunnet har endret seg. <em>test</em> kodevisning Naturen Mennesket lever av og"]},{"field":"introduction.nn","matches":["<em>test</em> markdown\n\n*kursiv*\n**fet**\n* liste 1\n* liste 2\nnormal\n- liste a\n- liste b\nnormal\n1. liste num"]},{"field":"introduction.nb","matches":["<em>test</em> markdown\n\n*kursiv*\n**fet**\n* liste 1\n* liste 2\nnormal\n- liste a\n- liste b\nnormal\n1. liste num"]},{"field":"tags.nn","matches":["<em>test</em>"]},{"field":"tags.nb","matches":["<em>test</em>"]},{"field":"embedAttributes.nb","matches":["<em>test</em>","<em>test</em>","<em>test</em>","<em>test</em>","<em>test</em>"]},{"field":"title.nn","matches":["marc <em>test</em> kladd nn (Kopi)"]}],"paths":[]},{"id":29706,"title":{"title":"marc van opstal test læringsressurs bokser","language":"nb"},"metaDescription":{"metaDescription":"","language":"unknown"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/29706","contexts":[],"supportedLanguages":["nb","en"],"learningResourceType":"standard","status":{"current":"DRAFT","other":[]},"traits":["VIDEO"],"score":83.01725006103516,"highlights":[{"field":"title.nb","matches":["marc van opstal <em>test</em> læringsressurs bokser"]},{"field":"introduction.en","matches":["<em>Test</em> med *italic* eller"]},{"field":"content.nb","matches":["* 123 456 Fakta boks tekst i ramme a b 1 2 ekspanderende boks <em>test</em> gamle nrk <em>test</em> REDIGERING gamle nrk","<em>test</em> lenke fotnote 1 + 2"]},{"field":"embedAttributes.nb","matches":["<em>Test</em> Marc Van Opstal","<em>test</em> utgave","<em>test</em> utgiver"]},{"field":"title.en","matches":["marc van opstal <em>test</em> læringsressurs EN (Kopi)"]},{"field":"tags.nb","matches":["<em>test</em>"]},{"field":"content.en","matches":["* a b c d d d <em>test</em> TKTabell"]},{"field":"embedAttributes.en","matches":["<em>test</em>","<em>test</em>","<em>test</em>"]},{"field":"introduction.nb","matches":["<em>Test</em> med *italic*"]},{"field":"tags.en","matches":["<em>test</em>"]}],"paths":[]},{"id":26285,"title":{"title":"marc test kladd\u207d\u2082\u2093","language":"nb"},"metaDescription":{"metaDescription":"test mvo ekstra 123","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/19296","alt":"test","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/26285","contexts":[{"id":"urn:resource:acff165f-1771-4f05-8eb8-51d02733fc89","subject":"123-TESTFAG - Øv her!!","subjectId":"urn:subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4","path":"/subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4/topic:3626a87a-4d65-44fc-85b1-3edc56981e89/resource:acff165f-1771-4f05-8eb8-51d02733fc89","breadcrumbs":["123-TESTFAG - Øv her!!","Test Marc Van Opstal («emne»)"],"filters":[{"id":"urn:filter:20f9e2e6-ee1c-4ca1-b704-61558c0c0564","name":"Vg2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"},{"id":"urn:resource:acff165f-1771-4f05-8eb8-51d02733fc89","subject":"123-TESTFAG - Øv her!!","subjectId":"urn:subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4","path":"/subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4/topic:3626a87a-4d65-44fc-85b1-3edc56981e89/resource:acff165f-1771-4f05-8eb8-51d02733fc89","breadcrumbs":["123-TESTFAG - Øv her!!","Test Marc Van Opstal («emne»)"],"filters":[{"id":"urn:filter:5f50e974-6251-42c7-8f04-c4fabf395d0f","name":"Vg1","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"DRAFT","other":[]},"traits":[],"score":82.6348648071289,"highlights":[{"field":"title.nb","matches":["marc <em>test</em> kladd\u207d\u2082\u2093"]},{"field":"content.nb","matches":["Det vises i både innhold og . a p1 p2 p3 b <em>test</em> med bilde her er tekst ² <em>test</em> p1 p2 a p1 p2 p3 b pp ²","Det viser oss at verdiene i samfunnet har endret seg. <em>test</em> kodevisning Naturen Mennesket lever av og"]},{"field":"metaDescription.nn","matches":["<em>test</em>"]},{"field":"metaDescription.nb","matches":["<em>test</em> mvo ekstra 123"]},{"field":"content.nn","matches":["Det viser oss at verdiene i samfunnet har endret seg. <em>test</em> kodevisning Naturen Mennesket lever av og"]},{"field":"introduction.nn","matches":["<em>test</em> markdown\n\n*kursiv*\n**fet**\n* liste 1\n* liste 2\nnormal\n- liste a\n- liste b\nnormal\n1. liste num"]},{"field":"introduction.nb","matches":["<em>test</em> markdown\n\n*kursiv*\n**fet**\n* liste 1\n* liste 2\nnormal\n- liste a\n- liste b\nnormal\n1. liste num"]},{"field":"tags.nn","matches":["<em>test</em>"]},{"field":"tags.nb","matches":["<em>test</em>"]},{"field":"embedAttributes.nb","matches":["<em>test</em>","<em>test</em>","<em>test</em>"]},{"field":"title.nn","matches":["marc <em>test</em> kladd nn"]}],"paths":["/subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4/topic:3626a87a-4d65-44fc-85b1-3edc56981e89/resource:acff165f-1771-4f05-8eb8-51d02733fc89","/subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4/topic:3626a87a-4d65-44fc-85b1-3edc56981e89/resource:acff165f-1771-4f05-8eb8-51d02733fc89"]},{"id":17341,"title":{"title":"Test deg selv","language":"nb"},"metaDescription":{"metaDescription":"Hva har du lært etter å ha arbeidet med læringsstien \"Lær deg å lære\"? Test deg selv!","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/17978","alt":"Elev tegner et tankekart. Foto. ","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/17341","contexts":[{"id":"urn:resource:c88bbe7a-04b2-4602-a63e-9aca097ce910","subject":"Verktøykassa","subjectId":"urn:subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09","path":"/subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09/topic:c84f9aad-c91f-4ce5-ad4f-f7755f45fbc6/resource:c88bbe7a-04b2-4602-a63e-9aca097ce910","breadcrumbs":["Verktøykassa","Læringsstrategier"],"filters":[{"id":"urn:filter:54b1727c-2d91-4512-901c-8434e13339b4","name":"For elev","relevance":"Tilleggsstoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:tasksAndActivities","name":"Oppgaver og aktiviteter","language":"nb"},{"id":"urn:resourcetype:task","name":"Oppgave","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"PUBLISHED","other":[]},"traits":["H5P"],"score":78.44987487792969,"highlights":[{"field":"title.nb","matches":["<em>Test</em> deg selv"]},{"field":"title.nn","matches":["<em>Test</em> deg sjølv"]},{"field":"metaDescription.nn","matches":["<em>Test</em> deg sjølv!"]},{"field":"metaDescription.nb","matches":["<em>Test</em> deg selv!"]},{"field":"introduction.nn","matches":["<em>Test</em> deg sjølv."]},{"field":"introduction.nb","matches":["<em>Test</em> deg selv."]},{"field":"tags.nn","matches":["<em>test</em>"]},{"field":"tags.nb","matches":["<em>test</em>"]}],"paths":["/subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09/topic:c84f9aad-c91f-4ce5-ad4f-f7755f45fbc6/resource:c88bbe7a-04b2-4602-a63e-9aca097ce910"]},{"id":12404,"title":{"title":"Testing","language":"nb"},"metaDescription":{"metaDescription":"En test er en standardisert øvelse som brukes til å måle prestasjoner i ulike sammenhenger.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/25884","alt":"Mann jogger på friidrettsbane. Foto.","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/12404","contexts":[{"id":"urn:resource:1:74583","subject":"Kroppsøving","subjectId":"urn:subject:26","path":"/subject:26/topic:1:73030/resource:1:74583","breadcrumbs":["Kroppsøving","Treningsplanlegging VG3"],"filters":[{"id":"urn:filter:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c","name":"Vg2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:74583","subject":"Kroppsøving","subjectId":"urn:subject:26","path":"/subject:26/topic:1:73030/resource:1:74583","breadcrumbs":["Kroppsøving","Treningsplanlegging VG3"],"filters":[{"id":"urn:filter:c2133910-2de5-4dc9-9057-f59fed74982f","name":"Vg3","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"PUBLISHED","other":["IMPORTED"]},"traits":[],"score":71.89234161376953,"highlights":[{"field":"embedAttributes.nn","matches":["Knut Inge Klepp, divisjondiresktør for Folkehelsa, tek Cooper-<em>testen</em> på friidrettsbanen til idrettshøgskolen"]},{"field":"content.nb","matches":["Det er vanlig å snakke om generelle <em>tester</em> og spesifikke <em>tester</em>.","Generelle <em>tester</em> måler sentrale fysiske egenskaper, som utholdenhet, spenst og hurtighet.","Spesifikke <em>tester</em> er rettet mot en bestemt idrett eller aktivitet.","<em>Tester</em> skal være med på å regulere treningen og skape motivasjon.","Det er også vanlig å bruke samme type oppvarming før hver re-<em>test</em>."]},{"field":"embedAttributes.nb","matches":["Knut Inge Klepp, divisjondiresktør for Folkehelsen, tar Cooper-<em>testen</em> på idrettshøyskolens friidrettsbane"]},{"field":"metaDescription.nn","matches":["En <em>test</em> er en standardisert øvelse som brukes til å måle prestasjoner i ulike sammenhenger."]},{"field":"metaDescription.nb","matches":["En <em>test</em> er en standardisert øvelse som brukes til å måle prestasjoner i ulike sammenhenger."]},{"field":"content.nn","matches":["Det er vanleg å snakke om generelle <em>testar</em> og spesifikke <em>testar</em>.","Generelle <em>testar</em> måler sentrale fysiske eigenskapar, som evne til uthald, spenst og hurtigheit.","Spesifikke <em>testar</em> er retta mot ein bestemt idrett eller aktivitet.","<em>Tester</em> skal være med på å regulere treningen og skape motivasjon.","Det er òg vanleg å bruke same type oppvarming før kvar re-<em>test</em>."]},{"field":"introduction.nn","matches":["Ein <em>test</em> er ei standardisert øving som blir brukt til å måle prestasjonar i ulike samanhengar.","At <em>testen</em> er standardisert, betyr at <em>testen</em> blir gjennomført på same måten og under dei same forholda"]},{"field":"introduction.nb","matches":["En <em>test</em> er en standardisert øvelse som brukes til å måle prestasjoner i ulike sammenhenger.","At <em>testen</em> er standardisert, betyr at <em>testen</em> gjennomføres på samme måte og under samme forhold hver gang"]},{"field":"tags.nn","matches":["generelle <em>test</em>"]},{"field":"tags.nb","matches":["generelle <em>test</em>","spesifikke <em>tester</em>"]}],"paths":["/subject:26/topic:1:73030/resource:1:74583","/subject:26/topic:1:73030/resource:1:74583"]},{"id":26262,"title":{"title":"Test","language":"nb"},"metaDescription":{"metaDescription":"","language":"unknown"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/26262","contexts":[],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"DRAFT","other":[]},"traits":[],"score":68.460693359375,"highlights":[{"field":"introduction.nb","matches":["<em>Test</em>"]},{"field":"title.nb","matches":["<em>Test</em>"]},{"field":"introduction.nn","matches":["<em>Test</em>"]},{"field":"title.nn","matches":["<em>Test</em>"]}],"paths":[]},{"id":17431,"title":{"title":"Test BM 2.4.2019","language":"nb"},"metaDescription":{"metaDescription":"test","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/17431","contexts":[],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"QUEUED_FOR_PUBLISHING_DELAYED","other":[]},"traits":["H5P"],"score":67.11626434326172,"highlights":[{"field":"embedAttributes.nn","matches":["<em>test</em>"]},{"field":"title.nb","matches":["<em>Test</em> BM 2.4.2019"]},{"field":"metaDescription.nn","matches":["<em>test</em>"]},{"field":"metaDescription.nb","matches":["<em>test</em>"]},{"field":"tags.nn","matches":["<em>test</em>"]},{"field":"tags.nb","matches":["<em>test</em>","<em>Test</em>"]},{"field":"embedAttributes.nb","matches":["<em>test</em>"]},{"field":"title.nn","matches":["<em>Test</em> BM 2.4.2019 nn"]}],"paths":[]},{"id":20177,"title":{"title":"test","language":"nb"},"metaDescription":{"metaDescription":"","language":"unknown"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/20177","contexts":[],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"DRAFT","other":[]},"traits":[],"score":66.8040771484375,"highlights":[{"field":"introduction.nb","matches":["<em>test</em>"]},{"field":"title.nb","matches":["<em>test</em>"]},{"field":"introduction.nn","matches":["<em>test</em>"]},{"field":"title.nn","matches":["<em>test</em>"]}],"paths":[]}],"suggestions":[{"name":"content","suggestions":[{"text":"Test","offset":0,"length":4,"options":[{"text":"tekst","score":0.023071215}]}]},{"name":"title","suggestions":[{"text":"Test","offset":0,"length":4,"options":[]}]}],"aggregations":[]}
+{
+  "totalCount": 1825,
+  "page": 1,
+  "pageSize": 10,
+  "language": "nb",
+  "results": [
+    {
+      "id": 20604,
+      "title": {
+        "title": "test 29.10.2019 - versjon 4 nn (Kopi)",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "test",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/20604",
+      "contexts": [],
+      "supportedLanguages": [
+        "nb",
+        "nn",
+        "en"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "DRAFT",
+        "other": []
+      },
+      "traits": [],
+      "score": 108.81694030761719,
+      "highlights": [
+        {
+          "field": "title.nb",
+          "matches": [
+            "<em>test</em> 29.10.2019 - versjon 4 nn (Kopi)"
+          ]
+        },
+        {
+          "field": "title.nn",
+          "matches": [
+            "<em>test</em> 29.10.2019 - versjon 4 nn (Kopi)"
+          ]
+        },
+        {
+          "field": "metaDescription.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "metaDescription.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "introduction.nn",
+          "matches": [
+            "<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"
+          ]
+        },
+        {
+          "field": "tags.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "tags.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "introduction.en",
+          "matches": [
+            "<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"
+          ]
+        },
+        {
+          "field": "metaDescription.en",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "title.en",
+          "matches": [
+            "<em>test</em> 29.10.2019 - versjon 4 eng (Kopi)"
+          ]
+        },
+        {
+          "field": "previousVersionsNotes",
+          "matches": [
+            "<em>test</em>",
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "introduction.nb",
+          "matches": [
+            "<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"
+          ]
+        },
+        {
+          "field": "tags.en",
+          "matches": [
+            "<em>test</em>",
+            "<em>testing</em>"
+          ]
+        }
+      ],
+      "paths": [],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 20595,
+      "title": {
+        "title": "test 29.10.2019 - versjon 3",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "test",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/20595",
+      "contexts": [],
+      "supportedLanguages": [
+        "nb",
+        "nn",
+        "en"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "UNPUBLISHED",
+        "other": []
+      },
+      "traits": [],
+      "score": 108.3330307006836,
+      "highlights": [
+        {
+          "field": "title.nb",
+          "matches": [
+            "<em>test</em> 29.10.2019 - versjon 3"
+          ]
+        },
+        {
+          "field": "title.nn",
+          "matches": [
+            "<em>test</em> 29.10.2019 - versjon 3 nn"
+          ]
+        },
+        {
+          "field": "metaDescription.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "metaDescription.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "introduction.nn",
+          "matches": [
+            "<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"
+          ]
+        },
+        {
+          "field": "tags.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "tags.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "introduction.en",
+          "matches": [
+            "<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"
+          ]
+        },
+        {
+          "field": "metaDescription.en",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "title.en",
+          "matches": [
+            "<em>test</em> 29.10.2019 - versjon 3 eng"
+          ]
+        },
+        {
+          "field": "previousVersionsNotes",
+          "matches": [
+            "<em>test</em>",
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "introduction.nb",
+          "matches": [
+            "<em>test</em> sadfa sdfasdfaø sdfkljad øfklajdsøflakj sdøflkajsd øflakjds følaksdj føalkdf øaldksjf øaldkfj øaldkjf"
+          ]
+        },
+        {
+          "field": "tags.en",
+          "matches": [
+            "<em>test</em>",
+            "<em>testing</em>"
+          ]
+        }
+      ],
+      "paths": [],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 29603,
+      "title": {
+        "title": "marc test kladd\u207d\u2082\u2093 (Kopi)",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "test mvo ekstra 123",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/19296",
+        "alt": "test",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/29603",
+      "contexts": [],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "DRAFT",
+        "other": []
+      },
+      "traits": [],
+      "score": 88.17460632324219,
+      "highlights": [
+        {
+          "field": "embedAttributes.nn",
+          "matches": [
+            "<em>test</em> lydtekst"
+          ]
+        },
+        {
+          "field": "title.nb",
+          "matches": [
+            "marc <em>test</em> kladd\u207d\u2082\u2093 (Kopi)"
+          ]
+        },
+        {
+          "field": "content.nb",
+          "matches": [
+            "Det vises i både innhold og form. a p1 p2 p3 b <em>test</em> med bilde her er tekst ² <em>test</em> p1 p2 a p1 p2 p3 b",
+            "Det viser oss at verdiene i samfunnet har endret seg. <em>test</em> kodevisning Naturen Mennesket lever av og"
+          ]
+        },
+        {
+          "field": "metaDescription.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "metaDescription.nb",
+          "matches": [
+            "<em>test</em> mvo ekstra 123"
+          ]
+        },
+        {
+          "field": "content.nn",
+          "matches": [
+            "Det viser oss at verdiene i samfunnet har endret seg. <em>test</em> kodevisning Naturen Mennesket lever av og"
+          ]
+        },
+        {
+          "field": "introduction.nn",
+          "matches": [
+            "<em>test</em> markdown\n\n*kursiv*\n**fet**\n* liste 1\n* liste 2\nnormal\n- liste a\n- liste b\nnormal\n1. liste num"
+          ]
+        },
+        {
+          "field": "introduction.nb",
+          "matches": [
+            "<em>test</em> markdown\n\n*kursiv*\n**fet**\n* liste 1\n* liste 2\nnormal\n- liste a\n- liste b\nnormal\n1. liste num"
+          ]
+        },
+        {
+          "field": "tags.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "tags.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "embedAttributes.nb",
+          "matches": [
+            "<em>test</em>",
+            "<em>test</em>",
+            "<em>test</em>",
+            "<em>test</em>",
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "title.nn",
+          "matches": [
+            "marc <em>test</em> kladd nn (Kopi)"
+          ]
+        }
+      ],
+      "paths": [],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 29706,
+      "title": {
+        "title": "marc van opstal test læringsressurs bokser",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "",
+        "language": "unknown"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/29706",
+      "contexts": [],
+      "supportedLanguages": [
+        "nb",
+        "en"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "DRAFT",
+        "other": []
+      },
+      "traits": [
+        "VIDEO"
+      ],
+      "score": 83.01725006103516,
+      "highlights": [
+        {
+          "field": "title.nb",
+          "matches": [
+            "marc van opstal <em>test</em> læringsressurs bokser"
+          ]
+        },
+        {
+          "field": "introduction.en",
+          "matches": [
+            "<em>Test</em> med *italic* eller"
+          ]
+        },
+        {
+          "field": "content.nb",
+          "matches": [
+            "* 123 456 Fakta boks tekst i ramme a b 1 2 ekspanderende boks <em>test</em> gamle nrk <em>test</em> REDIGERING gamle nrk",
+            "<em>test</em> lenke fotnote 1 + 2"
+          ]
+        },
+        {
+          "field": "embedAttributes.nb",
+          "matches": [
+            "<em>Test</em> Marc Van Opstal",
+            "<em>test</em> utgave",
+            "<em>test</em> utgiver"
+          ]
+        },
+        {
+          "field": "title.en",
+          "matches": [
+            "marc van opstal <em>test</em> læringsressurs EN (Kopi)"
+          ]
+        },
+        {
+          "field": "tags.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "content.en",
+          "matches": [
+            "* a b c d d d <em>test</em> TKTabell"
+          ]
+        },
+        {
+          "field": "embedAttributes.en",
+          "matches": [
+            "<em>test</em>",
+            "<em>test</em>",
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "introduction.nb",
+          "matches": [
+            "<em>Test</em> med *italic*"
+          ]
+        },
+        {
+          "field": "tags.en",
+          "matches": [
+            "<em>test</em>"
+          ]
+        }
+      ],
+      "paths": [],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 26285,
+      "title": {
+        "title": "marc test kladd\u207d\u2082\u2093",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "test mvo ekstra 123",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/19296",
+        "alt": "test",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/26285",
+      "contexts": [
+        {
+          "id": "urn:resource:acff165f-1771-4f05-8eb8-51d02733fc89",
+          "subject": "123-TESTFAG - Øv her!!",
+          "subjectId": "urn:subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4",
+          "path": "/subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4/topic:3626a87a-4d65-44fc-85b1-3edc56981e89/resource:acff165f-1771-4f05-8eb8-51d02733fc89",
+          "breadcrumbs": [
+            "123-TESTFAG - Øv her!!",
+            "Test Marc Van Opstal («emne»)"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:20f9e2e6-ee1c-4ca1-b704-61558c0c0564",
+              "name": "Vg2",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:acff165f-1771-4f05-8eb8-51d02733fc89",
+          "subject": "123-TESTFAG - Øv her!!",
+          "subjectId": "urn:subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4",
+          "path": "/subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4/topic:3626a87a-4d65-44fc-85b1-3edc56981e89/resource:acff165f-1771-4f05-8eb8-51d02733fc89",
+          "breadcrumbs": [
+            "123-TESTFAG - Øv her!!",
+            "Test Marc Van Opstal («emne»)"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:5f50e974-6251-42c7-8f04-c4fabf395d0f",
+              "name": "Vg1",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "DRAFT",
+        "other": []
+      },
+      "traits": [],
+      "score": 82.6348648071289,
+      "highlights": [
+        {
+          "field": "title.nb",
+          "matches": [
+            "marc <em>test</em> kladd\u207d\u2082\u2093"
+          ]
+        },
+        {
+          "field": "content.nb",
+          "matches": [
+            "Det vises i både innhold og . a p1 p2 p3 b <em>test</em> med bilde her er tekst ² <em>test</em> p1 p2 a p1 p2 p3 b pp ²",
+            "Det viser oss at verdiene i samfunnet har endret seg. <em>test</em> kodevisning Naturen Mennesket lever av og"
+          ]
+        },
+        {
+          "field": "metaDescription.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "metaDescription.nb",
+          "matches": [
+            "<em>test</em> mvo ekstra 123"
+          ]
+        },
+        {
+          "field": "content.nn",
+          "matches": [
+            "Det viser oss at verdiene i samfunnet har endret seg. <em>test</em> kodevisning Naturen Mennesket lever av og"
+          ]
+        },
+        {
+          "field": "introduction.nn",
+          "matches": [
+            "<em>test</em> markdown\n\n*kursiv*\n**fet**\n* liste 1\n* liste 2\nnormal\n- liste a\n- liste b\nnormal\n1. liste num"
+          ]
+        },
+        {
+          "field": "introduction.nb",
+          "matches": [
+            "<em>test</em> markdown\n\n*kursiv*\n**fet**\n* liste 1\n* liste 2\nnormal\n- liste a\n- liste b\nnormal\n1. liste num"
+          ]
+        },
+        {
+          "field": "tags.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "tags.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "embedAttributes.nb",
+          "matches": [
+            "<em>test</em>",
+            "<em>test</em>",
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "title.nn",
+          "matches": [
+            "marc <em>test</em> kladd nn"
+          ]
+        }
+      ],
+      "paths": [
+        "/subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4/topic:3626a87a-4d65-44fc-85b1-3edc56981e89/resource:acff165f-1771-4f05-8eb8-51d02733fc89",
+        "/subject:19fd5f7b-cf38-46ae-879f-0daf1e7157e4/topic:3626a87a-4d65-44fc-85b1-3edc56981e89/resource:acff165f-1771-4f05-8eb8-51d02733fc89"
+      ],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 17341,
+      "title": {
+        "title": "Test deg selv",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Hva har du lært etter å ha arbeidet med læringsstien \"Lær deg å lære\"? Test deg selv!",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/17978",
+        "alt": "Elev tegner et tankekart. Foto. ",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/17341",
+      "contexts": [
+        {
+          "id": "urn:resource:c88bbe7a-04b2-4602-a63e-9aca097ce910",
+          "subject": "Verktøykassa",
+          "subjectId": "urn:subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09",
+          "path": "/subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09/topic:c84f9aad-c91f-4ce5-ad4f-f7755f45fbc6/resource:c88bbe7a-04b2-4602-a63e-9aca097ce910",
+          "breadcrumbs": [
+            "Verktøykassa",
+            "Læringsstrategier"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:54b1727c-2d91-4512-901c-8434e13339b4",
+              "name": "For elev",
+              "relevance": "Tilleggsstoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:tasksAndActivities",
+              "name": "Oppgaver og aktiviteter",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:task",
+              "name": "Oppgave",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "PUBLISHED",
+        "other": []
+      },
+      "traits": [
+        "H5P"
+      ],
+      "score": 78.44987487792969,
+      "highlights": [
+        {
+          "field": "title.nb",
+          "matches": [
+            "<em>Test</em> deg selv"
+          ]
+        },
+        {
+          "field": "title.nn",
+          "matches": [
+            "<em>Test</em> deg sjølv"
+          ]
+        },
+        {
+          "field": "metaDescription.nn",
+          "matches": [
+            "<em>Test</em> deg sjølv!"
+          ]
+        },
+        {
+          "field": "metaDescription.nb",
+          "matches": [
+            "<em>Test</em> deg selv!"
+          ]
+        },
+        {
+          "field": "introduction.nn",
+          "matches": [
+            "<em>Test</em> deg sjølv."
+          ]
+        },
+        {
+          "field": "introduction.nb",
+          "matches": [
+            "<em>Test</em> deg selv."
+          ]
+        },
+        {
+          "field": "tags.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "tags.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        }
+      ],
+      "paths": [
+        "/subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09/topic:c84f9aad-c91f-4ce5-ad4f-f7755f45fbc6/resource:c88bbe7a-04b2-4602-a63e-9aca097ce910"
+      ],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 12404,
+      "title": {
+        "title": "Testing",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "En test er en standardisert øvelse som brukes til å måle prestasjoner i ulike sammenhenger.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/25884",
+        "alt": "Mann jogger på friidrettsbane. Foto.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/12404",
+      "contexts": [
+        {
+          "id": "urn:resource:1:74583",
+          "subject": "Kroppsøving",
+          "subjectId": "urn:subject:26",
+          "path": "/subject:26/topic:1:73030/resource:1:74583",
+          "breadcrumbs": [
+            "Kroppsøving",
+            "Treningsplanlegging VG3"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:fa2a7d6a-5e8e-4976-82c0-9a1266684c1c",
+              "name": "Vg2",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:1:74583",
+          "subject": "Kroppsøving",
+          "subjectId": "urn:subject:26",
+          "path": "/subject:26/topic:1:73030/resource:1:74583",
+          "breadcrumbs": [
+            "Kroppsøving",
+            "Treningsplanlegging VG3"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:c2133910-2de5-4dc9-9057-f59fed74982f",
+              "name": "Vg3",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "PUBLISHED",
+        "other": [
+          "IMPORTED"
+        ]
+      },
+      "traits": [],
+      "score": 71.89234161376953,
+      "highlights": [
+        {
+          "field": "embedAttributes.nn",
+          "matches": [
+            "Knut Inge Klepp, divisjondiresktør for Folkehelsa, tek Cooper-<em>testen</em> på friidrettsbanen til idrettshøgskolen"
+          ]
+        },
+        {
+          "field": "content.nb",
+          "matches": [
+            "Det er vanlig å snakke om generelle <em>tester</em> og spesifikke <em>tester</em>.",
+            "Generelle <em>tester</em> måler sentrale fysiske egenskaper, som utholdenhet, spenst og hurtighet.",
+            "Spesifikke <em>tester</em> er rettet mot en bestemt idrett eller aktivitet.",
+            "<em>Tester</em> skal være med på å regulere treningen og skape motivasjon.",
+            "Det er også vanlig å bruke samme type oppvarming før hver re-<em>test</em>."
+          ]
+        },
+        {
+          "field": "embedAttributes.nb",
+          "matches": [
+            "Knut Inge Klepp, divisjondiresktør for Folkehelsen, tar Cooper-<em>testen</em> på idrettshøyskolens friidrettsbane"
+          ]
+        },
+        {
+          "field": "metaDescription.nn",
+          "matches": [
+            "En <em>test</em> er en standardisert øvelse som brukes til å måle prestasjoner i ulike sammenhenger."
+          ]
+        },
+        {
+          "field": "metaDescription.nb",
+          "matches": [
+            "En <em>test</em> er en standardisert øvelse som brukes til å måle prestasjoner i ulike sammenhenger."
+          ]
+        },
+        {
+          "field": "content.nn",
+          "matches": [
+            "Det er vanleg å snakke om generelle <em>testar</em> og spesifikke <em>testar</em>.",
+            "Generelle <em>testar</em> måler sentrale fysiske eigenskapar, som evne til uthald, spenst og hurtigheit.",
+            "Spesifikke <em>testar</em> er retta mot ein bestemt idrett eller aktivitet.",
+            "<em>Tester</em> skal være med på å regulere treningen og skape motivasjon.",
+            "Det er òg vanleg å bruke same type oppvarming før kvar re-<em>test</em>."
+          ]
+        },
+        {
+          "field": "introduction.nn",
+          "matches": [
+            "Ein <em>test</em> er ei standardisert øving som blir brukt til å måle prestasjonar i ulike samanhengar.",
+            "At <em>testen</em> er standardisert, betyr at <em>testen</em> blir gjennomført på same måten og under dei same forholda"
+          ]
+        },
+        {
+          "field": "introduction.nb",
+          "matches": [
+            "En <em>test</em> er en standardisert øvelse som brukes til å måle prestasjoner i ulike sammenhenger.",
+            "At <em>testen</em> er standardisert, betyr at <em>testen</em> gjennomføres på samme måte og under samme forhold hver gang"
+          ]
+        },
+        {
+          "field": "tags.nn",
+          "matches": [
+            "generelle <em>test</em>"
+          ]
+        },
+        {
+          "field": "tags.nb",
+          "matches": [
+            "generelle <em>test</em>",
+            "spesifikke <em>tester</em>"
+          ]
+        }
+      ],
+      "paths": [
+        "/subject:26/topic:1:73030/resource:1:74583",
+        "/subject:26/topic:1:73030/resource:1:74583"
+      ],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 26262,
+      "title": {
+        "title": "Test",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "",
+        "language": "unknown"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/26262",
+      "contexts": [],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "DRAFT",
+        "other": []
+      },
+      "traits": [],
+      "score": 68.460693359375,
+      "highlights": [
+        {
+          "field": "introduction.nb",
+          "matches": [
+            "<em>Test</em>"
+          ]
+        },
+        {
+          "field": "title.nb",
+          "matches": [
+            "<em>Test</em>"
+          ]
+        },
+        {
+          "field": "introduction.nn",
+          "matches": [
+            "<em>Test</em>"
+          ]
+        },
+        {
+          "field": "title.nn",
+          "matches": [
+            "<em>Test</em>"
+          ]
+        }
+      ],
+      "paths": [],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 17431,
+      "title": {
+        "title": "Test BM 2.4.2019",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "test",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/17431",
+      "contexts": [],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "QUEUED_FOR_PUBLISHING_DELAYED",
+        "other": []
+      },
+      "traits": [
+        "H5P"
+      ],
+      "score": 67.11626434326172,
+      "highlights": [
+        {
+          "field": "embedAttributes.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "title.nb",
+          "matches": [
+            "<em>Test</em> BM 2.4.2019"
+          ]
+        },
+        {
+          "field": "metaDescription.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "metaDescription.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "tags.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "tags.nb",
+          "matches": [
+            "<em>test</em>",
+            "<em>Test</em>"
+          ]
+        },
+        {
+          "field": "embedAttributes.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "title.nn",
+          "matches": [
+            "<em>Test</em> BM 2.4.2019 nn"
+          ]
+        }
+      ],
+      "paths": [],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 20177,
+      "title": {
+        "title": "test",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "",
+        "language": "unknown"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/20177",
+      "contexts": [],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "DRAFT",
+        "other": []
+      },
+      "traits": [],
+      "score": 66.8040771484375,
+      "highlights": [
+        {
+          "field": "introduction.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "title.nb",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "introduction.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        },
+        {
+          "field": "title.nn",
+          "matches": [
+            "<em>test</em>"
+          ]
+        }
+      ],
+      "paths": [],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    }
+  ],
+  "suggestions": [
+    {
+      "name": "content",
+      "suggestions": [
+        {
+          "text": "Test",
+          "offset": 0,
+          "length": 4,
+          "options": [
+            {
+              "text": "tekst",
+              "score": 0.023071215
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "title",
+      "suggestions": [
+        {
+          "text": "Test",
+          "offset": 0,
+          "length": 4,
+          "options": []
+        }
+      ]
+    }
+  ],
+  "aggregations": []
+}

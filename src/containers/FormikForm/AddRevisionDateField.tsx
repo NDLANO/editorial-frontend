@@ -145,12 +145,8 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                   id={`revision_switch_${index}`}
                 />
               </StyledTooltip>
-              <StyledTooltip hide={!revisionMeta.new} tooltip={t('form.revisions.deleteTooltip')}>
-                <StyledRemoveButton
-                  stripped
-                  visible={revisionMeta.new}
-                  onClick={() => removeRevision(index)}
-                />
+              <StyledTooltip tooltip={t('form.revisions.deleteTooltip')}>
+                <StyledRemoveButton stripped visible onClick={() => removeRevision(index)} />
               </StyledTooltip>
             </Wrapper>
           </div>

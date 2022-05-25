@@ -237,7 +237,7 @@
     {
       "id": 29603,
       "title": {
-        "title": "marc test kladd\u207d\u2082\u2093 (Kopi)",
+        "title": "marc test kladd⁽₂ₓ (Kopi)",
         "language": "nb"
       },
       "metaDescription": {
@@ -272,7 +272,7 @@
         {
           "field": "title.nb",
           "matches": [
-            "marc <em>test</em> kladd\u207d\u2082\u2093 (Kopi)"
+            "marc <em>test</em> kladd⁽₂ₓ (Kopi)"
           ]
         },
         {
@@ -358,7 +358,7 @@
       },
       "metaDescription": {
         "metaDescription": "",
-        "language": "unknown"
+        "language": "und"
       },
       "url": "https://api.test.ndla.no/draft-api/v1/drafts/29706",
       "contexts": [],
@@ -454,7 +454,7 @@
     {
       "id": 26285,
       "title": {
-        "title": "marc test kladd\u207d\u2082\u2093",
+        "title": "marc test kladd⁽₂ₓ",
         "language": "nb"
       },
       "metaDescription": {
@@ -546,7 +546,7 @@
         {
           "field": "title.nb",
           "matches": [
-            "marc <em>test</em> kladd\u207d\u2082\u2093"
+            "marc <em>test</em> kladd⁽₂ₓ"
           ]
         },
         {
@@ -934,7 +934,7 @@
       },
       "metaDescription": {
         "metaDescription": "",
-        "language": "unknown"
+        "language": "und"
       },
       "url": "https://api.test.ndla.no/draft-api/v1/drafts/26262",
       "contexts": [],
@@ -1077,7 +1077,7 @@
       },
       "metaDescription": {
         "metaDescription": "",
-        "language": "unknown"
+        "language": "und"
       },
       "url": "https://api.test.ndla.no/draft-api/v1/drafts/20177",
       "contexts": [],

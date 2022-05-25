@@ -20,7 +20,8 @@ const connectSrc = (() => {
     'https://ekr.zdassets.com',
     'https://static.zdassets.com',
     'https://*.boltdns.net',
-    'https://www.google-analytics.com',
+    'https://*.google-analytics.com',
+    'https://*.analytics.google.com',
     'https://www.googleapis.com/customsearch/',
     'https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com',
     'https://www.wiris.net',
@@ -188,6 +189,20 @@ const frameSrc = (() => {
   return defaultFrameSrc;
 })();
 
+const fontSrc = (() => {
+  const defaultFontSrc = [
+    "'self'",
+    'https://fonts.gstatic.com',
+    'https://tagmanager.google.com',
+    'https://www.wiris.net',
+    'https://cdn.jsdelivr.net',
+  ];
+  if (process.env.NODE_ENV === 'development') {
+    return defaultFontSrc.concat('http://localhost:3001');
+  }
+  return defaultFontSrc;
+})();
+
 const contentSecurityPolicy = {
   directives: {
     defaultSrc: ["'self'", 'blob:'],
@@ -203,14 +218,7 @@ const contentSecurityPolicy = {
       'https://www.wiris.net',
       'https://cdn.jsdelivr.net',
     ],
-    fontSrc: [
-      "'self'",
-      'https://fonts.googleapis.com',
-      'https://fonts.gstatic.com',
-      'data:',
-      'cdn.jsdelivr.net',
-      'https://www.wiris.net',
-    ],
+    fontSrc: fontSrc,
     imgSrc: [
       "'self'",
       'http://api-gateway.ndla-local',
@@ -222,7 +230,8 @@ const contentSecurityPolicy = {
       'https://i.ytimg.com/',
       'https://ssl.gstatic.com',
       'https://www.gstatic.com',
-      'https://www.google-analytics.com',
+      'https://*.google-analytics.com',
+      'https://*.analytics.google.com',
       'https://stats.g.doubleclick.net',
       'https://ndla.zendesk.com',
       'https://edndla.zendesk.com',

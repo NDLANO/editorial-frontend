@@ -7,7 +7,6 @@
  */
 
 import { useState } from 'react';
-import BEMHelper from 'react-bem-helper';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import { Logo } from '@ndla/ui';
@@ -21,11 +20,6 @@ import NavigationMenu from './NavigationMenu';
 import Overlay from '../../../components/Overlay';
 import config from '../../../config';
 import { NAVIGATION_HEADER_MARGIN } from '../../../constants';
-
-export const classes = new BEMHelper({
-  name: 'navigation',
-  prefix: 'c-',
-});
 
 const logoCSS = css`
   transform: translateY(3px);

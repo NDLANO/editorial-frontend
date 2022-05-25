@@ -7,7 +7,6 @@
  */
 
 import { taxonomyApi } from '../../../config';
-import { WithTaxonomyVersion } from '../../../interfaces';
 import { apiResourceUrl, httpFunctions, stringifyQuery } from '../../../util/apiHelpers';
 import {
   resolveLocation,
@@ -19,75 +18,64 @@ const baseUrl = apiResourceUrl(`${taxonomyApi}/versions`);
 
 const { fetchAndResolve, postAndResolve, putAndResolve, deleteAndResolve } = httpFunctions;
 
-interface VersionGetParams extends WithTaxonomyVersion, GetVersionsParams {}
+interface VersionGetParams extends GetVersionsParams {}
 
-export const fetchVersions = ({
-  taxonomyVersion,
-  type,
-}: VersionGetParams): Promise<VersionType[]> => {
-  return fetchAndResolve({ url: baseUrl, taxonomyVersion, queryParams: { type } });
+export const fetchVersions = ({ type, hash }: VersionGetParams): Promise<VersionType[]> => {
+  return fetchAndResolve({ url: baseUrl, queryParams: { type, hash } });
 };
 
-interface VersionGetParam extends WithTaxonomyVersion {
+interface VersionGetParam {
   id: string;
 }
 
-export const fetchVersion = ({ id, taxonomyVersion }: VersionGetParam): Promise<VersionType> => {
-  return fetchAndResolve({ url: `${baseUrl}/${id}`, taxonomyVersion });
+export const fetchVersion = ({ id }: VersionGetParam): Promise<VersionType> => {
+  return fetchAndResolve({ url: `${baseUrl}/${id}` });
 };
 
-interface VersionPostParams extends WithTaxonomyVersion {
+interface VersionPostParams {
   body: VersionPostBody;
   sourceId?: string;
 }
 
-export const postVersion = ({
-  body,
-  sourceId,
-  taxonomyVersion,
-}: VersionPostParams): Promise<string> => {
+export const postVersion = ({ body, sourceId }: VersionPostParams): Promise<string> => {
   return postAndResolve({
     url: `${baseUrl}${stringifyQuery({ sourceId })}`,
     body: JSON.stringify(body),
     alternateResolve: resolveLocation,
-    taxonomyVersion,
   });
 };
 
-interface VersionPutParams extends WithTaxonomyVersion {
+interface VersionPutParams {
   id: string;
   body: VersionPutBody;
 }
 
-export const putVersion = ({ id, body, taxonomyVersion }: VersionPutParams): Promise<void> => {
+export const putVersion = ({ id, body }: VersionPutParams): Promise<void> => {
   return putAndResolve({
     url: `${baseUrl}/${id}`,
     body: JSON.stringify(body),
     alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion,
   });
 };
 
-interface VersionDeleteParams extends WithTaxonomyVersion {
+interface VersionDeleteParams {
   id: string;
 }
 
-export const deleteVersion = ({ id, taxonomyVersion }: VersionDeleteParams): Promise<void> => {
+export const deleteVersion = ({ id }: VersionDeleteParams): Promise<void> => {
   return deleteAndResolve({
     url: `${baseUrl}/${id}`,
     alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion,
   });
 };
 
-interface PublishVersionParams extends WithTaxonomyVersion {
+interface PublishVersionParams {
   id: string;
 }
 
-export const publishVersion = ({ id, taxonomyVersion }: PublishVersionParams): Promise<void> => {
+export const publishVersion = ({ id }: PublishVersionParams): Promise<void> => {
   return putAndResolve({
     url: `${baseUrl}/${id}/publish`,
     alternateResolve: resolveVoidOrRejectWithError,
-    taxonomyVersion,
   });
 };

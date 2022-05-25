@@ -84,7 +84,8 @@ const NodeDiff = ({ node, isRoot }: Props) => {
   const { t } = useTranslation();
 
   const fieldFilter = params.get('fieldView') ?? 'changed';
-  const filteredNode = fieldFilter === 'changed' ? removeType(node, 'NONE') : node;
+  const filteredNode: Partial<DiffType<ChildNodeType>> =
+    fieldFilter === 'changed' ? removeType(node, 'NONE') : node;
   const metadata = filteredNode.metadata;
   const customFields = metadata?.customFields;
 
@@ -122,7 +123,7 @@ const NodeDiff = ({ node, isRoot }: Props) => {
           toDisplayValue={v => v}
         />
       )}
-      {isChildNode(filteredNode) && (
+      {isChildNode(node) && (
         <>
           {filteredNode.connectionId && (
             <FieldDiff

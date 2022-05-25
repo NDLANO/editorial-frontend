@@ -20,7 +20,6 @@ import Version from './components/Version';
 import VersionForm from './components/VersionForm';
 import VersionList from './components/VersionList';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
-import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
 const NewFormWrapper = styled.div`
   padding: ${spacing.normal};
@@ -44,8 +43,7 @@ const getPublishedAndOther = (
 
 const TaxonomyVersionsPage = () => {
   const [showNewForm, setShowNewForm] = useState(false);
-  const { taxonomyVersion } = useTaxonomyVersion();
-  const { data } = useVersions({ taxonomyVersion });
+  const { data } = useVersions();
 
   const { published, other } = getPublishedAndOther(data ?? []);
 

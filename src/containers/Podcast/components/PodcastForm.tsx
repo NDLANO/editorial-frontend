@@ -256,7 +256,7 @@ const PodcastForm = ({
                   className="u-4/6@desktop u-push-1/6@desktop"
                   hasError={['title', 'audioFile'].some(field => field in errors)}
                   startOpen>
-                  <AudioContent classes={formClasses} />
+                  <AudioContent />
                 </AccordionSection>
                 <AccordionSection
                   id="podcast-upload-podcastmanus"
@@ -291,7 +291,7 @@ const PodcastForm = ({
                   hasError={['tags', 'creators', 'rightsholders', 'processors', 'license'].some(
                     field => field in errors,
                   )}>
-                  <AudioMetaData classes={formClasses} />
+                  <AudioMetaData />
                 </AccordionSection>
               </Accordions>
             )}

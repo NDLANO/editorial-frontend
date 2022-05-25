@@ -6,11 +6,23 @@
  *
  */
 
+import '@fontsource/source-sans-pro/index.css';
+import '@fontsource/source-sans-pro/400-italic.css';
+import '@fontsource/source-sans-pro/300.css';
+import '@fontsource/source-sans-pro/300-italic.css';
+import '@fontsource/source-sans-pro/600.css';
+import '@fontsource/source-sans-pro/700.css';
+import '@fontsource/source-code-pro/index.css';
+import '@fontsource/source-code-pro/400-italic.css';
+import '@fontsource/source-code-pro/700.css';
+import '@fontsource/source-serif-pro/index.css';
+import '@fontsource/source-serif-pro/400-italic.css';
+import '@fontsource/source-serif-pro/700.css';
 // import before all other imports component to make sure it is loaded before any emotion stuff.
 import '../../style/index.css';
 
 import { ReactElement, useContext, useEffect } from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import loadable from '@loadable/component';
 import { History } from 'history';
 import { Content, PageContainer } from '@ndla/ui';

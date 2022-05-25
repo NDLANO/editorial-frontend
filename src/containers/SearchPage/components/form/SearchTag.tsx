@@ -9,16 +9,42 @@
 import { Component, MouseEvent } from 'react';
 
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
+import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
-import BEMHelper from 'react-bem-helper';
+import styled from '@emotion/styled';
 import { searchParamsFormatter } from './SearchForm';
 import { TagType } from './SearchTagGroup';
 
-export const tagClasses = new BEMHelper({
-  name: 'tag',
-  prefix: 'c-',
-});
+const StyledDl = styled.dl`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 1.9rem;
+  width: auto;
+  border-radius: 1px;
+  background-color: ${colors.background.dark};
+  color: #5c5c5c;
+  line-height: 1rem;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+  margin: 0.1rem 0.3rem;
+  margin-right: ${spacing.small};
+  &:first-child {
+    margin-left: 0;
+  }
+`;
+
+const StyledDt = styled.dt`
+  font-weight: 800;
+  font-size: 0.8em;
+  color: ${colors.black};
+`;
+
+const StyledDd = styled.dd`
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+`;
 
 interface Props {
   tag: TagType;
@@ -43,13 +69,13 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
     const tagValue = searchParamsFormatter(tag.type, tag.name) || '';
 
     return (
-      <dl className="c-tag c-tag--search">
-        <dt {...tagClasses('label')}>{t(`searchForm.tagType.${tag.type}`)}:</dt>
-        <dd {...tagClasses('description')}>{tagValue}</dd>
+      <StyledDl>
+        <StyledDt>{t(`searchForm.tagType.${tag.type}`)}:</StyledDt>
+        <StyledDd>{tagValue}</StyledDd>
         <Button onClick={this.onRemove} stripped>
           <Cross className="c-icon--small" />
         </Button>
-      </dl>
+      </StyledDl>
     );
   }
 }

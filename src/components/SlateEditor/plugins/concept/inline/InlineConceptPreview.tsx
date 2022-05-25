@@ -52,7 +52,7 @@ interface ImageWrapperProps {
 const ImageWrapper = ({ children, url }: ImageWrapperProps) =>
   url ? <ImageLink src={url}>{children}</ImageLink> : <>{children}</>;
 
-const SlateConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
+const InlineConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) => {
   const { t } = useTranslation();
   useEffect(() => {
     addShowConceptDefinitionClickListeners();
@@ -158,4 +158,4 @@ const SlateConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
   );
 };
 
-export default SlateConceptPreview;
+export default InlineConceptPreview;

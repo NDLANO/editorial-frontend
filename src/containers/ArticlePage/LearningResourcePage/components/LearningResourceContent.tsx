@@ -77,6 +77,12 @@ const IconContainer = styled.div`
   width: 64px;
 `;
 
+const StyledDiv = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`;
+
 const findFootnotes = (content: Descendant[]): FootnoteType[] =>
   findNodesByType(content, TYPE_FOOTNOTE)
     .map(e => e as FootnoteElement)
@@ -91,6 +97,7 @@ const actionsToShowInAreas = {
   summary: actions,
   list: actions,
   'list-item': actions,
+  table: ['image'],
 };
 
 // Plugins are checked from last to first
@@ -163,7 +170,7 @@ const LearningResourceContent = ({
       <TitleField handleSubmit={handleSubmit} />
       <FormikField name="published" css={byLineStyle}>
         {({ field, form }) => (
-          <>
+          <StyledDiv>
             <LastUpdatedLine
               name={field.name}
               creators={creators}
@@ -181,7 +188,7 @@ const LearningResourceContent = ({
               </Tooltip>
               <HowToHelper pageId="Markdown" tooltip={t('form.markdown.helpLabel')} />
             </IconContainer>
-          </>
+          </StyledDiv>
         )}
       </FormikField>
       <IngressField preview={preview} handleSubmit={handleSubmit} />

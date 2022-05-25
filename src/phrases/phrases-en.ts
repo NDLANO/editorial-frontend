@@ -100,7 +100,6 @@ const phrases = {
     nn: 'Norwegian - Nynorsk',
     se: 'Northern Sami',
     sma: 'Southern Sami',
-    unknown: 'Unknown',
     und: 'Undetermined',
     de: 'German',
     ukr: 'Ukranian',

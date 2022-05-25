@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { getLicenseByAbbreviation, getLicenseCredits } from '@ndla/licenses';
+import { getLicenseByAbbreviation } from '@ndla/licenses';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { ResourceBox } from '@ndla/ui';
 import { useEffect, useState } from 'react';
@@ -28,15 +28,6 @@ const SlateResourceBox = ({ embed, language }: Props) => {
     }
   }, [embed.imageid, language]);
 
-  const { creators, rightsholders, processors } = getLicenseCredits(image?.copyright);
-
-  const authors = (creators.length || rightsholders.length
-    ? [...creators, ...rightsholders]
-    : [...processors]
-  ).map(contributor => ({
-    name: contributor.name,
-  }));
-
   const licenses = image?.copyright
     ? getLicenseByAbbreviation(image.copyright.license.license, language).rights
     : [];
@@ -50,7 +41,6 @@ const SlateResourceBox = ({ embed, language }: Props) => {
         licenseRights={licenses}
         locale={language}
         url={embed.url}
-        authors={authors}
       />
     </ResourceBoxWrapper>
   );

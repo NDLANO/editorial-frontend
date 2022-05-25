@@ -101,7 +101,6 @@ const phrases = {
     nn: 'Nynorsk',
     se: 'Nordsamisk',
     sma: 'Sørsamisk',
-    unknown: 'Ukjent',
     und: 'Udefinert',
     de: 'Tysk',
     ukr: 'Ukrainsk',

@@ -2442,11 +2442,11 @@
       "id": 8727,
       "title": {
         "title": "Saemien filmestudije-aarkh",
-        "language": "unknown"
+        "language": "und"
       },
       "metaDescription": {
         "metaDescription": "Interaktijve filmestudije-aarkh saemien filmi bïjre. Maahta filmide aaj vuejnedh Sveerjesne jïh Såevmesne.",
-        "language": "unknown"
+        "language": "und"
       },
       "metaImage": {
         "url": "https://test.api.ndla.no/image-api/raw/id/22077",
@@ -2475,7 +2475,7 @@
         }
       ],
       "supportedLanguages": [
-        "unknown",
+        "und",
         "sma"
       ]
     },
@@ -4096,11 +4096,11 @@
       "id": 6554,
       "title": {
         "title": "Sinna mann",
-        "language": "unknown"
+        "language": "und"
       },
       "metaDescription": {
         "metaDescription": "https://ndla.filmiundervisning.no/film/ndlafilm.aspx?filmId=400198",
-        "language": "unknown"
+        "language": "und"
       },
       "url": "https://test.api.ndla.no/article-api/v2/articles/6554",
       "contexts": [
@@ -4187,7 +4187,7 @@
         }
       ],
       "supportedLanguages": [
-        "unknown"
+        "und"
       ]
     },
     {

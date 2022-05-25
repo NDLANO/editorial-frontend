@@ -65,7 +65,6 @@ export const getResourceLanguages = (t: TFunction) => [
   { id: 'se', name: t('language.se') },
   { id: 'ukr', name: t('language.ukr') },
   { id: 'und', name: t('language.und') },
-  { id: 'unknown', name: t('language.unknown') },
 ];
 
 export const getContentTypeFromResourceTypes = (resourceTypes: ResourceType[]): ContentTypeType => {

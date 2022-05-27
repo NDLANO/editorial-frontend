@@ -9,7 +9,7 @@
 import { ReactNode, MouseEvent, HTMLProps } from 'react';
 import styled from '@emotion/styled';
 import { colors, spacing } from '@ndla/core';
-import { css } from '@emotion/react';
+import { css } from '@emotion/core';
 
 interface StyledButtonProps {
   color?: keyof typeof colors.support;

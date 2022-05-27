@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
+import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
 import { NodeType } from '../../modules/nodes/nodeApiTypes';
 import { createGuard } from '../../util/guards';

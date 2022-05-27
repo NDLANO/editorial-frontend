@@ -69,7 +69,7 @@
     "@types/react-dom": "^17.0.11",
     "@types/webpack-env": "^1.16.0",
     "babel-jest": "^26.6.3",
-    "babel-preset-razzle": "4.0.2",
+    "babel-preset-razzle": "4.2.8",
     "chalk": "^2.4.2",
     "concurrently": "^5.3.0",
     "cross-env": "^5.2.0",
@@ -105,9 +105,8 @@
     "yargs": "^14.0.0"
   },
   "dependencies": {
-    "@emotion/babel-preset-css-prop": "^11.2.0",
-    "@emotion/core": "^10.1.0",
-    "@emotion/react": "^11.1.5",
+    "@emotion/babel-preset-css-prop": "^10.0.27",
+    "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
     "@fontsource/source-sans-pro": "^4.5.9",
     "@fontsource/source-code-pro": "^4.5.9",
@@ -157,7 +156,6 @@
     "fuse.js": "^3.4.5",
     "he": "^1.2.0",
     "helmet": "^3.20.0",
-    "history": "^5.1.0",
     "hoist-non-react-statics": "^3.3.0",
     "i18next": "20.3.5",
     "is-hotkey": "^0.1.4",

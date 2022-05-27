@@ -10,7 +10,7 @@ import { ReactChild, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useFormikContext } from 'formik';
-import { css } from '@emotion/react';
+import { css } from '@emotion/core';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
 import { ContentTypeBadge, constants } from '@ndla/ui';

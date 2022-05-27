@@ -98,6 +98,9 @@ const ImageInputWrapper = styled.div`
 const ImageWrapper = styled.div`
   max-width: 200px;
   max-height: 160px;
+  > img {
+    max-height: 100%;
+  }
 `;
 
 interface Props {

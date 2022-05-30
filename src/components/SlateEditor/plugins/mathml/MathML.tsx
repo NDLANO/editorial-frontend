@@ -23,7 +23,7 @@ interface Props {
 
 const StyledSpan = styled.span`
   mjx-stretchy-v > mjx-ext > mjx-c {
-    transform: scaleY(200) translateY(0.075em);
+    transform: scaleY(100) translateY(0.075em);
   }
 `;
 

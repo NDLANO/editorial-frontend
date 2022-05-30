@@ -1318,6 +1318,12 @@ const phrases = {
       empty: 'No existing grep codes',
       addNew: 'Add new grep code',
     },
+    copyRevisionDates: {
+      text:
+        'Are you sure you want to copy this revision date? This will apply for all nodes and resources underneath this node',
+      buttonText: 'Copy revision date',
+      error: 'An error occurred when copying the revision date',
+    },
     goTo: 'Open in structure editor',
     missingResourceType: 'Missing resource type',
     metadata: {

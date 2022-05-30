@@ -9,13 +9,19 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
+import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
+import { ImageMeta } from '@ndla/image-search';
 import { IImageMetaSummary } from '@ndla/types-image-api';
 import { toEditImage } from '../../../../util/routeHelpers';
 import { ImageResultShape } from '../../../../shapes';
 import { searchClasses } from '../../SearchContainer';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
+
+const StyledImageMeta = styled(ImageMeta)`
+  margin-bottom: 5px;
+`;
 
 interface Props {
   image: IImageMetaSummary;
@@ -43,6 +49,11 @@ const SearchImage = ({ image, locale }: Props) => {
             </span>
           ))}
         </p>
+        <StyledImageMeta
+          contentType={image.contentType}
+          fileSize={image.fileSize}
+          imageDimensions={image.imageDimensions}
+        />
         {license && (
           <LicenseByline
             licenseRights={getLicenseByAbbreviation(license.license, locale).rights}

@@ -53,7 +53,7 @@
     "@ndla/types-concept-api": "^0.0.10",
     "@ndla/types-draft-api": "^0.0.23",
     "@ndla/types-frontpage-api": "^0.0.3",
-    "@ndla/types-image-api": "^0.0.4",
+    "@ndla/types-image-api": "^0.0.5",
     "@ndla/types-learningpath-api": "^0.0.2",
     "@ndla/types-search-api": "^0.0.5",
     "@testing-library/jest-dom": "^5.15.0",

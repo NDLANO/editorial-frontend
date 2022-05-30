@@ -55,10 +55,14 @@ const ImageContent = ({ formik }: Props) => {
               'filepath',
               target.files?.[0] ? URL.createObjectURL(target.files[0]) : undefined,
             );
+            Promise.resolve(
+              createImageBitmap(target.files?.[0] as Blob).then(image => {
+                setFieldValue('imageDimensions', image);
+              }),
+            );
             setFieldValue('imageFile', target.files?.[0]);
-            setFieldValue('contentType', target.files?.[0].type);
-            setFieldValue('fileSize', target.files?.[0].size);
-            setFieldValue('imageDimensions', undefined);
+            setFieldValue('contentType', target.files?.[0]?.type);
+            setFieldValue('fileSize', target.files?.[0]?.size);
           }}
           ariaLabel={t('form.image.dragdrop.ariaLabel')}>
           <strong>{t('form.image.dragdrop.main')}</strong>

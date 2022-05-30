@@ -1,7 +1,7 @@
 {
   "rewrites": [
     { "source": "/static/(.*)", "destination": "build/public/static/$1" },
-    { "source": "/(.*.(png|jpg|svg|gif))", "destination": "build/public/$1" },
+    { "source": "/(.*).(png|jpg|svg|gif)", "destination": "build/public/$1" },
     { "source": "/(.*)", "destination": "/build/server.js" }
   ],
   "headers": [
@@ -10,7 +10,7 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, s-maxage=86400"
+          "value": "s-maxage=86400"
         }
       ]
     }

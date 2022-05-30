@@ -14,3 +14,4 @@ yarn-error.log
 scripts/.cache/
 .vscode
 .env
+.vercel

@@ -1,26 +1,19 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "build/public/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "build/server.js",
-      "use": "@vercel/node"
-    }
+  "rewrites": [
+    { "source": "/static/(.*)", "destination": "build/public/static/$1" },
+    { "source": "/(.*.(png|jpg|svg|gif))", "destination": "build/public/$1" },
+    { "source": "/(.*)", "destination": "/build/server.js" }
   ],
-  "routes": [
+  "headers": [
     {
-      "src": "/static/(.*)",
-      "headers": { "cache-control": "s-maxage=86400" },
-      "dest": "build/public/static/$1"
-    },
-    {
-      "src": "/(.*.(png|jpg|svg|gif))",
-      "dest": "build/public/$1"
-    },
-    { "src": "/(.*)", "dest": "/build/server.js" }
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=86400"
+        }
+      ]
+    }
   ],
   "env": {
     "NDLA_EDITORIAL_CLIENT_ID": "@ndla_editorial_client_id",

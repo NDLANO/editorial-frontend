@@ -41,6 +41,7 @@ export type EditMode =
   | 'deleteNode'
   | 'copyResources'
   | 'cloneResources'
+  | 'copyRevisionDate'
   | '';
 
 export interface SearchResultBase<T> {

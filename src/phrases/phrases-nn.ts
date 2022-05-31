@@ -1322,6 +1322,12 @@ const phrases = {
       empty: 'Ingen registerte koder',
       addNew: 'Legg til ny læreplankobling',
     },
+    copyRevisionDates: {
+      text:
+        'Er du heilt sikker på at du ønsker å kopiere denne revisjonsdatoen? Dette vil sette alle revisjonsdatoar frå denne noden til alle undernoder og ressursar.',
+      buttonText: 'Kopier revisjonsdato',
+      error: 'Ein feil oppstod under kopiering',
+    },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',
     metadata: {

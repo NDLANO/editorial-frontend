@@ -19,15 +19,24 @@ import { ConceptListElement } from '.';
 import { fetchAllTags } from '../../../../modules/concept/conceptApi';
 import { Portal } from '../../../Portal';
 import ConceptSearchResult from './ConceptSearchResult';
+import Dropdown from '../../../Dropdown/Dropdown';
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 3fr 2fr;
-  grid-row-gap: ${spacing.small};
+const TwoColumn = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${spacing.small};
+  align-items: flex-start;
+`;
+
+const FormInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+  flex: 1;
 `;
 
 const StyledButton = styled(Button)`
-  margin-left: auto;
+  flex: 0;
 `;
 
 interface Props {
@@ -39,18 +48,10 @@ interface Props {
 const ConceptTagPicker = ({ element, onClose, language }: Props) => {
   const { t } = useTranslation();
   const [selectedTag, setSelectedTag] = useState<string | undefined>(element.data.tag);
-  const [searchInput, setSearchInput] = useState('');
   const [titleInput, setTitleInput] = useState(element.data.title || '');
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
 
   const editor = useSlateStatic();
-
-  const filteredTags = tags
-    .filter(tag => {
-      return tag.toLowerCase().includes(searchInput.toLowerCase());
-    })
-    .sort();
 
   const onChangeTitleInput = (e: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -59,45 +60,12 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
     setTitleInput(value);
   };
 
-  const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = e;
-    setSearchInput(value);
-  };
-
   const onSelectTag = (selectedItem: string) => {
     setSelectedTag(selectedItem);
-    setDropdownOpen(false);
-  };
-
-  const onStateChange = (changes: StateChangeOptions<string>) => {
-    const { isOpen, type } = changes;
-
-    if (
-      type === Downshift.stateChangeTypes.keyDownArrowUp ||
-      type === Downshift.stateChangeTypes.keyDownArrowDown
-    ) {
-      setDropdownOpen(true);
-    }
-    if (type === Downshift.stateChangeTypes.mouseUp) {
-      setDropdownOpen(!!isOpen);
-      if (!isOpen) {
-        setSearchInput('');
-      }
-    }
-
-    if (type === Downshift.stateChangeTypes.keyDownEnter) {
-      setSearchInput('');
-    }
   };
 
   const onRemoveTag = () => {
     setSelectedTag(undefined);
-  };
-
-  const onFocus = () => {
-    setDropdownOpen(true);
   };
 
   const onSave = () => {
@@ -136,52 +104,25 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
               <ModalCloseButton title={t('dialog.close')} onClick={onClose} />
             </ModalHeader>
             <ModalBody>
-              <Grid>
-                <Input
-                  value={titleInput}
-                  onChange={onChangeTitleInput}
-                  placeholder={t('form.name.title')}
-                />
+              <TwoColumn>
+                <FormInput>
+                  <Input
+                    value={titleInput}
+                    onChange={onChangeTitleInput}
+                    placeholder={t('form.name.title')}
+                  />
+                  <Dropdown
+                    items={tags}
+                    onSelect={onSelectTag}
+                    onReset={onRemoveTag}
+                    selectedTag={selectedTag}
+                  />
+                  <ConceptSearchResult tag={selectedTag} language={language} showResultCount />
+                </FormInput>
                 <StyledButton type="button" onClick={onSave} disabled={!selectedTag}>
                   {t('form.save')}
                 </StyledButton>
-                <Downshift
-                  isOpen={dropdownOpen}
-                  onSelect={onSelectTag}
-                  onStateChange={onStateChange}>
-                  {({ getInputProps, getMenuProps, getItemProps }): JSX.Element => {
-                    return (
-                      <div>
-                        <DropdownInput
-                          multiSelect
-                          {...getInputProps({
-                            value: searchInput,
-                            onChange: onChangeSearchInput,
-                            onFocus: onFocus,
-                            onClick: onFocus,
-                          })}
-                          placeholder={t('form.categories.label')}
-                          values={selectedTag ? [selectedTag] : []}
-                          removeItem={onRemoveTag}
-                        />
-                        <DropdownMenu
-                          getMenuProps={getMenuProps}
-                          getItemProps={getItemProps}
-                          isOpen={dropdownOpen}
-                          items={filteredTags}
-                          maxRender={1000}
-                          hideTotalSearchCount
-                        />
-                        <ConceptSearchResult
-                          tag={selectedTag}
-                          language={language}
-                          showResultCount
-                        />
-                      </div>
-                    );
-                  }}
-                </Downshift>
-              </Grid>
+              </TwoColumn>
             </ModalBody>
           </div>
         )}

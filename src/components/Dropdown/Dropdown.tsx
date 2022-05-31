@@ -20,13 +20,19 @@ interface Props {
 const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
   const { t } = useTranslation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [searchInput, setSearchInput] = useState('');
+  const [input, setInput] = useState('');
 
-  const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const filteredItems = items
+    .filter(item => {
+      return item.toLowerCase().includes(input.toLowerCase());
+    })
+    .sort();
+
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value },
     } = e;
-    setSearchInput(value);
+    setInput(value);
   };
 
   const onStateChange = (changes: StateChangeOptions<string>) => {
@@ -41,22 +47,18 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
     if (type === Downshift.stateChangeTypes.mouseUp) {
       setDropdownOpen(!!isOpen);
       if (!isOpen) {
-        setSearchInput('');
+        setInput('');
       }
     }
 
     if (type === Downshift.stateChangeTypes.keyDownEnter) {
-      setSearchInput('');
+      setInput('');
     }
   };
 
-  const onSelectTag = (selectedItem: string) => {
+  const onSelectItem = (selectedItem: string) => {
     onSelect(selectedItem);
     setDropdownOpen(false);
-  };
-
-  const onRemoveTag = () => {
-    onReset();
   };
 
   const onFocus = () => {
@@ -64,27 +66,27 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
   };
 
   return (
-    <Downshift isOpen={dropdownOpen} onSelect={onSelectTag} onStateChange={onStateChange}>
+    <Downshift isOpen={dropdownOpen} onSelect={onSelectItem} onStateChange={onStateChange}>
       {({ getInputProps, getMenuProps, getItemProps }): JSX.Element => {
         return (
           <div>
             <DropdownInput
               multiSelect
               {...getInputProps({
-                value: searchInput,
-                onChange: onChangeSearchInput,
+                value: input,
+                onChange: onChangeInput,
                 onFocus: onFocus,
                 onClick: onFocus,
               })}
               placeholder={t('form.categories.label')}
               values={selectedTag ? [selectedTag] : []}
-              removeItem={onRemoveTag}
+              removeItem={onReset}
             />
             <DropdownMenu
               getMenuProps={getMenuProps}
               getItemProps={getItemProps}
               isOpen={dropdownOpen}
-              items={items}
+              items={filteredItems}
               maxRender={1000}
               hideTotalSearchCount
             />

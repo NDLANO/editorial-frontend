@@ -1324,9 +1324,9 @@ const phrases = {
     },
     copyRevisionDates: {
       text:
-        'Er du heilt sikker på at du ønsker å kopiere denne revisjonsdatoen? Dette vil sette alle revisjonsdatoar fra denne noden til alle undernoder og ressursar.',
+        'Er du heilt sikker på at du ønsker å kopiere denne revisjonsdatoen? Dette vil sette alle revisjonsdatoar frå denne noden til alle undernoder og ressursar.',
       buttonText: 'Kopier revisjonsdato',
-      error: 'En feil oppstod under kopiering',
+      error: 'Ein feil oppstod under kopiering',
     },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',

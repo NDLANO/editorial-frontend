@@ -22,6 +22,7 @@ export interface ConceptListElement {
   data: {
     tag?: string;
     title?: string;
+    subjectId?: string;
   };
   isFirstEdit?: boolean;
   children: Descendant[];
@@ -46,7 +47,8 @@ export const conceptListSerializer: SlateSerializer = {
     if (embedAttributes.resource !== 'concept-list') return;
     const tag = embedAttributes.tag || '';
     const title = embedAttributes.title || '';
-    return defaultConceptListBlock(tag, title);
+    const subjectId = embedAttributes.subjectId || '';
+    return defaultConceptListBlock(tag, title, subjectId);
   },
   serialize(node: Descendant) {
     if (!Element.isElement(node)) return;
@@ -54,6 +56,7 @@ export const conceptListSerializer: SlateSerializer = {
 
     const data = {
       ...node.data,
+      'subject-id': node.data.subjectId,
       resource: 'concept-list',
     };
     return createEmbedTag(data);

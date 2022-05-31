@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2022-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree. *
+ */
+
 import Button from '@ndla/button';
 import { Transforms } from 'slate';
 import { spacing } from '@ndla/core';
@@ -108,8 +115,7 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
 
   useEffect(() => {
     const initialize = async () => {
-      const data = await fetchAllTags(language);
-      setTags(data);
+      fetchAllTags(language).then(data => setTags(data));
     };
 
     initialize();

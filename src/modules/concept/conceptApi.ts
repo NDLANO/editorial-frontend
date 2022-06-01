@@ -41,7 +41,7 @@ export const fetchAllTags = async (language: string): Promise<string[]> => {
   return resolveJsonOrRejectWithError(response);
 };
 
-export const fetchAllSubjects = async (language: string): Promise<string[]> => {
+export const fetchAllSubjects = async (): Promise<string[]> => {
   const response = await fetchAuthorized(`${draftConceptUrl}/subjects/`);
   return resolveJsonOrRejectWithError(response);
 };

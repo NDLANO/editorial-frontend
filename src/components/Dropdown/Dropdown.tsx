@@ -14,10 +14,11 @@ export interface DropdownItem {
   name: string;
   id: string;
 }
+
 interface Props {
   onSelect: (value: DropdownItem) => void;
   onReset: () => void;
-  selectedTag?: string;
+  selectedTag?: DropdownItem;
   items: DropdownItem[];
 }
 
@@ -61,7 +62,6 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
   };
 
   const onSelectItem = (selectedItem: DropdownItem) => {
-    console.log(selectedItem);
     onSelect(selectedItem);
     setDropdownOpen(false);
   };
@@ -75,12 +75,15 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
       isOpen={dropdownOpen}
       onSelect={onSelectItem}
       onStateChange={onStateChange}
-      itemToString={item => item.name}>
+      itemToString={item => {
+        return item?.name;
+      }}>
       {({ getInputProps, getMenuProps, getItemProps }): JSX.Element => {
         return (
           <div>
             <DropdownInput
-              idfield
+              idField={'id'}
+              labelField={'name'}
               multiSelect
               {...getInputProps({
                 value: input,

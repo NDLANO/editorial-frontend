@@ -8,6 +8,11 @@
 import Downshift, { StateChangeOptions } from 'downshift';
 import { DropdownInput, DropdownMenu } from '@ndla/forms';
 import { ChangeEvent, useState } from 'react';
+import styled from '@emotion/styled';
+
+const DropdownContainer = styled.div`
+  position: relative;
+`;
 
 export interface DropdownItem {
   name: string;
@@ -77,9 +82,9 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props)
       itemToString={item => {
         return item?.name;
       }}>
-      {({ getInputProps, getMenuProps, getItemProps }): JSX.Element => {
+      {({ getInputProps, getMenuProps, getItemProps, getRootProps }): JSX.Element => {
         return (
-          <div>
+          <DropdownContainer {...getRootProps()}>
             <DropdownInput
               idField={'id'}
               labelField={'name'}
@@ -103,8 +108,9 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props)
               items={filteredItems}
               maxRender={1000}
               hideTotalSearchCount
+              positionAbsolute
             />
-          </div>
+          </DropdownContainer>
         );
       }}
     </Downshift>

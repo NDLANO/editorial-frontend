@@ -51,7 +51,11 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
   const [selectedTag, setSelectedTag] = useState<DropdownItem | undefined>(
     element.data.tag ? { name: element.data.tag, id: element.data.tag } : undefined,
   );
-  const [selectedSubject, setSelectedSubject] = useState<DropdownItem | undefined>();
+  const [selectedSubject, setSelectedSubject] = useState<DropdownItem | undefined>(
+    element.data.subjectId
+      ? { name: element.data.subjectId, id: element.data.subjectId }
+      : undefined,
+  );
   const [titleInput, setTitleInput] = useState(element.data.title || '');
   const [tags, setTags] = useState<DropdownItem[]>([]);
   const [subjects, setSubjects] = useState<DropdownItem[]>([]);
@@ -85,7 +89,10 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
     ReactEditor.focus(editor);
     Transforms.setNodes<ConceptListElement>(
       editor,
-      { data: { tag: selectedTag?.id, title: titleInput }, isFirstEdit: false },
+      {
+        data: { tag: selectedTag?.id, title: titleInput, subjectId: selectedSubject?.id },
+        isFirstEdit: false,
+      },
       {
         match: node => node === element,
         at: [],

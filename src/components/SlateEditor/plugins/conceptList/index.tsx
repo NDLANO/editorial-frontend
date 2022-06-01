@@ -47,7 +47,7 @@ export const conceptListSerializer: SlateSerializer = {
     if (embedAttributes.resource !== 'concept-list') return;
     const tag = embedAttributes.tag || '';
     const title = embedAttributes.title || '';
-    const subjectId = embedAttributes.subjectId || '';
+    const subjectId = embedAttributes['subject-id'] || '';
     return defaultConceptListBlock(tag, title, subjectId);
   },
   serialize(node: Descendant) {

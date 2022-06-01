@@ -73,7 +73,7 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
     setEditMode(true);
   };
 
-  const { tag, title } = element.data;
+  const { tag, title, subjectId } = element.data;
 
   return (
     <>
@@ -96,7 +96,7 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
           </Tooltip>
         </ButtonContainer>
         {title && <StyledHeader contentEditable={false}>{title}</StyledHeader>}
-        {tag && <ConceptSearchResult tag={tag} language={language} />}
+        {tag && <ConceptSearchResult tag={tag} subjectId={subjectId} language={language} />}
         {children}
       </StyledWrapper>
       {editMode && <ConceptTagPicker element={element} onClose={onClose} language={language} />}

@@ -10,11 +10,15 @@ import { DropdownInput, DropdownMenu } from '@ndla/forms';
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+export interface DropdownItem {
+  name: string;
+  id: string;
+}
 interface Props {
-  onSelect: (value: string) => void;
+  onSelect: (value: DropdownItem) => void;
   onReset: () => void;
   selectedTag?: string;
-  items: string[];
+  items: DropdownItem[];
 }
 
 const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
@@ -24,7 +28,7 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
 
   const filteredItems = items
     .filter(item => {
-      return item.toLowerCase().includes(input.toLowerCase());
+      return item.name.toLowerCase().includes(input.toLowerCase());
     })
     .sort();
 
@@ -56,7 +60,8 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
     }
   };
 
-  const onSelectItem = (selectedItem: string) => {
+  const onSelectItem = (selectedItem: DropdownItem) => {
+    console.log(selectedItem);
     onSelect(selectedItem);
     setDropdownOpen(false);
   };
@@ -66,11 +71,16 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
   };
 
   return (
-    <Downshift isOpen={dropdownOpen} onSelect={onSelectItem} onStateChange={onStateChange}>
+    <Downshift
+      isOpen={dropdownOpen}
+      onSelect={onSelectItem}
+      onStateChange={onStateChange}
+      itemToString={item => item.name}>
       {({ getInputProps, getMenuProps, getItemProps }): JSX.Element => {
         return (
           <div>
             <DropdownInput
+              idfield
               multiSelect
               {...getInputProps({
                 value: input,
@@ -83,6 +93,8 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
               removeItem={onReset}
             />
             <DropdownMenu
+              idField={'id'}
+              labelField={'name'}
               getMenuProps={getMenuProps}
               getItemProps={getItemProps}
               isOpen={dropdownOpen}

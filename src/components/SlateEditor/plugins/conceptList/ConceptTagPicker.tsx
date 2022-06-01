@@ -10,16 +10,18 @@ import { Transforms } from 'slate';
 import { spacing } from '@ndla/core';
 import { ReactEditor, useSlateStatic } from 'slate-react';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
-import { DropdownInput, DropdownMenu, Input } from '@ndla/forms';
+import { Input } from '@ndla/forms';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Downshift, { StateChangeOptions } from 'downshift';
 import styled from '@emotion/styled';
 import { ConceptListElement } from '.';
 import { fetchAllTags } from '../../../../modules/concept/conceptApi';
 import { Portal } from '../../../Portal';
 import ConceptSearchResult from './ConceptSearchResult';
-import Dropdown from '../../../Dropdown/Dropdown';
+import Dropdown, { DropdownItem } from '../../../Dropdown/Dropdown';
+import { fetchSubject } from '../../../../modules/taxonomy';
+import { resolveJsonOrRejectWithError } from '../../../../util/apiHelpers';
+import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 
 const TwoColumn = styled.div`
   display: flex;
@@ -49,7 +51,8 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
   const { t } = useTranslation();
   const [selectedTag, setSelectedTag] = useState<string | undefined>(element.data.tag);
   const [titleInput, setTitleInput] = useState(element.data.title || '');
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<DropdownItem[]>([]);
+  const [subjects, setSubjects] = useState<DropdownItem[]>([]);
 
   const editor = useSlateStatic();
 
@@ -60,8 +63,8 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
     setTitleInput(value);
   };
 
-  const onSelectTag = (selectedItem: string) => {
-    setSelectedTag(selectedItem);
+  const onSelectTag = (selectedItem: DropdownItem) => {
+    setSelectedTag(selectedItem.id);
   };
 
   const onRemoveTag = () => {
@@ -83,7 +86,24 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
 
   useEffect(() => {
     const initialize = async () => {
-      fetchAllTags(language).then(data => setTags(data));
+      fetchAllTags(language).then(tags => {
+        const items = tags.map(tag => ({ name: tag, id: tag }));
+        setTags(items);
+      });
+
+      const subjectIds: string[] = await resolveJsonOrRejectWithError(
+        await fetch(`/concept-api/v1/concepts/subjects/`),
+      );
+      const subjectResults = await Promise.allSettled(
+        subjectIds.map(id => fetchSubject({ id, language, taxonomyVersion: 'default' })),
+      );
+      const subjects = (subjectResults.filter(result => result.status === 'fulfilled') as Array<
+        PromiseFulfilledResult<SubjectType>
+      >).map(res => {
+        const subject = res.value;
+        return { name: subject.name, id: subject.id };
+      });
+      setSubjects(subjects);
     };
 
     initialize();

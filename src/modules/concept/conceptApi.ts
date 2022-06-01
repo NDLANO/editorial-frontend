@@ -41,6 +41,11 @@ export const fetchAllTags = async (language: string): Promise<string[]> => {
   return resolveJsonOrRejectWithError(response);
 };
 
+export const fetchAllSubjects = async (language: string): Promise<string[]> => {
+  const response = await fetchAuthorized(`${draftConceptUrl}/subjects/`);
+  return resolveJsonOrRejectWithError(response);
+};
+
 export const fetchConcept = async (
   conceptId: string | number,
   locale?: string,

@@ -176,6 +176,7 @@ const frameSrc = (() => {
     'flo.uri.sh',
     'ourworldindata.org',
     '*.sketchup.com',
+    'www.gapminder.org',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [

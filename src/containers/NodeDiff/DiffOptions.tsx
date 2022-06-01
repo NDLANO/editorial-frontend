@@ -14,6 +14,7 @@ import { ContentLoader } from '@ndla/ui';
 import { spacing } from '@ndla/core';
 import ObjectSelector from '../../components/ObjectSelector';
 import { useVersions } from '../../modules/taxonomy/versions/versionQueries';
+import OptGroupVersionSelector from '../../components/Taxonomy/OptGroupVersionSelector';
 
 const StyledDiffOptions = styled.div`
   display: flex;
@@ -79,8 +80,12 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
   const [params, setParams] = useSearchParams();
   const { t } = useTranslation();
   const taxonomyVersions = useVersions();
-  const options =
-    taxonomyVersions.data?.map(version => ({ id: version.hash, label: version.name })) ?? [];
+  const originalVersion = originalHash
+    ? taxonomyVersions.data?.find(v => v.hash === originalHash)
+    : undefined;
+  const otherVersion = otherHash
+    ? taxonomyVersions.data?.find(v => v.hash === otherHash)
+    : undefined;
 
   useEffect(() => {
     if (!otherHash && taxonomyVersions.data) {
@@ -140,26 +145,22 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
   return (
     <StyledDiffOptions>
       <StyledOptionRow>
-        <DiffOption
-          emptyField
-          options={options}
-          onChange={event => onOriginalHashChange(event.currentTarget.value)}
-          name="originalHash"
-          label={t('diff.options.originalHashLabel')}
-          value={originalHash ?? 'default'}
-          placeholder={t('diff.defaultVersion')}
-        />
-        <DiffOption
-          emptyField
-          options={options}
-          onChange={({ currentTarget: { value } }) =>
-            onParamChange('otherHash', value.length ? value : 'default')
-          }
-          name="otherHash"
-          label={t('diff.options.otherHashLabel')}
-          value={otherHash ?? 'default'}
-          placeholder={t('diff.defaultVersion')}
-        />
+        <StyledDiffOption>
+          <strong>{t('diff.options.originalHashLabel')}</strong>
+          <OptGroupVersionSelector
+            versions={taxonomyVersions.data ?? []}
+            currentVersion={originalVersion}
+            onVersionChanged={onOriginalHashChange}
+          />
+        </StyledDiffOption>
+        <StyledDiffOption>
+          <strong>{t('diff.options.originalHashLabel')}</strong>
+          <OptGroupVersionSelector
+            versions={taxonomyVersions.data ?? []}
+            currentVersion={otherVersion}
+            onVersionChanged={val => onParamChange('otherHash', val.length ? val : 'default')}
+          />
+        </StyledDiffOption>
         <DiffOption
           options={viewOptions}
           onChange={event => onParamChange('view', event.currentTarget.value)}

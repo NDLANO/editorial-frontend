@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { ReactElement, useState } from 'react';
 
-import { css } from '@emotion/react';
+import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Lightbox from '../../components/Lightbox';

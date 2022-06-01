@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 import { NodeType } from '../../../../modules/nodes/nodeApiTypes';
 import MenuItemButton from './components/MenuItemButton';
 import RoundIcon from '../../../../components/RoundIcon';
-import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
 
 interface Props {
   node: NodeType;
@@ -27,10 +26,9 @@ const StyledLink = styled(Link)`
   }
 `;
 const ToNodeDiff = ({ node }: Props) => {
-  const { taxonomyVersion } = useTaxonomyVersion();
   const { t } = useTranslation();
   return (
-    <StyledLink to={`/nodeDiff/${node.id}?originalHash=${taxonomyVersion}`}>
+    <StyledLink to={`/nodeDiff/${node.id}?originalHash=default`}>
       <MenuItemButton stripped data-testid="toNodeDiff">
         <RoundIcon small icon={<Taxonomy />} />
         {t('diff.compareVersions')}

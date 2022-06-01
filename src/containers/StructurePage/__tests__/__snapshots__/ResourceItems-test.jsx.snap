@@ -76,6 +76,38 @@ exports[`matches snapshot 1`] = `
   }
 }
 
+.emotion-15 {
+  position: relative;
+}
+
+.emotion-7 {
+  opacity: 0;
+  position: absolute;
+  z-index: 9999;
+  pointer-events: none;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-delay: 0ms;
+  animation-delay: 0ms;
+  -webkit-animation-duration: 300ms;
+  animation-duration: 300ms;
+}
+
+.emotion-6 {
+  display: block;
+  color: #fff;
+  background: #444;
+  border-radius: 2px;
+  padding: 6.5px 13px;
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-size: 14;
+  font-size: 0.7777777777777778rem;
+  line-height: 1.2 font-weight:400;
+  text-align: center;
+  white-space: nowrap;
+  max-width: calc(100vw - #{26px});
+}
+
 .emotion-13 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -225,38 +257,6 @@ exports[`matches snapshot 1`] = `
   width: 24px;
   height: 24px;
   opacity: 0.6;
-}
-
-.emotion-15 {
-  position: relative;
-}
-
-.emotion-7 {
-  opacity: 0;
-  position: absolute;
-  z-index: 9999;
-  pointer-events: none;
-  -webkit-animation-fill-mode: forwards;
-  animation-fill-mode: forwards;
-  -webkit-animation-delay: 0ms;
-  animation-delay: 0ms;
-  -webkit-animation-duration: 300ms;
-  animation-duration: 300ms;
-}
-
-.emotion-6 {
-  display: block;
-  color: #fff;
-  background: #444;
-  border-radius: 2px;
-  padding: 6.5px 13px;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-size: 14;
-  font-size: 0.7777777777777778rem;
-  line-height: 1.2 font-weight:400;
-  text-align: center;
-  white-space: nowrap;
-  max-width: calc(100vw - #{26px});
 }
 
 <ul

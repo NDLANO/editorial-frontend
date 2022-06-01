@@ -1334,7 +1334,7 @@ const phrases = {
       customFields: {
         cancelPublishRequest: 'Avlys forespørsel om delvis publisering av struktur',
         requestPublish: 'Be om delpublisering av struktur',
-        requestVersionError: 'Publiseringsforespørsler kan bare opprettes fra standardversjonen',
+        requestVersionError: 'Publiseringsforespørsler kan bare opprettes fra Draft',
         alterFields: 'Legg til/endre metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
@@ -1410,7 +1410,7 @@ const phrases = {
     deleteLocked: 'Denne versjonen kan ikke slettes fordi den er låst',
     deletePublished: 'Denne versjonen kan ikke slettes fordi den er publisert',
     delete: 'Slett versjon',
-    locked: 'Denne versjonen er låst',
+    locked: 'Denne versjonen er låst og kan ikke slettes',
     status: {
       PUBLISHED: 'Publisert',
       ARCHIVED: 'Arkivert',
@@ -1419,7 +1419,7 @@ const phrases = {
     about:
       'Denne siden brukes til å se på og administrere taksonomiversjoner. Vær varsom: Å publisere en ny taksonomiversjon vil føre til at alt innhold i den vil være umiddelbart tilgjengelig for sluttbrukere på ndla.no',
     noPublished:
-      'Det finnes ingen publisert versjon. Standard-versjonen av taksonomi brukes inntil en versjon blir publisert',
+      'Det finnes ingen publisert versjon. Draft-versjonen av taksonomi brukes inntil en versjon blir publisert',
     editVersionTooltip: 'Rediger versjon',
     newVersionTitle: 'Opprett ny versjon',
     newVersionButton: 'Ny versjon',
@@ -1429,7 +1429,7 @@ const phrases = {
       'Er du sikker på at du ønsker å publisere denne versjonen? Den nåværende versjonen vil bli arkivert, og alle nye endringer i denne versjonen vil umiddelbart være tilgjengelige på ndla.no',
     deleteWarning: 'Er du sikker på at du ønsker å slette denne versjonen?',
     deleteWarningPublished:
-      'Er du sikker på at du ønsker å slette den publiserte versjonen? Taksonomi vil revertere tilbake til standard-versjonen.',
+      'Er du sikker på at du ønsker å slette den publiserte versjonen? Taksonomi vil revertere tilbake til Draft-versjonen.',
     postError: 'Klarte ikke å opprette ny versjon',
     putError: 'Klarte ikke å oppdatere versjonen',
     publishError: 'Klarte ikke å publisere versjonen',
@@ -1444,11 +1444,11 @@ const phrases = {
       source: {
         title: 'Kildeversjon',
         subTitle: 'Velg en annen versjon å basere denne på',
-        defaultOption: 'N/A',
+        defaultOption: 'Draft',
       },
       locked: {
         title: 'Låst',
-        subTitle: 'Er versjonen låst?',
+        subTitle: 'Lås versjonen så den ikke kan slettes',
         locked: 'Låst',
         unlocked: 'Ulåst',
       },
@@ -1472,7 +1472,7 @@ const phrases = {
       'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil umiddelbart bli tilgjengelige i målversjonen',
     publishError: 'Publisering av node feilet',
     equalNodes: 'Disse nodene er like!',
-    defaultVersion: 'Standardsversjon',
+    defaultVersion: 'Draft',
     compareVersions: 'Sammenlign versjoner',
     error: {
       originalHashRequired: "originalHash-parameteret er påkrevd i URL'en!",

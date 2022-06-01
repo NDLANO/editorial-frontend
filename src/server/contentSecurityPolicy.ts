@@ -20,7 +20,8 @@ const connectSrc = (() => {
     'https://ekr.zdassets.com',
     'https://static.zdassets.com',
     'https://*.boltdns.net',
-    'https://www.google-analytics.com',
+    'https://*.google-analytics.com',
+    'https://*.analytics.google.com',
     'https://www.googleapis.com/customsearch/',
     'https://house-fastly-signed-eu-west-1-prod.brightcovecdn.com',
     'https://www.wiris.net',
@@ -175,6 +176,7 @@ const frameSrc = (() => {
     'flo.uri.sh',
     'ourworldindata.org',
     '*.sketchup.com',
+    'www.gapminder.org',
   ];
   if (process.env.NODE_ENV === 'development') {
     return [
@@ -229,7 +231,8 @@ const contentSecurityPolicy = {
       'https://i.ytimg.com/',
       'https://ssl.gstatic.com',
       'https://www.gstatic.com',
-      'https://www.google-analytics.com',
+      'https://*.google-analytics.com',
+      'https://*.analytics.google.com',
       'https://stats.g.doubleclick.net',
       'https://ndla.zendesk.com',
       'https://edndla.zendesk.com',

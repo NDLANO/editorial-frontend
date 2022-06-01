@@ -172,6 +172,12 @@ export const fetchStatusStateMachine = async (
   );
 };
 
+export const copyRevisionDates = (nodeId: string): Promise<void> => {
+  return fetchAuthorized(`${baseUrl}/copyRevisionDates/${nodeId}`, {
+    method: 'POST',
+  }).then(r => resolveVoidOrRejectWithError(r));
+};
+
 export const headFileAtRemote = async (fileUrl: string): Promise<boolean> => {
   const res = await fetch(fileUrl, {
     method: 'HEAD',

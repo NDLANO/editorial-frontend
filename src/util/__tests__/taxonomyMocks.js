@@ -924,7 +924,7 @@ export const resourcesByType = [
         id: 438,
         title: {
           title: 'Hva kan du om stigerørsystemet?',
-          language: 'unknown',
+          language: 'und',
         },
         url: 'https://test.api.ndla.no/article-api/v2/articles/438',
         paths: ['/subject:6/topic:1:182849/topic:1:147173/resource:1:137518'],

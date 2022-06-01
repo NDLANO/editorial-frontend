@@ -106,6 +106,7 @@ export const EXTERNAL_WHITELIST_PROVIDERS = [
   { name: 'Flourish studio', url: ['public.flourish.studio', 'flo.uri.sh'], height: '650px' },
   { name: 'Our World in Data', url: ['ourworldindata.org'] },
   { name: 'SketchUp 3D Warehouse', url: ['3dwarehouse.sketchup.com'] },
+  { name: 'Gapminder', url: ['www.gapminder.org'] },
 ];
 
 export const SearchTypeValues = [

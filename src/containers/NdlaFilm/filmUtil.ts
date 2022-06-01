@@ -29,6 +29,7 @@ export const sortMoviesByIdList = (
     highlights: [],
     paths: [],
     lastUpdated: '',
+    revisions: [],
   };
   return idList.map(
     id =>

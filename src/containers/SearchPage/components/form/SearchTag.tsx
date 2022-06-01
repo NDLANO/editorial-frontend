@@ -8,17 +8,13 @@
 
 import { Component, MouseEvent } from 'react';
 
-import PropTypes from 'prop-types';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { colors, spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import { Cross } from '@ndla/icons/action';
 import styled from '@emotion/styled';
-
-export type MinimalTagType = {
-  name?: string;
-  type: string;
-};
+import { searchParamsFormatter } from './SearchForm';
+import { TagType } from './SearchTagGroup';
 
 const StyledDl = styled.dl`
   display: flex;
@@ -51,8 +47,8 @@ const StyledDd = styled.dd`
 `;
 
 interface Props {
-  tag: MinimalTagType;
-  onRemoveItem: (tag: MinimalTagType) => void;
+  tag: TagType;
+  onRemoveItem: (tag: TagType) => void;
 }
 
 class SearchTag extends Component<Props & CustomWithTranslation> {
@@ -70,25 +66,18 @@ class SearchTag extends Component<Props & CustomWithTranslation> {
 
   render() {
     const { tag, t } = this.props;
+    const tagValue = searchParamsFormatter(tag.type, tag.name) || '';
 
     return (
       <StyledDl>
         <StyledDt>{t(`searchForm.tagType.${tag.type}`)}:</StyledDt>
-        <StyledDd>{tag.name || ''}</StyledDd>
+        <StyledDd>{tagValue}</StyledDd>
         <Button onClick={this.onRemove} stripped>
           <Cross className="c-icon--small" />
         </Button>
       </StyledDl>
     );
   }
-
-  static propTypes = {
-    tag: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-    }).isRequired,
-    onRemoveItem: PropTypes.func.isRequired,
-  };
 }
 
 export default withTranslation()(SearchTag);

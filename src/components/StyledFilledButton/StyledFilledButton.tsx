@@ -10,7 +10,12 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { colors, spacing, fonts, misc } from '@ndla/core';
 
-const StyledFilledButton = styled.button`
+interface StyledFilledButtonProps {
+  deletable?: boolean;
+  disabled?: boolean;
+}
+
+const StyledFilledButton = styled.button<StyledFilledButtonProps>`
   display: flex;
   padding: ${spacing.xsmall} ${spacing.small};
   background: transparent;

@@ -6,8 +6,6 @@
  *
  */
 
-import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import queryString from 'query-string';
 import SearchContentForm from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
@@ -16,15 +14,8 @@ import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
 import { SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { SearchParamsShape } from '../../../../shapes';
-import { SearchTypeValues } from '../../../../constants';
 import { datePickerTypes } from './GenericSearchForm';
 import formatDate from '../../../../util/formatDate';
-
-export const searchFormClasses = new BEMHelper({
-  name: 'search-form',
-  prefix: 'c-',
-});
 
 export interface SearchParams {
   query?: string;
@@ -109,14 +100,6 @@ const SearchForm = ({ type, searchObject, ...rest }: Props) => {
     default:
       return <p>{`This type: ${type} is not supported`}</p>;
   }
-};
-
-SearchForm.propTypes = {
-  type: PropTypes.oneOf(SearchTypeValues).isRequired,
-  searchObject: SearchParamsShape,
-  search: PropTypes.func.isRequired,
-  subjects: PropTypes.array.isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default SearchForm;

@@ -10,7 +10,6 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
 import { DeleteForever } from '@ndla/icons/lib/editor';
-import { searchClasses } from '../../../SearchPage/SearchContainer';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemSaveButton from './MenuItemSaveButton';
@@ -45,7 +44,6 @@ const TaxonomyMetadataDropdown = ({
       <RoundIcon open small />
       <StyledMenuItemInputField placeholder={messages['title']} disabled />
       <StyledSelect
-        {...searchClasses('filters-select')}
         onChange={e => {
           e.persist();
           updateCustomFields({

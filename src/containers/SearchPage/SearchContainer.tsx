@@ -9,6 +9,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UseQueryResult } from 'react-query';
+import styled from '@emotion/styled';
 import { ISearchResult } from '@ndla/types-image-api';
 import { IAudioSummarySearchResult, ISeriesSummarySearchResult } from '@ndla/types-audio-api';
 import { IConceptSearchResult } from '@ndla/types-concept-api';
@@ -18,7 +19,6 @@ import { OneColumn } from '@ndla/ui';
 import Pager from '@ndla/pager';
 import { Search } from '@ndla/icons/common';
 import debounce from 'lodash/debounce';
-import BEMHelper from 'react-bem-helper';
 import SearchList from './components/results/SearchList';
 import SearchListOptions from './components/results/SearchListOptions';
 import SearchForm, { parseSearchParams, SearchParams } from './components/form/SearchForm';
@@ -29,10 +29,12 @@ import SearchSaveButton from './SearchSaveButton';
 import { useSubjects } from '../../modules/taxonomy/subjects';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
 
-export const searchClasses = new BEMHelper({
-  name: 'search',
-  prefix: 'c-',
-});
+const StyledSearchHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+`;
 
 export type ResultType =
   | ISearchResult
@@ -96,13 +98,13 @@ const SearchContainer = ({ searchHook, type }: Props) => {
     <>
       <HelmetWithTracker title={t(`htmlTitles.search.${type}`)} />
       <OneColumn>
-        <div {...searchClasses('header')}>
+        <StyledSearchHeader>
           <h2>
             <Search className="c-icon--medium" />
             {t(`searchPage.header.${type}`)}
           </h2>
           <SearchSaveButton />
-        </div>
+        </StyledSearchHeader>
         <SearchForm
           type={type}
           search={onQueryPush}
@@ -110,7 +112,7 @@ const SearchContainer = ({ searchHook, type }: Props) => {
           locale={locale}
           subjects={subjects}
         />
-        <SearchSort type={type} location={location} onSortOrderChange={onSortOrderChange} />
+        <SearchSort type={type} onSortOrderChange={onSortOrderChange} />
         <SearchListOptions
           type={type}
           searchObject={searchObject}

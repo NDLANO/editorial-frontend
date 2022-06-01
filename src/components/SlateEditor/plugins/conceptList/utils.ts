@@ -10,7 +10,11 @@ import { jsx as slatejsx } from 'slate-hyperscript';
 import { ConceptListElement } from '.';
 import { TYPE_CONCEPT_LIST } from './types';
 
-export const defaultConceptListBlock = (tag?: string, title?: string, subjectId?: string): ConceptListElement =>
+export const defaultConceptListBlock = (
+  tag?: string,
+  title?: string,
+  subjectId?: string,
+): ConceptListElement =>
   slatejsx(
     'element',
     {
@@ -18,7 +22,7 @@ export const defaultConceptListBlock = (tag?: string, title?: string, subjectId?
       data: {
         tag,
         title,
-        subjectId
+        subjectId,
       },
     },
     { text: '' },

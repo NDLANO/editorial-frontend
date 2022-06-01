@@ -70,8 +70,8 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching }) 
           <Concept
             className="c-icon--large"
             css={css`
-                    grid-column: 1 / 2;
-                    grid-row: 1 / 2;
+              grid-column: 1 / 2;
+              grid-row: 1 / 2;
             `}
           />
           <StyledConceptResultHeader>

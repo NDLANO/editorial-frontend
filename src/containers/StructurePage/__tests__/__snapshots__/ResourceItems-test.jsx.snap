@@ -260,7 +260,7 @@ exports[`matches snapshot 1`] = `
 }
 
 <ul
-  class="c-topic-resource__list emotion-164 emotion-165"
+  class="emotion-164 emotion-165"
 >
   <div
     class="emotion-162 emotion-163"
@@ -269,12 +269,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
+        class="o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
+          class="o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -306,7 +306,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
+          class="o-flag__body emotion-4 emotion-5"
         >
           <h1
             class="emotion-2 emotion-3"
@@ -400,12 +400,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
+        class="o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
+          class="o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -437,7 +437,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
+          class="o-flag__body emotion-4 emotion-5"
         >
           <h1
             class="emotion-2 emotion-3"
@@ -537,12 +537,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
+        class="o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
+          class="o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -574,7 +574,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
+          class="o-flag__body emotion-4 emotion-5"
         >
           <h1
             class="emotion-2 emotion-3"
@@ -674,12 +674,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
+        class="o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
+          class="o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -711,7 +711,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
+          class="o-flag__body emotion-4 emotion-5"
         >
           <h1
             class="emotion-2 emotion-3"
@@ -811,12 +811,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
+        class="o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
+          class="o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -848,7 +848,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
+          class="o-flag__body emotion-4 emotion-5"
         >
           <h1
             class="emotion-2 emotion-3"
@@ -948,12 +948,12 @@ exports[`matches snapshot 1`] = `
       data-react-beautiful-dnd-draggable="0"
     >
       <div
-        class="c-topic-resource__text o-flag o-flag--top emotion-25 emotion-26"
+        class="o-flag o-flag--top emotion-25 emotion-26"
         data-testid="resource-type-learning-path"
       >
         <div
           aria-roledescription="Draggable item. Press space bar to lift"
-          class="c-topic-resource__icon o-flag__img emotion-0 emotion-1"
+          class="o-flag__img emotion-0 emotion-1"
           data-react-beautiful-dnd-drag-handle="0"
           draggable="false"
           tabindex="0"
@@ -985,7 +985,7 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c-topic-resource__body o-flag__body emotion-4 emotion-5"
+          class="o-flag__body emotion-4 emotion-5"
         >
           <h1
             class="emotion-2 emotion-3"

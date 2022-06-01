@@ -21,7 +21,6 @@ import MakeDndList from '../../../components/MakeDndList';
 import AlertModal from '../../../components/AlertModal';
 import Spinner from '../../../components/Spinner';
 import { TopicResource } from './StructureResources';
-import { classes } from './ResourceGroup';
 import { LocaleType } from '../../../interfaces';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 
@@ -33,6 +32,7 @@ const StyledResourceItems = styled.ul`
 
 const StyledErrorMessage = styled.div`
   text-align: center;
+  color: #fe5f55;
 `;
 
 interface Props {
@@ -134,7 +134,7 @@ const ResourceItems = ({
     return <Spinner />;
   }
   return (
-    <StyledResourceItems {...classes('list')}>
+    <StyledResourceItems>
       <MakeDndList onDragEnd={onDragEnd} dragHandle disableDnd={false}>
         {resources.map(resource => (
           <Resource
@@ -149,9 +149,7 @@ const ResourceItems = ({
         ))}
       </MakeDndList>
       {error && (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage" {...classes('errorMessage')}>
-          {error}
-        </StyledErrorMessage>
+        <StyledErrorMessage data-testid="inlineEditErrorMessage">{error}</StyledErrorMessage>
       )}
       <AlertModal
         show={!!deleteId}

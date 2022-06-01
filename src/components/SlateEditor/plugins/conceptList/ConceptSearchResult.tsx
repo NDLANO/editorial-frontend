@@ -10,12 +10,6 @@ import { Embed } from '../../../../interfaces';
 import { searchConcepts } from '../../../../modules/concept/conceptApi';
 import { parseEmbedTag } from '../../../../util/embedTagHelpers';
 
-interface Props {
-  tag?: string;
-  language: string;
-  showResultCount?: boolean;
-}
-
 interface ConceptQuery {
   tags: string;
   language: string;
@@ -80,7 +74,14 @@ const getType = (type: string | undefined) => {
   return undefined;
 };
 
-const ConceptSearchResult = ({ tag, language, showResultCount }: Props) => {
+interface Props {
+  tag?: string;
+  language: string;
+  showResultCount?: boolean;
+  subjectId?: string;
+}
+
+const ConceptSearchResult = ({ tag, language, showResultCount, subjectId }: Props) => {
   const [concepts, setConcepts] = useState<ConceptNotionType[]>([]);
   const [loading, setLoading] = useState(false);
   const [resultCount, setResultCount] = useState<number>();
@@ -121,7 +122,14 @@ const ConceptSearchResult = ({ tag, language, showResultCount }: Props) => {
 
   useEffect(() => {
     if (tag) {
+      const subject = subjectId
+        ? {
+            subjects: [subjectId],
+          }
+        : {};
+
       const query = {
+        ...subject,
         tags: tag,
         language: language,
         'page-size': 200,
@@ -129,7 +137,7 @@ const ConceptSearchResult = ({ tag, language, showResultCount }: Props) => {
       setLoading(true);
       search(query);
     }
-  }, [tag, language]);
+  }, [tag, language, subjectId]);
 
   return (
     <StyledContentWrapper contentEditable={false}>

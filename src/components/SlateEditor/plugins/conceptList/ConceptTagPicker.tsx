@@ -96,6 +96,7 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
 
   useEffect(() => {
     const initialize = async () => {
+      // If subjectId exists, fetch subject name and set selected subject
       if (element.data.subjectId) {
         fetchSubject({
           id: element.data.subjectId,
@@ -152,14 +153,21 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
                     onSelect={onSelectTag}
                     onReset={onRemoveTag}
                     selectedTag={selectedTag}
+                    placeholder={t('form.categories.label')}
                   />
                   <Dropdown
                     items={subjects}
                     onSelect={onSelectSubject}
                     onReset={onRemoveSubject}
                     selectedTag={selectedSubject}
+                    placeholder={t('form.name.subjects')}
                   />
-                  <ConceptSearchResult tag={selectedTag?.id} language={language} showResultCount />
+                  <ConceptSearchResult
+                    tag={selectedTag?.id}
+                    subjectId={selectedSubject?.id}
+                    language={language}
+                    showResultCount
+                  />
                 </FormInput>
                 <StyledButton type="button" onClick={onSave} disabled={!selectedTag}>
                   {t('form.save')}

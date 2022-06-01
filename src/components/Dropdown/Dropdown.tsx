@@ -8,7 +8,6 @@
 import Downshift, { StateChangeOptions } from 'downshift';
 import { DropdownInput, DropdownMenu } from '@ndla/forms';
 import { ChangeEvent, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 export interface DropdownItem {
   name: string;
@@ -20,10 +19,10 @@ interface Props {
   onReset: () => void;
   selectedTag?: DropdownItem;
   items: DropdownItem[];
+  placeholder: string;
 }
 
-const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
-  const { t } = useTranslation();
+const Dropdown = ({ onSelect, selectedTag, onReset, items, placeholder }: Props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [input, setInput] = useState('');
 
@@ -91,7 +90,7 @@ const Dropdown = ({ onSelect, selectedTag, onReset, items }: Props) => {
                 onFocus: onFocus,
                 onClick: onFocus,
               })}
-              placeholder={t('form.categories.label')}
+              placeholder={placeholder}
               values={selectedTag ? [selectedTag] : []}
               removeItem={onReset}
             />

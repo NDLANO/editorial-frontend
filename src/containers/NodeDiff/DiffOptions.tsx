@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, useEffect } from 'react';
+import { FormEvent } from 'react';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
@@ -86,14 +86,6 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
   const otherVersion = otherHash
     ? taxonomyVersions.data?.find(v => v.hash === otherHash)
     : undefined;
-
-  useEffect(() => {
-    if (!otherHash && taxonomyVersions.data) {
-      const publishedVersion = taxonomyVersions.data.find(v => v.versionType === 'PUBLISHED');
-      params.set('otherHash', publishedVersion?.hash ?? 'default');
-      setParams(params);
-    }
-  }, [otherHash, params, setParams, taxonomyVersions.data]);
 
   const nodeViewOptions = [
     { id: 'all', label: t('diff.options.allNodes') },

@@ -1477,12 +1477,12 @@ const phrases = {
     error: {
       originalHashRequired: "originalHash-parameteret er påkrevd i URL'en!",
       doesNotExist: 'Denne noden finnes ikke i noen av versjonene!',
-      onlyExistsInOriginal: 'Denne noden finnes bare i originalversjonen',
-      onlyExistsInOther: 'Denne noden finnes bare i versjonen du sammenligner med',
+      onlyExistsInOriginal: 'Denne noden finnes bare i målversjonen',
+      onlyExistsInOther: 'Denne noden finnes bare i kildeversjonen',
     },
     options: {
-      originalHashLabel: 'Original-versjon',
-      otherHashLabel: 'Annen versjon',
+      originalHashLabel: 'Målversjon',
+      otherHashLabel: 'Kildeversjon',
       viewLabel: 'Visningstype',
       nodeViewLabel: 'Nodevisning',
       fieldViewLabel: 'Feltvisning',
@@ -1497,7 +1497,7 @@ const phrases = {
     resourcesChanged: 'Ressurser endret',
     diffTypes: {
       ADDED: 'Lagt til',
-      DELETED: 'Slettet',
+      DELETED: 'Mangler',
       MODIFIED: 'Endret',
       NONE: 'Ingen',
     },

@@ -1473,12 +1473,12 @@ const phrases = {
     error: {
       originalHashRequired: 'The originalHash parameter has to be present in the URL!',
       doesNotExist: 'This node does not exist in any of these versions!',
-      onlyExistsInOriginal: 'This node only exists in the original version',
-      onlyExistsInOther: 'This node only exists in the version you are comparing against',
+      onlyExistsInOriginal: 'This node only exists in the target version',
+      onlyExistsInOther: 'This node only exists in the source version',
     },
     options: {
-      originalHashLabel: 'Original version',
-      otherHashLabel: 'Other version',
+      originalHashLabel: 'Target version',
+      otherHashLabel: 'Source version',
       viewLabel: 'View type',
       nodeViewLabel: 'Node view',
       fieldViewLabel: 'Field view',
@@ -1493,7 +1493,7 @@ const phrases = {
     resourcesChanged: 'Resources changed',
     diffTypes: {
       ADDED: 'Added',
-      DELETED: 'Deleted',
+      DELETED: 'Missing',
       MODIFIED: 'Modified',
       NONE: 'None',
     },

@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors, mq, breakpoints } from '@ndla/core';
-import { classes } from './ResourceGroup';
 import { toEditArticle, toLearningpathFull } from '../../../util/routeHelpers';
 
 const StyledH1 = styled.h1<{ isVisible?: boolean }>`
@@ -50,7 +49,7 @@ const ResourceItemLink = ({ contentType, contentUri, name, isVisible = true }: P
         rel: 'noopener noreferrer',
       };
       return (
-        <StyledH1 isVisible={isVisible} {...classes('title')}>
+        <StyledH1 isVisible={isVisible}>
           <a {...linkProps}>{name}</a>
         </StyledH1>
       );
@@ -60,17 +59,11 @@ const ResourceItemLink = ({ contentType, contentUri, name, isVisible = true }: P
         to={toEditArticle(parseInt(linkTo), contentType!)}
         target="_blank"
         rel="noopener noreferrer">
-        <StyledH1 isVisible={isVisible} {...classes('title')}>
-          {name}
-        </StyledH1>
+        <StyledH1 isVisible={isVisible}>{name}</StyledH1>
       </Link>
     );
   }
-  return (
-    <StyledH1 isVisible={isVisible} {...classes('title')}>
-      {name}
-    </StyledH1>
-  );
+  return <StyledH1 isVisible={isVisible}>{name}</StyledH1>;
 };
 
 export default ResourceItemLink;

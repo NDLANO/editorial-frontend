@@ -20,7 +20,6 @@ import {
 } from '../../../modules/nodes/nodeMutations';
 import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
 import AlertModal from '../../../components/AlertModal';
-import { classes } from './ResourceGroup';
 import MakeDndList from '../../../components/MakeDndList';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
 import { resourcesWithNodeConnectionQueryKey } from '../../../modules/nodes/nodeQueries';
@@ -33,6 +32,7 @@ const StyledResourceItems = styled.ul`
 
 const StyledErrorMessage = styled.div`
   text-align: center;
+  color: #fe5f55;
 `;
 
 interface Props {
@@ -111,7 +111,7 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
   };
 
   return (
-    <StyledResourceItems {...classes('list')}>
+    <StyledResourceItems>
       <MakeDndList onDragEnd={onDragEnd} dragHandle disableDnd={false}>
         {resources.map(resource => (
           <Resource
@@ -125,7 +125,7 @@ const ResourceItems = ({ resources, currentNodeId }: Props) => {
         ))}
       </MakeDndList>
       {deleteNodeResource.error && isError(deleteNodeResource.error) && (
-        <StyledErrorMessage data-testid="inlineEditErrorMessage" {...classes('errorMessage')}>
+        <StyledErrorMessage data-testid="inlineEditErrorMessage">
           {`${t('taxonomy.errorMessage')}: ${deleteNodeResource.error.message}`}
         </StyledErrorMessage>
       )}

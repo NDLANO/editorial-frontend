@@ -38,7 +38,6 @@ import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import { PUBLISHED } from '../../../util/constants/ArticleStatus';
 import RelevanceOption from '../../../components/Taxonomy/RelevanceOption';
 import RemoveButton from '../../../components/Taxonomy/RemoveButton';
-import { classes } from './ResourceGroup';
 import ResourceItemLink from './ResourceItemLink';
 import GrepCodesModal from './GrepCodesModal';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
@@ -212,15 +211,13 @@ const Resource = ({ resource, onDelete, dragHandleProps, currentNodeId }: Props)
   };
 
   return (
-    <StyledText
-      data-testid={`resource-type-${contentType}`}
-      {...classes('text o-flag o-flag--top')}>
+    <StyledText data-testid={`resource-type-${contentType}`} className="o-flag o-flag--top">
       {contentType && (
-        <StyledResourceIcon key="img" {...classes('icon o-flag__img')} {...dragHandleProps}>
+        <StyledResourceIcon key="img" className=" o-flag__img" {...dragHandleProps}>
           <ContentTypeBadge background type={iconType} />
         </StyledResourceIcon>
       )}
-      <StyledResourceBody key="body" {...classes('body o-flag__body')}>
+      <StyledResourceBody key="body" className="o-flag__body">
         <ResourceItemLink
           contentType={contentType}
           contentUri={resource.contentUri}

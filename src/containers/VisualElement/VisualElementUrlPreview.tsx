@@ -239,29 +239,33 @@ const VisualElementUrlPreview = ({
     }
   };
 
-  const isChangedUrl = url !== selectedResourceUrl || selectedResourceUrl === undefined;
+  const urlChanged = url !== selectedResourceUrl || selectedResourceUrl === undefined;
+  const titleChanged = title !== embed?.title;
+  const descriptionChanged = embed?.caption !== description;
+  const imageChanged = embed?.imageid !== image?.id;
+  const typeChanged = showFullscreen
+    ? embed?.type === 'iframe' || !embed?.type
+    : embed?.type === 'fullscreen';
 
   const canSave = () => {
-    if (showFullscreen) {
-      if (
-        url === selectedResourceUrl &&
-        title === embed?.title &&
-        embed.caption === description &&
-        embed.imageid === image?.id
-      ) {
-        return false;
-      }
-    } else {
-      if (!isChangedUrl && embed?.type === 'iframe') {
-        return false;
-      }
-    }
-
     if (url === '' || !!error) {
       return false;
     }
 
-    return true;
+    if (showFullscreen) {
+      if (!image?.id) {
+        return false;
+      }
+      if (titleChanged || descriptionChanged || imageChanged) {
+        return true;
+      }
+    }
+
+    if (urlChanged || typeChanged) {
+      return true;
+    }
+
+    return false;
   };
 
   useEffect(() => {
@@ -276,7 +280,7 @@ const VisualElementUrlPreview = ({
     <>
       <FieldHeader
         title={
-          isChangedUrl
+          urlChanged
             ? t('form.content.link.newUrlResource')
             : t('form.content.link.changeUrlResource', { type: selectedResourceType })
         }
@@ -331,7 +335,7 @@ const VisualElementUrlPreview = ({
           </Button>
         )}
         <Button disabled={!canSave()} outline onClick={() => handleSaveUrl()}>
-          {isChangedUrl ? t('form.content.link.insert') : t('form.content.link.update')}
+          {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
         </Button>
       </StyledButtonWrapper>
       <CheckboxWrapper>

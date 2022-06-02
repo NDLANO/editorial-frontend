@@ -16,7 +16,6 @@ import Overlay from '../../../../components/Overlay';
 import handleError from '../../../../util/handleError';
 import MenuItemButton from './MenuItemButton';
 import { fetchSubjectTopics, deleteSubject } from '../../../../modules/taxonomy';
-import '../../../../style/link.css';
 import { StyledErrorMessage } from '../styles';
 import { SubjectTopic } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 

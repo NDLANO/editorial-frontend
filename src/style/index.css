@@ -11,18 +11,12 @@
 @import '../../node_modules/react-image-crop/dist/ReactCrop.css';
 @import '../../node_modules/@reach/dialog/styles.css';
 @import './accordion.css';
-@import './alert.css';
 @import './content-block.css';
-@import './dropdown-menu.css';
 @import './fields.css';
 @import './form.css';
-@import './imageSearch.css';
-@import './masthead.css';
-@import './multiselect.css';
 @import './toolbar.css';
 @import './vars.css';
 @import './table.css';
-@import './tooltip.css';
 
 .c-audio-search {
   width: 70%;

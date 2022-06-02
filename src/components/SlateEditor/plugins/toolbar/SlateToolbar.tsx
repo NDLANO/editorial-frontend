@@ -57,7 +57,7 @@ const ToolbarContainer = styled.div`
   color: black;
   background-color: white;
   transition: opacity 0.75s;
-  box-shadow: 3px 3px 5px rgba(153, 153, 153, 0.349019607843137);
+  box-shadow: 3px 3px 5px #99999959;
 `;
 
 interface Props {

@@ -252,7 +252,7 @@ const VisualElementUrlPreview = ({
         return false;
       }
     } else {
-      if (!isChangedUrl) {
+      if (!isChangedUrl && embed?.type === 'iframe') {
         return false;
       }
     }

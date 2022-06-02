@@ -15,7 +15,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   }
 }
 
-.emotion-2 {
+.emotion-6 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -62,40 +62,40 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   padding: 0.6rem 0;
 }
 
-.emotion-2:hover,
-.emotion-2:focus {
+.emotion-6:hover,
+.emotion-6:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-2[disabled] {
+.emotion-6[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-2:focus {
+.emotion-6:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-2:hover,
-.emotion-2:active,
-.emotion-2:disabled,
-.emotion-2:focus {
+.emotion-6:hover,
+.emotion-6:active,
+.emotion-6:disabled,
+.emotion-6:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-2:focus {
+.emotion-6:focus {
   outline-width: medium;
 }
 
-.emotion-2,
-.emotion-2:hover {
+.emotion-6,
+.emotion-6:hover {
   padding: 0;
   color: white;
   height: 50px;
@@ -104,6 +104,28 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
 }
 
 .emotion-0 {
+  padding-left: 1.3rem;
+  font-size: 1.25rem;
+  color: white;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  margin-right: 0.2em;
+}
+
+.emotion-0 > svg {
+  margin-right: 10px;
+}
+
+.emotion-2 {
   color: #20588f;
   margin: 0;
   padding-right: 52px;
@@ -124,11 +146,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   align-items: center;
 }
 
-.emotion-0 label {
+.emotion-2 label {
   cursor: pointer;
 }
 
-.emotion-0 label:after {
+.emotion-2 label:after {
   content: "";
   display: block;
   width: 22px;
@@ -146,7 +168,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-0 label:before {
+.emotion-2 label:before {
   content: "";
   display: block;
   position: absolute;
@@ -165,7 +187,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-0 input {
+.emotion-2 input {
   width: 0;
   height: 0;
   position: absolute;
@@ -176,59 +198,77 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-0 input:checked + label:after {
+.emotion-2 input:checked + label:after {
   -webkit-transform: translateX(0);
   -ms-transform: translateX(0);
   transform: translateX(0);
   background: #184673;
 }
 
-.emotion-0 input:checked + label:before {
+.emotion-2 input:checked + label:before {
   background: #ceddea;
 }
 
-.emotion-0 input:focus:checked + label:before {
+.emotion-2 input:focus:checked + label:before {
   background: #a5bcd3;
 }
 
-.emotion-0 input:focus:checked + label:after {
+.emotion-2 input:focus:checked + label:after {
   background: #184673;
 }
 
-.emotion-0 input:focus:not(:checked) + label:after {
+.emotion-2 input:focus:not(:checked) + label:after {
   background: #777777;
 }
 
-.emotion-0:hover input + label:after {
+.emotion-2:hover input + label:after {
   background: #777777;
 }
 
-.emotion-0:hover input:checked + label:before {
+.emotion-2:hover input:checked + label:before {
   background: #a5bcd3;
 }
 
-.emotion-0:hover input:checked + label:after {
+.emotion-2:hover input:checked + label:after {
   background: #184673;
 }
 
-.emotion-358 {
+.emotion-4 {
+  width: 45px;
+  height: 45px;
+  color: white;
+}
+
+.emotion-364 {
+  padding-bottom: 3rem;
+  margin-left: 26px;
+}
+
+@media (min-width:37.5em) {
+  .emotion-364 {
+    padding-left: 13px;
+    padding-right: 6.5px;
+  }
+}
+
+.emotion-362 {
   position: relative;
   z-index: 1;
 }
 
-.emotion-12 {
+.emotion-16 {
   margin: 0;
   padding: 0;
 }
 
-.emotion-206 {
+.emotion-210 {
   -webkit-animation-duration: 200ms;
   animation-duration: 200ms;
   -webkit-animation-name: fadeInTop;
   animation-name: fadeInTop;
 }
 
-.emotion-14 {
+.emotion-18 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -240,11 +280,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-14 > div > button {
+.emotion-18 > div > button {
   color: rgb(32,88,143,0.5);
 }
 
-.emotion-10 {
+.emotion-14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -258,11 +298,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-10:hover {
+.emotion-14:hover {
   background: #f1f5f8;
 }
 
-.emotion-4 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -275,12 +315,12 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: transparent;
 }
 
-.emotion-4 svg:hover {
+.emotion-8 svg:hover {
   fill: #fcba03;
   cursor: pointer;
 }
 
-.emotion-6 {
+.emotion-10 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -301,7 +341,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-6:before {
+.emotion-10:before {
   content: '';
   display: block;
   width: 0;
@@ -312,7 +352,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-right: 6.5px;
 }
 
-.emotion-6:before {
+.emotion-10:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -321,7 +361,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate(0deg);
 }
 
-.emotion-8 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -329,7 +369,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   width: 100%;
 }
 
-.emotion-138 {
+.emotion-142 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -350,7 +390,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-138:before {
+.emotion-142:before {
   content: '';
   display: block;
   width: 0;
@@ -361,7 +401,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-right: 6.5px;
 }
 
-.emotion-138:before {
+.emotion-142:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -370,7 +410,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate(90deg);
 }
 
-.emotion-360 {
+.emotion-366 {
   border: 0.4em solid #e8e3e3;
   border-bottom-color: #20588f;
   border-radius: 50%;
@@ -381,7 +421,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   animation: animation-0 0.7s linear infinite;
 }
 
-.emotion-148 {
+.emotion-152 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -395,11 +435,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-148:hover {
+.emotion-152:hover {
   background: #f1f5f8;
 }
 
-.emotion-144 {
+.emotion-148 {
   font-size: 16;
   font-size: 0.8888888888888888rem;
   line-height: 1;
@@ -420,7 +460,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   cursor: pointer;
 }
 
-.emotion-144:before {
+.emotion-148:before {
   content: '';
   display: block;
   width: 8px;
@@ -432,7 +472,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-left: 7px;
 }
 
-.emotion-144:before {
+.emotion-148:before {
   -webkit-transition: -webkit-transform 200ms ease;
   -webkit-transition: transform 200ms ease;
   transition: transform 200ms ease;
@@ -441,7 +481,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   transform: rotate(deg);
 }
 
-.emotion-184 {
+.emotion-188 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -455,11 +495,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   border-bottom: 1px solid #eff0f2;
 }
 
-.emotion-184:hover {
+.emotion-188:hover {
   background: #f1f5f8;
 }
 
-.emotion-209 {
+.emotion-213 {
   margin: 0;
   padding: 0;
   display: -webkit-box;
@@ -471,7 +511,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   flex-direction: column;
 }
 
-.emotion-204 {
+.emotion-208 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -486,11 +526,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   background: #ceddea;
 }
 
-.emotion-204:hover {
+.emotion-208:hover {
   background: #ceddea;
 }
 
-.emotion-196 {
+.emotion-200 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -498,11 +538,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   display: flex;
 }
 
-.emotion-196 > button {
+.emotion-200 > button {
   outline: none;
 }
 
-.emotion-194 {
+.emotion-198 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -534,39 +574,39 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   font-weight: 400;
 }
 
-.emotion-194:hover,
-.emotion-194:focus {
+.emotion-198:hover,
+.emotion-198:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-194[disabled] {
+.emotion-198[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-194:focus {
+.emotion-198:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-194:hover,
-.emotion-194:active,
-.emotion-194:disabled,
-.emotion-194:focus {
+.emotion-198:hover,
+.emotion-198:active,
+.emotion-198:disabled,
+.emotion-198:focus {
   box-shadow: none;
   color: #20588f;
   background-color: transparent;
   border: none;
 }
 
-.emotion-194:focus {
+.emotion-198:focus {
   outline-width: medium;
 }
 
-.emotion-192 {
+.emotion-196 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -588,18 +628,18 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin: 0 calc(13px / 2);
 }
 
-.emotion-192 > svg {
+.emotion-196 > svg {
   height: 20px;
   width: 20px;
 }
 
-.emotion-192:hover,
-.emotion-192:focus {
+.emotion-196:hover,
+.emotion-196:focus {
   background-color: #4d4d4d;
   color: #f8f8f8;
 }
 
-.emotion-200 {
+.emotion-204 {
   display: inline-block;
   color: #ffffff;
   background-color: #20588f;
@@ -633,53 +673,53 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   line-height: 1.1;
 }
 
-.emotion-200:hover,
-.emotion-200:focus {
+.emotion-204:hover,
+.emotion-204:focus {
   color: white;
   background-color: #184673;
   border: 2px solid #184673;
 }
 
-.emotion-200[disabled] {
+.emotion-204[disabled] {
   color: #777777;
   background-color: #e6e6e6;
   border-color: transparent;
   cursor: not-allowed;
 }
 
-.emotion-200:focus {
+.emotion-204:focus {
   box-shadow: 0 0 2px #20588f;
 }
 
-.emotion-200:hover,
-.emotion-200:focus {
+.emotion-204:hover,
+.emotion-204:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-200:disabled {
+.emotion-204:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
-.emotion-200:hover,
-.emotion-200:focus {
+.emotion-204:hover,
+.emotion-204:focus {
   color: white;
   background-color: #20588f;
   border: 2px solid transparent;
 }
 
-.emotion-200:disabled {
+.emotion-204:disabled {
   color: #777777;
   border: 2px solid transparent;
   background-color: #e6e6e6;
   cursor: not-allowed;
 }
 
-.emotion-198 {
+.emotion-202 {
   display: grid;
   grid-auto-flow: column;
   grid-gap: 26px;
@@ -688,15 +728,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
 <div
   class="o-wrapper undefined"
 >
-  <div
-    class="c-accordion c-accordion--taxonomy"
-  >
+  <div>
     <button
-      class="emotion-2 emotion-3"
+      class="emotion-6 emotion-7"
       type="button"
     >
       <span
-        class="c-accordion__title c-accordion__title--taxonomy"
+        class="emotion-0 emotion-1"
+        type="taxonomy"
       >
         <svg
           class="c-icon c-icon--medium"
@@ -718,7 +757,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         Rediger struktur
       </span>
       <div
-        class="emotion-0 emotion-1"
+        class="emotion-2 emotion-3"
         style="color: rgb(255, 255, 255); width: 15.2em;"
       >
         <input
@@ -732,13 +771,14 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
         </label>
       </div>
       <svg
-        class="c-icon c-accordion__arrow c-accordion__arrow--taxonomy"
+        class="c-icon emotion-4 emotion-5"
         data-license="Apache License 2.0"
         data-source="Material Design"
         fill="currentColor"
         height="1em"
         preserveAspectRatio="xMidYMid meet"
         style="vertical-align: middle;"
+        type="taxonomy"
         viewBox="0 0 24 24"
         width="1em"
       >
@@ -750,25 +790,26 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
       </svg>
     </button>
     <div
-      class="c-accordion__content c-accordion__content--visible c-accordion__content--taxonomy"
+      class="emotion-364 emotion-365"
+      type="taxonomy"
     >
       <div
-        class="emotion-358 emotion-359"
+        class="emotion-362 emotion-363"
       >
         <ul
-          class="emotion-12 emotion-13"
+          class="emotion-16 emotion-17"
         >
           <div
-            class="emotion-206"
+            class="emotion-210"
           >
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -797,29 +838,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:6"
                   type="button"
                 >
                   Brønnteknikk
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -848,29 +889,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:11"
                   type="button"
                 >
                   Bygg- og anleggsteknikk
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -899,29 +940,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:16"
                   type="button"
                 >
                   Elektrofag vg1
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -950,29 +991,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:17"
                   type="button"
                 >
                   Engelskspråklig litteratur og kultur
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1001,29 +1042,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:9"
                   type="button"
                 >
                   Historie vg2 og vg3
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1052,29 +1093,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:2"
                   type="button"
                 >
                   Kinesisk
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1103,29 +1144,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:18"
                   type="button"
                 >
                   Kommunikasjon og kultur 1, 2, 3
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1154,29 +1195,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:7"
                   type="button"
                 >
                   Markedsføring og ledelse 1
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1205,29 +1246,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:10"
                   type="button"
                 >
                   Matematikk fellesfag
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1256,29 +1297,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:218c9882-5f4f-484d-848b-119fb97d7766"
                   type="button"
                 >
                   Matte 101
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1307,29 +1348,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:14"
                   type="button"
                 >
                   Medie- og informasjonskunnskap
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1358,162 +1399,162 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-138 emotion-7"
+                  class="emotion-142 emotion-11"
                   id="urn:subject:1"
                   type="button"
                 >
                   Medieuttrykk og mediesamfunnet
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               >
                 <div
-                  class="emotion-206"
+                  class="emotion-210"
                 >
                   <li
-                    class="emotion-14 emotion-15"
+                    class="emotion-18 emotion-19"
                   >
                     <div
-                      class="emotion-148 emotion-11"
+                      class="emotion-152 emotion-15"
                     >
                       <button
-                        class="emotion-144 emotion-7"
+                        class="emotion-148 emotion-11"
                         id="urn:subject:1/urn:topic:1:186401"
                         type="button"
                       >
                         Brukertips og årsplaner
                       </button>
                       <div
-                        class="emotion-8 emotion-9"
+                        class="emotion-12 emotion-13"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-12 emotion-13"
+                      class="emotion-16 emotion-17"
                     />
                   </li>
                   <li
-                    class="emotion-14 emotion-15"
+                    class="emotion-18 emotion-19"
                   >
                     <div
-                      class="emotion-148 emotion-11"
+                      class="emotion-152 emotion-15"
                     >
                       <button
-                        class="emotion-6 emotion-7"
+                        class="emotion-10 emotion-11"
                         id="urn:subject:1/urn:topic:1:172416"
                         type="button"
                       >
                         Idéskaping og mediedesign
                       </button>
                       <div
-                        class="emotion-8 emotion-9"
+                        class="emotion-12 emotion-13"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-12 emotion-13"
+                      class="emotion-16 emotion-17"
                     />
                   </li>
                   <li
-                    class="emotion-14 emotion-15"
+                    class="emotion-18 emotion-19"
                   >
                     <div
-                      class="emotion-148 emotion-11"
+                      class="emotion-152 emotion-15"
                     >
                       <button
-                        class="emotion-6 emotion-7"
+                        class="emotion-10 emotion-11"
                         id="urn:subject:1/urn:topic:1:186460"
                         type="button"
                       >
                         Medieproduksjon
                       </button>
                       <div
-                        class="emotion-8 emotion-9"
+                        class="emotion-12 emotion-13"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-12 emotion-13"
+                      class="emotion-16 emotion-17"
                     />
                   </li>
                   <li
-                    class="emotion-14 emotion-15"
+                    class="emotion-18 emotion-19"
                   >
                     <div
-                      class="emotion-148 emotion-11"
+                      class="emotion-152 emotion-15"
                     >
                       <button
-                        class="emotion-138 emotion-7"
+                        class="emotion-142 emotion-11"
                         id="urn:subject:1/urn:topic:1:186479"
                         type="button"
                       >
                         Mediekommunikasjon
                       </button>
                       <div
-                        class="emotion-8 emotion-9"
+                        class="emotion-12 emotion-13"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-12 emotion-13"
+                      class="emotion-16 emotion-17"
                     >
                       <div
-                        class="emotion-206"
+                        class="emotion-210"
                       >
                         <li
-                          class="emotion-14 emotion-15"
+                          class="emotion-18 emotion-19"
                         >
                           <div
-                            class="emotion-184 emotion-11"
+                            class="emotion-188 emotion-15"
                           >
                             <button
-                              class="emotion-144 emotion-7"
+                              class="emotion-148 emotion-11"
                               id="urn:topic:1:186479/urn:topic:1:186487"
                               type="button"
                             >
                               Mediekommunikasjon
                             </button>
                             <div
-                              class="emotion-8 emotion-9"
+                              class="emotion-12 emotion-13"
                               data-cy="folderWrapper"
                             />
                           </div>
                           <ul
-                            class="emotion-12 emotion-13"
+                            class="emotion-16 emotion-17"
                           />
                         </li>
                         <li
-                          class="emotion-209 emotion-15"
+                          class="emotion-213 emotion-19"
                         >
                           <div
-                            class="emotion-204 emotion-11"
+                            class="emotion-208 emotion-15"
                           >
                             <button
-                              class="emotion-144 emotion-7"
+                              class="emotion-148 emotion-11"
                               id="urn:topic:1:186479/urn:topic:1:172650"
                               type="button"
                             >
                               Fortelleteknikker og virkemidler
                             </button>
                             <div
-                              class="emotion-8 emotion-9"
+                              class="emotion-12 emotion-13"
                               data-cy="folderWrapper"
                             >
                               <div
-                                class="emotion-196 emotion-197"
+                                class="emotion-200 emotion-201"
                               >
                                 <button
-                                  class="emotion-194 emotion-3"
+                                  class="emotion-198 emotion-7"
                                   data-cy="settings-button-topic"
                                   type="button"
                                 >
                                   <div
-                                    class="emotion-192 emotion-193"
+                                    class="emotion-196 emotion-197"
                                   >
                                     <svg
                                       class="c-icon"
@@ -1540,11 +1581,11 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                                 </button>
                               </div>
                               <button
-                                class="emotion-200 emotion-3"
+                                class="emotion-204 emotion-7"
                                 type="button"
                               >
                                 <div
-                                  class="emotion-198 emotion-199"
+                                  class="emotion-202 emotion-203"
                                   spacing="normal"
                                 >
                                   Hopp til ressurser
@@ -1553,137 +1594,137 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                             </div>
                           </div>
                           <ul
-                            class="emotion-12 emotion-13"
+                            class="emotion-16 emotion-17"
                           >
                             <div
-                              class="emotion-206"
+                              class="emotion-210"
                             />
                           </ul>
                         </li>
                         <li
-                          class="emotion-14 emotion-15"
+                          class="emotion-18 emotion-19"
                         >
                           <div
-                            class="emotion-184 emotion-11"
+                            class="emotion-188 emotion-15"
                           >
                             <button
-                              class="emotion-144 emotion-7"
+                              class="emotion-148 emotion-11"
                               id="urn:topic:1:186479/urn:topic:1:185606"
                               type="button"
                             >
                               Medieanalyse
                             </button>
                             <div
-                              class="emotion-8 emotion-9"
+                              class="emotion-12 emotion-13"
                               data-cy="folderWrapper"
                             />
                           </div>
                           <ul
-                            class="emotion-12 emotion-13"
+                            class="emotion-16 emotion-17"
                           />
                         </li>
                       </div>
                     </ul>
                   </li>
                   <li
-                    class="emotion-14 emotion-15"
+                    class="emotion-18 emotion-19"
                   >
                     <div
-                      class="emotion-148 emotion-11"
+                      class="emotion-152 emotion-15"
                     >
                       <button
-                        class="emotion-6 emotion-7"
+                        class="emotion-10 emotion-11"
                         id="urn:subject:1/urn:topic:1:171906"
                         type="button"
                       >
                         Mediebransjen – yrker, regelverk og retorikk
                       </button>
                       <div
-                        class="emotion-8 emotion-9"
+                        class="emotion-12 emotion-13"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-12 emotion-13"
+                      class="emotion-16 emotion-17"
                     />
                   </li>
                   <li
-                    class="emotion-14 emotion-15"
+                    class="emotion-18 emotion-19"
                   >
                     <div
-                      class="emotion-148 emotion-11"
+                      class="emotion-152 emotion-15"
                     >
                       <button
-                        class="emotion-6 emotion-7"
+                        class="emotion-10 emotion-11"
                         id="urn:subject:1/urn:topic:1:172361"
                         type="button"
                       >
                         Individet og mediene
                       </button>
                       <div
-                        class="emotion-8 emotion-9"
+                        class="emotion-12 emotion-13"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-12 emotion-13"
+                      class="emotion-16 emotion-17"
                     />
                   </li>
                   <li
-                    class="emotion-14 emotion-15"
+                    class="emotion-18 emotion-19"
                   >
                     <div
-                      class="emotion-148 emotion-11"
+                      class="emotion-152 emotion-15"
                     >
                       <button
-                        class="emotion-6 emotion-7"
+                        class="emotion-10 emotion-11"
                         id="urn:subject:1/urn:topic:1:172362"
                         type="button"
                       >
                         Mediene i samfunnet
                       </button>
                       <div
-                        class="emotion-8 emotion-9"
+                        class="emotion-12 emotion-13"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-12 emotion-13"
+                      class="emotion-16 emotion-17"
                     />
                   </li>
                   <li
-                    class="emotion-14 emotion-15"
+                    class="emotion-18 emotion-19"
                   >
                     <div
-                      class="emotion-148 emotion-11"
+                      class="emotion-152 emotion-15"
                     >
                       <button
-                        class="emotion-6 emotion-7"
+                        class="emotion-10 emotion-11"
                         id="urn:subject:1/urn:topic:1:172568"
                         type="button"
                       >
                         Tverrfaglige arbeidsoppdrag
                       </button>
                       <div
-                        class="emotion-8 emotion-9"
+                        class="emotion-12 emotion-13"
                         data-cy="folderWrapper"
                       />
                     </div>
                     <ul
-                      class="emotion-12 emotion-13"
+                      class="emotion-16 emotion-17"
                     />
                   </li>
                 </div>
               </ul>
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1712,29 +1753,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:13"
                   type="button"
                 >
                   Naturbruk vg 1
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1763,29 +1804,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:3"
                   type="button"
                 >
                   Samfunnsfag
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1814,29 +1855,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:12"
                   type="button"
                 >
                   Service og samferdsel vg1
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1865,29 +1906,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:15"
                   type="button"
                 >
                   Sørsamisk vg1 og vg2
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1916,29 +1957,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:5"
                   type="button"
                 >
                   Testfag
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -1967,29 +2008,29 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:8"
                   type="button"
                 >
                   Tysk
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
             <li
-              class="emotion-14 emotion-15"
+              class="emotion-18 emotion-19"
             >
               <div
-                class="emotion-10 emotion-11"
+                class="emotion-14 emotion-15"
               >
                 <button
-                  class="emotion-4 emotion-5"
+                  class="emotion-8 emotion-9"
                 >
                   <svg
                     class="c-icon"
@@ -2018,19 +2059,19 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
                   </svg>
                 </button>
                 <button
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                   id="urn:subject:4"
                   type="button"
                 >
                   Vg 2 Helsearbeiderfag
                 </button>
                 <div
-                  class="emotion-8 emotion-9"
+                  class="emotion-12 emotion-13"
                   data-cy="folderWrapper"
                 />
               </div>
               <ul
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
               />
             </li>
           </div>
@@ -2039,7 +2080,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
     </div>
   </div>
   <div
-    class="emotion-360 emotion-361"
+    class="emotion-366 emotion-367"
   />
 </div>
 `;

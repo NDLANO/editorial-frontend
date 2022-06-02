@@ -7,7 +7,6 @@
 
 import styled from '@emotion/styled';
 import { ConceptNotion, Spinner } from '@ndla/ui';
-import { spacing } from '@ndla/core';
 import { ConceptNotionType } from '@ndla/ui/lib/Notion/ConceptNotion';
 import { isNumber } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -23,13 +22,8 @@ interface ConceptQuery {
   'page-size': number;
 }
 
-const StyledContentWrapper = styled.div`
-  & > figure:first-of-type {
-    margin-top: ${spacing.medium};
-  }
-  & li {
-    display: block;
-  }
+const ConceptSearchResultListItem = styled.li`
+  display: block;
 `;
 
 const getVisualElement = (embed: Embed) => {
@@ -147,7 +141,7 @@ const ConceptSearchResult = ({ tag, language, showResultCount, subjectId }: Prop
   }, [tag, language, subjectId]);
 
   return (
-    <StyledContentWrapper contentEditable={false}>
+    <div contentEditable={false}>
       {loading ? (
         <Spinner />
       ) : (
@@ -158,19 +152,19 @@ const ConceptSearchResult = ({ tag, language, showResultCount, subjectId }: Prop
           <ul>
             {concepts.map(concept => {
               return (
-                <li key={concept.id}>
+                <ConceptSearchResultListItem key={concept.id}>
                   <ConceptNotion
                     concept={concept}
                     disableScripts={true}
                     type={getType(concept.visualElement?.resource)}
                   />
-                </li>
+                </ConceptSearchResultListItem>
               );
             })}
           </ul>
         </>
       )}
-    </StyledContentWrapper>
+    </div>
   );
 };
 

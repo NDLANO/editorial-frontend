@@ -37,7 +37,7 @@ const StyledWrapper = styled.div<{ isSelected: boolean }>`
     margin-bottom: 0;
   }
   & p {
-    margin-top: 0;
+    margin: 0;
   }
 `;
 

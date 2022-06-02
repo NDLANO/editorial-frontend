@@ -7,19 +7,17 @@
  */
 
 import { Component } from 'react';
-import PropTypes from 'prop-types';
 import PortalContainer from './PortalContainer';
 
-class Portal extends Component {
+interface Props {
+  isOpened?: Boolean;
+}
+class Portal extends Component<Props> {
   render() {
     if (!this.props.isOpened) return null;
 
     return <PortalContainer key="portal">{this.props.children}</PortalContainer>;
   }
 }
-
-Portal.propTypes = {
-  isOpened: PropTypes.bool,
-};
 
 export default Portal;

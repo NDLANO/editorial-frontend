@@ -12,7 +12,6 @@ import { Plus } from '@ndla/icons/action';
 import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import Accordion from '../../../components/Accordion';
-import { ButtonAppearance } from '../../../components/Accordion/types';
 import ResourceItems from './ResourceItems';
 import AddResourceButton from './AddResourceButton';
 import AddResourceModal from './AddResourceModal';
@@ -46,7 +45,7 @@ const AllResourcesGroup = ({ resourceTypes, nodeResources, currentNodeId }: Prop
           </AddResourceButton>
         }
         handleToggle={toggleDisplayResource}
-        appearance={ButtonAppearance.RESOURCEGROUP}
+        appearance={'resourceGroup'}
         header={t('taxonomy.resources')}
         hidden={!displayResource}>
         <ResourceItems resources={nodeResources} currentNodeId={currentNodeId} />

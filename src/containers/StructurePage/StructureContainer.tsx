@@ -37,7 +37,6 @@ import { groupTopics, getCurrentTopic, getSubtopics } from '../../util/taxonomyH
 import { fetchUserData, updateUserData } from '../../modules/draft/draftApi';
 import { REMEMBER_FAVOURITE_SUBJECTS, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import Footer from '../App/components/Footer';
-import { ButtonAppearance } from '../../components/Accordion/types';
 import {
   SubjectTopic,
   SubjectType,
@@ -266,7 +265,7 @@ export const StructureContainer = () => {
               {t('taxonomy.editStructure')}
             </>
           }
-          appearance={ButtonAppearance.TAXONOMY}
+          appearance={'taxonomy'}
           addButton={
             isTaxonomyAdmin && (
               <InlineAddButton title={t('taxonomy.addSubject')} action={addSubject} />

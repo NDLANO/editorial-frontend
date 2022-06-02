@@ -6,13 +6,12 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
 import AddResourceButton from './AddResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
-import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
 import AddResourceModal from './AddResourceModal';
@@ -44,7 +43,7 @@ const ResourceGroup = ({ resourceType, resources, currentNodeId }: Props) => {
           </AddResourceButton>
         }
         handleToggle={handleToggle}
-        appearance={ButtonAppearance.RESOURCEGROUP}
+        appearance={'resourceGroup'}
         header={resourceType.name}
         hidden={resources ? displayResource : true}>
         {resources && <ResourceItems resources={resources} currentNodeId={currentNodeId} />}

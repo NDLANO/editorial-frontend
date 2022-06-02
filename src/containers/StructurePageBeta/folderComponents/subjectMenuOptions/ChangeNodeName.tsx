@@ -8,7 +8,7 @@
 
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { FieldArray, Form, Formik, FormikProps } from 'formik';
+import { FieldArray, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import css from '@emotion/css';
@@ -39,13 +39,13 @@ import { supportedLanguages } from '../../../../i18n2';
 import { requiredField } from '../../../../util/yupValidators';
 import { isFormikFormDirty } from '../../../../util/formHelper';
 import { Row } from '../../../../components';
-import { formClasses } from '../../../FormikForm';
 import FormikField from '../../../../components/FormikField';
 import DeleteButton from '../../../../components/DeleteButton';
 import AddNodeTranslation from './AddNodeTranslation';
 import SaveButton from '../../../../components/SaveButton';
 import UIField from '../../../../components/Field';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import StyledForm from '../../../../components/StyledFormComponents';
 
 const buttonStyle = css`
   flex-grow: 1;
@@ -214,7 +214,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                   setSaved(false);
                 }
                 return (
-                  <Form {...formClasses()}>
+                  <StyledForm>
                     <h1>{t('taxonomy.changeName.title')}</h1>
                     <p>{`${t('taxonomy.changeName.defaultName')}: ${name}`}</p>
                     {values.translations.length === 0 && (
@@ -270,7 +270,7 @@ const ChangeNodeNameModal = ({ onClose, node }: ModalProps) => {
                       </Row>
                     </UIField>
                     {updateError && <StyledErrorMessage>{updateError}</StyledErrorMessage>}
-                  </Form>
+                  </StyledForm>
                 );
               }}
             </Formik>

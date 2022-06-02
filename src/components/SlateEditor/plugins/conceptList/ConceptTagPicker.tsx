@@ -69,22 +69,6 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
     setTitleInput(value);
   };
 
-  const onSelectTag = (selectedItem: DropdownItem) => {
-    setSelectedTag(selectedItem);
-  };
-
-  const onRemoveTag = () => {
-    setSelectedTag(undefined);
-  };
-
-  const onSelectSubject = (selectedItem: DropdownItem) => {
-    setSelectedSubject(selectedItem);
-  };
-
-  const onRemoveSubject = () => {
-    setSelectedSubject(undefined);
-  };
-
   const onSave = () => {
     ReactEditor.focus(editor);
     Transforms.setNodes<ConceptListElement>(
@@ -168,15 +152,15 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
                   />
                   <Dropdown
                     items={tags}
-                    onSelect={onSelectTag}
-                    onReset={onRemoveTag}
+                    onSelect={setSelectedTag}
+                    onReset={() => setSelectedTag(undefined)}
                     selectedTag={selectedTag}
                     placeholder={t('form.categories.label')}
                   />
                   <Dropdown
                     items={subjects}
-                    onSelect={onSelectSubject}
-                    onReset={onRemoveSubject}
+                    onSelect={setSelectedSubject}
+                    onReset={() => setSelectedSubject(undefined)}
                     selectedTag={selectedSubject}
                     placeholder={t('form.name.subjects')}
                   />

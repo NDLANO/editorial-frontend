@@ -9,9 +9,11 @@
 import { FormEvent, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import css from '@emotion/css';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import Button from '@ndla/button';
 import ObjectSelector from '../../../../components/ObjectSelector';
-import { searchFormClasses, SearchParams } from './SearchForm';
+import { SearchParams } from './SearchForm';
 import SearchTagGroup, { TagType } from './SearchTagGroup';
 import InlineDatePicker from '../../../FormikForm/components/InlineDatePicker';
 
@@ -76,6 +78,34 @@ const Selector = ({ selector, onFieldChange, searchObject }: SelectorProps) => {
   );
 };
 
+const StyledForm = styled.form`
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  margin: 0 -0.4rem;
+  & select {
+    width: 100%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+`;
+
+interface StyledFieldProps {
+  width?: number;
+}
+
+const StyledField = styled.div<StyledFieldProps>`
+  align-self: center;
+  padding: 0 0.4rem 0.5rem 0.4rem;
+  width: ${p => p.width && `${p.width}%`};
+`;
+
+const StyledTagline = styled.div`
+  display: flex;
+  flex-flow: wrap;
+  padding: ${spacing.small} 0;
+`;
+
 const GenericSearchForm = ({
   type,
   selectors,
@@ -90,34 +120,31 @@ const GenericSearchForm = ({
   const { t } = useTranslation();
   const tags: TagType[] = [{ type: 'query', name: query }, ...selectors];
   return (
-    <form
+    <StyledForm
       onSubmit={e => {
         e.preventDefault();
         e.stopPropagation();
-      }}
-      {...searchFormClasses()}>
-      <div {...searchFormClasses('field', '50-width')}>
+      }}>
+      <StyledField width={50}>
         <input
           name="query"
           placeholder={t(`searchForm.types.${type}Query`)}
           value={query}
           onChange={onQueryChange}
         />
-      </div>
+      </StyledField>
       {selectors.map(selector => {
         return (
-          <div
-            key={`search-form-field-${selector.type}`}
-            {...searchFormClasses('field', `${selector.width ?? 50}-width`)}>
+          <StyledField key={`search-form-field-${selector.type}`} width={selector.width ?? 50}>
             <Selector
               searchObject={searchObject}
               selector={selector}
               onFieldChange={onFieldChange}
             />
-          </div>
+          </StyledField>
         );
       })}
-      <div {...searchFormClasses('field', '25-width')}>
+      <StyledField width={25}>
         <Button
           css={css`
             margin-right: 1%;
@@ -134,11 +161,11 @@ const GenericSearchForm = ({
           `}>
           {t('searchForm.btn')}
         </Button>
-      </div>
-      <div {...searchFormClasses('tagline')}>
+      </StyledField>
+      <StyledTagline>
         <SearchTagGroup onRemoveItem={removeTag} tagTypes={tags} />
-      </div>
-    </form>
+      </StyledTagline>
+    </StyledForm>
   );
 };
 

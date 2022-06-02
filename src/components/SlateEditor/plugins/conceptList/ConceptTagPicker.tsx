@@ -109,7 +109,18 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
           id: element.data.subjectId,
           language,
           taxonomyVersion: 'default',
-        }).then(subject => setSelectedSubject({ name: subject.name, id: subject.id }));
+        })
+          .then(subject => {
+            setSelectedSubject({ name: subject.name, id: subject.id });
+          })
+          .catch(() => {
+            setSelectedSubject({
+              id: element.data.subjectId || '',
+              name: t('form.content.conceptList.subjectMissing', {
+                subjectId: element.data.subjectId,
+              }),
+            });
+          });
       }
 
       fetchAllTags(language).then(tags => {
@@ -131,7 +142,7 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
     };
 
     initialize();
-  }, [language, setTags, element.data.subjectId]);
+  }, [language, setTags, element.data.subjectId, t]);
 
   return (
     <Portal isOpened>

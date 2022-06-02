@@ -815,6 +815,9 @@ const phrases = {
         changeExternal: 'Endre ekstern artikkel',
         searchExternal: 'Skriv inn tittel og url på ekstern artikkel',
       },
+      conceptList: {
+        subjectMissing: 'Fag manglar: {{subjectId}}',
+      },
       concept: {
         remove: 'Fjern forklaring',
         choose: 'Velg forklaring',

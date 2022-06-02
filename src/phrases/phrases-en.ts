@@ -814,6 +814,9 @@ const phrases = {
         changeExternal: 'Edit external article',
         searchExternal: 'Write the title and url of the external article',
       },
+      conceptList: {
+        subjectMissing: 'Subject missing: {{subjectId}}',
+      },
       concept: {
         remove: 'Remove concept',
         choose: 'Choose concept',

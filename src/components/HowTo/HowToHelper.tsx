@@ -6,7 +6,6 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { spacing, colors } from '@ndla/core';
@@ -38,18 +37,18 @@ export const HelpIcon = styled(InformationOutline)`
   ${iconCSS}
 `;
 
-const HowToHelper = ({ pageId, tooltip, extraIconPadding }) => (
+interface Props {
+  pageId: string;
+  tooltip?: string;
+  extraIconPadding?: boolean;
+}
+
+const HowToHelper = ({ pageId, tooltip, extraIconPadding }: Props) => (
   <ArticleInModal
     pageId={pageId}
     tooltip={tooltip}
     activateButton={<HelpIcon css={[extraIconPadding ? extraPaddedCSS : normalPaddingCSS]} />}
   />
 );
-
-HowToHelper.propTypes = {
-  pageId: PropTypes.string.isRequired,
-  tooltip: PropTypes.string,
-  extraIconPadding: PropTypes.bool,
-};
 
 export default HowToHelper;

@@ -10,8 +10,9 @@ import { FormEvent, MouseEvent } from 'react';
 import { uuid } from '@ndla/util';
 
 interface Props {
-  options: Record<string, any>[];
+  options?: Record<string, any>[];
   value: string;
+  optGroups?: { label: string; options: Record<string, any>[] }[];
   onChange: (event: FormEvent<HTMLSelectElement>) => void;
   onBlur?: (event: FormEvent<HTMLSelectElement>) => void;
   labelKey: string;
@@ -36,6 +37,7 @@ const ObjectSelector = ({
   className = '',
   name,
   onClick,
+  optGroups,
 }: Props) => {
   return (
     <select
@@ -47,10 +49,19 @@ const ObjectSelector = ({
       className={className}
       onClick={onClick}>
       {emptyField ? <option value="">{placeholder}</option> : ''}
-      {options.map(option => (
+      {options?.map(option => (
         <option key={option[idKey] ? option[idKey] : uuid()} value={option[idKey]}>
           {option[labelKey]}
         </option>
+      ))}
+      {optGroups?.map(group => (
+        <optgroup label={group.label}>
+          {group.options.map(option => (
+            <option key={option[idKey] ?? uuid()} value={option[idKey]}>
+              {option[labelKey]}
+            </option>
+          ))}
+        </optgroup>
       ))}
     </select>
   );

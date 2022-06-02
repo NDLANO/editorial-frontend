@@ -24,6 +24,7 @@ import ChangeNodeName from './subjectMenuOptions/ChangeNodeName';
 import EditSubjectpageOption from './subjectMenuOptions/EditSubjectpageOption';
 import PublishChildNodeResources from './topicMenuOptions/PublishChildNodeResources';
 import CopyNodeResources from './topicMenuOptions/CopyNodeResources';
+import CopyRevisionDate from './sharedMenuOptions/CopyRevisionDate';
 
 interface Props {
   rootNodeId: string;
@@ -112,6 +113,7 @@ const SettingsMenuDropdownType = ({
             <ToNodeDiff node={node} />
           </>
         )}
+        <CopyRevisionDate node={node} editModeHandler={editModeHandler} />
         <DeleteNode
           node={node}
           nodeChildren={nodeChildren}

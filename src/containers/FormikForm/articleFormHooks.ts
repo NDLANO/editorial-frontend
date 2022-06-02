@@ -62,6 +62,12 @@ export interface ArticleFormType {
   title: Descendant[];
   updatePublished: boolean;
   updated?: string;
+  revisionMeta: {
+    note: string;
+    revisionDate: string;
+    status: string;
+    new?: boolean;
+  }[];
 }
 
 export interface LearningResourceFormType extends ArticleFormType {

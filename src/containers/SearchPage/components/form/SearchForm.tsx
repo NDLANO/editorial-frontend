@@ -6,8 +6,6 @@
  *
  */
 
-import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
 import queryString from 'query-string';
 import SearchContentForm from './SearchContentForm';
 import SearchAudioForm from './SearchAudioForm';
@@ -16,13 +14,8 @@ import SearchImageForm from './SearchImageForm';
 import SearchConceptForm from './SearchConceptForm';
 import { SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { SearchParamsShape } from '../../../../shapes';
-import { SearchTypeValues } from '../../../../constants';
-
-export const searchFormClasses = new BEMHelper({
-  name: 'search-form',
-  prefix: 'c-',
-});
+import { datePickerTypes } from './GenericSearchForm';
+import formatDate from '../../../../util/formatDate';
 
 export interface SearchParams {
   query?: string;
@@ -41,7 +34,19 @@ export interface SearchParams {
   type?: string;
   license?: string;
   'model-released'?: string;
+  'revision-date-from'?: string;
+  'revision-date-to'?: string;
 }
+
+export const searchParamsFormatter = (
+  key: keyof SearchParams,
+  value?: string | number | boolean,
+): string | number | boolean | undefined => {
+  if (datePickerTypes.includes(key) && typeof value === 'string') {
+    return formatDate(value);
+  }
+  return value;
+};
 
 export const parseSearchParams = (locationSearch: string): SearchParams => {
   const queryStringObject: Record<string, string | undefined> = queryString.parse(locationSearch);
@@ -67,6 +72,8 @@ export const parseSearchParams = (locationSearch: string): SearchParams => {
     subjects: queryStringObject.subjects,
     type: queryStringObject.type,
     users: queryStringObject.users,
+    'revision-date-from': queryStringObject['revision-date-from'],
+    'revision-date-to': queryStringObject['revision-date-to'],
   };
 };
 
@@ -93,14 +100,6 @@ const SearchForm = ({ type, searchObject, ...rest }: Props) => {
     default:
       return <p>{`This type: ${type} is not supported`}</p>;
   }
-};
-
-SearchForm.propTypes = {
-  type: PropTypes.oneOf(SearchTypeValues).isRequired,
-  searchObject: SearchParamsShape,
-  search: PropTypes.func.isRequired,
-  subjects: PropTypes.array.isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default SearchForm;

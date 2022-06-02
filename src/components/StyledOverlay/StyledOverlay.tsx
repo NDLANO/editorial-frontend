@@ -10,7 +10,11 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { animations, spacing, shadows, misc } from '@ndla/core';
 
-export const StyledOverlay = styled.div`
+interface StyledOverlayProps {
+  withArrow?: boolean;
+}
+
+export const StyledOverlay = styled.div<StyledOverlayProps>`
   position: absolute;
   z-index: 9999;
   background: #fff;

@@ -222,6 +222,8 @@ const phrases = {
       'draft-status': 'Select status',
       'audio-type': 'Select audio file type',
       license: 'Select license',
+      'revision-date-from': 'Revisiondate from',
+      'revision-date-to': 'Revisiondate to',
     },
     tagType: {
       query: 'Query',
@@ -234,6 +236,8 @@ const phrases = {
       'audio-type': 'Audio file type',
       license: 'License',
       'model-released': 'Model released',
+      'revision-date-from': 'Revisiondate from',
+      'revision-date-to': 'Revisiondate to',
     },
     btn: 'Search',
     empty: 'Empty',
@@ -258,6 +262,7 @@ const phrases = {
       relevance: 'Relevance',
       title: 'Title',
       lastUpdated: 'Last updated',
+      revisionDate: 'Next revision',
     },
     resultError: 'Something went wrong with type: {{type}}',
   },
@@ -591,6 +596,7 @@ const phrases = {
       header: 'Header',
       manuscript: 'Text version',
       coverPhotoId: 'Meta image',
+      revisions: 'Revisions',
       name: 'Name',
     },
     previewProductionArticle: {
@@ -727,6 +733,10 @@ const phrases = {
       published: 'There exists a published version of this item.',
       multipleTaxonomy: 'The article has multiple entries in taxonomy.',
       currentStatus: 'Current status: {{ status }}.',
+      expiration: {
+        warn: 'One of the revisions expires soon (Must be revised before {{date}}).',
+        expired: 'One of the revisions has expired (Expired {{date}}).',
+      },
     },
     status: {
       new: 'New - unsaved',
@@ -1122,6 +1132,16 @@ const phrases = {
     section: {
       remove: 'Remove section',
     },
+    revisions: {
+      add: 'New revision',
+      remove: 'Remove revision',
+      description:
+        'Revisions requires a description and an expiration date for the article. The switch decides whether a revision is performed or not. Saved revisions can not be deleted, just updated.',
+      datePickerTooltip: 'The date the article expires if the revision is not marked as revised.',
+      switchTooltip: 'Whether the article is revised or not.',
+      inputPlaceholder: 'Description of the revision',
+      deleteTooltip: 'Remove this revision',
+    },
   },
   validation: {
     isRequired: '{{label}} is required.',
@@ -1136,6 +1156,7 @@ const phrases = {
     minItems: '{{label}} must have at least one {{labelLowerCase}}.',
     minItems_plural: '{{label}} must have at least {{count}} unique {{labelLowerCase}}.',
     noEmptyNote: 'A note cannot be empty',
+    noEmptyRevision: 'A description cannot be empty',
     noLicenseWithoutCopyrightHolder:
       'A license cannot be added without providing at least one copyright holder.',
     maxSizeExceeded:
@@ -1298,13 +1319,19 @@ const phrases = {
       empty: 'No existing grep codes',
       addNew: 'Add new grep code',
     },
+    copyRevisionDates: {
+      text:
+        'Are you sure you want to copy this revision date? This will apply for all nodes and resources underneath this node',
+      buttonText: 'Copy revision date',
+      error: 'An error occurred when copying the revision date',
+    },
     goTo: 'Open in structure editor',
     missingResourceType: 'Missing resource type',
     metadata: {
       customFields: {
         cancelPublishRequest: 'Cancel request for partial structure publication',
         requestPublish: 'Request partial publication of structure',
-        requestVersionError: 'Publish requests can only be made from the default version',
+        requestVersionError: 'Publish requests can only be made from Draft',
         alterFields: 'Add/change metadata',
         addField: 'New metadata field',
         languagePlaceholder: 'Ndla.no interface language',
@@ -1380,7 +1407,7 @@ const phrases = {
     deleteLocked: 'This version cannot be deleted because it is locked',
     deletePublished: 'This version cannot be deleted because it is published',
     delete: 'Delete version',
-    locked: 'This version is locked',
+    locked: 'This version is locked and cannot be deleted',
     publishButton: 'Publish',
     publishWarning:
       'Are you sure you want to publish this version? The currently published version will be archived, and all new changes within this version will be immediately available on ndla.no',
@@ -1392,14 +1419,14 @@ const phrases = {
     about:
       'This page is used for viewing and administering taxonomy versions. Be wary: Publishing a new version will immediately make it available for ndla.no end users.',
     noPublished:
-      'No versions have been published! The standard version of taxonomy is in use until a version is published.',
+      'No versions have been published! The Draft version of taxonomy is in use until a version is published.',
     editVersionTooltip: 'Edit version',
     newVersionTitle: 'Create new version',
     newVersionButton: 'New version',
     editVersionTitle: 'Edit version',
     deleteWarning: 'Are you sure you want to delete this version?',
     deleteWarningPublished:
-      'Are you sure you want to delete the currently published version? Taxonomy will revert back to the default version',
+      'Are you sure you want to delete the currently published version? Taxonomy will revert back to the Draft version',
     postError: 'Failed to create version',
     putError: 'Failed to update version',
     publishError: 'Failed to publish version',
@@ -1414,11 +1441,11 @@ const phrases = {
       source: {
         title: 'Source version',
         subTitle: 'Base this version on an existing version',
-        defaultOption: 'N/A',
+        defaultOption: 'Draft',
       },
       locked: {
         title: 'Locked',
-        subTitle: 'Is the version locked:',
+        subTitle: 'Lock this version to prevent deletion',
         locked: 'Locked',
         unlocked: 'Unlocked',
       },
@@ -1442,17 +1469,17 @@ const phrases = {
       'Are you sure you want to publish this node? Any changes within this version will be immediately available in the targeted version',
     publishError: 'Failed to publish node',
     equalNodes: 'These nodes are equal!',
-    defaultVersion: 'Default version',
+    defaultVersion: 'Draft',
     compareVersions: 'Compare versions',
     error: {
       originalHashRequired: 'The originalHash parameter has to be present in the URL!',
       doesNotExist: 'This node does not exist in any of these versions!',
-      onlyExistsInOriginal: 'This node only exists in the original version',
-      onlyExistsInOther: 'This node only exists in the version you are comparing against',
+      onlyExistsInOriginal: 'This node only exists in the target version',
+      onlyExistsInOther: 'This node only exists in the source version',
     },
     options: {
-      originalHashLabel: 'Original version',
-      otherHashLabel: 'Other version',
+      originalHashLabel: 'Target version',
+      otherHashLabel: 'Source version',
       viewLabel: 'View type',
       nodeViewLabel: 'Node view',
       fieldViewLabel: 'Field view',
@@ -1467,7 +1494,7 @@ const phrases = {
     resourcesChanged: 'Resources changed',
     diffTypes: {
       ADDED: 'Added',
-      DELETED: 'Deleted',
+      DELETED: 'Missing',
       MODIFIED: 'Modified',
       NONE: 'None',
     },

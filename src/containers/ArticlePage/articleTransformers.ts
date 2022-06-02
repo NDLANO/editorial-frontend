@@ -8,7 +8,7 @@
 
 import { isEmpty } from 'lodash';
 import { Descendant } from 'slate';
-import { ILicense, IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
+import { ILicense, IUpdatedArticle, IArticle, IRevisionMeta } from '@ndla/types-draft-api';
 import {
   editorValueToEmbedTag,
   editorValueToPlainText,
@@ -80,6 +80,7 @@ const draftApiTypeToArticleFormType = (
     conceptIds: article?.conceptIds ?? [],
     availability: article?.availability ?? 'everyone',
     relatedContent: article?.relatedContent ?? [],
+    revisionMeta: article?.revisions ?? [],
   };
 };
 
@@ -145,6 +146,7 @@ export const learningResourceFormTypeToDraftApiType = (
     conceptIds: article.conceptIds,
     availability: article.availability,
     relatedContent: article.relatedContent,
+    revisionMeta: article.revisionMeta,
   };
 };
 
@@ -183,6 +185,7 @@ export const topicArticleFormTypeToDraftApiType = (
     conceptIds: article.conceptIds,
     availability: article.availability,
     relatedContent: article.relatedContent,
+    revisionMeta: article.revisionMeta,
   };
 };
 
@@ -225,4 +228,14 @@ export const updatedDraftApiTypeToDraftApiType = (
     relatedContent: article.relatedContent ?? [],
     revisions: article.revisionMeta ?? [],
   };
+};
+
+export const getExpirationDate = (article?: { revisions: IRevisionMeta[] }): string | undefined => {
+  if (!article) return undefined;
+
+  const withParsed = article.revisions.map(r => {
+    return { parsed: new Date(r.revisionDate), ...r };
+  });
+  const sorted = withParsed.sort((a, b) => a.parsed.getTime() - b.parsed.getTime());
+  return sorted.find(r => r.status !== 'revised')?.revisionDate;
 };

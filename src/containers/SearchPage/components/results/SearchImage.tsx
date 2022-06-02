@@ -6,16 +6,27 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
+import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
+import { ImageMeta } from '@ndla/image-search';
 import { IImageMetaSummary } from '@ndla/types-image-api';
 import { toEditImage } from '../../../../util/routeHelpers';
-import { ImageResultShape } from '../../../../shapes';
-import { searchClasses } from '../../SearchContainer';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
+import {
+  StyledOtherLink,
+  StyledSearchContent,
+  StyledSearchDescription,
+  StyledSearchImageContainer,
+  StyledSearchResult,
+  StyledSearchTitle,
+} from '../form/StyledSearchComponents';
+
+const StyledImageMeta = styled(ImageMeta)`
+  margin-bottom: 5px;
+`;
 
 interface Props {
   image: IImageMetaSummary;
@@ -27,22 +38,25 @@ const SearchImage = ({ image, locale }: Props) => {
   const { data: licenses } = useLicenses();
   const license = licenses && licenses.find(l => image.license === l.license);
   return (
-    <div {...searchClasses('result')}>
-      <div {...searchClasses('image')}>
+    <StyledSearchResult>
+      <StyledSearchImageContainer>
         <img src={image.previewUrl + '?width=200'} alt={`${image.altText?.alttext}`} />
-      </div>
-      <div {...searchClasses('content')}>
+      </StyledSearchImageContainer>
+      <StyledSearchContent>
         <Link to={toEditImage(image.id, image.title.language)}>
-          <h1 {...searchClasses('title')}>{image.title.title || t('imageSearch.noTitle')}</h1>
+          <StyledSearchTitle>{image.title.title || t('imageSearch.noTitle')}</StyledSearchTitle>
         </Link>
-        <p {...searchClasses('description')}>
+        <StyledSearchDescription>
           {`${t('searchPage.language')}: `}
           {image.supportedLanguages?.map(lang => (
-            <span key={lang} {...searchClasses('other-link')}>
-              {t(`language.${lang}`)}
-            </span>
+            <StyledOtherLink key={lang}>{t(`language.${lang}`)}</StyledOtherLink>
           ))}
-        </p>
+        </StyledSearchDescription>
+        <StyledImageMeta
+          contentType={image.contentType}
+          fileSize={image.fileSize}
+          imageDimensions={image.imageDimensions}
+        />
         {license && (
           <LicenseByline
             licenseRights={getLicenseByAbbreviation(license.license, locale).rights}
@@ -50,14 +64,9 @@ const SearchImage = ({ image, locale }: Props) => {
             color={colors.brand.grey}
           />
         )}
-      </div>
-    </div>
+      </StyledSearchContent>
+    </StyledSearchResult>
   );
-};
-
-SearchImage.propTypes = {
-  image: ImageResultShape.isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default SearchImage;

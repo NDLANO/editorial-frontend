@@ -180,6 +180,16 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
       return wrongFormat ? { translationKey: 'validation.grepCodes' } : undefined;
     },
   },
+  revisionMeta: {
+    required: false,
+    test: values => {
+      const emptyNote = values.revisionMeta?.find(meta => meta.note.length === 0);
+      if (emptyNote !== undefined) {
+        return { translationKey: 'validation.noEmptyRevision' };
+      }
+      return undefined;
+    },
+  },
 };
 
 export const learningResourceRules: RulesType<LearningResourceFormType, IArticle> = {

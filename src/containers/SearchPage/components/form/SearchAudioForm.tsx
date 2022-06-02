@@ -14,9 +14,9 @@ import { getTagName } from '../../../../util/formHelper';
 import { getLicensesWithTranslations } from '../../../../util/licenseHelpers';
 import { SearchParams } from './SearchForm';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
-import { MinimalTagType } from './SearchTag';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
 import GenericSearchForm, { SearchFormSelector } from './GenericSearchForm';
+import { TagType } from './SearchTagGroup';
 
 interface Props {
   search: (o: SearchParams) => void;
@@ -59,14 +59,13 @@ const SearchAudioForm = ({
     doSearch({ ...search, query: evt.currentTarget.value });
   };
 
-  const onFieldChange = (evt: FormEvent<HTMLSelectElement>) => {
-    const { value, name } = evt.currentTarget;
+  const onFieldChange = (name: string, value: string) => {
     doSearch({ ...search, [name]: value });
   };
 
   const handleSearch = () => doSearch({ ...search, page: 1 });
 
-  const removeTagItem = (tag: MinimalTagType) => {
+  const removeTagItem = (tag: TagType) => {
     if (tag.type === 'query') setQueryInput('');
     doSearch({ ...search, [tag.type]: '' });
   };

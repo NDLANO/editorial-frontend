@@ -223,6 +223,8 @@ const phrases = {
       'draft-status': 'Velg status',
       'audio-type': 'Velg lydfiltype',
       license: 'Velg lisens',
+      'revision-date-from': 'Revisjonsdato fra',
+      'revision-date-to': 'Revisjonsdato til',
     },
     tagType: {
       query: 'Innhold',
@@ -235,6 +237,8 @@ const phrases = {
       'audio-type': 'Lydfiltype',
       license: 'Lisens',
       'model-released': 'Modellklarering',
+      'revision-date-from': 'Revisjonsdato fra',
+      'revision-date-to': 'Revisjonsdato til',
     },
     btn: 'Søk',
     empty: 'Tøm',
@@ -259,6 +263,7 @@ const phrases = {
       relevance: 'Relevans',
       title: 'Tittel',
       lastUpdated: 'Sist oppdatert',
+      revisionDate: 'Neste revisjon',
     },
     resultError: 'Noe gikk feil med innlasting av type: {{type}}',
   },
@@ -593,6 +598,7 @@ const phrases = {
       header: 'Overskrift',
       manuscript: 'Tekstversjon',
       coverPhotoId: 'Metabilde',
+      revisions: 'Revisjoner',
       name: 'Navn',
     },
     previewProductionArticle: {
@@ -728,6 +734,10 @@ const phrases = {
       published: 'Det finnes en publisert versjon av dette elementet.',
       multipleTaxonomy: 'Artikkelen har flere oppføringer i taksonomi.',
       currentStatus: 'Gjeldende status: {{status}}.',
+      expiration: {
+        warn: 'En av revisjonene utløper snart (Må revideres innen {{date}}).',
+        expired: 'En av revisjonene har utløpt (Utløpte {{date}}).',
+      },
     },
     status: {
       new: 'Ny - Ikke lagret',
@@ -1123,6 +1133,17 @@ const phrases = {
     section: {
       remove: 'Ta bort seksjon',
     },
+    revisions: {
+      add: 'Ny revisjon',
+      remove: 'Fjern revisjon',
+      description:
+        'Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren bestemmer hvorvidt en revisjon er utført eller ikke. Lagrede revisjoner kan ikke slettes, bare oppdateres.',
+      datePickerTooltip:
+        'Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.',
+      switchTooltip: 'Hvorvidt artikkelen er revidert eller ikke.',
+      inputPlaceholder: 'Beskrivelse av revisjonen',
+      deleteTooltip: 'Fjern denne revisjonen',
+    },
   },
   validation: {
     isRequired: '{{label}} er påkrevd.',
@@ -1137,6 +1158,7 @@ const phrases = {
     minItems: '{{label}} feltet må minst inneholde en/ett {{labelLowerCase}}.',
     minItems_plural: '{{label}} feltet må minst inneholde {{minItems}} ulike {{labelLowerCase}}',
     noEmptyNote: 'En merknad kan ikke være tom',
+    noEmptyRevision: 'En beskrivelse kan ikke være tom',
     noLicenseWithoutCopyrightHolder:
       'En lisens kan ikke tas i bruk uten å definere minst en opphaver.',
     maxSizeExceeded:
@@ -1301,13 +1323,19 @@ const phrases = {
       empty: 'Ingen registerte koder',
       addNew: 'Legg til ny læreplankobling',
     },
+    copyRevisionDates: {
+      text:
+        'Er du helt sikker på at du ønsker å kopiere revisjonsdatoen? Dette vil sette alle revisjonsdatoer fra denne noden til alle undernoder og ressurser.',
+      buttonText: 'Kopier revisjonsdato',
+      error: 'En feil oppstod under kopiering',
+    },
     goTo: 'Åpne i stukturredigering',
     missingResourceType: 'Mangler ressurstype',
     metadata: {
       customFields: {
         cancelPublishRequest: 'Avlys forespørsel om delvis publisering av struktur',
         requestPublish: 'Be om delpublisering av struktur',
-        requestVersionError: 'Publiseringsforespørsler kan bare opprettes fra standardversjonen',
+        requestVersionError: 'Publiseringsforespørsler kan bare opprettes fra Draft',
         alterFields: 'Legg til/endre metadata',
         addField: 'Nytt metadata felt',
         languagePlaceholder: 'Visningsspråk ndla.no',
@@ -1383,7 +1411,7 @@ const phrases = {
     deleteLocked: 'Denne versjonen kan ikke slettes fordi den er låst',
     deletePublished: 'Denne versjonen kan ikke slettes fordi den er publisert',
     delete: 'Slett versjon',
-    locked: 'Denne versjonen er låst',
+    locked: 'Denne versjonen er låst og kan ikke slettes',
     status: {
       PUBLISHED: 'Publisert',
       ARCHIVED: 'Arkivert',
@@ -1392,7 +1420,7 @@ const phrases = {
     about:
       'Denne siden brukes til å se på og administrere taksonomiversjoner. Vær varsom: Å publisere en ny taksonomiversjon vil føre til at alt innhold i den vil være umiddelbart tilgjengelig for sluttbrukere på ndla.no',
     noPublished:
-      'Det finnes ingen publisert versjon. Standard-versjonen av taksonomi brukes inntil en versjon blir publisert',
+      'Det finnes ingen publisert versjon. Draft-versjonen av taksonomi brukes inntil en versjon blir publisert',
     editVersionTooltip: 'Rediger versjon',
     newVersionTitle: 'Opprett ny versjon',
     newVersionButton: 'Ny versjon',
@@ -1402,7 +1430,7 @@ const phrases = {
       'Er du sikker på at du ønsker å publisere denne versjonen? Den nåværende versjonen vil bli arkivert, og alle nye endringer i denne versjonen vil umiddelbart være tilgjengelige på ndla.no',
     deleteWarning: 'Er du sikker på at du ønsker å slette denne versjonen?',
     deleteWarningPublished:
-      'Er du sikker på at du ønsker å slette den publiserte versjonen? Taksonomi vil revertere tilbake til standard-versjonen.',
+      'Er du sikker på at du ønsker å slette den publiserte versjonen? Taksonomi vil revertere tilbake til Draft-versjonen.',
     postError: 'Klarte ikke å opprette ny versjon',
     putError: 'Klarte ikke å oppdatere versjonen',
     publishError: 'Klarte ikke å publisere versjonen',
@@ -1417,11 +1445,11 @@ const phrases = {
       source: {
         title: 'Kildeversjon',
         subTitle: 'Velg en annen versjon å basere denne på',
-        defaultOption: 'N/A',
+        defaultOption: 'Draft',
       },
       locked: {
         title: 'Låst',
-        subTitle: 'Er versjonen låst?',
+        subTitle: 'Lås versjonen så den ikke kan slettes',
         locked: 'Låst',
         unlocked: 'Ulåst',
       },
@@ -1445,17 +1473,17 @@ const phrases = {
       'Er du sikker på at du ønsker å publisere denne noden? Alle endringer vil umiddelbart bli tilgjengelige i målversjonen',
     publishError: 'Publisering av node feilet',
     equalNodes: 'Disse nodene er like!',
-    defaultVersion: 'Standardsversjon',
+    defaultVersion: 'Draft',
     compareVersions: 'Sammenlign versjoner',
     error: {
       originalHashRequired: "originalHash-parameteret er påkrevd i URL'en!",
       doesNotExist: 'Denne noden finnes ikke i noen av versjonene!',
-      onlyExistsInOriginal: 'Denne noden finnes bare i originalversjonen',
-      onlyExistsInOther: 'Denne noden finnes bare i versjonen du sammenligner med',
+      onlyExistsInOriginal: 'Denne noden finnes bare i målversjonen',
+      onlyExistsInOther: 'Denne noden finnes bare i kildeversjonen',
     },
     options: {
-      originalHashLabel: 'Original-versjon',
-      otherHashLabel: 'Annen versjon',
+      originalHashLabel: 'Målversjon',
+      otherHashLabel: 'Kildeversjon',
       viewLabel: 'Visningstype',
       nodeViewLabel: 'Nodevisning',
       fieldViewLabel: 'Feltvisning',
@@ -1470,7 +1498,7 @@ const phrases = {
     resourcesChanged: 'Ressurser endret',
     diffTypes: {
       ADDED: 'Lagt til',
-      DELETED: 'Slettet',
+      DELETED: 'Mangler',
       MODIFIED: 'Endret',
       NONE: 'Ingen',
     },

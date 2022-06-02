@@ -22,6 +22,7 @@ import Spinner from '../../../../components/Spinner';
 import { useLicenses, useDraftStatusStateMachine } from '../../../../modules/draft/draftQueries';
 import {
   draftApiTypeToTopicArticleFormType,
+  getExpirationDate,
   topicArticleFormTypeToDraftApiType,
 } from '../../articleTransformers';
 import { validateDraft } from '../../../../modules/draft/draftApi';
@@ -120,6 +121,7 @@ const TopicArticleForm = ({
           translateToNN={translateToNN}
           setTranslateOnContinue={setTranslateOnContinue}
           type="topic-article"
+          expirationDate={getExpirationDate(article)}
         />
         {translating ? (
           <Spinner withWrapper />

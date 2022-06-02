@@ -96,5 +96,12 @@
   ],
   "conceptIds": [],
   "availability": "everyone",
-  "relatedContent": []
+  "relatedContent": [],
+  "revisions": [
+    {
+      "revisionDate": "2030-01-01T00:00:00Z",
+      "note": "Automatisk revisjonsdato satt av systemet.",
+      "status": "needs-revision"
+    }
+  ]
 }

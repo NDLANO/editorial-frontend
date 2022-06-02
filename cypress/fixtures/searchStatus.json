@@ -1,1 +1,962 @@
-{"totalCount":190,"page":1,"pageSize":10,"language":"nb","results":[{"id":5455,"title":{"title":"Sosiale medier og aksjonsdemokratiet","language":"nb"},"metaDescription":{"metaDescription":"I aksjonsdemokratiet blir massene mobilisert til kamp for enkeltsaker. Sosiale medier er et effektivt redskap for dem som ønsker å kjempe for slike saker.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/21707","alt":"Rød plakat av med bilde av en person og teksten Kony 2012. Illustrasjon.","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/5455","contexts":[{"id":"urn:resource:1:96900","subject":"Medie- og informasjonskunnskap","subjectId":"urn:subject:14","path":"/subject:14/topic:1:79218/resource:1:96900","breadcrumbs":["Medie- og informasjonskunnskap","Mediemakt og ytringsfrihet"],"filters":[{"id":"urn:filter:80f10045-2faa-4f6f-be0f-4c7ec9618186","name":"MIK 2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:96900","subject":"Medie- og informasjonskunnskap MIK1 - 2021","subjectId":"urn:subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5","path":"/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:fe18cb00-80fc-4613-92b4-fff5e07b6b3d/resource:1:96900","breadcrumbs":["Medie- og informasjonskunnskap MIK1 - 2021","Medier, demokrati og medborgerskap","\"Twitter-demokratiet\""],"filters":[{"id":"urn:filter:058bdbdb-aa5a-4a29-88fb-45e664999417","name":"MIK 1","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:96900","subject":"Medie- og informasjonskunnskap MIK1 - 2021","subjectId":"urn:subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5","path":"/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:fe18cb00-80fc-4613-92b4-fff5e07b6b3d/resource:1:96900","breadcrumbs":["Medie- og informasjonskunnskap MIK1 - 2021","Medier, demokrati og medborgerskap","\"Twitter-demokratiet\""],"filters":[{"id":"urn:filter:576cc40f-cc74-4418-9721-9b15ffd29cff","name":"MIK 2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"USER_TEST","other":["IMPORTED","PUBLISHED","PROPOSAL"]},"traits":[],"score":0.0,"highlights":[{"field":"draftStatus.current","matches":["<em>USER_TEST</em>"]}],"paths":["/subject:14/topic:1:79218/resource:1:96900","/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:fe18cb00-80fc-4613-92b4-fff5e07b6b3d/resource:1:96900","/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:fe18cb00-80fc-4613-92b4-fff5e07b6b3d/resource:1:96900"]},{"id":5509,"title":{"title":"Mediesystemer og styreformer","language":"nb"},"metaDescription":{"metaDescription":"En medieideologi eller et mediesystem er en modell som beskriver medienes rolle i et samfunn.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/41687","alt":"Hånd som holder mikrofon med piggtråd rundt. Foto.","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/5509","contexts":[{"id":"urn:resource:1:103107","subject":"Medie- og informasjonskunnskap","subjectId":"urn:subject:14","path":"/subject:14/topic:1:186323/resource:1:103107","breadcrumbs":["Medie- og informasjonskunnskap","Ut i verden"],"filters":[{"id":"urn:filter:80f10045-2faa-4f6f-be0f-4c7ec9618186","name":"MIK 2","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:103107","subject":"Medieuttrykk og mediesamfunnet Vg2 og Vg3","subjectId":"urn:subject:1","path":"/subject:1/topic:1:172362/topic:1:190395/resource:1:103107","breadcrumbs":["Medieuttrykk og mediesamfunnet Vg2 og Vg3","Mediene i samfunnet","Internasjonalt perspektiv på mediemakt"],"filters":[{"id":"urn:filter:8866ecad-85ec-4fcb-b470-d88ec4ebb83c","name":"Mediesamfunnet 3","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:103107","subject":"Medieuttrykk og mediesamfunnet Vg2 og Vg3","subjectId":"urn:subject:1","path":"/subject:1/topic:1:172362/topic:1:190395/resource:1:103107","breadcrumbs":["Medieuttrykk og mediesamfunnet Vg2 og Vg3","Mediene i samfunnet","Internasjonalt perspektiv på mediemakt"],"filters":[{"id":"urn:filter:bf4ca63f-c67f-40be-b1ea-a8963315c2df","name":"Vg3","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"},{"id":"urn:resource:1:103107","subject":"Medie- og informasjonskunnskap MIK1 - 2021","subjectId":"urn:subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5","path":"/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:ef0fa226-c29a-418b-91ad-21de2c54cc5b/resource:1:103107","breadcrumbs":["Medie- og informasjonskunnskap MIK1 - 2021","Medier, demokrati og medborgerskap","Pressens rolle i demokratiet"],"filters":[{"id":"urn:filter:058bdbdb-aa5a-4a29-88fb-45e664999417","name":"MIK 1","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:academicArticle","name":"Fagartikkel","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"USER_TEST","other":["IMPORTED","PUBLISHED"]},"traits":["VIDEO"],"score":0.0,"highlights":[{"field":"draftStatus.current","matches":["<em>USER_TEST</em>"]}],"paths":["/subject:14/topic:1:186323/resource:1:103107","/subject:1/topic:1:172362/topic:1:190395/resource:1:103107","/subject:1/topic:1:172362/topic:1:190395/resource:1:103107","/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:ef0fa226-c29a-418b-91ad-21de2c54cc5b/resource:1:103107"]},{"id":17693,"title":{"title":"Nidarosdomen 360","language":"nb"},"metaDescription":{"metaDescription":"360 Nidarosdomen","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/45570","alt":"Fasade fra Nidarosdomen. Foto.","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/17693","contexts":[],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"USER_TEST","other":["PROPOSAL"]},"traits":["H5P"],"score":0.0,"highlights":[{"field":"draftStatus.current","matches":["<em>USER_TEST</em>"]}],"paths":[]},{"id":20518,"title":{"title":"Testartikkel om animasjon","language":"nb"},"metaDescription":{"metaDescription":"","language":"und"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/20518","contexts":[],"supportedLanguages":["nb"],"learningResourceType":"standard","status":{"current":"USER_TEST","other":["PROPOSAL"]},"traits":[],"score":0.0,"highlights":[{"field":"draftStatus.current","matches":["<em>USER_TEST</em>"]}],"paths":[]},{"id":21956,"title":{"title":"testtest","language":"nb"},"metaDescription":{"metaDescription":"","language":"und"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/21956","contexts":[],"supportedLanguages":["nb"],"learningResourceType":"standard","status":{"current":"USER_TEST","other":["PROPOSAL"]},"traits":["H5P"],"score":0.0,"highlights":[{"field":"draftStatus.current","matches":["<em>USER_TEST</em>"]}],"paths":[]},{"id":22696,"title":{"title":"Press og stress i sosiale medier","language":"nb"},"metaDescription":{"metaDescription":"","language":"und"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/22696","contexts":[],"supportedLanguages":["nb"],"learningResourceType":"standard","status":{"current":"USER_TEST","other":["PROPOSAL"]},"traits":[],"score":0.0,"highlights":[{"field":"draftStatus.current","matches":["<em>USER_TEST</em>"]}],"paths":[]},{"id":20706,"title":{"title":"Forbered intervjuet","language":"nb"},"metaDescription":{"metaDescription":"Planlegg gode spørsmål og gjør klar utstyr før intervjusituasjonen.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/296","alt":"Hånd noterer med penn på en blokk. Foto.","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/20706","contexts":[{"id":"urn:resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a","subject":"Norsk SF Vg1","subjectId":"urn:subject:80063181-61d8-4c52-9bbc-4313376175a2","path":"/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:a4bf97c3-9daf-4587-bc9f-822855432151/topic:a0b39906-b0b2-4e9e-8ab5-573aafbdc9f3/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a","breadcrumbs":["Norsk SF Vg1","Skriftlig tekstskaping","Å skrive portrettintervju"],"filters":[{"id":"urn:filter:51a7271b-a9d5-4205-bade-1c125a8650b5","name":"YF 2021","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:guidance","name":"Veiledning","language":"nb"}],"language":"nb"},{"id":"urn:resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a","subject":"Norsk SF Vg1","subjectId":"urn:subject:80063181-61d8-4c52-9bbc-4313376175a2","path":"/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:a4bf97c3-9daf-4587-bc9f-822855432151/topic:a0b39906-b0b2-4e9e-8ab5-573aafbdc9f3/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a","breadcrumbs":["Norsk SF Vg1","Skriftlig tekstskaping","Å skrive portrettintervju"],"filters":[{"id":"urn:filter:605d33e0-1695-4540-9255-fc5e612e996f","name":"SF Vg1","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:guidance","name":"Veiledning","language":"nb"}],"language":"nb"},{"id":"urn:resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a","subject":"Tverrfaglige temaer","subjectId":"urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7","path":"/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a","breadcrumbs":["Tverrfaglige temaer","Folkehelse og livsmestring","Skole og sosiale relasjoner","Ny på videregående"],"filters":[],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:subjectMaterial","name":"Fagstoff","language":"nb"},{"id":"urn:resourcetype:guidance","name":"Veiledning","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"USER_TEST","other":["PUBLISHED","PROPOSAL"]},"traits":["VIDEO"],"score":0.0,"highlights":[{"field":"draftStatus.current","matches":["<em>USER_TEST</em>"]}],"paths":["/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:a4bf97c3-9daf-4587-bc9f-822855432151/topic:a0b39906-b0b2-4e9e-8ab5-573aafbdc9f3/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a","/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:a4bf97c3-9daf-4587-bc9f-822855432151/topic:a0b39906-b0b2-4e9e-8ab5-573aafbdc9f3/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a","/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a"]},{"id":20709,"title":{"title":"Lag enkét: Stemmerett for 16-åringer","language":"nb"},"metaDescription":{"metaDescription":"Som 16-åring kan du få barn og må betale skatt hvis du jobber, men du har ikke stemmerett. Er dette greit, eller bør stemmerettsalderen senkes til 16 år?","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/25076","alt":"Ung person kniper igjen øynene. Har riksvåpenet og ordet \"valg\" skrevet i panna. Foto.","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/20709","contexts":[{"id":"urn:resource:d95ce74b-d1d1-47d1-aa5a-4b2a173e37f7","subject":"Tverrfaglige temaer","subjectId":"urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7","path":"/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803/topic:56ec5eb2-a27d-4707-8fa2-f5ef7d3cc164/topic:00fc27c2-df09-46db-bd18-597f1186854e/resource:d95ce74b-d1d1-47d1-aa5a-4b2a173e37f7","breadcrumbs":["Tverrfaglige temaer","Demokrati og medborgerskap","Deltakelse","Bør 16-åringer ha stemmerett?"],"filters":[],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:tasksAndActivities","name":"Oppgaver og aktiviteter","language":"nb"},{"id":"urn:resourcetype:workAssignment","name":"Arbeidsoppdrag","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"USER_TEST","other":["PUBLISHED","PROPOSAL"]},"traits":[],"score":0.0,"highlights":[{"field":"draftStatus.current","matches":["<em>USER_TEST</em>"]}],"paths":["/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803/topic:56ec5eb2-a27d-4707-8fa2-f5ef7d3cc164/topic:00fc27c2-df09-46db-bd18-597f1186854e/resource:d95ce74b-d1d1-47d1-aa5a-4b2a173e37f7"]},{"id":20711,"title":{"title":"Ta bilder av gode og dårlige relasjoner","language":"nb"},"metaDescription":{"metaDescription":"Jobb individuelt og i grupper og ta bilder som illustrerer gode og dårlige relasjoner.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/47331","alt":"To kvinner krangler. Illustrasjon.","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/20711","contexts":[{"id":"urn:resource:0fff5b77-c246-4f50-ba64-1250d930676d","subject":"Mediesamfunnet og medieuttrykk Vg1","subjectId":"urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4","path":"/subject:b84357cc-93f8-4742-a06b-24596307e5d4/topic:5a95691a-bd35-4678-83bd-9af454f2edd7/resource:0fff5b77-c246-4f50-ba64-1250d930676d","breadcrumbs":["Mediesamfunnet og medieuttrykk Vg1","Bilde"],"filters":[{"id":"urn:filter:090997c4-78d3-4a79-93ad-178d465cdba3","name":"Medieuttrykk 1","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:tasksAndActivities","name":"Oppgaver og aktiviteter","language":"nb"},{"id":"urn:resourcetype:exercise","name":"Øvelse","language":"nb"}],"language":"nb"},{"id":"urn:resource:0fff5b77-c246-4f50-ba64-1250d930676d","subject":"Tverrfaglige temaer","subjectId":"urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7","path":"/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:0fff5b77-c246-4f50-ba64-1250d930676d","breadcrumbs":["Tverrfaglige temaer","Folkehelse og livsmestring","Skole og sosiale relasjoner","Ny på videregående"],"filters":[],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:tasksAndActivities","name":"Oppgaver og aktiviteter","language":"nb"},{"id":"urn:resourcetype:exercise","name":"Øvelse","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"USER_TEST","other":["PUBLISHED","PROPOSAL"]},"traits":[],"score":0.0,"highlights":[{"field":"draftStatus.current","matches":["<em>USER_TEST</em>"]}],"paths":["/subject:b84357cc-93f8-4742-a06b-24596307e5d4/topic:5a95691a-bd35-4678-83bd-9af454f2edd7/resource:0fff5b77-c246-4f50-ba64-1250d930676d","/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:0fff5b77-c246-4f50-ba64-1250d930676d"]},{"id":20743,"title":{"title":"Hvilke roller har vi som elever?","language":"nb"},"metaDescription":{"metaDescription":"Hvilke roller har du på skolen og i fritiden? Gå sammen to og to for å kartlegge hverandres roller og bli litt bedre kjent med sidemannen.","language":"nb"},"metaImage":{"url":"https://api.test.ndla.no/image-api/raw/id/7797","alt":"Medieelever forbereder seg til en oppgave. Foto. ","language":"nb"},"url":"https://api.test.ndla.no/draft-api/v1/drafts/20743","contexts":[{"id":"urn:resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7","subject":"Verktøykassa","subjectId":"urn:subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09","path":"/subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09/topic:8154527e-6268-446a-a968-fc8bdd0766d3/resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7","breadcrumbs":["Verktøykassa","Skolestart"],"filters":[{"id":"urn:filter:54b1727c-2d91-4512-901c-8434e13339b4","name":"For elev","relevance":"Kjernestoff"}],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:tasksAndActivities","name":"Oppgaver og aktiviteter","language":"nb"},{"id":"urn:resourcetype:task","name":"Oppgave","language":"nb"}],"language":"nb"},{"id":"urn:resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7","subject":"Tverrfaglige temaer","subjectId":"urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7","path":"/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7","breadcrumbs":["Tverrfaglige temaer","Folkehelse og livsmestring","Skole og sosiale relasjoner","Ny på videregående"],"filters":[],"learningResourceType":"standard","resourceTypes":[{"id":"urn:resourcetype:tasksAndActivities","name":"Oppgaver og aktiviteter","language":"nb"},{"id":"urn:resourcetype:task","name":"Oppgave","language":"nb"}],"language":"nb"}],"supportedLanguages":["nb","nn"],"learningResourceType":"standard","status":{"current":"USER_TEST","other":["PUBLISHED","PROPOSAL"]},"traits":["H5P"],"score":0.0,"highlights":[{"field":"draftStatus.current","matches":["<em>USER_TEST</em>"]}],"paths":["/subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09/topic:8154527e-6268-446a-a968-fc8bdd0766d3/resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7","/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7"]}],"suggestions":[],"aggregations":[]}
+{
+  "totalCount": 190,
+  "page": 1,
+  "pageSize": 10,
+  "language": "nb",
+  "results": [
+    {
+      "id": 5455,
+      "title": {
+        "title": "Sosiale medier og aksjonsdemokratiet",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "I aksjonsdemokratiet blir massene mobilisert til kamp for enkeltsaker. Sosiale medier er et effektivt redskap for dem som ønsker å kjempe for slike saker.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/21707",
+        "alt": "Rød plakat av med bilde av en person og teksten Kony 2012. Illustrasjon.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/5455",
+      "contexts": [
+        {
+          "id": "urn:resource:1:96900",
+          "subject": "Medie- og informasjonskunnskap",
+          "subjectId": "urn:subject:14",
+          "path": "/subject:14/topic:1:79218/resource:1:96900",
+          "breadcrumbs": [
+            "Medie- og informasjonskunnskap",
+            "Mediemakt og ytringsfrihet"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:80f10045-2faa-4f6f-be0f-4c7ec9618186",
+              "name": "MIK 2",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:1:96900",
+          "subject": "Medie- og informasjonskunnskap MIK1 - 2021",
+          "subjectId": "urn:subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5",
+          "path": "/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:fe18cb00-80fc-4613-92b4-fff5e07b6b3d/resource:1:96900",
+          "breadcrumbs": [
+            "Medie- og informasjonskunnskap MIK1 - 2021",
+            "Medier, demokrati og medborgerskap",
+            "\"Twitter-demokratiet\""
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:058bdbdb-aa5a-4a29-88fb-45e664999417",
+              "name": "MIK 1",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:1:96900",
+          "subject": "Medie- og informasjonskunnskap MIK1 - 2021",
+          "subjectId": "urn:subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5",
+          "path": "/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:fe18cb00-80fc-4613-92b4-fff5e07b6b3d/resource:1:96900",
+          "breadcrumbs": [
+            "Medie- og informasjonskunnskap MIK1 - 2021",
+            "Medier, demokrati og medborgerskap",
+            "\"Twitter-demokratiet\""
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:576cc40f-cc74-4418-9721-9b15ffd29cff",
+              "name": "MIK 2",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "USER_TEST",
+        "other": [
+          "IMPORTED",
+          "PUBLISHED",
+          "PROPOSAL"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [
+        {
+          "field": "draftStatus.current",
+          "matches": [
+            "<em>USER_TEST</em>"
+          ]
+        }
+      ],
+      "paths": [
+        "/subject:14/topic:1:79218/resource:1:96900",
+        "/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:fe18cb00-80fc-4613-92b4-fff5e07b6b3d/resource:1:96900",
+        "/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:fe18cb00-80fc-4613-92b4-fff5e07b6b3d/resource:1:96900"
+      ],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 5509,
+      "title": {
+        "title": "Mediesystemer og styreformer",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "En medieideologi eller et mediesystem er en modell som beskriver medienes rolle i et samfunn.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/41687",
+        "alt": "Hånd som holder mikrofon med piggtråd rundt. Foto.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/5509",
+      "contexts": [
+        {
+          "id": "urn:resource:1:103107",
+          "subject": "Medie- og informasjonskunnskap",
+          "subjectId": "urn:subject:14",
+          "path": "/subject:14/topic:1:186323/resource:1:103107",
+          "breadcrumbs": [
+            "Medie- og informasjonskunnskap",
+            "Ut i verden"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:80f10045-2faa-4f6f-be0f-4c7ec9618186",
+              "name": "MIK 2",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:1:103107",
+          "subject": "Medieuttrykk og mediesamfunnet Vg2 og Vg3",
+          "subjectId": "urn:subject:1",
+          "path": "/subject:1/topic:1:172362/topic:1:190395/resource:1:103107",
+          "breadcrumbs": [
+            "Medieuttrykk og mediesamfunnet Vg2 og Vg3",
+            "Mediene i samfunnet",
+            "Internasjonalt perspektiv på mediemakt"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:8866ecad-85ec-4fcb-b470-d88ec4ebb83c",
+              "name": "Mediesamfunnet 3",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:1:103107",
+          "subject": "Medieuttrykk og mediesamfunnet Vg2 og Vg3",
+          "subjectId": "urn:subject:1",
+          "path": "/subject:1/topic:1:172362/topic:1:190395/resource:1:103107",
+          "breadcrumbs": [
+            "Medieuttrykk og mediesamfunnet Vg2 og Vg3",
+            "Mediene i samfunnet",
+            "Internasjonalt perspektiv på mediemakt"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:bf4ca63f-c67f-40be-b1ea-a8963315c2df",
+              "name": "Vg3",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:1:103107",
+          "subject": "Medie- og informasjonskunnskap MIK1 - 2021",
+          "subjectId": "urn:subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5",
+          "path": "/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:ef0fa226-c29a-418b-91ad-21de2c54cc5b/resource:1:103107",
+          "breadcrumbs": [
+            "Medie- og informasjonskunnskap MIK1 - 2021",
+            "Medier, demokrati og medborgerskap",
+            "Pressens rolle i demokratiet"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:058bdbdb-aa5a-4a29-88fb-45e664999417",
+              "name": "MIK 1",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:academicArticle",
+              "name": "Fagartikkel",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "USER_TEST",
+        "other": [
+          "IMPORTED",
+          "PUBLISHED"
+        ]
+      },
+      "traits": [
+        "VIDEO"
+      ],
+      "score": 0,
+      "highlights": [
+        {
+          "field": "draftStatus.current",
+          "matches": [
+            "<em>USER_TEST</em>"
+          ]
+        }
+      ],
+      "paths": [
+        "/subject:14/topic:1:186323/resource:1:103107",
+        "/subject:1/topic:1:172362/topic:1:190395/resource:1:103107",
+        "/subject:1/topic:1:172362/topic:1:190395/resource:1:103107",
+        "/subject:4eb79eed-3527-42e8-86d8-f487aa15a0d5/topic:0c9ce0dc-3863-4e03-a2df-a1480a4e929c/topic:ef0fa226-c29a-418b-91ad-21de2c54cc5b/resource:1:103107"
+      ],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 17693,
+      "title": {
+        "title": "Nidarosdomen 360",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "360 Nidarosdomen",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/45570",
+        "alt": "Fasade fra Nidarosdomen. Foto.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/17693",
+      "contexts": [],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "USER_TEST",
+        "other": [
+          "PROPOSAL"
+        ]
+      },
+      "traits": [
+        "H5P"
+      ],
+      "score": 0,
+      "highlights": [
+        {
+          "field": "draftStatus.current",
+          "matches": [
+            "<em>USER_TEST</em>"
+          ]
+        }
+      ],
+      "paths": [],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 20518,
+      "title": {
+        "title": "Testartikkel om animasjon",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "",
+        "language": "und"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/20518",
+      "contexts": [],
+      "supportedLanguages": [
+        "nb"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "USER_TEST",
+        "other": [
+          "PROPOSAL"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [
+        {
+          "field": "draftStatus.current",
+          "matches": [
+            "<em>USER_TEST</em>"
+          ]
+        }
+      ],
+      "paths": [],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 21956,
+      "title": {
+        "title": "testtest",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "",
+        "language": "und"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/21956",
+      "contexts": [],
+      "supportedLanguages": [
+        "nb"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "USER_TEST",
+        "other": [
+          "PROPOSAL"
+        ]
+      },
+      "traits": [
+        "H5P"
+      ],
+      "score": 0,
+      "highlights": [
+        {
+          "field": "draftStatus.current",
+          "matches": [
+            "<em>USER_TEST</em>"
+          ]
+        }
+      ],
+      "paths": [],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 22696,
+      "title": {
+        "title": "Press og stress i sosiale medier",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "",
+        "language": "und"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/22696",
+      "contexts": [],
+      "supportedLanguages": [
+        "nb"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "USER_TEST",
+        "other": [
+          "PROPOSAL"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [
+        {
+          "field": "draftStatus.current",
+          "matches": [
+            "<em>USER_TEST</em>"
+          ]
+        }
+      ],
+      "paths": [],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 20706,
+      "title": {
+        "title": "Forbered intervjuet",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Planlegg gode spørsmål og gjør klar utstyr før intervjusituasjonen.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/296",
+        "alt": "Hånd noterer med penn på en blokk. Foto.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/20706",
+      "contexts": [
+        {
+          "id": "urn:resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a",
+          "subject": "Norsk SF Vg1",
+          "subjectId": "urn:subject:80063181-61d8-4c52-9bbc-4313376175a2",
+          "path": "/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:a4bf97c3-9daf-4587-bc9f-822855432151/topic:a0b39906-b0b2-4e9e-8ab5-573aafbdc9f3/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a",
+          "breadcrumbs": [
+            "Norsk SF Vg1",
+            "Skriftlig tekstskaping",
+            "Å skrive portrettintervju"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:51a7271b-a9d5-4205-bade-1c125a8650b5",
+              "name": "YF 2021",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:guidance",
+              "name": "Veiledning",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a",
+          "subject": "Norsk SF Vg1",
+          "subjectId": "urn:subject:80063181-61d8-4c52-9bbc-4313376175a2",
+          "path": "/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:a4bf97c3-9daf-4587-bc9f-822855432151/topic:a0b39906-b0b2-4e9e-8ab5-573aafbdc9f3/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a",
+          "breadcrumbs": [
+            "Norsk SF Vg1",
+            "Skriftlig tekstskaping",
+            "Å skrive portrettintervju"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:605d33e0-1695-4540-9255-fc5e612e996f",
+              "name": "SF Vg1",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:guidance",
+              "name": "Veiledning",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a",
+          "subject": "Tverrfaglige temaer",
+          "subjectId": "urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7",
+          "path": "/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a",
+          "breadcrumbs": [
+            "Tverrfaglige temaer",
+            "Folkehelse og livsmestring",
+            "Skole og sosiale relasjoner",
+            "Ny på videregående"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:subjectMaterial",
+              "name": "Fagstoff",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:guidance",
+              "name": "Veiledning",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "USER_TEST",
+        "other": [
+          "PUBLISHED",
+          "PROPOSAL"
+        ]
+      },
+      "traits": [
+        "VIDEO"
+      ],
+      "score": 0,
+      "highlights": [
+        {
+          "field": "draftStatus.current",
+          "matches": [
+            "<em>USER_TEST</em>"
+          ]
+        }
+      ],
+      "paths": [
+        "/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:a4bf97c3-9daf-4587-bc9f-822855432151/topic:a0b39906-b0b2-4e9e-8ab5-573aafbdc9f3/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a",
+        "/subject:80063181-61d8-4c52-9bbc-4313376175a2/topic:a4bf97c3-9daf-4587-bc9f-822855432151/topic:a0b39906-b0b2-4e9e-8ab5-573aafbdc9f3/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a",
+        "/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:25d10dc9-0b00-4b71-8169-38c90a1cd02a"
+      ],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 20709,
+      "title": {
+        "title": "Lag enkét: Stemmerett for 16-åringer",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Som 16-åring kan du få barn og må betale skatt hvis du jobber, men du har ikke stemmerett. Er dette greit, eller bør stemmerettsalderen senkes til 16 år?",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/25076",
+        "alt": "Ung person kniper igjen øynene. Har riksvåpenet og ordet \"valg\" skrevet i panna. Foto.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/20709",
+      "contexts": [
+        {
+          "id": "urn:resource:d95ce74b-d1d1-47d1-aa5a-4b2a173e37f7",
+          "subject": "Tverrfaglige temaer",
+          "subjectId": "urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7",
+          "path": "/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803/topic:56ec5eb2-a27d-4707-8fa2-f5ef7d3cc164/topic:00fc27c2-df09-46db-bd18-597f1186854e/resource:d95ce74b-d1d1-47d1-aa5a-4b2a173e37f7",
+          "breadcrumbs": [
+            "Tverrfaglige temaer",
+            "Demokrati og medborgerskap",
+            "Deltakelse",
+            "Bør 16-åringer ha stemmerett?"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:tasksAndActivities",
+              "name": "Oppgaver og aktiviteter",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:workAssignment",
+              "name": "Arbeidsoppdrag",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "USER_TEST",
+        "other": [
+          "PUBLISHED",
+          "PROPOSAL"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [
+        {
+          "field": "draftStatus.current",
+          "matches": [
+            "<em>USER_TEST</em>"
+          ]
+        }
+      ],
+      "paths": [
+        "/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:077a5e01-6bb8-4c0b-b1d4-94b683d91803/topic:56ec5eb2-a27d-4707-8fa2-f5ef7d3cc164/topic:00fc27c2-df09-46db-bd18-597f1186854e/resource:d95ce74b-d1d1-47d1-aa5a-4b2a173e37f7"
+      ],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 20711,
+      "title": {
+        "title": "Ta bilder av gode og dårlige relasjoner",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Jobb individuelt og i grupper og ta bilder som illustrerer gode og dårlige relasjoner.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/47331",
+        "alt": "To kvinner krangler. Illustrasjon.",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/20711",
+      "contexts": [
+        {
+          "id": "urn:resource:0fff5b77-c246-4f50-ba64-1250d930676d",
+          "subject": "Mediesamfunnet og medieuttrykk Vg1",
+          "subjectId": "urn:subject:b84357cc-93f8-4742-a06b-24596307e5d4",
+          "path": "/subject:b84357cc-93f8-4742-a06b-24596307e5d4/topic:5a95691a-bd35-4678-83bd-9af454f2edd7/resource:0fff5b77-c246-4f50-ba64-1250d930676d",
+          "breadcrumbs": [
+            "Mediesamfunnet og medieuttrykk Vg1",
+            "Bilde"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:090997c4-78d3-4a79-93ad-178d465cdba3",
+              "name": "Medieuttrykk 1",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:tasksAndActivities",
+              "name": "Oppgaver og aktiviteter",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:exercise",
+              "name": "Øvelse",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:0fff5b77-c246-4f50-ba64-1250d930676d",
+          "subject": "Tverrfaglige temaer",
+          "subjectId": "urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7",
+          "path": "/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:0fff5b77-c246-4f50-ba64-1250d930676d",
+          "breadcrumbs": [
+            "Tverrfaglige temaer",
+            "Folkehelse og livsmestring",
+            "Skole og sosiale relasjoner",
+            "Ny på videregående"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:tasksAndActivities",
+              "name": "Oppgaver og aktiviteter",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:exercise",
+              "name": "Øvelse",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "USER_TEST",
+        "other": [
+          "PUBLISHED",
+          "PROPOSAL"
+        ]
+      },
+      "traits": [],
+      "score": 0,
+      "highlights": [
+        {
+          "field": "draftStatus.current",
+          "matches": [
+            "<em>USER_TEST</em>"
+          ]
+        }
+      ],
+      "paths": [
+        "/subject:b84357cc-93f8-4742-a06b-24596307e5d4/topic:5a95691a-bd35-4678-83bd-9af454f2edd7/resource:0fff5b77-c246-4f50-ba64-1250d930676d",
+        "/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:0fff5b77-c246-4f50-ba64-1250d930676d"
+      ],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    },
+    {
+      "id": 20743,
+      "title": {
+        "title": "Hvilke roller har vi som elever?",
+        "language": "nb"
+      },
+      "metaDescription": {
+        "metaDescription": "Hvilke roller har du på skolen og i fritiden? Gå sammen to og to for å kartlegge hverandres roller og bli litt bedre kjent med sidemannen.",
+        "language": "nb"
+      },
+      "metaImage": {
+        "url": "https://api.test.ndla.no/image-api/raw/id/7797",
+        "alt": "Medieelever forbereder seg til en oppgave. Foto. ",
+        "language": "nb"
+      },
+      "url": "https://api.test.ndla.no/draft-api/v1/drafts/20743",
+      "contexts": [
+        {
+          "id": "urn:resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7",
+          "subject": "Verktøykassa",
+          "subjectId": "urn:subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09",
+          "path": "/subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09/topic:8154527e-6268-446a-a968-fc8bdd0766d3/resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7",
+          "breadcrumbs": [
+            "Verktøykassa",
+            "Skolestart"
+          ],
+          "filters": [
+            {
+              "id": "urn:filter:54b1727c-2d91-4512-901c-8434e13339b4",
+              "name": "For elev",
+              "relevance": "Kjernestoff"
+            }
+          ],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:tasksAndActivities",
+              "name": "Oppgaver og aktiviteter",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:task",
+              "name": "Oppgave",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        },
+        {
+          "id": "urn:resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7",
+          "subject": "Tverrfaglige temaer",
+          "subjectId": "urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7",
+          "path": "/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7",
+          "breadcrumbs": [
+            "Tverrfaglige temaer",
+            "Folkehelse og livsmestring",
+            "Skole og sosiale relasjoner",
+            "Ny på videregående"
+          ],
+          "filters": [],
+          "learningResourceType": "standard",
+          "resourceTypes": [
+            {
+              "id": "urn:resourcetype:tasksAndActivities",
+              "name": "Oppgaver og aktiviteter",
+              "language": "nb"
+            },
+            {
+              "id": "urn:resourcetype:task",
+              "name": "Oppgave",
+              "language": "nb"
+            }
+          ],
+          "language": "nb"
+        }
+      ],
+      "supportedLanguages": [
+        "nb",
+        "nn"
+      ],
+      "learningResourceType": "standard",
+      "status": {
+        "current": "USER_TEST",
+        "other": [
+          "PUBLISHED",
+          "PROPOSAL"
+        ]
+      },
+      "traits": [
+        "H5P"
+      ],
+      "score": 0,
+      "highlights": [
+        {
+          "field": "draftStatus.current",
+          "matches": [
+            "<em>USER_TEST</em>"
+          ]
+        }
+      ],
+      "paths": [
+        "/subject:ee3f7a15-feb6-4e78-8b37-65930ad73a09/topic:8154527e-6268-446a-a968-fc8bdd0766d3/resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7",
+        "/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2051ff27-1b27-47a9-aad2-941ee95464be/topic:fa9d162c-46bd-4824-850a-068a23327c36/resource:80b9b7ed-fe8f-4a9b-8e11-735a1ea4c9d7"
+      ],
+      "revisions": [
+        {
+          "revisionDate": "2030-01-01T00:00:00Z",
+          "note": "Automatisk revisjonsdato satt av systemet.",
+          "status": "needs-revision"
+        }
+      ]
+    }
+  ],
+  "suggestions": [],
+  "aggregations": []
+}

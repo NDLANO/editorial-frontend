@@ -7,7 +7,6 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
 import { colors } from '@ndla/core';
@@ -110,32 +109,6 @@ const ContentView = ({
       </StyledBreadcrumbs>
     </StyledConceptView>
   );
-};
-
-ContentView.propTypes = {
-  concept: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.shape({ title: PropTypes.string, language: PropTypes.string }),
-    content: PropTypes.shape({ content: PropTypes.string, language: PropTypes.string }),
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-    subjectIds: PropTypes.arrayOf(PropTypes.string),
-    metaImage: PropTypes.shape({
-      alt: PropTypes.string,
-      url: PropTypes.string,
-    }),
-    lastUpdated: PropTypes.string,
-    status: PropTypes.shape({
-      current: PropTypes.string,
-      other: PropTypes.arrayOf(PropTypes.string),
-    }),
-    license: PropTypes.string,
-  }),
-  locale: PropTypes.string,
-  title: PropTypes.string,
-  content: PropTypes.string,
-  breadcrumbs: PropTypes.array,
-  setShowForm: PropTypes.func,
-  editing: PropTypes.bool,
 };
 
 export default ContentView;

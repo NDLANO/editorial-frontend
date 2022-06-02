@@ -7,6 +7,7 @@ import { english } from 'flatpickr/dist/l10n/default';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import NyNorsk from './NyNorsk';
+import { formatDateForBackend } from '../../util/formatDate';
 
 const FORMAT_PATTERN = 'd/m/Y';
 
@@ -17,20 +18,17 @@ const locales = {
 };
 
 const StyledCalendarIcon = styled(Calendar)`
-  margin-left: -1.5rem;
+  margin-left: -1.7rem;
   margin-top: -2px;
-  height: 25px;
+  height: 100%;
   width: 25px;
   fill: ${colors.brand.tertiary};
-`;
-
-const StyledDateTimeInput = styled.div`
-  width: 100%;
+  pointer-events: none;
 `;
 
 class DateTimeInput extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.onChange = this.onChange.bind(this);
     this.getOptions = this.getOptions.bind(this);
   }
@@ -56,11 +54,7 @@ class DateTimeInput extends Component {
       onChange({
         target: {
           name,
-          value:
-            selectedDateValue
-              .toISOString()
-              .split('.')
-              .shift() + 'Z',
+          value: formatDateForBackend(selectedDateValue),
           type: 'DateTime',
         },
       });
@@ -90,7 +84,7 @@ class DateTimeInput extends Component {
   render() {
     const { className, value, onChange, name, placeholder } = this.props;
     return (
-      <StyledDateTimeInput>
+      <>
         <input
           className={className || ''}
           onChange={onChange}
@@ -102,7 +96,7 @@ class DateTimeInput extends Component {
           }}
         />
         <StyledCalendarIcon />
-      </StyledDateTimeInput>
+      </>
     );
   }
 }

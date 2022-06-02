@@ -6,10 +6,10 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { FormEvent, useState } from 'react';
-
 import { useTranslation } from 'react-i18next';
-import { searchClasses } from '../../SearchContainer';
+import { spacing } from '@ndla/core';
 import { SearchParams } from '../form/SearchForm';
 
 const pageSizeOptions = [4, 6, 8, 10, 12, 14, 16, 18, 20];
@@ -20,6 +20,17 @@ interface Props {
   totalCount?: number;
   type: string;
 }
+
+const StyledOptionContainer = styled.div`
+  color: black;
+  margin: ${spacing.normal} 0;
+`;
+
+const StyledOptionSpan = styled.span`
+  display: block;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+`;
 
 const SearchListOptions = ({
   searchObject = { 'page-size': 10 },
@@ -36,11 +47,11 @@ const SearchListOptions = ({
   };
 
   return (
-    <div {...searchClasses('options-container')}>
-      <div {...searchClasses('option')}>
-        <span data-cy="totalCount">
+    <StyledOptionContainer>
+      <div>
+        <StyledOptionSpan data-cy="totalCount">
           {t('searchPage.totalCount')}: <b>{totalCount}</b>
-        </span>
+        </StyledOptionSpan>
         <select onChange={handlePageSizeChange} value={pageSize}>
           {pageSizeOptions.map(size => (
             <option key={`pageSize_${size}`} value={size}>
@@ -49,7 +60,7 @@ const SearchListOptions = ({
           ))}
         </select>
       </div>
-    </div>
+    </StyledOptionContainer>
   );
 };
 

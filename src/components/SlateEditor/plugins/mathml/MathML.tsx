@@ -6,6 +6,7 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { useState, useEffect, useRef } from 'react';
 import { Editor } from 'slate';
 import { ReactEditor } from 'slate-react';
@@ -19,6 +20,12 @@ interface Props {
   editor: Editor;
   element: MathmlElement;
 }
+
+const StyledSpan = styled.span`
+  mjx-stretchy-v > mjx-ext > mjx-c {
+    transform: scaleY(100) translateY(0.075em);
+  }
+`;
 
 const clearMathjax = (editor: Editor, element: MathmlElement) => {
   const { MathJax } = window;
@@ -74,7 +81,7 @@ const MathML = ({ model, element, editor }: Props) => {
   }
 
   return (
-    <span data-cy="math">
+    <StyledSpan data-cy="math">
       {/* @ts-ignore math does not exist in JSX, but this hack works by setting innerHTML manually. */}
       <math
         xlmns={model.xlmns}
@@ -82,7 +89,7 @@ const MathML = ({ model, element, editor }: Props) => {
           __html: model.innerHTML,
         }}
       />
-    </span>
+    </StyledSpan>
   );
 };
 

@@ -9,7 +9,6 @@
 import { createRef, MouseEvent, useEffect } from 'react';
 import { Editor, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
-import BEMHelper from 'react-bem-helper';
 import styled from '@emotion/styled';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
@@ -46,11 +45,6 @@ const specialRules: { [key: string]: Partial<Element> } = {
     level: 3,
   },
 };
-
-export const toolbarClasses = new BEMHelper({
-  name: 'toolbar',
-  prefix: 'c-',
-});
 
 const ToolbarContainer = styled.div`
   border-radius: 4px;

@@ -22,17 +22,17 @@ import Field from '../../../components/Field';
 import Spinner from '../../../components/Spinner';
 import SaveButton from '../../../components/SaveButton';
 import { DEFAULT_LICENSE, isFormikFormDirty } from '../../../util/formHelper';
-import { AbortButton, formClasses, AlertModalWrapper } from '../../FormikForm';
+import { AbortButton, AlertModalWrapper } from '../../FormikForm';
 import AudioMetaData from './AudioMetaData';
 import AudioContent from './AudioContent';
 import AudioManuscript from './AudioManuscript';
 import { toCreateAudioFile, toEditAudio } from '../../../util/routeHelpers';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
-import FormWrapper from '../../ConceptPage/ConceptForm/FormWrapper';
 import { audioApiTypeToFormType } from '../../../util/audioHelpers';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import FormWrapper from '../../../components/FormWrapper';
 
 export interface AudioFormikType {
   id?: number;
@@ -247,7 +247,6 @@ const AudioForm = ({
                 {t('form.abort')}
               </AbortButton>
               <SaveButton
-                {...formClasses}
                 isSaving={isSubmitting}
                 formIsDirty={formIsDirty}
                 showSaved={!formIsDirty && (savedToServer || isNewlyCreated)}

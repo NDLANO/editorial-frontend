@@ -8,9 +8,9 @@
 
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Formik, Form, FormikProps } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import { IUpdatedArticle, IArticle, IStatus } from '@ndla/types-draft-api';
-import { AlertModalWrapper, formClasses } from '../../../FormikForm';
+import { AlertModalWrapper } from '../../../FormikForm';
 import { toEditArticle } from '../../../../util/routeHelpers';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import TopicArticleAccordionPanels from './TopicArticleAccordionPanels';
@@ -30,6 +30,7 @@ import { isFormikFormDirty, topicArticleRules } from '../../../../util/formHelpe
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
 import { DraftStatusType } from '../../../../interfaces';
+import StyledForm from '../../../../components/StyledFormComponents';
 
 interface Props {
   article?: IArticle;
@@ -104,7 +105,7 @@ const TopicArticleForm = ({
       : undefined;
 
     return (
-      <Form {...formClasses()}>
+      <StyledForm>
         <HeaderWithLanguage
           taxonomy={articleTaxonomy}
           values={values}
@@ -158,7 +159,7 @@ const TopicArticleForm = ({
           severity="danger"
           text={t('alertModal.notSaved')}
         />
-      </Form>
+      </StyledForm>
     );
   };
 

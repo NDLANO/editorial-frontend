@@ -8,9 +8,9 @@
 
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Formik, Form, FormikProps } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import { IArticle, IUpdatedArticle, IStatus } from '@ndla/types-draft-api';
-import { AlertModalWrapper, formClasses } from '../../../FormikForm';
+import { AlertModalWrapper } from '../../../FormikForm';
 import validateFormik, { getWarnings } from '../../../../components/formikValidationSchema';
 import LearningResourcePanels from './LearningResourcePanels';
 import { isFormikFormDirty, learningResourceRules } from '../../../../util/formHelper';
@@ -33,6 +33,7 @@ import {
 import { ArticleTaxonomy } from '../../../FormikForm/formikDraftHooks';
 import { learningResourceContentToHTML } from '../../../../util/articleContentConverter';
 import { DraftStatusType } from '../../../../interfaces';
+import StyledForm from '../../../../components/StyledFormComponents';
 
 interface Props {
   article?: IArticle;
@@ -105,7 +106,7 @@ const LearningResourceForm = ({
       ? (lang: string) => toEditArticle(values.id!, values.articleType, lang)
       : undefined;
     return (
-      <Form {...formClasses()}>
+      <StyledForm>
         <HeaderWithLanguage
           values={values}
           taxonomy={articleTaxonomy}
@@ -154,7 +155,7 @@ const LearningResourceForm = ({
           severity="danger"
           text={t('alertModal.notSaved')}
         />
-      </Form>
+      </StyledForm>
     );
   };
 

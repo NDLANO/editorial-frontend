@@ -13,7 +13,7 @@ import { isFormikFormDirty } from '../../../util/formHelper';
 import EditorFooter from '../../../components/SlateEditor/EditorFooter';
 import SaveButton from '../../../components/SaveButton';
 import Field from '../../../components/Field';
-import { AlertModalWrapper, formClasses, ActionButton } from '../../FormikForm';
+import { AlertModalWrapper, ActionButton } from '../../FormikForm';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { useConceptStateMachine } from '../../../modules/concept/conceptQueries';
 
@@ -61,7 +61,6 @@ const ConceptFormFooter = ({
             {t('form.abort')}
           </ActionButton>
           <SaveButton
-            {...formClasses}
             isSaving={isSubmitting}
             formIsDirty={formIsDirty}
             showSaved={savedToServer && !formIsDirty}

@@ -1,4 +1,3 @@
-import BEMHelper from 'react-bem-helper';
 import AgreementConnectionField from './AgreementConnectionField';
 import CopyrightFieldGroup from './CopyrightFieldGroup';
 import IngressField from './IngressField';
@@ -16,11 +15,6 @@ import MetaDataField from './MetaDataField';
 import AbortButton from './components/AbortButton';
 import LearningpathConnection from '../../components/HeaderWithLanguage/LearningpathConnection';
 
-const formClasses = new BEMHelper({
-  name: 'form',
-  prefix: 'c-',
-});
-
 export {
   CopyrightFieldGroup,
   AlertModalWrapper,
@@ -35,7 +29,6 @@ export {
   MetaImageSearch,
   Checkbox,
   ContributorsField,
-  formClasses,
   MetaDataField,
   AbortButton,
   LearningpathConnection,

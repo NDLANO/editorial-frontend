@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useState, ReactNode, useRef, useCallback, useMemo } from 'react';
-import { Formik, Form, FormikHelpers, FormikErrors } from 'formik';
+import { useState, useRef, useCallback, useMemo } from 'react';
+import { Formik, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import {
   IAudioMetaInformation,
@@ -17,7 +17,7 @@ import { Accordions, AccordionSection } from '@ndla/accordion';
 import AudioContent from '../../AudioUploader/components/AudioContent';
 import AudioMetaData from '../../AudioUploader/components/AudioMetaData';
 import AudioManuscript from '../../AudioUploader/components/AudioManuscript';
-import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
+import { AbortButton, AlertModalWrapper } from '../../FormikForm';
 import PodcastMetaData from './PodcastMetaData';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
@@ -32,6 +32,7 @@ import PodcastSeriesInformation from './PodcastSeriesInformation';
 import handleError from '../../../util/handleError';
 import { audioApiTypeToPodcastFormType } from '../../../util/audioHelpers';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import FormWrapper from '../../../components/FormWrapper';
 
 const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   title: {
@@ -91,13 +92,6 @@ const podcastRules: RulesType<PodcastFormValues, IAudioMetaInformation> = {
   rightsholders: {
     allObjectFieldsRequired: true,
   },
-};
-
-const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
-  if (inModal) {
-    return <div {...formClasses()}>{children}</div>;
-  }
-  return <Form>{children}</Form>;
 };
 
 interface Props {

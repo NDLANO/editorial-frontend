@@ -7,7 +7,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { FieldArray, Form, Formik, FormikProps } from 'formik';
+import { FieldArray, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import css from '@emotion/css';
@@ -31,7 +31,6 @@ import { Row } from '../../../../components';
 import SaveButton from '../../../../components/SaveButton';
 import FormikField from '../../../../components/FormikField';
 import Spinner from '../../../../components/Spinner';
-import { formClasses } from '../../../FormikForm';
 import { isFormikFormDirty } from '../../../../util/formHelper';
 import UIField from '../../../../components/Field';
 import { supportedLanguages } from '../../../../i18n2';
@@ -41,6 +40,7 @@ import AddSubjectTranslation from './AddSubjectTranslation';
 import handleError from '../../../../util/handleError';
 import { StyledErrorMessage } from '../styles';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';
+import StyledForm from '../../../../components/StyledFormComponents';
 
 const buttonStyle = css`
   flex-grow: 1;
@@ -239,7 +239,7 @@ const ChangeSubjectNameModal = ({
                   setSaved(false);
                 }
                 return (
-                  <Form {...formClasses()}>
+                  <StyledForm>
                     <h1>{t('taxonomy.changeName.title')}</h1>
                     <p>{`${t('taxonomy.changeName.defaultName')}: ${name}`}</p>
                     {values.translations.length === 0 && (
@@ -295,7 +295,7 @@ const ChangeSubjectNameModal = ({
                       </Row>
                     </UIField>
                     {updateError && <StyledErrorMessage>{updateError}</StyledErrorMessage>}
-                  </Form>
+                  </StyledForm>
                 );
               }}
             </Formik>

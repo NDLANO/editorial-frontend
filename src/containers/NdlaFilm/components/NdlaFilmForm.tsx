@@ -6,7 +6,7 @@
  */
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { Form, Formik } from 'formik';
+import { Formik } from 'formik';
 import { Descendant, Element } from 'slate';
 import { IFilmFrontPageData, IMovieTheme } from '@ndla/types-frontpage-api';
 import { useNdlaFilmFormHooks } from '../../FormikForm/ndlaFilmFormHooks';
@@ -14,12 +14,13 @@ import usePreventWindowUnload from '../../FormikForm/preventWindowUnloadHook';
 import Field from '../../../components/Field';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
-import { AlertModalWrapper, formClasses } from '../../FormikForm/index';
+import { AlertModalWrapper } from '../../FormikForm/index';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
 import { toEditNdlaFilm } from '../../../util/routeHelpers';
 import NdlaFilmAccordionPanels from './NdlaFilmAccordionPanels';
 import SaveButton from '../../../components/SaveButton';
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
+import StyledForm from '../../../components/StyledFormComponents';
 
 interface Props {
   filmFrontpage: IFilmFrontPageData;
@@ -83,7 +84,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
         });
         setUnsaved(formIsDirty);
         return (
-          <Form {...formClasses()}>
+          <StyledForm>
             <SimpleLanguageHeader
               articleType={values.articleType}
               editUrl={(lang: string) => toEditNdlaFilm(lang)}
@@ -114,7 +115,7 @@ const NdlaFilmForm = ({ filmFrontpage, selectedLanguage }: Props) => {
               severity="danger"
               text={t('alertModal.notSaved')}
             />
-          </Form>
+          </StyledForm>
         );
       }}
     </Formik>

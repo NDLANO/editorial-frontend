@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Formik, Form, FormikHelpers } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import {
   IImageMetaInformationV2,
   INewImageMetaInformationV2,
@@ -20,18 +20,14 @@ import { isFormikFormDirty } from '../../../util/formHelper';
 import validateFormik, { RulesType, getWarnings } from '../../../components/formikValidationSchema';
 import ImageMetaData from './ImageMetaData';
 import ImageContent from './ImageContent';
-import {
-  ActionButton,
-  AbortButton,
-  formClasses as classes,
-  AlertModalWrapper,
-} from '../../FormikForm';
+import { ActionButton, AbortButton, AlertModalWrapper } from '../../FormikForm';
 import { toCreateImage, toEditImage } from '../../../util/routeHelpers';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage/HeaderWithLanguage';
 import ImageVersionNotes from './ImageVersionNotes';
 import { MAX_IMAGE_UPLOAD_SIZE } from '../../../constants';
 import { imageApiTypeToFormType, ImageFormikType } from '../imageTransformers';
 import { editorValueToPlainText } from '../../../util/articleContentConverter';
+import FormWrapper from '../../../components/FormWrapper';
 
 const imageRules: RulesType<ImageFormikType, IImageMetaInformationV2> = {
   title: {
@@ -81,13 +77,6 @@ const imageRules: RulesType<ImageFormikType, IImageMetaInformationV2> = {
       return { translationKey: 'validation.noLicenseWithoutCopyrightHolder' };
     },
   },
-};
-
-const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
-  if (inModal) {
-    return <div {...classes()}>{children}</div>;
-  }
-  return <Form>{children}</Form>;
 };
 
 interface Props {

@@ -18,24 +18,29 @@ const ResourceBoxWrapper = styled.div`
 `;
 
 const SlateResourceBox = ({ embed, language }: Props) => {
-  const [image, setImage] = useState<IImageMetaInformationV2>();
+  const [imageMeta, setImageMeta] = useState<IImageMetaInformationV2>();
 
   useEffect(() => {
     if (embed.imageid) {
       fetchImage(embed.imageid, language).then(data => {
-        setImage(data);
+        setImageMeta(data);
       });
     }
   }, [embed.imageid, language]);
 
-  const licenses = image?.copyright
-    ? getLicenseByAbbreviation(image.copyright.license.license, language).rights
+  const licenses = imageMeta?.copyright
+    ? getLicenseByAbbreviation(imageMeta.copyright.license.license, language).rights
     : [];
+
+  const image = {
+    src: imageMeta?.imageUrl || '',
+    alt: imageMeta?.alttext.alttext || '',
+  };
 
   return (
     <ResourceBoxWrapper contentEditable={false}>
       <ResourceBox
-        image={image?.imageUrl || ''}
+        image={image}
         title={embed?.title || ''}
         caption={embed.caption || ''}
         licenseRights={licenses}

@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { Concept } from '@ndla/icons/editor';
 import { spacing, colors } from '@ndla/core';
 import Button from '@ndla/button';
-import { css } from '@emotion/react';
+import { css } from '@emotion/core';
 import { Check } from '@ndla/icons/lib/editor';
 import Tooltip from '@ndla/tooltip';
 import { convertFieldWithFallback } from '../../../../util/convertFieldWithFallback';
@@ -70,9 +70,8 @@ const SearchConceptResults = ({ results, searchObject, addConcept, searching }) 
           <Concept
             className="c-icon--large"
             css={css`
-                    grid-column: 1 / 2;
-                    grid-row: 1 / 2;
-                }
+              grid-column: 1 / 2;
+              grid-row: 1 / 2;
             `}
           />
           <StyledConceptResultHeader>

@@ -9,7 +9,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
-import BEMHelper from 'react-bem-helper';
 import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
@@ -20,11 +19,6 @@ import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TopicResource } from './StructureResources';
 import { LocaleType } from '../../../interfaces';
-
-export const classes = new BEMHelper({
-  name: 'topic-resource',
-  prefix: 'c-',
-});
 
 interface Props {
   topicResource?: {

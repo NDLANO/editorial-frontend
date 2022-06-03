@@ -20,7 +20,6 @@ import { AlertCircle, Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import SafeLink from '@ndla/safelink';
 
-import { classes } from './ResourceGroup';
 import VersionHistoryLightbox from '../../../components/VersionHistoryLightbox';
 import GrepCodesModal from '../../GrepCodes/GrepCodesModal';
 import ResourceItemLink from '../../../components/Taxonomy/ResourceItemLink';
@@ -179,15 +178,13 @@ const Resource = ({
   };
 
   return (
-    <StyledText
-      data-testid={`resource-type-${contentType}`}
-      {...classes('text o-flag o-flag--top')}>
+    <StyledText data-testid={`resource-type-${contentType}`} className="o-flag o-flag--top">
       {contentType && (
-        <StyledResourceIcon key="img" {...classes('icon o-flag__img')} {...dragHandleProps}>
+        <StyledResourceIcon key="img" className="o-flag__img" {...dragHandleProps}>
           <ContentTypeBadge background type={iconType} />
         </StyledResourceIcon>
       )}
-      <StyledResourceBody key="body" {...classes('body o-flag__body')}>
+      <StyledResourceBody key="body" className="o-flag__body">
         <ResourceItemLink
           contentType={contentType}
           contentUri={resource.contentUri}

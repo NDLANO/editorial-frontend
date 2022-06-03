@@ -9,7 +9,6 @@
 import { FormEvent, ReactNode, useState } from 'react';
 import { Editor, Transforms, Element, Path } from 'slate';
 import { RenderElementProps, ReactEditor, useSelected } from 'slate-react';
-import BEMHelper from 'react-bem-helper';
 import { useTranslation } from 'react-i18next';
 import SlateImage from './SlateImage';
 import SlateVideo from './SlateVideo';
@@ -20,11 +19,6 @@ import DisplayExternal from '../../../DisplayEmbed/DisplayExternal';
 import { EmbedElement } from '.';
 import { LocaleType } from '../../../../interfaces';
 import { TYPE_EMBED } from './types';
-
-export const editorClasses = new BEMHelper({
-  name: 'editor',
-  prefix: 'c-',
-});
 
 interface Props {
   attributes: RenderElementProps['attributes'];
@@ -86,7 +80,6 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
         <SlateImage
           attributes={attributes}
           embed={embed}
-          figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
@@ -101,7 +94,6 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
         <SlateVideo
           attributes={attributes}
           embed={embed}
-          figureClass={editorClasses('figure', isActive() ? 'active' : '')}
           language={language}
           onRemoveClick={onRemoveClick}
           saveEmbedUpdates={saveEmbedUpdates}
@@ -146,7 +138,6 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           <SlateVideo
             attributes={attributes}
             embed={embed}
-            figureClass={editorClasses('figure', isActive() ? 'active' : '')}
             language={language}
             onRemoveClick={onRemoveClick}
             saveEmbedUpdates={saveEmbedUpdates}

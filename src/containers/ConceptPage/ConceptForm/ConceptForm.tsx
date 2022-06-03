@@ -17,7 +17,6 @@ import { toEditConcept } from '../../../util/routeHelpers';
 import * as articleStatuses from '../../../util/constants/ArticleStatus';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
-import { formClasses } from '../../FormikForm';
 import {
   conceptApiTypeToFormType,
   conceptFormTypeToApiType,
@@ -26,13 +25,13 @@ import {
 } from '../conceptTransformers';
 import { ConceptArticles, ConceptCopyright, ConceptContent, ConceptMetaData } from '../components';
 
-import FormWrapper from './FormWrapper';
 import { ConceptFormValues } from '../conceptInterfaces';
 import { SubjectType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import ConceptFormFooter from './ConceptFormFooter';
 import { MessageError, useMessages } from '../../Messages/MessagesProvider';
 import { useLicenses } from '../../../modules/draft/draftQueries';
 import { ConceptStatusType } from '../../../interfaces';
+import FormWrapper from '../../../components/FormWrapper';
 
 interface UpdateProps {
   onUpdate: (updatedConcept: IUpdatedConcept, revision?: number) => Promise<IConcept>;
@@ -212,7 +211,7 @@ const ConceptForm = ({
           : undefined;
         const editUrl = values.id ? (lang: string) => toEditConcept(values.id!, lang) : undefined;
         return (
-          <FormWrapper inModal={inModal} {...formClasses()}>
+          <FormWrapper inModal={inModal}>
             <HeaderWithLanguage
               content={{ ...concept, title: concept?.title?.title, language }}
               editUrl={editUrl}

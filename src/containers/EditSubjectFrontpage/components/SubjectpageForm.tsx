@@ -7,7 +7,7 @@
 
 import { useState } from 'react';
 import { Element } from 'slate';
-import { Formik, Form, FormikProps } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import {
   ISubjectPageData,
@@ -19,7 +19,7 @@ import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 import { IArticle } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
 import SimpleLanguageHeader from '../../../components/HeaderWithLanguage/SimpleLanguageHeader';
-import { AlertModalWrapper, formClasses } from '../../FormikForm';
+import { AlertModalWrapper } from '../../FormikForm';
 import validateFormik, { RulesType } from '../../../components/formikValidationSchema';
 import { isFormikFormDirty } from '../../../util/formHelper';
 import { toEditSubjectpage } from '../../../util/routeHelpers';
@@ -38,6 +38,7 @@ import { queryLearningPathResource, queryResources, queryTopics } from '../../..
 import { Resource, Topic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TYPE_EMBED } from '../../../components/SlateEditor/plugins/embed/types';
 import { useTaxonomyVersion } from '../../StructureVersion/TaxonomyVersionProvider';
+import StyledForm from '../../../components/StyledFormComponents';
 
 interface Props {
   subjectpage?: ISubjectPageData;
@@ -167,7 +168,7 @@ const SubjectpageForm = ({
         });
         setUnsaved(formIsDirty);
         return (
-          <Form {...formClasses()}>
+          <StyledForm>
             <SimpleLanguageHeader
               articleType={values.articleType!}
               editUrl={(lang: string) => toEditSubjectpage(values.elementId!, lang, values.id)}
@@ -198,7 +199,7 @@ const SubjectpageForm = ({
               severity="danger"
               text={t('alertModal.notSaved')}
             />
-          </Form>
+          </StyledForm>
         );
       }}
     </Formik>

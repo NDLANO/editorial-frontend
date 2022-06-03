@@ -23,9 +23,9 @@ import styled from '@emotion/styled';
 import { FormikShape } from '../../shapes';
 import FormikFieldLabel from './FormikFieldLabel';
 import FormikFieldDescription from './FormikFieldDescription';
-import { classes } from './';
 import FormikFieldHelp from './FormikFieldHelp';
 import FormikRemainingCharacters from './FormikRemainingCharacters';
+import { StyledField } from '../Field';
 
 const StyledErrorPreLine = styled.span`
   white-space: pre-line;
@@ -75,7 +75,7 @@ const FormikField = ({
       }
     : {};
   return (
-    <div {...classes('', { 'no-border': noBorder, right, title }, className)}>
+    <StyledField noBorder={noBorder} right={right} isTitle={title} className={className}>
       <FormikFieldLabel label={label} name={name} noBorder={noBorder} />
       <FormikFieldDescription description={description} obligatory={obligatory} />
       <Field name={name} maxLength={maxLength} {...rest} {...fieldActions}>
@@ -110,7 +110,7 @@ const FormikField = ({
           <StyledErrorPreLine>{get(name, status.warnings)}</StyledErrorPreLine>
         </FormikFieldHelp>
       )}
-    </div>
+    </StyledField>
   );
 };
 

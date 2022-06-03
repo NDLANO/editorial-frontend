@@ -7,16 +7,61 @@
  */
 
 import { ReactNode } from 'react';
-import PropTypes from 'prop-types';
-import BEMHelper from 'react-bem-helper';
+import styled from '@emotion/styled';
+import { css } from '@emotion/core';
+import { spacing } from '@ndla/core';
 
-export const classes = new BEMHelper({
-  name: 'field',
-  prefix: 'c-',
-});
+interface StyledFieldProps {
+  right?: boolean;
+  isTitle?: boolean;
+  noBorder?: boolean;
+}
+
+export const StyledField = styled.div<StyledFieldProps>`
+  margin-top: 2rem;
+  position: relative;
+
+  & > select {
+    width: 100%;
+    display: block;
+  }
+
+  & label {
+    font-size: 1.5rem;
+  }
+  ${p =>
+    p.noBorder &&
+    css`
+      & input {
+        border: none;
+        padding: 0;
+        margin: 0;
+        outline: none;
+      }
+    `};
+  ${p =>
+    p.right &&
+    css`
+      text-align: right;
+      margin-right: ${spacing.small};
+    `};
+  ${p =>
+    p.isTitle &&
+    css`
+      & input {
+        font-size: 2.11111rem;
+      }
+
+      & div {
+        font-size: 2.11111rem;
+      }
+    `};
+`;
 
 const Field = ({ children, className, noBorder = false, title = false, right = false }: Props) => (
-  <div {...classes('', { 'no-border': noBorder, right, title }, className)}>{children}</div>
+  <StyledField noBorder={noBorder} right={right} isTitle={title} className={className}>
+    {children}
+  </StyledField>
 );
 
 interface Props {
@@ -26,11 +71,5 @@ interface Props {
   right?: boolean;
   title?: boolean;
 }
-
-Field.propTypes = {
-  noBorder: PropTypes.bool,
-  right: PropTypes.bool,
-  title: PropTypes.bool,
-};
 
 export default Field;

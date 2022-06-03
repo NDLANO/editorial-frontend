@@ -1,7 +1,26 @@
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+import { spacing } from '@ndla/core';
 import { LicenseField, DatePicker, ContributorsField } from '../../FormikForm';
-import FormikField, { classes as fieldsClasses } from '../../../components/FormikField';
+import FormikField from '../../../components/FormikField';
 
+const StyledTwoColumn = styled.div`
+  display: flex;
+  flex-flow: row;
+  margin-top: ${spacing.small};
+  & > *:nth-child(1) {
+    width: 50%;
+  }
+  & > *:nth-child(2) {
+    margin-left: 0.5rem;
+    width: 50%;
+  }
+`;
+
+const StyledDateField = styled(FormikField)`
+  display: inline-block;
+  margin-top: 0;
+`;
 const contributorTypes = ['rightsholders', 'creators'];
 const AgreementFields = () => {
   const { t, i18n } = useTranslation();
@@ -26,8 +45,8 @@ const AgreementFields = () => {
           />
         )}
       </FormikField>
-      <div {...fieldsClasses('two-column')}>
-        <FormikField name="validFrom">
+      <StyledTwoColumn>
+        <StyledDateField name="validFrom">
           {({ field, form }) => (
             <DatePicker
               label={t('form.validDate.from.label')}
@@ -36,8 +55,8 @@ const AgreementFields = () => {
               {...field}
             />
           )}
-        </FormikField>
-        <FormikField name="validTo">
+        </StyledDateField>
+        <StyledDateField name="validTo">
           {({ field, form }) => (
             <DatePicker
               placeholder={t('form.validDate.to.placeholder')}
@@ -46,8 +65,8 @@ const AgreementFields = () => {
               {...field}
             />
           )}
-        </FormikField>
-      </div>
+        </StyledDateField>
+      </StyledTwoColumn>
     </div>
   );
 };

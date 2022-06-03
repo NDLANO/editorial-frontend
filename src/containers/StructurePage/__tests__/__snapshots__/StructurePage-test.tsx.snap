@@ -243,7 +243,7 @@ exports[`fetches and renders a list of subjects and topics based on pathname 1`]
   margin-left: 26px;
 }
 
-@media (min-width:37.5em) {
+@media (min-width:37.5625em) {
   .emotion-364 {
     padding-left: 13px;
     padding-right: 6.5px;

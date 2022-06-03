@@ -9,7 +9,7 @@
 import { createRef, MouseEvent, useEffect } from 'react';
 import { Editor, Element } from 'slate';
 import { ReactEditor } from 'slate-react';
-import BEMHelper from 'react-bem-helper';
+import styled from '@emotion/styled';
 import { Portal } from '../../../Portal';
 import ToolbarButton from './ToolbarButton';
 import { toggleMark } from '../mark/utils';
@@ -46,10 +46,19 @@ const specialRules: { [key: string]: Partial<Element> } = {
   },
 };
 
-export const toolbarClasses = new BEMHelper({
-  name: 'toolbar',
-  prefix: 'c-',
-});
+const ToolbarContainer = styled.div`
+  border-radius: 4px;
+  position: absolute;
+  z-index: 11;
+  top: -10000px;
+  left: -10000px;
+  margin-top: -6px;
+  opacity: 0;
+  color: black;
+  background-color: white;
+  transition: opacity 0.75s;
+  box-shadow: 3px 3px 5px #99999959;
+`;
 
 interface Props {
   editor: Editor;
@@ -174,12 +183,12 @@ const SlateToolbar = (props: Props) => {
 
   return (
     <Portal isOpened>
-      <div ref={portalRef} {...toolbarClasses()}>
+      <ToolbarContainer ref={portalRef}>
         {markButtons}
         {blockButtons}
         {inlineButtons}
         {tableButtons}
-      </div>
+      </ToolbarContainer>
     </Portal>
   );
 };

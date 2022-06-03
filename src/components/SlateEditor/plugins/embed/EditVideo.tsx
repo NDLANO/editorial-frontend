@@ -8,6 +8,7 @@
 
 import { createRef, useEffect, useState } from 'react';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import { Input, StyledButtonWrapper } from '@ndla/forms';
 import Button from '@ndla/button';
@@ -37,21 +38,18 @@ const videoStyle = css`
 
 interface Props {
   embed: BrightcoveEmbed | ExternalEmbed;
-  figureClass: any;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
   src: string;
   activeSrc: string;
   toggleEditModus: () => void;
 }
 
-const EditVideo = ({
-  embed,
-  figureClass,
-  saveEmbedUpdates,
-  src,
-  activeSrc,
-  toggleEditModus,
-}: Props) => {
+const StyledFigure = styled.figure`
+  position: relative;
+  padding-top: 56.25%;
+`;
+
+const EditVideo = ({ embed, saveEmbedUpdates, src, activeSrc, toggleEditModus }: Props) => {
   const [caption, setCaption] = useState(embed.caption || '');
   const [startTime, setStartTime] = useState(
     'videoid' in embed ? getBrightCoveStartTime(embed.videoid) : getStartTime(embed.url),
@@ -111,11 +109,7 @@ const EditVideo = ({
             ref={embedEl => {
               embedElement = embedEl;
             }}>
-            <figure
-              css={css`
-                padding-top: 56.25%;
-              `}
-              {...figureClass}>
+            <StyledFigure>
               <iframe
                 title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
                 frameBorder="0"
@@ -123,7 +117,7 @@ const EditVideo = ({
                 allowFullScreen
                 css={videoStyle}
               />
-            </figure>
+            </StyledFigure>
             <StyledInputWrapper>
               {embed.resource === 'external' ? (
                 <EditVideoTime

@@ -9,18 +9,12 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ndla/button';
-import BEMHelper from 'react-bem-helper';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import DeleteButton from '../../../DeleteButton';
 import MoveContentButton from '../../../MoveContentButton';
 import { EditorShape, AttributesShape } from '../../../../shapes';
-
-const classes = new BEMHelper({
-  name: 'editor',
-  prefix: 'c-',
-});
 
 const factBoxButtonStyle = css`
   position: absolute;
@@ -86,7 +80,7 @@ class SlateFactAside extends Component {
     return (
       <StyledAside
         expanded={this.state.expanded}
-        {...classes('fact-aside', '', this.state.expanded ? 'c-factbox expanded' : 'c-factbox')}
+        className={this.state.expanded ? 'c-factbox expanded' : 'c-factbox'}
         draggable
         {...attributes}>
         <StyledDiv expanded={this.state.expanded} className="c-factbox__content c-bodybox">

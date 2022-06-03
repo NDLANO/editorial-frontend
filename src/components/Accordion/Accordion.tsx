@@ -9,7 +9,7 @@
 import { ReactNode } from 'react';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { colors, mq, spacing } from '@ndla/core';
+import { colors, mq, spacing, breakpoints } from '@ndla/core';
 import Button from '@ndla/button';
 import { ExpandLess, ExpandMore } from '@ndla/icons/action';
 import AccordionButtonLine from './AccordionButtonLine';
@@ -31,13 +31,12 @@ interface StyledAccordionTitleProps {
 }
 
 const StyledAccordionTitle = styled.span<StyledAccordionTitleProps>`
-  padding-left: 1.3rem;
+  padding-left: ${spacing.normal};
   font-size: 1.25rem;
   color: ${p => (p.type === 'taxonomy' ? 'white' : 'rgb(102, 102, 102);')};
   align-items: center;
   display: flex;
   align-self: center;
-  margin-right: 0.2em;
   & > svg {
     margin-right: 10px;
     color: ${p => p.type === 'resourceGroup' && 'rgb(102, 102, 102)'};
@@ -61,7 +60,7 @@ interface StyledContentProps {
   type?: AccordionType;
 }
 const StyledContent = styled.div<StyledContentProps>`
-  ${mq.range({ from: '37.5em' })} {
+  ${mq.range({ from: breakpoints.tablet })} {
     padding-left: ${spacing.small};
     padding-right: ${spacing.xsmall};
   }
@@ -81,7 +80,7 @@ interface Props {
   handleToggle: () => void;
   className?: string;
   addButton?: ReactNode;
-  appearance: 'resourceGroup' | 'taxonomy';
+  appearance: AccordionType;
   toggleSwitch?: ReactNode;
   children?: ReactNode;
 }

@@ -12,10 +12,12 @@ import Button from '@ndla/button';
 import { FieldHeader, FieldSection, Input, CheckboxItem, FieldRemoveButton } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
-import { spacing, colors } from '@ndla/core';
+import { spacing } from '@ndla/core';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { DeleteForever } from '@ndla/icons/lib/editor';
+import { Link } from 'react-router-dom';
 
 import UrlAllowList from './UrlAllowList';
 import { fetchExternalOembed } from '../../util/apiHelpers';
@@ -28,6 +30,7 @@ import { ExternalEmbed } from '../../interfaces';
 import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
 import { fetchImage, searchImages } from '../../modules/image/imageApi';
 import { onError } from '../../util/resolveJsonOrRejectWithError';
+import IconButton from '../../components/IconButton';
 
 const filterWhiteListedURL = (url: string) => {
   const domain = urlDomain(url);
@@ -48,16 +51,6 @@ const StyledButtonWrapper = styled('div')`
   }
 `;
 
-const RemoveButton = styled(Button)`
-  background-color: ${colors.support.red};
-  border: ${colors.support.red};
-  :hover,
-  :focus {
-    background-color: ${colors.support.red};
-    border: ${colors.support.red};
-  }
-`;
-
 const StyledPreviewWrapper = styled('div')`
   display: flex;
   align-items: center;
@@ -75,6 +68,7 @@ const CheckboxWrapper = styled.div`
 
 const FullscreenFormWrapper = styled.div`
   display: flex;
+  align-items: center;
   margin-top: ${spacing.medium};
   flex-direction: row;
   gap: 10px;
@@ -88,11 +82,16 @@ const ContentInputWrapper = styled.div`
 `;
 
 const ImageInputWrapper = styled.div`
+  position: relative;
+`;
+
+const ImageButtons = styled.div`
+  position: absolute;
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  gap: ${spacing.xsmall};
   flex-direction: column;
-  gap: 10px;
+  right: -${spacing.medium};
+  top: 0;
 `;
 
 const ImageWrapper = styled.div`
@@ -368,16 +367,42 @@ const VisualElementUrlPreview = ({
             />
           </ContentInputWrapper>
           <ImageInputWrapper>
-            <ImageWrapper>
-              {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-              <img src={image?.imageUrl} alt={image?.alttext.alttext} />
-            </ImageWrapper>
-            <Button onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</Button>
-            {image && (
+            {image ? (
+              <ImageWrapper>
+                {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+                <img src={image?.imageUrl} alt={image?.alttext.alttext} />
+                <ImageButtons>
+                  <Tooltip tooltip={t('form.metaImage.remove')} align="left">
+                    <IconButton
+                      color="red"
+                      type="button"
+                      onClick={() => setImage(undefined)}
+                      tabIndex={-1}
+                      data-cy="remove-element">
+                      <DeleteForever />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip tooltip={t('imageEditor.editImage')} align="left">
+                    <IconButton
+                      as={Link}
+                      to={`/media/image-upload/${image.id}/edit/${language}`}
+                      target="_blank"
+                      title={t('form.editOriginalImage')}
+                      tabIndex={-1}>
+                      <LinkIcon />
+                    </IconButton>
+                  </Tooltip>
+                </ImageButtons>
+              </ImageWrapper>
+            ) : (
+              <Button onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</Button>
+            )}
+            {/* 
+            
               <RemoveButton onClick={() => setImage(undefined)}>
                 {t('form.metaImage.remove')}
               </RemoveButton>
-            )}
+            )} */}
           </ImageInputWrapper>
         </FullscreenFormWrapper>
       ) : (

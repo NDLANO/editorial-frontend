@@ -15,6 +15,7 @@ import { getTagName } from '../../../../util/formHelper';
 import ArticleStatuses from '../../../../util/constants/index';
 import { SearchParams } from './SearchForm';
 import { DRAFT_WRITE_SCOPE } from '../../../../constants';
+import config from '../../../../config';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
 import { useAuth0Editors } from '../../../../modules/auth0/auth0Queries';
 import { useAllResourceTypes } from '../../../../modules/taxonomy/resourcetypes/resourceTypesQueries';
@@ -155,19 +156,24 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
       width: 25,
       options: getResourceLanguages(t),
     },
-    {
-      name: search['revision-date-from'],
-      type: 'revision-date-from',
-      width: 25,
-      options: [],
-    },
-    {
-      name: search['revision-date-to'],
-      type: 'revision-date-to',
-      width: 25,
-      options: [],
-    },
   ];
+
+  if (config.revisiondateEnabled === 'true') {
+    selectors.push(
+      {
+        name: search['revision-date-from'],
+        type: 'revision-date-from',
+        width: 25,
+        options: [],
+      },
+      {
+        name: search['revision-date-to'],
+        type: 'revision-date-to',
+        width: 25,
+        options: [],
+      },
+    );
+  }
 
   return (
     <GenericSearchForm

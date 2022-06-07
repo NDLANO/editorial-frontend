@@ -151,6 +151,7 @@ export type ConfigType = {
   googleSearchEngineId: string | undefined;
   isNdlaProdEnvironment: boolean;
   versioningEnabled: string;
+  revisiondateEnabled: string;
   ndlaEnvironment: string;
   learningpathFrontendDomain: string;
   googleSearchApiKey: string | undefined;
@@ -182,6 +183,7 @@ const config: ConfigType = {
   logglyApiKey: getEnvironmentVariabel('LOGGLY_API_KEY'),
   isNdlaProdEnvironment: ndlaEnvironment === 'prod',
   versioningEnabled: getEnvironmentVariabel('ENABLE_VERSIONING', 'true'),
+  revisiondateEnabled: getEnvironmentVariabel('ENABLE_REVISIONDATE', 'false'),
   ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', getNdlaApiUrl(ndlaEnvironment)),
   ndlaBaseUrl: ndlaBaseUrl(),
   ndlaFrontendDomain: getEnvironmentVariabel('FRONTEND_DOMAIN', ndlaFrontendDomain()),

@@ -68,7 +68,7 @@ const CheckboxWrapper = styled.div`
 
 const FullscreenFormWrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   margin-top: ${spacing.medium};
   flex-direction: row;
   gap: 10px;
@@ -397,12 +397,6 @@ const VisualElementUrlPreview = ({
             ) : (
               <Button onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</Button>
             )}
-            {/* 
-            
-              <RemoveButton onClick={() => setImage(undefined)}>
-                {t('form.metaImage.remove')}
-              </RemoveButton>
-            )} */}
           </ImageInputWrapper>
         </FullscreenFormWrapper>
       ) : (

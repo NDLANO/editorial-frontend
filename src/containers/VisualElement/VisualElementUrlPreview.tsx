@@ -68,10 +68,10 @@ const CheckboxWrapper = styled.div`
 
 const FullscreenFormWrapper = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   margin-top: ${spacing.medium};
   flex-direction: row;
-  gap: 10px;
+  gap: ${spacing.large};
 `;
 
 const ContentInputWrapper = styled.div`
@@ -347,6 +347,38 @@ const VisualElementUrlPreview = ({
 
       {showFullscreen ? (
         <FullscreenFormWrapper>
+          <ImageInputWrapper>
+            {image ? (
+              <ImageWrapper>
+                {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+                <img src={image?.imageUrl} alt={image?.alttext.alttext} />
+                <ImageButtons>
+                  <Tooltip tooltip={t('form.metaImage.remove')} align="top">
+                    <IconButton
+                      color="red"
+                      type="button"
+                      onClick={() => setImage(undefined)}
+                      tabIndex={-1}
+                      data-cy="remove-element">
+                      <DeleteForever />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip tooltip={t('imageEditor.editImage')} align="top">
+                    <IconButton
+                      as={Link}
+                      to={`/media/image-upload/${image.id}/edit/${language}`}
+                      target="_blank"
+                      title={t('form.editOriginalImage')}
+                      tabIndex={-1}>
+                      <LinkIcon />
+                    </IconButton>
+                  </Tooltip>
+                </ImageButtons>
+              </ImageWrapper>
+            ) : (
+              <Button onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</Button>
+            )}
+          </ImageInputWrapper>
           <ContentInputWrapper>
             <h3>{t('form.name.title')}</h3>
             <Input
@@ -366,38 +398,6 @@ const VisualElementUrlPreview = ({
               onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
             />
           </ContentInputWrapper>
-          <ImageInputWrapper>
-            {image ? (
-              <ImageWrapper>
-                {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-                <img src={image?.imageUrl} alt={image?.alttext.alttext} />
-                <ImageButtons>
-                  <Tooltip tooltip={t('form.metaImage.remove')} align="left">
-                    <IconButton
-                      color="red"
-                      type="button"
-                      onClick={() => setImage(undefined)}
-                      tabIndex={-1}
-                      data-cy="remove-element">
-                      <DeleteForever />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip tooltip={t('imageEditor.editImage')} align="left">
-                    <IconButton
-                      as={Link}
-                      to={`/media/image-upload/${image.id}/edit/${language}`}
-                      target="_blank"
-                      title={t('form.editOriginalImage')}
-                      tabIndex={-1}>
-                      <LinkIcon />
-                    </IconButton>
-                  </Tooltip>
-                </ImageButtons>
-              </ImageWrapper>
-            ) : (
-              <Button onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</Button>
-            )}
-          </ImageInputWrapper>
         </FullscreenFormWrapper>
       ) : (
         showPreview && (

@@ -76,9 +76,13 @@ const FullscreenFormWrapper = styled.div`
 
 const ContentInputWrapper = styled.div`
   flex-grow: 1;
-  textarea {
-    min-height: 50px;
-  }
+  display: flex;
+  flex-direction: column;
+`;
+
+const UpdateButton = styled(Button)`
+  margin-left: auto;
+  margin-top: ${spacing.small};
 `;
 
 const ImageInputWrapper = styled.div`
@@ -324,19 +328,19 @@ const VisualElementUrlPreview = ({
           </FieldRemoveButton>
         </RemoveButtonWrapper>
       </FieldSection>
-      <StyledButtonWrapper>
-        {!showFullscreen && (
+      {!showFullscreen && (
+        <StyledButtonWrapper>
           <Button
             disabled={url === selectedResourceUrl || url === ''}
             outline
             onClick={() => handleSaveUrl(true)}>
             {t('form.content.link.preview')}
           </Button>
-        )}
-        <Button disabled={!canSave()} outline onClick={() => handleSaveUrl()}>
-          {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
-        </Button>
-      </StyledButtonWrapper>
+          <Button disabled={!canSave()} outline onClick={() => handleSaveUrl()}>
+            {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
+          </Button>
+        </StyledButtonWrapper>
+      )}
       <CheckboxWrapper>
         <CheckboxItem
           checked={showFullscreen}
@@ -397,6 +401,9 @@ const VisualElementUrlPreview = ({
               placeholder={t('form.name.description')}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
             />
+            <UpdateButton disabled={!canSave()} outline onClick={() => handleSaveUrl()}>
+              {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
+            </UpdateButton>
           </ContentInputWrapper>
         </FullscreenFormWrapper>
       ) : (

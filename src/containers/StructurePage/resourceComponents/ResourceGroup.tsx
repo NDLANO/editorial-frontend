@@ -15,7 +15,6 @@ import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
 
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
-import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TopicResource } from './StructureResources';
 import { LocaleType } from '../../../interfaces';
@@ -69,7 +68,7 @@ const ResourceGroup = ({
           </AddTopicResourceButton>
         }
         handleToggle={handleToggle}
-        appearance={ButtonAppearance.RESOURCEGROUP}
+        appearance={'resourceGroup'}
         header={resourceType.name}
         hidden={topicResource?.resources ? displayResource : true}>
         <>

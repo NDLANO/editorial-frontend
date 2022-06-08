@@ -10,7 +10,6 @@
 @import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 @import '../../node_modules/react-image-crop/dist/ReactCrop.css';
 @import '../../node_modules/@reach/dialog/styles.css';
-@import './accordion.css';
 @import './content-block.css';
 @import './fields.css';
 @import './form.css';

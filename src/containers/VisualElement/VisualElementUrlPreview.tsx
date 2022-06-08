@@ -6,15 +6,18 @@
  *
  */
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
-import { FieldHeader, FieldSection, Input, FieldSplitter, FieldRemoveButton } from '@ndla/forms';
+import { FieldHeader, FieldSection, Input, CheckboxItem, FieldRemoveButton } from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
+import { IImageMetaInformationV2 } from '@ndla/types-image-api';
+import { DeleteForever } from '@ndla/icons/lib/editor';
+import { Link } from 'react-router-dom';
 
 import UrlAllowList from './UrlAllowList';
 import { fetchExternalOembed } from '../../util/apiHelpers';
@@ -24,6 +27,10 @@ import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
 import { urlTransformers } from './urlTransformers';
 import { VisualElementChangeReturnType } from './VisualElementSearch';
 import { ExternalEmbed } from '../../interfaces';
+import ImageSearchAndUploader from '../../components/ImageSearchAndUploader';
+import { fetchImage, searchImages } from '../../modules/image/imageApi';
+import { onError } from '../../util/resolveJsonOrRejectWithError';
+import IconButton from '../../components/IconButton';
 
 const filterWhiteListedURL = (url: string) => {
   const domain = urlDomain(url);
@@ -51,11 +58,61 @@ const StyledPreviewWrapper = styled('div')`
   margin-top: ${spacing.large};
 `;
 
+const RemoveButtonWrapper = styled.div`
+  margin-left: auto;
+`;
+
+const CheckboxWrapper = styled.div`
+  display: flex;
+`;
+
+const FullscreenFormWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: ${spacing.medium};
+  flex-direction: row;
+  gap: ${spacing.large};
+`;
+
+const ContentInputWrapper = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
+const UpdateButton = styled(Button)`
+  margin-left: auto;
+  margin-top: ${spacing.small};
+`;
+
+const ImageInputWrapper = styled.div`
+  position: relative;
+`;
+
+const ImageButtons = styled.div`
+  position: absolute;
+  display: flex;
+  gap: ${spacing.xsmall};
+  flex-direction: column;
+  right: -${spacing.medium};
+  top: 0;
+`;
+
+const ImageWrapper = styled.div`
+  max-width: 200px;
+  max-height: 160px;
+  > img {
+    max-height: 100%;
+  }
+`;
+
 interface Props {
   selectedResourceUrl?: string;
   selectedResourceType?: string;
+  articleLanguage?: string;
   resource?: string;
   onUrlSave: (returnType: VisualElementChangeReturnType) => void;
+  embed?: ExternalEmbed;
 }
 const StyledPreviewItem = styled('div')`
   width: 50%;
@@ -65,16 +122,28 @@ type URLError = 'invalid' | 'unsupported';
 const VisualElementUrlPreview = ({
   selectedResourceUrl,
   selectedResourceType,
+  articleLanguage,
   resource,
   onUrlSave,
+  embed,
 }: Props) => {
   const [url, setUrl] = useState(selectedResourceUrl);
+  const [title, setTitle] = useState(embed?.title || '');
+  const [image, setImage] = useState<IImageMetaInformationV2>();
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [description, setDescription] = useState(embed?.caption || '');
+  const [showFullscreen, setShowFullscreen] = useState(
+    !!(embed?.imageid || embed?.caption || embed?.title),
+  );
   const [embedUrl, setEmbedUrl] = useState(selectedResourceUrl);
   const [showPreview, setShowPreview] = useState(selectedResourceUrl !== '');
   const [error, setError] = useState<URLError | undefined>(undefined);
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
 
-  const getWarningText = () => {
+  const getUrlWarningText = () => {
     if (error === 'invalid') {
       return t('form.content.link.invalid');
     }
@@ -100,11 +169,11 @@ const VisualElementUrlPreview = ({
     setEmbedUrl('');
   };
 
-  const handleSaveUrl = async (url: string, preview = false) => {
-    const whiteListedUrl = filterWhiteListedURL(url);
+  const handleSaveUrl = async (preview = false) => {
+    const whiteListedUrl = filterWhiteListedURL(url || '');
     if (whiteListedUrl) {
       try {
-        const data = await fetchExternalOembed(url);
+        const data = await fetchExternalOembed(url || '');
         const src = getIframeSrcFromHtmlString(data.html);
 
         if (preview) {
@@ -121,14 +190,24 @@ const VisualElementUrlPreview = ({
           setEmbedUrl(url);
           setShowPreview(true);
         } else {
+          const data = showFullscreen
+            ? {
+                title,
+                caption: description,
+                imageid: image?.id,
+                type: 'fullscreen',
+              }
+            : {
+                width: '708px',
+                height: whiteListedUrl.height || '486px',
+                type: 'iframe',
+              };
           onUrlSave({
             type: 'embed',
             value: {
+              ...data,
               resource: 'iframe',
-              type: 'iframe',
               url,
-              width: '708px',
-              height: whiteListedUrl.height || '486px',
             } as ExternalEmbed,
           });
         }
@@ -163,13 +242,48 @@ const VisualElementUrlPreview = ({
     }
   };
 
-  const isChangedUrl = url !== selectedResourceUrl || selectedResourceUrl === undefined;
+  const urlChanged = url !== selectedResourceUrl || selectedResourceUrl === undefined;
+  const titleChanged = title !== embed?.title;
+  const descriptionChanged = embed?.caption !== description;
+  const imageChanged = embed?.imageid !== image?.id;
+  const typeChanged = showFullscreen
+    ? embed?.type === 'iframe' || !embed?.type
+    : embed?.type === 'fullscreen';
+
+  const canSave = () => {
+    if (url === '' || !!error) {
+      return false;
+    }
+
+    if (showFullscreen) {
+      if (!image?.id) {
+        return false;
+      }
+      if (titleChanged || descriptionChanged || imageChanged) {
+        return true;
+      }
+    }
+
+    if (urlChanged || typeChanged) {
+      return true;
+    }
+
+    return false;
+  };
+
+  useEffect(() => {
+    if (embed?.imageid) {
+      fetchImage(embed.imageid, articleLanguage).then(image => {
+        setImage(image);
+      });
+    }
+  }, [embed?.imageid, articleLanguage]);
 
   return (
     <>
       <FieldHeader
         title={
-          isChangedUrl
+          urlChanged
             ? t('form.content.link.newUrlResource')
             : t('form.content.link.changeUrlResource', { type: selectedResourceType })
         }
@@ -197,48 +311,142 @@ const VisualElementUrlPreview = ({
         </Modal>
       </FieldHeader>
       <FieldSection>
-        <div>
-          <FieldSplitter>
-            <Input
-              focusOnMount
-              iconRight={<LinkIcon />}
-              container="div"
-              warningText={getWarningText()}
-              value={url}
-              type="text"
-              placeholder={t('form.content.link.href')}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-          </FieldSplitter>
-        </div>
-        <div>
+        <Input
+          focusOnMount
+          iconRight={<LinkIcon />}
+          container="div"
+          warningText={getUrlWarningText()}
+          value={url}
+          type="text"
+          placeholder={t('form.content.link.href')}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        <RemoveButtonWrapper>
           <FieldRemoveButton onClick={handleClearInput}>
             {t('form.content.link.remove')}
           </FieldRemoveButton>
-        </div>
+        </RemoveButtonWrapper>
       </FieldSection>
-      <StyledButtonWrapper>
-        <Button
-          disabled={url === selectedResourceUrl || url === ''}
-          outline
-          onClick={() => handleSaveUrl(url!, true)}>
-          {t('form.content.link.preview')}
-        </Button>
-        <Button
-          disabled={url === '' || url === selectedResourceUrl || !!error}
-          outline
-          onClick={() => handleSaveUrl(url ?? '')}>
-          {isChangedUrl ? t('form.content.link.insert') : t('form.content.link.update')}
-        </Button>
-      </StyledButtonWrapper>
-      {showPreview && (
-        <StyledPreviewWrapper>
-          <StyledPreviewItem>
-            <iframe src={embedUrl} title={resource} height="350px" frameBorder="0" />
-          </StyledPreviewItem>
-        </StyledPreviewWrapper>
+      {!showFullscreen && (
+        <StyledButtonWrapper>
+          <Button
+            disabled={url === selectedResourceUrl || url === ''}
+            outline
+            onClick={() => handleSaveUrl(true)}>
+            {t('form.content.link.preview')}
+          </Button>
+          <Button disabled={!canSave()} outline onClick={() => handleSaveUrl()}>
+            {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
+          </Button>
+        </StyledButtonWrapper>
       )}
+      <CheckboxWrapper>
+        <CheckboxItem
+          checked={showFullscreen}
+          onChange={() => setShowFullscreen(prev => !prev)}
+          label={t('form.content.link.fullscreen')}
+        />
+      </CheckboxWrapper>
+
+      {showFullscreen ? (
+        <FullscreenFormWrapper>
+          <ImageInputWrapper>
+            {image ? (
+              <ImageWrapper>
+                {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+                <img src={image?.imageUrl} alt={image?.alttext.alttext} />
+                <ImageButtons>
+                  <Tooltip tooltip={t('form.metaImage.remove')} align="top">
+                    <IconButton
+                      color="red"
+                      type="button"
+                      onClick={() => setImage(undefined)}
+                      tabIndex={-1}
+                      data-cy="remove-element">
+                      <DeleteForever />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip tooltip={t('imageEditor.editImage')} align="top">
+                    <IconButton
+                      as={Link}
+                      to={`/media/image-upload/${image.id}/edit/${language}`}
+                      target="_blank"
+                      title={t('form.editOriginalImage')}
+                      tabIndex={-1}>
+                      <LinkIcon />
+                    </IconButton>
+                  </Tooltip>
+                </ImageButtons>
+              </ImageWrapper>
+            ) : (
+              <Button onClick={() => setImageModalOpen(true)}>{t('form.metaImage.add')}</Button>
+            )}
+          </ImageInputWrapper>
+          <ContentInputWrapper>
+            <h3>{t('form.name.title')}</h3>
+            <Input
+              container="div"
+              value={title}
+              type="text"
+              placeholder={t('form.name.title')}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+            />
+            <h3>{t('form.name.description')}</h3>
+            <Input
+              container="div"
+              value={description}
+              autoExpand
+              type="text"
+              placeholder={t('form.name.description')}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
+            />
+            <UpdateButton disabled={!canSave()} outline onClick={() => handleSaveUrl()}>
+              {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}
+            </UpdateButton>
+          </ContentInputWrapper>
+        </FullscreenFormWrapper>
+      ) : (
+        showPreview && (
+          <StyledPreviewWrapper>
+            <StyledPreviewItem>
+              <iframe src={embedUrl} title={resource} height="350px" frameBorder="0" />
+            </StyledPreviewItem>
+          </StyledPreviewWrapper>
+        )
+      )}
+      <Modal
+        controllable
+        isOpen={imageModalOpen}
+        onClose={() => setImageModalOpen(false)}
+        size="large"
+        backgroundColor="white"
+        minHeight="90vh">
+        {() => (
+          <>
+            <ModalHeader>
+              <ModalCloseButton
+                title={t('dialog.close')}
+                onClick={() => setImageModalOpen(false)}
+              />
+            </ModalHeader>
+            <ModalBody>
+              <ImageSearchAndUploader
+                inModal={true}
+                locale={language}
+                closeModal={() => {}}
+                fetchImage={id => fetchImage(id, articleLanguage)}
+                searchImages={searchImages}
+                onError={onError}
+                onImageSelect={image => {
+                  setImage(image);
+                  setImageModalOpen(false);
+                }}
+              />
+            </ModalBody>
+          </>
+        )}
+      </Modal>
     </>
   );
 };

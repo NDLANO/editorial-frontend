@@ -67,7 +67,6 @@ const SlateRightAside = ({ children, onRemoveClick, onMoveContent, attributes }:
         stripped
         onMouseDown={onMoveContent}>
         <ChevronLeft />
-        ??
       </MoveAsideButton>
     </aside>
   );

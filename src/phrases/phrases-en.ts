@@ -837,7 +837,7 @@ const phrases = {
         unSupported: 'Content in link is not supported',
         newUrlResource: 'New resource',
         changeUrlResource: 'Edit resource: {{type}}',
-        fullscreen: 'Show fullscreen',
+        fullscreen: 'Open in new window',
         description:
           'Links to ndla-resources are handled by the system and are displayed correct on {{url}}. Ndla-resources are shown with blue background and external links with yellow.',
       },

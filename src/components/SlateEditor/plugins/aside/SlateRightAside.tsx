@@ -6,23 +6,17 @@
  *
  */
 
-import PropTypes from 'prop-types';
+import { ReactNode } from 'react';
+import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import { useTranslation } from 'react-i18next';
-import BEMHelper from 'react-bem-helper';
+import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { ChevronLeft } from '@ndla/icons/common';
-import { css } from '@emotion/core';
 import darken from 'polished/lib/color/darken';
 import DeleteButton from '../../../DeleteButton';
-import { AttributesShape } from '../../../../shapes';
 
-const classes = new BEMHelper({
-  name: 'editor',
-  prefix: 'c-',
-});
-
-const moveContentButtonStyle = css`
+const MoveAsideButton = styled(Button)`
   position: absolute;
   top: 0.1rem;
   right: 1.2rem;
@@ -33,39 +27,49 @@ const moveContentButtonStyle = css`
   }
 `;
 
-const SlateRightAside = props => {
+const StyledAsideType = styled.div`
+  background-color: #444;
+  color: white;
+  position: absolute;
+  width: 100%;
+  padding: 3.2px;
+`;
+
+const StyledAsideContent = styled.div`
+  padding-top: 60px;
+`;
+
+interface Props {
+  onRemoveClick: () => void;
+  children: ReactNode;
+  onMoveContent: () => void;
+  attributes: RenderElementProps['attributes'];
+}
+
+const SlateRightAside = ({ children, onRemoveClick, onMoveContent, attributes }: Props) => {
   const { t } = useTranslation();
-  const { children, onRemoveClick, onMoveContent, attributes } = props;
 
   return (
-    <aside {...classes('right-aside', '', 'c-aside expanded')} {...attributes}>
-      <div {...classes('aside-type')} contentEditable={false}>
+    <aside className="c-aside" {...attributes}>
+      <StyledAsideType contentEditable={false}>
         {t('learningResourceForm.fields.rightAside.title')}
-      </div>
-      <div className="c-aside__content">{children}</div>
+      </StyledAsideType>
+      <StyledAsideContent className="c-aside__content">{children}</StyledAsideContent>
       <DeleteButton
         title={t('learningResourceForm.fields.rightAside.delete')}
         stripped
         onMouseDown={onRemoveClick}
         tabIndex="-1"
       />
-      <Button
+      <MoveAsideButton
         contentEditable={false}
-        css={moveContentButtonStyle}
         title={t('learningResourceForm.fields.rightAside.moveContent')}
         stripped
         onMouseDown={onMoveContent}>
         <ChevronLeft />
-        ??
-      </Button>
+      </MoveAsideButton>
     </aside>
   );
-};
-
-SlateRightAside.propTypes = {
-  attributes: AttributesShape,
-  onRemoveClick: PropTypes.func.isRequired,
-  onMoveContent: PropTypes.func.isRequired,
 };
 
 export default SlateRightAside;

@@ -48,14 +48,20 @@ const ObjectSelector = ({
       name={name}
       className={className}
       onClick={onClick}>
-      {emptyField ? <option value="">{placeholder}</option> : ''}
+      {emptyField ? (
+        <option key="emptyField" value="">
+          {placeholder}
+        </option>
+      ) : (
+        ''
+      )}
       {options?.map(option => (
         <option key={option[idKey] ? option[idKey] : uuid()} value={option[idKey]}>
           {option[labelKey]}
         </option>
       ))}
       {optGroups?.map(group => (
-        <optgroup label={group.label}>
+        <optgroup label={group.label} key={group.label}>
           {group.options.map(option => (
             <option key={option[idKey] ?? uuid()} value={option[idKey]}>
               {option[labelKey]}

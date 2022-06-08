@@ -838,7 +838,7 @@ const phrases = {
         unSupported: 'Innhaldstypen i lenka er ikkje støtta',
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {{type}}',
-        fullscreen: 'Vis i fullskjerm',
+        fullscreen: 'Åpne i nytt vindu',
         description:
           'Lenker til ndla-ressursar spesialhandterast av systemet og visast korrekt på {{- url}}. Ndla-ressursar visast med blå bakgrunn og eksterne lenker med gul.',
       },

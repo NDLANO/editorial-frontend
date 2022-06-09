@@ -6,21 +6,20 @@
  *
  */
 
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { HelmetWithTracker } from '@ndla/tracker';
 import { Hero, OneColumn } from '@ndla/ui';
-import { css } from '@emotion/core';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import * as draftApi from '../../modules/draft/draftApi';
-import * as articleApi from '../../modules/article/articleApi';
 import PreviewDraft from '../../components/PreviewDraft/PreviewDraft';
-import { queryResources } from '../../modules/taxonomy';
-import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
-import LanguageSelector from './LanguageSelector';
+import * as articleApi from '../../modules/article/articleApi';
 import { ArticleConverterApiType } from '../../modules/article/articleApiInterfaces';
+import * as draftApi from '../../modules/draft/draftApi';
+import { queryResources } from '../../modules/taxonomy';
 import { Resource } from '../../modules/taxonomy/taxonomyApiInterfaces';
+import { getContentTypeFromResourceTypes } from '../../util/resourceHelpers';
 import { useTaxonomyVersion } from '../StructureVersion/TaxonomyVersionProvider';
+import LanguageSelector from './LanguageSelector';
 
 const PreviewDraftPage = () => {
   const params = useParams<'draftId' | 'language'>();
@@ -53,7 +52,7 @@ const PreviewDraftPage = () => {
   if (!draft) {
     return null;
   }
-  
+
   const hasResourceTypes = resources.length > 0;
   const contentTypeFromResourceType = hasResourceTypes
     ? getContentTypeFromResourceTypes(resources[0].resourceTypes)
@@ -64,23 +63,13 @@ const PreviewDraftPage = () => {
 
   return (
     <>
-      <div
-        css={css`
-          overflow: visible;
-        `}>
-        <Hero contentType={contentType}>
-          <LanguageSelector supportedLanguages={draft.supportedLanguages} />
-        </Hero>
-        <HelmetWithTracker title={`${draft.title} ${t('htmlTitles.titleTemplate')}`} />
-        <OneColumn>
-          <PreviewDraft
-            article={draft}
-            contentType={contentType}
-            language={language}
-            label={label}
-          />
-        </OneColumn>
-      </div>
+      <Hero contentType={contentType}>
+        <LanguageSelector supportedLanguages={draft.supportedLanguages} />
+      </Hero>
+      <HelmetWithTracker title={`${draft.title} ${t('htmlTitles.titleTemplate')}`} />
+      <OneColumn>
+        <PreviewDraft article={draft} contentType={contentType} language={language} label={label} />
+      </OneColumn>
     </>
   );
 };

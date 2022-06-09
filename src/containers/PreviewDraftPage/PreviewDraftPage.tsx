@@ -53,7 +53,7 @@ const PreviewDraftPage = () => {
   if (!draft) {
     return null;
   }
-
+  
   const hasResourceTypes = resources.length > 0;
   const contentTypeFromResourceType = hasResourceTypes
     ? getContentTypeFromResourceTypes(resources[0].resourceTypes)
@@ -66,7 +66,7 @@ const PreviewDraftPage = () => {
     <>
       <div
         css={css`
-          overflow: auto;
+          overflow: visible;
         `}>
         <Hero contentType={contentType}>
           <LanguageSelector supportedLanguages={draft.supportedLanguages} />

@@ -357,7 +357,7 @@ const VisualElementUrlPreview = ({
                 {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                 <img src={image?.imageUrl} alt={image?.alttext.alttext} />
                 <ImageButtons>
-                  <Tooltip tooltip={t('form.metaImage.remove')} align="top">
+                  <Tooltip tooltip={t('form.metaImage.remove')}>
                     <IconButton
                       color="red"
                       type="button"
@@ -367,7 +367,7 @@ const VisualElementUrlPreview = ({
                       <DeleteForever />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip tooltip={t('imageEditor.editImage')} align="top">
+                  <Tooltip tooltip={t('imageEditor.editImage')}>
                     <IconButton
                       as={Link}
                       to={`/media/image-upload/${image.id}/edit/${language}`}

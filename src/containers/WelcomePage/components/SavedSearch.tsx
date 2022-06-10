@@ -78,7 +78,7 @@ const SavedSearch = ({ deleteSearch, search, index }: Props) => {
 
   return (
     <div style={{ display: 'flex' }} key={index}>
-      <Tooltip tooltip={t('welcomePage.deleteSavedSearch')} align="left">
+      <Tooltip tooltip={t('welcomePage.deleteSavedSearch')}>
         <IconButton
           color="red"
           type="button"

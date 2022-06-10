@@ -92,7 +92,7 @@ const ElementListItem = ({
         <div>
           {isOrderable ? (
             showDragTooltip ? (
-              <Tooltip tooltip={messages?.dragElement}>
+              <Tooltip tooltip={messages?.dragElement || ''}>
                 <StyledButtonIcons
                   draggable
                   tabIndex={-1}
@@ -113,7 +113,7 @@ const ElementListItem = ({
               </StyledButtonIcons>
             )
           ) : null}
-          <Tooltip tooltip={messages?.removeElement}>
+          <Tooltip tooltip={messages?.removeElement || ''}>
             <StyledButtonIcons
               data-cy="elementListItemDeleteButton"
               tabIndex={-1}

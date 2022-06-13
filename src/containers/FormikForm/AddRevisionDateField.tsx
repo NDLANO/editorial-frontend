@@ -7,6 +7,7 @@
  */
 
 import { FormEvent } from 'react';
+import addYears from 'date-fns/addYears';
 import Button from '@ndla/button';
 import { Input, FieldRemoveButton } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
@@ -85,9 +86,7 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
       ...formikField.value,
       {
         note: '',
-        revisionDate: formatDateForBackend(
-          new Date(new Date().setFullYear(new Date().getFullYear() + 5)),
-        ),
+        revisionDate: formatDateForBackend(addYears(new Date(), 5)),
         status: 'needs-revision',
         new: true,
       },

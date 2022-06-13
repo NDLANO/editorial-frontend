@@ -113,9 +113,7 @@ const SettingsMenuDropdownType = ({
             <ToNodeDiff node={node} />
           </>
         )}
-        {config.revisiondateEnabled === 'true' && (
-          <CopyRevisionDate node={node} editModeHandler={editModeHandler} />
-        )}
+        {false && <CopyRevisionDate node={node} editModeHandler={editModeHandler} />}
         <DeleteNode
           node={node}
           nodeChildren={nodeChildren}

@@ -85,7 +85,9 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
       ...formikField.value,
       {
         note: '',
-        revisionDate: formatDateForBackend(new Date()),
+        revisionDate: formatDateForBackend(
+          new Date(new Date().setFullYear(new Date().getFullYear() + 5)),
+        ),
         status: 'needs-revision',
         new: true,
       },

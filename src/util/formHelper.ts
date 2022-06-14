@@ -181,7 +181,8 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
     },
   },
   revisionMeta: {
-    required: false,
+    required: true,
+    minItems: 1,
     test: values => {
       const emptyNote = values.revisionMeta?.find(meta => meta.note.length === 0);
       if (emptyNote !== undefined) {

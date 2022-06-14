@@ -1137,7 +1137,7 @@ const phrases = {
       add: 'Ny revisjon',
       remove: 'Fjern revisjon',
       description:
-        'Revisjonar krev ei skildring og ein dato artikkelen går ut på. Bryteren bestemmer i kva grad ein revisjon er utført eller ikkje. Lagra revisjonar kan ikkje slettast, berre oppdaterast.',
+        'Revisjonar krev ei skildring og ein dato artikkelen går ut på. Bryteren markerar i kva grad ein revisjon er utført eller ikkje. Hugs at ein revidert artikkel må republiserast.',
       datePickerTooltip:
         'Dato artikkelen går ut dersom revisjonen ikkje blir markert som revidert.',
       switchTooltip: 'I kva grad artikkelen er revidert eller ikkje.',

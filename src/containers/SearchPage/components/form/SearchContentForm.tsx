@@ -126,7 +126,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     {
       name: getTagName(search.subjects, subjects),
       type: 'subjects',
-      width: 50,
+      width: config.revisiondateEnabled === 'true' ? 50 : 25,
       options: subjects.sort(sortByProperty('name')),
     },
     {
@@ -147,7 +147,7 @@ const SearchContentForm = ({ search: doSearch, searchObject: search, subjects, l
     {
       name: getTagName(search.users, users),
       type: 'users',
-      width: 50,
+      width: 25,
       options: users!.sort(sortByProperty('name')),
     },
     {

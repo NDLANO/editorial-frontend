@@ -19,6 +19,7 @@ import Tooltip from '@ndla/tooltip';
 import { ArticleFormType } from './articleFormHooks';
 import InlineDatePicker from './components/InlineDatePicker';
 import { formatDateForBackend } from '../../util/formatDate';
+import { useMessages } from '../Messages/MessagesProvider';
 
 type RevisionMetaFormType = ArticleFormType['revisionMeta'];
 
@@ -98,6 +99,8 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
     onRevisionChange(withoutIdx);
   };
 
+  const { createMessage } = useMessages();
+
   return (
     <>
       {formikField.value.map((revisionMeta, index) => {
@@ -141,6 +144,13 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                   onChange={e => {
                     const status = e.currentTarget.checked ? 'revised' : 'needs-revision';
                     editRevision(old => ({ ...old, status }));
+                    if (status === 'revised') {
+                      createMessage({
+                        translationKey: 'form.revisions.reminder',
+                        severity: 'info',
+                        timeToLive: 0,
+                      });
+                    }
                   }}
                   label={''}
                   id={`revision_switch_${index}`}

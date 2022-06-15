@@ -115,7 +115,7 @@ const LearningResourcePanels = ({
           id={'learning-resource-revisions'}
           title={t('form.name.revisions')}
           className={'u-6/6'}
-          hasError={!!errors.revisionMeta}>
+          hasError={!!errors.revisionMeta || !!errors.revisionError}>
           <RevisionNotes />
         </AccordionSection>
       )}

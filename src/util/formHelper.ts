@@ -181,12 +181,23 @@ export const formikCommonArticleRules: RulesType<ArticleFormType, IArticle> = {
     },
   },
   revisionMeta: {
-    required: true,
-    minItems: 1,
     test: values => {
       const emptyNote = values.revisionMeta?.find(meta => meta.note.length === 0);
       if (emptyNote !== undefined) {
         return { translationKey: 'validation.noEmptyRevision' };
+      }
+      return undefined;
+    },
+  },
+  revisionError: {
+    test: values => {
+      const revisionItems = values.revisionMeta.length ?? 0;
+      if (!revisionItems) {
+        return { translationKey: 'validation.missingRevision' };
+      }
+      const unfinishedRevision = values.revisionMeta.some(rev => rev.status === 'needs-revision');
+      if (!unfinishedRevision) {
+        return { translationKey: 'validation.unfinishedRevision' };
       }
       return undefined;
     },

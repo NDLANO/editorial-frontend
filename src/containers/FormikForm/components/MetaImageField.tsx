@@ -8,36 +8,16 @@
 
 import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import Button from '@ndla/button';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import MetaInformation from '../../../components/MetaInformation';
 import FormikField from '../../../components/FormikField';
-
-const metaImageButtonStyle = css`
-  display: block;
-  margin: 1%;
-  min-width: 7.5rem;
-`;
-
-const metaImageDeleteButtonStyle = css`
-  display: block;
-  margin: 1%;
-  min-width: 7.5rem;
-  min-height: 2.1rem;
-  background-color: #ba292e;
-  border: #ba292e;
-  :hover {
-    background-color: #8f2024;
-    border: 0;
-  }
-  :focus {
-    background-color: #8f2024;
-    border: 0;
-  }
-`;
+import Tooltip from '@ndla/tooltip';
+import IconButton from '../../../components/IconButton';
+import { DeleteForever } from '@ndla/icons/lib/editor';
+import { Link as LinkIcon } from '@ndla/icons/common';
+import { Link } from 'react-router-dom';
 
 const MetaImageContainer = styled.div`
   display: flex;
@@ -57,27 +37,33 @@ interface Props {
   onImageLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
 }
 
-const MetaImageField = ({
-  image,
-  onImageSelectOpen,
-  onImageRemove,
-  showRemoveButton,
-  onImageLoad,
-}: Props) => {
+const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
   const { t } = useTranslation();
   const copyright = image.copyright.creators.map(creator => creator.name).join(', ');
   const title = convertFieldWithFallback<'title'>(image, 'title', '');
   const alt = convertFieldWithFallback<'alttext'>(image, 'alttext', '');
   const imageAction = (
     <>
-      <Button css={metaImageButtonStyle} onClick={onImageSelectOpen}>
-        {t('form.metaImage.change')}
-      </Button>
-      {showRemoveButton && (
-        <Button css={metaImageDeleteButtonStyle} onClick={onImageRemove}>
-          {t('form.metaImage.remove')}
-        </Button>
-      )}
+      <Tooltip tooltip={t('form.image.removeImage')} align="right">
+        <IconButton
+          color="red"
+          type="button"
+          onClick={onImageRemove}
+          tabIndex={-1}
+          data-cy="remove-element">
+          <DeleteForever />
+        </IconButton>
+      </Tooltip>
+      <Tooltip tooltip={t('form.image.editImage')} align="top">
+        <IconButton
+          as={Link}
+          to={`/media/image-upload/${image.id}/edit/${image.title.language}`}
+          target="_blank"
+          title={t('form.editOriginalImage')}
+          tabIndex={-1}>
+          <LinkIcon />
+        </IconButton>
+      </Tooltip>
     </>
   );
   const metaInformationTranslations = {

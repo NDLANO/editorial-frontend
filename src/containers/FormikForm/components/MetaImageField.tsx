@@ -8,16 +8,17 @@
 
 import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { DeleteForever } from '@ndla/icons/lib/editor';
+import Tooltip from '@ndla/tooltip';
+import { Link as LinkIcon } from '@ndla/icons/common';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
 import MetaInformation from '../../../components/MetaInformation';
 import FormikField from '../../../components/FormikField';
-import Tooltip from '@ndla/tooltip';
+
 import IconButton from '../../../components/IconButton';
-import { DeleteForever } from '@ndla/icons/lib/editor';
-import { Link as LinkIcon } from '@ndla/icons/common';
-import { Link } from 'react-router-dom';
 
 const MetaImageContainer = styled.div`
   display: flex;

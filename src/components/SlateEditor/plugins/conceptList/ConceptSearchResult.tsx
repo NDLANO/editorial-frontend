@@ -156,6 +156,7 @@ const ConceptSearchResult = ({ tag, language, showResultCount, subjectId }: Prop
                   <ConceptNotion
                     concept={concept}
                     disableScripts={true}
+                    hideIconsAndAuthors
                     type={getType(concept.visualElement?.resource)}
                   />
                 </ConceptSearchResultListItem>

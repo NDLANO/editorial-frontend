@@ -77,8 +77,8 @@ const MetaImageSearch = ({
   const onImageSet = (image: IImageMetaInformationV2) => {
     onImageSelectClose();
     setImage(image);
-    setFieldValue('metaImageAlt', image.alttext.alttext ?? '');
     onChangeFormik(image.id);
+    setFieldValue('metaImageAlt', image.alttext.alttext.trim());
   };
 
   const onImageRemove = () => {

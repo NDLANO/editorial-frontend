@@ -6,6 +6,7 @@
  *
  */
 
+import styled from '@emotion/styled';
 import { ReactElement } from 'react';
 import { Descendant, Editor, Text, Transforms } from 'slate';
 import { jsx as slatejsx } from 'slate-hyperscript';
@@ -35,6 +36,13 @@ const marks: { [key: string]: string } = {
   sup: 'sup',
   sub: 'sub',
 };
+
+const StyledCode = styled.code`
+  display: inline;
+  padding: 0;
+  margin: 0;
+  background-color: #eee;
+`;
 
 export const markSerializer: SlateSerializer = {
   deserialize(el: HTMLElement, children: Descendant[]) {
@@ -100,11 +108,7 @@ export const markPlugin = (editor: Editor) => {
       ret = <u {...attributes}>{ret || children}</u>;
     }
     if (leaf.code) {
-      ret = (
-        <code className="c-inline__code" {...attributes}>
-          {ret || children}
-        </code>
-      );
+      ret = <StyledCode {...attributes}>{ret || children}</StyledCode>;
     }
     if (ret) {
       return ret;

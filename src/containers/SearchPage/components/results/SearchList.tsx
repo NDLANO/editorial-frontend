@@ -7,7 +7,6 @@
  */
 
 import { useState, useEffect } from 'react';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { useTranslation } from 'react-i18next';
 import { IAudioSummary, ISeriesSummary } from '@ndla/types-audio-api';
 import { IConceptSummary } from '@ndla/types-concept-api';
@@ -15,7 +14,7 @@ import { IImageMetaSummary } from '@ndla/types-image-api';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import SearchResult, { SearchResultReturnType } from './SearchResult';
 import Spinner from '../../../../components/Spinner';
-import { ResultType, searchClasses } from '../../SearchContainer';
+import { ResultType } from '../../SearchContainer';
 import { SearchParams } from '../form/SearchForm';
 import { LocaleType, SearchType } from '../../../../interfaces';
 import { SubjectType } from '../../../../modules/taxonomy/taxonomyApiInterfaces';
@@ -54,27 +53,20 @@ const SearchList = ({ results, searchObject, type, searching = true, locale, sub
   if (results.length === 0)
     return <p>{t(`searchPage.${type}NoHits`, { query: searchObject.query ?? '' })}</p>;
   return (
-    <div {...searchClasses('results')}>
-      <TransitionGroup>
-        {toResultReturnType(results, type).map(result => {
-          const learningResourceType =
-            'learningResourceType' in result.value ? result.value.learningResourceType : '';
-          return (
-            <CSSTransition
-              key={`transition-${result.value.id}-${learningResourceType}`}
-              classNames={searchClasses('transition').className}
-              timeout={{ enter: 500, exit: 0 }}>
-              <SearchResult
-                key={`${result.value.id}-${learningResourceType}`}
-                result={result}
-                locale={locale || result.value.title.language}
-                subjects={subjects}
-                editingState={editingState}
-              />
-            </CSSTransition>
-          );
-        })}
-      </TransitionGroup>
+    <div>
+      {toResultReturnType(results, type).map(result => {
+        const learningResourceType =
+          'learningResourceType' in result.value ? result.value.learningResourceType : '';
+        return (
+          <SearchResult
+            key={`${result.value.id}-${learningResourceType}`}
+            result={result}
+            locale={locale || result.value.title.language}
+            subjects={subjects}
+            editingState={editingState}
+          />
+        );
+      })}
     </div>
   );
 };

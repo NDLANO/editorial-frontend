@@ -6,15 +6,18 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { Formik, Form, FormikHelpers } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
+import styled from '@emotion/styled';
 import { Agreement } from '@ndla/icons/editor';
+import { colors } from '@ndla/core';
 import { IAgreement, IUpdatedAgreement, INewAgreement, IAuthor } from '@ndla/types-draft-api';
 import Field from '../../../components/Field';
 import { DEFAULT_LICENSE } from '../../../util/formHelper';
 import AgreementFields from './AgreementFields';
-import { formClasses, ActionButton, AbortButton } from '../../FormikForm';
+import { ActionButton, AbortButton } from '../../FormikForm';
 import validateFormik from '../../../components/formikValidationSchema';
 import { useLicenses } from '../../../modules/draft/draftQueries';
+import StyledForm from '../../../components/StyledFormComponents';
 
 interface AgreementFormValues {
   id?: number;
@@ -71,6 +74,22 @@ const rules = {
   },
 };
 
+const StyledHeaderContainer = styled.div`
+  background-color: ${colors.brand.secondary};
+  padding: 0.6rem;
+  font-size: 1.1rem;
+  color: white;
+
+  svg {
+    height: 1.2rem;
+    width: 1.2rem;
+  }
+
+  svg + span {
+    margin-left: 1rem;
+  }
+`;
+
 interface Props {
   onUpsert: (agreement: IUpdatedAgreement | INewAgreement, id?: number) => Promise<void>;
   agreement?: IAgreement;
@@ -110,16 +129,16 @@ const AgreementForm = ({ onUpsert, agreement }: Props) => {
       enableReinitialize
       validate={values => validateFormik(values, rules, t)}>
       {({ values, isSubmitting }) => (
-        <Form {...formClasses('', 'gray-background')}>
-          <div {...formClasses('header', 'other')}>
+        <StyledForm>
+          <StyledHeaderContainer>
             <div className="u-4/6@desktop">
               <Agreement />
               <span>
                 {values.id ? t('agreementForm.title.update') : t('agreementForm.title.create')}
               </span>
             </div>
-          </div>
-          <div {...formClasses('content', '', 'u-4/6@desktop u-push-1/6@desktop')}>
+          </StyledHeaderContainer>
+          <div className="u-4/6@desktop u-push-1/6@desktop">
             <AgreementFields />
           </div>
           <Field right>
@@ -128,7 +147,7 @@ const AgreementForm = ({ onUpsert, agreement }: Props) => {
             </AbortButton>
             <ActionButton submit>{t('form.save')}</ActionButton>
           </Field>
-        </Form>
+        </StyledForm>
       )}
     </Formik>
   );

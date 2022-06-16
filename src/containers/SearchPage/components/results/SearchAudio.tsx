@@ -6,7 +6,6 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LicenseByline, getLicenseByAbbreviation } from '@ndla/licenses';
@@ -14,9 +13,15 @@ import { colors } from '@ndla/core';
 import { Audio, Podcast } from '@ndla/icons/common';
 import { IAudioSummary } from '@ndla/types-audio-api';
 import { toEditAudio, toEditPodcast } from '../../../../util/routeHelpers';
-import { AudioResultShape } from '../../../../shapes';
-import { searchClasses } from '../../SearchContainer';
 import { useLicenses } from '../../../../modules/draft/draftQueries';
+import {
+  StyledSearchContent,
+  StyledSearchDescription,
+  StyledSearchImageContainer,
+  StyledSearchOtherLink,
+  StyledSearchResult,
+  StyledSearchTitle,
+} from '../form/StyledSearchComponents';
 
 interface Props {
   audio: IAudioSummary;
@@ -28,27 +33,25 @@ const SearchAudio = ({ audio, locale }: Props) => {
   const { data: licenses } = useLicenses();
   const license = licenses && licenses.find(l => audio.license === l.license);
   return (
-    <div {...searchClasses('result')}>
-      <div {...searchClasses('image')}>
+    <StyledSearchResult>
+      <StyledSearchImageContainer>
         {audio.audioType === 'podcast' ? <Podcast /> : <Audio />}
-      </div>
-      <div {...searchClasses('content')}>
+      </StyledSearchImageContainer>
+      <StyledSearchContent>
         <Link
           to={
             audio.audioType === 'podcast'
               ? toEditPodcast(audio.id, audio.title.language)
               : toEditAudio(audio.id, audio.title.language)
           }>
-          <h1 {...searchClasses('title')}>{audio.title.title || t('audioSearch.noTitle')}</h1>
+          <StyledSearchTitle>{audio.title.title || t('audioSearch.noTitle')}</StyledSearchTitle>
         </Link>
-        <p {...searchClasses('description')}>
+        <StyledSearchDescription>
           {`${t('searchPage.language')}: `}
           {audio.supportedLanguages?.map(lang => (
-            <span key={lang} {...searchClasses('other-link')}>
-              {t(`language.${lang}`)}
-            </span>
+            <StyledSearchOtherLink key={lang}>{t(`language.${lang}`)}</StyledSearchOtherLink>
           ))}
-        </p>
+        </StyledSearchDescription>
         {license && (
           <LicenseByline
             licenseRights={getLicenseByAbbreviation(license.license, locale).rights}
@@ -56,14 +59,9 @@ const SearchAudio = ({ audio, locale }: Props) => {
             color={colors.brand.grey}
           />
         )}
-      </div>
-    </div>
+      </StyledSearchContent>
+    </StyledSearchResult>
   );
-};
-
-SearchAudio.propTypes = {
-  audio: AudioResultShape.isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default SearchAudio;

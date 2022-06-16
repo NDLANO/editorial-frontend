@@ -6,13 +6,13 @@
  *
  */
 
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
+import { colors } from '@ndla/core';
 import { IMultiSearchSummary } from '@ndla/types-search-api';
 import { resourceToLinkProps } from '../../../../util/resourceHelpers';
-import { ContentResultShape } from '../../../../shapes';
-import { searchClasses } from '../../SearchContainer';
+import { StyledOtherLink } from '../form/StyledSearchComponents';
 
 const supported = ['en', 'nb', 'nn'];
 
@@ -21,6 +21,14 @@ interface Props {
   language: string;
   contentType?: string;
 }
+
+const StyledAnchor = styled.a`
+  &:any-link {
+    color: ${colors.brand.primary};
+  }
+`;
+
+const StyledLink = StyledAnchor.withComponent(Link);
 
 const SearchContentLanguage = ({ language, content, contentType }: Props) => {
   const { t } = useTranslation();
@@ -31,21 +39,11 @@ const SearchContentLanguage = ({ language, content, contentType }: Props) => {
 
   const link =
     linkProps && linkProps.href ? (
-      <a {...searchClasses('link')} {...linkProps}>
-        {t(`language.${language}`)}
-      </a>
+      <StyledAnchor {...linkProps}>{t(`language.${language}`)}</StyledAnchor>
     ) : (
-      <Link {...searchClasses('link')} to={linkProps.to ?? ''}>
-        {t(`language.${language}`)}
-      </Link>
+      <StyledLink to={linkProps.to ?? ''}>{t(`language.${language}`)}</StyledLink>
     );
-  return <span {...searchClasses('other-link')}>{link}</span>;
-};
-
-SearchContentLanguage.propTypes = {
-  content: ContentResultShape,
-  language: PropTypes.string.isRequired,
-  contentType: PropTypes.string,
+  return <StyledOtherLink>{link}</StyledOtherLink>;
 };
 
 export default SearchContentLanguage;

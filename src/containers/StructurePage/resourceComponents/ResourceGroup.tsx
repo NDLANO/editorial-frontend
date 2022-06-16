@@ -9,22 +9,15 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
-import BEMHelper from 'react-bem-helper';
 import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
 
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
-import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TopicResource } from './StructureResources';
 import { LocaleType } from '../../../interfaces';
-
-export const classes = new BEMHelper({
-  name: 'topic-resource',
-  prefix: 'c-',
-});
 
 interface Props {
   topicResource?: {
@@ -75,7 +68,7 @@ const ResourceGroup = ({
           </AddTopicResourceButton>
         }
         handleToggle={handleToggle}
-        appearance={ButtonAppearance.RESOURCEGROUP}
+        appearance={'resourceGroup'}
         header={resourceType.name}
         hidden={topicResource?.resources ? displayResource : true}>
         <>

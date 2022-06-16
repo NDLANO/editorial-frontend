@@ -7,7 +7,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Switch } from '@ndla/switch';
 import styled from '@emotion/styled';
 import Accordion from '../../components/Accordion';
-import { ButtonAppearance } from '../../components/Accordion/types';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { REMEMBER_FAVORITE_NODES, TAXONOMY_ADMIN_SCOPE } from '../../constants';
 import { useSession } from '../Session/SessionProvider';
@@ -129,7 +128,7 @@ const StructureContainer = () => {
               {t('taxonomy.editStructure')}
             </>
           }
-          appearance={ButtonAppearance.TAXONOMY}
+          appearance={'taxonomy'}
           addButton={
             isTaxonomyAdmin && <InlineAddButton title={t('taxonomy.addSubject')} action={addNode} />
           }

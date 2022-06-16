@@ -27,7 +27,7 @@ import { DRAFT_HTML_SCOPE } from '../../constants';
 import { getSessionStateFromLocalStorage } from '../Session/SessionProvider';
 import HeaderSupportedLanguages from '../../components/HeaderWithLanguage/HeaderSupportedLanguages';
 import { toEditMarkup } from '../../util/routeHelpers';
-import { AlertModalWrapper, formClasses } from '../FormikForm';
+import { AlertModalWrapper } from '../FormikForm';
 import SaveButton from '../../components/SaveButton';
 import HelpMessage from '../../components/HelpMessage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
@@ -256,7 +256,6 @@ const EditMarkupPage = () => {
               {t('editMarkup.back')}
             </Link>
             <SaveButton
-              {...formClasses}
               isSaving={status === 'saving'}
               formIsDirty={status === 'edit'}
               showSaved={status === 'saved'}

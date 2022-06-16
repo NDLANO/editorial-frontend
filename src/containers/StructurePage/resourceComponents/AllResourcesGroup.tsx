@@ -13,7 +13,6 @@ import AddTopicResourceButton from './AddTopicResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
 import AddResourceModal from './AddResourceModal';
-import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { TopicResource } from './StructureResources';
 import { LocaleType } from '../../../interfaces';
@@ -67,7 +66,7 @@ const AllResourcesGroup = ({
           </AddTopicResourceButton>
         }
         handleToggle={toggleDisplayResource}
-        appearance={ButtonAppearance.RESOURCEGROUP}
+        appearance={'resourceGroup'}
         header={t('taxonomy.resources')}
         hidden={!displayResource}>
         <ResourceItems

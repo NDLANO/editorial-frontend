@@ -27,7 +27,7 @@ import {
 } from '../../modules/video/brightcoveApi';
 import { AudioSearchParams } from '../../modules/audio/audioApiInterfaces';
 import { searchAudio } from '../../modules/audio/audioApi';
-import { Embed, ReturnType } from '../../interfaces';
+import { Embed, ExternalEmbed, H5pEmbed, ReturnType } from '../../interfaces';
 import FileUploader from '../../components/FileUploader';
 
 const titles = (t: TFunction, resource: string) => ({
@@ -48,6 +48,7 @@ interface Props {
   closeModal: () => void;
   showCheckbox?: boolean;
   checkboxAction?: (image: IImageMetaInformationV2) => void;
+  embed?: H5pEmbed | ExternalEmbed;
 }
 
 interface LocalAudioSearchParams extends Omit<AudioSearchParams, 'audio-type' | 'page-size'> {
@@ -79,6 +80,7 @@ const VisualElementSearch = ({
   closeModal,
   showCheckbox: showMetaImageCheckbox,
   checkboxAction: onSaveAsMetaImage,
+  embed,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
@@ -226,6 +228,8 @@ const VisualElementSearch = ({
           selectedResourceUrl={selectedResourceUrl}
           selectedResourceType={selectedResourceType}
           onUrlSave={handleVisualElementChange}
+          articleLanguage={articleLanguage}
+          embed={embed?.resource === 'external' || embed?.resource === 'iframe' ? embed : undefined}
         />
       );
     }

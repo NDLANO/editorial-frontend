@@ -8,6 +8,7 @@
 
 import { ReactNode, useEffect, useState, MouseEvent } from 'react';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import { RenderElementProps } from 'slate-react';
 import Button from '@ndla/button';
 import { Figure } from '@ndla/ui';
@@ -39,7 +40,6 @@ const videoStyle = css`
 interface Props {
   attributes: RenderElementProps['attributes'];
   embed: BrightcoveEmbed | ExternalEmbed;
-  figureClass: any;
   language: string;
   onRemoveClick: (event: MouseEvent) => void;
   saveEmbedUpdates: (change: { [x: string]: string }) => void;
@@ -54,10 +54,14 @@ const isBrightcove = (
   return !!embed && 'videoid' in embed;
 };
 
+const StyledFigure = styled(Figure)`
+  padding-top: 57%;
+  position: relative;
+`;
+
 const SlateVideo = ({
   attributes,
   embed,
-  figureClass,
   language,
   onRemoveClick,
   saveEmbedUpdates,
@@ -140,17 +144,13 @@ const SlateVideo = ({
         <EditVideo
           embed={embed}
           toggleEditModus={toggleEditModus}
-          figureClass={figureClass}
           src={getUrl(false)}
           activeSrc={getUrl(showLinkedVideo)}
           saveEmbedUpdates={saveEmbedUpdates}
         />
       ) : (
         <div contentEditable={false}>
-          <Figure
-            draggable
-            style={{ paddingTop: '57%' }}
-            {...figureClass}
+          <StyledFigure
             id={'videoid' in embed ? embed.videoid : embed.url}
             resizeIframe
             css={
@@ -165,7 +165,7 @@ const SlateVideo = ({
               allowFullScreen
               css={videoStyle}
             />
-          </Figure>
+          </StyledFigure>
           <Button stripped style={{ width: '100%' }} onClick={toggleEditModus}>
             <figcaption className="c-figure__caption">
               <div

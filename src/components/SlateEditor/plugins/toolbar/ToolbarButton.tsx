@@ -9,6 +9,8 @@
 import { MouseEvent } from 'react';
 import { colors } from '@ndla/core';
 import { TFunction, useTranslation } from 'react-i18next';
+import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import {
   Bold,
   Code,
@@ -32,10 +34,6 @@ import {
 } from '@ndla/icons/editor';
 
 import { Language } from '@ndla/icons/common';
-
-import { css } from '@emotion/core';
-
-import { toolbarClasses } from './SlateToolbar';
 
 // Fetched from https://github.com/ianstormtaylor/is-hotkey/blob/master/src/index.js
 const IS_MAC =
@@ -76,16 +74,7 @@ const toolbarButtonStyle = (isActive: boolean) => css`
   border-left-width: 1px;
   border-style: solid;
   border-color: ${isActive ? colors.brand.tertiary : colors.brand.greyLighter};
-
-  .c-toolbar__button--active + & {
-    border-left-width: 0px;
-  }
-
-  ${isActive && 'border-width: 1px;'}
-
-  .c-toolbar__button--active + .c-toolbar__button--active {
-    border-left-width: 0px;
-  }
+  ${isActive && 'border-width: 1px;'};
 
   :first-of-type {
     border-left-width: 1px;
@@ -103,6 +92,17 @@ const toolbarButtonStyle = (isActive: boolean) => css`
   }
 `;
 
+const ToolbarIcon = styled.span`
+  vertical-align: text-bottom;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+`;
+
 interface Props {
   isActive: boolean;
   type: string;
@@ -115,12 +115,11 @@ const ToolbarButton = ({ isActive, type, kind, handleOnClick }: Props) => {
   const onMouseDown = (e: MouseEvent) => handleOnClick(e, kind, type);
   return (
     <button
-      {...toolbarClasses('button', isActive ? 'active' : '')}
       onMouseDown={onMouseDown}
       data-testid={`toolbar-button-${type}`}
       data-active={isActive}
       css={toolbarButtonStyle(isActive)}>
-      <span {...toolbarClasses('icon', isActive ? 'active' : '')}>{toolbarIcon(t)[type]}</span>
+      <ToolbarIcon>{toolbarIcon(t)[type]}</ToolbarIcon>
     </button>
   );
 };

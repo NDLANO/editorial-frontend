@@ -9,10 +9,10 @@
 import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from '@emotion/core';
+import styled from '@emotion/styled';
 import Button from '@ndla/button';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
 import { convertFieldWithFallback } from '../../../util/convertFieldWithFallback';
-import { formClasses } from '..';
 import MetaInformation from '../../../components/MetaInformation';
 import FormikField from '../../../components/FormikField';
 
@@ -37,6 +37,16 @@ const metaImageDeleteButtonStyle = css`
     background-color: #8f2024;
     border: 0;
   }
+`;
+
+const MetaImageContainer = styled.div`
+  display: flex;
+`;
+
+const StyledImage = styled.img`
+  align-self: flex-start;
+  max-width: 60%;
+  margin-top: 10px;
 `;
 
 interface Props {
@@ -76,15 +86,15 @@ const MetaImageField = ({
   };
   return (
     <>
-      <div {...formClasses('meta-image')}>
-        <img src={image.imageUrl} alt={alt} onLoad={onImageLoad} />
+      <MetaImageContainer>
+        <StyledImage src={image.imageUrl} alt={alt} onLoad={onImageLoad} />
         <MetaInformation
           title={title}
           copyright={copyright}
           action={imageAction}
           translations={metaInformationTranslations}
         />
-      </div>
+      </MetaImageContainer>
       <FormikField
         label={t('topicArticleForm.fields.alt.label')}
         name="metaImageAlt"

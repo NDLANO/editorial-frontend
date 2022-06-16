@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree. *
  */
 
-import { useState, ReactNode, useRef } from 'react';
-import { Formik, Form, FormikProps, FormikHelpers, FormikErrors } from 'formik';
+import { useState, useRef } from 'react';
+import { Formik, FormikProps, FormikHelpers, FormikErrors } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Accordions, AccordionSection } from '@ndla/accordion';
 import { Descendant } from 'slate';
 import { IAudioMetaInformation, INewSeries, ISeries } from '@ndla/types-audio-api';
-import { formClasses, AbortButton, AlertModalWrapper } from '../../FormikForm';
+import { AbortButton, AlertModalWrapper } from '../../FormikForm';
 import HeaderWithLanguage from '../../../components/HeaderWithLanguage';
 import validateFormik, { getWarnings, RulesType } from '../../../components/formikValidationSchema';
 import SaveButton from '../../../components/SaveButton';
@@ -23,6 +23,7 @@ import PodcastSeriesMetaData from './PodcastSeriesMetaData';
 import PodcastEpisodes from './PodcastEpisodes';
 import { ITUNES_STANDARD_MAXIMUM_WIDTH, ITUNES_STANDARD_MINIMUM_WIDTH } from '../../../constants';
 import { podcastSeriesTypeToFormType } from '../../../util/audioHelpers';
+import FormWrapper from '../../../components/FormWrapper';
 
 const podcastRules: RulesType<PodcastSeriesFormikType, ISeries> = {
   title: {
@@ -57,13 +58,6 @@ export interface PodcastSeriesFormikType {
   episodes: IAudioMetaInformation[];
   supportedLanguages: string[];
 }
-
-const FormWrapper = ({ inModal, children }: { inModal?: boolean; children: ReactNode }) => {
-  if (inModal) {
-    return <div {...formClasses()}>{children}</div>;
-  }
-  return <Form>{children}</Form>;
-};
 
 interface Props {
   podcastSeries?: ISeries;

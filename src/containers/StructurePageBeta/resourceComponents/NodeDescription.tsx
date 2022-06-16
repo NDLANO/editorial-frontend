@@ -7,7 +7,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Accordion from '../../../components/Accordion';
-import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ChildNodeType } from '../../../modules/nodes/nodeApiTypes';
 import Resource from './Resource';
 
@@ -26,7 +25,7 @@ const NodeDescription = ({ currentNode }: Props) => {
   return (
     <>
       <Accordion
-        appearance={ButtonAppearance.RESOURCEGROUP}
+        appearance={'resourceGroup'}
         header={t('searchForm.articleType.topicArticle')}
         hidden={!displayDescription}
         handleToggle={toggleDisplayDescription}>

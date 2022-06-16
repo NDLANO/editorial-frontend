@@ -11,6 +11,7 @@ import { createPortal } from 'react-dom';
 import { uuid } from '@ndla/util';
 
 class PortalContainer extends Component {
+  el: HTMLDivElement | null | undefined;
   componentWillUnmount() {
     if (this.el) {
       document.body.removeChild(this.el);

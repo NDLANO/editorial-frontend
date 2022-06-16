@@ -6,23 +6,16 @@
  *
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus } from '@ndla/icons/action';
-import BEMHelper from 'react-bem-helper';
 import AddResourceButton from './AddResourceButton';
 import Accordion from '../../../components/Accordion';
 import ResourceItems from './ResourceItems';
-import { ButtonAppearance } from '../../../components/Accordion/types';
 import { ResourceType } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { ResourceWithNodeConnection } from '../../../modules/nodes/nodeApiTypes';
 import AddResourceModal from './AddResourceModal';
 import { RESOURCE_TYPE_LEARNING_PATH } from '../../../constants';
-
-export const classes = new BEMHelper({
-  name: 'topic-resource',
-  prefix: 'c-',
-});
 
 interface Props {
   resources?: ResourceWithNodeConnection[];
@@ -50,7 +43,7 @@ const ResourceGroup = ({ resourceType, resources, currentNodeId }: Props) => {
           </AddResourceButton>
         }
         handleToggle={handleToggle}
-        appearance={ButtonAppearance.RESOURCEGROUP}
+        appearance={'resourceGroup'}
         header={resourceType.name}
         hidden={resources ? displayResource : true}>
         {resources && <ResourceItems resources={resources} currentNodeId={currentNodeId} />}

@@ -842,6 +842,7 @@ const phrases = {
         unSupported: 'Innholdstypen i lenken er ikke støttet',
         newUrlResource: 'Ny ressurs',
         changeUrlResource: 'Rediger ressurs: {{type}}',
+        fullscreen: 'Åpne i nytt vindu',
         description:
           'Lenker til ndla-ressurser spesialhåndteres av systemet og vises korrekt på {{url}}. Ndla-ressurser vises med blå bakgrunn og eksterne lenker med gul.',
       },
@@ -1140,7 +1141,7 @@ const phrases = {
       add: 'Ny revisjon',
       remove: 'Fjern revisjon',
       description:
-        'Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren bestemmer hvorvidt en revisjon er utført eller ikke. Lagrede revisjoner kan ikke slettes, bare oppdateres.',
+        'Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren markerer hvorvidt en revisjon er utført eller ikke. Husk at en revidert artikkel må republiseres.',
       datePickerTooltip:
         'Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.',
       switchTooltip: 'Hvorvidt artikkelen er revidert eller ikke.',

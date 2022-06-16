@@ -5,7 +5,6 @@ import { IStatus } from '@ndla/types-draft-api';
 import Accordion from '../../../components/Accordion';
 import Resource from './Resource';
 import AddArticleModal from './AddArticleModal';
-import { ButtonAppearance } from '../../../components/Accordion/types';
 import { SubjectTopic } from '../../../modules/taxonomy/taxonomyApiInterfaces';
 import { updateRelevanceId } from '../../../util/taxonomyHelpers';
 import { LocaleType } from '../../../interfaces';
@@ -49,7 +48,7 @@ const TopicDescription = ({
   return (
     <div ref={resourceRef}>
       <Accordion
-        appearance={ButtonAppearance.RESOURCEGROUP}
+        appearance={'resourceGroup'}
         header={t('searchForm.articleType.topicArticle')}
         hidden={!displayTopicDescription}
         handleToggle={toggleDisplayTopicDescription}>

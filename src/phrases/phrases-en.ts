@@ -841,6 +841,7 @@ const phrases = {
         unSupported: 'Content in link is not supported',
         newUrlResource: 'New resource',
         changeUrlResource: 'Edit resource: {{type}}',
+        fullscreen: 'Open in new window',
         description:
           'Links to ndla-resources are handled by the system and are displayed correct on {{url}}. Ndla-resources are shown with blue background and external links with yellow.',
       },
@@ -1139,7 +1140,7 @@ const phrases = {
       add: 'New revision',
       remove: 'Remove revision',
       description:
-        'Revisions requires a description and an expiration date for the article. The switch decides whether a revision is performed or not. Saved revisions can not be deleted, just updated.',
+        'Revisions requires a description and an expiration date for the article. The switch marks whether a revision is performed or not. Remember that a revised article must be republished.',
       datePickerTooltip: 'The date the article expires if the revision is not marked as revised.',
       switchTooltip: 'Whether the article is revised or not.',
       inputPlaceholder: 'Description of the revision',

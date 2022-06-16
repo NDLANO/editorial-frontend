@@ -232,7 +232,7 @@ const HeaderStatusInformation = ({
         {articleConnections}
         {conceptConnecions}
         {learningpathConnections}
-        {revisionDateExpiration}
+        {config.revisiondateEnabled === 'true' && revisionDateExpiration}
         {published &&
           (taxonomyPaths && taxonomyPaths?.length > 0 ? publishedIconLink : publishedIcon)}
         {multipleTaxonomyIcon}

@@ -41,7 +41,6 @@ export const itemTitleLinked = css`
     border-left: 2px solid ${colors.brand.light};
     border-bottom-left-radius: 2px;
     margin-right: ${spacing.xsmall};
-    margin-left: 7px;
   }
 `;
 

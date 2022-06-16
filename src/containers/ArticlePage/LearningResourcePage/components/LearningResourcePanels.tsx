@@ -110,13 +110,15 @@ const LearningResourcePanels = ({
           <RelatedContentFieldGroup />
         </AccordionSection>
       )}
-      <AccordionSection
-        id={'learning-resource-revisions'}
-        title={t('form.name.revisions')}
-        className={'u-6/6'}
-        hasError={!!errors.revisionMeta}>
-        <RevisionNotes />
-      </AccordionSection>
+      {config.revisiondateEnabled === 'true' && (
+        <AccordionSection
+          id={'learning-resource-revisions'}
+          title={t('form.name.revisions')}
+          className={'u-6/6'}
+          hasError={!!errors.revisionMeta}>
+          <RevisionNotes />
+        </AccordionSection>
+      )}
       {article && (
         <AccordionSection
           id={'learning-resource-workflow'}

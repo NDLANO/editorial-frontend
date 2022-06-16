@@ -6,9 +6,9 @@
  *
  */
 
-import { Component, ReactNode, MouseEvent } from 'react';
+import { Component, MouseEvent } from 'react';
 import { Editor, Transforms } from 'slate';
-import { ReactEditor, RenderElementProps } from 'slate-react';
+import { ReactEditor } from 'slate-react';
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import './helpers/h5pResizer';
 import handleError from '../../util/handleError';
@@ -22,17 +22,16 @@ import config from '../../config';
 import { getH5pLocale } from '../H5PElement/h5pApi';
 import { Embed, ExternalEmbed, H5pEmbed } from '../../interfaces';
 import { EmbedElement } from '../SlateEditor/plugins/embed';
+import SlateResourceBox from './SlateResourceBox';
 
 interface Props extends CustomWithTranslation {
   element: EmbedElement;
   editor: Editor;
-  attributes: RenderElementProps['attributes'];
   embed: ExternalEmbed | H5pEmbed;
   onRemoveClick: (event: MouseEvent) => void;
   language: string;
   active: boolean;
   isSelectedForCopy: boolean;
-  children: ReactNode;
 }
 
 interface State {
@@ -51,6 +50,7 @@ export class DisplayExternal extends Component<Props, State> {
     super(props);
     this.state = {
       isEditMode: false,
+      type: this.props.embed.resource,
     };
     this.onEditEmbed = this.onEditEmbed.bind(this);
     this.openEditEmbed = this.openEditEmbed.bind(this);
@@ -83,20 +83,14 @@ export class DisplayExternal extends Component<Props, State> {
   }
 
   onEditEmbed(properties: Embed) {
-    const { editor, element, embed } = this.props;
-    const prevUrl = embed.resource === 'external' ? embed.url : undefined;
-    const currentUrl = properties.resource === 'external' ? properties.url : undefined;
-    const prevPath = embed.resource === 'h5p' ? embed.path : undefined;
-    const currentPath = properties.resource === 'h5p' ? properties.path : undefined;
+    const { editor, element } = this.props;
 
-    if (prevUrl !== currentUrl || prevPath !== currentPath) {
-      Transforms.setNodes(
-        editor,
-        { data: { ...properties } },
-        { at: ReactEditor.findPath(editor, element) },
-      );
-      this.closeEditEmbed();
-    }
+    Transforms.setNodes(
+      editor,
+      { data: { ...properties } },
+      { at: ReactEditor.findPath(editor, element) },
+    );
+    this.closeEditEmbed();
   }
 
   async getPropsFromEmbed() {
@@ -152,16 +146,7 @@ export class DisplayExternal extends Component<Props, State> {
   }
 
   render() {
-    const {
-      onRemoveClick,
-      embed,
-      t,
-      language,
-      children,
-      isSelectedForCopy,
-      active,
-      attributes,
-    } = this.props;
+    const { onRemoveClick, embed, t, language, isSelectedForCopy, active } = this.props;
     const { isEditMode, title, src, height, error, type, provider, domain } = this.state;
     const showCopyOutline = isSelectedForCopy && (!isEditMode || !active);
 
@@ -199,15 +184,15 @@ export class DisplayExternal extends Component<Props, State> {
     if (!src || !type) {
       return <div />;
     }
+
     return (
       <div
-        className="c-figure"
+        className={'c-figure'}
         css={
           showCopyOutline && {
-            boxShadow: 'rgb(32, 88, 143) 0 0 0 2px;',
+            boxShadow: 'rgb(32, 88, 143) 0 0 0 2px',
           }
-        }
-        {...attributes}>
+        }>
         <FigureButtons
           language={language}
           tooltip={t('form.external.remove', {
@@ -227,16 +212,21 @@ export class DisplayExternal extends Component<Props, State> {
               : undefined
           }
         />
-        <iframe
-          contentEditable={false}
-          src={src}
-          height={allowedProvider.height || height}
-          title={title}
-          scrolling={type === 'iframe' ? 'no' : undefined}
-          allowFullScreen={true}
-          frameBorder="0"
-        />
+        {embed.resource === 'iframe' && embed.type === 'fullscreen' ? (
+          <SlateResourceBox embed={embed} language={language} />
+        ) : (
+          <iframe
+            contentEditable={false}
+            src={src}
+            height={allowedProvider.height || height}
+            title={title}
+            scrolling={type === 'iframe' ? 'no' : undefined}
+            allowFullScreen={true}
+            frameBorder="0"
+          />
+        )}
         <DisplayExternalModal
+          embed={embed}
           isEditMode={isEditMode}
           src={src}
           type={type}
@@ -244,7 +234,6 @@ export class DisplayExternal extends Component<Props, State> {
           onClose={this.closeEditEmbed}
           allowedProvider={allowedProvider}
         />
-        {children}
       </div>
     );
   }

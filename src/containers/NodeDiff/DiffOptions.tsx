@@ -146,7 +146,7 @@ const DiffOptions = ({ originalHash, otherHash }: Props) => {
           />
         </StyledDiffOption>
         <StyledDiffOption>
-          <strong>{t('diff.options.originalHashLabel')}</strong>
+          <strong>{t('diff.options.otherHashLabel')}</strong>
           <OptGroupVersionSelector
             versions={taxonomyVersions.data ?? []}
             currentVersion={otherVersion}

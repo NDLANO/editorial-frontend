@@ -719,6 +719,10 @@ const phrases = {
       markdown: 'The field supports markdown. Use the format [Text](https://url) to create a link.',
       subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
     },
+    conceptList: {
+      edit: 'Edit concept list',
+      remove: 'Remove concept list',
+    },
     workflow: {
       title: 'Status',
       change: 'Change status',

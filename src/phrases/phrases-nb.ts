@@ -626,6 +626,10 @@ const phrases = {
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
     },
+    conceptList: {
+      edit: 'Rediger forklaringsliste',
+      remove: 'Fjern forklaringsliste',
+    },
     abort: 'Avbryt',
     edit: 'Rediger',
     remove: 'Fjern',

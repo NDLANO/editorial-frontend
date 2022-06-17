@@ -70,15 +70,15 @@ const MetaImageSearch = ({
     });
   };
   const onImageSelectClose = () => {
-    setFieldTouched('metaImageAlt', true, true);
     setShowImageSelect(false);
   };
 
   const onImageSet = (image: IImageMetaInformationV2) => {
     onImageSelectClose();
     setImage(image);
-    onChangeFormik(image.id);
-    setFieldValue('metaImageAlt', image.alttext.alttext.trim());
+    setFieldValue('metaImageId', image.id);
+    setFieldValue('metaImageAlt', image.alttext.alttext.trim(), true);
+    setTimeout(() => setFieldTouched('metaImageAlt', false, true), 0);
   };
 
   const onImageRemove = () => {

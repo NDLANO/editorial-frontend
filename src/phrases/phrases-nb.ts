@@ -1140,7 +1140,7 @@ const phrases = {
         'Revisjoner krever en beskrivelse og en dato artikkelen utløper på. Bryteren markerer hvorvidt en revisjon er utført eller ikke. Husk at en revidert artikkel må republiseres.',
       datePickerTooltip:
         'Dato artikkelen utløper dersom revisjonen ikke blir markert som revidert.',
-      reminder: 'Husk at en revidert artikkel må republiseres.',
+      reminder: 'Husk å sjekke om revisjonen du nå har utført krever republisering.',
       switchTooltip: 'Hvorvidt artikkelen er revidert eller ikke.',
       inputPlaceholder: 'Beskrivelse av revisjonen',
       deleteTooltip: 'Fjern denne revisjonen',

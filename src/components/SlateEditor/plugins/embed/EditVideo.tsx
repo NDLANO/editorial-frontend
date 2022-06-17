@@ -7,6 +7,7 @@
  */
 
 import { createRef, useEffect, useState } from 'react';
+import FocusTrapReact from 'focus-trap-react';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
@@ -105,54 +106,63 @@ const EditVideo = ({ embed, saveEmbedUpdates, src, activeSrc, toggleEditModus }:
           placeholderElement = placeholderEl;
         }}>
         <Portal isOpened>
-          <div
-            ref={embedEl => {
-              embedElement = embedEl;
+          <FocusTrapReact
+            focusTrapOptions={{
+              onDeactivate: () => {
+                toggleEditModus();
+              },
+              clickOutsideDeactivates: true,
+              escapeDeactivates: true,
             }}>
-            <StyledFigure>
-              <iframe
-                title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
-                frameBorder="0"
-                src={activeSrc}
-                allowFullScreen
-                css={videoStyle}
-              />
-            </StyledFigure>
-            <StyledInputWrapper>
-              {embed.resource === 'external' ? (
-                <EditVideoTime
-                  name="url"
-                  startTime={startTime}
-                  stopTime={stopTime}
-                  setStartTime={setStartTime}
-                  setStopTime={setStopTime}
+            <div
+              ref={embedEl => {
+                embedElement = embedEl;
+              }}>
+              <StyledFigure>
+                <iframe
+                  title={`Video: ${embed.metaData ? embed.metaData.name : ''}`}
+                  frameBorder="0"
+                  src={activeSrc}
+                  allowFullScreen
+                  css={videoStyle}
                 />
-              ) : (
-                <>
-                  <Input
-                    name="caption"
-                    label={t('form.video.caption.label')}
-                    value={caption}
-                    onChange={onCaptionChange}
-                    container="div"
-                    type="text"
-                    autoExpand
-                    placeholder={t('form.video.caption.placeholder')}
-                    white
+              </StyledFigure>
+              <StyledInputWrapper>
+                {embed.resource === 'external' ? (
+                  <EditVideoTime
+                    name="url"
+                    startTime={startTime}
+                    stopTime={stopTime}
+                    setStartTime={setStartTime}
+                    setStopTime={setStopTime}
                   />
-                  <EditVideoTime name="url" startTime={startTime} setStartTime={setStartTime} />
-                </>
-              )}
-              <StyledButtonWrapper paddingLeft>
-                <Button onClick={toggleEditModus} outline>
-                  {t('form.abort')}
-                </Button>
-                <Button disabled={saveDisabled} onClick={onSave}>
-                  {t('form.video.save')}
-                </Button>
-              </StyledButtonWrapper>
-            </StyledInputWrapper>
-          </div>
+                ) : (
+                  <>
+                    <Input
+                      name="caption"
+                      label={t('form.video.caption.label')}
+                      value={caption}
+                      onChange={onCaptionChange}
+                      container="div"
+                      type="text"
+                      autoExpand
+                      placeholder={t('form.video.caption.placeholder')}
+                      white
+                    />
+                    <EditVideoTime name="url" startTime={startTime} setStartTime={setStartTime} />
+                  </>
+                )}
+                <StyledButtonWrapper paddingLeft>
+                  <Button onClick={toggleEditModus} outline>
+                    {t('form.abort')}
+                  </Button>
+                  <Button disabled={saveDisabled} onClick={onSave}>
+                    {t('form.video.save')}
+                  </Button>
+                </StyledButtonWrapper>
+              </StyledInputWrapper>
+            </div>
+          </FocusTrapReact>
         </Portal>
       </div>
     </>

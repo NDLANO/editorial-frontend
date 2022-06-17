@@ -76,6 +76,7 @@ const EditAudio = ({
       <Portal isOpened key="audioPortal">
         <div
           css={css`
+            z-index: 1;
             padding: 50px;
             background-color: white;
           `}

@@ -41,7 +41,6 @@ interface StyledFigureButtonsProps {
 const StyledFigureButtons = styled('div')`
   position: absolute;
   top: 0;
-  z-index: 1;
 
   ${(p: StyledFigureButtonsProps) =>
     p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}

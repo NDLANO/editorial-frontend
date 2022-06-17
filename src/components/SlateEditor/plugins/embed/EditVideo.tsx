@@ -47,6 +47,7 @@ interface Props {
 
 const StyledFigure = styled.figure`
   position: relative;
+  z-index: 1;
   padding-top: 56.25%;
 `;
 

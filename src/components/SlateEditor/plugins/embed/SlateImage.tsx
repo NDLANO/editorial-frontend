@@ -90,6 +90,7 @@ const SlateImage = ({
         tooltip={t('form.image.removeImage')}
         onRemoveClick={onRemoveClick}
         embed={embed}
+        onEdit={() => setEditMode(true)}
         figureType="image"
         language={language}
       />

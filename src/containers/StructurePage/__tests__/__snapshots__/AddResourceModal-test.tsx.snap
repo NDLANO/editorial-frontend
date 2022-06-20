@@ -25,6 +25,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   left: 0;
   height: 100vh;
   width: 100vw;
+  z-index: 1;
   background: rgba(0,0,0,0.3);
   -webkit-animation-duration: 400ms;
   animation-duration: 400ms;
@@ -775,6 +776,7 @@ exports[`Can select a resource from the list and it adds it to topic 1`] = `
   left: 0;
   height: 100vh;
   width: 100vw;
+  z-index: 1;
   background: rgba(0,0,0,0.3);
   -webkit-animation-duration: 400ms;
   animation-duration: 400ms;
@@ -1631,6 +1633,7 @@ exports[`Can select a resource from the list and it adds it to topic 2`] = `
   left: 0;
   height: 100vh;
   width: 100vw;
+  z-index: 1;
   background: rgba(0,0,0,0.3);
   -webkit-animation-duration: 400ms;
   animation-duration: 400ms;

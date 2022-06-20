@@ -42,7 +42,6 @@ interface Props {
 
 const StyledDiv = styled.div<{ embed: ImageEmbed }>`
   ${props => (!props.embed.alt ? 'border: 2px solid rgba(209,55,46,0.3);' : '')}
-  z-index: 1;
 `;
 
 const SlateImage = ({
@@ -90,6 +89,7 @@ const SlateImage = ({
         tooltip={t('form.image.removeImage')}
         onRemoveClick={onRemoveClick}
         embed={embed}
+        onEdit={() => setEditMode(true)}
         figureType="image"
         language={language}
       />

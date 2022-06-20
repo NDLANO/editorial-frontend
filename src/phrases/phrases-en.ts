@@ -991,6 +991,7 @@ const phrases = {
       },
       remove: 'Remove video',
       save: 'Save video',
+      editVideo: 'Edit video',
       time: {
         start: 'Start',
         stop: 'Stop',

@@ -13,6 +13,7 @@ import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
 import { spacing, spacingUnit } from '@ndla/core';
 import { Link as LinkIcon } from '@ndla/icons/common';
+import { Pencil } from '@ndla/icons/lib/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';
@@ -40,7 +41,6 @@ interface StyledFigureButtonsProps {
 const StyledFigureButtons = styled('div')`
   position: absolute;
   top: 0;
-  z-index: 1;
 
   ${(p: StyledFigureButtonsProps) =>
     p.align !== 'left' && p.align !== 'right' && centerAdjustedStyle}
@@ -160,6 +160,15 @@ const FigureButtons = ({
           </Tooltip>
           {children}
         </>
+      )}
+      {(figureType === 'video' || figureType === 'image') && (
+        <Tooltip
+          tooltip={figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')}
+          align="right">
+          <IconButton type="button" tabIndex={-1} onClick={onEdit}>
+            <Pencil />
+          </IconButton>
+        </Tooltip>
       )}
     </StyledFigureButtons>
   );

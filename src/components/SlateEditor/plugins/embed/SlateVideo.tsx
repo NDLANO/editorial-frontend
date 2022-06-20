@@ -126,6 +126,7 @@ const SlateVideo = ({
         tooltip={t('form.video.remove')}
         onRemoveClick={onRemoveClick}
         embed={embed}
+        onEdit={toggleEditModus}
         figureType="video"
         language={language}>
         {linkedVideoId && (

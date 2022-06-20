@@ -113,6 +113,7 @@ export const StyledCross = styled(Cross)<{ severity?: string }>`
 const ChildWrapper = styled.div`
   display: flex;
   height: 100%;
+  width: 100%;
 `;
 
 interface State {

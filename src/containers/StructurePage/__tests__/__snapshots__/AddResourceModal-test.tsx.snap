@@ -517,6 +517,7 @@ exports[`Can paste a valid url and add it to topic 1`] = `
   display: -ms-flexbox;
   display: flex;
   height: 100%;
+  width: 100%;
 }
 
 .emotion-33 {

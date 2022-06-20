@@ -38,6 +38,7 @@ const MetaDataField = ({ articleLanguage, showCheckbox, checkboxAction }: Props)
         description={t('form.tags.description')}>
         {({ field, form }) => (
           <AsyncSearchTags
+            multiSelect
             initialTags={field.value}
             language={articleLanguage}
             field={field}

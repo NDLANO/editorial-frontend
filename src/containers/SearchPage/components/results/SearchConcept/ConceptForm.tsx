@@ -162,6 +162,7 @@ const ConceptForm = ({ initialValues, status, language, onSubmit, allSubjects, c
       <InputField>
         <label htmlFor="tags">{t('form.categories.label')}</label>
         <AsyncSearchTags
+          multiSelect
           language={language}
           initialTags={values.tags}
           updateValue={(updatedValue: string[]) => {

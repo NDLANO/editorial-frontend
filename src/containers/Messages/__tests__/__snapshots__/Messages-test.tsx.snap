@@ -138,6 +138,7 @@ exports[`Messages A message is removed if the modal is closed 1`] = `
   display: -ms-flexbox;
   display: flex;
   height: 100%;
+  width: 100%;
 }
 
 .emotion-11 {
@@ -435,6 +436,7 @@ exports[`Messages A single message renders correctly 1`] = `
   display: -ms-flexbox;
   display: flex;
   height: 100%;
+  width: 100%;
 }
 
 .emotion-11 {
@@ -712,6 +714,7 @@ exports[`Messages Several messages renders correctly 1`] = `
   display: -ms-flexbox;
   display: flex;
   height: 100%;
+  width: 100%;
 }
 
 .emotion-11 {
@@ -1066,6 +1069,7 @@ exports[`Messages auth0 messages provides a cancel button 1`] = `
   display: -ms-flexbox;
   display: flex;
   height: 100%;
+  width: 100%;
 }
 
 .emotion-15 {

@@ -20,13 +20,24 @@ interface Props {
   form?: FormikHelpers<string[]>;
   fetchTags: (input: string, language: string) => Promise<SearchResultBase<string>>;
   updateValue?: (value: string[]) => void;
+  disableCreate?: boolean;
+  multiSelect?: boolean;
 }
 
 interface TagWithTitle {
   title: string;
 }
 
-const AsyncSearchTags = ({ language, initialTags, field, form, fetchTags, updateValue }: Props) => {
+const AsyncSearchTags = ({
+  language,
+  initialTags,
+  field,
+  form,
+  fetchTags,
+  updateValue,
+  multiSelect,
+  disableCreate,
+}: Props) => {
   const { t } = useTranslation();
   const convertToTagsWithTitle = (tagsWithoutTitle: string[]) => {
     return tagsWithoutTitle.map(tag => ({ title: tag }));
@@ -83,10 +94,10 @@ const AsyncSearchTags = ({ language, initialTags, field, form, fetchTags, update
         apiAction={searchForTags}
         onChange={addTag}
         selectedItems={convertToTagsWithTitle(tags)}
-        multiSelect
+        multiSelect={multiSelect}
         disableSelected
         saveOnEnter
-        onCreate={createNewTag}
+        onCreate={!disableCreate ? createNewTag : undefined}
         removeItem={removeTag}>
         {({ selectedItems, value, removeItem, onBlur, onChange, onKeyDown }) => (
           <DropdownInput

@@ -132,6 +132,7 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
           image,
           visualElement,
         }}
+        hideIconsAndAuthors
         type={getType(visualElement?.resource)}
         disableScripts={true}
       />

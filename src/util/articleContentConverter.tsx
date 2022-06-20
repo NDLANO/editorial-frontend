@@ -40,6 +40,7 @@ import { spanSerializer } from '../components/SlateEditor/plugins/span';
 import { TYPE_EMBED } from '../components/SlateEditor/plugins/embed/types';
 import { TYPE_PARAGRAPH } from '../components/SlateEditor/plugins/paragraph/types';
 import { TYPE_SECTION } from '../components/SlateEditor/plugins/section/types';
+import { conceptListSerializer } from '../components/SlateEditor/plugins/conceptList';
 import { blockConceptSerializer } from '../components/SlateEditor/plugins/concept/block';
 
 export const sectionSplitter = (html: string) => {
@@ -81,6 +82,7 @@ const learningResourceRules: SlateSerializer[] = [
   listSerializer,
   footnoteSerializer,
   mathmlSerializer,
+  conceptListSerializer,
   inlineConceptSerializer,
   blockConceptSerializer,
   asideSerializer,

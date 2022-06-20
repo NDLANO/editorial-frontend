@@ -7,6 +7,7 @@
  */
 
 import { FormEvent } from 'react';
+import addYears from 'date-fns/addYears';
 import Button from '@ndla/button';
 import { Input, FieldRemoveButton } from '@ndla/forms';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +19,7 @@ import Tooltip from '@ndla/tooltip';
 import { ArticleFormType } from './articleFormHooks';
 import InlineDatePicker from './components/InlineDatePicker';
 import { formatDateForBackend } from '../../util/formatDate';
+import { useMessages } from '../Messages/MessagesProvider';
 
 type RevisionMetaFormType = ArticleFormType['revisionMeta'];
 
@@ -85,7 +87,7 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
       ...formikField.value,
       {
         note: '',
-        revisionDate: formatDateForBackend(new Date()),
+        revisionDate: formatDateForBackend(addYears(new Date(), 5)),
         status: 'needs-revision',
         new: true,
       },
@@ -96,6 +98,8 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
     const withoutIdx = formikField.value.filter((_, index) => index !== idx);
     onRevisionChange(withoutIdx);
   };
+
+  const { createMessage } = useMessages();
 
   return (
     <>
@@ -140,6 +144,13 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                   onChange={e => {
                     const status = e.currentTarget.checked ? 'revised' : 'needs-revision';
                     editRevision(old => ({ ...old, status }));
+                    if (status === 'revised') {
+                      createMessage({
+                        translationKey: 'form.revisions.reminder',
+                        severity: 'info',
+                        timeToLive: 0,
+                      });
+                    }
                   }}
                   label={''}
                   id={`revision_switch_${index}`}

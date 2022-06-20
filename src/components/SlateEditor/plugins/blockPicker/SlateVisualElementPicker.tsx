@@ -24,13 +24,13 @@ export const checkboxAction = (
   image: IImageMetaInformationV2,
   formikContext: FormikContextType<{ metaImageId?: string; metaImageAlt?: string }>,
 ) => {
-  const { setFieldValue } = formikContext;
+  const { setFieldValue, setFieldTouched } = formikContext;
 
   if (setFieldValue && image) {
-    setTimeout(() => {
-      setFieldValue('metaImageId', image.id || '');
-      setFieldValue('metaImageAlt', image.alttext?.alttext || '');
-    }, 0);
+    setFieldValue('metaImageId', image.id || '', true);
+    setFieldValue('metaImageAlt', image.alttext?.alttext.trim() || '', true);
+    setFieldTouched('metaImageAlt', true, true);
+    setFieldTouched('metaImageId', true, true);
   }
 };
 

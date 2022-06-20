@@ -79,8 +79,8 @@ const MetaImageSearch = ({
     setFieldValue(name, image.id);
     setFieldValue('metaImageAlt', image.alttext.alttext.trim(), true);
     setTimeout(() => {
-      setFieldTouched('metaImageAlt', false, true);
-      setFieldTouched(name, false, true);
+      setFieldTouched('metaImageAlt', true, true);
+      setFieldTouched(name, true, true);
     }, 0);
   };
 

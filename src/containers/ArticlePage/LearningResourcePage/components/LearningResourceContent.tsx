@@ -61,6 +61,7 @@ import withSession from '../../../Session/withSession';
 import RichTextEditor from '../../../../components/SlateEditor/RichTextEditor';
 import { spanPlugin } from '../../../../components/SlateEditor/plugins/span';
 import { TYPE_FOOTNOTE } from '../../../../components/SlateEditor/plugins/footnote/types';
+import { conceptListPlugin } from '../../../../components/SlateEditor/plugins/conceptList';
 import { inlineConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/inline';
 import { blockConceptPlugin } from '../../../../components/SlateEditor/plugins/concept/block';
 
@@ -118,6 +119,7 @@ export const plugins = (
     detailsPlugin,
     blockQuotePlugin,
     linkPlugin(articleLanguage),
+    conceptListPlugin(articleLanguage),
     inlineConceptPlugin(articleLanguage),
     blockConceptPlugin(articleLanguage),
     headingPlugin,

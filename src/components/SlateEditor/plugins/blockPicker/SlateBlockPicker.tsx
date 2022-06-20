@@ -22,6 +22,7 @@ import { defaultBodyboxBlock } from '../bodybox/utils';
 import { defaultCodeblockBlock } from '../codeBlock/utils';
 import { defaultRelatedBlock } from '../related';
 import { TYPE_LIST_ITEM } from '../list/types';
+import { defaultConceptListBlock } from '../conceptList/utils';
 import { TYPE_CONCEPT_BLOCK } from '../concept/block/types';
 import { defaultConceptBlock } from '../concept/block/utils';
 import { useSession } from '../../../../containers/Session/SessionProvider';
@@ -178,6 +179,10 @@ const SlateBlockPicker = ({
       }
       case 'code-block': {
         onInsertBlock(defaultCodeblockBlock());
+        break;
+      }
+      case 'concept-list': {
+        onInsertBlock({ ...defaultConceptListBlock(), isFirstEdit: true });
         break;
       }
       case TYPE_CONCEPT_BLOCK: {

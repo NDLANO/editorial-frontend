@@ -531,6 +531,7 @@ const phrases = {
       file: 'File',
       code: 'Codeblock',
       podcast: 'Podcast episode',
+      conceptList: 'Concept list',
       concept: 'Concept',
     },
   },
@@ -718,6 +719,10 @@ const phrases = {
       markdown: 'The field supports markdown. Use the format [Text](https://url) to create a link.',
       subjects: 'Only subjects marked as explanation subjects will be displayed in the list.',
     },
+    conceptList: {
+      edit: 'Edit concept list',
+      remove: 'Remove concept list',
+    },
     workflow: {
       title: 'Status',
       change: 'Change status',
@@ -812,6 +817,9 @@ const phrases = {
         removeExternal: 'Delete external article',
         changeExternal: 'Edit external article',
         searchExternal: 'Write the title and url of the external article',
+      },
+      conceptList: {
+        subjectMissing: 'Subject missing: {{subjectId}}',
       },
       concept: {
         remove: 'Remove concept',

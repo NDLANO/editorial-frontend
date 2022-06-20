@@ -532,6 +532,7 @@ const phrases = {
       file: 'Fil',
       code: 'Kodevisning',
       podcast: 'Podkastepisode',
+      conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
     },
   },
@@ -624,6 +625,10 @@ const phrases = {
       source: 'Kilde',
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Kun fag markert som forklaringsfag vil vises i lista.',
+    },
+    conceptList: {
+      edit: 'Rediger forklaringsliste',
+      remove: 'Fjern forklaringsliste',
     },
     abort: 'Avbryt',
     edit: 'Rediger',
@@ -813,6 +818,9 @@ const phrases = {
         removeExternal: 'Slett ekstern artikkel',
         changeExternal: 'Endre ekstern artikkel',
         searchExternal: 'Skriv inn tittel og url på ekstern artikkel',
+      },
+      conceptList: {
+        subjectMissing: 'Fag mangler: {{subjectId}}',
       },
       concept: {
         remove: 'Fjern forklaring',

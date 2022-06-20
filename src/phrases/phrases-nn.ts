@@ -532,6 +532,7 @@ const phrases = {
       file: 'Fil',
       code: 'Kodevisning',
       podcast: 'Podkastepisode',
+      conceptList: 'Forklaringsliste',
       concept: 'Forklaring',
     },
   },
@@ -719,6 +720,10 @@ const phrases = {
       markdown: 'Feltet støtter markdown. Bruk formatet [Tekst](https://url) for å lage lenke.',
       subjects: 'Berre fag markert som forklaringsfag vil visast i lista.',
     },
+    conceptList: {
+      edit: 'Rediger forklaringsliste',
+      remove: 'Fjern forklaringsliste',
+    },
     workflow: {
       title: 'Status',
       change: 'Endre status',
@@ -813,6 +818,9 @@ const phrases = {
         removeExternal: 'Slett ekstern artikkel',
         changeExternal: 'Endre ekstern artikkel',
         searchExternal: 'Skriv inn tittel og url på ekstern artikkel',
+      },
+      conceptList: {
+        subjectMissing: 'Fag manglar: {{subjectId}}',
       },
       concept: {
         remove: 'Fjern forklaring',

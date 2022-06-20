@@ -1139,6 +1139,7 @@ const phrases = {
       description:
         'Revisions requires a description and an expiration date for the article. The switch marks whether a revision is performed or not. Remember that a revised article must be republished.',
       datePickerTooltip: 'The date the article expires if the revision is not marked as revised.',
+      reminder: 'Remember to check if the revision you now have performed requires republishing.',
       switchTooltip: 'Whether the article is revised or not.',
       inputPlaceholder: 'Description of the revision',
       deleteTooltip: 'Remove this revision',

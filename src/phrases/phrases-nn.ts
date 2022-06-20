@@ -1141,6 +1141,7 @@ const phrases = {
         'Revisjonar krev ei skildring og ein dato artikkelen går ut på. Bryteren markerar i kva grad ein revisjon er utført eller ikkje. Hugs at ein revidert artikkel må republiserast.',
       datePickerTooltip:
         'Dato artikkelen går ut dersom revisjonen ikkje blir markert som revidert.',
+      reminder: 'Hugs å sjekke om revisjonen du no har utført krev republisering.',
       switchTooltip: 'I kva grad artikkelen er revidert eller ikkje.',
       inputPlaceholder: 'Beskrivelse av revisjonen',
       deleteTooltip: 'Fjern denne revisjonen',

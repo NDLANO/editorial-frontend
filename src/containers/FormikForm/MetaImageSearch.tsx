@@ -76,9 +76,12 @@ const MetaImageSearch = ({
   const onImageSet = (image: IImageMetaInformationV2) => {
     onImageSelectClose();
     setImage(image);
-    setFieldValue('metaImageId', image.id);
+    setFieldValue(name, image.id);
     setFieldValue('metaImageAlt', image.alttext.alttext.trim(), true);
-    setTimeout(() => setFieldTouched('metaImageAlt', false, true), 0);
+    setTimeout(() => {
+      setFieldTouched('metaImageAlt', false, true);
+      setFieldTouched(name, false, true);
+    }, 0);
   };
 
   const onImageRemove = () => {

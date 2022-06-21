@@ -68,6 +68,8 @@ export interface ArticleFormType {
     status: string;
     new?: boolean;
   }[];
+  // This field is only used for error checking in revisions
+  revisionError?: string;
 }
 
 export interface LearningResourceFormType extends ArticleFormType {

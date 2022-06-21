@@ -12,7 +12,7 @@ import { FieldHeader } from '@ndla/forms';
 import { IImageMetaInformationV2, IUpdateImageMetaInformation } from '@ndla/types-image-api';
 import Button from '@ndla/button';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
-import { FormikHandlers } from 'formik';
+import { FormikHandlers, useFormikContext } from 'formik';
 import { createFormData } from '../../util/formDataHelper';
 import {
   postImage,
@@ -48,6 +48,7 @@ const MetaImageSearch = ({
   checkboxAction,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const { setFieldValue } = useFormikContext();
   const [showImageSelect, setShowImageSelect] = useState(false);
   const [image, setImage] = useState<IImageMetaInformationV2 | undefined>(undefined);
   const locale = i18n.language;
@@ -69,14 +70,18 @@ const MetaImageSearch = ({
     });
   };
   const onImageSelectClose = () => {
-    setFieldTouched('metaImageAlt', true, true);
     setShowImageSelect(false);
   };
 
   const onImageSet = (image: IImageMetaInformationV2) => {
     onImageSelectClose();
     setImage(image);
-    onChangeFormik(image.id);
+    setFieldValue(name, image.id);
+    setFieldValue('metaImageAlt', image.alttext.alttext.trim(), true);
+    setTimeout(() => {
+      setFieldTouched('metaImageAlt', true, true);
+      setFieldTouched(name, true, true);
+    }, 0);
   };
 
   const onImageRemove = () => {

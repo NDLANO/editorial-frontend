@@ -31,7 +31,7 @@ interface Props {
 
 const InlineImageSearch = ({ name }: Props) => {
   const { t, i18n } = useTranslation();
-  const { setFieldValue, values } = useFormikContext<ConceptFormValues>();
+  const { setFieldValue, values, setFieldTouched } = useFormikContext<ConceptFormValues>();
   const [image, setImage] = useState<IImageMetaInformationV2 | undefined>();
   const locale: LocaleType = i18n.language;
   const fetchImageWithLocale = (id: number) => fetchImage(id, locale);
@@ -59,6 +59,7 @@ const InlineImageSearch = ({ name }: Props) => {
         }}
         onImageRemove={() => {
           setFieldValue(name, undefined);
+          setFieldValue('metaImageAlt', undefined, true);
           setImage(undefined);
         }}
         showRemoveButton
@@ -80,7 +81,12 @@ const InlineImageSearch = ({ name }: Props) => {
         useImageTitle={t('imageSearch.useImage')}
         onImageSelect={(image: IImageMetaInformationV2) => {
           setFieldValue(name, image.id);
+          setFieldValue('metaImageAlt', image.alttext.alttext.trim(), true);
           setImage(image);
+          setTimeout(() => {
+            setFieldTouched('metaImageAlt', true, true);
+            setFieldTouched(name, true, true);
+          }, 0);
         }}
         noResults={
           <>

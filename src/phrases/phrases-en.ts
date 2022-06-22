@@ -1175,7 +1175,7 @@ const phrases = {
       'The code format is wrong. The correct format is K(E/M) or TT followed by one or more digits. Ex. KE137, KM2255, TT2.',
     podcastImageShape: 'A meta image must have equal height and width.',
     podcastImageSize: 'A meta image must be between 1400 and 3000 pixels wide.',
-    unfinishedRevision: 'You must have at least one unfinished revision.',
+    unfinishedRevision: 'You must have at least one planned revision.',
     missingRevision: 'There must be at least one revision.',
   },
   errorMessage: {

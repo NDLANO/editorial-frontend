@@ -15,12 +15,7 @@ const VersionNameField = () => {
   return (
     <FormikField name="name" showError label={t('taxonomyVersions.form.name.label')}>
       {({ field }: FieldProps) => (
-        <Input
-          placeholder={t('taxonomyVersions.form.name.placeholder')}
-          container="div"
-          type="text"
-          {...field}
-        />
+        <Input placeholder={t('taxonomyVersions.form.name.placeholder')} type="text" {...field} />
       )}
     </FormikField>
   );

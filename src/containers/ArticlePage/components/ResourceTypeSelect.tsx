@@ -5,6 +5,7 @@
  */
 
 import { FieldHeader, Select } from '@ndla/forms';
+import { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import HowToHelper from '../../../components/HowTo/HowToHelper';
 import { selectedResourceTypeValue } from '../../../util/taxonomyHelpers';
@@ -20,7 +21,7 @@ interface ResourceTypeWithSubtypes extends ResourceType {
 }
 
 interface Props {
-  onChangeSelectedResource: Function;
+  onChangeSelectedResource: (e: FormEvent<HTMLSelectElement>) => void;
   resourceTypes?: ResourceType[];
   availableResourceTypes: ResourceTypeWithSubtypes[];
 }

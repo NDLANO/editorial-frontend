@@ -41,8 +41,9 @@ const FileUploader = ({ onFileSave }: Props) => {
     return uploadFile(formData);
   };
 
-  const onSave = async (files: (Blob & { name: string })[]) => {
+  const onSave = async (filesList: FileList) => {
     try {
+      const files = Array.from(filesList);
       setSaving(true);
       const newFiles = await Promise.all(files.map(file => saveFile(file)));
       onFileSave(

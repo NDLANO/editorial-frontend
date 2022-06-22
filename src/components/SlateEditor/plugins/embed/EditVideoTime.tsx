@@ -31,14 +31,6 @@ interface Props {
   setStopTime?: (stopTime: string) => void;
 }
 
-interface Event {
-  preventDefault: Function;
-  target: {
-    value: string;
-    name: string;
-  };
-}
-
 const EditVideoTime = (props: Props) => {
   const { t } = useTranslation();
   const { name, startTime, stopTime, setStartTime, setStopTime } = props;
@@ -50,13 +42,10 @@ const EditVideoTime = (props: Props) => {
             name={name}
             label={t(`form.video.time.start`)}
             value={startTime}
-            onChange={(e: Event) => {
-              setStartTime(e.target.value);
-            }}
-            container="div"
+            onChange={e => setStartTime(e.currentTarget.value)}
             placeholder={t(`form.video.time.hms`)}
             white
-            customCSS={hmsCSS}
+            customCss={hmsCSS}
           />
         )}
       </div>
@@ -66,13 +55,10 @@ const EditVideoTime = (props: Props) => {
             name={name}
             label={t(`form.video.time.stop`)}
             value={stopTime}
-            onChange={(e: Event) => {
-              setStopTime(e.target.value);
-            }}
-            container="div"
+            onChange={e => setStopTime(e.currentTarget.value)}
             placeholder={t(`form.video.time.hms`)}
             white
-            customCSS={hmsCSS}
+            customCss={hmsCSS}
           />
         )}
       </div>

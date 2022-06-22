@@ -53,7 +53,6 @@ const SaveSearchUrl = () => {
         return `${t('form.content.link.invalid')} - ${t('welcomePage.mustBeSearch')}`;
       }
     }
-    return null;
   };
 
   const handleBlur = () => {
@@ -99,7 +98,6 @@ const SaveSearchUrl = () => {
           warningText={getWarningText()}
           placeholder={t('form.content.link.href')}
           iconRight={<LinkIcon />}
-          container="div"
           onChange={(event: ChangeEvent<HTMLInputElement>) =>
             setInputFieldValue(event.target.value)
           }

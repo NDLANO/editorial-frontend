@@ -9,7 +9,7 @@
 import { connect, FieldProps, FormikContextType } from 'formik';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { UploadDropZone, Input } from '@ndla/forms';
+import { UploadDropZone, TextArea } from '@ndla/forms';
 import SafeLink from '@ndla/safelink';
 import Tooltip from '@ndla/tooltip';
 import { DeleteForever } from '@ndla/icons/editor';
@@ -18,7 +18,6 @@ import { animations, spacing, colors } from '@ndla/core';
 import IconButton from '../../../components/IconButton';
 import FormikField from '../../../components/FormikField';
 import { ImageFormikType } from '../imageTransformers';
-import { ImageFormErrorFields } from './ImageForm';
 import { TitleField } from '../../FormikForm';
 
 const StyledImage = styled.img`
@@ -49,8 +48,8 @@ const ImageContent = ({ formik }: Props) => {
         <UploadDropZone
           name="imageFile"
           allowedFiles={['image/gif', 'image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml']}
-          onAddedFiles={(files: FileList, evt: InputEvent) => {
-            const target = evt.target as HTMLInputElement;
+          onAddedFiles={(_, evt) => {
+            const target = evt.target;
             setFieldValue(
               'filepath',
               target.files?.[0] ? URL.createObjectURL(target.files[0]) : undefined,
@@ -100,26 +99,22 @@ const ImageContent = ({ formik }: Props) => {
       </FormikField>
       <FormikField name="caption" showError={false}>
         {({ field }: FieldProps) => (
-          <Input
+          <TextArea
             placeholder={t('form.image.caption.placeholder')}
             label={t('form.image.caption.label')}
-            container="div"
             type="text"
-            autoExpand
-            warningText={errors[field.name as ImageFormErrorFields]}
+            warningText={errors['caption']}
             {...field}
           />
         )}
       </FormikField>
       <FormikField name="alttext" showError={false}>
         {({ field }: FieldProps) => (
-          <Input
+          <TextArea
             placeholder={t('form.image.alt.placeholder')}
             label={t('form.image.alt.label')}
-            container="div"
             type="text"
-            autoExpand
-            warningText={errors[field.name as ImageFormErrorFields]}
+            warningText={errors['alttext']}
             {...field}
           />
         )}

@@ -108,10 +108,10 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
       }
 
       fetchAllTags(language).then(tags => {
-        const items = tags.map(tag => ({ name: tag, id: tag }));
-        const sortedItems = items.slice();
-        sortedItems.sort((a, b) => a.name.localeCompare(b.name));
-        setTags(sortedItems);
+        const items = tags
+          .map(tag => ({ name: tag, id: tag }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+        setTags(items);
       });
 
       const subjectIds: string[] = await fetchAllSubjects();

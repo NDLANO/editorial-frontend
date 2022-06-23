@@ -162,8 +162,7 @@ const FigureButtons = ({
       )}
       {(figureType === 'video' || figureType === 'image') && (
         <Tooltip
-          tooltip={figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')}
-          align="right">
+          tooltip={figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')}>
           <IconButton type="button" tabIndex={-1} onClick={onEdit}>
             <Pencil />
           </IconButton>

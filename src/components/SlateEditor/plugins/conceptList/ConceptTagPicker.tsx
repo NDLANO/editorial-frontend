@@ -108,7 +108,9 @@ const ConceptTagPicker = ({ element, onClose, language }: Props) => {
       }
 
       fetchAllTags(language).then(tags => {
-        const items = tags.map(tag => ({ name: tag, id: tag }));
+        const items = tags
+          .map(tag => ({ name: tag, id: tag }))
+          .sort((a, b) => a.name.localeCompare(b.name));
         setTags(items);
       });
 

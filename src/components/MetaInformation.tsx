@@ -12,7 +12,8 @@ import { spacing } from '@ndla/core';
 import styled from '@emotion/styled';
 
 const StyleMetaInformation = styled.div`
-  display: inline-block;
+  display: flex;
+  gap: 2rem;
   margin-left: ${spacing.normal};
 `;
 
@@ -32,11 +33,13 @@ interface Props {
 
 const MetaInformation = ({ title, copyright, translations, action }: Props) => (
   <StyleMetaInformation>
-    <StyledStrong>{title ? translations.title : ''}</StyledStrong>
-    <span>{title}</span>
-    <StyledStrong>{copyright ? translations.copyright : ''}</StyledStrong>
-    <span>{copyright}</span>
-    {action || null}
+    <div>{action || null}</div>
+    <div>
+      <StyledStrong>{title ? translations.title : ''}</StyledStrong>
+      <span>{title}</span>
+      <StyledStrong>{copyright ? translations.copyright : ''}</StyledStrong>
+      <span>{copyright}</span>
+    </div>
   </StyleMetaInformation>
 );
 

@@ -7,13 +7,12 @@
  */
 
 import { css } from '@emotion/core';
-import { createRef, useEffect, useState } from 'react';
+import { useState } from 'react';
 import FocusTrapReact from 'focus-trap-react';
-import { shadows, spacingUnit } from '@ndla/core';
+import { shadows } from '@ndla/core';
 import { FormikValues } from 'formik';
 import FigureInput from './FigureInput';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
-import { Portal } from '../../../Portal';
 import Overlay from '../../../Overlay';
 import { ImageEmbed } from '../../../../interfaces';
 
@@ -23,6 +22,7 @@ const editorContentCSS = css`
 
 const imageEditorWrapperStyle = css`
   background-color: white;
+  position: absolute;
 `;
 
 interface Props {
@@ -52,8 +52,6 @@ interface StateProps {
 }
 
 const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
-  let placeholderElement: any = createRef();
-  let embedElement: any = createRef();
   const [state, setState] = useState<StateProps>({
     alt: embed.alt,
     caption: embed.caption,
@@ -71,19 +69,6 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
     },
     madeChanges: false,
   });
-
-  useEffect(() => {
-    const bodyRect = document.body.getBoundingClientRect();
-
-    const editorRect = placeholderElement.closest('.c-editor').getBoundingClientRect();
-
-    const placeholderRect = placeholderElement.closest('div.c-figure').getBoundingClientRect();
-
-    embedElement.style.position = 'absolute';
-    embedElement.style.top = `${placeholderRect.top - bodyRect.top}px`;
-    embedElement.style.left = `${editorRect.left + spacingUnit - editorRect.width * (0.333 / 2)}px`;
-    embedElement.style.width = `${editorRect.width * 1.333 - spacingUnit * 2}px`;
-  }, [embedElement, placeholderElement]);
 
   const onUpdatedImageSettings = (transformedData: NonNullable<StateProps['imageUpdates']>) => {
     setState({
@@ -135,42 +120,32 @@ const EditImage = ({ embed, saveEmbedUpdates, setEditModus }: Props) => {
   };
 
   return (
-    <div
-      css={imageEditorWrapperStyle}
-      ref={placeholderEl => {
-        placeholderElement = placeholderEl;
-      }}>
+    <div contentEditable={false} css={imageEditorWrapperStyle}>
       <Overlay />
-      <Portal isOpened>
-        <FocusTrapReact
-          focusTrapOptions={{
-            onDeactivate: () => {
-              setEditModus(false);
-            },
-            clickOutsideDeactivates: true,
-            escapeDeactivates: true,
-          }}>
-          <div
-            css={editorContentCSS}
-            ref={embedEl => {
-              embedElement = embedEl;
-            }}>
-            <ImageEditor
-              embed={embed}
-              onUpdatedImageSettings={onUpdatedImageSettings}
-              imageUpdates={state.imageUpdates}
-            />
-            <FigureInput
-              caption={state.caption}
-              alt={state.alt}
-              madeChanges={state.madeChanges}
-              onChange={onChange}
-              onAbort={onAbort}
-              onSave={onSave}
-            />
-          </div>
-        </FocusTrapReact>
-      </Portal>
+      <FocusTrapReact
+        focusTrapOptions={{
+          onDeactivate: () => {
+            setEditModus(false);
+          },
+          clickOutsideDeactivates: true,
+          escapeDeactivates: true,
+        }}>
+        <div css={editorContentCSS}>
+          <ImageEditor
+            embed={embed}
+            onUpdatedImageSettings={onUpdatedImageSettings}
+            imageUpdates={state.imageUpdates}
+          />
+          <FigureInput
+            caption={state.caption}
+            alt={state.alt}
+            madeChanges={state.madeChanges}
+            onChange={onChange}
+            onAbort={onAbort}
+            onSave={onSave}
+          />
+        </div>
+      </FocusTrapReact>
     </div>
   );
 };

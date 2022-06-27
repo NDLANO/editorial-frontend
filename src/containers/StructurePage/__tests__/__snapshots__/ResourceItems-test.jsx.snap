@@ -282,72 +282,58 @@ exports[`matches snapshot 1`] = `
             Kontrast og balanse i grafisk design
           </h1>
         </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="1"
-          data-tooltip-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <div
+            class="emotion-10 emotion-11"
           >
-            <div
-              class="emotion-10 emotion-11"
+            <label
+              class="emotion-8 emotion-9"
+              data-testid="toggleRelevanceId"
             >
-              <label
-                class="emotion-8 emotion-9"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-6 emotion-7"
-                />
-              </label>
-            </div>
-          </span>
-        </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="2"
-          data-tooltip-label="Fjern ressurs fra emne"
+              <input
+                checked=""
+                type="checkbox"
+              />
+              <span
+                class="emotion-6 emotion-7"
+              />
+            </label>
+          </div>
+        </span>
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <button
+            class="emotion-13 emotion-14"
+            type="button"
           >
-            <button
-              class="emotion-13 emotion-14"
-              type="button"
+            <svg
+              class="c-icon emotion-12"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
             >
-              <svg
-                class="c-icon emotion-12"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M0 0h24v24H0z"
-                    fill="none"
-                  />
-                  <path
-                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-                  />
-                </g>
-              </svg>
-            </button>
-          </span>
-        </div>
+              <g>
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+                <path
+                  d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                />
+              </g>
+            </svg>
+          </button>
+        </span>
       </div>
     </div>
     <div
@@ -405,72 +391,58 @@ exports[`matches snapshot 1`] = `
             </a>
           </h1>
         </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="3"
-          data-tooltip-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <div
+            class="emotion-10 emotion-11"
           >
-            <div
-              class="emotion-10 emotion-11"
+            <label
+              class="emotion-8 emotion-9"
+              data-testid="toggleRelevanceId"
             >
-              <label
-                class="emotion-8 emotion-9"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-6 emotion-7"
-                />
-              </label>
-            </div>
-          </span>
-        </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="4"
-          data-tooltip-label="Fjern ressurs fra emne"
+              <input
+                checked=""
+                type="checkbox"
+              />
+              <span
+                class="emotion-6 emotion-7"
+              />
+            </label>
+          </div>
+        </span>
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <button
+            class="emotion-13 emotion-14"
+            type="button"
           >
-            <button
-              class="emotion-13 emotion-14"
-              type="button"
+            <svg
+              class="c-icon emotion-12"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
             >
-              <svg
-                class="c-icon emotion-12"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M0 0h24v24H0z"
-                    fill="none"
-                  />
-                  <path
-                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-                  />
-                </g>
-              </svg>
-            </button>
-          </span>
-        </div>
+              <g>
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+                <path
+                  d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                />
+              </g>
+            </svg>
+          </button>
+        </span>
       </div>
     </div>
     <div
@@ -528,72 +500,58 @@ exports[`matches snapshot 1`] = `
             </a>
           </h1>
         </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="5"
-          data-tooltip-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <div
+            class="emotion-10 emotion-11"
           >
-            <div
-              class="emotion-10 emotion-11"
+            <label
+              class="emotion-8 emotion-9"
+              data-testid="toggleRelevanceId"
             >
-              <label
-                class="emotion-8 emotion-9"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-6 emotion-7"
-                />
-              </label>
-            </div>
-          </span>
-        </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="6"
-          data-tooltip-label="Fjern ressurs fra emne"
+              <input
+                checked=""
+                type="checkbox"
+              />
+              <span
+                class="emotion-6 emotion-7"
+              />
+            </label>
+          </div>
+        </span>
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <button
+            class="emotion-13 emotion-14"
+            type="button"
           >
-            <button
-              class="emotion-13 emotion-14"
-              type="button"
+            <svg
+              class="c-icon emotion-12"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
             >
-              <svg
-                class="c-icon emotion-12"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M0 0h24v24H0z"
-                    fill="none"
-                  />
-                  <path
-                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-                  />
-                </g>
-              </svg>
-            </button>
-          </span>
-        </div>
+              <g>
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+                <path
+                  d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                />
+              </g>
+            </svg>
+          </button>
+        </span>
       </div>
     </div>
     <div
@@ -651,72 +609,58 @@ exports[`matches snapshot 1`] = `
             </a>
           </h1>
         </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="7"
-          data-tooltip-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <div
+            class="emotion-10 emotion-11"
           >
-            <div
-              class="emotion-10 emotion-11"
+            <label
+              class="emotion-8 emotion-9"
+              data-testid="toggleRelevanceId"
             >
-              <label
-                class="emotion-8 emotion-9"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-6 emotion-7"
-                />
-              </label>
-            </div>
-          </span>
-        </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="8"
-          data-tooltip-label="Fjern ressurs fra emne"
+              <input
+                checked=""
+                type="checkbox"
+              />
+              <span
+                class="emotion-6 emotion-7"
+              />
+            </label>
+          </div>
+        </span>
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <button
+            class="emotion-13 emotion-14"
+            type="button"
           >
-            <button
-              class="emotion-13 emotion-14"
-              type="button"
+            <svg
+              class="c-icon emotion-12"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
             >
-              <svg
-                class="c-icon emotion-12"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M0 0h24v24H0z"
-                    fill="none"
-                  />
-                  <path
-                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-                  />
-                </g>
-              </svg>
-            </button>
-          </span>
-        </div>
+              <g>
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+                <path
+                  d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                />
+              </g>
+            </svg>
+          </button>
+        </span>
       </div>
     </div>
     <div
@@ -774,72 +718,58 @@ exports[`matches snapshot 1`] = `
             </a>
           </h1>
         </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="9"
-          data-tooltip-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <div
+            class="emotion-10 emotion-11"
           >
-            <div
-              class="emotion-10 emotion-11"
+            <label
+              class="emotion-8 emotion-9"
+              data-testid="toggleRelevanceId"
             >
-              <label
-                class="emotion-8 emotion-9"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-6 emotion-7"
-                />
-              </label>
-            </div>
-          </span>
-        </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="10"
-          data-tooltip-label="Fjern ressurs fra emne"
+              <input
+                checked=""
+                type="checkbox"
+              />
+              <span
+                class="emotion-6 emotion-7"
+              />
+            </label>
+          </div>
+        </span>
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <button
+            class="emotion-13 emotion-14"
+            type="button"
           >
-            <button
-              class="emotion-13 emotion-14"
-              type="button"
+            <svg
+              class="c-icon emotion-12"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
             >
-              <svg
-                class="c-icon emotion-12"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M0 0h24v24H0z"
-                    fill="none"
-                  />
-                  <path
-                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-                  />
-                </g>
-              </svg>
-            </button>
-          </span>
-        </div>
+              <g>
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+                <path
+                  d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                />
+              </g>
+            </svg>
+          </button>
+        </span>
       </div>
     </div>
     <div
@@ -897,72 +827,58 @@ exports[`matches snapshot 1`] = `
             </a>
           </h1>
         </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="11"
-          data-tooltip-label="Velg mellom Kjernestoff eller Tilleggsstoff"
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <div
+            class="emotion-10 emotion-11"
           >
-            <div
-              class="emotion-10 emotion-11"
+            <label
+              class="emotion-8 emotion-9"
+              data-testid="toggleRelevanceId"
             >
-              <label
-                class="emotion-8 emotion-9"
-                data-testid="toggleRelevanceId"
-              >
-                <input
-                  checked=""
-                  type="checkbox"
-                />
-                <span
-                  class="emotion-6 emotion-7"
-                />
-              </label>
-            </div>
-          </span>
-        </div>
-        <div
-          data-tooltip="true"
-          data-tooltip-id="12"
-          data-tooltip-label="Fjern ressurs fra emne"
+              <input
+                checked=""
+                type="checkbox"
+              />
+              <span
+                class="emotion-6 emotion-7"
+              />
+            </label>
+          </div>
+        </span>
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
         >
-          <span
-            data-reach-tooltip-trigger=""
-            data-state="tooltip-hidden"
-            data-tooltip-children="true"
+          <button
+            class="emotion-13 emotion-14"
+            type="button"
           >
-            <button
-              class="emotion-13 emotion-14"
-              type="button"
+            <svg
+              class="c-icon emotion-12"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
             >
-              <svg
-                class="c-icon emotion-12"
-                data-license="Apache License 2.0"
-                data-source="Material Design"
-                fill="currentColor"
-                height="1em"
-                preserveAspectRatio="xMidYMid meet"
-                style="vertical-align: middle;"
-                viewBox="0 0 24 24"
-                width="1em"
-              >
-                <g>
-                  <path
-                    d="M0 0h24v24H0z"
-                    fill="none"
-                  />
-                  <path
-                    d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-                  />
-                </g>
-              </svg>
-            </button>
-          </span>
-        </div>
+              <g>
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+                <path
+                  d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                />
+              </g>
+            </svg>
+          </button>
+        </span>
       </div>
     </div>
   </div>

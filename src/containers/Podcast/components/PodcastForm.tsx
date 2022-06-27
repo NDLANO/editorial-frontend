@@ -182,11 +182,16 @@ const PodcastForm = ({
   };
 
   const validateMetaImage = useCallback(
-    ([width, height]: [number, number]): FormikErrors<PodcastFormValues> => {
-      if (width !== height) {
-        return { coverPhotoId: t('validation.podcastImageShape') };
-      } else if (width < 1400 || width > 3000) {
-        return { coverPhotoId: t('validation.podcastImageSize') };
+    (
+      [width, height]: [number, number],
+      values: PodcastFormValues,
+    ): FormikErrors<PodcastFormValues> => {
+      if (values.coverPhotoId) {
+        if (width !== height) {
+          return { coverPhotoId: t('validation.podcastImageShape') };
+        } else if (width < 1400 || width > 3000) {
+          return { coverPhotoId: t('validation.podcastImageSize') };
+        }
       }
       return {};
     },
@@ -196,7 +201,7 @@ const PodcastForm = ({
   const validateFunction = useCallback(
     (values: PodcastFormValues): FormikErrors<PodcastFormValues> => {
       const errors = validateFormik(values, podcastRules, t);
-      const metaImageErrors = size.current ? validateMetaImage(size.current) : {};
+      const metaImageErrors = size.current ? validateMetaImage(size.current, values) : {};
       const resp = { ...errors, ...metaImageErrors };
       return resp;
     },

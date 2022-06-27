@@ -22,7 +22,8 @@ import { Link } from 'react-router-dom';
 import UrlAllowList from './UrlAllowList';
 import { fetchExternalOembed } from '../../util/apiHelpers';
 import { isValidURL, urlDomain, getIframeSrcFromHtmlString } from '../../util/htmlHelpers';
-import { EXTERNAL_WHITELIST_PROVIDERS } from '../../constants';
+import { EXTERNAL_WHITELIST_PROVIDERS, DRAFT_ADMIN_SCOPE } from '../../constants';
+import { useSession } from '../Session/SessionProvider';
 import { HelpIcon, normalPaddingCSS } from '../../components/HowTo';
 import { urlTransformers } from './urlTransformers';
 import { VisualElementChangeReturnType } from './VisualElementSearch';
@@ -127,6 +128,7 @@ const VisualElementUrlPreview = ({
   onUrlSave,
   embed,
 }: Props) => {
+  const { userPermissions } = useSession();
   const [url, setUrl] = useState(selectedResourceUrl);
   const [title, setTitle] = useState(embed?.title || '');
   const [image, setImage] = useState<IImageMetaInformationV2>();
@@ -341,14 +343,15 @@ const VisualElementUrlPreview = ({
           </Button>
         </StyledButtonWrapper>
       )}
-      <CheckboxWrapper>
-        <CheckboxItem
-          checked={showFullscreen}
-          onChange={() => setShowFullscreen(prev => !prev)}
-          label={t('form.content.link.fullscreen')}
-        />
-      </CheckboxWrapper>
-
+      {userPermissions?.includes(DRAFT_ADMIN_SCOPE) && (
+        <CheckboxWrapper>
+          <CheckboxItem
+            checked={showFullscreen}
+            onChange={() => setShowFullscreen(prev => !prev)}
+            label={t('form.content.link.fullscreen')}
+          />
+        </CheckboxWrapper>
+      )}
       {showFullscreen ? (
         <FullscreenFormWrapper>
           <ImageInputWrapper>

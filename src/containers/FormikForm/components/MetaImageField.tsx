@@ -45,7 +45,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
   const alt = convertFieldWithFallback<'alttext'>(image, 'alttext', '');
   const imageAction = (
     <>
-      <Tooltip tooltip={t('form.image.removeImage')} align="right">
+      <Tooltip tooltip={t('form.image.removeImage')}>
         <IconButton
           color="red"
           type="button"
@@ -55,7 +55,7 @@ const MetaImageField = ({ image, onImageRemove, onImageLoad }: Props) => {
           <DeleteForever />
         </IconButton>
       </Tooltip>
-      <Tooltip tooltip={t('form.image.editImage')} align="top">
+      <Tooltip tooltip={t('form.image.editImage')}>
         <IconButton
           as={Link}
           to={`/media/image-upload/${image.id}/edit/${image.title.language}`}

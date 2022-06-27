@@ -84,12 +84,12 @@ const ConceptList = ({ element, language, editor, attributes, children }: Props)
         draggable
         className="c-figure u-float">
         <ButtonContainer contentEditable={false}>
-          <Tooltip tooltip={t('form.conceptList.remove')} align="right">
+          <Tooltip tooltip={t('form.conceptList.remove')}>
             <IconButton color="red" type="button" onClick={onRemoveClick} tabIndex={-1}>
               <DeleteForever />
             </IconButton>
           </Tooltip>
-          <Tooltip tooltip={t('form.conceptList.edit')} align="right">
+          <Tooltip tooltip={t('form.conceptList.edit')}>
             <IconButton type="button" onClick={onEditClick} tabIndex={-1}>
               <Pencil />
             </IconButton>

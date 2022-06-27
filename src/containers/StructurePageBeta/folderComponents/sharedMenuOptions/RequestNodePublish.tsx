@@ -41,9 +41,7 @@ const RequestNodePublish = ({ node, rootNodeId }: Props) => {
 
   const { t } = useTranslation();
   return (
-    <Tooltip
-      disabled={taxonomyVersion === 'default'}
-      tooltip={t('taxonomy.metadata.customFields.requestVersionError')}>
+    <Tooltip tooltip={t('taxonomy.metadata.customFields.requestVersionError')}>
       <MenuItemButton
         stripped
         data-testid="requestPublish"

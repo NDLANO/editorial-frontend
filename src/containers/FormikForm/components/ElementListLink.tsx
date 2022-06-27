@@ -69,7 +69,7 @@ const ElementListLink = ({
         <div>
           {isOrderable ? (
             showDragTooltip ? (
-              <Tooltip tooltip={messages?.dragElement}>
+              <Tooltip tooltip={messages?.dragElement || ''}>
                 <StyledButtonIcons
                   draggable
                   tabIndex={-1}
@@ -90,7 +90,7 @@ const ElementListLink = ({
               </StyledButtonIcons>
             )
           ) : null}
-          <Tooltip tooltip={messages?.removeElement}>
+          <Tooltip tooltip={messages?.removeElement || ''}>
             <StyledButtonIcons tabIndex={-1} type="button" onClick={() => deleteFile(index)} delete>
               <DeleteForever />
             </StyledButtonIcons>

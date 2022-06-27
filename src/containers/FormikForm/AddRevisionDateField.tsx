@@ -117,10 +117,9 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                   warningText={
                     showError && revisionMeta.note === '' ? t('validation.noEmptyRevision') : ''
                   }
-                  container="div"
                   placeholder={t('form.revisions.inputPlaceholder')}
                   type="text"
-                  focusOnMount
+                  autoFocus
                   value={revisionMeta.note}
                   data-testid="revisionInput"
                   onChange={(e: FormEvent<HTMLInputElement>) => {
@@ -157,7 +156,7 @@ const AddRevisionDateField = ({ formikField, showError }: Props) => {
                 />
               </StyledTooltip>
               <StyledTooltip tooltip={t('form.revisions.deleteTooltip')}>
-                <StyledRemoveButton stripped visible onClick={() => removeRevision(index)} />
+                <StyledRemoveButton visible onClick={() => removeRevision(index)} />
               </StyledTooltip>
             </Wrapper>
           </div>

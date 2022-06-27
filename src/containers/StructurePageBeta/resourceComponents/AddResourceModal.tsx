@@ -214,9 +214,7 @@ const AddResourceModal = ({
         {!type && (
           <ResourceTypeSelect
             availableResourceTypes={resourceTypes ?? []}
-            onChangeSelectedResource={(e: { target: { value: string } }) => {
-              setSelectedType(e.target.value);
-            }}
+            onChangeSelectedResource={e => setSelectedType(e.currentTarget.value)}
           />
         )}
         {canPaste && selectedType && (

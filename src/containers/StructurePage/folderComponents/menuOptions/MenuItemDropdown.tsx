@@ -16,6 +16,7 @@ import { Spinner } from '@ndla/editor';
 import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Search } from '@ndla/icons/lib/common';
+//@ts-ignore
 import { DropdownMenu, Input } from '@ndla/forms';
 import handleError from '../../../../util/handleError';
 import { itemToString } from '../../../../util/downShiftHelpers';

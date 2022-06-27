@@ -185,76 +185,90 @@ exports[`DisplayExternal renders iframe correctly 1`] = `
       class="emotion-4 emotion-5"
       contenteditable="false"
     >
-      <span
-        data-reach-tooltip-trigger=""
-        data-state="tooltip-hidden"
+      <div
+        data-tooltip="true"
+        data-tooltip-id="1"
+        data-tooltip-label="Fjern eksternt element"
       >
-        <button
-          class="emotion-0 emotion-1"
-          color="red"
-          data-cy="remove-element"
-          tabindex="-1"
-          type="button"
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
+          data-tooltip-children="true"
         >
-          <svg
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
+          <button
+            class="emotion-0 emotion-1"
+            color="red"
+            data-cy="remove-element"
+            tabindex="-1"
+            type="button"
           >
-            <g>
-              <path
-                d="M0 0h24v24H0V0z"
-                fill="none"
-              />
-              <path
-                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
-              />
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-            </g>
-          </svg>
-        </button>
-      </span>
-      <span
-        data-reach-tooltip-trigger=""
-        data-state="tooltip-hidden"
+            <svg
+              class="c-icon"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M0 0h24v24H0V0z"
+                  fill="none"
+                />
+                <path
+                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                />
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+              </g>
+            </svg>
+          </button>
+        </span>
+      </div>
+      <div
+        data-tooltip="true"
+        data-tooltip-id="2"
+        data-tooltip-label="Rediger eksternt element"
       >
-        <button
-          class="emotion-2 emotion-1"
-          tabindex="-1"
-          type="button"
+        <span
+          data-reach-tooltip-trigger=""
+          data-state="tooltip-hidden"
+          data-tooltip-children="true"
         >
-          <svg
-            class="c-icon"
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            fill="currentColor"
-            height="1em"
-            preserveAspectRatio="xMidYMid meet"
-            style="vertical-align: middle;"
-            viewBox="0 0 24 24"
-            width="1em"
+          <button
+            class="emotion-2 emotion-1"
+            tabindex="-1"
+            type="button"
           >
-            <g>
-              <path
-                d="M0 0h24v24H0z"
-                fill="none"
-              />
-              <path
-                d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
-              />
-            </g>
-          </svg>
-        </button>
-      </span>
+            <svg
+              class="c-icon"
+              data-license="Apache License 2.0"
+              data-source="Material Design"
+              fill="currentColor"
+              height="1em"
+              preserveAspectRatio="xMidYMid meet"
+              style="vertical-align: middle;"
+              viewBox="0 0 24 24"
+              width="1em"
+            >
+              <g>
+                <path
+                  d="M0 0h24v24H0z"
+                  fill="none"
+                />
+                <path
+                  d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"
+                />
+              </g>
+            </svg>
+          </button>
+        </span>
+      </div>
     </div>
     <iframe
       allowfullscreen=""

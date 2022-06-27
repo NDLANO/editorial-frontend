@@ -11,7 +11,7 @@ import FocusTrapReact from 'focus-trap-react';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import { Input, StyledButtonWrapper } from '@ndla/forms';
+import { StyledButtonWrapper, TextArea } from '@ndla/forms';
 import Button from '@ndla/button';
 import { FormikValues } from 'formik';
 import { Portal } from '../../../Portal';
@@ -139,14 +139,12 @@ const EditVideo = ({ embed, saveEmbedUpdates, src, activeSrc, toggleEditModus }:
                   />
                 ) : (
                   <>
-                    <Input
+                    <TextArea
                       name="caption"
                       label={t('form.video.caption.label')}
                       value={caption}
                       onChange={onCaptionChange}
-                      container="div"
                       type="text"
-                      autoExpand
                       placeholder={t('form.video.caption.placeholder')}
                       white
                     />

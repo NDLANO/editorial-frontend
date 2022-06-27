@@ -5,16 +5,10 @@ import { LicenseField, DatePicker, ContributorsField } from '../../FormikForm';
 import FormikField from '../../../components/FormikField';
 
 const StyledTwoColumn = styled.div`
-  display: flex;
-  flex-flow: row;
+  display: grid;
+  grid-template-columns: 50% 50%;
   margin-top: ${spacing.small};
-  & > *:nth-child(1) {
-    width: 50%;
-  }
-  & > *:nth-child(2) {
-    margin-left: 0.5rem;
-    width: 50%;
-  }
+  gap: ${spacing.nsmall};
 `;
 
 const StyledDateField = styled(FormikField)`

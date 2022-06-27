@@ -41,7 +41,7 @@ const FileUploader = ({ onFileSave }: Props) => {
     return uploadFile(formData);
   };
 
-  const onSave = async (filesList: FileList) => {
+  const onSave = async (filesList: File[]) => {
     try {
       const files = Array.from(filesList);
       setSaving(true);

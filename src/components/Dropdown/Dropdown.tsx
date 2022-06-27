@@ -6,6 +6,7 @@
  */
 
 import Downshift, { StateChangeOptions } from 'downshift';
+//@ts-ignore
 import { DropdownInput, DropdownMenu } from '@ndla/forms';
 import { ChangeEvent, useState } from 'react';
 import styled from '@emotion/styled';

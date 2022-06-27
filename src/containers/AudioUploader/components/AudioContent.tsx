@@ -91,7 +91,7 @@ const AudioContent = ({ formik }: Props) => {
               <UploadDropZone
                 name="audioFile"
                 allowedFiles={['audio/mp3', 'audio/mpeg']}
-                onAddedFiles={(files: FileList, evt: FormEvent<HTMLInputElement>) => {
+                onAddedFiles={(_, evt: FormEvent<HTMLInputElement>) => {
                   const file = evt.currentTarget.files?.[0];
                   const filepath = file ? URL.createObjectURL(file) : undefined;
                   const newFile = file && filepath ? { file, filepath } : undefined;

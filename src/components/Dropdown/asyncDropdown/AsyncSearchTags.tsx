@@ -7,6 +7,7 @@
  */
 
 import { useState, useEffect } from 'react';
+//@ts-ignore
 import { DropdownInput } from '@ndla/forms';
 import { FieldInputProps, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';

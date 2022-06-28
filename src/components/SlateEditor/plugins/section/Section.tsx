@@ -28,7 +28,7 @@ const Section = ({ attributes, children, element, editor }: Props) => {
       <StyledSection {...attributes}>{children}</StyledSection>
       {editor.children.length > 1 && useSelected && (
         <div contentEditable={false}>
-          <Tooltip tooltip={t('form.section.remove')} tooltipContainerClass="tooltipContainerClass">
+          <Tooltip tooltip={t('form.section.remove')}>
             <DeleteForeverButton
               stripped
               onClick={() => {

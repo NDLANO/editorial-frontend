@@ -6,7 +6,7 @@
  *
  */
 
-import { ChangeEvent, Component, MouseEvent } from 'react';
+import { FormEvent, Component, MouseEvent } from 'react';
 
 import { withTranslation, CustomWithTranslation } from 'react-i18next';
 import { Spinner } from '@ndla/editor';
@@ -138,11 +138,11 @@ class LearningResourceTaxonomy extends Component<Props, State> {
     }
   }
 
-  onChangeSelectedResource = (evt: ChangeEvent<HTMLSelectElement>) => {
+  onChangeSelectedResource = (evt: FormEvent<HTMLSelectElement>) => {
     const {
       taxonomyChoices: { availableResourceTypes },
     } = this.state;
-    const options = evt.target?.value?.split(',');
+    const options = evt.currentTarget?.value?.split(',');
     const selectedResource = availableResourceTypes.find(
       resourceType => resourceType.id === options[0],
     );

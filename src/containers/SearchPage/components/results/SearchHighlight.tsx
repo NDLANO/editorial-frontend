@@ -58,9 +58,7 @@ const SearchHighlight = ({ content, locale }: Props) => {
   return selectedHighlights ? (
     <StyledDiv>
       <StyledHeading>{t('searchPage.highlights.title')}</StyledHeading>
-      <Tooltip
-        align={'right'}
-        tooltip={t(`searchPage.highlights.${selectedHighlights.field.split('.')[0]}`)}>
+      <Tooltip tooltip={t(`searchPage.highlights.${selectedHighlights.field.split('.')[0]}`)}>
         <StyledHighlights
           dangerouslySetInnerHTML={{ __html: selectedHighlights.matches.join(' [...] ') }}
         />

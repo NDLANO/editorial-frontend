@@ -9,7 +9,14 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
-import { FieldHeader, FieldSection, Input, CheckboxItem, FieldRemoveButton } from '@ndla/forms';
+import {
+  FieldHeader,
+  FieldSection,
+  Input,
+  CheckboxItem,
+  FieldRemoveButton,
+  TextArea,
+} from '@ndla/forms';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import styled from '@emotion/styled';
 import { spacing } from '@ndla/core';
@@ -155,13 +162,12 @@ const VisualElementUrlPreview = ({
     if (url === '') {
       return t('form.content.link.required');
     }
-    return null;
   };
 
   const getSubTitle = () => {
     const isChangedUrl = url !== selectedResourceUrl || selectedResourceUrl === undefined;
     if (isChangedUrl) {
-      return null;
+      return undefined;
     }
     return resource || t('form.content.link.insert');
   };
@@ -314,9 +320,8 @@ const VisualElementUrlPreview = ({
       </FieldHeader>
       <FieldSection>
         <Input
-          focusOnMount
+          autoFocus
           iconRight={<LinkIcon />}
-          container="div"
           warningText={getUrlWarningText()}
           value={url}
           type="text"
@@ -360,7 +365,7 @@ const VisualElementUrlPreview = ({
                 {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                 <img src={image?.imageUrl} alt={image?.alttext.alttext} />
                 <ImageButtons>
-                  <Tooltip tooltip={t('form.metaImage.remove')} align="top">
+                  <Tooltip tooltip={t('form.metaImage.remove')}>
                     <IconButton
                       color="red"
                       type="button"
@@ -370,7 +375,7 @@ const VisualElementUrlPreview = ({
                       <DeleteForever />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip tooltip={t('imageEditor.editImage')} align="top">
+                  <Tooltip tooltip={t('imageEditor.editImage')}>
                     <IconButton
                       as={Link}
                       to={`/media/image-upload/${image.id}/edit/${language}`}
@@ -389,20 +394,17 @@ const VisualElementUrlPreview = ({
           <ContentInputWrapper>
             <h3>{t('form.name.title')}</h3>
             <Input
-              container="div"
               value={title}
               type="text"
               placeholder={t('form.name.title')}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+              onChange={e => setTitle(e.currentTarget.value)}
             />
             <h3>{t('form.name.description')}</h3>
-            <Input
-              container="div"
+            <TextArea
               value={description}
-              autoExpand
               type="text"
               placeholder={t('form.name.description')}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
+              onChange={e => setDescription(e.currentTarget.value)}
             />
             <UpdateButton disabled={!canSave()} outline onClick={() => handleSaveUrl()}>
               {urlChanged ? t('form.content.link.insert') : t('form.content.link.update')}

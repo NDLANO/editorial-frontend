@@ -110,7 +110,7 @@ const FigureButtons = ({
       theme={{}}
       withMargin={withMargin}
       contentEditable={false}>
-      <Tooltip tooltip={tooltip} align="right">
+      <Tooltip tooltip={tooltip}>
         <IconButton
           color="red"
           type="button"
@@ -122,7 +122,7 @@ const FigureButtons = ({
       </Tooltip>
       {(figureType === 'image' || figureType === 'audio' || figureType === 'podcast') &&
         (embed.resource === 'image' || embed.resource === 'audio') && (
-          <Tooltip tooltip={url[figureType].editTitle} align="right">
+          <Tooltip tooltip={url[figureType].editTitle}>
             <IconButton
               as={Link}
               to={`${url[figureType].path}/${embed.resource_id}/edit/${language}`}
@@ -137,8 +137,7 @@ const FigureButtons = ({
         <Tooltip
           tooltip={t('form.external.edit', {
             type: providerName || t('form.external.title'),
-          })}
-          align="right">
+          })}>
           <IconButton type="button" tabIndex={-1} onClick={onEdit}>
             <LinkIcon />
           </IconButton>
@@ -146,7 +145,7 @@ const FigureButtons = ({
       )}
       {figureType === 'video' && embed.resource === 'brightcove' && (
         <>
-          <Tooltip tooltip={t('form.video.brightcove')} align="right">
+          <Tooltip tooltip={t('form.video.brightcove')}>
             <IconButton
               as={SafeLink}
               to={`https://studio.brightcove.com/products/videocloud/media/videos/${
@@ -163,8 +162,7 @@ const FigureButtons = ({
       )}
       {(figureType === 'video' || figureType === 'image') && (
         <Tooltip
-          tooltip={figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')}
-          align="right">
+          tooltip={figureType === 'video' ? t('form.video.editVideo') : t('form.image.editImage')}>
           <IconButton type="button" tabIndex={-1} onClick={onEdit}>
             <Pencil />
           </IconButton>

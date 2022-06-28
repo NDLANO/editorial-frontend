@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent } from 'react';
+import { FormEvent, MouseEvent } from 'react';
 import Button from '@ndla/button';
 import { FieldSection, Input, FieldRemoveButton } from '@ndla/forms';
 import Field from '../../components/Field';
@@ -45,7 +45,7 @@ const AddNotesField = ({
     onNotesChange([...value, '']);
   };
 
-  const removeNote = (e: Event, noteIndexToRemove: number) => {
+  const removeNote = (e: MouseEvent<HTMLButtonElement>, noteIndexToRemove: number) => {
     e.preventDefault();
     onNotesChange(value.filter((_, index) => index !== noteIndexToRemove));
   };
@@ -62,9 +62,8 @@ const AddNotesField = ({
           <div>
             <Input
               warningText={showError && note === '' ? labelWarningNote : ''}
-              container="div"
               type="text"
-              focusOnMount
+              autoFocus
               placeholder={placeholder}
               value={note}
               data-testid="notesInput"
@@ -73,7 +72,7 @@ const AddNotesField = ({
             />
           </div>
           <div>
-            <FieldRemoveButton onClick={(evt: Event) => removeNote(evt, index)}>
+            <FieldRemoveButton onClick={evt => removeNote(evt, index)}>
               {labelRemoveNote}
             </FieldRemoveButton>
           </div>

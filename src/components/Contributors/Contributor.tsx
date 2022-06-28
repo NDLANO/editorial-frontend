@@ -6,7 +6,7 @@
  *
  */
 
-import { ChangeEvent } from 'react';
+import { FormEvent, MouseEvent } from 'react';
 import PropTypes from 'prop-types';
 import { FieldSection, FieldSplitter, Input, Select, FieldRemoveButton } from '@ndla/forms';
 import { ContributorType, ContributorFieldName } from './types';
@@ -23,11 +23,11 @@ interface Props {
   labelRemove?: string;
   contributor: ContributorType;
   handleContributorChange: (
-    event: ChangeEvent<HTMLInputElement>,
+    event: FormEvent<HTMLSelectElement> | FormEvent<HTMLInputElement>,
     name: ContributorFieldName,
     index: number,
   ) => void;
-  removeContributor: (event: ChangeEvent<HTMLInputElement>, index: number) => void;
+  removeContributor: (event: MouseEvent<HTMLButtonElement>, index: number) => void;
   contributorTypeItems: ContributorTypeItem[];
   index: number;
   errorMessages?: string[];
@@ -52,20 +52,19 @@ const Contributor = ({
           warningText={
             showError && (contributor.name === '' || contributor.type === '')
               ? errorMessages[0]
-              : null
+              : undefined
           }
-          container="div"
           type="text"
-          focusOnMount={contributor.focusOnMount}
+          autoFocus={!!contributor.focusOnMount}
           placeholder={placeholder}
           disabled={disabled}
           value={contributor.name}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handleContributorChange(e, 'name', index)}
+          onChange={e => handleContributorChange(e, 'name', index)}
         />
         <Select
           value={contributor.type}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handleContributorChange(e, 'type', index)}
-          onBlur={(e: ChangeEvent<HTMLInputElement>) => handleContributorChange(e, 'type', index)}
+          onChange={e => handleContributorChange(e, 'type', index)}
+          onBlur={e => handleContributorChange(e, 'type', index)}
           data-cy="contributor-selector">
           <option value="" />
           {contributorTypeItems.map((item: ContributorTypeItem) => (
@@ -77,8 +76,7 @@ const Contributor = ({
       </FieldSplitter>
     </div>
     <div>
-      <FieldRemoveButton
-        onClick={(evt: ChangeEvent<HTMLInputElement>) => removeContributor(evt, index)}>
+      <FieldRemoveButton onClick={evt => removeContributor(evt, index)}>
         {labelRemove}
       </FieldRemoveButton>
     </div>

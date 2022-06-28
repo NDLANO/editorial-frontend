@@ -138,12 +138,12 @@ const BlockConceptPreview = ({ concept, handleRemove, id, isBlockView }: Props) 
       />
 
       <StyledFigureButtons isBlockView={isBlockView}>
-        <Tooltip tooltip={t('form.concept.removeConcept')} align="right">
+        <Tooltip tooltip={t('form.concept.removeConcept')}>
           <IconButton color="red" type="button" onClick={handleRemove} tabIndex={-1}>
             <DeleteForever />
           </IconButton>
         </Tooltip>
-        <Tooltip tooltip={t('form.concept.edit')} align="right">
+        <Tooltip tooltip={t('form.concept.edit')}>
           <IconButton
             as={Link}
             to={`/concept/${id}/edit/${concept.content?.language ?? i18n.language}`}

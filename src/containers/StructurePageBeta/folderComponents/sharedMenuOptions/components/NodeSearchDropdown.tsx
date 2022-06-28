@@ -9,6 +9,7 @@
 import styled from '@emotion/styled';
 import Downshift, { GetItemPropsOptions } from 'downshift';
 import { useState } from 'react';
+//@ts-ignore
 import { Input, DropdownMenu } from '@ndla/forms';
 import { Spinner } from '@ndla/editor';
 import { Search } from '@ndla/icons/common';

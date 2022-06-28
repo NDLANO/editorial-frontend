@@ -40,23 +40,27 @@ const RequestNodePublish = ({ node, rootNodeId }: Props) => {
   };
 
   const { t } = useTranslation();
+  const button = (
+    <MenuItemButton
+      stripped
+      data-testid="requestPublish"
+      onClick={togglePublish}
+      disabled={taxonomyVersion !== 'default' || metadata.customFields.isPublishing === 'true'}>
+      <RoundIcon small icon={<Check />} />
+      {t(
+        hasRequested
+          ? 'taxonomy.metadata.customFields.cancelPublishRequest'
+          : 'taxonomy.metadata.customFields.requestPublish',
+      )}
+    </MenuItemButton>
+  );
+
+  if (taxonomyVersion === 'default') {
+    return button;
+  }
+
   return (
-    <Tooltip
-      disabled={taxonomyVersion === 'default'}
-      tooltip={t('taxonomy.metadata.customFields.requestVersionError')}>
-      <MenuItemButton
-        stripped
-        data-testid="requestPublish"
-        onClick={togglePublish}
-        disabled={taxonomyVersion !== 'default' || metadata.customFields.isPublishing === 'true'}>
-        <RoundIcon small icon={<Check />} />
-        {t(
-          hasRequested
-            ? 'taxonomy.metadata.customFields.cancelPublishRequest'
-            : 'taxonomy.metadata.customFields.requestPublish',
-        )}
-      </MenuItemButton>
-    </Tooltip>
+    <Tooltip tooltip={t('taxonomy.metadata.customFields.requestVersionError')}>{button}</Tooltip>
   );
 };
 

@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { spacing } from '@ndla/core';
-import { DeleteForever } from '@ndla/icons/lib/editor';
+import { DeleteForever } from '@ndla/icons/editor';
 import { StyledMenuItemEditField, StyledMenuItemInputField } from '../styles';
 import RoundIcon from '../../../../components/RoundIcon';
 import MenuItemSaveButton from './MenuItemSaveButton';

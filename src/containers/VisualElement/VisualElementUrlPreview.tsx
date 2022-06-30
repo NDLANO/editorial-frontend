@@ -23,7 +23,7 @@ import { spacing } from '@ndla/core';
 import Modal, { ModalHeader, ModalBody, ModalCloseButton } from '@ndla/modal';
 import Tooltip from '@ndla/tooltip';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';
-import { DeleteForever } from '@ndla/icons/lib/editor';
+import { DeleteForever } from '@ndla/icons/editor';
 import { Link } from 'react-router-dom';
 
 import UrlAllowList from './UrlAllowList';

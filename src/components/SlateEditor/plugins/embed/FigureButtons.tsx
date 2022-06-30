@@ -13,7 +13,7 @@ import { css } from '@emotion/core';
 import Tooltip from '@ndla/tooltip';
 import { spacing, spacingUnit } from '@ndla/core';
 import { Link as LinkIcon } from '@ndla/icons/common';
-import { Pencil } from '@ndla/icons/lib/action';
+import { Pencil } from '@ndla/icons/action';
 import { DeleteForever } from '@ndla/icons/editor';
 import { useTranslation } from 'react-i18next';
 import SafeLink from '@ndla/safelink';

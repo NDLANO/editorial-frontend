@@ -1,4 +1,4 @@
-import { Taxonomy } from '@ndla/icons/lib/editor';
+import { Taxonomy } from '@ndla/icons/editor';
 import { OneColumn, Spinner } from '@ndla/ui';
 import { colors } from '@ndla/core';
 import { useRef, useState } from 'react';

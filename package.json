@@ -118,7 +118,7 @@
     "@ndla/button": "^2.6.0",
     "@ndla/carousel": "^1.2.11",
     "@ndla/code": "^1.1.15",
-    "@ndla/editor": "^1.2.18",
+    "@ndla/editor": "^1.2.22",
     "@ndla/error-reporter": "^1.0.12",
     "@ndla/forms": "^3.0.5",
     "@ndla/howto": "^2.0.33",

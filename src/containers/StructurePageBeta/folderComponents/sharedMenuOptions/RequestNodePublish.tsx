@@ -1,4 +1,4 @@
-import { Check } from '@ndla/icons/lib/editor';
+import { Check } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

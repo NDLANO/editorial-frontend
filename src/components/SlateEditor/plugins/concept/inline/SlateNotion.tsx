@@ -7,7 +7,7 @@ import { ReactNode } from 'react';
 import { RenderElementProps } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
-import { AlertCircle, Check } from '@ndla/icons/lib/editor';
+import { AlertCircle, Check } from '@ndla/icons/editor';
 import { Portal } from '../../../../Portal';
 import { PUBLISHED } from '../../../../../util/constants/ConceptStatus';
 import InlineConceptPreview from './InlineConceptPreview';

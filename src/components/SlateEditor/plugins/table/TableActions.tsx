@@ -12,10 +12,10 @@ import { Editor, Path, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { useTranslation } from 'react-i18next';
 import { colors, fonts } from '@ndla/core';
-import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/lib/editor';
+import { AlignCenter, AlignLeft, AlignRight } from '@ndla/icons/editor';
 import Button from '@ndla/button';
 import { css } from '@emotion/core';
-import { Minus, Pencil, Plus } from '@ndla/icons/lib/action';
+import { Minus, Pencil, Plus } from '@ndla/icons/action';
 import IconButton from '../../../../components/IconButton';
 import {
   insertRow,

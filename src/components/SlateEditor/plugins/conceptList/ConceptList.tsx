@@ -7,8 +7,8 @@
 
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { Pencil } from '@ndla/icons/lib/action';
-import { DeleteForever } from '@ndla/icons/lib/editor';
+import { Pencil } from '@ndla/icons/action';
+import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';

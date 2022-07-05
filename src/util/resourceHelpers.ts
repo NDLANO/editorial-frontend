@@ -6,8 +6,7 @@
  *
  */
 
-import { constants } from '@ndla/ui';
-import { HeroContentType } from '@ndla/ui/lib/Hero';
+import { constants, HeroContentType } from '@ndla/ui';
 import { TFunction } from 'react-i18next';
 import {
   toEditArticle,

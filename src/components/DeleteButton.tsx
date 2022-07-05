@@ -8,7 +8,7 @@
 
 import { MouseEvent, ReactNode } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
-import darken from 'polished/lib/color/darken';
+import { darken } from 'polished';
 import { colors } from '@ndla/core';
 import DeleteForeverButton from './DeleteForeverButton';
 

@@ -10,7 +10,7 @@ import { SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { DeleteForever } from '@ndla/icons/lib/editor';
+import { DeleteForever } from '@ndla/icons/editor';
 import Tooltip from '@ndla/tooltip';
 import { Link as LinkIcon } from '@ndla/icons/common';
 import { IImageMetaInformationV2 } from '@ndla/types-image-api';

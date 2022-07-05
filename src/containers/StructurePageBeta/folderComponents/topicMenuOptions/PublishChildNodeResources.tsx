@@ -9,7 +9,7 @@
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { Spinner } from '@ndla/editor';
-import { Done } from '@ndla/icons/lib/editor';
+import { Done } from '@ndla/icons/editor';
 import { ISearchResult } from '@ndla/types-draft-api';
 import { ISearchResultV2 } from '@ndla/types-learningpath-api';
 import { partition } from 'lodash';

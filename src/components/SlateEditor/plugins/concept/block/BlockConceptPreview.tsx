@@ -18,7 +18,7 @@ import { ConceptNotion } from '@ndla/ui';
 import { IConcept } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
 import Tooltip from '@ndla/tooltip';
-import { AlertCircle, Check } from '@ndla/icons/lib/editor';
+import { AlertCircle, Check } from '@ndla/icons/editor';
 import { addShowConceptDefinitionClickListeners } from '@ndla/article-scripts';
 import IconButton from '../../../../IconButton';
 import { getYoutubeEmbedUrl } from '../../../../../util/videoUtil';

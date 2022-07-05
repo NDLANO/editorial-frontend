@@ -85,7 +85,8 @@ const SlateFigure = ({ attributes, editor, element, language, locale = 'nb', chi
           saveEmbedUpdates={saveEmbedUpdates}
           visualElement={false}
           active={isActive()}
-          isSelectedForCopy={isSelected}>
+          isSelectedForCopy={isSelected}
+          element={element}>
           {children}
         </SlateImage>
       );

@@ -10,7 +10,7 @@ import { MouseEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '@ndla/button';
 import styled from '@emotion/styled';
-import darken from 'polished/lib/color/darken';
+import { darken } from 'polished';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import Tooltip from '@ndla/tooltip';
 import { Pencil } from '@ndla/icons/action';

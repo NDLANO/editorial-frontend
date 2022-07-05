@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
 import { ChevronLeft } from '@ndla/icons/common';
-import darken from 'polished/lib/color/darken';
+import { darken } from 'polished';
 import DeleteButton from '../../../DeleteButton';
 
 const MoveAsideButton = styled(Button)`

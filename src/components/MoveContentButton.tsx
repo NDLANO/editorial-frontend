@@ -6,7 +6,7 @@
  *
  */
 
-import darken from 'polished/lib/color/darken';
+import { darken } from 'polished';
 import { css } from '@emotion/core';
 import { colors } from '@ndla/core';
 import Button from '@ndla/button';

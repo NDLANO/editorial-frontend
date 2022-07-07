@@ -7,7 +7,7 @@
 import { HTMLProps, MutableRefObject, ReactNode, useEffect } from 'react';
 import { DropResult } from 'react-beautiful-dnd';
 import { colors } from '@ndla/core';
-import { Spinner } from '@ndla/ui';
+import { Spinner } from '@ndla/icons';
 import { Star } from '@ndla/icons/editor';
 import Fade from '../../components/Taxonomy/Fade';
 import MakeDndList from './MakeDNDList';

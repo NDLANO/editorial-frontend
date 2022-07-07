@@ -11,7 +11,7 @@ import { useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import { spacing, colors } from '@ndla/core';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import { Plus } from '@ndla/icons/action';
 import { Done } from '@ndla/icons/editor';
 import { useTaxonomyVersion } from '../../../StructureVersion/TaxonomyVersionProvider';

@@ -8,7 +8,7 @@
 
 import styled from '@emotion/styled';
 import { colors } from '@ndla/core';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import { Done } from '@ndla/icons/editor';
 import { ISearchResult } from '@ndla/types-draft-api';
 import { ISearchResultV2 } from '@ndla/types-learningpath-api';

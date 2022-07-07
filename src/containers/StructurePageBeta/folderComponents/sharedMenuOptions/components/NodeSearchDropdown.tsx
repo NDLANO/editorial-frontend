@@ -11,7 +11,7 @@ import Downshift, { GetItemPropsOptions } from 'downshift';
 import { useState } from 'react';
 //@ts-ignore
 import { Input, DropdownMenu } from '@ndla/forms';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import { Search } from '@ndla/icons/common';
 import { NodeType, NodeTypeValue } from '../../../../../modules/nodes/nodeApiTypes';
 import { useTaxonomyVersion } from '../../../../StructureVersion/TaxonomyVersionProvider';

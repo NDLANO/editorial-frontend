@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 import { RadioButtonGroup } from '@ndla/ui';
 import { IConcept, IConceptSummary, IUpdatedConcept } from '@ndla/types-concept-api';
 import { useTranslation } from 'react-i18next';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import {
   fetchConcept,
   updateConcept,

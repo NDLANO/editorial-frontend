@@ -8,7 +8,7 @@
 
 import { MouseEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Spinner } from '@ndla/icon';
+import { Spinner } from '@ndla/icons';
 import { ErrorMessage } from '@ndla/ui';
 import { IUpdatedArticle, IArticle } from '@ndla/types-draft-api';
 import Field from '../../../../components/Field';

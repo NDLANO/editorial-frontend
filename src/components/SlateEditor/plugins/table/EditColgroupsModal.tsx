@@ -7,7 +7,7 @@
  */
 
 import { lazy, Suspense, useState } from 'react';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import Button from '@ndla/button';
 import Modal, { ModalBody, ModalCloseButton, ModalHeader } from '@ndla/modal';
 import { fonts } from '@ndla/core';

@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { spacing } from '@ndla/core';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import Downshift from 'downshift';
 import Fuse from 'fuse.js';
 import { Search } from '@ndla/icons/common';

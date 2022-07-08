@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import { Done } from '@ndla/icons/editor';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import { colors } from '@ndla/core';
 import { ILearningPathV2 } from '@ndla/types-learningpath-api';
 

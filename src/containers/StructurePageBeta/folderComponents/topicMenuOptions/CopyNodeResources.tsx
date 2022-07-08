@@ -13,7 +13,7 @@ import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { Copy } from '@ndla/icons/action';
 import { spacing, colors } from '@ndla/core';
-import { Spinner } from '@ndla/editor';
+import { Spinner } from '@ndla/icons';
 import { Done } from '@ndla/icons/editor';
 import RoundIcon from '../../../../components/RoundIcon';
 import { NodeType, ResourceWithNodeConnection } from '../../../../modules/nodes/nodeApiTypes';

@@ -1,5 +1,6 @@
 import { Taxonomy } from '@ndla/icons/editor';
-import { OneColumn, Spinner } from '@ndla/ui';
+import { OneColumn } from '@ndla/ui';
+import { Spinner } from '@ndla/icons';
 import { colors } from '@ndla/core';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';

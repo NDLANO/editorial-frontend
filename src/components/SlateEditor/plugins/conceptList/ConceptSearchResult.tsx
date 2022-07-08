@@ -6,7 +6,8 @@
  */
 
 import styled from '@emotion/styled';
-import { ConceptNotion, ConceptNotionType, Spinner } from '@ndla/ui';
+import { ConceptNotion, ConceptNotionType } from '@ndla/ui';
+import { Spinner } from '@ndla/icons';
 import { isNumber } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

@@ -170,7 +170,7 @@ const ConceptModal = ({
                         />
                         <Pager
                           query={searchObject}
-                          page={searchObject.page ?? 1}
+                          page={results.page ?? 1}
                           pathname=""
                           lastPage={Math.ceil(results.totalCount / results.pageSize)}
                           onClick={searchConcept}

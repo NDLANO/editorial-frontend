@@ -65,22 +65,23 @@ export function getFocalPoint(transformData) {
   return `focalX=${transformData['focal-x']}&focalY=${transformData['focal-y']}`;
 }
 
-export function getSrcSets(imageId, transformData) {
+export function getSrcSets(imageId, transformData, language) {
   const src = `${config.ndlaApiUrl}/image-api/raw/id/${imageId}`;
-  const crop = getCrop(transformData);
-  const focalPoint = getFocalPoint(transformData);
+  const crop = transformData ? getCrop(transformData) : undefined;
+  const focalPoint = transformData ? getFocalPoint(transformData) : undefined;
 
   const cropString = crop ? `&${crop}` : '';
+  const languageString = language ? `&language=${language}` : '';
   const focalString = focalPoint ? `&${focalPoint}` : '';
   return [
-    `${src}?width=1440${cropString}${focalString} 1440w`,
-    `${src}?width=1120${cropString}${focalString} 1120w`,
-    `${src}?width=1000${cropString}${focalString} 1000w`,
-    `${src}?width=960${cropString}${focalString} 960w`,
-    `${src}?width=800${cropString}${focalString} 800w`,
-    `${src}?width=640${cropString}${focalString} 640w`,
-    `${src}?width=480${cropString}${focalString} 480w`,
-    `${src}?width=320${cropString}${focalString} 320w`,
-    `${src}?width=320${cropString}${focalString} 320w`,
+    `${src}?width=1440${languageString}${cropString}${focalString} 1440w`,
+    `${src}?width=1120${languageString}${cropString}${focalString} 1120w`,
+    `${src}?width=1000${languageString}${cropString}${focalString} 1000w`,
+    `${src}?width=960${languageString}${cropString}${focalString} 960w`,
+    `${src}?width=800${languageString}${cropString}${focalString} 800w`,
+    `${src}?width=640${languageString}${cropString}${focalString} 640w`,
+    `${src}?width=480${languageString}${cropString}${focalString} 480w`,
+    `${src}?width=320${languageString}${cropString}${focalString} 320w`,
+    `${src}?width=320${languageString}${cropString}${focalString} 320w`,
   ].join(', ');
 }

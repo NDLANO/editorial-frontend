@@ -133,7 +133,7 @@ const SlateImage = ({
                     '(min-width: 350px) 320px,' +
                     '100vw'
               }
-              srcSet={getSrcSets(embed.resource_id, transformData())}
+              srcSet={getSrcSets(embed.resource_id, transformData(), language)}
               css={css`
                 box-shadow: ${showCopyOutline ? 'rgb(32, 88, 143) 0 0 0 2px' : 'none'};
               `}

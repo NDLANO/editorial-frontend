@@ -60,31 +60,34 @@ type Marker = {
 };
 
 const ImageFocalPointEdit = ({ embed, onFocalPointChange, transformData }: Props) => {
+  const focalImgRef = useRef<HTMLImageElement | null>(null);
   const [marker, setMarker] = useState<Marker>({
     showMarker: false,
   });
-  let focalImgRef = useRef<HTMLImageElement | null>(null);
 
   const onImageClick = (evt: MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    const imageOffset = getElementOffset(focalImgRef.current);
-    const dimensions = getImageDimensions(focalImgRef.current);
-    const clientPos = getClientPos(evt);
 
-    const xPc = (clientPos.x - imageOffset.left) / dimensions.current.width;
-    const yPc = (clientPos.y - imageOffset.top) / dimensions.current.height;
-    setMarker({
-      showMarker: true,
-      xMarkPos: clientPos.x - imageOffset.left,
-      yMarkPos: clientPos.y - imageOffset.top,
-    });
-    onFocalPointChange({
-      x: xPc * 100,
-      y: yPc * 100,
-    });
+    if (focalImgRef.current) {
+      const imageOffset = getElementOffset(focalImgRef.current);
+      const dimensions = getImageDimensions(focalImgRef.current);
+      const clientPos = getClientPos(evt);
+
+      const xPc = (clientPos.x - imageOffset.left) / dimensions.current.width;
+      const yPc = (clientPos.y - imageOffset.top) / dimensions.current.height;
+      setMarker({
+        showMarker: true,
+        xMarkPos: clientPos.x - imageOffset.left,
+        yMarkPos: clientPos.y - imageOffset.top,
+      });
+      onFocalPointChange({
+        x: xPc * 100,
+        y: yPc * 100,
+      });
+    }
   };
 
-  const setXandY = (target: EventTarget) => {
+  const setXandY = (target: HTMLImageElement) => {
     const dimensions = getImageDimensions(target);
     let x, y;
     if (transformData) {
@@ -115,10 +118,8 @@ const ImageFocalPointEdit = ({ embed, onFocalPointChange, transformData }: Props
           <img
             style={{ minWidth: 'inherit' }}
             alt={embed.alt}
-            ref={focalImg => {
-              focalImgRef.current = focalImg;
-            }}
-            onLoad={e => setXandY(e.target)}
+            ref={focalImgRef}
+            onLoad={e => setXandY(e.target as HTMLImageElement)}
             srcSet={getSrcSets(embed.resource_id, transformData)}
           />
         </Button>

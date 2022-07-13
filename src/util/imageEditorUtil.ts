@@ -1,13 +1,23 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2022-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { MouseEvent } from 'react';
 import config from '../config';
 
-export function getElementOffset(el) {
+export interface TransformData {
+  'focal-x'?: string;
+  'focal-y'?: string;
+  'upper-left-x'?: string;
+  'upper-left-y'?: string;
+  'lower-right-x'?: string;
+  'lower-right-y'?: string;
+}
+
+export function getElementOffset(el: HTMLImageElement) {
   const rect = el.getBoundingClientRect();
   const docEl = document.documentElement;
   const rectTop = rect.top + window.pageYOffset - docEl.clientTop;
@@ -18,11 +28,11 @@ export function getElementOffset(el) {
   };
 }
 
-export function getClientPos(e) {
+export function getClientPos(e: MouseEvent<HTMLButtonElement> | TouchEvent) {
   let x;
   let y;
 
-  if (e.touches) {
+  if ('touches' in e) {
     x = e.touches[0].pageX;
     y = e.touches[0].pageY;
   } else {
@@ -33,20 +43,20 @@ export function getClientPos(e) {
   return { x, y };
 }
 
-export function getImageDimensions(el) {
+export function getImageDimensions(e: HTMLImageElement) {
   return {
     natural: {
-      width: el.naturalWidth,
-      height: el.naturalHeight,
+      width: e.naturalWidth,
+      height: e.naturalHeight,
     },
     current: {
-      width: el.width,
-      height: el.height,
+      width: e.width,
+      height: e.height,
     },
   };
 }
 
-export function getCrop(transformData) {
+export function getCrop(transformData: TransformData) {
   if (
     transformData['upper-left-x'] === undefined ||
     transformData['upper-left-y'] === undefined ||
@@ -58,7 +68,7 @@ export function getCrop(transformData) {
   return `cropStartX=${transformData['upper-left-x']}&cropStartY=${transformData['upper-left-y']}&cropEndX=${transformData['lower-right-x']}&cropEndY=${transformData['lower-right-y']}`;
 }
 
-export function getFocalPoint(transformData) {
+export function getFocalPoint(transformData: TransformData) {
   if (transformData['focal-x'] === undefined || transformData['focal-y'] === undefined) {
     return undefined;
   }
@@ -67,7 +77,7 @@ export function getFocalPoint(transformData) {
 
 const imageWidths = [1440, 1120, 1000, 960, 800, 640, 480, 320];
 
-export function getSrcSets(imageId, transformData, language) {
+export function getSrcSets(imageId: string, transformData?: TransformData, language?: string) {
   const src = `${config.ndlaApiUrl}/image-api/raw/id/${imageId}`;
   const crop = transformData ? getCrop(transformData) : undefined;
   const focalPoint = transformData ? getFocalPoint(transformData) : undefined;

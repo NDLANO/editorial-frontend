@@ -15,6 +15,7 @@ import FigureInput from './FigureInput';
 import ImageEditor from '../../../../containers/ImageEditor/ImageEditor';
 import Overlay from '../../../Overlay';
 import { ImageEmbed } from '../../../../interfaces';
+import { TransformData } from '../../../../util/imageEditorUtil';
 
 const editorContentCSS = css`
   box-shadow: ${shadows.levitate1};
@@ -36,14 +37,7 @@ interface StateProps {
   caption?: string;
   imageUpdates:
     | {
-        transformData: {
-          'focal-x'?: string;
-          'focal-y'?: string;
-          'upper-left-x'?: string;
-          'upper-left-y'?: string;
-          'lower-right-x'?: string;
-          'lower-right-y'?: string;
-        };
+        transformData: TransformData;
         align?: string;
         size?: string;
       }
